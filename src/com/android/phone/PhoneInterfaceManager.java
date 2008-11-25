@@ -30,7 +30,7 @@ import android.telephony.ServiceState;
 import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.SimCard;
+import com.android.internal.telephony.IccCard;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -207,7 +207,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean supplyPin(String pin) {
         enforceModifyPermission();
-        final CheckSimPin checkSimPin = new CheckSimPin(mPhone.getSimCard());
+        final CheckSimPin checkSimPin = new CheckSimPin(mPhone.getIccCard());
         checkSimPin.start();
         return checkSimPin.checkPin(pin);
     }
@@ -218,7 +218,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      */
     private static class CheckSimPin extends Thread {
 
-        private final SimCard mSimCard;
+        private final IccCard mSimCard;
 
         private boolean mDone = false;
         private boolean mResult = false;
@@ -229,7 +229,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         // For async handler to identify request type
         private static final int SUPPLY_PIN_COMPLETE = 100;
 
-        public CheckSimPin(SimCard simCard) {
+        public CheckSimPin(IccCard simCard) {
             mSimCard = simCard;
         }
 

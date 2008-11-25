@@ -26,15 +26,15 @@ import android.view.Window;
 import android.os.Bundle;
 
 /**
- * Base class for SIM-related panels in the Phone UI.
+ * Base class for ICC-related panels in the Phone UI.
  */
-public class SimPanel extends Dialog {
+public class IccPanel extends Dialog {
     protected static final String TAG = PhoneApp.LOG_TAG;
 
     private KeyguardManager.KeyguardLock mKeyguardLock;
 
-    public SimPanel(Context context) {
-        super(context, R.style.SimPanel);
+    public IccPanel(Context context) {
+        super(context, R.style.IccPanel);
     }
 
     @Override

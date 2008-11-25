@@ -27,20 +27,26 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.AsyncResult;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.provider.CallLog.Calls;
 import android.provider.Contacts.Phones;
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.cdma.CDMAPhone;
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -48,6 +54,29 @@ import android.widget.Toast;
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
     private static final boolean DBG = false;
+    private static final int ENHANCED_VP_VALUE_RETURN = 10;
+
+    // **Callback for enhanced voice privacy return value
+    private Handler mEnhancedVPHandler = new Handler() {
+        boolean enhancedVoicePrivacy = false;
+        @Override
+        public void handleMessage(Message msg) {
+            // query to make sure we're looking at the same data as that in the network.
+            switch (msg.what) {
+            case ENHANCED_VP_VALUE_RETURN:
+                if (((AsyncResult) msg.obj).exception != null) {
+                    if (DBG) log("Error getting VP enable state.");
+                } else {
+                    if (DBG) Log.d(LOG_TAG, "voicePrivacyMode = " + msg.arg1);
+                    enhancedVoicePrivacy = (((int[])((AsyncResult) msg.obj).result)[0] != 0);
+                }
+                break;
+            default:
+                // TODO: should never reach this, may want to throw exception
+            }
+            updateInCallNotification(enhancedVoicePrivacy);
+        }
+    };
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -216,7 +245,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             cancelInCall();
         } else {
             if (DBG) log("Phone is offhook, updating notification.");
-            updateInCallNotification();
+
+            if(PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
+                mPhone.getEnhancedVoicePrivacy(Message.obtain(mEnhancedVPHandler, 
+                ENHANCED_VP_VALUE_RETURN));
+            } else {
+                updateInCallNotification(false);
+            }
+            
         }
         
         // Depend on android.app.StatusBarManager to be set to
@@ -465,7 +501,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
-    void updateInCallNotification() {
+    private void updateInCallNotification(boolean enhancedVoicePrivacy) {
+        int resId;
         if (DBG) log("updateInCallNotification()...");
 
         if (mPhone.getState() != Phone.State.OFFHOOK) {
@@ -478,9 +515,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Display the regular "in-call" icon in the status bar, except if
         // there's only one call, and it's on hold (in which case we use the
         // "on hold" icon.)
-        int resId = (!hasActiveCall && hasHoldingCall)
+        if(enhancedVoicePrivacy) {
+            if (DBG) Log.d(LOG_TAG, "Enhanced voice privacy symbols choosen.");
+            resId = (!hasActiveCall && hasHoldingCall)
+            ? android.R.drawable.stat_sys_vp_phone_call_on_hold
+                    : android.R.drawable.stat_sys_vp_phone_call;
+        } else {
+            if (DBG) Log.d(LOG_TAG, "Normal voice privacy symbols choosen.");
+            resId = (!hasActiveCall && hasHoldingCall)
                 ? android.R.drawable.stat_sys_phone_call_on_hold
                 : android.R.drawable.stat_sys_phone_call;
+        }
 
         // Note we can't just bail out now if (resId == mInCallResId),
         // since even if the status icon hasn't changed, some *other*
@@ -605,6 +650,18 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // speaker state).
         updateSpeakerNotification();
         updateMuteNotification();
+    }
+
+    void updateInCallNotification() {
+        // First check if voice privacy is enabled. When the result comes back to the Handler,
+        // then call updateInCallNotification(boolean ...) 
+        // and set the appropriate icon during the call.
+        if(PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
+            mPhone.getEnhancedVoicePrivacy(Message.obtain(mEnhancedVPHandler, 
+                    ENHANCED_VP_VALUE_RETURN));
+        } else {
+            updateInCallNotification(false);
+        }
     }
 
     /**

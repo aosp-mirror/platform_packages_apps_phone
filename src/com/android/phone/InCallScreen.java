@@ -2442,8 +2442,7 @@ public class InCallScreen extends Activity
             mConferenceTime.setFormat(getString(R.string.caller_manage_header));
 
             // Create list of conference call widgets
-            mConferenceCallList = new ViewGroup[MAX_CALLERS_IN_CONFERENCE];
-            {
+            mConferenceCallList = new ViewGroup[MAX_CALLERS_IN_CONFERENCE]; {
                 final int[] viewGroupIdList = {R.id.caller0, R.id.caller1, R.id.caller2,
                         R.id.caller3, R.id.caller4};
                 for (int i = 0; i < MAX_CALLERS_IN_CONFERENCE; i++) {

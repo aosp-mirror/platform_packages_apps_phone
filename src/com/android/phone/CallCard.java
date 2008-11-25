@@ -969,8 +969,7 @@ public class CallCard extends FrameLayout
                 // for a photo load.
 
                 // look for the photoResource if it is available.
-                CallerInfo ci = null;
-                {
+                CallerInfo ci = null; {
                     Connection conn = call.getEarliestConnection();
                     if (conn != null) {
                         Object o = conn.getUserData();

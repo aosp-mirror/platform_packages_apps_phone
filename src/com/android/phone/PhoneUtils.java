@@ -1229,7 +1229,8 @@ public class PhoneUtils {
         }
 
         if (!ignore) {
-            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) 
+            context.getSystemService(Context.AUDIO_SERVICE);
             // Enable stack dump only when actively debugging ("new Throwable()" is expensive!)
             if (DBG_SETAUDIOMODE_STACK) Log.d(LOG_TAG, "Stack:", new Throwable("stack dump"));
             audioManager.setMode(mode);
@@ -1333,7 +1334,7 @@ public class PhoneUtils {
      *
      * @return true if we find a connection that is disconnected, and
      * pending removal via
-     * {@link com.android.internal.telephony.gsm.GSMCall#clearDisconnected()}.
+     * {@link com.android.internal.telephony.gsm.GsmCall#clearDisconnected()}.
      */
     private static final boolean hasDisconnectedConnections(Call call) {
         // look through all connections for non-active ones.

@@ -36,14 +36,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-public class SimNetworkDepersonalizationPanel extends SimPanel{
+public class IccNetworkDepersonalizationPanel extends IccPanel{
     
     //debug constants
     private static final boolean DBG = false;
     
     //events
-    private static final int EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT = 100;
+    private static final int EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT = 100;
     
     private Phone mPhone;
     
@@ -75,7 +74,7 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
     //handler for unlock function results
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT) {
+            if (msg.what == EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT) {
                 AsyncResult res = (AsyncResult) msg.obj;
                 if (res.exception != null) {
                     if (DBG) log("network depersonalization request failure.");
@@ -101,14 +100,14 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
     };
     
     //constructor
-    public SimNetworkDepersonalizationPanel(Context context) {
+    public IccNetworkDepersonalizationPanel(Context context) {
         super(context);
     }
     
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.sim_ndp);
+        setContentView(R.layout.sim_ndp); //TODO T: should sim_ndp renamed to icc?
         
         //set up pin entry text field
         mPinEntry = (EditText) findViewById(R.id.pin_entry);
@@ -141,7 +140,7 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
         super.onStart();
     }
     
-    //Mirrors SimPinUnlockPanel.onKeyDown().
+    //Mirrors IccPinUnlockPanel.onKeyDown().
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
@@ -159,8 +158,8 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
             }
             
             if (DBG) log("requesting network depersonalization with code " + pin);
-            mPhone.getSimCard().supplyNetworkDepersonalization(pin, 
-                    Message.obtain(mHandler, EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT));
+            mPhone.getIccCard().supplyNetworkDepersonalization(pin, 
+                    Message.obtain(mHandler, EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT));
             indicateBusy();
         }
     };
@@ -196,6 +195,6 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
     };
     
     private void log(String msg) {
-        Log.v(TAG, "[SimNetworkUnlock] " + msg);
+        Log.v(TAG, "[IccNetworkUnlock] " + msg);
     }
 }
