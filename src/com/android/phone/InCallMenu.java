@@ -17,7 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
-import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallBase;
 import com.android.internal.telephony.Phone;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -237,7 +237,7 @@ class InCallMenu {
 
         final boolean hasRingingCall = !phone.getRingingCall().isIdle();
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
-        final Call.State fgCallState = phone.getForegroundCall().getState();
+        final CallBase.State fgCallState = phone.getForegroundCall().getState();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
         // Special cases when an incoming call is ringing.
@@ -325,7 +325,7 @@ class InCallMenu {
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
         mMute.setVisible(true);
         boolean muteOn = PhoneUtils.getMute(phone);
-        boolean canMute = (fgCallState == Call.State.ACTIVE);
+        boolean canMute = (fgCallState == CallBase.State.ACTIVE);
         mMute.setIndicatorState(muteOn);
         mMute.setEnabled(canMute);
 
@@ -337,7 +337,7 @@ class InCallMenu {
         mHold.setVisible(true);
         boolean onHold = hasHoldingCall && !hasActiveCall;
         boolean canHold = !((hasActiveCall && hasHoldingCall)
-                            || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
+                            || (hasActiveCall && (fgCallState != CallBase.State.ACTIVE)));
         mHold.setIndicatorState(onHold);
         mHold.setEnabled(canHold);
 

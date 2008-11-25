@@ -16,11 +16,11 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallBase;
 import com.android.internal.telephony.CallStateException;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.ConnectionBase;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 
@@ -81,8 +81,8 @@ public class PhoneUtils {
     private static boolean sIsSpeakerEnabled = false;
 
     /** Hash table to store mute (Boolean) values based upon the connection.*/
-    private static Hashtable<Connection, Boolean> sConnectionMuteTable =
-        new Hashtable<Connection, Boolean>();
+    private static Hashtable<ConnectionBase, Boolean> sConnectionMuteTable =
+        new Hashtable<ConnectionBase, Boolean>();
 
     /** Static handler for the connection/mute tracking */
     private static ConnectionHandler mConnectionHandler;
@@ -104,16 +104,16 @@ public class PhoneUtils {
                     Phone phone = (Phone) ar.userObj;
 
                     // update the foreground connections, if there are new connections.
-                    List<Connection> fgConnections = phone.getForegroundCall().getConnections();
-                    for (Connection cn : fgConnections) {
+                    List<ConnectionBase> fgConnections = phone.getForegroundCall().getConnections();
+                    for (ConnectionBase cn : fgConnections) {
                         if (sConnectionMuteTable.get(cn) == null) {
                             sConnectionMuteTable.put(cn, Boolean.FALSE);
                         }
                     }
 
                     // update the background connections, if there are new connections.
-                    List<Connection> bgConnections = phone.getBackgroundCall().getConnections();
-                    for (Connection cn : bgConnections) {
+                    List<ConnectionBase> bgConnections = phone.getBackgroundCall().getConnections();
+                    for (ConnectionBase cn : bgConnections) {
                         if (sConnectionMuteTable.get(cn) == null) {
                             sConnectionMuteTable.put(cn, Boolean.FALSE);
                         }
@@ -122,8 +122,8 @@ public class PhoneUtils {
                     // Check to see if there are any lingering connections here
                     // (disconnected connections), use old-school iterators to avoid
                     // concurrent modification exceptions.
-                    Connection cn;
-                    for (Iterator<Connection> cnlist = sConnectionMuteTable.keySet().iterator();
+                    ConnectionBase cn;
+                    for (Iterator<ConnectionBase> cnlist = sConnectionMuteTable.keySet().iterator();
                             cnlist.hasNext();) {
                         cn = cnlist.next();
                         if (!fgConnections.contains(cn) && !bgConnections.contains(cn)) {
@@ -188,7 +188,7 @@ public class PhoneUtils {
         PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
         boolean answered = false;
-        Call call = phone.getRingingCall();
+        CallBase call = phone.getRingingCall();
 
         if (call != null && call.isRinging()) {
             if (DBG) log("answerCall: call state = " + call.getState());
@@ -218,9 +218,9 @@ public class PhoneUtils {
      */
     static boolean hangup(Phone phone) {
         boolean hungup = false;
-        Call ringing = phone.getRingingCall();
-        Call fg = phone.getForegroundCall();
-        Call bg = phone.getBackgroundCall();
+        CallBase ringing = phone.getRingingCall();
+        CallBase fg = phone.getForegroundCall();
+        CallBase bg = phone.getBackgroundCall();
 
         if (!ringing.isIdle()) {
             if (DBG) log("HANGUP ringing call");
@@ -253,7 +253,7 @@ public class PhoneUtils {
         return hangup(phone.getBackgroundCall());
     }
 
-    static boolean hangup(Call call) {
+    static boolean hangup(CallBase call) {
         try {
             call.hangup();
             return true;
@@ -264,7 +264,7 @@ public class PhoneUtils {
         return false;
     }
 
-    static void hangup(Connection c) {
+    static void hangup(ConnectionBase c) {
         try {
             if (c != null) {
                 c.hangup();
@@ -311,7 +311,7 @@ public class PhoneUtils {
         try {
             if (DBG) log("placeCall: '" + number + "'...");
 
-            Connection cn = phone.dial(number);
+            ConnectionBase cn = phone.dial(number);
             if (DBG) log("===> phone.dial() returned: " + cn);
 
             // Presently, null is returned for MMI codes
@@ -365,7 +365,7 @@ public class PhoneUtils {
      */
     static Boolean restoreMuteState(Phone phone) {
         //get the earliest connection
-        Connection c = phone.getForegroundCall().getEarliestConnection();
+        ConnectionBase c = phone.getForegroundCall().getEarliestConnection();
 
         // only do this if connection is not null.
         if (c != null) {
@@ -394,7 +394,7 @@ public class PhoneUtils {
         }
     }
 
-    static void separateCall(Connection c) {
+    static void separateCall(ConnectionBase c) {
         try {
             if (DBG) log("separateCall: " + c.getAddress());
             c.separate();
@@ -754,7 +754,7 @@ public class PhoneUtils {
      * NOTE: This API should be avoided, with preference given to the
      * asynchronous startGetCallerInfo API.
      */
-    static CallerInfo getCallerInfo(Context context, Connection c) {
+    static CallerInfo getCallerInfo(Context context, ConnectionBase c) {
         CallerInfo info = null;
 
         if (c != null) {
@@ -810,9 +810,9 @@ public class PhoneUtils {
     /**
      * Start a CallerInfo Query based on the earliest connection in the call.
      */
-    static CallerInfoToken startGetCallerInfo(Context context, Call call,
+    static CallerInfoToken startGetCallerInfo(Context context, CallBase call,
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
-        Connection conn = call.getEarliestConnection();
+        ConnectionBase conn = call.getEarliestConnection();
         return startGetCallerInfo(context, conn, listener, cookie);
     }
 
@@ -820,7 +820,7 @@ public class PhoneUtils {
      * place a temporary callerinfo object in the hands of the caller and notify
      * caller when the actual query is done.
      */
-    static CallerInfoToken startGetCallerInfo(Context context, Connection c,
+    static CallerInfoToken startGetCallerInfo(Context context, ConnectionBase c,
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
         CallerInfoToken cit;
 
@@ -943,7 +943,7 @@ public class PhoneUtils {
             public void onQueryComplete(int token, Object cookie, CallerInfo ci){
                 if (DBG) log("query complete, updating connection.userdata");
 
-                ((Connection) cookie).setUserData(ci);
+                ((ConnectionBase) cookie).setUserData(ci);
             }
         };
 
@@ -963,7 +963,7 @@ public class PhoneUtils {
      * asynchronous startGetCallerInfo API, used in conjunction with
      * getCompactNameFromCallerInfo().
      */
-    static String getCompactName(Context context, Connection conn) {
+    static String getCompactName(Context context, ConnectionBase conn) {
         CallerInfo info = getCallerInfo(context, conn);
         if (DBG) log("getCompactName: info = " + info);
 
@@ -992,11 +992,11 @@ public class PhoneUtils {
      * asynchronous startGetCallerInfo API, used in conjunction with
      * getCompactNameFromCallerInfo().
      */
-    static String getCompactName(Context context, Call call) {
+    static String getCompactName(Context context, CallBase call) {
         if (isConferenceCall(call)) {
             return context.getString(R.string.confCall);
         }
-        Connection conn = call.getEarliestConnection();  // may be null
+        ConnectionBase conn = call.getEarliestConnection();  // may be null
         return getCompactName(context, conn);  // OK if conn is null
     }
 
@@ -1034,8 +1034,8 @@ public class PhoneUtils {
      *
      * @return true if the specified call has more than one connection (in any state.)
      */
-    static boolean isConferenceCall(Call call) {
-        List<Connection> connections = call.getConnections();
+    static boolean isConferenceCall(CallBase call) {
+        List<ConnectionBase> connections = call.getConnections();
         if (connections != null && connections.size() > 1) {
             return true;
         }
@@ -1175,7 +1175,7 @@ public class PhoneUtils {
 
         // update the foreground connections to match.  This includes
         // all the connections on conference calls.
-        for (Connection cn : phone.getForegroundCall().getConnections()) {
+        for (ConnectionBase cn : phone.getForegroundCall().getConnections()) {
             if (sConnectionMuteTable.get(cn) == null) {
                 if (DBG) log("problem retrieving mute value for this connection.");
             }
@@ -1229,7 +1229,8 @@ public class PhoneUtils {
         }
 
         if (!ignore) {
-            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) 
+            context.getSystemService(Context.AUDIO_SERVICE);
             // Enable stack dump only when actively debugging ("new Throwable()" is expensive!)
             if (DBG_SETAUDIOMODE_STACK) Log.d(LOG_TAG, "Stack:", new Throwable("stack dump"));
             audioManager.setMode(mode);
@@ -1335,9 +1336,9 @@ public class PhoneUtils {
      * pending removal via
      * {@link com.android.internal.telephony.gsm.GSMCall#clearDisconnected()}.
      */
-    private static final boolean hasDisconnectedConnections(Call call) {
+    private static final boolean hasDisconnectedConnections(CallBase call) {
         // look through all connections for non-active ones.
-        for (Connection c : call.getConnections()) {
+        for (ConnectionBase c : call.getConnections()) {
             if (!c.isAlive()) {
                 return true;
             }
@@ -1360,8 +1361,8 @@ public class PhoneUtils {
         // is in the HOLDING state, since you *can't* actually swap calls
         // when the foreground call is DIALING or ALERTING.)
         return phone.getRingingCall().isIdle()
-                && (phone.getForegroundCall().getState() == Call.State.ACTIVE)
-                && (phone.getBackgroundCall().getState() == Call.State.HOLDING);
+                && (phone.getForegroundCall().getState() == CallBase.State.ACTIVE)
+                && (phone.getBackgroundCall().getState() == CallBase.State.HOLDING);
     }
 
     /**
@@ -1390,13 +1391,13 @@ public class PhoneUtils {
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
         final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
-        final Call.State fgCallState = phone.getForegroundCall().getState();
+        final CallBase.State fgCallState = phone.getForegroundCall().getState();
 
         return !hasRingingCall
                 && !allLinesTaken
-                && ((fgCallState == Call.State.ACTIVE)
-                    || (fgCallState == Call.State.IDLE)
-                    || (fgCallState == Call.State.DISCONNECTED));
+                && ((fgCallState == CallBase.State.ACTIVE)
+                    || (fgCallState == CallBase.State.IDLE)
+                    || (fgCallState == CallBase.State.DISCONNECTED));
     }
 
 
@@ -1411,7 +1412,7 @@ public class PhoneUtils {
         Log.d(LOG_TAG, "--- Overall Phone state: " + phone.getState());
         Log.d(LOG_TAG, "---");
 
-        Call fgCall = phone.getForegroundCall();
+        CallBase fgCall = phone.getForegroundCall();
         Log.d(LOG_TAG, "--- FG call: " + fgCall);
         Log.d(LOG_TAG, "--- FG call state: " + fgCall.getState());
         Log.d(LOG_TAG, "--- FG call isAlive(): " + fgCall.getState().isAlive());
@@ -1421,7 +1422,7 @@ public class PhoneUtils {
         Log.d(LOG_TAG, "--- FG call hasConnections: " + fgCall.hasConnections());
         Log.d(LOG_TAG, "---");
 
-        Call bgCall = phone.getBackgroundCall();
+        CallBase bgCall = phone.getBackgroundCall();
         Log.d(LOG_TAG, "--- BG call: " + bgCall);
         Log.d(LOG_TAG, "--- BG call state: " + bgCall.getState());
         Log.d(LOG_TAG, "--- BG call isAlive(): " + bgCall.getState().isAlive());
@@ -1431,7 +1432,7 @@ public class PhoneUtils {
         Log.d(LOG_TAG, "--- BG call hasConnections: " + bgCall.hasConnections());
         Log.d(LOG_TAG, "---");
 
-        Call ringingCall = phone.getRingingCall();
+        CallBase ringingCall = phone.getRingingCall();
         Log.d(LOG_TAG, "--- RINGING call: " + ringingCall);
         Log.d(LOG_TAG, "--- RINGING call state: " + ringingCall.getState());
         Log.d(LOG_TAG, "--- RINGING call isAlive(): " + ringingCall.getState().isAlive());

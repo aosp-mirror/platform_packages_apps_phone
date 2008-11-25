@@ -16,10 +16,10 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallBase;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.ConnectionBase;
 import com.android.internal.telephony.Phone;
 
 import android.content.ContentUris;
@@ -219,8 +219,8 @@ public class CallCard extends FrameLayout
     private void updateForegroundCall(Phone phone) {
         if (DBG) log("updateForegroundCall()...");
 
-        Call fgCall = phone.getForegroundCall();
-        Call bgCall = phone.getBackgroundCall();
+        CallBase fgCall = phone.getForegroundCall();
+        CallBase bgCall = phone.getBackgroundCall();
 
         if (fgCall.isIdle() && !fgCall.hasConnections()) {
             if (DBG) log("updateForegroundCall: no active call, show holding call");
@@ -244,9 +244,9 @@ public class CallCard extends FrameLayout
     private void updateRingingCall(Phone phone) {
         if (DBG) log("updateRingingCall()...");
 
-        Call ringingCall = phone.getRingingCall();
-        Call fgCall = phone.getForegroundCall();
-        Call bgCall = phone.getBackgroundCall();
+        CallBase ringingCall = phone.getRingingCall();
+        CallBase fgCall = phone.getForegroundCall();
+        CallBase bgCall = phone.getBackgroundCall();
 
         displayMainCallStatus(phone, ringingCall);
         displayOnHoldCallStatus(phone, bgCall);
@@ -257,11 +257,11 @@ public class CallCard extends FrameLayout
      * Updates the main block of caller info on the CallCard
      * (ie. the stuff in the mainCallCard block) based on the specified Call.
      */
-    private void displayMainCallStatus(Phone phone, Call call) {
+    private void displayMainCallStatus(Phone phone, CallBase call) {
         if (DBG) log("displayMainCallStatus(phone " + phone
                      + ", call " + call + ", state" + call.getState() + ")...");
 
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
         int callCardBackgroundResid = 0;
 
         // Background frame resources are different between portrait/landscape:
@@ -352,7 +352,7 @@ public class CallCard extends FrameLayout
         } else {
             // Update onscreen info for a regular call (which presumably
             // has only one connection.)
-            Connection conn = call.getEarliestConnection();
+            ConnectionBase conn = call.getEarliestConnection();
 
             boolean isPrivateNumber = false; // TODO: need isPrivate() API
 
@@ -425,12 +425,12 @@ public class CallCard extends FrameLayout
     public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
         if (DBG) log("onQueryComplete: token " + token + ", cookie " + cookie + ", ci " + ci);
 
-        if (cookie instanceof Call) {
+        if (cookie instanceof CallBase) {
             // grab the call object and update the display for an individual call,
             // as well as the successive call to update image via call state.
             // If the object is a textview instead, we update it as we need to.
             if (DBG) log("callerinfo query complete, updating ui from displayMainCallStatus()");
-            Call call = (Call) cookie;
+            CallBase call = (CallBase) cookie;
             updateDisplayForPerson(ci, false, false, call);
             updatePhotoForCallState(call);
 
@@ -447,16 +447,16 @@ public class CallCard extends FrameLayout
     public void onImageLoadComplete(int token, Object cookie, ImageView iView,
             boolean imagePresent){
         if (cookie != null) {
-            updatePhotoForCallState((Call) cookie);
+            updatePhotoForCallState((CallBase) cookie);
         }
     }
 
     /**
      * Updates the "upper" and "lower" titles based on the current state of this call.
      */
-    private void updateCardTitleWidgets(Phone phone, Call call) {
+    private void updateCardTitleWidgets(Phone phone, CallBase call) {
         if (DBG) log("updateCardTitleWidgets(call " + call + ")...");
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
 
         // TODO: Still need clearer spec on exactly how title *and* status get
         // set in all states.  (Then, given that info, refactor the code
@@ -470,7 +470,7 @@ public class CallCard extends FrameLayout
 
         // We display *either* the "upper title" or the "lower title", but
         // never both.
-        if (state == Call.State.ACTIVE) {
+        if (state == CallBase.State.ACTIVE) {
             // Use the "lower title" (in green).
             mLowerTitleViewGroup.setVisibility(View.VISIBLE);
             mLowerTitleIcon.setImageResource(R.drawable.ic_incall_ongoing);
@@ -478,7 +478,7 @@ public class CallCard extends FrameLayout
             mLowerTitle.setTextColor(mTextColorConnected);
             mElapsedTime.setTextColor(mTextColorConnected);
             mUpperTitle.setText("");
-        } else if (state == Call.State.DISCONNECTED) {
+        } else if (state == CallBase.State.DISCONNECTED) {
             // Use the "lower title" (in red).
             // TODO: We may not *always* want to use the lower title for
             // the DISCONNECTED state.  "Error" states like BUSY or
@@ -502,7 +502,7 @@ public class CallCard extends FrameLayout
         // the "Call ended" state.  (In that case, don't touch the
         // mElapsedTime widget, so we continue to see the elapsed time of
         // the call that just ended.)
-        if (call.getState() == Call.State.DISCONNECTED) {
+        if (call.getState() == CallBase.State.DISCONNECTED) {
             // "Call ended" state -- don't touch the onscreen elapsed time.
         } else {
             long duration = CallTime.getCallDuration(call);  // msec
@@ -531,9 +531,9 @@ public class CallCard extends FrameLayout
      * "Dialing" or "In call" or "On hold".  A null return value means that
      * there's no title string for this state.
      */
-    private String getTitleForCallCard(Call call) {
+    private String getTitleForCallCard(CallBase call) {
         String retVal = null;
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
         Context context = getContext();
         int resId;
 
@@ -581,14 +581,14 @@ public class CallCard extends FrameLayout
      * Or, clear out the "on hold" box if the specified call
      * is null or idle.
      */
-    private void displayOnHoldCallStatus(Phone phone, Call call) {
+    private void displayOnHoldCallStatus(Phone phone, CallBase call) {
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
         if (call == null) {
             mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
             return;
         }
 
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
         switch (state) {
             case HOLDING:
                 // Ok, there actually is a background call on hold.
@@ -637,14 +637,14 @@ public class CallCard extends FrameLayout
      * Or, clear out the "ongoing call" box if the specified call
      * is null or idle.
      */
-    private void displayOngoingCallStatus(Phone phone, Call call) {
+    private void displayOngoingCallStatus(Phone phone, CallBase call) {
         if (DBG) log("displayOngoingCallStatus(call =" + call + ")...");
         if (call == null) {
             mOtherCallOngoingInfoArea.setVisibility(View.GONE);
             return;
         }
 
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
         switch (state) {
             case ACTIVE:
             case DIALING:
@@ -687,9 +687,9 @@ public class CallCard extends FrameLayout
     }
 
 
-    private String getCallFailedString(Call call) {
+    private String getCallFailedString(CallBase call) {
         Phone phone = PhoneApp.getInstance().phone;
-        Connection c = call.getEarliestConnection();
+        ConnectionBase c = call.getEarliestConnection();
         int resID;
 
         if (c == null) {
@@ -699,7 +699,7 @@ public class CallCard extends FrameLayout
             resID = R.string.card_title_call_ended;
         } else {
 
-            Connection.DisconnectCause cause = c.getDisconnectCause();
+            ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
 
             // TODO: The card *title* should probably be "Call ended" in all
             // cases, but if the DisconnectCause was an error condition we should
@@ -771,7 +771,7 @@ public class CallCard extends FrameLayout
      *  updateImageViewWithContactPhotoAsync call will need to use it.
      */
 
-    private void updateDisplayForPerson(CallerInfo info, boolean isPrivateNumber, Call call) {
+    private void updateDisplayForPerson(CallerInfo info, boolean isPrivateNumber, CallBase call) {
         updateDisplayForPerson(info, isPrivateNumber, false, call);
     }
 
@@ -785,7 +785,7 @@ public class CallCard extends FrameLayout
     private void updateDisplayForPerson(CallerInfo info,
                                         boolean isPrivateNumber,
                                         boolean isTemporary,
-                                        Call call) {
+                                        CallBase call) {
         if (DBG) log("updateDisplayForPerson(" + info + ")...");
 
         // inform the state machine that we are displaying a photo.
@@ -919,25 +919,25 @@ public class CallCard extends FrameLayout
      * the generic "picture_unknown" image, or the "conference call"
      * image.)
      */
-    private void updatePhotoForCallState(Call call) {
+    private void updatePhotoForCallState(CallBase call) {
         if (DBG) log("updatePhotoForCallState(" + call + ")...");
         int photoImageResource = 0;
 
         // Check for the (relatively few) telephony states that need a
         // special image in the "photo" slot.
-        Call.State state = call.getState();
+        CallBase.State state = call.getState();
         switch (state) {
             case DISCONNECTED:
                 // Display the special "busy" photo for BUSY or CONGESTION.
                 // Otherwise (presumably the normal "call ended" state)
                 // leave the photo alone.
-                Connection c = call.getEarliestConnection();
+                ConnectionBase c = call.getEarliestConnection();
                 // if the connection is null, we assume the default case,
                 // otherwise update the image resource normally.
                 if (c != null) {
-                    Connection.DisconnectCause cause = c.getDisconnectCause();
-                    if ((cause == Connection.DisconnectCause.BUSY)
-                        || (cause == Connection.DisconnectCause.CONGESTION)) {
+                    ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
+                    if ((cause == ConnectionBase.DisconnectCause.BUSY)
+                        || (cause == ConnectionBase.DisconnectCause.CONGESTION)) {
                         photoImageResource = R.drawable.picture_busy;
                     }
                 } else if (DBG) {
@@ -969,9 +969,8 @@ public class CallCard extends FrameLayout
                 // for a photo load.
 
                 // look for the photoResource if it is available.
-                CallerInfo ci = null;
-                {
-                    Connection conn = call.getEarliestConnection();
+                CallerInfo ci = null; {
+                    ConnectionBase conn = call.getEarliestConnection();
                     if (conn != null) {
                         Object o = conn.getUserData();
                         if (o instanceof CallerInfo) {

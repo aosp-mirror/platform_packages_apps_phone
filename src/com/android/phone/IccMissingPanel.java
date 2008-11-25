@@ -22,11 +22,11 @@ import android.widget.Button;
 import android.os.Bundle;
 
 /**
- * Panel which displays the "SIM missing" message.
+ * Panel which displays the "ICC missing" message.
  */
-public class SimMissingPanel extends SimPanel {
+public class IccMissingPanel extends IccPanel {
 
-    public SimMissingPanel(Context context) {
+    public IccMissingPanel(Context context) {
         super(context);
     }
 
@@ -34,7 +34,7 @@ public class SimMissingPanel extends SimPanel {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.sim_missing);
+        setContentView(R.layout.sim_missing); //TODO T: should sim_missing renamed to icc?
         ((Button) findViewById(R.id.continueView)).setOnClickListener(mButtonListener);
     }
 

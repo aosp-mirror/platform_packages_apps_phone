@@ -39,8 +39,8 @@ import android.os.SystemProperties;
 import android.provider.CallLog.Calls;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.CallBase;
+import com.android.internal.telephony.ConnectionBase;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyIntents;
 import android.telephony.PhoneNumberUtils;
@@ -74,9 +74,9 @@ public class BluetoothHandsfree {
     private ScoSocket mOutgoingSco;
     private ScoSocket mConnectedSco;
 
-    private Call mForegroundCall;
-    private Call mBackgroundCall;
-    private Call mRingingCall;
+    private CallBase mForegroundCall;
+    private CallBase mBackgroundCall;
+    private CallBase mRingingCall;
 
     private AudioManager mAudioManager;
     private PowerManager mPowerManager;
@@ -242,9 +242,9 @@ public class BluetoothHandsfree {
     /* returns true if there is some kind of in-call audio we may wish to route
      * bluetooth to */
     private boolean isIncallAudio() {
-        Call.State state = mForegroundCall.getState();
+        CallBase.State state = mForegroundCall.getState();
 
-        return (state == Call.State.ACTIVE || state == Call.State.ALERTING);
+        return (state == CallBase.State.ACTIVE || state == CallBase.State.ALERTING);
     }
 
     /* package */ void disconnectHeadset() {
@@ -349,9 +349,9 @@ public class BluetoothHandsfree {
                     updateServiceState(sendUpdate(), state);
                     break;
                 case PHONE_STATE_CHANGED:
-                    Connection connection = null;
-                    if (((AsyncResult) msg.obj).result instanceof Connection) {
-                        connection = (Connection) ((AsyncResult) msg.obj).result;
+                    ConnectionBase connection = null;
+                    if (((AsyncResult) msg.obj).result instanceof ConnectionBase) {
+                        connection = (ConnectionBase) ((AsyncResult) msg.obj).result;
                     }
                     updatePhoneState(sendUpdate(), connection);
                     break;
@@ -487,7 +487,7 @@ public class BluetoothHandsfree {
             sendURC(result.toString());
         }
 
-        private synchronized void updatePhoneState(boolean sendUpdate, Connection connection) {
+        private synchronized void updatePhoneState(boolean sendUpdate, ConnectionBase connection) {
             int call = 0;
             int callsetup = 0;
             int callheld = 0;
@@ -657,7 +657,8 @@ public class BluetoothHandsfree {
             switch (msg.what) {
             case SCO_ACCEPTED:
                 if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
-                    if (isHeadsetConnected() && mAudioPossible && mConnectedSco == null) {
+                    if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                            mConnectedSco == null) {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
@@ -941,9 +942,10 @@ public class BluetoothHandsfree {
      *  CLCC index even as a call moves between states. */
     private synchronized AtCommandResult getClccResult() {
         // Collect all known connections
-        Connection[] clccConnections = new Connection[MAX_CONNECTIONS];  // indexed by CLCC index
-        LinkedList<Connection> newConnections = new LinkedList<Connection>();
-        LinkedList<Connection> connections = new LinkedList<Connection>();
+        // indexed by CLCC index
+        ConnectionBase[] clccConnections = new ConnectionBase[MAX_CONNECTIONS];
+        LinkedList<ConnectionBase> newConnections = new LinkedList<ConnectionBase>();
+        LinkedList<ConnectionBase> connections = new LinkedList<ConnectionBase>();
         if (mRingingCall.getState().isAlive()) {
             connections.addAll(mRingingCall.getConnections());
         }
@@ -960,7 +962,7 @@ public class BluetoothHandsfree {
             clccUsed[i] = mClccUsed[i];
             mClccUsed[i] = false;
         }
-        for (Connection c : connections) {
+        for (ConnectionBase c : connections) {
             boolean found = false;
             long timestamp = c.getCreateTime();
             for (int i = 0; i < MAX_CONNECTIONS; i++) {
@@ -983,7 +985,7 @@ public class BluetoothHandsfree {
             while (mClccUsed[i]) i++;
             // Find earliest connection
             long earliestTimestamp = newConnections.get(0).getCreateTime();
-            Connection earliestConnection = newConnections.get(0);
+            ConnectionBase earliestConnection = newConnections.get(0);
             for (int j = 0; j < newConnections.size(); j++) {
                 long timestamp = newConnections.get(j).getCreateTime();
                 if (timestamp < earliestTimestamp) {
@@ -1014,7 +1016,7 @@ public class BluetoothHandsfree {
     }
 
     /** Convert a Connection object into a single +CLCC result */
-    private String connectionToClccEntry(int index, Connection c) {
+    private String connectionToClccEntry(int index, ConnectionBase c) {
         int state;
         switch (c.getState()) {
         case ACTIVE:
@@ -1040,7 +1042,7 @@ public class BluetoothHandsfree {
         }
 
         int mpty = 0;
-        Call call = c.getCall();
+        CallBase call = c.getCall();
         if (call != null) {
             mpty = call.isMultiparty() ? 1 : 0;
         }

@@ -15,8 +15,8 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.android.phone"
-        android:sharedUserId="android.uid.phone"
+    package="com.android.phone" 
+    android:sharedUserId="android.uid.phone"
 >
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -46,13 +46,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
-    <application android:name="PhoneApp"
-                 android:persistent="true"
+    <application android:name="PhoneApp" 
+         android:persistent="true"
                  android:label="@string/dialerIconLabel"
                  android:icon="@drawable/ic_launcher_phone">
-        <provider android:name="SimProvider" android:authorities="sim" android:multiprocess="true" />
+        <provider android:name="IccProvider" android:authorities="sim" android:multiprocess="true" />
 
         <!-- A virtual DTMF 12 key dialer -->
         <activity android:name="DTMFTwelveKeyDialer"
@@ -157,8 +157,8 @@
             </intent-filter>
         </activity-alias>
 
-        <receiver android:name="ProcessOutgoingCallTest" android:exported="false"
-                android:enabled="false">
+        <receiver android:name="ProcessOutgoingCallTest" 
+            android:enabled="false">
             <intent-filter android:priority="1">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -173,9 +173,20 @@
         </receiver>
 
         <activity android:name="InCallScreen" android:label="@string/phoneIconLabel"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:exported="false" />
+            android:excludeFromRecents="true" android:launchMode="singleInstance"
+            android:permission="android.permission.CALL_PHONE">
+            <!-- ANSWER action: used to force the InCallScreen to answer
+                a currently-ringing call.  Currently unused. -->
+            <intent-filter>
+                <action android:name="android.intent.action.ANSWER" />
+            </intent-filter>
+            <!-- MAIN action: used programmatically from within the Phone
+                app (see PhoneApp.displayCallScreen() and createInCallIntent().) -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <!-- general settings -->
         <activity android:name="Settings" android:label="@string/settings_label">
@@ -195,6 +206,20 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="GsmUmtsOptions"
+            android:label="@string/gsm_umts_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="CdmaOptions"
+            android:label="@string/cdma_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <!-- fdn setting -->
         <activity android:name="FdnSetting" android:label="@string/fdn">
             <intent-filter>
@@ -206,14 +231,14 @@
         </activity>
 
         <!-- SIM PIN setting -->
-        <activity android:name="EnableSimPinScreen" android:label="@string/enable_pin">
+        <activity android:name="EnableIccPinScreen" android:label="@string/enable_pin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="ChangeSimPinScreen" android:label="@string/change_pin">
+        <activity android:name="ChangeIccPinScreen" android:label="@string/change_pin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
@@ -226,8 +251,8 @@
         <activity android:name="EditFdnContactScreen">
         </activity>
 
-        <activity android:name="DeleteFdnContactScreen"
-                android:label="@string/delete_fdn_contact">
+        <activity android:name="DeleteFdnContactScreen" 
+        android:label="@string/delete_fdn_contact">
         </activity>
         
         <activity android:name="DataRoamingReenable" android:label="@string/roaming_reenable_title"

@@ -17,10 +17,10 @@
 package com.android.phone;
 
 
-import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallBase;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.ConnectionBase;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.SlidingDrawer;
 
@@ -474,9 +474,9 @@ public class DTMFTwelveKeyDialer implements
                 android.R.drawable.stat_sys_phone_call;
 
         // get the current connected call.
-        Call currentCall = hasActiveCall ? mPhone.getForegroundCall()
+        CallBase currentCall = hasActiveCall ? mPhone.getForegroundCall()
                 : mPhone.getBackgroundCall();
-        Connection currentConn = currentCall.getEarliestConnection();
+        ConnectionBase currentConn = currentCall.getEarliestConnection();
 
         // update the information about the current connection (chronometer)
         // only if the current connection exists.
