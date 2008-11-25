@@ -188,6 +188,14 @@ public class CallNotifier extends Handler
                 Settings.System.DEVICE_PROVISIONED, 0) != 0;
         if (!provisioned) {
             Log.i(TAG, "CallNotifier: rejecting incoming call because device isn't provisioned");
+            String v = Settings.System.getString(mPhone.getContext().getContentResolver(),
+                Settings.System.DEVICE_PROVISIONED); //TODO Remove after debug
+            if (v != null) { //TODO REMOVE
+                Log.e(TAG, "Content provider says: \"device_provisioned\" is " + v); //TODO REMOVE
+            } else { //TODO REMOVE
+                Log.e(TAG, "Content provider string \"device_provisioned\" is null!"); //TODO REMOVE
+            } //TODO REMOVE
+
             // Send the caller straight to voicemail, just like
             // "rejecting" an incoming call.
             PhoneUtils.hangupRingingCall(mPhone);

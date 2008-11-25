@@ -19,7 +19,7 @@ package com.android.phone;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.SimCard;
+import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.TelephonyIntents;
 
 import android.app.Activity;
@@ -173,8 +173,8 @@ public class PhoneApp extends Application {
 
                 case EVENT_SIM_NETWORK_LOCKED:
                     if (Config.LOGV) Log.v(LOG_TAG, "show sim depersonal panel");
-                    SimNetworkDepersonalizationPanel ndpPanel =
-                        new SimNetworkDepersonalizationPanel(PhoneApp.getInstance());
+                    IccNetworkDepersonalizationPanel ndpPanel =
+                        new IccNetworkDepersonalizationPanel(PhoneApp.getInstance());
                     ndpPanel.show();
                     break;
 
@@ -219,7 +219,7 @@ public class PhoneApp extends Application {
                     // Marks the event where the SIM goes into ready state.
                     // Right now, this is only used for the PUK-unlocking
                     // process.
-                    if (msg.obj.equals(SimCard.INTENT_VALUE_SIM_READY)) {
+                    if (msg.obj.equals(IccCard.INTENT_VALUE_ICC_READY)) {
                         // when the right event is triggered and there
                         // are UI objects in the foreground, we close
                         // them to display the lock panel.
@@ -284,10 +284,10 @@ public class PhoneApp extends Application {
 
             notifier = new CallNotifier(this, phone, ringer, mBtHandsfree);
 
-            // register for SIM status
-            SimCard sim = phone.getSimCard();
+            // register for ICC status
+            IccCard sim = phone.getIccCard();
             if (sim != null) {
-                if (Config.LOGV) Log.v(LOG_TAG, "register for SIM status");
+                if (Config.LOGV) Log.v(LOG_TAG, "register for ICC status");
                 sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
                 sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
                 sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
@@ -687,7 +687,7 @@ public class PhoneApp extends Application {
                 // NOTE: This is ONLY triggered if an attempt to un-PUK-lock has
                 // been attempted.
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_SIM_STATE_CHANGED,
-                        intent.getStringExtra(SimCard.INTENT_KEY_SIM_STATE)));
+                        intent.getStringExtra(IccCard.INTENT_KEY_ICC_STATE)));
             }
         }
     }

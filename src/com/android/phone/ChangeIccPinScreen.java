@@ -27,7 +27,8 @@ import android.os.Handler;
 import android.os.Message;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.SimCard;
+import com.android.internal.telephony.IccCard;
+//TODO T: CommandException could be moved to telephony package
 import com.android.internal.telephony.gsm.CommandException;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -40,9 +41,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * "Change SIM PIN" UI for the Phone app.
+ * "Change ICC PIN" UI for the Phone app.
  */
-public class ChangeSimPinScreen extends Activity {
+public class ChangeIccPinScreen extends Activity {
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
     private static final boolean DBG = false;
 
@@ -74,7 +75,7 @@ public class ChangeSimPinScreen extends Activity {
     private Button mPUKSubmit;
     private ScrollView mScrollView;
     
-    private LinearLayout mSimPUKPanel;
+    private LinearLayout mIccPUKPanel;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -96,6 +97,7 @@ public class ChangeSimPinScreen extends Activity {
 
         resolveIntent();
 
+        //TODO T: should change_sim_pin_screen renamed to icc?
         setContentView(R.layout.change_sim_pin_screen);
 
         mOldPin = (EditText) findViewById(R.id.old_pin);
@@ -129,7 +131,7 @@ public class ChangeSimPinScreen extends Activity {
         mPUKSubmit = (Button) findViewById(R.id.puk_submit);
         mPUKSubmit.setOnClickListener(mClicked);
 
-        mSimPUKPanel = (LinearLayout) findViewById(R.id.puk_panel);
+        mIccPUKPanel = (LinearLayout) findViewById(R.id.puk_panel);
 
         int id = mChangePin2 ? R.string.change_pin2 : R.string.change_pin;
         setTitle(getResources().getText(id));
@@ -175,8 +177,8 @@ public class ChangeSimPinScreen extends Activity {
             } else if (v == mNewPin2) {
                 mButton.requestFocus();
             } else if (v == mButton) {
-                SimCard simCardInterface = mPhone.getSimCard();
-                if (simCardInterface != null) {
+                IccCard iccCardInterface = mPhone.getIccCard();
+                if (iccCardInterface != null) {
                     String oldPin = mOldPin.getText().toString();
                     String newPin1 = mNewPin1.getText().toString();
                     String newPin2 = mNewPin2.getText().toString();
@@ -212,10 +214,10 @@ public class ChangeSimPinScreen extends Activity {
                             reset();
 
                             if (mChangePin2) {
-                                simCardInterface.changeSimFdnPassword(oldPin,
+                                iccCardInterface.changeIccFdnPassword(oldPin,
                                         newPin1, callBack);
                             } else {
-                                simCardInterface.changeSimLockPassword(oldPin,
+                                iccCardInterface.changeIccLockPassword(oldPin,
                                         newPin1, callBack);
                             }
 
@@ -225,7 +227,7 @@ public class ChangeSimPinScreen extends Activity {
             } else if (v == mPUKCode) {
                 mPUKSubmit.requestFocus();
             } else if (v == mPUKSubmit) {
-                mPhone.getSimCard().supplyPuk2(mPUKCode.getText().toString(), 
+                mPhone.getIccCard().supplyPuk2(mPUKCode.getText().toString(), 
                         mNewPin1.getText().toString(), 
                         Message.obtain(mHandler, EVENT_PIN_CHANGED));
             }
@@ -238,7 +240,7 @@ public class ChangeSimPinScreen extends Activity {
 
             if (mState == EntryState.ES_PUK) {
                 mScrollView.setVisibility(View.VISIBLE);
-                mSimPUKPanel.setVisibility(View.GONE);
+                mIccPUKPanel.setVisibility(View.GONE);
             }            
             // TODO: show success feedback
             showConfirmation();
@@ -262,7 +264,7 @@ public class ChangeSimPinScreen extends Activity {
                     mState = EntryState.ES_PUK;
                     displayPUKAlert();
                     mScrollView.setVisibility(View.GONE);
-                    mSimPUKPanel.setVisibility(View.VISIBLE);
+                    mIccPUKPanel.setVisibility(View.VISIBLE);
                     mPUKCode.requestFocus();
                 }
             } else if (mState == EntryState.ES_PUK) {

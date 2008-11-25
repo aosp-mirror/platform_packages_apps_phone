@@ -657,7 +657,8 @@ public class BluetoothHandsfree {
             switch (msg.what) {
             case SCO_ACCEPTED:
                 if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
-                    if (isHeadsetConnected() && mAudioPossible && mConnectedSco == null) {
+                    if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                            mConnectedSco == null) {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
@@ -941,7 +942,8 @@ public class BluetoothHandsfree {
      *  CLCC index even as a call moves between states. */
     private synchronized AtCommandResult getClccResult() {
         // Collect all known connections
-        Connection[] clccConnections = new Connection[MAX_CONNECTIONS];  // indexed by CLCC index
+        // indexed by CLCC index
+        Connection[] clccConnections = new Connection[MAX_CONNECTIONS];
         LinkedList<Connection> newConnections = new LinkedList<Connection>();
         LinkedList<Connection> connections = new LinkedList<Connection>();
         if (mRingingCall.getState().isAlive()) {

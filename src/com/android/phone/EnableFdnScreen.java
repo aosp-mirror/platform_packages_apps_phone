@@ -68,7 +68,7 @@ public class EnableFdnScreen extends Activity {
         setupView();
 
         mPhone = PhoneFactory.getDefaultPhone();
-        mEnable = !mPhone.getSimCard().getSimFdnEnabled();
+        mEnable = !mPhone.getIccCard().getIccFdnEnabled();
 
         int id = mEnable ? R.string.enable_fdn : R.string.disable_fdn;
         setTitle(getResources().getText(id));
@@ -106,7 +106,7 @@ public class EnableFdnScreen extends Activity {
 
     private void enableFdn() {
         Message callback = Message.obtain(mHandler, ENABLE_FDN_COMPLETE);
-        mPhone.getSimCard().setSimFdnEnabled(mEnable, getPin2(), callback);
+        mPhone.getIccCard().setIccFdnEnabled(mEnable, getPin2(), callback);
         if (DBG) log("enableFdn: please wait...");
     }
 

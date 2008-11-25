@@ -17,10 +17,10 @@
 package com.android.phone;
 
 /**
- * SIM address book content provider.
+ * ICC address book content provider.
  */
-public class SimProvider extends com.android.internal.telephony.gsm.SimProvider {
-    public SimProvider() {
+public class IccProvider extends com.android.internal.telephony.IccProvider {
+    public IccProvider() {
         super();
     }
 }

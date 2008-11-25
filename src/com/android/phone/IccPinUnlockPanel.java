@@ -21,7 +21,7 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
-import com.android.internal.telephony.SimCard;
+import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.gsm.CommandException;
 import android.text.Editable;
 import android.text.Spannable;
@@ -39,12 +39,12 @@ import android.widget.TextView;
 /**
  * Panel where you enter your PIN to unlock the SIM card.
  */
-public class SimPinUnlockPanel extends SimPanel {
+public class IccPinUnlockPanel extends IccPanel {
     private static final boolean DBG = false;
 
-    private static final int EVENT_SIM_UNLOCKED_RESULT = 100;
+    private static final int EVENT_ICC_UNLOCKED_RESULT = 100;
 
-    private enum SimLockState {
+    private enum IccLockState {
         UNLOCKED,
         REQUIRE_PIN,
         REQUIRE_PUK,
@@ -53,7 +53,7 @@ public class SimPinUnlockPanel extends SimPanel {
         VERIFY_NEW_PIN_FAILED
     };
 
-    private SimLockState mState;
+    private IccLockState mState;
     private String mPUKCode;
     private String mNewPinCode;
 
@@ -69,7 +69,7 @@ public class SimPinUnlockPanel extends SimPanel {
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case EVENT_SIM_UNLOCKED_RESULT:
+                case EVENT_ICC_UNLOCKED_RESULT:
                     AsyncResult ar = (AsyncResult) msg.obj;
                     handleUnlockResult(ar);
                     break;
@@ -100,14 +100,14 @@ public class SimPinUnlockPanel extends SimPanel {
         }
     }
 
-    public SimPinUnlockPanel(Context context) {
+    public IccPinUnlockPanel(Context context) {
         super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sim_unlock);
+        setContentView(R.layout.sim_unlock);//TODO T: should sim_unlock renamed to icc?
         updateState();
         initView();
         updateView();
@@ -126,16 +126,16 @@ public class SimPinUnlockPanel extends SimPanel {
      */
     boolean updateState() {
         PhoneApp app = PhoneApp.getInstance();
-        SimCard simCardInterface = app.phone.getSimCard();
+        IccCard iccCardInterface = app.phone.getIccCard();
 
         try {
-            if (simCardInterface.getState() == SimCard.State.PUK_REQUIRED) {
-                if (getState() != SimLockState.REQUIRE_PUK) {
-                    setState(SimLockState.REQUIRE_PUK);
+            if (iccCardInterface.getState() == IccCard.State.PUK_REQUIRED) {
+                if (getState() != IccLockState.REQUIRE_PUK) {
+                    setState(IccLockState.REQUIRE_PUK);
                     return true;
                 }
-            } else if (getState() != SimLockState.REQUIRE_PIN){
-                setState(SimLockState.REQUIRE_PIN);
+            } else if (getState() != IccLockState.REQUIRE_PIN){
+                setState(IccLockState.REQUIRE_PIN);
                 return true;
             }
         } catch (Exception ex) {
@@ -143,16 +143,16 @@ public class SimPinUnlockPanel extends SimPanel {
         return false;
     }
 
-    void setState(SimLockState state) {
+    void setState(IccLockState state) {
         mState = state;
     }
 
-    SimLockState getState() {
+    IccLockState getState() {
         return mState;
     }
 
     void initView() {
-        mUnlockPane = (LinearLayout) findViewById(R.id.simPINPane);
+        mUnlockPane = (LinearLayout) findViewById(R.id.simPINPane); //TODO T: should simPINPane renamed to icc?
         mUnlockInProgressPane = (LinearLayout) findViewById(R.id.progress);
 
         mEntry = (EditText) findViewById(R.id.entry);
@@ -175,7 +175,7 @@ public class SimPinUnlockPanel extends SimPanel {
 
         mDismissButton = (Button) findViewById(R.id.dismiss);
 
-        // if we are using the SIM pin for keyguard password, force the
+        // if we are using the ICC pin for keyguard password, force the
         // user to enter the correct PIN to proceed. Otherwise, we won't
         // know what the correct keyguard password is.
         mDismissButton.setOnClickListener(mDismissListener);
@@ -206,7 +206,7 @@ public class SimPinUnlockPanel extends SimPanel {
 
             case VERIFY_NEW_PIN_FAILED:
                 mLabel.setText(context.getText(R.string.verifyFailed));
-                setState(SimLockState.REQUIRE_NEW_PIN);
+                setState(IccLockState.REQUIRE_NEW_PIN);
                 break;
         }
 
@@ -243,9 +243,10 @@ public class SimPinUnlockPanel extends SimPanel {
         if (DBG) log("unlock successful!");
         showUnlockSuccess();
 
-        // store the SIM pin in memory, to be used later for keyguard lock
+        // store the ICC pin in memory, to be used later for keyguard lock
         // and radio reboots.
-        PhoneApp.getInstance().setCachedSimPin(mEntry.getText().toString());
+        //TODO T: setCachedSimPin should be renamed to icc?
+        PhoneApp.getInstance().setCachedSimPin(mEntry.getText().toString()); 
     }
 
     void handleFailure() {
@@ -260,7 +261,7 @@ public class SimPinUnlockPanel extends SimPanel {
         CharSequence msg;
         Context context = getContext();
 
-        if (getState() == SimLockState.REQUIRE_PIN) {
+        if (getState() == IccLockState.REQUIRE_PIN) {
             msg = context.getText(R.string.badPin);
         } else {
             msg = context.getText(R.string.badPuk);
@@ -313,30 +314,30 @@ public class SimPinUnlockPanel extends SimPanel {
             }
 
             PhoneApp app = PhoneApp.getInstance();
-            SimCard simCardInterface = app.phone.getSimCard();
-            if (simCardInterface != null) {
+            IccCard iccCardInterface = app.phone.getIccCard();
+            if (iccCardInterface != null) {
                 Message callBack = Message.obtain(mHandler,
-                        EVENT_SIM_UNLOCKED_RESULT);
+                        EVENT_ICC_UNLOCKED_RESULT);
 
                 switch (mState) {
                     case REQUIRE_PIN:
                         if (DBG) log("unlock attempt: PIN code entered = " +
                                 code);
                         showUnlockInProgress();
-                        simCardInterface.supplyPin(code, callBack);
+                        iccCardInterface.supplyPin(code, callBack);
                         break;
 
                     case REQUIRE_PUK:
                         if (DBG) log("puk code entered, request for new pin");
                         mPUKCode = code;
-                        setState(SimLockState.REQUIRE_NEW_PIN);
+                        setState(IccLockState.REQUIRE_NEW_PIN);
                         updateView();
                         break;
 
                     case REQUIRE_NEW_PIN:
                         if (DBG) log("new pin code entered, verify pin");
                         mNewPinCode = code;
-                        setState(SimLockState.VERIFY_NEW_PIN);
+                        setState(IccLockState.VERIFY_NEW_PIN);
                         updateView();
                         break;
 
@@ -346,10 +347,10 @@ public class SimPinUnlockPanel extends SimPanel {
                         if (verifyNewPin(code)) {
                             // proceed
                             showUnlockInProgress();
-                            simCardInterface.supplyPuk(mPUKCode, mNewPinCode,
+                            iccCardInterface.supplyPuk(mPUKCode, mNewPinCode,
                                     callBack);
                         } else {
-                            setState(SimLockState.VERIFY_NEW_PIN_FAILED);
+                            setState(IccLockState.VERIFY_NEW_PIN_FAILED);
                             updateView();
                         }
 

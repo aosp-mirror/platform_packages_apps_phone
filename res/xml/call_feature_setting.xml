@@ -44,73 +44,75 @@
         android:singleLine="true"
         android:autoText="false"/>
         
+    
     <!-- Rearranged to allow for lazy queries. -->
     <PreferenceScreen
-        android:key="button_cf_expand_key"
-        android:title="@string/labelCF"
+        android:key="button_gsm_more_expand_key"
+        android:title="@string/labelGSMMore"
+        android:summary="@string/sum_gsm_call_settings"
         android:persistent="false">
+        
+        <PreferenceCategory
+            android:title="@string/additional_gsm_call_settings"/>
 
-        <PreferenceCategory
-            android:title="@string/call_forwarding_settings"/>
-        
-        <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
-        <com.android.phone.EditPhoneNumberPreference 
-            android:key="button_cfu_key" 
-            android:title="@string/labelCFU"
-            android:persistent="false"
-            android:summaryOn="@string/sum_cfu_enabled"
-            android:summaryOff="@string/sum_cfu_disabled"
-            android:dialogTitle="@string/labelCFU"
-            phone:confirmMode="activation"
-            android:singleLine="true"
-            android:autoText="false"/>
+        <!-- Rearranged to allow for lazy queries. -->
+        <PreferenceScreen
+            android:key="button_cf_expand_key"
+            android:title="@string/labelCF"
+            android:persistent="false">
     
-        <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
-        <com.android.phone.EditPhoneNumberPreference 
-            android:key="button_cfb_key" 
-            android:title="@string/labelCFB"
-            android:persistent="false"
-            android:summaryOn="@string/sum_cfb_enabled"
-            android:summaryOff="@string/sum_cfb_disabled"
-            android:dialogTitle="@string/labelCFB"
-            phone:confirmMode="activation"
-            android:singleLine="true"
-            android:autoText="false"/>
+            <PreferenceCategory
+                android:title="@string/call_forwarding_settings"/>
             
-        <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
-        <com.android.phone.EditPhoneNumberPreference 
-            android:key="button_cfnry_key" 
-            android:title="@string/labelCFNRy"
-            android:persistent="false"
-            android:summaryOn="@string/sum_cfnry_enabled"
-            android:summaryOff="@string/sum_cfnry_disabled"
-            android:dialogTitle="@string/labelCFNRy"
-            phone:confirmMode="activation"
-            android:singleLine="true"
-            android:autoText="false"/>
-    
-        <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
-        <com.android.phone.EditPhoneNumberPreference 
-            android:key="button_cfnrc_key" 
-            android:title="@string/labelCFNRc"
-            android:persistent="false"
-            android:summaryOn="@string/sum_cfnrc_enabled"
-            android:summaryOff="@string/sum_cfnrc_disabled"
-            android:dialogTitle="@string/labelCFNRc"
-            phone:confirmMode="activation"
-            android:singleLine="true"
-            android:autoText="false"/>
-            
-    </PreferenceScreen>
-    
-    <!-- Rearranged to allow for lazy queries. -->
-    <PreferenceScreen
-        android:key="button_more_expand_key"
-        android:title="@string/labelMore"
-        android:persistent="false">
+            <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
+            <com.android.phone.EditPhoneNumberPreference 
+                android:key="button_cfu_key" 
+                android:title="@string/labelCFU"
+                android:persistent="false"
+                android:summaryOn="@string/sum_cfu_enabled"
+                android:summaryOff="@string/sum_cfu_disabled"
+                android:dialogTitle="@string/labelCFU"
+                phone:confirmMode="activation"
+                android:singleLine="true"
+                android:autoText="false"/>
         
-        <PreferenceCategory
-            android:title="@string/additional_call_settings"/>
+            <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
+            <com.android.phone.EditPhoneNumberPreference 
+                android:key="button_cfb_key" 
+                android:title="@string/labelCFB"
+                android:persistent="false"
+                android:summaryOn="@string/sum_cfb_enabled"
+                android:summaryOff="@string/sum_cfb_disabled"
+                android:dialogTitle="@string/labelCFB"
+                phone:confirmMode="activation"
+                android:singleLine="true"
+                android:autoText="false"/>
+                
+            <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
+            <com.android.phone.EditPhoneNumberPreference 
+                android:key="button_cfnry_key" 
+                android:title="@string/labelCFNRy"
+                android:persistent="false"
+                android:summaryOn="@string/sum_cfnry_enabled"
+                android:summaryOff="@string/sum_cfnry_disabled"
+                android:dialogTitle="@string/labelCFNRy"
+                phone:confirmMode="activation"
+                android:singleLine="true"
+                android:autoText="false"/>
+        
+            <!-- See note on com.android.phone.EditPhoneNumberPreference above -->
+            <com.android.phone.EditPhoneNumberPreference 
+                android:key="button_cfnrc_key" 
+                android:title="@string/labelCFNRc"
+                android:persistent="false"
+                android:summaryOn="@string/sum_cfnrc_enabled"
+                android:summaryOff="@string/sum_cfnrc_disabled"
+                android:dialogTitle="@string/labelCFNRc"
+                phone:confirmMode="activation"
+                android:singleLine="true"
+                android:autoText="false"/>
+                
+        </PreferenceScreen>
 
         <ListPreference
             android:key="button_clir_key" 
@@ -127,19 +129,32 @@
             android:persistent="false"
             android:summaryOn="@string/sum_cw_enabled"
             android:summaryOff="@string/sum_cw_disabled"/>
-            
+           
     </PreferenceScreen>
-        
-    <PreferenceScreen 
-        android:key="button_carrier_sel_key" 
-        android:title="@string/networks"
-        android:summary="@string/sum_carrier_select"
+
+    <!-- Rearranged to allow for lazy queries. -->
+    <PreferenceScreen
+        android:key="button_cdma_more_expand_key"
+        android:title="@string/labelCDMAMore"
+        android:summary="@string/sum_cdma_call_settings"
         android:persistent="false">
         
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.NetworkSetting" />
-        
+        <PreferenceCategory
+            android:title="@string/additional_cdma_call_settings"/>
+            
+        <CheckBoxPreference 
+            android:key="button_voice_privacy_key"
+            android:title="@string/voice_privacy"
+            android:persistent="false"
+            android:summary="@string/voice_privacy_summary"/>
+            
+        <CheckBoxPreference 
+            android:key="button_tty_mode_key"
+            android:title="@string/tty_mode_title"
+            android:persistent="true"
+            android:summary="@string/tty_mode_summary"/>
+            
     </PreferenceScreen>
-    
+                    
+
 </PreferenceScreen>
