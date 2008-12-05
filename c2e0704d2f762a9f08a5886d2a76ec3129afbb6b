@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "zf33ebb056a2e99655e978d2307613118",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "Please remove Trailing White space",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z948de07e136fe702e26d9e548f3a2430",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "These strings and many others in the file are too technical for end users. They wouldn\u0027t know the different between CDMA / EvDo ; UMTS / WCDMA etc etc. Thats the reason the initial string was just 2G",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z8a7291a142bdafcb5b9c4417b89a0884",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "Where is this function ?",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ze554e8ff1dac49ee9d3bc9cd9e468acb",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "DBG should be false to avoid log spew",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z6eb19b2e0b67762466257fbe035a1ca1",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "this is implicit, its good to keep the code consistent with the rest of the file.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z21e3a6d41f68210b4248d83b29e4a80b",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "indentation issues",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zb2b5826f1130e5e99df691c376d1ea87",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2008-12-05T02:42:41Z",
+      "side": 1,
+      "message": "I would prefer if its removed. before sending it for review.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
