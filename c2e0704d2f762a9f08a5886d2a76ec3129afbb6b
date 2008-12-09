@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "z5fff796db453020ab5f732889f7e6f0a",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "This looks like a merge issue - these intent-filters were previously removed.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z948de07e136fe702e26d9e548f3a2430",
         "filename": "res/values/strings.xml",
         "patchSetId": 1
@@ -53,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "z9b51bb48a7f25182ac32d79dea117f06",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "remove if not needed.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ze554e8ff1dac49ee9d3bc9cd9e468acb",
         "filename": "src/com/android/phone/CallFeaturesSetting.java",
         "patchSetId": 1
@@ -64,6 +98,23 @@
       "writtenOn": "2008-12-05T02:42:41Z",
       "side": 1,
       "message": "DBG should be false to avoid log spew",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z87504b475efef142ccf30101e47d82ef",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "move this after EVENT_TTY_EXECUTED, to keep them in order.",
       "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -115,6 +166,91 @@
       "writtenOn": "2008-12-05T02:42:41Z",
       "side": 1,
       "message": "I would prefer if its removed. before sending it for review.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z6bce23cdb6456b4fd67aea56921ebbd7",
+        "filename": "src/com/android/phone/NotificationMgr.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "Don\u0027t need this change.  updateInCallNotifcation() defined below contains the same code, so this line doesn\u0027t have to change.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z85668a2404fa7583f099f175ba809b23",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "put on same line as }",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zfb41a42f29a33522409d9ecf194da540",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "put on same line as }",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z549fa179d7c03134bc2ff3c4b73de450",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "put on same line as }",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z3e14c3a0e1a693eb82ece54e3dec0247",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2008-12-09T02:05:07Z",
+      "side": 1,
+      "message": "Network pref, not CLIR (cut \u0026 paste error).  Same for param preference below.",
       "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
