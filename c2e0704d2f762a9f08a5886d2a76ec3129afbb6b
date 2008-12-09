@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "zea1d16c3df7a51d339b7a63c43f7de70",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000920
+      },
+      "writtenOn": "2008-12-09T14:07:41Z",
+      "side": 1,
+      "message": "typo? preferneces instead of preferences",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z948de07e136fe702e26d9e548f3a2430",
         "filename": "res/values/strings.xml",
         "patchSetId": 1
