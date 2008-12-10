@@ -45,7 +45,6 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.cdma.CDMAPhone;
 import android.telephony.cdma.TtyIntent;
-//import com.android.server.status.StatusBarPolicy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 
@@ -61,7 +60,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     // debug data
     private static final String LOG_TAG = "call features settings";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
 
     // string contants
     private static final String NUM_PROJECTION[] = {PhonesColumns.NUMBER};
@@ -100,13 +99,13 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final int EVENT_CLIR_EXECUTED         = 200;
     private static final int EVENT_CW_EXECUTED           = 300;
     private static final int EVENT_CF_EXECUTED           = 400;
-    private static final int EVENT_ENHANCED_VP_EXECUTED = 1000;
     /** Event for Async voicemail change call */
     private static final int EVENT_VOICEMAIL_CHANGED     = 500;
     /** track the query cancel event. */
     private static final int EVENT_INITAL_QUERY_CANCELED = 600;
     /** Event for TTY mode change */
-    private static final int EVENT_TTY_EXECUTED             = 700;
+    private static final int EVENT_TTY_EXECUTED          = 700;
+    private static final int EVENT_ENHANCED_VP_EXECUTED  = 1000;
     
     // preferred TTY mode
     // 0 = disabled
@@ -230,11 +229,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             return true;
         } else if (preference == mButtonMoreExpand){
             setDisplayMode(DISP_MODE_MORE);
-        } else if (preference == this.mButtonVoicePrivacy) {
-            handleVoicePrivacyClickRequest(this.mButtonVoicePrivacy.isChecked());
+        } else if (preference == mButtonVoicePrivacy) {
+            handleVoicePrivacyClickRequest(mButtonVoicePrivacy.isChecked());
             nextState = AppState.BUSY_NETWORK_CONNECT;
-        } else if (preference == this.mButtonTTY) {
-            handleTTYClickRequest(this.mButtonTTY.isChecked());
+        } else if (preference == mButtonTTY) {
+            handleTTYClickRequest(mButtonTTY.isChecked());
         }
 
         if (nextState != AppState.INPUT_READY) {
@@ -1000,25 +999,25 @@ public class CallFeaturesSetting extends PreferenceActivity
                     if (status != MSG_OK) {
                         setAppState(AppState.NETWORK_ERROR, status);
                     } else {
-                    mPhone.getCallWaiting(Message.obtain(mGetMoreOptionsComplete, EVENT_CW_EXECUTED));
+                        mPhone.getCallWaiting(Message.obtain(mGetMoreOptionsComplete, EVENT_CW_EXECUTED));
                     }
                     break;
 
                 case EVENT_CW_EXECUTED:
                     status = handleGetCWMessage(ar);
                     if (DBG) {
-                    log("mGetAllOptionsComplete: CW query done, querying VP.");
+                        log("mGetAllOptionsComplete: CW query done, querying VP.");
                     }
                     if (status != MSG_OK) {
-                    setAppState(AppState.NETWORK_ERROR, status);
+                        setAppState(AppState.NETWORK_ERROR, status);
                     } else {
-                    if (PhoneFactory.getDefaultPhone().getPhoneName().equals("GSM")) {
-                        mMoreDataStale = false;
-                        setAppState(AppState.INPUT_READY);
-                    } else {
-                    mPhone.getEnhancedVoicePrivacy(Message.obtain(mGetMoreOptionsComplete,
-                            EVENT_ENHANCED_VP_EXECUTED));
-                    }
+                        if (PhoneFactory.getDefaultPhone().getPhoneName().equals("GSM")) {
+                            mMoreDataStale = false;
+                            setAppState(AppState.INPUT_READY);
+                        } else {
+                            mPhone.getEnhancedVoicePrivacy(Message.obtain(mGetMoreOptionsComplete,
+                                EVENT_ENHANCED_VP_EXECUTED));
+                        }
                     }
                     break;
 
