@@ -1008,23 +1008,23 @@ public class CallFeaturesSetting extends PreferenceActivity
                     status = handleGetCWMessage(ar);
                     if (DBG) {
                     log("mGetAllOptionsComplete: CW query done, querying VP.");
-                }
-                if (status != MSG_OK) {
+                    }
+                    if (status != MSG_OK) {
                     setAppState(AppState.NETWORK_ERROR, status);
-                } else {
+                    } else {
                     if (PhoneFactory.getDefaultPhone().getPhoneName().equals("GSM")) {
                         mMoreDataStale = false;
                         setAppState(AppState.INPUT_READY);
                     } else {
                     mPhone.getEnhancedVoicePrivacy(Message.obtain(mGetMoreOptionsComplete,
                             EVENT_ENHANCED_VP_EXECUTED));
-                }
-                }
-                break;
+                    }
+                    }
+                    break;
 
-            case EVENT_ENHANCED_VP_EXECUTED:
-                status = handleGetVPMessage(ar, msg.arg1);
-                if (DBG) {
+                case EVENT_ENHANCED_VP_EXECUTED:
+                    status = handleGetVPMessage(ar, msg.arg1);
+                    if (DBG) {
                     log("mGetAllOptionsComplete: VP query done, all call features queried.");
                     }
                     if (status != MSG_OK) {
@@ -1533,8 +1533,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     }
     
     // set the state of the UI based on TTY State
-    private void syncTTYState(int ttyArray[]) 
-    {    
+    private void syncTTYState(int ttyArray[]) {
         if (DBG) log("syncTTYState: Setting UI state consistent with TTY enable state of " +
                 ((ttyArray[0] != 0) ? "ENABLED" : "DISABLED"));
         
