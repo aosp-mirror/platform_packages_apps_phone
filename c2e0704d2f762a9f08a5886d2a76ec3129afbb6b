@@ -104,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "zd32693def22fe8aa843f6243ce10fcf7",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001408
+      },
+      "writtenOn": "2008-12-11T08:56:00Z",
+      "side": 1,
+      "message": "On 2008/12/09 02:05:07, John Huang wrote:\n\u003e remove if not needed.\n\nDone.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ze554e8ff1dac49ee9d3bc9cd9e468acb",
         "filename": "src/com/android/phone/CallFeaturesSetting.java",
         "patchSetId": 1
@@ -115,6 +132,23 @@
       "writtenOn": "2008-12-05T02:42:41Z",
       "side": 1,
       "message": "DBG should be false to avoid log spew",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zfd8325836bddfffa6530b8fe46a5ed62",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001408
+      },
+      "writtenOn": "2008-12-11T08:56:00Z",
+      "side": 1,
+      "message": "On 2008/12/05 02:42:41, Jaikumar Ganesh wrote:\n\u003e DBG should be false to avoid log spew\n\nDone.",
       "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -138,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "z43e98dd65ac4d646a6591c1eadb1f36f",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001408
+      },
+      "writtenOn": "2008-12-11T08:56:00Z",
+      "side": 1,
+      "message": "On 2008/12/09 02:05:07, John Huang wrote:\n\u003e move this after EVENT_TTY_EXECUTED, to keep them in order.\n\nDone.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z6eb19b2e0b67762466257fbe035a1ca1",
         "filename": "src/com/android/phone/CallFeaturesSetting.java",
         "patchSetId": 1
@@ -155,6 +206,23 @@
     },
     {
       "key": {
+        "uuid": "z54905c1352c8282d7a5b3b6423d1225e",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001408
+      },
+      "writtenOn": "2008-12-11T08:56:00Z",
+      "side": 1,
+      "message": "On 2008/12/05 02:42:41, Jaikumar Ganesh wrote:\n\u003e this is implicit, its good to keep the code consistent with the rest of the\n\u003e file.\n\nDone.",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z21e3a6d41f68210b4248d83b29e4a80b",
         "filename": "src/com/android/phone/CallFeaturesSetting.java",
         "patchSetId": 1
@@ -166,6 +234,23 @@
       "writtenOn": "2008-12-05T02:42:41Z",
       "side": 1,
       "message": "indentation issues",
+      "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "za222fd0cec5a358a424815cb60158951",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1001408
+      },
+      "writtenOn": "2008-12-11T08:56:00Z",
+      "side": 1,
+      "message": "On 2008/12/05 02:42:41, Jaikumar Ganesh wrote:\n\u003e indentation issues\n\nDone.",
       "revId": "c2e0704d2f762a9f08a5886d2a76ec3129afbb6b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
