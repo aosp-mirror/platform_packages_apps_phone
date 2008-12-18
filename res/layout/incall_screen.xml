@@ -16,24 +16,15 @@
 
 <!-- In-call state of the Phone UI. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               >
-    <!-- This is now a FrameLayout because the sliding drawer has been
-         promoted to be a child of this view, and the drawer only plays
-         well when embedded directly under a FrameLayout. -->
 
-    <!-- Main frame containing all in-call UI elements, *except* the
-         sliding CallCard (if enabled) which goes in a separate
-         PopupWindow that's z-ordered in front of the other UI elements.
+    <!-- Main frame containing all in-call UI elements.
          This is a FrameLayout with 2 children:
            (1) inCallPanel: the main set of in-call UI elements
            (2) manageConferencePanel: the "Manage conference" UI
          Exactly one of these is visible at any given moment.  -->
-    <!-- This has been padded (instead of establishing margins) since
-         it now has a sibling and its parent has been changed to a
-         FrameLayout. -->
     <FrameLayout android:id="@+id/mainFrame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -49,83 +40,13 @@
                         android:layout_height="fill_parent"
                         >
 
-            <!-- Slide hints: if the "sliding card" feature is enabled,
-                 one or the other of these is visible at any given moment
-                 (see updateCardSlideHints()). -->
+            <!-- The CallCard (see call_card_popup.xml) is inserted
+                 here from Java code (see initInCallScreen()). -->
 
-            <!-- Slide hint and arrow *above* the main body of the card,
-                 shown when the card is in the *bottom* position. -->
-            <!-- This hint's position onscreen is static: the Y value is set
-                 so that the hint will be visible just above the top edge of
-                 the CallCard when the CallCard is in the "bottom" position.
-                 The resources here describe the portrait mode layout; see
-                 InCallScreen.ConfigurationHelper.applyConfigurationToLayout()
-                 for the differences in landscape mode. -->
-            <LinearLayout android:id="@+id/slideUp"
-                          android:orientation="vertical"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentTop="true"
-                          android:layout_marginTop="160dip"
-                          android:background="@null"
-                          android:visibility="gone"
-                          >
-                <TextView android:id="@+id/slideUpHint"
-                          android:layout_gravity="center_horizontal"
-                          android:gravity="center_horizontal"
-                          android:textAppearance="?android:attr/textAppearanceMedium"
-                          android:textColor="?android:attr/textColorSecondary"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@android:drawable/arrow_up_float"
-                    />
-            </LinearLayout>
-
-            <!-- Slide hint and arrow *below* the main body of the card,
-                 shown when the card is in the *top* position. -->
-            <!-- This hint's position onscreen is static: the Y value is set
-                 so that the hint will be visible just below the bottom edge of
-                 the CallCard when the CallCard is in the "top" position.
-                 The resources here describe the portrait mode layout; see
-                 InCallScreen.ConfigurationHelper.applyConfigurationToLayout()
-                 for the differences in landscape mode. -->
-            <LinearLayout android:id="@+id/slideDown"
-                          android:orientation="vertical"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentTop="true"
-                          android:layout_marginTop="220dip"
-                          android:background="@null"
-                          android:visibility="gone"
-                          >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@android:drawable/arrow_down_float"
-                    />
-                <TextView
-                    android:id="@+id/slideDownHint"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
-
-            <!-- The hint about the Menu button, anchored to the bottom of the
-                 screen.  This is the only UI element drawn *outside* the main
-                 frame of the in-call UI.
-                 This is used only in landscape mode.  (See updateMenuButtonHint());
-                 in portrait mode we use the menuButtonHint built-in to the
-                 CallCard.) -->
+            <!-- The hint about the Menu button, anchored to the bottom of
+                 the screen.  This is used only in landscape mode (see
+                 updateMenuButtonHint()); in portrait mode we use the
+                 menuButtonHint built-in to the CallCard. -->
             <TextView android:id="@+id/menuButtonHint"
                       android:text="@string/menuButtonKeyboardDialHint"
                       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -138,6 +59,10 @@
                       />
 
         </RelativeLayout>  <!-- End of inCallPanel -->
+
+        <!-- Simple, 1 line display for dtmf tones.  In portrait mode, this is just an
+             empty layout, in landscape mode this field fades in and out as needed. -->
+        <include layout="@layout/dtmf_dialer_display"/>
 
     </FrameLayout>  <!-- End of mainFrame -->
 
@@ -270,31 +195,12 @@
 
     </RelativeLayout>  <!-- End of manageConferencePanel -->
 
-    <!-- The sliding drawer control containing the DTMF dialer.  This has been
-         moved so that it is a sibling of mainFrame, instead of being a child.
-         Doing so allows us to expand to the full width of the screen, instead
-         of being confined to the mainFrame's layout -->
-    <com.android.internal.widget.SlidingDrawer
-        android:id="@+id/dialer_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-
-        android:topOffset="5px"
-        android:bottomOffset="7px"
-        android:handle="@+id/dialer_tab"
-        android:content="@+id/dtmf_dialer">
-
-       <ImageButton
-           android:id="@id/dialer_tab"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:src="@drawable/ic_dialpad_tray"
-           android:background="@drawable/tray_handle_normal"/>
-
-        <include
-            layout="@layout/dtmf_twelve_key_dialer"
-            android:id="@id/dtmf_dialer"/>
-
-    </com.android.internal.widget.SlidingDrawer>
+    <!-- The sliding drawer control containing the DTMF dialer.
+         Note this isn't a child of mainFrame, which ensures that it'll be
+         able to use the full width of the screen.  (And a SlidingDrawer
+         widget needs to be be a direct child of a FrameLayout anyway.)
+         In portrait mode, this is visible; in landscape mode, this is
+         just an empty layout.-->
+    <include layout="@layout/dtmf_twelve_key_dialer"/>
 
 </FrameLayout>

@@ -1142,6 +1142,13 @@ public class PhoneUtils {
         } else {
             NotificationMgr.getDefault().cancelSpeakerphone();
         }
+
+        // We also need to make a fresh call to PhoneApp.updateWakeState()
+        // any time the speaker state changes, since the screen timeout is
+        // sometimes different depending on whether or not the speaker is
+        // in use.
+        PhoneApp app = PhoneApp.getInstance();
+        app.updateWakeState();
     }
 
     /**

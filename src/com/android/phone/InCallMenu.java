@@ -55,6 +55,7 @@ class InCallMenu {
      * All possible menu items (see initMenu().)
      */
     InCallMenuItemView mManageConference;
+    InCallMenuItemView mShowDialpad;
     InCallMenuItemView mEndCall;
     InCallMenuItemView mAddCall;
     InCallMenuItemView mSwapCalls;
@@ -115,6 +116,12 @@ class InCallMenu {
         mManageConference.setOnClickListener(mInCallScreen);
         mManageConference.setText(R.string.menu_manageConference);
         mManageConference.setIconResource(R.drawable.ic_menu_manage_conference);
+
+        mShowDialpad = new InCallMenuItemView(wrappedContext);
+        mShowDialpad.setId(R.id.menuShowDialpad);
+        mShowDialpad.setOnClickListener(mInCallScreen);
+        mShowDialpad.setText(R.string.menu_showDialpad); // or "Hide dialpad" if it's open
+        mShowDialpad.setIconResource(R.drawable.ic_menu_dial_pad);
 
         mEndCall = new InCallMenuItemView(wrappedContext);
         mEndCall.setId(R.id.menuEndCall);
@@ -192,7 +199,10 @@ class InCallMenu {
         //
 
         // Row 0:
+        // This usually has "Show/Hide dialpad", but that gets replaced by
+        // "Manage conference" if a conference call is active.
         mInCallMenuView.addItemView(mManageConference, 0);
+        mInCallMenuView.addItemView(mShowDialpad, 0);
 
         // Row 1:
         mInCallMenuView.addItemView(mSwapCalls, 1);
@@ -253,6 +263,7 @@ class InCallMenu {
                 mAnswerAndEnd.setEnabled(true);
 
                 mManageConference.setVisible(false);
+                mShowDialpad.setVisible(false);
                 mEndCall.setVisible(false);
                 mAddCall.setVisible(false);
                 mSwapCalls.setVisible(false);
@@ -278,11 +289,30 @@ class InCallMenu {
         // TODO: double-check if any items here need to be disabled based on:
         //   boolean keyguardRestricted = mInCallScreen.isPhoneStateRestricted();
 
-        // Manage conference: only visible if the foreground call is a conference call.
+        // Manage conference: visible only if the foreground call is a
+        // conference call.  Enabled unless the "Manage conference" UI is
+        // already up.
         boolean canManageConference =
                 PhoneUtils.isConferenceCall(phone.getForegroundCall());
         mManageConference.setVisible(canManageConference);
-        mManageConference.setEnabled(canManageConference);
+        mManageConference.setEnabled(!mInCallScreen.isManageConferenceMode());
+
+        // "Show/Hide dialpad":
+        // - Visible: only in portrait mode, but NOT when "Manage
+        //   conference" is available (since that's shown instead.)
+        // - Enabled: Only when it's OK to use the dialpad in the first
+        //   place (i.e. in the same states where the SlidingDrawer handle
+        //   is visible.)
+        // - Text label: "Show" or "Hide", depending on the current state
+        //   of the sliding drawer.
+        boolean showShowDialpad = !InCallScreen.ConfigurationHelper.isLandscape()
+                && !canManageConference;
+        boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
+        mShowDialpad.setVisible(showShowDialpad);
+        mShowDialpad.setEnabled(enableShowDialpad);
+        mShowDialpad.setText(mInCallScreen.isDialerOpened()
+                             ? R.string.menu_hideDialpad
+                             : R.string.menu_showDialpad);
 
         // "End call": this button has no state and is always visible.
         // It's also always enabled.  (Actually it *would* need to be

@@ -21,7 +21,6 @@ import android.bluetooth.BluetoothAudioGateway;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothIntent;
-import android.bluetooth.DeviceClass;
 import android.bluetooth.IBluetoothDeviceCallback;
 import android.bluetooth.IBluetoothHeadset;
 import android.bluetooth.IBluetoothHeadsetCallback;
@@ -58,6 +57,9 @@ public class BluetoothHeadsetService extends Service {
 
     private static final int PHONE_STATE_CHANGED = 1;
 
+    private static final String BLUETOOTH_ADMIN_PERM = android.Manifest.permission.BLUETOOTH_ADMIN;
+    private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
+
     private static boolean sHasStarted = false;
 
     private BluetoothDevice mBluetooth;
@@ -91,8 +93,8 @@ public class BluetoothHeadsetService extends Service {
         mForegroundCall = mPhone.getForegroundCall();
         restoreLastHeadsetAddress();
 
-        IntentFilter filter = new IntentFilter(BluetoothIntent.BONDING_CREATED_ACTION);
-        filter.addAction(BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
+        IntentFilter filter = new IntentFilter(
+                BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
         filter.addAction(BluetoothIntent.ENABLED_ACTION);
         filter.addAction(BluetoothIntent.DISABLED_ACTION);
         registerReceiver(mBluetoothIntentReceiver, filter);
@@ -246,16 +248,7 @@ public class BluetoothHeadsetService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             String address = intent.getStringExtra(BluetoothIntent.ADDRESS);
-            if (action.equals(BluetoothIntent.BONDING_CREATED_ACTION) &&
-                DeviceClass.getMajorClass(mBluetooth.getRemoteClass(address)) ==
-                DeviceClass.MAJOR_CLASS_AUDIO_VIDEO &&
-                mState == BluetoothHeadset.STATE_DISCONNECTED) {
-
-                // Automatically connect to headset
-                try {
-                    mBinder.connectHeadset(address, null);
-                } catch (RemoteException e) {}
-            } else if ((mState == BluetoothHeadset.STATE_CONNECTED ||
+            if ((mState == BluetoothHeadset.STATE_CONNECTED ||
                     mState == BluetoothHeadset.STATE_CONNECTING) &&
                     action.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION) &&
                     address.equals(mHeadsetAddress)) {
@@ -492,7 +485,7 @@ public class BluetoothHeadsetService extends Service {
             mState = state;
             intent.putExtra(BluetoothIntent.HEADSET_STATE, mState);
             intent.putExtra(BluetoothIntent.ADDRESS, mHeadsetAddress);
-            sendBroadcast(intent);
+            sendBroadcast(intent, BLUETOOTH_PERM);
             if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
                 mHeadset = null;
                 mHeadsetAddress = null;
@@ -510,18 +503,18 @@ public class BluetoothHeadsetService extends Service {
      */
     private final IBluetoothHeadset.Stub mBinder = new IBluetoothHeadset.Stub() {
         public int getState() {
-            checkPermissionBluetooth();
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             return mState;
         }
         public String getHeadsetAddress() {
-            checkPermissionBluetooth();
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
                 return null;
             }
             return mHeadsetAddress;
         }
         public boolean connectHeadset(String address, IBluetoothHeadsetCallback callback) {
-            checkPermissionBluetoothAdmin();
+            enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM, "Need BLUETOOTH_ADMIN permission");
             if (address == null) {
                 address = mLastHeadsetAddress;
             }
@@ -541,11 +534,11 @@ public class BluetoothHeadsetService extends Service {
             return true;
         }
         public boolean isConnected(String address) {
-            checkPermissionBluetooth();
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             return mState == BluetoothHeadset.STATE_CONNECTED && mHeadsetAddress.equals(address);
         }
         public void disconnectHeadset() {
-            checkPermissionBluetoothAdmin();
+            enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM, "Need BLUETOOTH_ADMIN permission");
             synchronized (BluetoothHeadsetService.this) {
                 switch (mState) {
                 case BluetoothHeadset.STATE_CONNECTING:
@@ -581,6 +574,24 @@ public class BluetoothHeadsetService extends Service {
                 }
             }
         }
+        public boolean startVoiceRecognition() {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+	                return false;
+                }
+                return mBtHandsfree.startVoiceRecognition();
+            }
+        }
+        public boolean stopVoiceRecognition() {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+	                return false;
+                }
+                return mBtHandsfree.stopVoiceRecognition();
+            }
+        }
     };
 
     @Override
@@ -595,22 +606,6 @@ public class BluetoothHeadsetService extends Service {
         mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
     }
 
-    private static final String BLUETOOTH_ADMIN = android.Manifest.permission.BLUETOOTH_ADMIN;
-    private static final String BLUETOOTH = android.Manifest.permission.BLUETOOTH;
-
-    private void checkPermissionBluetoothAdmin() {
-        if (checkCallingOrSelfPermission(BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-            throw new SecurityException("Requires BLUETOOTH_ADMIN permission");
-        }
-    }
-
-    private void checkPermissionBluetooth() {
-        if (checkCallingOrSelfPermission(BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED &&
-            checkCallingOrSelfPermission(BLUETOOTH) != PackageManager.PERMISSION_GRANTED ) {
-            throw new SecurityException("Requires BLUETOOTH or BLUETOOTH_ADMIN permission");
-        }
-    }
-
     /** If this property is false, then don't auto-reconnect BT headset */
     private static final String DEBUG_AUTO_RECONNECT = "debug.bt.hshfp.auto_reconnect";
    
@@ -618,7 +613,7 @@ public class BluetoothHeadsetService extends Service {
         return (!SystemProperties.getBoolean(DEBUG_AUTO_RECONNECT, true));
     }
 
-    private void log(String msg) {
+    private static void log(String msg) {
         Log.d(TAG, msg);
     }
 }

@@ -184,8 +184,8 @@ public class CallNotifier extends Handler
         PhoneApp app = PhoneApp.getInstance();
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
-        boolean provisioned = Settings.System.getInt(mPhone.getContext().getContentResolver(),
-                Settings.System.DEVICE_PROVISIONED, 0) != 0;
+        boolean provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
+            Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
         if (!provisioned) {
             Log.i(TAG, "CallNotifier: rejecting incoming call because device isn't provisioned");
             // Send the caller straight to voicemail, just like
@@ -247,7 +247,7 @@ public class CallNotifier extends Handler
         // of the wake lock, it is ok to make the call here as well as in
         // InCallScreen.onPhoneStateChanged().
         if (DBG) log("Holding wake lock on new incoming connection.");
-        mApplication.keepScreenOn(true);
+        mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
         if (DBG) log("- onNewRingingConnection() done.");
     }
@@ -367,11 +367,7 @@ public class CallNotifier extends Handler
             // otherwise handle it here.
             if (!mApplication.isShowingCallScreen()) {
                 mApplication.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
-                mApplication.keepScreenOn(false);
-            }
-
-            if (mBluetoothHandsfree != null) {
-                mBluetoothHandsfree.audioOn();
+                mApplication.requestWakeState(PhoneApp.WakeState.SLEEP);
             }
 
             // Since we're now in-call, the Ringer should definitely *not*
@@ -590,9 +586,14 @@ public class CallNotifier extends Handler
                 // it needs to show the call ended screen for a couple of
                 // seconds.
                 if (!mApplication.isShowingCallScreen()) {
+                    if (DBG) log("- NOT showing in-call screen; releasing wake locks!");
                     mApplication.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
-                    mApplication.keepScreenOn(false);
+                    mApplication.requestWakeState(PhoneApp.WakeState.SLEEP);
+                } else {
+                    if (DBG) log("- still showing in-call screen; not releasing wake locks.");
                 }
+            } else {
+                if (DBG) log("- phone still in use; not releasing wake locks.");
             }
         }
     }

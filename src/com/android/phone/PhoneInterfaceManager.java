@@ -17,7 +17,6 @@
 package com.android.phone;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Binder;
@@ -26,6 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.ServiceManager;
+import android.telephony.NeighboringCellInfo;
 import android.telephony.ServiceState;
 import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.ITelephony;
@@ -34,6 +34,9 @@ import com.android.internal.telephony.SimCard;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Implementation of the ITelephony interface.
  */
@@ -41,6 +44,8 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
 
     private static final int CMD_HANDLE_PIN_MMI = 1;
+    private static final int CMD_HANDLE_NEIGHBORING_CELL = 2;
+    private static final int EVENT_NEIGHBORING_CELL_DONE = 3;
 
     PhoneApp mApp;
     Phone mPhone;
@@ -75,19 +80,44 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private final class MainThreadHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            MainThreadRequest request = (MainThreadRequest) msg.obj;
+            MainThreadRequest request;
+            Message onCompleted;
+            AsyncResult ar;
+
             switch (msg.what) {
-                case CMD_HANDLE_PIN_MMI: {
+                case CMD_HANDLE_PIN_MMI: 
+                    request = (MainThreadRequest) msg.obj;
                     request.result = Boolean.valueOf(
                             mPhone.handlePinMmi((String) request.argument));
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
                     break;
-                }
+                
+                case CMD_HANDLE_NEIGHBORING_CELL:
+                    request = (MainThreadRequest) msg.obj;
+                    onCompleted = obtainMessage(EVENT_NEIGHBORING_CELL_DONE, 
+                            request);
+                    mPhone.getNeighboringCids(onCompleted);
+                    break;
+                    
+                case EVENT_NEIGHBORING_CELL_DONE:
+                    ar = (AsyncResult) msg.obj;
+                    request = (MainThreadRequest) ar.userObj;
+                    if (ar.exception == null && ar.result != null) {
+                        request.result = ar.result;
+                    } else {
+                        // create an empty list to notify the waiting thread
+                        request.result = new ArrayList<NeighboringCellInfo>();
+                    }
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                    break;
             }
 
-            // Wake up the requesting thread
-            synchronized (request) {
-                request.notifyAll();
-            }
         }
     }
 
@@ -169,20 +199,39 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp.startActivity(intent);
     }
 
-    public boolean showCallScreen() {
+    private boolean showCallScreenInternal(boolean specifyInitialDialpadState,
+                                           boolean initialDialpadState) {
         if (isIdle()) {
             return false;
         }
         // If the phone isn't idle then go to the in-call screen
         long callingId = Binder.clearCallingIdentity();
         try {
-            mApp.startActivity(PhoneApp.createInCallIntent());
+            Intent intent;
+            if (specifyInitialDialpadState) {
+                intent = PhoneApp.createInCallIntent(initialDialpadState);
+            } else {
+                intent = PhoneApp.createInCallIntent();
+            }
+            mApp.startActivity(intent);
         } finally {
             Binder.restoreCallingIdentity(callingId);
         }
         return true;
     }
-    
+
+    // Show the in-call screen without specifying the initial dialpad state.
+    public boolean showCallScreen() {
+        return showCallScreenInternal(false, false);
+    }
+
+    // The variation of showCallScreen() that specifies the initial dialpad state.
+    // (Ideally this would be called showCallScreen() too, just with a different
+    // signature, but AIDL doesn't allow that.)
+    public boolean showCallScreenWithDialpad(boolean showDialpad) {
+        return showCallScreenInternal(true, showDialpad);
+    }
+
     public boolean endCall() {
         enforceCallPermission();
         return PhoneUtils.hangup(mPhone);
@@ -382,6 +431,32 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mPhone.disableLocationUpdates();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<NeighboringCellInfo> getNeighboringCellInfo() {
+        try {
+            mApp.enforceCallingOrSelfPermission(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION, null);
+        } catch (SecurityException e) {
+            // If we have ACCESS_FINE_LOCATION permission, skip the check 
+            // for ACCESS_COARSE_LOCATION 
+            // A failure should throw the SecurityException from 
+            // ACCESS_COARSE_LOCATION since this is the weaker precondition
+            mApp.enforceCallingOrSelfPermission(
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION, null);
+        }            
+
+        ArrayList<NeighboringCellInfo> cells = null;
+    
+        try {
+            cells = (ArrayList<NeighboringCellInfo>) sendRequest(
+                    CMD_HANDLE_NEIGHBORING_CELL, null);
+        } catch (RuntimeException e) {
+        }
+
+        return (List <NeighboringCellInfo>) cells;
+    }
+
+
     //
     // Internal helper methods.
     //
@@ -413,7 +488,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp.enforceCallingOrSelfPermission(android.Manifest.permission.CALL_PHONE, null);
     }
 
-
+    
     private String createTelUrl(String number) {
         if (TextUtils.isEmpty(number)) {
             return null;

@@ -25,4 +25,5 @@
     
     <!-- DTMF Dialer -->
     <color name="dtmf_dialer_background">#333333</color> <!-- green -->
+    <color name="dtmf_dialer_display_text">#FFFFFF</color> <!-- white -->
 </resources>

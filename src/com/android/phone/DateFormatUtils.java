@@ -16,7 +16,7 @@
 
 package com.android.phone;
 
-import android.pim.DateUtils;
+import android.text.format.DateUtils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

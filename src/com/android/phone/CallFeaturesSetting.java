@@ -149,6 +149,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private int mDisplayMode;
     private boolean mCFDataStale = true;
     private boolean mMoreDataStale = true;
+    private boolean mIsBusyDialogAvailable = false;
 
     // toggle buttons
     private PreferenceScreen mSubMenuFDNSettings;
@@ -176,6 +177,7 @@ public class CallFeaturesSetting extends PreferenceActivity
      */
 
     // Click listener for all toggle events
+    @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (mAppState != AppState.INPUT_READY) {
             if (DBG) {
@@ -302,7 +304,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         AppState nextState = AppState.INPUT_READY;
 
         if (preference instanceof EditPhoneNumberPreference) {
-            EditPhoneNumberPreference epn = (EditPhoneNumberPreference) preference;
+            EditPhoneNumberPreference epn = preference;
 
             if (epn == mSubMenuVoicemailSettings) {
                 handleVMBtnClickRequest();
@@ -378,6 +380,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
 
     // override the startsubactivity call to make changes in state consistent.
+    @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         if (requestCode == -1) {
             // this is an intent requested from the preference framework.
@@ -966,6 +969,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     };
 
     // dialog creation method, called by showDialog()
+    @Override
     protected Dialog onCreateDialog(int id) {
 
         if ((id == BUSY_DIALOG) || (id == VOICEMAIL_DIALOG_PROGRESS) ||
@@ -976,6 +980,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             switch (id) {
                 case BUSY_DIALOG:
+                    mIsBusyDialogAvailable = true;
                     dialog.setCancelable(false);
                     dialog.setMessage(getText(R.string.updating_settings));
                     break;
@@ -1084,12 +1089,23 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     /** dismiss the expanded dialog view, going back to the main preference view */
     private void dismissExpandedDialog() {
+        // The dialogs that can invoke this method (via onClick()), can ONLY
+        // be reached when either expanded dialog (More or Call Forwarding)
+        // is open.  However, the Monkey somehow managed to get to this code
+        // without the expanded dialogs being available (1305094).  Adding null
+        // pointer checks just as a good measure.  This should be fine because
+        // if the expanded dialog is NOT shown, we want to ignore the dismiss
+        // message and go to INPUT_READY anyway.
         switch (mDisplayMode) {
             case DISP_MODE_CF:
-                mButtonCFExpand.getDialog().dismiss();
+                if (mButtonCFExpand != null && mButtonCFExpand.getDialog() != null) {
+                    mButtonCFExpand.getDialog().dismiss();
+                }
                 break;
             case DISP_MODE_MORE:
-                mButtonMoreExpand.getDialog().dismiss();
+                if (mButtonMoreExpand != null && mButtonMoreExpand.getDialog() != null) {
+                    mButtonMoreExpand.getDialog().dismiss();
+                }
                 break;
         }
         mDisplayMode = DISP_MODE_MAIN;
@@ -1123,7 +1139,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                     if (mAppState == AppState.INITIAL_QUERY) {
                         dismissDialog(INITIAL_BUSY_DIALOG);
                     } else {
-                        dismissDialog(BUSY_DIALOG);
+                        dismissBusyDialog();
                     }
                     showDialog (EXCEPTION_ERROR);
                     break;
@@ -1134,7 +1150,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                     if (mAppState == AppState.INITIAL_QUERY) {
                         dismissDialog(INITIAL_BUSY_DIALOG);
                     } else {
-                        dismissDialog(BUSY_DIALOG);
+                        dismissBusyDialog();
                     }
                     showDialog (RESPONSE_ERROR);
                     break;
@@ -1204,7 +1220,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                     dismissDialog(VOICEMAIL_DIALOG_PROGRESS);
                     showDialog(VOICEMAIL_DIALOG_CONFIRM);
                 } else {
-                    dismissDialog(BUSY_DIALOG);
+                    dismissBusyDialog();
                 }
                 break;
             case WAITING_NUMBER_SELECT:
@@ -1213,10 +1229,22 @@ public class CallFeaturesSetting extends PreferenceActivity
                     throw new IllegalStateException
                             ("illegal transition from WAITING_NUMBER_SELECT");
                 }
-                dismissDialog(BUSY_DIALOG);
+                dismissBusyDialog();
                 break;
         }
         mAppState = requestedState;
+    }
+
+    /**
+     * Make sure that the busy dialog is available before we try to close it.
+     * This check needs to be done because the generic busy dialog is used for
+     * a number of cases, but we need to make sure it has been displayed before
+     * being dismissed.
+     */
+    private final void dismissBusyDialog() {
+        if (mIsBusyDialogAvailable) {
+            dismissDialog(BUSY_DIALOG);
+        }
     }
 
     /*
@@ -1334,6 +1362,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         updateVoiceNumberField();
     }
 
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 

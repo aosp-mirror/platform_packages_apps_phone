@@ -14,13 +14,8 @@
      limitations under the License.
 -->
 
-<com.android.phone.DTMFTwelveKeyDialerView 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/dtmf_dialer_background">
-    
-    <!-- Include the layout for the dtmf display -->
-    <include layout="@layout/dtmf_display"/>
-    
-</com.android.phone.DTMFTwelveKeyDialerView>
+<!-- The landscape-oriented dtmf dialer does not exist.  The <merge/> tag
+     is just a dummy.  Instead, landscape mode uses dtmf_dialer_display
+     for the simple display of DTMF tones that the user dials on the
+     keyboard. -->
+<merge/>

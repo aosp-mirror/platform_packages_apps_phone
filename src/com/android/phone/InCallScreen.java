@@ -23,7 +23,6 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.SlidingDrawer;
-import com.android.phone.PhoneUtils.VoiceMailNumberMissingException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,7 +61,6 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +87,14 @@ public class InCallScreen extends Activity
     // enabled.)
     /* package */ static final boolean ENABLE_PHONE_UI_EVENT_LOGGING = false;
 
+    /**
+     * Intent extra used to specify whether the DTMF dialpad should be
+     * initially visible when bringing up the InCallScreen.  (If this
+     * extra is present, the dialpad will be initially shown if the extra
+     * has the boolean value true, and initially hidden otherwise.)
+     */
+    static final String SHOW_DIALPAD_EXTRA = "com.android.phone.ShowDialpad";
+
     // Event values used with Checkin.Events.Tag.PHONE_UI events:
     /** The in-call UI became active */
     static final String PHONE_UI_EVENT_ENTER = "enter";
@@ -96,16 +102,6 @@ public class InCallScreen extends Activity
     static final String PHONE_UI_EVENT_EXIT = "exit";
     /** User clicked one of the touchable in-call buttons */
     static final String PHONE_UI_EVENT_BUTTON_CLICK = "button_click";
-    /** User successfully slid the card to hang up */
-    static final String PHONE_UI_EVENT_SLIDE_TO_HANGUP = "slide_hangup";
-    /** User successfully slid the card to answer an incoming call */
-    static final String PHONE_UI_EVENT_SLIDE_TO_ANSWER = "slide_answer";
-    /** An attempted slide was unsuccessful (the user didn't slide far enough,
-        or bailed out mid-slide */
-    static final String PHONE_UI_EVENT_SLIDE_ABORTED = "slide_aborted";
-    /** We rejected a "fat touch" event during a slide in progress.
-        (We also append the touch event size to this value.) */
-    static final String PHONE_UI_EVENT_REJECTED_FAT_TOUCH = "fat_touch";
 
     // Amount of time (in msec) that we display the "Call ended" state.
     // The "short" value is for calls ended by the local user, and the
@@ -119,12 +115,6 @@ public class InCallScreen extends Activity
 
     // See CallTracker.MAX_CONNECTIONS_PER_CALL
     private static final int MAX_CALLERS_IN_CONFERENCE = 5;
-
-    // Is the "sliding card" feature enabled?  (If false, we never
-    // instantiate a SlidingCardManager, and we don't create a PopupWindow
-    // (i.e. an extra surface) for the "call card"; instead the call card
-    // is inflated directly into the in-call UI main frame.)
-    private static final boolean ENABLE_SLIDING_CARD = false;
 
     // Message codes; see mHandler below.
     // Note message codes < 100 are reserved for the PhoneApp.
@@ -143,18 +133,17 @@ public class InCallScreen extends Activity
     // High-level "modes" of the in-call UI.
     private enum InCallScreenMode {
         /**
-         * Normal in-call UI elements visible, with sliding card on top.
+         * Normal in-call UI elements visible.
          */
         NORMAL,
         /**
          * "Manage conference" UI is visible, totally replacing the
-         * normal in-call UI.  Sliding card is not visible.
+         * normal in-call UI.
          */
         MANAGE_CONFERENCE,
         /**
-         * Non-interactive UI state.  Sliding card is centered onscreen,
-         * displaying information about the call that just ended.  Normal
-         * in-call UI is totally hidden.
+         * Non-interactive UI state.  Call card is visible,
+         * displaying information about the call that just ended.
          */
         CALL_ENDED
     }
@@ -184,7 +173,7 @@ public class InCallScreen extends Activity
     private Call mRingingCall;
 
     private BluetoothHandsfree mBluetoothHandsfree;
-    private BluetoothHeadset mBluetoothHeadset;  // valid only between onResume and onPause
+    private BluetoothHeadset mBluetoothHeadset;
     private boolean mBluetoothConnectionPending;
     private long mBluetoothConnectionRequestTime;
 
@@ -195,15 +184,17 @@ public class InCallScreen extends Activity
     // Menu button hint below the "main frame"
     private TextView mMenuButtonHint;
 
-    // In-call UI elements that aren't actually part of the
-    // InCallScreen's main View hierarchy:
-    private SlidingCardManager mSlidingCardManager;
+    // Main in-call UI elements:
     private CallCard mCallCard;
     private InCallMenu mInCallMenu;  // created lazily on first MENU keypress
 
-    /** Dialer objects, including the model and the sliding drawer / dialer UI container*/
+    /**
+     * DTMF Dialer objects, including the model and the sliding drawer / dialer
+     * UI container and the dialer display field for landscape presentation.
+     */
     private DTMFTwelveKeyDialer mDialer;
     private SlidingDrawer mDialerDrawer;
+    private EditText mDTMFDisplay;
 
     // "Manage conference" UI elements
     private ViewGroup mManageConferencePanel;
@@ -225,9 +216,10 @@ public class InCallScreen extends Activity
     private AlertDialog mWaitPromptDialog;
     private AlertDialog mWildPromptDialog;
 
-    // TODO: If the Activity class ever provides an "isDestroyed" flag itself,
-    // we can remove this one.
+    // TODO: If the Activity class ever provides an easy way to get the
+    // current "activity lifecycle" state, we can remove these flags.
     private boolean mIsDestroyed = false;
+    private boolean mIsForegroundActivity = false;
 
     // Flag indicating whether or not we should bring up the Call Log when
     // exiting the in-call UI due to the Phone becoming idle.  (This is
@@ -354,6 +346,7 @@ public class InCallScreen extends Activity
         super.onCreate(icicle);
 
         PhoneApp app = PhoneApp.getInstance();
+        app.setInCallScreenInstance(this);
 
         setPhone(app.phone);  // Sets mPhone and mForegroundCall/mBackgroundCall/mRingingCall
 
@@ -366,6 +359,14 @@ public class InCallScreen extends Activity
         mBluetoothHandsfree = app.getBluetoothHandsfree();
         if (DBG) log("- mBluetoothHandsfree: " + mBluetoothHandsfree);
 
+        if (mBluetoothHandsfree != null) {
+            // The PhoneApp only creates a BluetoothHandsfree instance in the
+            // first place if getSystemService(Context.BLUETOOTH_SERVICE)
+            // succeeds.  So at this point we know the device is BT-capable.
+            mBluetoothHeadset = new BluetoothHeadset(this, null);
+            if (DBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
+        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Inflate everything in incall_screen.xml and add it to the screen.
@@ -373,6 +374,11 @@ public class InCallScreen extends Activity
         mDialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
 
         initInCallScreen();
+
+        // Create the dtmf dialer.  Note that mDialer is instantiated
+        // regardless of screen orientation, although the onscreen touchable
+        // dialpad is used only in portrait mode.
+        mDialer = new DTMFTwelveKeyDialer(this);
 
         registerForPhoneStates();
 
@@ -400,13 +406,10 @@ public class InCallScreen extends Activity
             mInCallInitialStatus = InCallInitStatus.SUCCESS;
         }
 
-        // Create the dtmf dialer.
-        mDialer = new DTMFTwelveKeyDialer(this);
-
         // When in landscape mode, the user can enter dtmf tones
         // at any time.  We need to make sure the DTMFDialer is
         // setup correctly.
-        if (mDialer != null && ConfigurationHelper.isLandscape()) {
+        if (ConfigurationHelper.isLandscape()) {
             mDialer.startDialerSession();
             if (DBG) log("Dialer initialized (in landscape mode).");
         }
@@ -429,14 +432,14 @@ public class InCallScreen extends Activity
         mForegroundCall = mPhone.getForegroundCall();
         mBackgroundCall = mPhone.getBackgroundCall();
         mRingingCall = mPhone.getRingingCall();
-
-        if (mSlidingCardManager != null) mSlidingCardManager.setPhone(phone);
     }
 
     @Override
     protected void onResume() {
         if (DBG) log("onResume()...");
         super.onResume();
+
+        mIsForegroundActivity = true;
 
         // Disable the keyguard the entire time the InCallScreen is
         // active.  (This is necessary only for the case of receiving an
@@ -499,26 +502,14 @@ public class InCallScreen extends Activity
                              PHONE_UI_EVENT_ENTER);
         }
 
-        // Hang on to a BluetoothHeadset instance while we're in the foreground.
-        if (mBluetoothHandsfree != null) {
-            // The PhoneApp only creates a BluetoothHandsfree instance in the
-            // first place if getSystemService(Context.BLUETOOTH_SERVICE)
-            // succeeds.  So at this point we know the device is BT-capable.
-            mBluetoothHeadset = new BluetoothHeadset(this);
-            if (DBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
-        }
-
-        // Tell the PhoneApp we're now the foreground activity.
-        PhoneApp app = PhoneApp.getInstance();
-        app.setActiveInCallScreenInstance(this);
-
         // Now we can handle the finish() call ourselves instead of relying on
         // the call notifier to do so.
+        PhoneApp app = PhoneApp.getInstance();
         app.notifier.setCallScreen(null);
 
         // making sure we update the poke lock and wake lock when we move to
         // the foreground.
-        updateWakeState();
+        app.updateWakeState();
 
         // Restore the mute state if the last mute state change was NOT
         // done by the user.
@@ -545,11 +536,17 @@ public class InCallScreen extends Activity
         if (DBG) log("onPause()...");
         super.onPause();
 
+        mIsForegroundActivity = false;
+
         // make sure the chronometer is stopped when we move away from
         // the foreground.
         if (mConferenceTime != null) {
             mConferenceTime.stop();
         }
+
+        // as a catch-all, make sure that any dtmf tones are stopped
+        // when the UI is no longer in the foreground.
+        mDialer.onDialerKeyUp(null);
 
         // If the device is put to sleep as the phone call is ending,
         // we may see cases where the DELAYED_CLEANUP_AFTER_DISCONNECT
@@ -602,22 +599,14 @@ public class InCallScreen extends Activity
         // foreground.)
         unregisterReceiver(mReceiver);
 
-        // Release the BluetoothHeadset instance.
-        if (mBluetoothHeadset != null) {
-            mBluetoothHeadset.close();
-            mBluetoothHeadset = null;
-        }
-
         // The keyguard was disabled the entire time the InCallScreen was
         // active (see onResume()).  Re-enable it now.
-        PhoneApp.getInstance().reenableKeyguard();
+        PhoneApp app = PhoneApp.getInstance();
+        app.reenableKeyguard();
 
-        // Tell the PhoneApp we're no longer the foreground activity.
-        PhoneApp.getInstance().setActiveInCallScreenInstance(null);
-
-        // making sure we revert the poke lock and wake lock when we move to
+        // Make sure we revert the poke lock and wake lock when we move to
         // the background.
-        updateWakeState();
+        app.updateWakeState();
     }
 
     @Override
@@ -629,11 +618,6 @@ public class InCallScreen extends Activity
 
         Phone.State state = mPhone.getState();
         if (DBG) log("onStop: state = " + state);
-
-        // Take down the "sliding card" PopupWindow.  (It's definitely
-        // safe to do this here in onStop(), which is called when we are
-        // no longer visible to the user.)
-        if (mSlidingCardManager != null) mSlidingCardManager.dismissPopup();
 
         if (state == Phone.State.IDLE) {
             // we don't want the call screen to remain in the activity history
@@ -655,9 +639,11 @@ public class InCallScreen extends Activity
         // messages that come in asynchronously after we get destroyed.
         mIsDestroyed = true;
 
-        // Also clear out the SlidingCardManager's and InCallMenu's
-        // references to us (which lets them know we've been destroyed).
-        if (mSlidingCardManager != null) mSlidingCardManager.clearInCallScreenReference();
+        PhoneApp app = PhoneApp.getInstance();
+        app.setInCallScreenInstance(null);
+
+        // Also clear out the InCallMenu's reference to us (which lets it
+        // know we've been destroyed).
         if (mInCallMenu != null) {
             mInCallMenu.clearInCallScreenReference();
         }
@@ -670,20 +656,23 @@ public class InCallScreen extends Activity
         // directly), so all we have to do is to make sure the
         // dialer is closed {see DTMFTwelvKeyDialer.onDialerClose}
         // (it is ok to call this even if the dialer is not open).
-        if (mDialer != null) {
-            if (ConfigurationHelper.isLandscape()) {
-                mDialer.stopDialerSession();
-            } else {
-                // make sure the dialer drawer is closed.
-                mDialer.closeDialer(false);
-            }
-            mDialer.clearInCallScreenReference();
-            mDialer = null;
+        if (ConfigurationHelper.isLandscape()) {
+            mDialer.stopDialerSession();
+        } else {
+            // make sure the dialer drawer is closed.
+            mDialer.closeDialer(false);
         }
+        mDialer.clearInCallScreenReference();
+        mDialer = null;
 
         unregisterForPhoneStates();
         // No need to change wake state here; that happens in onPause() when we
         // are moving out of the foreground.
+
+        if (mBluetoothHeadset != null) {
+            mBluetoothHeadset.close();
+            mBluetoothHeadset = null;
+        }
     }
 
     @Override
@@ -692,6 +681,10 @@ public class InCallScreen extends Activity
         super.finish();
 
         PhoneApp.getInstance().notifier.setCallScreen(null);
+    }
+
+    /* package */ boolean isForegroundActivity() {
+        return mIsForegroundActivity;
     }
 
     private void registerForPhoneStates() {
@@ -755,7 +748,7 @@ public class InCallScreen extends Activity
         // an aborted "Add Call" request), so we should let the mute state
         // be handled by the PhoneUtils phone state change handler.
         PhoneApp app = PhoneApp.getInstance();
-        if (action.equals(intent.ACTION_ANSWER)) {
+        if (action.equals(Intent.ACTION_ANSWER)) {
             internalAnswerCall();
             app.setRestoreMuteOnInCallResume(false);
             return InCallInitStatus.SUCCESS;
@@ -763,8 +756,29 @@ public class InCallScreen extends Activity
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
             return placeCall(intent);
+        } else if (action.equals(intent.ACTION_MAIN)) {
+            // The MAIN action is used to bring up the in-call screen without
+            // doing any other explicit action, like when you return to the
+            // current call after previously bailing out of the in-call UI.
+            // SHOW_DIALPAD_EXTRA can be used here to specify whether the DTMF
+            // dialpad should be initially visible.  If the extra isn't
+            // present at all, we just leave the dialpad in its previous state.
+            if (intent.hasExtra(SHOW_DIALPAD_EXTRA)) {
+                boolean showDialpad = intent.getBooleanExtra(SHOW_DIALPAD_EXTRA, false);
+                if (DBG) log("- internalResolveIntent: SHOW_DIALPAD_EXTRA value = " + showDialpad);
+                if (showDialpad) {
+                    mDialer.openDialer(false);  // no "opening" animation
+                } else {
+                    mDialer.closeDialer(false);  // no "closing" animation
+                }
+            }
+            return InCallInitStatus.SUCCESS;
+        } else {
+            Log.w(LOG_TAG, "internalResolveIntent: unexpected intent action: " + action);
+            // But continue the best we can (basically treating this case
+            // like ACTION_MAIN...)
+            return InCallInitStatus.SUCCESS;
         }
-        return InCallInitStatus.SUCCESS;
     }
 
     private void stopTimer() {
@@ -782,47 +796,22 @@ public class InCallScreen extends Activity
 
         ConfigurationHelper.initConfiguration(getResources().getConfiguration());
 
-        if (ENABLE_SLIDING_CARD) {
-            // Create the SlidingCardManager, which includes a CallCard instance.
-            mSlidingCardManager = new SlidingCardManager();
-            mSlidingCardManager.init(mPhone, this, mMainFrame);
-            mCallCard = mSlidingCardManager.getCallCard();
-        } else {
-            // We're not using a SlidingCardManager, so manually create a
-            // CallCard and add it to our View hierarchy.
-            // (Note R.layout.call_card_popup is the exact same layout
-            // resource that we inflate into the PopupWindow when using
-            // the SlidingCardManager.)
-            View callCardLayout = getLayoutInflater().inflate(
-                    R.layout.call_card_popup,
-                    mInCallPanel);
-            mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
-            if (DBG) log("  - mCallCard = " + mCallCard);
-            mCallCard.reset();
-            mCallCard.setSlidingCardManager(null);
-        }
+        // Create a CallCard and add it to our View hierarchy.
+        // TODO: there's no good reason for call_card_popup to be a
+        // separate layout that we need to manually inflate here.
+        // (That design is left over from when the call card was drawn in
+        // its own PopupWindow.)
+        // Instead, the CallCard should just be <include>d directly from
+        // incall_screen.xml.
+        View callCardLayout = getLayoutInflater().inflate(
+                R.layout.call_card_popup,
+                mInCallPanel);
+        mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
+        if (DBG) log("  - mCallCard = " + mCallCard);
+        mCallCard.reset();
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
-
-        // Add a WindowAttachNotifierView to our main hierarchy, purely so
-        // we'll find out when it's OK to bring up the CallCard
-        // PopupWindow.  (See the WindowAttachNotifierView class for more info.)
-        if (mSlidingCardManager != null) {
-            SlidingCardManager.WindowAttachNotifierView wanv =
-                    new SlidingCardManager.WindowAttachNotifierView(this);
-            wanv.setSlidingCardManager(mSlidingCardManager);
-            wanv.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(0, 0);
-            mMainFrame.addView(wanv, lp);
-        }
-
-        // If sliding is enabled, draw the "slide track" background image
-        // underneath the sliding card.
-        if (mSlidingCardManager != null) {
-            mMainFrame.setBackgroundResource(R.drawable.background_frame_portrait);
-            // (See ConfigurationHelper for the landscape-mode equivalent.)
-        }
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -845,7 +834,7 @@ public class InCallScreen extends Activity
         // keyboard (presumably to type DTMF tones) we start passing the
         // key events to the DTMFDialer's onDialerKeyDown.  We do so
         // only if the okToDialDTMFTones() conditions pass.
-        if (mDialer != null && okToDialDTMFTones()) {
+        if (okToDialDTMFTones()) {
             return mDialer.onDialerKeyDown(event);
         }
 
@@ -879,7 +868,7 @@ public class InCallScreen extends Activity
         // BACK is also used to exit out of any "special modes" of the
         // in-call UI:
 
-        if (mDialer != null && mDialer.isOpened()) {
+        if (mDialer.isOpened()) {
             mDialer.closeDialer(true);  // do the "closing" animation
             return true;
         }
@@ -898,14 +887,16 @@ public class InCallScreen extends Activity
      * @return true if we consumed the event.
      */
     private boolean handleCallKey() {
-        // The green CALL button means either "Answer", "Add another", or
-        // "Swap calls", depending on the current state of the Phone.
+        // The green CALL button means either "Answer", "Unhold", or
+        // "Swap calls", or can be a no-op, depending on the current state
+        // of the Phone.
 
         final boolean hasRingingCall = !mRingingCall.isIdle();
         final boolean hasActiveCall = !mForegroundCall.isIdle();
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
         if (hasRingingCall) {
+            // There's an incoming ringing call: CALL means "Answer".
             if (hasActiveCall && hasHoldingCall) {
                 if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
                 internalAnswerCallBothLinesInUse();
@@ -915,17 +906,24 @@ public class InCallScreen extends Activity
                                        // if there is one
             }
         } else if (hasActiveCall && hasHoldingCall) {
+            // Two lines are in use: CALL means "Swap calls".
             if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
             PhoneUtils.switchHoldingAndActive(mPhone);
+        } else if (hasHoldingCall) {
+            // There's only one line in use, AND it's on hold.
+            // In this case CALL is a shortcut for "unhold".
+            if (DBG) log("handleCallKey: call on hold ==> unhold.");
+            PhoneUtils.switchHoldingAndActive(mPhone);  // Really means "unhold" in this state
         } else {
-            // Note we *don't* allow "Add call" if the foreground call is
-            // still DIALING or ALERTING.
-            if (PhoneUtils.okToAddCall(mPhone)) {
-                if (DBG) log("handleCallKey: <2 lines in use ==> add another...");
-                PhoneUtils.startNewCall(mPhone);  // Fires off a ACTION_DIAL intent
-            } else {
-                if (DBG) log("handleCallKey: <2 lines in use but CAN'T add call; ignoring...");
-            }
+            // The most common case: there's only one line in use, and
+            // it's an active call (i.e. it's not on hold.)
+            // In this case CALL is a no-op.
+            // (This used to be a shortcut for "add call", but that was a
+            // bad idea because "Add call" is so infrequently-used, and
+            // because the user experience is pretty confusing if you
+            // inadvertently trigger it.)
+            if (DBG) log("handleCallKey: call in foregound ==> ignoring.");
+            // But note we still consume this key event; see below.
         }
 
         // We *always* consume the CALL key, since the system-wide default
@@ -1004,12 +1002,17 @@ public class InCallScreen extends Activity
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 // Use the CallNotifier's ringer reference to keep things tidy
-                // when we are requesting that the ringer be silenced.
+                // when we are requesting that the ringer be silenced.  Also, as
+                // long as we're in ringing mode, we should consume the Volume
+                // Up/Down events.
                 CallNotifier notifier = PhoneApp.getInstance().notifier;
-                if (notifier.isRinging()) {
-                    PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
-                    if (DBG) log("VOLUME key: silence ringer");
-                    notifier.silenceRinger();
+                if (mPhone.getState() == Phone.State.RINGING) {
+                    if (notifier.isRinging()) {
+                        // ringer is actually playing, so silence it.
+                        PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
+                        if (DBG) log("VOLUME key: silence ringer");
+                        notifier.silenceRinger();
+                    }
                     return true;
                 }
                 break;
@@ -1130,33 +1133,10 @@ public class InCallScreen extends Activity
         if (DBG) log("onPhoneStateChanged()...");
         updateScreen();
 
-        // making sure we update the poke lock and wake lock when certain
+        // Make sure we update the poke lock and wake lock when certain
         // phone state changes occur.
-        updateWakeState();
-    }
-
-    /**
-     * Handle the setting of the wake state, including the poke lock and
-     * the wake lock.  This helps to centralize the calls to the
-     * PowerManagerService from the phone code.
-     */
-    /*package*/ void updateWakeState() {
         PhoneApp app = PhoneApp.getInstance();
-        Phone.State state = mPhone.getState();
-
-        // Short delay when the dialer is up, longer delay when the
-        // in call screen is visible, and default delay otherwise.
-        if (mDialer != null && mDialer.isOpened()) {
-            app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.SHORT);
-        } else if (app.isShowingCallScreen()){
-            app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
-        } else {
-            app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
-        }
-
-        // wake the screen if the phone is ringing or on any disconnect.
-        app.keepScreenOn(state == Phone.State.RINGING ||
-                PhoneUtils.hasDisconnectedConnections(mPhone));
+        app.updateWakeState();
     }
 
     /**
@@ -1226,7 +1206,7 @@ public class InCallScreen extends Activity
                         // case the disconnected connections are removed
                         // before the phone state change.
                         if (DBG) log("- Still-active conf call; clearing DISCONNECTED...");
-                        updateWakeState();
+                        app.updateWakeState();
                         mPhone.clearDisconnected();  // This happens synchronously.
                         break;
                     }
@@ -1578,13 +1558,7 @@ public class InCallScreen extends Activity
 
         if (DBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
-        if (mSlidingCardManager != null) {
-            mSlidingCardManager.updateCardPreferredPosition();
-            mSlidingCardManager.updateCardSlideHints();
-        }
-
         updateDialerDrawer();
-
         updateMenuButtonHint();
     }
 
@@ -1604,17 +1578,18 @@ public class InCallScreen extends Activity
         if (DBG) log("syncWithPhoneState()...");
         if (DBG) PhoneUtils.dumpCallState(mPhone);
 
-        // Make sure the Phone is in use (otherwise we shouldn't be here
-        // in the first place.)
+        // Make sure the Phone is "in use".  (If not, we shouldn't be on
+        // this screen in the first place.)
+
         // Need to treat running MMI codes as a connection as well.
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
             || !mPhone.getPendingMmiCodes().isEmpty()) {
-            if (DBG) log("syncWithPhoneState: update screen");
+            if (DBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
         }
 
-        if (DBG) log("syncWithPhoneState: couldn't sync; phone is idle!");
+        if (DBG) log("syncWithPhoneState: phone is idle; we shouldn't be here!");
         return InCallInitStatus.PHONE_NOT_IN_USE;
     }
 
@@ -1942,6 +1917,7 @@ public class InCallScreen extends Activity
         // they want the menu to stay visible for a second afterwards to
         // give you feedback about the state change.
         boolean dismissMenuImmediate = true;
+        Context context = getApplicationContext();
 
         switch (id) {
             case R.id.menuAnswerAndHold:
@@ -1970,6 +1946,15 @@ public class InCallScreen extends Activity
                 setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
                 break;
 
+            case R.id.menuShowDialpad:
+                if (DBG) log("onClick: Show/hide dialpad...");
+                if (mDialer.isOpened()) {
+                    mDialer.closeDialer(true);  // do the "closing" animation
+                } else {
+                    mDialer.openDialer(true);  // do the "opening" animation
+                }
+                break;
+
             case R.id.manage_done:  // mButtonManageConferenceDone
                 if (DBG) log("onClick: mButtonManageConferenceDone...");
                 // Hide the Manage Conference panel, return to NORMAL mode.
@@ -1982,7 +1967,6 @@ public class InCallScreen extends Activity
                 //   whether or not the "mute" feature is active!
                 // Not sure if this is an feature of the telephony API
                 //   that I need to handle specially, or just a bug.
-                Context context = getApplicationContext();
                 boolean newSpeakerState = !PhoneUtils.isSpeakerOn(context);
                 if (newSpeakerState && isBluetoothAvailable() && isBluetoothAudioConnected()) {
                     disconnectBluetoothAudio();
@@ -1994,7 +1978,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuBluetooth:
                 if (DBG) log("onClick: Bluetooth...");
-                onBluetoothClick();
+                onBluetoothClick(context);
                 // This is a "toggle" button; let the user see the new state for a moment.
                 dismissMenuImmediate = false;
                 break;
@@ -2113,7 +2097,7 @@ public class InCallScreen extends Activity
         // responsive enough.)
     }
 
-    private void onBluetoothClick() {
+    private void onBluetoothClick(Context context) {
         if (DBG) log("onBluetoothClick()...");
 
         if (isBluetoothAvailable()) {
@@ -2121,6 +2105,16 @@ public class InCallScreen extends Activity
             if (isBluetoothAudioConnected()) {
                 disconnectBluetoothAudio();
             } else {
+                // Manually turn the speaker phone off, instead of allowing the
+                // Bluetooth audio routing handle it.  This ensures that the rest
+                // of the speakerphone code is executed, and reciprocates the
+                // menuSpeaker code above in onClick().  The onClick() code
+                // disconnects the active bluetooth headsets when the
+                // speakerphone is turned on.
+                if (PhoneUtils.isSpeakerOn(context)) {
+                    PhoneUtils.turnOnSpeaker(context, false);
+                }
+
                 connectBluetoothAudio();
             }
         } else {
@@ -2128,15 +2122,6 @@ public class InCallScreen extends Activity
             // been enabled in the first place!
             Log.w(LOG_TAG, "Got onBluetoothClick, but bluetooth is unavailable");
         }
-    }
-
-    /**
-     * Sent by the SlidingCardManager if user slides the CallCard more than 1/4
-     * of the way down.  (If the screen is currently off, doing this "partial
-     * slide" is supposed to turn the screen back on.)
-     */
-    /* package */ void onPartialCardSlide() {
-        if (DBG) log("onPartialCardSlide()...");
     }
 
     /**
@@ -2500,7 +2485,7 @@ public class InCallScreen extends Activity
                 mConferenceTime.start();
 
                 mInCallPanel.setVisibility(View.GONE);
-                if (mSlidingCardManager != null) mSlidingCardManager.dismissPopup();
+                mDialer.hideDTMFDisplay(true);
 
                 break;
 
@@ -2515,24 +2500,15 @@ public class InCallScreen extends Activity
                 }
                 updateMenuButtonHint();  // Hide the Menu button hint
 
-                if (mSlidingCardManager != null) {
-                    // Show the sliding card, and hide any other in-call
-                    // UI.  (The showPopup() method will automatically
-                    // switch to "Call ended" mode if it notices the Phone
-                    // is idle.)
-                    mSlidingCardManager.showPopup();
-                    mInCallPanel.setVisibility(View.INVISIBLE);
-                } else {
-                    // If there's no sliding card, then the CallCard is
-                    // part of mInCallPanel.  Make sure it's visible.
-                    mInCallPanel.setVisibility(View.VISIBLE);
-                }
+                // Make sure the CallCard (which is a child of mInCallPanel) is visible.
+                mInCallPanel.setVisibility(View.VISIBLE);
+                mDialer.hideDTMFDisplay(false);
 
                 break;
 
             case NORMAL:
                 mInCallPanel.setVisibility(View.VISIBLE);
-                if (mSlidingCardManager != null) mSlidingCardManager.showPopup();
+                mDialer.hideDTMFDisplay(false);
                 if (mManageConferencePanel != null) {
                     mManageConferencePanel.setVisibility(View.GONE);
                     // stop the timer if the panel is hidden.
@@ -2544,6 +2520,13 @@ public class InCallScreen extends Activity
         // Update the visibility of the DTMF dialer tab on any state
         // change.
         updateDialerDrawer();
+    }
+
+    /**
+     * @return true if the "Manage conference" UI is currently visible.
+     */
+    /* package */ boolean isManageConferenceMode() {
+        return (mInCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE);
     }
 
     /**
@@ -2795,15 +2778,25 @@ public class InCallScreen extends Activity
      */
     private void updateDialerDrawer() {
         if (mDialerDrawer != null) {
-
-            // The sliding drawer tab is visible only in portrait mode,
-            // and only when the conditions in okToDialDTMFTones() pass.
-            int visibility = View.GONE;
-            if (!ConfigurationHelper.isLandscape() && okToDialDTMFTones()) {
-                visibility = View.VISIBLE;
-            }
+            // The sliding drawer tab is visible only when it's OK
+            // to actually use the dialpad.
+            int visibility = okToShowDialpad() ? View.VISIBLE : View.GONE;
             mDialerDrawer.setVisibility(visibility);
         }
+    }
+
+    /**
+     * @return true if the DTMF dialpad is currently visible.
+     */
+    /* package */ boolean isDialerOpened() {
+        return (mDialer != null && mDialer.isOpened());
+    }
+
+    /**
+     * Get the DTMF dialer display field.
+     */
+    EditText getDialerDisplay() {
+        return mDTMFDisplay;
     }
 
     /**
@@ -2836,6 +2829,20 @@ public class InCallScreen extends Activity
     }
 
     /**
+     * @return true if the in-call DTMF dialpad should be available to the
+     *      user, given the current state of the phone and the in-call UI.
+     *      (This is used to control the visiblity of the dialer's
+     *      SlidingDrawer handle, and the enabledness of the "Show
+     *      dialpad" menu item.)
+     */
+    /* package */ boolean okToShowDialpad() {
+        // The dialpad is never used in landscape mode.  And even in
+        // portrait mode, it's available only when it's OK to dial DTMF
+        // tones given the current state of the current call.
+        return !ConfigurationHelper.isLandscape() && okToDialDTMFTones();
+    }
+
+    /**
      * Helper class to manage the (small number of) manual layout and UI
      * changes needed by the in-call UI when switching between landscape
      * and portrait mode.
@@ -2858,7 +2865,6 @@ public class InCallScreen extends Activity
 
         // "Configuration constants" set by initConfiguration()
         static int sOrientation = Configuration.ORIENTATION_UNDEFINED;
-        static int sPopupWidth, sPopupHeight;
 
         static boolean isLandscape() {
             return sOrientation == Configuration.ORIENTATION_LANDSCAPE;
@@ -2873,14 +2879,6 @@ public class InCallScreen extends Activity
                            + "initConfiguration(" + config + ")...");
 
             sOrientation = config.orientation;
-            sPopupWidth =
-                    (isLandscape())
-                    ? SlidingCardManager.POPUP_WINDOW_WIDTH_LANDSCAPE
-                    : SlidingCardManager.POPUP_WINDOW_WIDTH_PORTRAIT;
-            sPopupHeight =
-                    (isLandscape())
-                    ? SlidingCardManager.POPUP_WINDOW_HEIGHT_LANDSCAPE
-                    : SlidingCardManager.POPUP_WINDOW_HEIGHT_PORTRAIT;
         }
 
         /**
@@ -2892,27 +2890,21 @@ public class InCallScreen extends Activity
                 throw new IllegalStateException("need to call initConfiguration first");
             }
 
+            // find the landscape-only DTMF display field.
+            inCallScreen.mDTMFDisplay = (EditText) inCallScreen.findViewById(R.id.dtmfDialerField);
+
             // Our layout resources describe the *portrait mode* layout of
             // the Phone UI (see the TODO above in the doc comment for
             // the ConfigurationHelper class.)  So if we're in landscape
             // mode now, reach into our View hierarchy and update the
             // (few) layout params that need to be different.
             if (isLandscape()) {
-
-                // Update PopupWindow-related stuff
-                if (inCallScreen.mSlidingCardManager != null) {
-                    inCallScreen.mSlidingCardManager.updateForLandscapeMode();
-                }
-
                 // Update CallCard-related stuff
                 inCallScreen.mCallCard.updateForLandscapeMode();
 
-                // Use the landscape version of the main frame "slide
-                // track" background image (only if sliding is enabled).
-                if (inCallScreen.mSlidingCardManager != null) {
-                    inCallScreen.mMainFrame.setBackgroundResource(
-                            R.drawable.background_frame_landscape);
-                }
+                // No need to adjust the visiblity for mDTMFDisplay here because
+                // we're relying on the resources (layouts in layout-finger vs.
+                // layout-land-finger) to manage when mDTMFDisplay is shown.
             }
         }
     }

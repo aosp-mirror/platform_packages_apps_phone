@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.PhonesColumns;
-import android.telephony.PhoneNumberUtils;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.TextUtils;
@@ -254,8 +253,7 @@ public class EditFdnContactScreen extends Activity {
     }
 
     private String getNumberFromTextField() {
-        String number = mNumberField.getText().toString();
-        return PhoneNumberUtils.extractNetworkPortion(number);
+        return mNumberField.getText().toString();
     }
 
     private Uri getContentURI() {

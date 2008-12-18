@@ -19,6 +19,7 @@ package com.android.phone;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -60,6 +61,14 @@ class InCallMenuItemView extends TextView {
         setClickable(true);
         setFocusable(true);
         setTextAppearance(context, textAppearance);
+
+        // These three are needed for marqueeing to look pretty
+        setEllipsize(TruncateAt.MARQUEE);
+        setHorizontalFadingEdgeEnabled(true);
+        setSingleLine(true);
+
+        // Set the padding like the regular menu items do
+        setPadding(3, getPaddingTop(), 3, getPaddingBottom());
     }
 
     //

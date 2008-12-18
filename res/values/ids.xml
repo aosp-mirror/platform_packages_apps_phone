@@ -17,6 +17,7 @@
 <resources>
     <!-- Views created dynamically in InCallMenu.java -->
     <item type="id" name="menuManageConference" />
+    <item type="id" name="menuShowDialpad" />
     <item type="id" name="menuEndCall" />
     <item type="id" name="menuAddCall" />
     <item type="id" name="menuSwapCalls" />

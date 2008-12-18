@@ -27,9 +27,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.pim.ContactsAsyncHelper;
-import android.pim.DateUtils;
 import android.provider.Contacts.People;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,8 +86,6 @@ public class CallCard extends FrameLayout
     private boolean mRingerSilenced;
 
     private CallTime mCallTime;
-    private SlidingCardManager mSlidingCardManager;  // May be null if the
-                                                     // SlidingCardManager is disabled
 
     // Track the state for the photo.
     private ContactsAsyncHelper.ImageTracker mPhotoTracker;
@@ -120,10 +118,6 @@ public class CallCard extends FrameLayout
 
         // create a new object to track the state for the photo.
         mPhotoTracker = new ContactsAsyncHelper.ImageTracker();
-    }
-
-    public void setSlidingCardManager(SlidingCardManager slidingCardManager) {
-        mSlidingCardManager = slidingCardManager;
     }
 
     void reset() {
@@ -1053,13 +1047,11 @@ public class CallCard extends FrameLayout
     }
 
     /**
-     * Intercept touch events to the CallCard; send them to the
-     * SlidingCardManager.
+     * Intercepts (and discards) any touch events to the CallCard.
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // if (DBG) log("CALLCARD: dispatchTouchEvent(): ev = " + ev);
-        if (mSlidingCardManager != null) mSlidingCardManager.handleCallCardTouchEvent(ev);
 
         // We *never* let touch events get thru to the UI inside the
         // CallCard, since there's nothing touchable there.

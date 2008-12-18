@@ -26,7 +26,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -36,21 +35,16 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemProperties;
-import android.provider.CallLog.Calls;
-import android.provider.Contacts.Phones;
-import android.provider.Contacts.PhonesColumns;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.ServiceState;
+import android.util.Log;
+
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyIntents;
-import android.telephony.PhoneNumberUtils;
-import android.telephony.ServiceState;
-import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.LinkedList;
-import java.util.HashMap;
-
 /**
  * Bluetooth headset manager for the Phone app.
  * @hide
@@ -83,33 +77,46 @@ public class BluetoothHandsfree {
 
     private boolean mUserWantsAudio;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
+    private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
 
     // AT command state
-    private static final int MAX_CONNECTIONS = 3;  // Max connections for clcc indexing
-                                                   // TODO: Verify
+    private static final int MAX_CONNECTIONS = 6;  // Max connections allowed by GSM
 
+    private long mBgndEarliestConnectionTime = 0;
     private boolean mClip = false;  // Calling Line Information Presentation
     private boolean mIndicatorsEnabled = false;
     private boolean mCmee = false;  // Extended Error reporting
-    private String  mSelectedPB;  // currently-selected phone book (includes quotes)
-    private BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
     private long[] mClccTimestamps; // Timestamps associated with each clcc index
     private boolean[] mClccUsed;     // Is this clcc index in use
     private boolean mWaitingForCallStart;
+    private boolean mWaitingForVoiceRecognition;
+
+    private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
+    private final BluetoothAtPhonebook mPhonebook;
 
     // Audio parameters
     private static final String HEADSET_NREC = "bt_headset_nrec";
     private static final String HEADSET_NAME = "bt_headset_name";
 
-    private HashMap<String, PhoneBookEntry> mPhoneBooks = new HashMap<String, PhoneBookEntry>(5);
-
-    private class PhoneBookEntry {
-        public Cursor  mPhonebookCursor; // result set of last phone-book query
-        public int     mCursorNumberColumn;
-        public int     mCursorNumberTypeColumn;
-        public int     mCursorNameColumn;
-    };
-
+    /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
+    public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;          
+    public static final int BRSF_AG_EC_NR = 1 << 1;
+    public static final int BRSF_AG_VOICE_RECOG = 1 << 2;
+    public static final int BRSF_AG_IN_BAND_RING = 1 << 3;
+    public static final int BRSF_AG_VOICE_TAG_NUMBE = 1 << 4;
+    public static final int BRSF_AG_REJECT_CALL = 1 << 5;
+    public static final int BRSF_AG_ENHANCED_CALL_STATUS = 1 <<  6;
+    public static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
+    public static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
+    // 9 - 31 reserved for future use.
+    
+    // Currently supported attributes.
+    public static final int BRSF_AG_ATTRIBUTES = BRSF_AG_THREE_WAY_CALLING |
+                                                 BRSF_AG_EC_NR |
+                                                 BRSF_AG_VOICE_RECOG |
+                                                 BRSF_AG_REJECT_CALL |
+                                                 BRSF_AG_ENHANCED_CALL_STATUS;  
+    
     public static String typeToString(int type) {
         switch (type) {
         case TYPE_UNKNOWN:
@@ -122,41 +129,6 @@ public class BluetoothHandsfree {
         return null;
     }
 
-    /** The projection to use when querying the call log database in response
-        to AT+CPBR for the MC, RC, and DC phone books (missed, received, and
-        dialed calls respectively)
-    */
-    private static final String[] CALLS_PROJECTION = new String[] {
-        Calls._ID, Calls.NUMBER
-    };
-
-    /** The projection to use when querying the contacts database in response
-        to AT+CPBR for the ME phonebook (saved phone numbers).
-    */
-    private static final String[] PHONES_PROJECTION = new String[] {
-        Phones._ID, Phones.NAME,
-        Phones.NUMBER, Phones.TYPE
-    };
-
-    /** The projection to use when querying the contacts database in response
-        to AT+CNUM for the ME phonebook (saved phone numbers).  We need only
-        the phone numbers here and the phone type.
-    */
-    private static final String[] PHONES_LITE_PROJECTION = new String[] {
-        Phones._ID, Phones.NUMBER, Phones.TYPE
-    };
-
-    /** Android supports as many phonebook entries as the flash can hold, but
-     * BT periphals don't. Limit the number we'll report. */
-    private static final int MAX_PHONEBOOK_SIZE = 16384;
-
-    private static final String OUTGOING_CALL_WHERE =
-            Calls.TYPE + "=" + Calls.OUTGOING_TYPE;
-    private static final String INCOMING_CALL_WHERE =
-            Calls.TYPE + "=" + Calls.INCOMING_TYPE;
-    private static final String MISSED_CALL_WHERE =
-            Calls.TYPE + "=" + Calls.MISSED_TYPE;
-
     public BluetoothHandsfree(Context context, Phone phone) {
         mPhone = phone;
         mContext = context;
@@ -167,8 +139,11 @@ public class BluetoothHandsfree {
 
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mStartCallWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                                                       this.toString());
+                                                       TAG + ":StartCall");
         mStartCallWakeLock.setReferenceCounted(false);
+        mStartVoiceRecognitionWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                                                       TAG + ":VoiceRecognition");
+        mStartVoiceRecognitionWakeLock.setReferenceCounted(false);
 
         if (bluetoothCapable) {
             resetAtState();
@@ -179,7 +154,7 @@ public class BluetoothHandsfree {
         mBackgroundCall = mPhone.getBackgroundCall();
         mPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
-
+        mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
     }
 
@@ -257,22 +232,11 @@ public class BluetoothHandsfree {
         mClip = false;
         mIndicatorsEnabled = false;
         mCmee = false;
-        mSelectedPB = null;
-        mPhoneBooks.clear();
-        // DC -- dialled calls
-        // RC -- received calls
-        // MC -- missed (or unanswered) calls
-        // ME -- MT phonebook
-        mPhoneBooks.put("\"DC\"", new PhoneBookEntry());
-        mPhoneBooks.put("\"RC\"", new PhoneBookEntry());
-        mPhoneBooks.put("\"MC\"", new PhoneBookEntry());
-        mPhoneBooks.put("\"ME\"", new PhoneBookEntry());
         mClccTimestamps = new long[MAX_CONNECTIONS];
         mClccUsed = new boolean[MAX_CONNECTIONS];
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             mClccUsed[i] = false;
         }
-
     }
 
     private void configAudioParameters() {
@@ -327,7 +291,6 @@ public class BluetoothHandsfree {
 
         private String mRingingNumber;  // Context for in-progress RING's
         private int    mRingingType;
-
         private boolean mIgnoreRing = false;
 
         private static final int SERVICE_STATE_CHANGED = 1;
@@ -516,6 +479,8 @@ public class BluetoothHandsfree {
                 break;
             case ALERTING:
                 callsetup = 3;
+                // Open the SCO channel for the outgoing call.
+                audioOn();
                 mAudioPossible = true;
                 break;
             default:
@@ -539,8 +504,13 @@ public class BluetoothHandsfree {
                 }
                 break;
             }
-
+            
             if (mCall != call) {
+                if (call == 1) {
+                    // This means that a call has transitioned from NOT ACTIVE to ACTIVE.
+                    // Switch on audio.
+                    audioOn();
+                }
                 mCall = call;
                 if (sendUpdate) {
                     result.addResponse("+CIEV: 2," + mCall);
@@ -552,35 +522,40 @@ public class BluetoothHandsfree {
                     result.addResponse("+CIEV: 3," + mCallsetup);
                 }
             }
-            if (mCallheld != callheld) {
+            
+            boolean callsSwitched = 
+                (callheld == 1 && ! (mBackgroundCall.getEarliestConnectTime() == 
+                    mBgndEarliestConnectionTime));
+            
+            mBgndEarliestConnectionTime = mBackgroundCall.getEarliestConnectTime();
+            
+            if (mCallheld != callheld || callsSwitched) {
                 mCallheld = callheld;
                 if (sendUpdate) {
                     result.addResponse("+CIEV: 4," + mCallheld);
                 }
             }
-
+         
             if (callsetup == 1 && callsetup != prevCallsetup) {
                 // new incoming call
                 String number = null;
                 int type = 128;
-                if (sendUpdate) {
-                    // find incoming phone number and type
+                // find incoming phone number and type
+                if (connection == null) {
+                    connection = mRingingCall.getEarliestConnection();
                     if (connection == null) {
-                        connection = mRingingCall.getEarliestConnection();
-                        if (connection == null) {
-                            Log.e(TAG, "Could not get a handle on Connection object for new " +
-                                  "incoming call");
-                        }
+                        Log.e(TAG, "Could not get a handle on Connection object for new " +
+                              "incoming call");
                     }
-                    if (connection != null) {
-                        number = connection.getAddress();
-                        if (number != null) {
-                            type = PhoneNumberUtils.toaFromString(number);
-                        }
+                }
+                if (connection != null) {
+                    number = connection.getAddress();
+                    if (number != null) {
+                        type = PhoneNumberUtils.toaFromString(number);
                     }
-                    if (number == null) {
-                        number = "";
-                    }
+                }
+                if (number == null) {
+                    number = "";
                 }
                 if ((call != 0 || callheld != 0) && sendUpdate) {
                     // call waiting
@@ -590,6 +565,10 @@ public class BluetoothHandsfree {
                     mRingingNumber = number;
                     mRingingType = type;
                     mIgnoreRing = false;
+
+                    if ((BRSF_AG_ATTRIBUTES & BRSF_AG_IN_BAND_RING) == 0x1) {
+                        audioOn();
+                    }
                     result.addResult(ring());
                 }
             }
@@ -651,13 +630,16 @@ public class BluetoothHandsfree {
     private static final int SCO_CONNECTED = 2;
     private static final int SCO_CLOSED = 3;
     private static final int CHECK_CALL_STARTED = 4;
+    private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
+
     private final Handler mHandler = new Handler() {
         @Override
         public synchronized void handleMessage(Message msg) {
             switch (msg.what) {
             case SCO_ACCEPTED:
                 if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
-                    if (isHeadsetConnected() && mAudioPossible && mConnectedSco == null) {
+                    if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                            mConnectedSco == null) {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
@@ -702,6 +684,13 @@ public class BluetoothHandsfree {
                     }
                 }
                 break;
+            case CHECK_VOICE_RECOGNITION_STARTED:
+                if (mWaitingForVoiceRecognition) {
+                    mWaitingForVoiceRecognition = false;
+                    Log.e(TAG, "Timeout waiting for voice recognition to start");
+                    sendURC("ERROR");
+                }
+                break;
             }
         }
     };
@@ -731,7 +720,7 @@ public class BluetoothHandsfree {
             if (DBG) log("audioOn(): user requested no audio, ignoring");
             return false;
         }
-
+        
         if (mOutgoingSco != null) {
             if (DBG) log("audioOn(): outgoing SCO already in progress");
             return true;
@@ -786,115 +775,6 @@ public class BluetoothHandsfree {
         mPhoneState.ignoreRing();
     }
 
-    /* List of AT error codes specified by the Handsfree profile. */
-
-    private static final int CME_ERROR_AG_FAILURE = 0;
-    private static final int CME_ERROR_NO_CONNECTION_TO_PHONE = 1;
-    //    private static final int CME_ERROR_ = 2;
-    private static final int CME_ERROR_OPERATION_NOT_ALLOWED = 3;
-    private static final int CME_ERROR_OPERATION_NOT_SUPPORTED = 4;
-    private static final int CME_ERROR_PIN_REQUIRED = 5;
-    //    private static final int CME_ERROR_ = 6;
-    //    private static final int CME_ERROR_ = 7;
-    //    private static final int CME_ERROR_ = 8;
-    //    private static final int CME_ERROR_ = 9;
-    private static final int CME_ERROR_SIM_MISSING = 10;
-    private static final int CME_ERROR_SIM_PIN_REQUIRED = 11;
-    private static final int CME_ERROR_SIM_PUK_REQUIRED = 12;
-    private static final int CME_ERROR_SIM_FAILURE = 13;
-    private static final int CME_ERROR_SIM_BUSY = 14;
-    //    private static final int CME_ERROR_ = 15;
-    private static final int CME_ERROR_WRONG_PASSWORD = 16;
-    private static final int CME_ERROR_SIM_PIN2_REQUIRED = 17;
-    private static final int CME_ERROR_SIM_PUK2_REQUIRED = 18;
-    //    private static final int CME_ERROR_ = 19;
-    private static final int CME_ERROR_MEMORY_FULL = 20;
-    private static final int CME_ERROR_INVALID_INDEX = 21;
-    //    private static final int CME_ERROR_ = 22;
-    private static final int CME_ERROR_MEMORY_FAILURE = 23;
-    private static final int CME_ERROR_TEXT_TOO_LONG = 24;
-    private static final int CME_ERROR_TEXT_HAS_INVALID_CHARS = 25;
-    private static final int CME_ERROR_DIAL_STRING_TOO_LONG = 26;
-    private static final int CME_ERROR_DIAL_STRING_HAS_INVALID_CHARS = 27;
-    //    private static final int CME_ERROR_ = 28;
-    //    private static final int CME_ERROR_ = 29;
-    private static final int CME_ERROR_NO_SERVICE = 30;
-    //    private static final int CME_ERROR_ = 31;
-    private static final int CME_ERROR_911_ONLY_ALLOWED = 32;
-
-    public AtCommandResult reportAtError(int error) {
-        if (mCmee) {
-            AtCommandResult result =
-                    new AtCommandResult(AtCommandResult.UNSOLICITED);
-            result.addResponse("+CME ERROR: " + error);
-            return result;
-        } else {
-            return new AtCommandResult(AtCommandResult.ERROR);
-        }
-    }
-
-    private static String getPhoneType(int type) {
-        switch (type) {
-            case PhonesColumns.TYPE_HOME:
-                return "H";
-            case PhonesColumns.TYPE_MOBILE:
-                return "M";
-            case PhonesColumns.TYPE_WORK:
-                return "W";
-            case PhonesColumns.TYPE_FAX_HOME:
-            case PhonesColumns.TYPE_FAX_WORK:
-                return "F";
-            case PhonesColumns.TYPE_OTHER:
-            case PhonesColumns.TYPE_CUSTOM:
-            default:
-                return "O";
-        }
-    }
-
-    private boolean initPhoneBookEntry(String pb, PhoneBookEntry pbe) {
-        String where;
-        boolean ancillaryPhonebook = true;
-
-        if (pb.equals("\"ME\"")) {
-            ancillaryPhonebook = false;
-            where = null;
-        } else if (pb.equals("\"DC\"")) {
-            where = OUTGOING_CALL_WHERE;
-        } else if (pb.equals("\"RC\"")) {
-            where = INCOMING_CALL_WHERE;
-        } else if (pb.equals("\"MC\"")) {
-            where = MISSED_CALL_WHERE;
-        } else {
-            return false;
-        }
-
-        if (pbe.mPhonebookCursor == null) {
-            if (ancillaryPhonebook) {
-//              ContentValues values = new ContentValues();
-//              values.put(Calls.NEW, "0");
-//              mContext.getContentResolver().update(Calls.CONTENT_URI, values, where, null);
-            }
-
-            if (ancillaryPhonebook) {
-                pbe.mPhonebookCursor = mContext.getContentResolver().query(
-                        Calls.CONTENT_URI, CALLS_PROJECTION, where, null,
-                        Calls.DEFAULT_SORT_ORDER + " LIMIT " + MAX_PHONEBOOK_SIZE);
-                pbe.mCursorNumberColumn = pbe.mPhonebookCursor.getColumnIndexOrThrow(Calls.NUMBER);
-                pbe.mCursorNumberTypeColumn = -1;
-                pbe.mCursorNameColumn = -1;
-            } else {
-                pbe.mPhonebookCursor = mContext.getContentResolver().query(
-                        Phones.CONTENT_URI, PHONES_PROJECTION, where, null,
-                        Phones.DEFAULT_SORT_ORDER + " LIMIT " + MAX_PHONEBOOK_SIZE);
-                pbe.mCursorNumberColumn = pbe.mPhonebookCursor.getColumnIndex(Phones.NUMBER);
-                pbe.mCursorNumberTypeColumn = pbe.mPhonebookCursor.getColumnIndex(Phones.TYPE);
-                pbe.mCursorNameColumn = pbe.mPhonebookCursor.getColumnIndex(Phones.NAME);
-            }
-        }
-
-        return true;
-    }
-
     private void sendURC(String urc) {
         if (isHeadsetConnected()) {
             mHeadset.sendURC(urc);
@@ -903,26 +783,14 @@ public class BluetoothHandsfree {
 
     /** helper to redial last dialled number */
     private AtCommandResult redial() {
-        // Get the last dialled number from the phone book
-        String[] projection = {Calls.NUMBER};
-        Cursor cursor = mContext.getContentResolver().query(Calls.CONTENT_URI, projection,
-                Calls.TYPE + "=" + Calls.OUTGOING_TYPE, null, Calls.DEFAULT_SORT_ORDER +
-                " LIMIT 1");
-        if (cursor.getCount() < 1) {
+        String number = mPhonebook.getLastDialledNumber();
+        if (number == null) {
             // spec seems to suggest sending ERROR if we dont have a
             // number to redial
             if (DBG) log("Bluetooth redial requested (+BLDN), but no previous " +
                   "outgoing calls found. Ignoring");
-            cursor.close();
             return new AtCommandResult(AtCommandResult.ERROR);
         }
-
-        cursor.moveToNext();
-        int column = cursor.getColumnIndexOrThrow(Calls.NUMBER);
-        String number = cursor.getString(column);
-        cursor.close();
-
-        // Call it
         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
                 Uri.fromParts("tel", number, null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -932,7 +800,7 @@ public class BluetoothHandsfree {
         // update. If we return OK now and the handsfree immeidately requests
         // our phone state it will say we are not in call yet which confuses
         // some devices
-        waitForCallStart();
+        expectCallStart();
         return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing
     }
 
@@ -1055,7 +923,7 @@ public class BluetoothHandsfree {
 
         String result = "+CLCC: " + (index + 1) + "," + direction + "," + state + ",0," + mpty;
         if (number != null) {
-            result += "," + number + "," + type;
+            result += ",\"" + number + "\"," + type;
         }
         return result;
     }
@@ -1072,6 +940,8 @@ public class BluetoothHandsfree {
                 if (mRingingCall.isRinging()) {
                     // Answer the call
                     PhoneUtils.answerCall(mPhone);
+                    // If in-band ring tone is supported, SCO connection will already 
+                    // be up and the following call will just return.
                     audioOn();
                 } else if (mForegroundCall.getState().isAlive()) {
                     if (!isAudioOn()) {
@@ -1143,7 +1013,7 @@ public class BluetoothHandsfree {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
 
-                        waitForCallStart();
+                        expectCallStart();
                         return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing
                     }
                 }
@@ -1154,11 +1024,14 @@ public class BluetoothHandsfree {
         // Hang-up command
         parser.register("+CHUP", new AtCommandHandler() {
             @Override
-            public AtCommandResult handleActionCommand() {
-                audioOff();
-
-                PhoneUtils.hangup(mPhone);
-
+            public AtCommandResult handleActionCommand() { 
+                if (!mForegroundCall.isIdle()) {                 
+                    PhoneUtils.hangup(mForegroundCall);
+                } else if (!mRingingCall.isIdle()) {               
+                    PhoneUtils.hangup(mRingingCall);
+                } else if (!mBackgroundCall.isIdle()) {                
+                    PhoneUtils.hangup(mBackgroundCall);
+                }
                 return new AtCommandResult(AtCommandResult.OK);
             }
         });
@@ -1166,12 +1039,7 @@ public class BluetoothHandsfree {
         // Bluetooth Retrieve Supported Features command
         parser.register("+BRSF", new AtCommandHandler() {
             private AtCommandResult sendBRSF() {
-                // Bit 0: 3 way calling
-                //     1: EC / NR
-                //     2: CLI Presentation
-                //     5: call reject
-                //     6: Enhanced call status
-                return new AtCommandResult("+BRSF: 99");
+                return new AtCommandResult("+BRSF: " + BRSF_AG_ATTRIBUTES);
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -1243,9 +1111,9 @@ public class BluetoothHandsfree {
                         mIndicatorsEnabled = true;
                         return new AtCommandResult(AtCommandResult.OK);
                     }
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
+                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
                 } else {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
+                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
                 }
             }
             @Override
@@ -1432,7 +1300,7 @@ public class BluetoothHandsfree {
                     // syntax error
                     return new AtCommandResult(AtCommandResult.ERROR);
                 } else if ((Integer)args[0] != 3 || (Integer)args[1] != 0) {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
+                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
                 } else {
                     return new AtCommandResult(AtCommandResult.OK);
                 }
@@ -1477,7 +1345,7 @@ public class BluetoothHandsfree {
                 // AT+CIMI
                 String imsi = mPhone.getSubscriberId();
                 if (imsi == null || imsi.length() == 0) {
-                    return reportAtError(CME_ERROR_SIM_FAILURE);
+                    return reportCmeError(BluetoothCmeError.SIM_FAILURE);
                 } else {
                     return new AtCommandResult(imsi);
                 }
@@ -1507,6 +1375,44 @@ public class BluetoothHandsfree {
             }
         });
 
+        // AT+CGSN - Returns the device IMEI number.
+        parser.register("+CGSN", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleActionCommand() {
+                // Get the IMEI of the device.
+                // mPhone will not be NULL at this point.
+                return new AtCommandResult("+CGSN: " + mPhone.getDeviceId());
+            }
+        });
+        
+        // AT+CGMM - Query Model Information
+        parser.register("+CGMM", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleActionCommand() {
+                // Return the Model Information.
+                String model = SystemProperties.get("ro.product.model");
+                if (model != null) {
+                    return new AtCommandResult("+CGMM: " + model);
+                } else {
+                    return new AtCommandResult(AtCommandResult.ERROR);
+                }
+            }
+        });
+        
+        // AT+CGMI - Query Manufacturer Information
+        parser.register("+CGMI", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleActionCommand() {
+                // Return the Model Information.
+                String manuf = SystemProperties.get("ro.product.manufacturer");
+                if (manuf != null) {
+                    return new AtCommandResult("+CGMI: " + manuf);
+                } else {
+                    return new AtCommandResult(AtCommandResult.ERROR);
+                }
+            }
+        });
+        
         // Noise Reduction and Echo Cancellation control
         parser.register("+NREC", new AtCommandHandler() {
             @Override
@@ -1522,31 +1428,44 @@ public class BluetoothHandsfree {
             }
         });
 
+        // Voice recognition (dialing)
+        parser.register("+BVRA", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleSetCommand(Object[] args) {
+                if (args.length >= 1 && args[0].equals(1)) {
+                    expectVoiceRecognition();
+
+                    Intent intent = new Intent(Intent.ACTION_VOICE_COMMAND);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(Intent.EXTRA_AUDIO_ROUTE, AudioManager.ROUTE_BLUETOOTH_SCO);
+                    mContext.startActivity(intent);
+
+                    return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing yet
+                } else if (args.length >= 1 && args[0].equals(0)) {
+                    audioOff();
+                    return new AtCommandResult(AtCommandResult.OK);
+                }
+                return new AtCommandResult(AtCommandResult.ERROR);
+            }
+            @Override
+            public AtCommandResult handleTestCommand() {
+                return new AtCommandResult("+CLIP: (0-1)");
+            }
+        });
+
         // Retrieve Subscriber Number
         parser.register("+CNUM", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                String pb = "\"ME\"";
-                PhoneBookEntry pbe = mPhoneBooks.get(pb);
-                initPhoneBookEntry(pb, pbe);
-
-                final Cursor phones = pbe.mPhonebookCursor;
-                if (phones.moveToNext()) {
-                    String number =
-                            phones.getString(pbe.mCursorNumberColumn);
-                    int type =
-                            phones.getInt(pbe.mCursorNumberTypeColumn);
-                    // 4 -- voice, 5 -- fax
-                    type = (type != PhonesColumns.TYPE_FAX_WORK) ? 4 : 5;
-                    return new AtCommandResult(
-                            "+CNUM: ,\"" + number + "\"," +
-                            PhoneNumberUtils.toaFromString(number) +
-                            ",," + type);
+                String number = mPhone.getLine1Number();
+                if (number == null) {
+                    return new AtCommandResult(AtCommandResult.OK);
                 }
-                return new AtCommandResult(AtCommandResult.OK);
+                return new AtCommandResult("+CNUM: ,\"" + number + "\"," +
+                        PhoneNumberUtils.toaFromString(number) + ",,4");
             }
         });
-
+        
         // Phone activity status
         parser.register("+CPAS", new AtCommandHandler() {
             @Override
@@ -1566,204 +1485,22 @@ public class BluetoothHandsfree {
                 return new AtCommandResult("+CPAS: " + status);
             }
         });
-
-        // Select Character Set
-        // We support IRA and GSM (although we behave the same for both)
-        parser.register("+CSCS", new AtCommandHandler() {
-            @Override
-            public AtCommandResult handleReadCommand() {
-                return new AtCommandResult("+CSCS: \"IRA\"");
-            }
-            @Override
-            public AtCommandResult handleSetCommand(Object[] args) {
-                if (args.length < 1) {
-                    return new AtCommandResult(AtCommandResult.ERROR);
-                }
-                if (((String)args[0]).equals("\"GSM\"") || ((String)args[0]).equals("\"IRA\"")) {
-                    return new AtCommandResult(AtCommandResult.OK);
-                } else {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
-                }
-            }
-            @Override
-            public AtCommandResult handleTestCommand() {
-                return new AtCommandResult( "+CSCS: (\"IRA\",\"GSM\")");
-            }
-        });
-
-        // Select PhoneBook memory Storage
-        parser.register("+CPBS", new AtCommandHandler() {
-            @Override
-            public AtCommandResult handleReadCommand() {
-                if (mSelectedPB == null) {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_ALLOWED);
-                } else {
-                    if (mSelectedPB.equals("\"SM\"")) {
-                        return new AtCommandResult("+CPBS: \"SM\",0," + MAX_PHONEBOOK_SIZE);
-                    }
-                    PhoneBookEntry pbe = mPhoneBooks.get(mSelectedPB);
-                    if (!initPhoneBookEntry(mSelectedPB, pbe)) {
-                        return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
-                    } else {
-                        int size = pbe.mPhonebookCursor.getCount();
-                        return new AtCommandResult("+CPBS: " + mSelectedPB + "," + size +
-                                                   "," + MAX_PHONEBOOK_SIZE);
-                    }
-                }
-            }
-            @Override
-            public AtCommandResult handleSetCommand(Object[] args) {
-                if (args.length < 1) {
-                    return new AtCommandResult(AtCommandResult.ERROR);
-                }
-                mSelectedPB = (String)args[0];
-                if (mSelectedPB.equals("\"SM\"")) {
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-                if (!mPhoneBooks.containsKey(mSelectedPB)) {
-                    mSelectedPB = null;
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
-                } else {
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-            }
-            @Override
-            public AtCommandResult handleTestCommand() {
-                // DC -- dialled calls
-                // RC -- received calls
-                // MC -- missed (or unanswered) calls
-                // ME -- MT phonebook
-                // SM -- SIM phonebook   ** special cased until we get support
-                return new AtCommandResult(
-                        "+CPBS: (\"ME\",\"SM\",\"DC\",\"RC\",\"MC\")");
-            }
-        });
-
-
-        // Read PhoneBook Entries
-        parser.register("+CPBR", new AtCommandHandler() {
-            @Override
-            public AtCommandResult handleSetCommand(Object[] args) {
-                // AT+CPBR=<index1>[,<index2>]
-                // Phone Book Read Request
-                if (mSelectedPB == null) {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_ALLOWED);
-                } else if (args.length < 2 || !(args[0] instanceof Integer) ||
-                           !(args[1] instanceof Integer)) {
-                    return new AtCommandResult(AtCommandResult.ERROR);
-                }
-
-                if (mSelectedPB.equals("\"SM\"")) {
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-
-                PhoneBookEntry pbe = mPhoneBooks.get(mSelectedPB);
-                int errorDetected = -1; // no error
-                if (pbe.mPhonebookCursor.getCount() > 0) {
-                    // Parse out index1 and index2
-                    if (args.length < 1) {
-                        return new AtCommandResult(AtCommandResult.ERROR);
-                    }
-                    if (!(args[0] instanceof Integer)) {
-                        return reportAtError(CME_ERROR_TEXT_HAS_INVALID_CHARS);
-                    }
-                    int index1 = (Integer)args[0];
-                    int index2 = index1;
-                    if (args.length >= 2) {
-                        if (args[1] instanceof Integer) {
-                            index2 = (Integer)args[1];
-                        } else {
-                            return reportAtError(CME_ERROR_TEXT_HAS_INVALID_CHARS);
-                        }
-                    }
-
-                    // Process
-                    pbe.mPhonebookCursor.moveToPosition(index1 - 1);
-                    AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
-                    while (index1 <= index2) {
-                        String number = pbe.mPhonebookCursor.getString(pbe.mCursorNumberColumn);
-                        String name = null;
-                        int type = -1; // will show up as unknown
-                        if (pbe.mCursorNameColumn == -1) {
-                            // Do a caller ID lookup
-                            Cursor c = mPhone.getContext().getContentResolver().query(
-                                    Uri.withAppendedPath(Phones.CONTENT_FILTER_URL, number),
-                                    new String[] {Phones.NAME, Phones.TYPE}, null, null, null);
-                            if (c != null) {
-                                if (c.moveToFirst()) {
-                                    name = c.getString(0);
-                                    type = c.getInt(1);
-                                }
-                                c.close();
-                            }
-                        } else {
-                            name = pbe.mPhonebookCursor.getString(pbe.mCursorNameColumn);
-                        }
-                        if (TextUtils.isEmpty(name)) {
-                            name = "unknown";
-                        } else {
-                            name = name.trim();
-                            if (name.length() > 28) name = name.substring(0, 28);
-                            if (pbe.mCursorNumberTypeColumn != -1) {
-                                type = pbe.mPhonebookCursor.getInt(pbe.mCursorNumberTypeColumn);
-                            }
-                            name = name + "/" + getPhoneType(type);
-                        }
-
-                        int regionType = PhoneNumberUtils.toaFromString(number);
-
-                        number = number.trim();
-                        if (number.length() > 30) number = number.substring(0, 30);
-
-                        result.addResponse("+CPBR: " + index1 + ",\"" + number + "\"," +
-                                           regionType + ",\"" + name + "\"");
-                        if (pbe.mPhonebookCursor.moveToNext() == false) {
-                            break;
-                        }
-                        index1++;
-                    }
-                    return result;
-                } else {
-                    if (DBG) log("No phone book entries for " + mSelectedPB);
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-            }
-            @Override
-            public AtCommandResult handleTestCommand() {
-                // Obtain the number of calls according to the
-                // phone book type.  We save the result and just return the number
-                // of entries in the respective list.
-
-                if (mSelectedPB == null) {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_ALLOWED);
-                }
-                if (mSelectedPB.equals("\"SM\"")) {
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-                if (!mPhoneBooks.containsKey(mSelectedPB)) {
-                    mSelectedPB = null;
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
-                }
-
-                PhoneBookEntry pbe = mPhoneBooks.get(mSelectedPB);
-                int numEntries = 0;
-
-                if (!initPhoneBookEntry(mSelectedPB, pbe)) {
-                    return reportAtError(CME_ERROR_OPERATION_NOT_SUPPORTED);
-                }
-
-                numEntries = pbe.mPhonebookCursor.getCount();
-                if (numEntries > 0) {
-                    return new AtCommandResult("+CPBR: (1-" + numEntries + "),30,30");
-                }
-                return new AtCommandResult(AtCommandResult.OK);
-            }
-        });
+        mPhonebook.register(parser);
+    }
+    
+    public AtCommandResult reportCmeError(int error) {
+        if (mCmee) {
+            AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
+            result.addResponse("+CME ERROR: " + error);
+            return result;
+        } else {
+            return new AtCommandResult(AtCommandResult.ERROR);
+        }
     }
 
     private static final int START_CALL_TIMEOUT = 10000;  // ms
 
-    private synchronized void waitForCallStart() {
+    private synchronized void expectCallStart() {
         mWaitingForCallStart = true;
         Message msg = Message.obtain(mHandler, CHECK_CALL_STARTED);
         mHandler.sendMessageDelayed(msg, START_CALL_TIMEOUT);
@@ -1780,6 +1517,39 @@ public class BluetoothHandsfree {
                 mStartCallWakeLock.release();
             }
         }
+    }
+
+    private static final int START_VOICE_RECOGNITION_TIMEOUT = 5000;  // ms
+
+    private synchronized void expectVoiceRecognition() {
+        mWaitingForVoiceRecognition = true;
+        Message msg = Message.obtain(mHandler, CHECK_VOICE_RECOGNITION_STARTED);
+        mHandler.sendMessageDelayed(msg, START_VOICE_RECOGNITION_TIMEOUT);
+        if (!mStartVoiceRecognitionWakeLock.isHeld()) {
+            mStartVoiceRecognitionWakeLock.acquire(START_VOICE_RECOGNITION_TIMEOUT);
+        }
+    }
+
+    /* package */ synchronized boolean startVoiceRecognition() {
+        if (mWaitingForVoiceRecognition) {
+            // HF initiated
+            mWaitingForVoiceRecognition = false;
+            sendURC("OK");
+        } else {
+            // AG initiated
+            sendURC("+BVRA: 1");
+        }
+        boolean ret = audioOn();
+        if (mStartVoiceRecognitionWakeLock.isHeld()) {
+            mStartVoiceRecognitionWakeLock.release();
+        }
+        return ret;
+    }
+
+    /* package */ synchronized boolean stopVoiceRecognition() {
+        sendURC("+BVRA: 0");
+        audioOff();
+        return true;
     }
 
     private DebugThread mDebugThread;
@@ -1837,6 +1607,15 @@ public class BluetoothHandsfree {
 
         /** Debug AT+CLCC: print +CLCC result */
         private static final String DEBUG_HANDSFREE_CLCC = "debug.bt.hfp.clcc";
+        
+        /** Debug AT+BSIR - Send In Band Ringtones Unsolicited AT command. 
+         * debug.bt.unsol.inband = 0 => AT+BSIR = 0 sent by the AG
+         * debug.bt.unsol.inband = 1 => AT+BSIR = 0 sent by the AG
+         * Other values are ignored.
+         */
+        
+        private static final String DEBUG_UNSOL_INBAND_RINGTONE = 
+            "debug.bt.unsol.inband";
 
         @Override
         public void run() {
@@ -1864,7 +1643,7 @@ public class BluetoothHandsfree {
                 }
                 if (serviceStateChanged) {
                     Bundle b = new Bundle();
-                    b.putString("state", oldService ? "IN_SERVICE" : "OUT_OF_SERVICE");
+                    b.putInt("state", oldService ? 0 : 1);
                     b.putBoolean("roaming", oldRoam);
                     mPhoneState.updateServiceState(true, ServiceState.newFromBundle(b));
                 }
@@ -1893,11 +1672,20 @@ public class BluetoothHandsfree {
                 } catch (InterruptedException e) {
                     break;
                 }
+                
+                int inBandRing = 
+                    SystemProperties.getInt(DEBUG_UNSOL_INBAND_RINGTONE, -1);
+                if (inBandRing == 0 || inBandRing == 1) {
+                    AtCommandResult result = 
+                        new AtCommandResult(AtCommandResult.UNSOLICITED);
+                    result.addResponse("+BSIR: " + inBandRing);
+                    sendURC(result.toString());
+                }
             }
         }
-    };
+    }
 
-    private void log(String msg) {
+    private static void log(String msg) {
         Log.d(TAG, msg);
     }
 }

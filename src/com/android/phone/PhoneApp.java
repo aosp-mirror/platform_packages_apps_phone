@@ -79,11 +79,30 @@ public class PhoneApp extends Application {
     // Don't use message codes larger than 99 here; those are reserved for
     // the individual Activities of the Phone UI.
 
-    /** Allowable values for the poke lock code.*/
+    /**
+     * Allowable values for the poke lock code (timeout between a user activity and the
+     * going to sleep), please refer to {@link com.android.server.PowerManagerService}
+     * for additional reference.
+     *   SHORT uses the short delay for the timeout (SHORT_KEYLIGHT_DELAY, 6 sec)
+     *   MEDIUM uses the medium delay for the timeout (MEDIUM_KEYLIGHT_DELAY, 15 sec)
+     *   DEFAULT is the system-wide default delay for the timeout (1 min)
+     */
     public enum ScreenTimeoutDuration {
         SHORT,
         MEDIUM,
         DEFAULT
+    }
+
+    /**
+     * Allowable values for the wake lock code.
+     *   SLEEP means the device can be put to sleep.
+     *   PARTIAL means wake the processor, but we display can be kept off.
+     *   FULL means wake both the processor and the display.
+     */
+    public enum WakeState {
+        SLEEP,
+        PARTIAL,
+        FULL
     }
 
     private static PhoneApp sMe;
@@ -96,9 +115,9 @@ public class PhoneApp extends Application {
     BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
 
-    // The currently-active InCallScreen instance, or null if the
-    // InCallScreen isn't the current foreground Activity.
-    private InCallScreen mCurrentInCallScreenInstance;
+    // The InCallScreen instance (or null if the InCallScreen hasn't been
+    // created yet.)
+    private InCallScreen mInCallScreen;
 
     // The currently-active PUK entry activity and progress dialog.
     // Normally, these are the Emergency Dialer and the subsequent
@@ -115,12 +134,12 @@ public class PhoneApp extends Application {
     // mReceiver.onReceive().
     private boolean mIsHeadsetPlugged;
 
-    private boolean mEmergencyMode;
-    private boolean mKeepScreenOn = false;
+    private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mPokeLockSetting = ScreenTimeoutDuration.DEFAULT;
     private IBinder mPokeLockToken = new Binder();
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
+    private PowerManager.WakeLock mPartialWakeLock;
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
 
@@ -133,7 +152,7 @@ public class PhoneApp extends Application {
     /** boolean indicating restoring mute state on InCallScreen.onResume() */
     private boolean mShouldRestoreMuteOnInCallResume;
 
-    /** 
+    /**
      * Set the restore mute state flag. Used when we are setting the mute state
      * OUTSIDE of user interaction {@link PhoneUtils#startNewCall(Phone)}
      */
@@ -141,7 +160,7 @@ public class PhoneApp extends Application {
         mShouldRestoreMuteOnInCallResume = mode;
     }
 
-    /** 
+    /**
      * Get the restore mute state flag.
      * This is used by the InCallScreen {@link InCallScreen#onResume()} to figure
      * out if we need to restore the mute state for the current active call.
@@ -272,8 +291,11 @@ public class PhoneApp extends Application {
             // before registering for phone state changes
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                                       | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                                       | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+            // lock used to keep the processor awake, when we don't care for the display.
+            mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                    | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
 
@@ -350,7 +372,7 @@ public class PhoneApp extends Application {
 
         // XXX pre-load the SimProvider so that it's ready
         resolver.getType(Uri.parse("content://sim/adn"));
-        
+
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
    }
@@ -376,14 +398,31 @@ public class PhoneApp extends Application {
         return intent;
     }
 
-    static Intent createInCallIntent() {
-        Intent  intent = new Intent(Intent.ACTION_MAIN, null);
+    /**
+     * Return the intent used to bring up the in-call screen while a call
+     * is already in progress (like when you return to the current call
+     * after previously bailing out of the in-call UI.)
+     *
+     * This intent can only be used from within the Phone app, since the
+     * InCallScreen is not exported from our AndroidManifest.
+     */
+    /* package */ static Intent createInCallIntent() {
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         intent.setClassName("com.android.phone", getCallScreenClassName());
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }
 
+    /**
+     * Variation of createInCallIntent() that also specifies whether the
+     * DTMF dialpad should be initially visible when the InCallScreen
+     * comes up.
+     */
+    /* package */ static Intent createInCallIntent(boolean showDialpad) {
+        Intent intent = createInCallIntent();
+        intent.putExtra(InCallScreen.SHOW_DIALPAD_EXTRA, showDialpad);
+        return intent;
+    }
 
     static String getCallScreenClassName() {
         return InCallScreen.class.getName();
@@ -433,8 +472,8 @@ public class PhoneApp extends Application {
         mCachedSimPin = pin;
     }
 
-    void setActiveInCallScreenInstance(InCallScreen inCallScreen) {
-        mCurrentInCallScreenInstance = inCallScreen;
+    void setInCallScreenInstance(InCallScreen inCallScreen) {
+        mInCallScreen = inCallScreen;
     }
 
     /**
@@ -442,9 +481,15 @@ public class PhoneApp extends Application {
      * activity.  (In other words, from the perspective of the
      * InCallScreen activity, return true between onResume() and
      * onPause().)
+     *
+     * Note this method will return false if the screen is currently off,
+     * even if the InCallScreen *was* in the foreground just before the
+     * screen turned off.  (This is because the foreground activity is
+     * always "paused" while the screen is off.)
      */
     boolean isShowingCallScreen() {
-        return mCurrentInCallScreenInstance != null;
+        if (mInCallScreen == null) return false;
+        return mInCallScreen.isForegroundActivity();
     }
 
     /**
@@ -515,16 +560,19 @@ public class PhoneApp extends Application {
      * Controls how quickly the screen times out.
      *
      * The poke lock controls how long it takes before the screen powers
-     * down, and therefore has no immediate effect when keepScreenOn
-     * {@link PhoneApp#keepScreenOn} is set to true.  Once the screen is
-     * allowed to turn off though (keepScreenOn = false), the poke lock
-     * will determine the timeout interval (long or short).
+     * down, and therefore has no immediate effect when the current
+     * WakeState (see {@link PhoneApp#requestWakeState}) is FULL.
+     * If we're in a state where the screen *is* allowed to turn off,
+     * though, the poke lock will determine the timeout interval (long or
+     * short).
      *
      * @param shortPokeLock tells the device the timeout duration to use
      * before going to sleep
      * {@link com.android.server.PowerManagerService#SHORT_KEYLIGHT_DELAY}.
      */
     /* package */ void setScreenTimeout(ScreenTimeoutDuration duration) {
+        if (DBG) Log.d(LOG_TAG, "setScreenTimeout(" + duration + ")...");
+
         // make sure we don't set the poke lock repeatedly so that we
         // avoid triggering the userActivity calls in
         // PowerManagerService.setPokeLock().
@@ -573,7 +621,7 @@ public class PhoneApp extends Application {
                 break;
         }
 
-        //send the request
+        // Send the request
         try {
             mPowerManagerService.setPokeLock(pokeLockSetting, mPokeLockToken, LOG_TAG);
         } catch (RemoteException e) {
@@ -583,22 +631,47 @@ public class PhoneApp extends Application {
     /**
      * Controls whether or not the screen is allowed to sleep.
      *
-     * Once sleep is allowed (keepScreenOn is false), it will rely on the
+     * Once sleep is allowed (WakeState is SLEEP), it will rely on the
      * settings for the poke lock to determine when to timeout and let
      * the device sleep {@link PhoneApp#setScreenTimeout}.
      *
-     * @param keepScreenOn tells the device to keep the display awake.
+     * @param ws tells the device to how to wake.
      */
-    /* package */ void keepScreenOn(boolean keepScreenOn) {
-        if (mKeepScreenOn != keepScreenOn){
-            mKeepScreenOn = keepScreenOn;
-            if (keepScreenOn) {
-                if (DBG) Log.d(LOG_TAG, "acquire screen lock");
-                mWakeLock.acquire();
-            } else {
-                if (DBG) Log.d(LOG_TAG, "release screen lock");
-                mWakeLock.release();
+    /* package */ void requestWakeState(WakeState ws) {
+        if (DBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
+        if (mWakeState != ws) {
+            switch (ws) {
+                case PARTIAL:
+                    // acquire the processor wake lock, and release the FULL
+                    // lock if it is being held.
+                    if (DBG) Log.d(LOG_TAG, "acquire partial wake lock (CPU only)");
+                    mPartialWakeLock.acquire();
+                    if (mWakeLock.isHeld()) {
+                        mWakeLock.release();
+                    }
+                    break;
+                case FULL:
+                    // acquire the full wake lock, and release the PARTIAL
+                    // lock if it is being held.
+                    if (DBG) Log.d(LOG_TAG, "acquire full wake lock (CPU + Screen)");
+                    mWakeLock.acquire();
+                    if (mPartialWakeLock.isHeld()) {
+                        mPartialWakeLock.release();
+                    }
+                    break;
+                case SLEEP:
+                default:
+                    // release both the PARTIAL and FULL locks.
+                    if (DBG) Log.d(LOG_TAG, "release all wake locks");
+                    if (mWakeLock.isHeld()) {
+                        mWakeLock.release();
+                    }
+                    if (mPartialWakeLock.isHeld()) {
+                        mPartialWakeLock.release();
+                    }
+                    break;
             }
+            mWakeState = ws;
         }
     }
 
@@ -607,7 +680,7 @@ public class PhoneApp extends Application {
      * manager to wake up the screen for the user activity timeout duration.
      */
     /* package */ void wakeUpScreen() {
-        if (!mKeepScreenOn) {
+        if (mWakeState == WakeState.SLEEP) {
             if (DBG) Log.d(LOG_TAG, "pulse screen lock");
             try {
                 mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
@@ -616,7 +689,79 @@ public class PhoneApp extends Application {
             }
         }
     }
-    
+
+    /**
+     * Sets the wake state and screen timeout based on the current state
+     * of the phone, and the current state of the in-call UI.
+     *
+     * This method is a "UI Policy" wrapper around
+     * {@link PhoneApp#requestWakeState} and {@link PhoneApp#setScreenTimeout}.
+     *
+     * It's safe to call this method regardless of the state of the Phone
+     * (e.g. whether or not it's idle), and regardless of the state of the
+     * Phone UI (e.g. whether or not the InCallScreen is active.)
+     */
+    /* package */ void updateWakeState() {
+        Phone.State state = phone.getState();
+
+        // True if the in-call UI is the foreground activity.
+        // (Note this will be false if the screen is currently off,
+        // since in that case *no* activity is in the foreground.)
+        boolean isShowingCallScreen = isShowingCallScreen();
+
+        // True if the InCallScreen's DTMF dialer is currently opened.
+        // (Note this does NOT imply whether or not the InCallScreen
+        // itself is visible.)
+        boolean isDialerOpened = (mInCallScreen != null) && mInCallScreen.isDialerOpened();
+
+        // True if the speakerphone is in use.  (If so, we *always* use
+        // the default timeout.  Since the user is obviously not holding
+        // the phone up to his/her face, we don't need to worry about
+        // false touches, and thus don't need to turn the screen off so
+        // aggressively.)
+        // Note that we need to make a fresh call to this method any
+        // time the speaker state changes.  (That happens in
+        // PhoneUtils.turnOnSpeaker().)
+        boolean isSpeakerInUse = (state == Phone.State.OFFHOOK) && PhoneUtils.isSpeakerOn(this);
+
+        // TODO (bug 1440854): The screen timeout *might* also need to
+        // depend on the bluetooth state, but this isn't as clear-cut as
+        // the speaker state (since while using BT it's common for the
+        // user to put the phone straight into a pocket, in which case the
+        // timeout should probably still be short.)
+
+        if (DBG) Log.d(LOG_TAG, "updateWakeState: isShowingCallScreen " + isShowingCallScreen
+                       + ", isDialerOpened " + isDialerOpened
+                       + ", isSpeakerInUse " + isSpeakerInUse + "...");
+
+        if (!isShowingCallScreen || isSpeakerInUse) {
+            // Use the system-wide default timeout.
+            setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
+        } else {
+            // Ok, use a special in-call-specific screen timeout value
+            // instead of the system-wide default.  (This timeout is very
+            // short if the DTMF dialpad is up, and medium otherwise.)
+            if (isDialerOpened) {
+                setScreenTimeout(ScreenTimeoutDuration.SHORT);
+            } else {
+                setScreenTimeout(ScreenTimeoutDuration.MEDIUM);
+            }
+        }
+
+        // Force the screen to be on if the phone is ringing, or if we're
+        // displaying the "Call ended" UI for a connection in the
+        // "disconnected" state.
+        boolean isRinging = (state == Phone.State.RINGING);
+        boolean showDisconnectedConnections =
+                PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
+        boolean keepScreenOn = isRinging || showDisconnectedConnections;
+        if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
+                       + " (isRinging " + isRinging
+                       + ", showDisconnectedConnections " + showDisconnectedConnections + ")");
+        // keepScreenOn == true means we'll hold a full wake lock:
+        requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
+    }
+
     KeyguardManager getKeyguardManager() {
         return mKeyguardManager;
     }
@@ -710,11 +855,21 @@ public class PhoneApp extends Application {
             if ((event != null)
                 && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)
                 && (event.getAction() == KeyEvent.ACTION_DOWN)) {
-                if (DBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK down!");
-                boolean consumed = PhoneUtils.handleHeadsetHook(phone);
-                if (DBG) Log.d(LOG_TAG, "==> called handleHeadsetHook(), consumed = " + consumed);
-                if (consumed) {
-                    if (DBG) Log.d(LOG_TAG, "==> Aborting broadcast!");
+
+                if (event.getRepeatCount() == 0) {
+                    // Mute ONLY on the initial keypress.
+                    if (DBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK down!");
+                    boolean consumed = PhoneUtils.handleHeadsetHook(phone);
+                    if (DBG) Log.d(LOG_TAG, "==> called handleHeadsetHook(), consumed = " + consumed);
+                    if (consumed) {
+                        if (DBG) Log.d(LOG_TAG, "==> Aborting broadcast!");
+                        abortBroadcast();
+                    }
+                } else if (phone.getState() != Phone.State.IDLE){
+                    // Otherwise if the phone is active, then just consume / ignore the event.
+                    // If we do not do this, the music player handles the event, which doesn't
+                    // make sense to the user.
+                    if (DBG) Log.d(LOG_TAG, "==> Phone is busy, aborting broadcast!");
                     abortBroadcast();
                 }
             }

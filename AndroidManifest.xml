@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
     <uses-permission android:name="android.permission.ADD_SYSTEM_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
@@ -47,22 +48,19 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
+    <uses-permission android:name="android.permission.BROADCAST_SMS"/>
+    <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
 
     <application android:name="PhoneApp"
                  android:persistent="true"
                  android:label="@string/dialerIconLabel"
                  android:icon="@drawable/ic_launcher_phone">
-        <provider android:name="SimProvider" android:authorities="sim" android:multiprocess="true" />
+            <provider android:name="SimProvider"
+                      android:authorities="sim"
+                      android:multiprocess="true"
+                      android:readPermission="android.permission.READ_CONTACTS"
+                      android:writePermission="android.permission.WRITE_CONTACTS" />
 
-        <!-- A virtual DTMF 12 key dialer -->
-        <activity android:name="DTMFTwelveKeyDialer"
-            android:label="@string/dialerIconLabel">
-            <intent-filter>
-                <action android:name="com.android.phone.action.DTMF_TOUCH_DIALER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        
         <!-- A virtual emergency 12 key dialer -->
         <activity android:name="EmergencyDialer"
             android:label="@string/emergencyDialerIconLabel">
@@ -71,7 +69,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
 
         <activity android:name="ADNList" />
 
@@ -94,7 +91,8 @@
         </activity>
 
         <activity android:name="OutgoingCallBroadcaster"
-                android:permission="android.permission.CALL_PHONE">
+                android:permission="android.permission.CALL_PHONE"
+                android:theme="@android:style/Theme.NoDisplay">
             <!-- CALL action intent filters, for the various ways
                  of initiating an outgoing call. -->
             <intent-filter>
@@ -117,7 +115,8 @@
 
         <activity-alias android:name="EmergencyOutgoingCallBroadcaster"
                 android:targetActivity="OutgoingCallBroadcaster"
-                android:permission="android.permission.CALL_PRIVILEGED">
+                android:permission="android.permission.CALL_PRIVILEGED"
+                android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_EMERGENCY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -182,6 +181,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.DATA_ROAMING_SETTINGS" />
             </intent-filter>
         </activity>
 
@@ -192,6 +192,7 @@
         <activity android:name="NetworkSetting" android:label="@string/networks">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.NETWORK_OPERATOR_SETTINGS" />
             </intent-filter>
         </activity>
 
@@ -267,5 +268,3 @@
         </service>
     </application>
 </manifest>
-
-
