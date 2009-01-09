@@ -16,10 +16,10 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.CallBase;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.ConnectionBase;
+import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.gsm.GSMPhone;
 
@@ -179,7 +179,7 @@ public class CallNotifier extends Handler
     };
 
     private void onNewRingingConnection(AsyncResult r) {
-        ConnectionBase c = (ConnectionBase) r.result;
+        Connection c = (Connection) r.result;
         if (DBG) log("onNewRingingConnection()... connection: " + c);
         PhoneApp app = PhoneApp.getInstance();
 
@@ -203,7 +203,7 @@ public class CallNotifier extends Handler
         }
 
         if (c != null && c.isRinging()) {
-            CallBase.State state = c.getState();
+            Call.State state = c.getState();
             // State will be either INCOMING or WAITING.
             if (DBG) log("- connection is ringing!  state = " + state);
             // if (DBG) PhoneUtils.dumpCallState(mPhone);
@@ -231,7 +231,7 @@ public class CallNotifier extends Handler
 
             // - don't ring for call waiting connections
             // - do this before showing the incoming call panel
-            if (state == CallBase.State.INCOMING) {
+            if (state == Call.State.INCOMING) {
                 PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
                 startIncomingCallQuery(c);
             } else {
@@ -263,7 +263,7 @@ public class CallNotifier extends Handler
     /**
      * Helper method to manage the start of incoming call queries
      */
-    private void startIncomingCallQuery(ConnectionBase c) {
+    private void startIncomingCallQuery(Connection c) {
         // TODO: cache the custom ringer object so that subsequent
         // calls will not need to do this query work.  We can keep
         // the MRU ringtones in memory.  We'll still need to hit
@@ -448,7 +448,7 @@ public class CallNotifier extends Handler
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
         }
 
-        ConnectionBase c = (ConnectionBase) r.result;
+        Connection c = (Connection) r.result;
         if (DBG && c != null) {
             log("- cause = " + c.getDisconnectCause()
                 + ", incoming = " + c.isIncoming()
@@ -470,11 +470,11 @@ public class CallNotifier extends Handler
 
         // The "Busy" or "Congestion" tone is the highest priority:
         if (c != null) {
-            ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
-            if (cause == ConnectionBase.DisconnectCause.BUSY) {
+            Connection.DisconnectCause cause = c.getDisconnectCause();
+            if (cause == Connection.DisconnectCause.BUSY) {
                 if (DBG) log("- need to play BUSY tone!");
                 toneToPlay = InCallTonePlayer.TONE_BUSY;
-            } else if (cause == ConnectionBase.DisconnectCause.CONGESTION) {
+            } else if (cause == Connection.DisconnectCause.CONGESTION) {
                 if (DBG) log("- need to play CONGESTION tone!");
                 toneToPlay = InCallTonePlayer.TONE_CONGESTION;
             }
@@ -490,9 +490,9 @@ public class CallNotifier extends Handler
         if ((toneToPlay == InCallTonePlayer.TONE_NONE)
             && (mPhone.getState() == Phone.State.IDLE)
             && (c != null)) {
-            ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
-            if ((cause == ConnectionBase.DisconnectCause.NORMAL)  // remote hangup
-                || (cause == ConnectionBase.DisconnectCause.LOCAL)) {  // local hangup
+            Connection.DisconnectCause cause = c.getDisconnectCause();
+            if ((cause == Connection.DisconnectCause.NORMAL)  // remote hangup
+                || (cause == Connection.DisconnectCause.LOCAL)) {  // local hangup
                 if (DBG) log("- need to play CALL_ENDED tone!");
                 toneToPlay = InCallTonePlayer.TONE_CALL_ENDED;
             }
@@ -521,12 +521,12 @@ public class CallNotifier extends Handler
             boolean isPrivateNumber = false; // TODO: need API for isPrivate()
             long date = c.getCreateTime();
             long duration = c.getDurationMillis();
-            ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
+            Connection.DisconnectCause cause = c.getDisconnectCause();
 
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
             int callLogType;
             if (c.isIncoming()) {
-                callLogType = (cause == ConnectionBase.DisconnectCause.INCOMING_MISSED ?
+                callLogType = (cause == Connection.DisconnectCause.INCOMING_MISSED ?
                                CallLog.Calls.MISSED_TYPE :
                                CallLog.Calls.INCOMING_TYPE);
             } else {

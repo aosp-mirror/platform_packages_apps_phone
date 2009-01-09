@@ -16,10 +16,10 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.CallBase;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.ConnectionBase;
+import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.SlidingDrawer;
@@ -179,9 +179,9 @@ public class InCallScreen extends Activity
     private boolean mRegisteredForPhoneStates;
 
     private Phone mPhone;
-    private CallBase mForegroundCall;
-    private CallBase mBackgroundCall;
-    private CallBase mRingingCall;
+    private Call mForegroundCall;
+    private Call mBackgroundCall;
+    private Call mRingingCall;
 
     private BluetoothHandsfree mBluetoothHandsfree;
     private BluetoothHeadset mBluetoothHeadset;  // valid only between onResume and onPause
@@ -1176,17 +1176,17 @@ public class InCallScreen extends Activity
      * @param r r.result contains the connection that just ended
      */
     private void onDisconnect(AsyncResult r) {
-        ConnectionBase c = (ConnectionBase) r.result;
-        ConnectionBase.DisconnectCause cause = c.getDisconnectCause();
+        Connection c = (Connection) r.result;
+        Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
 
         // Under certain call disconnected states, we want to alert the user
         // with a dialog instead of going through the normal disconnect
         // routine.
-        if (cause == ConnectionBase.DisconnectCause.CALL_BARRED) {
+        if (cause == Connection.DisconnectCause.CALL_BARRED) {
             showGenericErrorDialog(R.string.callFailed_cb_enabled, false);
             return;
-        } else if (cause == ConnectionBase.DisconnectCause.FDN_BLOCKED) {
+        } else if (cause == Connection.DisconnectCause.FDN_BLOCKED) {
             showGenericErrorDialog(R.string.callFailed_fdn_only, false);
             return;
         }
@@ -1203,7 +1203,7 @@ public class InCallScreen extends Activity
         // conference call there's no "call ended" state at all; in that
         // case we blow away any DISCONNECTED connections right now to make sure
         // the UI updates instantly to reflect the current state.]
-        CallBase call = c.getCall();
+        Call call = c.getCall();
         if (call != null) {
             // We only care about situation of a single caller
             // disconnecting from a conference call.  In that case, the
@@ -1213,10 +1213,10 @@ public class InCallScreen extends Activity
             // has *no* ACTIVE connections, that means that the entire
             // conference call just ended, so we *do* want to show the
             // "Call ended" state.)
-            List<ConnectionBase> connections = call.getConnections();
+            List<Connection> connections = call.getConnections();
             if (connections != null && connections.size() > 1) {
-                for (ConnectionBase conn : connections) {
-                    if (conn.getState() == CallBase.State.ACTIVE) {
+                for (Connection conn : connections) {
+                    if (conn.getState() == Call.State.ACTIVE) {
                         // This call still has at least one ACTIVE connection!
                         // So blow away any DISCONNECTED connections
                         // (including, presumably, the one that just
@@ -1253,9 +1253,9 @@ public class InCallScreen extends Activity
         // are waiting for the radio to finish powering up for an
         // emergency call:
         boolean bailOutImmediately =
-                ((cause == ConnectionBase.DisconnectCause.INCOMING_MISSED)
-                 || (cause == ConnectionBase.DisconnectCause.INCOMING_REJECTED)
-                 || ((cause == ConnectionBase.DisconnectCause.OUT_OF_SERVICE)
+                ((cause == Connection.DisconnectCause.INCOMING_MISSED)
+                 || (cause == Connection.DisconnectCause.INCOMING_REJECTED)
+                 || ((cause == Connection.DisconnectCause.OUT_OF_SERVICE)
                          && (emergencyCallRetryCount > 0)))
                 && currentlyIdle;
 
@@ -1269,7 +1269,7 @@ public class InCallScreen extends Activity
 
             // Retry the call, by resending the intent to the emergency
             // call handler activity.
-            if ((cause == ConnectionBase.DisconnectCause.OUT_OF_SERVICE)
+            if ((cause == Connection.DisconnectCause.OUT_OF_SERVICE)
                     && (emergencyCallRetryCount > 0)) {
                 startActivity(getIntent()
                         .setClassName(this, EmergencyCallHandler.class.getName()));
@@ -1318,7 +1318,7 @@ public class InCallScreen extends Activity
             // "call ended" state.)  At that point, if the
             // Phone is idle, we'll finish() out of this activity.
             int callEndedDisplayDelay =
-                    (cause == ConnectionBase.DisconnectCause.LOCAL)
+                    (cause == Connection.DisconnectCause.LOCAL)
                     ? CALL_ENDED_SHORT_DELAY : CALL_ENDED_LONG_DELAY;
             mHandler.removeMessages(DELAYED_CLEANUP_AFTER_DISCONNECT);
             Message message = Message.obtain(mHandler, DELAYED_CLEANUP_AFTER_DISCONNECT);
@@ -1390,11 +1390,11 @@ public class InCallScreen extends Activity
      * Dialer to handle POST_ON_DIAL_CHARS too.
      */
     private void handlePostOnDialChars(AsyncResult r, char ch) {
-        ConnectionBase c = (ConnectionBase) r.result;
+        Connection c = (Connection) r.result;
 
         if (c != null) {
-            ConnectionBase.PostDialState state =
-                    (ConnectionBase.PostDialState) r.userObj;
+            Connection.PostDialState state =
+                    (Connection.PostDialState) r.userObj;
 
             if (DBG) log("handlePostOnDialChar: state = " +
                     state + ", ch = " + ch);
@@ -1428,7 +1428,7 @@ public class InCallScreen extends Activity
         }
     }
 
-    private void showWaitPromptDialog(final ConnectionBase c, String postDialStr) {
+    private void showWaitPromptDialog(final Connection c, String postDialStr) {
         Resources r = getResources();
         StringBuilder buf = new StringBuilder();
         buf.append(r.getText(R.string.wait_prompt_str));
@@ -1494,7 +1494,7 @@ public class InCallScreen extends Activity
         return result;
     }
 
-    private void showWildPromptDialog(final ConnectionBase c) {
+    private void showWildPromptDialog(final Connection c) {
         View v = createWildPromptView();
 
         if (mWildPromptDialog != null) {
@@ -2474,7 +2474,7 @@ public class InCallScreen extends Activity
                     setInCallScreenMode(InCallScreenMode.NORMAL);
                     return;
                 }
-                List<ConnectionBase> connections = mForegroundCall.getConnections();
+                List<Connection> connections = mForegroundCall.getConnections();
                 // There almost certainly will be > 1 connection,
                 // since isConferenceCall() just returned true.
                 if ((connections == null) || (connections.size() <= 1)) {
@@ -2553,7 +2553,7 @@ public class InCallScreen extends Activity
      *        the current foreground call; size must be greater than 1
      *        (or it wouldn't be a conference call in the first place.)
      */
-    private void updateManageConferencePanel(List<ConnectionBase> connections) {
+    private void updateManageConferencePanel(List<Connection> connections) {
         mNumCallersInConference = connections.size();
         if (DBG) log("updateManageConferencePanel()... num connections in conference = "
                      + mNumCallersInConference);
@@ -2567,7 +2567,7 @@ public class InCallScreen extends Activity
         for (int i = 0; i < MAX_CALLERS_IN_CONFERENCE; i++) {
             if (i < mNumCallersInConference) {
                 // Fill in the row in the UI for this caller.
-                ConnectionBase connection = (ConnectionBase) connections.get(i);
+                Connection connection = (Connection) connections.get(i);
                 updateManageConferenceRow(i, connection, canSeparate);
             } else {
                 // Blank out this row in the UI
@@ -2585,7 +2585,7 @@ public class InCallScreen extends Activity
     private void updateManageConferencePanelIfNecessary() {
         if (DBG) log("updateManageConferencePanel: mForegroundCall " + mForegroundCall + "...");
 
-        List<ConnectionBase> connections = mForegroundCall.getConnections();
+        List<Connection> connections = mForegroundCall.getConnections();
         if (connections == null) {
             if (DBG) log("==> no connections on foreground call!");
             // Hide the Manage Conference panel, return to NORMAL mode.
@@ -2637,7 +2637,7 @@ public class InCallScreen extends Activity
      *        on this row in the UI.
      */
     private void updateManageConferenceRow(final int i,
-                                           final ConnectionBase connection,
+                                           final Connection connection,
                                            boolean canSeparate) {
         if (DBG) log("updateManageConferenceRow(" + i + ")...  connection = " + connection);
 
@@ -2756,7 +2756,7 @@ public class InCallScreen extends Activity
      * user clicks the "End" button on a specific row in the Manage
      * conference UI.
      */
-    private void endConferenceConnection(int i, ConnectionBase connection) {
+    private void endConferenceConnection(int i, Connection connection) {
         if (DBG) log("===> ENDING conference connection " + i
                      + ": Connection " + connection);
         // The actual work of ending the connection:
@@ -2772,7 +2772,7 @@ public class InCallScreen extends Activity
      * when the user clicks the "Separate" (i.e. "Private") button on a
      * specific row in the Manage conference UI.
      */
-    private void separateConferenceConnection(int i, ConnectionBase connection) {
+    private void separateConferenceConnection(int i, Connection connection) {
         if (DBG) log("===> SEPARATING conference connection " + i
                      + ": Connection " + connection);
 
@@ -2810,7 +2810,7 @@ public class InCallScreen extends Activity
      */
     private boolean okToDialDTMFTones() {
         final boolean hasRingingCall = !mRingingCall.isIdle();
-        final CallBase.State fgCallState = mForegroundCall.getState();
+        final Call.State fgCallState = mForegroundCall.getState();
 
         // We're allowed to send DTMF tones when there's an ACTIVE
         // foreground call, and not when an incoming call is ringing
@@ -2822,7 +2822,7 @@ public class InCallScreen extends Activity
         // some connections that never update to an ACTIVE state (no
         // indication from the network).
         boolean canDial =
-            (fgCallState == CallBase.State.ACTIVE || fgCallState == CallBase.State.ALERTING)
+            (fgCallState == Call.State.ACTIVE || fgCallState == Call.State.ALERTING)
             && !hasRingingCall
             && (mInCallScreenMode != InCallScreenMode.MANAGE_CONFERENCE);
 

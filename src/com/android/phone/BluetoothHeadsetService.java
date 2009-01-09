@@ -39,7 +39,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.SystemProperties;
 import android.os.SystemService;
-import com.android.internal.telephony.CallBase;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import android.util.Log;
@@ -70,8 +70,8 @@ public class BluetoothHeadsetService extends Service {
     private String mHeadsetAddress;
     private IBluetoothHeadsetCallback mConnectHeadsetCallback;
     private String mLastHeadsetAddress;
-    private CallBase mForegroundCall;
-    private CallBase mRingingCall;
+    private Call mForegroundCall;
+    private Call mRingingCall;
     private Phone mPhone;
 
     public BluetoothHeadsetService() {

@@ -20,8 +20,8 @@ import android.content.Context;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.SystemClock;
-import com.android.internal.telephony.CallBase;
-import com.android.internal.telephony.ConnectionBase;
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.Connection;
 import android.util.Log;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class CallTime extends Handler {
 
     private static int sProfileState = PROFILE_STATE_NONE;
 
-    private CallBase mCall;
+    private Call mCall;
     private long mLastReportedTime;
     private boolean mTimerRunning;
     private long mInterval;
@@ -66,7 +66,7 @@ public class CallTime extends Handler {
      * After calling this you should also call reset() and
      * periodicUpdateTimer() to get the timer started.
      */
-    /* package */ void setActiveCallMode(CallBase call) {
+    /* package */ void setActiveCallMode(Call call) {
         if (DBG) log("setActiveCallMode(" + call + ")...");
         mCall = call;
 
@@ -95,9 +95,9 @@ public class CallTime extends Handler {
             mLastReportedTime = nextReport;
 
             if (mCall != null) {
-                CallBase.State state = mCall.getState();
+                Call.State state = mCall.getState();
 
-                if (state == CallBase.State.ACTIVE) {
+                if (state == Call.State.ACTIVE) {
                     updateElapsedTime(mCall);
                 }
             }
@@ -116,7 +116,7 @@ public class CallTime extends Handler {
         mTimerRunning = false;
     }
 
-    private void updateElapsedTime(CallBase call) {
+    private void updateElapsedTime(Call call) {
         if (mListener != null) {
             long duration = getCallDuration(call);
             mListener.onTickForCallTimeElapsed(duration / 1000);
@@ -127,20 +127,20 @@ public class CallTime extends Handler {
      * Returns a "call duration" value for the specified Call, in msec,
      * suitable for display in the UI.
      */
-    /* package */ static long getCallDuration(CallBase call) {
+    /* package */ static long getCallDuration(Call call) {
         long duration = 0;
         List connections = call.getConnections();
         int count = connections.size();
-        ConnectionBase c;
+        Connection c;
 
         if (count == 1) {
-            c = (ConnectionBase) connections.get(0);
+            c = (Connection) connections.get(0);
             //duration = (state == Call.State.ACTIVE
             //            ? c.getDurationMillis() : c.getHoldDurationMillis());
             duration = c.getDurationMillis();
         } else {
             for (int i = 0; i < count; i++) {
-                c = (ConnectionBase) connections.get(i);
+                c = (Connection) connections.get(i);
                 //long t = (state == Call.State.ACTIVE
                 //          ? c.getDurationMillis() : c.getHoldDurationMillis());
                 long t = c.getDurationMillis();

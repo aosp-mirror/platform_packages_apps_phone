@@ -40,10 +40,10 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.android.internal.telephony.CallBase;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.ConnectionBase;
+import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.cdma.CDMAPhone;
@@ -547,9 +547,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // different calls.  So if there's only one call, use that, but if
         // both lines are in use we display the caller-id info from the
         // foreground call and totally ignore the background call.
-        CallBase currentCall = hasActiveCall ? mPhone.getForegroundCall()
+        Call currentCall = hasActiveCall ? mPhone.getForegroundCall()
                 : mPhone.getBackgroundCall();
-        ConnectionBase currentConn = currentCall.getEarliestConnection();
+        Connection currentConn = currentCall.getEarliestConnection();
 
         // When expanded, the "Ongoing call" notification is (visually)
         // different from most other Notifications, so we need to use a
