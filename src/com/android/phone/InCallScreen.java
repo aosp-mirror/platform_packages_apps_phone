@@ -128,6 +128,7 @@ public class InCallScreen extends Activity
     private static final int DELAYED_CLEANUP_AFTER_DISCONNECT = 108;
     private static final int SUPP_SERVICE_FAILED = 110;
     private static final int DISMISS_MENU = 111;
+    private static final int ALLOW_SCREEN_ON = 112;
 
 
     // High-level "modes" of the in-call UI.
@@ -312,6 +313,16 @@ public class InCallScreen extends Activity
                 case DISMISS_MENU:
                     // dismissMenu() has no effect if the menu is already closed.
                     dismissMenu(true);  // dismissImmediate = true
+                    break;
+
+                case ALLOW_SCREEN_ON:
+                    if (DBG) log("ALLOW_SCREEN_ON message...");
+                    // Undo our previous call to preventScreenOn(true).
+                    // (Note this will cause the screen to turn on
+                    // immediately, if it's currently off because of a
+                    // prior preventScreenOn(true) call.)
+                    PhoneApp app = PhoneApp.getInstance();
+                    app.preventScreenOn(false);
                     break;
             }
         }
@@ -507,8 +518,39 @@ public class InCallScreen extends Activity
         PhoneApp app = PhoneApp.getInstance();
         app.notifier.setCallScreen(null);
 
-        // making sure we update the poke lock and wake lock when we move to
+        // Update the poke lock and wake lock when we move to
         // the foreground.
+        //
+        // But we need to do something special if we're coming
+        // to the foreground while an incoming call is ringing:
+        if (mPhone.getState() == Phone.State.RINGING) {
+            // We do want the screen to be on while the phone is ringing,
+            // but ONLY AFTER the InCallScreen has a chance to draw
+            // itself.  So here in onResume(), we use the special
+            // preventScreenOn() API to tell the PowerManager that the
+            // screen should be off even if someone's holding a full wake
+            // lock.  This prevents any flicker during the "incoming call"
+            // sequence.
+            app.preventScreenOn(true);
+
+            // And post an ALLOW_SCREEN_ON message to (eventually) undo
+            // the above preventScreenOn(true) call.
+            // (In principle we shouldn't do this until after our first
+            // layout/draw pass.  But in practice, the delay caused by
+            // simply waiting for the end of the message queue is long
+            // enough to avoid any flickering of the lock screen before
+            // the InCallScreen comes up.)
+            if (DBG) log("- posting ALLOW_SCREEN_ON message...");
+            mHandler.removeMessages(ALLOW_SCREEN_ON);
+            mHandler.sendEmptyMessage(ALLOW_SCREEN_ON);
+
+            // TODO: There ought to be a more elegant way of doing this,
+            // probably by having the PowerManager and ActivityManager
+            // work together to let apps request that the screen on/off
+            // state be synchronized with the Activity lifecycle.
+        } else {
+            app.preventScreenOn(false);
+        }
         app.updateWakeState();
 
         // Restore the mute state if the last mute state change was NOT
@@ -519,6 +561,7 @@ public class InCallScreen extends Activity
         }
 
         Profiler.profileViewCreate(getWindow(), InCallScreen.class.getName());
+        if (DBG) log("onResume() done.");
     }
 
     @Override
@@ -1131,6 +1174,10 @@ public class InCallScreen extends Activity
      */
     private void onPhoneStateChanged(AsyncResult r) {
         if (DBG) log("onPhoneStateChanged()...");
+
+        // TODO: we probably shouldn't do *anything* here if we're not the
+        // foreground activity!
+
         updateScreen();
 
         // Make sure we update the poke lock and wake lock when certain
