@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -171,7 +172,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="InCallScreen" android:label="@string/phoneIconLabel"
+        <activity android:name="InCallScreen"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:exported="false" />

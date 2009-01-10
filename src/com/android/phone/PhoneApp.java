@@ -752,14 +752,29 @@ public class PhoneApp extends Application {
         // displaying the "Call ended" UI for a connection in the
         // "disconnected" state.
         boolean isRinging = (state == Phone.State.RINGING);
-        boolean showDisconnectedConnections =
+        boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
-        boolean keepScreenOn = isRinging || showDisconnectedConnections;
+        boolean keepScreenOn = isRinging || showingDisconnectedConnection;
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
                        + " (isRinging " + isRinging
-                       + ", showDisconnectedConnections " + showDisconnectedConnections + ")");
+                       + ", showingDisconnectedConnection " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
+    }
+
+    /**
+     * Wrapper around the PowerManagerService.preventScreenOn() API.
+     * This allows the in-call UI to prevent the screen from turning on
+     * even if a subsequent call to updateWakeState() causes us to acquire
+     * a full wake lock.
+     */
+    /* package */ void preventScreenOn(boolean prevent) {
+        if (DBG) Log.d(LOG_TAG, "- preventScreenOn(" + prevent + ")...");
+        try {
+            mPowerManagerService.preventScreenOn(prevent);
+        } catch (RemoteException e) {
+            Log.w(LOG_TAG, "mPowerManagerService.preventScreenOn() failed: " + e);
+        }
     }
 
     KeyguardManager getKeyguardManager() {

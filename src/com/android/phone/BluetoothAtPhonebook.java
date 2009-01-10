@@ -255,6 +255,7 @@ public class BluetoothAtPhonebook {
                     int regionType = PhoneNumberUtils.toaFromString(number);
 
                     number = number.trim();
+                    number = PhoneNumberUtils.stripSeparators(number);
                     if (number.length() > 30) number = number.substring(0, 30);
                     if (number.equals("-1")) {
                         // unknown numbers are stored as -1 in our database

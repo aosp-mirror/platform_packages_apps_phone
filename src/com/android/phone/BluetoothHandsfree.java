@@ -98,8 +98,9 @@ public class BluetoothHandsfree {
     private static final String HEADSET_NREC = "bt_headset_nrec";
     private static final String HEADSET_NAME = "bt_headset_name";
 
+    private int mRemoteBRSF = 0;
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
-    public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;          
+    public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
     public static final int BRSF_AG_EC_NR = 1 << 1;
     public static final int BRSF_AG_VOICE_RECOG = 1 << 2;
     public static final int BRSF_AG_IN_BAND_RING = 1 << 3;
@@ -109,14 +110,23 @@ public class BluetoothHandsfree {
     public static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
     public static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
     // 9 - 31 reserved for future use.
-    
+
+    public static final int BRSF_HF_EC_NR = 1 << 0;
+    public static final int BRSF_HF_CW_THREE_WAY_CALLING = 1 << 1;
+    public static final int BRSF_HF_CLIP = 1 << 2;
+    public static final int BRSF_HF_VOICE_REG_ACT = 1 << 3;
+    public static final int BRSF_HF_REMOTE_VOL_CONTROL = 1 << 4;
+    public static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
+    public static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
+    // 7 - 31 reserved for future use.
+
     // Currently supported attributes.
     public static final int BRSF_AG_ATTRIBUTES = BRSF_AG_THREE_WAY_CALLING |
                                                  BRSF_AG_EC_NR |
                                                  BRSF_AG_VOICE_RECOG |
                                                  BRSF_AG_REJECT_CALL |
-                                                 BRSF_AG_ENHANCED_CALL_STATUS;  
-    
+                                                 BRSF_AG_ENHANCED_CALL_STATUS;
+
     public static String typeToString(int type) {
         switch (type) {
         case TYPE_UNKNOWN:
@@ -237,6 +247,7 @@ public class BluetoothHandsfree {
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             mClccUsed[i] = false;
         }
+        mRemoteBRSF = 0;
     }
 
     private void configAudioParameters() {
@@ -504,7 +515,7 @@ public class BluetoothHandsfree {
                 }
                 break;
             }
-            
+
             if (mCall != call) {
                 if (call == 1) {
                     // This means that a call has transitioned from NOT ACTIVE to ACTIVE.
@@ -519,23 +530,25 @@ public class BluetoothHandsfree {
             if (mCallsetup != callsetup) {
                 mCallsetup = callsetup;
                 if (sendUpdate) {
-                    result.addResponse("+CIEV: 3," + mCallsetup);
+                    if (!(mCall == 1 && ((mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0))) {
+                        result.addResponse("+CIEV: 3," + mCallsetup);
+                    }
                 }
             }
-            
-            boolean callsSwitched = 
-                (callheld == 1 && ! (mBackgroundCall.getEarliestConnectTime() == 
+
+            boolean callsSwitched =
+                (callheld == 1 && ! (mBackgroundCall.getEarliestConnectTime() ==
                     mBgndEarliestConnectionTime));
-            
+
             mBgndEarliestConnectionTime = mBackgroundCall.getEarliestConnectTime();
-            
+
             if (mCallheld != callheld || callsSwitched) {
                 mCallheld = callheld;
                 if (sendUpdate) {
                     result.addResponse("+CIEV: 4," + mCallheld);
                 }
             }
-         
+
             if (callsetup == 1 && callsetup != prevCallsetup) {
                 // new incoming call
                 String number = null;
@@ -559,7 +572,9 @@ public class BluetoothHandsfree {
                 }
                 if ((call != 0 || callheld != 0) && sendUpdate) {
                     // call waiting
-                    result.addResponse("+CCWA: \"" + number + "\"," + type);
+                    if ((mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                        result.addResponse("+CCWA: \"" + number + "\"," + type);
+                    }
                 } else {
                     // regular new incoming call
                     mRingingNumber = number;
@@ -1045,8 +1060,12 @@ public class BluetoothHandsfree {
             public AtCommandResult handleSetCommand(Object[] args) {
                 // AT+BRSF=<handsfree supported features bitmap>
                 // Handsfree is telling us which features it supports. We
-                // ignore its report for now. But we do respond with our own
-                // feature bitmap.
+                // send the features we support
+                if (args.length == 1 && (args[0] instanceof Integer)) {
+                    mRemoteBRSF = (Integer) args[0];
+                } else {
+                    Log.w(TAG, "HF didn't sent BRSF assuming 0");
+                }
                 return sendBRSF();
             }
             @Override

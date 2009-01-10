@@ -133,7 +133,7 @@ class InCallMenu {
         mAddCall.setId(R.id.menuAddCall);
         mAddCall.setOnClickListener(mInCallScreen);
         mAddCall.setText(R.string.menu_addCall);
-        mAddCall.setIconResource(R.drawable.ic_menu_add);
+        mAddCall.setIconResource(android.R.drawable.ic_menu_add);
 
         mSwapCalls = new InCallMenuItemView(wrappedContext);
         mSwapCalls.setId(R.id.menuSwapCalls);
