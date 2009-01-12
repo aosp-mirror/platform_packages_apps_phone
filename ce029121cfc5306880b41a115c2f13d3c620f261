@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "zd1b685dd7a4798e43ab59c25d1278861",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "Line wraps",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zd1853ab61c275f90cc0426010d17166c",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "Line wraps",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z34422c41b807925f27fa68b8fd29f8ef",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "indentation.",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z29d66bd41f485038e23ccb2879d31f5c",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "You can either remove these or put all these under DBG",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z85b4a66adba9a0988d7ca80a10c1f809",
+        "filename": "src/com/android/phone/GsmUmtsOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "Intendation is incorrect.",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zb34e93d9b6fb3b862f02fe8c51b69db3",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-12T22:48:26Z",
+      "side": 1,
+      "message": "Line wraps here and below.",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
