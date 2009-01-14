@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "z42c3379213fdbb493cf770f150da285f",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "yes ok, will be fixed with the next upload\n\n",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "zd1853ab61c275f90cc0426010d17166c",
         "filename": "src/com/android/phone/CallFeaturesSetting.java",
         "patchSetId": 4
@@ -30,6 +47,23 @@
       "writtenOn": "2009-01-12T22:48:26Z",
       "side": 1,
       "message": "Line wraps",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z106b87e2463f81f53cab81534721a8a5",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "yes, ok. Will be fixed with the next upload\n",
       "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "ze3ae36737e24b76523a8c25e66bbfef8",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "fixed with the next upload\n\n",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z29d66bd41f485038e23ccb2879d31f5c",
         "filename": "src/com/android/phone/CallNotifier.java",
         "patchSetId": 4
@@ -64,6 +115,23 @@
       "writtenOn": "2009-01-12T22:48:26Z",
       "side": 1,
       "message": "You can either remove these or put all these under DBG",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zb735ce04baa78cc5f078ec6ab2007493",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "ok, put it under DBG \n",
       "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +155,23 @@
     },
     {
       "key": {
+        "uuid": "z98aab7084b43183241cc2f4697c9e3f8",
+        "filename": "src/com/android/phone/GsmUmtsOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "ok, fixed with the next upload\n\n",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "zb34e93d9b6fb3b862f02fe8c51b69db3",
         "filename": "src/com/android/phone/Settings.java",
         "patchSetId": 4
@@ -98,6 +183,23 @@
       "writtenOn": "2009-01-12T22:48:26Z",
       "side": 1,
       "message": "Line wraps here and below.",
+      "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z5ddff18b1a2617f745999a24bc210d98",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-14T10:28:16Z",
+      "side": 1,
+      "message": "ok, fixed with the next upload\n\n",
       "revId": "ce029121cfc5306880b41a115c2f13d3c620f261",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
