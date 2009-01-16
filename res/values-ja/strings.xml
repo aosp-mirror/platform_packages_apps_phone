@@ -10,13 +10,13 @@
     <string name="fdnListLabel">"FDNリスト"</string>
     <string name="unknown">"不明"</string>
     <string name="private_num">"番号非通知"</string>
-    <string name="onHold">"保留"</string>
+    <string name="onHold">"保留中"</string>
     <string name="ongoing">"現在の通話"</string>
     <string name="callFailed_userBusy">"話し中"</string>
     <string name="callFailed_congestion">"ネットワークがビジーです"</string>
     <string name="callFailed_noSignal">"信号なし"</string>
     <string name="callFailed_limitExceeded">"ACMの制限を超えています"</string>
-    <string name="callFailed_powerOff">"無線通信オフ"</string>
+    <string name="callFailed_powerOff">"無線通信をオフ"</string>
     <string name="callFailed_simError">"SIMがないか、エラーが発生しました"</string>
     <string name="callFailed_outOfService">"サービス圏外"</string>
     <string name="callFailed_fdn_only">"FDNにより発信は制限されています。"</string>
@@ -37,15 +37,12 @@
     <string name="menu_manageConference">"電話会議を管理"</string>
     <string name="menu_showDialpad">"ダイヤルパッドを表示"</string>
     <string name="menu_hideDialpad">"ダイヤルパッドを隠す"</string>
-    <!-- no translation found for menu_answerAndHold (8830891495953688905) -->
-    <skip />
-    <!-- no translation found for menu_answerAndEnd (2071708281281611854) -->
-    <skip />
+    <string name="menu_answerAndHold">"通話を保留"\n"して応答"</string>
+    <string name="menu_answerAndEnd">"現在の通話を終了"\n"して応答"</string>
     <string name="ok">"OK"</string>
-    <!-- no translation found for menuButtonHint (4853215496220101699) -->
-    <skip />
+    <string name="menuButtonHint">"通話オプションを表示するにはMenuキーを押します。"</string>
     <string name="menuButtonKeyboardDialHint">"Menuキーを押して通話オプションを表示  •  キーボードからダイヤル"</string>
-    <string name="wait_prompt_str">"後の番号を送信しますか？"\n</string>
+    <string name="wait_prompt_str">"次の番号を送信しますか？"\n</string>
     <string name="send_button">"送信"</string>
     <string name="wild_prompt_str">"ワイルド文字と入れ替える文字"</string>
     <string name="bluetooth_headset_connected">"Bluetoothヘッドセットが接続されました。"</string>
@@ -55,22 +52,18 @@
     <string name="add_vm_number_str">"番号を追加"</string>
     <string name="dialer_emptyListWorking">"読み込み中..."</string>
     <string name="enterPin">"PINコードを入力してSIMカードのロックを解除します。"</string>
-    <string name="pinUnlocked">"SIMのロックを解除"</string>
-    <!-- no translation found for enterNewPin (5311243769004752401) -->
-    <skip />
-    <!-- no translation found for verifyNewPin (2593629913010458867) -->
-    <skip />
+    <string name="pinUnlocked">"SIMのロックを解除しました"</string>
+    <string name="enterNewPin">"新しいSIM PINコード"</string>
+    <string name="verifyNewPin">"確認のため新しいSIM PINコードを再入力"</string>
     <string name="verifyFailed">"入力したSIM PINが一致しません。再入力してください。"</string>
-    <!-- no translation found for enterPuk (6144749655582862324) -->
-    <skip />
+    <string name="enterPuk">"SIMカードのロック解除のためPUKコードを入力"</string>
     <string name="badPuk">"PUKコードが正しくありません。"</string>
     <string name="buttonTxtContinue">"次へ"</string>
     <string name="puk_unlocked">"SIMカードのブロックが解除されました。電話のロックを解除中..."</string>
-    <!-- no translation found for label_ndp (780479633159517250) -->
-    <skip />
+    <string name="label_ndp">"SIMネットワークのロック解除PIN"</string>
     <string name="sim_ndp_unlock_text">"ロックを解除"</string>
     <string name="sim_ndp_dismiss_text">"無効"</string>
-    <string name="requesting_unlock">"ネットワークのロックの解除をリクエスト中..."</string>
+    <string name="requesting_unlock">"ネットワークのロック解除をリクエスト中..."</string>
     <string name="unlock_failed">"ネットワークのロック解除リクエストが拒否されました。"</string>
     <string name="unlock_success">"ネットワークのロックが解除されました。"</string>
     <string name="imei">"IMEI"</string>
@@ -79,19 +72,16 @@
     <string name="settings_label">"ネットワーク設定"</string>
     <string name="voicemail">"ボイスメール"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
-    <!-- no translation found for networks (8873030692174541976) -->
-    <skip />
+    <string name="networks">"ネットワークオペレータ"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"その他の通話設定"</string>
     <string name="labelCallerId">"発信者番号"</string>
-    <string name="sum_hide_caller_id">"発信時に番号を隠す"</string>
-    <string name="sum_show_caller_id">"発信時に番号を表示する"</string>
-    <string name="sum_default_caller_id">"デフォルトのオペレータ設定により発信時に番号を表示"</string>
-    <string name="labelCW">"待機中の着信"</string>
-    <!-- no translation found for sum_cw_enabled (8083061901633671397) -->
-    <skip />
-    <!-- no translation found for sum_cw_disabled (3648693907300104575) -->
-    <skip />
+    <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
+    <string name="sum_show_caller_id">"発信時に番号を通知する"</string>
+    <string name="sum_default_caller_id">"デフォルトのオペレータ設定に従って発信時に番号を通知する"</string>
+    <string name="labelCW">"通話中着信"</string>
+    <string name="sum_cw_enabled">"通話中も着信を知らせる"</string>
+    <string name="sum_cw_disabled">"通話中も着信を知らせる"</string>
     <string name="call_forwarding_settings">"電話転送設定"</string>
     <string name="labelCF">"電話の転送"</string>
     <string name="labelCFU">"常に転送"</string>
@@ -112,13 +102,11 @@
     <string name="sum_cfnrc_enabled">"\\\\{0\\\\}に転送する"</string>
     <string name="sum_cfnrc_disabled">"無効"</string>
     <string name="updating_title">"通話設定"</string>
-    <string name="error_updating_title">"通話設定のエラー"</string>
+    <string name="error_updating_title">"通話設定エラー"</string>
     <string name="reading_settings">"設定を読み取り中..."</string>
     <string name="updating_settings">"設定を更新中..."</string>
-    <!-- no translation found for response_error (605758115001863468) -->
-    <skip />
-    <!-- no translation found for exception_error (7027667130619518211) -->
-    <skip />
+    <string name="response_error">"ネットワークから予期しない応答がありました。"</string>
+    <string name="exception_error">"ネットワークまたはSIMカードでエラーが発生しました。"</string>
     <string name="radio_off_error">"無線通信をオンにしてから設定を表示してください。"</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"有効にする"</string>
@@ -141,7 +129,7 @@
     <string name="search_networks">"ネットワークを検索"</string>
     <string name="network_query_error">"ネットワークの検索中にエラーが発生しました。"</string>
     <string name="register_on_network">"<xliff:g id="NETWORK">%s</xliff:g>に登録中..."</string>
-    <string name="not_allowed">"SIMカードでこのネットワークへの接続が許可されていません。"</string>
+    <string name="not_allowed">"このSIMカードではこのネットワークに接続できません。"</string>
     <string name="registration_done">"ネットワークに登録されました。"</string>
     <string name="sum_carrier_select">"ネットワークオペレータを選択"</string>
     <string name="sum_search_networks">"利用可能なすべてのネットワークを検索する"</string>
@@ -156,23 +144,18 @@
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
     <string name="roaming_reenable_title">"注意"</string>
     <string name="prefer_2g">"2Gネットワークのみ使用"</string>
-    <!-- no translation found for prefer_2g_summary (1976491403210690759) -->
-    <skip />
-    <!-- no translation found for fdn (7878832555095183202) -->
-    <skip />
-    <!-- no translation found for manage_fdn_list (8777755791892122369) -->
-    <skip />
+    <string name="prefer_2g_summary">"バッテリ消費を抑える"</string>
+    <string name="fdn">"発信番号制限"</string>
+    <string name="manage_fdn_list">"FDNリスト"</string>
     <string name="fdn_activation">"FDNの有効化"</string>
     <string name="fdn_enabled">"発信番号制限が有効"</string>
     <string name="fdn_disabled">"発信番号制限が無効"</string>
     <string name="enable_fdn">"FDNを有効にする"</string>
     <string name="disable_fdn">"FDNを無効にする"</string>
     <string name="change_pin2">"PIN2を変更"</string>
-    <!-- no translation found for enable_fdn_ok (7215588870329688132) -->
-    <skip />
-    <!-- no translation found for disable_fdn_ok (5727046928930740173) -->
-    <skip />
-    <string name="sum_fdn">"発信番号制限を管理"</string>
+    <string name="enable_fdn_ok">"FDNを無効にする"</string>
+    <string name="disable_fdn_ok">"FDNを有効にする"</string>
+    <string name="sum_fdn">"発信番号制限の管理"</string>
     <string name="sum_fdn_change_pin">"FDNアクセス用のPINを変更"</string>
     <string name="sum_fdn_manage_list">"電話番号リストを管理"</string>
     <string name="open_keyboard">"キーボードを表示して入力します。"</string>
@@ -199,8 +182,7 @@
     <string name="simContacts_title">"インポートする連絡先の選択"</string>
     <string name="enable_pin">"SIM PINの有効/無効"</string>
     <string name="change_pin">"SIM PINを変更"</string>
-    <!-- no translation found for enter_pin_text (8532615714751931951) -->
-    <skip />
+    <string name="enter_pin_text">"SIM PIN:"</string>
     <string name="oldPinLabel">"古いPIN"</string>
     <string name="newPinLabel">"新しいPIN"</string>
     <string name="confirmPinLabel">"新しいPINを確認"</string>
@@ -210,13 +192,12 @@
     <string name="disable_sim_pin">"SIM PINを無効にする"</string>
     <string name="enable_sim_pin">"SIM PINを有効にする"</string>
     <string name="enable_in_progress">"お待ちください..."</string>
-    <string name="enable_pin_ok">"SIM PINが有効"</string>
-    <string name="disable_pin_ok">"SIM PINが無効です"</string>
+    <string name="enable_pin_ok">"SIM PINは有効です"</string>
+    <string name="disable_pin_ok">"SIM PINは無効です"</string>
     <string name="pin_failed">"入力したPINは正しくありません"</string>
     <string name="pin_changed">"SIM PINが変更されました"</string>
     <string name="puk_requested">"パスワードが正しくありません。SIMがロックされています。PUK2を入力してください。"</string>
-    <!-- no translation found for enter_pin2_text (8339444124477720345) -->
-    <skip />
+    <string name="enter_pin2_text">"PIN2"</string>
     <string name="oldPin2Label">"古いPIN2"</string>
     <string name="newPin2Label">"新しいPIN2"</string>
     <string name="confirmPin2Label">"新しいPIN2の確認"</string>
@@ -239,25 +220,22 @@
     <string name="sim_unlock_status_text">"PINを認証中..."</string>
     <string name="voicemail_settings_number_label">"ボイスメールの番号"</string>
     <string name="card_title_dialing">"ダイヤル中"</string>
-    <!-- no translation found for card_title_in_progress (8603765629781648862) -->
-    <skip />
+    <string name="card_title_in_progress">"現在の通話"</string>
     <string name="card_title_conf_call">"電話会議"</string>
     <string name="card_title_incoming_call">"着信"</string>
     <string name="card_title_call_ended">"通話の終了"</string>
-    <string name="card_title_on_hold">"保留"</string>
-    <!-- no translation found for card_title_hanging_up (3999101620995182450) -->
-    <skip />
+    <string name="card_title_on_hold">"保留中"</string>
+    <string name="card_title_hanging_up">"通話終了"</string>
     <string name="notification_missedCallTitle">"不在着信"</string>
     <string name="notification_missedCallsTitle">"不在着信"</string>
     <string name="notification_missedCallsMsg">"不在着信<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>件"</string>
     <string name="notification_missedCallTicker">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>さんからの不在着信"</string>
     <string name="notification_ongoing_call_format">"現在の通話 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"保留"</string>
+    <string name="notification_on_hold">"保留中"</string>
     <string name="notification_voicemail_title">"新しいボイスメール"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>にダイヤル"</string>
     <string name="notification_voicemail_no_vm_number">"ボイスメールの番号が不明です"</string>
-    <!-- no translation found for incall_error_power_off (6550191216405193368) -->
-    <skip />
+    <string name="incall_error_power_off">"発信するには、まず機内モードをオフにします。"</string>
     <string name="incall_error_emergency_only">"ネットワークに登録されていません。"</string>
     <string name="incall_error_no_phone_number_supplied">"発信できません。有効な番号が入力されていません。"</string>
     <string name="incall_error_call_failed">"発信できません。"</string>
@@ -270,17 +248,14 @@
     <string name="incall_error_supp_service_reject">"着信を拒否できません。"</string>
     <string name="incall_error_supp_service_hangup">"通話を解放できません。"</string>
     <string name="emergency_enable_radio_dialog_title">"緊急電話"</string>
-    <!-- no translation found for emergency_enable_radio_dialog_message (207613549344420291) -->
-    <skip />
+    <string name="emergency_enable_radio_dialog_message">"無線通信をオンにしています..."</string>
     <string name="emergency_enable_radio_dialog_retry">"サービス圏外、再試行中..."</string>
     <string name="dial_emergency_error">"発信できません。<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急電話番号ではありません。"</string>
     <string name="dial_emergency_empty_error">"発信できません。緊急電話番号をダイヤルしてください。"</string>
     <string name="dialerKeyboardHintText">"キーボードからダイヤルする"</string>
-    <!-- no translation found for dtmfDialpadHintText (2153335217920679451) -->
-    <skip />
+    <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>
     <string name="importingSimContacts">"SIMの連絡先をインポート中"</string>
-    <!-- no translation found for importToFDNfromContacts (2130620207013368580) -->
-    <skip />
+    <string name="importToFDNfromContacts">"連絡先からインポート"</string>
 </resources>
