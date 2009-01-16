@@ -37,13 +37,10 @@
     <string name="menu_manageConference">"Telefonkonferenz verwalten"</string>
     <string name="menu_showDialpad">"Telefontasten zeigen"</string>
     <string name="menu_hideDialpad">"Telefontasten verbergen"</string>
-    <!-- no translation found for menu_answerAndHold (8830891495953688905) -->
-    <skip />
-    <!-- no translation found for menu_answerAndEnd (2071708281281611854) -->
-    <skip />
+    <string name="menu_answerAndHold">"Aktuellen Anruf halten"\n"und annehmen"</string>
+    <string name="menu_answerAndEnd">"Aktuellen Anruf beenden"\n"und annehmen"</string>
     <string name="ok">"OK"</string>
-    <!-- no translation found for menuButtonHint (4853215496220101699) -->
-    <skip />
+    <string name="menuButtonHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken."</string>
     <string name="menuButtonKeyboardDialHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken  •  Zum Wählen Tastatur verwenden"</string>
     <string name="wait_prompt_str">"Folgende Töne senden?"\n</string>
     <string name="send_button">"Senden"</string>
@@ -56,18 +53,14 @@
     <string name="dialer_emptyListWorking">"Wird geladen..."</string>
     <string name="enterPin">"Geben Sie zum Entsperren der SIM-Karte den PIN-Code ein."</string>
     <string name="pinUnlocked">"SIM-Karte entsperrt"</string>
-    <!-- no translation found for enterNewPin (5311243769004752401) -->
-    <skip />
-    <!-- no translation found for verifyNewPin (2593629913010458867) -->
-    <skip />
+    <string name="enterNewPin">"Neuer PIN-Code der SIM-Karte"</string>
+    <string name="verifyNewPin">"Neuen PIN-Code für SIM-Karte zur Bestätigung erneut eingeben"</string>
     <string name="verifyFailed">"Die von Ihnen eingegebenen PIN-Codes für die SIM-Karte stimmen nicht überein. Versuchen Sie es erneut."</string>
-    <!-- no translation found for enterPuk (6144749655582862324) -->
-    <skip />
+    <string name="enterPuk">"Geben Sie zum Entsperren der SIM-Karte den PUK ein"</string>
     <string name="badPuk">"Falscher PUK-Code!"</string>
     <string name="buttonTxtContinue">"Fortfahren"</string>
     <string name="puk_unlocked">"Ihre SIM-Karte wurde entsperrt. Ihr Telefon wird nun entsperrt..."</string>
-    <!-- no translation found for label_ndp (780479633159517250) -->
-    <skip />
+    <string name="label_ndp">"PIN zur Entsperrung des SIM-Netzwerks"</string>
     <string name="sim_ndp_unlock_text">"Entsperren"</string>
     <string name="sim_ndp_dismiss_text">"Verwerfen"</string>
     <string name="requesting_unlock">"Netzwerkentsperrung wird angefordert..."</string>
@@ -79,8 +72,7 @@
     <string name="settings_label">"Netzwerkeinstellungen"</string>
     <string name="voicemail">"Mailbox"</string>
     <string name="voicemail_abbreviated">"MB:"</string>
-    <!-- no translation found for networks (8873030692174541976) -->
-    <skip />
+    <string name="networks">"Netzbetreiber"</string>
     <string name="call_settings">"Anrufeinstellungen"</string>
     <string name="additional_call_settings">"Zusätzliche Anrufeinst."</string>
     <string name="labelCallerId">"Anrufer-ID"</string>
@@ -88,10 +80,8 @@
     <string name="sum_show_caller_id">"Nummer bei abgehenden Anrufen angezeigt"</string>
     <string name="sum_default_caller_id">"Standardeinst. zur Anzeige meiner Nr. bei abgehenden Anrufen verwenden"</string>
     <string name="labelCW">"Anklopfen"</string>
-    <!-- no translation found for sum_cw_enabled (8083061901633671397) -->
-    <skip />
-    <!-- no translation found for sum_cw_disabled (3648693907300104575) -->
-    <skip />
+    <string name="sum_cw_enabled">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
+    <string name="sum_cw_disabled">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
     <string name="call_forwarding_settings">"Einstellungen"</string>
     <string name="labelCF">"Anrufweiterleitung"</string>
     <string name="labelCFU">"Immer weiterleiten"</string>
@@ -115,10 +105,8 @@
     <string name="error_updating_title">"Fehler bei Anrufeinstellungen"</string>
     <string name="reading_settings">"Einstellungen werden gelesen…"</string>
     <string name="updating_settings">"Einstellungen werden aktualisiert…"</string>
-    <!-- no translation found for response_error (605758115001863468) -->
-    <skip />
-    <!-- no translation found for exception_error (7027667130619518211) -->
-    <skip />
+    <string name="response_error">"Unerwartete Antwort von Netzwerk,"</string>
+    <string name="exception_error">"Netzwerk- oder SIM-Kartenfehler."</string>
     <string name="radio_off_error">"Schalten Sie das Radio ein, bevor Sie diese Einstellungen anzeigen."</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"Aktivieren"</string>
@@ -156,22 +144,17 @@
     <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="roaming_reenable_title">"Vorsicht"</string>
     <string name="prefer_2g">"Nur 2G-Netzwerke"</string>
-    <!-- no translation found for prefer_2g_summary (1976491403210690759) -->
-    <skip />
-    <!-- no translation found for fdn (7878832555095183202) -->
-    <skip />
-    <!-- no translation found for manage_fdn_list (8777755791892122369) -->
-    <skip />
+    <string name="prefer_2g_summary">"Energiesparend"</string>
+    <string name="fdn">"Beschränkte Rufnummern"</string>
+    <string name="manage_fdn_list">"Liste der beschränkten Rufnummern"</string>
     <string name="fdn_activation">"Aktivierung der Nummernbeschränkung"</string>
     <string name="fdn_enabled">"Nummernbeschränkung ist aktiviert"</string>
     <string name="fdn_disabled">"Nummernbeschränkung ist deaktiviert"</string>
     <string name="enable_fdn">"Nummernbeschränkung aktivieren"</string>
     <string name="disable_fdn">"Nummernbeschränkung deaktivieren"</string>
     <string name="change_pin2">"PIN2 ändern"</string>
-    <!-- no translation found for enable_fdn_ok (7215588870329688132) -->
-    <skip />
-    <!-- no translation found for disable_fdn_ok (5727046928930740173) -->
-    <skip />
+    <string name="enable_fdn_ok">"Nummernbeschränkung deaktivieren"</string>
+    <string name="disable_fdn_ok">"Nummernbeschränkung aktivieren"</string>
     <string name="sum_fdn">"Beschränkte Rufnummern verwalten"</string>
     <string name="sum_fdn_change_pin">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
     <string name="sum_fdn_manage_list">"Telefonnummernliste verwalten"</string>
@@ -199,8 +182,7 @@
     <string name="simContacts_title">"Kontakte für Import auswählen"</string>
     <string name="enable_pin">"PIN-Abfrage für SIM-Karte aktivieren/deaktivieren"</string>
     <string name="change_pin">"PIN der SIM-Karte ändern"</string>
-    <!-- no translation found for enter_pin_text (8532615714751931951) -->
-    <skip />
+    <string name="enter_pin_text">"PIN der SIM-Karte:"</string>
     <string name="oldPinLabel">"Alte PIN"</string>
     <string name="newPinLabel">"Neue PIN"</string>
     <string name="confirmPinLabel">"Neue PIN bestätigen"</string>
@@ -215,8 +197,7 @@
     <string name="pin_failed">"Die von Ihnen eingegebene PIN war nicht korrekt."</string>
     <string name="pin_changed">"Änderung der PIN für SIM-Karte erfolgreich"</string>
     <string name="puk_requested">"Passwort falsch, SIM-Karte gesperrt! Eingabe des PUK2 erforderlich."</string>
-    <!-- no translation found for enter_pin2_text (8339444124477720345) -->
-    <skip />
+    <string name="enter_pin2_text">"PIN2"</string>
     <string name="oldPin2Label">"Alte PIN2"</string>
     <string name="newPin2Label">"Neue PIN2"</string>
     <string name="confirmPin2Label">"Neue PIN2 bestätigen"</string>
@@ -239,14 +220,12 @@
     <string name="sim_unlock_status_text">"PIN wird authentifiziert..."</string>
     <string name="voicemail_settings_number_label">"Mailboxnummer"</string>
     <string name="card_title_dialing">"Rufaufbau"</string>
-    <!-- no translation found for card_title_in_progress (8603765629781648862) -->
-    <skip />
+    <string name="card_title_in_progress">"Aktueller Anruf"</string>
     <string name="card_title_conf_call">"Telefonkonferenz"</string>
     <string name="card_title_incoming_call">"Eingehender Anruf"</string>
     <string name="card_title_call_ended">"Abruf beendet"</string>
     <string name="card_title_on_hold">"Gehaltener Anruf"</string>
-    <!-- no translation found for card_title_hanging_up (3999101620995182450) -->
-    <skip />
+    <string name="card_title_hanging_up">"Auflegen"</string>
     <string name="notification_missedCallTitle">"Entgangener Anruf"</string>
     <string name="notification_missedCallsTitle">"Entgangene Anrufe"</string>
     <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> entgangene Anrufe"</string>
@@ -256,8 +235,7 @@
     <string name="notification_voicemail_title">"Neue Nachricht"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g> wählen"</string>
     <string name="notification_voicemail_no_vm_number">"Mailboxnummer unbekannt"</string>
-    <!-- no translation found for incall_error_power_off (6550191216405193368) -->
-    <skip />
+    <string name="incall_error_power_off">"Deaktivieren Sie zunächst den Flugzeugmodus, um einen Anruf zu tätigen."</string>
     <string name="incall_error_emergency_only">"Nicht in Netzwerk registriert."</string>
     <string name="incall_error_no_phone_number_supplied">"Anruf nicht verbunden; keine gültige Nummer."</string>
     <string name="incall_error_call_failed">"Anruf nicht verbunden."</string>
@@ -270,17 +248,14 @@
     <string name="incall_error_supp_service_reject">"Anruf kann nicht abgelehnt werden."</string>
     <string name="incall_error_supp_service_hangup">"Anrufe können nicht freigegeben werden."</string>
     <string name="emergency_enable_radio_dialog_title">"Notruf"</string>
-    <!-- no translation found for emergency_enable_radio_dialog_message (207613549344420291) -->
-    <skip />
+    <string name="emergency_enable_radio_dialog_message">"Radio wird aktiviert..."</string>
     <string name="emergency_enable_radio_dialog_retry">"Gebiet ohne Netzabdeckung, erneuter Versuch..."</string>
     <string name="dial_emergency_error">"Anruf nicht verbunden; <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> ist keine Notrufnummer!"</string>
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
-    <!-- no translation found for dtmfDialpadHintText (2153335217920679451) -->
-    <skip />
+    <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>
     <string name="importingSimContacts">"SIM-Kontakte werden importiert"</string>
-    <!-- no translation found for importToFDNfromContacts (2130620207013368580) -->
-    <skip />
+    <string name="importToFDNfromContacts">"Aus Kontakten importieren"</string>
 </resources>
