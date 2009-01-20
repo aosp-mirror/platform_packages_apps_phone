@@ -115,7 +115,7 @@ class InCallMenu {
         mManageConference.setId(R.id.menuManageConference);
         mManageConference.setOnClickListener(mInCallScreen);
         mManageConference.setText(R.string.menu_manageConference);
-        mManageConference.setIconResource(R.drawable.ic_menu_manage_conference);
+        mManageConference.setIconResource(com.android.internal.R.drawable.ic_menu_allfriends);
 
         mShowDialpad = new InCallMenuItemView(wrappedContext);
         mShowDialpad.setId(R.id.menuShowDialpad);
