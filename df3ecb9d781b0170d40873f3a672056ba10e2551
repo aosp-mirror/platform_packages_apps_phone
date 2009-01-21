@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "ze61b01835d7a5ff7247fcb6dc3ef255d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "no, this is a merge issue. We bring it in again\n\n",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z156e14a81b078f2a17816ee94f814e62",
         "filename": "AndroidManifest.xml",
         "patchSetId": 5
@@ -64,6 +81,23 @@
       "writtenOn": "2009-01-21T03:44:40Z",
       "side": 1,
       "message": "Did you really mean to re-add all this stuff (i.e. the \u003cintent-filter\u003e entries?)\n\nI\u0027m guessing this is actually a bad merge.  Could you please double-check this?",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z9d3fc5e7713abda217fa9ddfbfd40d25",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "Your are right, this is a bad merge. We will undo it.",
       "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "z9da9b34abb0f229337926d7407496f0c",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "yes,you are right",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z5e7ddecaa182cbf695da4cbc34e8e50a",
         "filename": "src/com/android/phone/InCallScreen.java",
         "patchSetId": 5
@@ -98,6 +149,23 @@
       "writtenOn": "2009-01-21T03:44:40Z",
       "side": 1,
       "message": "This looks like a typo; the curly brace really does belong on the following line.  (And since that\u0027s the only change here, I bet you don\u0027t actually want this file to be part of this change at all...)\n",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z5822fd3ff3bfc91e6b9dc69c86283636",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "Yes, you would win. We will go for the old version\n",
       "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -121,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "z6dab3024db5d37e224f2bc834779752c",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "the new line is needed, otherwise we exeed 100 characters per line. Ok it\u0027s bad done, we will improve that.",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z5c154d1f8bc6be23a77211ca50a7a047",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 5
@@ -132,6 +217,23 @@
       "writtenOn": "2009-01-21T03:44:40Z",
       "side": 1,
       "message": "Isn\u0027t \"GSMCall\" actually correct?",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z6813d07680556282a59d111fb87834dc",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-01-21T12:20:08Z",
+      "side": 1,
+      "message": "No, actually \"GsmCall\" is right.\nThe class GSMCall in com.android.internal.telephony.gsm has been renamed to GsmCall.",
       "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
