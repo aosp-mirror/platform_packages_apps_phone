@@ -184,14 +184,8 @@ public class CallNotifier extends Handler
         PhoneApp app = PhoneApp.getInstance();
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
-        boolean provisioned;
-        if (!SystemProperties.getBoolean("ro.requires_provisioning", false)) {
-            provisioned = true;
-        } else {
-            provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
-                    Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
-        }
-
+        boolean provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
+            Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
         if (!provisioned) {
             Log.i(TAG, "CallNotifier: rejecting incoming call because device isn't provisioned");
             // Send the caller straight to voicemail, just like
