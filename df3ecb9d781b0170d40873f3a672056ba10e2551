@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "z467483289c53045dce245c4364c27f1c",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Please don\u0027t make unnecessary whitespace changes; it\u0027ll just make future merges more difficult.",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z9a21b96665a0de0c0aaf83ee1651c824",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Needless whitespace change here too (and in a few other places in this file)",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zc3b6058870f8440dca32b0b61c5e22c5",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Did you really mean to remove the android:exported\u003d\"false\" attribute?",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z156e14a81b078f2a17816ee94f814e62",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Did you really mean to re-add all this stuff (i.e. the \u003cintent-filter\u003e entries?)\n\nI\u0027m guessing this is actually a bad merge.  Could you please double-check this?",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z2c206eaec64028aa5b3e2fdd578f7b72",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "To keep this change as simple as possible, please don\u0027t include files where the only changes are whitespace.\n\n(And this change looks like a typo anyway; that open curly brace belongs on its own line anyway.)\n ",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z5e7ddecaa182cbf695da4cbc34e8e50a",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "This looks like a typo; the curly brace really does belong on the following line.  (And since that\u0027s the only change here, I bet you don\u0027t actually want this file to be part of this change at all...)\n",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z89a22a38064e1e8ade54630c58b3964f",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Looks like a couple of stray newline characters got added here",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z5c154d1f8bc6be23a77211ca50a7a047",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-21T03:44:40Z",
+      "side": 1,
+      "message": "Isn\u0027t \"GSMCall\" actually correct?",
+      "revId": "df3ecb9d781b0170d40873f3a672056ba10e2551",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
