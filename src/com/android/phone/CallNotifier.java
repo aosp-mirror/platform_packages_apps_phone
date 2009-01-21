@@ -37,6 +37,7 @@ import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Config;
 import android.util.Log;
 
 
@@ -185,7 +186,7 @@ public class CallNotifier extends Handler
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned;
-        if (!SystemProperties.getBoolean("ro.requires_provisioning", false)) {
+        if (!Config.getBoolean(Config.REQUIRES_PROVISIONING, false)) {
             provisioned = true;
         } else {
             provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
