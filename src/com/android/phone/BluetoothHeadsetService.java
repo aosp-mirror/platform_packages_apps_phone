@@ -20,6 +20,7 @@ import android.app.Service;
 import android.bluetooth.BluetoothAudioGateway;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothError;
 import android.bluetooth.BluetoothIntent;
 import android.bluetooth.IBluetoothDeviceCallback;
 import android.bluetooth.IBluetoothHeadset;
@@ -105,8 +106,7 @@ public class BluetoothHeadsetService extends Service {
                 BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
         filter.addAction(BluetoothIntent.ENABLED_ACTION);
         filter.addAction(BluetoothIntent.DISABLED_ACTION);
-        filter.addAction(BluetoothIntent.BONDING_CREATED_ACTION);
-        filter.addAction(BluetoothIntent.BONDING_REMOVED_ACTION);
+        filter.addAction(BluetoothIntent.BOND_STATE_CHANGED_ACTION);
         registerReceiver(mBluetoothIntentReceiver, filter);
 
         mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
@@ -281,10 +281,17 @@ public class BluetoothHeadsetService extends Service {
             } else if (action.equals(BluetoothIntent.DISABLED_ACTION)) {
                 mBtHandsfree.onBluetoothDisabled();
                 mAg.stop();
-            } else if (action.equals(BluetoothIntent.BONDING_CREATED_ACTION)) {
-                mHeadsetPriority.set(address, BluetoothHeadset.PRIORITY_AUTO);
-            } else if (action.equals(BluetoothIntent.BONDING_REMOVED_ACTION)) {
-                mHeadsetPriority.set(address, BluetoothHeadset.PRIORITY_OFF);
+            } else if (action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION)) {
+                int bondState = intent.getIntExtra(BluetoothIntent.BOND_STATE,
+                                                   BluetoothError.ERROR);
+                switch(bondState) {
+                case BluetoothDevice.BOND_BONDED:
+                    mHeadsetPriority.set(address, BluetoothHeadset.PRIORITY_AUTO);
+                    break;
+                case BluetoothDevice.BOND_NOT_BONDED:
+                    mHeadsetPriority.set(address, BluetoothHeadset.PRIORITY_OFF);
+                    break;
+                }
             }
         }
     };
@@ -640,7 +647,7 @@ public class BluetoothHeadsetService extends Service {
         private HashMap<String, Integer> mPriority = new HashMap<String, Integer>();
 
         public synchronized boolean load() {
-            String[] addresses = mBluetooth.listBondings();
+            String[] addresses = mBluetooth.listBonds();
             if (addresses == null) {
                 return false;  // for example, bluetooth is off
             }
@@ -708,17 +715,16 @@ public class BluetoothHeadsetService extends Service {
             if (DBG) log("Rebalancing " + sorted.size() + " headset priorities");
 
             ListIterator<String> li = sorted.listIterator(sorted.size());
-            int newPriority = BluetoothHeadset.PRIORITY_AUTO;
+            int priority = BluetoothHeadset.PRIORITY_AUTO;
             while (li.hasPrevious()) {
                 String address = li.previous();
-                int priority = get(address);
-                if (priority != BluetoothHeadset.PRIORITY_OFF) {
-                    set(address, newPriority);
-                    newPriority++;
-                }
+                set(address, priority);
+                priority++;
             }
         }
 
+        /** Get list of headsets sorted by decreasing priority.
+         * Headsets with priority equal to PRIORITY_OFF are not included */
         public synchronized LinkedList<String> getSorted() {
             LinkedList<String> sorted = new LinkedList<String>();
             HashMap<String, Integer> toSort = new HashMap<String, Integer>(mPriority);
@@ -729,7 +735,7 @@ public class BluetoothHeadsetService extends Service {
                 int maxPriority = BluetoothHeadset.PRIORITY_OFF;
                 for (String address : toSort.keySet()) {
                     int priority = toSort.get(address).intValue();
-                    if (priority >= maxPriority) {
+                    if (priority > maxPriority) {
                         maxAddress = address;
                         maxPriority = priority;
                     }

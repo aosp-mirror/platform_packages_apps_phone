@@ -408,7 +408,9 @@ public class PhoneApp extends Application {
      */
     /* package */ static Intent createInCallIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
         intent.setClassName("com.android.phone", getCallScreenClassName());
         return intent;
     }
