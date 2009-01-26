@@ -188,16 +188,6 @@ public class CallNotifier extends Handler
                 Settings.System.DEVICE_PROVISIONED, 0) != 0;
         if (!provisioned) {
             Log.i(TAG, "CallNotifier: rejecting incoming call because device isn't provisioned");
-            if(DBG){
-                String v = Settings.System.getString(mPhone.getContext().getContentResolver(),
-                        Settings.System.DEVICE_PROVISIONED); 
-                if (v != null) { 
-                    Log.e(TAG, "Content provider says: \"device_provisioned\" is " + v); 
-                } else { 
-                    Log.e(TAG, "Content provider string \"device_provisioned\" is null!"); 
-                }
-            }
-            
             // Send the caller straight to voicemail, just like
             // "rejecting" an incoming call.
             PhoneUtils.hangupRingingCall(mPhone);
@@ -395,6 +385,23 @@ public class CallNotifier extends Handler
             // put a icon in the status bar
             NotificationMgr.getDefault().updateInCallNotification();
         }
+    }
+
+    void updateCallNotifierRegistrationsAfterRadioTechnologyChange() {
+        if(DBG) Log.d(TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
+        //Unregister all events from the old obsolete phone
+        mPhone.unregisterForNewRingingConnection(this);
+        mPhone.unregisterForPhoneStateChanged(this);
+        mPhone.unregisterForDisconnect(this);
+        mPhone.unregisterForUnknownConnection(this);
+        mPhone.unregisterForIncomingRing(this);
+
+        //Register all events new to the new active phone
+        mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
+        mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
+        mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
+        mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
+        mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
     }
 
     /**

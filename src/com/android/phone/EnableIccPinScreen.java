@@ -21,10 +21,6 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-//TODO T: CommandException could be moved to telephony package
-import com.android.internal.telephony.gsm.CommandException;
 import android.text.TextUtils;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -32,6 +28,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 /**
  * UI to enable/disable the ICC PIN.
@@ -65,14 +65,12 @@ public class EnableIccPinScreen extends Activity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-      //TODO T: should enable_sim_pin_screen renamed to icc?
         setContentView(R.layout.enable_sim_pin_screen);
         setupView();
 
         mPhone = PhoneFactory.getDefaultPhone();
         mEnable = !mPhone.getIccCard().getIccLockEnabled();
 
-      //TODO T: should disable_sim_pin renamed to icc?
         int id = mEnable ? R.string.enable_sim_pin : R.string.disable_sim_pin;
         setTitle(getResources().getText(id));
     }

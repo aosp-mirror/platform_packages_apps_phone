@@ -377,6 +377,18 @@ public class BluetoothHandsfree {
             mContext.registerReceiver(mStateReceiver, filter);
         }
 
+        private void updateBtPhoneStateAfterRadioTechnologyChange() {
+            if(DBG) Log.d(TAG, "updateBtPhoneStateAfterRadioTechnologyChange...");
+
+            //Unregister all events from the old obsolete phone
+            mPhone.unregisterForServiceStateChanged(mStateChangeHandler);
+            mPhone.unregisterForPhoneStateChanged(mStateChangeHandler);
+
+            //Register all events new to the new active phone
+            mPhone.registerForServiceStateChanged(mStateChangeHandler, SERVICE_STATE_CHANGED, null);
+            mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
+        }
+
         private boolean sendUpdate() {
             return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mIndicatorsEnabled;
         }
@@ -709,6 +721,17 @@ public class BluetoothHandsfree {
 
     private ScoSocket createScoSocket() {
         return new ScoSocket(mPowerManager, mHandler, SCO_ACCEPTED, SCO_CONNECTED, SCO_CLOSED);
+    }
+
+    void updateBtHandsfreeAfterRadioTechnologyChange() {
+        if(DBG) Log.d(TAG, "updateBtHandsfreeAfterRadioTechnologyChange...");
+
+        //Get the Call references from the new active phone again
+        mRingingCall = mPhone.getRingingCall();
+        mForegroundCall = mPhone.getForegroundCall();
+        mBackgroundCall = mPhone.getBackgroundCall();
+
+        mPhoneState.updateBtPhoneStateAfterRadioTechnologyChange();
     }
 
     /** Request to establish SCO (audio) connection to bluetooth

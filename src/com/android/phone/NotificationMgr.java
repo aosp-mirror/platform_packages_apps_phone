@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -45,8 +44,7 @@ import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.cdma.CDMAPhone;
+
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -54,25 +52,23 @@ import com.android.internal.telephony.cdma.CDMAPhone;
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
     private static final boolean DBG = false;
-    private static final int ENHANCED_VP_VALUE_RETURN = 10;
+    private static final int EVENT_ENHANCED_VP_ON  = 1;
+    private static final int EVENT_ENHANCED_VP_OFF = 2;
 
     // **Callback for enhanced voice privacy return value
     private Handler mEnhancedVPHandler = new Handler() {
         boolean enhancedVoicePrivacy = false;
         @Override
         public void handleMessage(Message msg) {
-            // query to make sure we're looking at the same data as that in the network.
             switch (msg.what) {
-            case ENHANCED_VP_VALUE_RETURN:
-                if (((AsyncResult) msg.obj).exception != null) {
-                    if (DBG) log("Error getting VP enable state.");
-                } else {
-                    if (DBG) Log.d(LOG_TAG, "voicePrivacyMode = " + msg.arg1);
-                    enhancedVoicePrivacy = (((int[])((AsyncResult) msg.obj).result)[0] != 0);
-                }
+            case EVENT_ENHANCED_VP_ON:
+                enhancedVoicePrivacy = true;
+                break;
+            case EVENT_ENHANCED_VP_OFF:
+                enhancedVoicePrivacy = false;
                 break;
             default:
-                // TODO: should never reach this, may want to throw exception
+                // We should never reach this
             }
             updateInCallNotification(enhancedVoicePrivacy);
         }
@@ -131,6 +127,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         PhoneApp app = PhoneApp.getInstance();
         mPhone = app.phone;
+        mPhone.registerForInCallVoicePrivacyOn(mEnhancedVPHandler,  EVENT_ENHANCED_VP_ON,  null);
+        mPhone.registerForInCallVoicePrivacyOff(mEnhancedVPHandler, EVENT_ENHANCED_VP_OFF, null);
     }
 
     static void init(Context context) {
@@ -245,14 +243,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             cancelInCall();
         } else {
             if (DBG) log("Phone is offhook, updating notification.");
-
-            if(PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
-                mPhone.getEnhancedVoicePrivacy(Message.obtain(mEnhancedVPHandler, 
-                ENHANCED_VP_VALUE_RETURN));
-            } else {
-                updateInCallNotification(false);
-            }
-            
+            updateInCallNotification();
         }
         
         // Depend on android.app.StatusBarManager to be set to
@@ -653,15 +644,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     void updateInCallNotification() {
-        // First check if voice privacy is enabled. When the result comes back to the Handler,
-        // then call updateInCallNotification(boolean ...) 
-        // and set the appropriate icon during the call.
-        if(PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
-            mPhone.getEnhancedVoicePrivacy(Message.obtain(mEnhancedVPHandler, 
-                    ENHANCED_VP_VALUE_RETURN));
-        } else {
-            updateInCallNotification(false);
-        }
+        updateInCallNotification(false);
     }
 
     /**
@@ -732,7 +715,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // So handle case (2) by retrying the lookup after a short
             // delay.
 
-            if ((vmNumber == null) && !mPhone.getSimRecordsLoaded()) {
+            if ((vmNumber == null) && !mPhone.getIccRecordsLoaded()) {
                 if (DBG) log("- Null vm number: SIM records not loaded (yet)...");
 
                 // TODO: rather than retrying after an arbitrary delay, it

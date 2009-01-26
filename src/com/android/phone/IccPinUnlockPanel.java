@@ -21,8 +21,6 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
-import com.android.internal.telephony.IccCard;
-import com.android.internal.telephony.gsm.CommandException;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextUtils;
@@ -35,6 +33,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.IccCard;
 
 /**
  * Panel where you enter your PIN to unlock the SIM card.
@@ -107,7 +108,7 @@ public class IccPinUnlockPanel extends IccPanel {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sim_unlock);//TODO T: should sim_unlock renamed to icc?
+        setContentView(R.layout.sim_unlock);
         updateState();
         initView();
         updateView();
@@ -152,7 +153,7 @@ public class IccPinUnlockPanel extends IccPanel {
     }
 
     void initView() {
-        mUnlockPane = (LinearLayout) findViewById(R.id.simPINPane); //TODO T: should simPINPane renamed to icc?
+        mUnlockPane = (LinearLayout) findViewById(R.id.simPINPane);
         mUnlockInProgressPane = (LinearLayout) findViewById(R.id.progress);
 
         mEntry = (EditText) findViewById(R.id.entry);
@@ -229,7 +230,7 @@ public class IccPinUnlockPanel extends IccPanel {
         }
 
         // pin/puk unlock failed!
-        if (ar.exception instanceof com.android.internal.telephony.gsm.CommandException &&
+        if (ar.exception instanceof com.android.internal.telephony.CommandException &&
                 ((CommandException) ar.exception).getCommandError() ==
                     CommandException.Error.PASSWORD_INCORRECT) {
             hidePinUnlockInProgress();
@@ -245,7 +246,6 @@ public class IccPinUnlockPanel extends IccPanel {
 
         // store the ICC pin in memory, to be used later for keyguard lock
         // and radio reboots.
-        //TODO T: setCachedSimPin should be renamed to icc?
         PhoneApp.getInstance().setCachedSimPin(mEntry.getText().toString()); 
     }
 

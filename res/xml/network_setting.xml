@@ -19,18 +19,6 @@
     <PreferenceCategory
         android:title="@string/mobile_networks"/>
     
-    <PreferenceScreen 
-        android:key="button_carrier_sel_key" 
-        android:title="@string/networks"
-        android:summary="@string/sum_carrier_select"
-        android:persistent="false">
-        
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.NetworkSetting" />
-        
-    </PreferenceScreen>
-    
     <CheckBoxPreference 
         android:key="button_roaming_key" 
         android:title="@string/roaming"

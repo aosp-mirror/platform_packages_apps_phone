@@ -27,12 +27,16 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.ServiceManager;
 import android.telephony.ServiceState;
-import com.android.internal.telephony.DefaultPhoneNotifier;
-import com.android.internal.telephony.ITelephony;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.IccCard;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.internal.telephony.DefaultPhoneNotifier;
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.ITelephony;
+import com.android.internal.telephony.Phone;
+
+import static com.android.internal.telephony.RILConstants.GSM_PHONE;
+import static com.android.internal.telephony.RILConstants.CDMA_PHONE;
 
 /**
  * Implementation of the ITelephony interface.
@@ -426,5 +430,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     private void log(String msg) {
         Log.d(LOG_TAG, "[PhoneIntfMgr] " + msg);
+    }
+
+    public int getActivePhoneType() {
+        if(mPhone.getPhoneName().equals("CDMA")) {
+            return CDMA_PHONE;
+        } else {
+            return GSM_PHONE;
+        }
     }
 }

@@ -16,12 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.MmiCode;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.IccCard;
-import com.android.internal.telephony.TelephonyIntents;
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
@@ -53,6 +47,12 @@ import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.MmiCode;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.TelephonyIntents;
 
 /**
  * Top-level Application class for the Phone app.
@@ -307,6 +307,7 @@ public class PhoneApp extends Application {
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+            intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -349,8 +350,8 @@ public class PhoneApp extends Application {
         }
 
         // XXX pre-load the SimProvider so that it's ready
-        resolver.getType(Uri.parse("content://sim/adn"));
-        
+        resolver.getType(Uri.parse("content://icc/adn"));
+
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
    }
@@ -636,6 +637,27 @@ public class PhoneApp extends Application {
         return mIsHeadsetPlugged;
     }
 
+    private void initForNewRadioTechnology() {
+        if(DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
+
+        ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
+        notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
+        if(mBtHandsfree != null) {
+            mBtHandsfree.updateBtHandsfreeAfterRadioTechnologyChange();
+        }
+
+        //Update registration for ICC status after radio technology change
+        IccCard sim = phone.getIccCard();
+        if (sim != null) {
+            if(DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
+
+            //Register all events new to the new active phone
+            sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
+            sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
+            sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
+        }
+    }
+
 
     /**
      * Receiver for misc intent broadcasts the Phone app cares about.
@@ -688,6 +710,10 @@ public class PhoneApp extends Application {
                 // been attempted.
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_SIM_STATE_CHANGED,
                         intent.getStringExtra(IccCard.INTENT_KEY_ICC_STATE)));
+            } else if (action.equals(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED)) {
+                String newPhone = intent.getStringExtra(Phone.PHONE_NAME_KEY);
+                Log.d(LOG_TAG, "Radio technology switched. Now " + newPhone + " is active.");
+                initForNewRadioTechnology();
             }
         }
     }

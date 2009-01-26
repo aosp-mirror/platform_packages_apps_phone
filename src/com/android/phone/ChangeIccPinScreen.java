@@ -18,18 +18,12 @@ package com.android.phone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.IccCard;
-//TODO T: CommandException could be moved to telephony package
-import com.android.internal.telephony.gsm.CommandException;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +33,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 /**
  * "Change ICC PIN" UI for the Phone app.
@@ -74,7 +73,7 @@ public class ChangeIccPinScreen extends Activity {
     private Button mButton;
     private Button mPUKSubmit;
     private ScrollView mScrollView;
-    
+
     private LinearLayout mIccPUKPanel;
 
     private Handler mHandler = new Handler() {
@@ -97,7 +96,6 @@ public class ChangeIccPinScreen extends Activity {
 
         resolveIntent();
 
-        //TODO T: should change_sim_pin_screen renamed to icc?
         setContentView(R.layout.change_sim_pin_screen);
 
         mOldPin = (EditText) findViewById(R.id.old_pin);
