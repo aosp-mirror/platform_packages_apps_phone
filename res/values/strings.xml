@@ -242,6 +242,120 @@
     <string name="roaming_reenable_title">Attention</string>
     <string name="gsm_umts_options">GSM/UMTS Options</string>
     <string name="cdma_options">CDMA Options</string>
+    
+    <!-- Cell broadcast SMS strings -->
+    <string name="cdma_cell_broadcast_sms">Cell Broadcast SMS</string>
+    
+    <string name="cell_broadcast_sms">Cell Broadcast SMS</string>
+    
+    <string name="enable_disable_cell_bc_sms">Cell Broadcast SMS</string>
+    <string name="cell_bc_sms_enable">Cell Broadcast SMS enabled</string>
+    <string name="cell_bc_sms_disable">Cell Broadcast SMS disabled</string>
+    
+    <string name="cb_sms_settings">Cell Broadcast SMS settings</string>
+    
+    <string name="enable_disable_emergency_broadcast">Emergency Broadcast</string>
+    <string name="emergency_broadcast_enable">Emergency Broadcast enabled</string>
+    <string name="emergency_broadcast_disable">Emergency Broadcast disabled</string>
+    
+    <string name="enable_disable_administrative">Administrative</string>
+    <string name="administrative_enable">Administrative enabled</string>
+    <string name="administrative_disable">Administrative disabled</string>
+    
+    <string name="enable_disable_maintenance">Maintenance</string>
+    <string name="maintenance_enable">Maintenance enabled</string>
+    <string name="maintenance_disable">Maintenance disabled</string>
+    
+    <string name="general_news_settings">General News</string>
+    <string name="bf_news_settings">Business and Financial News</string>
+    <string name="sports_news_settings">Sports News</string>
+    <string name="entertainment_news_settings">Entertainment News</string>
+
+    <string name="enable_disable_local">Local</string>
+    <string name="local_enable">Local news enabled</string>
+    <string name="local_disable">Local news disabled</string>
+    
+    <string name="enable_disable_regional">Regional</string>
+    <string name="regional_enable">Regional news enabled</string>
+    <string name="regional_disable">Regional news disabled</string>
+    
+    <string name="enable_disable_national">National</string>
+    <string name="national_enable">National news enabled</string>
+    <string name="national_disable">National news disabled</string>
+    
+    <string name="enable_disable_international">International</string>
+    <string name="international_enable">International news enabled</string>
+    <string name="international_disable">International news disabled</string>
+   
+    <string name="list_language_title">Language</string>
+    <string name="list_language_summary">Select the news language</string>
+    <string-array name="list_language_entries">
+        <item>English</item>
+        <item>French</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Chinese</item>
+        <item>Hebrew</item>
+    </string-array>
+    <string-array name="list_language_values">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+    </string-array>
+    <string name="list_language_dtitle">Languages</string>
+
+    <string name="enable_disable_local_weather">Local Weather</string>
+    <string name="local_weather_enable">Local Weather enabled</string>
+    <string name="local_weather_disable">Local Weather disabled</string>
+    
+    <string name="enable_disable_atr">Area Traffic Reports</string>
+    <string name="atr_enable">Area Traffic Reports enabled</string>
+    <string name="atr_disable">Area Traffic Reports disabled</string>
+    
+    <string name="enable_disable_lafs">Local Airport Flight Schedules</string>
+    <string name="lafs_enable">Local Airport Flight Schedules enabled</string>
+    <string name="lafs_disable">Local Airport Flight Schedules disabled</string>
+    
+    <string name="enable_disable_restaurants">Restaurants</string>
+    <string name="restaurants_enable">Restaurants enabled</string>
+    <string name="restaurants_disable">Restaurants disabled</string>
+    
+    <string name="enable_disable_lodgings">Lodgings</string>
+    <string name="lodgings_enable">Lodgings enabled</string>
+    <string name="lodgings_disable">Lodgings disabled</string>
+    
+    <string name="enable_disable_retail_directory">Retail Directory</string>
+    <string name="retail_directory_enable">Retail Directory enabled</string>
+    <string name="retail_directory_disable">Retail Directory disabled</string>
+    
+    <string name="enable_disable_advertisements">Advertisements</string>
+    <string name="advertisements_enable">Advertisements enabled</string>
+    <string name="advertisements_disable">Advertisements disabled</string>
+    
+    <string name="enable_disable_stock_quotes">Stock Quotes</string>
+    <string name="stock_quotes_enable">Stock Quotes enabled</string>
+    <string name="stock_quotes_disable">Stock Quotes disabled</string>
+    
+    <string name="enable_disable_eo">Employment Opportunities</string>
+    <string name="eo_enable">Employment Opportunities enabled</string>
+    <string name="eo_disable">Employment Opportunities disabled</string>
+    
+    <string name="enable_disable_mhh">Medical, Health and Hospital</string>
+    <string name="mhh_enable">Medical, Health and Hospital enabled</string>
+    <string name="mhh_disable">Medical, Health and Hospital disabled</string>
+    
+    <string name="enable_disable_technology_news">Technology News</string>
+    <string name="technology_news_enable">Technology News enabled</string>
+    <string name="technology_news_disable">Technology News disabled</string>
+    
+    <string name="enable_disable_multi_category">Multi-category</string>
+    <string name="multi_category_enable">Multi-category enabled</string>
+    <string name="multi_category_disable">Multi-category disabled</string>
 
     <!-- GSM/UMTS Options strings -->
     <string name="gsm_umts_network_preferences_title">GSM/UMTS Network Preferences</string>

@@ -29,14 +29,6 @@
         android:dialogTitle="@string/cdma_roaming_mode_dialogtitle" />
         
     <ListPreference 
-        android:key="cdma_network_prefernces_key"
-        android:title="@string/cdma_network_preferences_title"
-        android:summary="@string/cdma_network_preferneces_summary"
-        android:entries="@array/cdma_network_preferences_choices"
-        android:entryValues="@array/cdma_network_preferences_values"
-        android:dialogTitle="@string/cdma_network_preferences_dialogtitle" />           
-        
-    <ListPreference 
         android:key="subscription_key"
         android:title="@string/subscription_title"
         android:summary="@string/subscription_summary"
@@ -44,5 +36,14 @@
         android:entryValues="@array/subscription_values"
         android:dialogTitle="@string/subscription_dialogtitle" />
        
+    <PreferenceScreen 
+        android:key="cdma_cell_broadcast_sms_key" 
+        android:title="@string/cdma_cell_broadcast_sms"
+        android:persistent="false">
+        
+        <intent android:action="android.intent.action.MAIN"
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.CellBroadcastSms" />
+    </PreferenceScreen>
 
 </PreferenceScreen>   

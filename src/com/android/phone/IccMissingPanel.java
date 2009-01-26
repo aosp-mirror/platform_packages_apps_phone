@@ -34,7 +34,7 @@ public class IccMissingPanel extends IccPanel {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.sim_missing); //TODO T: should sim_missing renamed to icc?
+        setContentView(R.layout.sim_missing);
         ((Button) findViewById(R.id.continueView)).setOnClickListener(mButtonListener);
     }
 

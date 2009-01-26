@@ -898,33 +898,47 @@ public class InCallScreen extends Activity
      * @return true if we consumed the event.
      */
     private boolean handleCallKey() {
-        // The green CALL button means either "Answer", "Add another", or
-        // "Swap calls", depending on the current state of the Phone.
-
         final boolean hasRingingCall = !mRingingCall.isIdle();
         final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+        final boolean hasHoldingCall = !mBackgroundCall.isIdle(); 
 
-        if (hasRingingCall) {
-            if (hasActiveCall && hasHoldingCall) {
-                if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
-                internalAnswerCallBothLinesInUse();
-            } else {
+        if (mPhone.getPhoneName() == "CDMA") {
+            // The green CALL button means either "Answer", "Swap calls/On Hold", or
+            // "Add to 3WC", depending on the current state of the Phone.
+
+            if (hasRingingCall) {
                 if (DBG) log("handleCallKey: ringing ==> answer!");
                 internalAnswerCall();  // Automatically holds the current active call,
                                        // if there is one
+            } else { 
+                // send an empty CDMA flash string
+                PhoneUtils.switchHoldingAndActive(mPhone);
             }
-        } else if (hasActiveCall && hasHoldingCall) {
-            if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
-            PhoneUtils.switchHoldingAndActive(mPhone);
         } else {
-            // Note we *don't* allow "Add call" if the foreground call is
-            // still DIALING or ALERTING.
-            if (PhoneUtils.okToAddCall(mPhone)) {
-                if (DBG) log("handleCallKey: <2 lines in use ==> add another...");
-                PhoneUtils.startNewCall(mPhone);  // Fires off a ACTION_DIAL intent
+            // The green CALL button means either "Answer", "Add another", or
+            // "Swap calls", depending on the current state of the Phone.
+
+            if (hasRingingCall) {
+                if (hasActiveCall && hasHoldingCall) {
+                    if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
+                    internalAnswerCallBothLinesInUse();
+                } else {
+                    if (DBG) log("handleCallKey: ringing ==> answer!");
+                    internalAnswerCall();  // Automatically holds the current active call,
+                                           // if there is one
+                }
+            } else if (hasActiveCall && hasHoldingCall) {
+                if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
+                PhoneUtils.switchHoldingAndActive(mPhone);
             } else {
-                if (DBG) log("handleCallKey: <2 lines in use but CAN'T add call; ignoring...");
+                // Note we *don't* allow "Add call" if the foreground call is
+                // still DIALING or ALERTING.
+                if (PhoneUtils.okToAddCall(mPhone)) {
+                    if (DBG) log("handleCallKey: <2 lines in use ==> add another...");
+                    PhoneUtils.startNewCall(mPhone);  // Fires off a ACTION_DIAL intent
+                } else {
+                    if (DBG) log("handleCallKey: <2 lines in use but CAN'T add call; ignoring...");
+                }
             }
         }
 
@@ -2442,7 +2456,7 @@ public class InCallScreen extends Activity
             mConferenceTime.setFormat(getString(R.string.caller_manage_header));
 
             // Create list of conference call widgets
-            mConferenceCallList = new ViewGroup[MAX_CALLERS_IN_CONFERENCE]; 
+            mConferenceCallList = new ViewGroup[MAX_CALLERS_IN_CONFERENCE];
             {
                 final int[] viewGroupIdList = {R.id.caller0, R.id.caller1, R.id.caller2,
                         R.id.caller3, R.id.caller4};

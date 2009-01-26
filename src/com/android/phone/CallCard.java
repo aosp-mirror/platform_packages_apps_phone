@@ -726,7 +726,7 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_powerOff;
                     break;
 
-                case SIM_ERROR:
+                case ICC_ERROR:
                     resID = R.string.callFailed_simError;
                     break;
 
@@ -969,7 +969,7 @@ public class CallCard extends FrameLayout
                 // for a photo load.
 
                 // look for the photoResource if it is available.
-                CallerInfo ci = null; 
+                CallerInfo ci = null;
                 {
                     Connection conn = call.getEarliestConnection();
                     if (conn != null) {

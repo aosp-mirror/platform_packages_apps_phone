@@ -52,7 +52,7 @@
          android:persistent="true"
                  android:label="@string/dialerIconLabel"
                  android:icon="@drawable/ic_launcher_phone">
-        <provider android:name="IccProvider" android:authorities="sim" android:multiprocess="true" />
+        <provider android:name="IccProvider" android:authorities="icc" android:multiprocess="true" />
 
         <!-- A virtual DTMF 12 key dialer -->
         <activity android:name="DTMFTwelveKeyDialer"
@@ -209,6 +209,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="CellBroadcastSms"
+            android:label="@string/cell_broadcast_sms">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
         <!-- fdn setting -->
         <activity android:name="FdnSetting" android:label="@string/fdn">
             <intent-filter>

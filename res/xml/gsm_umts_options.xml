@@ -31,12 +31,16 @@
             
     </PreferenceScreen>
            
-    <ListPreference 
-        android:key="gsm_umts_network_prefernces_key"
-        android:title="@string/gsm_umts_network_preferences_title"
-        android:summary="@string/gsm_umts_network_preferneces_summary"
-        android:entries="@array/gsm_umts_network_preferences_choices"
-        android:entryValues="@array/gsm_umts_network_preferences_values"
-        android:dialogTitle="@string/gsm_umts_network_preferences_dialogtitle" />       
+    <PreferenceScreen 
+        android:key="button_carrier_sel_key" 
+        android:title="@string/networks"
+        android:summary="@string/sum_carrier_select"
+        android:persistent="false">
+        
+        <intent android:action="android.intent.action.MAIN"
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.NetworkSetting" />
+        
+    </PreferenceScreen>
 
 </PreferenceScreen>   

@@ -61,6 +61,18 @@ public class Ringer {
     }
 
     /**
+     * After a radio technology change, e.g. from CDMA to GSM or vice versa,
+     * the Context of the Ringer has to be updated. This is done by that function.
+     * 
+     * @parameter Phone, the new active phone for the appropriate radio
+     * technology
+     */
+    void updateRingerContextAfterRadioTechnologyChange(Phone phone) {
+        if(DBG) Log.d(TAG, "updateRingerContextAfterRadioTechnologyChange...");
+        mContext = phone.getContext();
+    }
+
+    /**
      * @return true if we're playing a ringtone and/or vibrating
      *     to indicate that there's an incoming call.
      *     ("Ringing" here is used in the general sense.  If you literally

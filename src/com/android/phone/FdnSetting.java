@@ -16,10 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.gsm.CommandException;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncResult;
@@ -30,6 +26,10 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 /**
  * FDN settings UI for the Phone app.
@@ -413,6 +413,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mPhone = PhoneFactory.getDefaultPhone();
         updateEnableFDN();
     }
 
