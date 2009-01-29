@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABn///8k\u003d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-29T04:59:40Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure you didn\u0027t mean to change this.  I\u0027m guessing it\u0027s a bad merge (just like Change 4412 originally had.)",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABn///8g\u003d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-29T04:59:40Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure you didn\u0027t mean to change this.  I\u0027m guessing it\u0027s a bad merge (just like Change 4412 originally had.)",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABn///8Y\u003d",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-29T04:59:40Z",
+      "side": 1,
+      "message": "To keep this change as simple as possible, please don\u0027t include files\nwhere the only changes are whitespace.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABn///8U\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2009-01-29T04:59:40Z",
+      "side": 1,
+      "message": "There should actually be a space after the cast.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
