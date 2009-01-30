@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAB3////o\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "There is no need to change these. These receivers are independent of the technology (CDMA / GSM). Ex: Even with 2G / 3G that we currently support we don\u0027t change this.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3////Y\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "There is no need to change these. These receivers are independent of the technology (CDMA / GSM). Ex: Even with 2G / 3G that we currently support we don\u0027t change this.\n\nSuppose a user was in the middle of the call when the techology change happened, we will get a PHONE_STATE_CHANGED_INTENT which will update these states.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABn///8Y\u003d",
         "filename": "src/com/android/phone/CallCard.java",
         "patchSetId": 1
@@ -53,6 +87,74 @@
     },
     {
       "key": {
+        "uuid": "AAAAB3////M\u003d",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "Is there no equivalent of airplane mode on CDMA ? I am not sure if there should be a distinction made here.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3///+0\u003d",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "As in the previous file, can you confirm if this is needed for some reason ? I believe this is independent of the technology.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3///+c\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "The following code is not clear to me:\n  a) Elaborate on \"Add to 3WC\u0027\n  b) What happens where is an Active Call / Holding Call and a new ringing call - this is handled in the GSM code\n  c) Line 917 - switches the call even though there cam be one call active ? Look at the corresponding GSM code.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3///+Y\u003d",
+        "filename": "src/com/android/phone/PhoneApp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "Could you please elaborate as to why the following is needed ?\n\nWhy do we need to update the Ringer Context when there is a technology change ?",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABn///8U\u003d",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 1
@@ -64,6 +166,40 @@
       "writtenOn": "2009-01-29T04:59:40Z",
       "side": 1,
       "message": "There should actually be a space after the cast.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3///+U\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "Again as before, can you please elaborate as to why the context has to be changed ? Ex: we don\u0027t need to do it when the user explicitly changes from 2G to 3G. I would imagine a similar case from GSM to CDMA and vice versa.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAB3///+Q\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2009-01-30T00:01:26Z",
+      "side": 1,
+      "message": "Can you use the constants in TelephonyManager.java instead of RIL Constants ?\n\nWe would want to keep the concept of RIL and Phone app distinct.",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
