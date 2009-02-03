@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACH///9o\u003d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "yes, you are right, fixed with next upload",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABn///8g\u003d",
         "filename": "AndroidManifest.xml",
         "patchSetId": 1
@@ -30,6 +47,23 @@
       "writtenOn": "2009-01-29T04:59:40Z",
       "side": 1,
       "message": "I\u0027m pretty sure you didn\u0027t mean to change this.  I\u0027m guessing it\u0027s a bad merge (just like Change 4412 originally had.)",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACH///9k\u003d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "yes, you are right, fixed with next upload",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///8I\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "here we are now dependent on the radio technology. PhoneProxy is creating wether a GSMPhone or a CDMAPhone. If we change Radio technology the mPhone refer to the wrong Phone implementation. So we have to unregister and the register again to have the right reference available.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3////Y\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 1
@@ -70,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///8E\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "This is the same cause, why we need it. See my comment above. If we change the radio technology, we need to refer to the changed phone.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABn///8Y\u003d",
         "filename": "src/com/android/phone/CallCard.java",
         "patchSetId": 1
@@ -81,6 +149,23 @@
       "writtenOn": "2009-01-29T04:59:40Z",
       "side": 1,
       "message": "To keep this change as simple as possible, please don\u0027t include files\nwhere the only changes are whitespace.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///8A\u003d",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "there was a comment in ChangeId 4412 which was solved and merged manually into this release. After a internal codereview, we found this whitespace and removed it.",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -121,6 +206,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///74\u003d",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "Please see my comments in previous file.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3///+c\u003d",
         "filename": "src/com/android/phone/InCallScreen.java",
         "patchSetId": 1
@@ -155,6 +257,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///70\u003d",
+        "filename": "src/com/android/phone/PhoneApp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "There is a dependecy to Phone. After Radio technology change the Phone changes, so we have to update the ringer Cnotext according to radio technology.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABn///8U\u003d",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 1
@@ -172,6 +291,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///7w\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "yes. Fixed in next upload",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3///+U\u003d",
         "filename": "src/com/android/phone/Ringer.java",
         "patchSetId": 1
@@ -183,6 +319,23 @@
       "writtenOn": "2009-01-30T00:01:26Z",
       "side": 1,
       "message": "Again as before, can you please elaborate as to why the context has to be changed ? Ex: we don\u0027t need to do it when the user explicitly changes from 2G to 3G. I would imagine a similar case from GSM to CDMA and vice versa.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///7s\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-03T15:26:15Z",
+      "side": 1,
+      "message": "Please see my comment in file PhoneApp.java",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
