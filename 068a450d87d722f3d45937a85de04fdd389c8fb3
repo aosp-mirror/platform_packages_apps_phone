@@ -189,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACX///5s\u003d",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-05T09:10:39Z",
+      "side": 1,
+      "message": "the whole else part here is GSM related and in CDMA we do not need it at all, because querying of CF options is not needed in CDMA. Therefore we don\u0027t need to handle airplane mode for CDMA here.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3///+0\u003d",
         "filename": "src/com/android/phone/CallNotifier.java",
         "patchSetId": 1
@@ -234,6 +251,23 @@
       "writtenOn": "2009-01-30T00:01:26Z",
       "side": 1,
       "message": "The following code is not clear to me:\n  a) Elaborate on \"Add to 3WC\u0027\n  b) What happens where is an Active Call / Holding Call and a new ringing call - this is handled in the GSM code\n  c) Line 917 - switches the call even though there cam be one call active ? Look at the corresponding GSM code.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///5o\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-05T09:10:39Z",
+      "side": 1,
+      "message": "in CDMA active call, holding call, .. is handled by the network, so we don\u0027t need to take care about here. But thanks for your comment, we saw that we can remove the elseif below",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -353,6 +387,23 @@
       "writtenOn": "2009-01-30T00:01:26Z",
       "side": 1,
       "message": "Can you use the constants in TelephonyManager.java instead of RIL Constants ?\n\nWe would want to keep the concept of RIL and Phone app distinct.",
+      "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///5w\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000095
+      },
+      "writtenOn": "2009-02-05T09:10:39Z",
+      "side": 1,
+      "message": "ok, but then it makes more sense to put constants into Phone.java. Anyway the constants in TelephonyManager.java are not exactly what we need.",
       "revId": "068a450d87d722f3d45937a85de04fdd389c8fb3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
