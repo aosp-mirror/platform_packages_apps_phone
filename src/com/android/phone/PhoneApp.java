@@ -736,23 +736,46 @@ public class PhoneApp extends Application {
                        + ", isDialerOpened " + isDialerOpened
                        + ", isSpeakerInUse " + isSpeakerInUse + "...");
 
+        //
+        // (1) Set the screen timeout.
+        //
+        // Note that the "screen timeout" value we determine here is
+        // meaningless if the screen is forced on (see (2) below.)
+        //
         if (!isShowingCallScreen || isSpeakerInUse) {
             // Use the system-wide default timeout.
             setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
         } else {
-            // Ok, use a special in-call-specific screen timeout value
-            // instead of the system-wide default.  (This timeout is very
-            // short if the DTMF dialpad is up, and medium otherwise.)
+            // We're on the in-call screen, and *not* using the speakerphone.
             if (isDialerOpened) {
-                setScreenTimeout(ScreenTimeoutDuration.SHORT);
+                // The DTMF dialpad is up.  This case is special because
+                // the in-call UI has its own "touch lock" mechanism to
+                // disable the dialpad after a very short amount of idle
+                // time (to avoid false touches from the user's face while
+                // in-call.)
+                //
+                // In this case the *physical* screen just uses the
+                // system-wide default timeout.
+                setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
             } else {
+                // We're on the in-call screen, and not using the DTMF dialpad.
+                // There's actually no touchable UI onscreen at all in
+                // this state.  Also, the user is (most likely) not
+                // looking at the screen at all, since they're probably
+                // holding the phone up to their face.  Here we use a
+                // special screen timeout value specific to the in-call
+                // screen, purely to save battery life.
                 setScreenTimeout(ScreenTimeoutDuration.MEDIUM);
             }
         }
 
+        //
+        // (2) Decide whether to force the screen on or not.
+        //
         // Force the screen to be on if the phone is ringing, or if we're
         // displaying the "Call ended" UI for a connection in the
         // "disconnected" state.
+        //
         boolean isRinging = (state == Phone.State.RINGING);
         boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;

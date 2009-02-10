@@ -101,7 +101,7 @@
     <string name="labelCFU">"Přesměrovat vždy"</string>
     <string name="messageCFU">"Vždy používat toto číslo"</string>
     <string name="sum_cfu_enabled_indicator">"Všechny hovory budou přesměrovány"</string>
-    <string name="sum_cfu_enabled">"Všechny hovory budou přesměrovány na \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Všechny hovory budou přesměrovány na {0}"</string>
     <string name="sum_cfu_disabled">"Vypnuto"</string>
     <string name="labelCFB">"Přesměrovat, je-li obsazeno"</string>
     <string name="messageCFB">"Číslo při obsazené lince"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"Připojení datových služeb bylo přerušeno, protože jste opustili domovskou síť a datové služby při roamingu máte vypnuty."</string>
     <string name="roaming_turn_it_on_button">"Zapnout"</string>
     <string name="roaming_warning">"Opravdu chcete povolit datové služby při roamingu? Vystavujete se nebezpečí vysokých poplatků."</string>
-    <string name="roaming_reenable_title">"Upozornění"</string>
     <string name="prefer_2g">"Používat pouze sítě 2G"</string>
     <string name="prefer_2g_summary">"Šetří baterii"</string>
     <string name="fdn">"Povolená telefonní čísla"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Umožňuje spravovat povolená telefonní čísla"</string>
     <string name="sum_fdn_change_pin">"Umožňuje změnit kód PIN pro přístup k povoleným telefonním číslům"</string>
     <string name="sum_fdn_manage_list">"Správa telefonního seznamu"</string>
-    <string name="open_keyboard">"Otevřete klávesnici a zadejte údaje."</string>
     <string name="menu_add">"Přidat kontakt"</string>
     <string name="menu_edit">"Upravit kontakt"</string>
     <string name="menu_delete">"Smazat kontakt"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>
     <string name="importingSimContacts">"Importování kontaktů z karty SIM"</string>

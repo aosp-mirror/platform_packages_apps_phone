@@ -45,8 +45,8 @@
     <string name="menu_mute">"Ton aus"</string>
     <string name="menu_hold">"Halten"</string>
     <string name="menu_endCall">"Beenden"</string>
-    <string name="menu_swapCalls">"Tauschen"</string>
-    <string name="menu_mergeCalls">"Verbinden"</string>
+    <string name="menu_swapCalls">"Wechseln"</string>
+    <string name="menu_mergeCalls">"Konferenz"</string>
     <string name="menu_addCall">"Hinzufügen"</string>
     <string name="menu_manageConference">"Telefonkonferenz verwalten"</string>
     <string name="menu_showDialpad">"Telefontasten zeigen"</string>
@@ -101,19 +101,19 @@
     <string name="labelCFU">"Immer weiterleiten"</string>
     <string name="messageCFU">"Diese Nummer immer verwenden"</string>
     <string name="sum_cfu_enabled_indicator">"Alle Anrufe weiterleiten"</string>
-    <string name="sum_cfu_enabled">"Alle Anrufe weiterleiten an \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Alle Anrufe weiterleiten an {0}"</string>
     <string name="sum_cfu_disabled">"Deaktiviert"</string>
     <string name="labelCFB">"Weiterleiten falls besetzt"</string>
     <string name="messageCFB">"Nummer falls besetzt"</string>
-    <string name="sum_cfb_enabled">"Weiterleitung an \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled">"Weiterleitung an {0}"</string>
     <string name="sum_cfb_disabled">"Deaktiviert"</string>
     <string name="labelCFNRy">"Weiterleiten falls keine Antwort"</string>
     <string name="messageCFNRy">"Nummer falls keine Antwort"</string>
-    <string name="sum_cfnry_enabled">"Weiterleitung an \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled">"Weiterleitung an {0}"</string>
     <string name="sum_cfnry_disabled">"Deaktiviert"</string>
     <string name="labelCFNRc">"Weiterleiten falls nicht erreichbar"</string>
     <string name="messageCFNRc">"Nummer falls nicht erreichbar"</string>
-    <string name="sum_cfnrc_enabled">"Weiterleitung an \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled">"Weiterleitung an {0}"</string>
     <string name="sum_cfnrc_disabled">"Deaktiviert"</string>
     <string name="updating_title">"Anrufeinstellungen"</string>
     <string name="error_updating_title">"Fehler bei Anrufeinstellungen"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
     <string name="roaming_turn_it_on_button">"Einschalten"</string>
     <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
-    <string name="roaming_reenable_title">"Vorsicht"</string>
     <string name="prefer_2g">"Nur 2G-Netzwerke"</string>
     <string name="prefer_2g_summary">"Energiesparend"</string>
     <string name="fdn">"Beschränkte Rufnummern"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Beschränkte Rufnummern verwalten"</string>
     <string name="sum_fdn_change_pin">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
     <string name="sum_fdn_manage_list">"Telefonnummernliste verwalten"</string>
-    <string name="open_keyboard">"Öffnen Sie für die Eingabe die Tastatur."</string>
     <string name="menu_add">"Kontakt hinzufügen"</string>
     <string name="menu_edit">"Kontakt bearbeiten"</string>
     <string name="menu_delete">"Kontakt löschen"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
     <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>
     <string name="importingSimContacts">"SIM-Kontakte werden importiert"</string>

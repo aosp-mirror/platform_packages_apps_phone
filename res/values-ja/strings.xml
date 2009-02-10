@@ -101,7 +101,7 @@
     <string name="labelCFU">"常に転送"</string>
     <string name="messageCFU">"常にこの番号を使用"</string>
     <string name="sum_cfu_enabled_indicator">"電話をすべて転送する"</string>
-    <string name="sum_cfu_enabled">"電話をすべて\\\\{0\\\\}に転送する"</string>
+    <string name="sum_cfu_enabled">"電話をすべて{0}に転送する"</string>
     <string name="sum_cfu_disabled">"無効"</string>
     <string name="labelCFB">"通話時に転送"</string>
     <string name="messageCFB">"通話時の転送番号"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
     <string name="roaming_turn_it_on_button">"オンにする"</string>
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
-    <string name="roaming_reenable_title">"注意"</string>
     <string name="prefer_2g">"2Gネットワークのみ使用"</string>
     <string name="prefer_2g_summary">"バッテリ消費を抑える"</string>
     <string name="fdn">"発信番号制限"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"発信番号制限の管理"</string>
     <string name="sum_fdn_change_pin">"FDNアクセス用のPINを変更"</string>
     <string name="sum_fdn_manage_list">"電話番号リストを管理"</string>
-    <string name="open_keyboard">"キーボードを表示して入力します。"</string>
     <string name="menu_add">"連絡先を追加"</string>
     <string name="menu_edit">"連絡先を編集"</string>
     <string name="menu_delete">"連絡先を削除"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"発信できません。緊急電話番号をダイヤルしてください。"</string>
     <string name="dialerKeyboardHintText">"キーボードからダイヤルする"</string>
     <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>
     <string name="importingSimContacts">"SIMの連絡先をインポート中"</string>

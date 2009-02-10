@@ -20,7 +20,7 @@ package com.android.phone;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Phone;
-import com.android.internal.widget.SlidingDrawer;
+import android.widget.SlidingDrawer;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -142,6 +142,11 @@ public class DTMFTwelveKeyDialer implements
             return false;
         }
 
+        /**Return false since we are NOT consuming the input.*/
+        public boolean onKeyOther(TextView view, Spannable text, KeyEvent event) {
+            return false;
+        }
+        
         /**Return false since we are NOT consuming the input.*/
         public boolean onTrackballEvent(TextView widget, Spannable buffer, MotionEvent event) {
             return false;
@@ -602,7 +607,7 @@ public class DTMFTwelveKeyDialer implements
      * This includes layout changes, etc, and just prepares the dialer model for use.
      */
     void onDialerOpen() {
-        if (DBG) log("initMenu()...");
+        if (DBG) log("onDialerOpen()...");
 
         // inflate the view.
         mDialerView = (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.dtmf_dialer);
@@ -640,6 +645,9 @@ public class DTMFTwelveKeyDialer implements
 
         // setup the local tone generator.
         startDialerSession();
+
+        // Give the InCallScreen a chance to do any necessary UI updates.
+        mInCallScreen.onDialerOpen();
     }
 
     /**
@@ -673,6 +681,8 @@ public class DTMFTwelveKeyDialer implements
      * This releases resources acquired when we start the dialer.
      */
     public void onDialerClose() {
+        if (DBG) log("onDialerClose()...");
+
         // reset back to a short delay for the poke lock.
         PhoneApp app = PhoneApp.getInstance();
         app.updateWakeState();
@@ -680,6 +690,9 @@ public class DTMFTwelveKeyDialer implements
         mPhone.unregisterForDisconnect(mHandler);
 
         stopDialerSession();
+
+        // Give the InCallScreen a chance to do any necessary UI updates.
+        mInCallScreen.onDialerClose();
     }
 
     /**

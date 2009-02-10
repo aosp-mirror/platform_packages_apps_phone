@@ -101,7 +101,7 @@
     <string name="labelCFU">"Toujours transférer"</string>
     <string name="messageCFU">"Toujours utiliser ce numéro"</string>
     <string name="sum_cfu_enabled_indicator">"Transfert de tous les appels"</string>
-    <string name="sum_cfu_enabled">"Transfert de tous les appels à \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Transfert de tous les appels à {0}"</string>
     <string name="sum_cfu_disabled">"Désactivé"</string>
     <string name="labelCFB">"Transférer quand la ligne est occupée"</string>
     <string name="messageCFB">"Numéro de renvoi lorsque la ligne est occupée"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"Vous avez été déconnecté car vous avez quitté votre réseau alors que l\'itinérance des données était désactivée."</string>
     <string name="roaming_turn_it_on_button">"Activer"</string>
     <string name="roaming_warning">"Autoriser l\'itinérance des données ? Des frais d\'itinérance importants peuvent s\'appliquer !"</string>
-    <string name="roaming_reenable_title">"Attention"</string>
     <string name="prefer_2g">"Utiliser uniquement les réseaux 2G"</string>
     <string name="prefer_2g_summary">"Économise la batterie"</string>
     <string name="fdn">"Numérotation fixe"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Gérer la numérotation fixe"</string>
     <string name="sum_fdn_change_pin">"Modifier le code PIN pour l\'accès à la numérotation fixe"</string>
     <string name="sum_fdn_manage_list">"Gérer la liste des numéros de téléphone"</string>
-    <string name="open_keyboard">"Ouvrez le clavier pour saisir le numéro ou le code."</string>
     <string name="menu_add">"Ajouter un contact"</string>
     <string name="menu_edit">"Modifier le contact"</string>
     <string name="menu_delete">"Supprimer le contact"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText">"Clavier à touches sonores"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Tout importer"</string>
     <string name="importingSimContacts">"Importation des contacts SIM"</string>

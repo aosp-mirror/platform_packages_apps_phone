@@ -101,7 +101,7 @@
     <string name="labelCFU">"Zawsze przekierowuj"</string>
     <string name="messageCFU">"Zawsze używaj tego numeru"</string>
     <string name="sum_cfu_enabled_indicator">"Przekierowanie wszystkich rozmów"</string>
-    <string name="sum_cfu_enabled">"Przekierowanie wszystkich rozmów do \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Przekierowanie wszystkich rozmów do {0}"</string>
     <string name="sum_cfu_disabled">"Wyłączone"</string>
     <string name="labelCFB">"Przekieruj, gdy zajęty"</string>
     <string name="messageCFB">"Numer, gdy zajęty"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"Utracono łączność danych, ponieważ pozostawiono wyłączony roaming danych w sieci macierzystej."</string>
     <string name="roaming_turn_it_on_button">"Włącz usługę"</string>
     <string name="roaming_warning">"Czy pozwolić na wymianę danych w roamingu? Mogą zostać naliczone wysokie opłaty roamingowe!"</string>
-    <string name="roaming_reenable_title">"Uwaga"</string>
     <string name="prefer_2g">"Używaj tylko sieci 2G"</string>
     <string name="prefer_2g_summary">"Oszczędza baterię"</string>
     <string name="fdn">"Numery wybierania ustalonego"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Zarządzanie numerami wybierania ustalonego"</string>
     <string name="sum_fdn_change_pin">"Zmień kod PIN pozwalający na dostęp do usługi wybierania ustalonego (FDN)"</string>
     <string name="sum_fdn_manage_list">"Zarządzanie listą numerów telefonów"</string>
-    <string name="open_keyboard">"Otwórz klawiaturę, aby wprowadzić tekst."</string>
     <string name="menu_add">"Dodaj kontakt"</string>
     <string name="menu_edit">"Edytuj kontakt"</string>
     <string name="menu_delete">"Usuń kontakt"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"Połączenie niezrealizowane, należy wybrać numer alarmowy!"</string>
     <string name="dialerKeyboardHintText">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="dtmfDialpadHintText">"Dotykowa klawiatura tonowa"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importuj"</string>
     <string name="importAllSimEntries">"Importuj wszystko"</string>
     <string name="importingSimContacts">"Importowanie kontaktów z karty SIM"</string>

@@ -759,7 +759,14 @@ public class CallNotifier extends Handler
             // a local audio signal, and is not as important.
             ToneGenerator toneGenerator;
             try {
-                toneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL, toneVolume);
+                int stream;
+                if (mBluetoothHandsfree != null) {
+                    stream = mBluetoothHandsfree.isAudioOn() ? AudioManager.STREAM_BLUETOOTH_SCO:
+                        AudioManager.STREAM_VOICE_CALL;
+                } else {
+                    stream = AudioManager.STREAM_VOICE_CALL;
+                }
+                toneGenerator = new ToneGenerator(stream, toneVolume);
                 // if (DBG) log("- created toneGenerator: " + toneGenerator);
             } catch (RuntimeException e) {
                 Log.w(TAG, "InCallTonePlayer: Exception caught while creating ToneGenerator: " + e);

@@ -39,7 +39,6 @@ import android.os.Message;
 import android.provider.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -607,7 +606,6 @@ public class PhoneUtils {
 
                 // get the input field.
                 final EditText inputText = (EditText) dialogView.findViewById(R.id.input_field);
-                inputText.setKeyListener(DigitsKeyListener.getInstance());
 
                 // specify the dialog's click listener, with SEND and CANCEL logic.
                 final DialogInterface.OnClickListener mUSSDDialogListener =

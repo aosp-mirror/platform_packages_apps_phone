@@ -101,7 +101,7 @@
     <string name="labelCFU">"Devia sempre"</string>
     <string name="messageCFU">"Usa sempre questo numero"</string>
     <string name="sum_cfu_enabled_indicator">"Deviazione di tutte le chiamate"</string>
-    <string name="sum_cfu_enabled">"Deviazione di tutte le chiamate al numero \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Deviazione di tutte le chiamate al numero {0}"</string>
     <string name="sum_cfu_disabled">"Disattivato"</string>
     <string name="labelCFB">"Devia se occupato"</string>
     <string name="messageCFB">"Numero se occupato"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"Connettività dati persa: hai lasciato la rete del tuo operatore con il roaming dati disattivato."</string>
     <string name="roaming_turn_it_on_button">"Attiva"</string>
     <string name="roaming_warning">"Consenti il roaming dati? I costi potrebbero essere elevati."</string>
-    <string name="roaming_reenable_title">"Attenzione"</string>
     <string name="prefer_2g">"Usa solo reti 2G"</string>
     <string name="prefer_2g_summary">"Risparmia batteria"</string>
     <string name="fdn">"Numeri di selezione fissa"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Gestisci numeri di selezione fissa"</string>
     <string name="sum_fdn_change_pin">"Cambia PIN per accesso FDN"</string>
     <string name="sum_fdn_manage_list">"Gestisci elenco numeri"</string>
-    <string name="open_keyboard">"Apri la tastiera per digitare."</string>
     <string name="menu_add">"Aggiungi contatto"</string>
     <string name="menu_edit">"Modifica contatto"</string>
     <string name="menu_delete">"Elimina contatto"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"Chiamata non inviata. Comporre un numero di emergenza."</string>
     <string name="dialerKeyboardHintText">"Usa tastiera"</string>
     <string name="dtmfDialpadHintText">"Tocca tastierino numerico"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importa"</string>
     <string name="importAllSimEntries">"Importa tutti"</string>
     <string name="importingSimContacts">"Importazione contatti SIM"</string>

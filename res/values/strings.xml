@@ -346,8 +346,6 @@
     <string name="roaming_turn_it_on_button">Turn it on</string>
     <!-- Mobile network settings screen, dialog message when user selects the Data roaming check box -->
     <string name="roaming_warning">Allow data roaming? You may incur significant roaming charges!</string>
-    <!-- Mobile network settings screen, dialog title when user clears or selects the Data roaming check box -->
-    <string name="roaming_reenable_title">Attention</string>
     <!-- Mobile network settings screen, setting option name -->
     <string name="prefer_2g">Use only 2G networks</string>
     <!-- Mobile network settings screen, setting summary text -->
@@ -381,8 +379,6 @@
     <string name="sum_fdn_change_pin">Change PIN for FDN access</string>
     <!-- Call settings, FDN screen, setting option name -->
     <string name="sum_fdn_manage_list">Manage phone number list</string>
-    <!-- Call settings, message in dialog box when trying to change PIN2 or enable FDN with keyboard closed -->
-    <string name="open_keyboard">Open keyboard to type.</string>
 
     <!-- FDN list screen: menu item label -->
     <string name="menu_add">Add contact</string>
@@ -611,6 +607,11 @@
          in-call DTMF dialpad.  (This hint reminds the user that the
          dialpad is there to generate tones, not to add a new call.) -->
     <string name="dtmfDialpadHintText">Touch tone keypad</string>
+
+    <!-- Text displayed on the in-call screen's "touch lock" overlay,
+         instructing the user that they need to double-tap to unlock the
+         screen. -->
+    <string name="touchLockText">Double-tap\nto unlock</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>

@@ -101,7 +101,7 @@
     <string name="labelCFU">"Altijd doorschakelen"</string>
     <string name="messageCFU">"Altijd dit nummer gebruiken"</string>
     <string name="sum_cfu_enabled_indicator">"Alle oproepen doorschakelen"</string>
-    <string name="sum_cfu_enabled">"Alle oproepen doorschakelen naar \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Alle oproepen doorschakelen naar {0}"</string>
     <string name="sum_cfu_disabled">"Uitgeschakeld"</string>
     <string name="labelCFB">"Doorschakelen indien in gesprek"</string>
     <string name="messageCFB">"Nummer indien in gesprek"</string>
@@ -156,7 +156,6 @@
     <string name="roaming_reenable_message">"De gegevensverbinding is verbroken, omdat u uw thuisnetwerk heeft verlaten terwijl gegevensroaming was uitgeschakeld."</string>
     <string name="roaming_turn_it_on_button">"Inschakelen"</string>
     <string name="roaming_warning">"Gegevensroaming toestaan? Er kunnen hoge roamingkosten in rekening worden gebracht."</string>
-    <string name="roaming_reenable_title">"Let op"</string>
     <string name="prefer_2g">"Alleen 2G-netwerken gebruiken"</string>
     <string name="prefer_2g_summary">"Energiespaarstand"</string>
     <string name="fdn">"Vaste nummers"</string>
@@ -172,7 +171,6 @@
     <string name="sum_fdn">"Vaste nummers beheren"</string>
     <string name="sum_fdn_change_pin">"PIN-code voor FDN-toegang wijzigen"</string>
     <string name="sum_fdn_manage_list">"Lijst met telefoonnummers beheren"</string>
-    <string name="open_keyboard">"Open het toetsenbord om te typen."</string>
     <string name="menu_add">"Contactpersoon toevoegen"</string>
     <string name="menu_edit">"Contactpersoon bewerken"</string>
     <string name="menu_delete">"Contactpersoon verwijderen"</string>
@@ -268,6 +266,8 @@
     <string name="dial_emergency_empty_error">"Oproep niet verzonden, kies een alarmnummer!"</string>
     <string name="dialerKeyboardHintText">"Toetsen gebruiken om te bellen"</string>
     <string name="dtmfDialpadHintText">"Toetsenblok voor toetsgeluid"</string>
+    <!-- no translation found for touchLockText (566824588267376287) -->
+    <skip />
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>
     <string name="importingSimContacts">"SIM-contactpersonen importeren"</string>
