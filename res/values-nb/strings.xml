@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
     <string name="dialerKeyboardHintText">"Bruk tastaturet for å ringe"</string>
     <string name="dtmfDialpadHintText">"Talltastatur for tastetoner"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Dobbeltklikk"\n"for å låse opp"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Importer alle"</string>
     <string name="importingSimContacts">"Importerer kontakter fra SIM-kortet"</string>

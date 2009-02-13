@@ -22,6 +22,7 @@ import android.bluetooth.AtParser;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.ScoSocket;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -97,11 +98,15 @@ public class BluetoothHandsfree {
     private DebugThread mDebugThread;
     private int mScoGain = Integer.MIN_VALUE;
 
+    private static Intent sVoiceCommandIntent;
+
     // Audio parameters
     private static final String HEADSET_NREC = "bt_headset_nrec";
     private static final String HEADSET_NAME = "bt_headset_name";
 
-    private int mRemoteBRSF = 0;
+    private int mRemoteBrsf = 0;
+    private int mLocalBrsf = 0;
+
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
     public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
     public static final int BRSF_AG_EC_NR = 1 << 1;
@@ -124,11 +129,6 @@ public class BluetoothHandsfree {
     // 7 - 31 reserved for future use.
 
     // Currently supported attributes.
-    public static final int BRSF_AG_ATTRIBUTES = BRSF_AG_THREE_WAY_CALLING |
-                                                 BRSF_AG_EC_NR |
-                                                 BRSF_AG_VOICE_RECOG |
-                                                 BRSF_AG_REJECT_CALL |
-                                                 BRSF_AG_ENHANCED_CALL_STATUS;
 
     public static String typeToString(int type) {
         switch (type) {
@@ -157,6 +157,22 @@ public class BluetoothHandsfree {
         mStartVoiceRecognitionWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                                                        TAG + ":VoiceRecognition");
         mStartVoiceRecognitionWakeLock.setReferenceCounted(false);
+
+        mLocalBrsf = BRSF_AG_THREE_WAY_CALLING |
+                     BRSF_AG_EC_NR |
+                     BRSF_AG_REJECT_CALL |
+                     BRSF_AG_ENHANCED_CALL_STATUS;
+       
+        if (sVoiceCommandIntent == null) {
+            sVoiceCommandIntent = new Intent(Intent.ACTION_VOICE_COMMAND);
+            sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sVoiceCommandIntent.putExtra(Intent.EXTRA_AUDIO_ROUTE,
+                                         AudioManager.ROUTE_BLUETOOTH_SCO);
+        }
+        
+        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null) {
+            mLocalBrsf |= BRSF_AG_VOICE_RECOG;
+        }
 
         if (bluetoothCapable) {
             resetAtState();
@@ -250,7 +266,7 @@ public class BluetoothHandsfree {
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             mClccUsed[i] = false;
         }
-        mRemoteBRSF = 0;
+        mRemoteBrsf = 0;
     }
 
     private void configAudioParameters() {
@@ -535,7 +551,7 @@ public class BluetoothHandsfree {
                 if (sendUpdate) {
                     // don't send +CIEV for callsetup while in-call if 3way not supported
                     if (!(mCall == 1 && mCallsetup != 0 &&
-                         (mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0)) {
+                         (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0)) {
                         result.addResponse("+CIEV: 3," + mCallsetup);
                     }
                 }
@@ -577,7 +593,7 @@ public class BluetoothHandsfree {
                 }
                 if ((call != 0 || callheld != 0) && sendUpdate) {
                     // call waiting
-                    if ((mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                    if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CCWA: \"" + number + "\"," + type);
                     }
                 } else {
@@ -586,7 +602,7 @@ public class BluetoothHandsfree {
                     mRingingType = type;
                     mIgnoreRing = false;
 
-                    if ((BRSF_AG_ATTRIBUTES & BRSF_AG_IN_BAND_RING) == 0x1) {
+                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) == 0x1) {
                         audioOn();
                     }
                     result.addResult(ring());
@@ -1059,7 +1075,7 @@ public class BluetoothHandsfree {
         // Bluetooth Retrieve Supported Features command
         parser.register("+BRSF", new AtCommandHandler() {
             private AtCommandResult sendBRSF() {
-                return new AtCommandResult("+BRSF: " + BRSF_AG_ATTRIBUTES);
+                return new AtCommandResult("+BRSF: " + mLocalBrsf);
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -1067,7 +1083,7 @@ public class BluetoothHandsfree {
                 // Handsfree is telling us which features it supports. We
                 // send the features we support
                 if (args.length == 1 && (args[0] instanceof Integer)) {
-                    mRemoteBRSF = (Integer) args[0];
+                    mRemoteBrsf = (Integer) args[0];
                 } else {
                     Log.w(TAG, "HF didn't sent BRSF assuming 0");
                 }
@@ -1457,13 +1473,16 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
                 if (args.length >= 1 && args[0].equals(1)) {
-                    expectVoiceRecognition();
-
-                    Intent intent = new Intent(Intent.ACTION_VOICE_COMMAND);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(Intent.EXTRA_AUDIO_ROUTE, AudioManager.ROUTE_BLUETOOTH_SCO);
-                    mContext.startActivity(intent);
-
+                    synchronized (BluetoothHandsfree.this) {
+                        if (!mWaitingForVoiceRecognition) {
+                            try {
+                                mContext.startActivity(sVoiceCommandIntent);
+                            } catch (ActivityNotFoundException e) {
+                                return new AtCommandResult(AtCommandResult.ERROR);
+                            }
+                            expectVoiceRecognition();
+                        }
+                    }
                     return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing yet
                 } else if (args.length >= 1 && args[0].equals(0)) {
                     audioOff();
@@ -1539,7 +1558,7 @@ public class BluetoothHandsfree {
     }
 
     public void sendScoGainUpdate(int gain) {
-        if (mScoGain != gain && (mRemoteBRSF & BRSF_HF_REMOTE_VOL_CONTROL) != 0x0) {
+        if (mScoGain != gain && (mRemoteBrsf & BRSF_HF_REMOTE_VOL_CONTROL) != 0x0) {
             sendURC("+VGS:" + gain);
             mScoGain = gain;
         }
