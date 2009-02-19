@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
     <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Zum Entsperren"\n"zweimal berühren"</string>
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>
     <string name="importingSimContacts">"SIM-Kontakte werden importiert"</string>

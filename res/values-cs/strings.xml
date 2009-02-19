@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Dvojitým klepnutím"\n"odemkněte"</string>
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>
     <string name="importingSimContacts">"Importování kontaktů z karty SIM"</string>

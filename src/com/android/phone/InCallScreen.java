@@ -255,6 +255,14 @@ public class InCallScreen extends Activity
                 if (DBG) log("Handler: ignoring message " + msg + "; we're destroyed!");
                 return;
             }
+            if (!mIsForegroundActivity) {
+                if (DBG) log("Handler: handling message " + msg + " while not in foreground");
+                // Continue anyway; some of the messages below *want* to
+                // be handled even if we're not the foreground activity
+                // (like DELAYED_CLEANUP_AFTER_DISCONNECT), and they all
+                // should at least be safe to handle if we're not in the
+                // foreground...
+            }
 
             switch (msg.what) {
                 case SUPP_SERVICE_FAILED:
@@ -382,12 +390,6 @@ public class InCallScreen extends Activity
 
         setPhone(app.phone);  // Sets mPhone and mForegroundCall/mBackgroundCall/mRingingCall
 
-        // allow the call notifier to handle the disconnect event for us
-        // while we are setting up.  This is a catch-all in case the
-        // handler used in registerForDisconnect does NOT get the
-        // disconnect signal in time.
-        app.notifier.setCallScreen(this);
-
         mBluetoothHandsfree = app.getBluetoothHandsfree();
         if (DBG) log("- mBluetoothHandsfree: " + mBluetoothHandsfree);
 
@@ -473,13 +475,15 @@ public class InCallScreen extends Activity
 
         mIsForegroundActivity = true;
 
+        PhoneApp app = PhoneApp.getInstance();
+
         // Disable the keyguard the entire time the InCallScreen is
         // active.  (This is necessary only for the case of receiving an
         // incoming call while the device is locked; we need to disable
         // the keyguard so you can answer the call and use the in-call UI,
         // but we always re-enable the keyguard as soon as you leave this
         // screen (see onPause().))
-        PhoneApp.getInstance().disableKeyguard();
+        app.disableKeyguard();
 
         // Disable the status bar "window shade" the entire time we're on
         // the in-call screen.
@@ -537,11 +541,6 @@ public class InCallScreen extends Activity
                              Checkin.Events.Tag.PHONE_UI,
                              PHONE_UI_EVENT_ENTER);
         }
-
-        // Now we can handle the finish() call ourselves instead of relying on
-        // the call notifier to do so.
-        PhoneApp app = PhoneApp.getInstance();
-        app.notifier.setCallScreen(null);
 
         // Update the poke lock and wake lock when we move to
         // the foreground.
@@ -649,7 +648,7 @@ public class InCallScreen extends Activity
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)) {
             if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
-            moveTaskToBack(false);
+            finish();
         }
 
         if (ENABLE_PHONE_UI_EVENT_LOGGING) {
@@ -700,9 +699,6 @@ public class InCallScreen extends Activity
             // if there are not active or ringing calls.
             if (DBG) log("- onStop: calling finish() to clear activity history...");
             finish();
-        } else {
-            if (DBG) log("onStop: keep call screen in history");
-            PhoneApp.getInstance().notifier.setCallScreen(this);
         }
     }
 
@@ -751,12 +747,28 @@ public class InCallScreen extends Activity
         }
     }
 
+    /**
+     * Dismisses the in-call screen.
+     *
+     * We never *really* finish() the InCallScreen, since we don't want to
+     * get destroyed and then have to be re-created from scratch for the
+     * next call.  Instead, we just move ourselves to the back of the
+     * activity stack.
+     *
+     * This also means that we'll no longer be reachable via the BACK
+     * button (since moveTaskToBack() puts us behind the Home app, but the
+     * home app doesn't allow the BACK key to move you any farther down in
+     * the history stack.)
+     *
+     * (Since the Phone app itself is never killed, this basically means
+     * that we'll keep a single InCallScreen instance around for the
+     * entire uptime of the device.  This noticeably improves the UI
+     * responsiveness for incoming calls.)
+     */
     @Override
     public void finish() {
         if (DBG) log("finish()...");
-        super.finish();
-
-        PhoneApp.getInstance().notifier.setCallScreen(null);
+        moveTaskToBack(true);
     }
 
     /* package */ boolean isForegroundActivity() {
@@ -923,18 +935,13 @@ public class InCallScreen extends Activity
     private boolean handleBackKey() {
         if (DBG) log("handleBackKey()...");
 
-        // If the user presses BACK while an incoming call is ringing, we
-        // silence the ringer (just like with VOLUME_UP or VOLUME_DOWN)
-        // *without* sending the call to voicemail (like ENDCALL would),
-        // *and* also bail out of the "Incoming call" UI.
+        // While an incoming call is ringing, BACK behaves just like
+        // ENDCALL: it stops the ringing and rejects the current call.
         CallNotifier notifier = PhoneApp.getInstance().notifier;
         if (notifier.isRinging()) {
-            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
-            if (DBG) log("BACK key: silence ringer");
-            notifier.silenceRinger();
-            if (mBluetoothHandsfree != null) {
-                mBluetoothHandsfree.ignoreRing();
-            }
+            if (DBG) log("BACK key while ringing: reject the call");
+            internalHangupRingingCall();
+
             // Don't consume the key; instead let the BACK event *also*
             // get handled normally by the framework (which presumably
             // will cause us to exit out of this activity.)
@@ -976,6 +983,21 @@ public class InCallScreen extends Activity
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
         if (hasRingingCall) {
+            // If an incoming call is ringing, the CALL button is actually
+            // handled by the PhoneWindowManager.  (We do this to make
+            // sure that we'll respond to the key even if the InCallScreen
+            // hasn't come to the foreground yet.)
+            //
+            // We'd only ever get here in the extremely rare case that the
+            // incoming call started ringing *after*
+            // PhoneWindowManager.interceptKeyTq() but before the event
+            // got here, or else if the PhoneWindowManager had some
+            // problem connecting to the ITelephony service.
+            Log.w(LOG_TAG, "handleCallKey: incoming call is ringing!"
+                  + " (PhoneWindowManager should have handled this key.)");
+            // But go ahead and handle the key as normal, since the
+            // PhoneWindowManager presumably did NOT handle it:
+
             // There's an incoming ringing call: CALL means "Answer".
             if (hasActiveCall && hasHoldingCall) {
                 if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
@@ -1073,11 +1095,8 @@ public class InCallScreen extends Activity
         if ((mDialer != null) && (mDialer.onDialerKeyUp(event))){
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_CALL) {
-            if (handleCallKey()) {
-                return true;
-            } else {
-                Log.w(LOG_TAG, "InCallScreen should always handle KEYCODE_CALL in onKeyUp");
-            }
+            // Always consume CALL to be sure the PhoneWindow won't do anything with it
+            return true;
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -1088,7 +1107,11 @@ public class InCallScreen extends Activity
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_CALL:
-                // consume KEYCODE_CALL so PhoneWindow doesn't do anything with it
+                boolean handled = handleCallKey();
+                if (!handled) {
+                    Log.w(LOG_TAG, "InCallScreen should always handle KEYCODE_CALL in onKeyDown");
+                }
+                // Always consume CALL to be sure the PhoneWindow won't do anything with it
                 return true;
 
             // Note there's no KeyEvent.KEYCODE_ENDCALL case here.
@@ -1111,18 +1134,32 @@ public class InCallScreen extends Activity
 
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                // Use the CallNotifier's ringer reference to keep things tidy
-                // when we are requesting that the ringer be silenced.  Also, as
-                // long as we're in ringing mode, we should consume the Volume
-                // Up/Down events.
-                CallNotifier notifier = PhoneApp.getInstance().notifier;
                 if (mPhone.getState() == Phone.State.RINGING) {
+                    // If an incoming call is ringing, the VOLUME buttons are
+                    // actually handled by the PhoneWindowManager.  (We do
+                    // this to make sure that we'll respond to them even if
+                    // the InCallScreen hasn't come to the foreground yet.)
+                    //
+                    // We'd only ever get here in the extremely rare case that the
+                    // incoming call started ringing *after*
+                    // PhoneWindowManager.interceptKeyTq() but before the event
+                    // got here, or else if the PhoneWindowManager had some
+                    // problem connecting to the ITelephony service.
+                    Log.w(LOG_TAG, "VOLUME key: incoming call is ringing!"
+                          + " (PhoneWindowManager should have handled this key.)");
+                    // But go ahead and handle the key as normal, since the
+                    // PhoneWindowManager presumably did NOT handle it:
+
+                    CallNotifier notifier = PhoneApp.getInstance().notifier;
                     if (notifier.isRinging()) {
                         // ringer is actually playing, so silence it.
                         PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
                         if (DBG) log("VOLUME key: silence ringer");
                         notifier.silenceRinger();
                     }
+
+                    // As long as an incoming call is ringing, we always
+                    // consume the VOLUME keys.
                     return true;
                 }
                 break;
@@ -1447,13 +1484,13 @@ public class InCallScreen extends Activity
     private void onMMIInitiate(AsyncResult r) {
         if (DBG) log("onMMIInitiate()...  AsyncResult r = " + r);
 
-        // Watch out: don't do this if we're in the middle of bailing out
-        // of this activity, since in the Dialog.show() will just fail
-        // because we don't have a valid window token any more...
-        // (That exact sequence can happen if you try to start an MMI code
-        // while the radio is off or out of service.)
-        if (isFinishing()) {
-            if (DBG) log("Activity finishing! Bailing out...");
+        // Watch out: don't do this if we're not the foreground activity,
+        // mainly since in the Dialog.show() might fail if we don't have a
+        // valid window token any more...
+        // (Note that this exact sequence can happen if you try to start
+        // an MMI code while the radio is off or out of service.)
+        if (!mIsForegroundActivity) {
+            if (DBG) log("Activity not in foreground! Bailing out...");
             return;
         }
 
@@ -1655,11 +1692,13 @@ public class InCallScreen extends Activity
     private void updateScreen() {
         if (DBG) log("updateScreen()...");
 
-        // Watch out: don't update anything if we're in the middle of
-        // bailing out of this activity, since that'll cause a visible
-        // glitch in the "activity ending" transition.
-        if (isFinishing()) {
-            if (DBG) log("- updateScreen: Activity finishing! Bailing out...");
+        // Don't update anything if we're not in the foreground (there's
+        // no point updating our UI widgets since we're not visible!)
+        // Also note this check also ensures we won't update while we're
+        // in the middle of pausing, which could cause a visible glitch in
+        // the "activity ending" transition.
+        if (!mIsForegroundActivity) {
+            if (DBG) log("- updateScreen: not the foreground Activity! Bailing out...");
             return;
         }
 
@@ -2003,10 +2042,8 @@ public class InCallScreen extends Activity
             // that happens in onPause() when we actually exit.
 
             // And (finally!) exit from the in-call screen
-            // (but not if we're already in the process of finishing...)
-            if (isFinishing()) {
-                if (DBG) log("- delayedCleanupAfterDisconnect: already finished, doing nothing.");
-            } else {
+            // (but not if we're already in the process of pausing...)
+            if (mIsForegroundActivity) {
                 if (DBG) log("- delayedCleanupAfterDisconnect: finishing...");
 
                 // If this is a call that was initiated by the user, and
@@ -2548,15 +2585,13 @@ public class InCallScreen extends Activity
         // here to end the on-hold call instead.
     }
 
-    //
-    // One last "answer" option I don't yet use here, but might eventually
-    // need: "hang up the ringing call", aka "Don't answer":
-    //     PhoneUtils.hangupRingingCall(phone);
-    // With the current UI specs, this action only ever happens
-    // from the ENDCALL button, so we don't have any UI elements
-    // in *this* activity that need to do this.
-    //
-
+    /**
+     * Hang up the ringing call (aka "Don't answer").
+     */
+    /* package */ void internalHangupRingingCall() {
+        if (DBG) log("internalHangupRingingCall()...");
+        PhoneUtils.hangupRingingCall(mPhone);
+    }
 
     //
     // "Manage conference" UI.

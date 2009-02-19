@@ -87,7 +87,6 @@ public class CallNotifier extends Handler
 
     private PhoneApp mApplication;
     private Phone mPhone;
-    private InCallScreen mCallScreen;
     private Ringer mRinger;
     private BluetoothHandsfree mBluetoothHandsfree;
     private boolean mSilentRingerRequested;
@@ -495,12 +494,14 @@ public class CallNotifier extends Handler
 
             NotificationMgr.getDefault().cancelCallInProgressNotification();
 
-            // if the call screen never called finish (it's still in activity
-            // history, call finish() on it so it can be removed from the
-            // activity history
-            if (mCallScreen != null) {
-                if (DBG) log("onDisconnect: force mCallScreen.finish()");
-                mCallScreen.finish();
+            // If the InCallScreen is *not* in the foreground, forcibly
+            // dismiss it to make sure it won't still be in the activity
+            // history.  (But if it *is* in the foreground, don't mess
+            // with it; it needs to be visible, displaying the "Call
+            // ended" state.)
+            if (!mApplication.isShowingCallScreen()) {
+                if (DBG) log("onDisconnect: force InCallScreen to finish()");
+                mApplication.dismissCallScreen();
             }
         }
 
@@ -632,11 +633,6 @@ public class CallNotifier extends Handler
     private void onCfiChanged(boolean visible) {
         if (DBG) log("onCfiChanged(): " + visible);
         NotificationMgr.getDefault().updateCfi(visible);
-    }
-
-    void setCallScreen(InCallScreen callScreen) {
-        if (DBG) log("setCallScreen: " + callScreen);
-        mCallScreen = callScreen;
     }
 
     /**

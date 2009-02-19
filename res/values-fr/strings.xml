@@ -17,10 +17,10 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"Contacts"</string>
     <string name="contactsFavoritesLabel">"Favoris"</string>
-    <string name="dialerIconLabel">"Numérotation"</string>
-    <string name="emergencyDialerIconLabel">"Numéroteur d\'urgence"</string>
+    <string name="dialerIconLabel">"Composer"</string>
+    <string name="emergencyDialerIconLabel">"Appels d\'urgence"</string>
     <string name="phoneIconLabel">"Téléphone"</string>
-    <string name="recentCallsIconLabel">"Journal des appels"</string>
+    <string name="recentCallsIconLabel">"Appels"</string>
     <string name="fdnListLabel">"Liste des numérotations fixes"</string>
     <string name="unknown">"Inconnu"</string>
     <string name="private_num">"Numéro privé"</string>
@@ -54,8 +54,8 @@
     <string name="menu_answerAndHold">"Suspendre l\'appel en cours"\n"et répondre"</string>
     <string name="menu_answerAndEnd">"Terminer l\'appel en cours"\n"et répondre"</string>
     <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Appuyez sur Menu pour afficher les options d\'appel."</string>
-    <string name="menuButtonKeyboardDialHint">"Appuyez sur Menu pour afficher les options d\'appel  •  Utilisez le clavier pour composer un numéro"</string>
+    <string name="menuButtonHint">"Appuyez sur \"Menu\" pour afficher les options d\'appel."</string>
+    <string name="menuButtonKeyboardDialHint">"Appuyez sur \"Menu\" pour afficher les options d\'appel  Utilisez le clavier pour composer un numéro"</string>
     <string name="wait_prompt_str">"Envoyer les tonalités suivantes ?"\n</string>
     <string name="send_button">"Envoyer"</string>
     <string name="wild_prompt_str">"Remplacer le caractère générique par"</string>
@@ -88,11 +88,11 @@
     <string name="voicemail_abbreviated">"MV :"</string>
     <string name="networks">"Opérateur de réseau"</string>
     <string name="call_settings">"Paramètres d\'appel"</string>
-    <string name="additional_call_settings">"Paramètres d\'appel supplémentaires"</string>
+    <string name="additional_call_settings">"Paramètres supplémentaires"</string>
     <string name="labelCallerId">"Identifiant d\'appelant"</string>
     <string name="sum_hide_caller_id">"Numéro masqué pour les appels sortants"</string>
     <string name="sum_show_caller_id">"Numéro affiché pour les appels sortants"</string>
-    <string name="sum_default_caller_id">"Utiliser les paramètres d\'opérateur par défaut pour afficher mon numéro pour les appels sortants."</string>
+    <string name="sum_default_caller_id">"Utiliser les paramètres opérateur pour afficher mon n° pour les appels sortants"</string>
     <string name="labelCW">"Appel en attente"</string>
     <string name="sum_cw_enabled">"Me signaler les appels entrants lorsque je suis en communication"</string>
     <string name="sum_cw_disabled">"Me signaler les appels entrants lorsque je suis en communication"</string>
@@ -113,7 +113,7 @@
     <string name="sum_cfnry_disabled">"Désactivé"</string>
     <string name="labelCFNRc">"Transférer lorsque vous êtes injoignable"</string>
     <string name="messageCFNRc">"Numéro de renvoi lorsque vous n\'êtes pas joignable"</string>
-    <string name="sum_cfnrc_enabled">"Transfert vers le \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled">"Transfert vers le {0}"</string>
     <string name="sum_cfnrc_disabled">"Désactivé"</string>
     <string name="updating_title">"Paramètres d\'appel"</string>
     <string name="error_updating_title">"Erreur des paramètres d\'appel"</string>
@@ -182,16 +182,16 @@
     <string name="adding_fdn_contact">"Ajout d\'un contact à numérotation fixe..."</string>
     <string name="fdn_contact_added">"Le contact à numérotation fixe a été ajouté."</string>
     <string name="edit_fdn_contact">"Modifier un contact à numérotation fixe"</string>
-    <string name="updating_fdn_contact">"Mise à jour du contact à numérotation fixe…"</string>
+    <string name="updating_fdn_contact">"Mise à jour du contact à numérotation fixe"</string>
     <string name="fdn_contact_updated">"Contact à numérotation fixe mis à jour."</string>
     <string name="delete_fdn_contact">"Supprimer le contact à numérotation fixe"</string>
-    <string name="deleting_fdn_contact">"Suppression du contact à numérotation fixe…"</string>
+    <string name="deleting_fdn_contact">"Suppression du contact à numérotation fixe"</string>
     <string name="fdn_contact_deleted">"Le contact à numérotation fixe a été supprimé."</string>
     <string name="pin2_invalid">"Le code PIN2 n\'est pas valide !"</string>
     <string name="fdn_invalid_number">"Le numéro doit comporter 20 chiffres au maximum."</string>
     <string name="simContacts_emptyLoading">"Lecture de la carte SIM…"</string>
     <string name="simContacts_empty">"Aucun contact n\'a été trouvé sur votre carte SIM."</string>
-    <string name="simContacts_title">"Sélectionner les contacts à importer"</string>
+    <string name="simContacts_title">"Sélection des contacts à importer"</string>
     <string name="enable_pin">"Activer/désactiver le code PIN de la carte SIM"</string>
     <string name="change_pin">"Modifier le code PIN de la carte SIM"</string>
     <string name="enter_pin_text">"Code PIN de la carte SIM :"</string>
@@ -222,7 +222,7 @@
     <string name="label_puk2_code">"Saisissez le code PUK2."</string>
     <string name="fdn_enable_puk2_requested">"Le mot de passe est incorrect. Veuillez modifier le code PIN2 et réessayez."</string>
     <string name="puk2_requested">"Mot de passe incorrect. La carte SIM est bloquée ! Code PUK2 requis."</string>
-    <string name="doneButton">"Terminé"</string>
+    <string name="doneButton">"OK"</string>
     <string name="caller_manage_header">"Conférence téléphonique à <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Retour à l\'appel"</string>
     <string name="sim_missing_continueView_text">"Continuer sans carte SIM"</string>
@@ -231,7 +231,7 @@
     <string name="sim_unlock_unlock_text">"Débloquer"</string>
     <string name="sim_unlock_status_text">"Authentification du code PIN..."</string>
     <string name="voicemail_settings_number_label">"Numéro de la messagerie vocale"</string>
-    <string name="card_title_dialing">"Numérotation"</string>
+    <string name="card_title_dialing">"Appel en cours"</string>
     <string name="card_title_in_progress">"Appel en cours"</string>
     <string name="card_title_conf_call">"Conférence téléphonique"</string>
     <string name="card_title_incoming_call">"Appel entrant"</string>
@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText">"Clavier à touches sonores"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Double-cliquez"\n"pour déverrouiller"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Tout importer"</string>
     <string name="importingSimContacts">"Importation des contacts SIM"</string>

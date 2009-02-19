@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"전화를 걸지 못했습니다. 비상 전화번호를 직접 누르세요."</string>
     <string name="dialerKeyboardHintText">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText">"터치 톤 키패드"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"잠금해제하려면"\n"두 번 누르세요."</string>
     <string name="importSimEntry">"가져오기"</string>
     <string name="importAllSimEntries">"모두 가져오기"</string>
     <string name="importingSimContacts">"SIM 연락처 가져오는 중"</string>

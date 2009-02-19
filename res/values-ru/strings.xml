@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Вызов не отправлен. Наберите экстренный номер!"</string>
     <string name="dialerKeyboardHintText">"Для набора воспользуйтесь клавиатурой"</string>
     <string name="dtmfDialpadHintText">"Панель тонального набора"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Нажмите дважды"\n"для разблокировки"</string>
     <string name="importSimEntry">"Импортировать"</string>
     <string name="importAllSimEntries">"Импортировать все"</string>
     <string name="importingSimContacts">"Идет импорт контактов с SIM-карты"</string>

@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"呼叫未发送，请拨打紧急号码！"</string>
     <string name="dialerKeyboardHintText">"使用键盘拨号"</string>
     <string name="dtmfDialpadHintText">"按键式键盘"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"轻击两下"\n"解锁"</string>
     <string name="importSimEntry">"导入"</string>
     <string name="importAllSimEntries">"全部导入"</string>
     <string name="importingSimContacts">"正在导入 SIM 卡联系人"</string>

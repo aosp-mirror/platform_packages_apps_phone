@@ -399,9 +399,7 @@ public class PhoneApp extends Application {
     }
 
     /**
-     * Return the intent used to bring up the in-call screen while a call
-     * is already in progress (like when you return to the current call
-     * after previously bailing out of the in-call UI.)
+     * Return an Intent that can be used to bring up the in-call screen.
      *
      * This intent can only be used from within the Phone app, since the
      * InCallScreen is not exported from our AndroidManifest.
@@ -492,6 +490,19 @@ public class PhoneApp extends Application {
     boolean isShowingCallScreen() {
         if (mInCallScreen == null) return false;
         return mInCallScreen.isForegroundActivity();
+    }
+
+    /**
+     * Dismisses the in-call UI.
+     *
+     * This also ensures that you won't be able to get back to the in-call
+     * UI via the BACK button (since this call removes the InCallScreen
+     * from the activity history.)
+     */
+    void dismissCallScreen() {
+        if (mInCallScreen != null) {
+            mInCallScreen.finish();
+        }
     }
 
     /**

@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Połączenie niezrealizowane, należy wybrać numer alarmowy!"</string>
     <string name="dialerKeyboardHintText">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="dtmfDialpadHintText">"Dotykowa klawiatura tonowa"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Dotknij dwukrotnie,"\n" aby odblokować"</string>
     <string name="importSimEntry">"Importuj"</string>
     <string name="importAllSimEntries">"Importuj wszystko"</string>
     <string name="importingSimContacts">"Importowanie kontaktów z karty SIM"</string>

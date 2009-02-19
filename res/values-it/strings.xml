@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Chiamata non inviata. Comporre un numero di emergenza."</string>
     <string name="dialerKeyboardHintText">"Usa tastiera"</string>
     <string name="dtmfDialpadHintText">"Tocca tastierino numerico"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Tocca due volte"\n"per sbloccare"</string>
     <string name="importSimEntry">"Importa"</string>
     <string name="importAllSimEntries">"Importa tutti"</string>
     <string name="importingSimContacts">"Importazione contatti SIM"</string>

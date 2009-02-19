@@ -43,9 +43,13 @@ import java.util.ArrayList;
 public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
 
+    // Message codes used with mMainThreadHandler
     private static final int CMD_HANDLE_PIN_MMI = 1;
     private static final int CMD_HANDLE_NEIGHBORING_CELL = 2;
     private static final int EVENT_NEIGHBORING_CELL_DONE = 3;
+    private static final int CMD_ANSWER_RINGING_CALL = 4;
+    private static final int CMD_END_CALL = 5;  // not used yet
+    private static final int CMD_SILENCE_RINGER = 6;
 
     PhoneApp mApp;
     Phone mPhone;
@@ -69,12 +73,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     /**
      * A handler that processes messages on the main thread in the phone process. Since many
      * of the Phone calls are not thread safe this is needed to shuttle the requests from the
-     * inbound binder threads to the main thread in the phone process. The Binder threads
-     * need provide a {@link MainThreadRequest} object in the msg.obj field that they are waiting
+     * inbound binder threads to the main thread in the phone process.  The Binder thread
+     * may provide a {@link MainThreadRequest} object in the msg.obj field that they are waiting
      * on, which will be notified when the operation completes and will contain the result of the
      * request.
      *
-     * <p>Note that request.result must be set to something non-null for the calling thread to
+     * <p>If a MainThreadRequest object is provided in the msg.obj field,
+     * note that request.result must be set to something non-null for the calling thread to
      * unblock.
      */
     private final class MainThreadHandler extends Handler {
@@ -85,7 +90,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             AsyncResult ar;
 
             switch (msg.what) {
-                case CMD_HANDLE_PIN_MMI: 
+                case CMD_HANDLE_PIN_MMI:
                     request = (MainThreadRequest) msg.obj;
                     request.result = Boolean.valueOf(
                             mPhone.handlePinMmi((String) request.argument));
@@ -94,14 +99,14 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         request.notifyAll();
                     }
                     break;
-                
+
                 case CMD_HANDLE_NEIGHBORING_CELL:
                     request = (MainThreadRequest) msg.obj;
-                    onCompleted = obtainMessage(EVENT_NEIGHBORING_CELL_DONE, 
+                    onCompleted = obtainMessage(EVENT_NEIGHBORING_CELL_DONE,
                             request);
                     mPhone.getNeighboringCids(onCompleted);
                     break;
-                    
+
                 case EVENT_NEIGHBORING_CELL_DONE:
                     ar = (AsyncResult) msg.obj;
                     request = (MainThreadRequest) ar.userObj;
@@ -116,11 +121,27 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         request.notifyAll();
                     }
                     break;
-            }
 
+                case CMD_ANSWER_RINGING_CALL:
+                    answerRingingCallInternal();
+                    break;
+
+                case CMD_SILENCE_RINGER:
+                    silenceRingerInternal();
+                    break;
+
+                default:
+                    Log.w(LOG_TAG, "MainThreadHandler: unexpected message code: " + msg.what);
+                    break;
+            }
         }
     }
 
+    /**
+     * Posts the specified command to be executed on the main thread,
+     * waits for the request to complete, and returns the result.
+     * @see sendRequestAsync
+     */
     private Object sendRequest(int command, Object argument) {
         if (Looper.myLooper() == mMainThreadHandler.getLooper()) {
             throw new RuntimeException("This method will deadlock if called from the main thread.");
@@ -141,6 +162,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             }
         }
         return request.result;
+    }
+
+    /**
+     * Asynchronous ("fire and forget") version of sendRequest():
+     * Posts the specified command to be executed on the main thread, and
+     * returns immediately.
+     * @see sendRequest
+     */
+    private void sendRequestAsync(int command) {
+        mMainThreadHandler.sendEmptyMessage(command);
     }
 
     public PhoneInterfaceManager(PhoneApp app, Phone phone) {
@@ -232,9 +263,83 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return showCallScreenInternal(true, showDialpad);
     }
 
+    // TODO: Watch out: it's dangerous to call into the telephony code
+    // directly from here (we're running in a random binder thread, but
+    // the telephony code expects to always be called from the phone app
+    // main thread.)  We should instead wrap this in a sendRequest() call
+    // (just like with answerRingingCall() / answerRingingCallInternal()).
     public boolean endCall() {
         enforceCallPermission();
         return PhoneUtils.hangup(mPhone);
+    }
+
+    public void answerRingingCall() {
+        // TODO: there should eventually be a separate "ANSWER_PHONE" permission,
+        // but that can probably wait till the big TelephonyManager API overhaul.
+        // For now, protect this call with the MODIFY_PHONE_STATE permission.
+        enforceModifyPermission();
+        sendRequestAsync(CMD_ANSWER_RINGING_CALL);
+    }
+
+    /**
+     * Make the actual telephony calls to implement answerRingingCall().
+     * This should only be called from the main thread of the Phone app.
+     * @see answerRingingCall
+     *
+     * TODO: it would be nice to return true if we answered the call, or
+     * false if there wasn't actually a ringing incoming call, or some
+     * other error occurred.  (In other words, pass back the return value
+     * from PhoneUtils.answerCall() or PhoneUtils.answerAndEndActive().)
+     * But that would require calling this method via sendRequest() rather
+     * than sendRequestAsync(), and right now we don't actually *need* that
+     * return value, so let's just return void for now.
+     */
+    private void answerRingingCallInternal() {
+        final boolean hasRingingCall = !mPhone.getRingingCall().isIdle();
+        if (hasRingingCall) {
+            final boolean hasActiveCall = !mPhone.getForegroundCall().isIdle();
+            final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+            if (hasActiveCall && hasHoldingCall) {
+                // Both lines are in use!
+                // TODO: provide a flag to let the caller specify what
+                // policy to use if both lines are in use.  (The current
+                // behavior is hardwired to "answer incoming, end ongoing",
+                // which is how the CALL button is specced to behave.)
+                PhoneUtils.answerAndEndActive(mPhone);
+                return;
+            } else {
+                // answerCall() will automatically hold the current active
+                // call, if there is one.
+                PhoneUtils.answerCall(mPhone);
+                return;
+            }
+        } else {
+            // No call was ringing.
+            return;
+        }
+    }
+
+    public void silenceRinger() {
+        // TODO: find a more appropriate permission to check here.
+        // (That can probably wait till the big TelephonyManager API overhaul.
+        // For now, protect this call with the MODIFY_PHONE_STATE permission.)
+        enforceModifyPermission();
+        sendRequestAsync(CMD_SILENCE_RINGER);
+    }
+
+    /**
+     * Internal implemenation of silenceRinger().
+     * This should only be called from the main thread of the Phone app.
+     * @see silenceRinger
+     */
+    private void silenceRingerInternal() {
+        if ((mPhone.getState() == Phone.State.RINGING)
+            && mApp.notifier.isRinging()) {
+            // Ringer is actually playing, so silence it.
+            if (PhoneApp.DBG) log("silenceRingerInternal: silencing...");
+            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
+            mApp.notifier.silenceRinger();
+        }
     }
 
     public boolean isOffhook() {

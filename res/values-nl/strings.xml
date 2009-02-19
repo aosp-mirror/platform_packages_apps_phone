@@ -266,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Oproep niet verzonden, kies een alarmnummer!"</string>
     <string name="dialerKeyboardHintText">"Toetsen gebruiken om te bellen"</string>
     <string name="dtmfDialpadHintText">"Toetsenblok voor toetsgeluid"</string>
-    <!-- no translation found for touchLockText (566824588267376287) -->
-    <skip />
+    <string name="touchLockText">"Tik twee keer"\n"om te ontgrendelen"</string>
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>
     <string name="importingSimContacts">"SIM-contactpersonen importeren"</string>
