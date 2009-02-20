@@ -198,18 +198,43 @@ public class CallCard extends FrameLayout
             // dialing, active, or holding, and no calls are ringing or waiting.
             updateForegroundCall(phone);
         } else {
-            // Presumably IDLE:  no phone activity
-            // TODO: Should we ever be in this state in the first place?
-            // (Is there ever any reason to draw the in-call screen
-            // if the phone is totally idle?)
-            // ==> Possibly during the "call ended" state, for 5 seconds
-            //     *after* a call ends...
-            // For now:
-            Log.w(LOG_TAG, "CallCard updateState: overall Phone state is " + state);
-            updateForegroundCall(phone);
+            // The phone state is IDLE!
+            //
+            // The most common reason for this is if a call just
+            // ended: the phone will be idle, but we *will* still
+            // have a call in the DISCONNECTED state:
+            Call fgCall = phone.getForegroundCall();
+            Call bgCall = phone.getBackgroundCall();
+            if ((fgCall.getState() == Call.State.DISCONNECTED)
+                || (bgCall.getState() == Call.State.DISCONNECTED)) {
+                // In this case, we want the main CallCard to display
+                // the "Call ended" state.  The normal "foreground call"
+                // code path handles that.
+                updateForegroundCall(phone);
+            } else {
+                // We don't have any DISCONNECTED calls, which means
+                // that the phone is *truly* idle.
+                //
+                // It's very rare to be on the InCallScreen at all in this
+                // state, but it can happen in some cases:
+                // - A stray onPhoneStateChanged() event came in to the
+                //   InCallScreen *after* it was dismissed.
+                // - We're allowed to be on the InCallScreen because
+                //   an MMI or USSD is running, but there's no actual "call"
+                //   to display.
+                // - We're displaying an error dialog to the user
+                //   (explaining why the call failed), so we need to stay on
+                //   the InCallScreen so that the dialog will be visible.
+                //
+                // In these cases, put the callcard into a sane but "blank" state:
+                updateNoCall(phone);
+            }
         }
     }
 
+    /**
+     * Updates the UI for the state where the phone is in use, but not ringing.
+     */
     private void updateForegroundCall(Phone phone) {
         if (DBG) log("updateForegroundCall()...");
 
@@ -235,6 +260,10 @@ public class CallCard extends FrameLayout
         displayOngoingCallStatus(phone, null);
     }
 
+    /**
+     * Updates the UI for the state where an incoming call is ringing (or
+     * call waiting), regardless of whether the phone's already offhook.
+     */
     private void updateRingingCall(Phone phone) {
         if (DBG) log("updateRingingCall()...");
 
@@ -248,14 +277,41 @@ public class CallCard extends FrameLayout
     }
 
     /**
+     * Updates the UI for the state where the phone is not in use.
+
+     * This is analogous to updateForegroundCall() and updateRingingCall(),
+
+     * but for the (uncommon) case where the phone is
+     * totally idle.  (See comments in updateState() above.)
+     *
+     * This puts the callcard into a sane but "blank" state.
+     */
+    private void updateNoCall(Phone phone) {
+        if (DBG) log("updateNoCall()...");
+
+        displayMainCallStatus(phone, null);
+        displayOnHoldCallStatus(phone, null);
+        displayOngoingCallStatus(phone, null);
+    }
+
+    /**
      * Updates the main block of caller info on the CallCard
      * (ie. the stuff in the mainCallCard block) based on the specified Call.
      */
     private void displayMainCallStatus(Phone phone, Call call) {
         if (DBG) log("displayMainCallStatus(phone " + phone
-                     + ", call " + call + ", state" + call.getState() + ")...");
+                     + ", call " + call + ")...");
+
+        if (call == null) {
+            // There's no call to display, presumably because the phone is idle.
+            mMainCallCard.setVisibility(View.GONE);
+            return;
+        }
+        mMainCallCard.setVisibility(View.VISIBLE);
 
         Call.State state = call.getState();
+        if (DBG) log("  - call.state: " + call.getState());
+
         int callCardBackgroundResid = 0;
 
         // Background frame resources are different between portrait/landscape:
@@ -329,8 +385,18 @@ public class CallCard extends FrameLayout
                 break;
 
             case IDLE:
-                // The "main CallCard" should never display an idle call!
+                // The "main CallCard" should never be trying to display
+                // an idle call!  In updateState(), if the phone is idle,
+                // we call updateNoCall(), which means that we shouldn't
+                // have passed a call into this method at all.
                 Log.w(LOG_TAG, "displayMainCallStatus: IDLE call in the main call card!");
+
+                // (It is possible, though, that we had a valid call which
+                // became idle *after* the check in updateState() but
+                // before we get here...  So continue the best we can,
+                // with whatever (stale) info we can get from the
+                // passed-in Call object.)
+
                 break;
 
             default:

@@ -242,9 +242,10 @@ public class CallNotifier extends Handler
             }
         }
 
-        // Obtain the wake lock. Since the keepScreenOn() call tracks the state
-        // of the wake lock, it is ok to make the call here as well as in
-        // InCallScreen.onPhoneStateChanged().
+        // Obtain a partial wake lock to make sure the CPU doesn't go to
+        // sleep before we finish bringing up the InCallScreen.
+        // (This will be upgraded soon to a full wake lock; see
+        // PhoneUtils.showIncomingCallUi().)
         if (DBG) log("Holding wake lock on new incoming connection.");
         mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
@@ -344,8 +345,7 @@ public class CallNotifier extends Handler
         if (state == Phone.State.OFFHOOK) {
             // basically do onPhoneStateChanged + displayCallScreen
             onPhoneStateChanged(r);
-            PhoneApp app = PhoneApp.getInstance();
-            app.displayCallScreen();
+            PhoneUtils.showIncomingCallUi();
         }
     }
 
@@ -506,14 +506,14 @@ public class CallNotifier extends Handler
         }
 
         if (c != null) {
-            String number = c.getAddress();
-            boolean isPrivateNumber = false; // TODO: need API for isPrivate()
-            long date = c.getCreateTime();
-            long duration = c.getDurationMillis();
-            Connection.DisconnectCause cause = c.getDisconnectCause();
+            final String number = c.getAddress();
+            final boolean isPrivateNumber = false; // TODO: need API for isPrivate()
+            final long date = c.getCreateTime();
+            final long duration = c.getDurationMillis();
+            final Connection.DisconnectCause cause = c.getDisconnectCause();
 
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
-            int callLogType;
+            final int callLogType;
             if (c.isIncoming()) {
                 callLogType = (cause == Connection.DisconnectCause.INCOMING_MISSED ?
                                CallLog.Calls.MISSED_TYPE :
@@ -526,14 +526,23 @@ public class CallNotifier extends Handler
             // get the callerinfo object and then log the call with it.
             {
                 Object o = c.getUserData();
-                CallerInfo ci;
+                final CallerInfo ci;
                 if ((o == null) || (o instanceof CallerInfo)){
                     ci = (CallerInfo) o;
                 } else {
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
-                Calls.addCall(ci, mApplication, number, isPrivateNumber,
-                        callLogType, date, (int) duration / 1000);
+
+                // Watch out: Calls.addCall() hits the Contacts database,
+                // so we shouldn't call it from the main thread.
+                Thread t = new Thread() {
+                        public void run() {
+                            Calls.addCall(ci, mApplication, number, isPrivateNumber,
+                                          callLogType, date, (int) duration / 1000);
+                            // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
+                        }
+                    };
+                t.start();
             }
 
             if (callLogType == CallLog.Calls.MISSED_TYPE) {

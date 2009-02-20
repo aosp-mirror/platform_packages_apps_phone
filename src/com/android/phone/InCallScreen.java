@@ -493,7 +493,7 @@ public class InCallScreen extends Activity
         // UI when the headset state changes.)
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 
-        // Check for any failures that happened during onCreate().
+        // Check for any failures that happened during onCreate() or onNewIntent().
         if (DBG) log("- onResume: mInCallInitialStatus = " + mInCallInitialStatus);
         if (mInCallInitialStatus != InCallInitStatus.SUCCESS) {
             if (DBG) log("- onResume: failure during startup: " + mInCallInitialStatus);
@@ -502,8 +502,12 @@ public class InCallScreen extends Activity
             // something more specific to let the user deal with the
             // problem.
             handleStartupError(mInCallInitialStatus);
+
+            // But it *is* OK to continue with the rest of onResume(),
+            // since any further setup steps (like updateScreen() and the
+            // CallCard setup) will fall back to a "blank" state if the
+            // phone isn't in use.
             mInCallInitialStatus = InCallInitStatus.SUCCESS;
-            return;
         }
 
         // Set the volume control handler while we are in the foreground.
@@ -527,12 +531,11 @@ public class InCallScreen extends Activity
         InCallInitStatus status = syncWithPhoneState();
         if (status != InCallInitStatus.SUCCESS) {
             if (DBG) log("- syncWithPhoneState failed! status = " + status);
-            // Couldn't update the UI, presumably because the phone is
-            // totally not in use.  We shouldn't even be in the in-call UI
-            // in the first place, so bail out:
-            if (DBG) log("- onResume: bailing out...");
-            finish();
-            return;
+            // Couldn't update the UI, presumably because the phone is totally
+            // idle.  But don't finish() immediately, since we might still
+            // have an error dialog up that the user needs to see.
+            // (And in that case, the error dialog is responsible for calling
+            // finish() when the user dismisses it.)
         }
 
         if (ENABLE_PHONE_UI_EVENT_LOGGING) {
@@ -548,17 +551,16 @@ public class InCallScreen extends Activity
         // But we need to do something special if we're coming
         // to the foreground while an incoming call is ringing:
         if (mPhone.getState() == Phone.State.RINGING) {
-            // We do want the screen to be on while the phone is ringing,
-            // but ONLY AFTER the InCallScreen has a chance to draw
-            // itself.  So here in onResume(), we use the special
-            // preventScreenOn() API to tell the PowerManager that the
-            // screen should be off even if someone's holding a full wake
-            // lock.  This prevents any flicker during the "incoming call"
-            // sequence.
-            app.preventScreenOn(true);
-
-            // And post an ALLOW_SCREEN_ON message to (eventually) undo
-            // the above preventScreenOn(true) call.
+            // If the phone is ringing, we *should* already be holding a
+            // full wake lock (which we would have acquired before
+            // firing off the intent that brought us here; see
+            // PhoneUtils.showIncomingCallUi().)
+            //
+            // We also called preventScreenOn(true) at that point, to
+            // avoid cosmetic glitches while we were being launched.
+            // So now we need to post an ALLOW_SCREEN_ON message to
+            // (eventually) undo the prior preventScreenOn(true) call.
+            //
             // (In principle we shouldn't do this until after our first
             // layout/draw pass.  But in practice, the delay caused by
             // simply waiting for the end of the message queue is long
@@ -572,7 +574,12 @@ public class InCallScreen extends Activity
             // probably by having the PowerManager and ActivityManager
             // work together to let apps request that the screen on/off
             // state be synchronized with the Activity lifecycle.
+            // (See bug 1648751.)
         } else {
+            // The phone isn't ringing; this is either an outgoing call, or
+            // we're returning to a call in progress.  There *shouldn't* be
+            // any prior preventScreenOn(true) call that we need to undo,
+            // but let's do this just to be safe:
             app.preventScreenOn(false);
         }
         app.updateWakeState();
@@ -1210,6 +1217,9 @@ public class InCallScreen extends Activity
                     return true;
                 }
                 break;
+            case KeyEvent.KEYCODE_MUTE:
+                PhoneUtils.setMute(mPhone, !PhoneUtils.getMute(mPhone));
+                return true;
         }
 
         if (event.getRepeatCount() == 0 && handleDialerKeyDown(keyCode, event)) {
@@ -1300,8 +1310,13 @@ public class InCallScreen extends Activity
     private void onPhoneStateChanged(AsyncResult r) {
         if (DBG) log("onPhoneStateChanged()...");
 
-        // TODO: we probably shouldn't do *anything* here if we're not the
-        // foreground activity!
+        // There's nothing to do here if we're not the foreground activity.
+        // (When we *do* eventually come to the foreground, we'll do a
+        // full update then.)
+        if (!mIsForegroundActivity) {
+            if (DBG) log("onPhoneStateChanged: Activity not in foreground! Bailing out...");
+            return;
+        }
 
         updateScreen();
 
@@ -1437,9 +1452,12 @@ public class InCallScreen extends Activity
             // CallCard.getCallFailedString()).
             updateScreen();
 
-            // If the Phone *is* totally idle now, display the "Call
-            // ended" state.
-            if (currentlyIdle) {
+            // Display the special "Call ended" state when the phone is idle
+            // but there's still a call in the DISCONNECTED state:
+            if (currentlyIdle
+                && ((mForegroundCall.getState() == Call.State.DISCONNECTED)
+                    || (mBackgroundCall.getState() == Call.State.DISCONNECTED))) {
+                if (DBG) log("- onDisconnect: switching to 'Call ended' state...");
                 setInCallScreenMode(InCallScreenMode.CALL_ENDED);
             }
 
@@ -2323,13 +2341,16 @@ public class InCallScreen extends Activity
 
         // The hint is hidden only when there's no menu at all,
         // which only happens in a few specific cases:
-
         if (mInCallScreenMode == InCallScreenMode.CALL_ENDED) {
             // The "Call ended" state.
             hintVisible = false;
         } else if (hasRingingCall && !(hasActiveCall && !hasHoldingCall)) {
             // An incoming call where you *don't* have the option to
             // "answer & end" or "answer & hold".
+            hintVisible = false;
+        } else if (!phoneIsInUse()) {
+            // Or if the phone is totally idle (like if an error dialog
+            // is up, or an MMI is running.)
             hintVisible = false;
         }
         int hintVisibility = (hintVisible) ? View.VISIBLE : View.GONE;
@@ -2356,6 +2377,8 @@ public class InCallScreen extends Activity
     /**
      * Brings up UI to handle the various error conditions that
      * can occur when first initializing the in-call UI.
+     * This is called from onResume() if we encountered
+     * an error while processing our initial Intent.
      *
      * @param status one of the InCallInitStatus error codes.
      */

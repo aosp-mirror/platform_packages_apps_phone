@@ -1125,6 +1125,32 @@ public class PhoneUtils {
         // Go directly to the in-call screen.
         // (No need to do anything special if we're already on the in-call
         // screen; it'll notice the phone state change and update itself.)
+
+        // But first, grab a full wake lock.  We do this here, before we
+        // even fire off the InCallScreen intent, to make sure the
+        // ActivityManager doesn't try to pause the InCallScreen as soon
+        // as it comes up.  (See bug 1648751.)
+        //
+        // And since the InCallScreen isn't visible yet (we haven't even
+        // fired off the intent yet), we DON'T want the screen to actually
+        // come on right now.  So *before* acquiring the wake lock we need
+        // to call preventScreenOn(), which tells the PowerManager that
+        // the screen should stay off even if someone's holding a full
+        // wake lock.  (This prevents any flicker during the "incoming
+        // call" sequence.  The corresponding preventScreenOn(false) call
+        // will come from the InCallScreen when it's finally ready to be
+        // displayed.)
+        //
+        // TODO: this is all a temporary workaround.  The real fix is to add
+        // an Activity attribute saying "this Activity wants to wake up the
+        // phone when it's displayed"; that way the ActivityManager could
+        // manage the wake locks *and* arrange for the screen to come on at
+        // the exact moment that the InCallScreen is ready to be displayed.
+        // (See bug 1648751.)
+        app.preventScreenOn(true);
+        app.requestWakeState(PhoneApp.WakeState.FULL);
+
+        // Fire off the InCallScreen intent.
         app.displayCallScreen();
     }
 

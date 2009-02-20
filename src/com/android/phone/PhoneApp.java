@@ -197,16 +197,6 @@ public class PhoneApp extends Application {
                     ndpPanel.show();
                     break;
 
-                case EVENT_BLUETOOTH_HEADSET_CONNECTED:
-                    Toast.makeText(PhoneApp.this,
-                            getResources().getString(R.string.bluetooth_headset_connected),
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                case EVENT_BLUETOOTH_HEADSET_DISCONNECTED:
-                    Toast.makeText(PhoneApp.this,
-                            getResources().getString(R.string.bluetooth_headset_disconnected),
-                            Toast.LENGTH_SHORT).show();
-                    break;
                 case EVENT_DATA_DISCONNECTED:
                     Intent roaming = new Intent();
                     roaming.setClass(PhoneApp.getInstance(),  DataRoamingReenable.class);
