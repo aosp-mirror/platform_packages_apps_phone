@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"Contactpersonen"</string>
+    <string name="contactsIconLabel">"Contacten"</string>
     <string name="contactsFavoritesLabel">"Favorieten"</string>
     <string name="dialerIconLabel">"Kiezer"</string>
     <string name="emergencyDialerIconLabel">"Kiezer noodoproep"</string>
@@ -55,7 +55,7 @@
     <string name="menu_answerAndEnd">"Huidige oproep beëindigen"\n" en opnemen"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Druk op \'Menu\' voor oproepopties."</string>
-    <string name="menuButtonKeyboardDialHint">"Druk op \'Menu\' voor oproepopties  •  Toetsen gebruiken om te bellen"</string>
+    <string name="menuButtonKeyboardDialHint">"Druk op \'Menu\' voor oproepopties • Toetsen gebruiken om te bellen"</string>
     <string name="wait_prompt_str">"De volgende tonen verzenden?"\n</string>
     <string name="send_button">"Verzenden"</string>
     <string name="wild_prompt_str">"Het jokerteken vervangen door"</string>
@@ -65,20 +65,20 @@
     <string name="no_vm_number_msg">"Er is geen voicemailnummer op de SIM-kaart opgeslagen."</string>
     <string name="add_vm_number_str">"Nummer toevoegen"</string>
     <string name="dialer_emptyListWorking">"Laden..."</string>
-    <string name="enterPin">"Voer de PIN-code in om de SIM-kaart te deblokkeren."</string>
+    <string name="enterPin">"Voer de PIN-code in om de SIM-kaart te ontgrendelen."</string>
     <string name="pinUnlocked">"SIM-kaart gedeblokkeerd"</string>
     <string name="enterNewPin">"Nieuwe SIM PIN-code"</string>
     <string name="verifyNewPin">"Voer de nieuwe SIM PIN-code nogmaals in ter bevestiging"</string>
     <string name="verifyFailed">"De SIM PIN-codes die u heeft ingevoerd, komen niet overeen. Probeer het opnieuw."</string>
-    <string name="enterPuk">"Voer de PUK-code in om de SIM-kaart te deblokkeren"</string>
+    <string name="enterPuk">"Voer de PUK-code in om de SIM-kaart te ontgrendelen"</string>
     <string name="badPuk">"Onjuiste PUK-code!"</string>
     <string name="buttonTxtContinue">"Doorgaan"</string>
     <string name="puk_unlocked">"Uw SIM-kaart is gedeblokkeerd. Uw telefoon wordt gedeblokkeerd..."</string>
-    <string name="label_ndp">"PIN-code voor deblokkeren SIM-netwerk"</string>
-    <string name="sim_ndp_unlock_text">"Deblokkeren"</string>
+    <string name="label_ndp">"PIN-code voor ontgrendelen SIM-netwerk"</string>
+    <string name="sim_ndp_unlock_text">"ontgrendelen"</string>
     <string name="sim_ndp_dismiss_text">"Negeren"</string>
-    <string name="requesting_unlock">"Verzoek om deblokkeren netwerk..."</string>
-    <string name="unlock_failed">"Verzoek voor deblokkeren netwerk mislukt."</string>
+    <string name="requesting_unlock">"Verzoek om ontgrendelen netwerk..."</string>
+    <string name="unlock_failed">"Verzoek voor ontgrendelen netwerk mislukt."</string>
     <string name="unlock_success">"Het netwerk is gedeblokkeerd."</string>
     <string name="imei">"IMEI-nummer"</string>
     <string name="labelMore">"Aanvullende oproepinstellingen"</string>
@@ -92,7 +92,7 @@
     <string name="labelCallerId">"Beller-id"</string>
     <string name="sum_hide_caller_id">"Nummer verborgen bij uitgaande oproepen"</string>
     <string name="sum_show_caller_id">"Nummer weergegeven bij uitgaande oproepen"</string>
-    <string name="sum_default_caller_id">"Gebruik de standaardoperatorinstellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
+    <string name="sum_default_caller_id">"Gebruik de standaard operator-instellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
     <string name="labelCW">"Wisselgesprek"</string>
     <string name="sum_cw_enabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>
     <string name="sum_cw_disabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>
@@ -190,8 +190,8 @@
     <string name="pin2_invalid">"PIN2-code ongeldig!"</string>
     <string name="fdn_invalid_number">"Nummer mag niet langer zijn dan 20 cijfers."</string>
     <string name="simContacts_emptyLoading">"Lezen vanaf SIM-kaart..."</string>
-    <string name="simContacts_empty">"Geen contactpersonen op uw SIM-kaart."</string>
-    <string name="simContacts_title">"Contactpersonen selecteren om te importeren"</string>
+    <string name="simContacts_empty">"Geen contacten op uw SIM-kaart."</string>
+    <string name="simContacts_title">"Contacten selecteren om te importeren"</string>
     <string name="enable_pin">"SIM PIN-code in-/uitschakelen"</string>
     <string name="change_pin">"SIM PIN-code wijzigen"</string>
     <string name="enter_pin_text">"SIM PIN-code:"</string>
@@ -228,7 +228,7 @@
     <string name="sim_missing_continueView_text">"Doorgaan zonder SIM-kaart"</string>
     <string name="sim_missing_msg_text">"Geen SIM-kaart gevonden. Plaats een SIM-kaart in de telefoon."</string>
     <string name="sim_unlock_dismiss_text">"Negeren"</string>
-    <string name="sim_unlock_unlock_text">"Deblokkeren"</string>
+    <string name="sim_unlock_unlock_text">"Ontgrendelen"</string>
     <string name="sim_unlock_status_text">"PIN-code verifiëren..."</string>
     <string name="voicemail_settings_number_label">"Voicemailnummer"</string>
     <string name="card_title_dialing">"Kiezen"</string>
@@ -269,6 +269,6 @@
     <string name="touchLockText">"Tik twee keer"\n"om te ontgrendelen"</string>
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>
-    <string name="importingSimContacts">"SIM-contactpersonen importeren"</string>
-    <string name="importToFDNfromContacts">"Importeren uit contactpersonen"</string>
+    <string name="importingSimContacts">"SIM-contacten importeren"</string>
+    <string name="importToFDNfromContacts">"Importeren uit contacten"</string>
 </resources>

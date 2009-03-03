@@ -16,12 +16,6 @@
 
 package com.android.phone;
 
-
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Phone;
-import android.widget.SlidingDrawer;
-
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Handler;
@@ -39,11 +33,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
+
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.Phone;
 
 import java.util.HashMap;
 
@@ -59,7 +57,7 @@ public class DTMFTwelveKeyDialer implements
         View.OnKeyListener {
 
     // debug data
-    private static final String LOG_TAG = "dtmf dialer";
+    private static final String LOG_TAG = "DTMFTwelveKeyDialer";
     private static final boolean DBG = false;
 
     // events
@@ -109,10 +107,14 @@ public class DTMFTwelveKeyDialer implements
         mDisplayMap.put(R.id.star, '*');
     }
 
-    // UI elements
-    // Including elements used in the call status, now split
-    // between call state and call timer.
-    private EditText mDigits;
+    // EditText field used to display the DTMF digits sent so far.
+    // - In portrait mode, we use the EditText that comes from
+    //   the full dialpad:
+    private EditText mDialpadDigits;
+    // - In landscape mode, we use a different EditText that's
+    //   built into the InCallScreen:
+    private EditText mInCallDigits;
+    // (Only one of these will be visible at any given point.)
 
     // InCallScreen reference.
     private InCallScreen mInCallScreen;
@@ -146,7 +148,7 @@ public class DTMFTwelveKeyDialer implements
         public boolean onKeyOther(TextView view, Spannable text, KeyEvent event) {
             return false;
         }
-        
+
         /**Return false since we are NOT consuming the input.*/
         public boolean onTrackballEvent(TextView widget, Spannable buffer, MotionEvent event) {
             return false;
@@ -349,7 +351,7 @@ public class DTMFTwelveKeyDialer implements
          * Return true if the keyCode is an accepted modifier key for the
          * dialer (ALT or SHIFT).
          */
-        private boolean isAcceptableModifierKey (int keyCode) {
+        private boolean isAcceptableModifierKey(int keyCode) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_ALT_LEFT:
                 case KeyEvent.KEYCODE_ALT_RIGHT:
@@ -368,6 +370,8 @@ public class DTMFTwelveKeyDialer implements
         @Override
         public boolean onKeyDown(View view, Editable content,
                                  int keyCode, KeyEvent event) {
+            // if (DBG) log("DTMFKeyListener.onKeyDown, keyCode " + keyCode + ", view " + view);
+
             // find the character
             char c = (char) lookup(event, content);
 
@@ -385,7 +389,7 @@ public class DTMFTwelveKeyDialer implements
                 // code.
                 if (keyOK) {
                     if (DBG) log("DTMFKeyListener reading '" + c + "' from input.");
-                    playTone(c);
+                    processDtmf(c);
                 } else if (DBG) {
                     log("DTMFKeyListener rejecting '" + c + "' from input.");
                 }
@@ -401,6 +405,7 @@ public class DTMFTwelveKeyDialer implements
         @Override
         public boolean onKeyUp(View view, Editable content,
                                  int keyCode, KeyEvent event) {
+            // if (DBG) log("DTMFKeyListener.onKeyUp, keyCode " + keyCode + ", view " + view);
 
             super.onKeyUp(view, content, keyCode, event);
 
@@ -436,7 +441,7 @@ public class DTMFTwelveKeyDialer implements
                 // code.
                 if (ok(getAcceptedChars(), c)) {
                     if (DBG) log("DTMFKeyListener reading '" + c + "' from input.");
-                    playTone(c);
+                    processDtmf(c);
                     return true;
                 } else if (DBG) {
                     log("DTMFKeyListener rejecting '" + c + "' from input.");
@@ -479,7 +484,7 @@ public class DTMFTwelveKeyDialer implements
          * @return The char value of the input event, otherwise
          * 0 if no matching character was found.
          */
-        private char lookup (KeyEvent event) {
+        private char lookup(KeyEvent event) {
             // This code is similar to {@link DialerKeyListener#lookup(KeyEvent, Spannable) lookup}
             int meta = event.getMetaState();
             int number = event.getNumber();
@@ -511,7 +516,7 @@ public class DTMFTwelveKeyDialer implements
     /**
      * Our own handler to take care of the messages from the phone state changes
      */
-    private Handler mHandler = new Handler () {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -528,7 +533,7 @@ public class DTMFTwelveKeyDialer implements
     };
 
 
-    DTMFTwelveKeyDialer (InCallScreen parent) {
+    public DTMFTwelveKeyDialer(InCallScreen parent) {
         mInCallScreen = parent;
         mPhone = ((PhoneApp) mInCallScreen.getApplication()).phone;
         mDialerContainer = (SlidingDrawer) mInCallScreen.findViewById(R.id.dialer_container);
@@ -540,17 +545,21 @@ public class DTMFTwelveKeyDialer implements
             mDialerContainer.setOnDrawerCloseListener(this);
         }
 
-        // setup the dialer display reference.
-        EditText display = parent.getDialerDisplay();
-        mDialerKeyListener = new DTMFKeyListener(display);
-        // if the display is visible, set the behaviour correctly.
-        if (display != null && InCallScreen.ConfigurationHelper.isLandscape()) {
-            display.setKeyListener(mDialerKeyListener);
-            display.setMovementMethod(new DTMFDisplayMovementMethod());
+        // Set up the EditText widget that displays DTMF digits in
+        // landscape mode.  (This widget belongs to the InCallScreen, as
+        // opposed to mDialpadDigits, which is part of the full dialpad,
+        // and is used in portrait mode.)
+        mInCallDigits = mInCallScreen.getDialerDisplay();
+
+        mDialerKeyListener = new DTMFKeyListener(mInCallDigits);
+        // If the widget exists, set the behavior correctly.
+        if (mInCallDigits != null && InCallScreen.ConfigurationHelper.isLandscape()) {
+            mInCallDigits.setKeyListener(mDialerKeyListener);
+            mInCallDigits.setMovementMethod(new DTMFDisplayMovementMethod());
 
             // remove the long-press context menus that support
             // the edit (copy / paste / select) functions.
-            display.setLongClickable(false);
+            mInCallDigits.setLongClickable(false);
         }
     }
 
@@ -560,7 +569,7 @@ public class DTMFTwelveKeyDialer implements
      * @param shouldHide if true, hide the display (and disable DTMF tones) immediately;
      * otherwise, re-enable the display.
      */
-    void hideDTMFDisplay(boolean shouldHide) {
+    public void hideDTMFDisplay(boolean shouldHide) {
         DTMFKeyListener.DTMFDisplayAnimation animation = mDialerKeyListener.mDTMFDisplayAnimation;
 
         // if the animation is in place
@@ -588,7 +597,7 @@ public class DTMFTwelveKeyDialer implements
      * At the same time, get rid of listeners since we're not going to
      * be valid anymore.
      */
-    void clearInCallScreenReference() {
+    /* package */ void clearInCallScreenReference() {
         mInCallScreen = null;
         mDialerKeyListener = null;
         if (mDialerContainer != null) {
@@ -598,15 +607,11 @@ public class DTMFTwelveKeyDialer implements
         closeDialer(false);
     }
 
-    LinearLayout getView() {
-        return mDialerView;
-    }
-
     /**
      * Dialer code that runs when the dialer is brought up.
      * This includes layout changes, etc, and just prepares the dialer model for use.
      */
-    void onDialerOpen() {
+    private void onDialerOpen() {
         if (DBG) log("onDialerOpen()...");
 
         // inflate the view.
@@ -623,13 +628,13 @@ public class DTMFTwelveKeyDialer implements
         app.updateWakeState();
 
         // setup the digit display
-        mDigits = (EditText) mDialerView.findViewById(R.id.dtmfDialerField);
-        mDigits.setKeyListener(new DTMFKeyListener(null));
-        mDigits.requestFocus();
+        mDialpadDigits = (EditText) mDialerView.findViewById(R.id.dtmfDialerField);
+        mDialpadDigits.setKeyListener(new DTMFKeyListener(null));
+        mDialpadDigits.requestFocus();
 
         // remove the long-press context menus that support
         // the edit (copy / paste / select) functions.
-        mDigits.setLongClickable(false);
+        mDialpadDigits.setLongClickable(false);
 
         // Check for the presence of the keypad (portrait mode)
         View view = mDialerView.findViewById(R.id.one);
@@ -640,7 +645,7 @@ public class DTMFTwelveKeyDialer implements
             if (DBG) log("landscape mode setup");
             // Adding hint text to the field to indicate that keyboard
             // is needed while in landscape mode.
-            mDigits.setHint(R.string.dialerKeyboardHintText);
+            mDialpadDigits.setHint(R.string.dialerKeyboardHintText);
         }
 
         // setup the local tone generator.
@@ -680,7 +685,7 @@ public class DTMFTwelveKeyDialer implements
      * Dialer code that runs when the dialer is closed.
      * This releases resources acquired when we start the dialer.
      */
-    public void onDialerClose() {
+    private void onDialerClose() {
         if (DBG) log("onDialerClose()...");
 
         // reset back to a short delay for the poke lock.
@@ -754,6 +759,7 @@ public class DTMFTwelveKeyDialer implements
      * catch the back and call buttons to return to the in call activity.
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // if (DBG) log("onKeyDown:  keyCode " + keyCode);
         switch (keyCode) {
             // finish for these events
             case KeyEvent.KEYCODE_BACK:
@@ -769,6 +775,7 @@ public class DTMFTwelveKeyDialer implements
      * catch the back and call buttons to return to the in call activity.
      */
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        // if (DBG) log("onKeyUp:  keyCode " + keyCode);
         return mInCallScreen.onKeyUp(keyCode, event);
     }
 
@@ -784,7 +791,7 @@ public class DTMFTwelveKeyDialer implements
                 case MotionEvent.ACTION_DOWN:
                     // Append the character mapped to this button, to the display.
                     // start the tone
-                    appendDigit(mDisplayMap.get(viewId));
+                    processDtmf(mDisplayMap.get(viewId));
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -802,13 +809,15 @@ public class DTMFTwelveKeyDialer implements
      * Implements View.OnKeyListener for the DTMF buttons.  Enables dialing with trackball/dpad.
      */
     public boolean onKey(View v, int keyCode, KeyEvent event) {
+        // if (DBG) log("onKey:  keyCode " + keyCode + ", view " + v);
+
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
             int viewId = v.getId();
             if (mDisplayMap.containsKey(viewId)) {
                 switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
                     if (event.getRepeatCount() == 0) {
-                        appendDigit(mDisplayMap.get(viewId));
+                        processDtmf(mDisplayMap.get(viewId));
                     }
                     break;
                 case KeyEvent.ACTION_UP:
@@ -876,20 +885,28 @@ public class DTMFTwelveKeyDialer implements
     }
 
     /**
-     * update the text area and playback the tone.
+     * Processes the specified digit as a DTMF key, by playing the
+     * appropriate DTMF tone, and appending the digit to the EditText
+     * field that displays the DTMF digits sent so far.
      */
-    private final void appendDigit(char c) {
+    private final void processDtmf(char c) {
         // if it is a valid key, then update the display and send the dtmf tone.
         if (PhoneNumberUtils.is12Key(c)) {
             if (DBG) log("updating display and sending dtmf tone for '" + c + "'");
 
-            if (mDigits != null) {
-                mDigits.getText().append(c);
+            if (mDialpadDigits != null) {
+                mDialpadDigits.getText().append(c);
             }
-            // play the tone if it exists.
+
+            // Note we *don't* need to manually append this digit to the
+            // landscape-mode EditText field (mInCallDigits), since it
+            // gets key events directly and automatically appends whetever
+            // the user types.
+
+            // Play the tone if it exists.
             if (mToneMap.containsKey(c)) {
                 // begin tone playback.
-                playTone(c);
+                startTone(c);
             }
         } else if (DBG) {
             log("ignoring dtmf request for '" + c + "'");
@@ -898,20 +915,58 @@ public class DTMFTwelveKeyDialer implements
     }
 
     /**
-     * Start playing a DTMF tone, also begin the local tone playback if it is
-     * enabled.
+     * Clears out the display of "DTMF digits typed so far" that's kept in
+     * either mDialpadDigits or mInCallDigits (depending on whether we're
+     * in portrait or landscape mode.)
+     *
+     * The InCallScreen is responsible for calling this method any time a
+     * new call becomes active (or, more simply, any time a call ends).
+     * This is how we make sure that the "history" of DTMF digits you type
+     * doesn't persist from one call to the next.
+     *
+     * TODO: it might be more elegent if the dialpad itself could remember
+     * the call that we're associated with, and clear the digits if the
+     * "current call" has changed since last time.  (This would require
+     * some unique identifier that's different for each call.  We can't
+     * just use the foreground Call object, since that's a singleton that
+     * lasts the whole life of the phone process.  Instead, maybe look at
+     * the Connection object that comes back from getEarliestConnection()?
+     * Or getEarliestConnectTime()?)
+     *
+     * Or to be even fancier, we could keep a mapping of *multiple*
+     * "active calls" to DTMF strings.  That way you could have two lines
+     * in use and swap calls multiple times, and we'd still remember the
+     * digits for each call.  (But that's such an obscure use case that
+     * it's probably not worth the extra complexity.)
+     */
+    public void clearDigits() {
+        if (DBG) log("clearDigits()...");
+
+        if (mDialpadDigits != null) {
+            mDialpadDigits.setText("");
+        }
+
+        if (mInCallDigits != null) {
+            mInCallDigits.setText("");
+        }
+
+    }
+
+    /**
+     * Starts playing a DTMF tone.  Also begins the local tone playback,
+     * if enabled.
      *
      * @param tone a tone code from {@link ToneGenerator}
      */
-    void playTone(char tone) {
-        if (DBG) log("starting remote tone.");
+    private void startTone(char tone) {
+        if (DBG) log("startTone()...");
         PhoneApp.getInstance().phone.startDtmf(tone);
 
         // if local tone playback is enabled, start it.
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
                 if (mToneGenerator == null) {
-                    if (DBG) log("playTone: mToneGenerator == null, tone: " + tone);
+                    if (DBG) log("startTone: mToneGenerator == null, tone: " + tone);
                 } else {
                     if (DBG) log("starting local tone " + tone);
                     mToneGenerator.startTone(mToneMap.get(tone));
@@ -921,14 +976,14 @@ public class DTMFTwelveKeyDialer implements
     }
 
     /**
-     * Stop playing the current DTMF tone.
+     * Stops playing the current DTMF tone.
      *
      * The ToneStopper class (similar to that in {@link TwelveKeyDialer#mToneStopper})
      * has been removed in favor of synchronous start / stop calls since tone duration
      * is now a function of the input.
      */
-    void stopTone() {
-        if (DBG) log("stopping remote tone.");
+    private void stopTone() {
+        if (DBG) log("stopTone()...");
         PhoneApp.getInstance().phone.stopDtmf();
 
         // if local tone playback is enabled, stop it.

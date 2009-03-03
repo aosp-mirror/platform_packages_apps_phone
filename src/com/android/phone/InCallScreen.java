@@ -1017,7 +1017,7 @@ public class InCallScreen extends Activity
         } else if (hasActiveCall && hasHoldingCall) {
             // Two lines are in use: CALL means "Swap calls".
             if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
-            PhoneUtils.switchHoldingAndActive(mPhone);
+            internalSwapCalls();
         } else if (hasHoldingCall) {
             // There's only one line in use, AND it's on hold.
             // In this case CALL is a shortcut for "unhold".
@@ -1061,8 +1061,9 @@ public class InCallScreen extends Activity
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         // the dtmf tones should no longer be played
-        if (DBG) log("handling key up event...");
+        if (DBG) log("onWindowFocusChanged(" + hasFocus + ")...");
         if (!hasFocus && mDialer != null) {
+            if (DBG) log("- onWindowFocusChanged: faking onDialerKeyUp()...");
             mDialer.onDialerKeyUp(null);
         }
     }
@@ -1192,6 +1193,10 @@ public class InCallScreen extends Activity
                 }
                 break;
 
+            case KeyEvent.KEYCODE_MUTE:
+                PhoneUtils.setMute(mPhone, !PhoneUtils.getMute(mPhone));
+                return true;
+
             // Various testing/debugging features, enabled ONLY when DBG == true.
             case KeyEvent.KEYCODE_SLASH:
                 if (DBG) {
@@ -1217,9 +1222,6 @@ public class InCallScreen extends Activity
                     return true;
                 }
                 break;
-            case KeyEvent.KEYCODE_MUTE:
-                PhoneUtils.setMute(mPhone, !PhoneUtils.getMute(mPhone));
-                return true;
         }
 
         if (event.getRepeatCount() == 0 && handleDialerKeyDown(keyCode, event)) {
@@ -1346,6 +1348,11 @@ public class InCallScreen extends Activity
         Connection c = (Connection) r.result;
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
+
+        // Any time a call disconnects, clear out the "history" of DTMF
+        // digits you typed (to make sure it doesn't persist from one call
+        // to the next.)
+        mDialer.clearDigits();
 
         // Under certain call disconnected states, we want to alert the user
         // with a dialog instead of going through the normal disconnect
@@ -1750,7 +1757,7 @@ public class InCallScreen extends Activity
 
         if (DBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
-        updateDialerDrawer();
+        updateDialpadVisibility();
         updateMenuButtonHint();
     }
 
@@ -2122,7 +2129,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuSwapCalls:
                 if (DBG) log("onClick: SwapCalls...");
-                PhoneUtils.switchHoldingAndActive(mPhone);
+                internalSwapCalls();
                 break;
 
             case R.id.menuMergeCalls:
@@ -2616,6 +2623,28 @@ public class InCallScreen extends Activity
         PhoneUtils.hangupRingingCall(mPhone);
     }
 
+    /**
+     * InCallScreen-specific wrapper around PhoneUtils.switchHoldingAndActive().
+     */
+    private void internalSwapCalls() {
+        if (DBG) log("internalSwapCalls()...");
+
+        // Any time we swap calls, force the DTMF dialpad to close.
+        // (We want the regular in-call UI to be visible right now, so the
+        // user can clearly see which call is now in the foreground.)
+        mDialer.closeDialer(true);  // do the "closing" animation
+
+        // Also, clear out the "history" of DTMF digits you typed, to make
+        // sure you don't see digits from call #1 while call #2 is active.
+        // (Yes, this does mean that swapping calls twice will cause you
+        // to lose any previous digits from the current call; see the TODO
+        // comment on DTMFTwelvKeyDialer.clearDigits() for more info.)
+        mDialer.clearDigits();
+
+        // Swap the fg and bg calls.
+        PhoneUtils.switchHoldingAndActive(mPhone);
+    }
+
     //
     // "Manage conference" UI.
     //
@@ -2725,7 +2754,7 @@ public class InCallScreen extends Activity
 
         // Update the visibility of the DTMF dialer tab on any state
         // change.
-        updateDialerDrawer();
+        updateDialpadVisibility();
     }
 
     /**
@@ -2979,13 +3008,39 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates the DTMF dialer tab based on the current state of the phone
-     * and/or the current InCallScreenMode.
+     * Updates the visibility of the DTMF dialpad and the "sliding drawer"
+     * handle, based on the current state of the phone and/or the current
+     * InCallScreenMode.
      */
-    private void updateDialerDrawer() {
+    private void updateDialpadVisibility() {
+        //
+        // (1) The dialpad itself:
+        //
+        // If an incoming call is ringing, make sure the dialpad is
+        // closed.  (We do this to make sure we're not covering up the
+        // "incoming call" UI, and especially to make sure that the "touch
+        // lock" overlay won't appear.)
+        if (mPhone.getState() == Phone.State.RINGING) {
+            mDialer.closeDialer(false);  // don't do the "closing" animation
+
+            // Also, clear out the "history" of DTMF digits you may have typed
+            // into the previous call (so you don't see the previous call's
+            // digits if you answer this call and then bring up the dialpad.)
+            //
+            // TODO: it would be more precise to do this when you *answer* the
+            // incoming call, rather than as soon as it starts ringing, but
+            // the InCallScreen doesn't keep enough state right now to notice
+            // that specific transition in onPhoneStateChanged().
+            mDialer.clearDigits();
+        }
+
+        //
+        // (2) The "sliding drawer" handle:
+        //
+        // This handle should be visible only if it's OK to actually open
+        // the dialpad.
+        //
         if (mDialerDrawer != null) {
-            // The sliding drawer tab is visible only when it's OK
-            // to actually use the dialpad.
             int visibility = okToShowDialpad() ? View.VISIBLE : View.GONE;
             mDialerDrawer.setVisibility(visibility);
         }
@@ -3025,7 +3080,7 @@ public class InCallScreen extends Activity
     /**
      * Get the DTMF dialer display field.
      */
-    EditText getDialerDisplay() {
+    /* package */ EditText getDialerDisplay() {
         return mDTMFDisplay;
     }
 
@@ -3554,19 +3609,20 @@ public class InCallScreen extends Activity
                 long now = SystemClock.uptimeMillis();
                 if (DBG) log("- touch lock icon: handling a DOWN event, t = " + now);
 
-                // Look for the double-tap (aka "jump tap") gesture:
-                if (now < mTouchLockLastTouchTime + ViewConfiguration.getJumpTapTimeout()) {
+                // Look for the double-tap gesture:
+                if (now < mTouchLockLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
                     if (DBG) log("==> touch lock icon: DOUBLE-TAP!");
                     // This was the 2nd tap of a double-tap gesture.
                     // Take down the touch lock overlay, but post a
                     // message in the future to bring it back later.
                     enableTouchLock(false);
                     resetTouchLockTimer();
-                } else {
-                    // Stash away the current time, since this might
-                    // be the first tap of a double-tap gesture.
-                    mTouchLockLastTouchTime = now;
                 }
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                // Stash away the current time in case this is the first
+                // tap of a double-tap gesture.  (We measure the time from
+                // the first tap's UP to the second tap's DOWN.)
+                mTouchLockLastTouchTime = SystemClock.uptimeMillis();
             }
 
             // And regardless of what just happened, we *always* consume
