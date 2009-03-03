@@ -25,21 +25,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-import android.os.SystemProperties;
 import android.os.Vibrator;
-import android.util.Log;
-
 import com.android.internal.telephony.Phone;
+import android.util.Log;
 
 /**
  * Ringer manager for the Phone app.
  */
 public class Ringer {
     private static final String TAG = PhoneApp.LOG_TAG;
-
-    // Enable debug logging for userdebug builds.
-    private static final boolean DBG =
-            (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = false;
 
     private static final int PLAY_RING_ONCE = 1;
     private static final int STOP_RING = 3;
@@ -181,8 +176,6 @@ public class Ringer {
                 mFirstRingEventTime = -1;
                 mFirstRingStartTime = -1;
                 mRingPending = false;
-            } else {
-                if (DBG) log("- stopRing: null mRingHandler!");
             }
 
             if (mVibratorThread != null) {
@@ -258,7 +251,6 @@ public class Ringer {
                     Ringtone r = null;
                     switch (msg.what) {
                         case PLAY_RING_ONCE:
-                            if (DBG) log("mRingHandler: PLAY_RING_ONCE...");
                             if (mRingtone == null && ! hasMessages(STOP_RING)) {
                                 // create the ringtone with the uri 
                                 if (DBG) log("creating ringtone with uri " + mCustomRingtoneUri);
@@ -282,12 +274,9 @@ public class Ringer {
                             }
                             break;
                         case STOP_RING:
-                            if (DBG) log("mRingHandler: STOP_RING...");
                             r = (Ringtone) msg.obj;
                             if (r != null) {
                                 r.stop();
-                            } else {
-                                if (DBG) log("- STOP_RING with null ringtone!  msg = " + msg);
                             }
                             getLooper().quit();
                             break;

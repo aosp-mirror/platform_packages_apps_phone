@@ -279,7 +279,6 @@ public class BluetoothHeadsetService extends Service {
             } else if (action.equals(BluetoothIntent.DISABLED_ACTION)) {
                 mBtHandsfree.onBluetoothDisabled();
                 mAg.stop();
-                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
             } else if (action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION)) {
                 int bondState = intent.getIntExtra(BluetoothIntent.BOND_STATE,
                                                    BluetoothError.ERROR);
@@ -548,7 +547,7 @@ public class BluetoothHeadsetService extends Service {
                 if (mState == BluetoothHeadset.STATE_CONNECTED ||
                     mState == BluetoothHeadset.STATE_CONNECTING) {
                     Log.w(TAG, "connectHeadset(" + address + "): failed: already in state " +
-                          mState + " with headset " + mHeadsetAddress);
+                          mState + "with headset " + mHeadsetAddress);
                     return false;
                 }
                 if (address == null) {

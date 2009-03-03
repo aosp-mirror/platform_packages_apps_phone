@@ -25,7 +25,7 @@
     <string name="unknown">"不明"</string>
     <string name="private_num">"番号非通知"</string>
     <string name="onHold">"保留中"</string>
-    <string name="ongoing">"通話中"</string>
+    <string name="ongoing">"現在の通話"</string>
     <string name="callFailed_userBusy">"話し中"</string>
     <string name="callFailed_congestion">"ネットワークがビジーです"</string>
     <string name="callFailed_noSignal">"圏外"</string>
@@ -35,7 +35,7 @@
     <string name="callFailed_outOfService">"圏外"</string>
     <string name="callFailed_fdn_only">"発信番号制限により発信が制限されています。"</string>
     <string name="callFailed_cb_enabled">"発信できません。発信制限がかかっています。"</string>
-    <string name="confCall">"グループ通話"</string>
+    <string name="confCall">"電話会議"</string>
     <string name="mmiStarted">"MMIコードの開始"</string>
     <string name="ussdRunning">"USSDコードを実行中..."</string>
     <string name="mmiCancelled">"MMIコードはキャンセルされました"</string>
@@ -45,10 +45,10 @@
     <string name="menu_mute">"ミュート"</string>
     <string name="menu_hold">"保留"</string>
     <string name="menu_endCall">"通話を終了"</string>
-    <string name="menu_swapCalls">"相手切替"</string>
-    <string name="menu_mergeCalls">"グループ通話"</string>
+    <string name="menu_swapCalls">"通話を切り替える"</string>
+    <string name="menu_mergeCalls">"通話をまとめる"</string>
     <string name="menu_addCall">"通話を追加"</string>
-    <string name="menu_manageConference">"グループ通話オプション"</string>
+    <string name="menu_manageConference">"電話会議を管理"</string>
     <string name="menu_showDialpad">"ダイヤルパッドを表示"</string>
     <string name="menu_hideDialpad">"ダイヤルパッドを隠す"</string>
     <string name="menu_answerAndHold">"通話を保留"\n"して応答"</string>
@@ -223,7 +223,7 @@
     <string name="fdn_enable_puk2_requested">"パスワードが正しくありません。PIN2を変更して再入力してください。"</string>
     <string name="puk2_requested">"パスワードが正しくありません。SIMがロックされています。PUK2を入力してください。"</string>
     <string name="doneButton">"完了"</string>
-    <string name="caller_manage_header">"グループ通話 <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_header">"電話会議<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"通話に戻る"</string>
     <string name="sim_missing_continueView_text">"SIMカードなしで続ける"</string>
     <string name="sim_missing_msg_text">"SIMカードが見つかりません。SIMカードを携帯電話に挿入してください。"</string>
@@ -233,16 +233,16 @@
     <string name="voicemail_settings_number_label">"ボイスメールの番号"</string>
     <string name="card_title_dialing">"発信中"</string>
     <string name="card_title_in_progress">"現在の通話"</string>
-    <string name="card_title_conf_call">"グループ通話"</string>
+    <string name="card_title_conf_call">"電話会議"</string>
     <string name="card_title_incoming_call">"着信"</string>
-    <string name="card_title_call_ended">"通話終了"</string>
+    <string name="card_title_call_ended">"通話の終了"</string>
     <string name="card_title_on_hold">"保留中"</string>
     <string name="card_title_hanging_up">"通話終了"</string>
     <string name="notification_missedCallTitle">"不在着信"</string>
     <string name="notification_missedCallsTitle">"不在着信"</string>
     <string name="notification_missedCallsMsg">"不在着信<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>件"</string>
     <string name="notification_missedCallTicker">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>さんからの不在着信"</string>
-    <string name="notification_ongoing_call_format">"通話中（<xliff:g id="DURATION">%s</xliff:g>）"</string>
+    <string name="notification_ongoing_call_format">"現在の通話 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"保留中"</string>
     <string name="notification_voicemail_title">"新しいボイスメール"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>にダイヤル"</string>
@@ -256,7 +256,7 @@
     <string name="incall_error_supp_service_switch">"通話を切り替えられません。"</string>
     <string name="incall_error_supp_service_separate">"通話を分割できません。"</string>
     <string name="incall_error_supp_service_transfer">"電話を転送できません。"</string>
-    <string name="incall_error_supp_service_conference">"グループ通話を利用できません。"</string>
+    <string name="incall_error_supp_service_conference">"電話会議ができません。"</string>
     <string name="incall_error_supp_service_reject">"着信を拒否できません。"</string>
     <string name="incall_error_supp_service_hangup">"通話を解放できません。"</string>
     <string name="emergency_enable_radio_dialog_title">"緊急呼"</string>
