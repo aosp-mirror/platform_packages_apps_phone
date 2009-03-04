@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="contactsIconLabel">"通訊錄"</string>
+    <string name="contactsFavoritesLabel">"我的最愛"</string>
+    <string name="dialerIconLabel">"撥號"</string>
+    <string name="emergencyDialerIconLabel">"緊急撥號"</string>
+    <string name="phoneIconLabel">"電話"</string>
+    <string name="recentCallsIconLabel">"通話紀錄"</string>
+    <string name="fdnListLabel">"限制撥號號碼清單"</string>
+    <string name="unknown">"未知"</string>
+    <string name="private_num">"私人號碼"</string>
+    <string name="onHold">"通話保留"</string>
+    <string name="ongoing">"目前通話"</string>
+    <string name="callFailed_userBusy">"線路忙碌中"</string>
+    <string name="callFailed_congestion">"網路忙碌"</string>
+    <string name="callFailed_noSignal">"沒有訊號"</string>
+    <string name="callFailed_limitExceeded">"已達 ACM 限制"</string>
+    <string name="callFailed_powerOff">"無線通訊關閉"</string>
+    <string name="callFailed_simError">"沒有 SIM 或 SIM 錯誤"</string>
+    <string name="callFailed_outOfService">"超出服務範圍"</string>
+    <string name="callFailed_fdn_only">"發話受到限制撥號號碼管制。"</string>
+    <string name="callFailed_cb_enabled">"通話限制啟用時，不允許對外撥號。"</string>
+    <string name="confCall">"多方通話"</string>
+    <string name="mmiStarted">"MMI 碼已開始"</string>
+    <string name="ussdRunning">"USSD 碼執行中..."</string>
+    <string name="mmiCancelled">"MMI 碼已取消"</string>
+    <string name="cancel">"取消"</string>
+    <string name="menu_speaker">"喇叭"</string>
+    <string name="menu_bluetooth">"藍牙"</string>
+    <string name="menu_mute">"靜音"</string>
+    <string name="menu_hold">"保留"</string>
+    <string name="menu_endCall">"結束通話"</string>
+    <string name="menu_swapCalls">"切換通話"</string>
+    <string name="menu_mergeCalls">"合併通話"</string>
+    <string name="menu_addCall">"新增通話"</string>
+    <string name="menu_manageConference">"管理多方通話"</string>
+    <string name="menu_showDialpad">"顯示撥號面板"</string>
+    <string name="menu_hideDialpad">"隱藏撥號面板"</string>
+    <string name="menu_answerAndHold">"保留目前通話"\n"並接聽"</string>
+    <string name="menu_answerAndEnd">"結束目前通話"\n"並接聽"</string>
+    <string name="ok">"確定"</string>
+    <string name="menuButtonHint">"按下 [選單] 開啟通話選項。"</string>
+    <string name="menuButtonKeyboardDialHint">"按下 [選單] 開啟通話選項•使用鍵盤撥號"</string>
+    <string name="wait_prompt_str">"傳送此鈴聲？"\n</string>
+    <string name="send_button">"傳送"</string>
+    <string name="wild_prompt_str">"取代萬用字元為"</string>
+    <string name="bluetooth_headset_connected">"藍牙耳機已連線。"</string>
+    <string name="bluetooth_headset_disconnected">"藍牙耳機已斷線。"</string>
+    <string name="no_vm_number">"遺失語音信箱號碼"</string>
+    <string name="no_vm_number_msg">"SIM 卡中未儲存語音信箱號碼。"</string>
+    <string name="add_vm_number_str">"新增號碼"</string>
+    <string name="dialer_emptyListWorking">"載入中..."</string>
+    <string name="enterPin">"輸入 PIN 碼以解鎖 SIM 卡。"</string>
+    <string name="pinUnlocked">"SIM 已解鎖"</string>
+    <string name="enterNewPin">"新增 SIM PIN 碼"</string>
+    <string name="verifyNewPin">"再次輸入新的 SIM PIN 碼以確認"</string>
+    <string name="verifyFailed">"您輸入的 SIM PIN 不符合。請再試一次。"</string>
+    <string name="enterPuk">"輸入 PUK 碼以解鎖 SIM 卡"</string>
+    <string name="badPuk">"錯誤的 PUK 碼！"</string>
+    <string name="buttonTxtContinue">"繼續"</string>
+    <string name="puk_unlocked">"您的 SIM 卡已解鎖。正在解鎖手機中..."</string>
+    <string name="label_ndp">"SIM 網路解鎖 PIN"</string>
+    <string name="sim_ndp_unlock_text">"解除鎖定"</string>
+    <string name="sim_ndp_dismiss_text">"關閉"</string>
+    <string name="requesting_unlock">"要求解鎖網路中..."</string>
+    <string name="unlock_failed">"網路解鎖失敗。"</string>
+    <string name="unlock_success">"網路解鎖成功。"</string>
+    <string name="imei">"IMEI"</string>
+    <string name="labelMore">"其他通話設定"</string>
+    <string name="apn_settings">"存取點名稱 (APN)"</string>
+    <string name="settings_label">"網路設定"</string>
+    <string name="voicemail">"語音信箱"</string>
+    <string name="voicemail_abbreviated">"語音信箱："</string>
+    <string name="networks">"電信業者"</string>
+    <string name="call_settings">"通話設定"</string>
+    <string name="additional_call_settings">"其他通話設定"</string>
+    <string name="labelCallerId">"本機號碼"</string>
+    <string name="sum_hide_caller_id">"隱藏發話號碼"</string>
+    <string name="sum_show_caller_id">"顯示發話號碼"</string>
+    <string name="sum_default_caller_id">"使用預設值，發話時顯示發話號碼"</string>
+    <string name="labelCW">"話中插接"</string>
+    <string name="sum_cw_enabled">"通話期間有來電時通知我"</string>
+    <string name="sum_cw_disabled">"通話期間有來電時通知我"</string>
+    <string name="call_forwarding_settings">"通話指定轉接設定"</string>
+    <string name="labelCF">"通話指定轉接"</string>
+    <string name="labelCFU">"永遠轉接"</string>
+    <string name="messageCFU">"永遠使用此號碼"</string>
+    <string name="sum_cfu_enabled_indicator">"轉接所有來電"</string>
+    <string name="sum_cfu_enabled">"轉接所有來電到 {0}"</string>
+    <string name="sum_cfu_disabled">"停用"</string>
+    <string name="labelCFB">"忙線時轉接"</string>
+    <string name="messageCFB">"忙線時轉接號碼"</string>
+    <string name="sum_cfb_enabled">"轉接到 \\\\{0\\\\}"</string>
+    <string name="sum_cfb_disabled">"停用"</string>
+    <string name="labelCFNRy">"未接聽時轉接"</string>
+    <string name="messageCFNRy">"未接聽時的轉接號碼"</string>
+    <string name="sum_cfnry_enabled">"轉接到 \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_disabled">"停用"</string>
+    <string name="labelCFNRc">"未能接通時轉接"</string>
+    <string name="messageCFNRc">"未接通時的轉接號碼"</string>
+    <string name="sum_cfnrc_enabled">"轉接到 \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_disabled">"停用"</string>
+    <string name="updating_title">"通話設定"</string>
+    <string name="error_updating_title">"通話設定錯誤"</string>
+    <string name="reading_settings">"讀取設定中..."</string>
+    <string name="updating_settings">"更新設定中..."</string>
+    <string name="response_error">"網路傳回意外的回應，"</string>
+    <string name="exception_error">"網路或 SIM 卡錯誤。"</string>
+    <string name="radio_off_error">"檢視設定前，請先開啟無線通訊。"</string>
+    <string name="close_dialog">"確定"</string>
+    <string name="enable">"啟用"</string>
+    <string name="disable">"停用"</string>
+    <string name="change_num">"更新"</string>
+  <string-array name="clir_display_values">
+    <item>"預設網路"</item>
+    <item>"隱藏號碼"</item>
+    <item>"顯示號碼"</item>
+  </string-array>
+    <string name="vm_save_number">"儲存語音信箱號碼"</string>
+    <string name="vm_changed">"已變更語音信箱號碼。"</string>
+    <string name="vm_change_failed">"語音信箱號碼變更失敗。"</string>
+    <string name="no_change">"未變更設定。"</string>
+    <string name="sum_voicemail">"設定語音信箱號碼"</string>
+    <string name="mobile_networks">"行動網路設定"</string>
+    <string name="label_available">"可用網路"</string>
+    <string name="load_networks_progress">"搜尋中..."</string>
+    <string name="empty_networks_list">"找不到網路。"</string>
+    <string name="search_networks">"搜尋網路"</string>
+    <string name="network_query_error">"搜尋網路時發生錯誤。"</string>
+    <string name="register_on_network">"正在註冊 <xliff:g id="NETWORK">%s</xliff:g>..."</string>
+    <string name="not_allowed">"您的 SIM 卡不允許連接此網路。"</string>
+    <string name="registration_done">"註冊網路成功。"</string>
+    <string name="sum_carrier_select">"選取網路電信業者"</string>
+    <string name="sum_search_networks">"搜尋所有可用網路"</string>
+    <string name="select_automatically">"自動選取"</string>
+    <string name="sum_select_automatically">"自動選取喜好網路"</string>
+    <string name="register_automatically">"自動註冊中..."</string>
+    <string name="roaming">"資料漫遊"</string>
+    <string name="roaming_enable">"漫遊時連線到資料服務"</string>
+    <string name="roaming_disable">"漫遊時連線到資料服務"</string>
+    <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
+    <string name="roaming_turn_it_on_button">"開啟"</string>
+    <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
+    <string name="prefer_2g">"只使用 2G 網路"</string>
+    <string name="prefer_2g_summary">"節省電力"</string>
+    <string name="fdn">"限制撥號號碼"</string>
+    <string name="manage_fdn_list">"限制撥號號碼清單"</string>
+    <string name="fdn_activation">"啟用限制撥號號碼"</string>
+    <string name="fdn_enabled">"已啟用 [限制撥號號碼]"</string>
+    <string name="fdn_disabled">"已停用 [限制撥號號碼]"</string>
+    <string name="enable_fdn">"啟用限制撥號號碼"</string>
+    <string name="disable_fdn">"停用限制撥號號碼"</string>
+    <string name="change_pin2">"更改 PIN2"</string>
+    <string name="enable_fdn_ok">"停用限制撥號號碼"</string>
+    <string name="disable_fdn_ok">"啟用限制撥號號碼"</string>
+    <string name="sum_fdn">"管理限制撥號號碼"</string>
+    <string name="sum_fdn_change_pin">"變更 PIN 以存取限制撥號號碼"</string>
+    <string name="sum_fdn_manage_list">"管理電話號碼清單"</string>
+    <string name="menu_add">"新增聯絡人"</string>
+    <string name="menu_edit">"編輯聯絡人"</string>
+    <string name="menu_delete">"刪除聯絡人"</string>
+    <string name="get_pin2">"輸入 PIN2"</string>
+    <string name="name">"名稱"</string>
+    <string name="number">"號碼"</string>
+    <string name="save">"儲存"</string>
+    <string name="add_fdn_contact">"新增限制撥號聯絡人"</string>
+    <string name="adding_fdn_contact">"正在新增限制撥號聯絡人..."</string>
+    <string name="fdn_contact_added">"已新增限制撥號聯絡人。"</string>
+    <string name="edit_fdn_contact">"編輯限制撥號聯絡人"</string>
+    <string name="updating_fdn_contact">"正在更新限制撥號聯絡人..."</string>
+    <string name="fdn_contact_updated">"限制撥號清單已更新。"</string>
+    <string name="delete_fdn_contact">"刪除限制撥號聯絡人"</string>
+    <string name="deleting_fdn_contact">"正在刪除限制撥號聯絡人..."</string>
+    <string name="fdn_contact_deleted">"已刪除限制撥號聯絡人。"</string>
+    <string name="pin2_invalid">"PIN2 錯誤！"</string>
+    <string name="fdn_invalid_number">"號碼不能超過 20 位數。"</string>
+    <string name="simContacts_emptyLoading">"從 SIM 卡讀取中..."</string>
+    <string name="simContacts_empty">"您的 SIM 卡上沒有聯絡人。"</string>
+    <string name="simContacts_title">"選取要匯入的聯絡人"</string>
+    <string name="enable_pin">"啟用/停用 SIM PIN"</string>
+    <string name="change_pin">"變更 SIM PIN"</string>
+    <string name="enter_pin_text">"SIM PIN："</string>
+    <string name="oldPinLabel">"舊的 PIN"</string>
+    <string name="newPinLabel">"新的 PIN"</string>
+    <string name="confirmPinLabel">"確認新的 PIN"</string>
+    <string name="badPin">"您輸入的舊 PIN 不正確。請再試一次。"</string>
+    <string name="mismatchPin">"您輸入的 PIN 不符合。請再試一次。"</string>
+    <string name="invalidPin">"輸入 4 至 8 個數字的 PIN。"</string>
+    <string name="disable_sim_pin">"停用 SIM PIN"</string>
+    <string name="enable_sim_pin">"啟用 SIM PIN"</string>
+    <string name="enable_in_progress">"請稍候..."</string>
+    <string name="enable_pin_ok">"SIM PIN 已啟用"</string>
+    <string name="disable_pin_ok">"SIM PIN 已停用"</string>
+    <string name="pin_failed">"您輸入的 PIN 不正確"</string>
+    <string name="pin_changed">"成功變更 SIM PIN"</string>
+    <string name="puk_requested">"密碼錯誤，SIM 已鎖定！需要 PUK2 解鎖。"</string>
+    <string name="enter_pin2_text">"PIN2"</string>
+    <string name="oldPin2Label">"舊的 PIN2"</string>
+    <string name="newPin2Label">"新的 PIN2"</string>
+    <string name="confirmPin2Label">"確認新的 PIN2"</string>
+    <string name="badPuk2">"您輸入的 PUK2 不正確。請再試一次。"</string>
+    <string name="badPin2">"您輸入的舊 PIN2 不正確。請再試一次。"</string>
+    <string name="mismatchPin2">"您輸入的 PIN2 不符。請再試一次。"</string>
+    <string name="invalidPin2">"輸入 4 至 8 個數字的 PIN2。"</string>
+    <string name="invalidPuk2">"輸入 8 個數字的 PUK2。"</string>
+    <string name="pin2_changed">"成功變更 PIN2"</string>
+    <string name="label_puk2_code">"輸入 PUK2 碼"</string>
+    <string name="fdn_enable_puk2_requested">"密碼錯誤，請更改 PIN2 並再試一次！"</string>
+    <string name="puk2_requested">"密碼錯誤，SIM 已鎖定！需要 PUK2 解鎖。"</string>
+    <string name="doneButton">"完成"</string>
+    <string name="caller_manage_header">"多方通話<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text">"返回通話"</string>
+    <string name="sim_missing_continueView_text">"不插入 SIM 卡，繼續操作"</string>
+    <string name="sim_missing_msg_text">"找不到 SIM 卡。請將 SIM 卡插入手機。"</string>
+    <string name="sim_unlock_dismiss_text">"關閉"</string>
+    <string name="sim_unlock_unlock_text">"解除鎖定"</string>
+    <string name="sim_unlock_status_text">"正在驗證 PIN..."</string>
+    <string name="voicemail_settings_number_label">"語音信箱號碼"</string>
+    <string name="card_title_dialing">"撥號中"</string>
+    <string name="card_title_in_progress">"目前通話"</string>
+    <string name="card_title_conf_call">"多方通話"</string>
+    <string name="card_title_incoming_call">"來電"</string>
+    <string name="card_title_call_ended">"通話結束"</string>
+    <string name="card_title_on_hold">"通話保留"</string>
+    <string name="card_title_hanging_up">"掛斷電話"</string>
+    <string name="notification_missedCallTitle">"未接來電"</string>
+    <string name="notification_missedCallsTitle">"未接來電"</string>
+    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> 通未接來電"</string>
+    <string name="notification_missedCallTicker">"來自 <xliff:g id="MISSED_CALL_FROM">%s</xliff:g> 的未接來電"</string>
+    <string name="notification_ongoing_call_format">"目前通話 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold">"通話保留"</string>
+    <string name="notification_voicemail_title">"新增語音信箱"</string>
+    <string name="notification_voicemail_text_format">"撥打 <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number">"未知的語音信箱號碼"</string>
+    <string name="incall_error_power_off">"撥號前，請先關閉飛航模式。"</string>
+    <string name="incall_error_emergency_only">"尚未註冊網路。"</string>
+    <string name="incall_error_no_phone_number_supplied">"撥號未送出，未輸入正確號碼。"</string>
+    <string name="incall_error_call_failed">"撥號未送出。"</string>
+    <string name="incall_status_dialed_mmi">"開始 MMI 接續..."</string>
+    <string name="incall_error_supp_service_unknown">"不支援的服務。"</string>
+    <string name="incall_error_supp_service_switch">"無法切換通話。"</string>
+    <string name="incall_error_supp_service_separate">"無法分隔來電。"</string>
+    <string name="incall_error_supp_service_transfer">"無法轉接來電。"</string>
+    <string name="incall_error_supp_service_conference">"無法進行多方通話。"</string>
+    <string name="incall_error_supp_service_reject">"無法拒絕來電。"</string>
+    <string name="incall_error_supp_service_hangup">"無法釋出通話。"</string>
+    <string name="emergency_enable_radio_dialog_title">"緊急電話"</string>
+    <string name="emergency_enable_radio_dialog_message">"開啟無線通訊中..."</string>
+    <string name="emergency_enable_radio_dialog_retry">"超出服務範圍，重試中..."</string>
+    <string name="dial_emergency_error">"撥號未送出，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是緊急電話號碼！"</string>
+    <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
+    <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
+    <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
+    <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
+    <string name="importSimEntry">"匯入"</string>
+    <string name="importAllSimEntries">"全部匯入"</string>
+    <string name="importingSimContacts">"匯入 SIM 聯絡人"</string>
+    <string name="importToFDNfromContacts">"從通訊錄匯入"</string>
+</resources>

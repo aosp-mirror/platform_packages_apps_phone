@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="contactsIconLabel">"연락처"</string>
+    <string name="contactsFavoritesLabel">"자주 거는 전화"</string>
+    <string name="dialerIconLabel">"전화걸기"</string>
+    <string name="emergencyDialerIconLabel">"비상 전화걸기"</string>
+    <string name="phoneIconLabel">"전화"</string>
+    <string name="recentCallsIconLabel">"통화기록"</string>
+    <string name="fdnListLabel">"FDN 목록"</string>
+    <string name="unknown">"알 수 없음"</string>
+    <string name="private_num">"발신자 표시제한"</string>
+    <string name="onHold">"대기 중"</string>
+    <string name="ongoing">"현재 통화"</string>
+    <string name="callFailed_userBusy">"통화 중입니다."</string>
+    <string name="callFailed_congestion">"네트워크 사용량이 많습니다."</string>
+    <string name="callFailed_noSignal">"신호 없음"</string>
+    <string name="callFailed_limitExceeded">"ACM 제한을 초과했습니다."</string>
+    <string name="callFailed_powerOff">"무선 연결 끊김"</string>
+    <string name="callFailed_simError">"SIM이 없거나 SIM 오류입니다."</string>
+    <string name="callFailed_outOfService">"서비스 지역을 벗어났습니다."</string>
+    <string name="callFailed_fdn_only">"발신전화가 FDN으로 제한됩니다."</string>
+    <string name="callFailed_cb_enabled">"착발신 제한이 설정되어 있는 동안에는 전화를 걸 수 없습니다."</string>
+    <string name="confCall">"다자간 통화"</string>
+    <string name="mmiStarted">"MMI 코드 시작됨"</string>
+    <string name="ussdRunning">"USSD 코드 실행 중..."</string>
+    <string name="mmiCancelled">"MMI 코드 취소됨"</string>
+    <string name="cancel">"취소"</string>
+    <string name="menu_speaker">"스피커"</string>
+    <string name="menu_bluetooth">"Bluetooth"</string>
+    <string name="menu_mute">"음소거"</string>
+    <string name="menu_hold">"보류"</string>
+    <string name="menu_endCall">"통화종료"</string>
+    <string name="menu_swapCalls">"통화 교환"</string>
+    <string name="menu_mergeCalls">"통화 병합"</string>
+    <string name="menu_addCall">"통화 추가"</string>
+    <string name="menu_manageConference">"다자간 통화 관리"</string>
+    <string name="menu_showDialpad">"다이얼패드 표시"</string>
+    <string name="menu_hideDialpad">"다이얼패드 숨기기"</string>
+    <string name="menu_answerAndHold">"현재 통화를 보류하고"\n" 전화받기"</string>
+    <string name="menu_answerAndEnd">"현재 통화를 끊고"\n" 전화받기"</string>
+    <string name="ok">"확인"</string>
+    <string name="menuButtonHint">"통화 옵션을 보려면 메뉴를 누르세요."</string>
+    <string name="menuButtonKeyboardDialHint">"통화 옵션을 보려면 메뉴를 누르세요.  •  키보드를 사용하여 전화걸기"</string>
+    <string name="wait_prompt_str">"다음 톤을 보내시겠습니까?"\n</string>
+    <string name="send_button">"보내기"</string>
+    <string name="wild_prompt_str">"와일드 문자를 다음으로 바꾸기"</string>
+    <string name="bluetooth_headset_connected">"Bluetooth 헤드셋이 연결되었습니다."</string>
+    <string name="bluetooth_headset_disconnected">"Bluetooth 헤드셋 연결이 끊어졌습니다."</string>
+    <string name="no_vm_number">"음성메일 번호 없음"</string>
+    <string name="no_vm_number_msg">"SIM 카드에 저장된 음성메일 번호가 없습니다."</string>
+    <string name="add_vm_number_str">"번호 추가"</string>
+    <string name="dialer_emptyListWorking">"로드 중..."</string>
+    <string name="enterPin">"SIM 카드 잠금해제를 위해 PIN 코드 입력"</string>
+    <string name="pinUnlocked">"SIM 잠금해제됨"</string>
+    <string name="enterNewPin">"새 SIM PIN 코드"</string>
+    <string name="verifyNewPin">"확인을 위해 새 SIM PIN 코드 다시 입력"</string>
+    <string name="verifyFailed">"입력한 SIM PIN이 일치하지 않습니다. 다시 입력하세요."</string>
+    <string name="enterPuk">"SIM 카드 잠금해제를 위해 PUK 코드 입력"</string>
+    <string name="badPuk">"PUK 코드가 잘못되었습니다."</string>
+    <string name="buttonTxtContinue">"계속"</string>
+    <string name="puk_unlocked">"SIM 카드가 잠금해제되었습니다. 전화기 잠금해제 중..."</string>
+    <string name="label_ndp">"SIM 네트워크 잠금해제 PIN"</string>
+    <string name="sim_ndp_unlock_text">"잠금해제"</string>
+    <string name="sim_ndp_dismiss_text">"해제"</string>
+    <string name="requesting_unlock">"네트워크 잠금해제 요청 중..."</string>
+    <string name="unlock_failed">"네트워크 잠금해제 요청이 실패했습니다."</string>
+    <string name="unlock_success">"네트워크 잠금해제 성공"</string>
+    <string name="imei">"IMEI"</string>
+    <string name="labelMore">"추가 통화 설정"</string>
+    <string name="apn_settings">"액세스포인트 이름"</string>
+    <string name="settings_label">"네트워크 설정"</string>
+    <string name="voicemail">"음성메일"</string>
+    <string name="voicemail_abbreviated">"VM:"</string>
+    <string name="networks">"네트워크 운영자"</string>
+    <string name="call_settings">"통화 설정"</string>
+    <string name="additional_call_settings">"추가 통화 설정"</string>
+    <string name="labelCallerId">"발신자 번호"</string>
+    <string name="sum_hide_caller_id">"발신전화의 번호 숨김"</string>
+    <string name="sum_show_caller_id">"발신전화의 번호 표시"</string>
+    <string name="sum_default_caller_id">"기본 사업자 설정을 사용하여 발신전화에 내 번호 표시"</string>
+    <string name="labelCW">"통화중 대기"</string>
+    <string name="sum_cw_enabled">"통화 중 수신 전화 알림"</string>
+    <string name="sum_cw_disabled">"통화 중 수신 전화 알림"</string>
+    <string name="call_forwarding_settings">"착신전환 설정"</string>
+    <string name="labelCF">"착신전환"</string>
+    <string name="labelCFU">"항상 착신전환"</string>
+    <string name="messageCFU">"항상 이 번호 사용"</string>
+    <string name="sum_cfu_enabled_indicator">"모든 통화 착신전환"</string>
+    <string name="sum_cfu_enabled">"모든 통화를 {0}(으)로 착신전환"</string>
+    <string name="sum_cfu_disabled">"사용 안 함"</string>
+    <string name="labelCFB">"통화 중일 때 착신전환"</string>
+    <string name="messageCFB">"통화 중일 때 번호"</string>
+    <string name="sum_cfb_enabled">"\\\\{0\\\\}(으)로 착신전환"</string>
+    <string name="sum_cfb_disabled">"사용 안 함"</string>
+    <string name="labelCFNRy">"전화를 받지 못할 경우 착신전환"</string>
+    <string name="messageCFNRy">"전화를 받지 못할 경우 번호"</string>
+    <string name="sum_cfnry_enabled">"\\\\{0\\\\}(으)로 착신전환"</string>
+    <string name="sum_cfnry_disabled">"사용 안 함"</string>
+    <string name="labelCFNRc">"연결되지 않을 때 착신전환"</string>
+    <string name="messageCFNRc">"연결되지 않을 때 전화번호"</string>
+    <string name="sum_cfnrc_enabled">"\\\\{0\\\\}(으)로 착신전환"</string>
+    <string name="sum_cfnrc_disabled">"사용 안 함"</string>
+    <string name="updating_title">"통화 설정"</string>
+    <string name="error_updating_title">"통화 설정 오류"</string>
+    <string name="reading_settings">"설정을 읽는 중..."</string>
+    <string name="updating_settings">"설정 업데이트 중..."</string>
+    <string name="response_error">"네트워크에서 예기치 않은 응답이 전송되었습니다."</string>
+    <string name="exception_error">"네트워크 또는 SIM 카드 오류."</string>
+    <string name="radio_off_error">"설정을 보려면 먼저 무선을 켜야 합니다."</string>
+    <string name="close_dialog">"확인"</string>
+    <string name="enable">"사용"</string>
+    <string name="disable">"사용 안 함"</string>
+    <string name="change_num">"업데이트"</string>
+  <string-array name="clir_display_values">
+    <item>"네트워크 기본값"</item>
+    <item>"번호 숨기기"</item>
+    <item>"번호 표시"</item>
+  </string-array>
+    <string name="vm_save_number">"음성메일 번호 저장"</string>
+    <string name="vm_changed">"음성메일 번호가 변경되었습니다."</string>
+    <string name="vm_change_failed">"음성메일 번호를 변경하지 못했습니다."</string>
+    <string name="no_change">"변경사항이 없습니다."</string>
+    <string name="sum_voicemail">"음성메일 번호 설정"</string>
+    <string name="mobile_networks">"모바일 네트워크 설정"</string>
+    <string name="label_available">"사용가능한 네트워크"</string>
+    <string name="load_networks_progress">"검색 중..."</string>
+    <string name="empty_networks_list">"네트워크를 찾을 수 없음"</string>
+    <string name="search_networks">"네트워크 검색"</string>
+    <string name="network_query_error">"네트워크를 검색하는 동안 오류가 발생했습니다."</string>
+    <string name="register_on_network">"<xliff:g id="NETWORK">%s</xliff:g>에 등록하는 중..."</string>
+    <string name="not_allowed">"SIM 카드에서 이 네트워크와의 연결을 허용하지 않습니다."</string>
+    <string name="registration_done">"네트워크에 등록되었습니다."</string>
+    <string name="sum_carrier_select">"전송망 사업자 선택"</string>
+    <string name="sum_search_networks">"사용가능한 모든 네트워크 검색"</string>
+    <string name="select_automatically">"자동으로 선택"</string>
+    <string name="sum_select_automatically">"기본 설정 네트워크 자동으로 선택"</string>
+    <string name="register_automatically">"자동으로 등록하는 중..."</string>
+    <string name="roaming">"데이터 로밍"</string>
+    <string name="roaming_enable">"로밍할 때 데이터 서비스에 연결"</string>
+    <string name="roaming_disable">"로밍할 때 데이터 서비스에 연결"</string>
+    <string name="roaming_reenable_message">"데이터 로밍을 해제한 상태에서 홈 네트워크를 벗어났으므로 데이터 연결이 끊어졌습니다."</string>
+    <string name="roaming_turn_it_on_button">"설정"</string>
+    <string name="roaming_warning">"데이터 로밍을 허용하시겠습니까? 많은 로밍 요금이 부과될 수 있습니다."</string>
+    <string name="prefer_2g">"2G 네트워크만 사용"</string>
+    <string name="prefer_2g_summary">"배터리 절약"</string>
+    <string name="fdn">"FDN(전화걸 수 있는 번호)"</string>
+    <string name="manage_fdn_list">"FDN 목록"</string>
+    <string name="fdn_activation">"FDN 활성화"</string>
+    <string name="fdn_enabled">"FDN(전화걸 수 있는 번호) 사용"</string>
+    <string name="fdn_disabled">"FDN(전화걸 수 있는 번호) 사용 안 함"</string>
+    <string name="enable_fdn">"FDN 사용"</string>
+    <string name="disable_fdn">"FDN 사용 안 함"</string>
+    <string name="change_pin2">"PIN2 변경"</string>
+    <string name="enable_fdn_ok">"FDN 사용 안 함"</string>
+    <string name="disable_fdn_ok">"FDN 사용"</string>
+    <string name="sum_fdn">"FDN(전화걸 수 있는 번호) 관리"</string>
+    <string name="sum_fdn_change_pin">"FDN 액세스를 위한 PIN 변경"</string>
+    <string name="sum_fdn_manage_list">"전화번호 목록 관리"</string>
+    <string name="menu_add">"연락처 추가"</string>
+    <string name="menu_edit">"연락처 편집"</string>
+    <string name="menu_delete">"연락처 삭제"</string>
+    <string name="get_pin2">"PIN2 입력"</string>
+    <string name="name">"이름"</string>
+    <string name="number">"번호"</string>
+    <string name="save">"저장"</string>
+    <string name="add_fdn_contact">"FDN 연락처 추가"</string>
+    <string name="adding_fdn_contact">"FDN 연락처 추가 중..."</string>
+    <string name="fdn_contact_added">"FDN 연락처 추가됨"</string>
+    <string name="edit_fdn_contact">"FDN 연락처 편집"</string>
+    <string name="updating_fdn_contact">"FDN 연락처 업데이트 중..."</string>
+    <string name="fdn_contact_updated">"FDN 연락처 업데이트됨"</string>
+    <string name="delete_fdn_contact">"FDN 연락처 삭제"</string>
+    <string name="deleting_fdn_contact">"FDN 연락처 삭제 중..."</string>
+    <string name="fdn_contact_deleted">"FDN 연락처 삭제됨"</string>
+    <string name="pin2_invalid">"PIN2가 올바르지 않습니다."</string>
+    <string name="fdn_invalid_number">"전화번호는 20자리를 초과할 수 없습니다."</string>
+    <string name="simContacts_emptyLoading">"SIM 카드를 읽는 중..."</string>
+    <string name="simContacts_empty">"SIM 카드에 연락처가 없습니다."</string>
+    <string name="simContacts_title">"가져올 연락처 선택"</string>
+    <string name="enable_pin">"SIM PIN 사용/사용 안 함"</string>
+    <string name="change_pin">"SIM PIN 변경"</string>
+    <string name="enter_pin_text">"SIM PIN:"</string>
+    <string name="oldPinLabel">"이전 PIN"</string>
+    <string name="newPinLabel">"새 PIN"</string>
+    <string name="confirmPinLabel">"새 PIN 확인"</string>
+    <string name="badPin">"이전 PIN이 올바르지 않습니다. 다시 입력하세요."</string>
+    <string name="mismatchPin">"입력한 PIN이 일치하지 않습니다. 다시 입력하세요."</string>
+    <string name="invalidPin">"4~8자리 숫자로 된 PIN을 입력하세요."</string>
+    <string name="disable_sim_pin">"SIM PIN 사용 안 함"</string>
+    <string name="enable_sim_pin">"SIM PIN 사용"</string>
+    <string name="enable_in_progress">"잠시 기다려 주세요..."</string>
+    <string name="enable_pin_ok">"SIM PIN 사용"</string>
+    <string name="disable_pin_ok">"SIM PIN 사용 안 함"</string>
+    <string name="pin_failed">"입력한 PIN이 올바르지 않습니다."</string>
+    <string name="pin_changed">"SIM PIN 변경됨"</string>
+    <string name="puk_requested">"비밀번호 틀림. SIM 잠겨 있음! PUK2 요청됨."</string>
+    <string name="enter_pin2_text">"PIN2"</string>
+    <string name="oldPin2Label">"이전 PIN2"</string>
+    <string name="newPin2Label">"새 PIN2"</string>
+    <string name="confirmPin2Label">"새 PIN2 확인"</string>
+    <string name="badPuk2">"입력한 PUK2가 올바르지 않습니다. 다시 입력하세요."</string>
+    <string name="badPin2">"이전 PIN2가 올바르지 않습니다. 다시 입력하세요."</string>
+    <string name="mismatchPin2">"입력한 PIN2가 일치하지 않습니다. 다시 입력하세요."</string>
+    <string name="invalidPin2">"4~8자리 숫자로 된 PIN2를 입력하세요."</string>
+    <string name="invalidPuk2">"8자리 숫자로 된 PUK2를 입력하세요."</string>
+    <string name="pin2_changed">"PIN2 변경됨"</string>
+    <string name="label_puk2_code">"PUK2 코드 입력"</string>
+    <string name="fdn_enable_puk2_requested">"비밀번호 틀림. PIN2를 변경한 후 다시 시도하세요."</string>
+    <string name="puk2_requested">"비밀번호 틀림. SIM 잠겨 있음! PUK2 요청됨."</string>
+    <string name="doneButton">"완료"</string>
+    <string name="caller_manage_header">"다자간 통화 <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text">"통화로 돌아가기"</string>
+    <string name="sim_missing_continueView_text">"SIM 카드 없이 계속"</string>
+    <string name="sim_missing_msg_text">"SIM 카드가 없습니다. 전화기에 SIM 카드를 삽입하세요."</string>
+    <string name="sim_unlock_dismiss_text">"해제"</string>
+    <string name="sim_unlock_unlock_text">"잠금해제"</string>
+    <string name="sim_unlock_status_text">"PIN을 인증하는 중..."</string>
+    <string name="voicemail_settings_number_label">"음성메일 번호"</string>
+    <string name="card_title_dialing">"전화거는 중"</string>
+    <string name="card_title_in_progress">"현재 통화"</string>
+    <string name="card_title_conf_call">"다자간 통화"</string>
+    <string name="card_title_incoming_call">"수신전화"</string>
+    <string name="card_title_call_ended">"통화종료됨"</string>
+    <string name="card_title_on_hold">"대기 중"</string>
+    <string name="card_title_hanging_up">"전화 끊는 중"</string>
+    <string name="notification_missedCallTitle">"부재중 전화"</string>
+    <string name="notification_missedCallsTitle">"부재중 전화"</string>
+    <string name="notification_missedCallsMsg">"부재중 전화 <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>통"</string>
+    <string name="notification_missedCallTicker">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>의 부재중 전화"</string>
+    <string name="notification_ongoing_call_format">"현재 통화(<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold">"대기 중"</string>
+    <string name="notification_voicemail_title">"새 음성메일"</string>
+    <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>(으)로 전화걸기"</string>
+    <string name="notification_voicemail_no_vm_number">"음성메일 번호 알 수 없음"</string>
+    <string name="incall_error_power_off">"전화를 걸려면 먼저 에어플레인 모드를 끄세요."</string>
+    <string name="incall_error_emergency_only">"네트워크에 등록되지 않았습니다."</string>
+    <string name="incall_error_no_phone_number_supplied">"전화를 걸지 못했습니다. 입력한 번호가 잘못되었습니다."</string>
+    <string name="incall_error_call_failed">"전화를 걸지 못했습니다."</string>
+    <string name="incall_status_dialed_mmi">"MMI 시퀀스 시작 중..."</string>
+    <string name="incall_error_supp_service_unknown">"지원되지 않는 서비스입니다."</string>
+    <string name="incall_error_supp_service_switch">"통화를 전환할 수 없습니다."</string>
+    <string name="incall_error_supp_service_separate">"통화를 분리할 수 없습니다."</string>
+    <string name="incall_error_supp_service_transfer">"전화를 돌릴 수 없습니다."</string>
+    <string name="incall_error_supp_service_conference">"다자간 통화를 할 수 없습니다."</string>
+    <string name="incall_error_supp_service_reject">"통화를 거부할 수 없습니다."</string>
+    <string name="incall_error_supp_service_hangup">"통화를 끊을 수 없습니다."</string>
+    <string name="emergency_enable_radio_dialog_title">"비상 전화"</string>
+    <string name="emergency_enable_radio_dialog_message">"라디오 켜는 중..."</string>
+    <string name="emergency_enable_radio_dialog_retry">"서비스 지역 벗어남. 다시 시도하는 중..."</string>
+    <string name="dial_emergency_error">"전화를 걸지 못했습니다. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>은(는) 비상 전화번호가 아닙니다."</string>
+    <string name="dial_emergency_empty_error">"전화를 걸지 못했습니다. 비상 전화번호를 직접 누르세요."</string>
+    <string name="dialerKeyboardHintText">"키보드를 사용하여 전화걸기"</string>
+    <string name="dtmfDialpadHintText">"터치 톤 키패드"</string>
+    <string name="touchLockText">"잠금해제하려면"\n"두 번 누르세요."</string>
+    <string name="importSimEntry">"가져오기"</string>
+    <string name="importAllSimEntries">"모두 가져오기"</string>
+    <string name="importingSimContacts">"SIM 연락처 가져오는 중"</string>
+    <string name="importToFDNfromContacts">"연락처에서 가져오기"</string>
+</resources>
