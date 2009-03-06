@@ -270,10 +270,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     // (just like with answerRingingCall() / answerRingingCallInternal()).
     public boolean endCall() {
         enforceCallPermission();
-        return PhoneUtils.hangup(mPhone);
+        boolean hungUp = PhoneUtils.hangup(mPhone);
+        if (PhoneApp.DBG) log("endCall: " + (hungUp ? "hung up!" : "no call to hang up"));
+        return hungUp;
     }
 
     public void answerRingingCall() {
+        if (PhoneApp.DBG) log("answerRingingCall...");
         // TODO: there should eventually be a separate "ANSWER_PHONE" permission,
         // but that can probably wait till the big TelephonyManager API overhaul.
         // For now, protect this call with the MODIFY_PHONE_STATE permission.
@@ -320,6 +323,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public void silenceRinger() {
+        if (PhoneApp.DBG) log("silenceRinger...");
         // TODO: find a more appropriate permission to check here.
         // (That can probably wait till the big TelephonyManager API overhaul.
         // For now, protect this call with the MODIFY_PHONE_STATE permission.)
