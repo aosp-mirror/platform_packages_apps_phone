@@ -475,12 +475,21 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         final boolean hasActiveCall = !mPhone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
 
-        // Display the regular "in-call" icon in the status bar, except if
-        // there's only one call, and it's on hold (in which case we use the
-        // "on hold" icon.)
-        int resId = (!hasActiveCall && hasHoldingCall)
-                ? android.R.drawable.stat_sys_phone_call_on_hold
-                : android.R.drawable.stat_sys_phone_call;
+        // Display the appropriate "in-call" icon in the status bar,
+        // which depends on the current phone and/or bluetooth state.
+        int resId = android.R.drawable.stat_sys_phone_call;
+        if (!hasActiveCall && hasHoldingCall) {
+            // There's only one call, and it's on hold.  Use the "on hold"
+            // icon.
+            resId = android.R.drawable.stat_sys_phone_call_on_hold;
+        } else if (PhoneApp.getInstance().showBluetoothIndication()) {
+            // Bluetooth is active.  Show the blue-colored "in call" icon.
+
+            // TODO: In a followup CL, add this resource to public.xml
+            // (at which point it'll become
+            // android.R.drawable.stat_sys_phone_call_bluetooth.)
+            resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
+        }
 
         // Note we can't just bail out now if (resId == mInCallResId),
         // since even if the status icon hasn't changed, some *other*

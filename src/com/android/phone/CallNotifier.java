@@ -400,6 +400,10 @@ public class CallNotifier extends Handler
         NotificationMgr.getDefault().getStatusBarMgr()
                 .enableNotificationAlerts(state == Phone.State.IDLE);
 
+        // Have the PhoneApp recompute its mShowBluetoothIndication
+        // flag based on the (new) telephony state.
+        mApplication.updateBluetoothIndication();
+
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
             if (DBG) log("onPhoneStateChanged: OFF HOOK");

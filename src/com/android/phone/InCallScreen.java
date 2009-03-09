@@ -22,7 +22,6 @@ import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
-import android.widget.SlidingDrawer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -66,6 +65,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -139,6 +139,7 @@ public class InCallScreen extends Activity
     private static final int DISMISS_MENU = 111;
     private static final int ALLOW_SCREEN_ON = 112;
     private static final int TOUCH_LOCK_TIMER = 113;
+    private static final int BLUETOOTH_STATE_CHANGED = 114;
 
 
     // High-level "modes" of the in-call UI.
@@ -353,6 +354,16 @@ public class InCallScreen extends Activity
                     if (DBG) log("TOUCH_LOCK_TIMER...");
                     touchLockTimerExpired();
                     break;
+
+                case BLUETOOTH_STATE_CHANGED:
+                    if (DBG) log("BLUETOOTH_STATE_CHANGED...");
+                    // The bluetooth headset state changed, so some UI
+                    // elements may need to update.  (There's no need to
+                    // look up the current state here, since any UI
+                    // elements that care about the bluetooth state get it
+                    // directly from PhoneApp.showBluetoothIndication().)
+                    updateScreen();
+                    break;
             }
         }
     };
@@ -489,8 +500,7 @@ public class InCallScreen extends Activity
         // the in-call screen.
         NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(false);
 
-        // Register for headset plug events (so we can update the onscreen
-        // UI when the headset state changes.)
+        // Listen for broadcast intents that might affect the onscreen UI.
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 
         // Check for any failures that happened during onCreate() or onNewIntent().
@@ -676,8 +686,8 @@ public class InCallScreen extends Activity
         // Re-enable the status bar (which we disabled in onResume().)
         NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(true);
 
-        // Unregister for headset plug events.  (These events only affect
-        // the in-call menu, so we only care about them while we're in the
+        // Unregister for broadcast intents.  (These affect the visible UI
+        // of the InCallScreen, so we only care about them while we're in the
         // foreground.)
         unregisterReceiver(mReceiver);
 
@@ -721,10 +731,13 @@ public class InCallScreen extends Activity
         PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(null);
 
-        // Also clear out the InCallMenu's reference to us (which lets it
-        // know we've been destroyed).
+        // Clear out the InCallScreen references in various helper objects
+        // (to let them know we've been destroyed).
         if (mInCallMenu != null) {
             mInCallMenu.clearInCallScreenReference();
+        }
+        if (mCallCard != null) {
+            mCallCard.setInCallScreenInstance(null);
         }
 
         // Make sure that the dialer session is over and done with.
@@ -903,6 +916,7 @@ public class InCallScreen extends Activity
                 mInCallPanel);
         mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
         if (DBG) log("  - mCallCard = " + mCallCard);
+        mCallCard.setInCallScreenInstance(this);
         mCallCard.reset();
 
         // Menu Button hint
@@ -1785,6 +1799,7 @@ public class InCallScreen extends Activity
         boolean updateSuccessful = false;
         if (DBG) log("syncWithPhoneState()...");
         if (DBG) PhoneUtils.dumpCallState(mPhone);
+        // if (DBG) dumpBluetoothState();
 
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
         // this screen in the first place.)
@@ -1913,6 +1928,25 @@ public class InCallScreen extends Activity
             case PhoneUtils.CALL_STATUS_DIALED:
                 if (DBG) log("placeCall: PhoneUtils.placeCall() succeeded for regular call '"
                              + number + "'.");
+
+                // Any time we initiate a call, force the DTMF dialpad to
+                // close.  (We want to make sure the user can see the regular
+                // in-call UI while the new call is dialing, and when it
+                // first gets connected.)
+                mDialer.closeDialer(false);  // no "closing" animation
+
+                // Also, in case a previous call was already active (i.e. if
+                // we just did "Add call"), clear out the "history" of DTMF
+                // digits you typed, to make sure it doesn't persist from the
+                // previous call to the new call.
+                // TODO: it would be more precise to do this when the actual
+                // phone state change happens (i.e. when a new foreground
+                // call appears and the previous call moves to the
+                // background), but the InCallScreen doesn't keep enough
+                // state right now to notice that specific transition in
+                // onPhoneStateChanged().
+                mDialer.clearDigits();
+
                 return InCallInitStatus.SUCCESS;
             case PhoneUtils.CALL_STATUS_DIALED_MMI:
                 if (DBG) log("placeCall: specified number was an MMI code: '" + number + "'.");
@@ -3418,6 +3452,44 @@ public class InCallScreen extends Activity
 
         if (DBG) log("isBluetoothAudioConnectedOrPending: ==> FALSE");
         return false;
+    }
+
+    /**
+     * Posts a message to our handler saying to update the onscreen UI
+     * based on a bluetooth headset state change.
+     */
+    /* package */ void updateBluetoothIndication() {
+        if (DBG) log("updateBluetoothIndication()...");
+        // No need to look at the current state here; any UI elements that
+        // care about the bluetooth state (i.e. the CallCard) get
+        // the necessary state directly from PhoneApp.showBluetoothIndication().
+        mHandler.removeMessages(BLUETOOTH_STATE_CHANGED);
+        mHandler.sendEmptyMessage(BLUETOOTH_STATE_CHANGED);
+    }
+
+    private void dumpBluetoothState() {
+        log("============== dumpBluetoothState() =============");
+        log("= isBluetoothAvailable: " + isBluetoothAvailable());
+        log("= isBluetoothAudioConnected: " + isBluetoothAudioConnected());
+        log("= isBluetoothAudioConnectedOrPending: " + isBluetoothAudioConnectedOrPending());
+        log("= PhoneApp.showBluetoothIndication: "
+            + PhoneApp.getInstance().showBluetoothIndication());
+        log("=");
+        if (mBluetoothHandsfree != null) {
+            log("= BluetoothHandsfree.isAudioOn: " + mBluetoothHandsfree.isAudioOn());
+            if (mBluetoothHeadset != null) {
+                String headsetAddress = mBluetoothHeadset.getHeadsetAddress();
+                log("= BluetoothHeadset.getHeadsetAddress: " + headsetAddress);
+                if (headsetAddress != null) {
+                    log("= BluetoothHeadset.isConnected: "
+                        + mBluetoothHeadset.isConnected(headsetAddress));
+                }
+            } else {
+                log("= mBluetoothHeadset is null");
+            }
+        } else {
+            log("= mBluetoothHandsfree is null; device is not BT capable");
+        }
     }
 
     /* package */ void connectBluetoothAudio() {

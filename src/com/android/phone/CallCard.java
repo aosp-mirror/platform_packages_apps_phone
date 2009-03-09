@@ -52,6 +52,13 @@ public class CallCard extends FrameLayout
     private static final boolean DBG = false;
     private static final boolean PROFILE = true;
 
+    /**
+     * Reference to the InCallScreen activity that owns us.  This may be
+     * null if we haven't been initialized yet *or* after the InCallScreen
+     * activity has been destroyed.
+     */
+    private InCallScreen mInCallScreen;
+
     // Top-level subviews of the CallCard
     private ViewGroup mMainCallCard;
     private ViewGroup mOtherCallOngoingInfoArea;
@@ -66,6 +73,7 @@ public class CallCard extends FrameLayout
 
     // Text colors, used with the lower title and "other call" info areas
     private int mTextColorConnected;
+    private int mTextColorConnectedBluetooth;
     private int mTextColorEnded;
     private int mTextColorOnHold;
 
@@ -75,6 +83,7 @@ public class CallCard extends FrameLayout
     private TextView mLabel;
 
     // "Other call" info area
+    private ImageView mOtherCallOngoingIcon;
     private TextView mOtherCallOngoingName;
     private TextView mOtherCallOngoingStatus;
     private TextView mOtherCallOnHoldName;
@@ -120,6 +129,10 @@ public class CallCard extends FrameLayout
         mPhotoTracker = new ContactsAsyncHelper.ImageTracker();
     }
 
+    void setInCallScreenInstance(InCallScreen inCallScreen) {
+        mInCallScreen = inCallScreen;
+    }
+
     void reset() {
         if (DBG) log("reset()...");
 
@@ -127,7 +140,7 @@ public class CallCard extends FrameLayout
 
         // default to show ACTIVE call style, with empty title and status text
         showCallConnected();
-        mUpperTitle.setText("");
+        setUpperTitle("");
     }
 
     public void onTickForCallTimeElapsed(long timeElapsed) {
@@ -162,6 +175,8 @@ public class CallCard extends FrameLayout
 
         // Text colors
         mTextColorConnected = getResources().getColor(R.color.incall_textConnected);
+        mTextColorConnectedBluetooth =
+                getResources().getColor(R.color.incall_textConnectedBluetooth);
         mTextColorEnded = getResources().getColor(R.color.incall_textEnded);
         mTextColorOnHold = getResources().getColor(R.color.incall_textOnHold);
 
@@ -172,6 +187,7 @@ public class CallCard extends FrameLayout
         mLabel = (TextView) findViewById(R.id.label);
 
         // "Other call" info area
+        mOtherCallOngoingIcon = (ImageView) findViewById(R.id.otherCallOngoingIcon);
         mOtherCallOngoingName = (TextView) findViewById(R.id.otherCallOngoingName);
         mOtherCallOngoingStatus = (TextView) findViewById(R.id.otherCallOngoingStatus);
         mOtherCallOnHoldName = (TextView) findViewById(R.id.otherCallOnHoldName);
@@ -314,16 +330,30 @@ public class CallCard extends FrameLayout
 
         int callCardBackgroundResid = 0;
 
-        // Background frame resources are different between portrait/landscape:
+        // Background frame resources are different between portrait/landscape.
+        // TODO: Don't do this manually.  Instead let the resource system do
+        // it: just move the *_land assets over to the res/drawable-land
+        // directory (but with the same filename as the corresponding
+        // portrait asset.)
         boolean landscapeMode = InCallScreen.ConfigurationHelper.isLandscape();
+
+        // Background images are also different if Bluetooth is active.
+        final boolean bluetoothActive = PhoneApp.getInstance().showBluetoothIndication();
 
         switch (state) {
             case ACTIVE:
                 showCallConnected();
 
-                callCardBackgroundResid =
-                        landscapeMode ? R.drawable.incall_frame_connected_tall_land
-                        : R.drawable.incall_frame_connected_tall_port;
+                if (bluetoothActive) {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
+                            : R.drawable.incall_frame_bluetooth_tall_port;
+                } else {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_connected_tall_land
+                            : R.drawable.incall_frame_connected_tall_port;
+                }
+
 
                 // update timer field
                 if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
@@ -362,9 +392,15 @@ public class CallCard extends FrameLayout
             case ALERTING:
                 showCallConnecting();
 
-                callCardBackgroundResid =
-                        landscapeMode ? R.drawable.incall_frame_normal_tall_land
-                        : R.drawable.incall_frame_normal_tall_port;
+                if (bluetoothActive) {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
+                            : R.drawable.incall_frame_bluetooth_tall_port;
+                } else {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_normal_tall_land
+                            : R.drawable.incall_frame_normal_tall_port;
+                }
 
                 // Stop getting timer ticks from a previous call
                 mCallTime.cancelTimer();
@@ -375,9 +411,15 @@ public class CallCard extends FrameLayout
             case WAITING:
                 showCallIncoming();
 
-                callCardBackgroundResid =
-                        landscapeMode ? R.drawable.incall_frame_normal_tall_land
-                        : R.drawable.incall_frame_normal_tall_port;
+                if (bluetoothActive) {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
+                            : R.drawable.incall_frame_bluetooth_tall_port;
+                } else {
+                    callCardBackgroundResid =
+                            landscapeMode ? R.drawable.incall_frame_normal_tall_land
+                            : R.drawable.incall_frame_normal_tall_port;
+                }
 
                 // Stop getting timer ticks from a previous call
                 mCallTime.cancelTimer();
@@ -533,11 +575,18 @@ public class CallCard extends FrameLayout
         if (state == Call.State.ACTIVE) {
             // Use the "lower title" (in green).
             mLowerTitleViewGroup.setVisibility(View.VISIBLE);
-            mLowerTitleIcon.setImageResource(R.drawable.ic_incall_ongoing);
+
+            final boolean bluetoothActive = PhoneApp.getInstance().showBluetoothIndication();
+            int ongoingCallIcon = bluetoothActive ? R.drawable.ic_incall_ongoing_bluetooth
+                    : R.drawable.ic_incall_ongoing;
+            mLowerTitleIcon.setImageResource(ongoingCallIcon);
+
             mLowerTitle.setText(cardTitle);
-            mLowerTitle.setTextColor(mTextColorConnected);
-            mElapsedTime.setTextColor(mTextColorConnected);
-            mUpperTitle.setText("");
+
+            int textColor = bluetoothActive ? mTextColorConnectedBluetooth : mTextColorConnected;
+            mLowerTitle.setTextColor(textColor);
+            mElapsedTime.setTextColor(textColor);
+            setUpperTitle("");
         } else if (state == Call.State.DISCONNECTED) {
             // Use the "lower title" (in red).
             // TODO: We may not *always* want to use the lower title for
@@ -551,10 +600,10 @@ public class CallCard extends FrameLayout
             mLowerTitle.setText(cardTitle);
             mLowerTitle.setTextColor(mTextColorEnded);
             mElapsedTime.setTextColor(mTextColorEnded);
-            mUpperTitle.setText("");
+            setUpperTitle("");
         } else {
-            // All other states use the "upper title":
-            mUpperTitle.setText(cardTitle);
+            // All other states (DIALING, INCOMING, etc.) use the "upper title":
+            setUpperTitle(cardTitle, state);
             mLowerTitleViewGroup.setVisibility(View.INVISIBLE);
         }
 
@@ -727,11 +776,24 @@ public class CallCard extends FrameLayout
 
                 mOtherCallOngoingName.setText(name);
 
-                // The call here is always "ongoing", so use the green "connected" frame
-                // and green text color:
-                setOngoingInfoAreaBackgroundResource(R.drawable.incall_frame_connected_short);
-                mOtherCallOngoingName.setTextColor(mTextColorConnected);
-                mOtherCallOngoingStatus.setTextColor(mTextColorConnected);
+                // This is an "ongoing" call: we normally use the green
+                // background frame and text color, but we use blue
+                // instead if bluetooth is in use.
+                boolean bluetoothActive = PhoneApp.getInstance().showBluetoothIndication();
+
+                int ongoingCallBackground =
+                        bluetoothActive ? R.drawable.incall_frame_bluetooth_short
+                        : R.drawable.incall_frame_connected_short;
+                setOngoingInfoAreaBackgroundResource(ongoingCallBackground);
+
+                int ongoingCallIcon = bluetoothActive ? R.drawable.ic_incall_ongoing_bluetooth
+                        : R.drawable.ic_incall_ongoing;
+                mOtherCallOngoingIcon.setImageResource(ongoingCallIcon);
+
+                int textColor = bluetoothActive ? mTextColorConnectedBluetooth
+                        : mTextColorConnected;
+                mOtherCallOngoingName.setTextColor(textColor);
+                mOtherCallOngoingStatus.setTextColor(textColor);
 
                 mOtherCallOngoingInfoArea.setVisibility(View.VISIBLE);
 
@@ -1192,6 +1254,33 @@ public class CallCard extends FrameLayout
         lp.leftMargin = margin;
         lp.rightMargin = margin;
         vg.setLayoutParams(lp);
+    }
+
+    /**
+     * Sets the CallCard "upper title" to a plain string, with no icon.
+     */
+    private void setUpperTitle(String title) {
+        mUpperTitle.setText(title);
+        mUpperTitle.setCompoundDrawables(null, null, null, null);
+    }
+
+    /**
+     * Sets the CallCard "upper title".  Also, depending on the passed-in
+     * Call state, possibly display an icon along with the title.
+     */
+    private void setUpperTitle(String title, Call.State state) {
+        mUpperTitle.setText(title);
+
+        int bluetoothIconId = 0;
+        if (((state == Call.State.INCOMING) || (state == Call.State.WAITING))
+                && PhoneApp.getInstance().showBluetoothIndication()) {
+            // Display the special bluetooth icon also, if this is an incoming
+            // call and the audio will be routed to bluetooth.
+            bluetoothIconId = R.drawable.ic_incoming_call_bluetooth;
+        }
+
+        mUpperTitle.setCompoundDrawablesWithIntrinsicBounds(bluetoothIconId, 0, 0, 0);
+        if (bluetoothIconId != 0) mUpperTitle.setCompoundDrawablePadding(5);
     }
 
 
