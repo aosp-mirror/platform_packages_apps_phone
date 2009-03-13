@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_disable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_reenable_message">"Utracono łączność danych, ponieważ pozostawiono wyłączony roaming danych w sieci macierzystej."</string>
-    <string name="roaming_turn_it_on_button">"Włącz usługę"</string>
     <string name="roaming_warning">"Czy pozwolić na przesył danych w roamingu? Operator może naliczać wysokie opłaty roamingowe!"</string>
     <string name="prefer_2g">"Używaj tylko sieci 2G"</string>
     <string name="prefer_2g_summary">"Oszczędza baterię"</string>

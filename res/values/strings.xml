@@ -346,10 +346,10 @@
     <string name="roaming_enable">Connect to data services when roaming</string>
     <!-- Mobile network settings screen, setting summary text when check box is clear -->
     <string name="roaming_disable">Connect to data services when roaming</string>
-    <!-- Mobile network settings screen, dialog message when user clears the Data roaming check box -->
+    <!-- Mobile network settings UI: notification message shown when you
+         lose data connectivity because you're roaming and you have the
+         "data roaming" feature turned off. -->
     <string name="roaming_reenable_message">You have lost data connectivity because you left your home network with data roaming turned off.</string>
-    <!-- Mobile network settings screen, button text in dialog that appears when user clears the Data roaming check box -->
-    <string name="roaming_turn_it_on_button">Turn it on</string>
     <!-- Mobile network settings screen, dialog message when user selects the Data roaming check box -->
     <string name="roaming_warning">Allow data roaming? You may incur significant roaming charges!</string>
     <!-- Mobile network settings screen, setting option name -->

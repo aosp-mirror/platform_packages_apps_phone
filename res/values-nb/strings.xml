@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Koble til datatjenester ved roaming"</string>
     <string name="roaming_disable">"Koble til datatjenester ved roaming"</string>
     <string name="roaming_reenable_message">"Du har mistet datakonnektivitet fordi du har forlatt hjemmenettet ditt med dataroaming slått av."</string>
-    <string name="roaming_turn_it_on_button">"Slå på"</string>
     <string name="roaming_warning">"Tillat dataroaming? Dette kan koste mye penger!"</string>
     <string name="prefer_2g">"Bruk kun 2G-nettverk"</string>
     <string name="prefer_2g_summary">"Sparer batteri"</string>

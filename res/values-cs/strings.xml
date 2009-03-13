@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_disable">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_reenable_message">"Připojení datových služeb bylo přerušeno, protože jste opustili domovskou síť a datové služby při roamingu máte vypnuty."</string>
-    <string name="roaming_turn_it_on_button">"Zapnout"</string>
     <string name="roaming_warning">"Opravdu chcete povolit datové služby při roamingu? Vystavujete se nebezpečí vysokých poplatků."</string>
     <string name="prefer_2g">"Používat pouze sítě 2G"</string>
     <string name="prefer_2g_summary">"Šetří baterii"</string>

@@ -66,15 +66,16 @@ public class PhoneApp extends Application {
     private static final int EVENT_SIM_ABSENT = 1;
     private static final int EVENT_SIM_LOCKED = 2;
     private static final int EVENT_SIM_NETWORK_LOCKED = 3;
-    private static final int EVENT_DATA_DISCONNECTED = 6;
     private static final int EVENT_WIRED_HEADSET_PLUG = 7;
     private static final int EVENT_SIM_STATE_CHANGED = 8;
     private static final int EVENT_UPDATE_INCALL_NOTIFICATION = 9;
+    private static final int EVENT_DATA_ROAMING_DISCONNECTED = 10;
+    private static final int EVENT_DATA_ROAMING_OK = 11;
 
     // The MMI codes are also used by the InCallScreen.
-    public static final int MMI_INITIATE = 10;
-    public static final int MMI_COMPLETE = 11;
-    public static final int MMI_CANCEL = 12;
+    public static final int MMI_INITIATE = 51;
+    public static final int MMI_COMPLETE = 52;
+    public static final int MMI_CANCEL = 53;
     // Don't use message codes larger than 99 here; those are reserved for
     // the individual Activities of the Phone UI.
 
@@ -207,12 +208,14 @@ public class PhoneApp extends Application {
                     NotificationMgr.getDefault().updateInCallNotification();
                     break;
 
-                case EVENT_DATA_DISCONNECTED:
-                    Intent roaming = new Intent();
-                    roaming.setClass(PhoneApp.getInstance(),  DataRoamingReenable.class);
-                    roaming.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    PhoneApp.getInstance().startActivity(roaming);
+                case EVENT_DATA_ROAMING_DISCONNECTED:
+                    NotificationMgr.getDefault().showDataDisconnectedRoaming();
                     break;
+
+                case EVENT_DATA_ROAMING_OK:
+                    NotificationMgr.getDefault().hideDataDisconnectedRoaming();
+                    break;
+
                 case MMI_COMPLETE:
                     onMMIComplete((AsyncResult) msg.obj);
                     break;
@@ -938,12 +941,27 @@ public class PhoneApp extends Application {
                 if (isShowingCallScreen()) mInCallScreen.updateBluetoothIndication();
                 mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
             } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
+                // if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
+                // if (DBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
+                // if (DBG) Log.d(LOG_TAG, "- reason: "
+                //                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
+
+                // The "data disconnected due to roaming" notification is
+                // visible if you've lost data connectivity because you're
+                // roaming and you have the "data roaming" feature turned off.
+                boolean disconnectedDueToRoaming = false;
                 if ("DISCONNECTED".equals(intent.getStringExtra(Phone.STATE_KEY))) {
                     String reason = intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY);
                     if (Phone.REASON_ROAMING_ON.equals(reason)) {
-                        mHandler.sendMessage(mHandler.obtainMessage(EVENT_DATA_DISCONNECTED, 0));
+                        // We just lost our data connection, and the reason
+                        // is that we started roaming.  This implies that
+                        // the user has data roaming turned off.
+                        disconnectedDueToRoaming = true;
                     }
                 }
+                mHandler.sendEmptyMessage(disconnectedDueToRoaming
+                                          ? EVENT_DATA_ROAMING_DISCONNECTED
+                                          : EVENT_DATA_ROAMING_OK);
             } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
                 if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
                 if (DBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
@@ -990,14 +1008,12 @@ public class PhoneApp extends Application {
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
                     if (DBG) Log.d(LOG_TAG, "==> called handleHeadsetHook(), consumed = " + consumed);
                     if (consumed) {
-                        if (DBG) Log.d(LOG_TAG, "==> Aborting broadcast!");
                         abortBroadcast();
                     }
-                } else if (phone.getState() != Phone.State.IDLE){
-                    // Otherwise if the phone is active, then just consume / ignore the event.
-                    // If we do not do this, the music player handles the event, which doesn't
-                    // make sense to the user.
-                    if (DBG) Log.d(LOG_TAG, "==> Phone is busy, aborting broadcast!");
+                } else if (phone.getState() != Phone.State.IDLE) {
+                    // As for any DOWN events other than the initial press, we consume
+                    // (and ignore) those too if the phone is in use.  (Otherwise the
+                    // music player will handle them, which would be confusing.)
                     abortBroadcast();
                 }
             }

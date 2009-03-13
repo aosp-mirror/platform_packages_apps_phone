@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Connessione a servizi di dati in caso di roaming"</string>
     <string name="roaming_disable">"Connessione a servizi di dati in roaming"</string>
     <string name="roaming_reenable_message">"Connettività dati persa: hai lasciato la rete del tuo operatore con il roaming dati disattivato."</string>
-    <string name="roaming_turn_it_on_button">"Attiva"</string>
     <string name="roaming_warning">"Consentire il roaming dati? I costi potrebbero essere elevati."</string>
     <string name="prefer_2g">"Usa solo reti 2G"</string>
     <string name="prefer_2g_summary">"Risparmia batteria"</string>

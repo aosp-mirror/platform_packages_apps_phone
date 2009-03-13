@@ -154,7 +154,6 @@
     <string name="roaming_enable">"漫遊時連線到資料服務"</string>
     <string name="roaming_disable">"漫遊時連線到資料服務"</string>
     <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
-    <string name="roaming_turn_it_on_button">"開啟"</string>
     <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
     <string name="prefer_2g">"只使用 2G 網路"</string>
     <string name="prefer_2g_summary">"節省電力"</string>

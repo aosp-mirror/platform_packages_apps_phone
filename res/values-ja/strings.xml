@@ -154,7 +154,6 @@
     <string name="roaming_enable">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_disable">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_reenable_message">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
-    <string name="roaming_turn_it_on_button">"ONにする"</string>
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
     <string name="prefer_2g">"2Gネットワークのみ使用"</string>
     <string name="prefer_2g_summary">"電池節約"</string>

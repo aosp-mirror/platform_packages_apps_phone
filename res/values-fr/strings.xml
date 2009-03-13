@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Se connecter aux services de données lors de l\'itinérance"</string>
     <string name="roaming_disable">"Se connecter aux services de données lors de l\'itinérance"</string>
     <string name="roaming_reenable_message">"Vous avez été déconnecté car vous avez quitté votre réseau alors que l\'itinérance des données était désactivée."</string>
-    <string name="roaming_turn_it_on_button">"Activer"</string>
     <string name="roaming_warning">"Autoriser l\'itinérance des données ? Des frais d\'itinérance importants peuvent s\'appliquer !"</string>
     <string name="prefer_2g">"Uniquement les réseaux 2G"</string>
     <string name="prefer_2g_summary">"Économise la batterie"</string>

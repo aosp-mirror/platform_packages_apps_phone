@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Establecer conexión con servicios de datos en itinerancia"</string>
     <string name="roaming_disable">"Establecer conexión con servicios de datos en itinerancia"</string>
     <string name="roaming_reenable_message">"Has perdido la conectividad de datos porque has dejado desactivada la itinerancia de datos de tu red doméstica."</string>
-    <string name="roaming_turn_it_on_button">"Activarla"</string>
     <string name="roaming_warning">"¿Permitir itinerancia de datos? Los costes de itinerancia que deberás asumir pueden ser significativos."</string>
     <string name="prefer_2g">"Utilizar sólo redes 2G"</string>
     <string name="prefer_2g_summary">"Ahorra batería"</string>

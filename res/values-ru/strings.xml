@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Подключаться для передачи данных в роуминге"</string>
     <string name="roaming_disable">"Подключаться для передачи данных в роуминге"</string>
     <string name="roaming_reenable_message">"Подключение для передачи данных прервано. Вы покинули домашнюю сеть, не включив роуминг для передачи данных."</string>
-    <string name="roaming_turn_it_on_button">"Включить"</string>
     <string name="roaming_warning">"Разрешить передачу данных в роуминге? Это очень дорого!"</string>
     <string name="prefer_2g">"Использовать только сети 2G"</string>
     <string name="prefer_2g_summary">"Экономит заряд батареи"</string>

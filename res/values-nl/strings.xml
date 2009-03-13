@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Verbinding maken met gegevensservices tijdens roaming"</string>
     <string name="roaming_disable">"Verbinding maken met gegevensservices tijdens roaming"</string>
     <string name="roaming_reenable_message">"De gegevensverbinding is verbroken, omdat u uw thuisnetwerk heeft verlaten terwijl gegevensroaming was uitgeschakeld."</string>
-    <string name="roaming_turn_it_on_button">"Inschakelen"</string>
     <string name="roaming_warning">"Gegevensroaming toestaan? Er kunnen hoge roamingkosten in rekening worden gebracht."</string>
     <string name="prefer_2g">"Alleen 2G-netwerken gebruiken"</string>
     <string name="prefer_2g_summary">"Energiespaarstand"</string>

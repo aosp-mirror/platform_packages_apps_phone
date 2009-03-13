@@ -154,7 +154,6 @@
     <string name="roaming_enable">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
-    <string name="roaming_turn_it_on_button">"Einschalten"</string>
     <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="prefer_2g">"Nur 2G-Netzwerke"</string>
     <string name="prefer_2g_summary">"Energiesparend"</string>

@@ -154,7 +154,6 @@
     <string name="roaming_enable">"漫游时连接至数据服务"</string>
     <string name="roaming_disable">"漫游时连接至数据服务"</string>
     <string name="roaming_reenable_message">"您已断开数据连接，因为您离开了主网络并关闭了数据漫游。"</string>
-    <string name="roaming_turn_it_on_button">"打开数据漫游"</string>
     <string name="roaming_warning">"是否允许数据漫游？您可能需要支付高额的漫游费！"</string>
     <string name="prefer_2g">"仅使用 2G 网络"</string>
     <string name="prefer_2g_summary">"节约电量"</string>

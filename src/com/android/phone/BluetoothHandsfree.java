@@ -20,6 +20,8 @@ import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothIntent;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.ScoSocket;
 import android.content.ActivityNotFoundException;
@@ -59,8 +61,8 @@ public class BluetoothHandsfree {
     public static final int TYPE_HEADSET           = 1;
     public static final int TYPE_HANDSFREE         = 2;
 
-    private Context mContext;
-    private Phone mPhone;
+    private final Context mContext;
+    private final Phone mPhone;
     private ServiceState mServiceState;
     private HeadsetBase mHeadset;  // null when not connected
     private int mHeadsetType;
@@ -203,6 +205,7 @@ public class BluetoothHandsfree {
     /* package */ synchronized void onBluetoothDisabled() {
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -679,6 +682,7 @@ public class BluetoothHandsfree {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
                     } else {
                         Log.i(TAG, "Rejecting incoming SCO connection");
                         ((ScoSocket)msg.obj).close();
@@ -693,6 +697,7 @@ public class BluetoothHandsfree {
                     if (DBG) log("Routing audio for outgoing SCO conection");
                     mConnectedSco = (ScoSocket)msg.obj;
                     mAudioManager.setBluetoothScoOn(true);
+                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
                 } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
                     if (DBG) log("Rejecting new connected outgoing SCO socket");
                     ((ScoSocket)msg.obj).close();
@@ -704,6 +709,7 @@ public class BluetoothHandsfree {
                 if (mConnectedSco == (ScoSocket)msg.obj) {
                     mConnectedSco = null;
                     mAudioManager.setBluetoothScoOn(false);
+                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
                 } else if (mOutgoingSco == (ScoSocket)msg.obj) {
                     mOutgoingSco = null;
                 } else if (mIncomingSco == (ScoSocket)msg.obj) {
@@ -733,6 +739,13 @@ public class BluetoothHandsfree {
 
     private ScoSocket createScoSocket() {
         return new ScoSocket(mPowerManager, mHandler, SCO_ACCEPTED, SCO_CONNECTED, SCO_CLOSED);
+    }
+
+    private void broadcastAudioStateIntent(int state) {
+        if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
+        Intent intent = new Intent(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
+        intent.putExtra(BluetoothIntent.HEADSET_AUDIO_STATE, state);
+        mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
     /** Request to establish SCO (audio) connection to bluetooth
@@ -794,6 +807,7 @@ public class BluetoothHandsfree {
 
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
             mConnectedSco.close();
             mConnectedSco = null;
         }
