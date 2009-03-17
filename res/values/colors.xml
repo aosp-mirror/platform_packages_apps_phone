@@ -20,6 +20,7 @@
 
     <!-- In-call UI -->
     <color name="incall_textConnected">#99CE3F</color> <!-- green -->
+    <color name="incall_textConnectedBluetooth">#54C1FF</color> <!-- blue -->
     <color name="incall_textEnded">#FF6072</color> <!-- red -->
     <color name="incall_textOnHold">#FF9524</color> <!-- orange -->
     

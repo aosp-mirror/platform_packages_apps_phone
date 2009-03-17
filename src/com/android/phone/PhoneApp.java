@@ -66,16 +66,16 @@ public class PhoneApp extends Application {
     private static final int EVENT_SIM_ABSENT = 1;
     private static final int EVENT_SIM_LOCKED = 2;
     private static final int EVENT_SIM_NETWORK_LOCKED = 3;
-    private static final int EVENT_BLUETOOTH_HEADSET_CONNECTED = 4;
-    private static final int EVENT_BLUETOOTH_HEADSET_DISCONNECTED = 5;
-    private static final int EVENT_DATA_DISCONNECTED = 6;
     private static final int EVENT_WIRED_HEADSET_PLUG = 7;
     private static final int EVENT_SIM_STATE_CHANGED = 8;
+    private static final int EVENT_UPDATE_INCALL_NOTIFICATION = 9;
+    private static final int EVENT_DATA_ROAMING_DISCONNECTED = 10;
+    private static final int EVENT_DATA_ROAMING_OK = 11;
 
     // The MMI codes are also used by the InCallScreen.
-    public static final int MMI_INITIATE = 10;
-    public static final int MMI_COMPLETE = 11;
-    public static final int MMI_CANCEL = 12;
+    public static final int MMI_INITIATE = 51;
+    public static final int MMI_COMPLETE = 52;
+    public static final int MMI_CANCEL = 53;
     // Don't use message codes larger than 99 here; those are reserved for
     // the individual Activities of the Phone UI.
 
@@ -114,6 +114,8 @@ public class PhoneApp extends Application {
     Ringer ringer;
     BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
+    int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
+    boolean mShowBluetoothIndication = false;
 
     // The InCallScreen instance (or null if the InCallScreen hasn't been
     // created yet.)
@@ -197,22 +199,23 @@ public class PhoneApp extends Application {
                     ndpPanel.show();
                     break;
 
-                case EVENT_BLUETOOTH_HEADSET_CONNECTED:
-                    Toast.makeText(PhoneApp.this,
-                            getResources().getString(R.string.bluetooth_headset_connected),
-                            Toast.LENGTH_SHORT).show();
+                case EVENT_UPDATE_INCALL_NOTIFICATION:
+                    // Tell the NotificationMgr to update the "ongoing
+                    // call" icon in the status bar, if necessary.
+                    // Currently, this is triggered by a bluetooth headset
+                    // state change (since the status bar icon needs to
+                    // turn blue when bluetooth is active.)
+                    NotificationMgr.getDefault().updateInCallNotification();
                     break;
-                case EVENT_BLUETOOTH_HEADSET_DISCONNECTED:
-                    Toast.makeText(PhoneApp.this,
-                            getResources().getString(R.string.bluetooth_headset_disconnected),
-                            Toast.LENGTH_SHORT).show();
+
+                case EVENT_DATA_ROAMING_DISCONNECTED:
+                    NotificationMgr.getDefault().showDataDisconnectedRoaming();
                     break;
-                case EVENT_DATA_DISCONNECTED:
-                    Intent roaming = new Intent();
-                    roaming.setClass(PhoneApp.getInstance(),  DataRoamingReenable.class);
-                    roaming.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    PhoneApp.getInstance().startActivity(roaming);
+
+                case EVENT_DATA_ROAMING_OK:
+                    NotificationMgr.getDefault().hideDataDisconnectedRoaming();
                     break;
+
                 case MMI_COMPLETE:
                     onMMIComplete((AsyncResult) msg.obj);
                     break;
@@ -399,9 +402,7 @@ public class PhoneApp extends Application {
     }
 
     /**
-     * Return the intent used to bring up the in-call screen while a call
-     * is already in progress (like when you return to the current call
-     * after previously bailing out of the in-call UI.)
+     * Return an Intent that can be used to bring up the in-call screen.
      *
      * This intent can only be used from within the Phone app, since the
      * InCallScreen is not exported from our AndroidManifest.
@@ -492,6 +493,19 @@ public class PhoneApp extends Application {
     boolean isShowingCallScreen() {
         if (mInCallScreen == null) return false;
         return mInCallScreen.isForegroundActivity();
+    }
+
+    /**
+     * Dismisses the in-call UI.
+     *
+     * This also ensures that you won't be able to get back to the in-call
+     * UI via the BACK button (since this call removes the InCallScreen
+     * from the activity history.)
+     */
+    void dismissCallScreen() {
+        if (mInCallScreen != null) {
+            mInCallScreen.finish();
+        }
     }
 
     /**
@@ -736,23 +750,46 @@ public class PhoneApp extends Application {
                        + ", isDialerOpened " + isDialerOpened
                        + ", isSpeakerInUse " + isSpeakerInUse + "...");
 
+        //
+        // (1) Set the screen timeout.
+        //
+        // Note that the "screen timeout" value we determine here is
+        // meaningless if the screen is forced on (see (2) below.)
+        //
         if (!isShowingCallScreen || isSpeakerInUse) {
             // Use the system-wide default timeout.
             setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
         } else {
-            // Ok, use a special in-call-specific screen timeout value
-            // instead of the system-wide default.  (This timeout is very
-            // short if the DTMF dialpad is up, and medium otherwise.)
+            // We're on the in-call screen, and *not* using the speakerphone.
             if (isDialerOpened) {
-                setScreenTimeout(ScreenTimeoutDuration.SHORT);
+                // The DTMF dialpad is up.  This case is special because
+                // the in-call UI has its own "touch lock" mechanism to
+                // disable the dialpad after a very short amount of idle
+                // time (to avoid false touches from the user's face while
+                // in-call.)
+                //
+                // In this case the *physical* screen just uses the
+                // system-wide default timeout.
+                setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
             } else {
+                // We're on the in-call screen, and not using the DTMF dialpad.
+                // There's actually no touchable UI onscreen at all in
+                // this state.  Also, the user is (most likely) not
+                // looking at the screen at all, since they're probably
+                // holding the phone up to their face.  Here we use a
+                // special screen timeout value specific to the in-call
+                // screen, purely to save battery life.
                 setScreenTimeout(ScreenTimeoutDuration.MEDIUM);
             }
         }
 
+        //
+        // (2) Decide whether to force the screen on or not.
+        //
         // Force the screen to be on if the phone is ringing, or if we're
         // displaying the "Call ended" UI for a connection in the
         // "disconnected" state.
+        //
         boolean isRinging = (state == Phone.State.RINGING);
         boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
@@ -798,6 +835,85 @@ public class PhoneApp extends Application {
         return mIsHeadsetPlugged;
     }
 
+    /**
+     * @return true if the onscreen UI should currently be showing the
+     * special "bluetooth is active" indication in a couple of places (in
+     * which UI elements turn blue and/or show the bluetooth logo.)
+     *
+     * This depends on the BluetoothHeadset state *and* the current
+     * telephony state; see shouldShowBluetoothIndication().
+     *
+     * @see CallCard
+     * @see NotificationMgr.updateInCallNotification
+     */
+    /* package */ boolean showBluetoothIndication() {
+        return mShowBluetoothIndication;
+    }
+
+    /**
+     * Recomputes the mShowBluetoothIndication flag based on the current
+     * bluetooth state and current telephony state.
+     *
+     * This needs to be called any time the bluetooth headset state or the
+     * telephony state changes.
+     */
+    /* package */ void updateBluetoothIndication() {
+        mShowBluetoothIndication = shouldShowBluetoothIndication(mBluetoothHeadsetState,
+                                                                 phone);
+    }
+
+    /**
+     * UI policy helper function for the couple of places in the UI that
+     * have some way of indicating that "bluetooth is in use."
+     *
+     * @return true if the onscreen UI should indicate that "bluetooth is in use",
+     *         based on the specified bluetooth headset state, and the
+     *         current state of the phone.
+     * @see showBluetoothIndication()
+     */
+    private static boolean shouldShowBluetoothIndication(int bluetoothState,
+                                                         Phone phone) {
+        // We want the UI to indicate that "bluetooth is in use" in two
+        // slightly different cases:
+        //
+        // (a) The obvious case: if a bluetooth headset is currently in
+        //     use for an ongoing call.
+        //
+        // (b) The not-so-obvious case: if an incoming call is ringing,
+        //     and we expect that audio *will* be routed to a bluetooth
+        //     headset once the call is answered.
+
+        switch (phone.getState()) {
+            case OFFHOOK:
+                // This covers normal active calls, and also the case if
+                // the foreground call is DIALING or ALERTING.  (If
+                // DIALING or ALERTING, audio *is* routed to the headset
+                // while the other end is ringing, so we just check for
+                // the bluetooth headset PLAYING state.  We don't need to
+                // do any tricks like we do below for the RINGING state.)
+
+                // TODO: we really need to know whether or not the headset
+                // is getting audio routed to it, rather than just whether
+                // or not the headset is connected.  So we really want to
+                // check for the "PLAYING" state here.  (But
+                // BluetoothHeadset doesn't have the concept of a
+                // "PLAYING" state yet; see bug 1695249.)
+                // For now:
+                return (bluetoothState == BluetoothHeadset.STATE_CONNECTED);
+
+            case RINGING:
+                // If an incoming call is ringing, we're *not* yet routing
+                // audio to the headset (since there's no in-call audio
+                // yet!)  In this case, if a bluetooth headset is
+                // connected at all, we assume that it'll become active
+                // once the user answers the phone.
+                return (bluetoothState == BluetoothHeadset.STATE_CONNECTED);
+
+            default:  // Presumably IDLE
+                return false;
+        }
+    }
+
 
     /**
      * Receiver for misc intent broadcasts the Phone app cares about.
@@ -811,36 +927,49 @@ public class PhoneApp extends Application {
                         System.AIRPLANE_MODE_ON, 0) == 0;
                 phone.setRadioPower(enabled);
             } else if (action.equals(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION)) {
-                int state = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
-                        BluetoothHeadset.STATE_ERROR);
-                int prevState = intent.getIntExtra(BluetoothIntent.HEADSET_PREVIOUS_STATE,
-                        BluetoothHeadset.STATE_ERROR);
-                if (state == BluetoothHeadset.STATE_CONNECTED) {
-                    mHandler.sendMessage(
-                            mHandler.obtainMessage(EVENT_BLUETOOTH_HEADSET_CONNECTED, 0));
-                } else if (state == BluetoothHeadset.STATE_DISCONNECTED) {
-                    if (prevState == BluetoothHeadset.STATE_CONNECTED) {
-                        mHandler.sendMessage(
-                                mHandler.obtainMessage(EVENT_BLUETOOTH_HEADSET_DISCONNECTED, 0));
-                    }
-                }
+                mBluetoothHeadsetState = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
+                                                            BluetoothHeadset.STATE_ERROR);
+                if (DBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
+                if (DBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
+
+                // First, recompute the mShowBluetoothIndication flag based on
+                // the (new) bluetooth state and current telephony state.
+                updateBluetoothIndication();
+
+                // Then, post Handler messages to the various components that
+                // might need to update their UI based on the new state.
+                if (isShowingCallScreen()) mInCallScreen.updateBluetoothIndication();
+                mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
             } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
+                // if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
+                // if (DBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
+                // if (DBG) Log.d(LOG_TAG, "- reason: "
+                //                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
+
+                // The "data disconnected due to roaming" notification is
+                // visible if you've lost data connectivity because you're
+                // roaming and you have the "data roaming" feature turned off.
+                boolean disconnectedDueToRoaming = false;
                 if ("DISCONNECTED".equals(intent.getStringExtra(Phone.STATE_KEY))) {
                     String reason = intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY);
                     if (Phone.REASON_ROAMING_ON.equals(reason)) {
-                        mHandler.sendMessage(mHandler.obtainMessage(EVENT_DATA_DISCONNECTED, 0));
+                        // We just lost our data connection, and the reason
+                        // is that we started roaming.  This implies that
+                        // the user has data roaming turned off.
+                        disconnectedDueToRoaming = true;
                     }
                 }
+                mHandler.sendEmptyMessage(disconnectedDueToRoaming
+                                          ? EVENT_DATA_ROAMING_DISCONNECTED
+                                          : EVENT_DATA_ROAMING_OK);
             } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
                 if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
-                if (DBG) Log.d(LOG_TAG, "==> intent: " + intent);
                 if (DBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
                 if (DBG) Log.d(LOG_TAG, "    name: " + intent.getStringExtra("name"));
                 mIsHeadsetPlugged = (intent.getIntExtra("state", 0) == 1);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_WIRED_HEADSET_PLUG, 0));
             } else if (action.equals(Intent.ACTION_BATTERY_LOW)) {
                 if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_BATTERY_LOW");
-                if (DBG) Log.d(LOG_TAG, "==> intent: " + intent);
                 notifier.sendBatteryLow();  // Play a warning tone if in-call
             } else if ((action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)) &&
                     (mPUKEntryActivity != null)) {
@@ -879,14 +1008,12 @@ public class PhoneApp extends Application {
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
                     if (DBG) Log.d(LOG_TAG, "==> called handleHeadsetHook(), consumed = " + consumed);
                     if (consumed) {
-                        if (DBG) Log.d(LOG_TAG, "==> Aborting broadcast!");
                         abortBroadcast();
                     }
-                } else if (phone.getState() != Phone.State.IDLE){
-                    // Otherwise if the phone is active, then just consume / ignore the event.
-                    // If we do not do this, the music player handles the event, which doesn't
-                    // make sense to the user.
-                    if (DBG) Log.d(LOG_TAG, "==> Phone is busy, aborting broadcast!");
+                } else if (phone.getState() != Phone.State.IDLE) {
+                    // As for any DOWN events other than the initial press, we consume
+                    // (and ignore) those too if the phone is in use.  (Otherwise the
+                    // music player will handle them, which would be confusing.)
                     abortBroadcast();
                 }
             }

@@ -34,7 +34,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
@@ -73,7 +73,7 @@ public class NetworkSetting extends PreferenceActivity
     String mNetworkSelectMsg;
 
     //preference objects
-    private PreferenceCategory mNetworkList;
+    private PreferenceGroup mNetworkList;
     private Preference mSearchButton;
     private Preference mAutoSelect;
 
@@ -215,7 +215,7 @@ public class NetworkSetting extends PreferenceActivity
 
         mPhone = PhoneApp.getInstance().phone;
 
-        mNetworkList = (PreferenceCategory) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
+        mNetworkList = (PreferenceGroup) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
         mNetworkMap = new HashMap<Preference, NetworkInfo>();
 
         mSearchButton = getPreferenceScreen().findPreference(BUTTON_SRCH_NETWRKS_KEY);

@@ -101,7 +101,7 @@
     <string name="labelCFU">"Всегда перенаправлять"</string>
     <string name="messageCFU">"Всегда использовать этот номер"</string>
     <string name="sum_cfu_enabled_indicator">"Перенаправление всех вызовов"</string>
-    <string name="sum_cfu_enabled">"Перенаправление всех вызовов на номер \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"Перенаправление всех вызовов на номер {0}"</string>
     <string name="sum_cfu_disabled">"Отключено"</string>
     <string name="labelCFB">"Перенаправлять, если занято"</string>
     <string name="messageCFB">"Номер, если занято"</string>
@@ -154,9 +154,7 @@
     <string name="roaming_enable">"Подключаться для передачи данных в роуминге"</string>
     <string name="roaming_disable">"Подключаться для передачи данных в роуминге"</string>
     <string name="roaming_reenable_message">"Подключение для передачи данных прервано. Вы покинули домашнюю сеть, не включив роуминг для передачи данных."</string>
-    <string name="roaming_turn_it_on_button">"Включить"</string>
     <string name="roaming_warning">"Разрешить передачу данных в роуминге? Это очень дорого!"</string>
-    <string name="roaming_reenable_title">"Внимание"</string>
     <string name="prefer_2g">"Использовать только сети 2G"</string>
     <string name="prefer_2g_summary">"Экономит заряд батареи"</string>
     <string name="fdn">"Номера с фиксированным набором"</string>
@@ -172,7 +170,6 @@
     <string name="sum_fdn">"Управление номерами с фиксированным набором"</string>
     <string name="sum_fdn_change_pin">"Изменить PIN для доступа к фиксированному набору"</string>
     <string name="sum_fdn_manage_list">"Управление списком телефонных номеров"</string>
-    <string name="open_keyboard">"Откройте клавиатуру для ввода."</string>
     <string name="menu_add">"Добавить контакт"</string>
     <string name="menu_edit">"Изменить контакт"</string>
     <string name="menu_delete">"Удалить контакт"</string>
@@ -268,6 +265,7 @@
     <string name="dial_emergency_empty_error">"Вызов не отправлен. Наберите экстренный номер!"</string>
     <string name="dialerKeyboardHintText">"Для набора воспользуйтесь клавиатурой"</string>
     <string name="dtmfDialpadHintText">"Панель тонального набора"</string>
+    <string name="touchLockText">"Нажмите дважды"\n"для разблокировки"</string>
     <string name="importSimEntry">"Импортировать"</string>
     <string name="importAllSimEntries">"Импортировать все"</string>
     <string name="importingSimContacts">"Идет импорт контактов с SIM-карты"</string>

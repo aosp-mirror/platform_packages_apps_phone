@@ -101,7 +101,7 @@
     <string name="labelCFU">"永遠轉接"</string>
     <string name="messageCFU">"永遠使用此號碼"</string>
     <string name="sum_cfu_enabled_indicator">"轉接所有來電"</string>
-    <string name="sum_cfu_enabled">"轉接所有來電到 \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"轉接所有來電到 {0}"</string>
     <string name="sum_cfu_disabled">"停用"</string>
     <string name="labelCFB">"忙線時轉接"</string>
     <string name="messageCFB">"忙線時轉接號碼"</string>
@@ -154,9 +154,7 @@
     <string name="roaming_enable">"漫遊時連線到資料服務"</string>
     <string name="roaming_disable">"漫遊時連線到資料服務"</string>
     <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
-    <string name="roaming_turn_it_on_button">"開啟"</string>
     <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
-    <string name="roaming_reenable_title">"注意"</string>
     <string name="prefer_2g">"只使用 2G 網路"</string>
     <string name="prefer_2g_summary">"節省電力"</string>
     <string name="fdn">"限制撥號號碼"</string>
@@ -172,7 +170,6 @@
     <string name="sum_fdn">"管理限制撥號號碼"</string>
     <string name="sum_fdn_change_pin">"變更 PIN 以存取限制撥號號碼"</string>
     <string name="sum_fdn_manage_list">"管理電話號碼清單"</string>
-    <string name="open_keyboard">"開啟鍵盤以輸入內容。"</string>
     <string name="menu_add">"新增聯絡人"</string>
     <string name="menu_edit">"編輯聯絡人"</string>
     <string name="menu_delete">"刪除聯絡人"</string>
@@ -268,6 +265,7 @@
     <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
     <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
+    <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
     <string name="importSimEntry">"匯入"</string>
     <string name="importAllSimEntries">"全部匯入"</string>
     <string name="importingSimContacts">"匯入 SIM 聯絡人"</string>

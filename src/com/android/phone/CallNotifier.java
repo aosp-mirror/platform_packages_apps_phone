@@ -48,8 +48,7 @@ public class CallNotifier extends Handler
         implements CallerInfoAsyncQuery.OnQueryCompleteListener {
     private static final String TAG = PhoneApp.LOG_TAG;
 
-    // this debug flag is now attached to the "userdebuggable" builds
-    // to keep useful logging available.
+    // Enable debug logging for userdebug builds.
     private static final boolean DBG =
             (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
@@ -59,8 +58,9 @@ public class CallNotifier extends Handler
     private static final String PHONE_UI_EVENT_MULTIPLE_QUERY =
         "multiple incoming call queries attempted";
 
-    // query timeout period, about 0.5 sec.
-    private static final int RINGTONE_QUERY_WAIT_TIME = 500;
+    // Maximum time we allow the CallerInfo query to run,
+    // before giving up and falling back to the default ringtone.
+    private static final int RINGTONE_QUERY_WAIT_TIME = 500;  // msec
 
     // values used to track the query state
     private static final int CALLERINFO_QUERY_READY = 0;
@@ -73,7 +73,7 @@ public class CallNotifier extends Handler
     private Object mCallerInfoQueryStateGuard = new Object();
 
     // Event used to indicate a query timeout.
-    private static final int RINGER_CUSTOM_RINGTONE_QUERY_COMPLETE = 100;
+    private static final int RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT = 100;
 
     // Events from the Phone object:
     private static final int PHONE_STATE_CHANGED = 1;
@@ -87,7 +87,6 @@ public class CallNotifier extends Handler
 
     private PhoneApp mApplication;
     private Phone mPhone;
-    private InCallScreen mCallScreen;
     private Ringer mRinger;
     private BluetoothHandsfree mBluetoothHandsfree;
     private boolean mSilentRingerRequested;
@@ -127,7 +126,7 @@ public class CallNotifier extends Handler
                 if (msg.obj != null && ((AsyncResult) msg.obj).result != null &&
                         ((GSMPhone)((AsyncResult) msg.obj).result).getState() == Phone.State.RINGING
                         && mSilentRingerRequested == false) {
-                    if (DBG) log("RINGING... ");
+                    if (DBG) log("RINGING... (PHONE_INCOMING_RING event)");
                     mRinger.ring();
                 } else {
                     if (DBG) log("RING before NEW_RING, skipping");
@@ -147,9 +146,16 @@ public class CallNotifier extends Handler
                 onUnknownConnectionAppeared((AsyncResult) msg.obj);
                 break;
 
-                // timed out, go directly to playing the ringtone.
-            case RINGER_CUSTOM_RINGTONE_QUERY_COMPLETE:
-                if (DBG) log("time out event detected for callerinfo query");
+            case RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT:
+                // CallerInfo query is taking too long!  But we can't wait
+                // any more, so start ringing NOW even if it means we won't
+                // use the correct custom ringtone.
+                Log.w(TAG, "CallerInfo query took too long; manually starting ringer");
+
+                // In this case we call onCustomRingQueryComplete(), just
+                // like if the query had completed normally.  (But we're
+                // going to get the default ringtone, since we never got
+                // the chance to call Ringer.setCustomRingtoneUri()).
                 onCustomRingQueryComplete();
                 break;
 
@@ -243,9 +249,10 @@ public class CallNotifier extends Handler
             }
         }
 
-        // Obtain the wake lock. Since the keepScreenOn() call tracks the state
-        // of the wake lock, it is ok to make the call here as well as in
-        // InCallScreen.onPhoneStateChanged().
+        // Obtain a partial wake lock to make sure the CPU doesn't go to
+        // sleep before we finish bringing up the InCallScreen.
+        // (This will be upgraded soon to a full wake lock; see
+        // PhoneUtils.showIncomingCallUi().)
         if (DBG) log("Holding wake lock on new incoming connection.");
         mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
@@ -285,11 +292,11 @@ public class CallNotifier extends Handler
             // if this has already been queried then just ring, otherwise
             // we wait for the alloted time before ringing.
             if (cit.isFinal) {
-                if (DBG) log("callerinfo already up to date, using available data");
+                if (DBG) log("- CallerInfo already up to date, using available data");
                 onQueryComplete(0, this, cit.currentInfo);
             } else {
-                if (DBG) log("starting query and setting timeout message.");
-                sendEmptyMessageDelayed(RINGER_CUSTOM_RINGTONE_QUERY_COMPLETE,
+                if (DBG) log("- Starting query, posting timeout message.");
+                sendEmptyMessageDelayed(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT,
                         RINGTONE_QUERY_WAIT_TIME);
             }
             // calls to PhoneUtils.showIncomingCallUi will come after the
@@ -303,7 +310,7 @@ public class CallNotifier extends Handler
                     PHONE_UI_EVENT_MULTIPLE_QUERY);
 
             // In this case, just log the request and ring.
-            if (DBG) log("request to ring arrived while query is running.");
+            if (DBG) log("RINGING... (request to ring arrived while query is running)");
             mRinger.ring();
 
             // in this case, just fall through like before, and call
@@ -313,8 +320,22 @@ public class CallNotifier extends Handler
     }
 
     /**
-     * Continuation of the onNewRingingConnection method call,
-     * encompassing ringing and any successive actions.
+     * Performs the final steps of the onNewRingingConnection sequence:
+     * starts the ringer, and launches the InCallScreen to show the
+     * "incoming call" UI.
+     *
+     * Normally, this is called when the CallerInfo query completes (see
+     * onQueryComplete()).  In this case, onQueryComplete() has already
+     * configured the Ringer object to use the custom ringtone (if there
+     * is one) for this caller.  So we just tell the Ringer to start, and
+     * proceed to the InCallScreen.
+     *
+     * But this method can *also* be called if the
+     * RINGTONE_QUERY_WAIT_TIME timeout expires, which means that the
+     * CallerInfo query is taking too long.  In that case, we log a
+     * warning but otherwise we behave the same as in the normal case.
+     * (We still tell the Ringer to start, but it's going to use the
+     * default ringtone.)
      */
     private void onCustomRingQueryComplete() {
         boolean isQueryExecutionTimeExpired = false;
@@ -327,15 +348,36 @@ public class CallNotifier extends Handler
         if (isQueryExecutionTimeExpired) {
             // There may be a problem with the query here, since the
             // default ringtone is playing instead of the custom one.
+            Log.w(TAG, "CallerInfo query took too long; falling back to default ringtone");
             Checkin.logEvent(mPhone.getContext().getContentResolver(),
                     Checkin.Events.Tag.PHONE_UI,
                     PHONE_UI_EVENT_RINGER_QUERY_ELAPSED);
         }
 
-        // ring, either with the queried ringtone or default one.
+        // Make sure we still have an incoming call!
+        //
+        // (It's possible for the incoming call to have been disconnected
+        // while we were running the query.  In that case we better not
+        // start the ringer here, since there won't be any future
+        // DISCONNECT event to stop it!)
+        //
+        // Note we don't have to worry about the incoming call going away
+        // *after* this check but before we call mRinger.ring() below,
+        // since in that case we *will* still get a DISCONNECT message sent
+        // to our handler.  (And we will correctly stop the ringer when we
+        // process that event.)
+        if (mPhone.getState() != Phone.State.RINGING) {
+            Log.i(TAG, "onCustomRingQueryComplete: No incoming call! Bailing out...");
+            // Don't start the ringer *or* bring up the "incoming call" UI.
+            // Just bail out.
+            return;
+        }
+
+        // Ring, either with the queried ringtone or default one.
+        if (DBG) log("RINGING... (onCustomRingQueryComplete)");
         mRinger.ring();
 
-        // now display the UI.
+        // ...and show the InCallScreen.
         PhoneUtils.showIncomingCallUi();
     }
 
@@ -345,8 +387,7 @@ public class CallNotifier extends Handler
         if (state == Phone.State.OFFHOOK) {
             // basically do onPhoneStateChanged + displayCallScreen
             onPhoneStateChanged(r);
-            PhoneApp app = PhoneApp.getInstance();
-            app.displayCallScreen();
+            PhoneUtils.showIncomingCallUi();
         }
     }
 
@@ -358,6 +399,10 @@ public class CallNotifier extends Handler
         // be on if and only if the phone is IDLE.
         NotificationMgr.getDefault().getStatusBarMgr()
                 .enableNotificationAlerts(state == Phone.State.IDLE);
+
+        // Have the PhoneApp recompute its mShowBluetoothIndication
+        // flag based on the (new) telephony state.
+        mApplication.updateBluetoothIndication();
 
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
@@ -376,6 +421,7 @@ public class CallNotifier extends Handler
             // PhoneUtils.answerCall(), before the call to phone.acceptCall().)
             // TODO: Confirm that this call really *is* unnecessary, and if so,
             // remove it!
+            if (DBG) log("stopRing()... (OFFHOOK state)");
             mRinger.stopRing();
 
             // put a icon in the status bar
@@ -391,15 +437,15 @@ public class CallNotifier extends Handler
      */
     public void onQueryComplete(int token, Object cookie, CallerInfo ci){
         if (cookie instanceof Long) {
-            if (DBG) log("callerinfo query complete, posting missed call notification");
+            if (DBG) log("CallerInfo query complete, posting missed call notification");
 
             NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
                     ci.phoneLabel, ((Long) cookie).longValue());
         } else if (cookie instanceof CallNotifier){
-            if (DBG) log("callerinfo query complete, updating data");
+            if (DBG) log("CallerInfo query complete, updating data");
 
             // get rid of the timeout messages
-            removeMessages(RINGER_CUSTOM_RINGTONE_QUERY_COMPLETE);
+            removeMessages(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT);
 
             boolean isQueryExecutionTimeOK = false;
             synchronized (mCallerInfoQueryStateGuard) {
@@ -450,6 +496,7 @@ public class CallNotifier extends Handler
         // foreground or background call disconnects while an incoming call
         // is still ringing, but that's a really rare corner case.
         // It's safest to just unconditionally stop the ringer here.
+        if (DBG) log("stopRing()... (onDisconnect)");
         mRinger.stopRing();
 
         // Check for the various tones we might need to play (thru the
@@ -495,24 +542,26 @@ public class CallNotifier extends Handler
 
             NotificationMgr.getDefault().cancelCallInProgressNotification();
 
-            // if the call screen never called finish (it's still in activity
-            // history, call finish() on it so it can be removed from the
-            // activity history
-            if (mCallScreen != null) {
-                if (DBG) log("onDisconnect: force mCallScreen.finish()");
-                mCallScreen.finish();
+            // If the InCallScreen is *not* in the foreground, forcibly
+            // dismiss it to make sure it won't still be in the activity
+            // history.  (But if it *is* in the foreground, don't mess
+            // with it; it needs to be visible, displaying the "Call
+            // ended" state.)
+            if (!mApplication.isShowingCallScreen()) {
+                if (DBG) log("onDisconnect: force InCallScreen to finish()");
+                mApplication.dismissCallScreen();
             }
         }
 
         if (c != null) {
-            String number = c.getAddress();
-            boolean isPrivateNumber = false; // TODO: need API for isPrivate()
-            long date = c.getCreateTime();
-            long duration = c.getDurationMillis();
-            Connection.DisconnectCause cause = c.getDisconnectCause();
+            final String number = c.getAddress();
+            final boolean isPrivateNumber = false; // TODO: need API for isPrivate()
+            final long date = c.getCreateTime();
+            final long duration = c.getDurationMillis();
+            final Connection.DisconnectCause cause = c.getDisconnectCause();
 
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
-            int callLogType;
+            final int callLogType;
             if (c.isIncoming()) {
                 callLogType = (cause == Connection.DisconnectCause.INCOMING_MISSED ?
                                CallLog.Calls.MISSED_TYPE :
@@ -522,17 +571,26 @@ public class CallNotifier extends Handler
             }
             if (DBG) log("- callLogType: " + callLogType + ", UserData: " + c.getUserData());
 
-            // get the callerinfo object and then log the call with it.
+            // Get the CallerInfo object and then log the call with it.
             {
                 Object o = c.getUserData();
-                CallerInfo ci;
+                final CallerInfo ci;
                 if ((o == null) || (o instanceof CallerInfo)){
                     ci = (CallerInfo) o;
                 } else {
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
-                Calls.addCall(ci, mApplication, number, isPrivateNumber,
-                        callLogType, date, (int) duration / 1000);
+
+                // Watch out: Calls.addCall() hits the Contacts database,
+                // so we shouldn't call it from the main thread.
+                Thread t = new Thread() {
+                        public void run() {
+                            Calls.addCall(ci, mApplication, number, isPrivateNumber,
+                                          callLogType, date, (int) duration / 1000);
+                            // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
+                        }
+                    };
+                t.start();
             }
 
             if (callLogType == CallLog.Calls.MISSED_TYPE) {
@@ -634,11 +692,6 @@ public class CallNotifier extends Handler
         NotificationMgr.getDefault().updateCfi(visible);
     }
 
-    void setCallScreen(InCallScreen callScreen) {
-        if (DBG) log("setCallScreen: " + callScreen);
-        mCallScreen = callScreen;
-    }
-
     /**
      * Indicates whether or not this ringer is ringing.
      */
@@ -652,6 +705,7 @@ public class CallNotifier extends Handler
      */
     void silenceRinger() {
         mSilentRingerRequested = true;
+        if (DBG) log("stopRing()... (silenceRinger)");
         mRinger.stopRing();
     }
 
@@ -759,7 +813,14 @@ public class CallNotifier extends Handler
             // a local audio signal, and is not as important.
             ToneGenerator toneGenerator;
             try {
-                toneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL, toneVolume);
+                int stream;
+                if (mBluetoothHandsfree != null) {
+                    stream = mBluetoothHandsfree.isAudioOn() ? AudioManager.STREAM_BLUETOOTH_SCO:
+                        AudioManager.STREAM_VOICE_CALL;
+                } else {
+                    stream = AudioManager.STREAM_VOICE_CALL;
+                }
+                toneGenerator = new ToneGenerator(stream, toneVolume);
                 // if (DBG) log("- created toneGenerator: " + toneGenerator);
             } catch (RuntimeException e) {
                 Log.w(TAG, "InCallTonePlayer: Exception caught while creating ToneGenerator: " + e);

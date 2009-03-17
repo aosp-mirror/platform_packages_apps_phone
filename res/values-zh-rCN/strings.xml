@@ -101,7 +101,7 @@
     <string name="labelCFU">"始终进行呼叫转移"</string>
     <string name="messageCFU">"始终使用此号码"</string>
     <string name="sum_cfu_enabled_indicator">"正在转移所有呼叫"</string>
-    <string name="sum_cfu_enabled">"正在将所有呼叫转移至\\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled">"正在将所有呼叫转移至{0}"</string>
     <string name="sum_cfu_disabled">"已禁用"</string>
     <string name="labelCFB">"占线时进行呼叫转移"</string>
     <string name="messageCFB">"占线时拨号"</string>
@@ -154,9 +154,7 @@
     <string name="roaming_enable">"漫游时连接至数据服务"</string>
     <string name="roaming_disable">"漫游时连接至数据服务"</string>
     <string name="roaming_reenable_message">"您已断开数据连接，因为您离开了主网络并关闭了数据漫游。"</string>
-    <string name="roaming_turn_it_on_button">"打开数据漫游"</string>
     <string name="roaming_warning">"是否允许数据漫游？您可能需要支付高额的漫游费！"</string>
-    <string name="roaming_reenable_title">"注意"</string>
     <string name="prefer_2g">"仅使用 2G 网络"</string>
     <string name="prefer_2g_summary">"节约电量"</string>
     <string name="fdn">"固定拨号"</string>
@@ -172,7 +170,6 @@
     <string name="sum_fdn">"管理固定拨号"</string>
     <string name="sum_fdn_change_pin">"更改 PIN 码以进行 FDN 访问"</string>
     <string name="sum_fdn_manage_list">"管理电话号码列表"</string>
-    <string name="open_keyboard">"打开键盘以键入。"</string>
     <string name="menu_add">"添加联系人"</string>
     <string name="menu_edit">"编辑联系人"</string>
     <string name="menu_delete">"删除联系人"</string>
@@ -268,6 +265,7 @@
     <string name="dial_emergency_empty_error">"呼叫未发送，请拨打紧急号码！"</string>
     <string name="dialerKeyboardHintText">"使用键盘拨号"</string>
     <string name="dtmfDialpadHintText">"按键式键盘"</string>
+    <string name="touchLockText">"轻击两下"\n"解锁"</string>
     <string name="importSimEntry">"导入"</string>
     <string name="importAllSimEntries">"全部导入"</string>
     <string name="importingSimContacts">"正在导入 SIM 卡联系人"</string>

@@ -27,17 +27,21 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 /**
  * SIM Address Book UI for the Phone app.
@@ -46,6 +50,12 @@ public class SimContacts extends ADNList {
     private static final int MENU_IMPORT_ONE = 1;
     private static final int MENU_IMPORT_ALL = 2;
     private ProgressDialog mProgressDialog;
+    
+    @Override
+    protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        registerForContextMenu(getListView());
+    }
 
     private class ImportAllThread extends Thread implements OnCancelListener, OnClickListener {
         boolean mCanceled = false;
@@ -127,26 +137,13 @@ public class SimContacts extends ADNList {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        menu.add(0, MENU_IMPORT_ONE, 0, R.string.importSimEntry);
         menu.add(0, MENU_IMPORT_ALL, 0, R.string.importAllSimEntries);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        int count = mCursor != null ? mCursor.getCount() : 0;
-        menu.findItem(MENU_IMPORT_ONE).setVisible(getSelectedItemPosition() >= 0);
-        menu.findItem(MENU_IMPORT_ALL).setVisible(count > 0);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case MENU_IMPORT_ONE:
-                importOne(getSelectedItemPosition());
-                return true;
             case MENU_IMPORT_ALL:
                 CharSequence title = getString(R.string.importAllSimEntries);
                 CharSequence message = getString(R.string.importingSimContacts); 
@@ -167,6 +164,30 @@ public class SimContacts extends ADNList {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_IMPORT_ONE:
+                importOne(getSelectedItemPosition());
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenu.ContextMenuInfo menuInfo) {
+        if (menuInfo instanceof AdapterView.AdapterContextMenuInfo) {
+            AdapterView.AdapterContextMenuInfo itemInfo =
+                    (AdapterView.AdapterContextMenuInfo) menuInfo;
+            TextView textView = (TextView) itemInfo.targetView.findViewById(android.R.id.text1);
+            if (textView != null) {
+                menu.setHeaderTitle(textView.getText());
+            }
+        }
+        menu.add(0, MENU_IMPORT_ONE, 0, R.string.importSimEntry);
     }
 
     @Override

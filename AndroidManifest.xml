@@ -17,6 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.phone"
         android:sharedUserId="android.uid.phone"
+        android:sharedUserLabel="@string/dialerIconLabel"
 >
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -177,6 +178,7 @@
             android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
+            android:screenOrientation="nosensor"
             android:exported="false" />
 
         <!-- general settings -->
@@ -234,7 +236,7 @@
                 android:label="@string/delete_fdn_contact">
         </activity>
         
-        <activity android:name="DataRoamingReenable" android:label="@string/roaming_reenable_title"
+        <activity android:name="DataRoamingReenable" android:label="@string/android:dialog_alert_title"
             android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

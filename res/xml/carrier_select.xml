@@ -13,11 +13,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory 
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="list_networks_key" 
-        android:title="@string/label_available"
-        android:persistent="false"/>
+        android:title="@string/label_available">
     <Preference 
         android:key="button_srch_netwrks_key" 
         android:title="@string/search_networks"
