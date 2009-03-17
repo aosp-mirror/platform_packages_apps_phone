@@ -20,8 +20,11 @@ import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothIntent;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.ScoSocket;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,8 +61,8 @@ public class BluetoothHandsfree {
     public static final int TYPE_HEADSET           = 1;
     public static final int TYPE_HANDSFREE         = 2;
 
-    private Context mContext;
-    private Phone mPhone;
+    private final Context mContext;
+    private final Phone mPhone;
     private ServiceState mServiceState;
     private HeadsetBase mHeadset;  // null when not connected
     private int mHeadsetType;
@@ -94,11 +97,18 @@ public class BluetoothHandsfree {
     private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
 
+    private DebugThread mDebugThread;
+    private int mScoGain = Integer.MIN_VALUE;
+
+    private static Intent sVoiceCommandIntent;
+
     // Audio parameters
     private static final String HEADSET_NREC = "bt_headset_nrec";
     private static final String HEADSET_NAME = "bt_headset_name";
 
-    private int mRemoteBRSF = 0;
+    private int mRemoteBrsf = 0;
+    private int mLocalBrsf = 0;
+
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
     public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
     public static final int BRSF_AG_EC_NR = 1 << 1;
@@ -121,11 +131,6 @@ public class BluetoothHandsfree {
     // 7 - 31 reserved for future use.
 
     // Currently supported attributes.
-    public static final int BRSF_AG_ATTRIBUTES = BRSF_AG_THREE_WAY_CALLING |
-                                                 BRSF_AG_EC_NR |
-                                                 BRSF_AG_VOICE_RECOG |
-                                                 BRSF_AG_REJECT_CALL |
-                                                 BRSF_AG_ENHANCED_CALL_STATUS;
 
     public static String typeToString(int type) {
         switch (type) {
@@ -154,6 +159,22 @@ public class BluetoothHandsfree {
         mStartVoiceRecognitionWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                                                        TAG + ":VoiceRecognition");
         mStartVoiceRecognitionWakeLock.setReferenceCounted(false);
+
+        mLocalBrsf = BRSF_AG_THREE_WAY_CALLING |
+                     BRSF_AG_EC_NR |
+                     BRSF_AG_REJECT_CALL |
+                     BRSF_AG_ENHANCED_CALL_STATUS;
+       
+        if (sVoiceCommandIntent == null) {
+            sVoiceCommandIntent = new Intent(Intent.ACTION_VOICE_COMMAND);
+            sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sVoiceCommandIntent.putExtra(Intent.EXTRA_AUDIO_ROUTE,
+                                         AudioManager.ROUTE_BLUETOOTH_SCO);
+        }
+        
+        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null) {
+            mLocalBrsf |= BRSF_AG_VOICE_RECOG;
+        }
 
         if (bluetoothCapable) {
             resetAtState();
@@ -184,6 +205,7 @@ public class BluetoothHandsfree {
     /* package */ synchronized void onBluetoothDisabled() {
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -247,7 +269,7 @@ public class BluetoothHandsfree {
         for (int i = 0; i < MAX_CONNECTIONS; i++) {
             mClccUsed[i] = false;
         }
-        mRemoteBRSF = 0;
+        mRemoteBrsf = 0;
     }
 
     private void configAudioParameters() {
@@ -530,7 +552,9 @@ public class BluetoothHandsfree {
             if (mCallsetup != callsetup) {
                 mCallsetup = callsetup;
                 if (sendUpdate) {
-                    if (!(mCall == 1 && ((mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0))) {
+                    // don't send +CIEV for callsetup while in-call if 3way not supported
+                    if (!(mCall == 1 && mCallsetup != 0 &&
+                         (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0)) {
                         result.addResponse("+CIEV: 3," + mCallsetup);
                     }
                 }
@@ -572,7 +596,7 @@ public class BluetoothHandsfree {
                 }
                 if ((call != 0 || callheld != 0) && sendUpdate) {
                     // call waiting
-                    if ((mRemoteBRSF & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                    if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CCWA: \"" + number + "\"," + type);
                     }
                 } else {
@@ -581,7 +605,7 @@ public class BluetoothHandsfree {
                     mRingingType = type;
                     mIgnoreRing = false;
 
-                    if ((BRSF_AG_ATTRIBUTES & BRSF_AG_IN_BAND_RING) == 0x1) {
+                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) == 0x1) {
                         audioOn();
                     }
                     result.addResult(ring());
@@ -658,6 +682,7 @@ public class BluetoothHandsfree {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
                     } else {
                         Log.i(TAG, "Rejecting incoming SCO connection");
                         ((ScoSocket)msg.obj).close();
@@ -672,6 +697,7 @@ public class BluetoothHandsfree {
                     if (DBG) log("Routing audio for outgoing SCO conection");
                     mConnectedSco = (ScoSocket)msg.obj;
                     mAudioManager.setBluetoothScoOn(true);
+                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
                 } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
                     if (DBG) log("Rejecting new connected outgoing SCO socket");
                     ((ScoSocket)msg.obj).close();
@@ -683,6 +709,7 @@ public class BluetoothHandsfree {
                 if (mConnectedSco == (ScoSocket)msg.obj) {
                     mConnectedSco = null;
                     mAudioManager.setBluetoothScoOn(false);
+                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
                 } else if (mOutgoingSco == (ScoSocket)msg.obj) {
                     mOutgoingSco = null;
                 } else if (mIncomingSco == (ScoSocket)msg.obj) {
@@ -714,6 +741,13 @@ public class BluetoothHandsfree {
         return new ScoSocket(mPowerManager, mHandler, SCO_ACCEPTED, SCO_CONNECTED, SCO_CLOSED);
     }
 
+    private void broadcastAudioStateIntent(int state) {
+        if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
+        Intent intent = new Intent(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
+        intent.putExtra(BluetoothIntent.HEADSET_AUDIO_STATE, state);
+        mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
+    }
+
     /** Request to establish SCO (audio) connection to bluetooth
      * headset/handsfree, if one is connected. Does not block.
      * Returns false if the user has requested audio off, or if there
@@ -735,7 +769,7 @@ public class BluetoothHandsfree {
             if (DBG) log("audioOn(): user requested no audio, ignoring");
             return false;
         }
-        
+
         if (mOutgoingSco != null) {
             if (DBG) log("audioOn(): outgoing SCO already in progress");
             return true;
@@ -773,6 +807,7 @@ public class BluetoothHandsfree {
 
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -929,7 +964,7 @@ public class BluetoothHandsfree {
         }
 
         int direction = c.isIncoming() ? 1 : 0;
-        
+
         String number = c.getAddress();
         int type = -1;
         if (number != null) {
@@ -955,7 +990,7 @@ public class BluetoothHandsfree {
                 if (mRingingCall.isRinging()) {
                     // Answer the call
                     PhoneUtils.answerCall(mPhone);
-                    // If in-band ring tone is supported, SCO connection will already 
+                    // If in-band ring tone is supported, SCO connection will already
                     // be up and the following call will just return.
                     audioOn();
                 } else if (mForegroundCall.getState().isAlive()) {
@@ -998,7 +1033,7 @@ public class BluetoothHandsfree {
     private void initializeHandsfreeAtParser() {
         if (DBG) log("Registering Handsfree AT commands");
         AtParser parser = mHeadset.getAtParser();
-   
+
         // Answer
         parser.register('A', new AtCommandHandler() {
             @Override
@@ -1039,12 +1074,12 @@ public class BluetoothHandsfree {
         // Hang-up command
         parser.register("+CHUP", new AtCommandHandler() {
             @Override
-            public AtCommandResult handleActionCommand() { 
-                if (!mForegroundCall.isIdle()) {                 
+            public AtCommandResult handleActionCommand() {
+                if (!mForegroundCall.isIdle()) {
                     PhoneUtils.hangup(mForegroundCall);
-                } else if (!mRingingCall.isIdle()) {               
+                } else if (!mRingingCall.isIdle()) {
                     PhoneUtils.hangup(mRingingCall);
-                } else if (!mBackgroundCall.isIdle()) {                
+                } else if (!mBackgroundCall.isIdle()) {
                     PhoneUtils.hangup(mBackgroundCall);
                 }
                 return new AtCommandResult(AtCommandResult.OK);
@@ -1054,7 +1089,7 @@ public class BluetoothHandsfree {
         // Bluetooth Retrieve Supported Features command
         parser.register("+BRSF", new AtCommandHandler() {
             private AtCommandResult sendBRSF() {
-                return new AtCommandResult("+BRSF: " + BRSF_AG_ATTRIBUTES);
+                return new AtCommandResult("+BRSF: " + mLocalBrsf);
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -1062,7 +1097,7 @@ public class BluetoothHandsfree {
                 // Handsfree is telling us which features it supports. We
                 // send the features we support
                 if (args.length == 1 && (args[0] instanceof Integer)) {
-                    mRemoteBRSF = (Integer) args[0];
+                    mRemoteBrsf = (Integer) args[0];
                 } else {
                     Log.w(TAG, "HF didn't sent BRSF assuming 0");
                 }
@@ -1403,7 +1438,7 @@ public class BluetoothHandsfree {
                 return new AtCommandResult("+CGSN: " + mPhone.getDeviceId());
             }
         });
-        
+
         // AT+CGMM - Query Model Information
         parser.register("+CGMM", new AtCommandHandler() {
             @Override
@@ -1417,7 +1452,7 @@ public class BluetoothHandsfree {
                 }
             }
         });
-        
+
         // AT+CGMI - Query Manufacturer Information
         parser.register("+CGMI", new AtCommandHandler() {
             @Override
@@ -1431,7 +1466,7 @@ public class BluetoothHandsfree {
                 }
             }
         });
-        
+
         // Noise Reduction and Echo Cancellation control
         parser.register("+NREC", new AtCommandHandler() {
             @Override
@@ -1452,13 +1487,16 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
                 if (args.length >= 1 && args[0].equals(1)) {
-                    expectVoiceRecognition();
-
-                    Intent intent = new Intent(Intent.ACTION_VOICE_COMMAND);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(Intent.EXTRA_AUDIO_ROUTE, AudioManager.ROUTE_BLUETOOTH_SCO);
-                    mContext.startActivity(intent);
-
+                    synchronized (BluetoothHandsfree.this) {
+                        if (!mWaitingForVoiceRecognition) {
+                            try {
+                                mContext.startActivity(sVoiceCommandIntent);
+                            } catch (ActivityNotFoundException e) {
+                                return new AtCommandResult(AtCommandResult.ERROR);
+                            }
+                            expectVoiceRecognition();
+                        }
+                    }
                     return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing yet
                 } else if (args.length >= 1 && args[0].equals(0)) {
                     audioOff();
@@ -1484,7 +1522,33 @@ public class BluetoothHandsfree {
                         PhoneNumberUtils.toaFromString(number) + ",,4");
             }
         });
-        
+
+        // Microphone Gain
+        parser.register("+VGM", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleSetCommand(Object[] args) {
+                // AT+VGM=<gain>    in range [0,15]
+                // Headset/Handsfree is reporting its current gain setting
+                return new AtCommandResult(AtCommandResult.OK);
+            }
+        });
+
+        // Speaker Gain
+        parser.register("+VGS", new AtCommandHandler() {
+            @Override
+            public AtCommandResult handleSetCommand(Object[] args) {
+                // AT+VGS=<gain>    in range [0,15]
+                if (args.length != 1 || !(args[0] instanceof Integer)) {
+                    return new AtCommandResult(AtCommandResult.ERROR);
+                }
+                mScoGain = (Integer) args[0];
+                int flag =  mAudioManager.isBluetoothScoOn() ? AudioManager.FLAG_SHOW_UI:0;
+
+                mAudioManager.setStreamVolume(AudioManager.STREAM_BLUETOOTH_SCO, mScoGain, flag);
+                return new AtCommandResult(AtCommandResult.OK);
+            }
+        });
+
         // Phone activity status
         parser.register("+CPAS", new AtCommandHandler() {
             @Override
@@ -1506,7 +1570,14 @@ public class BluetoothHandsfree {
         });
         mPhonebook.register(parser);
     }
-    
+
+    public void sendScoGainUpdate(int gain) {
+        if (mScoGain != gain && (mRemoteBrsf & BRSF_HF_REMOTE_VOL_CONTROL) != 0x0) {
+            sendURC("+VGS:" + gain);
+            mScoGain = gain;
+        }
+    }
+
     public AtCommandResult reportCmeError(int error) {
         if (mCmee) {
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
@@ -1571,8 +1642,6 @@ public class BluetoothHandsfree {
         return true;
     }
 
-    private DebugThread mDebugThread;
-
     private boolean inDebug() {
         return DBG && SystemProperties.getBoolean(DebugThread.DEBUG_HANDSFREE, false);
     }
@@ -1626,14 +1695,14 @@ public class BluetoothHandsfree {
 
         /** Debug AT+CLCC: print +CLCC result */
         private static final String DEBUG_HANDSFREE_CLCC = "debug.bt.hfp.clcc";
-        
-        /** Debug AT+BSIR - Send In Band Ringtones Unsolicited AT command. 
+
+        /** Debug AT+BSIR - Send In Band Ringtones Unsolicited AT command.
          * debug.bt.unsol.inband = 0 => AT+BSIR = 0 sent by the AG
          * debug.bt.unsol.inband = 1 => AT+BSIR = 0 sent by the AG
          * Other values are ignored.
          */
-        
-        private static final String DEBUG_UNSOL_INBAND_RINGTONE = 
+
+        private static final String DEBUG_UNSOL_INBAND_RINGTONE =
             "debug.bt.unsol.inband";
 
         @Override
@@ -1691,11 +1760,11 @@ public class BluetoothHandsfree {
                 } catch (InterruptedException e) {
                     break;
                 }
-                
-                int inBandRing = 
+
+                int inBandRing =
                     SystemProperties.getInt(DEBUG_UNSOL_INBAND_RINGTONE, -1);
                 if (inBandRing == 0 || inBandRing == 1) {
-                    AtCommandResult result = 
+                    AtCommandResult result =
                         new AtCommandResult(AtCommandResult.UNSOLICITED);
                     result.addResponse("+BSIR: " + inBandRing);
                     sendURC(result.toString());

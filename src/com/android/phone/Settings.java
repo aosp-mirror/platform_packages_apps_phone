@@ -82,8 +82,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mOkClicked = false;
                 new AlertDialog.Builder(this).setMessage(
                         getResources().getString(R.string.roaming_warning))
-                        .setTitle(R.string.roaming_reenable_title)
-                        .setIcon(com.android.internal.R.drawable.ic_dialog_alert)
+                        .setTitle(android.R.string.dialog_alert_title)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, this)
                         .setNegativeButton(android.R.string.no, this)
                         .show()

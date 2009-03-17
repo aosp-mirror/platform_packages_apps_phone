@@ -14,10 +14,8 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:phone="http://schemas.android.com/apk/res/com.android.phone">
-    
-    <PreferenceCategory
-        android:title="@string/mobile_networks"/>
+    xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
+        android:title="@string/mobile_networks">
     
     <CheckBoxPreference 
         android:key="button_roaming_key" 

@@ -109,7 +109,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:background="@drawable/dark_header_dithered"
+                android:background="@android:drawable/dark_header"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -178,7 +178,7 @@
             android:layout_height="54dip"
             android:gravity="center_vertical"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/dark_header_dithered"/>
+            android:background="@android:drawable/dark_header"/>
 
         <!-- The "Back to call" button -->
         <Button android:id="@+id/manage_done"
@@ -195,12 +195,40 @@
 
     </RelativeLayout>  <!-- End of manageConferencePanel -->
 
-    <!-- The sliding drawer control containing the DTMF dialer.
+    <!-- The sliding drawer control containing the DTMF dialpad.
          Note this isn't a child of mainFrame, which ensures that it'll be
          able to use the full width of the screen.  (And a SlidingDrawer
          widget needs to be be a direct child of a FrameLayout anyway.)
          In portrait mode, this is visible; in landscape mode, this is
          just an empty layout.-->
     <include layout="@layout/dtmf_twelve_key_dialer"/>
+
+    <!-- Finally, the "touch lock" overlay, drawn on top of the DTMF
+         dialpad (after some delay) to prevent false touches from
+         triggering DTMF tones.  (When the overlay is up, you need to
+         double-tap the "lock" icon to unlock the dialpad.) -->
+    <RelativeLayout android:id="@+id/touchLockOverlay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:background="#8000"
+        >
+        <!-- Layout note: we could use android:layout_centerInParent="true"
+             here to center the lock icon exactly in the middle of the screen.
+             But it actually looks better to have the lock roughly in the
+             middle of the dialpad key area, so instead we position it a
+             fixed distance from the bottom of the screen. -->
+        <TextView android:id="@+id/touchLockIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="70dip"
+            android:text="@string/touchLockText"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/dialpad_lock"
+            />
+    </RelativeLayout>
 
 </FrameLayout>

@@ -64,6 +64,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     static final int NETWORK_SELECTION_NOTIFICATION = 4;
     static final int VOICEMAIL_NOTIFICATION = 5;
     static final int CALL_FORWARD_NOTIFICATION = 6;
+    static final int DATA_DISCONNECTED_ROAMING_NOTIFICATION = 7;
 
     private static NotificationMgr sMe = null;
     private Phone mPhone;
@@ -75,7 +76,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private Toast mToast;
     private IBinder mSpeakerphoneIcon;
     private IBinder mMuteIcon;
-    
+
     // used to track the missed call counter, default to 0.
     private int mNumberMissedCalls = 0;
 
@@ -88,7 +89,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private static final int VM_NUMBER_RETRY_DELAY_MILLIS = 10000;
     private int mVmNumberRetriesRemaining = MAX_VM_NUMBER_RETRIES;
 
-    //Used to find the information to populate the caller notification with. 
+    // Query used to look up caller-id info for the "call log" notification.
     private QueryHandler mQueryHandler = null;
     private static final int CALL_LOG_TOKEN = -1;
     private static final int CONTACT_TOKEN = -2;
@@ -475,12 +476,16 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         final boolean hasActiveCall = !mPhone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
 
-        // Display the regular "in-call" icon in the status bar, except if
-        // there's only one call, and it's on hold (in which case we use the
-        // "on hold" icon.)
-        int resId = (!hasActiveCall && hasHoldingCall)
-                ? android.R.drawable.stat_sys_phone_call_on_hold
-                : android.R.drawable.stat_sys_phone_call;
+        // Display the appropriate "in-call" icon in the status bar,
+        // which depends on the current phone and/or bluetooth state.
+        int resId = android.R.drawable.stat_sys_phone_call;
+        if (!hasActiveCall && hasHoldingCall) {
+            // There's only one call, and it's on hold.
+            resId = android.R.drawable.stat_sys_phone_call_on_hold;
+        } else if (PhoneApp.getInstance().showBluetoothIndication()) {
+            // Bluetooth is active.
+            resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
+        }
 
         // Note we can't just bail out now if (resId == mInCallResId),
         // since even if the status icon hasn't changed, some *other*
@@ -757,14 +762,13 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // view for now, so the there is less confusion about the icon.  If
             // it is deemed too weird to have CF indications as expanded views, 
             // then we'll flip the flag back.
-            
+
             // TODO: We may want to take a look to see if the notification can 
             // display the target to forward calls to.  This will require some 
             // effort though, since there are multiple layers of messages that 
             // will need to propagate that information.
 
-            Notification notification = null;
-            
+            Notification notification;
             final boolean showExpandedNotification = true;
             if (showExpandedNotification) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -776,9 +780,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                         mContext,  // context
                         android.R.drawable.stat_sys_phone_call_forward,  // icon
                         null, // tickerText
-                        System.currentTimeMillis(), // Show the time the CFI notification came in,
-                                                    // since we don't know the actual time the CFU
-                                                    // change was made.
+                        0,  // The "timestamp" of this notification is meaningless;
+                            // we only care about whether CFI is currently on or not.
                         mContext.getString(R.string.labelCF), // expandedTitle
                         mContext.getString(R.string.sum_cfu_enabled_indicator),  // expandedText
                         intent // contentIntent
@@ -792,12 +795,47 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                         );
             }
 
+            notification.flags |= Notification.FLAG_ONGOING_EVENT;  // also implies FLAG_NO_CLEAR
+
             mNotificationMgr.notify(
                     CALL_FORWARD_NOTIFICATION,
                     notification);
         } else {
             mNotificationMgr.cancel(CALL_FORWARD_NOTIFICATION);
         }
+    }
+
+    /**
+     * Shows the "data disconnected due to roaming" notification, which
+     * appears when you lose data connectivity because you're roaming and
+     * you have the "data roaming" feature turned off.
+     */
+    /* package */ void showDataDisconnectedRoaming() {
+        if (DBG) log("showDataDisconnectedRoaming()...");
+
+        Intent intent = new Intent(mContext,
+                                   Settings.class);  // "Mobile network settings" screen
+
+        Notification notification = new Notification(
+                mContext,  // context
+                android.R.drawable.stat_sys_warning,  // icon
+                null, // tickerText
+                System.currentTimeMillis(),
+                mContext.getString(R.string.roaming), // expandedTitle
+                mContext.getString(R.string.roaming_reenable_message),  // expandedText
+                intent // contentIntent
+                );
+        mNotificationMgr.notify(
+                DATA_DISCONNECTED_ROAMING_NOTIFICATION,
+                notification);
+    }
+
+    /**
+     * Turns off the "data disconnected due to roaming" notification.
+     */
+    /* package */ void hideDataDisconnectedRoaming() {
+        if (DBG) log("hideDataDisconnectedRoaming()...");
+        mNotificationMgr.cancel(DATA_DISCONNECTED_ROAMING_NOTIFICATION);
     }
 
     /* package */ void postTransientNotification(int notifyId, CharSequence msg) {
