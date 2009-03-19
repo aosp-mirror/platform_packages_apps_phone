@@ -37,25 +37,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class SimNetworkDepersonalizationPanel extends SimPanel{
-    
-    //debug constants
+/**
+ * "SIM network unlock" PIN entry screen.
+ *
+ * @see PhoneApp.EVENT_SIM_NETWORK_LOCKED
+ */
+public class SimNetworkDepersonalizationPanel extends SimPanel {
     private static final boolean DBG = false;
-    
+
     //events
     private static final int EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT = 100;
-    
+
     private Phone mPhone;
-    
+
     //UI elements
     private EditText     mPinEntry;
     private LinearLayout mEntryPanel;
     private LinearLayout mStatusPanel;
     private TextView     mStatusText;
-    
+
     private Button       mUnlockButton;
-    private Button       mDismissButton;
-    
+
     //private textwatcher to control text entry.
     private TextWatcher mPinEntryWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence buffer, int start, int olen, int nlen) {
@@ -109,14 +111,13 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.sim_ndp);
-        
-        //set up pin entry text field
+
+        // PIN entry text field
         mPinEntry = (EditText) findViewById(R.id.pin_entry);
         mPinEntry.setKeyListener(DialerKeyListener.getInstance());
-        mPinEntry.setMovementMethod(null);
         mPinEntry.setOnClickListener(mUnlockListener);
-        
-        //attach the textwatcher
+
+        // Attach the textwatcher
         CharSequence text = mPinEntry.getText();
         Spannable span = (Spannable) text;
         span.setSpan(mPinEntryWatcher, 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -126,9 +127,6 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
         mUnlockButton = (Button) findViewById(R.id.ndp_unlock);
         mUnlockButton.setOnClickListener(mUnlockListener);
 
-        mDismissButton = (Button) findViewById(R.id.ndp_dismiss);
-        mDismissButton.setOnClickListener(mDismissListener);
-        
         //status panel is used since we're having problems with the alert dialog.
         mStatusPanel = (LinearLayout) findViewById(R.id.status_panel);
         mStatusText = (TextView) findViewById(R.id.status_text);
@@ -157,14 +155,14 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
             if (TextUtils.isEmpty(pin)) {
                 return;
             }
-            
+
             if (DBG) log("requesting network depersonalization with code " + pin);
-            mPhone.getSimCard().supplyNetworkDepersonalization(pin, 
+            mPhone.getSimCard().supplyNetworkDepersonalization(pin,
                     Message.obtain(mHandler, EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT));
             indicateBusy();
         }
     };
-    
+
     private void indicateBusy() {
         mStatusText.setText(R.string.requesting_unlock);
         mEntryPanel.setVisibility(View.GONE);
@@ -187,15 +185,8 @@ public class SimNetworkDepersonalizationPanel extends SimPanel{
         mEntryPanel.setVisibility(View.VISIBLE);
         mStatusPanel.setVisibility(View.GONE);
     }
-    
-    View.OnClickListener mDismissListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if (DBG) log("network depersonalization skipped.");
-            dismiss();
-        }
-    };
-    
+
     private void log(String msg) {
-        Log.v(TAG, "[SimNetworkUnlock] " + msg);
+        Log.v(TAG, "[SimNetworkDepersonalizationPanel] " + msg);
     }
 }

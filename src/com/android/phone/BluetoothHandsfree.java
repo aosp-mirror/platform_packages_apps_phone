@@ -164,14 +164,12 @@ public class BluetoothHandsfree {
                      BRSF_AG_EC_NR |
                      BRSF_AG_REJECT_CALL |
                      BRSF_AG_ENHANCED_CALL_STATUS;
-       
+
         if (sVoiceCommandIntent == null) {
             sVoiceCommandIntent = new Intent(Intent.ACTION_VOICE_COMMAND);
             sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sVoiceCommandIntent.putExtra(Intent.EXTRA_AUDIO_ROUTE,
-                                         AudioManager.ROUTE_BLUETOOTH_SCO);
         }
-        
+
         if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null) {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
@@ -552,9 +550,14 @@ public class BluetoothHandsfree {
             if (mCallsetup != callsetup) {
                 mCallsetup = callsetup;
                 if (sendUpdate) {
-                    // don't send +CIEV for callsetup while in-call if 3way not supported
-                    if (!(mCall == 1 && mCallsetup != 0 &&
-                         (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0)) {
+                    // If mCall = 0, send CIEV
+                    // mCall = 1, mCallsetup = 0, send CIEV
+                    // mCall = 1, mCallsetup = 1, send CIEV after CCWA,
+                    // if 3 way supported.
+                    // mCall = 1, mCallsetup = 2 / 3 -> send CIEV,
+                    // if 3 way is supported
+                    if (mCall != 1 || mCallsetup == 0 ||
+                        mCallsetup != 1 && (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CIEV: 3," + mCallsetup);
                     }
                 }
@@ -598,6 +601,7 @@ public class BluetoothHandsfree {
                     // call waiting
                     if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CCWA: \"" + number + "\"," + type);
+                        result.addResponse("+CIEV: 3," + callsetup);
                     }
                 } else {
                     // regular new incoming call

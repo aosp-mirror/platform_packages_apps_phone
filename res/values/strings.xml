@@ -36,6 +36,8 @@
     <string name="unknown">Unknown</string>
     <!-- Incoming call screen, string when number hidden -->
     <string name="private_num">Private number</string>
+    <!-- Incoming call screen, string when called from a pay phone -->
+    <string name="payphone">Pay phone</string>
     <!-- In-call screen: status label for a call that's on hold -->
     <string name="onHold">On hold</string>
     <!-- In-call screen: status label for the current active call -->
@@ -199,6 +201,8 @@
     <string name="call_settings">Call settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="additional_call_settings">Additional call settings</string>
+    <!-- Call settings screen, network service setting name -->
+    <string name="labelNwService">Network service settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="labelCallerId">Caller ID</string>
     <!-- Additional call settings screen, setting summary text when Caller ID is hidden -->

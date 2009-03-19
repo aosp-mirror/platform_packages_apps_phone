@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"Список номеров с фиксированным набором"</string>
     <string name="unknown">"Неизвестно"</string>
     <string name="private_num">"Частный номер"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"Удерживается"</string>
     <string name="ongoing">"Текущий вызов"</string>
     <string name="callFailed_userBusy">"Линия занята"</string>
@@ -35,6 +37,12 @@
     <string name="callFailed_outOfService">"Вне зоны обслуживания"</string>
     <string name="callFailed_fdn_only">"Исходящие вызовы ограничены фиксированным набором."</string>
     <string name="callFailed_cb_enabled">"Пока включен запрет вызовов, выполнять исходящие вызовы невозможно."</string>
+    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
+    <skip />
     <string name="confCall">"Конференц-связь"</string>
     <string name="mmiStarted">"Запущен код MMI"</string>
     <string name="ussdRunning">"Выполняется код USSD…"</string>
@@ -89,6 +97,8 @@
     <string name="networks">"Операторы сети"</string>
     <string name="call_settings">"Настройки вызовов"</string>
     <string name="additional_call_settings">"Дополнительные настройки вызовов"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"Идентификатор звонящего"</string>
     <string name="sum_hide_caller_id">"При исходящих вызовах номер скрыт"</string>
     <string name="sum_show_caller_id">"При исходящих вызовах номер отображается"</string>

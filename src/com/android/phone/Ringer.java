@@ -22,8 +22,11 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.IHardwareService;
 import android.os.Looper;
 import android.os.Message;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
@@ -52,6 +55,7 @@ public class Ringer {
     
     Ringtone mRingtone;
     Vibrator mVibrator = new Vibrator();
+    IHardwareService mHardwareService;
     volatile boolean mContinueVibrating;
     VibratorThread mVibratorThread;
     Context mContext;
@@ -63,6 +67,7 @@ public class Ringer {
     
     Ringer(Phone phone) {
         mContext = phone.getContext();
+        mHardwareService = IHardwareService.Stub.asInterface(ServiceManager.getService("hardware"));
     }
 
     /**
@@ -111,6 +116,12 @@ public class Ringer {
         if (DBG) log("ring()...");
 
         synchronized (this) {
+            try {
+                mHardwareService.setAttentionLight(true);
+            } catch (RemoteException ex) {
+                // the other end of this binder call is in the system process.
+            }
+
             if (shouldVibrate() && mVibratorThread == null) {
                 mContinueVibrating = true;
                 mVibratorThread = new VibratorThread();
@@ -168,6 +179,12 @@ public class Ringer {
     void stopRing() {
         synchronized (this) {
             if (DBG) log("stopRing()...");
+
+            try {
+                mHardwareService.setAttentionLight(false);
+            } catch (RemoteException ex) {
+                // the other end of this binder call is in the system process.
+            }
 
             if (mRingHandler != null) {
                 mRingHandler.removeCallbacksAndMessages(null);

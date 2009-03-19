@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"Ustalone numery (FDN)"</string>
     <string name="unknown">"Nieznany"</string>
     <string name="private_num">"Numer prywatny"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"Oczekujące"</string>
     <string name="ongoing">"Bieżące połączenie"</string>
     <string name="callFailed_userBusy">"Linia jest zajęta"</string>
@@ -35,6 +37,12 @@
     <string name="callFailed_outOfService">"Obszar nieobsługiwany"</string>
     <string name="callFailed_fdn_only">"Połączenia są ograniczone do ustalonych numerów (FDN)."</string>
     <string name="callFailed_cb_enabled">"Nie można wykonywać połączeń wychodzących, gdy włączona jest blokada dzwonienia."</string>
+    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
+    <skip />
     <string name="confCall">"Rozmowa konferencyjna"</string>
     <string name="mmiStarted">"Kod MMI został rozpoczęty"</string>
     <string name="ussdRunning">"Uruchomiony kod USSD..."</string>
@@ -89,6 +97,8 @@
     <string name="networks">"Operatorzy sieci"</string>
     <string name="call_settings">"Ustawienia połączeń"</string>
     <string name="additional_call_settings">"Dodatkowe ustawienia"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"ID dzwoniącego"</string>
     <string name="sum_hide_caller_id">"Ukrycie numeru podczas rozmów wychodzących"</string>
     <string name="sum_show_caller_id">"Numer wyświetlany w połączeniach wychodzących"</string>

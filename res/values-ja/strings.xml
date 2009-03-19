@@ -18,12 +18,14 @@
     <string name="contactsIconLabel">"連絡先"</string>
     <string name="contactsFavoritesLabel">"お気に入り"</string>
     <string name="dialerIconLabel">"電話"</string>
-    <string name="emergencyDialerIconLabel">"緊急呼"</string>
+    <string name="emergencyDialerIconLabel">"緊急通報"</string>
     <string name="phoneIconLabel">"電話"</string>
     <string name="recentCallsIconLabel">"通話履歴"</string>
     <string name="fdnListLabel">"発信番号制限リスト"</string>
     <string name="unknown">"不明"</string>
     <string name="private_num">"番号非通知"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"保留中"</string>
     <string name="ongoing">"通話中"</string>
     <string name="callFailed_userBusy">"話し中"</string>
@@ -35,6 +37,12 @@
     <string name="callFailed_outOfService">"圏外"</string>
     <string name="callFailed_fdn_only">"発信番号制限により発信が制限されています。"</string>
     <string name="callFailed_cb_enabled">"発信できません。発信制限がかかっています。"</string>
+    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
+    <skip />
     <string name="confCall">"グループ通話"</string>
     <string name="mmiStarted">"MMIコードの開始"</string>
     <string name="ussdRunning">"USSDコードを実行中..."</string>
@@ -89,6 +97,8 @@
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"その他の通話設定"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id">"発信時に番号を通知する"</string>
@@ -258,11 +268,11 @@
     <string name="incall_error_supp_service_conference">"グループ通話を利用できません。"</string>
     <string name="incall_error_supp_service_reject">"着信を拒否できません。"</string>
     <string name="incall_error_supp_service_hangup">"通話を解放できません。"</string>
-    <string name="emergency_enable_radio_dialog_title">"緊急呼"</string>
+    <string name="emergency_enable_radio_dialog_title">"緊急通報"</string>
     <string name="emergency_enable_radio_dialog_message">"無線通信をオンにしています..."</string>
     <string name="emergency_enable_radio_dialog_retry">"圏外 - 再試行中..."</string>
-    <string name="dial_emergency_error">"発信エラー: <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急呼番号ではありません。"</string>
-    <string name="dial_emergency_empty_error">"発信エラー: 緊急呼番号をダイヤルしてください。"</string>
+    <string name="dial_emergency_error">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急通報番号ではないので発信できません。"</string>
+    <string name="dial_emergency_empty_error">"発信できません。緊急通報番号におかけください。"</string>
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
     <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
     <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>

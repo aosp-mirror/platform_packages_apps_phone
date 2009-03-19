@@ -402,7 +402,10 @@ public class CallNotifier extends Handler
 
         // Have the PhoneApp recompute its mShowBluetoothIndication
         // flag based on the (new) telephony state.
-        mApplication.updateBluetoothIndication();
+        // There's no need to force a UI update since we update the
+        // in-call notification ourselves (below), and the InCallScreen
+        // listens for phone state changes itself.
+        mApplication.updateBluetoothIndication(false);
 
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
@@ -555,7 +558,7 @@ public class CallNotifier extends Handler
 
         if (c != null) {
             final String number = c.getAddress();
-            final boolean isPrivateNumber = false; // TODO: need API for isPrivate()
+            final int presentation = c.getNumberPresentation();
             final long date = c.getCreateTime();
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
@@ -585,7 +588,7 @@ public class CallNotifier extends Handler
                 // so we shouldn't call it from the main thread.
                 Thread t = new Thread() {
                         public void run() {
-                            Calls.addCall(ci, mApplication, number, isPrivateNumber,
+                            Calls.addCall(ci, mApplication, number, presentation,
                                           callLogType, date, (int) duration / 1000);
                             // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
                         }

@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"Beschränkte Rufnummern"</string>
     <string name="unknown">"Unbekannt"</string>
     <string name="private_num">"Private Nummer"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"Gehaltener Anruf"</string>
     <string name="ongoing">"Aktueller Anruf"</string>
     <string name="callFailed_userBusy">"Leitung besetzt"</string>
@@ -35,6 +37,12 @@
     <string name="callFailed_outOfService">"Gebiet ohne Netzabdeckung"</string>
     <string name="callFailed_fdn_only">"Ausgehende Anrufe unterliegen der Nummernbeschränkung."</string>
     <string name="callFailed_cb_enabled">"Sie können keine Anrufe tätigen, wenn die Anrufsperre aktiviert ist."</string>
+    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
+    <skip />
+    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
+    <skip />
     <string name="confCall">"Telefonkonferenz"</string>
     <string name="mmiStarted">"MMI-Code gestartet"</string>
     <string name="ussdRunning">"USSD-Code wird ausgeführt..."</string>
@@ -89,6 +97,8 @@
     <string name="networks">"Netzbetreiber"</string>
     <string name="call_settings">"Anrufeinstellungen"</string>
     <string name="additional_call_settings">"Zusätzliche Anrufeinst."</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"Anrufer-ID"</string>
     <string name="sum_hide_caller_id">"Nummer bei abgehenden Anrufen unterdrückt"</string>
     <string name="sum_show_caller_id">"Nummer bei abgehenden Anrufen angezeigt"</string>
