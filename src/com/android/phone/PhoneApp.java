@@ -59,8 +59,26 @@ import android.widget.Toast;
  */
 public class PhoneApp extends Application {
     /* package */ static final String LOG_TAG = "PhoneApp";
-    /* package */ static final boolean DBG =
-            (SystemProperties.getInt("ro.debuggable", 0) == 1);
+
+    /**
+     * Phone app-wide debug level:
+     *   0 - no debug logging
+     *   1 - normal debug logging if ro.debuggable is set (which is true in
+     *       "eng" and "userdebug" builds but not "user" builds)
+     *   2 - ultra-verbose debug logging
+     *
+     * Most individual classes in the phone app have a local DBG constant,
+     * typically set to
+     *   (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1)
+     * or else
+     *   (PhoneApp.DBG_LEVEL >= 2)
+     * depending on the desired verbosity.
+     */
+    /* package */ static final int DBG_LEVEL = 1;
+
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // Message codes; see mHandler below.
     private static final int EVENT_SIM_ABSENT = 1;
@@ -138,7 +156,8 @@ public class PhoneApp extends Application {
     private boolean mIsHeadsetPlugged;
 
     private WakeState mWakeState = WakeState.SLEEP;
-    private ScreenTimeoutDuration mPokeLockSetting = ScreenTimeoutDuration.DEFAULT;
+    private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
+    private boolean mIgnoreTouchUserActivity = false;
     private IBinder mPokeLockToken = new Binder();
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
@@ -437,7 +456,7 @@ public class PhoneApp extends Application {
      * Starts the InCallScreen Activity.
      */
     void displayCallScreen() {
-        // if (DBG) Log.d(LOG_TAG, "displayCallScreen()...", new Throwable("stack dump"));
+        if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
         startActivity(createInCallIntent());
         Profiler.callScreenRequested();
     }
@@ -589,16 +608,24 @@ public class PhoneApp extends Application {
      * {@link com.android.server.PowerManagerService#SHORT_KEYLIGHT_DELAY}.
      */
     /* package */ void setScreenTimeout(ScreenTimeoutDuration duration) {
-        if (DBG) Log.d(LOG_TAG, "setScreenTimeout(" + duration + ")...");
+        if (VDBG) Log.d(LOG_TAG, "setScreenTimeout(" + duration + ")...");
 
         // make sure we don't set the poke lock repeatedly so that we
         // avoid triggering the userActivity calls in
         // PowerManagerService.setPokeLock().
-        if (duration == mPokeLockSetting) {
+        if (duration == mScreenTimeoutDuration) {
             return;
         }
-        mPokeLockSetting = duration;
+        mScreenTimeoutDuration = duration;
+        updatePokeLock();
+    }
 
+    /**
+     * Update the state of the poke lock held by the phone app,
+     * based on the current desired screen timeout and the
+     * current "ignore user activity on touch" flag.
+     */
+    private void updatePokeLock() {
         // This is kind of convoluted, but the basic thing to remember is
         // that the poke lock just sends a message to the screen to tell
         // it to stay on for a while.
@@ -610,13 +637,12 @@ public class PhoneApp extends Application {
         // The short timeout is really used whenever we want to give up
         // the screen lock, such as when we're in call.
         int pokeLockSetting = LocalPowerManager.POKE_LOCK_IGNORE_CHEEK_EVENTS;
-        switch (duration) {
+        switch (mScreenTimeoutDuration) {
             case SHORT:
                 // Set the poke lock to timeout the display after a short
                 // timeout (5s). This ensures that the screen goes to sleep
                 // as soon as acceptably possible after we the wake lock
                 // has been released.
-                if (DBG) Log.d(LOG_TAG, "setting short poke lock");
                 pokeLockSetting |= LocalPowerManager.POKE_LOCK_SHORT_TIMEOUT;
                 break;
 
@@ -625,7 +651,6 @@ public class PhoneApp extends Application {
                 // timeout (15s). This ensures that the screen goes to sleep
                 // as soon as acceptably possible after we the wake lock
                 // has been released.
-                if (DBG) Log.d(LOG_TAG, "setting medium poke lock");
                 pokeLockSetting |= LocalPowerManager.POKE_LOCK_MEDIUM_TIMEOUT;
                 break;
 
@@ -635,14 +660,18 @@ public class PhoneApp extends Application {
                 // delay by default.
                 // TODO: it may be nice to be able to disable cheek presses
                 // for long poke locks (emergency dialer, for instance).
-                if (DBG) Log.d(LOG_TAG, "reverting to normal long poke lock");
                 break;
+        }
+
+        if (mIgnoreTouchUserActivity) {
+            pokeLockSetting |= LocalPowerManager.POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS;
         }
 
         // Send the request
         try {
             mPowerManagerService.setPokeLock(pokeLockSetting, mPokeLockToken, LOG_TAG);
         } catch (RemoteException e) {
+            Log.w(LOG_TAG, "mPowerManagerService.setPokeLock() failed: " + e);
         }
     }
 
@@ -656,13 +685,12 @@ public class PhoneApp extends Application {
      * @param ws tells the device to how to wake.
      */
     /* package */ void requestWakeState(WakeState ws) {
-        if (DBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
+        if (VDBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
         if (mWakeState != ws) {
             switch (ws) {
                 case PARTIAL:
                     // acquire the processor wake lock, and release the FULL
                     // lock if it is being held.
-                    if (DBG) Log.d(LOG_TAG, "acquire partial wake lock (CPU only)");
                     mPartialWakeLock.acquire();
                     if (mWakeLock.isHeld()) {
                         mWakeLock.release();
@@ -671,7 +699,6 @@ public class PhoneApp extends Application {
                 case FULL:
                     // acquire the full wake lock, and release the PARTIAL
                     // lock if it is being held.
-                    if (DBG) Log.d(LOG_TAG, "acquire full wake lock (CPU + Screen)");
                     mWakeLock.acquire();
                     if (mPartialWakeLock.isHeld()) {
                         mPartialWakeLock.release();
@@ -680,7 +707,6 @@ public class PhoneApp extends Application {
                 case SLEEP:
                 default:
                     // release both the PARTIAL and FULL locks.
-                    if (DBG) Log.d(LOG_TAG, "release all wake locks");
                     if (mWakeLock.isHeld()) {
                         mWakeLock.release();
                     }
@@ -748,9 +774,9 @@ public class PhoneApp extends Application {
         // user to put the phone straight into a pocket, in which case the
         // timeout should probably still be short.)
 
-        if (DBG) Log.d(LOG_TAG, "updateWakeState: isShowingCallScreen " + isShowingCallScreen
-                       + ", isDialerOpened " + isDialerOpened
-                       + ", isSpeakerInUse " + isSpeakerInUse + "...");
+        if (DBG) Log.d(LOG_TAG, "updateWakeState: callscreen " + isShowingCallScreen
+                       + ", dialer " + isDialerOpened
+                       + ", speaker " + isSpeakerInUse + "...");
 
         //
         // (1) Set the screen timeout.
@@ -798,7 +824,7 @@ public class PhoneApp extends Application {
         boolean keepScreenOn = isRinging || showingDisconnectedConnection;
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
                        + " (isRinging " + isRinging
-                       + ", showingDisconnectedConnection " + showingDisconnectedConnection + ")");
+                       + ", showingDisc " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
     }
@@ -810,11 +836,46 @@ public class PhoneApp extends Application {
      * a full wake lock.
      */
     /* package */ void preventScreenOn(boolean prevent) {
-        if (DBG) Log.d(LOG_TAG, "- preventScreenOn(" + prevent + ")...");
+        if (VDBG) Log.d(LOG_TAG, "- preventScreenOn(" + prevent + ")...");
         try {
             mPowerManagerService.preventScreenOn(prevent);
         } catch (RemoteException e) {
             Log.w(LOG_TAG, "mPowerManagerService.preventScreenOn() failed: " + e);
+        }
+    }
+
+    /**
+     * Sets or clears the flag that tells the PowerManager that touch
+     * (and cheek) events should NOT be considered "user activity".
+     *
+     * Since the in-call UI is totally insensitive to touch in most
+     * states, we set this flag whenever the InCallScreen is in the
+     * foreground.  (Otherwise, repeated unintentional touches could
+     * prevent the device from going to sleep.)
+     *
+     * There *are* some some touch events that really do count as user
+     * activity, though.  For those, we need to manually poke the
+     * PowerManager's userActivity method; see pokeUserActivity().
+     */
+    /* package */ void setIgnoreTouchUserActivity(boolean ignore) {
+        if (VDBG) Log.d(LOG_TAG, "setIgnoreTouchUserActivity(" + ignore + ")...");
+        mIgnoreTouchUserActivity = ignore;
+        updatePokeLock();
+    }
+
+    /**
+     * Manually pokes the PowerManager's userActivity method.  Since we
+     * hold the POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS poke lock while
+     * the InCallScreen is active, we need to do this for touch events
+     * that really do count as user activity (like DTMF key presses, or
+     * unlocking the "touch lock" overlay.)
+     */
+    /* package */ void pokeUserActivity() {
+        if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");
+        try {
+            mPowerManagerService.userActivity(SystemClock.uptimeMillis(), false);
+        } catch (RemoteException e) {
+            Log.w(LOG_TAG, "mPowerManagerService.userActivity() failed: " + e);
         }
     }
 
@@ -823,7 +884,7 @@ public class PhoneApp extends Application {
     }
 
     private void onMMIComplete(AsyncResult r) {
-        if (DBG) Log.d(LOG_TAG, "onMMIComplete()...");
+        if (VDBG) Log.d(LOG_TAG, "onMMIComplete()...");
         MmiCode mmiCode = (MmiCode) r.result;
         PhoneUtils.displayMMIComplete(phone, getInstance(), mmiCode, null, null);
     }
@@ -933,15 +994,15 @@ public class PhoneApp extends Application {
             } else if (action.equals(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION)) {
                 mBluetoothHeadsetState = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
                                                             BluetoothHeadset.STATE_ERROR);
-                if (DBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
-                if (DBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
+                if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION)) {
                 mBluetoothHeadsetAudioState =
                         intent.getIntExtra(BluetoothIntent.HEADSET_AUDIO_STATE,
                                            BluetoothHeadset.STATE_ERROR);
-                if (DBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
-                if (DBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
+                if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
                 // if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
@@ -966,13 +1027,13 @@ public class PhoneApp extends Application {
                                           ? EVENT_DATA_ROAMING_DISCONNECTED
                                           : EVENT_DATA_ROAMING_OK);
             } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
-                if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
-                if (DBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
-                if (DBG) Log.d(LOG_TAG, "    name: " + intent.getStringExtra("name"));
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
+                if (VDBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
+                if (VDBG) Log.d(LOG_TAG, "    name: " + intent.getStringExtra("name"));
                 mIsHeadsetPlugged = (intent.getIntExtra("state", 0) == 1);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_WIRED_HEADSET_PLUG, 0));
             } else if (action.equals(Intent.ACTION_BATTERY_LOW)) {
-                if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_BATTERY_LOW");
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_BATTERY_LOW");
                 notifier.sendBatteryLow();  // Play a warning tone if in-call
             } else if ((action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)) &&
                     (mPUKEntryActivity != null)) {
@@ -999,7 +1060,7 @@ public class PhoneApp extends Application {
         @Override
         public void onReceive(Context context, Intent intent) {
             KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-            if (DBG) Log.d(LOG_TAG,
+            if (VDBG) Log.d(LOG_TAG,
                            "MediaButtonBroadcastReceiver.onReceive()...  event = " + event);
             if ((event != null)
                 && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)
@@ -1007,9 +1068,9 @@ public class PhoneApp extends Application {
 
                 if (event.getRepeatCount() == 0) {
                     // Mute ONLY on the initial keypress.
-                    if (DBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK down!");
+                    if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK down!");
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
-                    if (DBG) Log.d(LOG_TAG, "==> called handleHeadsetHook(), consumed = " + consumed);
+                    if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
                     if (consumed) {
                         abortBroadcast();
                     }

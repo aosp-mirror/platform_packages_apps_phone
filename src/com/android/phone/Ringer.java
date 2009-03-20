@@ -38,11 +38,9 @@ import com.android.internal.telephony.Phone;
  * Ringer manager for the Phone app.
  */
 public class Ringer {
-    private static final String TAG = PhoneApp.LOG_TAG;
-
-    // Enable debug logging for userdebug builds.
+    private static final String LOG_TAG = "Ringer";
     private static final boolean DBG =
-            (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     private static final int PLAY_RING_ONCE = 1;
     private static final int STOP_RING = 3;
@@ -52,7 +50,7 @@ public class Ringer {
 
     // Uri for the ringtone.
     Uri mCustomRingtoneUri;
-    
+
     Ringtone mRingtone;
     Vibrator mVibrator = new Vibrator();
     IHardwareService mHardwareService;
@@ -64,7 +62,7 @@ public class Ringer {
     private boolean mRingPending;
     private long mFirstRingEventTime = -1;
     private long mFirstRingStartTime = -1;
-    
+
     Ringer(Phone phone) {
         mContext = phone.getContext();
         mHardwareService = IHardwareService.Stub.asInterface(ServiceManager.getService("hardware"));
@@ -128,7 +126,8 @@ public class Ringer {
                 if (DBG) log("- starting vibrator...");
                 mVibratorThread.start();
             }
-            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager =
+                    (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
             if (audioManager.getStreamVolume(AudioManager.STREAM_RING) == 0) {
                 if (DBG) log("skipping ring because volume is zero");
@@ -159,10 +158,11 @@ public class Ringer {
                         // still hasn't started. Reset the event time to the
                         // time of this event to maintain correct spacing.
                         mFirstRingEventTime = SystemClock.elapsedRealtime();
-                    } 
+                    }
                 }
             } else {
-                if (DBG) log("skipping ring because one is playing or pending: " + mRingtone + "/" + mRingHandler);
+                if (DBG) log("skipping ring, already playing or pending: "
+                             + mRingtone + "/" + mRingHandler);
             }
         }
     }
@@ -255,8 +255,8 @@ public class Ringer {
         }
     }
 
-    /** 
-     * set the ringtone uri in preparation for ringtone creation 
+    /**
+     * Sets the ringtone uri in preparation for ringtone creation
      * in makeLooper().  This uri is defaulted to the phone-wide
      * default ringtone.
      */
@@ -265,7 +265,7 @@ public class Ringer {
             mCustomRingtoneUri = uri;
         }
     }
-    
+
     private void makeLooper() {
         if (mRingThread == null) {
             mRingThread = new Worker("ringer");
@@ -276,18 +276,18 @@ public class Ringer {
                     switch (msg.what) {
                         case PLAY_RING_ONCE:
                             if (DBG) log("mRingHandler: PLAY_RING_ONCE...");
-                            if (mRingtone == null && ! hasMessages(STOP_RING)) {
-                                // create the ringtone with the uri 
-                                if (DBG) log("creating ringtone with uri " + mCustomRingtoneUri);
+                            if (mRingtone == null && !hasMessages(STOP_RING)) {
+                                // create the ringtone with the uri
+                                if (DBG) log("creating ringtone: " + mCustomRingtoneUri);
                                 r = RingtoneManager.getRingtone(mContext, mCustomRingtoneUri);
                                 synchronized (Ringer.this) {
-                                    if (! hasMessages(STOP_RING)) {
-                                        mRingtone = r; 
+                                    if (!hasMessages(STOP_RING)) {
+                                        mRingtone = r;
                                     }
                                 }
                             }
                             r = mRingtone;
-                            if (r != null && ! hasMessages(STOP_RING)) {
+                            if (r != null && !hasMessages(STOP_RING)) {
                                 PhoneUtils.setAudioMode(mContext, AudioManager.MODE_RINGTONE);
                                 r.play();
                                 synchronized (Ringer.this) {
@@ -313,8 +313,8 @@ public class Ringer {
             };
         }
     }
-    
+
     private static void log(String msg) {
-        Log.d(TAG, "[Ringer] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 }
