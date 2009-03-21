@@ -30,11 +30,11 @@
     <string name="callFailed_congestion">"Мережа зайнята"</string>
     <string name="callFailed_noSignal">"Немає сигналу"</string>
     <string name="callFailed_limitExceeded">"Перевищена межа ACM"</string>
-    <string name="callFailed_powerOff">"Радиозв'язок вимкнено"</string>
+    <string name="callFailed_powerOff">"Радіозв'язок вимкнено"</string>
     <string name="callFailed_simError">"Немає SIM-карти або помилка SIM-карти"</string>
     <string name="callFailed_outOfService">"Поза зоною обслуговування"</string>
     <string name="callFailed_fdn_only">"Вихідні виклики обмежені фіксованим набором."</string>
-    <string name="callFailed_cb_enabled">"Поки включено заборону викликів, виконувати вихідні виклики неможливо."</string>
+    <string name="callFailed_cb_enabled">"Поки що увімкнено заборону викликів, виконувати вихідні виклики неможливо."</string>
     <string name="confCall">"Конференц-зв'язок"</string>
     <string name="mmiStarted">"Запущено код MMI"</string>
     <string name="ussdRunning">"Виконується код USSD…"</string>
@@ -47,7 +47,7 @@
     <string name="menu_endCall">"Закінчити виклик"</string>
     <string name="menu_swapCalls">"Змінити виклики"</string>
     <string name="menu_mergeCalls">"Об'єднати виклики"</string>
-    <string name="menu_addCall">"Добавити виклик"</string>
+    <string name="menu_addCall">"Додати виклик"</string>
     <string name="menu_manageConference">"Керування конференц-зв'язком"</string>
     <string name="menu_showDialpad">"Показати панель набору"</string>
     <string name="menu_hideDialpad">"Приховати панель набору"</string>
@@ -57,13 +57,13 @@
     <string name="menuButtonHint">"Для вибору параметрів виклику натисніть Menu."</string>
     <string name="menuButtonKeyboardDialHint">"Для вибору параметрів виклику натисніть Menu  •  Для набору скористайтеся клавіатурою"</string>
     <string name="wait_prompt_str">"Набрати наступні цифри?"\n</string>
-    <string name="send_button">"Отправить"</string>
+    <string name="send_button">"Відправити"</string>
     <string name="wild_prompt_str">"Замінити підставлений символ"</string>
-    <string name="bluetooth_headset_connected">"Гарнитура Bluetooth увімкнена."</string>
-    <string name="bluetooth_headset_disconnected">"Гарнитура Bluetooth вимкнена."</string>
+    <string name="bluetooth_headset_connected">"Гарнітура Bluetooth увімкнена."</string>
+    <string name="bluetooth_headset_disconnected">"Гарнітура Bluetooth вимкнена."</string>
     <string name="no_vm_number">"Номер голосової пошти відсутній"</string>
     <string name="no_vm_number_msg">"Номер голосової пошти не збережено на SIM-карті."</string>
-    <string name="add_vm_number_str">"Добавити номер"</string>
+    <string name="add_vm_number_str">"Додати номер"</string>
     <string name="dialer_emptyListWorking">"Відбувається завантаження…"</string>
     <string name="enterPin">"Щоб розблокувати SIM-карту, введіть код PIN:"</string>
     <string name="pinUnlocked">"SIM-карта розблокована"</string>
@@ -89,13 +89,13 @@
     <string name="networks">"Оператори мережі"</string>
     <string name="call_settings">"Налаштування викликів"</string>
     <string name="additional_call_settings">"Додаткові налаштування викликів"</string>
-    <string name="labelCallerId">"Идентифікатор телефонуючого"</string>
+    <string name="labelCallerId">"Ідентифікатор телефонуючого"</string>
     <string name="sum_hide_caller_id">"При вихідних викликах номер не відображається"</string>
     <string name="sum_show_caller_id">"При вихідних викликах номер відображається"</string>
     <string name="sum_default_caller_id">"Використовувати для відображення мого номеру при вихідних викликах налаштування оператора за замовчуванням"</string>
     <string name="labelCW">"Очікування виклику"</string>
     <string name="sum_cw_enabled">"Під час виклику повідомляти мене про вхідні дзвінки"</string>
-    <string name="sum_cw_disabled">"Під час виклику повідомляти мене про вхідні дзвінки"</string>
+    <string name="sum_cw_disabled">"Під час виклику не повідомляти мене про вхідні дзвінки"</string>
     <string name="call_forwarding_settings">"Налаштування переадресованих дзвінків"</string>
     <string name="labelCF">"Переадресація дзвінків"</string>
     <string name="labelCFU">"Завжди переадресовувати"</string>
@@ -118,10 +118,10 @@
     <string name="updating_title">"Налаштування викликів"</string>
     <string name="error_updating_title">"Помика налаштувань викликів"</string>
     <string name="reading_settings">"Відбувається читання налаштувань"</string>
-    <string name="updating_settings">"Відбувається обновление налаштувань"</string>
+    <string name="updating_settings">"Відбувається оновлення налаштувань"</string>
     <string name="response_error">"Неочікувана відповідь із мережі,"</string>
     <string name="exception_error">"Помилка мережі або SIM-карти."</string>
-    <string name="radio_off_error">"Перед переглядом цих налаштувань увімкніть радиозв'язок."</string>
+    <string name="radio_off_error">"Перед переглядом цих налаштувань увімкніть радіозв'язок."</string>
     <string name="close_dialog">"ОК"</string>
     <string name="enable">"Увімкнути"</string>
     <string name="disable">"Вимкнути"</string>
@@ -135,13 +135,13 @@
     <string name="vm_changed">"Номер голосової пошти змінено."</string>
     <string name="vm_change_failed">"Змінити номер голосової пошти не вдалося."</string>
     <string name="no_change">"Налаштування не змінено."</string>
-    <string name="sum_voicemail">"Задать номер голосової пошти"</string>
+    <string name="sum_voicemail">"Задати номер голосової пошти"</string>
     <string name="mobile_networks">"Налаштування мобільної мережі"</string>
     <string name="label_available">"Доступні мережі"</string>
     <string name="load_networks_progress">"Відбувається пошук…"</string>
     <string name="empty_networks_list">"Мережу не знайдено."</string>
     <string name="search_networks">"Пошук мережі"</string>
-    <string name="network_query_error">"Ошибка при поиске сетей."</string>
+    <string name="network_query_error">"Помилка при пошуку мереж."</string>
     <string name="register_on_network">"Реєстрація в мережі <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed">"Ваша SIM-карта не дозволяє під'єднатися до цієї мережі."</string>
     <string name="registration_done">"Реєстрація в мережі виконана."</string>
@@ -155,7 +155,7 @@
     <string name="roaming_disable">"Під'єднуватися для передачі даних у роумінгу"</string>
     <string name="roaming_reenable_message">"Під'єднання для передачі даних припинено. Ви покинули домашню мережу, не увімкнувши роумінг для передачі даних."</string>
     <string name="roaming_warning">"Дозволити передачу даних у роумінгу? Це дуже дорого!"</string>
-    <string name="prefer_2g">"Використовувати тілько мережі 2G"</string>
+    <string name="prefer_2g">"Використовувати тільки мережі 2G"</string>
     <string name="prefer_2g_summary">"Економити заряд акумулятора"</string>
     <string name="fdn">"Номери з фіксованим набором"</string>
     <string name="manage_fdn_list">"Список номерів з фіксованим набором"</string>
@@ -167,10 +167,10 @@
     <string name="change_pin2">"Змінити PIN2"</string>
     <string name="enable_fdn_ok">"Вимкнути фіксований набір"</string>
     <string name="disable_fdn_ok">"Увімкнути фіксований набір"</string>
-    <string name="sum_fdn">"Керування номерами с фіксованим набором"</string>
-    <string name="sum_fdn_change_pin">"Змінити  PIN для доступа к фіксованого набіру"</string>
+    <string name="sum_fdn">"Керування номерами зфіксованим набором"</string>
+    <string name="sum_fdn_change_pin">"Змінити PIN для доступу до фіксованого набору"</string>
     <string name="sum_fdn_manage_list">"Керування списком телефонних номерів"</string>
-    <string name="menu_add">"Добавити контакт"</string>
+    <string name="menu_add">"Додати контакт"</string>
     <string name="menu_edit">"Змінити контакт"</string>
     <string name="menu_delete">"Видалити контакт"</string>
     <string name="get_pin2">"Введить PIN2"</string>
@@ -199,7 +199,7 @@
     <string name="confirmPinLabel">"Підтвердіть новий PIN"</string>
     <string name="badPin">"Вказано невірний старий PIN. Повторіть спробу."</string>
     <string name="mismatchPin">"Вказані PIN-коди не співпадають. Повторіть спробу."</string>
-    <string name="invalidPin">"Введіть PIN, що містить від 4 до 8 цифр."</string>
+    <string name="invalidPin">"Введіть PIN, що складається від 4 до 8 цифр."</string>
     <string name="disable_sim_pin">"Вимкнення PIN SIM-карти"</string>
     <string name="enable_sim_pin">"Увімкніть PIN SIM-карти"</string>
     <string name="enable_in_progress">"Зачекайте…"</string>
@@ -215,7 +215,7 @@
     <string name="badPuk2">"Вказано невірний PUK2. Повторіть спробу."</string>
     <string name="badPin2">"Вказано невірний старий PIN2. Повторіть спробу."</string>
     <string name="mismatchPin2">"Вказані коди PIN2 не співпадають. Повторіть спробу."</string>
-    <string name="invalidPin2">"Введіть PIN2, що містить від 4 до 8 цифр."</string>
+    <string name="invalidPin2">"Введіть PIN2, що складається від 4 до 8 цифр."</string>
     <string name="invalidPuk2">"Введіть PUK2, що складається із 8 цифр."</string>
     <string name="pin2_changed">"PIN2 успішно змінено"</string>
     <string name="label_puk2_code">"Введіть код PUK2"</string>
@@ -259,7 +259,7 @@
     <string name="incall_error_supp_service_reject">"Неможливо відхилити виклик."</string>
     <string name="incall_error_supp_service_hangup">"Неможливо зняти утримання дзвінка(ів)."</string>
     <string name="emergency_enable_radio_dialog_title">"Екстрений виклик"</string>
-    <string name="emergency_enable_radio_dialog_message">"Відбувається увімкнення радиозв'язку…"</string>
+    <string name="emergency_enable_radio_dialog_message">"Відбувається увімкнення радіозв'язку…"</string>
     <string name="emergency_enable_radio_dialog_retry">"Поза зоною обслуговування, повторити…"</string>
     <string name="dial_emergency_error">"Виклик не здійснено: <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> – не екстрений номер!"</string>
     <string name="dial_emergency_empty_error">"Виклик не здійснено. Наберіть екстрений номер!"</string>
