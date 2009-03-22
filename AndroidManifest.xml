@@ -166,7 +166,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="OutgoingCallReceiver" android:exported="false">
+        <receiver android:name="OutgoingCallReceiver" android:exported="false"
+                android:permission="android.permission.CALL_PHONE">
             <intent-filter android:priority="-100">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
