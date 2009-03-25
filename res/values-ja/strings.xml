@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"圏外"</string>
     <string name="callFailed_fdn_only">"発信番号制限により発信が制限されています。"</string>
     <string name="callFailed_cb_enabled">"発信できません。発信制限がかかっています。"</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"発信制限が設定されています。"</string>
+    <string name="callFailed_dsac_restricted_emergency">"緊急通報の発信制限が設定されています。"</string>
+    <string name="callFailed_dsac_restricted_normal">"緊急通報以外は発信制限が設定されています。"</string>
     <string name="confCall">"グループ通話"</string>
     <string name="mmiStarted">"MMIコードの開始"</string>
     <string name="ussdRunning">"USSDコードを実行中..."</string>
