@@ -618,6 +618,10 @@
          dialpad is there to generate tones, not to add a new call.) -->
     <string name="dtmfDialpadHintText">Touch tone keypad</string>
 
+    <!-- Text displayed in the "sliding drawer handle" that you use to
+         open the in-call DTMF dialpad. -->
+    <string name="dtmfDialpadHandleLabel">Dialpad</string>
+
     <!-- Text displayed on the in-call screen's "touch lock" overlay,
          instructing the user that they need to double-tap to unlock the
          screen. -->
