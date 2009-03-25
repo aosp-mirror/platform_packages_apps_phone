@@ -41,7 +41,8 @@ import java.util.ArrayList;
  * Implementation of the ITelephony interface.
  */
 public class PhoneInterfaceManager extends ITelephony.Stub {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = "PhoneInterfaceManager";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // Message codes used with mMainThreadHandler
     private static final int CMD_HANDLE_PIN_MMI = 1;
@@ -182,7 +183,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     private void publish() {
-        if (PhoneApp.DBG) log("publish: " + this);
+        if (DBG) log("publish: " + this);
 
         ServiceManager.addService("phone", this);
     }
@@ -192,7 +193,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     //
 
     public void dial(String number) {
-        if (PhoneApp.DBG) log("dial: " + number);
+        if (DBG) log("dial: " + number);
         // No permission check needed here: This is just a wrapper around the
         // ACTION_DIAL intent, which is available to any app since it puts up
         // the UI before it does anything.
@@ -212,7 +213,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public void call(String number) {
-        if (PhoneApp.DBG) log("call: " + number);
+        if (DBG) log("call: " + number);
 
         // This is just a wrapper around the ACTION_CALL intent, but we still
         // need to do a permission check since we're calling startActivity()
@@ -271,12 +272,12 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean endCall() {
         enforceCallPermission();
         boolean hungUp = PhoneUtils.hangup(mPhone);
-        if (PhoneApp.DBG) log("endCall: " + (hungUp ? "hung up!" : "no call to hang up"));
+        if (DBG) log("endCall: " + (hungUp ? "hung up!" : "no call to hang up"));
         return hungUp;
     }
 
     public void answerRingingCall() {
-        if (PhoneApp.DBG) log("answerRingingCall...");
+        if (DBG) log("answerRingingCall...");
         // TODO: there should eventually be a separate "ANSWER_PHONE" permission,
         // but that can probably wait till the big TelephonyManager API overhaul.
         // For now, protect this call with the MODIFY_PHONE_STATE permission.
@@ -323,7 +324,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public void silenceRinger() {
-        if (PhoneApp.DBG) log("silenceRinger...");
+        if (DBG) log("silenceRinger...");
         // TODO: find a more appropriate permission to check here.
         // (That can probably wait till the big TelephonyManager API overhaul.
         // For now, protect this call with the MODIFY_PHONE_STATE permission.)
@@ -340,7 +341,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         if ((mPhone.getState() == Phone.State.RINGING)
             && mApp.notifier.isRinging()) {
             // Ringer is actually playing, so silence it.
-            if (PhoneApp.DBG) log("silenceRingerInternal: silencing...");
+            if (DBG) log("silenceRingerInternal: silencing...");
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
             mApp.notifier.silenceRinger();
         }
