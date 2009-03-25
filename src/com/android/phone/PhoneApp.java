@@ -156,7 +156,8 @@ public class PhoneApp extends Application {
     private boolean mIsHeadsetPlugged;
 
     private WakeState mWakeState = WakeState.SLEEP;
-    private ScreenTimeoutDuration mPokeLockSetting = ScreenTimeoutDuration.DEFAULT;
+    private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
+    private boolean mIgnoreTouchUserActivity = false;
     private IBinder mPokeLockToken = new Binder();
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
@@ -612,11 +613,19 @@ public class PhoneApp extends Application {
         // make sure we don't set the poke lock repeatedly so that we
         // avoid triggering the userActivity calls in
         // PowerManagerService.setPokeLock().
-        if (duration == mPokeLockSetting) {
+        if (duration == mScreenTimeoutDuration) {
             return;
         }
-        mPokeLockSetting = duration;
+        mScreenTimeoutDuration = duration;
+        updatePokeLock();
+    }
 
+    /**
+     * Update the state of the poke lock held by the phone app,
+     * based on the current desired screen timeout and the
+     * current "ignore user activity on touch" flag.
+     */
+    private void updatePokeLock() {
         // This is kind of convoluted, but the basic thing to remember is
         // that the poke lock just sends a message to the screen to tell
         // it to stay on for a while.
@@ -628,7 +637,7 @@ public class PhoneApp extends Application {
         // The short timeout is really used whenever we want to give up
         // the screen lock, such as when we're in call.
         int pokeLockSetting = LocalPowerManager.POKE_LOCK_IGNORE_CHEEK_EVENTS;
-        switch (duration) {
+        switch (mScreenTimeoutDuration) {
             case SHORT:
                 // Set the poke lock to timeout the display after a short
                 // timeout (5s). This ensures that the screen goes to sleep
@@ -654,10 +663,15 @@ public class PhoneApp extends Application {
                 break;
         }
 
+        if (mIgnoreTouchUserActivity) {
+            pokeLockSetting |= LocalPowerManager.POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS;
+        }
+
         // Send the request
         try {
             mPowerManagerService.setPokeLock(pokeLockSetting, mPokeLockToken, LOG_TAG);
         } catch (RemoteException e) {
+            Log.w(LOG_TAG, "mPowerManagerService.setPokeLock() failed: " + e);
         }
     }
 
@@ -827,6 +841,41 @@ public class PhoneApp extends Application {
             mPowerManagerService.preventScreenOn(prevent);
         } catch (RemoteException e) {
             Log.w(LOG_TAG, "mPowerManagerService.preventScreenOn() failed: " + e);
+        }
+    }
+
+    /**
+     * Sets or clears the flag that tells the PowerManager that touch
+     * (and cheek) events should NOT be considered "user activity".
+     *
+     * Since the in-call UI is totally insensitive to touch in most
+     * states, we set this flag whenever the InCallScreen is in the
+     * foreground.  (Otherwise, repeated unintentional touches could
+     * prevent the device from going to sleep.)
+     *
+     * There *are* some some touch events that really do count as user
+     * activity, though.  For those, we need to manually poke the
+     * PowerManager's userActivity method; see pokeUserActivity().
+     */
+    /* package */ void setIgnoreTouchUserActivity(boolean ignore) {
+        if (VDBG) Log.d(LOG_TAG, "setIgnoreTouchUserActivity(" + ignore + ")...");
+        mIgnoreTouchUserActivity = ignore;
+        updatePokeLock();
+    }
+
+    /**
+     * Manually pokes the PowerManager's userActivity method.  Since we
+     * hold the POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS poke lock while
+     * the InCallScreen is active, we need to do this for touch events
+     * that really do count as user activity (like DTMF key presses, or
+     * unlocking the "touch lock" overlay.)
+     */
+    /* package */ void pokeUserActivity() {
+        if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");
+        try {
+            mPowerManagerService.userActivity(SystemClock.uptimeMillis(), false);
+        } catch (RemoteException e) {
+            Log.w(LOG_TAG, "mPowerManagerService.userActivity() failed: " + e);
         }
     }
 

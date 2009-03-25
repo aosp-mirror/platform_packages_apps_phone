@@ -495,6 +495,11 @@ public class InCallScreen extends Activity
         // screen (see onPause().))
         app.disableKeyguard();
 
+        // Touch events are never considered "user activity" while the
+        // InCallScreen is active, so that unintentional touches won't
+        // prevent the device from going to sleep.
+        app.setIgnoreTouchUserActivity(true);
+
         // Disable the status bar "window shade" the entire time we're on
         // the in-call screen.
         NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(false);
@@ -629,6 +634,8 @@ public class InCallScreen extends Activity
 
         mIsForegroundActivity = false;
 
+        PhoneApp app = PhoneApp.getInstance();
+
         // make sure the chronometer is stopped when we move away from
         // the foreground.
         if (mConferenceTime != null) {
@@ -690,9 +697,11 @@ public class InCallScreen extends Activity
         // foreground.)
         unregisterReceiver(mReceiver);
 
+        // Re-enable "user activity" for touch events.
+        app.setIgnoreTouchUserActivity(false);
+
         // The keyguard was disabled the entire time the InCallScreen was
         // active (see onResume()).  Re-enable it now.
-        PhoneApp app = PhoneApp.getInstance();
         app.reenableKeyguard();
 
         // Make sure we revert the poke lock and wake lock when we move to
@@ -1645,12 +1654,14 @@ public class InCallScreen extends Activity
                         public void onClick(DialogInterface dialog, int whichButton) {
                             if (VDBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
                             c.proceedAfterWaitChar();
+                            PhoneApp.getInstance().pokeUserActivity();
                         }
                     })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                         public void onCancel(DialogInterface dialog) {
                             if (VDBG) log("handle POST_DIAL_CANCELED!");
                             c.cancelPostDial();
+                            PhoneApp.getInstance().pokeUserActivity();
                         }
                     })
                 .create();
@@ -1715,6 +1726,7 @@ public class InCallScreen extends Activity
                                     mWildPromptText = null;
                                 }
                                 c.proceedAfterWildChar(replacement);
+                                PhoneApp.getInstance().pokeUserActivity();
                             }
                         })
                 .setOnCancelListener(
@@ -1722,6 +1734,7 @@ public class InCallScreen extends Activity
                             public void onCancel(DialogInterface dialog) {
                                 if (VDBG) log("handle POST_DIAL_CANCELED!");
                                 c.cancelPostDial();
+                                PhoneApp.getInstance().pokeUserActivity();
                             }
                         })
                 .create();
@@ -2024,17 +2037,20 @@ public class InCallScreen extends Activity
                         public void onClick(DialogInterface dialog, int which) {
                             if (VDBG) log("Missing voicemail AlertDialog: POSITIVE click...");
                             msg.sendToTarget();  // see dontAddVoiceMailNumber()
+                            PhoneApp.getInstance().pokeUserActivity();
                         }})
                 .setNegativeButton(R.string.add_vm_number_str,
                                    new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (VDBG) log("Missing voicemail AlertDialog: NEGATIVE click...");
                             msg2.sendToTarget();  // see addVoiceMailNumber()
+                            PhoneApp.getInstance().pokeUserActivity();
                         }})
                 .setOnCancelListener(new OnCancelListener() {
                         public void onCancel(DialogInterface dialog) {
                             if (VDBG) log("Missing voicemail AlertDialog: CANCEL handler...");
                             msg.sendToTarget();  // see dontAddVoiceMailNumber()
+                            PhoneApp.getInstance().pokeUserActivity();
                         }})
                 .create();
 
@@ -2307,6 +2323,8 @@ public class InCallScreen extends Activity
             }
         }
 
+        // Any menu item counts as explicit "user activity".
+        PhoneApp.getInstance().pokeUserActivity();
 
         // Finally, *any* action handled here closes the menu (either
         // immediately, or after a short delay).
@@ -2924,6 +2942,7 @@ public class InCallScreen extends Activity
             View.OnClickListener endThisConnection = new View.OnClickListener() {
                     public void onClick(View v) {
                         endConferenceConnection(i, connection);
+                        PhoneApp.getInstance().pokeUserActivity();
                     }
                 };
             endButton.setOnClickListener(endThisConnection);
@@ -2932,6 +2951,7 @@ public class InCallScreen extends Activity
                 View.OnClickListener separateThisConnection = new View.OnClickListener() {
                         public void onClick(View v) {
                             separateConferenceConnection(i, connection);
+                            PhoneApp.getInstance().pokeUserActivity();
                         }
                     };
                 separateButton.setOnClickListener(separateThisConnection);
@@ -3105,6 +3125,9 @@ public class InCallScreen extends Activity
         // ANY time the dialpad becomes visible, start the timer that will
         // eventually bring up the "touch lock" overlay.
         resetTouchLockTimer();
+
+        // This counts as explicit "user activity".
+        PhoneApp.getInstance().pokeUserActivity();
     }
 
     /**
@@ -3117,6 +3140,9 @@ public class InCallScreen extends Activity
         // Dismiss the "touch lock" overlay if it was visible.
         // (The overlay is only ever used on top of the dialpad).
         enableTouchLock(false);
+
+        // This counts as explicit "user activity".
+        PhoneApp.getInstance().pokeUserActivity();
     }
 
     /**
@@ -3674,11 +3700,12 @@ public class InCallScreen extends Activity
         // anywhere else on the overlay.
         //
 
-        // Sanity-check: We should only get touch events when the
-        // touch lock UI is visible (including the time during the
-        // fade-in animation.)
+        // We only care about touch events while the touch lock UI is
+        // visible (including the time during the fade-in animation.)
         if (((v == mTouchLockIcon) || (v == mTouchLockOverlay)) && !isTouchLocked()) {
-            Log.w(LOG_TAG, "onTouch: got event from the touch lock UI, but we're not locked!");
+            // Got an event from the touch lock UI, but we're not locked!
+            // (This was probably a touch-UP right after we unlocked.
+            // Ignore it.)
             return false;
         }
 
@@ -3696,6 +3723,8 @@ public class InCallScreen extends Activity
                     // message in the future to bring it back later.
                     enableTouchLock(false);
                     resetTouchLockTimer();
+                    // This counts as explicit "user activity".
+                    PhoneApp.getInstance().pokeUserActivity();
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Stash away the current time in case this is the first
