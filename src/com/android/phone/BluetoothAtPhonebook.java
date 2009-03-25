@@ -212,7 +212,7 @@ public class BluetoothAtPhonebook {
                 }
 
                 // More sanity checks
-                if (index2 < index1 || index2 > pbr.cursor.getCount()) {
+                if (index1 <= 0 || index2 < index1 || index2 > pbr.cursor.getCount()) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
 
