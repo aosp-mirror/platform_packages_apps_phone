@@ -110,27 +110,23 @@ public class BluetoothHandsfree {
     private int mLocalBrsf = 0;
 
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
-    public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
-    public static final int BRSF_AG_EC_NR = 1 << 1;
-    public static final int BRSF_AG_VOICE_RECOG = 1 << 2;
-    public static final int BRSF_AG_IN_BAND_RING = 1 << 3;
-    public static final int BRSF_AG_VOICE_TAG_NUMBE = 1 << 4;
-    public static final int BRSF_AG_REJECT_CALL = 1 << 5;
-    public static final int BRSF_AG_ENHANCED_CALL_STATUS = 1 <<  6;
-    public static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
-    public static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
-    // 9 - 31 reserved for future use.
+    private static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
+    private static final int BRSF_AG_EC_NR = 1 << 1;
+    private static final int BRSF_AG_VOICE_RECOG = 1 << 2;
+    private static final int BRSF_AG_IN_BAND_RING = 1 << 3;
+    private static final int BRSF_AG_VOICE_TAG_NUMBE = 1 << 4;
+    private static final int BRSF_AG_REJECT_CALL = 1 << 5;
+    private static final int BRSF_AG_ENHANCED_CALL_STATUS = 1 <<  6;
+    private static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
+    private static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
 
-    public static final int BRSF_HF_EC_NR = 1 << 0;
-    public static final int BRSF_HF_CW_THREE_WAY_CALLING = 1 << 1;
-    public static final int BRSF_HF_CLIP = 1 << 2;
-    public static final int BRSF_HF_VOICE_REG_ACT = 1 << 3;
-    public static final int BRSF_HF_REMOTE_VOL_CONTROL = 1 << 4;
-    public static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
-    public static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
-    // 7 - 31 reserved for future use.
-
-    // Currently supported attributes.
+    private static final int BRSF_HF_EC_NR = 1 << 0;
+    private static final int BRSF_HF_CW_THREE_WAY_CALLING = 1 << 1;
+    private static final int BRSF_HF_CLIP = 1 << 2;
+    private static final int BRSF_HF_VOICE_REG_ACT = 1 << 3;
+    private static final int BRSF_HF_REMOTE_VOL_CONTROL = 1 << 4;
+    private static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
+    private static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
 
     public static String typeToString(int type) {
         switch (type) {
@@ -169,8 +165,8 @@ public class BluetoothHandsfree {
             sVoiceCommandIntent = new Intent(Intent.ACTION_VOICE_COMMAND);
             sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-
-        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null) {
+        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null &&
+                !BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
 
@@ -1490,6 +1486,9 @@ public class BluetoothHandsfree {
         parser.register("+BVRA", new AtCommandHandler() {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
+                if (BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
+                    return new AtCommandResult(AtCommandResult.ERROR);
+                }
                 if (args.length >= 1 && args[0].equals(1)) {
                     synchronized (BluetoothHandsfree.this) {
                         if (!mWaitingForVoiceRecognition) {
@@ -1510,7 +1509,7 @@ public class BluetoothHandsfree {
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return new AtCommandResult("+CLIP: (0-1)");
+                return new AtCommandResult("+BVRA: (0-1)");
             }
         });
 
