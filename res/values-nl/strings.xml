@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Buiten servicegebied"</string>
     <string name="callFailed_fdn_only">"Uitgaande oproepen worden beperkt door FDN."</string>
     <string name="callFailed_cb_enabled">"Uitgaande oproepen zijn niet mogelijk als de functie voor oproepen blokkeren is ingeschakeld."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Alle oproepen worden beperkt door toegangsbeheer."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Noodoproepen worden beperkt door toegangsbeheer."</string>
+    <string name="callFailed_dsac_restricted_normal">"Normale oproepen worden beperkt door toegangsbeheer."</string>
     <string name="confCall">"Telefonische vergadering"</string>
     <string name="mmiStarted">"MMI-code gestart"</string>
     <string name="ussdRunning">"USSD-code uitvoeren..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Oproep niet verzonden, kies een alarmnummer!"</string>
     <string name="dialerKeyboardHintText">"Toetsen gebruiken om te bellen"</string>
     <string name="dtmfDialpadHintText">"Toetsenblok voor toetsgeluid"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Tik twee keer"\n"om te ontgrendelen"</string>
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>

@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Вне зоны обслуживания"</string>
     <string name="callFailed_fdn_only">"Исходящие вызовы ограничены фиксированным набором."</string>
     <string name="callFailed_cb_enabled">"Пока включен запрет вызовов, выполнять исходящие вызовы невозможно."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Все вызовы запрещены настройками доступа."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Экстренные вызовы запрещены настройками доступа."</string>
+    <string name="callFailed_dsac_restricted_normal">"Обычные вызовы запрещены настройками доступа."</string>
     <string name="confCall">"Конференц-связь"</string>
     <string name="mmiStarted">"Запущен код MMI"</string>
     <string name="ussdRunning">"Выполняется код USSD…"</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Вызов не отправлен. Наберите экстренный номер!"</string>
     <string name="dialerKeyboardHintText">"Для набора воспользуйтесь клавиатурой"</string>
     <string name="dtmfDialpadHintText">"Панель тонального набора"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Нажмите дважды"\n"для разблокировки"</string>
     <string name="importSimEntry">"Импортировать"</string>
     <string name="importAllSimEntries">"Импортировать все"</string>
