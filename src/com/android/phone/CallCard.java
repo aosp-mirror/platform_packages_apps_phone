@@ -48,9 +48,8 @@ import android.widget.TextView;
 public class CallCard extends FrameLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
                 ContactsAsyncHelper.OnImageLoadCompleteListener{
-    private static final String LOG_TAG = "PHONE/CallCard";
-    private static final boolean DBG = false;
-    private static final boolean PROFILE = true;
+    private static final String LOG_TAG = "CallCard";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -1289,10 +1288,10 @@ public class CallCard extends FrameLayout
     // Debugging / testing code
 
     private void log(String msg) {
-        Log.d(LOG_TAG, "[CallCard " + this + "] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 
     private static void logErr(String msg) {
-        Log.e(LOG_TAG, "[CallCard] " + msg);
+        Log.e(LOG_TAG, msg);
     }
 }
