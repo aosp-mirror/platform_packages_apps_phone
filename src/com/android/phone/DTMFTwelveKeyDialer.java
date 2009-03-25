@@ -910,6 +910,8 @@ public class DTMFTwelveKeyDialer implements
             log("ignoring dtmf request for '" + c + "'");
         }
 
+        // Any DTMF keypress counts as explicit "user activity".
+        PhoneApp.getInstance().pokeUserActivity();
     }
 
     /**
