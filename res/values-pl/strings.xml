@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Obszar nieobsługiwany"</string>
     <string name="callFailed_fdn_only">"Połączenia są ograniczone do ustalonych numerów (FDN)."</string>
     <string name="callFailed_cb_enabled">"Nie można wykonywać połączeń wychodzących, gdy włączona jest blokada dzwonienia."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Wszystkie połączenia są zablokowane przez funkcję kontroli dostępu."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Połączenia alarmowe są zablokowane przez funkcję kontroli dostępu."</string>
+    <string name="callFailed_dsac_restricted_normal">"Zwykłe połączenia są zablokowane przez funkcję kontroli dostępu."</string>
     <string name="confCall">"Rozmowa konferencyjna"</string>
     <string name="mmiStarted">"Kod MMI został rozpoczęty"</string>
     <string name="ussdRunning">"Uruchomiony kod USSD..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Połączenie niezrealizowane, należy wybrać numer alarmowy!"</string>
     <string name="dialerKeyboardHintText">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="dtmfDialpadHintText">"Dotknij klawiatury"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Dotknij dwukrotnie,"\n" aby odblokować"</string>
     <string name="importSimEntry">"Importuj"</string>
     <string name="importAllSimEntries">"Importuj wszystko"</string>

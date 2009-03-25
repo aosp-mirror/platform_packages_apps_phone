@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Nepokrytá oblast."</string>
     <string name="callFailed_fdn_only">"Odchozí hovory jsou omezeny na povolená telefonní čísla."</string>
     <string name="callFailed_cb_enabled">"Pokud je zapnuto blokování hovorů, nelze provádět odchozí hovory."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Všechny hovory jsou omezeny řízením přístupu."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Tísňová volání jsou omezena řízením přístupu."</string>
+    <string name="callFailed_dsac_restricted_normal">"Běžné hovory jsou omezeny řízením přístupu."</string>
     <string name="confCall">"Konferenční hovor"</string>
     <string name="mmiStarted">"Kód MMI byl spuštěn"</string>
     <string name="ussdRunning">"Kód USSD je spuštěn..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Dvojitým klepnutím"\n"odemkněte"</string>
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>

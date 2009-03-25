@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"不在服务区"</string>
     <string name="callFailed_fdn_only">"去电受 FDN 的限制。"</string>
     <string name="callFailed_cb_enabled">"不能在呼叫禁止开启时拨打电话。"</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"所有呼叫已被访问控制限制。"</string>
+    <string name="callFailed_dsac_restricted_emergency">"紧急呼叫已被访问控制限制。"</string>
+    <string name="callFailed_dsac_restricted_normal">"正常呼叫已被访问控制限制。"</string>
     <string name="confCall">"会议通话"</string>
     <string name="mmiStarted">"MMI 码已启动"</string>
     <string name="ussdRunning">"USSD 码正在运行..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"呼叫未发送，请拨打紧急号码！"</string>
     <string name="dialerKeyboardHintText">"使用键盘拨号"</string>
     <string name="dtmfDialpadHintText">"按键式键盘"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"轻击两下"\n"解锁"</string>
     <string name="importSimEntry">"导入"</string>
     <string name="importAllSimEntries">"全部导入"</string>

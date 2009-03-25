@@ -23,7 +23,7 @@
     <string name="recentCallsIconLabel">"通話履歴"</string>
     <string name="fdnListLabel">"発信番号制限リスト"</string>
     <string name="unknown">"不明"</string>
-    <string name="private_num">"番号非通知"</string>
+    <string name="private_num">"非通知番号"</string>
     <!-- no translation found for payphone (1931775086311769314) -->
     <skip />
     <string name="onHold">"保留中"</string>
@@ -275,6 +275,8 @@
     <string name="dial_emergency_empty_error">"発信できません。緊急通報番号におかけください。"</string>
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
     <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>
