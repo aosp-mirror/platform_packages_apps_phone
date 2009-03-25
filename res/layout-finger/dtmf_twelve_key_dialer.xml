@@ -29,13 +29,44 @@
     android:allowSingleTap="false"
     >
 
-    <!-- drawer handle imagebutton -->
-    <ImageButton
+    <!-- Drawer handle -->
+    <LinearLayout
         android:id="@id/dialer_tab"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_dialpad_tray"
-        android:background="@drawable/tray_handle"/>
+        android:gravity="bottom"
+        android:focusable="true"
+        >
+        <ImageView
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:duplicateParentState="true"
+            android:src="@drawable/tray_handle_strip"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dtmfDialpadHandleLabel"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:shadowDy="1"
+            android:shadowRadius="0.9"
+            android:shadowColor="#ffffffff"
+            android:duplicateParentState="true"
+            android:background="@drawable/tray_handle_tab"/>
+        <ImageView
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/tray_handle_strip"
+            android:duplicateParentState="true"
+            />
+    </LinearLayout>
 
     <!-- drawer content dialer view -->
     <com.android.phone.DTMFTwelveKeyDialerView
@@ -64,7 +95,6 @@
             android:background="@drawable/btn_dial_textfield_normal_full"
             android:textColor="@color/dtmf_dialer_display_text"
             android:focusableInTouchMode="false"
-            android:hint="@string/dtmfDialpadHintText"
             android:clickable="false"/>
 
         <!-- Keypad section -->
