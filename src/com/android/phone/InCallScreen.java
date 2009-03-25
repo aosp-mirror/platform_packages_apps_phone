@@ -345,8 +345,7 @@ public class InCallScreen extends Activity
                     // (Note this will cause the screen to turn on
                     // immediately, if it's currently off because of a
                     // prior preventScreenOn(true) call.)
-                    PhoneApp app = PhoneApp.getInstance();
-                    app.preventScreenOn(false);
+                    PhoneApp.getInstance().preventScreenOn(false);
                     break;
 
                 case TOUCH_LOCK_TIMER:
@@ -395,7 +394,7 @@ public class InCallScreen extends Activity
 
         super.onCreate(icicle);
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(this);
 
         setPhone(app.phone);  // Sets mPhone and mForegroundCall/mBackgroundCall/mRingingCall
@@ -485,7 +484,7 @@ public class InCallScreen extends Activity
 
         mIsForegroundActivity = true;
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
 
         // Disable the keyguard the entire time the InCallScreen is
         // active.  (This is necessary only for the case of receiving an
@@ -634,7 +633,7 @@ public class InCallScreen extends Activity
 
         mIsForegroundActivity = false;
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
 
         // make sure the chronometer is stopped when we move away from
         // the foreground.
@@ -698,7 +697,15 @@ public class InCallScreen extends Activity
         unregisterReceiver(mReceiver);
 
         // Re-enable "user activity" for touch events.
-        app.setIgnoreTouchUserActivity(false);
+        // We actually do this slightly *after* onPause(), to work around a
+        // race condition where a touch can come in after we've paused
+        // but before the device actually goes to sleep.
+        // TODO: The PowerManager itself should prevent this from happening.
+        mHandler.postDelayed(new Runnable() {
+                public void run() {
+                    app.setIgnoreTouchUserActivity(false);
+                }
+            }, 500);
 
         // The keyguard was disabled the entire time the InCallScreen was
         // active (see onResume()).  Re-enable it now.
@@ -736,7 +743,7 @@ public class InCallScreen extends Activity
         // messages that come in asynchronously after we get destroyed.
         mIsDestroyed = true;
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(null);
 
         // Clear out the InCallScreen references in various helper objects
@@ -863,7 +870,7 @@ public class InCallScreen extends Activity
         // outgoing call or answering an incoming one, and NOT handling
         // an aborted "Add Call" request), so we should let the mute state
         // be handled by the PhoneUtils phone state change handler.
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         if (action.equals(Intent.ACTION_ANSWER)) {
             internalAnswerCall();
             app.setRestoreMuteOnInCallResume(false);
@@ -966,7 +973,7 @@ public class InCallScreen extends Activity
 
         // While an incoming call is ringing, BACK behaves just like
         // ENDCALL: it stops the ringing and rejects the current call.
-        CallNotifier notifier = PhoneApp.getInstance().notifier;
+        final CallNotifier notifier = PhoneApp.getInstance().notifier;
         if (notifier.isRinging()) {
             if (DBG) log("BACK key while ringing: reject the call");
             internalHangupRingingCall();
@@ -1180,7 +1187,7 @@ public class InCallScreen extends Activity
                     // But go ahead and handle the key as normal, since the
                     // PhoneWindowManager presumably did NOT handle it:
 
-                    CallNotifier notifier = PhoneApp.getInstance().notifier;
+                    final CallNotifier notifier = PhoneApp.getInstance().notifier;
                     if (notifier.isRinging()) {
                         // ringer is actually playing, so silence it.
                         PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
@@ -1346,8 +1353,7 @@ public class InCallScreen extends Activity
 
         // Make sure we update the poke lock and wake lock when certain
         // phone state changes occur.
-        PhoneApp app = PhoneApp.getInstance();
-        app.updateWakeState();
+        PhoneApp.getInstance().updateWakeState();
     }
 
     /**
@@ -1396,7 +1402,7 @@ public class InCallScreen extends Activity
             return;
         }
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         boolean currentlyIdle = !phoneIsInUse();
 
         // Explicitly clean up up any DISCONNECTED connections
@@ -2116,7 +2122,7 @@ public class InCallScreen extends Activity
         // connections still in that state.]
         mPhone.clearDisconnected();
 
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         if (!phoneIsInUse()) {
             // Phone is idle!  We should exit this screen now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
