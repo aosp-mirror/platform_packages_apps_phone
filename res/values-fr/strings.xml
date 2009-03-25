@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Hors zone de couverture"</string>
     <string name="callFailed_fdn_only">"Les appels sortants sont restreints par la liste de numéros autorisés."</string>
     <string name="callFailed_cb_enabled">"Vous ne pouvez pas passer d\'appels sortants tant que l\'interdiction d\'appel est activée."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Tous les appels sont restreints par un contrôle d\'accès."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Les appels d\'urgence sont restreints par un contrôle d\'accès."</string>
+    <string name="callFailed_dsac_restricted_normal">"Les appels ordinaires sont restreints par un contrôle d\'accès."</string>
     <string name="confCall">"Conférence téléphonique"</string>
     <string name="mmiStarted">"Le code MMI a été lancé."</string>
     <string name="ussdRunning">"Exécution du code USSD..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText">"Clavier touches sonores"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Double-cliquez"\n"pour déverrouiller"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Tout importer"</string>

@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Utenfor dekningsområde"</string>
     <string name="callFailed_fdn_only">"Utgående samtaler er begrenset til faste nummer."</string>
     <string name="callFailed_cb_enabled">"Du kan ikke ringe ut mens samtaleblokkering er på."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Alle samtaler er begrenset av tilgangskontroll."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Nødsamtaler er begrenset av tilgangskontroll."</string>
+    <string name="callFailed_dsac_restricted_normal">"Vanlige samtaler er begrenset av tilgangskontroll."</string>
     <string name="confCall">"Telefonmøte"</string>
     <string name="mmiStarted">"MMI-kode påbegynt"</string>
     <string name="ussdRunning">"USSD-kode kjører…"</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
     <string name="dialerKeyboardHintText">"Bruk tastaturet for å ringe"</string>
     <string name="dtmfDialpadHintText">"Talltastatur for tastetoner"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Dobbeltklikk"\n"for å låse opp"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Importer alle"</string>

@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"서비스 지역을 벗어났습니다."</string>
     <string name="callFailed_fdn_only">"발신전화가 FDN으로 제한됩니다."</string>
     <string name="callFailed_cb_enabled">"착발신 제한이 설정되어 있는 동안에는 전화를 걸 수 없습니다."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"모든 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
+    <string name="callFailed_dsac_restricted_emergency">"비상 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
+    <string name="callFailed_dsac_restricted_normal">"일반 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
     <string name="confCall">"다자간 통화"</string>
     <string name="mmiStarted">"MMI 코드 시작됨"</string>
     <string name="ussdRunning">"USSD 코드 실행 중..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"전화를 걸지 못했습니다. 비상 전화번호를 직접 누르세요."</string>
     <string name="dialerKeyboardHintText">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText">"터치 톤 키패드"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"잠금해제하려면"\n"두 번 누르세요."</string>
     <string name="importSimEntry">"가져오기"</string>
     <string name="importAllSimEntries">"모두 가져오기"</string>

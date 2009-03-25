@@ -37,12 +37,9 @@
     <string name="callFailed_outOfService">"Area non coperta dal servizio"</string>
     <string name="callFailed_fdn_only">"Chiamate in uscita limitate da FDN."</string>
     <string name="callFailed_cb_enabled">"Impossibile effettuare chiamate in uscita con il blocco chiamate attivo."</string>
-    <!-- no translation found for callFailed_dsac_restricted (2180223622768522345) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_emergency (4353654268813314466) -->
-    <skip />
-    <!-- no translation found for callFailed_dsac_restricted_normal (2680774510252408620) -->
-    <skip />
+    <string name="callFailed_dsac_restricted">"Tutte le chiamate sono limitate dal controllo di accesso."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Chiamate di emergenza limitate dal controllo di accesso."</string>
+    <string name="callFailed_dsac_restricted_normal">"Le normali chiamate sono limitate dal controllo di accesso."</string>
     <string name="confCall">"Conferenza audio"</string>
     <string name="mmiStarted">"Codice MMI avviato"</string>
     <string name="ussdRunning">"Esecuzione codice USSD..."</string>
@@ -275,6 +272,8 @@
     <string name="dial_emergency_empty_error">"Chiamata non inviata. Componi un numero di emergenza."</string>
     <string name="dialerKeyboardHintText">"Usa tastiera"</string>
     <string name="dtmfDialpadHintText">"Selezione a toni"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Tocca due volte"\n"per sbloccare"</string>
     <string name="importSimEntry">"Importa"</string>
     <string name="importAllSimEntries">"Importa tutti"</string>
