@@ -594,12 +594,16 @@ public class BluetoothHeadsetService extends Service {
                              BluetoothHeadset.RESULT_CANCELED);
                     break;
                 case BluetoothHeadset.STATE_CONNECTED:
-                    // Send a message to force headset out of sniff mode so
-                    // that it will immediately notice the disconnection
+                    // Send a dummy battery level message to force headset
+                    // out of sniff mode so that it will immediately notice
+                    // the disconnection. We are currently sending it for
+                    // handsfree only.
                     // TODO: Call hci_conn_enter_active_mode() from
                     // rfcomm_send_disc() in the kernel instead.
                     // See http://b/1716887
-                    mHeadset.sendURC("OK");
+                    if (mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
+                        mHeadset.sendURC("+CIEV: 7,3");
+                    }
 
                     if (mHeadset != null) {
                         mHeadset.disconnect();
