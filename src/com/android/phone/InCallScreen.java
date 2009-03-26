@@ -314,6 +314,7 @@ public class InCallScreen extends Activity
                     // PENDING.
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
                     if (mmiCode.getState() != MmiCode.State.PENDING) {
+                        if (DBG) log("Got MMI_COMPLETE, finishing...");
                         finish();
                     }
                     break;
@@ -669,7 +670,7 @@ public class InCallScreen extends Activity
         // the same time that the phone state is changing.  This can
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)) {
-            if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
+            if (DBG) log("onPause(): DELAYED_CLEANUP_AFTER_DISCONNECT detected, finishing...");
             finish();
         }
 
@@ -729,7 +730,7 @@ public class InCallScreen extends Activity
         if (state == Phone.State.IDLE) {
             // we don't want the call screen to remain in the activity history
             // if there are not active or ringing calls.
-            if (VDBG) log("- onStop: calling finish() to clear activity history...");
+            if (DBG) log("- onStop: calling finish() to clear activity history...");
             finish();
         }
     }
@@ -802,7 +803,7 @@ public class InCallScreen extends Activity
      */
     @Override
     public void finish() {
-        if (VDBG) log("finish()...");
+        if (DBG) log("finish()...");
         moveTaskToBack(true);
     }
 
@@ -1591,6 +1592,7 @@ public class InCallScreen extends Activity
         // the in-call screen, since we'll be visible in a
         // partially-constructed state as soon as the "MMI Started" dialog
         // gets dismissed.  So let's forcibly bail out right now.
+        if (DBG) log("onMMICancel: finishing...");
         finish();
     }
 
@@ -1932,6 +1934,7 @@ public class InCallScreen extends Activity
             if (isEmergencyNumber && (okToCallStatus == InCallInitStatus.POWER_OFF)) {
                 startActivity(getIntent()
                         .setClassName(this, EmergencyCallHandler.class.getName()));
+                if (DBG) log("placeCall: starting EmergencyCallHandler, finishing...");
                 finish();
                 return InCallInitStatus.SUCCESS;
             } else {
@@ -2073,9 +2076,8 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
+        if (DBG) log("show vm setting, finishing...");
         finish();
-
-        if (DBG) log("show vm setting");
 
         // navigate to the Voicemail setting in the Call Settings activity.
         Intent intent = new Intent(CallFeaturesSetting.ACTION_ADD_VOICEMAIL);
@@ -2088,6 +2090,7 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
+        if (DBG) log("dontAddVoiceMailNumber: finishing...");
         finish();
     }
 
@@ -2133,7 +2136,7 @@ public class InCallScreen extends Activity
             // And (finally!) exit from the in-call screen
             // (but not if we're already in the process of pausing...)
             if (mIsForegroundActivity) {
-                if (VDBG) log("- delayedCleanupAfterDisconnect: finishing...");
+                if (DBG) log("- delayedCleanupAfterDisconnect: finishing...");
 
                 // If this is a call that was initiated by the user, and
                 // we're *not* in emergency mode, finish the call by
@@ -2585,12 +2588,12 @@ public class InCallScreen extends Activity
     }
 
     private void bailOutAfterErrorDialog() {
-        if (VDBG) log("bailOutAfterErrorDialog()...");
         if (mGenericErrorDialog != null) {
             if (VDBG) log("bailOutAfterErrorDialog: DISMISSING mGenericErrorDialog.");
             mGenericErrorDialog.dismiss();
             mGenericErrorDialog = null;
         }
+        if (DBG) log("bailOutAfterErrorDialog(): finishing...");
         finish();
     }
 
@@ -2880,7 +2883,7 @@ public class InCallScreen extends Activity
                 Log.w(LOG_TAG, "- syncWithPhoneState failed! status = " + status);
                 // We shouldn't even be in the in-call UI in the first
                 // place, so bail out:
-                if (VDBG) log("- bailing out...");
+                if (DBG) log("updateManageConferencePanelIfNecessary: finishing...");
                 finish();
                 return;
             }
@@ -2897,7 +2900,7 @@ public class InCallScreen extends Activity
                 Log.w(LOG_TAG, "- syncWithPhoneState failed! status = " + status);
                 // We shouldn't even be in the in-call UI in the first
                 // place, so bail out:
-                if (VDBG) log("- bailing out...");
+                if (DBG) log("updateManageConferencePanelIfNecessary: finishing...");
                 finish();
                 return;
             }
