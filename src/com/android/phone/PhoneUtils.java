@@ -51,12 +51,20 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import com.android.internal.telephony.IExtendedNetworkService;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.content.ComponentName;
+import android.os.RemoteException;
+
+
 /**
  * Misc utilities for the Phone app.
  */
 public class PhoneUtils {
     private static final String LOG_TAG = "PhoneUtils";
-    private static final boolean DBG = false;
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+
     /** Control stack trace for Audio Mode settings */
     private static final boolean DBG_SETAUDIOMODE_STACK = false;
 
@@ -88,6 +96,11 @@ public class PhoneUtils {
 
     /** Phone state changed event*/
     private static final int PHONE_STATE_CHANGED = -1;
+
+    // Extended network service interface instance
+    private static IExtendedNetworkService mNwService = null;
+    // used to cancel MMI command after 15 seconds timeout for NWService requirement
+    private static Message mMmiTimeoutCbMsg = null;
 
     /**
      * Handler that tracks the connections and updates the value of the
@@ -147,6 +160,19 @@ public class PhoneUtils {
             }
         }
     }
+    
+
+    private static ServiceConnection ExtendedNetworkServiceConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName name, IBinder iBinder) {
+            if (DBG) log("Extended NW onServiceConnected");
+            mNwService = IExtendedNetworkService.Stub.asInterface(iBinder);
+        }
+
+        public void onServiceDisconnected(ComponentName arg0) {
+            if (DBG) log("Extended NW onServiceDisconnected");
+            mNwService = null;
+        }    
+    };
 
     /**
      * Register the ConnectionHandler with the phone, to receive connection events
@@ -157,6 +183,12 @@ public class PhoneUtils {
         }
 
         phone.registerForPhoneStateChanged(mConnectionHandler, PHONE_STATE_CHANGED, phone);
+        // Extended NW service
+        Intent intent = new Intent("com.android.ussd.IExtendedNetworkService");
+        phone.getContext().bindService(intent, 
+                ExtendedNetworkServiceConnection, Context.BIND_AUTO_CREATE);
+        if (DBG) log("Extended NW bindService IExtendedNetworkService");
+
     }
 
     /** This class is never instantiated. */
@@ -316,7 +348,17 @@ public class PhoneUtils {
             // Presently, null is returned for MMI codes
             if (cn == null) {
                 if (DBG) log("dialed MMI code: " + number);
-                status = CALL_STATUS_DIALED_MMI;
+                status = CALL_STATUS_DIALED_MMI;   
+                // Set dialed MMI command to service
+                if (mNwService != null) {
+                    try {
+                        mNwService.setMmiString(number);
+                        if (DBG) log("Extended NW bindService setUssdString (" + number + ")");
+                    } catch (RemoteException e) {
+                        mNwService = null;
+                    }
+                }
+
             } else {
                 PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
@@ -449,6 +491,36 @@ public class PhoneUtils {
         //
         // Anything that is NOT a USSD request is a normal MMI request,
         // which will bring up a toast (desribed above).
+        // Optional code for Extended USSD running prompt
+        if (mNwService != null) {
+            if (DBG) log("running USSD code, displaying indeterminate progress.");
+            // create the indeterminate progress dialog and display it.
+            ProgressDialog pd = new ProgressDialog(context);
+            CharSequence textmsg = "";
+            try {
+                textmsg = mNwService.getMmiRunningText();
+                
+            } catch (RemoteException e) {
+                mNwService = null;
+                textmsg = context.getText(R.string.ussdRunning);            
+            }
+            if (DBG) log("Extended NW displayMMIInitiate (" + textmsg+ ")");
+            pd.setMessage(textmsg);
+            pd.setCancelable(false);
+            pd.setIndeterminate(true);
+            pd.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            pd.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+            pd.show();
+            // trigger a 15 seconds timeout to clear this progress dialog
+            mMmiTimeoutCbMsg = buttonCallbackMessage;
+            try {
+                mMmiTimeoutCbMsg.getTarget().sendMessageDelayed(buttonCallbackMessage, 15000);
+            } catch(NullPointerException e) {
+                mMmiTimeoutCbMsg = null;
+            }
+            return pd;              
+        }
+
         boolean isCancelable = (mmiCode != null) && mmiCode.isCancelable();
 
         if (!isCancelable) {
@@ -490,6 +562,16 @@ public class PhoneUtils {
         MmiCode.State state = mmiCode.getState();
 
         if (DBG) log("displayMMIComplete: state=" + state);
+        // Clear timeout trigger message
+        if(mMmiTimeoutCbMsg != null) {
+            try{
+                mMmiTimeoutCbMsg.getTarget().removeMessages(mMmiTimeoutCbMsg.what);
+                if (DBG) log("Extended NW displayMMIComplete removeMsg");
+            } catch (NullPointerException e) {
+            }
+            mMmiTimeoutCbMsg = null;
+        }
+
 
         switch (state) {
             case PENDING:
@@ -558,6 +640,18 @@ public class PhoneUtils {
             // interacting with the user.
             if (state != MmiCode.State.PENDING) {
                 if (DBG) log("MMI code has finished running.");
+
+                // Replace response message with Extended Mmi wording
+                if (mNwService != null) {
+                    try {
+                        text = mNwService.getUserMessage(text);
+                    } catch (RemoteException e) {
+                        mNwService = null;
+                    }
+                    if (DBG) log("Extended NW displayMMIInitiate (" + text + ")");
+                    if (text == null)
+                        return;
+                }
 
                 // displaying system alert dialog on the screen instead of
                 // using another activity to display the message.  This
@@ -689,6 +783,17 @@ public class PhoneUtils {
             }
         }
 
+        //clear timeout message and pre-set MMI command
+        if (mNwService != null) {
+            try {
+                mNwService.clearMmiString();
+            } catch (RemoteException e) {
+                mNwService = null;
+            }            
+        }
+        if (mMmiTimeoutCbMsg != null) {
+            mMmiTimeoutCbMsg = null;
+        }
         return canceled;
     }
 
@@ -1436,62 +1541,58 @@ public class PhoneUtils {
     //
 
     /* package */ static void dumpCallState(Phone phone) {
-        Log.d(LOG_TAG, "############## dumpCallState() #############");
-        Log.d(LOG_TAG, "---");
-        Log.d(LOG_TAG, "--- Phone: " + phone);
-        Log.d(LOG_TAG, "--- Overall Phone state: " + phone.getState());
-        Log.d(LOG_TAG, "---");
+        Log.d(LOG_TAG, "##### dumpCallState()");
+        Log.d(LOG_TAG, "- Phone: " + phone + ", state = " + phone.getState());
+        Log.d(LOG_TAG, "-");
 
         Call fgCall = phone.getForegroundCall();
-        Log.d(LOG_TAG, "--- FG call: " + fgCall);
-        Log.d(LOG_TAG, "--- FG call state: " + fgCall.getState());
-        Log.d(LOG_TAG, "--- FG call isAlive(): " + fgCall.getState().isAlive());
-        Log.d(LOG_TAG, "--- FG call isRinging(): " + fgCall.getState().isRinging());
-        Log.d(LOG_TAG, "--- FG call isDialing(): " + fgCall.getState().isDialing());
-        Log.d(LOG_TAG, "--- FG call isIdle(): " + fgCall.isIdle());
-        Log.d(LOG_TAG, "--- FG call hasConnections: " + fgCall.hasConnections());
-        Log.d(LOG_TAG, "---");
+        Log.d(LOG_TAG, "- FG call: " + fgCall);
+        Log.d(LOG_TAG, "-  state: " + fgCall.getState());
+        Log.d(LOG_TAG, "-  isAlive(): " + fgCall.getState().isAlive());
+        Log.d(LOG_TAG, "-  isRinging(): " + fgCall.getState().isRinging());
+        Log.d(LOG_TAG, "-  isDialing(): " + fgCall.getState().isDialing());
+        Log.d(LOG_TAG, "-  isIdle(): " + fgCall.isIdle());
+        Log.d(LOG_TAG, "-  hasConnections: " + fgCall.hasConnections());
+        Log.d(LOG_TAG, "-");
 
         Call bgCall = phone.getBackgroundCall();
-        Log.d(LOG_TAG, "--- BG call: " + bgCall);
-        Log.d(LOG_TAG, "--- BG call state: " + bgCall.getState());
-        Log.d(LOG_TAG, "--- BG call isAlive(): " + bgCall.getState().isAlive());
-        Log.d(LOG_TAG, "--- BG call isRinging(): " + bgCall.getState().isRinging());
-        Log.d(LOG_TAG, "--- BG call isDialing(): " + bgCall.getState().isDialing());
-        Log.d(LOG_TAG, "--- BG call isIdle(): " + bgCall.isIdle());
-        Log.d(LOG_TAG, "--- BG call hasConnections: " + bgCall.hasConnections());
-        Log.d(LOG_TAG, "---");
+        Log.d(LOG_TAG, "- BG call: " + bgCall);
+        Log.d(LOG_TAG, "-  state: " + bgCall.getState());
+        Log.d(LOG_TAG, "-  isAlive(): " + bgCall.getState().isAlive());
+        Log.d(LOG_TAG, "-  isRinging(): " + bgCall.getState().isRinging());
+        Log.d(LOG_TAG, "-  isDialing(): " + bgCall.getState().isDialing());
+        Log.d(LOG_TAG, "-  isIdle(): " + bgCall.isIdle());
+        Log.d(LOG_TAG, "-  hasConnections: " + bgCall.hasConnections());
+        Log.d(LOG_TAG, "-");
 
         Call ringingCall = phone.getRingingCall();
-        Log.d(LOG_TAG, "--- RINGING call: " + ringingCall);
-        Log.d(LOG_TAG, "--- RINGING call state: " + ringingCall.getState());
-        Log.d(LOG_TAG, "--- RINGING call isAlive(): " + ringingCall.getState().isAlive());
-        Log.d(LOG_TAG, "--- RINGING call isRinging(): " + ringingCall.getState().isRinging());
-        Log.d(LOG_TAG, "--- RINGING call isDialing(): " + ringingCall.getState().isDialing());
-        Log.d(LOG_TAG, "--- RINGING call isIdle(): " + ringingCall.isIdle());
-        Log.d(LOG_TAG, "--- RINGING call hasConnections: " + ringingCall.hasConnections());
-        Log.d(LOG_TAG, "---");
+        Log.d(LOG_TAG, "- RINGING call: " + ringingCall);
+        Log.d(LOG_TAG, "-  state: " + ringingCall.getState());
+        Log.d(LOG_TAG, "-  isAlive(): " + ringingCall.getState().isAlive());
+        Log.d(LOG_TAG, "-  isRinging(): " + ringingCall.getState().isRinging());
+        Log.d(LOG_TAG, "-  isDialing(): " + ringingCall.getState().isDialing());
+        Log.d(LOG_TAG, "-  isIdle(): " + ringingCall.isIdle());
+        Log.d(LOG_TAG, "-  hasConnections: " + ringingCall.hasConnections());
+        Log.d(LOG_TAG, "-");
 
         final boolean hasRingingCall = !phone.getRingingCall().isIdle();
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
         final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
-        Log.d(LOG_TAG, "--- hasRingingCall: " + hasRingingCall);
-        Log.d(LOG_TAG, "--- hasActiveCall: " + hasActiveCall);
-        Log.d(LOG_TAG, "--- hasHoldingCall: " + hasHoldingCall);
-        Log.d(LOG_TAG, "--- allLinesTaken: " + allLinesTaken);
+        Log.d(LOG_TAG, "- hasRingingCall: " + hasRingingCall);
+        Log.d(LOG_TAG, "- hasActiveCall: " + hasActiveCall);
+        Log.d(LOG_TAG, "- hasHoldingCall: " + hasHoldingCall);
+        Log.d(LOG_TAG, "- allLinesTaken: " + allLinesTaken);
 
         // Watch out: the isRinging() call below does NOT tell us anything
         // about the state of the telephony layer; it merely tells us whether
         // the Ringer manager is currently playing the ringtone.
         boolean ringing = PhoneApp.getInstance().getRinger().isRinging();
-        Log.d(LOG_TAG, "--- ringing (Ringer manager state): " + ringing);
-        Log.d(LOG_TAG, "---");
-        Log.d(LOG_TAG, "---------------------");
+        Log.d(LOG_TAG, "- ringing (Ringer manager state): " + ringing);
+        Log.d(LOG_TAG, "-----");
     }
 
-
     private static void log(String msg) {
-        Log.d(LOG_TAG, "[PhoneUtils] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 }

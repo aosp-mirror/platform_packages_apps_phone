@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"Liste de numéros autorisés"</string>
     <string name="unknown">"Inconnu"</string>
     <string name="private_num">"Numéro privé"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"En attente"</string>
     <string name="ongoing">"Appel en cours"</string>
     <string name="callFailed_userBusy">"Ligne occupée"</string>
@@ -35,6 +37,9 @@
     <string name="callFailed_outOfService">"Hors zone de couverture"</string>
     <string name="callFailed_fdn_only">"Les appels sortants sont restreints par la liste de numéros autorisés."</string>
     <string name="callFailed_cb_enabled">"Vous ne pouvez pas passer d\'appels sortants tant que l\'interdiction d\'appel est activée."</string>
+    <string name="callFailed_dsac_restricted">"Tous les appels sont restreints par un contrôle d\'accès."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Les appels d\'urgence sont restreints par un contrôle d\'accès."</string>
+    <string name="callFailed_dsac_restricted_normal">"Les appels ordinaires sont restreints par un contrôle d\'accès."</string>
     <string name="confCall">"Conférence téléphonique"</string>
     <string name="mmiStarted">"Le code MMI a été lancé."</string>
     <string name="ussdRunning">"Exécution du code USSD..."</string>
@@ -66,14 +71,14 @@
     <string name="add_vm_number_str">"Ajouter un numéro"</string>
     <string name="dialer_emptyListWorking">"Chargement..."</string>
     <string name="enterPin">"Saisissez un code PIN pour débloquer la carte SIM."</string>
-    <string name="pinUnlocked">"Carte SIM débloquée"</string>
+    <string name="pinUnlocked">"Carte SIM déverrouillée"</string>
     <string name="enterNewPin">"Nouveau code PIN de la carte SIM"</string>
     <string name="verifyNewPin">"Saisissez une nouvelle fois le nouveau code PIN de la carte SIM pour le confirmer"</string>
     <string name="verifyFailed">"Les codes PIN de la carte SIM saisis ne correspondent pas. Veuillez réessayer."</string>
     <string name="enterPuk">"Saisissez le code PUK pour débloquer la carte SIM"</string>
     <string name="badPuk">"Le code PUK est incorrect !"</string>
     <string name="buttonTxtContinue">"Continuer"</string>
-    <string name="puk_unlocked">"Votre carte SIM a été débloquée. Votre téléphone est en cours de déverrouillage..."</string>
+    <string name="puk_unlocked">"Votre carte SIM a été déverrouillée. Votre téléphone est en cours de déverrouillage..."</string>
     <string name="label_ndp">"Code PIN de déblocage du réseau SIM"</string>
     <string name="sim_ndp_unlock_text">"Débloquer"</string>
     <string name="sim_ndp_dismiss_text">"Rejeter"</string>
@@ -89,6 +94,8 @@
     <string name="networks">"Opérateur de réseau"</string>
     <string name="call_settings">"Paramètres d\'appel"</string>
     <string name="additional_call_settings">"Paramètres supplémentaires"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"Identifiant d\'appelant"</string>
     <string name="sum_hide_caller_id">"Numéro masqué pour les appels sortants"</string>
     <string name="sum_show_caller_id">"Numéro affiché pour les appels sortants"</string>
@@ -207,7 +214,7 @@
     <string name="disable_pin_ok">"Code PIN de la carte SIM désactivé"</string>
     <string name="pin_failed">"Le code PIN saisi était incorrect."</string>
     <string name="pin_changed">"Le code PIN de la carte SIM a bien été modifié."</string>
-    <string name="puk_requested">"Mot de passe incorrect. La carte SIM est bloquée ! Code PUK2 requis."</string>
+    <string name="puk_requested">"Mot de passe incorrect. La carte SIM est verrouillée ! Code PUK2 requis."</string>
     <string name="enter_pin2_text">"PIN2"</string>
     <string name="oldPin2Label">"Ancien code PIN2"</string>
     <string name="newPin2Label">"Nouveau code PIN2"</string>
@@ -220,7 +227,7 @@
     <string name="pin2_changed">"Le code PIN2 a été modifié."</string>
     <string name="label_puk2_code">"Saisissez le code PUK2."</string>
     <string name="fdn_enable_puk2_requested">"Le mot de passe est incorrect. Veuillez modifier le code PIN2 et réessayez."</string>
-    <string name="puk2_requested">"Mot de passe incorrect. La carte SIM est bloquée ! Code PUK2 requis."</string>
+    <string name="puk2_requested">"Mot de passe incorrect. La carte SIM est verrouillée ! Code PUK2 requis."</string>
     <string name="doneButton">"OK"</string>
     <string name="caller_manage_header">"Conférence téléphonique à <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Retour à l\'appel"</string>
@@ -265,6 +272,8 @@
     <string name="dial_emergency_empty_error">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText">"Clavier touches sonores"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Double-cliquez"\n"pour déverrouiller"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Tout importer"</string>

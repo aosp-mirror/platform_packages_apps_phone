@@ -50,6 +50,7 @@ public class SimContacts extends ADNList {
     private static final int MENU_IMPORT_ONE = 1;
     private static final int MENU_IMPORT_ALL = 2;
     private ProgressDialog mProgressDialog;
+
     
     @Override
     protected void onCreate(Bundle icicle) {
@@ -170,8 +171,12 @@ public class SimContacts extends ADNList {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_IMPORT_ONE:
-                importOne(getSelectedItemPosition());
-                return true;
+                ContextMenu.ContextMenuInfo menuInfo = item.getMenuInfo();
+                if (menuInfo instanceof AdapterView.AdapterContextMenuInfo) {
+                    int position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
+                    importOne(position);
+                    return true;
+                }
         }
         return super.onContextItemSelected(item);
     }
@@ -186,8 +191,8 @@ public class SimContacts extends ADNList {
             if (textView != null) {
                 menu.setHeaderTitle(textView.getText());
             }
+            menu.add(0, MENU_IMPORT_ONE, 0, R.string.importSimEntry);
         }
-        menu.add(0, MENU_IMPORT_ONE, 0, R.string.importSimEntry);
     }
 
     @Override

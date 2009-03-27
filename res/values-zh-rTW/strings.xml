@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"限制撥號號碼清單"</string>
     <string name="unknown">"未知"</string>
     <string name="private_num">"私人號碼"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"通話保留"</string>
     <string name="ongoing">"目前通話"</string>
     <string name="callFailed_userBusy">"線路忙碌中"</string>
@@ -35,6 +37,9 @@
     <string name="callFailed_outOfService">"超出服務範圍"</string>
     <string name="callFailed_fdn_only">"發話受到限制撥號號碼管制。"</string>
     <string name="callFailed_cb_enabled">"通話限制啟用時，不允許對外撥號。"</string>
+    <string name="callFailed_dsac_restricted">"所有通話都受存取控制限制。"</string>
+    <string name="callFailed_dsac_restricted_emergency">"緊急通話受存取控制限制。"</string>
+    <string name="callFailed_dsac_restricted_normal">"正常通話受存取控制限制。"</string>
     <string name="confCall">"多方通話"</string>
     <string name="mmiStarted">"MMI 碼已開始"</string>
     <string name="ussdRunning">"USSD 碼執行中..."</string>
@@ -89,6 +94,8 @@
     <string name="networks">"電信業者"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"其他通話設定"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"本機號碼"</string>
     <string name="sum_hide_caller_id">"隱藏發話號碼"</string>
     <string name="sum_show_caller_id">"顯示發話號碼"</string>
@@ -265,6 +272,8 @@
     <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
     <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
     <string name="importSimEntry">"匯入"</string>
     <string name="importAllSimEntries">"全部匯入"</string>

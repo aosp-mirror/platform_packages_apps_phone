@@ -55,10 +55,8 @@ public class DTMFTwelveKeyDialer implements
         SlidingDrawer.OnDrawerCloseListener,
         View.OnTouchListener,
         View.OnKeyListener {
-
-    // debug data
     private static final String LOG_TAG = "DTMFTwelveKeyDialer";
-    private static final boolean DBG = false;
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // events
     private static final int PHONE_DISCONNECT = 100;
@@ -912,6 +910,8 @@ public class DTMFTwelveKeyDialer implements
             log("ignoring dtmf request for '" + c + "'");
         }
 
+        // Any DTMF keypress counts as explicit "user activity".
+        PhoneApp.getInstance().pokeUserActivity();
     }
 
     /**
@@ -945,11 +945,9 @@ public class DTMFTwelveKeyDialer implements
         if (mDialpadDigits != null) {
             mDialpadDigits.setText("");
         }
-
         if (mInCallDigits != null) {
             mInCallDigits.setText("");
         }
-
     }
 
     /**

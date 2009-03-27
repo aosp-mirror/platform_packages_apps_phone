@@ -48,9 +48,8 @@ import android.widget.TextView;
 public class CallCard extends FrameLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
                 ContactsAsyncHelper.OnImageLoadCompleteListener{
-    private static final String LOG_TAG = "PHONE/CallCard";
-    private static final boolean DBG = false;
-    private static final boolean PROFILE = true;
+    private static final String LOG_TAG = "CallCard";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -456,7 +455,7 @@ public class CallCard extends FrameLayout
             // has only one connection.)
             Connection conn = call.getEarliestConnection();
 
-            boolean isPrivateNumber = false; // TODO: need isPrivate() API
+            int presentation = conn.getNumberPresentation(); 
 
             if (conn == null) {
                 if (DBG) log("displayMainCallStatus: connection is null, using default values.");
@@ -465,7 +464,7 @@ public class CallCard extends FrameLayout
                 // with the current implementation of getCallerInfo and
                 // updateDisplayForPerson.
                 CallerInfo info = PhoneUtils.getCallerInfo(getContext(), conn);
-                updateDisplayForPerson(info, isPrivateNumber, false, call);
+                updateDisplayForPerson(info, presentation, false, call);
             } else {
                 if (DBG) log("  - CONN: " + conn + ", state = " + conn.getState());
 
@@ -484,7 +483,7 @@ public class CallCard extends FrameLayout
                     if (DBG) log("- displayMainCallStatus: starting CallerInfo query...");
                     PhoneUtils.CallerInfoToken info =
                             PhoneUtils.startGetCallerInfo(getContext(), conn, this, call);
-                    updateDisplayForPerson(info.currentInfo, isPrivateNumber, !info.isFinal, call);
+                    updateDisplayForPerson(info.currentInfo, presentation, !info.isFinal, call);
                 } else {
                     // No need to fire off a new query.  We do still need
                     // to update the display, though (since we might have
@@ -493,11 +492,11 @@ public class CallCard extends FrameLayout
                     if (o instanceof CallerInfo) {
                         CallerInfo ci = (CallerInfo) o;
                         if (DBG) log("   ==> Got CallerInfo; updating display: ci = " + ci);
-                        updateDisplayForPerson(ci, false, false, call);
+                        updateDisplayForPerson(ci, presentation, false, call);
                     } else if (o instanceof PhoneUtils.CallerInfoToken){
                         CallerInfo ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                         if (DBG) log("   ==> Got CallerInfoToken; updating display: ci = " + ci);
-                        updateDisplayForPerson(ci, false, true, call);
+                        updateDisplayForPerson(ci, presentation, true, call);
                     } else {
                         Log.w(LOG_TAG, "displayMainCallStatus: runQuery was false, "
                               + "but we didn't have a cached CallerInfo object!  o = " + o);
@@ -533,7 +532,7 @@ public class CallCard extends FrameLayout
             // If the object is a textview instead, we update it as we need to.
             if (DBG) log("callerinfo query complete, updating ui from displayMainCallStatus()");
             Call call = (Call) cookie;
-            updateDisplayForPerson(ci, false, false, call);
+            updateDisplayForPerson(ci, Connection.PRESENTATION_ALLOWED, false, call);
             updatePhotoForCallState(call);
 
         } else if (cookie instanceof TextView){
@@ -893,8 +892,8 @@ public class CallCard extends FrameLayout
      *  updateImageViewWithContactPhotoAsync call will need to use it.
      */
 
-    private void updateDisplayForPerson(CallerInfo info, boolean isPrivateNumber, Call call) {
-        updateDisplayForPerson(info, isPrivateNumber, false, call);
+    private void updateDisplayForPerson(CallerInfo info, int presentation, Call call) {
+        updateDisplayForPerson(info, presentation, false, call);
     }
 
     /**
@@ -905,7 +904,7 @@ public class CallCard extends FrameLayout
      * updateDisplayForConference() instead.
      */
     private void updateDisplayForPerson(CallerInfo info,
-                                        boolean isPrivateNumber,
+                                        int presentation,
                                         boolean isTemporary,
                                         Call call) {
         if (DBG) log("updateDisplayForPerson(" + info + ")...");
@@ -935,11 +934,7 @@ public class CallCard extends FrameLayout
 
             if (TextUtils.isEmpty(info.name)) {
                 if (TextUtils.isEmpty(info.phoneNumber)) {
-                    if (isPrivateNumber) {
-                        name = getContext().getString(R.string.private_num);
-                    } else {
-                        name = getContext().getString(R.string.unknown);
-                    }
+                    name =  getPresentationString(presentation);
                 } else {
                     name = info.phoneNumber;
                 }
@@ -950,11 +945,7 @@ public class CallCard extends FrameLayout
             }
             personUri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
         } else {
-            if (isPrivateNumber) {
-                name = getContext().getString(R.string.private_num);
-            } else {
-                name = getContext().getString(R.string.unknown);
-            }
+            name =  getPresentationString(presentation);
         }
         mName.setText(name);
         mName.setVisibility(View.VISIBLE);
@@ -994,6 +985,16 @@ public class CallCard extends FrameLayout
         }
     }
 
+
+    private String getPresentationString(int presentation) {
+        String name = getContext().getString(R.string.unknown);
+        if (presentation == Connection.PRESENTATION_RESTRICTED) {
+            name = getContext().getString(R.string.private_num);
+        } else if (presentation == Connection.PRESENTATION_PAYPHONE) {
+            name = getContext().getString(R.string.payphone);
+        }
+        return name;
+    }
 
     /**
      * Updates the name / photo / number / label fields
@@ -1287,10 +1288,10 @@ public class CallCard extends FrameLayout
     // Debugging / testing code
 
     private void log(String msg) {
-        Log.d(LOG_TAG, "[CallCard " + this + "] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 
     private static void logErr(String msg) {
-        Log.e(LOG_TAG, "[CallCard] " + msg);
+        Log.e(LOG_TAG, msg);
     }
 }

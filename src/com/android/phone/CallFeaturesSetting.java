@@ -740,6 +740,11 @@ public class CallFeaturesSetting extends PreferenceActivity
      * Helper function to set both the value and the summary of the CLIR preference.
      */
     private void setButtonCLIRValue (int value) {
+        
+        if (mButtonCLIR == null) {
+            return;
+        }
+        
         // first, set the value.
         mButtonCLIR.setValueIndex(value);
 
@@ -762,6 +767,11 @@ public class CallFeaturesSetting extends PreferenceActivity
     // called by syncCFUIState to do repetitive changes to UI button state.
     private void adjustCFbuttonState(EditPhoneNumberPreference epn,
             boolean isActive, int template, String number) {
+        
+        if (epn == null) {
+            return;
+        }
+        
         CharSequence summaryOn = "";
 
         if (isActive) {
@@ -805,6 +815,10 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     // update the voicemail number from what we've recorded on the sim.
     private void updateVoiceNumberField() {
+        if (mSubMenuVoicemailSettings == null) {
+            return;
+        }
+        
         mOldVmNumber = mPhone.getVoiceMailNumber();
         if (mOldVmNumber == null) {
             mOldVmNumber = "";
@@ -1277,35 +1291,47 @@ public class CallFeaturesSetting extends PreferenceActivity
         // effect the dialog for each preference.  Also set the
         // dependencies between the child (CFB, CFNRy, CFNRc)
         // preferences and the CFU preference.
-        mButtonCFU.setParentActivity(this, CommandsInterface.CF_REASON_UNCONDITIONAL, this);
-        mButtonCFU.setDialogOnClosedListener(this);
-        mButtonCFU.setDialogTitle(R.string.labelCF);
-        mButtonCFU.setDialogMessage(R.string.messageCFU);
-
-        mButtonCFB.setParentActivity(this, CommandsInterface.CF_REASON_BUSY, this);
-        mButtonCFB.setDialogOnClosedListener(this);
-        mButtonCFB.setDependency(BUTTON_CFU_KEY);
-        mButtonCFB.setDialogTitle(R.string.labelCF);
-        mButtonCFB.setDialogMessage(R.string.messageCFB);
-
-        mButtonCFNRy.setParentActivity(this, CommandsInterface.CF_REASON_NO_REPLY, this);
-        mButtonCFNRy.setDialogOnClosedListener(this);
-        mButtonCFNRy.setDependency(BUTTON_CFU_KEY);
-        mButtonCFNRy.setDialogTitle(R.string.labelCF);
-        mButtonCFNRy.setDialogMessage(R.string.messageCFNRy);
-
-        mButtonCFNRc.setParentActivity(this, CommandsInterface.CF_REASON_NOT_REACHABLE, this);
-        mButtonCFNRc.setDialogOnClosedListener(this);
-        mButtonCFNRc.setDependency(BUTTON_CFU_KEY);
-        mButtonCFNRc.setDialogTitle(R.string.labelCF);
-        mButtonCFNRc.setDialogMessage(R.string.messageCFNRc);
-
-        mSubMenuVoicemailSettings.setParentActivity(this, VOICEMAIL_PREF_ID, this);
-        mSubMenuVoicemailSettings.setDialogOnClosedListener(this);
-        mSubMenuVoicemailSettings.setDialogTitle(R.string.voicemail_settings_number_label);
-
+        if (mButtonCFU != null){
+            mButtonCFU.setParentActivity(this, CommandsInterface.CF_REASON_UNCONDITIONAL, this);
+            mButtonCFU.setDialogOnClosedListener(this);
+            mButtonCFU.setDialogTitle(R.string.labelCF);
+            mButtonCFU.setDialogMessage(R.string.messageCFU);
+        }
+        
+        if (mButtonCFB != null) {
+            mButtonCFB.setParentActivity(this, CommandsInterface.CF_REASON_BUSY, this);
+            mButtonCFB.setDialogOnClosedListener(this);
+            mButtonCFB.setDependency(BUTTON_CFU_KEY);
+            mButtonCFB.setDialogTitle(R.string.labelCF);
+            mButtonCFB.setDialogMessage(R.string.messageCFB);
+        }
+        
+        if (mButtonCFNRy != null) {
+            mButtonCFNRy.setParentActivity(this, CommandsInterface.CF_REASON_NO_REPLY, this);
+            mButtonCFNRy.setDialogOnClosedListener(this);
+            mButtonCFNRy.setDependency(BUTTON_CFU_KEY);
+            mButtonCFNRy.setDialogTitle(R.string.labelCF);
+            mButtonCFNRy.setDialogMessage(R.string.messageCFNRy);
+        }
+        
+        if (mButtonCFNRc != null) {
+            mButtonCFNRc.setParentActivity(this, CommandsInterface.CF_REASON_NOT_REACHABLE, this);
+            mButtonCFNRc.setDialogOnClosedListener(this);
+            mButtonCFNRc.setDependency(BUTTON_CFU_KEY);
+            mButtonCFNRc.setDialogTitle(R.string.labelCF);
+            mButtonCFNRc.setDialogMessage(R.string.messageCFNRc);
+        }
+        
+        if (mSubMenuVoicemailSettings != null) {
+            mSubMenuVoicemailSettings.setParentActivity(this, VOICEMAIL_PREF_ID, this);
+            mSubMenuVoicemailSettings.setDialogOnClosedListener(this);
+            mSubMenuVoicemailSettings.setDialogTitle(R.string.voicemail_settings_number_label);
+        }
+        
         // set the listener for the CLIR list preference so we can issue CLIR commands.
-        mButtonCLIR.setOnPreferenceChangeListener(this);
+        if (mButtonCLIR != null ) {
+            mButtonCLIR.setOnPreferenceChangeListener(this);
+        }
 
         // create intent to bring up contact list
         mContactListIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -1337,7 +1363,9 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             // reset other button state
             setButtonCLIRValue(icicle.getInt(BUTTON_CLIR_KEY));
-            mButtonCW.setChecked(icicle.getBoolean(BUTTON_CW_KEY));
+            if (mButtonCW != null) {
+                mButtonCW.setChecked(icicle.getBoolean(BUTTON_CW_KEY));
+            }
 
             // set app state
             mAppState = (AppState) icicle.getSerializable(APP_STATE_KEY);
@@ -1369,12 +1397,24 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (DBG) log("onSaveInstanceState: saving relevant UI state.");
 
         // save button state
-        outState.putInt(BUTTON_CLIR_KEY, mButtonCLIR.findIndexOfValue(mButtonCLIR.getValue()));
-        outState.putBoolean(BUTTON_CW_KEY, mButtonCW.isChecked());
-        outState.putBoolean(BUTTON_CFU_KEY, mButtonCFU.isToggled());
-        outState.putBoolean(BUTTON_CFB_KEY, mButtonCFB.isToggled());
-        outState.putBoolean(BUTTON_CFNRY_KEY, mButtonCFNRy.isToggled());
-        outState.putBoolean(BUTTON_CFNRC_KEY, mButtonCFNRc.isToggled());
+        if (mButtonCLIR != null) {
+            outState.putInt(BUTTON_CLIR_KEY, mButtonCLIR.findIndexOfValue(mButtonCLIR.getValue()));
+        }
+        if (mButtonCW != null) {
+            outState.putBoolean(BUTTON_CW_KEY, mButtonCW.isChecked());
+        }
+        if (mButtonCFU != null) {
+            outState.putBoolean(BUTTON_CFU_KEY, mButtonCFU.isToggled());
+        }
+        if (mButtonCFB != null) {
+            outState.putBoolean(BUTTON_CFB_KEY, mButtonCFB.isToggled());
+        }
+        if (mButtonCFNRy != null) {
+            outState.putBoolean(BUTTON_CFNRY_KEY, mButtonCFNRy.isToggled());
+        }
+        if (mButtonCFNRc != null) {
+            outState.putBoolean(BUTTON_CFNRC_KEY, mButtonCFNRc.isToggled());
+        }
 
         // save number state
         outState.putString(SUMMARY_CFU_KEY, mDialingNumCFU);

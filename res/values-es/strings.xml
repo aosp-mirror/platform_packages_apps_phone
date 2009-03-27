@@ -24,6 +24,8 @@
     <string name="fdnListLabel">"Lista de FDN"</string>
     <string name="unknown">"Desconocido"</string>
     <string name="private_num">"Número privado"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"En espera"</string>
     <string name="ongoing">"Llamada actual"</string>
     <string name="callFailed_userBusy">"Línea ocupada"</string>
@@ -35,6 +37,9 @@
     <string name="callFailed_outOfService">"Área fuera de servicio"</string>
     <string name="callFailed_fdn_only">"Las llamadas salientes están restringidas por FDN."</string>
     <string name="callFailed_cb_enabled">"No se pueden realizar llamadas salientes mientras esté activada la restricción de llamadas."</string>
+    <string name="callFailed_dsac_restricted">"Todas las llamadas están limitadas por el control de acceso."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Las llamadas de emergencia están limitadas por el control de acceso."</string>
+    <string name="callFailed_dsac_restricted_normal">"Las llamadas normales están limitadas por el control de acceso."</string>
     <string name="confCall">"Conferencia telefónica"</string>
     <string name="mmiStarted">"El código MMI se ha iniciado."</string>
     <string name="ussdRunning">"Código USSD en ejecución..."</string>
@@ -89,6 +94,8 @@
     <string name="networks">"Operadores de red"</string>
     <string name="call_settings">"Ajustes de llamadas"</string>
     <string name="additional_call_settings">"Configuración adicional"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"ID del emisor"</string>
     <string name="sum_hide_caller_id">"Número oculto en llamadas salientes"</string>
     <string name="sum_show_caller_id">"Número mostrado en llamadas salientes"</string>
@@ -105,15 +112,15 @@
     <string name="sum_cfu_disabled">"Inhabilitado"</string>
     <string name="labelCFB">"Línea ocupada"</string>
     <string name="messageCFB">"Número cuando la línea esté ocupada"</string>
-    <string name="sum_cfb_enabled">"Desviando a \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled">"Desviando a {0}"</string>
     <string name="sum_cfb_disabled">"Inhabilitado"</string>
     <string name="labelCFNRy">"Llamada sin respuesta"</string>
     <string name="messageCFNRy">"Número cuando no se responde la llamada"</string>
-    <string name="sum_cfnry_enabled">"Desviando a \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled">"Desviando a {0}"</string>
     <string name="sum_cfnry_disabled">"Inhabilitado"</string>
     <string name="labelCFNRc">"No se establece la llamada"</string>
     <string name="messageCFNRc">"Número cuando no se puede establecer la llamada"</string>
-    <string name="sum_cfnrc_enabled">"Desviando a \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled">"Desviando a {0}"</string>
     <string name="sum_cfnrc_disabled">"Inhabilitado"</string>
     <string name="updating_title">"Ajustes de llamadas"</string>
     <string name="error_updating_title">"Error de configuración de llamada"</string>
@@ -265,6 +272,8 @@
     <string name="dial_emergency_empty_error">"La llamada no se ha enviado; marca un número de emergencia."</string>
     <string name="dialerKeyboardHintText">"Utilizar teclado para marcar"</string>
     <string name="dtmfDialpadHintText">"Teclado de tonos táctiles"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Pulsa dos veces"\n"para desbloquear"</string>
     <string name="importSimEntry">"Importar"</string>
     <string name="importAllSimEntries">"Importar todos"</string>

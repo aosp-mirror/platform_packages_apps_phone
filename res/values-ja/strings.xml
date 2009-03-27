@@ -18,12 +18,13 @@
     <string name="contactsIconLabel">"連絡先"</string>
     <string name="contactsFavoritesLabel">"お気に入り"</string>
     <string name="dialerIconLabel">"電話"</string>
-    <string name="emergencyDialerIconLabel">"緊急呼"</string>
+    <string name="emergencyDialerIconLabel">"緊急通報"</string>
     <string name="phoneIconLabel">"電話"</string>
     <string name="recentCallsIconLabel">"通話履歴"</string>
     <string name="fdnListLabel">"発信番号制限リスト"</string>
-    <string name="unknown">"不明"</string>
-    <string name="private_num">"番号非通知"</string>
+    <string name="unknown">"通知不可能"</string>
+    <string name="private_num">"非通知"</string>
+    <string name="payphone">"公衆電話発信"</string>
     <string name="onHold">"保留中"</string>
     <string name="ongoing">"通話中"</string>
     <string name="callFailed_userBusy">"話し中"</string>
@@ -35,6 +36,9 @@
     <string name="callFailed_outOfService">"圏外"</string>
     <string name="callFailed_fdn_only">"発信番号制限により発信が制限されています。"</string>
     <string name="callFailed_cb_enabled">"発信できません。発信制限がかかっています。"</string>
+    <string name="callFailed_dsac_restricted">"発信制限が設定されています。"</string>
+    <string name="callFailed_dsac_restricted_emergency">"緊急通報の発信制限が設定されています。"</string>
+    <string name="callFailed_dsac_restricted_normal">"緊急通報以外は発信制限が設定されています。"</string>
     <string name="confCall">"グループ通話"</string>
     <string name="mmiStarted">"MMIコードの開始"</string>
     <string name="ussdRunning">"USSDコードを実行中..."</string>
@@ -54,14 +58,14 @@
     <string name="menu_answerAndHold">"通話を保留"\n"して応答"</string>
     <string name="menu_answerAndEnd">"現在の通話を終了"\n"して応答"</string>
     <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"通話オプションを表示するにはMenuキーを押します。"</string>
+    <string name="menuButtonHint">"MENUキーで通話オプション表示"</string>
     <string name="menuButtonKeyboardDialHint">"Menuキーを押して通話オプションを表示  •  キーボードからダイヤル"</string>
     <string name="wait_prompt_str">"次の番号を送信しますか？"\n</string>
     <string name="send_button">"送信"</string>
     <string name="wild_prompt_str">"ワイルド文字と入れ替える文字"</string>
     <string name="bluetooth_headset_connected">"Bluetoothヘッドセットが接続されました。"</string>
     <string name="bluetooth_headset_disconnected">"Bluetoothヘッドセットの接続が切断されました。"</string>
-    <string name="no_vm_number">"ボイスメールの番号不明"</string>
+    <string name="no_vm_number">"ボイスメール番号がありません"</string>
     <string name="no_vm_number_msg">"SIMカードにボイスメールの番号がありません。"</string>
     <string name="add_vm_number_str">"番号を追加"</string>
     <string name="dialer_emptyListWorking">"読み込み中..."</string>
@@ -89,6 +93,8 @@
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"その他の通話設定"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id">"発信時に番号を通知する"</string>
@@ -156,7 +162,7 @@
     <string name="roaming_reenable_message">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
     <string name="prefer_2g">"2Gネットワークのみ使用"</string>
-    <string name="prefer_2g_summary">"電池節約"</string>
+    <string name="prefer_2g_summary">"節電"</string>
     <string name="fdn">"発信番号制限"</string>
     <string name="manage_fdn_list">"発信番号制限リスト"</string>
     <string name="fdn_activation">"発信番号制限の有効化"</string>
@@ -246,8 +252,8 @@
     <string name="notification_voicemail_title">"新しいボイスメール"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>にダイヤル"</string>
     <string name="notification_voicemail_no_vm_number">"ボイスメールの番号が不明です"</string>
-    <string name="incall_error_power_off">"発信するには、まず機内モードをオフにします。"</string>
-    <string name="incall_error_emergency_only">"ネットワークに登録されていません。"</string>
+    <string name="incall_error_power_off">"機内モードをOFFにしてから発信してください。"</string>
+    <string name="incall_error_emergency_only">"ご加入の通信サービスがありません"</string>
     <string name="incall_error_no_phone_number_supplied">"発信できません。有効な番号が入力されていません。"</string>
     <string name="incall_error_call_failed">"発信できません。"</string>
     <string name="incall_status_dialed_mmi">"MMIシーケンスを開始中..."</string>
@@ -258,13 +264,15 @@
     <string name="incall_error_supp_service_conference">"グループ通話を利用できません。"</string>
     <string name="incall_error_supp_service_reject">"着信を拒否できません。"</string>
     <string name="incall_error_supp_service_hangup">"通話を解放できません。"</string>
-    <string name="emergency_enable_radio_dialog_title">"緊急呼"</string>
+    <string name="emergency_enable_radio_dialog_title">"緊急通報"</string>
     <string name="emergency_enable_radio_dialog_message">"無線通信をオンにしています..."</string>
     <string name="emergency_enable_radio_dialog_retry">"圏外 - 再試行中..."</string>
-    <string name="dial_emergency_error">"発信エラー: <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急呼番号ではありません。"</string>
-    <string name="dial_emergency_empty_error">"発信エラー: 緊急呼番号をダイヤルしてください。"</string>
+    <string name="dial_emergency_error">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急通報番号ではないので発信できません。"</string>
+    <string name="dial_emergency_empty_error">"発信できません。緊急通報番号におかけください。"</string>
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
     <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>

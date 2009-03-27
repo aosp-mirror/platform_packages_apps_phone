@@ -336,8 +336,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // CallLog.addCall().  If either special values for unknown or
             // private number are detected, we need to hand off the message
             // to the missed call notification.
-            if ((n.number.equals(CallerInfo.UNKNOWN_NUMBER)) || 
-                    (n.number.equals(CallerInfo.PRIVATE_NUMBER))) {
+            if ( (n.number.equals(CallerInfo.UNKNOWN_NUMBER)) || 
+                 (n.number.equals(CallerInfo.PRIVATE_NUMBER)) ||
+                 (n.number.equals(CallerInfo.PAYPHONE_NUMBER)) ) {
                 n.number = null;
             }
             

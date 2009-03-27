@@ -110,27 +110,23 @@ public class BluetoothHandsfree {
     private int mLocalBrsf = 0;
 
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
-    public static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
-    public static final int BRSF_AG_EC_NR = 1 << 1;
-    public static final int BRSF_AG_VOICE_RECOG = 1 << 2;
-    public static final int BRSF_AG_IN_BAND_RING = 1 << 3;
-    public static final int BRSF_AG_VOICE_TAG_NUMBE = 1 << 4;
-    public static final int BRSF_AG_REJECT_CALL = 1 << 5;
-    public static final int BRSF_AG_ENHANCED_CALL_STATUS = 1 <<  6;
-    public static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
-    public static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
-    // 9 - 31 reserved for future use.
+    private static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
+    private static final int BRSF_AG_EC_NR = 1 << 1;
+    private static final int BRSF_AG_VOICE_RECOG = 1 << 2;
+    private static final int BRSF_AG_IN_BAND_RING = 1 << 3;
+    private static final int BRSF_AG_VOICE_TAG_NUMBE = 1 << 4;
+    private static final int BRSF_AG_REJECT_CALL = 1 << 5;
+    private static final int BRSF_AG_ENHANCED_CALL_STATUS = 1 <<  6;
+    private static final int BRSF_AG_ENHANCED_CALL_CONTROL = 1 << 7;
+    private static final int BRSF_AG_ENHANCED_ERR_RESULT_CODES = 1 << 8;
 
-    public static final int BRSF_HF_EC_NR = 1 << 0;
-    public static final int BRSF_HF_CW_THREE_WAY_CALLING = 1 << 1;
-    public static final int BRSF_HF_CLIP = 1 << 2;
-    public static final int BRSF_HF_VOICE_REG_ACT = 1 << 3;
-    public static final int BRSF_HF_REMOTE_VOL_CONTROL = 1 << 4;
-    public static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
-    public static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
-    // 7 - 31 reserved for future use.
-
-    // Currently supported attributes.
+    private static final int BRSF_HF_EC_NR = 1 << 0;
+    private static final int BRSF_HF_CW_THREE_WAY_CALLING = 1 << 1;
+    private static final int BRSF_HF_CLIP = 1 << 2;
+    private static final int BRSF_HF_VOICE_REG_ACT = 1 << 3;
+    private static final int BRSF_HF_REMOTE_VOL_CONTROL = 1 << 4;
+    private static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
+    private static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
 
     public static String typeToString(int type) {
         switch (type) {
@@ -164,15 +160,13 @@ public class BluetoothHandsfree {
                      BRSF_AG_EC_NR |
                      BRSF_AG_REJECT_CALL |
                      BRSF_AG_ENHANCED_CALL_STATUS;
-       
+
         if (sVoiceCommandIntent == null) {
             sVoiceCommandIntent = new Intent(Intent.ACTION_VOICE_COMMAND);
             sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sVoiceCommandIntent.putExtra(Intent.EXTRA_AUDIO_ROUTE,
-                                         AudioManager.ROUTE_BLUETOOTH_SCO);
         }
-        
-        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null) {
+        if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null &&
+                !BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
 
@@ -552,9 +546,14 @@ public class BluetoothHandsfree {
             if (mCallsetup != callsetup) {
                 mCallsetup = callsetup;
                 if (sendUpdate) {
-                    // don't send +CIEV for callsetup while in-call if 3way not supported
-                    if (!(mCall == 1 && mCallsetup != 0 &&
-                         (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0)) {
+                    // If mCall = 0, send CIEV
+                    // mCall = 1, mCallsetup = 0, send CIEV
+                    // mCall = 1, mCallsetup = 1, send CIEV after CCWA,
+                    // if 3 way supported.
+                    // mCall = 1, mCallsetup = 2 / 3 -> send CIEV,
+                    // if 3 way is supported
+                    if (mCall != 1 || mCallsetup == 0 ||
+                        mCallsetup != 1 && (mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CIEV: 3," + mCallsetup);
                     }
                 }
@@ -598,6 +597,7 @@ public class BluetoothHandsfree {
                     // call waiting
                     if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
                         result.addResponse("+CCWA: \"" + number + "\"," + type);
+                        result.addResponse("+CIEV: 3," + callsetup);
                     }
                 } else {
                     // regular new incoming call
@@ -1486,6 +1486,9 @@ public class BluetoothHandsfree {
         parser.register("+BVRA", new AtCommandHandler() {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
+                if (BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
+                    return new AtCommandResult(AtCommandResult.ERROR);
+                }
                 if (args.length >= 1 && args[0].equals(1)) {
                     synchronized (BluetoothHandsfree.this) {
                         if (!mWaitingForVoiceRecognition) {
@@ -1506,7 +1509,7 @@ public class BluetoothHandsfree {
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return new AtCommandResult("+CLIP: (0-1)");
+                return new AtCommandResult("+BVRA: (0-1)");
             }
         });
 
