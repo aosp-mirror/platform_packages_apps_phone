@@ -86,14 +86,12 @@
     <string name="unlock_failed">"Verzoek voor ontgrendelen netwerk mislukt."</string>
     <string name="unlock_success">"Het netwerk is gedeblokkeerd."</string>
     <string name="imei">"IMEI-nummer"</string>
-    <string name="labelMore">"Aanvullende oproepinstellingen"</string>
     <string name="apn_settings">"Namen toegangspunten"</string>
     <string name="settings_label">"Netwerkinstellingen"</string>
     <string name="voicemail">"Voicemail"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"Mobiele providers"</string>
     <string name="call_settings">"Oproepinstellingen"</string>
-    <string name="additional_call_settings">"Aanvullende oproepinstellingen"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"Beller-id"</string>
@@ -162,8 +160,6 @@
     <string name="roaming_disable">"Verbinding maken met gegevensservices tijdens roaming"</string>
     <string name="roaming_reenable_message">"De gegevensverbinding is verbroken, omdat u uw thuisnetwerk heeft verlaten terwijl gegevensroaming was uitgeschakeld."</string>
     <string name="roaming_warning">"Gegevensroaming toestaan? Er kunnen hoge roamingkosten in rekening worden gebracht."</string>
-    <string name="prefer_2g">"Alleen 2G-netwerken gebruiken"</string>
-    <string name="prefer_2g_summary">"Energiespaarstand"</string>
     <string name="fdn">"Vaste nummers"</string>
     <string name="manage_fdn_list">"FDN-lijst"</string>
     <string name="fdn_activation">"FDN-activering"</string>
@@ -280,3 +276,4 @@
     <string name="importingSimContacts">"SIM-contacten importeren"</string>
     <string name="importToFDNfromContacts">"Importeren uit contacten"</string>
 </resources>
+

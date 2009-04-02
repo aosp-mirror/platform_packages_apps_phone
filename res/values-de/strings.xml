@@ -86,14 +86,13 @@
     <string name="unlock_failed">"Anfrage für Entsperrung des Netzwerks war nicht erfolgreich."</string>
     <string name="unlock_success">"Entsperrung des Netzwerks nicht erfolgreich."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Zusätzliche Einstellungen"</string>
+
     <string name="apn_settings">"Zugangspunkte"</string>
     <string name="settings_label">"Netzwerkeinstellungen"</string>
     <string name="voicemail">"Mailbox"</string>
     <string name="voicemail_abbreviated">"MB:"</string>
     <string name="networks">"Netzbetreiber"</string>
     <string name="call_settings">"Anrufeinstellungen"</string>
-    <string name="additional_call_settings">"Zusätzliche Anrufeinst."</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"Anrufer-ID"</string>
@@ -162,8 +161,6 @@
     <string name="roaming_disable">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
     <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
-    <string name="prefer_2g">"Nur 2G-Netzwerke"</string>
-    <string name="prefer_2g_summary">"Energiesparend"</string>
     <string name="fdn">"Beschränkte Rufnummern"</string>
     <string name="manage_fdn_list">"Liste der beschränkten Rufnummern"</string>
     <string name="fdn_activation">"Aktivierung der Nummernbeschränkung"</string>
@@ -280,3 +277,5 @@
     <string name="importingSimContacts">"SIM-Kontakte werden importiert"</string>
     <string name="importToFDNfromContacts">"Aus Kontakten importieren"</string>
 </resources>
+
+

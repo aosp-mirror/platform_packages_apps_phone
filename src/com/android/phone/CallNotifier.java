@@ -431,6 +431,23 @@ public class CallNotifier extends Handler
         }
     }
 
+    void updateCallNotifierRegistrationsAfterRadioTechnologyChange() {
+        if(DBG) Log.d(LOG_TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
+        //Unregister all events from the old obsolete phone
+        mPhone.unregisterForNewRingingConnection(this);
+        mPhone.unregisterForPhoneStateChanged(this);
+        mPhone.unregisterForDisconnect(this);
+        mPhone.unregisterForUnknownConnection(this);
+        mPhone.unregisterForIncomingRing(this);
+
+        //Register all events new to the new active phone
+        mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
+        mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
+        mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
+        mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
+        mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
+    }
+
     /**
      * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
      * refreshes the CallCard data when it called.  If called with this

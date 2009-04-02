@@ -16,10 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.gsm.CommandException;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncResult;
@@ -30,6 +26,10 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 /**
  * FDN settings UI for the Phone app.
@@ -99,12 +99,12 @@ public class FdnSetting extends PreferenceActivity
         // validate the pin first, before submitting it to the RIL for FDN enable.
         String password = mButtonEnableFDN.getText();
         if (validatePin (password, false)) {
-            // get the relevant data for the sim call
-            boolean isEnabled = mPhone.getSimCard().getSimFdnEnabled();
+            // get the relevant data for the icc call
+            boolean isEnabled = mPhone.getIccCard().getIccFdnEnabled();
             Message onComplete = mFDNHandler.obtainMessage(EVENT_PIN2_ENTRY_COMPLETE);
 
             // make fdn request
-            mPhone.getSimCard().setSimFdnEnabled(!isEnabled, password, onComplete);
+            mPhone.getIccCard().setIccFdnEnabled(!isEnabled, password, onComplete);
         } else {
             // throw up error if the pin is invalid.
             displayMessage(R.string.invalidPin2);
@@ -171,7 +171,7 @@ public class FdnSetting extends PreferenceActivity
                     mButtonChangePin2.setText("");
                     if (!mSkipOldPin) {
                         Message onComplete = mFDNHandler.obtainMessage(EVENT_PIN2_CHANGE_COMPLETE);
-                        mPhone.getSimCard().changeSimFdnPassword(mOldPin, mNewPin, onComplete);
+                        mPhone.getIccCard().changeIccFdnPassword(mOldPin, mNewPin, onComplete);
                     } else {
                         mPinChangeState = PIN_CHANGE_PUK;
                         displayPinChangeDialog();
@@ -186,7 +186,7 @@ public class FdnSetting extends PreferenceActivity
                     // make sure that the puk is valid before submitting it.
                     if (validatePin (puk2, true)) {
                         Message onComplete = mFDNHandler.obtainMessage(EVENT_PIN2_CHANGE_COMPLETE);
-                        mPhone.getSimCard().supplyPuk2(puk2, mNewPin, onComplete);
+                        mPhone.getIccCard().supplyPuk2(puk2, mNewPin, onComplete);
                     } else {
                         displayPinChangeDialog(R.string.invalidPuk2, true);
                     }
@@ -367,7 +367,7 @@ public class FdnSetting extends PreferenceActivity
      * Reflect the updated FDN state in the UI.
      */
     private void updateEnableFDN() {
-        if (mPhone.getSimCard().getSimFdnEnabled()) {
+        if (mPhone.getIccCard().getIccFdnEnabled()) {
             mButtonEnableFDN.setTitle(R.string.enable_fdn_ok);
             mButtonEnableFDN.setSummary(R.string.fdn_enabled);
             mButtonEnableFDN.setDialogTitle(R.string.disable_fdn);
@@ -413,6 +413,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mPhone = PhoneFactory.getDefaultPhone();
         updateEnableFDN();
     }
 

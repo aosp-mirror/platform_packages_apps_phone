@@ -86,14 +86,12 @@
     <string name="unlock_failed">"Żądanie odblokowania sieci zakończyło się niepowodzeniem."</string>
     <string name="unlock_success">"Sieć została pomyślnie odblokowana."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Dodatkowe ustawienia"</string>
     <string name="apn_settings">"Punkty dostępowe"</string>
     <string name="settings_label">"Ustawienia sieci"</string>
     <string name="voicemail">"Poczta głosowa"</string>
     <string name="voicemail_abbreviated">"Poczta głosowa:"</string>
     <string name="networks">"Operatorzy sieci"</string>
     <string name="call_settings">"Ustawienia połączeń"</string>
-    <string name="additional_call_settings">"Dodatkowe ustawienia"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"ID dzwoniącego"</string>
@@ -162,8 +160,7 @@
     <string name="roaming_disable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_reenable_message">"Utracono łączność danych, ponieważ pozostawiono wyłączony roaming danych w sieci macierzystej."</string>
     <string name="roaming_warning">"Czy pozwolić na przesył danych w roamingu? Operator może naliczać wysokie opłaty roamingowe!"</string>
-    <string name="prefer_2g">"Używaj tylko sieci 2G"</string>
-    <string name="prefer_2g_summary">"Oszczędza baterię"</string>
+
     <string name="fdn">"Ustalone numery"</string>
     <string name="manage_fdn_list">"Ustalone numery (FDN)"</string>
     <string name="fdn_activation">"Aktywacja usługi ustalnych numerów (FDN)"</string>
@@ -280,3 +277,4 @@
     <string name="importingSimContacts">"Importowanie kontaktów z karty SIM"</string>
     <string name="importToFDNfromContacts">"Importuj z Kontaktów"</string>
 </resources>
+

@@ -86,14 +86,12 @@
     <string name="unlock_failed">"Échec de la demande de déblocage du réseau."</string>
     <string name="unlock_success">"Le réseau a bien été débloqué."</string>
     <string name="imei">"IIEM"</string>
-    <string name="labelMore">"Paramètres d\'appel supplémentaires"</string>
     <string name="apn_settings">"Noms des points d\'accès"</string>
     <string name="settings_label">"Paramètres du réseau"</string>
     <string name="voicemail">"Messagerie vocale"</string>
     <string name="voicemail_abbreviated">"MV :"</string>
     <string name="networks">"Opérateur de réseau"</string>
     <string name="call_settings">"Paramètres d\'appel"</string>
-    <string name="additional_call_settings">"Paramètres supplémentaires"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"Identifiant d\'appelant"</string>
@@ -162,8 +160,7 @@
     <string name="roaming_disable">"Se connecter aux services de données lors de l\'itinérance"</string>
     <string name="roaming_reenable_message">"Vous avez été déconnecté car vous avez quitté votre réseau alors que l\'itinérance des données était désactivée."</string>
     <string name="roaming_warning">"Autoriser l\'itinérance des données ? Des frais d\'itinérance importants peuvent s\'appliquer !"</string>
-    <string name="prefer_2g">"Uniquement les réseaux 2G"</string>
-    <string name="prefer_2g_summary">"Économise la batterie"</string>
+
     <string name="fdn">"Numéros autorisés"</string>
     <string name="manage_fdn_list">"Liste de numéros autorisés"</string>
     <string name="fdn_activation">"Activation des numéros autorisés"</string>
@@ -280,3 +277,5 @@
     <string name="importingSimContacts">"Importation des contacts SIM"</string>
     <string name="importToFDNfromContacts">"Importer à partir des contacts"</string>
 </resources>
+
+
