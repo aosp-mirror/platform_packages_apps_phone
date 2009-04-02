@@ -257,7 +257,7 @@ public class EditFdnContactScreen extends Activity {
     }
 
     private Uri getContentURI() {
-        return Uri.parse("content://sim/fdn");
+        return Uri.parse("content://icc/fdn");
     }
 
     /**

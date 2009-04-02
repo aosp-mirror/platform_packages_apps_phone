@@ -86,14 +86,12 @@
     <string name="unlock_failed">"La solicitud de desbloqueo de red no se ha realizado correctamente."</string>
     <string name="unlock_success">"El desbloqueo de red se ha realizado correctamente."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Configuración adicional"</string>
     <string name="apn_settings">"APN"</string>
     <string name="settings_label">"Configuración de red"</string>
     <string name="voicemail">"Buzón de voz"</string>
     <string name="voicemail_abbreviated">"Buzón de voz:"</string>
     <string name="networks">"Operadores de red"</string>
     <string name="call_settings">"Ajustes de llamadas"</string>
-    <string name="additional_call_settings">"Configuración adicional"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"ID del emisor"</string>
@@ -162,8 +160,7 @@
     <string name="roaming_disable">"Establecer conexión con servicios de datos en itinerancia"</string>
     <string name="roaming_reenable_message">"Has perdido la conectividad de datos porque has dejado desactivada la itinerancia de datos de tu red doméstica."</string>
     <string name="roaming_warning">"¿Permitir itinerancia de datos? Los costes de itinerancia que deberás asumir pueden ser significativos."</string>
-    <string name="prefer_2g">"Utilizar sólo redes 2G"</string>
-    <string name="prefer_2g_summary">"Ahorra batería"</string>
+
     <string name="fdn">"Marcación fija"</string>
     <string name="manage_fdn_list">"Lista de FDN"</string>
     <string name="fdn_activation">"Activación de FDN"</string>
@@ -280,3 +277,5 @@
     <string name="importingSimContacts">"Importando contactos de tarjeta SIM..."</string>
     <string name="importToFDNfromContacts">"Importar de contactos"</string>
 </resources>
+
+

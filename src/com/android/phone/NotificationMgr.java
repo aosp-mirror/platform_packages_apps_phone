@@ -27,20 +27,24 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.provider.CallLog.Calls;
 import android.provider.Contacts.Phones;
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.Phone;
+
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -48,6 +52,27 @@ import android.widget.Toast;
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
     private static final boolean DBG = false;
+    private static final int EVENT_ENHANCED_VP_ON  = 1;
+    private static final int EVENT_ENHANCED_VP_OFF = 2;
+
+    // **Callback for enhanced voice privacy return value
+    private Handler mEnhancedVPHandler = new Handler() {
+        boolean enhancedVoicePrivacy = false;
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case EVENT_ENHANCED_VP_ON:
+                enhancedVoicePrivacy = true;
+                break;
+            case EVENT_ENHANCED_VP_OFF:
+                enhancedVoicePrivacy = false;
+                break;
+            default:
+                // We should never reach this
+            }
+            updateInCallNotification(enhancedVoicePrivacy);
+        }
+    };
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -103,6 +128,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         PhoneApp app = PhoneApp.getInstance();
         mPhone = app.phone;
+        mPhone.registerForInCallVoicePrivacyOn(mEnhancedVPHandler,  EVENT_ENHANCED_VP_ON,  null);
+        mPhone.registerForInCallVoicePrivacyOff(mEnhancedVPHandler, EVENT_ENHANCED_VP_OFF, null);
     }
 
     static void init(Context context) {
@@ -467,7 +494,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
-    void updateInCallNotification() {
+    private void updateInCallNotification(boolean enhancedVoicePrivacy) {
+        // WINK:TODO: Teleca, what is the correct code here.
+        int resId;
         if (DBG) log("updateInCallNotification()...");
 
         if (mPhone.getState() != Phone.State.OFFHOOK) {
@@ -479,10 +508,19 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // Display the appropriate "in-call" icon in the status bar,
         // which depends on the current phone and/or bluetooth state.
-        int resId = android.R.drawable.stat_sys_phone_call;
+        resId = 0;
+        if (enhancedVoicePrivacy) {
+            resId = android.R.drawable.stat_sys_vp_phone_call;
+        } else {
+            resId = android.R.drawable.stat_sys_phone_call;
+        }
         if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
-            resId = android.R.drawable.stat_sys_phone_call_on_hold;
+            if (enhancedVoicePrivacy) {
+                resId = android.R.drawable.stat_sys_vp_phone_call_on_hold;
+            } else {
+                resId = android.R.drawable.stat_sys_phone_call_on_hold;
+            }
         } else if (PhoneApp.getInstance().showBluetoothIndication()) {
             // Bluetooth is active.
             resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
@@ -613,6 +651,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         updateMuteNotification();
     }
 
+    void updateInCallNotification() {
+        updateInCallNotification(false);
+    }
+
     /**
      * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
      * refreshes the contentView when called. 
@@ -681,7 +723,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // So handle case (2) by retrying the lookup after a short
             // delay.
 
-            if ((vmNumber == null) && !mPhone.getSimRecordsLoaded()) {
+            if ((vmNumber == null) && !mPhone.getIccRecordsLoaded()) {
                 if (DBG) log("- Null vm number: SIM records not loaded (yet)...");
 
                 // TODO: rather than retrying after an arbitrary delay, it

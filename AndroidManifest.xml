@@ -49,7 +49,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_SMS"/>
     <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
 
@@ -57,8 +57,8 @@
                  android:persistent="true"
                  android:label="@string/dialerIconLabel"
                  android:icon="@drawable/ic_launcher_phone">
-            <provider android:name="SimProvider"
-                      android:authorities="sim"
+            <provider android:name="IccProvider"
+                      android:authorities="icc"
                       android:multiprocess="true"
                       android:readPermission="android.permission.READ_CONTACTS"
                       android:writePermission="android.permission.WRITE_CONTACTS" />
@@ -159,7 +159,7 @@
         </activity-alias>
 
         <receiver android:name="ProcessOutgoingCallTest" android:exported="false"
-                android:enabled="false">
+            android:enabled="false">
             <intent-filter android:priority="1">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -201,6 +201,27 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="GsmUmtsOptions"
+            android:label="@string/gsm_umts_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="CdmaOptions"
+            android:label="@string/cdma_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="CellBroadcastSms"
+            android:label="@string/cell_broadcast_sms">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
         <!-- fdn setting -->
         <activity android:name="FdnSetting" android:label="@string/fdn">
             <intent-filter>
@@ -212,14 +233,14 @@
         </activity>
 
         <!-- SIM PIN setting -->
-        <activity android:name="EnableSimPinScreen" android:label="@string/enable_pin">
+        <activity android:name="EnableIccPinScreen" android:label="@string/enable_pin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="ChangeSimPinScreen" android:label="@string/change_pin">
+        <activity android:name="ChangeIccPinScreen" android:label="@string/change_pin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
@@ -232,8 +253,8 @@
         <activity android:name="EditFdnContactScreen">
         </activity>
 
-        <activity android:name="DeleteFdnContactScreen"
-                android:label="@string/delete_fdn_contact">
+        <activity android:name="DeleteFdnContactScreen" 
+        android:label="@string/delete_fdn_contact">
         </activity>
         
         <activity android:name="DataRoamingReenable" android:label="@string/android:dialog_alert_title"
@@ -273,3 +294,4 @@
         </service>
     </application>
 </manifest>
+

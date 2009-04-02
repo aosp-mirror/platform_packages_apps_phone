@@ -16,11 +16,7 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.MmiCode;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.SimCard;
-import com.android.internal.telephony.TelephonyIntents;
+
 
 import android.app.Activity;
 import android.app.Application;
@@ -53,6 +49,12 @@ import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.MmiCode;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.TelephonyIntents;
 
 /**
  * Top-level Application class for the Phone app.
@@ -214,8 +216,8 @@ public class PhoneApp extends Application {
 
                 case EVENT_SIM_NETWORK_LOCKED:
                     if (Config.LOGV) Log.v(LOG_TAG, "show sim depersonal panel");
-                    SimNetworkDepersonalizationPanel ndpPanel =
-                        new SimNetworkDepersonalizationPanel(PhoneApp.getInstance());
+                    IccNetworkDepersonalizationPanel ndpPanel =
+                        new IccNetworkDepersonalizationPanel(PhoneApp.getInstance());
                     ndpPanel.show();
                     break;
 
@@ -261,7 +263,7 @@ public class PhoneApp extends Application {
                     // Marks the event where the SIM goes into ready state.
                     // Right now, this is only used for the PUK-unlocking
                     // process.
-                    if (msg.obj.equals(SimCard.INTENT_VALUE_SIM_READY)) {
+                    if (msg.obj.equals(IccCard.INTENT_VALUE_ICC_READY)) {
                         // when the right event is triggered and there
                         // are UI objects in the foreground, we close
                         // them to display the lock panel.
@@ -329,10 +331,10 @@ public class PhoneApp extends Application {
 
             notifier = new CallNotifier(this, phone, ringer, mBtHandsfree);
 
-            // register for SIM status
-            SimCard sim = phone.getSimCard();
+            // register for ICC status
+            IccCard sim = phone.getIccCard();
             if (sim != null) {
-                if (Config.LOGV) Log.v(LOG_TAG, "register for SIM status");
+                if (Config.LOGV) Log.v(LOG_TAG, "register for ICC status");
                 sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
                 sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
                 sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
@@ -353,6 +355,7 @@ public class PhoneApp extends Application {
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+            intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -395,7 +398,7 @@ public class PhoneApp extends Application {
         }
 
         // XXX pre-load the SimProvider so that it's ready
-        resolver.getType(Uri.parse("content://sim/adn"));
+        resolver.getType(Uri.parse("content://icc/adn"));
 
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
@@ -889,6 +892,27 @@ public class PhoneApp extends Application {
         PhoneUtils.displayMMIComplete(phone, getInstance(), mmiCode, null, null);
     }
 
+    private void initForNewRadioTechnology() {
+        if(DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
+
+        ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
+        notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
+        if(mBtHandsfree != null) {
+            mBtHandsfree.updateBtHandsfreeAfterRadioTechnologyChange();
+        }
+
+        //Update registration for ICC status after radio technology change
+        IccCard sim = phone.getIccCard();
+        if (sim != null) {
+            if(DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
+
+            //Register all events new to the new active phone
+            sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
+            sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
+            sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
+        }
+    }
+
     /**
      * @return true if a wired headset is currently plugged in.
      *
@@ -1042,7 +1066,11 @@ public class PhoneApp extends Application {
                 // NOTE: This is ONLY triggered if an attempt to un-PUK-lock has
                 // been attempted.
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_SIM_STATE_CHANGED,
-                        intent.getStringExtra(SimCard.INTENT_KEY_SIM_STATE)));
+                        intent.getStringExtra(IccCard.INTENT_KEY_ICC_STATE)));
+            } else if (action.equals(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED)) {
+                String newPhone = intent.getStringExtra(Phone.PHONE_NAME_KEY);
+                Log.d(LOG_TAG, "Radio technology switched. Now " + newPhone + " is active.");
+                initForNewRadioTechnology();
             }
         }
     }
@@ -1084,3 +1112,6 @@ public class PhoneApp extends Application {
         }
     }
 }
+
+
+

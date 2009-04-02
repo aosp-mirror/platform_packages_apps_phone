@@ -847,7 +847,7 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_powerOff;
                     break;
 
-                case SIM_ERROR:
+                case ICC_ERROR:
                     resID = R.string.callFailed_simError;
                     break;
 

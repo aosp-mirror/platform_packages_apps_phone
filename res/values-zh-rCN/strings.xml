@@ -86,14 +86,13 @@
     <string name="unlock_failed">"网络解锁请求失败。"</string>
     <string name="unlock_success">"网络解锁成功。"</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"其他通话设置"</string>
+
     <string name="apn_settings">"接入点名称"</string>
     <string name="settings_label">"网络设置"</string>
     <string name="voicemail">"语音信箱"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"网络运营商"</string>
     <string name="call_settings">"通话设置"</string>
-    <string name="additional_call_settings">"其他通话设置"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"呼叫者 ID"</string>
@@ -162,8 +161,6 @@
     <string name="roaming_disable">"漫游时连接至数据服务"</string>
     <string name="roaming_reenable_message">"您已断开数据连接，因为您离开了主网络并关闭了数据漫游。"</string>
     <string name="roaming_warning">"是否允许数据漫游？您可能需要支付高额的漫游费！"</string>
-    <string name="prefer_2g">"仅使用 2G 网络"</string>
-    <string name="prefer_2g_summary">"节约电量"</string>
     <string name="fdn">"固定拨号"</string>
     <string name="manage_fdn_list">"FDN 列表"</string>
     <string name="fdn_activation">"FDN 激活"</string>
@@ -280,3 +277,4 @@
     <string name="importingSimContacts">"正在导入 SIM 卡联系人"</string>
     <string name="importToFDNfromContacts">"从联系人导入"</string>
 </resources>
+

@@ -86,14 +86,12 @@
     <string name="unlock_failed">"Richiesta di sblocco della rete respinta."</string>
     <string name="unlock_success">"Sblocco della rete riuscito."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Altre impostazioni"</string>
     <string name="apn_settings">"Nomi punti di accesso"</string>
     <string name="settings_label">"Impostazioni di rete"</string>
     <string name="voicemail">"Segreteria"</string>
     <string name="voicemail_abbreviated">"ST:"</string>
     <string name="networks">"Operatori di rete"</string>
     <string name="call_settings">"Impostazioni chiamate"</string>
-    <string name="additional_call_settings">"Altre impostazioni chiamate"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"ID chiamante"</string>
@@ -162,8 +160,6 @@
     <string name="roaming_disable">"Connessione a servizi di dati in roaming"</string>
     <string name="roaming_reenable_message">"Connettività dati persa: hai lasciato la rete del tuo operatore con il roaming dati disattivato."</string>
     <string name="roaming_warning">"Consentire il roaming dati? I costi potrebbero essere elevati."</string>
-    <string name="prefer_2g">"Usa solo reti 2G"</string>
-    <string name="prefer_2g_summary">"Risparmia batteria"</string>
     <string name="fdn">"Numeri di selezione fissa"</string>
     <string name="manage_fdn_list">"Elenco FDN"</string>
     <string name="fdn_activation">"Attivazione FDN"</string>
@@ -280,3 +276,4 @@
     <string name="importingSimContacts">"Importazione contatti SIM"</string>
     <string name="importToFDNfromContacts">"Importa da contatti"</string>
 </resources>
+
