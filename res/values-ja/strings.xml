@@ -53,8 +53,8 @@
     <string name="menu_mergeCalls">"グループ通話"</string>
     <string name="menu_addCall">"通話を追加"</string>
     <string name="menu_manageConference">"グループ通話オプション"</string>
-    <string name="menu_showDialpad">"ダイヤルパッドを表示"</string>
-    <string name="menu_hideDialpad">"ダイヤルパッドを隠す"</string>
+    <string name="menu_showDialpad">"ダイヤルキー表示"</string>
+    <string name="menu_hideDialpad">"ダイヤルキー非表示"</string>
     <string name="menu_answerAndHold">"通話を保留"\n"して応答"</string>
     <string name="menu_answerAndEnd">"現在の通話を終了"\n"して応答"</string>
     <string name="ok">"OK"</string>
@@ -270,9 +270,8 @@
     <string name="dial_emergency_error">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急通報番号ではないので発信できません。"</string>
     <string name="dial_emergency_empty_error">"発信できません。緊急通報番号におかけください。"</string>
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
-    <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHintText">"タッチトーンキー"</string>
+    <string name="dtmfDialpadHandleLabel">"ダイヤルキー"</string>
     <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>
