@@ -21,8 +21,6 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextUtils;
@@ -36,17 +34,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
-/**
- * "SIM network unlock" PIN entry screen.
- *
- * @see PhoneApp.EVENT_SIM_NETWORK_LOCKED
- */
-public class SimNetworkDepersonalizationPanel extends SimPanel {
+public class IccNetworkDepersonalizationPanel extends IccPanel{
+
+    //debug constants
     private static final boolean DBG = false;
 
     //events
-    private static final int EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT = 100;
+    private static final int EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT = 100;
 
     private Phone mPhone;
 
@@ -57,6 +54,7 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
     private TextView     mStatusText;
 
     private Button       mUnlockButton;
+    private Button       mDismissButton;
 
     //private textwatcher to control text entry.
     private TextWatcher mPinEntryWatcher = new TextWatcher() {
@@ -73,11 +71,11 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
             }
         }
     };
-    
+
     //handler for unlock function results
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT) {
+            if (msg.what == EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT) {
                 AsyncResult res = (AsyncResult) msg.obj;
                 if (res.exception != null) {
                     if (DBG) log("network depersonalization request failure.");
@@ -101,36 +99,40 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
             }
         }
     };
-    
+
     //constructor
-    public SimNetworkDepersonalizationPanel(Context context) {
+    public IccNetworkDepersonalizationPanel(Context context) {
         super(context);
     }
-    
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.sim_ndp);
 
-        // PIN entry text field
+        //set up pin entry text field
         mPinEntry = (EditText) findViewById(R.id.pin_entry);
         mPinEntry.setKeyListener(DialerKeyListener.getInstance());
+        mPinEntry.setMovementMethod(null);
         mPinEntry.setOnClickListener(mUnlockListener);
 
-        // Attach the textwatcher
+        //attach the textwatcher
         CharSequence text = mPinEntry.getText();
         Spannable span = (Spannable) text;
         span.setSpan(mPinEntryWatcher, 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        
+
         mEntryPanel = (LinearLayout) findViewById(R.id.entry_panel);
 
         mUnlockButton = (Button) findViewById(R.id.ndp_unlock);
         mUnlockButton.setOnClickListener(mUnlockListener);
 
+        mDismissButton = (Button) findViewById(R.id.ndp_dismiss);
+        mDismissButton.setOnClickListener(mDismissListener);
+
         //status panel is used since we're having problems with the alert dialog.
         mStatusPanel = (LinearLayout) findViewById(R.id.status_panel);
         mStatusText = (TextView) findViewById(R.id.status_text);
-        
+
         mPhone = PhoneFactory.getDefaultPhone();
     }
 
@@ -138,8 +140,8 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
     protected void onStart() {
         super.onStart();
     }
-    
-    //Mirrors SimPinUnlockPanel.onKeyDown().
+
+    //Mirrors IccPinUnlockPanel.onKeyDown().
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
@@ -155,10 +157,10 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
             if (TextUtils.isEmpty(pin)) {
                 return;
             }
-
+            
             if (DBG) log("requesting network depersonalization with code " + pin);
-            mPhone.getSimCard().supplyNetworkDepersonalization(pin,
-                    Message.obtain(mHandler, EVENT_SIM_NTWRK_DEPERSONALIZATION_RESULT));
+            mPhone.getIccCard().supplyNetworkDepersonalization(pin, 
+                    Message.obtain(mHandler, EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT));
             indicateBusy();
         }
     };
@@ -186,7 +188,14 @@ public class SimNetworkDepersonalizationPanel extends SimPanel {
         mStatusPanel.setVisibility(View.GONE);
     }
 
+    View.OnClickListener mDismissListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            if (DBG) log("network depersonalization skipped.");
+            dismiss();
+        }
+    };
+
     private void log(String msg) {
-        Log.v(TAG, "[SimNetworkDepersonalizationPanel] " + msg);
+        Log.v(TAG, "[IccNetworkUnlock] " + msg);
     }
 }

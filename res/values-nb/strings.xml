@@ -86,14 +86,13 @@
     <string name="unlock_failed">"Fikk ikke fjerne operatørlås."</string>
     <string name="unlock_success">"Operatørlåsen er fjernet."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Flere innstillinger"</string>
+
     <string name="apn_settings">"Navn på aksesspunkt"</string>
     <string name="settings_label">"Nettverksinnstillinger"</string>
     <string name="voicemail">"Telefonsvarer"</string>
     <string name="voicemail_abbreviated">"Svarer:"</string>
     <string name="networks">"Nettoperatører"</string>
     <string name="call_settings">"Samtaleinnstillinger"</string>
-    <string name="additional_call_settings">"Flere innstillinger"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"Nummervisning"</string>
@@ -162,8 +161,6 @@
     <string name="roaming_disable">"Koble til datatjenester ved roaming"</string>
     <string name="roaming_reenable_message">"Du har mistet datakonnektivitet fordi du har forlatt hjemmenettet ditt med dataroaming slått av."</string>
     <string name="roaming_warning">"Tillat dataroaming? Dette kan koste mye penger!"</string>
-    <string name="prefer_2g">"Bruk kun 2G-nettverk"</string>
-    <string name="prefer_2g_summary">"Sparer batteri"</string>
     <string name="fdn">"Faste nummer"</string>
     <string name="manage_fdn_list">"Liste over faste nummer"</string>
     <string name="fdn_activation">"Aktivering av faste nummer"</string>
@@ -280,3 +277,4 @@
     <string name="importingSimContacts">"Importerer kontakter fra SIM-kortet"</string>
     <string name="importToFDNfromContacts">"Importer fra kontakter"</string>
 </resources>
+

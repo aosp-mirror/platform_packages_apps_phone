@@ -401,3 +401,4 @@ public class NetworkSetting extends PreferenceActivity
         Log.d(LOG_TAG, "[NetworksList] " + msg);
     }
 }
+

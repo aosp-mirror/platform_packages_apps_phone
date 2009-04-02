@@ -93,7 +93,7 @@ public class ADNList extends ListActivity {
     protected Uri resolveIntent() {
         Intent intent = getIntent();
         if (intent.getData() == null) {
-            intent.setData(Uri.parse("content://sim/adn"));
+            intent.setData(Uri.parse("content://icc/adn"));
         }
 
         return intent.getData();

@@ -24,32 +24,33 @@
         android:summaryOn="@string/roaming_enable"
         android:summaryOff="@string/roaming_disable"/>
         
-    <CheckBoxPreference 
-        android:key="button_prefer_2g_key" 
-        android:title="@string/prefer_2g"
-        android:persistent="false"
-        android:summary="@string/prefer_2g_summary"/>
+    <ListPreference 
+        android:key="preferred_network_mode_key"
+        android:title="@string/preferred_network_mode_title"
+        android:summary="@string/preferred_network_mode_summary"
+        android:entries="@array/preferred_network_mode_choices"
+        android:entryValues="@array/preferred_network_mode_values"
+        android:dialogTitle="@string/preferred_network_mode_dialogtitle" />
         
     <PreferenceScreen 
-        android:key="button_carrier_sel_key" 
-        android:title="@string/networks"
-        android:summary="@string/sum_carrier_select"
+        android:key="gsm_umts_options_key" 
+        android:title="@string/gsm_umts_options"
         android:persistent="false">
         
         <intent android:action="android.intent.action.MAIN"
             android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.NetworkSetting" />
+            android:targetClass="com.android.phone.GsmUmtsOptions" />
         
     </PreferenceScreen>
         
     <PreferenceScreen 
-        android:key="button_apn_key" 
-        android:title="@string/apn_settings"
+        android:key="cdma_options_key" 
+        android:title="@string/cdma_options"
         android:persistent="false">
         
         <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.settings"
-            android:targetClass="com.android.settings.ApnSettings" />
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.CdmaOptions" />
             
     </PreferenceScreen>
         

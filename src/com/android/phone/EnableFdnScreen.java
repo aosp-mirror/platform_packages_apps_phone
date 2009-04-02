@@ -21,9 +21,6 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.gsm.CommandException;
 import android.text.TextUtils;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -31,6 +28,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 /**
  * UI to enable/disable FDN.
@@ -68,7 +69,7 @@ public class EnableFdnScreen extends Activity {
         setupView();
 
         mPhone = PhoneFactory.getDefaultPhone();
-        mEnable = !mPhone.getSimCard().getSimFdnEnabled();
+        mEnable = !mPhone.getIccCard().getIccFdnEnabled();
 
         int id = mEnable ? R.string.enable_fdn : R.string.disable_fdn;
         setTitle(getResources().getText(id));
@@ -77,6 +78,7 @@ public class EnableFdnScreen extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        mPhone = PhoneFactory.getDefaultPhone();
     }
 
     private void setupView() {
@@ -106,7 +108,7 @@ public class EnableFdnScreen extends Activity {
 
     private void enableFdn() {
         Message callback = Message.obtain(mHandler, ENABLE_FDN_COMPLETE);
-        mPhone.getSimCard().setSimFdnEnabled(mEnable, getPin2(), callback);
+        mPhone.getIccCard().setIccFdnEnabled(mEnable, getPin2(), callback);
         if (DBG) log("enableFdn: please wait...");
     }
 
