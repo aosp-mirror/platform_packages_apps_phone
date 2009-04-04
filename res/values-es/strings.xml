@@ -18,7 +18,7 @@
     <string name="contactsIconLabel">"Contactos"</string>
     <string name="contactsFavoritesLabel">"Favoritos"</string>
     <string name="dialerIconLabel">"Llamar"</string>
-    <string name="emergencyDialerIconLabel">"Marcación de emergencia"</string>
+    <string name="emergencyDialerIconLabel">"Llamada de emergencia"</string>
     <string name="phoneIconLabel">"Teléfono"</string>
     <string name="recentCallsIconLabel">"Registro de llamadas"</string>
     <string name="fdnListLabel">"Lista de FDN"</string>
