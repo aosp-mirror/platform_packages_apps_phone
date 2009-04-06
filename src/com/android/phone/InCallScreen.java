@@ -313,9 +313,14 @@ public class InCallScreen extends Activity
                     // finish, this includes any MMI state that is not
                     // PENDING.
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
-                    if (mmiCode.getState() != MmiCode.State.PENDING) {
-                        if (DBG) log("Got MMI_COMPLETE, finishing...");
-                        finish();
+                    // if phone is a CDMA phone display feature code completed message
+                    if (mPhone.getPhoneName() == "CDMA") {
+                        PhoneUtils.displayMMIComplete(mPhone, PhoneApp.getInstance(), mmiCode, null, null);
+                    } else {
+                        if (mmiCode.getState() != MmiCode.State.PENDING) {
+                            if (DBG) log("Got MMI_COMPLETE, finishing...");
+                            finish();
+                        }
                     }
                     break;
 
@@ -1855,7 +1860,7 @@ public class InCallScreen extends Activity
 
         // Need to treat running MMI codes as a connection as well.
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
-            || !mPhone.getPendingMmiCodes().isEmpty()) {
+            || mPhone.getPhoneName() == "CDMA" || !mPhone.getPendingMmiCodes().isEmpty()) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
