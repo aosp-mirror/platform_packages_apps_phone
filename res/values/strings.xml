@@ -771,6 +771,8 @@
     <string name="incall_error_call_failed">Call not sent.</string>
     <!-- In-call screen: status message displayed in a dialog when starting an MMI -->
     <string name="incall_status_dialed_mmi">Starting MMI sequence\u2026</string>
+    <!-- In-call screen: status message displayed in a dialog when starting a feature code -->
+    <string name="incall_status_dialed_fc">Starting feature code sequence\u2026</string>
     <!-- In-call screen: message displayed in an error dialog -->
     <string name="incall_error_supp_service_unknown">Unsupported service.</string>
     <!-- In-call screen: message displayed in an error dialog -->
