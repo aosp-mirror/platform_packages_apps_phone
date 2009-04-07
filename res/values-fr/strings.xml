@@ -21,11 +21,10 @@
     <string name="emergencyDialerIconLabel">"Appels d\'urgence"</string>
     <string name="phoneIconLabel">"Téléphone"</string>
     <string name="recentCallsIconLabel">"Appels"</string>
-    <string name="fdnListLabel">"Liste de numéros autorisés"</string>
+    <string name="fdnListLabel">"Liste numéros autorisés"</string>
     <string name="unknown">"Inconnu"</string>
     <string name="private_num">"Numéro privé"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Cabine téléphonique"</string>
     <string name="onHold">"En attente"</string>
     <string name="ongoing">"Appel en cours"</string>
     <string name="callFailed_userBusy">"Ligne occupée"</string>
@@ -86,7 +85,7 @@
     <string name="unlock_failed">"Échec de la demande de déblocage du réseau."</string>
     <string name="unlock_success">"Le réseau a bien été débloqué."</string>
     <string name="imei">"IIEM"</string>
-    <string name="labelMore">"Paramètres d\'appel supplémentaires"</string>
+    <string name="labelMore">"Paramètres supplémentaires"</string>
     <string name="apn_settings">"Noms des points d\'accès"</string>
     <string name="settings_label">"Paramètres du réseau"</string>
     <string name="voicemail">"Messagerie vocale"</string>
@@ -94,8 +93,7 @@
     <string name="networks">"Opérateur de réseau"</string>
     <string name="call_settings">"Paramètres d\'appel"</string>
     <string name="additional_call_settings">"Paramètres supplémentaires"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Paramètres du service réseau"</string>
     <string name="labelCallerId">"Identifiant d\'appelant"</string>
     <string name="sum_hide_caller_id">"Numéro masqué pour les appels sortants"</string>
     <string name="sum_show_caller_id">"Numéro affiché pour les appels sortants"</string>
@@ -110,11 +108,11 @@
     <string name="sum_cfu_enabled_indicator">"Transfert de tous les appels"</string>
     <string name="sum_cfu_enabled">"Transfert de tous les appels à {0}"</string>
     <string name="sum_cfu_disabled">"Désactivé"</string>
-    <string name="labelCFB">"Transférer quand la ligne est occupée"</string>
+    <string name="labelCFB">"Transférer si ligne occupée"</string>
     <string name="messageCFB">"Numéro de renvoi lorsque la ligne est occupée"</string>
     <string name="sum_cfb_enabled">"Transfert vers le {0}"</string>
     <string name="sum_cfb_disabled">"Désactivé"</string>
-    <string name="labelCFNRy">"Transférer lorsque vous ne répondez pas"</string>
+    <string name="labelCFNRy">"Transférer si sans réponse"</string>
     <string name="messageCFNRy">"Numéro de renvoi lorsque vous ne répondez pas"</string>
     <string name="sum_cfnry_enabled">"Transfert vers le {0}"</string>
     <string name="sum_cfnry_disabled">"Désactivé"</string>
@@ -155,7 +153,7 @@
     <string name="sum_carrier_select">"Choisir un opérateur réseau"</string>
     <string name="sum_search_networks">"Chercher tous les réseaux disponibles"</string>
     <string name="select_automatically">"Sélectionner automatiquement"</string>
-    <string name="sum_select_automatically">"Sélectionner automatiquement"</string>
+    <string name="sum_select_automatically">"Sélection automatique"</string>
     <string name="register_automatically">"Enregistrement automatique..."</string>
     <string name="roaming">"Itinérance des données"</string>
     <string name="roaming_enable">"Se connecter aux services de données lors de l\'itinérance"</string>
@@ -169,7 +167,7 @@
     <string name="fdn_activation">"Activation des numéros autorisés"</string>
     <string name="fdn_enabled">"La liste de numéros autorisés est activée."</string>
     <string name="fdn_disabled">"La liste de numéros autorisés est désactivée."</string>
-    <string name="enable_fdn">"Activer les numéros autorisés"</string>
+    <string name="enable_fdn">"Activer numéros autorisés"</string>
     <string name="disable_fdn">"Désactiver les numéros autorisés"</string>
     <string name="change_pin2">"Modifier le code PIN2"</string>
     <string name="enable_fdn_ok">"Désactiver les numéros autorisés"</string>
@@ -272,8 +270,7 @@
     <string name="dial_emergency_empty_error">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText">"Clavier touches sonores"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Clavier"</string>
     <string name="touchLockText">"Double-cliquez"\n"pour déverrouiller"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Tout importer"</string>

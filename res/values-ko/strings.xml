@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"FDN 목록"</string>
     <string name="unknown">"알 수 없음"</string>
     <string name="private_num">"발신자 표시제한"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"공중 전화"</string>
     <string name="onHold">"대기 중"</string>
     <string name="ongoing">"현재 통화"</string>
     <string name="callFailed_userBusy">"통화 중입니다."</string>
@@ -94,8 +93,7 @@
     <string name="networks">"네트워크 운영자"</string>
     <string name="call_settings">"통화 설정"</string>
     <string name="additional_call_settings">"추가 통화 설정"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"네트워크 서비스 설정"</string>
     <string name="labelCallerId">"발신자 번호"</string>
     <string name="sum_hide_caller_id">"발신전화의 번호 숨김"</string>
     <string name="sum_show_caller_id">"발신전화의 번호 표시"</string>
@@ -272,8 +270,7 @@
     <string name="dial_emergency_empty_error">"전화를 걸지 못했습니다. 비상 전화번호를 직접 누르세요."</string>
     <string name="dialerKeyboardHintText">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText">"터치 톤 키패드"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"다이얼패드"</string>
     <string name="touchLockText">"잠금해제하려면"\n"두 번 누르세요."</string>
     <string name="importSimEntry">"가져오기"</string>
     <string name="importAllSimEntries">"모두 가져오기"</string>
