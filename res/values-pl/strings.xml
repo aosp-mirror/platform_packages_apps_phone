@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"Ustalone numery (FDN)"</string>
     <string name="unknown">"Nieznany"</string>
     <string name="private_num">"Numer prywatny"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Płatny telefon"</string>
     <string name="onHold">"Oczekujące"</string>
     <string name="ongoing">"Bieżące połączenie"</string>
     <string name="callFailed_userBusy">"Linia jest zajęta"</string>
@@ -92,8 +91,7 @@
     <string name="voicemail_abbreviated">"Poczta głosowa:"</string>
     <string name="networks">"Operatorzy sieci"</string>
     <string name="call_settings">"Ustawienia połączeń"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Ustawienia usługi sieciowej"</string>
     <string name="labelCallerId">"ID dzwoniącego"</string>
     <string name="sum_hide_caller_id">"Ukrycie numeru podczas rozmów wychodzących"</string>
     <string name="sum_show_caller_id">"Numer wyświetlany w połączeniach wychodzących"</string>
@@ -269,8 +267,7 @@
     <string name="dial_emergency_empty_error">"Połączenie niezrealizowane, należy wybrać numer alarmowy!"</string>
     <string name="dialerKeyboardHintText">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="dtmfDialpadHintText">"Dotknij klawiatury"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Panel numeryczny"</string>
     <string name="touchLockText">"Dotknij dwukrotnie,"\n" aby odblokować"</string>
     <string name="importSimEntry">"Importuj"</string>
     <string name="importAllSimEntries">"Importuj wszystko"</string>
