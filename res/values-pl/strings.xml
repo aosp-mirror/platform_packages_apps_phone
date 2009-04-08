@@ -108,15 +108,15 @@
     <string name="sum_cfu_enabled_indicator">"Przekierowanie wszystkich rozmów"</string>
     <string name="sum_cfu_enabled">"Przekierowanie wszystkich rozmów do {0}"</string>
     <string name="sum_cfu_disabled">"Wyłączone"</string>
-    <string name="labelCFB">"Przekieruj gdy zajęty"</string>
+    <string name="labelCFB">"Przekieruj, gdy zajęty"</string>
     <string name="messageCFB">"Numer, gdy zajęty"</string>
     <string name="sum_cfb_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfb_disabled">"Wyłączone"</string>
-    <string name="labelCFNRy">"Przekieruj gdy nieodebrane"</string>
+    <string name="labelCFNRy">"Przekieruj, gdy nieodebrane"</string>
     <string name="messageCFNRy">"Numer, gdy nieodebrane"</string>
     <string name="sum_cfnry_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnry_disabled">"Wyłączone"</string>
-    <string name="labelCFNRc">"Przekieruj gdy nieosiągalny"</string>
+    <string name="labelCFNRc">"Przekieruj, gdy nieosiągalny"</string>
     <string name="messageCFNRc">"Numer, gdy nieosiągalny."</string>
     <string name="sum_cfnrc_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnrc_disabled">"Wyłączone"</string>
@@ -194,7 +194,7 @@
     <string name="pin2_invalid">"Błędny kod PIN2!"</string>
     <string name="fdn_invalid_number">"Numer nie może być dłuższy niż 20 cyfr."</string>
     <string name="simContacts_emptyLoading">"Czytanie z karty SIM..."</string>
-    <string name="simContacts_empty">"Brak kontaktów na karcie SIM."</string>
+    <string name="simContacts_empty">"Brak kontaktów na karcie SIM"</string>
     <string name="simContacts_title">"Wybierz kontakty do importowania"</string>
     <string name="enable_pin">"Włącz/wyłącz kod PIN do karty SIM"</string>
     <string name="change_pin">"Zmień kod PIN do karty SIM"</string>

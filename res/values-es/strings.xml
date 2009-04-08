@@ -94,7 +94,7 @@
     <string name="call_settings">"Ajustes de llamadas"</string>
     <string name="additional_call_settings">"Configuración adicional"</string>
     <string name="labelNwService">"Configuración del servicio de red"</string>
-    <string name="labelCallerId">"ID del emisor"</string>
+    <string name="labelCallerId">"ID de emisor"</string>
     <string name="sum_hide_caller_id">"Número oculto en llamadas salientes"</string>
     <string name="sum_show_caller_id">"Número mostrado en llamadas salientes"</string>
     <string name="sum_default_caller_id">"Utilizar la configuración de operador predeterminada para mostrar mi número en las llamadas salientes"</string>
@@ -251,7 +251,7 @@
     <string name="notification_voicemail_title">"Buzón de voz nuevo"</string>
     <string name="notification_voicemail_text_format">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number">"Número del buzón de voz desconocido"</string>
-    <string name="incall_error_power_off">"Para realizar una llamada, primero debes desactivar el modo Avión."</string>
+    <string name="incall_error_power_off">"Para realizar una llamada, primero debes desactivar el modo avión."</string>
     <string name="incall_error_emergency_only">"No se ha registrado en la red."</string>
     <string name="incall_error_no_phone_number_supplied">"No se ha realizado la llamada; el número introducido no es válido."</string>
     <string name="incall_error_call_failed">"La llamada no se ha enviado."</string>
@@ -271,7 +271,7 @@
     <string name="dialerKeyboardHintText">"Utilizar teclado para marcar"</string>
     <string name="dtmfDialpadHintText">"Teclado de tonos táctiles"</string>
     <string name="dtmfDialpadHandleLabel">"Teclado"</string>
-    <string name="touchLockText">"Pulsa dos veces"\n"para desbloquear"</string>
+    <string name="touchLockText">"Da dos toques"\n"para desbloquear"</string>
     <string name="importSimEntry">"Importar"</string>
     <string name="importAllSimEntries">"Importar todos"</string>
     <string name="importingSimContacts">"Importando contactos de tarjeta SIM..."</string>

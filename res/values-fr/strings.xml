@@ -39,7 +39,7 @@
     <string name="callFailed_dsac_restricted">"Tous les appels sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_emergency">"Les appels d\'urgence sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_normal">"Les appels ordinaires sont restreints par un contrôle d\'accès."</string>
-    <string name="confCall">"Conférence téléphonique"</string>
+    <string name="confCall">"Conférence tél."</string>
     <string name="mmiStarted">"Le code MMI a été lancé."</string>
     <string name="ussdRunning">"Exécution du code USSD..."</string>
     <string name="mmiCancelled">"Code MMI annulé"</string>

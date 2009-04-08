@@ -97,7 +97,7 @@
     <string name="labelCallerId">"Beller-id"</string>
     <string name="sum_hide_caller_id">"Nummer verborgen bij uitgaande oproepen"</string>
     <string name="sum_show_caller_id">"Nummer weergegeven bij uitgaande oproepen"</string>
-    <string name="sum_default_caller_id">"Gebruik de standaard operator-instellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
+    <string name="sum_default_caller_id">"Gebruik de standaard operatorinstellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
     <string name="labelCW">"Wisselgesprek"</string>
     <string name="sum_cw_enabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>
     <string name="sum_cw_disabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>

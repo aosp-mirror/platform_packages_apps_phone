@@ -58,8 +58,8 @@
     <string name="menu_answerAndHold">"Aktuellen Anruf halten"\n"und annehmen"</string>
     <string name="menu_answerAndEnd">"Aktuellen Anruf beenden"\n"und annehmen"</string>
     <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken."</string>
-    <string name="menuButtonKeyboardDialHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken  •  Zum Wählen Tastatur verwenden"</string>
+    <string name="menuButtonHint">"Zum Anzeigen der Anrufoptionen die Menütaste drücken"</string>
+    <string name="menuButtonKeyboardDialHint">"Zum Anzeigen der Anrufoptionen die Menütaste drücken • Zum Wählen Tastatur verwenden"</string>
     <string name="wait_prompt_str">"Folgende Töne senden?"\n</string>
     <string name="send_button">"Senden"</string>
     <string name="wild_prompt_str">"Platzhalter ersetzen durch"</string>
@@ -126,7 +126,7 @@
     <string name="updating_settings">"Einstellungen werden aktualisiert…"</string>
     <string name="response_error">"Unerwartete Antwort von Netzwerk,"</string>
     <string name="exception_error">"Netzwerk- oder SIM-Kartenfehler."</string>
-    <string name="radio_off_error">"Schalten Sie das Radio ein, bevor Sie diese Einstellungen anzeigen."</string>
+    <string name="radio_off_error">"Aktivieren Sie Ihre Mobilfunkverbindung, bevor Sie diese Einstellungen anzeigen."</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"Aktivieren"</string>
     <string name="disable">"Deaktivieren"</string>
