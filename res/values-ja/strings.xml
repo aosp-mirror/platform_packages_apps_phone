@@ -101,8 +101,8 @@
     <string name="labelCW">"通話中着信"</string>
     <string name="sum_cw_enabled">"通話中も着信を知らせる"</string>
     <string name="sum_cw_disabled">"通話中も着信を知らせる"</string>
-    <string name="call_forwarding_settings">"電話転送設定"</string>
-    <string name="labelCF">"電話の転送"</string>
+    <string name="call_forwarding_settings">"着信転送設定"</string>
+    <string name="labelCF">"着信転送"</string>
     <string name="labelCFU">"常に転送"</string>
     <string name="messageCFU">"常にこの番号を使用"</string>
     <string name="sum_cfu_enabled_indicator">"電話をすべて転送する"</string>
