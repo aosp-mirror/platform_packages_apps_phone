@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"FDN-lijst"</string>
     <string name="unknown">"Onbekend"</string>
     <string name="private_num">"Privénummer"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Betaaltelefoon"</string>
     <string name="onHold">"In de wacht"</string>
     <string name="ongoing">"Huidige oproep"</string>
     <string name="callFailed_userBusy">"Lijn is bezet"</string>
@@ -71,20 +70,20 @@
     <string name="add_vm_number_str">"Nummer toevoegen"</string>
     <string name="dialer_emptyListWorking">"Laden..."</string>
     <string name="enterPin">"Voer de PIN-code in om de SIM-kaart te ontgrendelen."</string>
-    <string name="pinUnlocked">"SIM-kaart gedeblokkeerd"</string>
+    <string name="pinUnlocked">"SIM-kaart ontgrendeld"</string>
     <string name="enterNewPin">"Nieuwe SIM PIN-code"</string>
     <string name="verifyNewPin">"Voer de nieuwe SIM PIN-code nogmaals in ter bevestiging"</string>
     <string name="verifyFailed">"De SIM PIN-codes die u heeft ingevoerd, komen niet overeen. Probeer het opnieuw."</string>
     <string name="enterPuk">"Voer de PUK-code in om de SIM-kaart te ontgrendelen"</string>
     <string name="badPuk">"Onjuiste PUK-code!"</string>
     <string name="buttonTxtContinue">"Doorgaan"</string>
-    <string name="puk_unlocked">"Uw SIM-kaart is gedeblokkeerd. Uw telefoon wordt gedeblokkeerd..."</string>
+    <string name="puk_unlocked">"Uw SIM-kaart is gedeblokkeerd. Uw telefoon wordt ontgrendeld..."</string>
     <string name="label_ndp">"PIN-code voor ontgrendelen SIM-netwerk"</string>
-    <string name="sim_ndp_unlock_text">"ontgrendelen"</string>
+    <string name="sim_ndp_unlock_text">"Ontgrendelen"</string>
     <string name="sim_ndp_dismiss_text">"Negeren"</string>
     <string name="requesting_unlock">"Verzoek om ontgrendelen netwerk..."</string>
     <string name="unlock_failed">"Verzoek voor ontgrendelen netwerk mislukt."</string>
-    <string name="unlock_success">"Het netwerk is gedeblokkeerd."</string>
+    <string name="unlock_success">"Het netwerk is ontgrendeld."</string>
     <string name="imei">"IMEI-nummer"</string>
     <string name="apn_settings">"Namen toegangspunten"</string>
     <string name="settings_label">"Netwerkinstellingen"</string>
@@ -92,8 +91,7 @@
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"Mobiele providers"</string>
     <string name="call_settings">"Oproepinstellingen"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Instellingen voor netwerkservice"</string>
     <string name="labelCallerId">"Beller-id"</string>
     <string name="sum_hide_caller_id">"Nummer verborgen bij uitgaande oproepen"</string>
     <string name="sum_show_caller_id">"Nummer weergegeven bij uitgaande oproepen"</string>
@@ -173,22 +171,22 @@
     <string name="sum_fdn">"Vaste nummers beheren"</string>
     <string name="sum_fdn_change_pin">"PIN-code voor FDN-toegang wijzigen"</string>
     <string name="sum_fdn_manage_list">"Lijst met telefoonnummers beheren"</string>
-    <string name="menu_add">"Contactpersoon toevoegen"</string>
-    <string name="menu_edit">"Contactpersoon bewerken"</string>
-    <string name="menu_delete">"Contactpersoon verwijderen"</string>
+    <string name="menu_add">"Contact toevoegen"</string>
+    <string name="menu_edit">"Contact bewerken"</string>
+    <string name="menu_delete">"Contact verwijderen"</string>
     <string name="get_pin2">"PIN2-code invoeren"</string>
     <string name="name">"Naam"</string>
     <string name="number">"Nummer"</string>
     <string name="save">"Opslaan"</string>
-    <string name="add_fdn_contact">"Vaste contactpersoon toevoegen"</string>
-    <string name="adding_fdn_contact">"Vaste contactpersoon toevoegen..."</string>
-    <string name="fdn_contact_added">"Vaste contactpersoon toegevoegd."</string>
-    <string name="edit_fdn_contact">"Vaste contactpersoon bewerken"</string>
-    <string name="updating_fdn_contact">"Vaste contactpersoon bijwerken..."</string>
-    <string name="fdn_contact_updated">"Vaste contactpersoon bijgewerkt."</string>
-    <string name="delete_fdn_contact">"Vaste contactpersoon verwijderen"</string>
-    <string name="deleting_fdn_contact">"Vaste contactpersoon verwijderen..."</string>
-    <string name="fdn_contact_deleted">"Vaste contactpersoon verwijderd."</string>
+    <string name="add_fdn_contact">"Vast contact toevoegen"</string>
+    <string name="adding_fdn_contact">"Vast contact toevoegen..."</string>
+    <string name="fdn_contact_added">"Vast contact toegevoegd."</string>
+    <string name="edit_fdn_contact">"Vast contact bewerken"</string>
+    <string name="updating_fdn_contact">"Vast contact bijwerken..."</string>
+    <string name="fdn_contact_updated">"Vast contact bijgewerkt."</string>
+    <string name="delete_fdn_contact">"Vast contact verwijderen"</string>
+    <string name="deleting_fdn_contact">"Vast contact verwijderen..."</string>
+    <string name="fdn_contact_deleted">"Vast contact verwijderd."</string>
     <string name="pin2_invalid">"PIN2-code ongeldig!"</string>
     <string name="fdn_invalid_number">"Nummer mag niet langer zijn dan 20 cijfers."</string>
     <string name="simContacts_emptyLoading">"Lezen vanaf SIM-kaart..."</string>
@@ -210,7 +208,7 @@
     <string name="disable_pin_ok">"SIM PIN-code uitgeschakeld"</string>
     <string name="pin_failed">"De PIN-code die u heeft ingevoerd, is onjuist"</string>
     <string name="pin_changed">"SIM PIN-code gewijzigd"</string>
-    <string name="puk_requested">"Wachtwoord onjuist, SIM-kaart is geblokkeerd! PUK2-code vereist."</string>
+    <string name="puk_requested">"Wachtwoord onjuist, SIM-kaart is vergrendeld! PUK2-code vereist."</string>
     <string name="enter_pin2_text">"PIN2"</string>
     <string name="oldPin2Label">"Oude PIN2-code"</string>
     <string name="newPin2Label">"Nieuwe PIN2-code"</string>
@@ -223,7 +221,7 @@
     <string name="pin2_changed">"PIN2-code gewijzigd"</string>
     <string name="label_puk2_code">"PUK2-code invoeren"</string>
     <string name="fdn_enable_puk2_requested">"Wachtwoord onjuist, wijzig PIN2-code en probeer het opnieuw!"</string>
-    <string name="puk2_requested">"Wachtwoord onjuist, SIM-kaart is geblokkeerd! PUK2-code vereist."</string>
+    <string name="puk2_requested">"Wachtwoord onjuist, SIM-kaart is vergrendeld! PUK2-code vereist."</string>
     <string name="doneButton">"Gereed"</string>
     <string name="caller_manage_header">"Telefonische vergadering <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Terug naar oproep"</string>
@@ -268,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Oproep niet verzonden, kies een alarmnummer!"</string>
     <string name="dialerKeyboardHintText">"Toetsen gebruiken om te bellen"</string>
     <string name="dtmfDialpadHintText">"Toetsenblok voor toetsgeluid"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Toetsenblok"</string>
     <string name="touchLockText">"Tik twee keer"\n"om te ontgrendelen"</string>
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>

@@ -91,8 +91,7 @@
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"ネットワークサービス設定"</string>
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id">"発信時に番号を通知する"</string>

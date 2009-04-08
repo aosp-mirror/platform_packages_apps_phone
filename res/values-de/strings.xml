@@ -21,11 +21,10 @@
     <string name="emergencyDialerIconLabel">"Notrufwählprogramm"</string>
     <string name="phoneIconLabel">"Telefon"</string>
     <string name="recentCallsIconLabel">"Anrufe"</string>
-    <string name="fdnListLabel">"Beschränkte Rufnummern"</string>
+    <string name="fdnListLabel">"Nummernbeschränkung"</string>
     <string name="unknown">"Unbekannt"</string>
     <string name="private_num">"Private Nummer"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Telefonzelle"</string>
     <string name="onHold">"Gehaltener Anruf"</string>
     <string name="ongoing">"Aktueller Anruf"</string>
     <string name="callFailed_userBusy">"Leitung besetzt"</string>
@@ -86,15 +85,13 @@
     <string name="unlock_failed">"Anfrage für Entsperrung des Netzwerks war nicht erfolgreich."</string>
     <string name="unlock_success">"Entsperrung des Netzwerks nicht erfolgreich."</string>
     <string name="imei">"IMEI"</string>
-
     <string name="apn_settings">"Zugangspunkte"</string>
     <string name="settings_label">"Netzwerkeinstellungen"</string>
     <string name="voicemail">"Mailbox"</string>
     <string name="voicemail_abbreviated">"MB:"</string>
     <string name="networks">"Netzbetreiber"</string>
     <string name="call_settings">"Anrufeinstellungen"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Einstellungen für Netzwerkservice"</string>
     <string name="labelCallerId">"Anrufer-ID"</string>
     <string name="sum_hide_caller_id">"Nummer bei abgehenden Anrufen unterdrückt"</string>
     <string name="sum_show_caller_id">"Nummer bei abgehenden Anrufen angezeigt"</string>
@@ -161,16 +158,16 @@
     <string name="roaming_disable">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
     <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
-    <string name="fdn">"Beschränkte Rufnummern"</string>
+    <string name="fdn">"Nummernbeschränkung"</string>
     <string name="manage_fdn_list">"Liste der beschränkten Rufnummern"</string>
     <string name="fdn_activation">"Aktivierung der Nummernbeschränkung"</string>
     <string name="fdn_enabled">"Nummernbeschränkung ist aktiviert"</string>
     <string name="fdn_disabled">"Nummernbeschränkung ist deaktiviert"</string>
-    <string name="enable_fdn">"Nummernbeschränkung aktivieren"</string>
+    <string name="enable_fdn">"Beschränkung aktivieren"</string>
     <string name="disable_fdn">"Nummernbeschränkung deaktivieren"</string>
     <string name="change_pin2">"PIN2 ändern"</string>
     <string name="enable_fdn_ok">"Nummernbeschränkung deaktivieren"</string>
-    <string name="disable_fdn_ok">"Nummernbeschränkung aktivieren"</string>
+    <string name="disable_fdn_ok">"Beschränkung aktivieren"</string>
     <string name="sum_fdn">"Beschränkte Rufnummern verwalten"</string>
     <string name="sum_fdn_change_pin">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
     <string name="sum_fdn_manage_list">"Telefonnummernliste verwalten"</string>
@@ -238,7 +235,7 @@
     <string name="card_title_in_progress">"Aktueller Anruf"</string>
     <string name="card_title_conf_call">"Telefonkonferenz"</string>
     <string name="card_title_incoming_call">"Eingehender Anruf"</string>
-    <string name="card_title_call_ended">"Abruf beendet"</string>
+    <string name="card_title_call_ended">"Anruf beendet"</string>
     <string name="card_title_on_hold">"Gehaltener Anruf"</string>
     <string name="card_title_hanging_up">"Auflegen"</string>
     <string name="notification_missedCallTitle">"Entgangener Anruf"</string>
@@ -269,8 +266,7 @@
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
     <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Wähltastenfeld"</string>
     <string name="touchLockText">"Zum Entsperren"\n"zweimal berühren"</string>
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>

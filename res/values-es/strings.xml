@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"Lista de FDN"</string>
     <string name="unknown">"Desconocido"</string>
     <string name="private_num">"Número privado"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Teléfono público"</string>
     <string name="onHold">"En espera"</string>
     <string name="ongoing">"Llamada actual"</string>
     <string name="callFailed_userBusy">"Línea ocupada"</string>
@@ -92,8 +91,7 @@
     <string name="voicemail_abbreviated">"Buzón de voz:"</string>
     <string name="networks">"Operadores de red"</string>
     <string name="call_settings">"Ajustes de llamadas"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Configuración del servicio de red"</string>
     <string name="labelCallerId">"ID del emisor"</string>
     <string name="sum_hide_caller_id">"Número oculto en llamadas salientes"</string>
     <string name="sum_show_caller_id">"Número mostrado en llamadas salientes"</string>
@@ -269,8 +267,7 @@
     <string name="dial_emergency_empty_error">"La llamada no se ha enviado; marca un número de emergencia."</string>
     <string name="dialerKeyboardHintText">"Utilizar teclado para marcar"</string>
     <string name="dtmfDialpadHintText">"Teclado de tonos táctiles"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Teclado"</string>
     <string name="touchLockText">"Pulsa dos veces"\n"para desbloquear"</string>
     <string name="importSimEntry">"Importar"</string>
     <string name="importAllSimEntries">"Importar todos"</string>
