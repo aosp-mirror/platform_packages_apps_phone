@@ -269,8 +269,8 @@
     <string name="dial_emergency_error">"Anruf nicht verbunden; <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> ist keine Notrufnummer!"</string>
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
-    <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
-    <string name="dtmfDialpadHandleLabel">"Wähltastenfeld"</string>
+    <string name="dtmfDialpadHintText">"Tonwahltasten"</string>
+    <string name="dtmfDialpadHandleLabel">"Wähltasten"</string>
     <string name="touchLockText">"Zum Entsperren"\n"zweimal berühren"</string>
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>

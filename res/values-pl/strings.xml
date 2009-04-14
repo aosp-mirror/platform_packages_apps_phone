@@ -55,8 +55,8 @@
     <string name="menu_manageConference">"Zarządzanie rozmową konferencyjną"</string>
     <string name="menu_showDialpad">"Pokaż panel wybierania numeru"</string>
     <string name="menu_hideDialpad">"Ukryj panel wybierania numeru"</string>
-    <string name="menu_answerAndHold">"Zawieś bieżące połączenie"\n"i odpowiedz"</string>
-    <string name="menu_answerAndEnd">"Zakończ bieżące połączenie"\n"i odpowiedz"</string>
+    <string name="menu_answerAndHold">"Zawieś bieżące poł."\n"i odpowiedz"</string>
+    <string name="menu_answerAndEnd">"Zakończ bieżące poł."\n"i odpowiedz"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Naciśnij Menu, aby zobaczyć opcje połączenia."</string>
     <string name="menuButtonKeyboardDialHint">"Naciśnij Menu, aby wyświetlić opcje połączenia • Użyj klawiatury, aby wybrać numer"</string>
@@ -94,7 +94,7 @@
     <string name="call_settings">"Ustawienia połączeń"</string>
     <string name="additional_call_settings">"Dodatkowe ustawienia"</string>
     <string name="labelNwService">"Ustawienia usługi sieciowej"</string>
-    <string name="labelCallerId">"ID dzwoniącego"</string>
+    <string name="labelCallerId">"ID rozmówcy"</string>
     <string name="sum_hide_caller_id">"Ukrycie numeru podczas rozmów wychodzących"</string>
     <string name="sum_show_caller_id">"Numer wyświetlany w połączeniach wychodzących"</string>
     <string name="sum_default_caller_id">"Użyj domyślnych ustawień operatora, aby wyświetlać mój numer w połączeniach wychodzących"</string>
@@ -164,7 +164,7 @@
     <string name="prefer_2g_summary">"Oszczędza baterię"</string>
     <string name="fdn">"Ustalone numery"</string>
     <string name="manage_fdn_list">"Ustalone numery (FDN)"</string>
-    <string name="fdn_activation">"Aktywacja usługi ustalnych numerów (FDN)"</string>
+    <string name="fdn_activation">"Aktywacja usługi ustalonych numerów (FDN)"</string>
     <string name="fdn_enabled">"Włączono tryb ustalonych numerów"</string>
     <string name="fdn_disabled">"Wyłączono tryb ustalonych numerów"</string>
     <string name="enable_fdn">"Włącz ustalone numery (FDN)"</string>

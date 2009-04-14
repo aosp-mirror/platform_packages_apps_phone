@@ -110,7 +110,7 @@
     <string name="sum_cfu_disabled">"Disattivato"</string>
     <string name="labelCFB">"Devia se occupato"</string>
     <string name="messageCFB">"Numero se occupato"</string>
-    <string name="sum_cfb_enabled">"Deviazione al numero \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled">"Deviazione al numero {0}"</string>
     <string name="sum_cfb_disabled">"Disattivato"</string>
     <string name="labelCFNRy">"Devia se non si risponde"</string>
     <string name="messageCFNRy">"Numero se non si risponde"</string>
