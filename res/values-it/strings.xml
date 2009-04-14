@@ -39,7 +39,7 @@
     <string name="callFailed_dsac_restricted">"Tutte le chiamate sono limitate dal controllo di accesso."</string>
     <string name="callFailed_dsac_restricted_emergency">"Chiamate di emergenza limitate dal controllo di accesso."</string>
     <string name="callFailed_dsac_restricted_normal">"Le normali chiamate sono limitate dal controllo di accesso."</string>
-    <string name="confCall">"Conferenza audio"</string>
+    <string name="confCall">"Audioconferenza"</string>
     <string name="mmiStarted">"Codice MMI avviato"</string>
     <string name="ussdRunning">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled">"Codice MMI annullato"</string>
@@ -52,7 +52,7 @@
     <string name="menu_swapCalls">"Scambia"</string>
     <string name="menu_mergeCalls">"Unisci"</string>
     <string name="menu_addCall">"Aggiungi"</string>
-    <string name="menu_manageConference">"Gestisci conferenza audio"</string>
+    <string name="menu_manageConference">"Gestisci audioconferenza"</string>
     <string name="menu_showDialpad">"Mostra tastierino"</string>
     <string name="menu_hideDialpad">"Nascondi tastierino"</string>
     <string name="menu_answerAndHold">"Sospendi chiamata corrente"\n"e rispondi"</string>
@@ -162,7 +162,7 @@
     <string name="roaming_warning">"Consentire il roaming dati? I costi potrebbero essere elevati."</string>
     <string name="prefer_2g">"Usa solo reti 2G"</string>
     <string name="prefer_2g_summary">"Risparmia batteria"</string>
-    <string name="fdn">"Numeri di selezione fissa"</string>
+    <string name="fdn">"Numeri di selez. fissa"</string>
     <string name="manage_fdn_list">"Elenco FDN"</string>
     <string name="fdn_activation">"Attivazione FDN"</string>
     <string name="fdn_enabled">"Numeri di selezione fissa attivi"</string>
@@ -227,7 +227,7 @@
     <string name="fdn_enable_puk2_requested">"Password errata. Modifica il PIN2 e riprova."</string>
     <string name="puk2_requested">"Password errata. La SIM è bloccata. Inserire il codice PUK2."</string>
     <string name="doneButton">"Fine"</string>
-    <string name="caller_manage_header">"Conferenza audio <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_header">"Audioconferenza <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Torna a chiamata"</string>
     <string name="sim_missing_continueView_text">"Continua senza SIM"</string>
     <string name="sim_missing_msg_text">"Nessuna SIM trovata. Inserisci una SIM nel telefono."</string>
@@ -237,7 +237,7 @@
     <string name="voicemail_settings_number_label">"Numero segreteria"</string>
     <string name="card_title_dialing">"Chiamata in corso"</string>
     <string name="card_title_in_progress">"Chiamata corrente"</string>
-    <string name="card_title_conf_call">"Conferenza audio"</string>
+    <string name="card_title_conf_call">"Audioconferenza"</string>
     <string name="card_title_incoming_call">"Chiamata in arrivo"</string>
     <string name="card_title_call_ended">"Chiamata terminata"</string>
     <string name="card_title_on_hold">"In attesa"</string>
@@ -260,7 +260,7 @@
     <string name="incall_error_supp_service_switch">"Impossibile passare all\'altra chiamata."</string>
     <string name="incall_error_supp_service_separate">"Impossibile separare le chiamate."</string>
     <string name="incall_error_supp_service_transfer">"Impossibile trasferire la chiamata."</string>
-    <string name="incall_error_supp_service_conference">"Conferenze audio non disponibili."</string>
+    <string name="incall_error_supp_service_conference">"Audioconferenze non disponibili."</string>
     <string name="incall_error_supp_service_reject">"Impossibile rifiutare la chiamata."</string>
     <string name="incall_error_supp_service_hangup">"Impossibile riprendere le chiamate."</string>
     <string name="emergency_enable_radio_dialog_title">"Chiamata di emergenza"</string>
@@ -270,7 +270,7 @@
     <string name="dial_emergency_empty_error">"Chiamata non inviata. Componi un numero di emergenza."</string>
     <string name="dialerKeyboardHintText">"Usa tastiera"</string>
     <string name="dtmfDialpadHintText">"Selezione a toni"</string>
-    <string name="dtmfDialpadHandleLabel">"Dialpad"</string>
+    <string name="dtmfDialpadHandleLabel">"Tastierino"</string>
     <string name="touchLockText">"Tocca due volte"\n"per sbloccare"</string>
     <string name="importSimEntry">"Importa"</string>
     <string name="importAllSimEntries">"Importa tutti"</string>

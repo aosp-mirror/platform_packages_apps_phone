@@ -16,7 +16,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"Contacten"</string>
-    <string name="contactsFavoritesLabel">"Favorieten"</string>
+    <string name="contactsFavoritesLabel">"Favoriet"</string>
     <string name="dialerIconLabel">"Kiezer"</string>
     <string name="emergencyDialerIconLabel">"Kiezer noodoproep"</string>
     <string name="phoneIconLabel">"Telefoon"</string>
@@ -48,10 +48,10 @@
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Dempen"</string>
     <string name="menu_hold">"In de wacht"</string>
-    <string name="menu_endCall">"Oproep beëindigen"</string>
-    <string name="menu_swapCalls">"Oproepen wisselen"</string>
-    <string name="menu_mergeCalls">"Oproepen samenvoegen"</string>
-    <string name="menu_addCall">"Oproep toevoegen"</string>
+    <string name="menu_endCall">"Beëindigen"</string>
+    <string name="menu_swapCalls">"Wisselen"</string>
+    <string name="menu_mergeCalls">"Samenvoegen"</string>
+    <string name="menu_addCall">"Toevoegen"</string>
     <string name="menu_manageConference">"Telefonische vergadering beheren"</string>
     <string name="menu_showDialpad">"Toetsenblok weergeven"</string>
     <string name="menu_hideDialpad">"Toetsenblok verbergen"</string>
