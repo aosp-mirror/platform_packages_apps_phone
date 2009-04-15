@@ -508,12 +508,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // Display the appropriate "in-call" icon in the status bar,
         // which depends on the current phone and/or bluetooth state.
-        resId = 0;
-        if (enhancedVoicePrivacy) {
-            resId = android.R.drawable.stat_sys_vp_phone_call;
-        } else {
-            resId = android.R.drawable.stat_sys_phone_call;
-        }
+
+
         if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {
@@ -524,6 +520,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         } else if (PhoneApp.getInstance().showBluetoothIndication()) {
             // Bluetooth is active.
             resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
+        } else if (enhancedVoicePrivacy) {
+            resId = android.R.drawable.stat_sys_vp_phone_call;
+        } else {
+            resId = android.R.drawable.stat_sys_phone_call;
         }
 
         // Note we can't just bail out now if (resId == mInCallResId),
