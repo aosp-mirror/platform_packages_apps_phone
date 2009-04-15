@@ -55,8 +55,8 @@
     <string name="menu_manageConference">"Telefonische vergadering beheren"</string>
     <string name="menu_showDialpad">"Toetsenblok weergeven"</string>
     <string name="menu_hideDialpad">"Toetsenblok verbergen"</string>
-    <string name="menu_answerAndHold">"Huidige oproep in de wacht zetten"\n" en opnemen"</string>
-    <string name="menu_answerAndEnd">"Huidige oproep beëindigen"\n" en opnemen"</string>
+    <string name="menu_answerAndHold">"Hdg. opr. in wacht"\n"en opnemen"</string>
+    <string name="menu_answerAndEnd">"Hdg. opr. beëindigen"\n"en opnemen"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Druk op \'Menu\' voor oproepopties."</string>
     <string name="menuButtonKeyboardDialHint">"Druk op \'Menu\' voor oproepopties • Toetsen gebruiken om te bellen"</string>

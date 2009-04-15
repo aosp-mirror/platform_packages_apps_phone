@@ -97,7 +97,7 @@
     <string name="labelCallerId">"ID chiamante"</string>
     <string name="sum_hide_caller_id">"Numero nascosto per chiamate in uscita"</string>
     <string name="sum_show_caller_id">"Numero visualizzato in chiamate in uscita"</string>
-    <string name="sum_default_caller_id">"Usa impostazioni predef. operatore per visualizzare il mio numero in chiamate in uscita"</string>
+    <string name="sum_default_caller_id">"Usa impostazioni operatore per visualizzare il mio numero in chiamate in uscita"</string>
     <string name="labelCW">"Avviso di chiamata"</string>
     <string name="sum_cw_enabled">"Notifica chiamate in entrata durante telefonata"</string>
     <string name="sum_cw_disabled">"Notifica chiamate in entrata durante telefonata"</string>
@@ -260,7 +260,7 @@
     <string name="incall_error_supp_service_switch">"Impossibile passare all\'altra chiamata."</string>
     <string name="incall_error_supp_service_separate">"Impossibile separare le chiamate."</string>
     <string name="incall_error_supp_service_transfer">"Impossibile trasferire la chiamata."</string>
-    <string name="incall_error_supp_service_conference">"Audioconferenze non disponibili."</string>
+    <string name="incall_error_supp_service_conference">"Audioconferenze non disponibili"</string>
     <string name="incall_error_supp_service_reject">"Impossibile rifiutare la chiamata."</string>
     <string name="incall_error_supp_service_hangup">"Impossibile riprendere le chiamate."</string>
     <string name="emergency_enable_radio_dialog_title">"Chiamata di emergenza"</string>
