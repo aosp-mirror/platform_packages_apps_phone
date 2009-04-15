@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"Seznam povolených telefonních čísel"</string>
     <string name="unknown">"Neznámý volající"</string>
     <string name="private_num">"Soukromé číslo"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Veřejný telefon"</string>
     <string name="onHold">"Přidržený hovor"</string>
     <string name="ongoing">"Aktuální hovor"</string>
     <string name="callFailed_userBusy">"Linka je obsazená."</string>
@@ -94,8 +93,7 @@
     <string name="networks">"Síťoví operátoři"</string>
     <string name="call_settings">"Nastavení hovorů"</string>
     <string name="additional_call_settings">"Další nastavení hovorů"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Nastavení síťové služby"</string>
     <string name="labelCallerId">"ID volajícího"</string>
     <string name="sum_hide_caller_id">"Číslo je v odchozích hovorech skryto"</string>
     <string name="sum_show_caller_id">"Číslo je v odchozích hovorech zobrazeno"</string>
@@ -272,8 +270,7 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Číselník"</string>
     <string name="touchLockText">"Dvojitým klepnutím"\n"odemkněte"</string>
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>

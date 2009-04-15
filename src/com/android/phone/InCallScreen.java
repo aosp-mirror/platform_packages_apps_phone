@@ -842,14 +842,27 @@ public class InCallScreen extends Activity
     protected void onNewIntent(Intent intent) {
         if (DBG) log("onNewIntent: intent=" + intent);
 
-        // We're being re-launched with a new Intent, for example getting
-        // a new ACTION_CALL while we were already using the other line.
+        // We're being re-launched with a new Intent.  Since we keep
+        // around a single InCallScreen instance for the life of the phone
+        // process (see finish()), this sequence will happen EVERY time
+        // there's a new incoming or outgoing call except for the very
+        // first time the InCallScreen gets created.  This sequence will
+        // also happen if the InCallScreen is already in the foreground
+        // (e.g. getting a new ACTION_CALL intent while we were already
+        // using the other line.)
+
+        // Stash away the new intent so that we can get it in the future
+        // by calling getIntent().  (Otherwise getIntent() will return the
+        // original Intent from when we first got created!)
+        setIntent(intent);
+
         // Activities are always paused before receiving a new intent, so
         // we can count on our onResume() method being called next.
-        //
-        // So just like in onCreate(), we stash the result code from
-        // internalResolveIntent() in the mInCallInitialStatus field.
-        // If it's an error code, we'll handle it in onResume().
+
+        // Just like in onCreate(), handle this intent, and stash the
+        // result code from internalResolveIntent() in the
+        // mInCallInitialStatus field.  If it's an error code, we'll
+        // handle it in onResume().
         mInCallInitialStatus = internalResolveIntent(intent);
         if (mInCallInitialStatus != InCallInitStatus.SUCCESS) {
             Log.w(LOG_TAG, "onNewIntent: status " + mInCallInitialStatus
@@ -864,7 +877,7 @@ public class InCallScreen extends Activity
         }
 
         String action = intent.getAction();
-        if (VDBG) log("internalResolveIntent: action=" + action);
+        if (DBG) log("internalResolveIntent: action=" + action);
 
         // The calls to setRestoreMuteOnInCallResume() inform the phone
         // that we're dealing with new connections (either a placing an
@@ -1932,8 +1945,7 @@ public class InCallScreen extends Activity
             // expecting a callback when the emergency call handler dictates
             // it) and just return the success state.
             if (isEmergencyNumber && (okToCallStatus == InCallInitStatus.POWER_OFF)) {
-                startActivity(getIntent()
-                        .setClassName(this, EmergencyCallHandler.class.getName()));
+                startActivity(intent.setClassName(this, EmergencyCallHandler.class.getName()));
                 if (DBG) log("placeCall: starting EmergencyCallHandler, finishing...");
                 finish();
                 return InCallInitStatus.SUCCESS;

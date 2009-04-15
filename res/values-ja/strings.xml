@@ -53,8 +53,8 @@
     <string name="menu_mergeCalls">"グループ通話"</string>
     <string name="menu_addCall">"通話を追加"</string>
     <string name="menu_manageConference">"グループ通話オプション"</string>
-    <string name="menu_showDialpad">"ダイヤルパッドを表示"</string>
-    <string name="menu_hideDialpad">"ダイヤルパッドを隠す"</string>
+    <string name="menu_showDialpad">"ダイヤルキー表示"</string>
+    <string name="menu_hideDialpad">"ダイヤルキー非表示"</string>
     <string name="menu_answerAndHold">"通話を保留"\n"して応答"</string>
     <string name="menu_answerAndEnd">"現在の通話を終了"\n"して応答"</string>
     <string name="ok">"OK"</string>
@@ -93,8 +93,7 @@
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"その他の通話設定"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"ネットワークサービス設定"</string>
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id">"発信時に番号を通知する"</string>
@@ -102,8 +101,8 @@
     <string name="labelCW">"通話中着信"</string>
     <string name="sum_cw_enabled">"通話中も着信を知らせる"</string>
     <string name="sum_cw_disabled">"通話中も着信を知らせる"</string>
-    <string name="call_forwarding_settings">"電話転送設定"</string>
-    <string name="labelCF">"電話の転送"</string>
+    <string name="call_forwarding_settings">"着信転送設定"</string>
+    <string name="labelCF">"着信転送"</string>
     <string name="labelCFU">"常に転送"</string>
     <string name="messageCFU">"常にこの番号を使用"</string>
     <string name="sum_cfu_enabled_indicator">"電話をすべて転送する"</string>
@@ -126,7 +125,7 @@
     <string name="reading_settings">"設定を読み取り中..."</string>
     <string name="updating_settings">"設定を更新中..."</string>
     <string name="response_error">"ネットワークから予期しない応答がありました。"</string>
-    <string name="exception_error">"ネットマークまたはSIMカードのエラーです。"</string>
+    <string name="exception_error">"ネットワークまたはSIMカードのエラーです。"</string>
     <string name="radio_off_error">"無線通信をオンにしてから設定を表示してください。"</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"有効にする"</string>
@@ -270,9 +269,8 @@
     <string name="dial_emergency_error">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急通報番号ではないので発信できません。"</string>
     <string name="dial_emergency_empty_error">"発信できません。緊急通報番号におかけください。"</string>
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
-    <string name="dtmfDialpadHintText">"タッチトーンキーパッド"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHintText">"タッチトーンキー"</string>
+    <string name="dtmfDialpadHandleLabel">"ダイヤルキー"</string>
     <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>

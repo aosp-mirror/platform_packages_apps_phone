@@ -21,21 +21,20 @@
     <string name="emergencyDialerIconLabel">"Notrufwählprogramm"</string>
     <string name="phoneIconLabel">"Telefon"</string>
     <string name="recentCallsIconLabel">"Anrufe"</string>
-    <string name="fdnListLabel">"Beschränkte Rufnummern"</string>
+    <string name="fdnListLabel">"Anrufbegrenzung"</string>
     <string name="unknown">"Unbekannt"</string>
     <string name="private_num">"Private Nummer"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Telefonzelle"</string>
     <string name="onHold">"Gehaltener Anruf"</string>
     <string name="ongoing">"Aktueller Anruf"</string>
     <string name="callFailed_userBusy">"Leitung besetzt"</string>
     <string name="callFailed_congestion">"Netzwerk ausgelastet"</string>
     <string name="callFailed_noSignal">"Kein Signal"</string>
     <string name="callFailed_limitExceeded">"ACM-Grenzwert überschritten"</string>
-    <string name="callFailed_powerOff">"Radio aus"</string>
+    <string name="callFailed_powerOff">"Mobilfunkverbindung aus"</string>
     <string name="callFailed_simError">"Keine SIM-Karte, SIM-Kartenfehler"</string>
     <string name="callFailed_outOfService">"Gebiet ohne Netzabdeckung"</string>
-    <string name="callFailed_fdn_only">"Ausgehende Anrufe unterliegen der Nummernbeschränkung."</string>
+    <string name="callFailed_fdn_only">"Ausgehende Anrufe unterliegen der Anrufbegrenzung."</string>
     <string name="callFailed_cb_enabled">"Sie können keine Anrufe tätigen, wenn die Anrufsperre aktiviert ist."</string>
     <string name="callFailed_dsac_restricted">"Alle Anrufe werden durch die Zugriffssteuerung beschränkt."</string>
     <string name="callFailed_dsac_restricted_emergency">"Notrufe werden durch die Zugriffssteuerung beschränkt."</string>
@@ -59,8 +58,8 @@
     <string name="menu_answerAndHold">"Aktuellen Anruf halten"\n"und annehmen"</string>
     <string name="menu_answerAndEnd">"Aktuellen Anruf beenden"\n"und annehmen"</string>
     <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken."</string>
-    <string name="menuButtonKeyboardDialHint">"Zum Anzeigen der Anrufoptionen auf \"Menü\" drücken  •  Zum Wählen Tastatur verwenden"</string>
+    <string name="menuButtonHint">"Zum Anzeigen der Anrufoptionen die Menütaste drücken"</string>
+    <string name="menuButtonKeyboardDialHint">"Zum Anzeigen der Anrufoptionen die Menütaste drücken • Zum Wählen Tastatur verwenden"</string>
     <string name="wait_prompt_str">"Folgende Töne senden?"\n</string>
     <string name="send_button">"Senden"</string>
     <string name="wild_prompt_str">"Platzhalter ersetzen durch"</string>
@@ -86,7 +85,7 @@
     <string name="unlock_failed">"Anfrage für Entsperrung des Netzwerks war nicht erfolgreich."</string>
     <string name="unlock_success">"Entsperrung des Netzwerks nicht erfolgreich."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Zusätzliche Einstellungen"</string>
+    <string name="labelMore">"Zusätzl. Einstellungen"</string>
     <string name="apn_settings">"Zugangspunkte"</string>
     <string name="settings_label">"Netzwerkeinstellungen"</string>
     <string name="voicemail">"Mailbox"</string>
@@ -94,8 +93,7 @@
     <string name="networks">"Netzbetreiber"</string>
     <string name="call_settings">"Anrufeinstellungen"</string>
     <string name="additional_call_settings">"Zusätzliche Anrufeinst."</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Einstellungen für Netzwerkservice"</string>
     <string name="labelCallerId">"Anrufer-ID"</string>
     <string name="sum_hide_caller_id">"Nummer bei abgehenden Anrufen unterdrückt"</string>
     <string name="sum_show_caller_id">"Nummer bei abgehenden Anrufen angezeigt"</string>
@@ -104,7 +102,7 @@
     <string name="sum_cw_enabled">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
     <string name="sum_cw_disabled">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
     <string name="call_forwarding_settings">"Einstellungen"</string>
-    <string name="labelCF">"Anrufweiterleitung"</string>
+    <string name="labelCF">"Rufweiterleitung"</string>
     <string name="labelCFU">"Immer weiterleiten"</string>
     <string name="messageCFU">"Diese Nummer immer verwenden"</string>
     <string name="sum_cfu_enabled_indicator">"Alle Anrufe weiterleiten"</string>
@@ -128,7 +126,7 @@
     <string name="updating_settings">"Einstellungen werden aktualisiert…"</string>
     <string name="response_error">"Unerwartete Antwort von Netzwerk,"</string>
     <string name="exception_error">"Netzwerk- oder SIM-Kartenfehler."</string>
-    <string name="radio_off_error">"Schalten Sie das Radio ein, bevor Sie diese Einstellungen anzeigen."</string>
+    <string name="radio_off_error">"Aktivieren Sie Ihre Mobilfunkverbindung, bevor Sie diese Einstellungen anzeigen."</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"Aktivieren"</string>
     <string name="disable">"Deaktivieren"</string>
@@ -157,24 +155,24 @@
     <string name="select_automatically">"Automatisch auswählen"</string>
     <string name="sum_select_automatically">"Bevorzugtes Netzwerk automatisch auswählen"</string>
     <string name="register_automatically">"Automatische Registrierung..."</string>
-    <string name="roaming">"Daten-Roaming"</string>
+    <string name="roaming">"Roaming"</string>
     <string name="roaming_enable">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable">"Bei Roaming mit Datendienst verbinden"</string>
-    <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
-    <string name="roaming_warning">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
+    <string name="roaming_reenable_message">"Die Datenkonnektivität wurde unterbrochen, da Sie Ihr Heimnetzwerk verlassen haben und Roaming nicht aktiviert ist."</string>
+    <string name="roaming_warning">"Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="prefer_2g">"Nur 2G-Netzwerke"</string>
     <string name="prefer_2g_summary">"Energiesparend"</string>
-    <string name="fdn">"Beschränkte Rufnummern"</string>
-    <string name="manage_fdn_list">"Liste der beschränkten Rufnummern"</string>
-    <string name="fdn_activation">"Aktivierung der Nummernbeschränkung"</string>
-    <string name="fdn_enabled">"Nummernbeschränkung ist aktiviert"</string>
-    <string name="fdn_disabled">"Nummernbeschränkung ist deaktiviert"</string>
-    <string name="enable_fdn">"Nummernbeschränkung aktivieren"</string>
-    <string name="disable_fdn">"Nummernbeschränkung deaktivieren"</string>
+    <string name="fdn">"Anrufbegrenzung"</string>
+    <string name="manage_fdn_list">"Liste der begrenzten Rufnummern"</string>
+    <string name="fdn_activation">"Aktivierung der Anrufbegrenzung"</string>
+    <string name="fdn_enabled">"Anrufbegrenzung ist aktiviert"</string>
+    <string name="fdn_disabled">"Anrufbegrenzung ist deaktiviert"</string>
+    <string name="enable_fdn">"Begrenzung aktivieren"</string>
+    <string name="disable_fdn">"Anrufbegrenzung deaktivieren"</string>
     <string name="change_pin2">"PIN2 ändern"</string>
-    <string name="enable_fdn_ok">"Nummernbeschränkung deaktivieren"</string>
-    <string name="disable_fdn_ok">"Nummernbeschränkung aktivieren"</string>
-    <string name="sum_fdn">"Beschränkte Rufnummern verwalten"</string>
+    <string name="enable_fdn_ok">"Anrufbegrenzung deaktivieren"</string>
+    <string name="disable_fdn_ok">"Begrenzung aktivieren"</string>
+    <string name="sum_fdn">"Begrenzte Rufnummern verwalten"</string>
     <string name="sum_fdn_change_pin">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
     <string name="sum_fdn_manage_list">"Telefonnummernliste verwalten"</string>
     <string name="menu_add">"Kontakt hinzufügen"</string>
@@ -184,15 +182,15 @@
     <string name="name">"Name"</string>
     <string name="number">"Nummer"</string>
     <string name="save">"Speichern"</string>
-    <string name="add_fdn_contact">"Kontakt mit Nummernbeschränkung hinzufügen"</string>
-    <string name="adding_fdn_contact">"Kontakt mit Nummernbeschränkung wird hinzugefügt..."</string>
-    <string name="fdn_contact_added">"Kontakt mit Nummernbeschränkung hinzugefügt."</string>
-    <string name="edit_fdn_contact">"Kontakt mit Nummernbeschränkung bearbeiten"</string>
-    <string name="updating_fdn_contact">"Kontakt mit Nummernbeschränkung wird aktualisiert..."</string>
-    <string name="fdn_contact_updated">"Kontakt mit Nummernbeschränkung aktualisiert."</string>
-    <string name="delete_fdn_contact">"Kontakt mit Nummernbeschränkung löschen"</string>
-    <string name="deleting_fdn_contact">"Kontakt mit Nummernbeschränkung wird gelöscht..."</string>
-    <string name="fdn_contact_deleted">"Kontakt mit Nummernbeschränkung gelöscht"</string>
+    <string name="add_fdn_contact">"Kontakt mit Anrufbegrenzung hinzufügen"</string>
+    <string name="adding_fdn_contact">"Kontakt mit Anrufbegrenzung wird hinzugefügt..."</string>
+    <string name="fdn_contact_added">"Kontakt mit Anrufbegrenzung hinzugefügt."</string>
+    <string name="edit_fdn_contact">"Kontakt mit Anrufbegrenzung bearbeiten"</string>
+    <string name="updating_fdn_contact">"Kontakt mit Anrufbegrenzung wird aktualisiert..."</string>
+    <string name="fdn_contact_updated">"Kontakt mit Anrufbegrenzung aktualisiert."</string>
+    <string name="delete_fdn_contact">"Kontakt mit Anrufbegrenzung löschen"</string>
+    <string name="deleting_fdn_contact">"Kontakt mit Anrufbegrenzung wird gelöscht..."</string>
+    <string name="fdn_contact_deleted">"Kontakt mit Anrufbegrenzung gelöscht"</string>
     <string name="pin2_invalid">"PIN2 ungültig!"</string>
     <string name="fdn_invalid_number">"Nummer darf maximal 20 Zeichen lang sein."</string>
     <string name="simContacts_emptyLoading">"SIM-Karte wird ausgelesen..."</string>
@@ -241,7 +239,7 @@
     <string name="card_title_in_progress">"Aktueller Anruf"</string>
     <string name="card_title_conf_call">"Telefonkonferenz"</string>
     <string name="card_title_incoming_call">"Eingehender Anruf"</string>
-    <string name="card_title_call_ended">"Abruf beendet"</string>
+    <string name="card_title_call_ended">"Anruf beendet"</string>
     <string name="card_title_on_hold">"Gehaltener Anruf"</string>
     <string name="card_title_hanging_up">"Auflegen"</string>
     <string name="notification_missedCallTitle">"Entgangener Anruf"</string>
@@ -253,7 +251,7 @@
     <string name="notification_voicemail_title">"Neue Nachricht"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g> wählen"</string>
     <string name="notification_voicemail_no_vm_number">"Mailboxnummer unbekannt"</string>
-    <string name="incall_error_power_off">"Deaktivieren Sie zunächst den Flugzeugmodus, um einen Anruf zu tätigen."</string>
+    <string name="incall_error_power_off">"Deaktivieren Sie zunächst den Flugmodus, um einen Anruf zu tätigen."</string>
     <string name="incall_error_emergency_only">"Nicht in Netzwerk registriert."</string>
     <string name="incall_error_no_phone_number_supplied">"Anruf nicht verbunden; keine gültige Nummer."</string>
     <string name="incall_error_call_failed">"Anruf nicht verbunden."</string>
@@ -266,14 +264,13 @@
     <string name="incall_error_supp_service_reject">"Anruf kann nicht abgelehnt werden."</string>
     <string name="incall_error_supp_service_hangup">"Anrufe können nicht freigegeben werden."</string>
     <string name="emergency_enable_radio_dialog_title">"Notruf"</string>
-    <string name="emergency_enable_radio_dialog_message">"Radio wird aktiviert..."</string>
+    <string name="emergency_enable_radio_dialog_message">"Mobilfunkverbindung wird aktiviert..."</string>
     <string name="emergency_enable_radio_dialog_retry">"Gebiet ohne Netzabdeckung, erneuter Versuch..."</string>
     <string name="dial_emergency_error">"Anruf nicht verbunden; <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> ist keine Notrufnummer!"</string>
     <string name="dial_emergency_empty_error">"Anruf nicht verbunden. Wählen Sie eine Notrufnummer!"</string>
     <string name="dialerKeyboardHintText">"Zum Wählen Tastatur verwenden"</string>
     <string name="dtmfDialpadHintText">"Tastatur für Tastentöne"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Wähltastenfeld"</string>
     <string name="touchLockText">"Zum Entsperren"\n"zweimal berühren"</string>
     <string name="importSimEntry">"Importieren"</string>
     <string name="importAllSimEntries">"Alle importieren"</string>
