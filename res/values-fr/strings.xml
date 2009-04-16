@@ -17,7 +17,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"Contacts"</string>
     <string name="contactsFavoritesLabel">"Favoris"</string>
-    <string name="dialerIconLabel">"Composer"</string>
+    <string name="dialerIconLabel">"Appeler"</string>
     <string name="emergencyDialerIconLabel">"Appels d\'urgence"</string>
     <string name="phoneIconLabel">"Téléphone"</string>
     <string name="recentCallsIconLabel">"Appels"</string>
