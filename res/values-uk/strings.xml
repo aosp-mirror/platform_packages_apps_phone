@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Launcher labels -->
+    <!-- Tab title -->
+    <string name="contactsIconLabel">"Контакти"</string>
+    <!-- Tab title -->
+    <string name="contactsFavoritesLabel">"Вибране"</string>
+    <!-- Tab title -->
+    <string name="dialerIconLabel">"Набір номерів"</string>
+    <!-- Screen title for Emergency Dialer UI -->
+    <string name="emergencyDialerIconLabel">"Набір екстренних номерів"</string>
+    <!-- Application name on Home screen -->
+    <string name="phoneIconLabel">"Телефон"</string>
+    <!-- Tab title -->
+    <string name="recentCallsIconLabel">"Журнал викликів"</string>
+    <!-- Title of FDN list screen -->
+    <string name="fdnListLabel">"Список номерів з фіксованим набором"</string>
+
+    <!-- Call status -->
+    <!-- Incoming call screen, name of "unknown" caller -->
+    <string name="unknown">"Невідомий"</string>
+    <!-- Incoming call screen, string when number hidden -->
+    <string name="private_num">"Приватний номер"</string>
+    <!-- Incoming call screen, string when called from a pay phone -->
+    <string name="payphone">"Таксофон"</string>
+    <!-- In-call screen: status label for a call that's on hold -->
+    <string name="onHold">"Утримується"</string>
+    <!-- In-call screen: status label for the current active call -->
+    <string name="ongoing">"Поточний виклик"</string>
+    <!-- Possible error messages with outgoing calls -->
+    <!-- In-call screen: call failure reason (busy) -->
+    <string name="callFailed_userBusy">"Лінія зайнята"</string>
+    <!-- In-call screen: call failure reason (network congestion) -->
+    <string name="callFailed_congestion">"Мережа зайнята"</string>
+    <!-- In-call screen: call failure reason (no signal) -->
+    <string name="callFailed_noSignal">"Немає сигналу"</string>
+    <!-- In-call screen: call failure reason (GSM ACM limit exceeded) -->
+    <string name="callFailed_limitExceeded">"Перевищо межу ACM"</string>
+    <!-- In-call screen: call failure reason (radio is off) -->
+    <string name="callFailed_powerOff">"Радіозв\'язок вимкнено"</string>
+    <!-- In-call screen: call failure reason (SIM error) -->
+    <string name="callFailed_simError">"Немає або помилка SIM-карти"</string>
+    <!-- In-call screen: call failure reason (out of service) -->
+    <string name="callFailed_outOfService">"Поза зоною досяжності"</string>
+    <!-- In-call screen: call failure reason (call denied because of current FDN setting) -->
+    <string name="callFailed_fdn_only">"Вихідні виклики обмежені фіксованим набором."</string>
+    <!-- In-call screen: call failure reason (call denied because call barring is on) -->
+    <string name="callFailed_cb_enabled">"Увімкнено заборону викликів, виконувати вихідні виклики неможливо."</string>
+    <!-- In-call screen: call failure reason (call denied because domain specific access control is on) -->
+    <string name="callFailed_dsac_restricted">"Усі дзвінки заблоковано абонентом."</string>
+    <!-- In-call screen: call failure reason (Emergency call denied because domain specific access control is on)-->
+    <string name="callFailed_dsac_restricted_emergency">"Екстренні виклики заблоковано абонентом."</string>
+    <!-- In-call screen: call failure reason (Normal call denied because domain specific access control is on)-->
+    <string name="callFailed_dsac_restricted_normal">"Усі дзвінки заблоковано абонентом."</string>
+    <!-- In-call screen: status label for a conference call -->
+    <string name="confCall">"Конференц-зв\'язок"</string>
+
+    <!-- MMI strings -->
+    <!-- Dialog label when an MMI code starts running -->
+    <string name="mmiStarted">"Запущено код MMI"</string>
+    <!-- Dialog label when a USSD code starts running -->
+    <string name="ussdRunning">"Виконується код USSD\u2026"</string>
+    <!-- Dialog label when an MMI code is canceled -->
+    <string name="mmiCancelled">"Код MMI відмінено"</string>
+    <!-- Label for "cancel" button on the MMI dialog -->
+    <string name="cancel">"Відміна"</string>
+
+    <!-- In-call menu item labels -->
+    <!-- Regular in-call menu items: -->
+    <!-- In-call menu: Label for "speakerphone" menu item -->
+    <string name="menu_speaker">"Динамік"</string>
+    <!-- In-call menu: Label for "bluetooth" menu item -->
+    <string name="menu_bluetooth">Bluetooth</string>
+    <!-- In-call menu: Label for "mute" menu item -->
+    <string name="menu_mute">"Тиша"</string>
+    <!-- In-call menu: Label for "hold" menu item -->
+    <string name="menu_hold">"Утримувати"</string>
+    <!-- In-call menu: Label for "end call" menu item -->
+    <string name="menu_endCall">"Закінчити"</string>
+    <!-- In-call menu: Label for "swap calls" menu item -->
+    <string name="menu_swapCalls">"Поміняти виклики"</string>
+    <!-- In-call menu: Label for "merge calls" menu item -->
+    <string name="menu_mergeCalls">"Об\'єднати виклики"</string>
+    <!-- In-call menu: Label for "add call" menu item -->
+    <string name="menu_addCall">"Додати виклик"</string>
+    <!-- In-call menu: Label for "manage conference call" menu item -->
+    <string name="menu_manageConference">"Управління конференц-зв\'язком"</string>
+    <!-- In-call menu: Label for "show dialpad" menu item -->
+    <string name="menu_showDialpad">"Показати панель набору"</string>
+    <!-- In-call menu: Label for "hide dialpad" menu item -->
+    <string name="menu_hideDialpad">"Сховати панель набору"</string>
+    <!-- Incoming call menu items: -->
+    <!-- Incoming call menu: Label for "Hold and answer" menu item -->
+    <string name="menu_answerAndHold">"Утримувати поточний виклик\nта відповісти"</string>
+    <!-- Incoming call menu: Label for "End and answer" menu item -->
+    <string name="menu_answerAndEnd">"Закінчити поточний виклик\nта відповісти"</string>
+    <!-- Other misc labels for the in-call UI -->
+    <!-- Positive button label ("OK") used in several dialogs in the phone UI -->
+    <string name="ok">OK</string>
+    <!-- In-call screen, message just under call window when keyboard is closed -->
+    <string name="menuButtonHint">"Для вибору параметрів виклику натисніть Меню."</string>
+    <!-- In-call screen, message just under call window when keyboard is revealed -->
+    <string name="menuButtonKeyboardDialHint">"Для вибору параметрів виклику натисніть Меню  \u2022  Для набору скористайтеся клавіатурою"</string>
+
+    <!-- post dial -->
+    <!-- In-call screen: body text of the dialog that appears when we encounter
+         the "wait" character in a phone number to be dialed; this dialog asks the
+         user if it's OK to send the numbers following the "wait". -->
+    <string name="wait_prompt_str">"Набрати наступні цифри?\n"</string>
+    <!-- In-call screen: button label on the "wait" prompt dialog -->
+    <string name="send_button">"Надіслати"</string>
+    <!-- In-call screen: on the "wild" character dialog, this is the label
+         for a text widget that lets the user enter the digits that should
+         replace the "wild" character. -->
+    <string name="wild_prompt_str">"Замінити груповий символ на"</string>
+
+    <!-- bluetooth -->
+    <!-- Text displayed in a popup message (toast) when a bluetooth headset is connected -->
+    <string name="bluetooth_headset_connected">"Гарнітуру Bluetooth увімкнено."</string>
+    <!-- Text displayed in a popup message (toast) when a bluetooth headset is disconnected -->
+    <string name="bluetooth_headset_disconnected">"Гарнітуру Bluetooth вимкнено."</string>
+
+    <!-- missing voicemail number -->
+    <!-- Title of the "Missing voicemail number" dialog -->
+    <string name="no_vm_number">"Відсутній номер голосової пошти"</string>
+    <!-- Body text of the "Missing voicemail number" dialog -->
+    <string name="no_vm_number_msg">"Номер голосової пошти не збережено на SIM-карті."</string>
+    <!-- Button label on the "Missing voicemail number" dialog -->
+    <string name="add_vm_number_str">"Додати номер"</string>
+
+    <!-- Placeholder text displayed while loading a list of phone numbers
+         into the dialer UI -->
+    <string name="dialer_emptyListWorking">"Завантаження\u2026"</string>
+
+    <!-- SIM PIN strings -->
+    <!-- Instructional text on SIM PIN unlock panel -->
+    <string name="enterPin">"Щоб розблокувати SIM-карту, введіть PIN:"</string>
+    <!-- Success message displayed on SIM PIN unlock panel -->
+    <string name="pinUnlocked">"SIM-карта розблокована"</string>
+    <!-- Label for PIN entry widget on SIM PIN unlock panel -->
+    <string name="enterNewPin">"Новий PIN SIM-карти"</string>
+    <!-- Label for PIN entry widget on SIM PIN unlock panel -->
+    <string name="verifyNewPin">"Ще раз введіть новий PIN-код SIM-карти для підтвердження"</string>
+    <!-- Error message displayed on SIM PIN unlock panel -->
+    <string name="verifyFailed">"Вказані PIN-коди SIM-карти не співпадають. Повторіть спробу."</string>
+    <!-- Instructional text on SIM PIN unlock panel -->
+    <string name="enterPuk">"Щоб розблокувати SIM-карту, введіть код PUK"</string>
+    <!-- Error message displayed on SIM PIN unlock panel -->
+    <string name="badPuk">"Невірний код PUK!"</string>
+    <!-- Button label on SIM PIN unlock panel -->
+    <string name="buttonTxtContinue">"Продовжити"</string>
+    <!-- Status message displayed on SIM PIN unlock panel -->
+    <string name="puk_unlocked">"Ваша SIM-карта розблокована. Відбувається розблокування телефону\u2026"</string>
+    <!-- network depersonalization -->
+    <!-- Label text for PIN entry widget on SIM Network Depersonalization panel -->
+    <string name="label_ndp">"PIN SIM-карти для розблокування мережі"</string>
+    <!-- Button label on SIM Network Depersonalization panel -->
+    <string name="sim_ndp_unlock_text">"Розблокувати"</string>
+    <!-- Button label on SIM Network Depersonalization panel -->
+    <string name="sim_ndp_dismiss_text">"Пропустити"</string>
+    <!-- Status message displayed on SIM Network Depersonalization panel -->
+    <string name="requesting_unlock">"Відбувається запит на розблокування мережі\u2026"</string>
+    <!-- Error message displayed on SIM Network Depersonalization panel -->
+    <string name="unlock_failed">"Виконати запит на розблокування мережі не вдалося."</string>
+    <!-- Success message displayed on SIM Network Depersonalization panel -->
+    <string name="unlock_success">"Мережа успішно розблокована."</string>
+
+    <!-- Title for the dialog used to display the user's IMEI number -->
+    <string name="imei">IMEI</string>
+
+    <!-- settings strings -->
+
+    <!-- Call settings screen, setting option name -->
+    <string name="labelMore">"Додаткові налаштування викликів"</string>
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="apn_settings">"Назви точок доступу"</string>
+    <!-- Label for the "Network settings" screen in the Settings UI -->
+    <string name="settings_label">"Налаштування мережі"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="voicemail">"Голосова пошта"</string>
+    <!-- Call forwarding dialog box, voicemail number prefix -->
+    <string name="voicemail_abbreviated">"ГП:"</string>
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="networks">"Оператори мережі"</string>
+    <!-- Call settings screen title -->
+    <string name="call_settings">"Налаштування виклику"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="additional_call_settings">"Додаткові налаштування виклику"</string>
+    <!-- Call settings screen, network service setting name -->
+    <string name="labelNwService">"Налаштування мережевих послуг"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="labelCallerId">"Ідентифікатор телефонуючого"</string>
+    <!-- Additional call settings screen, setting summary text when Caller ID is hidden -->
+    <string name="sum_hide_caller_id">"При вихідних викликах номер не відображається"</string>
+    <!-- Additional call settings screen, setting summary text when Caller ID is shown -->
+    <string name="sum_show_caller_id">"При вихідних викликах номер відображається"</string>
+    <!-- Additional call settings screen, setting summary text for default Caller ID value -->
+    <string name="sum_default_caller_id">"Використовувати налаштування оператора по замовчуванню для відображення мого номеру при вихідних викликах"</string>
+    <!-- Additional call settings screen, setting check box name -->
+    <string name="labelCW">"Очікування виклику"</string>
+    <!-- Additional call settings screen, setting summary text when call waiting check box is selected -->
+    <string name="sum_cw_enabled">"Під час виклику повідомляти мене про вхідні виклики"</string>
+    <!-- Additional call settings screen, setting summary text when call waiting check box is clear -->
+    <string name="sum_cw_disabled">"Під час виклику не повідомляти мене про вхідні виклики"</string>    
+    <!-- Call forwarding settings screen, section heading -->
+    <string name="call_forwarding_settings">"Налаштування переадресування викликів"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="labelCF">"Переадресування викликів"</string>
+    
+    <!-- Call forwarding settings screen, setting option name -->
+    <string name="labelCFU">"Завжди переадресовувати"</string>
+    <!-- Call forwarding dialog box, text field label -->
+    <string name="messageCFU">"Завжди використовувати цей номер"</string>
+    <!-- Call forwarding settings screen, setting summary text when forwarding all calls -->
+    <string name="sum_cfu_enabled_indicator">"Переадресування усіх викликів"</string>
+    <!-- Call forwarding settings screen, setting summary text the Always forward is set -->
+    <string name="sum_cfu_enabled">"Переадресування усіх викликів на номер {0}"</string>
+    <!-- Call forwarding settings screen, setting summary text when Always forward is disabled -->
+    <string name="sum_cfu_disabled">"Вимкнено"</string>
+    
+    <!-- Call forwarding settings screen, setting option name -->    
+    <string name="labelCFB">"Переадресовувати якщо зайнято"</string>
+    <!-- Call forwarding dialog box, text field label -->
+    <string name="messageCFB">"Номер якщо зайнято"</string>
+    <!-- Call forwarding settings screen, setting summary text when forwarding to specific number when busy -->
+    <string name="sum_cfb_enabled">"Переадресування на номер {0}"</string>
+    <!-- Call forwarding settings screen, setting summary text when forwarding when busy is disabled -->
+    <string name="sum_cfb_disabled">"Вимкнено"</string>
+    
+    <!-- Call forwarding settings screen, setting option name -->
+    <string name="labelCFNRy">"Переадресовування за відсутності відповіді"</string>
+    <!-- Call forwarding dialog box, text field label -->
+    <string name="messageCFNRy">"Номер за відсутності відповіді"</string>
+    <!-- Call forwarding settings screen, setting summary text when forwarding to a specific number when unanswered -->
+    <string name="sum_cfnry_enabled">"Переадресовування на номер {0}"</string>
+    <!-- Call forwarding settings screen, setting summary text when Forward when unanswered is disabled -->
+    <string name="sum_cfnry_disabled">"Вимкнено"</string>
+    
+    <!-- Call forwarding settings screen, setting option name -->
+    <string name="labelCFNRc">"Переадресовування при недосяжності"</string>
+    <!-- Call forwarding dialog box, text field label -->
+    <string name="messageCFNRc">"Номер при недосяжності"</string>
+    <!-- Call forwarding settings screen, setting summary text when forwarding to a specific number when unreachable-->
+    <string name="sum_cfnrc_enabled">"Переадресовування на номер {0}"</string>
+    <!-- Call forwarding settings screen, setting summary text when Forward when unreachable is disabled -->
+    <string name="sum_cfnrc_disabled">"Вимкнено"</string>
+    <!-- Title of the progress dialog displayed while updating Call settings -->
+    <string name="updating_title">"Налаштування викликів"</string>
+    <!-- Title of the alert dialog displayed if an error occurs while updating Call settings -->
+    <string name="error_updating_title">"Помика налаштувань виклику"</string>
+    <!-- Toast in Call settings dialog while settings are being read -->
+    <string name="reading_settings">"Відбувається зчитування налаштувань\u2026"</string>
+    <!-- Toast in Call settings dialog while settings are being saved -->
+    <string name="updating_settings">"Відбувається оновлення налаштувань\u2026"</string>
+    <!-- Status message displayed in the "Call settings error" dialog -->
+    <string name="response_error">"Неочікувана відповідь з мережі,"</string>
+    <!-- Status message displayed in the "Call settings error" dialog -->
+    <string name="exception_error">"Помилка мережі або SIM-карти."</string>
+    <!-- Status message displayed in the "Call settings error" dialog -->
+    <string name="radio_off_error">"Перед переглядом даних налаштувань увімкніть зв\'язок."</string>
+    <!-- Button label used to dismiss the "Call settings error" dialog -->
+    <string name="close_dialog">OK</string>
+    <!-- Button label used in several settings-related dialogs -->
+    <string name="enable">"Увімкнути"</string>
+    <!-- Button label used in several settings-related dialogs -->
+    <string name="disable">"Вимкнути"</string>
+    <!-- Button label which indicates the user wants to update a stored
+         phone number; used in several settings-related dialogs -->
+    <string name="change_num">"Оновити"</string>
+    <!-- Phone settings: Caller ID preference values -->
+    <string-array name="clir_display_values">
+        <!-- Phone settings "Caller ID" preference option: use the default value -->
+        <item>"По замовчуванню мережі "</item>
+        <!-- Phone settings "Caller ID" preference option: hide outgoing Caller ID info -->
+        <item>"Ховати номер"</item>
+        <!-- Phone settings "Caller ID" preference option: show outgoing Caller ID info -->
+        <item>"Показувати номер"</item>
+    </string-array>
+    <!-- Phone settings: Internal keys used for Caller ID preference values.  DO NOT TRANSLATE. -->
+    <string-array name="clir_values">
+        <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
+        <item><xliff:g>DEFAULT</xliff:g></item>
+        <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
+        <item><xliff:g>HIDE</xliff:g></item>
+        <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
+        <item><xliff:g>SHOW</xliff:g></item>
+    </string-array>
+
+    <!-- voicemail setting strings -->
+    <!-- Call settings screen, Label used in "Save voicemail number" dialog -->
+    <string name="vm_save_number">"Зберегти номер голосової пошти"</string>
+    <!-- Call settings screen, Set voicemail number dialog text -->
+    <string name="vm_changed">"Номер голосової пошти змінено."</string>
+    <!-- Call settings screen, Set voicemail number dialog text -->
+    <string name="vm_change_failed">"Змінити номер голосової пошти не вдалося."</string>
+    <!-- Call settings screen, Set voicemail number dialog text -->
+    <string name="no_change">"Налаштування не змінено."</string>
+    <!-- Call settings screen, "Voicemail" setting summary text -->
+    <string name="sum_voicemail">"Встановити номер голосової пошти"</string>
+
+    <!-- networks setting strings -->
+    <!-- Mobile network settings screen title -->
+    <string name="mobile_networks">"Налаштування мобільної мережі"</string>
+    <!-- Available networks screen title/heading -->
+    <string name="label_available">"Доступні мережі"</string>
+    <!-- Mobile network settings screen, toast when searching for available networks -->
+    <string name="load_networks_progress">"Пошук\u2026"</string>
+    <!-- Available networks screen, text when no networks are found -->
+    <string name="empty_networks_list">"Мереж не знайдено."</string>
+    <!-- Available networks screen, setting option name -->
+    <string name="search_networks">"Пошук мереж"</string>
+    <!-- Available networks screen, toast when an error is encountered when searching for networks -->
+    <string name="network_query_error">"Помилка при пошуку мереж."</string>
+    <!-- Available networks screen, toast when registering on a specific network -->
+    <string name="register_on_network">"Реєстрація в мережі <xliff:g id="network">%s</xliff:g>\u2026"</string>
+    <!-- Available networks screen, toast when SIM card isn't allowed on a network -->
+    <string name="not_allowed">"Ваша SIM-карта не дозволяє під\'єднатися до цієї мережі."</string>
+    <!-- Available networks screen, toast when registered on a specific network -->
+    <string name="registration_done">"Реєстрація в мережі виконана."</string>
+    <!-- Mobile network settings screen setting option summary text -->
+    <string name="sum_carrier_select">"Вибір оператора мережі"</string>
+    <!-- Available networks screen, setting summary text -->
+    <string name="sum_search_networks">"Пошук усіх доступних мереж"</string>
+    <!-- Available networks screen, setting option name -->
+    <string name="select_automatically">"Автоматичний вибір"</string>
+    <!-- Available networks screen, setting summary text -->
+    <string name="sum_select_automatically">"Автоматично вибирати мережу"</string>
+    <!-- Available networks screen, toast when registering automatically -->
+    <string name="register_automatically">"Автоматична реєстрація\u2026"</string>
+
+    <!-- Data roaming settings -->
+    <!-- Mobile network settings screen, setting check box name -->
+    <string name="roaming">"Роумінг даних"</string>
+    <!-- Mobile network settings screen, setting summary text when check box is selected -->
+    <string name="roaming_enable">"Під\'єднуватися для передачі даних при роумінгу"</string>
+    <!-- Mobile network settings screen, setting summary text when check box is clear -->
+    <string name="roaming_disable">"Під\'єднуватися для передачі даних при роумінгу"</string>
+    <!-- Mobile network settings UI: notification message shown when you
+         lose data connectivity because you're roaming and you have the
+         "data roaming" feature turned off. -->
+    <string name="roaming_reenable_message">"Під\'єднання для передачі даних припинено. Ви покинули домашню мережу, не увімкнувши роумінг для передачі даних."</string>
+    <!-- Mobile network settings screen, dialog message when user selects the Data roaming check box -->
+    <string name="roaming_warning">"Дозволити передачу даних при роумінгу? Це дуже дорого!"</string>
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="prefer_2g">"Використовувати тільки 2G мережі"</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="prefer_2g_summary">"Економити заряд батареї"</string>
+
+    <!-- FDN settings strings -->
+    <!-- Call settings screen, setting option name -->
+    <string name="fdn">"Номери з фіксованим набором"</string>
+    <!-- Call settings screen, button label that takes you to
+         the Fixed Dialing Number management screen -->
+    <string name="manage_fdn_list">"Список номерів з фіксованим набором"</string>
+    <!-- Call settings screen, preference item label -->
+    <string name="fdn_activation">"Активація фіксованого набору"</string>
+    <!-- Call settings setting option name when FDN is enabled -->
+    <string name="fdn_enabled">"Номери з фіксованим набором увімкнено"</string>
+    <!-- Call settings setting option name  when FDN is disabled-->
+    <string name="fdn_disabled">"Номери з фіксованим набором вимкнено"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="enable_fdn">"Увімкнути фіксований набір"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="disable_fdn">"Вимкнути фіксований набір"</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="change_pin2">"Змінити PIN2"</string>
+    <!-- Call settings screen, setting option name when FDN is enabled -->
+    <string name="enable_fdn_ok">"Вимкнути фіксований набір"</string>
+    <!-- Call settings screen, setting option name when FDN is disabled -->
+    <string name="disable_fdn_ok">"Увімкнути фіксований набір"</string>
+    <!-- Call settings screen, setting summary text -->
+    <string name="sum_fdn">"Управління номерами з фіксованим набором"</string>
+    <!-- Call settings, FDN screen, setting option name -->
+    <string name="sum_fdn_change_pin">"Змінити PIN для доступу до фіксованого набору"</string>
+    <!-- Call settings, FDN screen, setting option name -->
+    <string name="sum_fdn_manage_list">"Управління списком телефонних номерів"</string>
+
+    <!-- FDN list screen: menu item label -->
+    <string name="menu_add">"Додати контакт"</string>
+    <!-- FDN list screen: menu item label -->
+    <string name="menu_edit">"Змінити контакт"</string>
+    <!-- FDN list screen: menu item label -->
+    <string name="menu_delete">"Видалити контакт"</string>
+
+    <!-- FDN related strings -->
+    <!-- Label for PIN2 entry screen -->
+    <string name="get_pin2">"Введіть PIN2"</string>
+    <!-- "Edit FDN Contact" screen: Label for the "name" text field -->
+    <string name="name">"І\'мя"</string>
+    <!-- "Edit FDN Contact" screen: Label for the "number" text field -->
+    <string name="number">"Номер"</string>
+    <!-- "Edit FDN Contact" screen: Button label for "save" action -->
+    <string name="save">"Зберегти"</string>
+    <!-- Title of "Edit FDN Contact" screen for a new contact -->
+    <string name="add_fdn_contact">"Додавання контакту з фіксованим набором"</string>
+    <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="adding_fdn_contact">"Додавання фіксованого набору для контакту\u2026"</string>
+    <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="fdn_contact_added">"Додано фіксований набір для контакту."</string>
+    <!-- Title of "Edit FDN Contact" screen when editing an already-existing contact -->
+    <string name="edit_fdn_contact">"Редагування контакту з фіксованим набором"</string>
+    <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="updating_fdn_contact">"Оновлення контакту з фіксованим набором\u2026"</string>
+    <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="fdn_contact_updated">"Контакт з фіксованим набором оновлено."</string>
+    <!-- Title of "Delete FDN Contact" screen -->
+    <string name="delete_fdn_contact">"Видалення фіксованого набору для контакту"</string>
+    <!-- "Delete FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="deleting_fdn_contact">"Видалення фіксованого набору для контакту\u2026"</string>
+    <!-- "Delete FDN Contact" screen: status message displayed in a popup (toast) -->
+    <string name="fdn_contact_deleted">"Фіксований набір для контакту видалено."</string>
+    <!-- FDN settings: error message displayed in a popup (toast) -->
+    <string name="pin2_invalid">"Неправильний PIN2!"</string>
+    <!-- FDN settings: error message displayed in a popup (toast) -->
+    <string name="fdn_invalid_number">"Номер не може бути більше 20 цифр."</string>
+
+    <!-- ADN related strings -->
+    <!-- Placeholder text displayed while loading the list of SIM contacts -->
+    <string name="simContacts_emptyLoading">"Відбувається читання з SIM-карти\u2026"</string>
+    <!-- Call settings, string that appears on FDN contact list when there are no contacts on the SIM. -->
+    <string name="simContacts_empty">"На вашій SIM-карті немає контактів."</string>
+    <!-- Call settings: title of the dialog that lets you select contacts from the SIM. -->
+    <string name="simContacts_title">"Вибір контактів для імпорту"</string>
+
+    <!-- SIM PIN strings -->
+    <!-- Title of "Enable/disable SIM PIN" screen -->
+    <string name="enable_pin">"Увімкнення/вимкнення PIN SIM-карти"</string>
+    <!-- Title of "Change SIM PIN" screen -->
+    <string name="change_pin">"Зміна PIN SIM-карти"</string>
+    <!-- SIM PIN screen: label for PIN entry widget -->
+    <string name="enter_pin_text">"PIN SIM-карти:"</string>
+    <!-- SIM PIN screen: label for PIN entry widget -->
+    <string name="oldPinLabel">"Старий PIN"</string>
+    <!-- SIM PIN screen: label for PIN entry widget -->
+    <string name="newPinLabel">"Новий PIN"</string>
+    <!-- SIM PIN screen: label for PIN entry widget -->
+    <string name="confirmPinLabel">"Підтвердіть новий PIN"</string>
+    <!-- SIM PIN screen: error message -->
+    <string name="badPin">"Вказано невірний старий PIN. Повторіть спробу."</string>
+    <!-- SIM PIN screen: error message -->
+    <string name="mismatchPin">"Вказані PIN-коди не співпадають. Повторіть спробу."</string>
+    <!-- SIM PIN screen: error message when PIN is too short or too long -->
+    <string name="invalidPin">"Введіть PIN, що складається від 4 до 8 цифр."</string>
+    <!-- Title of "Disable SIM PIN" screen -->
+    <string name="disable_sim_pin">"Вимкнення PIN SIM-карти"</string>
+    <!-- Title of "Enable SIM PIN" screen -->
+    <string name="enable_sim_pin">"Увімкнення PIN SIM-карти"</string>
+    <!-- SIM PIN screen: progress message displayed while enabling -->
+    <string name="enable_in_progress">"Зачекайте будь ласка\u2026"</string>
+    <!-- SIM PIN screen: status message displayed in a popup (toast) -->
+    <string name="enable_pin_ok">"PIN SIM-карти увімкнено"</string>
+    <!-- SIM PIN screen: status message displayed in a popup (toast) -->
+    <string name="disable_pin_ok">"PIN SIM-карти вимкнено"</string>
+    <!-- SIM PIN screen: error message displayed in a popup (toast) -->
+    <string name="pin_failed">"Вказано невірний PIN"</string>
+    <!-- SIM PIN screen: status message displayed in a popup (toast) -->
+    <string name="pin_changed">"PIN SIM-карти вдало змінено"</string>
+    <!-- SIM PIN screen: error message displayed in a dialog -->
+    <string name="puk_requested">"Невірний пароль, SIM-карта заблокована! Потребується PUK2."</string>
+
+    <!-- SIM PIN2 strings -->
+    <!-- SIM PIN2 screen: label for PIN entry widget -->
+    <string name="enter_pin2_text">"PIN2"</string>
+    <!-- SIM PIN2 screen: label for PIN entry widget -->
+    <string name="oldPin2Label">"Старий PIN2"</string>
+    <!-- SIM PIN2 screen: label for PIN entry widget -->
+    <string name="newPin2Label">"Новий PIN2"</string>
+    <!-- SIM PIN2 screen: label for PIN entry widget -->
+    <string name="confirmPin2Label">"Підтвердіть новий PIN2"</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="badPuk2">"Вказано невірний PUK2. Повторіть спробу."</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="badPin2">"Вказано невірний старий PIN2. Повторіть спробу."</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="mismatchPin2">"Вказані коди PIN2 не співпадають. Повторіть спробу."</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="invalidPin2">"Введіть PIN2, що складається від 4 до 8 цифр."</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="invalidPuk2">"Введіть PUK2, що складається з 8 цифр."</string>
+    <!-- SIM PIN2 screen: status message displayed in a popup (toast) -->
+    <string name="pin2_changed">"PIN2 успішно змінено"</string>
+    <!-- SIM PIN2 screen: label for PUK2 entry widget -->
+    <string name="label_puk2_code">"Введіть код PUK2"</string>
+    <!-- SIM PIN2 screen: error message displayed in a dialog -->
+    <string name="fdn_enable_puk2_requested">"Невірний пароль, змініть PIN2 і повторіть спробу!"</string>
+    <!-- SIM PIN2 screen: error message displayed in a dialog -->
+    <string name="puk2_requested">"Невірний пароль, SIM-карта заблокована! Необхідно ввести PUK2."</string>
+
+    <!-- SIM PIN screen: button label -->
+    <string name="doneButton">"Зроблено"</string>
+
+    <!-- In-call screen: status label for a conference call -->
+    <string name="caller_manage_header">"Конференц-зв\'язок: <xliff:g id="conf_call_time">%s</xliff:g>"</string>
+    <!-- In-call screen: Button label on "Manage conference" panel -->
+    <string name="caller_manage_manage_done_text">"Повернутися до виклику"</string>
+
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_phoneNumber_text">(650) 555-1234</string>
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_infoText_text">Incoming phone number</string>
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_placeCall_text">Fake Incoming Call</string>
+
+    <!-- Button label on "SIM Missing" screen -->
+    <string name="sim_missing_continueView_text">"Продовжити без SIM-карти"</string>
+    <!-- Message displayed on "SIM Missing" screen -->
+    <string name="sim_missing_msg_text">"SIM-карту не знайдено. Будь ласка, вставте SIM-карту в телефон."</string>
+
+    <!-- Button label on "SIM Unlock" screen -->
+    <string name="sim_unlock_dismiss_text">"Закрити"</string>
+    <!-- Button label on "SIM Unlock" screen -->
+    <string name="sim_unlock_unlock_text">"Розблокувати"</string>
+    <!-- Progress message displayed on "SIM Unlock" screen -->
+    <string name="sim_unlock_status_text">"Відбувається розпізнавання PIN\u2026"</string>
+
+    <!-- Call settings screen, Set voicemail dialog title -->
+    <string name="voicemail_settings_number_label">"Номер голосової пошти"</string>
+
+    <!-- Card titles -->
+    <!-- In-call screen: status label for a call in the "dialing" state -->
+    <string name="card_title_dialing">"Набір"</string>
+    <!-- In-call screen: status label for a call in progress -->
+    <string name="card_title_in_progress">"Поточний виклик"</string>
+    <!-- In-call screen: status label for a conference call -->
+    <string name="card_title_conf_call">"Конференц-зв\'язок"</string>
+    <!-- In-call screen: status label for an incoming call -->
+    <string name="card_title_incoming_call">"Вхідний виклик"</string>
+    <!-- In-call screen: status label displayed briefly after a call ends -->
+    <string name="card_title_call_ended">"Виклик закінчено"</string>
+    <!-- In-call screen: status label for call that's on hold -->
+    <string name="card_title_on_hold">"Утримується"</string>
+    <!-- In-call screen: status label for a call that's in the process of hanging up -->
+    <string name="card_title_hanging_up">"Відбувається завершення виклику"</string>
+
+    <!-- Notification strings -->
+    <!-- Missed call notification label, used when there's exactly one missed call -->
+    <string name="notification_missedCallTitle">"Пропущений виклик"</string>
+    <!-- Missed call notification label, used when there are two or more missed calls -->
+    <string name="notification_missedCallsTitle">"Пропущені виклики"</string>
+    <!-- Missed call notification message used when there are multiple missed calls -->
+    <string name="notification_missedCallsMsg">"<xliff:g id="num_missed_calls">%s</xliff:g> пропущених викликів"</string>
+    <!-- Missed call notification message used for a single missed call, including
+         the caller-id info from the missed call -->
+    <string name="notification_missedCallTicker">"Пропущений виклик від <xliff:g id="missed_call_from">%s</xliff:g>"</string>
+    <!-- The "label" of the in-call Notification for an ongoing call, used
+         as the format string for a Chronometer widget. -->
+    <string name="notification_ongoing_call_format">"Поточний виклик (<xliff:g id="duration">%s</xliff:g>)"</string>
+    <!-- The "label" of the in-call Notification for a call that's on hold -->
+    <string name="notification_on_hold">"Утримується"</string>
+    <!-- Label for the "Voicemail" notification item, when expanded. -->
+    <string name="notification_voicemail_title">"Нове голосове повідомлення"</string>
+    <!-- Message displayed in the "Voicemail" notification item, allowing the user
+         to dial the indicated number. -->
+    <string name="notification_voicemail_text_format">"Набрати <xliff:g id="voicemail_number">%s</xliff:g>"</string>
+    <!-- Message displayed in the "Voicemail" notification item,
+         indicating that there's no voicemail number available -->
+    <string name="notification_voicemail_no_vm_number">"Невідомий номер голосової пошти"</string>
+
+    <!-- In-call screen: call failure message displayed in an error dialog -->
+    <string name="incall_error_power_off">"Щоб здійснити виклик, вимкніть режим "В літаку"."</string>
+    <!-- In-call screen: Error message displayed in a  dialog when trying to dial without a SIM card. -->
+    <string name="incall_error_emergency_only">"Немає реєстрації в мережі."</string>
+    <!-- In-call screen: call failure message displayed in an error dialog -->
+    <string name="incall_error_no_phone_number_supplied">"Виклик не здійснено: невірно вказано номер."</string>
+    <!-- In-call screen: call failure message displayed in an error dialog -->
+    <string name="incall_error_call_failed">"Виклик не здійснено."</string>
+    <!-- In-call screen: status message displayed in a dialog when starting an MMI -->
+    <string name="incall_status_dialed_mmi">"Запуск послідовності MMI\u2026"</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_unknown">"Послуга не підтримується."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_switch">"Переключення викликів неможливе."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_separate">"Неможливо від\'єднати виклик."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_transfer">"Неможливо здійснити виклик."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_conference">"Конференц-зв\'язок неможливий."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_reject">"Неможливо відхилити виклик."</string>
+    <!-- In-call screen: message displayed in an error dialog -->
+    <string name="incall_error_supp_service_hangup">"Неможливо зняти утримання дзвінка(ів)."</string>
+
+    <!-- Dialog title for the "radio enable" UI for emergency calls -->
+    <string name="emergency_enable_radio_dialog_title">"Екстренний виклик"</string>
+    <!-- Status message for the "radio enable" UI for emergency calls -->
+    <string name="emergency_enable_radio_dialog_message">"Відбувається увімкнення радіозв\'язку\u2026"</string>
+    <!-- Status message for the "radio enable" UI for emergency calls -->
+    <string name="emergency_enable_radio_dialog_retry">"Поза зоною досяжності, повторна спроба\u2026"</string>
+
+    <!-- Dialer text on Emergency Dialer -->
+    <!-- Emergency dialer: message displayed in an error dialog -->
+    <string name="dial_emergency_error">"Виклик не здійснено: <xliff:g id="non_emergency_number">%s</xliff:g> – не є екстренним номером!"</string>
+    <!-- Emergency dialer: message displayed in an error dialog -->
+    <string name="dial_emergency_empty_error">"Виклик не здійснено, наберіть екстрений номер!"</string>
+
+    <!-- Displayed in the text entry box in the dialer when in landscape mode to guide the user
+         to dial using the physical keyboard -->
+    <string name="dialerKeyboardHintText">"Для набору використайте клавіатуру"</string>
+
+    <!-- Hint text displayed in the "digits" field at the top of the
+         in-call DTMF dialpad.  (This hint reminds the user that the
+         dialpad is there to generate tones, not to add a new call.) -->
+    <string name="dtmfDialpadHintText">"Панель тонального набору"</string>
+
+    <!-- Text displayed in the "sliding drawer handle" that you use to
+         open the in-call DTMF dialpad. -->
+    <string name="dtmfDialpadHandleLabel">"Набір номеру"</string>
+
+    <!-- Text displayed on the in-call screen's "touch lock" overlay,
+         instructing the user that they need to double-tap to unlock the
+         screen. -->
+    <string name="touchLockText">"Натисніть двічі\nдля розблокування"</string>
+
+    <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
+    <string name="importSimEntry">"Імпортувати"</string>
+    <!-- Menu item label in SIM Contacts: Import all contact entries from the SIM card -->
+    <string name="importAllSimEntries">"Імпортувати все"</string>
+    <!-- SIM Contacts: status message displayed while importing card -->
+    <string name="importingSimContacts">"Відбувається імпорт контактів з SIM-карти"</string>
+    <!-- Import a single contact entry from contacts to the SIM card -->
+    <string name="importToFDNfromContacts">"Імпортувати з контактів"</string>
+
+</resources>
