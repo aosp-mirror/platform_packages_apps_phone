@@ -37,7 +37,15 @@ import android.widget.TextView;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
-public class IccNetworkDepersonalizationPanel extends IccPanel{
+/**
+ * "SIM network unlock" PIN entry screen.
+ *
+ * @see PhoneApp.EVENT_SIM_NETWORK_LOCKED
+ *
+ * TODO: This UI should be part of the lock screen, not the
+ * phone app (see bug 1804111).
+ */
+public class IccNetworkDepersonalizationPanel extends IccPanel {
 
     //debug constants
     private static final boolean DBG = false;
@@ -54,7 +62,6 @@ public class IccNetworkDepersonalizationPanel extends IccPanel{
     private TextView     mStatusText;
 
     private Button       mUnlockButton;
-    private Button       mDismissButton;
 
     //private textwatcher to control text entry.
     private TextWatcher mPinEntryWatcher = new TextWatcher() {
@@ -110,13 +117,12 @@ public class IccNetworkDepersonalizationPanel extends IccPanel{
         super.onCreate(icicle);
         setContentView(R.layout.sim_ndp);
 
-        //set up pin entry text field
+        // PIN entry text field
         mPinEntry = (EditText) findViewById(R.id.pin_entry);
         mPinEntry.setKeyListener(DialerKeyListener.getInstance());
-        mPinEntry.setMovementMethod(null);
         mPinEntry.setOnClickListener(mUnlockListener);
 
-        //attach the textwatcher
+        // Attach the textwatcher
         CharSequence text = mPinEntry.getText();
         Spannable span = (Spannable) text;
         span.setSpan(mPinEntryWatcher, 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -125,9 +131,6 @@ public class IccNetworkDepersonalizationPanel extends IccPanel{
 
         mUnlockButton = (Button) findViewById(R.id.ndp_unlock);
         mUnlockButton.setOnClickListener(mUnlockListener);
-
-        mDismissButton = (Button) findViewById(R.id.ndp_dismiss);
-        mDismissButton.setOnClickListener(mDismissListener);
 
         //status panel is used since we're having problems with the alert dialog.
         mStatusPanel = (LinearLayout) findViewById(R.id.status_panel);
@@ -157,9 +160,9 @@ public class IccNetworkDepersonalizationPanel extends IccPanel{
             if (TextUtils.isEmpty(pin)) {
                 return;
             }
-            
+
             if (DBG) log("requesting network depersonalization with code " + pin);
-            mPhone.getIccCard().supplyNetworkDepersonalization(pin, 
+            mPhone.getIccCard().supplyNetworkDepersonalization(pin,
                     Message.obtain(mHandler, EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT));
             indicateBusy();
         }
@@ -188,14 +191,7 @@ public class IccNetworkDepersonalizationPanel extends IccPanel{
         mStatusPanel.setVisibility(View.GONE);
     }
 
-    View.OnClickListener mDismissListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if (DBG) log("network depersonalization skipped.");
-            dismiss();
-        }
-    };
-
     private void log(String msg) {
-        Log.v(TAG, "[IccNetworkUnlock] " + msg);
+        Log.v(TAG, "[IccNetworkDepersonalizationPanel] " + msg);
     }
 }
