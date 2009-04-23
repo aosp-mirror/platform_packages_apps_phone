@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"限制撥號號碼清單"</string>
     <string name="unknown">"未知"</string>
     <string name="private_num">"私人號碼"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"公共電話"</string>
     <string name="onHold">"通話保留"</string>
     <string name="ongoing">"目前通話"</string>
     <string name="callFailed_userBusy">"線路忙碌中"</string>
@@ -94,8 +93,7 @@
     <string name="networks">"電信業者"</string>
     <string name="call_settings">"通話設定"</string>
     <string name="additional_call_settings">"其他通話設定"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"網路服務設定"</string>
     <string name="labelCallerId">"本機號碼"</string>
     <string name="sum_hide_caller_id">"隱藏發話號碼"</string>
     <string name="sum_show_caller_id">"顯示發話號碼"</string>
@@ -272,8 +270,7 @@
     <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
     <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"撥號鍵盤"</string>
     <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
     <string name="importSimEntry">"匯入"</string>
     <string name="importAllSimEntries">"全部匯入"</string>
