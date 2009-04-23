@@ -215,10 +215,19 @@ public class PhoneApp extends Application {
                     break;
 
                 case EVENT_SIM_NETWORK_LOCKED:
-                    if (Config.LOGV) Log.v(LOG_TAG, "show sim depersonal panel");
-                    IccNetworkDepersonalizationPanel ndpPanel =
-                        new IccNetworkDepersonalizationPanel(PhoneApp.getInstance());
-                    ndpPanel.show();
+                    if (getResources().getBoolean(R.bool.ignore_sim_network_locked_events)) {
+                        // Some products don't have the concept of a "SIM network lock"
+                        Log.i(LOG_TAG, "Ignoring EVENT_SIM_NETWORK_LOCKED event; "
+                              + "not showing 'SIM network unlock' PIN entry screen");
+                    } else {
+                        // Normal case: show the "SIM network unlock" PIN entry screen.
+                        // The user won't be able to do anything else until
+                        // they enter a valid SIM network PIN.
+                        Log.i(LOG_TAG, "show sim depersonal panel");
+                        IccNetworkDepersonalizationPanel ndpPanel =
+                                new IccNetworkDepersonalizationPanel(PhoneApp.getInstance());
+                        ndpPanel.show();
+                    }
                     break;
 
                 case EVENT_UPDATE_INCALL_NOTIFICATION:
@@ -1112,6 +1121,3 @@ public class PhoneApp extends Application {
         }
     }
 }
-
-
-
