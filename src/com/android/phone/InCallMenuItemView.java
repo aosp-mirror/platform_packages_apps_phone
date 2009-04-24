@@ -62,11 +62,6 @@ class InCallMenuItemView extends TextView {
         setFocusable(true);
         setTextAppearance(context, textAppearance);
 
-        // These three are needed for marqueeing to look pretty
-        setEllipsize(TruncateAt.MARQUEE);
-        setHorizontalFadingEdgeEnabled(true);
-        setSingleLine(true);
-
         // Set the padding like the regular menu items do
         setPadding(3, getPaddingTop(), 3, getPaddingBottom());
     }
@@ -111,6 +106,9 @@ class InCallMenuItemView extends TextView {
         if (DBG) log("setIcon(" + icon + ")...");
         mIcon = icon;
         updateCompoundDrawables();
+
+        // If there's an icon, we'll only have enough room for one line of text.
+        if (icon != null) setSingleLineMarquee();
     }
 
     /**
@@ -167,6 +165,17 @@ class InCallMenuItemView extends TextView {
         //              + ", bottom " + bottomPadding);
 
         setCompoundDrawablesWithIntrinsicBounds(null, mIcon, null, mIndicatorDrawable);
+    }
+
+    /**
+     * Forces this menu item into "single line" mode, with marqueeing enabled.
+     * This is only necessary when an icon is present, since otherwise
+     * there's enough room for long labels to wrap onto two lines.
+     */
+    private void setSingleLineMarquee() {
+        setEllipsize(TruncateAt.MARQUEE);
+        setHorizontalFadingEdgeEnabled(true);
+        setSingleLine(true);
     }
 
     @Override
