@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"Faste nummer"</string>
     <string name="unknown">"Ukjent"</string>
     <string name="private_num">"Hemmelig nummer"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Telefonkiosk"</string>
     <string name="onHold">"Parkert"</string>
     <string name="ongoing">"Aktiv samtale"</string>
     <string name="callFailed_userBusy">"Opptatt"</string>
@@ -94,8 +93,7 @@
     <string name="networks">"Nettoperatører"</string>
     <string name="call_settings">"Samtaleinnstillinger"</string>
     <string name="additional_call_settings">"Flere innstillinger"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="labelNwService">"Nettverkstjenester"</string>
     <string name="labelCallerId">"Nummervisning"</string>
     <string name="sum_hide_caller_id">"Skjul nummer ved utgående samtaler"</string>
     <string name="sum_show_caller_id">"Vis nummer ved utgående samtaler"</string>
@@ -272,8 +270,7 @@
     <string name="dial_emergency_empty_error">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
     <string name="dialerKeyboardHintText">"Bruk tastaturet for å ringe"</string>
     <string name="dtmfDialpadHintText">"Talltastatur for tastetoner"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
+    <string name="dtmfDialpadHandleLabel">"Talltastatur"</string>
     <string name="touchLockText">"Dobbeltklikk"\n"for å låse opp"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Importer alle"</string>
