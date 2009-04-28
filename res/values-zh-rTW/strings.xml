@@ -20,7 +20,7 @@
     <string name="dialerIconLabel">"撥號"</string>
     <string name="emergencyDialerIconLabel">"緊急撥號"</string>
     <string name="phoneIconLabel">"電話"</string>
-    <string name="recentCallsIconLabel">"通話紀錄"</string>
+    <string name="recentCallsIconLabel">"通話記錄"</string>
     <string name="fdnListLabel">"限制撥號號碼清單"</string>
     <string name="unknown">"未知"</string>
     <string name="private_num">"私人號碼"</string>
@@ -159,7 +159,7 @@
     <string name="roaming_enable">"漫遊時連線到資料服務"</string>
     <string name="roaming_disable">"漫遊時連線到資料服務"</string>
     <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
-    <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
+    <string name="roaming_warning">"要允許資料漫遊嗎？您可能會需要支付龐大漫遊費用！"</string>
     <string name="prefer_2g">"只使用 2G 網路"</string>
     <string name="prefer_2g_summary">"節省電力"</string>
     <string name="fdn">"限制撥號號碼"</string>
@@ -269,7 +269,7 @@
     <string name="dial_emergency_error">"撥號未送出，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是緊急電話號碼！"</string>
     <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
-    <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
+    <string name="dtmfDialpadHintText">"觸控音按鍵"</string>
     <string name="dtmfDialpadHandleLabel">"撥號鍵盤"</string>
     <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
     <string name="importSimEntry">"匯入"</string>
