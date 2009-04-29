@@ -213,107 +213,107 @@ public class CellBroadcastSms extends PreferenceActivity
             CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonMaintenance.isChecked(), 3);
         } else if (preference == mButtonLocalWeather) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonLocalWeather.isChecked(), 4);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocalWeather.isChecked(), 4);
+                    mButtonLocalWeather.isChecked(), 20);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocalWeather.isChecked(), 20);
         } else if (preference == mButtonAtr) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonAtr.isChecked(), 5);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonAtr.isChecked(), 5);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonAtr.isChecked(), 21);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonAtr.isChecked(), 21);
         } else if (preference == mButtonLafs) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLafs.isChecked(), 6);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLafs.isChecked(), 6);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLafs.isChecked(), 22);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLafs.isChecked(), 22);
         } else if (preference == mButtonRestaurants) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRestaurants.isChecked(), 7);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRestaurants.isChecked(), 7);
+                    mButtonRestaurants.isChecked(), 23);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRestaurants.isChecked(), 23);
         } else if (preference == mButtonLodgings) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLodgings.isChecked(), 8);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLodgings.isChecked(), 8);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLodgings.isChecked(), 24);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLodgings.isChecked(), 24);
         } else if (preference == mButtonRetailDirectory) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRetailDirectory.isChecked(), 9);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRetailDirectory.isChecked(), 9);
+                    mButtonRetailDirectory.isChecked(), 25);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRetailDirectory.isChecked(), 25);
         } else if (preference == mButtonAdvertisements) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonAdvertisements.isChecked(), 10);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonAdvertisements.isChecked(), 10);
+                    mButtonAdvertisements.isChecked(), 26);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonAdvertisements.isChecked(), 26);
         } else if (preference == mButtonStockQuotes) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonStockQuotes.isChecked(), 11);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonStockQuotes.isChecked(), 11);
+                    mButtonStockQuotes.isChecked(), 27);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonStockQuotes.isChecked(), 27);
         } else if (preference == mButtonEo) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonEo.isChecked(), 12);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonEo.isChecked(), 12);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonEo.isChecked(), 28);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonEo.isChecked(), 28);
         } else if (preference == mButtonMhh) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonMhh.isChecked(), 13);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonMhh.isChecked(), 13);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonMhh.isChecked(), 29);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonMhh.isChecked(), 29);
         } else if (preference == mButtonTechnologyNews) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonTechnologyNews.isChecked(), 14);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonTechnologyNews.isChecked(), 14);
+                    mButtonTechnologyNews.isChecked(), 30);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonTechnologyNews.isChecked(), 30);
         } else if (preference == mButtonMultiCategory) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonMultiCategory.isChecked(), 15);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonMultiCategory.isChecked(), 15);
+                    mButtonMultiCategory.isChecked(), 31);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonMultiCategory.isChecked(), 31);
         } else if (preference == mButtonLocal1) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal1.isChecked(), 16);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal1.isChecked(), 16);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal1.isChecked(), 4);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal1.isChecked(), 4);
         } else if (preference == mButtonRegional1) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRegional1.isChecked(), 17);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional1.isChecked(), 17);
+                    mButtonRegional1.isChecked(), 5);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional1.isChecked(), 5);
         } else if (preference == mButtonNational1) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonNational1.isChecked(), 18);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational1.isChecked(), 18);
+                    mButtonNational1.isChecked(), 6);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational1.isChecked(), 6);
         } else if (preference == mButtonInternational1) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonInternational1.isChecked(), 19);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational1.isChecked(), 19);
+                    mButtonInternational1.isChecked(), 7);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational1.isChecked(), 7);
         } else if (preference == mButtonLocal2) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal2.isChecked(), 20);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal2.isChecked(), 20);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal2.isChecked(), 8);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal2.isChecked(), 8);
         } else if (preference == mButtonRegional2) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRegional2.isChecked(), 21);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional2.isChecked(), 21);
+                    mButtonRegional2.isChecked(), 9);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional2.isChecked(), 9);
         } else if (preference == mButtonNational2) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonNational2.isChecked(), 22);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational2.isChecked(), 22);
+                    mButtonNational2.isChecked(), 10);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational2.isChecked(), 10);
         } else if (preference == mButtonInternational2) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonInternational2.isChecked(), 23);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational2.isChecked(), 23);
+                    mButtonInternational2.isChecked(), 11);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational2.isChecked(), 11);
         } else if (preference == mButtonLocal3) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal3.isChecked(), 24);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal3.isChecked(), 24);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal3.isChecked(), 12);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal3.isChecked(), 12);
         } else if (preference == mButtonRegional3) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRegional3.isChecked(), 25);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional3.isChecked(), 25);
+                    mButtonRegional3.isChecked(), 13);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional3.isChecked(), 13);
         } else if (preference == mButtonNational3) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonNational3.isChecked(), 26);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational3.isChecked(), 26);
+                    mButtonNational3.isChecked(), 14);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational3.isChecked(), 14);
         } else if (preference == mButtonInternational3) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonInternational3.isChecked(), 27);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational3.isChecked(), 27);
+                    mButtonInternational3.isChecked(), 15);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational3.isChecked(), 15);
         } else if (preference == mButtonLocal4) {
-            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal4.isChecked(), 28);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal4.isChecked(), 28);
+            CellBroadcastSmsConfig.setConfigDataCompleteBSelected(mButtonLocal4.isChecked(), 16);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonLocal4.isChecked(), 16);
         } else if (preference == mButtonRegional4) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonRegional4.isChecked(), 29);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional4.isChecked(), 29);
+                    mButtonRegional4.isChecked(), 17);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonRegional4.isChecked(), 17);
         } else if (preference == mButtonNational4) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonNational4.isChecked(), 30);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational4.isChecked(), 30);
+                    mButtonNational4.isChecked(), 18);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonNational4.isChecked(), 18);
         } else if (preference == mButtonInternational4) {
             CellBroadcastSmsConfig.setConfigDataCompleteBSelected(
-                    mButtonInternational4.isChecked(), 31);
-            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational4.isChecked(), 31);
+                    mButtonInternational4.isChecked(), 19);
+            CellBroadcastSmsConfig.setCbSmsBSelectedValue(mButtonInternational4.isChecked(), 19);
         } else {
             preferenceScreen.setEnabled(false);
             return false;
@@ -439,15 +439,17 @@ public class CellBroadcastSms extends PreferenceActivity
     }
 
     @Override
-    protected void onStop() {
-        if (DBG) Log.d(LOG_TAG, "OnStop-Metthod reached in class CellBroadcastSms");
-        
-        CellBroadcastSmsConfig.setCbSmsNoOfStructs(NO_OF_SERVICE_CATEGORIES);
-        
-        mPhone.setCellBroadcastSmsConfig(CellBroadcastSmsConfig.getCbSmsAllValues(),
-                Message.obtain(mHandler, MESSAGE_SET_CB_SMS_CONFIG));
-        
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
+
+        int currentSelection[] = CellBroadcastSmsConfig.getCbSmsAllValues();
+
+        if (currentSelection[0] > 0) {
+            CellBroadcastSmsConfig.setCbSmsNoOfStructs(NO_OF_SERVICE_CATEGORIES);
+
+            mPhone.setCellBroadcastSmsConfig(CellBroadcastSmsConfig.getCbSmsAllValues(),
+                    Message.obtain(mHandler, MESSAGE_SET_CB_SMS_CONFIG));
+        }
     }
 
     private void enableDisableAllCbConfigButtons(boolean enable) {
@@ -497,38 +499,38 @@ public class CellBroadcastSms extends PreferenceActivity
         mListLanguage.setValueIndex(CellBroadcastSmsConfig.getConfigDataLanguage() - 1);
         mButtonAdministrative.setChecked(configArray[2] != 0);
         mButtonMaintenance.setChecked(configArray[3] != 0);
-        mButtonLocalWeather.setChecked(configArray[4] != 0);
-        mButtonAtr.setChecked(configArray[5] != 0);
-        mButtonLafs.setChecked(configArray[6] != 0);
-        mButtonRestaurants.setChecked(configArray[7] != 0);
-        mButtonLodgings.setChecked(configArray[8] != 0);
-        mButtonRetailDirectory.setChecked(configArray[9] != 0);
-        mButtonAdvertisements.setChecked(configArray[10] != 0);
-        mButtonStockQuotes.setChecked(configArray[11] != 0);
-        mButtonEo.setChecked(configArray[12] != 0);
-        mButtonMhh.setChecked(configArray[13] != 0);
-        mButtonTechnologyNews.setChecked(configArray[14] != 0);
-        mButtonMultiCategory.setChecked(configArray[15] != 0);
-        
-        mButtonLocal1.setChecked(configArray[16] != 0);
-        mButtonRegional1.setChecked(configArray[17] != 0);
-        mButtonNational1.setChecked(configArray[18] != 0);
-        mButtonInternational1.setChecked(configArray[19] != 0);
-        
-        mButtonLocal2.setChecked(configArray[20] != 0);
-        mButtonRegional2.setChecked(configArray[21] != 0);
-        mButtonNational2.setChecked(configArray[22] != 0);
-        mButtonInternational2.setChecked(configArray[23] != 0);
-        
-        mButtonLocal3.setChecked(configArray[24] != 0);
-        mButtonRegional3.setChecked(configArray[25] != 0);
-        mButtonNational3.setChecked(configArray[26] != 0);
-        mButtonInternational3.setChecked(configArray[27] != 0);
-        
-        mButtonLocal4.setChecked(configArray[28] != 0);
-        mButtonRegional4.setChecked(configArray[29] != 0);
-        mButtonNational4.setChecked(configArray[30] != 0);
-        mButtonInternational4.setChecked(configArray[31] != 0);
+        mButtonLocalWeather.setChecked(configArray[20] != 0);
+        mButtonAtr.setChecked(configArray[21] != 0);
+        mButtonLafs.setChecked(configArray[22] != 0);
+        mButtonRestaurants.setChecked(configArray[23] != 0);
+        mButtonLodgings.setChecked(configArray[24] != 0);
+        mButtonRetailDirectory.setChecked(configArray[25] != 0);
+        mButtonAdvertisements.setChecked(configArray[26] != 0);
+        mButtonStockQuotes.setChecked(configArray[27] != 0);
+        mButtonEo.setChecked(configArray[28] != 0);
+        mButtonMhh.setChecked(configArray[29] != 0);
+        mButtonTechnologyNews.setChecked(configArray[30] != 0);
+        mButtonMultiCategory.setChecked(configArray[31] != 0);
+
+        mButtonLocal1.setChecked(configArray[4] != 0);
+        mButtonRegional1.setChecked(configArray[5] != 0);
+        mButtonNational1.setChecked(configArray[6] != 0);
+        mButtonInternational1.setChecked(configArray[7] != 0);
+
+        mButtonLocal2.setChecked(configArray[8] != 0);
+        mButtonRegional2.setChecked(configArray[9] != 0);
+        mButtonNational2.setChecked(configArray[10] != 0);
+        mButtonInternational2.setChecked(configArray[11] != 0);
+
+        mButtonLocal3.setChecked(configArray[12] != 0);
+        mButtonRegional3.setChecked(configArray[13] != 0);
+        mButtonNational3.setChecked(configArray[14] != 0);
+        mButtonInternational3.setChecked(configArray[15] != 0);
+
+        mButtonLocal4.setChecked(configArray[16] != 0);
+        mButtonRegional4.setChecked(configArray[17] != 0);
+        mButtonNational4.setChecked(configArray[18] != 0);
+        mButtonInternational4.setChecked(configArray[19] != 0);
     }
 
     private class MyHandler extends Handler {
@@ -542,10 +544,23 @@ public class CellBroadcastSms extends PreferenceActivity
                 break;
             case MESSAGE_GET_CB_SMS_CONFIG:
                 int result[] = (int[])((AsyncResult)msg.obj).result;
-                
+
+                // check if the actual service categoties table size on the NV is '0'
+                if (result[0] == 0) {
+                    result[0] = NO_OF_SERVICE_CATEGORIES;
+
+                    mButtonBcSms.setChecked(false);
+                    mPhone.activateCellBroadcastSms(RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED,
+                            Message.obtain(mHandler, MESSAGE_ACTIVATE_CB_SMS));
+                    android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                            android.provider.Settings.Secure.CDMA_CELL_BROADCAST_SMS,
+                            RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED);
+                    enableDisableAllCbConfigButtons(false);
+                }
+
                 CellBroadcastSmsConfig.setCbSmsConfig(result);
                 setAllCbConfigButtons(CellBroadcastSmsConfig.getCbSmsBselectedValues());
-                
+
                 break;
             case MESSAGE_SET_CB_SMS_CONFIG:
                 //Only a log message here, because the received response is always null

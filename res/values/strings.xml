@@ -354,13 +354,23 @@
     <string name="preferred_network_mode_dialogtitle">Preferred network mode</string>
     <string-array name="preferred_network_mode_choices">
         <item>Global</item>
-        <item>CDMA only</item>
-        <item>GSM/UMTS only</item>
+        <item>EvDo only</item>
+        <item>CDMA w/o EvDo</item>
+        <item>CDMA / EvDo auto</item>
+        <item>GSM / WCDMA auto</item>
+        <item>WCDMA only</item>
+        <item>GSM only</item>
+        <item>GSM / WCDMA preferred</item>
     </string-array>
     <string-array name="preferred_network_mode_values">
         <item>"7"</item>
+        <item>"6"</item>
+        <item>"5"</item>
         <item>"4"</item>
         <item>"3"</item>
+        <item>"2"</item>
+        <item>"1"</item>
+        <item>"0"</item>
     </string-array>
     <!-- Mobile network settings screen, setting check box name -->
     <string name="roaming">Data roaming</string>
