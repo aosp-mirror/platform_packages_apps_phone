@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +57,8 @@ import android.widget.EditText;
 public class EmergencyDialer extends Activity implements View.OnClickListener,
 View.OnLongClickListener, View.OnKeyListener, TextWatcher {
 
+    private static final String LAST_NUMBER = "lastNumber";
+
     // intent action for this activity.
     public static final String ACTION_DIAL = "com.android.phone.EmergencyDialer.DIAL";
 
@@ -70,6 +73,8 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
 
     /** The DTMF tone volume relative to other sounds in the stream */
     private static final int TONE_RELATIVE_VOLUME = 50;
+
+    private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
     EditText mDigits;
     private View mDelete;
@@ -93,6 +98,8 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             }
         }
     };
+
+    private String mLastNumber; // last number we tried to dial. Used to restore error dialog.
 
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // Do nothing
@@ -191,7 +198,13 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
 
     @Override
     protected void onRestoreInstanceState(Bundle icicle) {
-        // Do nothing, state is restored in onCreate() if needed
+        mLastNumber = icicle.getString(LAST_NUMBER);
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(LAST_NUMBER, mLastNumber);
     }
 
     /**
@@ -366,31 +379,6 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     }
 
     /**
-     * display the alert dialog
-     */
-    private void displayErrorBadNumber (String number) {
-        // construct error string
-        CharSequence errMsg;
-        if (!TextUtils.isEmpty(number)) {
-            errMsg = getString(R.string.dial_emergency_error, number);
-        } else {
-            errMsg = getText (R.string.dial_emergency_empty_error);
-        }
-
-        // construct dialog
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(getText(R.string.emergency_enable_radio_dialog_title));
-        b.setMessage(errMsg);
-        b.setPositiveButton(R.string.ok, null);
-        b.setCancelable(true);
-
-        // show the dialog
-        AlertDialog dialog = b.create();
-        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        dialog.show();
-    }
-
-    /**
      * turn off keyguard on start.
      */
     @Override
@@ -450,27 +438,27 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
      * place the call, but check to make sure it is a viable number.
      */
     void placeCall() {
-        final String number = mDigits.getText().toString();
-        if (PhoneNumberUtils.isEmergencyNumber(number)) {
-            if (DBG) Log.d(LOG_TAG, "placing call to " + number);
+        mLastNumber = mDigits.getText().toString();
+        if (PhoneNumberUtils.isEmergencyNumber(mLastNumber)) {
+            if (DBG) Log.d(LOG_TAG, "placing call to " + mLastNumber);
 
             // place the call if it is a valid number
-            if (number == null || !TextUtils.isGraphic(number)) {
+            if (mLastNumber == null || !TextUtils.isGraphic(mLastNumber)) {
                 // There is no number entered.
                 playTone(ToneGenerator.TONE_PROP_NACK);
                 return;
             }
             Intent intent = new Intent(Intent.ACTION_CALL_EMERGENCY);
-            intent.setData(Uri.fromParts("tel", number, null));
+            intent.setData(Uri.fromParts("tel", mLastNumber, null));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         } else {
-            if (DBG) Log.d(LOG_TAG, "rejecting bad requested number " + number);
+            if (DBG) Log.d(LOG_TAG, "rejecting bad requested number " + mLastNumber);
 
             // erase the number and throw up an alert dialog.
             mDigits.getText().delete(0, mDigits.getText().length());
-            displayErrorBadNumber(number);
+            showDialog(BAD_EMERGENCY_NUMBER_DIALOG);
         }
     }
 
@@ -517,4 +505,37 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         }
     }
 
+    private CharSequence createErrorMessage(String number) {
+        if (!TextUtils.isEmpty(number)) {
+            return getString(R.string.dial_emergency_error, mLastNumber);
+        } else {
+            return getText(R.string.dial_emergency_empty_error).toString();
+        }
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog dialog = null;
+        if (id == BAD_EMERGENCY_NUMBER_DIALOG) {
+            // construct dialog
+            dialog = new AlertDialog.Builder(this)
+                    .setTitle(getText(R.string.emergency_enable_radio_dialog_title))
+                    .setMessage(createErrorMessage(mLastNumber))
+                    .setPositiveButton(R.string.ok, null)
+                    .setCancelable(true).create();
+
+            // blur stuff behind the dialog
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        }
+        return dialog;
+    }
+    
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+        if (id == BAD_EMERGENCY_NUMBER_DIALOG) {
+            AlertDialog alert = (AlertDialog) dialog;
+            alert.setMessage(createErrorMessage(mLastNumber));
+        }
+    }
 }
