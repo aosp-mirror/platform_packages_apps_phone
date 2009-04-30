@@ -827,7 +827,7 @@
     <!-- Text displayed on the in-call screen's "touch lock" overlay,
          instructing the user that they need to double-tap to unlock the
          screen. -->
-    <string name="touchLockText">Double-tap\nto unlock</string>
+    <string name="touchLockText">Tap twice\nto unlock</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
