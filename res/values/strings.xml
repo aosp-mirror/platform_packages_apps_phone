@@ -276,7 +276,7 @@
     <!-- Toast in Call settings dialog while settings are being saved -->
     <string name="updating_settings">Updating settings\u2026</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
-    <string name="response_error">Unexpected response from network,</string>
+    <string name="response_error">Unexpected response from network.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
     <string name="exception_error">Network or SIM card error.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
