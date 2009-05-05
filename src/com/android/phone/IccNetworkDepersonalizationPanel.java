@@ -62,6 +62,7 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
     private TextView     mStatusText;
 
     private Button       mUnlockButton;
+    private Button       mDismissButton;
 
     //private textwatcher to control text entry.
     private TextWatcher mPinEntryWatcher = new TextWatcher() {
@@ -132,6 +133,18 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
         mUnlockButton = (Button) findViewById(R.id.ndp_unlock);
         mUnlockButton.setOnClickListener(mUnlockListener);
 
+        // The "Dismiss" button is present in some (but not all) products,
+        // based on the "sim_network_unlock_allow_dismiss" resource.
+        mDismissButton = (Button) findViewById(R.id.ndp_dismiss);
+        if (getContext().getResources().getBoolean(R.bool.sim_network_unlock_allow_dismiss)) {
+            if (DBG) log("Enabling 'Dismiss' button...");
+            mDismissButton.setVisibility(View.VISIBLE);
+            mDismissButton.setOnClickListener(mDismissListener);
+        } else {
+            if (DBG) log("Removing 'Dismiss' button...");
+            mDismissButton.setVisibility(View.GONE);
+        }
+
         //status panel is used since we're having problems with the alert dialog.
         mStatusPanel = (LinearLayout) findViewById(R.id.status_panel);
         mStatusText = (TextView) findViewById(R.id.status_text);
@@ -190,6 +203,13 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
         mEntryPanel.setVisibility(View.VISIBLE);
         mStatusPanel.setVisibility(View.GONE);
     }
+
+    View.OnClickListener mDismissListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                if (DBG) log("mDismissListener: skipping depersonalization...");
+                dismiss();
+            }
+        };
 
     private void log(String msg) {
         Log.v(TAG, "[IccNetworkDepersonalizationPanel] " + msg);
