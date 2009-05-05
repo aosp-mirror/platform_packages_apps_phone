@@ -51,6 +51,17 @@
                 android:paddingRight="20dip"
                 android:layout_centerHorizontal="true" />
 
+        <!-- Dismiss button.  (Not present in some products; see
+             sim_network_unlock_allow_dismiss in config.xml.) -->
+        <Button android:id="@+id/ndp_dismiss"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sim_ndp_dismiss_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:layout_centerHorizontal="true" />
+
     </LinearLayout>
 
     <LinearLayout android:id="@+id/status_panel"
