@@ -22,4 +22,14 @@
          prevent the IccNetworkDepersonalizationPanel from being shown,
          and effectively disable the "Sim network lock" feature. -->
     <bool name="ignore_sim_network_locked_events">false</bool>
+
+    <!-- Flag indicating whether the Phone app should provide
+         a "Dismiss" button on the SIM network unlock screen.
+         The default value is true.
+         If set to false, there will be *no way* to dismiss the SIM
+         network unlock screen if you don't enter the correct unlock code.
+         (One important consequence: there will be no way to make an
+         Emergency Call if your SIM is network-locked and you don't know
+         the PIN.) -->
+    <bool name="sim_network_unlock_allow_dismiss">true</bool>
 </resources>
