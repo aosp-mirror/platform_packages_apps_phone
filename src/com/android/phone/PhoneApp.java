@@ -320,8 +320,6 @@ public class PhoneApp extends Application {
 
             ringer = new Ringer(phone);
 
-            SoundEffect.init();
-
             // before registering for phone state changes
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
