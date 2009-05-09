@@ -164,6 +164,8 @@
     <string name="roaming_warning">"是否允许数据漫游？您可能需要支付高额的漫游费！"</string>
     <string name="prefer_2g">"仅使用 2G 网络"</string>
     <string name="prefer_2g_summary">"节约电量"</string>
+	 <string name="prefer_3g">"仅使用 3G 网络"</string>
+    <string name="prefer_3g_summary">"使用高速INTERNET连接"</string>
     <string name="fdn">"固定拨号"</string>
     <string name="manage_fdn_list">"FDN 列表"</string>
     <string name="fdn_activation">"FDN 激活"</string>

@@ -29,6 +29,11 @@
         android:title="@string/prefer_2g"
         android:persistent="false"
         android:summary="@string/prefer_2g_summary"/>
+	<CheckBoxPreference 
+        android:key="button_prefer_3g_key" 
+        android:title="@string/prefer_3g"
+        android:persistent="false"
+        android:summary="@string/prefer_3g_summary"/>
         
     <PreferenceScreen 
         android:key="button_carrier_sel_key" 

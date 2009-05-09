@@ -38,11 +38,11 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //String keys for preference lookup
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
     private static final String BUTTON_PREFER_2G_KEY = "button_prefer_2g_key";
-    
+    private static final String BUTTON_PREFER_3G_KEY = "button_prefer_3g_key";
     //UI objects
     private CheckBoxPreference mButtonDataRoam;
     private CheckBoxPreference mButtonPrefer2g;
-    
+    private CheckBoxPreference mButtonPrefer3g;
     private Phone mPhone;
     
     private boolean mOkClicked;
@@ -92,12 +92,15 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mPhone.setDataRoamingEnabled(false);
             }
             return true;
-        } else if (preference == mButtonPrefer2g) {
-            int networkType = mButtonPrefer2g.isChecked() ? Phone.NT_GSM_TYPE : Phone.NT_AUTO_TYPE;
+        } else if (preference == mButtonPrefer2g || preference == mButtonPrefer3g) {
+            int networkType = mButtonPrefer2g.isChecked() ? Phone.NT_GSM_TYPE : (mButtonPrefer3g.isChecked() ? Phone.NT_WCDMA_TYPE:Phone.NT_AUTO_TYPE);
             mPhone.setPreferredNetworkType(networkType, mHandler
                     .obtainMessage(MyHandler.MESSAGE_SET_PREFERRED_NETWORK_TYPE));
+			mButtonPrefer2g.setEnabled(networkType != Phone.NT_WCDMA_TYPE);
+			mButtonPrefer3g.setEnabled(networkType != Phone.NT_GSM_TYPE);
             return true;
-        } else {
+        } 		
+		else {
             // if the button is anything but the simple toggle preference,
             // we'll need to disable all preferences to reject all click
             // events until the sub-activity's UI comes up.
@@ -120,7 +123,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         mButtonDataRoam = (CheckBoxPreference) prefSet.findPreference(BUTTON_ROAMING_KEY);
         mButtonPrefer2g = (CheckBoxPreference) prefSet.findPreference(BUTTON_PREFER_2G_KEY);
-        
+        mButtonPrefer3g = (CheckBoxPreference) prefSet.findPreference(BUTTON_PREFER_3G_KEY);
         // The intent code that resided here in the past has been moved into the
         // more conventional location in network_setting.xml
     }
@@ -137,7 +140,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         // and the UI state would be inconsistent with actual state
         mButtonDataRoam.setChecked(mPhone.getDataRoamingEnabled());
 
-        // Get the state for 'prefer 2g' setting
+        // Get the state for 'prefer 2g' and 'prefer 3g' setting
         mPhone.getPreferredNetworkType(mHandler.obtainMessage(MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));
     }
     
@@ -165,10 +168,15 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             if (ar.exception == null) {
                 int type = ((int[])ar.result)[0];
                 mButtonPrefer2g.setChecked(type == Phone.NT_GSM_TYPE);
+				mButtonPrefer2g.setEnabled(type != Phone.NT_WCDMA_TYPE);
+
+				mButtonPrefer3g.setChecked(type == Phone.NT_WCDMA_TYPE);
+				mButtonPrefer3g.setEnabled(type != Phone.NT_GSM_TYPE);
                 
             } else {
                 // Weird state, disable the setting
                 mButtonPrefer2g.setEnabled(false);
+				mButtonPrefer3g.setEnabled(false);
             }
         }
 
@@ -178,6 +186,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             if (ar.exception != null) {
                 // Yikes, error, disable the setting
                 mButtonPrefer2g.setEnabled(false);
+				mButtonPrefer3g.setEnabled(false);
                 // Set UI to current state
                 mPhone.getPreferredNetworkType(obtainMessage(MESSAGE_GET_PREFERRED_NETWORK_TYPE));
             }
