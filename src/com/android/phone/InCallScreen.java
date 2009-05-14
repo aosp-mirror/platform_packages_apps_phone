@@ -314,7 +314,7 @@ public class InCallScreen extends Activity
                     // PENDING.
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
                     // if phone is a CDMA phone display feature code completed message
-                    if (mPhone.getPhoneName() == "CDMA") {
+                    if (mPhone.getPhoneName().equals("CDMA")) {
                         PhoneUtils.displayMMIComplete(mPhone, PhoneApp.getInstance(), mmiCode, null, null);
                     } else {
                         if (mmiCode.getState() != MmiCode.State.PENDING) {
@@ -1037,7 +1037,7 @@ public class InCallScreen extends Activity
         final boolean hasActiveCall = !mForegroundCall.isIdle();
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
-        if (mPhone.getPhoneName() == "CDMA") {
+        if (mPhone.getPhoneName().equals("CDMA")) {
             // WINK:TODO Teleca is this enough?
 
             // The green CALL button means either "Answer", "Swap calls/On Hold", or
@@ -1860,7 +1860,7 @@ public class InCallScreen extends Activity
 
         // Need to treat running MMI codes as a connection as well.
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
-            || mPhone.getPhoneName() == "CDMA" || !mPhone.getPendingMmiCodes().isEmpty()) {
+            || mPhone.getPhoneName().equals("CDMA") || !mPhone.getPendingMmiCodes().isEmpty()) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
