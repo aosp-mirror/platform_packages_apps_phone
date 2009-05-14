@@ -190,6 +190,10 @@ public class CallCard extends FrameLayout
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
     }
 
+    /**
+     * Updates the state of all UI elements on the CallCard, based on the
+     * current state of the phone.
+     */
     void updateState(Phone phone) {
         if (DBG) log("updateState(" + phone + ")...");
 
@@ -250,6 +254,14 @@ public class CallCard extends FrameLayout
         Call fgCall = phone.getForegroundCall();
         Call bgCall = phone.getBackgroundCall();
 
+        // Check for the "generic call" state.
+        if (false /* TODO(CDMA): use "fgCall.isGeneric()" here, once that API is checked in */ ) {
+            // Show the special "generic call" state instead of the regular
+            // in-call CallCard state.
+            updateGenericCall(phone);
+            return;
+        }
+
         if (fgCall.isIdle() && !fgCall.hasConnections()) {
             if (DBG) log("updateForegroundCall: no active call, show holding call");
             // TODO: make sure this case agrees with the latest UI spec.
@@ -266,6 +278,24 @@ public class CallCard extends FrameLayout
 
         displayMainCallStatus(phone, fgCall);
         displayOnHoldCallStatus(phone, bgCall);
+        displayOngoingCallStatus(phone, null);
+    }
+
+    /**
+     * Updates the UI for the "generic call" state, where the phone is in
+     * use but we don't know any specific details about the state of the
+     * call (like who you're talking to, or how many lines are in use.)
+     */
+    private void updateGenericCall(Phone phone) {
+        if (DBG) log("updateForegroundCall()...");
+
+        Call fgCall = phone.getForegroundCall();
+
+        // Display the special "generic" state in the main call area:
+        displayMainCallGeneric(phone, fgCall);
+
+        // And hide the "other call" info areas:
+        displayOnHoldCallStatus(phone, null);
         displayOngoingCallStatus(phone, null);
     }
 
@@ -346,7 +376,6 @@ public class CallCard extends FrameLayout
                             landscapeMode ? R.drawable.incall_frame_connected_tall_land
                             : R.drawable.incall_frame_connected_tall_port;
                 }
-
 
                 // update timer field
                 if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
@@ -439,6 +468,10 @@ public class CallCard extends FrameLayout
                 break;
         }
 
+        // Set the background frame color based on the state of the call.
+        setMainCallCardBackgroundResource(callCardBackgroundResid);
+        // (Text colors are set in updateCardTitleWidgets().)
+
         updateCardTitleWidgets(phone, call);
 
         if (PhoneUtils.isConferenceCall(call)) {
@@ -506,10 +539,56 @@ public class CallCard extends FrameLayout
         // indication of the current state, rather than displaying the
         // regular photo as set above.
         updatePhotoForCallState(call);
+    }
+
+    /**
+     * Version of displayMainCallStatus() that sets the main call area
+     * into the "generic" state.
+     * @see displayMainCallStatus
+     */
+    private void displayMainCallGeneric(Phone phone, Call call) {
+        if (DBG) log("displayMainCallGeneric(phone " + phone
+                     + ", call " + call + ")...");
+
+        mMainCallCard.setVisibility(View.VISIBLE);
+
+        // Background frame resources are different between portrait/landscape.
+        // TODO: Don't do this manually.  Instead let the resource system do
+        // it: just move the *_land assets over to the res/drawable-land
+        // directory (but with the same filename as the corresponding
+        // portrait asset.)
+        boolean landscapeMode = InCallScreen.ConfigurationHelper.isLandscape();
+
+        // Background images are also different if Bluetooth is active.
+        final boolean bluetoothActive = PhoneApp.getInstance().showBluetoothIndication();
+
+        showCallConnected();
+
+        int callCardBackgroundResid = 0;
+        if (bluetoothActive) {
+            callCardBackgroundResid =
+                    landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
+                    : R.drawable.incall_frame_bluetooth_tall_port;
+        } else {
+            callCardBackgroundResid =
+                    landscapeMode ? R.drawable.incall_frame_connected_tall_land
+                    : R.drawable.incall_frame_connected_tall_port;
+        }
 
         // Set the background frame color based on the state of the call.
         setMainCallCardBackgroundResource(callCardBackgroundResid);
         // (Text colors are set in updateCardTitleWidgets().)
+
+        // Update timer field:
+        // TODO(CDMA): Need to confirm that we can trust the time info
+        // from the passed-in Call object, even though the call is "generic".
+        if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
+        mCallTime.setActiveCallMode(call);
+        mCallTime.reset();
+        mCallTime.periodicUpdateTimer();
+
+        updateCardTitleWidgets(phone, call);
+        updateDisplayForGenericCall();
     }
 
     /**
@@ -885,6 +964,9 @@ public class CallCard extends FrameLayout
      *
      * If the current call is a conference call, use
      * updateDisplayForConference() instead.
+     *
+     * If the phone is in the "generic call" state, use
+     * updateDisplayForGenericCall() instead.
      */
     private void updateDisplayForPerson(CallerInfo info,
                                         int presentation,
@@ -1013,6 +1095,25 @@ public class CallCard extends FrameLayout
         // To do this, our caller would pass us the activeConnections
         // list, and we'd call PhoneUtils.getCallerInfo() separately for
         // each connection.
+    }
+
+    /**
+     * Updates the name / photo / number / label fields
+     * for the special "generic call" state.
+     * @see updateDisplayForPerson
+     * @see updateDisplayForConference
+     */
+    private void updateDisplayForGenericCall() {
+        if (DBG) log("updateDisplayForGenericCall()...");
+
+        // Display a generic "in-call" image in the photo slot, with no
+        // other information.
+
+        showImage(mPhoto, R.drawable.picture_dialing);
+
+        mName.setVisibility(View.GONE);
+        mPhoneNumber.setVisibility(View.GONE);
+        mLabel.setVisibility(View.GONE);
     }
 
     /**

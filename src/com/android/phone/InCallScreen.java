@@ -1040,13 +1040,20 @@ public class InCallScreen extends Activity
         if (mPhone.getPhoneName().equals("CDMA")) {
             // The green CALL button means either "Answer", "Swap calls/On Hold", or
             // "Add to 3WC", depending on the current state of the Phone.
-
             if (hasRingingCall) {
                 if (VDBG) log("handleCallKey: ringing ==> answer!");
                 internalAnswerCall();  // Automatically holds the current active call,
                                        // if there is one
             } else {
-                // send an empty CDMA flash string
+                // On a CDMA phone, if there's no ringing call, CALL means
+                // "flash" in any context.  (Depending on the state of the
+                // network, this could mean "hold", "swap calls", or
+                // "merge into 3-way call".)
+
+                // TODO: It's ugly to call switchHoldingAndActive() here,
+                // since we're not *really* trying to swap calls.  (We just
+                // want to send a flash command.)  Instead, consider having
+                // the telephony layer provide an explicit "flash" API.
                 PhoneUtils.switchHoldingAndActive(mPhone);
             }
         } else {

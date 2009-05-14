@@ -1125,7 +1125,10 @@ public class PhoneUtils {
 
     /**
      * Returns true if the specified Call is a "conference call", meaning
-     * that it owns more than one Connection object.
+     * that it owns more than one Connection object.  This information is
+     * used to trigger certain UI changes that appear when a conference
+     * call is active (like displaying the label "Conference call", and
+     * enabling the "Manage conference" UI.)
      *
      * Watch out: This method simply checks the number of Connections,
      * *not* their states.  So if a Call has (for example) one ACTIVE
@@ -1136,6 +1139,16 @@ public class PhoneUtils {
      * @return true if the specified call has more than one connection (in any state.)
      */
     static boolean isConferenceCall(Call call) {
+        // CDMA phones don't have the same concept of "conference call" as
+        // GSM phones do; there's no special "conference call" state of
+        // the UI or a "manage conference" function.  (Instead, when
+        // you're in a 3-way call, all we can do is display the "generic"
+        // state of the UI.)  So as far as the in-call UI is concerned,
+        // CDMA calls are *never* "conference calls".
+        if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
+            return false;
+        }
+
         List<Connection> connections = call.getConnections();
         if (connections != null && connections.size() > 1) {
             return true;
@@ -1494,6 +1507,7 @@ public class PhoneUtils {
         // call really is in the ACTIVE state and the holding call really
         // is in the HOLDING state, since you *can't* actually swap calls
         // when the foreground call is DIALING or ALERTING.)
+        // TODO(CDMA): Need to handle the CDMA case too.
         return phone.getRingingCall().isIdle()
                 && (phone.getForegroundCall().getState() == Call.State.ACTIVE)
                 && (phone.getBackgroundCall().getState() == Call.State.HOLDING);
@@ -1507,6 +1521,7 @@ public class PhoneUtils {
         // "Merge" is available if both lines are in use and there's no
         // incoming call, *and* the current conference isn't already
         // "full".
+        // TODO(CDMA): Need to handle the CDMA case too.
         return phone.getRingingCall().isIdle() && phone.canConference();
     }
 
@@ -1520,6 +1535,8 @@ public class PhoneUtils {
         // - There's < 2 lines in use
         // - The foreground call is ACTIVE or IDLE or DISCONNECTED.
         //   (We mainly need to make sure it *isn't* DIALING or ALERTING.)
+
+        // TODO(CDMA): Need to handle the CDMA case too.
 
         final boolean hasRingingCall = !phone.getRingingCall().isIdle();
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
@@ -1541,7 +1558,8 @@ public class PhoneUtils {
 
     /* package */ static void dumpCallState(Phone phone) {
         Log.d(LOG_TAG, "##### dumpCallState()");
-        Log.d(LOG_TAG, "- Phone: " + phone + ", state = " + phone.getState());
+        Log.d(LOG_TAG, "- Phone: " + phone + ", name = " + phone.getPhoneName()
+              + ", state = " + phone.getState());
         Log.d(LOG_TAG, "-");
 
         Call fgCall = phone.getForegroundCall();
