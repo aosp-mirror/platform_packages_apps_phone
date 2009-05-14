@@ -91,7 +91,6 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
 
         final int numTouchables = touchables.size();
         
-        Rect closestBounds = new Rect();
         Rect touchableBounds = new Rect();
         
         for (int i = 0; i < numTouchables; i++) {
