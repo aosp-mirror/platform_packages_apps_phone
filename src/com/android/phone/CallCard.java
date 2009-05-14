@@ -91,8 +91,6 @@ public class CallCard extends FrameLayout
     // Menu button hint
     private TextView mMenuButtonHint;
 
-    private boolean mRingerSilenced;
-
     private CallTime mCallTime;
 
     // Track the state for the photo.
@@ -135,8 +133,6 @@ public class CallCard extends FrameLayout
     void reset() {
         if (DBG) log("reset()...");
 
-        mRingerSilenced = false;
-
         // default to show ACTIVE call style, with empty title and status text
         showCallConnected();
         setUpperTitle("");
@@ -158,8 +154,6 @@ public class CallCard extends FrameLayout
         super.onFinishInflate();
 
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
 
         mMainCallCard = (ViewGroup) findViewById(R.id.mainCallCard);
         mOtherCallOngoingInfoArea = (ViewGroup) findViewById(R.id.otherCallOngoingInfoArea);
@@ -455,18 +449,17 @@ public class CallCard extends FrameLayout
             // has only one connection.)
             Connection conn = call.getEarliestConnection();
 
-            int presentation = conn.getNumberPresentation(); 
-
             if (conn == null) {
                 if (DBG) log("displayMainCallStatus: connection is null, using default values.");
                 // if the connection is null, we run through the behaviour
                 // we had in the past, which breaks down into trivial steps
                 // with the current implementation of getCallerInfo and
                 // updateDisplayForPerson.
-                CallerInfo info = PhoneUtils.getCallerInfo(getContext(), conn);
-                updateDisplayForPerson(info, presentation, false, call);
+                CallerInfo info = PhoneUtils.getCallerInfo(getContext(), null /* conn */);
+                updateDisplayForPerson(info, Connection.PRESENTATION_ALLOWED, false, call);
             } else {
                 if (DBG) log("  - CONN: " + conn + ", state = " + conn.getState());
+                int presentation = conn.getNumberPresentation();
 
                 // make sure that we only make a new query when the current
                 // callerinfo differs from what we've been requested to display.
@@ -809,7 +802,6 @@ public class CallCard extends FrameLayout
 
 
     private String getCallFailedString(Call call) {
-        Phone phone = PhoneApp.getInstance().phone;
         Connection c = call.getEarliestConnection();
         int resID;
 
@@ -885,15 +877,6 @@ public class CallCard extends FrameLayout
     private void showCallOnhold() {
         if (DBG) log("showCallOnhold()...");
         // TODO: remove if truly unused
-    }
-
-    /**
-     *  Add the Call object to these next 2 apis since the callbacks from
-     *  updateImageViewWithContactPhotoAsync call will need to use it.
-     */
-
-    private void updateDisplayForPerson(CallerInfo info, int presentation, Call call) {
-        updateDisplayForPerson(info, presentation, false, call);
     }
 
     /**
