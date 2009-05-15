@@ -45,13 +45,9 @@ public class OutgoingCallBroadcaster extends Activity {
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
 
-    private Phone mPhone;
-
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
-        mPhone = PhoneApp.getInstance().phone;
 
         Intent intent = getIntent();
         if (LOGV) Log.v(TAG, "onResume: Got intent " + intent + ".");

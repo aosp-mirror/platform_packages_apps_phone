@@ -286,8 +286,6 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     }
 
     public void onClick(View view) {
-        final Editable digits = mDigits.getText();
-
         switch (view.getId()) {
             case R.id.one: {
                 playTone(ToneGenerator.TONE_DTMF_1);
