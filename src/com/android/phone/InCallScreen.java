@@ -2158,7 +2158,6 @@ public class InCallScreen extends Activity
         // connections still in that state.]
         mPhone.clearDisconnected();
 
-        final PhoneApp app = PhoneApp.getInstance();
         if (!phoneIsInUse()) {
             // Phone is idle!  We should exit this screen now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");

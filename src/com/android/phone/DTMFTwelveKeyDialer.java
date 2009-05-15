@@ -61,7 +61,7 @@ public class DTMFTwelveKeyDialer implements
     // events
     private static final int PHONE_DISCONNECT = 100;
 
-    private static Phone mPhone;
+    private Phone mPhone;
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
 
@@ -130,7 +130,7 @@ public class DTMFTwelveKeyDialer implements
      * Create an input method just so that the textview can display the cursor.
      * There is no selecting / positioning on the dialer field, only number input.
      */
-    private class DTMFDisplayMovementMethod implements MovementMethod {
+    private static class DTMFDisplayMovementMethod implements MovementMethod {
 
         /**Return false since we are NOT consuming the input.*/
         public boolean onKeyDown(TextView widget, Spannable buffer, int keyCode, KeyEvent event) {

@@ -186,7 +186,6 @@ public class CallNotifier extends Handler
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
         if (DBG) log("onNewRingingConnection(): " + c);
-        PhoneApp app = PhoneApp.getInstance();
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
@@ -618,7 +617,7 @@ public class CallNotifier extends Handler
                 // the user deliberately rejected.)
 
                 PhoneUtils.CallerInfoToken info =
-                    PhoneUtils.startGetCallerInfo(mApplication, c, this, new Long(date));
+                        PhoneUtils.startGetCallerInfo(mApplication, c, this, Long.valueOf(date));
                 if (info != null) {
                     // at this point, we've requested to start a query, but it makes no
                     // sense to log this missed call until the query comes back.
