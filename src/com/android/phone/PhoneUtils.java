@@ -20,14 +20,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.provider.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -44,19 +48,13 @@ import com.android.internal.telephony.CallStateException;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-
-import com.android.internal.telephony.IExtendedNetworkService;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.os.RemoteException;
-
 
 /**
  * Misc utilities for the Phone app.

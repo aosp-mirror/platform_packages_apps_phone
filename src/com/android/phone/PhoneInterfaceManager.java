@@ -538,7 +538,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 android.Manifest.permission.CONTROL_LOCATION_UPDATES, null);
         mPhone.enableLocationUpdates();
     }
-    
+
     public void disableLocationUpdates() {
         mApp.enforceCallingOrSelfPermission(
                 android.Manifest.permission.CONTROL_LOCATION_UPDATES, null);
@@ -551,16 +551,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             mApp.enforceCallingOrSelfPermission(
                     android.Manifest.permission.ACCESS_FINE_LOCATION, null);
         } catch (SecurityException e) {
-            // If we have ACCESS_FINE_LOCATION permission, skip the check 
-            // for ACCESS_COARSE_LOCATION 
-            // A failure should throw the SecurityException from 
+            // If we have ACCESS_FINE_LOCATION permission, skip the check
+            // for ACCESS_COARSE_LOCATION
+            // A failure should throw the SecurityException from
             // ACCESS_COARSE_LOCATION since this is the weaker precondition
             mApp.enforceCallingOrSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION, null);
-        }            
+        }
 
         ArrayList<NeighboringCellInfo> cells = null;
-    
+
         try {
             cells = (ArrayList<NeighboringCellInfo>) sendRequest(
                     CMD_HANDLE_NEIGHBORING_CELL, null);
@@ -602,7 +602,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp.enforceCallingOrSelfPermission(android.Manifest.permission.CALL_PHONE, null);
     }
 
-    
+
     private String createTelUrl(String number) {
         if (TextUtils.isEmpty(number)) {
             return null;
@@ -624,6 +624,28 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             return GSM_PHONE;
         }
     }
+
+    /**
+     * Returns the CDMA ERI icon index to display
+     */
+    public int getCdmaEriIconIndex() {
+        return mPhone.getCdmaEriIconIndex();
+    }
+
+    /**
+     * Returns the CDMA ERI icon mode,
+     * 0 - ON
+     * 1 - FLASHING
+     */
+    public int getCdmaEriIconMode() {
+        return mPhone.getCdmaEriIconMode();
+    }
+
+    /**
+     * Returns the CDMA ERI text,
+     */
+    public String getCdmaEriText() {
+        return mPhone.getCdmaEriText();
+    }
+
 }
-
-

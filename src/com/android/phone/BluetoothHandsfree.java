@@ -40,6 +40,7 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
+import android.telephony.SignalStrength;
 import android.util.Log;
 
 import com.android.internal.telephony.Call;
@@ -355,7 +356,7 @@ public class BluetoothHandsfree {
             updatePhoneState(false, null);
             mBattchg = 5;  // There is currently no API to get battery level
                            // on demand, so set to 5 and wait for an update
-            mSignal = asuToSignal(mPhone.getSignalStrengthASU());
+            mSignal = asuToSignal(mPhone.getSignalStrength());
 
             // register for updates
             mPhone.registerForServiceStateChanged(mStateChangeHandler,
@@ -390,7 +391,7 @@ public class BluetoothHandsfree {
         /* convert [0,31] ASU signal strength to the [0,5] expected by
          * bluetooth devices. Scale is similar to status bar policy
          */
-        private int asuToSignal(int asu) {
+        private int gsmAsuToSignal(int asu) {
             if      (asu >= 16) return 5;
             else if (asu >= 8)  return 4;
             else if (asu >= 4)  return 3;
@@ -398,6 +399,28 @@ public class BluetoothHandsfree {
             else if (asu >= 1)  return 1;
             else                return 0;
         }
+
+        /* convert cdma dBm signal strength to the [0,5] expected by
+         * bluetooth devices. Scale is similar to status bar policy
+         */
+        private int cdmaDbmToSignal(int cdmaDbm) {
+            if (cdmaDbm >= -75)       return 5;
+            else if (cdmaDbm >= -85)  return 4;
+            else if (cdmaDbm >= -95)  return 3;
+            else if (cdmaDbm >= -100) return 2;
+            else if (cdmaDbm >= -105) return 2;
+            else return 0;
+        }
+
+
+        private int asuToSignal(SignalStrength signalStrength) {
+            if (!signalStrength.isGsm()) {
+                return gsmAsuToSignal(signalStrength.getCdmaDbm());
+            } else {
+                return cdmaDbmToSignal(signalStrength.getGsmSignalStrength());
+            }
+        }
+
 
         /* convert [0,5] signal strength to a rssi signal strength for CSQ
          * which is [0,31]. Despite the same scale, this is not the same value
@@ -444,14 +467,22 @@ public class BluetoothHandsfree {
         }
 
         private synchronized void updateSignalState(Intent intent) {
+            // NOTE this function is called by the BroadcastReceiver mStateReceiver after intent
+            // ACTION_SIGNAL_STRENGTH_CHANGED and by the DebugThread mDebugThread
+            SignalStrength signalStrength = SignalStrength.newFromBundle(intent.getExtras());
             int signal;
-            signal = asuToSignal(intent.getIntExtra("asu", -1));
-            mRssi = signalToRssi(signal);  // no unsolicited CSQ
-            if (signal != mSignal) {
-                mSignal = signal;
-                if (sendUpdate()) {
-                    sendURC("+CIEV: 5," + mSignal);
+
+            if (signalStrength != null) {
+                signal = asuToSignal(signalStrength);
+                mRssi = signalToRssi(signal);  // no unsolicited CSQ
+                if (signal != mSignal) {
+                    mSignal = signal;
+                    if (sendUpdate()) {
+                        sendURC("+CIEV: 5," + mSignal);
+                    }
                 }
+            } else {
+                Log.e(TAG, "Signal Strength null");
             }
         }
 
@@ -1774,8 +1805,12 @@ public class BluetoothHandsfree {
 
                 int signalLevel = SystemProperties.getInt(DEBUG_HANDSFREE_SIGNAL, -1);
                 if (signalLevel >= 0 && signalLevel <= 31) {
+                    SignalStrength signalStrength = new SignalStrength(signalLevel, -1, -1, -1,
+                            -1, -1, -1, true);
                     Intent intent = new Intent();
-                    intent.putExtra("asu", signalLevel);
+                    Bundle data = new Bundle();
+                    signalStrength.fillInNotifierBundle(data);
+                    intent.putExtras(data);
                     mPhoneState.updateSignalState(intent);
                 }
 

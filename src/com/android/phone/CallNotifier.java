@@ -80,9 +80,10 @@ public class CallNotifier extends Handler
     private static final int PHONE_DISCONNECT = 3;
     private static final int PHONE_UNKNOWN_CONNECTION_APPEARED = 4;
     private static final int PHONE_INCOMING_RING = 5;
+    private static final int PHONE_CDMA_CALL_WAITING = 6;
     // Events generated internally:
-    private static final int PHONE_MWI_CHANGED = 6;
-    private static final int PHONE_BATTERY_LOW = 7;
+    private static final int PHONE_MWI_CHANGED = 7;
+    private static final int PHONE_BATTERY_LOW = 8;
 
     private PhoneApp mApplication;
     private Phone mPhone;
@@ -100,6 +101,7 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
+        mPhone.registerForCdmaCallWaiting(this,PHONE_CDMA_CALL_WAITING, null);
         mRinger = ringer;
         mBluetoothHandsfree = btMgr;
 
@@ -131,7 +133,10 @@ public class CallNotifier extends Handler
                     if (DBG) log("RING before NEW_RING, skipping");
                 }
                 break;
-
+            case PHONE_CDMA_CALL_WAITING:
+                if (DBG) log("CDMA CALL WAITING... ");
+                onCdmaCallwaiting((AsyncResult) msg.obj);
+                break;
             case PHONE_STATE_CHANGED:
                 onPhoneStateChanged((AsyncResult) msg.obj);
                 break;
@@ -255,6 +260,17 @@ public class CallNotifier extends Handler
         mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
         if (VDBG) log("- onNewRingingConnection() done.");
+    }
+
+    private void onCdmaCallwaiting(AsyncResult r) {
+      /**
+       * TODO(Teleca): From one of our UI engineers: "FWIW, this can probably just
+       * be another path thru onNewRingingConnection(), since that method already
+       * can tell the difference between a regular incoming call and a call-waiting
+       * call (for GSM, so far at least.)
+       */
+       // TODO: write the code
+       return;
     }
 
     /**

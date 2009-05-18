@@ -200,7 +200,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                     case Phone.NT_MODE_CDMA:
                         modemNetworkMode = Phone.NT_MODE_CDMA;
                         break;
-                        case Phone.NT_MODE_GSM_UMTS:
+                    case Phone.NT_MODE_GSM_UMTS:
                         modemNetworkMode = Phone.NT_MODE_GSM_UMTS;
                         break;
                     case Phone.NT_MODE_WCDMA_ONLY:
@@ -343,7 +343,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private void UpdatePreferredNetworkModeSummary(int NetworkMode) {
         switch(NetworkMode) {
             case Phone.NT_MODE_WCDMA_PREF:
-                // TELECA:TODO Make all of these strings come from res/values/strings.xml.
+                // TODO T: Make all of these strings come from res/values/strings.xml.
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: WCDMA pref");
                 break;
             case Phone.NT_MODE_GSM_ONLY:

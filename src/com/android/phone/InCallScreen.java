@@ -675,7 +675,7 @@ public class InCallScreen extends Activity
         // the same time that the phone state is changing.  This can
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)) {
-            if (DBG) log("onPause(): DELAYED_CLEANUP_AFTER_DISCONNECT detected, finishing...");
+            if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
             finish();
         }
 
@@ -1435,6 +1435,33 @@ public class InCallScreen extends Activity
         } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_NORMAL) {
             showGenericErrorDialog(R.string.callFailed_dsac_restricted_normal, false);
             return;
+        } else if (cause == Connection.DisconnectCause.CDMA_LOCKED_UNTIL_POWER_CYCLE) {
+            showGenericErrorDialog(R.string.callFailed_cdma_lockedUntilPowerCycle, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_DROP) {
+            showGenericErrorDialog(R.string.callFailed_cdma_drop, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_INTERCEPT) {
+            showGenericErrorDialog(R.string.callFailed_cdma_intercept, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_REORDER) {
+            showGenericErrorDialog(R.string.callFailed_cdma_reorder, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_SO_REJECT) {
+            showGenericErrorDialog(R.string.callFailed_cdma_SO_reject, false);
+            return;
+        }else if (cause == Connection.DisconnectCause.CDMA_RETRY_ORDER) {
+            showGenericErrorDialog(R.string.callFailed_cdma_retryOrder, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_ACCESS_FAILURE) {
+            showGenericErrorDialog(R.string.callFailed_cdma_accessFailure, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_PREEMPTED) {
+            showGenericErrorDialog(R.string.callFailed_cdma_preempted, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_NOT_EMERGENCY) {
+            showGenericErrorDialog(R.string.callFailed_cdma_notEmergency, false);
+            return;
         }
 
         final PhoneApp app = PhoneApp.getInstance();
@@ -1859,6 +1886,7 @@ public class InCallScreen extends Activity
         // this screen in the first place.)
 
         // Need to treat running MMI codes as a connection as well.
+        // Do not check for getPendingMmiCodes when phone is a CDMA phone
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
             || mPhone.getPhoneName().equals("CDMA") || !mPhone.getPendingMmiCodes().isEmpty()) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
@@ -2109,8 +2137,9 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
-        if (DBG) log("show vm setting, finishing...");
         finish();
+
+        if (DBG) log("show vm setting");
 
         // navigate to the Voicemail setting in the Call Settings activity.
         Intent intent = new Intent(CallFeaturesSetting.ACTION_ADD_VOICEMAIL);
