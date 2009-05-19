@@ -500,6 +500,10 @@ public class PhoneApp extends Application {
         mInCallScreen = inCallScreen;
     }
 
+    InCallScreen getInCallScreenInstance() {
+        return mInCallScreen;
+    }
+
     /**
      * @return true if the in-call UI is running as the foreground
      * activity.  (In other words, from the perspective of the

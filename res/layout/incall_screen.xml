@@ -40,8 +40,7 @@
                         android:layout_height="fill_parent"
                         >
 
-            <!-- The CallCard (see call_card_popup.xml) is inserted
-                 here from Java code (see initInCallScreen()). -->
+            <include layout="@layout/call_card_popup" />
 
             <!-- The hint about the Menu button, anchored to the bottom of
                  the screen.  This is used only in landscape mode (see
