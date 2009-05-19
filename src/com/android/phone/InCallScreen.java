@@ -933,17 +933,7 @@ public class InCallScreen extends Activity
 
         ConfigurationHelper.initConfiguration(getResources().getConfiguration());
 
-        // Create a CallCard and add it to our View hierarchy.
-        // TODO: there's no good reason for call_card_popup to be a
-        // separate layout that we need to manually inflate here.
-        // (That design is left over from when the call card was drawn in
-        // its own PopupWindow.)
-        // Instead, the CallCard should just be <include>d directly from
-        // incall_screen.xml.
-        View callCardLayout = getLayoutInflater().inflate(
-                R.layout.call_card_popup,
-                mInCallPanel);
-        mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
+        mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
         mCallCard.reset();

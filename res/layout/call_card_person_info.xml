@@ -49,6 +49,13 @@
         android:layout_height="1dip"
         android:layout_weight="1" />
 
+    <!-- Video ringtone. -->
+    <VideoView android:id="@+id/video"
+               android:visibility="gone"
+               android:layout_width="300dip"
+               android:layout_height="225dip"
+               android:layout_marginBottom="10dip"/>
+
     <!-- Name (or the phone number, if we don't have a name to display). -->
     <TextView android:id="@+id/name"
               android:gravity="center_horizontal"
