@@ -31,6 +31,8 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
+import android.widget.VideoView;
 
 import com.android.internal.telephony.Phone;
 
@@ -289,7 +291,10 @@ public class Ringer {
                             r = mRingtone;
                             if (r != null && !hasMessages(STOP_RING)) {
                                 PhoneUtils.setAudioMode(mContext, AudioManager.MODE_RINGTONE);
-                                r.play();
+                                VideoView view = showVideoView(r.isVideo(mContext), true);
+                                final PhoneApp app = PhoneApp.getInstance();
+                                final InCallScreen screen = app.getInCallScreenInstance();
+                                r.play(screen, (VideoView)view);
                                 synchronized (Ringer.this) {
                                     mRingPending = false;
                                     if (mFirstRingStartTime < 0) {
@@ -303,6 +308,7 @@ public class Ringer {
                             r = (Ringtone) msg.obj;
                             if (r != null) {
                                 r.stop();
+                                showVideoView(false, false);
                             } else {
                                 if (DBG) log("- STOP_RING with null ringtone!  msg = " + msg);
                             }
@@ -312,6 +318,55 @@ public class Ringer {
                 }
             };
         }
+    }
+
+    /*
+     * Show or hide video view.
+     * @param show True to show, false to hide
+     * @param wait True to allow waiting for video view to stabilize
+     * @return View on which video can be shown, or null
+     */
+    // Patch reviewer, please note:
+    // I'm not very happy with this "dirty" solution. This code is safe and works, but is
+    // certainly not ideal. If you know a better way to refactor this, I'm all ears.
+    //
+    // This code can potentially be called before getInCallScreenInstance() is non-null,
+    // although I've never seen that happen. Checking, just in case.
+    // It can certainly be called in the window after the screen is set, but before the view
+    // has been created. This happens, repeatably, the first call after the phone is booted or
+    // the screen configuration is flipped since the last call.
+    // Essentially, we have a race condition. But, it's one that we don't "deserve" to win by
+    // force. It is more important for the user to get the call than to see the video
+    // ringtone. So, we try to wait, but as little as possible and never more than one second.
+    // Typically, this seems to add about 400ms to the first call after boot or screen flip;
+    // nothing on other calls.
+    private VideoView showVideoView(final boolean show, boolean wait) {
+        final PhoneApp app = PhoneApp.getInstance();
+        InCallScreen screen = app.getInCallScreenInstance();
+        VideoView view = (VideoView)(screen==null? null : screen.findViewById(R.id.video));
+        if (wait & show) {
+            if ((screen == null) || (view == null)) {
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (java.lang.InterruptedException e) { }
+                    screen = app.getInCallScreenInstance();
+                    view = (VideoView)(screen==null? null : screen.findViewById(R.id.video));
+                    if (view != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        if (view != null) {
+            final VideoView viewf = view;
+            screen.runOnUiThread(new Runnable() {
+                public void run() {
+                    viewf.setVisibility(show? View.VISIBLE : View.GONE);
+                }
+            });
+        }
+        return (show? view : null);
     }
 
     private static void log(String msg) {
