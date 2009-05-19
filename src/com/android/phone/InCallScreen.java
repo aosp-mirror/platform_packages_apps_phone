@@ -68,6 +68,7 @@ import android.widget.LinearLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.util.List;
 
@@ -206,6 +207,8 @@ public class InCallScreen extends Activity
     private DTMFTwelveKeyDialer mDialer;
     private SlidingDrawer mDialerDrawer;
     private EditText mDTMFDisplay;
+
+    private VideoView mVideoView;
 
     // "Manage conference" UI elements
     private ViewGroup mManageConferencePanel;
@@ -416,6 +419,7 @@ public class InCallScreen extends Activity
         // Inflate everything in incall_screen.xml and add it to the screen.
         setContentView(R.layout.incall_screen);
         mDialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
+        mVideoView = (VideoView) findViewById(R.id.video);
 
         initInCallScreen();
 
@@ -933,17 +937,7 @@ public class InCallScreen extends Activity
 
         ConfigurationHelper.initConfiguration(getResources().getConfiguration());
 
-        // Create a CallCard and add it to our View hierarchy.
-        // TODO: there's no good reason for call_card_popup to be a
-        // separate layout that we need to manually inflate here.
-        // (That design is left over from when the call card was drawn in
-        // its own PopupWindow.)
-        // Instead, the CallCard should just be <include>d directly from
-        // incall_screen.xml.
-        View callCardLayout = getLayoutInflater().inflate(
-                R.layout.call_card_popup,
-                mInCallPanel);
-        mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
+        mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
         mCallCard.reset();
@@ -3127,6 +3121,23 @@ public class InCallScreen extends Activity
             int visibility = okToShowDialpad() ? View.VISIBLE : View.GONE;
             mDialerDrawer.setVisibility(visibility);
         }
+    }
+
+    /*
+     * Show or hide video view.
+     * @param show True to show, false to hide
+     * @return View on which video can be shown, or null
+     */
+    VideoView updateVideoVisibility(final boolean show) {
+        // This can be called from non-UI threads (e.g from Ringer's handler).
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if (mVideoView != null) {
+                    mVideoView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            }
+        });
+        return show ? mVideoView : null;
     }
 
     /**

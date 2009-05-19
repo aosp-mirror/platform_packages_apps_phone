@@ -31,6 +31,8 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
+import android.widget.VideoView;
 
 import com.android.internal.telephony.Phone;
 
@@ -289,7 +291,10 @@ public class Ringer {
                             r = mRingtone;
                             if (r != null && !hasMessages(STOP_RING)) {
                                 PhoneUtils.setAudioMode(mContext, AudioManager.MODE_RINGTONE);
-                                r.play();
+                                VideoView view = showVideoView(r.isVideo(mContext));
+                                final PhoneApp app = PhoneApp.getInstance();
+                                final InCallScreen screen = app.getInCallScreenInstance();
+                                r.play(screen, (VideoView) view);
                                 synchronized (Ringer.this) {
                                     mRingPending = false;
                                     if (mFirstRingStartTime < 0) {
@@ -303,6 +308,7 @@ public class Ringer {
                             r = (Ringtone) msg.obj;
                             if (r != null) {
                                 r.stop();
+                                showVideoView(false);
                             } else {
                                 if (DBG) log("- STOP_RING with null ringtone!  msg = " + msg);
                             }
@@ -312,6 +318,24 @@ public class Ringer {
                 }
             };
         }
+    }
+
+    /*
+     * Show or hide video view.
+     * @param show True to show, false to hide
+     * @return View on which video can be shown, or null
+     */
+    // When this code is called, the view should already be inflated
+    // and ready for us: either it already happened from a previous
+    // call. Even if we are the first call, at least 500ms have passed.
+    // (See CallNotifier.startIncomingCallQuery).
+    // If the screen is not ready yet, for some pathological reason,
+    // don't make the user wait any longer. Instead, just return null,
+    // so the ringtone plays as audio-only.... much better than
+    // possibly missing a call!
+    private VideoView showVideoView(final boolean show) {
+        final InCallScreen screen = PhoneApp.getInstance().getInCallScreenInstance();
+        return (screen==null) ? null : screen.updateVideoVisibility(show);
     }
 
     private static void log(String msg) {

@@ -20,7 +20,7 @@
      This is the LANDSCAPE mode version of this layout. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
-              android:gravity="center_vertical"
+              android:gravity="top"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               >
@@ -50,6 +50,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dip">
         >
+
+        <!-- Video ringtone. -->
+        <VideoView android:id="@+id/video"
+                   android:visibility="gone"
+                   android:layout_width="228dip"
+                   android:layout_height="171dip"
+                   android:layout_margin="5dip"/>
 
         <!-- Name (or the phone number, if we don't have a name to display). -->
         <TextView android:id="@+id/name"

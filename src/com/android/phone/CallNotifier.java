@@ -230,6 +230,10 @@ public class CallNotifier extends Handler
             // - do this before showing the incoming call panel
             if (state == Call.State.INCOMING) {
                 PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
+                // Start bringing up the UI here, so we can piggyback
+                // on the delay requested by startIncomingCallQuery,
+                // rather than making the user wait twice.
+                PhoneUtils.showIncomingCallUi();
                 startIncomingCallQuery(c);
             } else {
                 if (VDBG) log("- starting call waiting tone...");
@@ -375,9 +379,6 @@ public class CallNotifier extends Handler
         // Ring, either with the queried ringtone or default one.
         if (VDBG) log("RINGING... (onCustomRingQueryComplete)");
         mRinger.ring();
-
-        // ...and show the InCallScreen.
-        PhoneUtils.showIncomingCallUi();
     }
 
     private void onUnknownConnectionAppeared(AsyncResult r) {
