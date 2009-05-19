@@ -197,7 +197,7 @@
         <activity android:name="NetworkSetting" android:label="@string/networks">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.NETWORK_OPERATOR_SETTINGS" />
+                <action android:name="android.settings.NETWORK_OPERATOR_" />
             </intent-filter>
         </activity>
 
@@ -270,6 +270,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        
+        <!-- Emergency Callback Mode screen -->
+        <activity android:name="EmergencyCallbackMode" 
+                android:label="Emergency Call Back"
+                android:theme="@style/EmergencyCallBack"
+                android:launchMode="singleTask"
+                android:taskAffinity=":EmergencyCallbackMode">
+        </activity>
 
         <!-- call feature setting -->
         <activity android:name="CallFeaturesSetting" android:label="@string/call_settings">
@@ -292,6 +300,14 @@
                 <action android:name="android.bluetooth.IBluetoothHeadset" />
             </intent-filter>
         </service>
+
+        <!-- Broadcast Receiver that will process cdma ERI text updates -->    
+        <receiver android:name="EriTextWidgetProvider" android:label="@string/eri_text_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/eri_text_appwidget" />
+        </receiver>
     </application>
 </manifest>
 

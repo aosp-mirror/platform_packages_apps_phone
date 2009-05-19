@@ -457,8 +457,10 @@ public class DTMFTwelveKeyDialer implements
          */
         public boolean onKeyUp(KeyEvent event) {
             if (event == null) {
-                if (DBG) log("Stopping the last played tone.");
-                stopTone();
+                //the below piece of code sends stopDTMF event unnecessarily even when a null event
+                //is received, hence commenting it.
+                /*if (DBG) log("Stopping the last played tone.");
+                stopTone();*/
                 return true;
             }
 
