@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAATn///2I\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T17:32:13Z",
+      "side": 1,
+      "message": "You are accessing views and activities from a non-UI thread. This is bad :)",
+      "revId": "d4db0b60175a7220891f17db28c70e85ba7330ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///2E\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T17:32:13Z",
+      "side": 1,
+      "message": "Space after cast, spaces around \u003d\u003d, space before ?",
+      "revId": "d4db0b60175a7220891f17db28c70e85ba7330ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///2A\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T17:32:13Z",
+      "side": 1,
+      "message": "space before ?",
+      "revId": "d4db0b60175a7220891f17db28c70e85ba7330ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
