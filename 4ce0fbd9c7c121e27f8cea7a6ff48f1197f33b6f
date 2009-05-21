@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAATn///3s\u003d",
+        "filename": "res/layout-land/call_card_person_info.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Remove tabs\nWhy are the dimensions hard coded? Where do these values come from?\nHow does this impact the UI when this view is visible?",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///3k\u003d",
+        "filename": "res/layout/call_card_person_info.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "What is the impact on the layout when this view is visible?",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///3o\u003d",
+        "filename": "res/layout/call_card_person_info.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Remove tabs\nWhy are these values hard coded? Where to they come from?",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///3w\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Please add a space after the cast",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///30\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "That\u0027s way too much",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///4E\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Please add a space after the cast\nPlease add spaces around \u003d\u003d\nPlease add a space before the ?",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///4A\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Use the logic and \u0026\u0026 instead of \u0026",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///38\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Why 10? Where does this number come from?",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///34\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Do NOT block the UI thread, especially up to 1 second.",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///4I\u003d",
+        "filename": "src/com/android/phone/Ringer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-05-21T03:29:27Z",
+      "side": 1,
+      "message": "Do not use fully qualified names, especially for the package java.lang imported by default",
+      "revId": "4ce0fbd9c7c121e27f8cea7a6ff48f1197f33b6f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
