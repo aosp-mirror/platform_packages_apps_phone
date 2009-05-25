@@ -647,7 +647,7 @@ public class PhoneUtils {
                         mNwService = null;
                     }
                     if (DBG) log("Extended NW displayMMIInitiate (" + text + ")");
-                    if (text == null)
+                    if (text == null || text.length() == 0)
                         return;
                 }
 
