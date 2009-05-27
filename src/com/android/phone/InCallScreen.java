@@ -56,6 +56,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -221,6 +222,11 @@ public class InCallScreen extends Activity
     private View mTouchLockIcon;  // The "lock" icon in the middle of the screen
     private Animation mTouchLockFadeIn;
     private long mTouchLockLastTouchTime;  // in SystemClock.uptimeMillis() time base
+
+    // Onscreen "answer" UI, for devices with no hardware CALL button.
+    private View mOnscreenAnswerUiContainer;  // The container for the whole UI, or null if unused
+    private View mOnscreenAnswerButton;  // The "answer" button itself
+    private long mOnscreenAnswerButtonLastTouchTime;  // in SystemClock.uptimeMillis() time base
 
     // Various dialogs we bring up (see dismissAllDialogs())
     // The MMI started dialog can actually be one of 2 items:
@@ -955,6 +961,9 @@ public class InCallScreen extends Activity
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
+
+        // Other platform-specific UI initialization.
+        initOnscreenAnswerUi();
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -1867,6 +1876,7 @@ public class InCallScreen extends Activity
         if (VDBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
+        updateOnscreenAnswerUi();
         updateMenuButtonHint();
     }
 
@@ -3270,6 +3280,58 @@ public class InCallScreen extends Activity
         return !ConfigurationHelper.isLandscape() && okToDialDTMFTones();
     }
 
+
+    /**
+     * Initializes the onscreen "answer" UI on devices that need it.
+     */
+    private void initOnscreenAnswerUi() {
+        // This UI is only used on devices with no hard CALL or SEND button.
+
+        // TODO: For now, explicitly enable this for sholes devices.
+        // (Note PRODUCT_DEVICE is "sholes" for both sholes and voles builds.)
+        boolean allowOnscreenAnswerUi =
+                "sholes".equals(SystemProperties.get("ro.product.device"));
+        //
+        // TODO: But ultimately we should either (a) use some framework API
+        // to detect whether the current device has a hard SEND button, or
+        // (b) have this depend on a product-specific resource flag in
+        // config.xml, like the forthcoming "is_full_touch_ui" boolean.
+
+        if (DBG) log("initOnscreenAnswerUi: device '" + SystemProperties.get("ro.product.device")
+                     + "', allowOnscreenAnswerUi = " + allowOnscreenAnswerUi);
+
+        if (allowOnscreenAnswerUi) {
+            ViewStub stub = (ViewStub) findViewById(R.id.onscreenAnswerUiStub);
+            mOnscreenAnswerUiContainer = stub.inflate();
+
+            mOnscreenAnswerButton = findViewById(R.id.onscreenAnswerButton);
+            mOnscreenAnswerButton.setOnTouchListener(this);
+        }
+    }
+
+    /**
+     * Updates the visibility of the onscreen "answer" UI.  On devices
+     * with no hardware CALL button, this UI becomes visible while an
+     * incoming call is ringing.
+     *
+     * TODO: This method should eventually be rolled into a more general
+     * method to update *all* onscreen UI elements that need to be
+     * different on different devices (depending on which hard buttons are
+     * present and/or if we don't have to worry about false touches while
+     * in-call.)
+     */
+    private void updateOnscreenAnswerUi() {
+        if (mOnscreenAnswerUiContainer != null) {
+            if (mPhone.getState() == Phone.State.RINGING) {
+                // A phone call is ringing *or* call waiting.
+                mOnscreenAnswerUiContainer.setVisibility(View.VISIBLE);
+            } else {
+                mOnscreenAnswerUiContainer.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     /**
      * Helper class to manage the (small number of) manual layout and UI
      * changes needed by the in-call UI when switching between landscape
@@ -3768,77 +3830,137 @@ public class InCallScreen extends Activity
     public boolean onTouch(View v, MotionEvent event) {
         if (VDBG) log ("onTouch(View " + v + ")...");
 
-        //
         // Handle touch events on the "touch lock" overlay.
-        // (v == mTouchLockIcon) means the user hit the lock icon in the
-        // middle of the screen, and (v == mTouchLockOverlay) is a touch
-        // anywhere else on the overlay.
-        //
+        if ((v == mTouchLockIcon) || (v == mTouchLockOverlay)) {
 
-        // We only care about touch events while the touch lock UI is
-        // visible (including the time during the fade-in animation.)
-        if (((v == mTouchLockIcon) || (v == mTouchLockOverlay)) && !isTouchLocked()) {
-            // Got an event from the touch lock UI, but we're not locked!
-            // (This was probably a touch-UP right after we unlocked.
-            // Ignore it.)
-            return false;
-        }
+            // TODO: move this big hunk of code to a helper function, or
+            // even better out to a separate helper class containing all
+            // the touch lock overlay code.
 
-        if (v == mTouchLockIcon) {
-            // Direct hit on the "lock" icon.  Handle the double-tap gesture.
+            // We only care about these touches while the touch lock UI is
+            // visible (including the time during the fade-in animation.)
+            if (!isTouchLocked()) {
+                // Got an event from the touch lock UI, but we're not locked!
+                // (This was probably a touch-UP right after we unlocked.
+                // Ignore it.)
+                return false;
+            }
+
+            // (v == mTouchLockIcon) means the user hit the lock icon in the
+            // middle of the screen, and (v == mTouchLockOverlay) is a touch
+            // anywhere else on the overlay.
+
+            if (v == mTouchLockIcon) {
+                // Direct hit on the "lock" icon.  Handle the double-tap gesture.
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    long now = SystemClock.uptimeMillis();
+                    if (VDBG) log("- touch lock icon: handling a DOWN event, t = " + now);
+
+                    // Look for the double-tap gesture:
+                    if (now < mTouchLockLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
+                        if (VDBG) log("==> touch lock icon: DOUBLE-TAP!");
+                        // This was the 2nd tap of a double-tap gesture.
+                        // Take down the touch lock overlay, but post a
+                        // message in the future to bring it back later.
+                        enableTouchLock(false);
+                        resetTouchLockTimer();
+                        // This counts as explicit "user activity".
+                        PhoneApp.getInstance().pokeUserActivity();
+                    }
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Stash away the current time in case this is the first
+                    // tap of a double-tap gesture.  (We measure the time from
+                    // the first tap's UP to the second tap's DOWN.)
+                    mTouchLockLastTouchTime = SystemClock.uptimeMillis();
+                }
+
+                // And regardless of what just happened, we *always* consume
+                // touch events while the touch lock UI is (or was) visible.
+                return true;
+
+            } else {  // (v == mTouchLockOverlay)
+                // User touched the "background" area of the touch lock overlay.
+
+                // TODO: If we're in the middle of the fade-in animation,
+                // consider making a touch *anywhere* immediately unlock the
+                // UI.  This could be risky, though, if the user tries to
+                // *double-tap* during the fade-in (in which case the 2nd tap
+                // might 't become a false touch on the dialpad!)
+                //
+                //if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                //    if (DBG) log("- touch lock overlay background: handling a DOWN event.");
+                //
+                //    if (mTouchLockFadeIn.hasStarted() && !mTouchLockFadeIn.hasEnded()) {
+                //        // If we're still fading-in, a touch *anywhere* onscreen
+                //        // immediately unlocks.
+                //        if (DBG) log("==> touch lock: tap during fade-in!");
+                //
+                //        mTouchLockOverlay.clearAnimation();
+                //        enableTouchLock(false);
+                //        // ...but post a message in the future to bring it
+                //        // back later.
+                //        resetTouchLockTimer();
+                //    }
+                //}
+
+                // And regardless of what just happened, we *always* consume
+                // touch events while the touch lock UI is (or was) visible.
+                return true;
+            }
+
+        // Handle touch events on the onscreen "answer" button.
+        } else if (v == mOnscreenAnswerButton) {
+
+            // TODO: this "double-tap detection" code is also duplicated
+            // above (for mTouchLockIcon).  Instead, extract it out to a
+            // helper class that can listen for double-taps on an
+            // arbitrary View, or maybe even a whole new "DoubleTapButton"
+            // widget.
+
+            // Look for the double-tap gesture.
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 long now = SystemClock.uptimeMillis();
-                if (VDBG) log("- touch lock icon: handling a DOWN event, t = " + now);
+                if (DBG) log("- onscreen answer button: handling a DOWN event, t = " + now);  // foo -- VDBG
 
                 // Look for the double-tap gesture:
-                if (now < mTouchLockLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
-                    if (VDBG) log("==> touch lock icon: DOUBLE-TAP!");
-                    // This was the 2nd tap of a double-tap gesture.
-                    // Take down the touch lock overlay, but post a
-                    // message in the future to bring it back later.
-                    enableTouchLock(false);
-                    resetTouchLockTimer();
-                    // This counts as explicit "user activity".
-                    PhoneApp.getInstance().pokeUserActivity();
+                if (now < mOnscreenAnswerButtonLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
+                    if (DBG) log("==> onscreen answer button: DOUBLE-TAP!");
+                    // This was the 2nd tap of the double-tap gesture: answer the call!
+
+                    final boolean hasRingingCall = !mRingingCall.isIdle();
+                    if (hasRingingCall) {
+                        final boolean hasActiveCall = !mForegroundCall.isIdle();
+                        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+                        if (hasActiveCall && hasHoldingCall) {
+                            if (DBG) log("onscreen answer button: ringing (both lines in use) ==> answer!");
+                            internalAnswerCallBothLinesInUse();
+                        } else {
+                            if (DBG) log("onscreen answer button: ringing ==> answer!");
+                            internalAnswerCall();  // Automatically holds the current active call,
+                                                   // if there is one
+                        }
+                    } else {
+                        // The ringing call presumably stopped just when
+                        // the user was double-tapping.
+                        if (DBG) log("onscreen answer button: no ringing call (any more); ignoring...");
+                    }
                 }
+                // The onscreen "answer" button will go away as soon as
+                // the phone goes from ringing to offhook, since that
+                // state change will trigger an updateScreen() call.
+                // TODO: consider explicitly starting some fancier
+                // animation here, like fading out the "answer" button, or
+                // sliding it offscreen...
+
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Stash away the current time in case this is the first
                 // tap of a double-tap gesture.  (We measure the time from
                 // the first tap's UP to the second tap's DOWN.)
-                mTouchLockLastTouchTime = SystemClock.uptimeMillis();
+                mOnscreenAnswerButtonLastTouchTime = SystemClock.uptimeMillis();
             }
 
-            // And regardless of what just happened, we *always* consume
-            // touch events while the touch lock UI is (or was) visible.
-            return true;
-
-        } else if (v == mTouchLockOverlay) {
-            // User touched the "background" area of the touch lock overlay.
-
-            // TODO: If we're in the middle of the fade-in animation,
-            // consider making a touch *anywhere* immediately unlock the
-            // UI.  This could be risky, though, if the user tries to
-            // *double-tap* during the fade-in (in which case the 2nd tap
-            // might 't become a false touch on the dialpad!)
-            //
-            //if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            //    if (DBG) log("- touch lock overlay background: handling a DOWN event.");
-            //
-            //    if (mTouchLockFadeIn.hasStarted() && !mTouchLockFadeIn.hasEnded()) {
-            //        // If we're still fading-in, a touch *anywhere* onscreen
-            //        // immediately unlocks.
-            //        if (DBG) log("==> touch lock: tap during fade-in!");
-            //
-            //        mTouchLockOverlay.clearAnimation();
-            //        enableTouchLock(false);
-            //        // ...but post a message in the future to bring it
-            //        // back later.
-            //        resetTouchLockTimer();
-            //    }
-            //}
-
-            // And regardless of what just happened, we *always* consume
-            // touch events while the touch lock UI is (or was) visible.
+            // And regardless of what just happened, we *always*
+            // consume touch events to this button.
             return true;
 
         } else {

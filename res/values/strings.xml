@@ -858,6 +858,10 @@
          screen. -->
     <string name="touchLockText">Tap twice\nto unlock</string>
 
+    <!-- Text for the onscreen "Answer" button, instructing the user that
+         they need to double-tap to answer the incoming call. -->
+    <string name="onscreenAnswerText">Tap twice\nto answer</string>
+
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
     <!-- Menu item label in SIM Contacts: Import all contact entries from the SIM card -->
