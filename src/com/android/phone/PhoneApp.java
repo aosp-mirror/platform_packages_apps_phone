@@ -371,7 +371,7 @@ public class PhoneApp extends Application {
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
-            intentFilter.addAction(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_ENTERED);
+            intentFilter.addAction(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED);
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -420,7 +420,8 @@ public class PhoneApp extends Application {
         mShouldRestoreMuteOnInCallResume = false;
 
         //Register for Cdma Information Records
-        phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
+// TODO(Moto): Merge
+//        phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
    }
 
     /**
@@ -1101,7 +1102,7 @@ public class PhoneApp extends Application {
                 initForNewRadioTechnology();
             } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
                 handleServiceStateChanged(intent);
-            } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_ENTERED)) {
+            } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
                 Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
                 // Send Intend to start ECBM application
                 Intent EcbmAlarm = new Intent(Intent.ACTION_MAIN, null);

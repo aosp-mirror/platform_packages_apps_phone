@@ -81,8 +81,10 @@ public class EmergencyCallbackMode extends Activity {
     {
         public void onClick(View v) {
             // Send ECBM exit
-            mPhone.exitEmergencyCallbackMode(Message.obtain(mExitEmergencyCallbackMode,
-                    EVENT_EXIT_ECBM));
+
+            // TODO(Moto): There is a change, no parameter looks like an intent is sent?
+            //mPhone.exitEmergencyCallbackMode(Message.obtain(mExitEmergencyCallbackMode,
+            //        EVENT_EXIT_ECBM));
         }
     };
 

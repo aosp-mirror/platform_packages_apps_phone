@@ -101,7 +101,7 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-        mPhone.registerForCdmaCallWaiting(this,PHONE_CDMA_CALL_WAITING, null);
+        mPhone.registerForCallWaiting(this,PHONE_CDMA_CALL_WAITING, null);
         mRinger = ringer;
         mBluetoothHandsfree = btMgr;
 
