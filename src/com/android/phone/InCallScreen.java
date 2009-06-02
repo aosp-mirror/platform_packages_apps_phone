@@ -1038,8 +1038,6 @@ public class InCallScreen extends Activity
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
         if (mPhone.getPhoneName().equals("CDMA")) {
-            // WINK:TODO Teleca is this enough?
-
             // The green CALL button means either "Answer", "Swap calls/On Hold", or
             // "Add to 3WC", depending on the current state of the Phone.
 

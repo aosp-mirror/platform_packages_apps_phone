@@ -626,6 +626,7 @@ public class CellBroadcastSms extends PreferenceActivity
             return(mBSelected);
         }
         
+        // TODO: Change the return value to a RIL_BroadcastSMSConfig
         private static int[] getCbSmsAllValues() {
             return(mConfigDataComplete);
         }

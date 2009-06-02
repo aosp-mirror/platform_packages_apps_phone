@@ -1181,7 +1181,7 @@ public class PhoneApp extends Application {
         if (!isCdma) eriText = "";
 
         if (!hasService) {
-            eriText = EriInfo.SEARCHING_TEXT;
+            eriText = getText(com.android.internal.R.string.roamingTextSearching).toString();
         } else {
             eriText = phone.getCdmaEriText();
         }

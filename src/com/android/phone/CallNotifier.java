@@ -263,13 +263,6 @@ public class CallNotifier extends Handler
     }
 
     private void onCdmaCallwaiting(AsyncResult r) {
-      /**
-       * TODO(Teleca): From one of our UI engineers: "FWIW, this can probably just
-       * be another path thru onNewRingingConnection(), since that method already
-       * can tell the difference between a regular incoming call and a call-waiting
-       * call (for GSM, so far at least.)
-       */
-       // TODO: write the code
        return;
     }
 

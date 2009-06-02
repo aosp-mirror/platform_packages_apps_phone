@@ -539,8 +539,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
+    void updateInCallNotification() {
+        updateInCallNotification(false);
+    }
+
     private void updateInCallNotification(boolean enhancedVoicePrivacy) {
-        // WINK:TODO: Teleca, what is the correct code here.
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
@@ -564,11 +567,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             }
         } else if (PhoneApp.getInstance().showBluetoothIndication()) {
             // Bluetooth is active.
-            resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
-        } else if (enhancedVoicePrivacy) {
-            resId = android.R.drawable.stat_sys_vp_phone_call;
+            if (enhancedVoicePrivacy) {
+                resId = com.android.internal.R.drawable.stat_sys_vp_phone_call_bluetooth;
+            } else {
+                resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
+            }
         } else {
-            resId = android.R.drawable.stat_sys_phone_call;
+            if (enhancedVoicePrivacy) {
+                resId = android.R.drawable.stat_sys_vp_phone_call;
+            } else {
+                resId = android.R.drawable.stat_sys_phone_call;
+            }
         }
 
         // Note we can't just bail out now if (resId == mInCallResId),
@@ -694,10 +703,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // speaker state).
         updateSpeakerNotification();
         updateMuteNotification();
-    }
-
-    void updateInCallNotification() {
-        updateInCallNotification(false);
     }
 
     /**
