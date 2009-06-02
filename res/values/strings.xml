@@ -817,6 +817,9 @@
     <string name="notification_on_hold">On hold</string>
     <!-- Label for the "Voicemail" notification item, when expanded. -->
     <string name="notification_voicemail_title">New voicemail</string>
+    <!-- Label for the expanded "Voicemail" notification item,
+         including a count of messages. -->
+    <string name="notification_voicemail_title_count">New voicemail (<xliff:g id="count">%d</xliff:g>)</string>
     <!-- Message displayed in the "Voicemail" notification item, allowing the user
          to dial the indicated number. -->
     <string name="notification_voicemail_text_format">Dial <xliff:g id="voicemail_number">%s</xliff:g></string>

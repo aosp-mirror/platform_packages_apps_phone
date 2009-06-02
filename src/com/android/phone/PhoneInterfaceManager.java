@@ -647,13 +647,12 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public String getCdmaEriText() {
         return mPhone.getCdmaEriText();
     }
-    
+
     /**
      * Returns the unread count of voicemails
      */
-   public int getCountVoiceMessages() {
-       // TODO(Moto): implement
-       return 0;
-   }
+    public int getVoiceMessageCount() {
+        return mPhone.getVoiceMessageCount();
+    }
 
 }
