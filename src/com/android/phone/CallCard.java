@@ -255,7 +255,7 @@ public class CallCard extends FrameLayout
         Call bgCall = phone.getBackgroundCall();
 
         // Check for the "generic call" state.
-        if (false /* TODO(CDMA): use "fgCall.isGeneric()" here, once that API is checked in */ ) {
+        if (fgCall.isGeneric()) {
             // Show the special "generic call" state instead of the regular
             // in-call CallCard state.
             updateGenericCall(phone);
