@@ -1178,12 +1178,14 @@ public class PhoneApp extends Application {
             isCdma = true;
         }
 
-        if (!isCdma) eriText = "";
-
-        if (!hasService) {
-            eriText = getText(com.android.internal.R.string.roamingTextSearching).toString();
+        if (!isCdma) {
+            eriText = "";
         } else {
-            eriText = phone.getCdmaEriText();
+            if (!hasService) {
+                eriText = getText(com.android.internal.R.string.roamingTextSearching).toString();
+            } else {
+                eriText = phone.getCdmaEriText();
+            }
         }
 
         if (eriText != null) {
