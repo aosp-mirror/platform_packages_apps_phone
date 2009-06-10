@@ -87,6 +87,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String APP_STATE_KEY     = "app_state_key";
     private static final String DISPLAY_MODE_KEY  = "display_mode_key";
 
+    private static final String BUTTON_RETRY_KEY  = "button_auto_retry_key";
     private static final String BUTTON_TTY_KEY = "button_tty_mode_key";
     private static final String BUTTON_VP_KEY = "button_voice_privacy_key";
     private static final String BUTTON_DS_KEY = "dtmf_settings";
@@ -127,6 +128,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     // preferred DTMF Tones mode
     static final int preferredDtmfMode = DTMF_TONE_TYPE_NORMAL;
 
+    // preferred AutoRetryMode
+    // 0 = disabled
+    // 1 = enabled
+    static final int preferredAutoRetryMode = 0;
 
     /** Handle to voicemail pref */
     private static final int VOICEMAIL_PREF_ID = CommandsInterface.CF_REASON_NOT_REACHABLE + 1;
@@ -195,6 +200,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private PreferenceScreen mButtonGSMMoreExpand;
     private PreferenceScreen mButtonCDMAMoreExpand;
     private CheckBoxPreference mButtonVoicePrivacy;
+    private CheckBoxPreference mButtonAutoRetry;
     private ListPreference mButtonTTY;
     private ListPreference mButtonDS;
 
@@ -263,6 +269,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonDS) {
             // Let the normal listpreference UI take care of this
             return false;
+        } else if (preference == mButtonAutoRetry) {
+            handleAutoRetryClickRequest (mButtonAutoRetry.isChecked());
         }
 
         if (nextState != AppState.INPUT_READY) {
@@ -1365,6 +1373,15 @@ public class CallFeaturesSetting extends PreferenceActivity
             // app to change this setting's backend, and re-launch this settings app
             // and the UI state would be inconsistent with actual state
             handleSetVPMessage();
+
+            mButtonAutoRetry.setEnabled (true);
+            if (Settings.System.getInt(getContentResolver(),
+                        Settings.System.CALL_AUTO_RETRY, 0) <= 0) {
+                mButtonAutoRetry.setChecked(false);
+            } else {
+                mButtonAutoRetry.setChecked(true);
+            }
+
             mPhone.queryTTYMode(Message.obtain(mQueryTTYComplete, EVENT_TTY_EXECUTED));
             // TODO(Moto): Re-launch DTMF settings if necessary onResume
         } else {
@@ -1416,6 +1433,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, preferredDtmfMode);
             mButtonDS.setValueIndex(index);
             mButtonDS.setOnPreferenceChangeListener(this);
+            mButtonAutoRetry = (CheckBoxPreference) findPreference (BUTTON_RETRY_KEY);
         }
         if (mPhone.getPhoneName().equals("GSM")) {
             mButtonCLIR  = (ListPreference) prefSet.findPreference(BUTTON_CLIR_KEY);
@@ -1532,6 +1550,10 @@ public class CallFeaturesSetting extends PreferenceActivity
                 mMoreDataStale = icicle.getBoolean(BUTTON_GSM_MORE_EXPAND_KEY);
             }
 
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                mButtonAutoRetry.setChecked(icicle.getBoolean(BUTTON_RETRY_KEY));
+            }
+
             // set app state
             mAppState = (AppState) icicle.getSerializable(APP_STATE_KEY);
             mDisplayMode = icicle.getInt(DISPLAY_MODE_KEY);
@@ -1596,6 +1618,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             outState.putBoolean(BUTTON_CF_EXPAND_KEY, mCFDataStale);
             outState.putBoolean(BUTTON_GSM_MORE_EXPAND_KEY, mMoreDataStale);
         }
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            outState.putBoolean(BUTTON_RETRY_KEY, mButtonAutoRetry.isChecked());
+        }
+
         // save state of the app
         outState.putSerializable(APP_STATE_KEY, mAppState);
 
@@ -1884,6 +1911,12 @@ public class CallFeaturesSetting extends PreferenceActivity
         Log.d(LOG_TAG, "syncVPState: Setting UI state consistent with VP enable state of"
                 + ((vpArray[0] != 0) ? "ENABLED" : "DISABLED"));
         mButtonVoicePrivacy.setChecked(vpArray[0] != 0);
+    }
+
+    private void handleAutoRetryClickRequest(boolean value) {
+        int valueAutoRetry = value ? 1 : 0;
+        android.provider.Settings.System.putInt(mPhone.getContext().getContentResolver(),
+                android.provider.Settings.System.CALL_AUTO_RETRY, valueAutoRetry);
     }
 
     private static void log(String msg) {

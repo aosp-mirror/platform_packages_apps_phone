@@ -674,8 +674,16 @@ public class CallCard extends FrameLayout
         // here to be more clear about exactly which widgets on the card
         // need to be set.)
 
-        // Normal "foreground" call card:
-        String cardTitle = getTitleForCallCard(call);
+        String cardTitle;
+        if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
+            if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
+                cardTitle = getTitleForCallCard(call);// Normal "foreground" call card:
+            } else {
+                cardTitle = getContext().getString(R.string.card_title_redialing);
+            }
+        } else {
+            cardTitle = getTitleForCallCard(call);
+        }
 
         if (DBG) log("updateCardTitleWidgets: " + cardTitle);
 
@@ -1006,6 +1014,7 @@ public class CallCard extends FrameLayout
                     break;
 
                 case LOST_SIGNAL:
+                case CDMA_DROP:
                     resID = R.string.callFailed_noSignal;
                     break;
 

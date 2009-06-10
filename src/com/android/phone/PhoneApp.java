@@ -392,7 +392,12 @@ public class PhoneApp extends Application {
 
             //set the default values for the preferences in the phone.
             PreferenceManager.setDefaultValues(this, R.xml.network_setting, false);
-            PreferenceManager.setDefaultValues(this, R.xml.call_feature_setting, false);
+            // In order differentiate CDMA and GSM Call Settings, use two separate specific xmls
+            if (phone.getPhoneName().equals("CDMA")) {
+                PreferenceManager.setDefaultValues(this, R.xml.cdma_call_feature_setting, false);
+            } else {
+                PreferenceManager.setDefaultValues(this, R.xml.call_feature_setting, false);
+            }
 
             // Make sure the audio mode (along with some
             // audio-mode-related state of our own) is initialized

@@ -28,8 +28,10 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.gsm.GSMPhone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +41,7 @@ import android.provider.CallLog;
 import android.provider.CallLog.Calls;
 import android.provider.Checkin;
 import android.provider.Settings;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -99,12 +102,15 @@ public class CallNotifier extends Handler
     private static final int PHONE_STATE_DISPLAYINFO = 6;
     private static final int PHONE_STATE_SIGNALINFO = 7;
     private static final int PHONE_CDMA_CALL_WAITING = 8;
+    private static final int PHONE_ENHANCED_VP_ON = 9;
+    private static final int PHONE_ENHANCED_VP_OFF = 10;
+
     // Events generated internally:
-    private static final int PHONE_MWI_CHANGED = 9;
-    private static final int PHONE_BATTERY_LOW = 10;
-    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 11;
-    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 12;
-    private static final int DISPLAYINFO_NOTIFICATION_DONE = 13;
+    private static final int PHONE_MWI_CHANGED = 11;
+    private static final int PHONE_BATTERY_LOW = 12;
+    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 13;
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 14;
+    private static final int DISPLAYINFO_NOTIFICATION_DONE = 15;
 
     private PhoneApp mApplication;
     private Phone mPhone;
@@ -117,6 +123,11 @@ public class CallNotifier extends Handler
 
     // The tone volume relative to other sounds in the stream SignalInfo
     private static final int TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO = 50;
+
+    // Additional members for CDMA
+    private Call.State mPreviousCdmaCallState;
+    private boolean mCdmaVoicePrivacyState = false;
+    private boolean mIsCdmaRedialCall = false;
 
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
                         BluetoothHandsfree btMgr) {
@@ -134,6 +145,8 @@ public class CallNotifier extends Handler
             mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
             mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
             mPhone.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
+            mPhone.registerForInCallVoicePrivacyOn(this, PHONE_ENHANCED_VP_ON, null);
+            mPhone.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
 
             // Instantiate the ToneGenerator for SignalInfo and CallWaiting
             // TODO(Moto): We probably dont need the mSignalInfoToneGenerator instance
@@ -245,6 +258,24 @@ public class CallNotifier extends Handler
             case DISPLAYINFO_NOTIFICATION_DONE:
                 if (DBG) log("Received Display Info notification done event ...");
                 CdmaDisplayInfo.dismissDisplayInfoRecord();
+                break;
+
+            case PHONE_ENHANCED_VP_ON:
+                if (DBG) log("PHONE_ENHANCED_VP_ON...");
+                if (!mCdmaVoicePrivacyState) {
+                    int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
+                    new InCallTonePlayer(toneToPlay).start();
+                    mCdmaVoicePrivacyState = true;
+                }
+                break;
+
+            case PHONE_ENHANCED_VP_OFF:
+                if (DBG) log("PHONE_ENHANCED_VP_OFF...");
+                if (mCdmaVoicePrivacyState) {
+                    int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
+                    new InCallTonePlayer(toneToPlay).start();
+                    mCdmaVoicePrivacyState = false;
+                }
                 break;
 
             default:
@@ -479,6 +510,18 @@ public class CallNotifier extends Handler
         NotificationMgr.getDefault().getStatusBarMgr()
                 .enableNotificationAlerts(state == Phone.State.IDLE);
 
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            if ((mPhone.getForegroundCall().getState() == Call.State.ACTIVE)
+                    && ((mPreviousCdmaCallState == Call.State.DIALING)
+                    ||  (mPreviousCdmaCallState == Call.State.ALERTING))) {
+                if (mIsCdmaRedialCall) {
+                    int toneToPlay = InCallTonePlayer.TONE_REDIAL;
+                    new InCallTonePlayer(toneToPlay).start();
+                }
+            }
+            mPreviousCdmaCallState = mPhone.getForegroundCall().getState();
+        }
+
         // Have the PhoneApp recompute its mShowBluetoothIndication
         // flag based on the (new) telephony state.
         // There's no need to force a UI update since we update the
@@ -528,6 +571,9 @@ public class CallNotifier extends Handler
             mSignalInfoToneGenerator.release();
         }
 
+        mPhone.unregisterForInCallVoicePrivacyOn(this);
+        mPhone.unregisterForInCallVoicePrivacyOff(this);
+
         //Register all events new to the new active phone
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
@@ -549,6 +595,9 @@ public class CallNotifier extends Handler
                         "mSignalInfoToneGenerator: " + e);
                 mSignalInfoToneGenerator = null;
             }
+
+            mPhone.registerForInCallVoicePrivacyOn(this, PHONE_ENHANCED_VP_ON, null);
+            mPhone.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
         }
     }
 
@@ -601,6 +650,14 @@ public class CallNotifier extends Handler
 
     private void onDisconnect(AsyncResult r) {
         if (VDBG) log("onDisconnect()...  phone state: " + mPhone.getState());
+
+        mCdmaVoicePrivacyState = false;
+        int autoretrySetting = 0;
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
+                    getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+        }
+
         if (mPhone.getState() == Phone.State.IDLE) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
         }
@@ -640,6 +697,18 @@ public class CallNotifier extends Handler
             } else if (cause == Connection.DisconnectCause.CONGESTION) {
                 if (DBG) log("- need to play CONGESTION tone!");
                 toneToPlay = InCallTonePlayer.TONE_CONGESTION;
+            } else if (cause == Connection.DisconnectCause.CDMA_REORDER) {
+                if (DBG) log("- need to play CDMA_REORDER tone!");
+                toneToPlay = InCallTonePlayer.TONE_REORDER;
+            } else if (cause == Connection.DisconnectCause.CDMA_INTERCEPT) {
+                if (DBG) log("- need to play CDMA_INTERCEPT tone!");
+                toneToPlay = InCallTonePlayer.TONE_INTERCEPT;
+            } else if (cause == Connection.DisconnectCause.CDMA_DROP) {
+                if (DBG) log("- need to play CDMA_DROP tone!");
+                toneToPlay = InCallTonePlayer.TONE_CDMA_DROP;
+            } else if (cause == Connection.DisconnectCause.OUT_OF_SERVICE) {
+                if (DBG) log("- need to play OUT OF SERVICE tone!");
+                toneToPlay = InCallTonePlayer.TONE_OUT_OF_SERVICE;
             }
         }
 
@@ -658,6 +727,7 @@ public class CallNotifier extends Handler
                 || (cause == Connection.DisconnectCause.LOCAL)) {  // local hangup
                 if (VDBG) log("- need to play CALL_ENDED tone!");
                 toneToPlay = InCallTonePlayer.TONE_CALL_ENDED;
+                mIsCdmaRedialCall = false;
             }
         }
 
@@ -782,6 +852,27 @@ public class CallNotifier extends Handler
             } else {
                 if (VDBG) log("- phone still in use; not releasing wake locks.");
             }
+
+            if (((mPreviousCdmaCallState == Call.State.DIALING)
+                    || (mPreviousCdmaCallState == Call.State.ALERTING))
+                    && (!PhoneNumberUtils.isEmergencyNumber(number))
+                    && (cause != Connection.DisconnectCause.INCOMING_MISSED )
+                    && (cause != Connection.DisconnectCause.NORMAL)
+                    && (cause != Connection.DisconnectCause.LOCAL)
+                    && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
+                if (!mIsCdmaRedialCall) {
+                    if (autoretrySetting == InCallScreen.AUTO_RETRY_ON) {
+                        // TODO: (Moto): The contact reference data may need to be stored and use
+                        // here when redialing a call. For now, pass in NULL as the URI parameter.
+                        PhoneUtils.placeCall(mPhone, number, null);
+                        mIsCdmaRedialCall = true;
+                    } else {
+                        mIsCdmaRedialCall = false;
+                    }
+                } else {
+                    mIsCdmaRedialCall = false;
+                }
+            }
         }
 
         if (mPhone.getPhoneName().equals("CDMA")) {
@@ -896,6 +987,12 @@ public class CallNotifier extends Handler
         public static final int TONE_CONGESTION = 3;
         public static final int TONE_BATTERY_LOW = 4;
         public static final int TONE_CALL_ENDED = 5;
+        public static final int TONE_VOICE_PRIVACY = 6;
+        public static final int TONE_REORDER = 7;
+        public static final int TONE_INTERCEPT = 8;
+        public static final int TONE_CDMA_DROP = 9;
+        public static final int TONE_OUT_OF_SERVICE = 10;
+        public static final int TONE_REDIAL = 11;
 
         // The tone volume relative to other sounds in the stream
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
@@ -910,9 +1007,12 @@ public class CallNotifier extends Handler
         public void run() {
             if (VDBG) log("InCallTonePlayer.run(toneId = " + mToneId + ")...");
 
-            int toneType;  // passed to ToneGenerator.startTone()
+            int toneType = 0;  // passed to ToneGenerator.startTone()
             int toneVolume;  // passed to the ToneGenerator constructor
             int toneLengthMillis;
+
+            AudioManager audioManager = (AudioManager) mPhone.getContext()
+                    .getSystemService(Context.AUDIO_SERVICE);
             switch (mToneId) {
                 case TONE_CALL_WAITING:
                     toneType = ToneGenerator.TONE_SUP_CALL_WAITING;
@@ -920,9 +1020,15 @@ public class CallNotifier extends Handler
                     toneLengthMillis = 5000;
                     break;
                 case TONE_BUSY:
-                    toneType = ToneGenerator.TONE_SUP_BUSY;
-                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                    toneLengthMillis = 4000;
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        toneType = ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT;
+                        toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                        toneLengthMillis = 5000;
+                    } else {
+                        toneType = ToneGenerator.TONE_SUP_BUSY;
+                        toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
+                        toneLengthMillis = 4000;
+                    }
                     break;
                 case TONE_CONGESTION:
                     toneType = ToneGenerator.TONE_SUP_CONGESTION;
@@ -942,6 +1048,32 @@ public class CallNotifier extends Handler
                     toneType = ToneGenerator.TONE_PROP_PROMPT;
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                     toneLengthMillis = 2000;
+                    break;
+                case TONE_VOICE_PRIVACY:
+                    toneType = ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE;
+                    toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+                    toneLengthMillis = 5000;
+                    break;
+                case TONE_REORDER:
+                    toneType = ToneGenerator.TONE_CDMA_ABBR_REORDER;
+                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneLengthMillis = 5000;
+                    break;
+                case TONE_INTERCEPT:
+                    toneType = ToneGenerator.TONE_CDMA_ABBR_INTERCEPT;
+                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneLengthMillis = 5000;
+                    break;
+                case TONE_CDMA_DROP:
+                case TONE_OUT_OF_SERVICE:
+                    toneType = ToneGenerator.TONE_CDMA_CALLDROP_LITE;
+                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneLengthMillis = 5000;
+                    break;
+                case TONE_REDIAL:
+                    toneType = ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE;
+                    toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+                    toneLengthMillis = 5000;
                     break;
                 default:
                     throw new IllegalArgumentException("Bad toneId: " + mToneId);
@@ -980,12 +1112,36 @@ public class CallNotifier extends Handler
             // ToneGenerator to say "stop at the next silent part of the
             // pattern", or simply "play the pattern N times and then
             // stop."
+            boolean needToStopTone = true;
+            boolean okToPlayTone = true;
 
             if (toneGenerator != null) {
-                toneGenerator.startTone(toneType);
-                SystemClock.sleep(toneLengthMillis);
-                toneGenerator.stopTone();
+                if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
+                        (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
+                        (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
+                        (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {
+                    if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+                        if (DBG) log("InCallTonePlayer:playing call fail tone:" + toneType);
+                        okToPlayTone = true;
+                        needToStopTone = false;
+                    }
+                } else if ((toneType == ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE) ||
+                           (toneType == ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE)) {
+                    if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
+                            (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                        if (DBG) log("InCallTonePlayer:playing tone for toneType=" + toneType);
+                        okToPlayTone = true;
+                        needToStopTone = false;
+                    }
+                }
 
+                if (okToPlayTone) {
+                    toneGenerator.startTone(toneType);
+                    SystemClock.sleep(toneLengthMillis);
+                    if (needToStopTone) {
+                        toneGenerator.stopTone();
+                    }
+                }
                 // if (DBG) log("- InCallTonePlayer: done playing.");
                 toneGenerator.release();
             }
@@ -1173,6 +1329,27 @@ public class CallNotifier extends Handler
             //Reset the mCallWaitingTimeOut boolean
             mCallWaitingTimeOut = false;
         }
+    }
+
+    /**
+     * Return the private variable mPreviousCdmaCallState.
+     */
+    /* package */ Call.State getPreviousCdmaCallState() {
+        return mPreviousCdmaCallState;
+    }
+
+    /**
+     * Return the private variable mCdmaVoicePrivacyState.
+     */
+    /* package */ boolean getCdmaVoicePrivacyState() {
+        return mCdmaVoicePrivacyState;
+    }
+
+    /**
+     * Return the private variable mIsCdmaRedialCall.
+     */
+    /* package */ boolean getIsCdmaRedialCall() {
+        return mIsCdmaRedialCall;
     }
 
     private void log(String msg) {

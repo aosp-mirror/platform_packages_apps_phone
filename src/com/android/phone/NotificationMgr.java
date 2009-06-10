@@ -58,20 +58,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     // **Callback for enhanced voice privacy return value
     private Handler mEnhancedVPHandler = new Handler() {
-        boolean enhancedVoicePrivacy = false;
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-            case EVENT_ENHANCED_VP_ON:
-                enhancedVoicePrivacy = true;
-                break;
-            case EVENT_ENHANCED_VP_OFF:
-                enhancedVoicePrivacy = false;
-                break;
-            default:
-                // We should never reach this
-            }
-            updateInCallNotification(enhancedVoicePrivacy);
+            updateInCallNotification();
         }
     };
 
@@ -540,10 +529,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     void updateInCallNotification() {
-        updateInCallNotification(false);
-    }
-
-    private void updateInCallNotification(boolean enhancedVoicePrivacy) {
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
@@ -558,6 +543,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // which depends on the current phone and/or bluetooth state.
 
 
+        boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getCdmaVoicePrivacyState();
         if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {

@@ -37,6 +37,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -126,6 +127,14 @@ public class InCallScreen extends Activity
 
     // Amount of time for Displaying "Dialing" for 3way Calling origination
     private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
+
+    // These are values for the settings of the auto retry mode:
+    // 0 = disabled
+    // 1 = enabled
+    // TODO (Moto):These constants don't really belong here,
+    // they should be moved to Settings where the value is being looked up in the first place
+    static final int AUTO_RETRY_OFF = 0;
+    static final int AUTO_RETRY_ON = 1;
 
     // See CallTracker.MAX_CONNECTIONS_PER_CALL
     private static final int MAX_CALLERS_IN_CONFERENCE = 5;
@@ -245,6 +254,7 @@ public class InCallScreen extends Activity
     private AlertDialog mSuppServiceFailureDialog;
     private AlertDialog mWaitPromptDialog;
     private AlertDialog mWildPromptDialog;
+    private AlertDialog mCallLostDialog;
 
     // TODO: If the Activity class ever provides an easy way to get the
     // current "activity lifecycle" state, we can remove these flags.
@@ -1471,6 +1481,13 @@ public class InCallScreen extends Activity
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
 
+        int autoretrySetting = 0;
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            // TODO (Moto): Needs Settings to add CALL_AUTO_RETRY to compile
+            autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
+                    getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+        }
+
         // Any time a call disconnects, clear out the "history" of DTMF
         // digits you typed (to make sure it doesn't persist from one call
         // to the next.)
@@ -1485,42 +1502,29 @@ public class InCallScreen extends Activity
         } else if (cause == Connection.DisconnectCause.FDN_BLOCKED) {
             showGenericErrorDialog(R.string.callFailed_fdn_only, false);
             return;
-        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED) {
-            showGenericErrorDialog(R.string.callFailed_dsac_restricted, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_EMERGENCY) {
-            showGenericErrorDialog(R.string.callFailed_dsac_restricted_emergency, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_NORMAL) {
-            showGenericErrorDialog(R.string.callFailed_dsac_restricted_normal, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_LOCKED_UNTIL_POWER_CYCLE) {
-            showGenericErrorDialog(R.string.callFailed_cdma_lockedUntilPowerCycle, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_DROP) {
-            showGenericErrorDialog(R.string.callFailed_cdma_drop, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_INTERCEPT) {
-            showGenericErrorDialog(R.string.callFailed_cdma_intercept, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_REORDER) {
-            showGenericErrorDialog(R.string.callFailed_cdma_reorder, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_SO_REJECT) {
-            showGenericErrorDialog(R.string.callFailed_cdma_SO_reject, false);
-            return;
-        }else if (cause == Connection.DisconnectCause.CDMA_RETRY_ORDER) {
-            showGenericErrorDialog(R.string.callFailed_cdma_retryOrder, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_ACCESS_FAILURE) {
-            showGenericErrorDialog(R.string.callFailed_cdma_accessFailure, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_PREEMPTED) {
-            showGenericErrorDialog(R.string.callFailed_cdma_preempted, false);
-            return;
-        } else if (cause == Connection.DisconnectCause.CDMA_NOT_EMERGENCY) {
-            showGenericErrorDialog(R.string.callFailed_cdma_notEmergency, false);
-            return;
+        }
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            Call.State callState = PhoneApp.getInstance().notifier.getPreviousCdmaCallState();
+            if ((callState == Call.State.ACTIVE)
+                    && (cause != Connection.DisconnectCause.INCOMING_MISSED )
+                    && (cause != Connection.DisconnectCause.NORMAL)
+                    && (cause != Connection.DisconnectCause.LOCAL)
+                    && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
+                showCallLostDialog ();
+            } else if ((callState == Call.State.DIALING || callState == Call.State.ALERTING)
+                        && (cause != Connection.DisconnectCause.INCOMING_MISSED)
+                        && (cause != Connection.DisconnectCause.NORMAL)
+                        && (cause != Connection.DisconnectCause.LOCAL)
+                        && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
+                    if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
+                        if (autoretrySetting == AUTO_RETRY_OFF) {
+                            showCallLostDialog();
+                        }
+                    } else {
+                        showCallLostDialog();
+                    }
+            }
         }
 
         final PhoneApp app = PhoneApp.getInstance();
@@ -2742,6 +2746,16 @@ public class InCallScreen extends Activity
         mGenericErrorDialog.show();
     }
 
+    private void showCallLostDialog () {
+        if (DBG) log("showCallLostDialog ()...");
+
+        mCallLostDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.call_lost)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .create();
+        mCallLostDialog.show();
+    }
+
     private void bailOutAfterErrorDialog() {
         if (mGenericErrorDialog != null) {
             if (VDBG) log("bailOutAfterErrorDialog: DISMISSING mGenericErrorDialog.");
@@ -2795,6 +2809,11 @@ public class InCallScreen extends Activity
             if (VDBG) log("- DISMISSING mWildPromptDialog.");
             mWildPromptDialog.dismiss();
             mWildPromptDialog = null;
+        }
+        if (mCallLostDialog != null) {
+            if (VDBG) log("- DISMISSING mCallLostDialog.");
+            mCallLostDialog.dismiss();
+            mCallLostDialog = null;
         }
     }
 

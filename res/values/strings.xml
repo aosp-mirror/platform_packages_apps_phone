@@ -87,6 +87,12 @@
     <string name="callFailed_cdma_notEmergency">Only Emergency calls are possible.</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="confCall">Conference call</string>
+    <!-- In-call screen: call lost dialog text -->
+    <string name="call_lost">Call has been lost.</string>
+    <!-- In-call screen: auto retry  -->
+    <string name="retry">Retry</string>
+    <!-- In-call screen: call lost title of dialog -->
+    <string name="call_lost_title">Call Lost</string>
 
     <!-- MMI strings -->
     <!-- Dialog label when an MMI code starts running -->
@@ -638,6 +644,8 @@
     <string name="tty_mode_summary">Enable TTY mode</string>
     <string name="tty_mode_option_title">TTY mode</string>
     <string name="tty_mode_option_summary">Set TTY mode</string>
+    <string name="auto_retry_mode_title">Auto Retry</string>
+    <string name="auto_retry_mode_summary">Enable Auto Retry mode</string>
 
     <!-- FDN list screen: menu item label -->
     <string name="menu_add">Add contact</string>
@@ -783,6 +791,8 @@
     <!-- Card titles -->
     <!-- In-call screen: status label for a call in the "dialing" state -->
     <string name="card_title_dialing">Dialing</string>
+    <!-- In-call screen: status label for a re-dialing call -->
+    <string name="card_title_redialing">Retrying</string>
     <!-- In-call screen: status label for a call in progress -->
     <string name="card_title_in_progress">Current call</string>
     <!-- In-call screen: status label for a conference call -->
