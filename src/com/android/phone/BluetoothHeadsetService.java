@@ -22,8 +22,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothError;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothIntent;
+import android.bluetooth.BluetoothUuid;
 import android.bluetooth.HeadsetBase;
-import android.bluetooth.IBluetoothDeviceCallback;
 import android.bluetooth.IBluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,6 +46,7 @@ import com.android.internal.telephony.PhoneFactory;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.UUID;
 
 /**
  * Provides Bluetooth Headset and Handsfree profile, as a service in
@@ -146,7 +147,7 @@ public class BluetoothHeadsetService extends Service {
             }
 
             Log.i(TAG, "Incoming rfcomm (" + BluetoothHandsfree.typeToString(type) +
-                  ") connection from " + info.mAddress + " on channel " + info.mRfcommChan);
+                  ") connection from " + info.mAddress + "on channel " + info.mRfcommChan);
 
             int priority = BluetoothHeadset.PRIORITY_OFF;
             try {
@@ -154,8 +155,10 @@ public class BluetoothHeadsetService extends Service {
             } catch (RemoteException e) {}
             if (priority <= BluetoothHeadset.PRIORITY_OFF) {
                 Log.i(TAG, "Rejecting incoming connection because priority = " + priority);
+
                 // TODO: disconnect RFCOMM not ACL. Happens elsewhere too.
-                mBluetooth.disconnectRemoteDeviceAcl(info.mAddress);
+                // Use the new rfcomm socket.
+                mBluetooth.removeBond(info.mAddress);
             }
             switch (mState) {
             case BluetoothHeadset.STATE_DISCONNECTED:
@@ -174,7 +177,9 @@ public class BluetoothHeadsetService extends Service {
                     // different headset, ignoring
                     Log.i(TAG, "Already attempting connect to " + mHeadsetAddress +
                           ", disconnecting " + info.mAddress);
-                    mBluetooth.disconnectRemoteDeviceAcl(info.mAddress);
+
+                    // TODO: Fix when using the new rfcomm socket.
+                    mBluetooth.removeBond(info.mAddress);
                     break;
                 }
                 // If we are here, we are in danger of a race condition
@@ -212,7 +217,9 @@ public class BluetoothHeadsetService extends Service {
             case BluetoothHeadset.STATE_CONNECTED:
                 Log.i(TAG, "Already connected to " + mHeadsetAddress + ", disconnecting " +
                       info.mAddress);
-                mBluetooth.disconnectRemoteDeviceAcl(info.mAddress);
+
+                // TODO: Fix when using the new rfcomm socket.
+                mBluetooth.removeBond(info.mAddress);
                 break;
             }
         }
@@ -327,23 +334,10 @@ public class BluetoothHeadsetService extends Service {
     // ------------------------------------------------------------------
     // Bluetooth Headset Connect
     // ------------------------------------------------------------------
-    private static final int SDP_RESULT                   = 1;
-    private static final int RFCOMM_CONNECTED             = 2;
-    private static final int RFCOMM_ERROR                 = 3;
-
-    private static final short HEADSET_UUID16 = 0x1108;
-    private static final short HANDSFREE_UUID16 = 0x111E;
+    private static final int RFCOMM_CONNECTED             = 1;
+    private static final int RFCOMM_ERROR                 = 2;
 
     private long mTimestamp;
-
-    IBluetoothDeviceCallback.Stub mDeviceCallback = new IBluetoothDeviceCallback.Stub() {
-        public void onGetRemoteServiceChannelResult(String address, int channel) {
-            mConnectingStatusHandler.obtainMessage(SDP_RESULT, channel, -1, address)
-                .sendToTarget();
-        }
-        public void onCreateBondingResult(String address, int result) { }
-        public void onEnableResult(int result) {}
-    };
 
     /**
      * Thread for RFCOMM connection
@@ -396,29 +390,6 @@ public class BluetoothHeadsetService extends Service {
                 mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
             }
         }
-    };
-
-
-    private void doHeadsetSdp() {
-        if (DBG) log("Headset SDP request");
-        mTimestamp = System.currentTimeMillis();
-        mHeadsetType = BluetoothHandsfree.TYPE_HEADSET;
-        if (!mBluetooth.getRemoteServiceChannel(mHeadsetAddress, HEADSET_UUID16,
-                    mDeviceCallback)) {
-            Log.e(TAG, "Could not start headset SDP query");
-            setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
-        }
-    }
-
-    private void doHandsfreeSdp() {
-        if (DBG) log("Handsfree SDP request");
-        mTimestamp = System.currentTimeMillis();
-        mHeadsetType = BluetoothHandsfree.TYPE_HANDSFREE;
-        if (!mBluetooth.getRemoteServiceChannel(mHeadsetAddress, HANDSFREE_UUID16,
-                    mDeviceCallback)) {
-            Log.e(TAG, "Could not start handsfree SDP query");
-            setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
-        }
     }
 
     /**
@@ -432,26 +403,6 @@ public class BluetoothHeadsetService extends Service {
             }
 
             switch (msg.what) {
-            case SDP_RESULT:
-                if (DBG) log("SDP request returned " + msg.arg1 + " (" +
-                        (System.currentTimeMillis() - mTimestamp + " ms)"));
-                if (!((String)msg.obj).equals(mHeadsetAddress)) {
-                    return;  // stale SDP result
-                }
-
-                if (msg.arg1 > 0) {
-                    mConnectThread = new RfcommConnectThread(mHeadsetAddress, msg.arg1,
-                                                             mHeadsetType);
-                    mConnectThread.start();
-                } else {
-                    if (msg.arg1 == -1 && mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
-                        doHeadsetSdp();  // try headset
-                    } else {
-                        setState(BluetoothHeadset.STATE_DISCONNECTED,
-                                 BluetoothHeadset.RESULT_FAILURE);
-                    }
-                }
-                break;
             case RFCOMM_ERROR:
                 if (DBG) log("Rfcomm error");
                 mConnectThread = null;
@@ -515,6 +466,46 @@ public class BluetoothHeadsetService extends Service {
         }
     }
 
+    private void getSdpRecords() {
+        String[] uuids = mBluetooth.getRemoteUuids(mHeadsetAddress);
+        String savedUuid = null;
+        boolean isHandsfree = false;
+        boolean isHeadset = false;
+        if (uuids != null) {
+            for (String uuid: uuids) {
+                UUID remoteUuid = UUID.fromString(uuid);
+                if (BluetoothUuid.isHandsfree(remoteUuid)) {
+                    isHandsfree = true;
+                    savedUuid = uuid;
+                    break;
+                } else if (BluetoothUuid.isHeadset(remoteUuid)) {
+                    isHeadset = true;
+                    savedUuid = uuid;
+                }
+            }
+            if (isHandsfree) {
+                log("SDP UUID: TYPE_HANDSFREE");
+                mHeadsetType = BluetoothHandsfree.TYPE_HANDSFREE;
+                int channel = mBluetooth.getRemoteServiceChannel(mHeadsetAddress, savedUuid);
+                mConnectThread = new RfcommConnectThread(mHeadsetAddress, channel, mHeadsetType);
+                mConnectThread.start();
+                return;
+            } else if (isHeadset) {
+                log("SDP UUID: TYPE_HEADSET");
+                mHeadsetType = BluetoothHandsfree.TYPE_HEADSET;
+                int channel = mBluetooth.getRemoteServiceChannel(mHeadsetAddress, savedUuid);
+                mConnectThread = new RfcommConnectThread(mHeadsetAddress, channel, mHeadsetType);
+                mConnectThread.start();
+                return;
+            }
+        }
+        log("SDP UUID: TYPE_UNKNOWN");
+        mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
+        setState(BluetoothHeadset.STATE_DISCONNECTED,
+                BluetoothHeadset.RESULT_FAILURE);
+        return;
+    }
+
     private synchronized boolean doNextAutoConnect() {
         if (mAutoConnectQueue == null || mAutoConnectQueue.size() == 0) {
             mAutoConnectQueue = null;
@@ -523,7 +514,7 @@ public class BluetoothHeadsetService extends Service {
         mHeadsetAddress = mAutoConnectQueue.removeFirst();
         if (DBG) log("pulled " + mHeadsetAddress + " off auto-connect queue");
         setState(BluetoothHeadset.STATE_CONNECTING);
-        doHandsfreeSdp();
+        getSdpRecords();
 
         return true;
     }
@@ -562,7 +553,7 @@ public class BluetoothHeadsetService extends Service {
                 }
                 mHeadsetAddress = address;
                 setState(BluetoothHeadset.STATE_CONNECTING);
-                doHandsfreeSdp();
+                getSdpRecords();
             }
             return true;
         }
