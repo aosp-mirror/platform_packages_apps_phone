@@ -28,7 +28,6 @@
     <FrameLayout android:id="@+id/mainFrame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
         android:paddingTop="10dip"
         android:paddingLeft="6dip"
         android:paddingRight="6dip"
@@ -230,5 +229,14 @@
             android:background="@drawable/dialpad_lock"
             />
     </RelativeLayout>
+
+    <!-- Onscreen "answer" UI, used on devices with no hardware CALL
+         button while an incoming call is ringing. -->
+    <ViewStub android:id="@+id/onscreenAnswerUiStub"
+        android:inflatedId="@+id/onscreenAnswerUiContainer"
+        android:layout="@layout/onscreen_answer_ui"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 
 </FrameLayout>
