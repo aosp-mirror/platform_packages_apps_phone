@@ -1041,6 +1041,15 @@ public class PhoneUtils {
             // handling case where number is null (caller id hidden) as well.
             if (!TextUtils.isEmpty(number)) {
                 cit.currentInfo.phoneNumber = number;
+                // Store CNAP information retrieved from the Connection
+                cit.currentInfo.cnapName =  c.getCnapName();
+                cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
+                                                                 // by ContactInfo later
+                cit.currentInfo.numberPresentation = c.getNumberPresentation();
+                cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+                if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
+                        + cit.currentInfo.cnapName
+                        + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
                 cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
                         number, sCallerInfoQueryListener, c);
                 cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
@@ -1097,7 +1106,19 @@ public class PhoneUtils {
             public void onQueryComplete(int token, Object cookie, CallerInfo ci){
                 if (DBG) log("query complete, updating connection.userdata");
 
-                ((Connection) cookie).setUserData(ci);
+                // Added a check if CallerInfo is coming from ContactInfo or from Connection.
+                // If no ContactInfo, then we want to use CNAP information coming from network
+                if (DBG) log("- onQueryComplete: contactExists=" + ci.contactExists);
+                if (ci.contactExists) {
+                    ((Connection) cookie).setUserData(ci);
+                } else {
+                    CallerInfo newCi = getCallerInfo(null, (Connection) cookie);
+                    if (newCi != null) {
+                        newCi.phoneNumber = ci.phoneNumber; // To get formatted phone number
+                        ((Connection) cookie).setUserData(newCi);
+                    }
+                    else ((Connection) cookie).setUserData(ci);
+                }
             }
         };
 

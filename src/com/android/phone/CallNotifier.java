@@ -684,6 +684,7 @@ public class CallNotifier extends Handler
         if (c != null) {
             final String number = c.getAddress();
             final int presentation = c.getNumberPresentation();
+            if (DBG) log("- onDisconnect: presentation=" + presentation);
             final long date = c.getCreateTime();
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
