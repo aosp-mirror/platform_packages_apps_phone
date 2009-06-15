@@ -1461,9 +1461,11 @@ public class CallFeaturesSetting extends PreferenceActivity
         mContactListIntent = new Intent(Intent.ACTION_GET_CONTENT);
         mContactListIntent.setType(android.provider.Contacts.Phones.CONTENT_ITEM_TYPE);
 
-        mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
-        mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
-        mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+        if (mSubMenuFDNSettings != null) {
+            mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
+            mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
+            mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+        }
 
         mAppState = AppState.INPUT_READY;
 
