@@ -124,6 +124,10 @@ public class InCallScreen extends Activity
     // *after* the user changes the state of one of the toggle buttons.
     private static final int MENU_DISMISS_DELAY =  1000;  // msec
 
+    // Amount of time that we display the PAUSE alert Dialog showing the
+    // post dial string yet to be send out to the n/w
+    private static final int PAUSE_PROMPT_DIALOG_TIMEOUT = 2000;  //msec
+
     // The "touch lock" overlay timeout comes from Gservices; this is the default.
     private static final int TOUCH_LOCK_DELAY_DEFAULT =  6000;  // msec
 
@@ -161,6 +165,7 @@ public class InCallScreen extends Activity
     private static final int EVENT_OTA_PROVISION_CHANGE = 117;
     public static final int CLOSE_SPC_ERROR_NOTICE = 118;
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
+    private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -277,11 +282,16 @@ public class InCallScreen extends Activity
     private AlertDialog mWaitPromptDialog;
     private AlertDialog mWildPromptDialog;
     private AlertDialog mCallLostDialog;
+    private AlertDialog mPausePromptDialog;
 
     // TODO: If the Activity class ever provides an easy way to get the
     // current "activity lifecycle" state, we can remove these flags.
     private boolean mIsDestroyed = false;
     private boolean mIsForegroundActivity = false;
+
+    // For use with CDMA Pause/Wait dialogs
+    private String mPostDialStrAfterPause;
+    private boolean mPauseInProgress = false;
 
     // Flag indicating whether or not we should bring up the Call Log when
     // exiting the in-call UI due to the Phone becoming idle.  (This is
@@ -457,6 +467,14 @@ public class InCallScreen extends Activity
                         otaUtils.onOtaCloseFailureNotice();
                     }
                     break;
+
+                case EVENT_PAUSE_DIALOG_COMPLETE:
+                    if (mPausePromptDialog != null) {
+                        if (DBG) log("- DISMISSING mPausePromptDialog.");
+                        mPausePromptDialog.dismiss();  // safe even if already dismissed
+                        mPausePromptDialog = null;
+                    }
+                    break;
             }
         }
     };
@@ -544,13 +562,8 @@ public class InCallScreen extends Activity
             mInCallInitialStatus = InCallInitStatus.SUCCESS;
         }
 
-        // When in landscape mode, the user can enter dtmf tones
-        // at any time.  We need to make sure the DTMFDialer is
-        // setup correctly.
-        if (ConfigurationHelper.isLandscape()) {
-            mDialer.startDialerSession();
-            if (VDBG) log("Dialer initialized (in landscape mode).");
-        }
+        mDialer.startDialerSession();
+        if (VDBG) log("Dialer initialized.");
 
         Profiler.callScreenCreated();
     }
@@ -1767,6 +1780,11 @@ public class InCallScreen extends Activity
                     mWildPromptDialog.dismiss();  // safe even if already dismissed
                     mWildPromptDialog = null;
                 }
+                if (mPausePromptDialog != null) {
+                    if (DBG) log("- DISMISSING mPausePromptDialog.");
+                    mPausePromptDialog.dismiss();  // safe even if already dismissed
+                    mPausePromptDialog = null;
+                }
             }
 
             // Updating the screen wake state is done in onPhoneStateChanged().
@@ -1863,6 +1881,14 @@ public class InCallScreen extends Activity
 
             switch (state) {
                 case STARTED:
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        mDialer.stopDtmfTone();
+                        if (mPauseInProgress) {
+                            showPausePromptDialogCDMA(c, mPostDialStrAfterPause);
+                        }
+                        mPauseInProgress = false;
+                        mDialer.startDtmfTone(ch);
+                    }
                     // TODO: is this needed, now that you can't actually
                     // type DTMF chars or dial directly from here?
                     // If so, we'd need to yank you out of the in-call screen
@@ -1873,7 +1899,12 @@ public class InCallScreen extends Activity
                 case WAIT:
                     //if (DBG) log("show wait prompt...");
                     String postDialStr = c.getRemainingPostDialString();
-                    showWaitPromptDialog(c, postDialStr);
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        mDialer.stopDtmfTone();
+                        showWaitPromptDialogCDMA(c, postDialStr);
+                    } else {
+                        showWaitPromptDialog(c, postDialStr);
+                    }
                     break;
 
                 case WILD:
@@ -1882,6 +1913,17 @@ public class InCallScreen extends Activity
                     break;
 
                 case COMPLETE:
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        mDialer.stopDtmfTone();
+                    }
+                    break;
+
+                case PAUSE:
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        mPostDialStrAfterPause = c.getRemainingPostDialString();
+                        mDialer.stopDtmfTone();
+                        mPauseInProgress = true;
+                    }
                     break;
 
                 default:
@@ -1922,6 +1964,69 @@ public class InCallScreen extends Activity
         mWaitPromptDialog.getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         mWaitPromptDialog.show();
+    }
+
+    /**
+     * This is a function to process the CDMA specific requirements of WAIT character in a dial string
+     * Pop up an alert dialog with OK and Cancel buttons to allow user to
+     * Accept or Reject the WAIT inserted as part of the Dial string.
+     */
+    private void showWaitPromptDialogCDMA(final Connection c, String postDialStr) {
+        Resources r = getResources();
+        StringBuilder buf = new StringBuilder();
+        buf.append(r.getText(R.string.wait_prompt_str));
+        buf.append(postDialStr);
+
+        if (mWaitPromptDialog != null) {
+            if (DBG) log("- DISMISSING mWaitPromptDialog.");
+            mWaitPromptDialog.dismiss();  // safe even if already dismissed
+            mWaitPromptDialog = null;
+        }
+
+        mWaitPromptDialog = new AlertDialog.Builder(this)
+                .setMessage(buf.toString())
+                .setPositiveButton(R.string.pause_prompt_yes,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (DBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
+                            c.proceedAfterWaitChar();
+                        }
+                    })
+                .setNegativeButton(R.string.pause_prompt_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (DBG) log("handle POST_DIAL_CANCELED!");
+                            c.cancelPostDial();
+                        }
+                    })
+                .create();
+        mWaitPromptDialog.getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        mWaitPromptDialog.show();
+    }
+
+    /**
+     * Pop up an alert dialog which waits for 2 seconds for each P (Pause) Character entered
+     * as part of the Dial String.
+     */
+    private void showPausePromptDialogCDMA(final Connection c, String postDialStrAfterPause) {
+        Resources r = getResources();
+        StringBuilder buf = new StringBuilder();
+        buf.append(r.getText(R.string.pause_prompt_str));
+        buf.append(postDialStrAfterPause);
+
+        if (mPausePromptDialog != null) {
+            if (DBG) log("- DISMISSING mPausePromptDialog.");
+            mPausePromptDialog.dismiss();  // safe even if already dismissed
+            mPausePromptDialog = null;
+        }
+
+        mPausePromptDialog = new AlertDialog.Builder(this)
+                .setMessage(buf.toString())
+                .create();
+        mPausePromptDialog.show();
+        // 2 second timer
+        Message msg = Message.obtain(mHandler, EVENT_PAUSE_DIALOG_COMPLETE);
+        mHandler.sendMessageDelayed(msg, PAUSE_PROMPT_DIALOG_TIMEOUT);
     }
 
     private View createWildPromptView() {
@@ -2992,6 +3097,11 @@ public class InCallScreen extends Activity
                 || mInCallScreenMode == InCallScreenMode.OTA_ENDED)
                 && otaUtils != null) {
             otaUtils.dismissAllOtaDialogs();
+        }
+        if (mPausePromptDialog != null) {
+            if (DBG) log("- DISMISSING mPausePromptDialog.");
+            mPausePromptDialog.dismiss();
+            mPausePromptDialog = null;
         }
     }
 

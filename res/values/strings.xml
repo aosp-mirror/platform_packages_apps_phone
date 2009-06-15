@@ -157,8 +157,16 @@
          the "wait" character in a phone number to be dialed; this dialog asks the
          user if it's OK to send the numbers following the "wait". -->
     <string name="wait_prompt_str">Send the following tones?\n</string>
+    <!-- In-call screen: body text of the dialog that appears when we encounter
+         the "PAUSE" character in a phone number to be dialed; this dialog gives
+         informative message to the user to show the sending numbers following the "Pause". -->
+    <string name="pause_prompt_str">Sending Tones\n</string>
     <!-- In-call screen: button label on the "wait" prompt dialog -->
     <string name="send_button">Send</string>
+    <!-- In-call screen: button label on the "wait" prompt dialog in CDMA Mode-->
+    <string name="pause_prompt_yes">Yes</string>
+    <!-- In-call screen: button label on the "wait" prompt dialog in CDMA Mode-->
+    <string name="pause_prompt_no">No</string>
     <!-- In-call screen: on the "wild" character dialog, this is the label
          for a text widget that lets the user enter the digits that should
          replace the "wild" character. -->
