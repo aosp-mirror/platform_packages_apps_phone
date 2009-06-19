@@ -650,6 +650,11 @@ public class BluetoothHeadsetService extends Service {
             }
             return mHeadsetPriority.get(address.toUpperCase());
         }
+        public int getBatteryUsageHint() {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+
+            return HeadsetBase.getAtInputCount();
+        }
     };
 
     @Override
