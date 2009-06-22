@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"Inviare i numeri successivi?"\n</string>
     <string name="send_button">"Invia"</string>
     <string name="wild_prompt_str">"Sostituisci carattere jolly con"</string>
-    <string name="bluetooth_headset_connected">"Auricolare Bluetooth collegato."</string>
-    <string name="bluetooth_headset_disconnected">"Auricolare Bluetooth scollegato."</string>
     <string name="no_vm_number">"Numero segreteria mancante"</string>
     <string name="no_vm_number_msg">"Nessun numero di segreteria presente nella SIM."</string>
     <string name="add_vm_number_str">"Aggiungi numero"</string>

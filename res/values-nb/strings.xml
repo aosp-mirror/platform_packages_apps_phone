@@ -64,8 +64,6 @@
     <string name="wait_prompt_str">"Send disse tonene?"\n</string>
     <string name="send_button">"Send"</string>
     <string name="wild_prompt_str">"Erstatt jokertegnet med"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth-høretelefoner tilkoblet."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth-høretelefoner frakoblet."</string>
     <string name="no_vm_number">"Mangler nummer til telefonsvarer"</string>
     <string name="no_vm_number_msg">"Det er ikke lagret noe telefonsvarernummer på SIM-kortet."</string>
     <string name="add_vm_number_str">"Legg til nummer"</string>

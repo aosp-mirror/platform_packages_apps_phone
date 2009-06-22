@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"다음 톤을 보내시겠습니까?"\n</string>
     <string name="send_button">"보내기"</string>
     <string name="wild_prompt_str">"와일드 문자를 다음으로 바꾸기"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth 헤드셋이 연결되었습니다."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth 헤드셋 연결이 끊어졌습니다."</string>
     <string name="no_vm_number">"음성메일 번호 없음"</string>
     <string name="no_vm_number_msg">"SIM 카드에 저장된 음성메일 번호가 없습니다."</string>
     <string name="add_vm_number_str">"번호 추가"</string>

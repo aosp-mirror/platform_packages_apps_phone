@@ -154,12 +154,6 @@
          replace the "wild" character. -->
     <string name="wild_prompt_str">Replace the wild character with</string>
 
-    <!-- bluetooth -->
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is connected -->
-    <string name="bluetooth_headset_connected">Bluetooth headset connected.</string>
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is disconnected -->
-    <string name="bluetooth_headset_disconnected">Bluetooth headset disconnected.</string>
-
     <!-- missing voicemail number -->
     <!-- Title of the "Missing voicemail number" dialog -->
     <string name="no_vm_number">Missing voicemail number</string>
