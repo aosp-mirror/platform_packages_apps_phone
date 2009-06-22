@@ -64,8 +64,6 @@
     <string name="wait_prompt_str">"是否发送以下音调？"\n</string>
     <string name="send_button">"发送"</string>
     <string name="wild_prompt_str">"用以下内容替换通配符"</string>
-    <string name="bluetooth_headset_connected">"蓝牙耳机已连接。"</string>
-    <string name="bluetooth_headset_disconnected">"蓝牙耳机已断开连接。"</string>
     <string name="no_vm_number">"错过语音信箱号码"</string>
     <string name="no_vm_number_msg">"SIM 卡上没有存储语音信箱号码。"</string>
     <string name="add_vm_number_str">"添加号码"</string>

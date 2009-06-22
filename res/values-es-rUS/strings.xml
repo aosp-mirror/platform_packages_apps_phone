@@ -64,8 +64,6 @@
     <string name="wait_prompt_str">"¿Deseas enviar los siguientes tonos?"\n</string>
     <string name="send_button">"Enviar"</string>
     <string name="wild_prompt_str">"Reemplazar el caracter comodín con"</string>
-    <string name="bluetooth_headset_connected">"Auricular Bluetooth conectado."</string>
-    <string name="bluetooth_headset_disconnected">"Auriculares Bluetooth desconectados."</string>
     <string name="no_vm_number">"Falta el número de correo de voz"</string>
     <string name="no_vm_number_msg">"No hay un número de correo de voz almacenado en la tarjeta SIM."</string>
     <string name="add_vm_number_str">"Agregar número"</string>

@@ -95,8 +95,6 @@
     <string name="wait_prompt_str">"Enviar os seguintes tons?"\n</string>
     <string name="send_button">"Enviar"</string>
     <string name="wild_prompt_str">"Substituir o caractere curinga por"</string>
-    <string name="bluetooth_headset_connected">"Headset bluetooth conectado."</string>
-    <string name="bluetooth_headset_disconnected">"Headset bluetooth desconectado."</string>
     <string name="no_vm_number">"Número de correio de voz ausente"</string>
     <string name="no_vm_number_msg">"Nenhum número de correio de voz está armazenado no cartão SIM."</string>
     <string name="add_vm_number_str">"Adicionar número"</string>
