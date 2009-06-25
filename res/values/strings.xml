@@ -912,6 +912,25 @@
     <!-- Label for ERI text widget, shown in list of all gadgets -->
     <string name="eri_text_label">ERI text</string>
 
+    <!-- Dtmf tones settings -->
+    <!-- Title for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_title">DTMF Tones</string>
+    <!-- Summary for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_summary">Set the length of DTMF tones</string>
+    <!-- Options displayed as part of DTMF Tones in Call Settings -->
+    <string-array name="dtmf_tone_entries">
+      <item>Normal</item>
+      <item>Long</item>
+    </string-array>
+    <!-- Do not translate. -->
+    <string-array name="dtmf_tone_values">
+       <item>0</item>
+       <item>1</item>
+    </string-array>
+
+    <!-- Title for the dialog used to display CDMA DisplayInfo -->
+    <string name="network_message">Network Message</string>
+
 </resources>
 
 

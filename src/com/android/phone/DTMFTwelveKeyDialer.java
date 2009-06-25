@@ -44,6 +44,9 @@ import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Phone;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 /**
  * Dialer class that encapsulates the DTMF twelve key behaviour.
@@ -60,6 +63,10 @@ public class DTMFTwelveKeyDialer implements
 
     // events
     private static final int PHONE_DISCONNECT = 100;
+    private static final int DTMF_SEND_CNF = 101;
+    private static final int STOP_DTMF_TONE = 102;
+
+
 
     private Phone mPhone;
     private ToneGenerator mToneGenerator;
@@ -67,6 +74,19 @@ public class DTMFTwelveKeyDialer implements
 
     // indicate if we want to enable the DTMF tone playback.
     private boolean mDTMFToneEnabled;
+
+    // DTMF tone type
+    private int mDTMFToneType;
+
+    // indicate if the confirmation from TelephonyFW is pending.
+    private boolean mDTMFBurstCnfPending = false;
+
+    // Queue to queue the short dtmf characters.
+    private Queue<Character> mDTMFQueue = new LinkedList<Character>();
+
+    //  Short Dtmf tone duration
+    private static final int DTMF_DURATION_MS = 120;
+
 
     /** Hash Map to map a character to a tone*/
     private static final HashMap<Character, Integer> mToneMap =
@@ -528,6 +548,15 @@ public class DTMFTwelveKeyDialer implements
                     mPhone.unregisterForDisconnect(this);
                     closeDialer(false);
                     break;
+                case DTMF_SEND_CNF:
+                    if (DBG) log("dtmf confirmation received from FW.");
+                    // handle burst dtmf confirmation
+                    handleBurstDtmfConfirmation();
+                    break;
+                case STOP_DTMF_TONE:
+                    if (DBG) log("stop-dtmf-tone received.");
+                    stopToneCdma();
+                    break;
             }
         }
     };
@@ -603,6 +632,14 @@ public class DTMFTwelveKeyDialer implements
         if (mDialerContainer != null) {
             mDialerContainer.setOnDrawerOpenListener(null);
             mDialerContainer.setOnDrawerCloseListener(null);
+        }
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            mHandler.removeMessages(STOP_DTMF_TONE);
+            mHandler.removeMessages(DTMF_SEND_CNF);
+            synchronized (mDTMFQueue) {
+                mDTMFBurstCnfPending = false;
+                mDTMFQueue.clear();
+            }
         }
         closeDialer(false);
     }
@@ -955,18 +992,21 @@ public class DTMFTwelveKeyDialer implements
     /**
      * Starts playing a DTMF tone.  Also begins the local tone playback,
      * if enabled.
-     *
+     * The access of this function is package rather than private
+     * since this is being referred from InCallScreen.
+     * InCallScreen calls this function to utilize the DTMF ToneGenerator properties
+     * defined here.
      * @param tone a tone code from {@link ToneGenerator}
      */
-    private void startTone(char tone) {
-        if (DBG) log("startTone()...");
-        PhoneApp.getInstance().phone.startDtmf(tone);
+    /* package */ void startDtmfTone(char tone) {
+        if (DBG) log("startDtmfTone()...");
+        mPhone.startDtmf(tone);
 
         // if local tone playback is enabled, start it.
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
                 if (mToneGenerator == null) {
-                    if (DBG) log("startTone: mToneGenerator == null, tone: " + tone);
+                    if (DBG) log("startDtmfTone: mToneGenerator == null, tone: " + tone);
                 } else {
                     if (DBG) log("starting local tone " + tone);
                     mToneGenerator.startTone(mToneMap.get(tone));
@@ -981,17 +1021,21 @@ public class DTMFTwelveKeyDialer implements
      * The ToneStopper class (similar to that in {@link TwelveKeyDialer#mToneStopper})
      * has been removed in favor of synchronous start / stop calls since tone duration
      * is now a function of the input.
+     * The acess of this function is package rather than private
+     * since this is being referred from InCallScreen.
+     * InCallScreen calls this function to utilize the DTMF ToneGenerator properties
+     * defined here.
      */
-    private void stopTone() {
-        if (DBG) log("stopTone()...");
-        PhoneApp.getInstance().phone.stopDtmf();
+    /* package */ void stopDtmfTone() {
+        if (DBG) log("stopDtmfTone()...");
+        mPhone.stopDtmf();
 
         // if local tone playback is enabled, stop it.
         if (DBG) log("trying to stop local tone...");
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
                 if (mToneGenerator == null) {
-                    if (DBG) log("stopTone: mToneGenerator == null");
+                    if (DBG) log("stopDtmfTone: mToneGenerator == null");
                 } else {
                     if (DBG) log("stopping local tone.");
                     mToneGenerator.stopTone();
@@ -1013,4 +1057,126 @@ public class DTMFTwelveKeyDialer implements
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
     }
+
+    /**
+     * Plays the local tone based the phone type.
+     */
+    private void startTone(char c) {
+        if (mPhone.getPhoneName().equals("GSM")) {
+            startDtmfTone(c);
+        } else {
+            startToneCdma(c);
+        }
+    }
+
+    /**
+     * Stops the local tone based on the phone type.
+     */
+    private void stopTone() {
+        if (mPhone.getPhoneName().equals("GSM")) {
+            stopDtmfTone();
+        } else {
+            // Cdma case we do stopTone only for Long DTMF Setting
+            if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
+                stopToneCdma();
+            }
+        }
+    }
+
+    /**
+     * Plays tone when the DTMF setting is normal(Short).
+     */
+    void startToneCdma(char tone) {
+        // Read the settings as it may be changed by the user during the call
+        mDTMFToneType = Settings.System.getInt(mInCallScreen.getContentResolver(),
+                Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
+                CallFeaturesSetting.preferredDtmfMode);
+        // For Short DTMF we need to play the local tone for fixed duration
+        if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
+            sendShortDtmfToNetwork (tone);
+            mHandler.sendEmptyMessageDelayed(STOP_DTMF_TONE,DTMF_DURATION_MS);
+        } else {
+            // Pass as a char to be sent to network
+            Log.i(LOG_TAG, "send long dtmf for " + tone);
+            mPhone.startDtmf(tone);
+        }
+
+        // if local tone playback is enabled, start it.
+        if (mDTMFToneEnabled) {
+            synchronized (mToneGeneratorLock) {
+                if (mToneGenerator == null) {
+                    if (DBG) log("startToneCdma: mToneGenerator == null, tone: " + tone);
+                } else {
+                    if (DBG) log("starting local tone " + tone);
+                    // Remove pending STOP_DTMF_TONE messages
+                    if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL)
+                            mHandler.removeMessages(STOP_DTMF_TONE);
+
+                    // Start the new tone (will stop any playing tone)
+                    mToneGenerator.startTone(mToneMap.get(tone));
+               }
+            }
+        }
+    }
+
+    /**
+     * Sends the dtmf character over the network for short DTMF settings
+     * When the characters are entered in quick succession, the characters are queued before sending over the network.
+     */
+    private void sendShortDtmfToNetwork(char dtmfDigit) {
+        synchronized (mDTMFQueue) {
+            if (mDTMFBurstCnfPending == true) {
+                // Insert the dtmf char to the queue
+                mDTMFQueue.add(new Character(dtmfDigit));
+            } else {
+                String dtmfStr = Character.toString(dtmfDigit);
+                Log.i(LOG_TAG,"dtmfsent = " + dtmfStr);
+                mPhone.sendBurstDtmf(dtmfStr, mHandler.obtainMessage(DTMF_SEND_CNF));
+                // Set flag to indicate wait for Telephony confirmation.
+                mDTMFBurstCnfPending = true;
+            }
+        }
+    }
+
+    /**
+     * Stops the dtmf from being sent over the network for Long DTMF case and stops local DTMF key feedback tone.
+     */
+    private void stopToneCdma() {
+        if (DBG) log("stopping remote tone.");
+
+        if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
+            mPhone.stopDtmf();
+        }
+
+        // if local tone playback is enabled, stop it.
+        if (DBG) log("trying to stop local tone...");
+        if (mDTMFToneEnabled) {
+            synchronized (mToneGeneratorLock) {
+                if (mToneGenerator == null) {
+                    if (DBG) log("stopToneCdma: mToneGenerator == null");
+                } else {
+                    if (DBG) log("stopping local tone.");
+                    mToneGenerator.stopTone();
+                }
+            }
+        }
+    }
+
+    /**
+     * Handles Burst Dtmf Confirmation from the Framework.
+     */
+    void handleBurstDtmfConfirmation() {
+        Character dtmfChar = null;
+        synchronized(mDTMFQueue) {
+            mDTMFBurstCnfPending = false;
+            if(!mDTMFQueue.isEmpty()) {
+                dtmfChar = mDTMFQueue.remove();
+                Log.i(LOG_TAG, "The dtmf character removed from queue" + dtmfChar);
+            }
+        }
+        if (dtmfChar != null) {
+            sendShortDtmfToNetwork(dtmfChar);
+        }
+    }
+
 }
