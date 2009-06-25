@@ -19,6 +19,10 @@ package com.android.phone;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.cdma.CdmaCallWaitingNotification;
+import com.android.internal.telephony.cdma.SignalToneUtil;
+import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaDisplayInfoRec;
+import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.gsm.GSMPhone;
@@ -61,6 +65,18 @@ public class CallNotifier extends Handler
     // before giving up and falling back to the default ringtone.
     private static final int RINGTONE_QUERY_WAIT_TIME = 500;  // msec
 
+    // Timers related to CDMA Call Waiting
+    // 1) For displaying Caller Info
+    // 2) For disabling "Add Call" menu option once User selects Ignore or CW Timeout occures
+    private static final int CALLWAITING_CALLERINFO_DISPLAY_TIME = 20000; // msec
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIME = 60000; // msec
+
+    // Time to display the  DisplayInfo Record sent by CDMA network
+    private static final int DISPLAYINFO_NOTIFICATION_TIME = 2000; // msec
+
+    // Boolean to store information if a Call Waiting timed out
+    private boolean mCallWaitingTimeOut = false;
+
     // values used to track the query state
     private static final int CALLERINFO_QUERY_READY = 0;
     private static final int CALLERINFO_QUERYING = -1;
@@ -80,16 +96,27 @@ public class CallNotifier extends Handler
     private static final int PHONE_DISCONNECT = 3;
     private static final int PHONE_UNKNOWN_CONNECTION_APPEARED = 4;
     private static final int PHONE_INCOMING_RING = 5;
-    private static final int PHONE_CDMA_CALL_WAITING = 6;
+    private static final int PHONE_STATE_DISPLAYINFO = 6;
+    private static final int PHONE_STATE_SIGNALINFO = 7;
+    private static final int PHONE_CDMA_CALL_WAITING = 8;
     // Events generated internally:
-    private static final int PHONE_MWI_CHANGED = 7;
-    private static final int PHONE_BATTERY_LOW = 8;
+    private static final int PHONE_MWI_CHANGED = 9;
+    private static final int PHONE_BATTERY_LOW = 10;
+    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 11;
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 12;
+    private static final int DISPLAYINFO_NOTIFICATION_DONE = 13;
 
     private PhoneApp mApplication;
     private Phone mPhone;
     private Ringer mRinger;
     private BluetoothHandsfree mBluetoothHandsfree;
     private boolean mSilentRingerRequested;
+
+    // ToneGenerator instance for playing SignalInfo tones
+    private ToneGenerator mSignalInfoToneGenerator;
+
+    // The tone volume relative to other sounds in the stream SignalInfo
+    private static final int TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO = 50;
 
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
                         BluetoothHandsfree btMgr) {
@@ -101,7 +128,27 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-        mPhone.registerForCallWaiting(this,PHONE_CDMA_CALL_WAITING, null);
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
+            mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
+            mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
+            mPhone.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
+
+            // Instantiate the ToneGenerator for SignalInfo and CallWaiting
+            // TODO(Moto): We probably dont need the mSignalInfoToneGenerator instance
+            // around forever. Need to change it so as to create a ToneGenerator instance only
+            // when a tone is being played and releases it after its done playing.
+            try {
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
+                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+            } catch (RuntimeException e) {
+                Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
+                        "mSignalInfoToneGenerator: " + e);
+                mSignalInfoToneGenerator = null;
+            }
+        }
+
         mRinger = ringer;
         mBluetoothHandsfree = btMgr;
 
@@ -133,10 +180,7 @@ public class CallNotifier extends Handler
                     if (DBG) log("RING before NEW_RING, skipping");
                 }
                 break;
-            case PHONE_CDMA_CALL_WAITING:
-                if (DBG) log("CDMA CALL WAITING... ");
-                onCdmaCallwaiting((AsyncResult) msg.obj);
-                break;
+
             case PHONE_STATE_CHANGED:
                 onPhoneStateChanged((AsyncResult) msg.obj);
                 break;
@@ -169,6 +213,38 @@ public class CallNotifier extends Handler
 
             case PHONE_BATTERY_LOW:
                 onBatteryLow();
+                break;
+
+            case PHONE_CDMA_CALL_WAITING:
+                if (DBG) log("Received PHONE_CDMA_CALL_WAITING event");
+                onCdmaCallWaiting((AsyncResult) msg.obj);
+                break;
+
+            case CALLWAITING_CALLERINFO_DISPLAY_DONE:
+                if (DBG) log("Received CALLWAITING_CALLERINFO_DISPLAY_DONE event ...");
+                mCallWaitingTimeOut = true;
+                onCdmaCallWaitingReject();
+                break;
+
+            case CALLWAITING_ADDCALL_DISABLE_TIMEOUT:
+                if (DBG) log("Received CALLWAITING_ADDCALL_DISABLE_TIMEOUT event ...");
+                // Set the mAddCallMenuStateAfterCW state to true
+                mApplication.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(true);
+                break;
+
+            case PHONE_STATE_DISPLAYINFO:
+                if (DBG) log("Received PHONE_STATE_DISPLAYINFO event");
+                onDisplayInfo((AsyncResult) msg.obj);
+                break;
+
+            case PHONE_STATE_SIGNALINFO:
+                if (DBG) log("Received PHONE_STATE_SIGNALINFO event");
+                onSignalInfo((AsyncResult) msg.obj);
+                break;
+
+            case DISPLAYINFO_NOTIFICATION_DONE:
+                if (DBG) log("Received Display Info notification done event ...");
+                CdmaDisplayInfo.dismissDisplayInfoRecord();
                 break;
 
             default:
@@ -260,10 +336,6 @@ public class CallNotifier extends Handler
         mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
         if (VDBG) log("- onNewRingingConnection() done.");
-    }
-
-    private void onCdmaCallwaiting(AsyncResult r) {
-       return;
     }
 
     /**
@@ -447,6 +519,14 @@ public class CallNotifier extends Handler
         mPhone.unregisterForDisconnect(this);
         mPhone.unregisterForUnknownConnection(this);
         mPhone.unregisterForIncomingRing(this);
+        mPhone.unregisterForCallWaiting(this);
+        mPhone.unregisterForDisplayInfo(this);
+        mPhone.unregisterForSignalInfo(this);
+
+        //Release the ToneGenerator used for playing SignalInfo and CallWaiting
+        if (mSignalInfoToneGenerator != null) {
+            mSignalInfoToneGenerator.release();
+        }
 
         //Register all events new to the new active phone
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
@@ -454,6 +534,22 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
+            mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
+            mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
+            mPhone.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
+
+            // Instantiate the ToneGenerator for SignalInfo
+            try {
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
+                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+            } catch (RuntimeException e) {
+                Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
+                        "mSignalInfoToneGenerator: " + e);
+                mSignalInfoToneGenerator = null;
+            }
+        }
     }
 
     /**
@@ -507,6 +603,11 @@ public class CallNotifier extends Handler
         if (VDBG) log("onDisconnect()...  phone state: " + mPhone.getState());
         if (mPhone.getState() == Phone.State.IDLE) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
+        }
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            // Create the SignalInfo tone player to stop any signalInfo tone being played.
+            new SignalInfoTonePlayer(ToneGenerator.TONE_CDMA_SIGNAL_OFF).start();
         }
 
         Connection c = (Connection) r.result;
@@ -680,6 +781,15 @@ public class CallNotifier extends Handler
             } else {
                 if (VDBG) log("- phone still in use; not releasing wake locks.");
             }
+        }
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            // Resetting the CdmaPhoneCallState members
+            mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
+
+            // Remove Call waiting timers
+            removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
+            removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
         }
     }
 
@@ -898,6 +1008,171 @@ public class CallNotifier extends Handler
         }
     }
 
+    /**
+     * Displays a notification when the phone receives a DisplayInfo record.
+     */
+    private void onDisplayInfo(AsyncResult r) {
+        // Extract the DisplayInfo String from the message
+        CdmaDisplayInfoRec displayInfoRec = (CdmaDisplayInfoRec)(r.result);
+
+        if (displayInfoRec != null) {
+            String displayInfo = displayInfoRec.alpha;
+            if (DBG) log("onDisplayInfo: displayInfo=" + displayInfo);
+            CdmaDisplayInfo.displayInfoRecord(mApplication, displayInfo);
+
+            // start a 2 second timer
+            sendEmptyMessageDelayed(DISPLAYINFO_NOTIFICATION_DONE,
+                    DISPLAYINFO_NOTIFICATION_TIME);
+        }
+    }
+
+    /**
+     * Helper class to play SignalInfo tones using the ToneGenerator.
+     *
+     * To use, just instantiate a new SignalInfoTonePlayer
+     * (passing in the ToneID constant for the tone you want)
+     * and start() it.
+     */
+    private class SignalInfoTonePlayer extends Thread {
+        private int mToneId;
+
+        SignalInfoTonePlayer(int toneId) {
+            super();
+            mToneId = toneId;
+        }
+
+        @Override
+        public void run() {
+            if (DBG) log("SignalInfoTonePlayer.run(toneId = " + mToneId + ")...");
+
+            if (mSignalInfoToneGenerator != null) {
+                //First stop any ongoing SignalInfo tone
+                mSignalInfoToneGenerator.stopTone();
+
+                //Start playing the new tone if its a valid tone
+                mSignalInfoToneGenerator.startTone(mToneId);
+            }
+        }
+    }
+
+    /**
+     * Plays a tone when the phone receives a SignalInfo record.
+     */
+    private void onSignalInfo(AsyncResult r) {
+        // Extract the SignalInfo String from the message
+        CdmaSignalInfoRec signalInfoRec = (CdmaSignalInfoRec)(r.result);
+        // Only proceed if a Signal info is present.
+        if (signalInfoRec != null) {
+            boolean isPresent = signalInfoRec.isPresent;
+            if (DBG) log("onSignalInfo: isPresent=" + isPresent);
+            if (isPresent) {// if tone is valid
+                int uSignalType = signalInfoRec.signalType;
+                int uAlertPitch = signalInfoRec.alertPitch;
+                int uSignal = signalInfoRec.signal;
+
+                if (DBG) log("onSignalInfo: uSignalType=" + uSignalType + ", uAlertPitch=" +
+                        uAlertPitch + ", uSignal=" + uSignal);
+                //Map the Signal to a ToneGenerator ToneID only if Signal info is present
+                int toneID =
+                        SignalToneUtil.getAudioToneFromSignalInfo(uSignalType, uAlertPitch, uSignal);
+
+                //Create the SignalInfo tone player and pass the ToneID
+                new SignalInfoTonePlayer(toneID).start();
+            }
+        }
+    }
+
+    /**
+     * Plays a Call waiting tone if it is present in the second incoming call.
+     */
+    private void onCdmaCallWaiting(AsyncResult r) {
+        // Start the InCallScreen Activity if its not on foreground
+        if (!mApplication.isShowingCallScreen()) {
+            PhoneUtils.showIncomingCallUi();
+        }
+
+        // Start timer for CW display
+        mCallWaitingTimeOut = false;
+        sendEmptyMessageDelayed(CALLWAITING_CALLERINFO_DISPLAY_DONE,
+                CALLWAITING_CALLERINFO_DISPLAY_TIME);
+
+        // Set the mAddCallMenuStateAfterCW state to false
+        mApplication.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(false);
+
+        // Start the timer for disabling "Add Call" menu option
+        sendEmptyMessageDelayed(CALLWAITING_ADDCALL_DISABLE_TIMEOUT,
+                CALLWAITING_ADDCALL_DISABLE_TIME);
+
+        // Extract the Call waiting information
+        CdmaCallWaitingNotification infoCW = (CdmaCallWaitingNotification) r.result;
+        int isPresent = infoCW.isPresent;
+        if (DBG) log("onCdmaCallWaiting: isPresent=" + isPresent);
+        if (isPresent == 1 ) {//'1' if tone is valid
+            int uSignalType = infoCW.signalType;
+            int uAlertPitch = infoCW.alertPitch;
+            int uSignal = infoCW.signal;
+            if (DBG) log("onCdmaCallWaiting: uSignalType=" + uSignalType + ", uAlertPitch="
+                    + uAlertPitch + ", uSignal=" + uSignal);
+            //Map the Signal to a ToneGenerator ToneID only if Signal info is present
+            int toneID =
+                SignalToneUtil.getAudioToneFromSignalInfo(uSignalType, uAlertPitch, uSignal);
+
+            //Create the SignalInfo tone player and pass the ToneID
+            new SignalInfoTonePlayer(toneID).start();
+        }
+    }
+
+    /**
+     * Performs Call logging based on Timeout or Ignore Call Waiting Call for CDMA,
+     * and finally calls Hangup on the Call Waiting connection.
+     */
+    /* package */ void onCdmaCallWaitingReject() {
+        final Call ringingCall = mPhone.getRingingCall();
+
+        // Call waiting timeout scenario
+        if (ringingCall.getState() == Call.State.WAITING) {
+            // Code for perform Call logging and missed call notification
+            Connection c = ringingCall.getLatestConnection();
+
+            if (c != null) {
+                String number = c.getAddress();
+                int isPrivateNumber = c.getNumberPresentation();
+                long date = c.getCreateTime();
+                long duration = c.getDurationMillis();
+                int callLogType = mCallWaitingTimeOut ?
+                        CallLog.Calls.MISSED_TYPE  : CallLog.Calls.INCOMING_TYPE;
+
+                // get the callerinfo object and then log the call with it.
+                Object o = c.getUserData();
+                CallerInfo ci;
+                if ((o == null) || (o instanceof CallerInfo)) {
+                    ci = (CallerInfo) o;
+                } else {
+                    ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
+                }
+
+                // Add Call log
+                Calls.addCall(ci, mApplication, number, isPrivateNumber, callLogType,
+                        date, (int) duration / 1000);
+
+                if (callLogType == CallLog.Calls.MISSED_TYPE) {
+                    // Add missed call notification
+                    NotificationMgr.getDefault().notifyMissedCall(ci.name,
+                            ci.phoneNumber, ci.phoneLabel, date);
+                }
+
+                // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
+                mApplication.cdmaPhoneCallState.setCurrentCallState(
+                        CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+
+                // Hangup the RingingCall connection for CW
+                PhoneUtils.hangup(c);
+            }
+
+            //Reset the mCallWaitingTimeOut boolean
+            mCallWaitingTimeOut = false;
+        }
+    }
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);

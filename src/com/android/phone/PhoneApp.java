@@ -141,6 +141,9 @@ public class PhoneApp extends Application {
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
     boolean mShowBluetoothIndication = false;
 
+    // Internal PhoneApp Call state tracker
+    CdmaPhoneCallState cdmaPhoneCallState;
+
     // The InCallScreen instance (or null if the InCallScreen hasn't been
     // created yet.)
     private InCallScreen mInCallScreen;
@@ -419,9 +422,15 @@ public class PhoneApp extends Application {
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
 
-        //Register for Cdma Information Records
-// TODO(Moto): Merge
-//        phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
+        // Register for Cdma Information Records
+        // TODO(Moto): Merge
+        // phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
+
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+        }
    }
 
     /**
@@ -930,6 +939,12 @@ public class PhoneApp extends Application {
             sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
             sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
             sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
+        }
+
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
         }
     }
 

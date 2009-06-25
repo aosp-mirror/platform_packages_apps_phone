@@ -43,6 +43,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.provider.CallLog;
+import android.provider.CallLog.Calls;
 import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
@@ -122,6 +124,9 @@ public class InCallScreen extends Activity
     // The "touch lock" overlay timeout comes from Gservices; this is the default.
     private static final int TOUCH_LOCK_DELAY_DEFAULT =  6000;  // msec
 
+    // Amount of time for Displaying "Dialing" for 3way Calling origination
+    private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
+
     // See CallTracker.MAX_CONNECTIONS_PER_CALL
     private static final int MAX_CALLERS_IN_CONFERENCE = 5;
 
@@ -140,6 +145,8 @@ public class InCallScreen extends Activity
     private static final int ALLOW_SCREEN_ON = 112;
     private static final int TOUCH_LOCK_TIMER = 113;
     private static final int BLUETOOTH_STATE_CHANGED = 114;
+    private static final int PHONE_CDMA_CALL_WAITING = 115;
+    private static final int THREEWAY_CALLERINFO_DISPLAY_DONE = 116;
 
 
     // High-level "modes" of the in-call UI.
@@ -270,6 +277,7 @@ public class InCallScreen extends Activity
                 // foreground...
             }
 
+            PhoneApp app = PhoneApp.getInstance();
             switch (msg.what) {
                 case SUPP_SERVICE_FAILED:
                     onSuppServiceFailed((AsyncResult) msg.obj);
@@ -321,7 +329,7 @@ public class InCallScreen extends Activity
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
                     // if phone is a CDMA phone display feature code completed message
                     if (mPhone.getPhoneName().equals("CDMA")) {
-                        PhoneUtils.displayMMIComplete(mPhone, PhoneApp.getInstance(), mmiCode, null, null);
+                        PhoneUtils.displayMMIComplete(mPhone, app, mmiCode, null, null);
                     } else {
                         if (mmiCode.getState() != MmiCode.State.PENDING) {
                             if (DBG) log("Got MMI_COMPLETE, finishing...");
@@ -357,7 +365,7 @@ public class InCallScreen extends Activity
                     // (Note this will cause the screen to turn on
                     // immediately, if it's currently off because of a
                     // prior preventScreenOn(true) call.)
-                    PhoneApp.getInstance().preventScreenOn(false);
+                    app.preventScreenOn(false);
                     break;
 
                 case TOUCH_LOCK_TIMER:
@@ -373,6 +381,31 @@ public class InCallScreen extends Activity
                     // elements that care about the bluetooth state get it
                     // directly from PhoneApp.showBluetoothIndication().)
                     updateScreen();
+                    break;
+
+                case PHONE_CDMA_CALL_WAITING:
+                    if (DBG) log("Received PHONE_CDMA_CALL_WAITING event ...");
+                    Connection cn = mRingingCall.getLatestConnection();
+
+                    // Only proceed if we get a valid connection object
+                    if (cn != null) {
+                        // Finally update screen with Call waiting info and request
+                        // screen to wake up
+                        updateScreen();
+                        app.updateWakeState();
+                    }
+                    break;
+
+                case THREEWAY_CALLERINFO_DISPLAY_DONE:
+                    if (DBG) log("Received THREEWAY_CALLERINFO_DISPLAY_DONE event ...");
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        // Set the mThreeWayCallOrigStateDialing state to true
+                        app.cdmaPhoneCallState.setThreeWayCallOrigState(false);
+
+                        //Finally update screen with with the current on going call
+                        updateScreen();
+                    }
                     break;
             }
         }
@@ -826,14 +859,19 @@ public class InCallScreen extends Activity
         if (!mRegisteredForPhoneStates) {
             mPhone.registerForPhoneStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-            mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
+            if (mPhone.getPhoneName().equals("GSM")) {
+                mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
 
-            // register for the MMI complete message.  Upon completion,
-            // PhoneUtils will bring up a system dialog instead of the
-            // message display class in PhoneUtils.displayMMIComplete().
-            // We'll listen for that message too, so that we can finish
-            // the activity at the same time.
-            mPhone.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+                // register for the MMI complete message.  Upon completion,
+                // PhoneUtils will bring up a system dialog instead of the
+                // message display class in PhoneUtils.displayMMIComplete().
+                // We'll listen for that message too, so that we can finish
+                // the activity at the same time.
+                mPhone.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+            } else { // CDMA
+                if (DBG) log("Registering for Call Waiting.");
+                mPhone.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
+            }
 
             mPhone.setOnPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mPhone.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
@@ -845,6 +883,7 @@ public class InCallScreen extends Activity
         mPhone.unregisterForPhoneStateChanged(mHandler);
         mPhone.unregisterForDisconnect(mHandler);
         mPhone.unregisterForMmiInitiate(mHandler);
+        mPhone.unregisterForCallWaiting(mHandler);
         mPhone.setOnPostDialCharacter(null, POST_ON_DIAL_CHARS, null);
         mRegisteredForPhoneStates = false;
     }
@@ -1049,23 +1088,29 @@ public class InCallScreen extends Activity
         if (mPhone.getPhoneName().equals("CDMA")) {
             // The green CALL button means either "Answer", "Swap calls/On Hold", or
             // "Add to 3WC", depending on the current state of the Phone.
+
+            PhoneApp app = PhoneApp.getInstance();
+            CdmaPhoneCallState.PhoneCallState currCallState =
+                app.cdmaPhoneCallState.getCurrentCallState();
             if (hasRingingCall) {
-                if (VDBG) log("handleCallKey: ringing ==> answer!");
+                //Scenario 1: Accepting the First Incoming and Call Waiting call
+                if (DBG) log("answerCall: First Incoming and Call Waiting scenario");
                 internalAnswerCall();  // Automatically holds the current active call,
                                        // if there is one
-            } else {
-                // On a CDMA phone, if there's no ringing call, CALL means
-                // "flash" in any context.  (Depending on the state of the
-                // network, this could mean "hold", "swap calls", or
-                // "merge into 3-way call".)
-
-                // TODO: It's ugly to call switchHoldingAndActive() here,
-                // since we're not *really* trying to swap calls.  (We just
-                // want to send a flash command.)  Instead, consider having
-                // the telephony layer provide an explicit "flash" API.
+            } else if ((currCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && (hasActiveCall)) {
+                //Scenario 2: Merging 3Way calls
+                if (DBG) log("answerCall: Merge 3-way call scenario");
+                // Merge calls
+                PhoneUtils.mergeCalls(mPhone);
+            } else if (currCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                //Scenario 3: Switching between two Call waiting calls or drop the latest
+                // connection if in a 3Way merge scenario
+                if (DBG) log("answerCall: Switch btwn 2 calls scenario");
+                // Send flash cmd
                 PhoneUtils.switchHoldingAndActive(mPhone);
             }
-        } else {
+        } else { // GSM.
             if (hasRingingCall) {
                 // If an incoming call is ringing, the CALL button is actually
                 // handled by the PhoneWindowManager.  (We do this to make
@@ -1614,6 +1659,9 @@ public class InCallScreen extends Activity
             mHandler.sendEmptyMessageDelayed(DELAYED_CLEANUP_AFTER_DISCONNECT,
                                              callEndedDisplayDelay);
         }
+
+        // Remove 3way timer (only meaningful for CDMA)
+        mHandler.removeMessages(THREEWAY_CALLERINFO_DISPLAY_DONE);
     }
 
     /**
@@ -2044,6 +2092,26 @@ public class InCallScreen extends Activity
                 // onPhoneStateChanged().
                 mDialer.clearDigits();
 
+                PhoneApp app = PhoneApp.getInstance();
+                if (app.phone.getPhoneName().equals("CDMA")) {
+                    // Start the 2 second timer for 3 Way CallerInfo
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        //Unmute for the second MO call
+                        PhoneUtils.setMuteInternal(mPhone, false);
+
+                        //Start the timer for displaying "Dialing" for second call
+                        Message msg = Message.obtain(mHandler, THREEWAY_CALLERINFO_DISPLAY_DONE);
+                        mHandler.sendMessageDelayed(msg, THREEWAY_CALLERINFO_DISPLAY_TIME);
+
+                        // Set the mThreeWayCallOrigStateDialing state to true
+                        app.cdmaPhoneCallState.setThreeWayCallOrigState(true);
+
+                        //Update screen to show 3way dialing
+                        updateScreen();
+                    }
+                }
+
                 return InCallInitStatus.SUCCESS;
             case PhoneUtils.CALL_STATUS_DIALED_MMI:
                 if (DBG) log("placeCall: specified number was an MMI code: '" + number + "'.");
@@ -2268,6 +2336,17 @@ public class InCallScreen extends Activity
             case R.id.menuAnswerAndEnd:
                 if (VDBG) log("onClick: AnswerAndEnd...");
                 internalAnswerAndEnd();
+                break;
+
+            case R.id.menuAnswer:
+                if (DBG) log("onClick: Answer...");
+                internalAnswerCall();
+                break;
+
+            case R.id.menuIgnore:
+                if (DBG) log("onClick: Ignore...");
+                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                notifier.onCdmaCallWaitingReject();
                 break;
 
             case R.id.menuSwapCalls:

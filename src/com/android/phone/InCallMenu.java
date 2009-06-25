@@ -66,6 +66,8 @@ class InCallMenu {
     InCallMenuItemView mHold;
     InCallMenuItemView mAnswerAndHold;
     InCallMenuItemView mAnswerAndEnd;
+    InCallMenuItemView mAnswer;
+    InCallMenuItemView mIgnore;
 
     InCallMenu(InCallScreen inCallScreen) {
         if (DBG) log("InCallMenu constructor...");
@@ -185,6 +187,16 @@ class InCallMenu {
         mAnswerAndEnd.setOnClickListener(mInCallScreen);
         mAnswerAndEnd.setText(R.string.menu_answerAndEnd);
 
+        mAnswer = new InCallMenuItemView(wrappedContext);
+        mAnswer.setId(R.id.menuAnswer);
+        mAnswer.setOnClickListener(mInCallScreen);
+        mAnswer.setText(R.string.menu_answer);
+
+        mIgnore = new InCallMenuItemView(wrappedContext);
+        mIgnore.setId(R.id.menuIgnore);
+        mIgnore.setOnClickListener(mInCallScreen);
+        mIgnore.setText(R.string.menu_ignore);
+
         //
         // Load all the items into the correct "slots" in the InCallMenuView.
         //
@@ -201,7 +213,11 @@ class InCallMenu {
         // Row 0:
         // This usually has "Show/Hide dialpad", but that gets replaced by
         // "Manage conference" if a conference call is active.
-        mInCallMenuView.addItemView(mManageConference, 0);
+        PhoneApp app = PhoneApp.getInstance();
+        // As managing conference is only valid for GSM and not for CDMA
+        if (app.phone.getPhoneName().equals("GSM")) {
+            mInCallMenuView.addItemView(mManageConference, 0);
+        }
         mInCallMenuView.addItemView(mShowDialpad, 0);
 
         // Row 1:
@@ -213,12 +229,18 @@ class InCallMenu {
         // Row 2:
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
-        mInCallMenuView.addItemView(mHold, 2);
+        // For CDMA only Answer or Ignore option is valid for a Call Waiting scenario
+        if (app.phone.getPhoneName().equals("CDMA")) {
+            mInCallMenuView.addItemView(mAnswer, 2);
+            mInCallMenuView.addItemView(mIgnore, 2);
+        } else {
+            mInCallMenuView.addItemView(mHold, 2);
+            mInCallMenuView.addItemView(mAnswerAndHold, 2);
+            mInCallMenuView.addItemView(mAnswerAndEnd, 2);
+        }
         mInCallMenuView.addItemView(mMute, 2);
         mInCallMenuView.addItemView(mSpeaker, 2);
         mInCallMenuView.addItemView(mBluetooth, 2);
-        mInCallMenuView.addItemView(mAnswerAndHold, 2);
-        mInCallMenuView.addItemView(mAnswerAndEnd, 2);
 
         mInCallMenuView.dumpState();
     }
@@ -257,12 +279,29 @@ class InCallMenu {
             // TODO: be sure to test this for "only one line in use and it's
             // active" AND for "only one line in use and it's on hold".
             if (hasActiveCall && !hasHoldingCall) {
-                mAnswerAndHold.setVisible(true);
-                mAnswerAndHold.setEnabled(true);
-                mAnswerAndEnd.setVisible(true);
-                mAnswerAndEnd.setEnabled(true);
+                // For CDMA only make "Answer" and "Ignore" visible
+                if (phone.getPhoneName().equals("CDMA")) {
+                    mAnswer.setVisible(true);
+                    mAnswer.setEnabled(true);
+                    mIgnore.setVisible(true);
+                    mIgnore.setEnabled(true);
 
-                mManageConference.setVisible(false);
+                    // Explicitly remove GSM menu items
+                    mAnswerAndHold.setVisible(false);
+                    mAnswerAndEnd.setVisible(false);
+                } else {
+                    mAnswerAndHold.setVisible(true);
+                    mAnswerAndHold.setEnabled(true);
+                    mAnswerAndEnd.setVisible(true);
+                    mAnswerAndEnd.setEnabled(true);
+
+                    // Explicitly remove CDMA menu items
+                    mAnswer.setVisible(false);
+                    mIgnore.setVisible(false);
+
+                    mManageConference.setVisible(false);
+                }
+
                 mShowDialpad.setVisible(false);
                 mEndCall.setVisible(false);
                 mAddCall.setVisible(false);
@@ -370,6 +409,13 @@ class InCallMenu {
                             || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
         mHold.setIndicatorState(onHold);
         mHold.setEnabled(canHold);
+
+        // In CDMA "Answer" and "Ignore" are only useful
+        // when there's an incoming ringing call (Callwaiting)
+        mAnswer.setVisible(false);
+        mAnswer.setEnabled(false);
+        mIgnore.setVisible(false);
+        mIgnore.setEnabled(false);
 
         // "Answer & end" and "Answer & hold" are only useful
         // when there's an incoming ringing call (see above.)

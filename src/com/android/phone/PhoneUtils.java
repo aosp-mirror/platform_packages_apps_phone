@@ -226,6 +226,21 @@ public class PhoneUtils {
                 phone.acceptCall();
                 answered = true;
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+                if (phone.getPhoneName().equals("CDMA")) {
+                    PhoneApp app = PhoneApp.getInstance();
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.IDLE) {
+                        // This is the FIRST incoming call being answered.
+                        // Set the Phone Call State to SINGLE_ACTIVE
+                        app.cdmaPhoneCallState.setCurrentCallState(
+                                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+                    } else {
+                        // This is the CALL WAITING call being answered.
+                        // Set the Phone Call State to CONF_CALL
+                        app.cdmaPhoneCallState.setCurrentCallState(
+                                CdmaPhoneCallState.PhoneCallState.CONF_CALL);
+                    }
+                }
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
             }
@@ -358,6 +373,21 @@ public class PhoneUtils {
                 }
 
             } else {
+                PhoneApp app = PhoneApp.getInstance();
+
+                if (phone.getPhoneName().equals("CDMA")){
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.IDLE) {
+                        // This is the first outgoing call. Set the Phone Call State to ACTIVE
+                        app.cdmaPhoneCallState.setCurrentCallState(
+                                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+                    } else {
+                        // This is the second outgoing call. Set the Phone Call State to 3WAY
+                        app.cdmaPhoneCallState.setCurrentCallState(
+                                CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
+                    }
+                }
+
                 PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
                 // phone.dial() succeeded: we're now in a normal phone call.
@@ -425,11 +455,27 @@ public class PhoneUtils {
     }
 
     static void mergeCalls(Phone phone) {
-        try {
-            if (DBG) log("mergeCalls");
-            phone.conference();
-        } catch (CallStateException ex) {
-            Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
+        if (phone.getPhoneName().equals("GSM")) {
+            try {
+                if (DBG) log("mergeCalls");
+                phone.conference();
+            } catch (CallStateException ex) {
+                Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
+            }
+        } else { // CDMA
+            PhoneApp app = PhoneApp.getInstance();
+            if (app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                // Send flash cmd
+                // TODO(Moto): Need to change the call from switchHoldingAndActive to
+                // something meaningful as we are not actually trying to swap calls but
+                // instead are merging two calls by sending a Flash command.
+                switchHoldingAndActive(phone);
+
+                // Set the Phone Call State to conference
+                app.cdmaPhoneCallState.setCurrentCallState(
+                        CdmaPhoneCallState.PhoneCallState.CONF_CALL);
+            }
         }
     }
 
@@ -913,7 +959,14 @@ public class PhoneUtils {
      */
     static CallerInfoToken startGetCallerInfo(Context context, Call call,
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
-        Connection conn = call.getEarliestConnection();
+        PhoneApp app = PhoneApp.getInstance();
+        Connection conn = null;
+        if (app.phone.getPhoneName().equals("CDMA")) {
+            conn = call.getLatestConnection();
+        } else {
+            conn = call.getEarliestConnection();
+        }
+
         return startGetCallerInfo(context, conn, listener, cookie);
     }
 
@@ -1071,12 +1124,12 @@ public class PhoneUtils {
         String compactName = null;
         if (info != null) {
             compactName = info.name;
-            if (compactName == null) {
+            if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
                 compactName = info.phoneNumber;
             }
         }
         // TODO: figure out UNKNOWN, PRIVATE numbers?
-        if (compactName == null) {
+        if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
             compactName = context.getString(R.string.unknown);
         }
         return compactName;
@@ -1112,12 +1165,12 @@ public class PhoneUtils {
         String compactName = null;
         if (ci != null) {
             compactName = ci.name;
-            if (compactName == null) {
+            if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
                 compactName = ci.phoneNumber;
             }
         }
         // TODO: figure out UNKNOWN, PRIVATE numbers?
-        if (compactName == null) {
+        if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
             compactName = context.getString(R.string.unknown);
         }
         return compactName;
@@ -1144,14 +1197,18 @@ public class PhoneUtils {
         // the UI or a "manage conference" function.  (Instead, when
         // you're in a 3-way call, all we can do is display the "generic"
         // state of the UI.)  So as far as the in-call UI is concerned,
-        // CDMA calls are *never* "conference calls".
-        if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
-            return false;
-        }
-
-        List<Connection> connections = call.getConnections();
-        if (connections != null && connections.size() > 1) {
-            return true;
+        // Conference corresponds to generic display.
+        PhoneApp app = PhoneApp.getInstance();
+        if (app.phone.getPhoneName().equals("CDMA")) {
+            if (app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                return true;
+            }
+        } else {
+            List<Connection> connections = call.getConnections();
+            if (connections != null && connections.size() > 1) {
+                return true;
+            }
         }
         return false;
 
@@ -1428,25 +1485,52 @@ public class PhoneUtils {
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
-        if (hasRingingCall) {
-            // If an incoming call is ringing, answer it (just like with the
-            // CALL button):
-            if (hasActiveCall && hasHoldingCall) {
-                if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
-                answerAndEndActive(phone);
+        if (phone.getPhoneName().equals("CDMA")) {
+            PhoneApp app = PhoneApp.getInstance();
+            if (hasRingingCall) {
+                answerCall(phone);
             } else {
-                if (DBG) log("handleHeadsetHook: ringing ==> answer!");
-                answerCall(phone);  // Automatically holds the current active call,
-                                     // if there is one
+                if (app.cdmaPhoneCallState.getCurrentCallState()
+                        == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
+                    // Send a flash command to CDMA network for putting the other
+                    // party on hold.
+                    // For CDMA networks which do not support this the user would just
+                    // hear a beep from the network.
+                    // For CDMA networks which do support it it will put the other
+                    // party on hold.
+                    switchHoldingAndActive(phone);
+                }
+
+                // No incoming ringing call.  Toggle the mute state.
+                if (getMute(phone)) {
+                    if (DBG) log("handleHeadsetHook: UNmuting...");
+                    setMute(phone, false);
+                } else {
+                    if (DBG) log("handleHeadsetHook: muting...");
+                    setMute(phone, true);
+                }
             }
-        } else {
-            // No incoming ringing call.  Toggle the mute state.
-            if (getMute(phone)) {
-                if (DBG) log("handleHeadsetHook: UNmuting...");
-                setMute(phone, false);
+        } else { // GSM
+            if (hasRingingCall) {
+                // If an incoming call is ringing, answer it (just like with the
+                // CALL button):
+                if (hasActiveCall && hasHoldingCall) {
+                    if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
+                    answerAndEndActive(phone);
+                } else {
+                    if (DBG) log("handleHeadsetHook: ringing ==> answer!");
+                    answerCall(phone);  // Automatically holds the current active call,
+                                     // if there is one
+                }
             } else {
-                if (DBG) log("handleHeadsetHook: muting...");
-                setMute(phone, true);
+                // No incoming ringing call.  Toggle the mute state.
+                if (getMute(phone)) {
+                    if (DBG) log("handleHeadsetHook: UNmuting...");
+                    setMute(phone, false);
+                } else {
+                    if (DBG) log("handleHeadsetHook: muting...");
+                    setMute(phone, true);
+                }
             }
         }
 
@@ -1502,15 +1586,22 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToSwapCalls(Phone phone) {
-        // "Swap" is available if both lines are in use and there's no
-        // incoming call.  (Actually we need to verify that the active
-        // call really is in the ACTIVE state and the holding call really
-        // is in the HOLDING state, since you *can't* actually swap calls
-        // when the foreground call is DIALING or ALERTING.)
-        // TODO(CDMA): Need to handle the CDMA case too.
-        return phone.getRingingCall().isIdle()
-                && (phone.getForegroundCall().getState() == Call.State.ACTIVE)
-                && (phone.getBackgroundCall().getState() == Call.State.HOLDING);
+        if (phone.getPhoneName().equals("CDMA")) {
+            // CDMA: "Swap" is enabled only when the phone reaches a *generic*.
+            // state by either accepting a Call Waiting or by merging two calls
+            PhoneApp app = PhoneApp.getInstance();
+            return (app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.CONF_CALL);
+        } else {
+            // GSM: "Swap" is available if both lines are in use and there's no
+            // incoming call.  (Actually we need to verify that the active
+            // call really is in the ACTIVE state and the holding call really
+            // is in the HOLDING state, since you *can't* actually swap calls
+            // when the foreground call is DIALING or ALERTING.)
+            return phone.getRingingCall().isIdle()
+                    && (phone.getForegroundCall().getState() == Call.State.ACTIVE)
+                    && (phone.getBackgroundCall().getState() == Call.State.HOLDING);
+        }
     }
 
     /**
@@ -1518,11 +1609,17 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToMergeCalls(Phone phone) {
-        // "Merge" is available if both lines are in use and there's no
-        // incoming call, *and* the current conference isn't already
-        // "full".
-        // TODO(CDMA): Need to handle the CDMA case too.
-        return phone.getRingingCall().isIdle() && phone.canConference();
+        if (phone.getPhoneName().equals("CDMA")) {
+            // CDMA: "Merge" is enabled only when the user is in a 3Way call.
+            PhoneApp app = PhoneApp.getInstance();
+            return (app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
+        } else { //GSM.
+            // GSM: "Merge" is available if both lines are in use and there's no
+            // incoming call, *and* the current conference isn't already
+            // "full".
+            return phone.getRingingCall().isIdle() && phone.canConference();
+        }
     }
 
     /**
@@ -1530,27 +1627,33 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToAddCall(Phone phone) {
-        // "Add call" is available only if ALL of the following are true:
-        // - There's no incoming ringing call
-        // - There's < 2 lines in use
-        // - The foreground call is ACTIVE or IDLE or DISCONNECTED.
-        //   (We mainly need to make sure it *isn't* DIALING or ALERTING.)
+       if (phone.getPhoneName().equals("CDMA")) {
+           // CDMA: "Add call" menu item is only enabled when the call is in
+           // - SINGLE_ACTIVE state
+           // - After 60 seconds of user Ignoring/Missing a Call Waiting call.
+            PhoneApp app = PhoneApp.getInstance();
+            return ((app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE)
+                    && (app.cdmaPhoneCallState.getAddCallMenuStateAfterCallWaiting()));
+        } else {
+            // GSM: "Add call" is available only if ALL of the following are true:
+            // - There's no incoming ringing call
+            // - There's < 2 lines in use
+            // - The foreground call is ACTIVE or IDLE or DISCONNECTED.
+            //   (We mainly need to make sure it *isn't* DIALING or ALERTING.)
+            final boolean hasRingingCall = !phone.getRingingCall().isIdle();
+            final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
+            final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
+            final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
+            final Call.State fgCallState = phone.getForegroundCall().getState();
 
-        // TODO(CDMA): Need to handle the CDMA case too.
-
-        final boolean hasRingingCall = !phone.getRingingCall().isIdle();
-        final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
-        final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
-        final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
-        final Call.State fgCallState = phone.getForegroundCall().getState();
-
-        return !hasRingingCall
-                && !allLinesTaken
-                && ((fgCallState == Call.State.ACTIVE)
-                    || (fgCallState == Call.State.IDLE)
-                    || (fgCallState == Call.State.DISCONNECTED));
+            return !hasRingingCall
+                    && !allLinesTaken
+                    && ((fgCallState == Call.State.ACTIVE)
+                        || (fgCallState == Call.State.IDLE)
+                        || (fgCallState == Call.State.DISCONNECTED));
+        }
     }
-
 
     //
     // General phone and call state debugging/testing code
