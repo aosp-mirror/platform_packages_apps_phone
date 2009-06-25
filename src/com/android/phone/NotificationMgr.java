@@ -800,6 +800,13 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 }
             }
 
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                String finalTitle;
+                int vmCount = mPhone.getVoiceMessageCount();
+                String titleFormat = mContext.getString(R.string.notification_voicemail_title_count);
+                notificationTitle = String.format(titleFormat, vmCount);
+            }
+
             String notificationText;
             if (TextUtils.isEmpty(vmNumber)) {
                 notificationText = mContext.getString(
