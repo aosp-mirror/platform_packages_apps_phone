@@ -536,7 +536,31 @@
         <item>"2"</item>
         <item>"3"</item>
     </string-array>
- 
+
+    <!-- CDMA System select strings -->
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="cdma_system_select_title">System select</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="cdma_system_select_summary">Change the cdma roaming mode</string>
+    <!-- System select settings screen title -->
+    <string name="cdma_system_select_dialogtitle">System select</string>
+    <string-array name="cdma_system_select_choices">
+        <!-- System select dialog screen, setting option name -->
+        <item>Home only</item>
+        <!-- Remove the following option "Affiliated Networks" from the option list -->
+        <!-- <item>Affiliated Networks</item> -->
+        <!-- System select dialog screen, setting option name -->
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="cdma_system_select_values">
+        <!-- Do not translate. -->
+        <item>"0"</item>
+        <!-- Remove the following value "1" which corresponds to "Affiliated Networks" above -->
+        <!-- <item>"1"</item>  -->
+        <!-- Do not translate. -->
+        <item>"2"</item>
+    </string-array>
+
     <!-- CDMA Options strings --> 
     <string name="cdma_roaming_mode_title">CDMA Roaming Mode</string>
     <string name="cdma_roaming_mode_summary">Change the cdma roaming mode</string>
