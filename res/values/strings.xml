@@ -141,6 +141,10 @@
     <string name="menuButtonHint">Press Menu for call options.</string>
     <!-- In-call screen, message just under call window when keyboard is revealed -->
     <string name="menuButtonKeyboardDialHint">"Press Menu for call options  \u2022  Use keyboard to dial"</string>
+    <!-- Incoming call menu: Label for "Answer" menu item -->
+    <string name="menu_answer">Answer</string>
+    <!-- Incoming call menu: Label for "Ignore" menu item -->
+    <string name="menu_ignore">Ignore</string>
 
     <!-- post dial -->
     <!-- In-call screen: body text of the dialog that appears when we encounter
@@ -793,6 +797,8 @@
     <string name="card_title_on_hold">On hold</string>
     <!-- In-call screen: status label for a call that's in the process of hanging up -->
     <string name="card_title_hanging_up">Hanging up</string>
+    <!-- In-call screen: status label for a call that's in CDMA flash mode -->
+    <string name="card_title_in_call">In call</string>
 
     <!-- Notification strings -->
     <!-- Missed call notification label, used when there's exactly one missed call -->
