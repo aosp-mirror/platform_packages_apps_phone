@@ -532,10 +532,20 @@ public class CallCard extends FrameLayout
                     if (DBG) log("- displayMainCallStatus: using data we already have...");
                     if (o instanceof CallerInfo) {
                         CallerInfo ci = (CallerInfo) o;
+                        // Update CNAP information if Phone state change occurred
+                        ci.cnapName = conn.getCnapName();
+                        ci.numberPresentation = conn.getNumberPresentation();
+                        ci.namePresentation = conn.getCnapNamePresentation();
+                        if (DBG) log("- displayMainCallStatus: CNAP data from Connection: "
+                                + "CNAP name=" + ci.cnapName
+                                + ", Number/Name Presentation=" + ci.numberPresentation);
                         if (DBG) log("   ==> Got CallerInfo; updating display: ci = " + ci);
                         updateDisplayForPerson(ci, presentation, false, call);
                     } else if (o instanceof PhoneUtils.CallerInfoToken){
                         CallerInfo ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
+                        if (DBG) log("- displayMainCallStatus: CNAP data from Connection: "
+                                + "CNAP name=" + ci.cnapName
+                                + ", Number/Name Presentation=" + ci.numberPresentation);
                         if (DBG) log("   ==> Got CallerInfoToken; updating display: ci = " + ci);
                         updateDisplayForPerson(ci, presentation, true, call);
                     } else {
@@ -619,7 +629,20 @@ public class CallCard extends FrameLayout
             // If the object is a textview instead, we update it as we need to.
             if (DBG) log("callerinfo query complete, updating ui from displayMainCallStatus()");
             Call call = (Call) cookie;
-            updateDisplayForPerson(ci, Connection.PRESENTATION_ALLOWED, false, call);
+            Connection conn = call.getEarliestConnection();
+            PhoneUtils.CallerInfoToken cit =
+                   PhoneUtils.startGetCallerInfo(getContext(), conn, this, null);
+            int presentation = conn.getNumberPresentation();
+            if (DBG) log("- onQueryComplete: presentation=" + presentation
+                    + ", contactExists=" + ci.contactExists);
+            // Depending on whether there was a contact match or not, we want to pass in different
+            // CallerInfo (for CNAP). Therefore if ci.contactExists then use the ci passed in.
+            // Otherwise, regenerate the CIT from the Connection and use the CallerInfo from there.
+            if (ci.contactExists) {
+                updateDisplayForPerson(ci, Connection.PRESENTATION_ALLOWED, false, call);
+            } else {
+                updateDisplayForPerson(cit.currentInfo, presentation, false, call);
+            }
             updatePhotoForCallState(call);
 
         } else if (cookie instanceof TextView){
@@ -1076,13 +1099,29 @@ public class CallCard extends FrameLayout
             if (TextUtils.isEmpty(info.name)) {
                 if (TextUtils.isEmpty(info.phoneNumber)) {
                     name =  getPresentationString(presentation);
+                } else if (presentation != Connection.PRESENTATION_ALLOWED) {
+                    // This case should never happen since the network should never send a phone #
+                    // AND a restricted presentation. However we leave it here in case of weird
+                    // network behavior
+                    name = getPresentationString(presentation);
+                } else if (!TextUtils.isEmpty(info.cnapName)) {
+                    name = info.cnapName;
+                    info.name = info.cnapName;
+                    displayNumber = info.phoneNumber;
                 } else {
                     name = info.phoneNumber;
                 }
             } else {
-                name = info.name;
-                displayNumber = info.phoneNumber;
-                label = info.phoneLabel;
+                if (presentation != Connection.PRESENTATION_ALLOWED) {
+                    // This case should never happen since the network should never send a name
+                    // AND a restricted presentation. However we leave it here in case of weird
+                    // network behavior
+                    name = getPresentationString(presentation);
+                } else {
+                    name = info.name;
+                    displayNumber = info.phoneNumber;
+                    label = info.phoneLabel;
+                }
             }
             personUri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
         } else {
