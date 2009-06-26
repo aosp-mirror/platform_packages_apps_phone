@@ -137,14 +137,6 @@ public class CallCard extends FrameLayout
         mInCallScreen = inCallScreen;
     }
 
-    void reset() {
-        if (DBG) log("reset()...");
-
-        // default to show ACTIVE call style, with empty title and status text
-        showCallConnected();
-        setUpperTitle("");
-    }
-
     public void onTickForCallTimeElapsed(long timeElapsed) {
         // While a call is in progress, update the elapsed time shown
         // onscreen.
@@ -375,8 +367,6 @@ public class CallCard extends FrameLayout
 
         switch (state) {
             case ACTIVE:
-                showCallConnected();
-
                 if (bluetoothActive) {
                     callCardBackgroundResid =
                             landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
@@ -396,8 +386,6 @@ public class CallCard extends FrameLayout
                 break;
 
             case HOLDING:
-                showCallOnhold();
-
                 callCardBackgroundResid =
                         landscapeMode ? R.drawable.incall_frame_hold_tall_land
                         : R.drawable.incall_frame_hold_tall_port;
@@ -408,9 +396,6 @@ public class CallCard extends FrameLayout
                 break;
 
             case DISCONNECTED:
-                reset();
-                showCallEnded();
-
                 callCardBackgroundResid =
                         landscapeMode ? R.drawable.incall_frame_ended_tall_land
                         : R.drawable.incall_frame_ended_tall_port;
@@ -422,8 +407,6 @@ public class CallCard extends FrameLayout
 
             case DIALING:
             case ALERTING:
-                showCallConnecting();
-
                 if (bluetoothActive) {
                     callCardBackgroundResid =
                             landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
@@ -441,8 +424,6 @@ public class CallCard extends FrameLayout
 
             case INCOMING:
             case WAITING:
-                showCallIncoming();
-
                 if (bluetoothActive) {
                     callCardBackgroundResid =
                             landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
@@ -586,8 +567,6 @@ public class CallCard extends FrameLayout
 
         // Background images are also different if Bluetooth is active.
         final boolean bluetoothActive = mApplication.showBluetoothIndication();
-
-        showCallConnected();
 
         int callCardBackgroundResid = 0;
         if (bluetoothActive) {
@@ -1031,30 +1010,6 @@ public class CallCard extends FrameLayout
             }
         }
         return getContext().getString(resID);
-    }
-
-    private void showCallConnecting() {
-        if (DBG) log("showCallConnecting()...");
-        // TODO: remove if truly unused
-    }
-
-    private void showCallIncoming() {
-        if (DBG) log("showCallIncoming()...");
-        // TODO: remove if truly unused
-    }
-
-    private void showCallConnected() {
-        if (DBG) log("showCallConnected()...");
-        // TODO: remove if truly unused
-    }
-
-    private void showCallEnded() {
-        if (DBG) log("showCallEnded()...");
-        // TODO: remove if truly unused
-    }
-    private void showCallOnhold() {
-        if (DBG) log("showCallOnhold()...");
-        // TODO: remove if truly unused
     }
 
     /**

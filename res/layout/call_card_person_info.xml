@@ -57,7 +57,7 @@
               android:singleLine="true"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginBottom="4dip"
+              android:layout_marginBottom="6dip"
               android:paddingLeft="4dip"
               android:paddingRight="4dip"
               />
@@ -86,6 +86,5 @@
                   android:layout_height="wrap_content"
                   />
     </LinearLayout>
-
 
 </LinearLayout>

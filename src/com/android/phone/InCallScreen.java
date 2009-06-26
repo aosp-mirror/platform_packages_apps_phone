@@ -888,6 +888,15 @@ public class InCallScreen extends Activity
         mRegisteredForPhoneStates = false;
     }
 
+    /* package */ void updateAfterRadioTechnologyChange() {
+        if (DBG) Log.d(LOG_TAG, "updateAfterRadioTechnologyChange()...");
+        // Unregister for all events from the old obsolete phone
+        unregisterForPhoneStates();
+
+        // (Re)register for all events relevant to the new active phone
+        registerForPhoneStates();
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         if (DBG) log("onNewIntent: intent=" + intent);
@@ -996,7 +1005,6 @@ public class InCallScreen extends Activity
         mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
-        mCallCard.reset();
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);

@@ -512,8 +512,8 @@ public class CallNotifier extends Handler
     }
 
     void updateCallNotifierRegistrationsAfterRadioTechnologyChange() {
-        if(DBG) Log.d(LOG_TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
-        //Unregister all events from the old obsolete phone
+        if (DBG) Log.d(LOG_TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
+        // Unregister all events from the old obsolete phone
         mPhone.unregisterForNewRingingConnection(this);
         mPhone.unregisterForPhoneStateChanged(this);
         mPhone.unregisterForDisconnect(this);
@@ -523,12 +523,12 @@ public class CallNotifier extends Handler
         mPhone.unregisterForDisplayInfo(this);
         mPhone.unregisterForSignalInfo(this);
 
-        //Release the ToneGenerator used for playing SignalInfo and CallWaiting
+        // Release the ToneGenerator used for playing SignalInfo and CallWaiting
         if (mSignalInfoToneGenerator != null) {
             mSignalInfoToneGenerator.release();
         }
 
-        //Register all events new to the new active phone
+        // Register all events new to the new active phone
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
