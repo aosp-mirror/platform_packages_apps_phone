@@ -95,6 +95,9 @@ public class PhoneUtils {
     /** Phone state changed event*/
     private static final int PHONE_STATE_CHANGED = -1;
 
+    /** Define for not a special CNAP string */
+    private static final int CNAP_SPECIAL_CASE_NO = -1;
+
     // Extended network service interface instance
     private static IExtendedNetworkService mNwService = null;
     // used to cancel MMI command after 15 seconds timeout for NWService requirement
@@ -1032,6 +1035,7 @@ public class PhoneUtils {
             // No URI, or Existing CallerInfo, so we'll have to make do with
             // querying a new CallerInfo using the connection's phone number.
             String number = c.getAddress();
+            int cnapSpecialCase;
 
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
@@ -1040,7 +1044,6 @@ public class PhoneUtils {
 
             // handling case where number is null (caller id hidden) as well.
             if (!TextUtils.isEmpty(number)) {
-                cit.currentInfo.phoneNumber = number;
                 // Store CNAP information retrieved from the Connection
                 cit.currentInfo.cnapName =  c.getCnapName();
                 cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
@@ -1050,6 +1053,21 @@ public class PhoneUtils {
                 if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
                         + cit.currentInfo.cnapName
                         + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                // Only when numberPresentation is ALLOWED, check the special string:
+                if (cit.currentInfo.numberPresentation == Connection.PRESENTATION_ALLOWED) {
+                    cnapSpecialCase = checkCnapSpecialCases(number);
+                    if (cnapSpecialCase != CNAP_SPECIAL_CASE_NO) {
+                        // For all special strings, change number & numberPresentation.
+                        if (cnapSpecialCase == Connection.PRESENTATION_RESTRICTED) {
+                            number = context.getString(R.string.private_num);
+                        } else if (cnapSpecialCase == Connection.PRESENTATION_UNKNOWN) {
+                            number = context.getString(R.string.unknown);
+                        }
+                        cit.currentInfo.numberPresentation = cnapSpecialCase;
+                    }
+                }
+
+                cit.currentInfo.phoneNumber = number;
                 cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
                         number, sCallerInfoQueryListener, c);
                 cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
@@ -1673,6 +1691,29 @@ public class PhoneUtils {
                     && ((fgCallState == Call.State.ACTIVE)
                         || (fgCallState == Call.State.IDLE)
                         || (fgCallState == Call.State.DISCONNECTED));
+        }
+    }
+
+    /**
+     * Based on the input CNAP number string,
+     * @return _RESTRICTED or _UNKNOWN for all the special CNAP strings.
+     * Otherwise, return CNAP_SPECIAL_CASE_NO.
+     */
+    private static int checkCnapSpecialCases(String n) {
+        if (n.equals("PRIVATE") ||
+                n.equals("P") ||
+                n.equals("RES")) {
+            if (DBG) log("checkCnapSpecialCases, PRIVATE string: " + n);
+            return Connection.PRESENTATION_RESTRICTED;
+        } else if (n.equals("UNAVAILABLE") ||
+                n.equals("UNKNOWN") ||
+                n.equals("UNA") ||
+                n.equals("U")) {
+            if (DBG) log("checkCnapSpecialCases, UNKNOWN string: " + n);
+            return Connection.PRESENTATION_UNKNOWN;
+        } else {
+            if (DBG) log("checkCnapSpecialCases, normal str. number: " + n);
+            return CNAP_SPECIAL_CASE_NO;
         }
     }
 
