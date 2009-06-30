@@ -1094,7 +1094,6 @@ public class DTMFTwelveKeyDialer implements
         // For Short DTMF we need to play the local tone for fixed duration
         if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
             sendShortDtmfToNetwork (tone);
-            mHandler.sendEmptyMessageDelayed(STOP_DTMF_TONE,DTMF_DURATION_MS);
         } else {
             // Pass as a char to be sent to network
             Log.i(LOG_TAG, "send long dtmf for " + tone);
@@ -1108,20 +1107,25 @@ public class DTMFTwelveKeyDialer implements
                     if (DBG) log("startToneCdma: mToneGenerator == null, tone: " + tone);
                 } else {
                     if (DBG) log("starting local tone " + tone);
-                    // Remove pending STOP_DTMF_TONE messages
-                    if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL)
-                            mHandler.removeMessages(STOP_DTMF_TONE);
 
-                    // Start the new tone (will stop any playing tone)
+                    // Stop any playing tone and start the new tone.
+                    stopToneCdma();
                     mToneGenerator.startTone(mToneMap.get(tone));
-               }
+
+                    // Stopped pending and Started new STOP_DTMF_TONE timer.
+                    if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
+                        mHandler.removeMessages(STOP_DTMF_TONE);
+                        mHandler.sendEmptyMessageDelayed(STOP_DTMF_TONE,DTMF_DURATION_MS);
+                    }
+                }
             }
         }
     }
 
     /**
      * Sends the dtmf character over the network for short DTMF settings
-     * When the characters are entered in quick succession, the characters are queued before sending over the network.
+     * When the characters are entered in quick succession,
+     * the characters are queued before sending over the network.
      */
     private void sendShortDtmfToNetwork(char dtmfDigit) {
         synchronized (mDTMFQueue) {
