@@ -17,11 +17,12 @@
 package com.android.phone;
 
 import android.content.Context;
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Phone;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.Phone;
 
 /**
  * Helper class to manage the options menu for the InCallScreen.
@@ -440,11 +441,27 @@ class InCallMenu {
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
-        mMute.setVisible(true);
-        boolean muteOn = PhoneUtils.getMute(phone);
-        boolean canMute = (fgCallState == Call.State.ACTIVE);
-        mMute.setIndicatorState(muteOn);
-        mMute.setEnabled(canMute);
+        if (phone.getPhoneName().equals("CDMA")) {
+            Connection c = phone.getForegroundCall().getLatestConnection();
+            boolean isEmergencyCall =
+                    PhoneNumberUtils.isEmergencyNumber(c.getAddress());
+
+            if (isEmergencyCall) { // disable "Mute" item
+                mMute.setEnabled(false);
+            } else {
+                mMute.setVisible(true);
+                boolean muteOn = PhoneUtils.getMute(phone);
+                boolean canMute = (fgCallState == Call.State.ACTIVE);
+                mMute.setIndicatorState(muteOn);
+                mMute.setEnabled(canMute);
+            }
+        } else {
+            mMute.setVisible(true);
+            boolean muteOn = PhoneUtils.getMute(phone);
+            boolean canMute = (fgCallState == Call.State.ACTIVE);
+            mMute.setIndicatorState(muteOn);
+            mMute.setEnabled(canMute);
+        }
 
         // "Hold": "On hold" means that there's a holding call and
         // *no* foreground call.  (If there *is* a foreground call,

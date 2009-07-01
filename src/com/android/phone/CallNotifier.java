@@ -37,6 +37,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.os.Vibrator;
 import android.provider.CallLog;
 import android.provider.CallLog.Calls;
 import android.provider.Checkin;
@@ -113,6 +114,11 @@ public class CallNotifier extends Handler
     private static final int DISPLAYINFO_NOTIFICATION_DONE = 15;
     private static final int EVENT_OTA_PROVISION_CHANGE = 16;
 
+    // Emergency call related defines:
+    private static final int EMERGENCY_TONE_OFF = 0;
+    private static final int EMERGENCY_TONE_ALERT = 1;
+    private static final int EMERGENCY_TONE_VIBRATE = 2;
+
     private PhoneApp mApplication;
     private Phone mPhone;
     private Ringer mRinger;
@@ -129,6 +135,11 @@ public class CallNotifier extends Handler
     private Call.State mPreviousCdmaCallState;
     private boolean mCdmaVoicePrivacyState = false;
     private boolean mIsCdmaRedialCall = false;
+
+    // Emergency call tone and vibrate:
+    private int mIsEmergencyToneOn;
+    private int mCurrentEmergencyToneState = EMERGENCY_TONE_OFF;
+    private EmergencyTonePlayerVibrator mEmergencyTonePlayerVibrator;
 
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
                         BluetoothHandsfree btMgr) {
@@ -560,6 +571,35 @@ public class CallNotifier extends Handler
             // put a icon in the status bar
             NotificationMgr.getDefault().updateInCallNotification();
         }
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            Connection c = mPhone.getForegroundCall().getLatestConnection();
+            if ((c != null) && (PhoneNumberUtils.isEmergencyNumber(c.getAddress()))) {
+                if (VDBG) log("onPhoneStateChanged: it is an emergency call.");
+                Call.State callState = mPhone.getForegroundCall().getState();
+                if (mEmergencyTonePlayerVibrator == null) {
+                    mEmergencyTonePlayerVibrator = new EmergencyTonePlayerVibrator();
+                }
+
+                if (callState == Call.State.DIALING || callState == Call.State.ALERTING) {
+                    mIsEmergencyToneOn = Settings.System.getInt(
+                            mPhone.getContext().getContentResolver(),
+                            Settings.System.EMERGENCY_TONE, EMERGENCY_TONE_OFF);
+                    if (mIsEmergencyToneOn != EMERGENCY_TONE_OFF &&
+                        mCurrentEmergencyToneState == EMERGENCY_TONE_OFF) {
+                        if (mEmergencyTonePlayerVibrator != null) {
+                            mEmergencyTonePlayerVibrator.start();
+                        }
+                    }
+                } else if (callState == Call.State.ACTIVE) {
+                    if (mCurrentEmergencyToneState != EMERGENCY_TONE_OFF) {
+                        if (mEmergencyTonePlayerVibrator != null) {
+                            mEmergencyTonePlayerVibrator.stop();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void updateCallNotifierRegistrationsAfterRadioTechnologyChange() {
@@ -773,6 +813,8 @@ public class CallNotifier extends Handler
             final long date = c.getCreateTime();
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
+            // For international calls, 011 needs to be logged as +
+            final String cdmaLogNumber = c.isIncoming()? number : c.getOrigDialString();
 
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
             final int callLogType;
@@ -795,13 +837,23 @@ public class CallNotifier extends Handler
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
 
+                final String eNumber = c.getAddress();
+                if (mPhone.getPhoneName().equals("CDMA")) {
+                    if ((PhoneNumberUtils.isEmergencyNumber(eNumber))
+                            && (mCurrentEmergencyToneState != EMERGENCY_TONE_OFF)) {
+                        if (mEmergencyTonePlayerVibrator != null) {
+                            mEmergencyTonePlayerVibrator.stop();
+                        }
+                    }
+                }
                 // Watch out: Calls.addCall() hits the Contacts database,
                 // so we shouldn't call it from the main thread.
                 Thread t = new Thread() {
                         public void run() {
                             if (mPhone.getPhoneName().equals("CDMA")) {
-                                // If it is OTA call, it shall not be logged into call log.
-                                if (!mApplication.isOtaCallInActiveState()) {
+                                // Don't put OTA or Emergency calls into call log
+                                if (!mApplication.isOtaCallInActiveState()
+                                        && !PhoneNumberUtils.isEmergencyNumber(eNumber)) {
                                     Calls.addCall(ci, mApplication, number, presentation,
                                             callLogType, date, (int) duration / 1000);
                                 }
@@ -1412,6 +1464,71 @@ public class CallNotifier extends Handler
             // getCallerInfo() can return null in rare cases, like if we weren't
             // able to get a valid phone number out of the specified Connection.
             Log.w(LOG_TAG, "showMissedCallNotification: got null CallerInfo for Connection " + c);
+        }
+    }
+
+    /**
+     *  Inner class to handle emergency call tone and vibrator
+     */
+    private class EmergencyTonePlayerVibrator {
+        private final int EMG_VIBRATE_LENGTH = 1000;  // ms.
+        private final int EMG_VIBRATE_PAUSE  = 1000;  // ms.
+        private final long[] mVibratePattern =
+                new long[] { EMG_VIBRATE_LENGTH, EMG_VIBRATE_PAUSE };
+
+        private ToneGenerator mToneGenerator;
+        private AudioManager mAudioManager;
+        private Vibrator mEmgVibrator;
+
+        /**
+         * constructor
+         */
+        public EmergencyTonePlayerVibrator() {
+            Context context = mApplication.getApplicationContext();
+            mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        }
+
+        /**
+         * Start the emergency tone or vibrator.
+         */
+        private void start() {
+            if (VDBG) log("call startEmergencyToneOrVibrate.");
+            int ringerMode = mAudioManager.getRingerMode();
+
+            if ((mIsEmergencyToneOn == EMERGENCY_TONE_ALERT) &&
+                    (ringerMode == AudioManager.RINGER_MODE_NORMAL)) {
+                if (VDBG) log("Play Emergency Tone.");
+                mToneGenerator = new ToneGenerator (AudioManager.STREAM_VOICE_CALL,
+                        mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL));
+                if (mToneGenerator != null) {
+                    mToneGenerator.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK);
+                    mCurrentEmergencyToneState = EMERGENCY_TONE_ALERT;
+                }
+            } else if (mIsEmergencyToneOn == EMERGENCY_TONE_VIBRATE) {
+                if (VDBG) log("Play Emergency Vibrate.");
+                mEmgVibrator = new Vibrator();
+                if (mEmgVibrator != null) {
+                    mEmgVibrator.vibrate(mVibratePattern, 0);
+                    mCurrentEmergencyToneState = EMERGENCY_TONE_VIBRATE;
+                }
+            }
+        }
+
+        /**
+         * If the emergency tone is active, stop the tone or vibrator accordingly.
+         */
+        private void stop() {
+            if (VDBG) log("call stopEmergencyToneOrVibrate.");
+
+            if ((mCurrentEmergencyToneState == EMERGENCY_TONE_ALERT)
+                    && (mToneGenerator != null)) {
+                mToneGenerator.stopTone();
+                mToneGenerator.release();
+            } else if ((mCurrentEmergencyToneState == EMERGENCY_TONE_VIBRATE)
+                    && (mEmgVibrator != null)) {
+                mEmgVibrator.cancel();
+            }
+            mCurrentEmergencyToneState = EMERGENCY_TONE_OFF;
         }
     }
 
