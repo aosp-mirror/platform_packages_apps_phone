@@ -1148,52 +1148,6 @@ public class PhoneUtils {
     }
 
     /**
-     * Returns a single "name" for the specified Connection.
-     * This may be the caller name, the phone number, or a generic "unknown"
-     * string, depending on what info is available.
-     *
-     * NOTE: This API should be avoided, with preference given to the
-     * asynchronous startGetCallerInfo API, used in conjunction with
-     * getCompactNameFromCallerInfo().
-     */
-    static String getCompactName(Context context, Connection conn) {
-        CallerInfo info = getCallerInfo(context, conn);
-        if (DBG) log("getCompactName: info = " + info);
-
-        String compactName = null;
-        if (info != null) {
-            compactName = info.name;
-            if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
-                compactName = info.phoneNumber;
-            }
-        }
-        // TODO: figure out UNKNOWN, PRIVATE numbers?
-        if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
-            compactName = context.getString(R.string.unknown);
-        }
-        return compactName;
-    }
-
-    /**
-     * Returns a single "name" for the specified Call.
-     * If the call only has a single connection, this is
-     * just like calling getCompactName() on that connection.
-     * But if this call has more than one connection,
-     * return a generic string like "Conference call".
-     *
-     * NOTE: This API should be avoided, with preference given to the
-     * asynchronous startGetCallerInfo API, used in conjunction with
-     * getCompactNameFromCallerInfo().
-     */
-    static String getCompactName(Context context, Call call) {
-        if (isConferenceCall(call)) {
-            return context.getString(R.string.confCall);
-        }
-        Connection conn = call.getEarliestConnection();  // may be null
-        return getCompactName(context, conn);  // OK if conn is null
-    }
-
-    /**
      * Returns a single "name" for the specified given a CallerInfo object.
      * If the name is null, return defaultString as the default value, usually
      * context.getString(R.string.unknown).

@@ -57,7 +57,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         "com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL";
 
     // debug data
-    private static final String LOG_TAG = "call features settings";
+    private static final String LOG_TAG = "CallFeaturesSetting";
     private static final boolean DBG = false;
 
     // string contants

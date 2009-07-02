@@ -927,18 +927,21 @@ public class PhoneApp extends Application {
     }
 
     private void initForNewRadioTechnology() {
-        if(DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
+        if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
-        if(mBtHandsfree != null) {
+        if (mBtHandsfree != null) {
             mBtHandsfree.updateBtHandsfreeAfterRadioTechnologyChange();
         }
+        if (mInCallScreen != null) {
+            mInCallScreen.updateAfterRadioTechnologyChange();
+        }
 
-        //Update registration for ICC status after radio technology change
+        // Update registration for ICC status after radio technology change
         IccCard sim = phone.getIccCard();
         if (sim != null) {
-            if(DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
+            if (DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
 
             //Register all events new to the new active phone
             sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
@@ -1078,10 +1081,10 @@ public class PhoneApp extends Application {
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
-                // if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
-                // if (DBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
-                // if (DBG) Log.d(LOG_TAG, "- reason: "
-                //                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
+                if (VDBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
+                if (VDBG) Log.d(LOG_TAG, "- reason: "
+                                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
 
                 // The "data disconnected due to roaming" notification is
                 // visible if you've lost data connectivity because you're
@@ -1190,7 +1193,7 @@ public class PhoneApp extends Application {
             hasService = false;
         }
 
-        if(ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_1xRTT
+        if (ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_1xRTT
                 || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0
                 || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A
                 || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_IS95A
