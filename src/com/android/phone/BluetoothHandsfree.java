@@ -94,7 +94,10 @@ public class BluetoothHandsfree {
     private boolean[] mClccUsed;     // Is this clcc index in use
     private boolean mWaitingForCallStart;
     private boolean mWaitingForVoiceRecognition;
-
+    // do not connect audio until service connection is established
+    // for 3-way supported devices, this is after AT+CHLD
+    // for non-3-way supported devices, this is after AT+CMER (see spec)
+    private boolean mServiceConnectionEstablished;
     private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
 
@@ -258,6 +261,7 @@ public class BluetoothHandsfree {
     private void resetAtState() {
         mClip = false;
         mIndicatorsEnabled = false;
+        mServiceConnectionEstablished = false;
         mCmee = false;
         mClccTimestamps = new long[MAX_CONNECTIONS];
         mClccUsed = new boolean[MAX_CONNECTIONS];
@@ -814,6 +818,10 @@ public class BluetoothHandsfree {
             if (DBG) log("audioOn(): headset is not connected!");
             return false;
         }
+        if (mHeadsetType == TYPE_HANDSFREE && !mServiceConnectionEstablished) {
+            if (DBG) log("audioOn(): service connection not yet established!");
+            return false;
+        }
 
         if (mConnectedSco != null) {
             if (DBG) log("audioOn(): audio is already connected");
@@ -1213,17 +1221,29 @@ public class BluetoothHandsfree {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 } else if (args[0].equals(3) && args[1].equals(0) &&
                            args[2].equals(0)) {
+                    boolean valid = false;
                     if (args[3].equals(0)) {
                         mIndicatorsEnabled = false;
-                        return new AtCommandResult(AtCommandResult.OK);
+                        valid = true;
                     } else if (args[3].equals(1)) {
                         mIndicatorsEnabled = true;
-                        return new AtCommandResult(AtCommandResult.OK);
+                        valid = true;
                     }
-                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
-                } else {
-                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
+                    if (valid) {
+                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0) {
+                            mServiceConnectionEstablished = true;
+                            sendURC("OK");  // send immediately, then initiate audio
+                            if (isIncallAudio()) {
+                                audioOn();
+                            }
+                            // only send OK once
+                            return new AtCommandResult(AtCommandResult.UNSOLICITED);
+                        } else {
+                            return new AtCommandResult(AtCommandResult.OK);
+                        }
+                    }
                 }
+                return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
             }
             @Override
             public AtCommandResult handleTestCommand() {
@@ -1381,7 +1401,13 @@ public class BluetoothHandsfree {
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return new AtCommandResult("+CHLD: (0,1,2,3)");
+                mServiceConnectionEstablished = true;
+                sendURC("+CHLD: (0,1,2,3)");  // send reply first, then connect audio
+                if (isIncallAudio()) {
+                    audioOn();
+                }
+                // already replied
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
 
