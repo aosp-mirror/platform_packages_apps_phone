@@ -212,6 +212,9 @@
     <!-- Title for the dialog used to display the user's IMEI number -->
     <string name="imei">IMEI</string>
 
+    <!-- Title for the dialog used to display the user's MEID number on CDMA network -->
+    <string name="meid">MEID</string>
+
     <!-- settings strings -->
 
     <!-- GSM Call settings screen, setting option name -->
