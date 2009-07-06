@@ -115,18 +115,21 @@ public class BluetoothAtPhonebook {
     
     public void register(AtParser parser) {
         // Select Character Set
-        // We support IRA and GSM (although we behave the same for both)
+        // Always send UTF-8, but pretend to support IRA and GSM for compatability
+        // TODO: Implement IRA and GSM encoding instead of faking it
         parser.register("+CSCS", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return new AtCommandResult("+CSCS: \"IRA\"");
+                return new AtCommandResult("+CSCS: \"UTF-8\"");
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
                 if (args.length < 1) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
-                if (((String)args[0]).equals("\"GSM\"") || ((String)args[0]).equals("\"IRA\"")) {
+                if (((String)args[0]).equals("\"GSM\"") || ((String)args[0]).equals("\"IRA\"") ||
+                        ((String)args[0]).equals("\"UTF-8\"") ||
+                        ((String)args[0]).equals("\"UTF8\"") ) {
                     return new AtCommandResult(AtCommandResult.OK);
                 } else {
                     return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
@@ -134,7 +137,7 @@ public class BluetoothAtPhonebook {
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return new AtCommandResult( "+CSCS: (\"IRA\",\"GSM\")");
+                return new AtCommandResult( "+CSCS: (\"UTF-8\",\"IRA\",\"GSM\")");
             }
         });
 
