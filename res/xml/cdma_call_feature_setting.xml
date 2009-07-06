@@ -40,6 +40,12 @@
         android:singleLine="true"
         android:autoText="false"/>
 
+     <CheckBoxPreference
+        android:key="button_auto_retry_key"
+        android:title="@string/auto_retry_mode_title"
+        android:persistent="false"
+        android:summary="@string/auto_retry_mode_summary"/>
+
     <CheckBoxPreference
         android:key="button_voice_privacy_key"
         android:title="@string/voice_privacy"
