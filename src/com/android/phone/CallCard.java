@@ -638,9 +638,12 @@ public class CallCard extends FrameLayout
             Connection conn = call.getEarliestConnection();
             PhoneUtils.CallerInfoToken cit =
                    PhoneUtils.startGetCallerInfo(getContext(), conn, this, null);
-            int presentation = conn.getNumberPresentation();
+
+            int presentation = Connection.PRESENTATION_ALLOWED;
+            if (conn != null) presentation = conn.getNumberPresentation();
             if (DBG) log("- onQueryComplete: presentation=" + presentation
                     + ", contactExists=" + ci.contactExists);
+
             // Depending on whether there was a contact match or not, we want to pass in different
             // CallerInfo (for CNAP). Therefore if ci.contactExists then use the ci passed in.
             // Otherwise, regenerate the CIT from the Connection and use the CallerInfo from there.
