@@ -1402,7 +1402,8 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleTestCommand() {
                 mServiceConnectionEstablished = true;
-                sendURC("+CHLD: (0,1,2,3)");  // send reply first, then connect audio
+                sendURC("+CHLD: (0,1,2,3)");
+                sendURC("OK");  // send reply first, then connect audio
                 if (isIncallAudio()) {
                     audioOn();
                 }
