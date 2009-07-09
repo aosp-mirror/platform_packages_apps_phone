@@ -18,10 +18,10 @@ package com.android.phone;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Message;
-import android.os.Handler;
-import android.os.Bundle;
 import android.os.AsyncResult;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -45,28 +45,23 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //String keys for preference lookup
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
-    private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
 
-    // Used for CDMA roaming mode
-    private static final int CDMA_ROAMING_MODE_HOME = 0;
-    private static final int CDMA_ROAMING_MODE_AFFILIATED = 1;
-    private static final int CDMA_ROAMING_MODE_ANY = 2;
-
-    // PREFERRED_CDMA_ROAMING_MODE  0 - Home Networks only, preferred
-    //                              1 - Roaming on affiliated networks
-    //                              2 - Roaming on any network
-    static final int PREFERRED_CDMA_ROAMING_MODE = 0;
+    private static final String BUTTON_GSM_UMTS_OPTIONS = "gsm_umts_options_key";
+    private static final String BUTTON_CDMA_OPTIONS = "cdma_options_key";
 
     static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
 
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
     private CheckBoxPreference mButtonDataRoam;
-    private ListPreference mButtonCdmaRoam;
 
     private Phone mPhone;
     private MyHandler mHandler;
     private boolean mOkClicked;
+
+    //GsmUmts options and Cdma options
+    GsmUmtsOptions gsmumtsOptions;
+    CdmaOptions cdmaOptions;
 
 
     //This is a method implemented for DialogInterface.OnClickListener.
@@ -95,7 +90,13 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
      */
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference == mButtonPreferredNetworkMode) {
+        if (gsmumtsOptions != null &&
+                gsmumtsOptions.onPreferenceTreeClick(preferenceScreen, preference) == true) {
+            return true;
+        } else if (cdmaOptions != null &&
+                   cdmaOptions.onPreferenceTreeClick(preferenceScreen, preference) == true) {
+            return true;
+        } else if (preference == mButtonPreferredNetworkMode) {
             //displays the value taken from the Settings.System
             int settingsNetworkMode = android.provider.Settings.Secure.getInt(mPhone.getContext().
                     getContentResolver(), android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
@@ -124,15 +125,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             }
             return true;
         }
-        else if (preference == mButtonCdmaRoam) {
-            if (DBG) log("onPreferenceTreeClick: preference == mButtonCdmaRoam.");
-            //displays the value taken from the Settings.System
-            int cdmaRoamingMode = android.provider.Settings.Secure.getInt(
-                    mPhone.getContext().getContentResolver(),
-                    android.provider.Settings.Secure.CDMA_ROAMING_MODE, PREFERRED_CDMA_ROAMING_MODE);
-            mButtonCdmaRoam.setValue(Integer.toString(cdmaRoamingMode));
-            return true;
-        }
         else {
             // if the button is anything but the simple toggle preference,
             // we'll need to disable all preferences to reject all click
@@ -147,50 +139,42 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        addPreferencesFromResource(R.xml.network_setting);
+
         mPhone = PhoneFactory.getDefaultPhone();
-
-        if (mPhone.getPhoneName().equals("CDMA")) {
-            addPreferencesFromResource(R.xml.network_setting_cdma);
-
-        } else {
-            addPreferencesFromResource(R.xml.network_setting);
-        }
+        mHandler = new MyHandler();
 
         //get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
 
-        mHandler = new MyHandler();
         mButtonDataRoam = (CheckBoxPreference) prefSet.findPreference(BUTTON_ROAMING_KEY);
-
-        // TODO: The radio technology could be changed dynamically after the phone has been created
-        if (mPhone.getPhoneName().equals("CDMA")) {
-            mButtonCdmaRoam =
-                (ListPreference) prefSet.findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY);
-            // set the listener for the mButtonCdmaRoam list preference so we can issue
-            // change CDMA Roaming Mode.
-            mButtonCdmaRoam.setOnPreferenceChangeListener(this);
-
-            //Get the settingsCdmaRoamingMode from Settings.System and displays it
-            int settingsCdmaRoamingMode = android.provider.Settings.Secure.getInt(
-                    mPhone.getContext().getContentResolver(),
-                    android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                    PREFERRED_CDMA_ROAMING_MODE);
-            mButtonCdmaRoam.setValue(Integer.toString(settingsCdmaRoamingMode));
-        } else {
-            mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
+        mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_NETWORK_MODE);
 
+        if (getResources().getBoolean(R.bool.world_phone) == true) {
             // set the listener for the mButtonPreferredNetworkMode list preference so we can issue
             // change Preferred Network Mode.
             mButtonPreferredNetworkMode.setOnPreferenceChangeListener(this);
 
             //Get the networkMode from Settings.System and displays it
             int settingsNetworkMode = android.provider.Settings.Secure.getInt(mPhone.getContext().
-                 getContentResolver(),android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
-                 preferredNetworkMode);
+                    getContentResolver(),android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
+                    preferredNetworkMode);
             mButtonPreferredNetworkMode.setValue(Integer.toString(settingsNetworkMode));
             // The intent code that resided here in the past has been moved into the
             // more conventional location in network_setting.xml
+
+        } else {
+            prefSet.removePreference(mButtonPreferredNetworkMode);
+            prefSet.removePreference(prefSet.findPreference(BUTTON_GSM_UMTS_OPTIONS));
+            prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                addPreferencesFromResource(R.xml.cdma_options);
+                cdmaOptions = new CdmaOptions();
+            } else {
+                addPreferencesFromResource(R.xml.gsm_umts_options);
+                gsmumtsOptions = new GsmUmtsOptions();
+            }
         }
     }
 
@@ -206,10 +190,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         // app to change this setting's backend, and re-launch this settings app
         // and the UI state would be inconsistent with actual state
         mButtonDataRoam.setChecked(mPhone.getDataRoamingEnabled());
-        if (mPhone.getPhoneName().equals("CDMA")) {
-            mPhone.queryCdmaRoamingPreference(
-                    mHandler.obtainMessage(MyHandler.MESSAGE_QUERY_ROAMING_PREFERENCE));
-        } else {
+
+        if (getPreferenceScreen().findPreference(BUTTON_PREFERED_NETWORK_MODE) != null)  {
             mPhone.getPreferredNetworkType(mHandler.obtainMessage(
                     MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));
         }
@@ -272,38 +254,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mPhone.setPreferredNetworkType(modemNetworkMode, mHandler
                         .obtainMessage(MyHandler.MESSAGE_SET_PREFERRED_NETWORK_TYPE));
             }
-        } else if (preference == mButtonCdmaRoam) {
-            //NOTE onPreferenceChange seems to be called even if there is no change
-            //Check if the button value is changed from the System.Setting
-            mButtonCdmaRoam.setValue((String) objValue);
-            int buttonCdmaRoamingMode;
-            buttonCdmaRoamingMode = Integer.valueOf((String) objValue).intValue();
-            int settingsCdmaRoamingMode = android.provider.Settings.Secure.getInt(
-                    mPhone.getContext().getContentResolver(),
-                    android.provider.Settings.Secure.CDMA_ROAMING_MODE, PREFERRED_CDMA_ROAMING_MODE);
-            if (buttonCdmaRoamingMode != settingsCdmaRoamingMode) {
-                int statusCdmaRoamingMode;
-                switch(buttonCdmaRoamingMode) {
-                    case CDMA_ROAMING_MODE_ANY:
-                        statusCdmaRoamingMode = Phone.CDMA_RM_ANY;
-                        break;
-                        /*
-                    case CDMA_ROAMING_MODE_AFFILIATED:
-                        statusCdmaRoamingMode = Phone.CDMA_RM_AFFILIATED;
-                        break;
-                        */
-                    case CDMA_ROAMING_MODE_HOME:
-                    default:
-                        statusCdmaRoamingMode = Phone.CDMA_RM_HOME;
-                }
-                //Set the Settings.System network mode
-                android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
-                        android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                        buttonCdmaRoamingMode );
-                //Set the roaming preference mode
-                mPhone.setCdmaRoamingPreference(statusCdmaRoamingMode, mHandler
-                        .obtainMessage(MyHandler.MESSAGE_SET_ROAMING_PREFERENCE));
-            }
         }
 
         // always let the preference setting proceed.
@@ -314,8 +264,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         private static final int MESSAGE_GET_PREFERRED_NETWORK_TYPE = 0;
         private static final int MESSAGE_SET_PREFERRED_NETWORK_TYPE = 1;
-        private static final int MESSAGE_QUERY_ROAMING_PREFERENCE = 2;
-        private static final int MESSAGE_SET_ROAMING_PREFERENCE = 3;
 
         @Override
         public void handleMessage(Message msg) {
@@ -327,14 +275,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 case MESSAGE_SET_PREFERRED_NETWORK_TYPE:
                     handleSetPreferredNetworkTypeResponse(msg);
                     break;
-                case MESSAGE_QUERY_ROAMING_PREFERENCE:
-                    handleQueryCdmaRoamingPreference(msg);
-                    break;
-
-                case MESSAGE_SET_ROAMING_PREFERENCE:
-                    handleSetCdmaRoamingPreference(msg);
-                    break;
-             }
+            }
         }
 
         private void handleGetPreferredNetworkTypeResponse(Message msg) {
@@ -426,68 +367,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             //Set the Modem
             mPhone.setPreferredNetworkType(preferredNetworkMode,
                     this.obtainMessage(MyHandler.MESSAGE_SET_PREFERRED_NETWORK_TYPE));
-        }
-
-        private void handleQueryCdmaRoamingPreference(Message msg) {
-            mPhone = PhoneFactory.getDefaultPhone();
-            AsyncResult ar = (AsyncResult) msg.obj;
-
-            if (ar.exception == null) {
-                int statusCdmaRoamingMode = ((int[])ar.result)[0];
-                int settingsRoamingMode = android.provider.Settings.Secure.getInt(
-                        mPhone.getContext().getContentResolver(),
-                        android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                        PREFERRED_CDMA_ROAMING_MODE);
-                //check that statusCdmaRoamingMode is from an accepted value
-                if (statusCdmaRoamingMode == Phone.CDMA_RM_HOME ||
-                        statusCdmaRoamingMode == Phone.CDMA_RM_AFFILIATED ||
-                        statusCdmaRoamingMode == Phone.CDMA_RM_ANY ) {
-                    //check changes in statusCdmaRoamingMode and updates settingsRoamingMode
-                    if (statusCdmaRoamingMode != settingsRoamingMode) {
-                        settingsRoamingMode = statusCdmaRoamingMode;
-                        //changes the Settings.System accordingly to statusCdmaRoamingMode
-                        android.provider.Settings.Secure.putInt(
-                                mPhone.getContext().getContentResolver(),
-                                android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                                settingsRoamingMode );
-                    }
-                    //changes the mButtonPreferredNetworkMode accordingly to modemNetworkMode
-                    mButtonCdmaRoam.setValue(
-                            Integer.toString(statusCdmaRoamingMode));
-                } else {
-                    resetCdmaRoamingModeToDefault();
-                }
-            }
-        }
-
-        private void handleSetCdmaRoamingPreference(Message msg) {
-            mPhone = PhoneFactory.getDefaultPhone();
-            AsyncResult ar = (AsyncResult) msg.obj;
-
-            if (ar.exception == null) {
-                int cdmaRoamingMode = Integer.valueOf(mButtonCdmaRoam.getValue()).intValue();
-                android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
-                        android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                        cdmaRoamingMode );
-            } else {
-                mPhone.queryCdmaRoamingPreference(obtainMessage(MESSAGE_QUERY_ROAMING_PREFERENCE));
-            }
-        }
-
-        private void resetCdmaRoamingModeToDefault() {
-            mPhone = PhoneFactory.getDefaultPhone();
-            //set cdmaRoamingMode to default
-            int cdmaRoamingMode = PREFERRED_CDMA_ROAMING_MODE;
-            int statusCdmaRoamingMode = Phone.CDMA_RM_HOME;
-            //set the mButtonCdmaRoam
-            mButtonCdmaRoam.setValue(Integer.toString(cdmaRoamingMode));
-            //set the Settings.System
-            android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
-                        android.provider.Settings.Secure.CDMA_ROAMING_MODE,
-                        cdmaRoamingMode );
-            //Set the Status
-            mPhone.setCdmaRoamingPreference(statusCdmaRoamingMode,
-                    this.obtainMessage(MyHandler.MESSAGE_SET_ROAMING_PREFERENCE));
         }
     }
 

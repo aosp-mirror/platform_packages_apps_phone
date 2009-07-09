@@ -16,42 +16,42 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
         android:title="@string/mobile_networks">
-    
-    <CheckBoxPreference 
-        android:key="button_roaming_key" 
+
+    <CheckBoxPreference
+        android:key="button_roaming_key"
         android:title="@string/roaming"
         android:persistent="false"
         android:summaryOn="@string/roaming_enable"
         android:summaryOff="@string/roaming_disable"/>
-        
-    <ListPreference 
+
+    <ListPreference
         android:key="preferred_network_mode_key"
         android:title="@string/preferred_network_mode_title"
         android:summary="@string/preferred_network_mode_summary"
         android:entries="@array/preferred_network_mode_choices"
         android:entryValues="@array/preferred_network_mode_values"
         android:dialogTitle="@string/preferred_network_mode_dialogtitle" />
-        
-    <PreferenceScreen 
-        android:key="gsm_umts_options_key" 
+
+    <PreferenceScreen
+        android:key="gsm_umts_options_key"
         android:title="@string/gsm_umts_options"
         android:persistent="false">
-        
+
         <intent android:action="android.intent.action.MAIN"
             android:targetPackage="com.android.phone"
             android:targetClass="com.android.phone.GsmUmtsOptions" />
-        
+
     </PreferenceScreen>
-        
-    <PreferenceScreen 
-        android:key="cdma_options_key" 
+
+    <PreferenceScreen
+        android:key="cdma_options_key"
         android:title="@string/cdma_options"
         android:persistent="false">
-        
+
         <intent android:action="android.intent.action.MAIN"
             android:targetPackage="com.android.phone"
             android:targetClass="com.android.phone.CdmaOptions" />
-            
+
     </PreferenceScreen>
-        
+
 </PreferenceScreen>

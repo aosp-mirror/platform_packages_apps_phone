@@ -4,16 +4,16 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
- 
+
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Launcher labels -->
     <!-- Tab title -->
@@ -264,12 +264,12 @@
     <!-- Additional call settings screen, setting summary text when call waiting check box is selected -->
     <string name="sum_cw_enabled">During a call, notify me of incoming calls</string>
     <!-- Additional call settings screen, setting summary text when call waiting check box is clear -->
-    <string name="sum_cw_disabled">During a call, notify me of incoming calls</string>    
+    <string name="sum_cw_disabled">During a call, notify me of incoming calls</string>
     <!-- Call forwarding settings screen, section heading -->
     <string name="call_forwarding_settings">Call forwarding settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="labelCF">Call forwarding</string>
-    
+
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFU">Always forward</string>
     <!-- Call forwarding dialog box, text field label -->
@@ -280,8 +280,8 @@
     <string name="sum_cfu_enabled">Forwarding all calls to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when Always forward is disabled -->
     <string name="sum_cfu_disabled">Disabled</string>
-    
-    <!-- Call forwarding settings screen, setting option name -->    
+
+    <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFB">Forward when busy</string>
     <!-- Call forwarding dialog box, text field label -->
     <string name="messageCFB">Number when busy</string>
@@ -289,7 +289,7 @@
     <string name="sum_cfb_enabled">Forwarding to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when forwarding when busy is disabled -->
     <string name="sum_cfb_disabled">Disabled</string>
-    
+
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFNRy">Forward when unanswered</string>
     <!-- Call forwarding dialog box, text field label -->
@@ -298,7 +298,7 @@
     <string name="sum_cfnry_enabled">Forwarding to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when Forward when unanswered is disabled -->
     <string name="sum_cfnry_disabled">Disabled</string>
-    
+
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFNRc">Forward when unreachable</string>
     <!-- Call forwarding dialog box, text field label -->
@@ -426,30 +426,30 @@
     <string name="roaming_warning">Allow data roaming? You may incur significant roaming charges!</string>
     <string name="gsm_umts_options">GSM/UMTS Options</string>
     <string name="cdma_options">CDMA Options</string>
-    
+
     <!-- Cell broadcast SMS strings -->
     <string name="cdma_cell_broadcast_sms">Cell Broadcast SMS</string>
-    
+
     <string name="cell_broadcast_sms">Cell Broadcast SMS</string>
-    
+
     <string name="enable_disable_cell_bc_sms">Cell Broadcast SMS</string>
     <string name="cell_bc_sms_enable">Cell Broadcast SMS enabled</string>
     <string name="cell_bc_sms_disable">Cell Broadcast SMS disabled</string>
-    
+
     <string name="cb_sms_settings">Cell Broadcast SMS settings</string>
-    
+
     <string name="enable_disable_emergency_broadcast">Emergency Broadcast</string>
     <string name="emergency_broadcast_enable">Emergency Broadcast enabled</string>
     <string name="emergency_broadcast_disable">Emergency Broadcast disabled</string>
-    
+
     <string name="enable_disable_administrative">Administrative</string>
     <string name="administrative_enable">Administrative enabled</string>
     <string name="administrative_disable">Administrative disabled</string>
-    
+
     <string name="enable_disable_maintenance">Maintenance</string>
     <string name="maintenance_enable">Maintenance enabled</string>
     <string name="maintenance_disable">Maintenance disabled</string>
-    
+
     <string name="general_news_settings">General News</string>
     <string name="bf_news_settings">Business and Financial News</string>
     <string name="sports_news_settings">Sports News</string>
@@ -458,19 +458,19 @@
     <string name="enable_disable_local">Local</string>
     <string name="local_enable">Local news enabled</string>
     <string name="local_disable">Local news disabled</string>
-    
+
     <string name="enable_disable_regional">Regional</string>
     <string name="regional_enable">Regional news enabled</string>
     <string name="regional_disable">Regional news disabled</string>
-    
+
     <string name="enable_disable_national">National</string>
     <string name="national_enable">National news enabled</string>
     <string name="national_disable">National news disabled</string>
-    
+
     <string name="enable_disable_international">International</string>
     <string name="international_enable">International news enabled</string>
     <string name="international_disable">International news disabled</string>
-   
+
     <string name="list_language_title">Language</string>
     <string name="list_language_summary">Select the news language</string>
     <string-array name="list_language_entries">
@@ -496,47 +496,47 @@
     <string name="enable_disable_local_weather">Local Weather</string>
     <string name="local_weather_enable">Local Weather enabled</string>
     <string name="local_weather_disable">Local Weather disabled</string>
-    
+
     <string name="enable_disable_atr">Area Traffic Reports</string>
     <string name="atr_enable">Area Traffic Reports enabled</string>
     <string name="atr_disable">Area Traffic Reports disabled</string>
-    
+
     <string name="enable_disable_lafs">Local Airport Flight Schedules</string>
     <string name="lafs_enable">Local Airport Flight Schedules enabled</string>
     <string name="lafs_disable">Local Airport Flight Schedules disabled</string>
-    
+
     <string name="enable_disable_restaurants">Restaurants</string>
     <string name="restaurants_enable">Restaurants enabled</string>
     <string name="restaurants_disable">Restaurants disabled</string>
-    
+
     <string name="enable_disable_lodgings">Lodgings</string>
     <string name="lodgings_enable">Lodgings enabled</string>
     <string name="lodgings_disable">Lodgings disabled</string>
-    
+
     <string name="enable_disable_retail_directory">Retail Directory</string>
     <string name="retail_directory_enable">Retail Directory enabled</string>
     <string name="retail_directory_disable">Retail Directory disabled</string>
-    
+
     <string name="enable_disable_advertisements">Advertisements</string>
     <string name="advertisements_enable">Advertisements enabled</string>
     <string name="advertisements_disable">Advertisements disabled</string>
-    
+
     <string name="enable_disable_stock_quotes">Stock Quotes</string>
     <string name="stock_quotes_enable">Stock Quotes enabled</string>
     <string name="stock_quotes_disable">Stock Quotes disabled</string>
-    
+
     <string name="enable_disable_eo">Employment Opportunities</string>
     <string name="eo_enable">Employment Opportunities enabled</string>
     <string name="eo_disable">Employment Opportunities disabled</string>
-    
+
     <string name="enable_disable_mhh">Medical, Health and Hospital</string>
     <string name="mhh_enable">Medical, Health and Hospital enabled</string>
     <string name="mhh_disable">Medical, Health and Hospital disabled</string>
-    
+
     <string name="enable_disable_technology_news">Technology News</string>
     <string name="technology_news_enable">Technology News enabled</string>
     <string name="technology_news_disable">Technology News disabled</string>
-    
+
     <string name="enable_disable_multi_category">Multi-category</string>
     <string name="multi_category_enable">Multi-category enabled</string>
     <string name="multi_category_disable">Multi-category disabled</string>
@@ -557,6 +557,11 @@
         <item>"2"</item>
         <item>"3"</item>
     </string-array>
+
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="prefer_2g">Use only 2G networks</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="prefer_2g_summary">Saves battery</string>
 
     <!-- CDMA System select strings -->
     <!-- Mobile network settings screen, setting option name -->
@@ -582,7 +587,7 @@
         <item>"2"</item>
     </string-array>
 
-    <!-- CDMA Options strings --> 
+    <!-- CDMA Options strings -->
     <string name="cdma_roaming_mode_title">CDMA Roaming Mode</string>
     <string name="cdma_roaming_mode_summary">Change the cdma roaming mode</string>
     <string name="cdma_roaming_mode_dialogtitle">CDMA roaming mode</string>
@@ -619,7 +624,7 @@
     <string-array name="subscription_values">
         <item>"0"</item>
         <item>"1"</item>
-    </string-array>   
+    </string-array>
 
     <!-- FDN settings strings -->
     <!-- Call settings screen, setting option name -->
