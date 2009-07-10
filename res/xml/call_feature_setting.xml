@@ -130,38 +130,4 @@
            
     </PreferenceScreen>
 
-    <!-- Rearranged to allow for lazy queries. -->
-    <PreferenceScreen
-        android:key="button_cdma_more_expand_key"
-        android:title="@string/labelCDMAMore"
-        android:summary="@string/sum_cdma_call_settings"
-        android:persistent="false">
-        
-        <PreferenceCategory
-            android:title="@string/additional_cdma_call_settings"/>
-            
-        <CheckBoxPreference 
-            android:key="button_voice_privacy_key"
-            android:title="@string/voice_privacy"
-            android:persistent="false"
-            android:summary="@string/voice_privacy_summary"/>
-            
-<!--         <CheckBoxPreference 
-            android:key="button_tty_mode_key"
-            android:title="@string/tty_mode_title"
-            android:persistent="true"
-            android:summary="@string/tty_mode_summary"/>
--->            
-        <!-- CDMA TTY Options -->
-        <ListPreference
-            android:key="button_tty_mode_key"
-            android:title="@string/tty_mode_option_title"
-            android:summary="@string/tty_mode_option_summary"
-            android:persistent="false"
-            android:entries="@array/tty_mode_entries"
-            android:entryValues="@array/tty_mode_values" />
-
-    </PreferenceScreen>
-                    
-
 </PreferenceScreen>

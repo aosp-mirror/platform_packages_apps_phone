@@ -198,7 +198,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private EditPhoneNumberPreference mSubMenuVoicemailSettings;
     private PreferenceScreen mButtonCFExpand;
     private PreferenceScreen mButtonGSMMoreExpand;
-    private PreferenceScreen mButtonCDMAMoreExpand;
     private CheckBoxPreference mButtonVoicePrivacy;
     private CheckBoxPreference mButtonAutoRetry;
     private ListPreference mButtonTTY;
@@ -1384,10 +1383,6 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             mPhone.queryTTYMode(Message.obtain(mQueryTTYComplete, EVENT_TTY_EXECUTED));
             // TODO(Moto): Re-launch DTMF settings if necessary onResume
-        } else {
-            mButtonTTY.setEnabled(false);
-            mButtonVoicePrivacy.setChecked(false);
-            mButtonVoicePrivacy.setEnabled(false);
         }
 
     }
@@ -1414,28 +1409,28 @@ public class CallFeaturesSetting extends PreferenceActivity
         mSubMenuVoicemailSettings = (EditPhoneNumberPreference)
                 prefSet.findPreference(BUTTON_VOICEMAIL_KEY);
         mSubMenuFDNSettings = (PreferenceScreen) prefSet.findPreference(BUTTON_FDN_KEY);
-        mButtonVoicePrivacy = (CheckBoxPreference) findPreference(BUTTON_VP_KEY);
-
-        mButtonTTY = (ListPreference) prefSet.findPreference(BUTTON_TTY_KEY);
-        mButtonTTY.setOnPreferenceChangeListener(this);
-
-        // Get the ttyMode from Settings.System and displays it
-        int settingsTtyMode = android.provider.Settings.Secure.getInt(
-                mPhone.getContext().getContentResolver(),
-                android.provider.Settings.Secure.PREFERRED_TTY_MODE,
-                preferredTtyMode);
-        mButtonTTY.setValue(Integer.toString(settingsTtyMode));
-        UpdatePreferredTtyModeSummary(settingsTtyMode);
 
         if (mPhone.getPhoneName().equals("CDMA")) {
+            mButtonVoicePrivacy = (CheckBoxPreference) findPreference(BUTTON_VP_KEY);
+
+            mButtonTTY = (ListPreference) prefSet.findPreference(BUTTON_TTY_KEY);
+            mButtonTTY.setOnPreferenceChangeListener(this);
+
+            // Get the ttyMode from Settings.System and displays it
+            int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                    mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                    preferredTtyMode);
+            mButtonTTY.setValue(Integer.toString(settingsTtyMode));
+            UpdatePreferredTtyModeSummary(settingsTtyMode);
+
             mButtonDS = (ListPreference) findPreference(BUTTON_DS_KEY);
             int index = Settings.System.getInt(getContentResolver(),
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, preferredDtmfMode);
             mButtonDS.setValueIndex(index);
             mButtonDS.setOnPreferenceChangeListener(this);
             mButtonAutoRetry = (CheckBoxPreference) findPreference (BUTTON_RETRY_KEY);
-        }
-        if (mPhone.getPhoneName().equals("GSM")) {
+        } else if (mPhone.getPhoneName().equals("GSM")) {
             mButtonCLIR  = (ListPreference) prefSet.findPreference(BUTTON_CLIR_KEY);
             mButtonCW    = (CheckBoxPreference) prefSet.findPreference(BUTTON_CW_KEY);
             mButtonCFU   = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFU_KEY);
@@ -1447,13 +1442,9 @@ public class CallFeaturesSetting extends PreferenceActivity
             mButtonCFExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_CF_EXPAND_KEY);
             mButtonGSMMoreExpand = (PreferenceScreen) prefSet.findPreference(
                     BUTTON_GSM_MORE_EXPAND_KEY);
-            mButtonCDMAMoreExpand = (PreferenceScreen) prefSet.findPreference(
-                    BUTTON_CDMA_MORE_EXPAND_KEY);
 
             // The intent code that resided here in the past has been moved into the
             // more conventional location in network_setting.xml
-
-            mButtonVoicePrivacy.setEnabled(false);
 
             // Set links to the current activity and any UI settings that
             // effect the dialog for each preference.  Also set the
@@ -1518,10 +1509,10 @@ public class CallFeaturesSetting extends PreferenceActivity
         mAppState = AppState.INPUT_READY;
 
         if (icicle != null) {
-            if (mButtonVoicePrivacy != null) {
+            if (mPhone.getPhoneName().equals("CDMA")) {
                 mButtonVoicePrivacy.setChecked(icicle.getBoolean(BUTTON_VP_KEY));
-            }
-            if (mPhone.getPhoneName().equals("GSM")) {
+                mButtonAutoRetry.setChecked(icicle.getBoolean(BUTTON_RETRY_KEY));
+            } else if (mPhone.getPhoneName().equals("GSM")) {
                 // retrieve number state
                 mDialingNumCFU = icicle.getString(SUMMARY_CFU_KEY);
                 mDialingNumCFB = icicle.getString(SUMMARY_CFB_KEY);
@@ -1543,15 +1534,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 if (mButtonCW != null) {
                     mButtonCW.setChecked(icicle.getBoolean(BUTTON_CW_KEY));
                 }
-                if (mButtonVoicePrivacy != null) {
-                    mButtonVoicePrivacy.setEnabled(false);
-                }
+
                 mCFDataStale = icicle.getBoolean(BUTTON_CF_EXPAND_KEY);
                 mMoreDataStale = icicle.getBoolean(BUTTON_GSM_MORE_EXPAND_KEY);
-            }
-
-            if (mPhone.getPhoneName().equals("CDMA")) {
-                mButtonAutoRetry.setChecked(icicle.getBoolean(BUTTON_RETRY_KEY));
             }
 
             // set app state
@@ -1581,15 +1566,12 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         if (DBG) log("onSaveInstanceState: saving relevant UI state.");
 
-        if (mButtonVoicePrivacy != null) {
-            outState.putBoolean(BUTTON_VP_KEY, mButtonVoicePrivacy.isChecked());
-        }
-        if (mButtonTTY != null) {
-            outState.putInt(BUTTON_TTY_KEY, mButtonTTY.findIndexOfValue(mButtonTTY.getValue()));
-        }
-
         // save button state
-        if (mPhone.getPhoneName().equals("GSM")) {
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            outState.putBoolean(BUTTON_VP_KEY, mButtonVoicePrivacy.isChecked());
+            outState.putInt(BUTTON_TTY_KEY, mButtonTTY.findIndexOfValue(mButtonTTY.getValue()));
+            outState.putBoolean(BUTTON_RETRY_KEY, mButtonAutoRetry.isChecked());
+        } else if (mPhone.getPhoneName().equals("GSM")) {
             if (mButtonCLIR != null) {
                 outState.putInt(BUTTON_CLIR_KEY, mButtonCLIR.findIndexOfValue(mButtonCLIR.getValue()));
             }
@@ -1617,10 +1599,6 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             outState.putBoolean(BUTTON_CF_EXPAND_KEY, mCFDataStale);
             outState.putBoolean(BUTTON_GSM_MORE_EXPAND_KEY, mMoreDataStale);
-        }
-
-        if (mPhone.getPhoneName().equals("CDMA")) {
-            outState.putBoolean(BUTTON_RETRY_KEY, mButtonAutoRetry.isChecked());
         }
 
         // save state of the app
