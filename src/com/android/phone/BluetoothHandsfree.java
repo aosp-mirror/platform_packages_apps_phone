@@ -366,7 +366,7 @@ public class BluetoothHandsfree {
             // register for updates
             mPhone.registerForServiceStateChanged(mStateChangeHandler,
                                                   SERVICE_STATE_CHANGED, null);
-            mPhone.registerForPhoneStateChanged(mStateChangeHandler,
+            mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
                                                 PHONE_STATE_CHANGED, null);
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
@@ -378,11 +378,13 @@ public class BluetoothHandsfree {
 
             //Unregister all events from the old obsolete phone
             mPhone.unregisterForServiceStateChanged(mStateChangeHandler);
-            mPhone.unregisterForPhoneStateChanged(mStateChangeHandler);
+            mPhone.unregisterForPreciseCallStateChanged(mStateChangeHandler);
 
             //Register all events new to the new active phone
-            mPhone.registerForServiceStateChanged(mStateChangeHandler, SERVICE_STATE_CHANGED, null);
-            mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
+            mPhone.registerForServiceStateChanged(mStateChangeHandler,
+                                                  SERVICE_STATE_CHANGED, null);
+            mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
+                                                      PHONE_STATE_CHANGED, null);
         }
 
         private boolean sendUpdate() {
@@ -1873,6 +1875,3 @@ public class BluetoothHandsfree {
         Log.d(TAG, msg);
     }
 }
-
-
-

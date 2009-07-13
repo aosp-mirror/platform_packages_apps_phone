@@ -867,7 +867,7 @@ public class InCallScreen extends Activity
 
     private void registerForPhoneStates() {
         if (!mRegisteredForPhoneStates) {
-            mPhone.registerForPhoneStateChanged(mHandler, PHONE_STATE_CHANGED, null);
+            mPhone.registerForPreciseCallStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
             if (mPhone.getPhoneName().equals("GSM")) {
                 mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
@@ -890,7 +890,7 @@ public class InCallScreen extends Activity
     }
 
     private void unregisterForPhoneStates() {
-        mPhone.unregisterForPhoneStateChanged(mHandler);
+        mPhone.unregisterForPreciseCallStateChanged(mHandler);
         mPhone.unregisterForDisconnect(mHandler);
         mPhone.unregisterForMmiInitiate(mHandler);
         mPhone.unregisterForCallWaiting(mHandler);

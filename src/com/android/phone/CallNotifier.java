@@ -135,7 +135,7 @@ public class CallNotifier extends Handler
 
         mPhone = phone;
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
-        mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
+        mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
@@ -558,7 +558,7 @@ public class CallNotifier extends Handler
         if (DBG) Log.d(LOG_TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
         // Unregister all events from the old obsolete phone
         mPhone.unregisterForNewRingingConnection(this);
-        mPhone.unregisterForPhoneStateChanged(this);
+        mPhone.unregisterForPreciseCallStateChanged(this);
         mPhone.unregisterForDisconnect(this);
         mPhone.unregisterForUnknownConnection(this);
         mPhone.unregisterForIncomingRing(this);
@@ -576,7 +576,7 @@ public class CallNotifier extends Handler
 
         // Register all events new to the new active phone
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
-        mPhone.registerForPhoneStateChanged(this, PHONE_STATE_CHANGED, null);
+        mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);

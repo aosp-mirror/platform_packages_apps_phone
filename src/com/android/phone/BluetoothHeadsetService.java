@@ -107,7 +107,7 @@ public class BluetoothHeadsetService extends Service {
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         registerReceiver(mBluetoothIntentReceiver, filter);
 
-        mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
+        mPhone.registerForPreciseCallStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
     }
 
     @Override
