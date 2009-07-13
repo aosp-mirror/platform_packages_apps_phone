@@ -21,7 +21,7 @@
     <string name="emergencyDialerIconLabel">"Numery alarmowe"</string>
     <string name="phoneIconLabel">"Telefon"</string>
     <string name="recentCallsIconLabel">"Dziennik połączeń"</string>
-    <string name="fdnListLabel">"Ustalone numery (FDN)"</string>
+    <string name="fdnListLabel">"Ustalone numery"</string>
     <string name="unknown">"Nieznany"</string>
     <string name="private_num">"Numer prywatny"</string>
     <string name="payphone">"Płatny telefon"</string>
@@ -31,19 +31,33 @@
     <string name="callFailed_congestion">"Sieć zajęta"</string>
     <string name="callFailed_noSignal">"Brak sygnału"</string>
     <string name="callFailed_limitExceeded">"Przekroczono limit ACM"</string>
-    <string name="callFailed_powerOff">"Radio wyłączone"</string>
+    <string name="callFailed_powerOff">"Sieci bezprzewodowe są wyłączone"</string>
     <string name="callFailed_simError">"Brak lub błąd karty SIM"</string>
     <string name="callFailed_outOfService">"Obszar nieobsługiwany"</string>
-    <string name="callFailed_fdn_only">"Połączenia są ograniczone do ustalonych numerów (FDN)."</string>
+    <string name="callFailed_fdn_only">"Połączenia są ograniczone do listy ustalonych numerów."</string>
     <string name="callFailed_cb_enabled">"Nie można wykonywać połączeń wychodzących, gdy włączona jest blokada dzwonienia."</string>
     <string name="callFailed_dsac_restricted">"Wszystkie połączenia są zablokowane przez funkcję kontroli dostępu."</string>
     <string name="callFailed_dsac_restricted_emergency">"Połączenia alarmowe są zablokowane przez funkcję kontroli dostępu."</string>
     <string name="callFailed_dsac_restricted_normal">"Zwykłe połączenia są zablokowane przez funkcję kontroli dostępu."</string>
-    <string name="confCall">"Rozmowa konferencyjna"</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle">"CDMA: telefon zablokowany do momentu ponownego uruchomienia."</string>
+    <string name="callFailed_cdma_drop">"CDMA: połączenie porzucone."</string>
+    <string name="callFailed_cdma_intercept">"CDMA: połączenie przechwycone."</string>
+    <string name="callFailed_cdma_reorder">"CDMA: zmiana kolejności."</string>
+    <string name="callFailed_cdma_SO_reject">"CDMA: odrzucenie opcji usługi."</string>
+    <string name="callFailed_cdma_retryOrder">"CDMA: kolejność ponawiania próby."</string>
+    <string name="callFailed_cdma_accessFailure">"CDMA: niepowodzenie dostępu."</string>
+    <string name="callFailed_cdma_preempted">"CDMA: zajęte."</string>
+    <string name="callFailed_cdma_notEmergency">"Możliwe jest wykonywanie tylko połączeń alarmowych."</string>
+    <string name="confCall">"Poł. konferencyjne"</string>
     <string name="mmiStarted">"Kod MMI został rozpoczęty"</string>
     <string name="ussdRunning">"Uruchomiony kod USSD..."</string>
     <string name="mmiCancelled">"Kod MMI został anulowany"</string>
     <string name="cancel">"Anuluj"</string>
+    <string name="ecbm_mode_text">"Alarmowe połączenie zwrotne"</string>
+    <string name="ecbm_exit_text">"ZAKOŃCZ"</string>
+    <string name="ecbm_ok_text">"OK"</string>
+    <string name="ecbm_emergency_number">"Wybierz numer 112"</string>
+    <string name="ecbm_instruction_text">"Naciśnij przycisk, aby wykonać połączenie alarmowe"</string>
     <string name="menu_speaker">"Głośnik"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Wycisz"</string>
@@ -55,11 +69,13 @@
     <string name="menu_manageConference">"Zarządzanie rozmową konferencyjną"</string>
     <string name="menu_showDialpad">"Pokaż panel wybierania numeru"</string>
     <string name="menu_hideDialpad">"Ukryj panel wybierania numeru"</string>
-    <string name="menu_answerAndHold">"Zawieś bieżące połączenie"\n"i odpowiedz"</string>
-    <string name="menu_answerAndEnd">"Zakończ bieżące połączenie"\n"i odpowiedz"</string>
+    <string name="menu_answerAndHold">"Zawieś bieżące poł."\n"i odpowiedz"</string>
+    <string name="menu_answerAndEnd">"Zakończ bieżące poł."\n"i odpowiedz"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Naciśnij Menu, aby zobaczyć opcje połączenia."</string>
     <string name="menuButtonKeyboardDialHint">"Naciśnij Menu, aby wyświetlić opcje połączenia • Użyj klawiatury, aby wybrać numer"</string>
+    <string name="menu_answer">"Odbierz"</string>
+    <string name="menu_ignore">"Ignoruj"</string>
     <string name="wait_prompt_str">"Wysłać następujące dzwonki?"\n</string>
     <string name="send_button">"Wyślij"</string>
     <string name="wild_prompt_str">"Zastąp symbol wieloznaczny"</string>
@@ -83,14 +99,20 @@
     <string name="unlock_failed">"Żądanie odblokowania sieci zakończyło się niepowodzeniem."</string>
     <string name="unlock_success">"Sieć została pomyślnie odblokowana."</string>
     <string name="imei">"IMEI"</string>
+    <string name="labelGSMMore">"Ustawienia połączenia GSM"</string>
+    <string name="labelCDMAMore">"Ustawienia połączenia CDMA"</string>
     <string name="apn_settings">"Punkty dostępowe"</string>
     <string name="settings_label">"Ustawienia sieci"</string>
     <string name="voicemail">"Poczta głosowa"</string>
     <string name="voicemail_abbreviated">"Poczta głosowa:"</string>
     <string name="networks">"Operatorzy sieci"</string>
     <string name="call_settings">"Ustawienia połączeń"</string>
+    <string name="additional_gsm_call_settings">"Dodatkowe ustawienia połączenia GSM"</string>
+    <string name="sum_gsm_call_settings">"Dodatkowe ustawienia tylko połączenia GSM"</string>
+    <string name="additional_cdma_call_settings">"Dodatkowe ustawienia połączenia CDMA"</string>
+    <string name="sum_cdma_call_settings">"Dodatkowe ustawienia tylko połączenia CDMA"</string>
     <string name="labelNwService">"Ustawienia usługi sieciowej"</string>
-    <string name="labelCallerId">"ID dzwoniącego"</string>
+    <string name="labelCallerId">"ID rozmówcy"</string>
     <string name="sum_hide_caller_id">"Ukrycie numeru podczas rozmów wychodzących"</string>
     <string name="sum_show_caller_id">"Numer wyświetlany w połączeniach wychodzących"</string>
     <string name="sum_default_caller_id">"Użyj domyślnych ustawień operatora, aby wyświetlać mój numer w połączeniach wychodzących"</string>
@@ -104,15 +126,15 @@
     <string name="sum_cfu_enabled_indicator">"Przekierowanie wszystkich rozmów"</string>
     <string name="sum_cfu_enabled">"Przekierowanie wszystkich rozmów do {0}"</string>
     <string name="sum_cfu_disabled">"Wyłączone"</string>
-    <string name="labelCFB">"Przekieruj gdy zajęty"</string>
+    <string name="labelCFB">"Przekieruj, gdy zajęty"</string>
     <string name="messageCFB">"Numer, gdy zajęty"</string>
     <string name="sum_cfb_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfb_disabled">"Wyłączone"</string>
-    <string name="labelCFNRy">"Przekieruj gdy nieodebrane"</string>
+    <string name="labelCFNRy">"Przekieruj, gdy nieodebrane"</string>
     <string name="messageCFNRy">"Numer, gdy nieodebrane"</string>
     <string name="sum_cfnry_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnry_disabled">"Wyłączone"</string>
-    <string name="labelCFNRc">"Przekieruj gdy nieosiągalny"</string>
+    <string name="labelCFNRc">"Przekieruj, gdy nieosiągalny"</string>
     <string name="messageCFNRc">"Numer, gdy nieosiągalny."</string>
     <string name="sum_cfnrc_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnrc_disabled">"Wyłączone"</string>
@@ -120,9 +142,9 @@
     <string name="error_updating_title">"Błąd w ustawieniach połączenia"</string>
     <string name="reading_settings">"Czytanie ustawień..."</string>
     <string name="updating_settings">"Aktualizowanie ustawień..."</string>
-    <string name="response_error">"Nieoczekiwana odpowiedź sieci,"</string>
+    <string name="response_error">"Nieoczekiwana odpowiedź z sieci."</string>
     <string name="exception_error">"Błąd sieci lub karty SIM."</string>
-    <string name="radio_off_error">"Przed wyświetleniem tych ustawień należy włączyć radio."</string>
+    <string name="radio_off_error">"Przed wyświetleniem tych ustawień należy włączyć sieci bezprzewodowe."</string>
     <string name="close_dialog">"OK"</string>
     <string name="enable">"Włącz"</string>
     <string name="disable">"Wyłącz"</string>
@@ -150,26 +172,207 @@
     <string name="sum_search_networks">"Wyszukaj wszystkie dostępne sieci"</string>
     <string name="select_automatically">"Wybierz automatycznie"</string>
     <string name="sum_select_automatically">"Wybierz automatycznie preferowaną sieć"</string>
-    <string name="register_automatically">"Automatyczne rejestrowanie..."</string>
+    <string name="register_automatically">"Automatyczna rejestracja..."</string>
+    <string name="preferred_network_mode_title">"Tryb sieci"</string>
+    <string name="preferred_network_mode_summary">"Zmień tryb działania sieci"</string>
+    <string name="preferred_network_mode_dialogtitle">"Preferowany tryb sieci"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item>"Globalne"</item>
+    <item>"Tylko EvDo"</item>
+    <item>"CDMA bez EvDo"</item>
+    <item>"Automatyczny CDMA/EvDo"</item>
+    <item>"Automatyczny GSM/WCDMA"</item>
+    <item>"Tylko WCDMA"</item>
+    <item>"Tylko GSM"</item>
+    <item>"Preferowany GSM/WCDMA"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item>"7"</item>
+    <item>"6"</item>
+    <item>"5"</item>
+    <item>"4"</item>
+    <item>"3"</item>
+    <item>"2"</item>
+    <item>"1"</item>
+    <item>"0"</item>
+  </string-array>
     <string name="roaming">"Dane w roamingu"</string>
     <string name="roaming_enable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_disable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_reenable_message">"Utracono łączność danych, ponieważ pozostawiono wyłączony roaming danych w sieci macierzystej."</string>
     <string name="roaming_warning">"Czy pozwolić na przesył danych w roamingu? Operator może naliczać wysokie opłaty roamingowe!"</string>
-
+    <string name="gsm_umts_options">"Opcje GSM/UMTS"</string>
+    <string name="cdma_options">"Opcje CDMA"</string>
+    <string name="cdma_cell_broadcast_sms">"Wiadomość SMS transmisji komórkowej"</string>
+    <string name="cell_broadcast_sms">"Wiadomość SMS transmisji komórkowej"</string>
+    <string name="enable_disable_cell_bc_sms">"Wiadomość SMS transmisji komórkowej"</string>
+    <string name="cell_bc_sms_enable">"Wiadomość SMS transmisji komórkowej włączona"</string>
+    <string name="cell_bc_sms_disable">"Wiadomość SMS transmisji komórkowej wyłączona"</string>
+    <string name="cb_sms_settings">"Ustawienia wiadomości SMS transmisji komórkowej"</string>
+    <string name="enable_disable_emergency_broadcast">"Transmisja alarmowa"</string>
+    <string name="emergency_broadcast_enable">"Transmisja alarmowa włączona"</string>
+    <string name="emergency_broadcast_disable">"Transmisja alarmowa wyłączona"</string>
+    <string name="enable_disable_administrative">"Administracja"</string>
+    <string name="administrative_enable">"Administracja włączona"</string>
+    <string name="administrative_disable">"Administracja wyłączona"</string>
+    <string name="enable_disable_maintenance">"Konserwacja"</string>
+    <string name="maintenance_enable">"Konserwacja włączona"</string>
+    <string name="maintenance_disable">"Konserwacja wyłączona"</string>
+    <string name="general_news_settings">"Wiadomości ogólne"</string>
+    <string name="bf_news_settings">"Wiadomości biznesowe i finansowe"</string>
+    <string name="sports_news_settings">"Wiadomości sportowe"</string>
+    <string name="entertainment_news_settings">"Wiadomości rozrywkowe"</string>
+    <string name="enable_disable_local">"Lokalne"</string>
+    <string name="local_enable">"Wiadomości lokalne włączone"</string>
+    <string name="local_disable">"Wiadomości lokalne wyłączone"</string>
+    <string name="enable_disable_regional">"Regionalne"</string>
+    <string name="regional_enable">"Wiadomości regionalne włączone"</string>
+    <string name="regional_disable">"Wiadomości regionalne wyłączone"</string>
+    <string name="enable_disable_national">"Krajowe"</string>
+    <string name="national_enable">"Wiadomości krajowe włączone"</string>
+    <string name="national_disable">"Wiadomości krajowe wyłączone"</string>
+    <string name="enable_disable_international">"Międzynarodowe"</string>
+    <string name="international_enable">"Wiadomości międzynarodowe włączone"</string>
+    <string name="international_disable">"Wiadomości międzynarodowe wyłączone"</string>
+    <string name="list_language_title">"Język"</string>
+    <string name="list_language_summary">"Wybierz język wiadomości"</string>
+  <string-array name="list_language_entries">
+    <item>"Angielski"</item>
+    <item>"francuski"</item>
+    <item>"hiszpański"</item>
+    <item>"japoński"</item>
+    <item>"koreański"</item>
+    <item>"chiński"</item>
+    <item>"hebrajski"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+    <item>"4"</item>
+    <item>"5"</item>
+    <item>"6"</item>
+    <item>"7"</item>
+  </string-array>
+    <string name="list_language_dtitle">"Języki"</string>
+    <string name="enable_disable_local_weather">"Lokalna prognoza pogody"</string>
+    <string name="local_weather_enable">"Lokalna prognoza pogody włączona"</string>
+    <string name="local_weather_disable">"Lokalna prognoza pogody wyłączona"</string>
+    <string name="enable_disable_atr">"Raporty o natężeniu ruchu"</string>
+    <string name="atr_enable">"Raporty o natężeniu ruchu włączone"</string>
+    <string name="atr_disable">"Raporty o natężeniu ruchu wyłączone"</string>
+    <string name="enable_disable_lafs">"Rozkład lotów z lokalnego lotniska"</string>
+    <string name="lafs_enable">"Rozkład lotów z lokalnego lotniska włączony"</string>
+    <string name="lafs_disable">"Rozkład lotów z lokalnego lotniska wyłączony"</string>
+    <string name="enable_disable_restaurants">"Restauracje"</string>
+    <string name="restaurants_enable">"Restauracje włączone"</string>
+    <string name="restaurants_disable">"Restauracje wyłączone"</string>
+    <string name="enable_disable_lodgings">"Kwatery"</string>
+    <string name="lodgings_enable">"Kwatery włączone"</string>
+    <string name="lodgings_disable">"Kwatery wyłączone"</string>
+    <string name="enable_disable_retail_directory">"Katalog sprzedaży detalicznej"</string>
+    <string name="retail_directory_enable">"Katalog sprzedaży detalicznej włączony"</string>
+    <string name="retail_directory_disable">"Katalog sprzedaży detalicznej wyłączony"</string>
+    <string name="enable_disable_advertisements">"Reklamy"</string>
+    <string name="advertisements_enable">"Reklamy włączone"</string>
+    <string name="advertisements_disable">"Reklamy wyłączone"</string>
+    <string name="enable_disable_stock_quotes">"Notowania giełdowe"</string>
+    <string name="stock_quotes_enable">"Notowania giełdowe włączone"</string>
+    <string name="stock_quotes_disable">"Notowania giełdowe wyłączone"</string>
+    <string name="enable_disable_eo">"Oferty pracy"</string>
+    <string name="eo_enable">"Oferty pracy włączone"</string>
+    <string name="eo_disable">"Oferty pracy wyłączone"</string>
+    <string name="enable_disable_mhh">"Placówki medyczne, zakłady opieki zdrowotnej i szpitale"</string>
+    <string name="mhh_enable">"Placówki medyczne, zakłady opieki zdrowotnej i szpitale włączone"</string>
+    <string name="mhh_disable">"Placówki medyczne, zakłady opieki zdrowotnej i szpitale wyłączone"</string>
+    <string name="enable_disable_technology_news">"Wiadomości technologiczne"</string>
+    <string name="technology_news_enable">"Wiadomości technologiczne włączone"</string>
+    <string name="technology_news_disable">"Wiadomości technologiczne wyłączone"</string>
+    <string name="enable_disable_multi_category">"Obsługa wielu kategorii"</string>
+    <string name="multi_category_enable">"Obsługa wielu kategorii włączona"</string>
+    <string name="multi_category_disable">"Obsługa wielu kategorii wyłączona"</string>
+    <string name="gsm_umts_network_preferences_title">"Ustawienia sieci GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferneces_summary">"Funkcja jeszcze niezaimplementowana."</string>
+    <string name="gsm_umts_network_preferences_dialogtitle">"Ustawienia sieci GSM/UMTS"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item>"GSM/WCDMA (tryb automatyczny)"</item>
+    <item>"Tylko WCDMA"</item>
+    <item>"Tylko GSM"</item>
+    <item>"GSM/WCDA (preferowany WCDMA)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+  </string-array>
+    <string name="cdma_system_select_title">"Wybór systemu"</string>
+    <string name="cdma_system_select_summary">"Zmień tryb roamingu CDMA"</string>
+    <string name="cdma_system_select_dialogtitle">"Wybór systemu"</string>
+  <string-array name="cdma_system_select_choices">
+    <item>"Tylko główne"</item>
+    <item>"Automatyczny"</item>
+  </string-array>
+  <string-array name="cdma_system_select_values">
+    <item>"0"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title">"Tryb roamingu CDMA"</string>
+    <string name="cdma_roaming_mode_summary">"Zmień tryb roamingu CDMA"</string>
+    <string name="cdma_roaming_mode_dialogtitle">"Tryb roamingu CDMA"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item>"Tylko sieci domowe"</item>
+    <item>"Sieci stowarzyszone"</item>
+    <item>"Dowolna sieć"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title">"Ustawienia sieci CDMA"</string>
+    <string name="cdma_network_preferneces_summary">"Funkcja jeszcze niezaimplementowana."</string>
+    <string name="cdma_network_preferences_dialogtitle">"Ustawienia sieci CDMA"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item>"CDMA/EvDo"</item>
+    <item>"Tylko CDMA"</item>
+    <item>"Tylko EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="subscription_title">"TEST subskrypcji CDMA"</string>
+    <string name="subscription_summary">"Zmiana między RUIM/SIM i NV"</string>
+    <string name="subscription_dialogtitle">"subskrypcja"</string>
+  <string-array name="subscription_choices">
+    <item>"RUIM/SIM"</item>
+    <item>"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item>"0"</item>
+    <item>"1"</item>
+  </string-array>
     <string name="fdn">"Ustalone numery"</string>
-    <string name="manage_fdn_list">"Ustalone numery (FDN)"</string>
-    <string name="fdn_activation">"Aktywacja usługi ustalnych numerów (FDN)"</string>
+    <string name="manage_fdn_list">"Ustalone numery"</string>
+    <string name="fdn_activation">"Aktywacja usługi ustalonych numerów"</string>
     <string name="fdn_enabled">"Włączono tryb ustalonych numerów"</string>
     <string name="fdn_disabled">"Wyłączono tryb ustalonych numerów"</string>
-    <string name="enable_fdn">"Włącz ustalone numery (FDN)"</string>
-    <string name="disable_fdn">"Wyłącz usługę ustalonych numerów (FDN)"</string>
+    <string name="enable_fdn">"Włącz ustalone numery"</string>
+    <string name="disable_fdn">"Wyłącz usługę ustalonych numerów"</string>
     <string name="change_pin2">"Zmień PIN2"</string>
-    <string name="enable_fdn_ok">"Wyłącz usługę wybierania ustalonego (FDN)"</string>
-    <string name="disable_fdn_ok">"Włącz ustalone numery (FDN)"</string>
+    <string name="enable_fdn_ok">"Wyłącz usługę ustalonych numerów"</string>
+    <string name="disable_fdn_ok">"Włącz ustalone numery"</string>
     <string name="sum_fdn">"Zarządzanie ustalonymi numerami"</string>
-    <string name="sum_fdn_change_pin">"Zmień kod PIN pozwalający na zarządzanie ustalonymi numerami (FDN)"</string>
+    <string name="sum_fdn_change_pin">"Zmień kod PIN pozwalający na zarządzanie ustalonymi numerami"</string>
     <string name="sum_fdn_manage_list">"Zarządzanie listą numerów telefonów"</string>
+    <string name="voice_privacy">"Prywatność połączeń głosowych"</string>
+    <string name="voice_privacy_summary">"Włącz rozszerzony tryb prywatności"</string>
+    <string name="tty_mode_title">"Tryb TTY"</string>
+    <string name="tty_mode_summary">"Włącz tryb TTY"</string>
+    <string name="tty_mode_option_title">"Tryb TTY"</string>
+    <string name="tty_mode_option_summary">"Ustaw tryb TTY"</string>
     <string name="menu_add">"Dodaj kontakt"</string>
     <string name="menu_edit">"Edytuj kontakt"</string>
     <string name="menu_delete">"Usuń kontakt"</string>
@@ -189,7 +392,7 @@
     <string name="pin2_invalid">"Błędny kod PIN2!"</string>
     <string name="fdn_invalid_number">"Numer nie może być dłuższy niż 20 cyfr."</string>
     <string name="simContacts_emptyLoading">"Czytanie z karty SIM..."</string>
-    <string name="simContacts_empty">"Brak kontaktów na karcie SIM."</string>
+    <string name="simContacts_empty">"Brak kontaktów na karcie SIM"</string>
     <string name="simContacts_title">"Wybierz kontakty do importowania"</string>
     <string name="enable_pin">"Włącz/wyłącz kod PIN do karty SIM"</string>
     <string name="change_pin">"Zmień kod PIN do karty SIM"</string>
@@ -222,7 +425,7 @@
     <string name="fdn_enable_puk2_requested">"Błędne hasło, zmień kod PIN2 i spróbuj ponownie!"</string>
     <string name="puk2_requested">"Błędne hasło, karta SIM jest zablokowana! Wymagany kod PUK2."</string>
     <string name="doneButton">"Gotowe"</string>
-    <string name="caller_manage_header">"Rozmowa konferencyjna <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_header">"Poł. konferencyjne <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Powrót do połączenia"</string>
     <string name="sim_missing_continueView_text">"Kontynuuj bez karty SIM"</string>
     <string name="sim_missing_msg_text">"Nie znaleziono karty SIM. Należy włożyć kartę SIM do telefonu."</string>
@@ -232,11 +435,13 @@
     <string name="voicemail_settings_number_label">"Numer poczty głosowej"</string>
     <string name="card_title_dialing">"Wybieranie"</string>
     <string name="card_title_in_progress">"Bieżące połączenie"</string>
-    <string name="card_title_conf_call">"Rozmowa konferencyjna"</string>
-    <string name="card_title_incoming_call">"Poł. przychodzące"</string>
+    <string name="card_title_conf_call">"Poł. konferencyjne"</string>
+    <string name="card_title_incoming_call">"Połączenie"</string>
+    <string name="card_title_cdma_call_waiting">"Oczekujące połączenie CDMA"</string>
     <string name="card_title_call_ended">"Połączenie zakończone"</string>
     <string name="card_title_on_hold">"Oczekujące"</string>
     <string name="card_title_hanging_up">"Trwa rozłączanie"</string>
+    <string name="card_title_in_call">"Trwa połączenie"</string>
     <string name="notification_missedCallTitle">"Nieodebrane połączenie"</string>
     <string name="notification_missedCallsTitle">"Połączenia nieodebrane"</string>
     <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> nieodebranych połączeń"</string>
@@ -244,6 +449,7 @@
     <string name="notification_ongoing_call_format">"Bieżące połączenie (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"Oczekujące"</string>
     <string name="notification_voicemail_title">"Nowa poczta głosowa"</string>
+    <string name="notification_voicemail_title_count">"Nowa poczta głosowa (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format">"Zadzwoń do <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number">"Nieznany numer poczty głosowej"</string>
     <string name="incall_error_power_off">"Aby rozpocząć połączenie, wyłącz najpierw tryb samolotowy"</string>
@@ -251,6 +457,7 @@
     <string name="incall_error_no_phone_number_supplied">"Połączenie niezrealizowane, nie wprowadzono poprawnego numeru."</string>
     <string name="incall_error_call_failed">"Połączenie nie zostało zrealizowane."</string>
     <string name="incall_status_dialed_mmi">"Rozpoczynanie sekwencji MMI..."</string>
+    <string name="incall_status_dialed_fc">"Trwa rozpoczynanie sekwencji kodu funkcji…"</string>
     <string name="incall_error_supp_service_unknown">"Nieobsługiwana usługa."</string>
     <string name="incall_error_supp_service_switch">"Nie można przełączyć rozmów."</string>
     <string name="incall_error_supp_service_separate">"Nie można rozdzielić połączenia."</string>
@@ -259,17 +466,31 @@
     <string name="incall_error_supp_service_reject">"Nie można odrzucić połączenia."</string>
     <string name="incall_error_supp_service_hangup">"Nie można zakończyć połączenia (połączeń)."</string>
     <string name="emergency_enable_radio_dialog_title">"Połączenie alarmowe"</string>
-    <string name="emergency_enable_radio_dialog_message">"Trwa włączanie radia…"</string>
+    <string name="emergency_enable_radio_dialog_message">"Trwa włączanie sieci bezprzewodowych..."</string>
     <string name="emergency_enable_radio_dialog_retry">"Obszar nieobsługiwany, ponowna próba..."</string>
     <string name="dial_emergency_error">"Połączenie niezrealizowane, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> nie jest numerem alarmowym!"</string>
     <string name="dial_emergency_empty_error">"Połączenie niezrealizowane, należy wybrać numer alarmowy!"</string>
     <string name="dialerKeyboardHintText">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="dtmfDialpadHintText">"Dotknij klawiatury"</string>
     <string name="dtmfDialpadHandleLabel">"Panel numeryczny"</string>
-    <string name="touchLockText">"Dotknij dwukrotnie,"\n" aby odblokować"</string>
+    <string name="touchLockText">"Dotknij dwukrotnie,"\n"aby odblokować"</string>
+    <string name="onscreenAnswerText">"Dotknij dwukrotnie,"\n"aby odebrać"</string>
     <string name="importSimEntry">"Importuj"</string>
     <string name="importAllSimEntries">"Importuj wszystko"</string>
     <string name="importingSimContacts">"Importowanie kontaktów z karty SIM"</string>
     <string name="importToFDNfromContacts">"Importuj z Kontaktów"</string>
+  <string-array name="tty_mode_entries">
+    <item>"TTY wyłączony"</item>
+    <item>"TTY HCO"</item>
+    <item>"TTY VCO"</item>
+    <item>"TTY pełny"</item>
+  </string-array>
+    <string name="eri_text_label">"Tekst ERI"</string>
+    <string name="dtmf_tones_title">"Sygnały DTMF"</string>
+    <string name="dtmf_tones_summary">"Ustaw długość sygnałów DTMF"</string>
+  <string-array name="dtmf_tone_entries">
+    <item>"Normalne"</item>
+    <item>"Długie"</item>
+  </string-array>
+    <string name="network_message">"Komunikat sieciowy"</string>
 </resources>
-

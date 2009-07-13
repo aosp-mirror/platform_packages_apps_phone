@@ -15,30 +15,30 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"Contatos"</string>
-    <string name="contactsFavoritesLabel">"Favoritos"</string>
-    <string name="dialerIconLabel">"Discador"</string>
-    <string name="emergencyDialerIconLabel">"Discador de emergência"</string>
-    <string name="phoneIconLabel">"Telefone"</string>
-    <string name="recentCallsIconLabel">"Registro de chamadas"</string>
-    <string name="fdnListLabel">"Lista FDN"</string>
-    <string name="unknown">"Desconhecido"</string>
-    <string name="private_num">"Número privado"</string>
-    <string name="payphone">"Orelhão"</string>
-    <string name="onHold">"Em espera"</string>
-    <string name="ongoing">"Chamada atual"</string>
-    <string name="callFailed_userBusy">"Linha ocupada"</string>
-    <string name="callFailed_congestion">"Rede ocupada"</string>
-    <string name="callFailed_noSignal">"Sem sinal"</string>
-    <string name="callFailed_limitExceeded">"Limite de ACM excedido"</string>
-    <string name="callFailed_powerOff">"Rádio desativado"</string>
-    <string name="callFailed_simError">"Sem SIM, ou erro de SIM"</string>
-    <string name="callFailed_outOfService">"Área fora de serviço"</string>
-    <string name="callFailed_fdn_only">"As chamadas enviadas são restringidas pelo FDN."</string>
-    <string name="callFailed_cb_enabled">"Você não pode fazer chamadas enquanto o bloqueio de chamadas estiver ativado."</string>
-    <string name="callFailed_dsac_restricted">"Todas as chamada são restringidas pelo controle de acesso."</string>
-    <string name="callFailed_dsac_restricted_emergency">"As chamadas de emergência são restringidas pelo controle de acesso."</string>
-    <string name="callFailed_dsac_restricted_normal">"As chamadas normais são restringidas pelo controle de acesso."</string>
+    <string name="contactsIconLabel">"Kişiler"</string>
+    <string name="contactsFavoritesLabel">"Sık Kullanılanlar"</string>
+    <string name="dialerIconLabel">"Çevirici"</string>
+    <string name="emergencyDialerIconLabel">"Acil Durum Çeviricisi"</string>
+    <string name="phoneIconLabel">"Telefon"</string>
+    <string name="recentCallsIconLabel">"Çağrı kaydı"</string>
+    <string name="fdnListLabel">"FDN listesi"</string>
+    <string name="unknown">"Bilinmiyor"</string>
+    <string name="private_num">"Özel numara"</string>
+    <string name="payphone">"Ankesörlü telefon"</string>
+    <string name="onHold">"Beklemede"</string>
+    <string name="ongoing">"Geçerli çağrı"</string>
+    <string name="callFailed_userBusy">"Hat meşgul"</string>
+    <string name="callFailed_congestion">"Ağ meşgul"</string>
+    <string name="callFailed_noSignal">"Sinyal yok"</string>
+    <string name="callFailed_limitExceeded">"ACM sınırı aşıldı"</string>
+    <string name="callFailed_powerOff">"Radyo kapalı"</string>
+    <string name="callFailed_simError">"SIM kart yok veya SIM hatası"</string>
+    <string name="callFailed_outOfService">"Hizmet alanı dışında"</string>
+    <string name="callFailed_fdn_only">"Giden çağrılar FDN tarafından kısıtlandı."</string>
+    <string name="callFailed_cb_enabled">"Çağrı engelleme açıkken giden çağrı yapamazsınız."</string>
+    <string name="callFailed_dsac_restricted">"Tüm çağrılar erişim denetimi tarafından kısıtlandı."</string>
+    <string name="callFailed_dsac_restricted_emergency">"Acil durum çağrıları erişim denetimi tarafından kısıtlandı."</string>
+    <string name="callFailed_dsac_restricted_normal">"Normal çağrılar erişim denetimi tarafından kısıtlanmış."</string>
     <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
     <skip />
     <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
@@ -57,11 +57,11 @@
     <skip />
     <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
     <skip />
-    <string name="confCall">"Conferência telefônica"</string>
-    <string name="mmiStarted">"Código MMI iniciado"</string>
-    <string name="ussdRunning">"Código USSD em execução…"</string>
-    <string name="mmiCancelled">"Código MMI cancelado"</string>
-    <string name="cancel">"Cancelar"</string>
+    <string name="confCall">"Konferans görüşmesi"</string>
+    <string name="mmiStarted">"MMI kodu başlatıldı"</string>
+    <string name="ussdRunning">"USSD kodu çalışıyor…"</string>
+    <string name="mmiCancelled">"MMI kodu iptal edildi"</string>
+    <string name="cancel">"İptal"</string>
     <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
     <skip />
     <!-- no translation found for ecbm_exit_text (622759135506401127) -->
@@ -72,59 +72,59 @@
     <skip />
     <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
     <skip />
-    <string name="menu_speaker">"Alto-falante"</string>
+    <string name="menu_speaker">"Hoparlör"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
-    <string name="menu_mute">"Desativar som"</string>
-    <string name="menu_hold">"Em espera"</string>
-    <string name="menu_endCall">"Finalizar chamada"</string>
-    <string name="menu_swapCalls">"Trocar chamadas"</string>
-    <string name="menu_mergeCalls">"Mesclar chamadas"</string>
-    <string name="menu_addCall">"Adicionar chamada"</string>
-    <string name="menu_manageConference">"Gerenciar conferência telefônica"</string>
-    <string name="menu_showDialpad">"Mostrar teclado"</string>
-    <string name="menu_hideDialpad">"Ocultar teclado"</string>
-    <string name="menu_answerAndHold">"Colocar chamada atual em espera"\n"e responder"</string>
-    <string name="menu_answerAndEnd">"Encerrar chamada atual"\n"e responder"</string>
-    <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Pressione Menu para opções de chamada."</string>
-    <string name="menuButtonKeyboardDialHint">"Pressione Menu para as opções de chamada  •  Use o teclado para discar"</string>
+    <string name="menu_mute">"Sesi Kapat"</string>
+    <string name="menu_hold">"Beklet"</string>
+    <string name="menu_endCall">"Çağrıyı sonlandır"</string>
+    <string name="menu_swapCalls">"Çağrılar arasında geçiş yap"</string>
+    <string name="menu_mergeCalls">"Çağrıları birleştir"</string>
+    <string name="menu_addCall">"Çağrı ekle"</string>
+    <string name="menu_manageConference">"Konferans görüşmesini yönet"</string>
+    <string name="menu_showDialpad">"Tuş takımını göster"</string>
+    <string name="menu_hideDialpad">"Tuş takımını gizle"</string>
+    <string name="menu_answerAndHold">"Geçerli çağrıyı beklet"\n"ve yanıtla"</string>
+    <string name="menu_answerAndEnd">"Geçerli çağrıyı sonlandır"\n"ve yanıtla"</string>
+    <string name="ok">"Tamam"</string>
+    <string name="menuButtonHint">"Çağrı seçenekleri için Menü\'ye basın"</string>
+    <string name="menuButtonKeyboardDialHint">"Çağrı seçenekleri için Menü\'ye basın •  Çevirmek için klavyeyi kullanın"</string>
     <!-- no translation found for menu_answer (116686205042231098) -->
     <skip />
     <!-- no translation found for menu_ignore (2112030835852537344) -->
     <skip />
-    <string name="wait_prompt_str">"Enviar os toques a seguir?"\n</string>
-    <string name="send_button">"Enviar"</string>
-    <string name="wild_prompt_str">"Substitua o caractere curinga por"</string>
-    <string name="no_vm_number">"Número de correio de voz ausente"</string>
-    <string name="no_vm_number_msg">"Não há um número de correio de voz armazenado no cartão SIM."</string>
-    <string name="add_vm_number_str">"Adicionar número"</string>
-    <string name="dialer_emptyListWorking">"Carregando..."</string>
-    <string name="enterPin">"Digite o código PIN para desbloquear o cartão SIM."</string>
-    <string name="pinUnlocked">"SIM desbloqueado"</string>
-    <string name="enterNewPin">"Novo código PIN do SIM"</string>
-    <string name="verifyNewPin">"Digite novamente o novo código PIN do SIM para confirmar"</string>
-    <string name="verifyFailed">"Os PINs do SIM digitados não correspondem. Tente novamente."</string>
-    <string name="enterPuk">"Digite o código PUK para desbloquear o cartão SIM."</string>
-    <string name="badPuk">"Código PUK incorreto!"</string>
-    <string name="buttonTxtContinue">"Continuar"</string>
-    <string name="puk_unlocked">"O seu cartão SIM foi desbloqueado. O seu telefone está desbloqueando…"</string>
-    <string name="label_ndp">"PIN de desbloqueio da rede SIM"</string>
-    <string name="sim_ndp_unlock_text">"Desbloquear"</string>
-    <string name="sim_ndp_dismiss_text">"Dispensar"</string>
-    <string name="requesting_unlock">"Solicitando o desbloqueio de rede…"</string>
-    <string name="unlock_failed">"Falha na solicitação de desbloqueio de rede."</string>
-    <string name="unlock_success">"Desbloqueio de rede bem-sucedido."</string>
+    <string name="wait_prompt_str">"Şu zil sesleri gönderilsin mi?"\n</string>
+    <string name="send_button">"Gönder"</string>
+    <string name="wild_prompt_str">"Joker karakteri şununla değiştir:"</string>
+    <string name="no_vm_number">"Eksik sesli mesaj numarası"</string>
+    <string name="no_vm_number_msg">"SIM kartta depolanan sesli mesaj numarası yok."</string>
+    <string name="add_vm_number_str">"Numara ekle"</string>
+    <string name="dialer_emptyListWorking">"Yükleniyor..."</string>
+    <string name="enterPin">"SIM kart kilidini açmak için PIN kodunu yazın."</string>
+    <string name="pinUnlocked">"SIM kilidi açıldı"</string>
+    <string name="enterNewPin">"Yeni SIM PIN kodu"</string>
+    <string name="verifyNewPin">"Doğrulamak için yeni SIM PIN kodunu tekrar girin"</string>
+    <string name="verifyFailed">"Yazdığınız SIM PIN kodları eşleşmiyor. Lütfen tekrar deneyin."</string>
+    <string name="enterPuk">"SIM kart kilidini açmak için PUK kodunu yazın"</string>
+    <string name="badPuk">"Hatalı PUK kodu!"</string>
+    <string name="buttonTxtContinue">"Devam"</string>
+    <string name="puk_unlocked">"SIM kartınızın engellemesi kaldırıldı. Telefonunuzun kilidi açılıyor..."</string>
+    <string name="label_ndp">"SIM ağı kilit açma PIN kodu"</string>
+    <string name="sim_ndp_unlock_text">"Kilit Aç"</string>
+    <string name="sim_ndp_dismiss_text">"Kapat"</string>
+    <string name="requesting_unlock">"Ağ kilidini açma isteği yapılıyor..."</string>
+    <string name="unlock_failed">"Ağ kilidi açma isteği başarısız."</string>
+    <string name="unlock_success">"Ağ kilidi açılamadı."</string>
     <string name="imei">"IMEI"</string>
     <!-- no translation found for labelGSMMore (5930842194056092106) -->
     <skip />
     <!-- no translation found for labelCDMAMore (1630676740428229339) -->
     <skip />
-    <string name="apn_settings">"Nomes do ponto de acesso"</string>
-    <string name="settings_label">"Configurações de rede"</string>
-    <string name="voicemail">"Correio de voz"</string>
+    <string name="apn_settings">"Erişim Noktası Adları"</string>
+    <string name="settings_label">"Ağ ayarları"</string>
+    <string name="voicemail">"Sesli mesaj"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
-    <string name="networks">"Operadores de rede"</string>
-    <string name="call_settings">"Configurações da chamada"</string>
+    <string name="networks">"Ağ operatörleri"</string>
+    <string name="call_settings">"Çağrı ayarları"</string>
     <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
     <skip />
     <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
@@ -133,68 +133,68 @@
     <skip />
     <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
     <skip />
-    <string name="labelNwService">"Configurações do serviço de rede"</string>
-    <string name="labelCallerId">"ID do chamador"</string>
-    <string name="sum_hide_caller_id">"Número oculto nas chamadas enviadas"</string>
-    <string name="sum_show_caller_id">"Número exibido nas chamadas enviadas"</string>
-    <string name="sum_default_caller_id">"Usar configurações padrão da operadora para exibir meu número em chamadas enviadas"</string>
-    <string name="labelCW">"Chamada em espera"</string>
-    <string name="sum_cw_enabled">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
-    <string name="sum_cw_disabled">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
-    <string name="call_forwarding_settings">"Configurações de encaminhamento de chamada"</string>
-    <string name="labelCF">"Encaminhamento de chamada"</string>
-    <string name="labelCFU">"Sempre encaminhar"</string>
-    <string name="messageCFU">"Sempre usar este número"</string>
-    <string name="sum_cfu_enabled_indicator">"Encaminhando todas as chamadas"</string>
-    <string name="sum_cfu_enabled">"Encaminhando todas as chamadas para \\\\{0\\\\}"</string>
-    <string name="sum_cfu_disabled">"Desativado"</string>
-    <string name="labelCFB">"Encaminhar quando ocupado"</string>
-    <string name="messageCFB">"Número quando ocupado"</string>
-    <string name="sum_cfb_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfb_disabled">"Desativado"</string>
-    <string name="labelCFNRy">"Encaminhar quando não houver resposta"</string>
-    <string name="messageCFNRy">"Número quando não há resposta"</string>
-    <string name="sum_cfnry_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfnry_disabled">"Desativado"</string>
-    <string name="labelCFNRc">"Encaminhar quando não estiver acessível"</string>
-    <string name="messageCFNRc">"Número quando não acessível"</string>
-    <string name="sum_cfnrc_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfnrc_disabled">"Desativado"</string>
-    <string name="updating_title">"Configurações da chamada"</string>
-    <string name="error_updating_title">"Erro de configuração da chamada"</string>
-    <string name="reading_settings">"Lendo as configurações…"</string>
-    <string name="updating_settings">"Atualizando configurações…"</string>
+    <string name="labelNwService">"Ağ hizmeti ayarları"</string>
+    <string name="labelCallerId">"Arayan Kimliği"</string>
+    <string name="sum_hide_caller_id">"Giden çağrılarda numara gizli"</string>
+    <string name="sum_show_caller_id">"Giden çağrılarda numara görüntüleniyor"</string>
+    <string name="sum_default_caller_id">"Giden çağrılarda numaramı görüntülemek için varsayılan operatör ayarlarını kullan"</string>
+    <string name="labelCW">"Çağrı bekletme"</string>
+    <string name="sum_cw_enabled">"Bir çağrı sırasında, gelen çağrıları bana bildir"</string>
+    <string name="sum_cw_disabled">"Bir çağrı sırasında, gelen çağrıları bana bildir"</string>
+    <string name="call_forwarding_settings">"Çağrı yönlendirme ayarları"</string>
+    <string name="labelCF">"Çağrı yönlendirme"</string>
+    <string name="labelCFU">"Her zaman yönlendir"</string>
+    <string name="messageCFU">"Daima bu numarayı kullan"</string>
+    <string name="sum_cfu_enabled_indicator">"Tüm çağrılar yönlendiriliyor"</string>
+    <string name="sum_cfu_enabled">"Tüm çağrılar şuraya yönlendiriliyor: \\\\{0\\\\}"</string>
+    <string name="sum_cfu_disabled">"Devre dışı"</string>
+    <string name="labelCFB">"Meşgul olduğunda yönlendir"</string>
+    <string name="messageCFB">"Meşgulken kullanılacak numara"</string>
+    <string name="sum_cfb_enabled">"Şuna yönlendiriliyor \\\\{0\\\\}"</string>
+    <string name="sum_cfb_disabled">"Devre dışı"</string>
+    <string name="labelCFNRy">"Yanıtlanmadığında yönlendir"</string>
+    <string name="messageCFNRy">"Yanıtlanmadığında kullanılacak numara"</string>
+    <string name="sum_cfnry_enabled">"Şuna yönlendiriliyor: \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_disabled">"Devre dışı"</string>
+    <string name="labelCFNRc">"Ulaşılamadığında yönlendir"</string>
+    <string name="messageCFNRc">"Ulaşılamadığında kullanılacak numara"</string>
+    <string name="sum_cfnrc_enabled">"Şuna yönlendiriliyor: \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_disabled">"Devre dışı"</string>
+    <string name="updating_title">"Çağrı ayarları"</string>
+    <string name="error_updating_title">"Çağrı ayarları hatası"</string>
+    <string name="reading_settings">"Ayarlar okunuyor..."</string>
+    <string name="updating_settings">"Ayarlar güncelleniyor..."</string>
     <!-- no translation found for response_error (6674110501330139405) -->
     <skip />
-    <string name="exception_error">"Erro de rede ou do cartão SIM."</string>
-    <string name="radio_off_error">"Ative o rádio antes de ver essas configurações."</string>
-    <string name="close_dialog">"OK"</string>
-    <string name="enable">"Ativar"</string>
-    <string name="disable">"Desativar"</string>
-    <string name="change_num">"Atualizar"</string>
+    <string name="exception_error">"Ağ veya SIM kart hatası."</string>
+    <string name="radio_off_error">"Bu ayarları görüntülemeden önce lütfen radyoyu açın."</string>
+    <string name="close_dialog">"Tamam"</string>
+    <string name="enable">"Etkinleştir"</string>
+    <string name="disable">"Devre Dışı Bırak"</string>
+    <string name="change_num">"Güncelle"</string>
   <string-array name="clir_display_values">
-    <item>"Padrão de rede"</item>
-    <item>"Ocultar número"</item>
-    <item>"Mostrar número"</item>
+    <item>"Ağ varsayılanı"</item>
+    <item>"Numarayı gizle"</item>
+    <item>"Numarayı göster"</item>
   </string-array>
-    <string name="vm_save_number">"Salvar o número do correio de voz"</string>
-    <string name="vm_changed">"Número do correio de voz alterado."</string>
-    <string name="vm_change_failed">"Falha na alteração de número do correio de voz."</string>
-    <string name="no_change">"Nenhuma alteração foi feita."</string>
-    <string name="sum_voicemail">"Definir número de correio de voz"</string>
-    <string name="mobile_networks">"Configurações de rede para celular"</string>
-    <string name="label_available">"Redes disponíveis"</string>
-    <string name="load_networks_progress">"Pesquisando..."</string>
-    <string name="empty_networks_list">"Nenhuma rede encontrada."</string>
-    <string name="search_networks">"Pesquisar redes"</string>
-    <string name="network_query_error">"Erro ao pesquisar redes."</string>
-    <string name="register_on_network">"Registrando na <xliff:g id="NETWORK">%s</xliff:g>…"</string>
-    <string name="not_allowed">"O seu cartão SIM não permite uma conexão com esta rede."</string>
-    <string name="registration_done">"Registrado na rede."</string>
-    <string name="sum_carrier_select">"Selecione um operador de rede"</string>
-    <string name="sum_search_networks">"Pesquisar todas as redes disponíveis"</string>
-    <string name="select_automatically">"Selecionar automaticamente"</string>
-    <string name="sum_select_automatically">"Selecionar automaticamente a rede preferida"</string>
+    <string name="vm_save_number">"Sesli mesaj numarasını kaydet"</string>
+    <string name="vm_changed">"Sesli mesaj numarası değiştirildi."</string>
+    <string name="vm_change_failed">"Sesli mesaj numarası değiştirilemedi."</string>
+    <string name="no_change">"Hiçbir değişiklik yapılmadı."</string>
+    <string name="sum_voicemail">"Sesli mesaj numarasını ayarla"</string>
+    <string name="mobile_networks">"Mobil ağ ayarları"</string>
+    <string name="label_available">"Kullanılabilir ağlar"</string>
+    <string name="load_networks_progress">"Aranıyor..."</string>
+    <string name="empty_networks_list">"Hiçbir ağ bulunamadı."</string>
+    <string name="search_networks">"Ağları ara"</string>
+    <string name="network_query_error">"Ağlar aranırken hata oluştu."</string>
+    <string name="register_on_network">"<xliff:g id="NETWORK">%s</xliff:g> ağına kaydediliyor..."</string>
+    <string name="not_allowed">"SIM kartınız bu ağa bağlanmaya izin vermiyor."</string>
+    <string name="registration_done">"Ağa kaydedildi."</string>
+    <string name="sum_carrier_select">"Bir ağ operatörü seçin"</string>
+    <string name="sum_search_networks">"Kullanılabilen tüm ağları ara"</string>
+    <string name="select_automatically">"Otomatik olarak seç"</string>
+    <string name="sum_select_automatically">"Tercih edilen ağı otomatik olarak seç"</string>
     <!-- no translation found for register_automatically (6272031189219101172) -->
     <skip />
     <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
@@ -219,11 +219,11 @@
     <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
     <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
     <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
-    <string name="roaming">"Roaming de dados"</string>
-    <string name="roaming_enable">"Conectar aos serviços de dados quando estiver em trânsito"</string>
-    <string name="roaming_disable">"Conectar aos serviços de dados quando estiver em trânsito"</string>
-    <string name="roaming_reenable_message">"Você perdeu a conectividade de dados porque deixou o roaming de dados da sua rede doméstica desativado."</string>
-    <string name="roaming_warning">"Permitir roaming de dados? Isso pode causar cobranças significativas de roaming!"</string>
+    <string name="roaming">"Veri dolaşımı"</string>
+    <string name="roaming_enable">"Dolaşırken veri hizmetlerine bağlan"</string>
+    <string name="roaming_disable">"Dolaşırken veri hizmetlerine bağlan"</string>
+    <string name="roaming_reenable_message">"Veri dolaşımı kapalıyken ana ağınızdan ayrıldığınız için veri bağlantısını kaybettiniz."</string>
+    <string name="roaming_warning">"Veri dolaşımına izin verilsin mi? Kayda değer dolaşım ücretleri ödeyebilirsiniz!"</string>
     <!-- no translation found for gsm_umts_options (6538311689850981686) -->
     <skip />
     <!-- no translation found for cdma_options (4016822858172249884) -->
@@ -440,19 +440,19 @@
     <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
     <!-- no translation found for subscription_values:0 (4377788417250295786) -->
     <!-- no translation found for subscription_values:1 (1193066664940329729) -->
-    <string name="fdn">"Números de chamadas fixas"</string>
-    <string name="manage_fdn_list">"Lista FDN"</string>
-    <string name="fdn_activation">"Ativação do FDN"</string>
-    <string name="fdn_enabled">"Os números de chamadas fixas estão ativados"</string>
-    <string name="fdn_disabled">"Os números de chamadas fixas estão desativados"</string>
-    <string name="enable_fdn">"Ativar FDN"</string>
-    <string name="disable_fdn">"Desativar FDN"</string>
-    <string name="change_pin2">"Alterar PIN2"</string>
-    <string name="enable_fdn_ok">"Desativar FDN"</string>
-    <string name="disable_fdn_ok">"Ativar FDN"</string>
-    <string name="sum_fdn">"Gerenciar números de chamadas fixas"</string>
-    <string name="sum_fdn_change_pin">"Alterar PIN para acesso FDN"</string>
-    <string name="sum_fdn_manage_list">"Gerenciar lista de números telefônicos"</string>
+    <string name="fdn">"Sabit Arama Numaraları"</string>
+    <string name="manage_fdn_list">"FDN listesi"</string>
+    <string name="fdn_activation">"FDN etkinleştirme"</string>
+    <string name="fdn_enabled">"Sabit Arama Numaraları etkin"</string>
+    <string name="fdn_disabled">"Sabit Arama Numaraları devre dışı"</string>
+    <string name="enable_fdn">"FDN\'yi etkinleştir"</string>
+    <string name="disable_fdn">"FDN\'yi devre dışı bırak"</string>
+    <string name="change_pin2">"PIN2 kodunu değiştir"</string>
+    <string name="enable_fdn_ok">"FDN\'yi devre dışı bırak"</string>
+    <string name="disable_fdn_ok">"FDN\'yi etkinleştir"</string>
+    <string name="sum_fdn">"Sabit Arama Numaralarını Yönet"</string>
+    <string name="sum_fdn_change_pin">"FDN erişimi için PIN kodunu değiştir"</string>
+    <string name="sum_fdn_manage_list">"Telefon numarası listesini yönet"</string>
     <!-- no translation found for voice_privacy (7803023024169078619) -->
     <skip />
     <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
@@ -465,118 +465,118 @@
     <skip />
     <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
     <skip />
-    <string name="menu_add">"Adicionar contato"</string>
-    <string name="menu_edit">"Editar contato"</string>
-    <string name="menu_delete">"Excluir contato"</string>
-    <string name="get_pin2">"Inserir PIN2"</string>
-    <string name="name">"Nome"</string>
-    <string name="number">"Número"</string>
-    <string name="save">"Salvar"</string>
-    <string name="add_fdn_contact">"Adicionar contato de chamadas fixas"</string>
-    <string name="adding_fdn_contact">"Adicionando contato de chamadas fixas…"</string>
-    <string name="fdn_contact_added">"Contato de chamadas fixas adicionado."</string>
-    <string name="edit_fdn_contact">"Editar o contato de chamadas fixas"</string>
-    <string name="updating_fdn_contact">"Atualizando contato de chamadas fixas…"</string>
-    <string name="fdn_contact_updated">"Contato de chamadas fixas atualizado."</string>
-    <string name="delete_fdn_contact">"Excluir contato de chamadas fixas"</string>
-    <string name="deleting_fdn_contact">"Excluindo contato de chamadas fixas…"</string>
-    <string name="fdn_contact_deleted">"Contato de chamadas fixas excluído."</string>
-    <string name="pin2_invalid">"PIN2 inválido!"</string>
-    <string name="fdn_invalid_number">"O número não pode exceder 20 dígitos."</string>
-    <string name="simContacts_emptyLoading">"Lendo a partir do cartão SIM…"</string>
-    <string name="simContacts_empty">"Não há contatos no seu cartão SIM."</string>
-    <string name="simContacts_title">"Selecione os contatos a serem importados"</string>
-    <string name="enable_pin">"Ativar/desativar PIN do SIM"</string>
-    <string name="change_pin">"Alterar PIN do SIM"</string>
-    <string name="enter_pin_text">"PIN do SIM:"</string>
-    <string name="oldPinLabel">"PIN antigo"</string>
-    <string name="newPinLabel">"Novo PIN"</string>
-    <string name="confirmPinLabel">"Confirmar novo PIN"</string>
-    <string name="badPin">"O PIN antigo digitado não está correto. Tente novamente."</string>
-    <string name="mismatchPin">"Os PINs digitados não correspondem. Tente novamente."</string>
-    <string name="invalidPin">"Digite um PIN com 4 a 8 números."</string>
-    <string name="disable_sim_pin">"Desativar PIN do SIM"</string>
-    <string name="enable_sim_pin">"Ativar PIN do SIM"</string>
-    <string name="enable_in_progress">"Aguarde..."</string>
-    <string name="enable_pin_ok">"PIN do SIM ativado"</string>
-    <string name="disable_pin_ok">"PIN do SIM desativado"</string>
-    <string name="pin_failed">"O PIN digitado estava incorreto"</string>
-    <string name="pin_changed">"PIN do SIM alterado com êxito"</string>
-    <string name="puk_requested">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
+    <string name="menu_add">"Kişi ekle"</string>
+    <string name="menu_edit">"Kişiyi düzenle"</string>
+    <string name="menu_delete">"Kişiyi sil"</string>
+    <string name="get_pin2">"PIN2 kodunu girin"</string>
+    <string name="name">"Ad"</string>
+    <string name="number">"Numara"</string>
+    <string name="save">"Kaydet"</string>
+    <string name="add_fdn_contact">"Sabit arama kişisi ekle"</string>
+    <string name="adding_fdn_contact">"Sabit arama kişisi ekleniyor..."</string>
+    <string name="fdn_contact_added">"Sabit arama kişisi eklendi."</string>
+    <string name="edit_fdn_contact">"Sabit arama kişisini düzenle"</string>
+    <string name="updating_fdn_contact">"Sabit arama kişisi güncelleniyor..."</string>
+    <string name="fdn_contact_updated">"Sabit arama kişisi güncellendi."</string>
+    <string name="delete_fdn_contact">"Sabit arama kişisini sil"</string>
+    <string name="deleting_fdn_contact">"Sabit arama kişisi siliniyor..."</string>
+    <string name="fdn_contact_deleted">"Sabit arama kişisi silindi."</string>
+    <string name="pin2_invalid">"PIN2 geçersiz!"</string>
+    <string name="fdn_invalid_number">"Numara 20 haneyi aşamaz."</string>
+    <string name="simContacts_emptyLoading">"SIM karttan okunuyor..."</string>
+    <string name="simContacts_empty">"SIM kartınızda hiçbir kişi yok."</string>
+    <string name="simContacts_title">"İçe aktarılacak kişileri seçin"</string>
+    <string name="enable_pin">"SIM PIN Kodunu Etkinleştir/Devre Dışı Bırak"</string>
+    <string name="change_pin">"SIM PIN Kodunu Değiştir"</string>
+    <string name="enter_pin_text">"SIM PIN kodu:"</string>
+    <string name="oldPinLabel">"Eski PIN"</string>
+    <string name="newPinLabel">"Yeni PIN"</string>
+    <string name="confirmPinLabel">"Yeni PIN kodunu doğrula"</string>
+    <string name="badPin">"Yazdığınız eski PIN doğru değil. Lütfen tekrar deneyin."</string>
+    <string name="mismatchPin">"Girdiğiniz PIN kodları eşleşmiyor. Lütfen tekrar deneyin."</string>
+    <string name="invalidPin">"4 ila 8 haneli bir PIN yazın."</string>
+    <string name="disable_sim_pin">"SIM PIN kodunu devre dışı bırak"</string>
+    <string name="enable_sim_pin">"SIM PIN Kodunu Etkinleştir"</string>
+    <string name="enable_in_progress">"Lütfen bekleyin..."</string>
+    <string name="enable_pin_ok">"SIM PIN kodu etkin"</string>
+    <string name="disable_pin_ok">"SIM PIN kodu devre dışı"</string>
+    <string name="pin_failed">"Yazdığınız PIN hatalı"</string>
+    <string name="pin_changed">"SIM PIN kodu başarıyla değiştirildi"</string>
+    <string name="puk_requested">"Şifre hatalı, SIM kilitlendi! PUK2 isteniyor."</string>
     <string name="enter_pin2_text">"PIN2"</string>
-    <string name="oldPin2Label">"PIN2 antigo"</string>
-    <string name="newPin2Label">"Novo PIN2"</string>
-    <string name="confirmPin2Label">"Confirmar novo PIN2"</string>
-    <string name="badPuk2">"O PUK2 digitado não está correto. Tente novamente."</string>
-    <string name="badPin2">"O PIN2 antigo digitado não está correto. Tente novamente."</string>
-    <string name="mismatchPin2">"Os PIN2s digitados não correspondem. Tente novamente."</string>
-    <string name="invalidPin2">"Digite um PIN2 com 4 a 8 números."</string>
-    <string name="invalidPuk2">"Digite um PUK2 com 8 números."</string>
-    <string name="pin2_changed">"PIN2 alterado com êxito"</string>
-    <string name="label_puk2_code">"Digitar o código PUK2"</string>
-    <string name="fdn_enable_puk2_requested">"Senha incorreta. Altere o PIN2 e tente novamente!"</string>
-    <string name="puk2_requested">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
-    <string name="doneButton">"Concluído"</string>
-    <string name="caller_manage_header">"Conferência telefônica <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text">"Voltar à chamada"</string>
-    <string name="sim_missing_continueView_text">"Continuar sem o cartão SIM"</string>
-    <string name="sim_missing_msg_text">"Nenhum cartão SIM encontrado. Insira um cartão SIM no telefone."</string>
-    <string name="sim_unlock_dismiss_text">"Dispensar"</string>
-    <string name="sim_unlock_unlock_text">"Desbloquear"</string>
-    <string name="sim_unlock_status_text">"Autenticando o PIN…"</string>
-    <string name="voicemail_settings_number_label">"Número do correio de voz"</string>
-    <string name="card_title_dialing">"Discando"</string>
-    <string name="card_title_in_progress">"Chamada atual"</string>
-    <string name="card_title_conf_call">"Conferência telefônica"</string>
-    <string name="card_title_incoming_call">"Recebendo chamada"</string>
+    <string name="oldPin2Label">"Eski PIN2"</string>
+    <string name="newPin2Label">"Yeni PIN2"</string>
+    <string name="confirmPin2Label">"Yeni PIN2 kodunu doğrula"</string>
+    <string name="badPuk2">"Yazdığınız PUK2 doğru değil. Lütfen tekrar deneyin."</string>
+    <string name="badPin2">"Yazdığınız eski PIN2 doğru değil. Lütfen tekrar deneyin."</string>
+    <string name="mismatchPin2">"Girdiğiniz PIN2 kodları eşleşmiyor. Lütfen tekrar deneyin."</string>
+    <string name="invalidPin2">"4 ila 8 haneli bir PIN2 kodu yazın."</string>
+    <string name="invalidPuk2">"8 haneli bir PUK2 yazın."</string>
+    <string name="pin2_changed">"PIN2 başarıyla değiştirildi"</string>
+    <string name="label_puk2_code">"PUK2 kodunu yazın"</string>
+    <string name="fdn_enable_puk2_requested">"Şifre hatalı, lütfen PIN2 kodunu değiştirin ve tekrar deneyin!"</string>
+    <string name="puk2_requested">"Şifre hatalı, SIM kilitlendi! PUK2 isteniyor."</string>
+    <string name="doneButton">"Bitti"</string>
+    <string name="caller_manage_header">"Konferans görüşmesi <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text">"Çağrıya dön"</string>
+    <string name="sim_missing_continueView_text">"SIM kart olmadan devam et"</string>
+    <string name="sim_missing_msg_text">"SIM kart bulunamadı. Lütfen telefona bir SIM kart takın."</string>
+    <string name="sim_unlock_dismiss_text">"Kapat"</string>
+    <string name="sim_unlock_unlock_text">"Kilit Aç"</string>
+    <string name="sim_unlock_status_text">"PIN kimlik denetimi yapılıyor..."</string>
+    <string name="voicemail_settings_number_label">"Sesli mesaj numarası"</string>
+    <string name="card_title_dialing">"Çevriliyor"</string>
+    <string name="card_title_in_progress">"Geçerli çağrı"</string>
+    <string name="card_title_conf_call">"Konferans görüşmesi"</string>
+    <string name="card_title_incoming_call">"Gelen çağrı"</string>
     <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
     <skip />
-    <string name="card_title_call_ended">"Chamada encerrada"</string>
-    <string name="card_title_on_hold">"Em espera"</string>
-    <string name="card_title_hanging_up">"Desligando"</string>
+    <string name="card_title_call_ended">"Çağrı sonlandırıldı"</string>
+    <string name="card_title_on_hold">"Beklemede"</string>
+    <string name="card_title_hanging_up">"Sonlandırılıyor"</string>
     <!-- no translation found for card_title_in_call (6346543933068225205) -->
     <skip />
-    <string name="notification_missedCallTitle">"Chamada perdida"</string>
-    <string name="notification_missedCallsTitle">"Chamadas perdidas"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> chamadas perdidas"</string>
-    <string name="notification_missedCallTicker">"Chamada perdida de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Chamada atual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"Em espera"</string>
-    <string name="notification_voicemail_title">"Novo correio de voz"</string>
+    <string name="notification_missedCallTitle">"Cevapsız çağrı"</string>
+    <string name="notification_missedCallsTitle">"Cevapsız çağrılar"</string>
+    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> cevapsız çağrı"</string>
+    <string name="notification_missedCallTicker">"Cevapsız çağrı: <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format">"Geçerli çağrı (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold">"Beklemede"</string>
+    <string name="notification_voicemail_title">"Yeni sesli mesaj"</string>
     <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
     <skip />
-    <string name="notification_voicemail_text_format">"Discar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Número do correio de voz desconhecido"</string>
-    <string name="incall_error_power_off">"Para fazer uma chamada, primeiro desative o modo avião."</string>
-    <string name="incall_error_emergency_only">"Não registrado na rede."</string>
-    <string name="incall_error_no_phone_number_supplied">"Chamada não enviada, nenhum número válido foi inserido."</string>
-    <string name="incall_error_call_failed">"Chamada não enviada."</string>
-    <string name="incall_status_dialed_mmi">"Iniciando sequência MMI…"</string>
+    <string name="notification_voicemail_text_format">"Çevir: <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number">"Sesli mesaj numarası bilinmiyor"</string>
+    <string name="incall_error_power_off">"Bir çağrı yapmak için öncelikle Uçak modunu kapatın."</string>
+    <string name="incall_error_emergency_only">"Ağda kayıtlı değil."</string>
+    <string name="incall_error_no_phone_number_supplied">"Çağrı gönderilmedi, geçerli numara girilmedi."</string>
+    <string name="incall_error_call_failed">"Çağrı gönderilmedi."</string>
+    <string name="incall_status_dialed_mmi">"MMI dizisi başlatılıyor..."</string>
     <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
     <skip />
-    <string name="incall_error_supp_service_unknown">"Serviço não suportado."</string>
-    <string name="incall_error_supp_service_switch">"Não é possível alternar chamadas."</string>
-    <string name="incall_error_supp_service_separate">"Não é possível separar a chamada."</string>
-    <string name="incall_error_supp_service_transfer">"Não é possível transferir a chamada."</string>
-    <string name="incall_error_supp_service_conference">"Não é possível realizar conferências telefônicas."</string>
-    <string name="incall_error_supp_service_reject">"Não é possível rejeitar a chamada."</string>
-    <string name="incall_error_supp_service_hangup">"Não é possível liberar a(s) chamada(s)."</string>
-    <string name="emergency_enable_radio_dialog_title">"Chamada de emergência"</string>
-    <string name="emergency_enable_radio_dialog_message">"Ativando o rádio…"</string>
-    <string name="emergency_enable_radio_dialog_retry">"Área fora de serviço, tentando novamente..."</string>
-    <string name="dial_emergency_error">"Chamada não enviada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> não é um número de emergência!"</string>
-    <string name="dial_emergency_empty_error">"Chamada não enviada. Disque um número de emergência!"</string>
-    <string name="dialerKeyboardHintText">"Use o teclado para discar"</string>
-    <string name="dtmfDialpadHintText">"Teclado multifrequencial"</string>
-    <string name="dtmfDialpadHandleLabel">"Teclado"</string>
+    <string name="incall_error_supp_service_unknown">"Desteklenmeyen hizmet."</string>
+    <string name="incall_error_supp_service_switch">"Çağrılar arasında geçiş yapılamıyor."</string>
+    <string name="incall_error_supp_service_separate">"Çağrı ayrılamıyor."</string>
+    <string name="incall_error_supp_service_transfer">"Çağrı aktarılamıyor."</string>
+    <string name="incall_error_supp_service_conference">"Çağrılar konferans görüşmesi olarak birleştirilemiyor."</string>
+    <string name="incall_error_supp_service_reject">"Çağrı reddedilemiyor."</string>
+    <string name="incall_error_supp_service_hangup">"Çağrılar serbest bırakılamıyor."</string>
+    <string name="emergency_enable_radio_dialog_title">"Acil durum çağrısı"</string>
+    <string name="emergency_enable_radio_dialog_message">"Radyo açılıyor..."</string>
+    <string name="emergency_enable_radio_dialog_retry">"Hizmet alanı dışında, tekrar deneniyor..."</string>
+    <string name="dial_emergency_error">"Çağrı gönderilmedi, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> bir acil durum numarası değil!"</string>
+    <string name="dial_emergency_empty_error">"Çağrı gönderilmedi, lütfen bir acil durum numarası çevirin!"</string>
+    <string name="dialerKeyboardHintText">"Çevirmek için klavyeyi kullan"</string>
+    <string name="dtmfDialpadHintText">"Telefon tuş takımı"</string>
+    <string name="dtmfDialpadHandleLabel">"Tuş takımı"</string>
     <!-- no translation found for touchLockText (8742463586429019112) -->
     <skip />
     <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
     <skip />
-    <string name="importSimEntry">"Importar"</string>
-    <string name="importAllSimEntries">"Importar tudo"</string>
-    <string name="importingSimContacts">"Importando contatos do SIM"</string>
-    <string name="importToFDNfromContacts">"Importar dos contatos"</string>
+    <string name="importSimEntry">"İçe aktar"</string>
+    <string name="importAllSimEntries">"Tümünü içe aktar"</string>
+    <string name="importingSimContacts">"SIM kişileri içe aktarılıyor"</string>
+    <string name="importToFDNfromContacts">"Kişilerden içe aktar"</string>
     <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
     <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
     <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
