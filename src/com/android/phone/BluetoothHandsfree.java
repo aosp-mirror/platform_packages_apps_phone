@@ -98,8 +98,9 @@ public class BluetoothHandsfree {
     // for 3-way supported devices, this is after AT+CHLD
     // for non-3-way supported devices, this is after AT+CMER (see spec)
     private boolean mServiceConnectionEstablished;
-    private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
+    private final BluetoothPhoneState mBluetoothPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
+    private Phone.State mPhoneState = Phone.State.IDLE;
 
     private DebugThread mDebugThread;
     private int mScoGain = Integer.MIN_VALUE;
@@ -181,7 +182,7 @@ public class BluetoothHandsfree {
         mRingingCall = mPhone.getRingingCall();
         mForegroundCall = mPhone.getForegroundCall();
         mBackgroundCall = mPhone.getBackgroundCall();
-        mPhoneState = new BluetoothPhoneState();
+        mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -533,13 +534,17 @@ public class BluetoothHandsfree {
 
             if (DBG) log("updatePhoneState()");
 
-            switch (mPhone.getState()) {
-            case IDLE:
-                mUserWantsAudio = true;  // out of call - reset state
-                audioOff();
-                break;
-            default:
-                callStarted();
+            Phone.State newState = mPhone.getState();
+            if (newState != mPhoneState) {
+                mPhoneState = newState;
+                switch (mPhoneState) {
+                case IDLE:
+                    mUserWantsAudio = true;  // out of call - reset state
+                    audioOff();
+                    break;
+                default:
+                    callStarted();
+                }
             }
 
             switch(mForegroundCall.getState()) {
@@ -804,7 +809,7 @@ public class BluetoothHandsfree {
         mForegroundCall = mPhone.getForegroundCall();
         mBackgroundCall = mPhone.getBackgroundCall();
 
-        mPhoneState.updateBtPhoneStateAfterRadioTechnologyChange();
+        mBluetoothPhoneState.updateBtPhoneStateAfterRadioTechnologyChange();
     }
 
     /** Request to establish SCO (audio) connection to bluetooth
@@ -885,7 +890,7 @@ public class BluetoothHandsfree {
     }
 
     /* package */ void ignoreRing() {
-        mPhoneState.ignoreRing();
+        mBluetoothPhoneState.ignoreRing();
     }
 
     private void sendURC(String urc) {
@@ -1297,11 +1302,11 @@ public class BluetoothHandsfree {
         parser.register("+CIND", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return mPhoneState.toCindResult();
+                return mBluetoothPhoneState.toCindResult();
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return mPhoneState.getCindTestResult();
+                return mBluetoothPhoneState.getCindTestResult();
             }
         });
 
@@ -1309,7 +1314,7 @@ public class BluetoothHandsfree {
         parser.register("+CSQ", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                return mPhoneState.toCsqResult();
+                return mBluetoothPhoneState.toCsqResult();
             }
         });
 
@@ -1317,7 +1322,7 @@ public class BluetoothHandsfree {
         parser.register("+CREG", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return new AtCommandResult(mPhoneState.toCregString());
+                return new AtCommandResult(mBluetoothPhoneState.toCregString());
             }
         });
 
@@ -1802,7 +1807,7 @@ public class BluetoothHandsfree {
                     Intent intent = new Intent();
                     intent.putExtra("level", batteryLevel);
                     intent.putExtra("scale", 5);
-                    mPhoneState.updateBatteryState(intent);
+                    mBluetoothPhoneState.updateBatteryState(intent);
                 }
 
                 boolean serviceStateChanged = false;
@@ -1818,7 +1823,7 @@ public class BluetoothHandsfree {
                     Bundle b = new Bundle();
                     b.putInt("state", oldService ? 0 : 1);
                     b.putBoolean("roaming", oldRoam);
-                    mPhoneState.updateServiceState(true, ServiceState.newFromBundle(b));
+                    mBluetoothPhoneState.updateServiceState(true, ServiceState.newFromBundle(b));
                 }
 
                 if (SystemProperties.getBoolean(DEBUG_HANDSFREE_AUDIO, false) != oldAudio) {
@@ -1838,7 +1843,7 @@ public class BluetoothHandsfree {
                     Bundle data = new Bundle();
                     signalStrength.fillInNotifierBundle(data);
                     intent.putExtras(data);
-                    mPhoneState.updateSignalState(intent);
+                    mBluetoothPhoneState.updateSignalState(intent);
                 }
 
                 if (SystemProperties.getBoolean(DEBUG_HANDSFREE_CLCC, false)) {
