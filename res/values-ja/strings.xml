@@ -39,11 +39,39 @@
     <string name="callFailed_dsac_restricted">"発信制限が設定されています。"</string>
     <string name="callFailed_dsac_restricted_emergency">"緊急通報の発信制限が設定されています。"</string>
     <string name="callFailed_dsac_restricted_normal">"緊急通報以外は発信制限が設定されています。"</string>
+    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
+    <skip />
     <string name="confCall">"グループ通話"</string>
     <string name="mmiStarted">"MMIコードの開始"</string>
     <string name="ussdRunning">"USSDコードを実行中..."</string>
     <string name="mmiCancelled">"MMIコードはキャンセルされました"</string>
     <string name="cancel">"キャンセル"</string>
+    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
+    <skip />
+    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
+    <skip />
+    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
+    <skip />
+    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
+    <skip />
+    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
+    <skip />
     <string name="menu_speaker">"スピーカー"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"ミュート"</string>
@@ -60,6 +88,10 @@
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"MENUキーで通話オプション表示"</string>
     <string name="menuButtonKeyboardDialHint">"Menuキーを押して通話オプションを表示  •  キーボードからダイヤル"</string>
+    <!-- no translation found for menu_answer (116686205042231098) -->
+    <skip />
+    <!-- no translation found for menu_ignore (2112030835852537344) -->
+    <skip />
     <string name="wait_prompt_str">"次の番号を送信しますか？"\n</string>
     <string name="send_button">"送信"</string>
     <string name="wild_prompt_str">"ワイルド文字と入れ替える文字"</string>
@@ -83,12 +115,24 @@
     <string name="unlock_failed">"ネットワークロックを解除できませんでした。"</string>
     <string name="unlock_success">"ネットワークロックを解除しました。"</string>
     <string name="imei">"IMEI（端末識別番号）"</string>
+    <!-- no translation found for labelGSMMore (5930842194056092106) -->
+    <skip />
+    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
+    <skip />
     <string name="apn_settings">"アクセスポイント名"</string>
     <string name="settings_label">"ネットワーク設定"</string>
     <string name="voicemail">"ボイスメール"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
+    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
+    <skip />
+    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
+    <skip />
+    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
+    <skip />
+    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
+    <skip />
     <string name="labelNwService">"ネットワークサービス設定"</string>
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
@@ -120,7 +164,8 @@
     <string name="error_updating_title">"通話設定エラー"</string>
     <string name="reading_settings">"設定を読み取り中..."</string>
     <string name="updating_settings">"設定を更新中..."</string>
-    <string name="response_error">"ネットワークから予期しない応答がありました。"</string>
+    <!-- no translation found for response_error (6674110501330139405) -->
+    <skip />
     <string name="exception_error">"ネットワークまたはSIMカードのエラーです。"</string>
     <string name="radio_off_error">"無線通信をオンにしてから設定を表示してください。"</string>
     <string name="close_dialog">"OK"</string>
@@ -150,12 +195,251 @@
     <string name="sum_search_networks">"利用可能なすべてのネットワークを検索する"</string>
     <string name="select_automatically">"自動選択"</string>
     <string name="sum_select_automatically">"最適なネットワークを自動的に選択する"</string>
-    <string name="register_automatically">"自動登録中..."</string>
+    <!-- no translation found for register_automatically (6272031189219101172) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
+    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
+    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
+    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
+    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
+    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
+    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
+    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
+    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
+    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
+    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
+    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
+    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
+    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
+    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
+    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
     <string name="roaming">"データローミング"</string>
     <string name="roaming_enable">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_disable">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_reenable_message">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
+    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
+    <skip />
+    <!-- no translation found for cdma_options (4016822858172249884) -->
+    <skip />
+    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
+    <skip />
+    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
+    <skip />
+    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
+    <skip />
+    <!-- no translation found for cb_sms_settings (651715019785107312) -->
+    <skip />
+    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
+    <skip />
+    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
+    <skip />
+    <!-- no translation found for administrative_enable (1750086122962032235) -->
+    <skip />
+    <!-- no translation found for administrative_disable (8433273857248698539) -->
+    <skip />
+    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
+    <skip />
+    <!-- no translation found for maintenance_enable (8566636458770971189) -->
+    <skip />
+    <!-- no translation found for maintenance_disable (7340189100885066077) -->
+    <skip />
+    <!-- no translation found for general_news_settings (4968779723948432978) -->
+    <skip />
+    <!-- no translation found for bf_news_settings (3935593091894685267) -->
+    <skip />
+    <!-- no translation found for sports_news_settings (7649399631270052835) -->
+    <skip />
+    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
+    <skip />
+    <!-- no translation found for enable_disable_local (7890281063123416120) -->
+    <skip />
+    <!-- no translation found for local_enable (6370463247609136359) -->
+    <skip />
+    <!-- no translation found for local_disable (4405691986943795798) -->
+    <skip />
+    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
+    <skip />
+    <!-- no translation found for regional_enable (4434680415437834759) -->
+    <skip />
+    <!-- no translation found for regional_disable (5359325527213850077) -->
+    <skip />
+    <!-- no translation found for enable_disable_national (236278090206880734) -->
+    <skip />
+    <!-- no translation found for national_enable (1172443648912246952) -->
+    <skip />
+    <!-- no translation found for national_disable (326018148178601166) -->
+    <skip />
+    <!-- no translation found for enable_disable_international (7535348799604565592) -->
+    <skip />
+    <!-- no translation found for international_enable (5855356769925044927) -->
+    <skip />
+    <!-- no translation found for international_disable (2850648591041088931) -->
+    <skip />
+    <!-- no translation found for list_language_title (2841683501919760043) -->
+    <skip />
+    <!-- no translation found for list_language_summary (8109546531071241601) -->
+    <skip />
+    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
+    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
+    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
+    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
+    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
+    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
+    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
+    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
+    <!-- no translation found for list_language_values:1 (289708030346890334) -->
+    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
+    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
+    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
+    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
+    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
+    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
+    <skip />
+    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
+    <skip />
+    <!-- no translation found for local_weather_enable (6199315114382448922) -->
+    <skip />
+    <!-- no translation found for local_weather_disable (2510158089142626480) -->
+    <skip />
+    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
+    <skip />
+    <!-- no translation found for atr_enable (5541757457789181799) -->
+    <skip />
+    <!-- no translation found for atr_disable (7085558154727596455) -->
+    <skip />
+    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
+    <skip />
+    <!-- no translation found for lafs_enable (2791978667205137052) -->
+    <skip />
+    <!-- no translation found for lafs_disable (2391212397725495350) -->
+    <skip />
+    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
+    <skip />
+    <!-- no translation found for restaurants_enable (5137657479469118847) -->
+    <skip />
+    <!-- no translation found for restaurants_disable (3678480270938424092) -->
+    <skip />
+    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
+    <skip />
+    <!-- no translation found for lodgings_enable (3230042508992850322) -->
+    <skip />
+    <!-- no translation found for lodgings_disable (3387879742320682391) -->
+    <skip />
+    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
+    <skip />
+    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
+    <skip />
+    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
+    <skip />
+    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
+    <skip />
+    <!-- no translation found for advertisements_enable (2050305021264683786) -->
+    <skip />
+    <!-- no translation found for advertisements_disable (8350985908788707935) -->
+    <skip />
+    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
+    <skip />
+    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
+    <skip />
+    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
+    <skip />
+    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
+    <skip />
+    <!-- no translation found for eo_enable (8623559062015685813) -->
+    <skip />
+    <!-- no translation found for eo_disable (3863812478090907609) -->
+    <skip />
+    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
+    <skip />
+    <!-- no translation found for mhh_enable (3949276822735205799) -->
+    <skip />
+    <!-- no translation found for mhh_disable (4834280270664925123) -->
+    <skip />
+    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
+    <skip />
+    <!-- no translation found for technology_news_enable (7995209394210455181) -->
+    <skip />
+    <!-- no translation found for technology_news_disable (5483490380561851946) -->
+    <skip />
+    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
+    <skip />
+    <!-- no translation found for multi_category_enable (1179299804641721768) -->
+    <skip />
+    <!-- no translation found for multi_category_disable (880104702904139505) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
+    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
+    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
+    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
+    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
+    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
+    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
+    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
+    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
+    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
+    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
+    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
+    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
+    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
+    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
+    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
+    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
+    <!-- no translation found for subscription_title (5813493350326486) -->
+    <skip />
+    <!-- no translation found for subscription_summary (8435941016743418124) -->
+    <skip />
+    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
+    <skip />
+    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
+    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
+    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
+    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
     <string name="fdn">"発信番号制限"</string>
     <string name="manage_fdn_list">"発信番号制限リスト"</string>
     <string name="fdn_activation">"発信番号制限の有効化"</string>
@@ -166,9 +450,21 @@
     <string name="change_pin2">"PIN2を変更"</string>
     <string name="enable_fdn_ok">"発信番号制限をOFFにする"</string>
     <string name="disable_fdn_ok">"発信番号制限をONにする"</string>
-    <string name="sum_fdn">"固定番号の指定による発信制限"</string>
+    <string name="sum_fdn">"電話番号の指定による発信制限"</string>
     <string name="sum_fdn_change_pin">"発信番号制限のPINを変更"</string>
     <string name="sum_fdn_manage_list">"電話番号リストを管理"</string>
+    <!-- no translation found for voice_privacy (7803023024169078619) -->
+    <skip />
+    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
+    <skip />
+    <!-- no translation found for tty_mode_title (3171521903490559138) -->
+    <skip />
+    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
+    <skip />
     <string name="menu_add">"連絡先を追加"</string>
     <string name="menu_edit">"連絡先を編集"</string>
     <string name="menu_delete">"連絡先を削除"</string>
@@ -233,9 +529,13 @@
     <string name="card_title_in_progress">"現在の通話"</string>
     <string name="card_title_conf_call">"グループ通話"</string>
     <string name="card_title_incoming_call">"着信"</string>
+    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
+    <skip />
     <string name="card_title_call_ended">"通話終了"</string>
     <string name="card_title_on_hold">"保留中"</string>
     <string name="card_title_hanging_up">"通話終了"</string>
+    <!-- no translation found for card_title_in_call (6346543933068225205) -->
+    <skip />
     <string name="notification_missedCallTitle">"不在着信"</string>
     <string name="notification_missedCallsTitle">"不在着信"</string>
     <string name="notification_missedCallsMsg">"不在着信<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>件"</string>
@@ -243,6 +543,8 @@
     <string name="notification_ongoing_call_format">"通話中（<xliff:g id="DURATION">%s</xliff:g>）"</string>
     <string name="notification_on_hold">"保留中"</string>
     <string name="notification_voicemail_title">"新しいボイスメール"</string>
+    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
+    <skip />
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>にダイヤル"</string>
     <string name="notification_voicemail_no_vm_number">"ボイスメールの番号が不明です"</string>
     <string name="incall_error_power_off">"機内モードをOFFにしてから発信してください。"</string>
@@ -250,6 +552,8 @@
     <string name="incall_error_no_phone_number_supplied">"発信できません。有効な番号が入力されていません。"</string>
     <string name="incall_error_call_failed">"発信できません。"</string>
     <string name="incall_status_dialed_mmi">"MMIシーケンスを開始中..."</string>
+    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
+    <skip />
     <string name="incall_error_supp_service_unknown">"対応していないサービスです。"</string>
     <string name="incall_error_supp_service_switch">"通話を切り替えられません。"</string>
     <string name="incall_error_supp_service_separate">"通話を分割できません。"</string>
@@ -265,12 +569,26 @@
     <string name="dialerKeyboardHintText">"キーボードで番号を入力してください"</string>
     <string name="dtmfDialpadHintText">"タッチトーンキー"</string>
     <string name="dtmfDialpadHandleLabel">"ダイヤルキー"</string>
-    <string name="touchLockText">"ロックを解除するには"\n"をダブルタップ"</string>
+    <!-- no translation found for touchLockText (8742463586429019112) -->
+    <skip />
+    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
+    <skip />
     <string name="importSimEntry">"インポート"</string>
     <string name="importAllSimEntries">"すべてインポート"</string>
     <string name="importingSimContacts">"SIMの連絡先をインポート中"</string>
     <string name="importToFDNfromContacts">"連絡先からインポート"</string>
+    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
+    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
+    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
+    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
+    <!-- no translation found for eri_text_label (4326942349915331461) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
+    <skip />
+    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
+    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
+    <!-- no translation found for network_message (5673682885938122239) -->
+    <skip />
 </resources>
-
-
-

@@ -20,12 +20,11 @@
     <string name="dialerIconLabel">"撥號"</string>
     <string name="emergencyDialerIconLabel">"緊急撥號"</string>
     <string name="phoneIconLabel">"電話"</string>
-    <string name="recentCallsIconLabel">"通話紀錄"</string>
-    <string name="fdnListLabel">"限制撥號號碼清單"</string>
+    <string name="recentCallsIconLabel">"通話記錄"</string>
+    <string name="fdnListLabel">"固定撥號清單"</string>
     <string name="unknown">"未知"</string>
     <string name="private_num">"私人號碼"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"公共電話"</string>
     <string name="onHold">"通話保留"</string>
     <string name="ongoing">"目前通話"</string>
     <string name="callFailed_userBusy">"線路忙碌中"</string>
@@ -35,16 +34,30 @@
     <string name="callFailed_powerOff">"無線通訊關閉"</string>
     <string name="callFailed_simError">"沒有 SIM 或 SIM 錯誤"</string>
     <string name="callFailed_outOfService">"超出服務範圍"</string>
-    <string name="callFailed_fdn_only">"發話受到限制撥號號碼管制。"</string>
-    <string name="callFailed_cb_enabled">"通話限制啟用時，不允許對外撥號。"</string>
+    <string name="callFailed_fdn_only">"撥出受固定撥號限制。"</string>
+    <string name="callFailed_cb_enabled">"通話限制啟用時，無法撥出電話。"</string>
     <string name="callFailed_dsac_restricted">"所有通話都受存取控制限制。"</string>
     <string name="callFailed_dsac_restricted_emergency">"緊急通話受存取控制限制。"</string>
     <string name="callFailed_dsac_restricted_normal">"正常通話受存取控制限制。"</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle">"CDMA：重新開機前鎖定手機。"</string>
+    <string name="callFailed_cdma_drop">"CDMA：撥號中斷。"</string>
+    <string name="callFailed_cdma_intercept">"CDMA：通話遭攔截。"</string>
+    <string name="callFailed_cdma_reorder">"CDMA：重新排序。"</string>
+    <string name="callFailed_cdma_SO_reject">"CDMA：拒絕服務選項。"</string>
+    <string name="callFailed_cdma_retryOrder">"CDMA：重試命令。"</string>
+    <string name="callFailed_cdma_accessFailure">"CDMA：無法開啟。"</string>
+    <string name="callFailed_cdma_preempted">"CDMA：已預先佔用。"</string>
+    <string name="callFailed_cdma_notEmergency">"僅能撥打緊急電話。"</string>
     <string name="confCall">"多方通話"</string>
-    <string name="mmiStarted">"MMI 碼已開始"</string>
+    <string name="mmiStarted">"MMI 碼開始執行"</string>
     <string name="ussdRunning">"USSD 碼執行中..."</string>
     <string name="mmiCancelled">"MMI 碼已取消"</string>
     <string name="cancel">"取消"</string>
+    <string name="ecbm_mode_text">"緊急回電"</string>
+    <string name="ecbm_exit_text">"離開"</string>
+    <string name="ecbm_ok_text">"確定"</string>
+    <string name="ecbm_emergency_number">"撥打 119"</string>
+    <string name="ecbm_instruction_text">"按鈕撥打緊急電話"</string>
     <string name="menu_speaker">"喇叭"</string>
     <string name="menu_bluetooth">"藍牙"</string>
     <string name="menu_mute">"靜音"</string>
@@ -60,7 +73,9 @@
     <string name="menu_answerAndEnd">"結束目前通話"\n"並接聽"</string>
     <string name="ok">"確定"</string>
     <string name="menuButtonHint">"按下 [選單] 開啟通話選項。"</string>
-    <string name="menuButtonKeyboardDialHint">"按下 [選單] 開啟通話選項•使用鍵盤撥號"</string>
+    <string name="menuButtonKeyboardDialHint">"按一下 [選單] 開啟通話選項•使用鍵盤撥號"</string>
+    <string name="menu_answer">"接聽"</string>
+    <string name="menu_ignore">"忽略"</string>
     <string name="wait_prompt_str">"傳送此鈴聲？"\n</string>
     <string name="send_button">"傳送"</string>
     <string name="wild_prompt_str">"取代萬用字元為"</string>
@@ -84,24 +99,28 @@
     <string name="unlock_failed">"網路解鎖失敗。"</string>
     <string name="unlock_success">"網路解鎖成功。"</string>
     <string name="imei">"IMEI"</string>
-
+    <string name="labelGSMMore">"GSM 通話設定"</string>
+    <string name="labelCDMAMore">"CDMA 通話設定"</string>
     <string name="apn_settings">"存取點名稱 (APN)"</string>
     <string name="settings_label">"網路設定"</string>
     <string name="voicemail">"語音信箱"</string>
     <string name="voicemail_abbreviated">"語音信箱："</string>
     <string name="networks">"電信業者"</string>
     <string name="call_settings">"通話設定"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="additional_gsm_call_settings">"其他 GSM 通話設定"</string>
+    <string name="sum_gsm_call_settings">"其他 GSM 僅限通話設定"</string>
+    <string name="additional_cdma_call_settings">"其他 CDMA 通話設定"</string>
+    <string name="sum_cdma_call_settings">"其他 CDMA 僅限通話設定"</string>
+    <string name="labelNwService">"網路服務設定"</string>
     <string name="labelCallerId">"本機號碼"</string>
-    <string name="sum_hide_caller_id">"隱藏發話號碼"</string>
-    <string name="sum_show_caller_id">"顯示發話號碼"</string>
-    <string name="sum_default_caller_id">"使用預設值，發話時顯示發話號碼"</string>
-    <string name="labelCW">"話中插接"</string>
-    <string name="sum_cw_enabled">"通話期間有來電時通知我"</string>
-    <string name="sum_cw_disabled">"通話期間有來電時通知我"</string>
-    <string name="call_forwarding_settings">"通話指定轉接設定"</string>
-    <string name="labelCF">"通話指定轉接"</string>
+    <string name="sum_hide_caller_id">"隱藏本機號碼"</string>
+    <string name="sum_show_caller_id">"撥出電話時顯示本機號碼"</string>
+    <string name="sum_default_caller_id">"使用預設值，在撥出電話時顯示本機號碼"</string>
+    <string name="labelCW">"來電待接"</string>
+    <string name="sum_cw_enabled">"通話時如有來電請通知我"</string>
+    <string name="sum_cw_disabled">"通話時如有來電請通知我"</string>
+    <string name="call_forwarding_settings">"來電轉接設定"</string>
+    <string name="labelCF">"來電轉接"</string>
     <string name="labelCFU">"永遠轉接"</string>
     <string name="messageCFU">"永遠使用此號碼"</string>
     <string name="sum_cfu_enabled_indicator">"轉接所有來電"</string>
@@ -116,14 +135,14 @@
     <string name="sum_cfnry_enabled">"轉接到 \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled">"停用"</string>
     <string name="labelCFNRc">"未能接通時轉接"</string>
-    <string name="messageCFNRc">"未接通時的轉接號碼"</string>
+    <string name="messageCFNRc">"無法接通時的轉接號碼"</string>
     <string name="sum_cfnrc_enabled">"轉接到 \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled">"停用"</string>
     <string name="updating_title">"通話設定"</string>
     <string name="error_updating_title">"通話設定錯誤"</string>
     <string name="reading_settings">"讀取設定中..."</string>
     <string name="updating_settings">"更新設定中..."</string>
-    <string name="response_error">"網路傳回意外的回應，"</string>
+    <string name="response_error">"網路傳回非預期回應。"</string>
     <string name="exception_error">"網路或 SIM 卡錯誤。"</string>
     <string name="radio_off_error">"檢視設定前，請先開啟無線通訊。"</string>
     <string name="close_dialog">"確定"</string>
@@ -131,12 +150,12 @@
     <string name="disable">"停用"</string>
     <string name="change_num">"更新"</string>
   <string-array name="clir_display_values">
-    <item>"預設網路"</item>
+    <item>"網路預設值"</item>
     <item>"隱藏號碼"</item>
     <item>"顯示號碼"</item>
   </string-array>
     <string name="vm_save_number">"儲存語音信箱號碼"</string>
-    <string name="vm_changed">"已變更語音信箱號碼。"</string>
+    <string name="vm_changed">"語音信箱號碼已變更。"</string>
     <string name="vm_change_failed">"語音信箱號碼變更失敗。"</string>
     <string name="no_change">"未變更設定。"</string>
     <string name="sum_voicemail">"設定語音信箱號碼"</string>
@@ -149,29 +168,211 @@
     <string name="register_on_network">"正在註冊 <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed">"您的 SIM 卡不允許連接此網路。"</string>
     <string name="registration_done">"註冊網路成功。"</string>
-    <string name="sum_carrier_select">"選取網路電信業者"</string>
+    <string name="sum_carrier_select">"選取電信業者"</string>
     <string name="sum_search_networks">"搜尋所有可用網路"</string>
     <string name="select_automatically">"自動選取"</string>
     <string name="sum_select_automatically">"自動選取喜好網路"</string>
-    <string name="register_automatically">"自動註冊中..."</string>
+    <string name="register_automatically">"自動註冊..."</string>
+    <string name="preferred_network_mode_title">"網路模式"</string>
+    <string name="preferred_network_mode_summary">"變更網路操作模式"</string>
+    <string name="preferred_network_mode_dialogtitle">"優先網路模式"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item>"全球"</item>
+    <item>"僅限 EvDo"</item>
+    <item>"CDMA (不具 EvDo)"</item>
+    <item>"CDMA/EvDo 自動切換"</item>
+    <item>"GSM/WCDMA 自動切換"</item>
+    <item>"僅限 WCDMA"</item>
+    <item>"僅限 GSM"</item>
+    <item>"GSM/WCDMA 優先"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item>"7"</item>
+    <item>"6"</item>
+    <item>"5"</item>
+    <item>"4"</item>
+    <item>"3"</item>
+    <item>"2"</item>
+    <item>"1"</item>
+    <item>"0"</item>
+  </string-array>
     <string name="roaming">"資料漫遊"</string>
-    <string name="roaming_enable">"漫遊時連線到資料服務"</string>
-    <string name="roaming_disable">"漫遊時連線到資料服務"</string>
-    <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
-    <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
-    <string name="fdn">"限制撥號號碼"</string>
-    <string name="manage_fdn_list">"限制撥號號碼清單"</string>
-    <string name="fdn_activation">"啟用限制撥號號碼"</string>
-    <string name="fdn_enabled">"已啟用 [限制撥號號碼]"</string>
-    <string name="fdn_disabled">"已停用 [限制撥號號碼]"</string>
-    <string name="enable_fdn">"啟用限制撥號號碼"</string>
-    <string name="disable_fdn">"停用限制撥號號碼"</string>
+    <string name="roaming_enable">"漫遊時連線到資料傳輸服務"</string>
+    <string name="roaming_disable">"漫遊時連線到資料傳輸服務"</string>
+    <string name="roaming_reenable_message">"由於您不在主要網路蓋涵範圍，而且已關閉資料傳輸漫遊服務，資料連線已中斷。"</string>
+    <string name="roaming_warning">"要允許資料漫遊嗎？您可能會需要支付龐大漫遊費用！"</string>
+    <string name="gsm_umts_options">"GSM/UMTS 選項"</string>
+    <string name="cdma_options">"CDMA 選項"</string>
+    <string name="cdma_cell_broadcast_sms">"區域廣播簡訊"</string>
+    <string name="cell_broadcast_sms">"區域廣播簡訊"</string>
+    <string name="enable_disable_cell_bc_sms">"區域廣播簡訊"</string>
+    <string name="cell_bc_sms_enable">"已啟用區域廣播簡訊"</string>
+    <string name="cell_bc_sms_disable">"已停用區域廣播簡訊"</string>
+    <string name="cb_sms_settings">"區域廣播簡訊設定"</string>
+    <string name="enable_disable_emergency_broadcast">"緊急廣播"</string>
+    <string name="emergency_broadcast_enable">"已啟用緊急廣播"</string>
+    <string name="emergency_broadcast_disable">"已停用緊急廣播"</string>
+    <string name="enable_disable_administrative">"管理資訊"</string>
+    <string name="administrative_enable">"已啟用管理資訊"</string>
+    <string name="administrative_disable">"已停用管理資訊"</string>
+    <string name="enable_disable_maintenance">"維護資訊"</string>
+    <string name="maintenance_enable">"啟用維護資訊"</string>
+    <string name="maintenance_disable">"已停用維護資訊"</string>
+    <string name="general_news_settings">"一般新聞"</string>
+    <string name="bf_news_settings">"財經新聞"</string>
+    <string name="sports_news_settings">"運動新聞"</string>
+    <string name="entertainment_news_settings">"娛樂新聞"</string>
+    <string name="enable_disable_local">"當地"</string>
+    <string name="local_enable">"已啟用當地新聞"</string>
+    <string name="local_disable">"已停用當地新聞"</string>
+    <string name="enable_disable_regional">"區域"</string>
+    <string name="regional_enable">"已啟用地區新聞"</string>
+    <string name="regional_disable">"已停用地區新聞"</string>
+    <string name="enable_disable_national">"國內"</string>
+    <string name="national_enable">"已啟用國內新聞"</string>
+    <string name="national_disable">"已停用國內新聞"</string>
+    <string name="enable_disable_international">"國際"</string>
+    <string name="international_enable">"已啟用國際新聞"</string>
+    <string name="international_disable">"已停用國際新聞"</string>
+    <string name="list_language_title">"語言"</string>
+    <string name="list_language_summary">"選取新聞語言"</string>
+  <string-array name="list_language_entries">
+    <item>"英文"</item>
+    <item>"法文"</item>
+    <item>"西班牙文"</item>
+    <item>"日文"</item>
+    <item>"韓文"</item>
+    <item>"中文"</item>
+    <item>"希伯來文"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+    <item>"4"</item>
+    <item>"5"</item>
+    <item>"6"</item>
+    <item>"7"</item>
+  </string-array>
+    <string name="list_language_dtitle">"語言"</string>
+    <string name="enable_disable_local_weather">"當地天氣預報"</string>
+    <string name="local_weather_enable">"已啟用當地天氣預報"</string>
+    <string name="local_weather_disable">"已停用當地天氣預報"</string>
+    <string name="enable_disable_atr">"區域路況報告"</string>
+    <string name="atr_enable">"已啟用區域路況報告"</string>
+    <string name="atr_disable">"已停用區域路況報告"</string>
+    <string name="enable_disable_lafs">"當地機場航班時刻表"</string>
+    <string name="lafs_enable">"已啟用當地機場航班時刻表"</string>
+    <string name="lafs_disable">"已停用當地機場航班時刻表"</string>
+    <string name="enable_disable_restaurants">"餐廳資訊"</string>
+    <string name="restaurants_enable">"已啟用餐廳資訊"</string>
+    <string name="restaurants_disable">"已停用餐廳資訊"</string>
+    <string name="enable_disable_lodgings">"住宿資訊"</string>
+    <string name="lodgings_enable">"已啟用住宿資訊"</string>
+    <string name="lodgings_disable">"已停用住宿資訊"</string>
+    <string name="enable_disable_retail_directory">"零售目錄"</string>
+    <string name="retail_directory_enable">"已啟用零售目錄"</string>
+    <string name="retail_directory_disable">"已停用零售目錄"</string>
+    <string name="enable_disable_advertisements">"廣告資訊"</string>
+    <string name="advertisements_enable">"已啟用廣告"</string>
+    <string name="advertisements_disable">"停用廣告資訊"</string>
+    <string name="enable_disable_stock_quotes">"股票報價"</string>
+    <string name="stock_quotes_enable">"已啟用股票報價"</string>
+    <string name="stock_quotes_disable">"已停用股票報價"</string>
+    <string name="enable_disable_eo">"就業資訊"</string>
+    <string name="eo_enable">"已啟用就業資訊"</string>
+    <string name="eo_disable">"已停用就業資訊"</string>
+    <string name="enable_disable_mhh">"醫療、保健及醫院"</string>
+    <string name="mhh_enable">"啟用醫療、保健及醫院資訊"</string>
+    <string name="mhh_disable">"已停用醫療、保健及醫院資訊"</string>
+    <string name="enable_disable_technology_news">"科技新聞"</string>
+    <string name="technology_news_enable">"已啟用科技新聞"</string>
+    <string name="technology_news_disable">"停用科技新聞"</string>
+    <string name="enable_disable_multi_category">"多類別資訊"</string>
+    <string name="multi_category_enable">"已啟用多類別資訊"</string>
+    <string name="multi_category_disable">"已停用多類別資訊"</string>
+    <string name="gsm_umts_network_preferences_title">"GSM/UMTS 網路偏好設定"</string>
+    <string name="gsm_umts_network_preferneces_summary">"尚未建置！"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle">"GSM/UMTS 網路偏好設定"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item>"GSM/WCDMA (自動模式)"</item>
+    <item>"僅限 WCDMA"</item>
+    <item>"僅限 GSM"</item>
+    <item>"GSM/WCDA (WCDMA 優先)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+  </string-array>
+    <string name="cdma_system_select_title">"選取系統"</string>
+    <string name="cdma_system_select_summary">"變更 CDMA 漫遊模式"</string>
+    <string name="cdma_system_select_dialogtitle">"選取系統"</string>
+  <string-array name="cdma_system_select_choices">
+    <item>"僅限住家電話"</item>
+    <item>"自動"</item>
+  </string-array>
+  <string-array name="cdma_system_select_values">
+    <item>"0"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title">"CDMA 漫遊模式"</string>
+    <string name="cdma_roaming_mode_summary">"變更 CDMA 漫遊模式"</string>
+    <string name="cdma_roaming_mode_dialogtitle">"CDMA 漫遊模式"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item>"僅限家用網路"</item>
+    <item>"聯盟網路"</item>
+    <item>"任何網路"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title">"CDMA 網路偏好設定"</string>
+    <string name="cdma_network_preferneces_summary">"尚未建置！"</string>
+    <string name="cdma_network_preferences_dialogtitle">"CDMA 網路偏好設定"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item>"CDMA/EvDo"</item>
+    <item>"僅限 CDMA"</item>
+    <item>"僅限 EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="subscription_title">"CDMA 訂閱測試"</string>
+    <string name="subscription_summary">"在 RUIM/SIM 和 NV 之間切換"</string>
+    <string name="subscription_dialogtitle">"訂閱"</string>
+  <string-array name="subscription_choices">
+    <item>"RUIM/SIM"</item>
+    <item>"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item>"0"</item>
+    <item>"1"</item>
+  </string-array>
+    <string name="fdn">"固定撥號"</string>
+    <string name="manage_fdn_list">"固定撥號清單"</string>
+    <string name="fdn_activation">"啟用固定撥號"</string>
+    <string name="fdn_enabled">"已啟用 [固定撥號]"</string>
+    <string name="fdn_disabled">"已停用固定撥號"</string>
+    <string name="enable_fdn">"啟用固定撥號"</string>
+    <string name="disable_fdn">"停用固定撥號"</string>
     <string name="change_pin2">"更改 PIN2"</string>
-    <string name="enable_fdn_ok">"停用限制撥號號碼"</string>
-    <string name="disable_fdn_ok">"啟用限制撥號號碼"</string>
-    <string name="sum_fdn">"管理限制撥號號碼"</string>
-    <string name="sum_fdn_change_pin">"變更 PIN 以存取限制撥號號碼"</string>
+    <string name="enable_fdn_ok">"停用固定撥號"</string>
+    <string name="disable_fdn_ok">"啟用固定撥號"</string>
+    <string name="sum_fdn">"管理固定撥號"</string>
+    <string name="sum_fdn_change_pin">"變更固定撥號功能存取密碼"</string>
     <string name="sum_fdn_manage_list">"管理電話號碼清單"</string>
+    <string name="voice_privacy">"語音加密保護"</string>
+    <string name="voice_privacy_summary">"已啟用加強型隱私保護模式"</string>
+    <string name="tty_mode_title">"TTY 模式"</string>
+    <string name="tty_mode_summary">"啟用 TTY 模式"</string>
+    <string name="tty_mode_option_title">"TTY 模式"</string>
+    <string name="tty_mode_option_summary">"設定 TTY 模式"</string>
     <string name="menu_add">"新增聯絡人"</string>
     <string name="menu_edit">"編輯聯絡人"</string>
     <string name="menu_delete">"刪除聯絡人"</string>
@@ -179,15 +380,15 @@
     <string name="name">"名稱"</string>
     <string name="number">"號碼"</string>
     <string name="save">"儲存"</string>
-    <string name="add_fdn_contact">"新增限制撥號聯絡人"</string>
-    <string name="adding_fdn_contact">"正在新增限制撥號聯絡人..."</string>
-    <string name="fdn_contact_added">"已新增限制撥號聯絡人。"</string>
-    <string name="edit_fdn_contact">"編輯限制撥號聯絡人"</string>
-    <string name="updating_fdn_contact">"正在更新限制撥號聯絡人..."</string>
-    <string name="fdn_contact_updated">"限制撥號清單已更新。"</string>
-    <string name="delete_fdn_contact">"刪除限制撥號聯絡人"</string>
-    <string name="deleting_fdn_contact">"正在刪除限制撥號聯絡人..."</string>
-    <string name="fdn_contact_deleted">"已刪除限制撥號聯絡人。"</string>
+    <string name="add_fdn_contact">"新增固定撥號聯絡人"</string>
+    <string name="adding_fdn_contact">"正在新增固定撥號聯絡人..."</string>
+    <string name="fdn_contact_added">"已新增固定撥號聯絡人。"</string>
+    <string name="edit_fdn_contact">"編輯固定撥號聯絡人"</string>
+    <string name="updating_fdn_contact">"正在更新固定撥號聯絡人..."</string>
+    <string name="fdn_contact_updated">"固定撥號清單已更新。"</string>
+    <string name="delete_fdn_contact">"刪除固定撥號聯絡人"</string>
+    <string name="deleting_fdn_contact">"正在刪除固定撥號聯絡人..."</string>
+    <string name="fdn_contact_deleted">"已刪除固定撥號聯絡人。"</string>
     <string name="pin2_invalid">"PIN2 錯誤！"</string>
     <string name="fdn_invalid_number">"號碼不能超過 20 位數。"</string>
     <string name="simContacts_emptyLoading">"從 SIM 卡讀取中..."</string>
@@ -236,23 +437,27 @@
     <string name="card_title_in_progress">"目前通話"</string>
     <string name="card_title_conf_call">"多方通話"</string>
     <string name="card_title_incoming_call">"來電"</string>
+    <string name="card_title_cdma_call_waiting">"CDMA 通話插播中"</string>
     <string name="card_title_call_ended">"通話結束"</string>
     <string name="card_title_on_hold">"通話保留"</string>
     <string name="card_title_hanging_up">"掛斷電話"</string>
+    <string name="card_title_in_call">"通話中"</string>
     <string name="notification_missedCallTitle">"未接來電"</string>
     <string name="notification_missedCallsTitle">"未接來電"</string>
     <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> 通未接來電"</string>
     <string name="notification_missedCallTicker">"來自 <xliff:g id="MISSED_CALL_FROM">%s</xliff:g> 的未接來電"</string>
     <string name="notification_ongoing_call_format">"目前通話 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"通話保留"</string>
-    <string name="notification_voicemail_title">"新增語音信箱"</string>
+    <string name="notification_voicemail_title">"新留言"</string>
+    <string name="notification_voicemail_title_count">"新留言 (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format">"撥打 <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"未知的語音信箱號碼"</string>
+    <string name="notification_voicemail_no_vm_number">"無語音信箱號碼"</string>
     <string name="incall_error_power_off">"撥號前，請先關閉飛航模式。"</string>
     <string name="incall_error_emergency_only">"尚未註冊網路。"</string>
     <string name="incall_error_no_phone_number_supplied">"撥號未送出，未輸入正確號碼。"</string>
     <string name="incall_error_call_failed">"撥號未送出。"</string>
-    <string name="incall_status_dialed_mmi">"開始 MMI 接續..."</string>
+    <string name="incall_status_dialed_mmi">"開始 MMI 序列..."</string>
+    <string name="incall_status_dialed_fc">"正在啟動功能碼序列..."</string>
     <string name="incall_error_supp_service_unknown">"不支援的服務。"</string>
     <string name="incall_error_supp_service_switch">"無法切換通話。"</string>
     <string name="incall_error_supp_service_separate">"無法分隔來電。"</string>
@@ -266,13 +471,26 @@
     <string name="dial_emergency_error">"撥號未送出，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是緊急電話號碼！"</string>
     <string name="dial_emergency_empty_error">"撥號未送出，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText">"使用鍵盤撥號"</string>
-    <string name="dtmfDialpadHintText">"觸碰音按鍵"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
-    <string name="touchLockText">"點兩下"\n"即可解鎖"</string>
+    <string name="dtmfDialpadHintText">"觸控音按鍵"</string>
+    <string name="dtmfDialpadHandleLabel">"撥號鍵盤"</string>
+    <string name="touchLockText">"輕按兩次"\n"以解鎖"</string>
+    <string name="onscreenAnswerText">"輕按兩次"\n"即可接聽"</string>
     <string name="importSimEntry">"匯入"</string>
     <string name="importAllSimEntries">"全部匯入"</string>
     <string name="importingSimContacts">"匯入 SIM 聯絡人"</string>
     <string name="importToFDNfromContacts">"從聯絡人匯入"</string>
+  <string-array name="tty_mode_entries">
+    <item>"關閉 TTY"</item>
+    <item>"TTY HCO"</item>
+    <item>"TTY VCO"</item>
+    <item>"TTY 全能"</item>
+  </string-array>
+    <string name="eri_text_label">"ERI 文字"</string>
+    <string name="dtmf_tones_title">"DTMF 信號音"</string>
+    <string name="dtmf_tones_summary">"設定 DTMF 信號音長度"</string>
+  <string-array name="dtmf_tone_entries">
+    <item>"適中"</item>
+    <item>"長音"</item>
+  </string-array>
+    <string name="network_message">"網路訊息"</string>
 </resources>
-

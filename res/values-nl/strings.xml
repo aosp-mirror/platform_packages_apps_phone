@@ -16,7 +16,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"Contacten"</string>
-    <string name="contactsFavoritesLabel">"Favorieten"</string>
+    <string name="contactsFavoritesLabel">"Favoriet"</string>
     <string name="dialerIconLabel">"Kiezer"</string>
     <string name="emergencyDialerIconLabel">"Kiezer noodoproep"</string>
     <string name="phoneIconLabel">"Telefoon"</string>
@@ -39,27 +39,43 @@
     <string name="callFailed_dsac_restricted">"Alle oproepen worden beperkt door toegangsbeheer."</string>
     <string name="callFailed_dsac_restricted_emergency">"Noodoproepen worden beperkt door toegangsbeheer."</string>
     <string name="callFailed_dsac_restricted_normal">"Normale oproepen worden beperkt door toegangsbeheer."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle">"CDMA: telefoon vergrendeld tot opstartcyclus."</string>
+    <string name="callFailed_cdma_drop">"CDMA: oproep afgebroken."</string>
+    <string name="callFailed_cdma_intercept">"CDMA: oproep onderschept."</string>
+    <string name="callFailed_cdma_reorder">"CDMA: nieuwe opdracht."</string>
+    <string name="callFailed_cdma_SO_reject">"CDMA: serviceoptie geweigerd."</string>
+    <string name="callFailed_cdma_retryOrder">"CDMA: opdracht opnieuw proberen."</string>
+    <string name="callFailed_cdma_accessFailure">"CDMA: toegangsfout."</string>
+    <string name="callFailed_cdma_preempted">"CDMA: preëmptief gemaakt."</string>
+    <string name="callFailed_cdma_notEmergency">"Alleen noodoproepen zijn mogelijk."</string>
     <string name="confCall">"Telefonische vergadering"</string>
     <string name="mmiStarted">"MMI-code gestart"</string>
     <string name="ussdRunning">"USSD-code uitvoeren..."</string>
     <string name="mmiCancelled">"MMI-code geannuleerd"</string>
     <string name="cancel">"Annuleren"</string>
+    <string name="ecbm_mode_text">"Terugbellen bij noodoproep"</string>
+    <string name="ecbm_exit_text">"AFSLUITEN"</string>
+    <string name="ecbm_ok_text">"OK"</string>
+    <string name="ecbm_emergency_number">"112 bellen"</string>
+    <string name="ecbm_instruction_text">"Druk op knop voor noodoproep"</string>
     <string name="menu_speaker">"Luidspreker"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Dempen"</string>
     <string name="menu_hold">"In de wacht"</string>
-    <string name="menu_endCall">"Oproep beëindigen"</string>
-    <string name="menu_swapCalls">"Oproepen wisselen"</string>
-    <string name="menu_mergeCalls">"Oproepen samenvoegen"</string>
-    <string name="menu_addCall">"Oproep toevoegen"</string>
+    <string name="menu_endCall">"Beëindigen"</string>
+    <string name="menu_swapCalls">"Wisselen"</string>
+    <string name="menu_mergeCalls">"Samenvoegen"</string>
+    <string name="menu_addCall">"Toevoegen"</string>
     <string name="menu_manageConference">"Telefonische vergadering beheren"</string>
     <string name="menu_showDialpad">"Toetsenblok weergeven"</string>
     <string name="menu_hideDialpad">"Toetsenblok verbergen"</string>
-    <string name="menu_answerAndHold">"Huidige oproep in de wacht zetten"\n" en opnemen"</string>
-    <string name="menu_answerAndEnd">"Huidige oproep beëindigen"\n" en opnemen"</string>
+    <string name="menu_answerAndHold">"Hdg. opr. in wacht"\n"en opnemen"</string>
+    <string name="menu_answerAndEnd">"Hdg. opr. beëindigen"\n"en opnemen"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Druk op \'Menu\' voor oproepopties."</string>
     <string name="menuButtonKeyboardDialHint">"Druk op \'Menu\' voor oproepopties • Toetsen gebruiken om te bellen"</string>
+    <string name="menu_answer">"Antwoord"</string>
+    <string name="menu_ignore">"Negeren"</string>
     <string name="wait_prompt_str">"De volgende tonen verzenden?"\n</string>
     <string name="send_button">"Verzenden"</string>
     <string name="wild_prompt_str">"Het jokerteken vervangen door"</string>
@@ -83,17 +99,23 @@
     <string name="unlock_failed">"Verzoek voor ontgrendelen netwerk mislukt."</string>
     <string name="unlock_success">"Het netwerk is ontgrendeld."</string>
     <string name="imei">"IMEI-nummer"</string>
+    <string name="labelGSMMore">"GSM-oproepinstellingen"</string>
+    <string name="labelCDMAMore">"CDMA-oproepinstellingen"</string>
     <string name="apn_settings">"Namen toegangspunten"</string>
     <string name="settings_label">"Netwerkinstellingen"</string>
     <string name="voicemail">"Voicemail"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"Mobiele providers"</string>
     <string name="call_settings">"Oproepinstellingen"</string>
+    <string name="additional_gsm_call_settings">"Aanvullende GSM-oproepinstellingen"</string>
+    <string name="sum_gsm_call_settings">"Aanvullende oproepinstellingen voor alleen GSM"</string>
+    <string name="additional_cdma_call_settings">"Aanvullende CDMA-oproepinstellingen"</string>
+    <string name="sum_cdma_call_settings">"Aanvullende oproepinstellingen voor alleen CDMA"</string>
     <string name="labelNwService">"Instellingen voor netwerkservice"</string>
     <string name="labelCallerId">"Beller-id"</string>
     <string name="sum_hide_caller_id">"Nummer verborgen bij uitgaande oproepen"</string>
     <string name="sum_show_caller_id">"Nummer weergegeven bij uitgaande oproepen"</string>
-    <string name="sum_default_caller_id">"Gebruik de standaard operator-instellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
+    <string name="sum_default_caller_id">"Gebruik de standaard operatorinstellingen om mijn nummer bij uitgaande oproepen weer te geven"</string>
     <string name="labelCW">"Wisselgesprek"</string>
     <string name="sum_cw_enabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>
     <string name="sum_cw_disabled">"Inkomende oproepen melden als ik aan het bellen ben"</string>
@@ -106,21 +128,21 @@
     <string name="sum_cfu_disabled">"Uitgeschakeld"</string>
     <string name="labelCFB">"Doorschakelen indien in gesprek"</string>
     <string name="messageCFB">"Nummer indien in gesprek"</string>
-    <string name="sum_cfb_enabled">"Doorschakelen naar \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled">"Doorschakelen naar {0}"</string>
     <string name="sum_cfb_disabled">"Uitgeschakeld"</string>
     <string name="labelCFNRy">"Doorschakelen indien onbeantwoord"</string>
     <string name="messageCFNRy">"Nummer indien onbeantwoord"</string>
-    <string name="sum_cfnry_enabled">"Doorschakelen naar \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled">"Doorschakelen naar {0}"</string>
     <string name="sum_cfnry_disabled">"Uitgeschakeld"</string>
     <string name="labelCFNRc">"Doorschakelen indien onbereikbaar"</string>
     <string name="messageCFNRc">"Nummer indien onbereikbaar"</string>
-    <string name="sum_cfnrc_enabled">"Doorschakelen naar \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled">"Doorschakelen naar {0}"</string>
     <string name="sum_cfnrc_disabled">"Uitgeschakeld"</string>
     <string name="updating_title">"Oproepinstellingen"</string>
     <string name="error_updating_title">"Fout met oproepinstellingen"</string>
     <string name="reading_settings">"Instellingen lezen..."</string>
     <string name="updating_settings">"Instellingen bijwerken..."</string>
-    <string name="response_error">"Onverwachte reactie van netwerk,"</string>
+    <string name="response_error">"Onverwachte reactie van netwerk."</string>
     <string name="exception_error">"Netwerk- of SIM-kaartfout."</string>
     <string name="radio_off_error">"Schakel de radio in voordat u deze instellingen bekijkt."</string>
     <string name="close_dialog">"OK"</string>
@@ -150,12 +172,188 @@
     <string name="sum_search_networks">"Alle beschikbare netwerken zoeken"</string>
     <string name="select_automatically">"Automatisch selecteren"</string>
     <string name="sum_select_automatically">"Voorkeursnetwerk automatisch selecteren"</string>
-    <string name="register_automatically">"Automatisch registreren..."</string>
+    <string name="register_automatically">"Automatische registratie..."</string>
+    <string name="preferred_network_mode_title">"Netwerkmodus"</string>
+    <string name="preferred_network_mode_summary">"De netwerkgebruiksmodus wijzigen"</string>
+    <string name="preferred_network_mode_dialogtitle">"Voorkeursnetwerkmodus"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item>"Globaal"</item>
+    <item>"Alleen EvDo"</item>
+    <item>"CDMA zonder EvDo"</item>
+    <item>"CDMA/EvDo automatisch"</item>
+    <item>"GSM/WCDMA automatisch"</item>
+    <item>"Alleen WCDMA"</item>
+    <item>"Alleen GSM"</item>
+    <item>"Voorkeur voor GSM/WCDMA"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item>"7"</item>
+    <item>"6"</item>
+    <item>"5"</item>
+    <item>"4"</item>
+    <item>"3"</item>
+    <item>"2"</item>
+    <item>"1"</item>
+    <item>"0"</item>
+  </string-array>
     <string name="roaming">"Gegevensroaming"</string>
     <string name="roaming_enable">"Verbinding maken met gegevensservices tijdens roaming"</string>
     <string name="roaming_disable">"Verbinding maken met gegevensservices tijdens roaming"</string>
     <string name="roaming_reenable_message">"De gegevensverbinding is verbroken, omdat u uw thuisnetwerk heeft verlaten terwijl gegevensroaming was uitgeschakeld."</string>
     <string name="roaming_warning">"Gegevensroaming toestaan? Er kunnen hoge roamingkosten in rekening worden gebracht."</string>
+    <string name="gsm_umts_options">"GSM-/UMTS-opties"</string>
+    <string name="cdma_options">"CDMA-opties"</string>
+    <string name="cdma_cell_broadcast_sms">"Infodienstbericht"</string>
+    <string name="cell_broadcast_sms">"Infodienstbericht"</string>
+    <string name="enable_disable_cell_bc_sms">"SMS Infodienstbericht"</string>
+    <string name="cell_bc_sms_enable">"SMS Infodienstbericht ingeschakeld"</string>
+    <string name="cell_bc_sms_disable">"Infodienstbericht uitgeschakeld"</string>
+    <string name="cb_sms_settings">"Instellingen voor SMS infodienstberichten"</string>
+    <string name="enable_disable_emergency_broadcast">"Bericht bij noodsituatie"</string>
+    <string name="emergency_broadcast_enable">"Bericht bij noodsituatie ingeschakeld"</string>
+    <string name="emergency_broadcast_disable">"Bericht bij noodsituatie uitgeschakeld"</string>
+    <string name="enable_disable_administrative">"Beheer"</string>
+    <string name="administrative_enable">"Beheer ingeschakeld"</string>
+    <string name="administrative_disable">"Beheer uitgeschakeld"</string>
+    <string name="enable_disable_maintenance">"Onderhoud"</string>
+    <string name="maintenance_enable">"Onderhoud ingeschakeld"</string>
+    <string name="maintenance_disable">"Onderhoud uitgeschakeld"</string>
+    <string name="general_news_settings">"Algemeen nieuws"</string>
+    <string name="bf_news_settings">"Zakelijk en financieel nieuws"</string>
+    <string name="sports_news_settings">"Sportnieuws"</string>
+    <string name="entertainment_news_settings">"Amusementsnieuws"</string>
+    <string name="enable_disable_local">"Lokaal"</string>
+    <string name="local_enable">"Lokaal nieuws ingeschakeld"</string>
+    <string name="local_disable">"Lokaal nieuws uitgeschakeld"</string>
+    <string name="enable_disable_regional">"Regionaal"</string>
+    <string name="regional_enable">"Regionaal nieuws ingeschakeld"</string>
+    <string name="regional_disable">"Regionaal nieuws uitgeschakeld"</string>
+    <string name="enable_disable_national">"Binnenlands"</string>
+    <string name="national_enable">"Binnenlands nieuws ingeschakeld"</string>
+    <string name="national_disable">"Binnenlands nieuws uitgeschakeld"</string>
+    <string name="enable_disable_international">"Buitenlands"</string>
+    <string name="international_enable">"Buitenlands nieuws ingeschakeld"</string>
+    <string name="international_disable">"Buitenlands nieuws uitgeschakeld"</string>
+    <string name="list_language_title">"Taal"</string>
+    <string name="list_language_summary">"De taal voor het nieuws selecteren"</string>
+  <string-array name="list_language_entries">
+    <item>"Engels"</item>
+    <item>"Frans"</item>
+    <item>"Spaans"</item>
+    <item>"Japans"</item>
+    <item>"Koreaans"</item>
+    <item>"Chinees"</item>
+    <item>"Hebreeuws"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+    <item>"4"</item>
+    <item>"5"</item>
+    <item>"6"</item>
+    <item>"7"</item>
+  </string-array>
+    <string name="list_language_dtitle">"Talen"</string>
+    <string name="enable_disable_local_weather">"Lokaal weerbericht"</string>
+    <string name="local_weather_enable">"Lokaal weerbericht ingeschakeld"</string>
+    <string name="local_weather_disable">"Lokaal weerbericht uitgeschakeld"</string>
+    <string name="enable_disable_atr">"Verkeersberichten"</string>
+    <string name="atr_enable">"Verkeersberichten ingeschakeld"</string>
+    <string name="atr_disable">"Verkeersberichten uitgeschakeld"</string>
+    <string name="enable_disable_lafs">"Vluchttijden voor lokaal vliegveld"</string>
+    <string name="lafs_enable">"Vluchttijden voor lokaal vliegveld ingeschakeld"</string>
+    <string name="lafs_disable">"Vluchttijden voor lokaal vliegveld uitgeschakeld"</string>
+    <string name="enable_disable_restaurants">"Restaurants"</string>
+    <string name="restaurants_enable">"Restaurants ingeschakeld"</string>
+    <string name="restaurants_disable">"Restaurants uitgeschakeld"</string>
+    <string name="enable_disable_lodgings">"Overnachtingen"</string>
+    <string name="lodgings_enable">"Overnachtingen ingeschakeld"</string>
+    <string name="lodgings_disable">"Overnachtingen uitgeschakeld"</string>
+    <string name="enable_disable_retail_directory">"Winkeloverzicht"</string>
+    <string name="retail_directory_enable">"Winkeloverzicht ingeschakeld"</string>
+    <string name="retail_directory_disable">"Winkeloverzicht uitgeschakeld"</string>
+    <string name="enable_disable_advertisements">"Advertenties"</string>
+    <string name="advertisements_enable">"Advertenties ingeschakeld"</string>
+    <string name="advertisements_disable">"Advertenties uitgeschakeld"</string>
+    <string name="enable_disable_stock_quotes">"Aandelenkoersen"</string>
+    <string name="stock_quotes_enable">"Aandelenkoersen ingeschakeld"</string>
+    <string name="stock_quotes_disable">"Aandelenkoersen uitgeschakeld"</string>
+    <string name="enable_disable_eo">"Vacatures"</string>
+    <string name="eo_enable">"Vacatures ingeschakeld"</string>
+    <string name="eo_disable">"Vacatures uitgeschakeld"</string>
+    <string name="enable_disable_mhh">"Medisch, gezondheid en ziekenhuis"</string>
+    <string name="mhh_enable">"Medisch, gezondheid en ziekenhuis ingeschakeld"</string>
+    <string name="mhh_disable">"Medisch, gezondheid en ziekenhuis uitgeschakeld"</string>
+    <string name="enable_disable_technology_news">"Technologienieuws"</string>
+    <string name="technology_news_enable">"Technologienieuws ingeschakeld"</string>
+    <string name="technology_news_disable">"Technologienieuws uitgeschakeld"</string>
+    <string name="enable_disable_multi_category">"Meerdere categorieën"</string>
+    <string name="multi_category_enable">"Meerdere categorieën ingeschakeld"</string>
+    <string name="multi_category_disable">"Meerdere categorieën uitgeschakeld"</string>
+    <string name="gsm_umts_network_preferences_title">"GSM-/UMTS-netwerkvoorkeuren"</string>
+    <string name="gsm_umts_network_preferneces_summary">"Nog niet geïmplementeerd."</string>
+    <string name="gsm_umts_network_preferences_dialogtitle">"GSM-/UMTS-netwerkvoorkeuren"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item>"GSM/WCDMA (automatische modus)"</item>
+    <item>"Alleen WCDMA"</item>
+    <item>"Alleen GSM"</item>
+    <item>"GSM/WCDA (voorkeur voor WCDMA)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+  </string-array>
+    <string name="cdma_system_select_title">"Systeem selecteren"</string>
+    <string name="cdma_system_select_summary">"De CDMA-roamingmodus wijzigen"</string>
+    <string name="cdma_system_select_dialogtitle">"Systeem selecteren"</string>
+  <string-array name="cdma_system_select_choices">
+    <item>"Alleen thuis"</item>
+    <item>"Automatisch"</item>
+  </string-array>
+  <string-array name="cdma_system_select_values">
+    <item>"0"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title">"CDMA-roamingmodus"</string>
+    <string name="cdma_roaming_mode_summary">"De CDMA-roamingmodus wijzigen"</string>
+    <string name="cdma_roaming_mode_dialogtitle">"CDMA-roamingmodus"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item>"Alleen thuisnetwerken"</item>
+    <item>"Partnernetwerken"</item>
+    <item>"Elk netwerk"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title">"CDMA-netwerkvoorkeuren"</string>
+    <string name="cdma_network_preferneces_summary">"Nog niet geïmplementeerd."</string>
+    <string name="cdma_network_preferences_dialogtitle">"CDMA-netwerkvoorkeuren"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item>"CDMA/EvDo"</item>
+    <item>"Alleen CDMA"</item>
+    <item>"Alleen EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="subscription_title">"TEST CDMA-abonnement"</string>
+    <string name="subscription_summary">"Schakelen tussen RUIM/SIM en NV"</string>
+    <string name="subscription_dialogtitle">"abonnement"</string>
+  <string-array name="subscription_choices">
+    <item>"RUIM/SIM"</item>
+    <item>"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item>"0"</item>
+    <item>"1"</item>
+  </string-array>
     <string name="fdn">"Vaste nummers"</string>
     <string name="manage_fdn_list">"FDN-lijst"</string>
     <string name="fdn_activation">"FDN-activering"</string>
@@ -169,6 +367,12 @@
     <string name="sum_fdn">"Vaste nummers beheren"</string>
     <string name="sum_fdn_change_pin">"PIN-code voor FDN-toegang wijzigen"</string>
     <string name="sum_fdn_manage_list">"Lijst met telefoonnummers beheren"</string>
+    <string name="voice_privacy">"Spraakprivacy"</string>
+    <string name="voice_privacy_summary">"Geavanceerde privacymodus inschakelen"</string>
+    <string name="tty_mode_title">"TTY-modus"</string>
+    <string name="tty_mode_summary">"TTY-modus inschakelen"</string>
+    <string name="tty_mode_option_title">"TTY-modus"</string>
+    <string name="tty_mode_option_summary">"TTY-modus instellen"</string>
     <string name="menu_add">"Contact toevoegen"</string>
     <string name="menu_edit">"Contact bewerken"</string>
     <string name="menu_delete">"Contact verwijderen"</string>
@@ -233,9 +437,11 @@
     <string name="card_title_in_progress">"Huidige oproep"</string>
     <string name="card_title_conf_call">"Telefonische vergadering"</string>
     <string name="card_title_incoming_call">"Inkomende oproep"</string>
+    <string name="card_title_cdma_call_waiting">"CDMA-oproep in wacht"</string>
     <string name="card_title_call_ended">"Oproep beëindigd"</string>
     <string name="card_title_on_hold">"In de wacht"</string>
     <string name="card_title_hanging_up">"Ophangen"</string>
+    <string name="card_title_in_call">"Actieve oproep"</string>
     <string name="notification_missedCallTitle">"Gemiste oproep"</string>
     <string name="notification_missedCallsTitle">"Gemiste oproepen"</string>
     <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> gemiste oproepen"</string>
@@ -243,6 +449,7 @@
     <string name="notification_ongoing_call_format">"Huidige oproep (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"In de wacht"</string>
     <string name="notification_voicemail_title">"Nieuwe voicemail"</string>
+    <string name="notification_voicemail_title_count">"Nieuwe voicemail (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g> bellen"</string>
     <string name="notification_voicemail_no_vm_number">"Voicemailnummer onbekend"</string>
     <string name="incall_error_power_off">"Als u wilt bellen, moet u eerst de Vliegmodus uitschakelen."</string>
@@ -250,6 +457,7 @@
     <string name="incall_error_no_phone_number_supplied">"Oproep niet verzonden, geen geldig nummer ingevoerd."</string>
     <string name="incall_error_call_failed">"Oproep niet verzonden."</string>
     <string name="incall_status_dialed_mmi">"MMI-reeks starten..."</string>
+    <string name="incall_status_dialed_fc">"Functiecodereeks starten…"</string>
     <string name="incall_error_supp_service_unknown">"Niet-ondersteunde service."</string>
     <string name="incall_error_supp_service_switch">"Kan niet overschakelen tussen oproepen."</string>
     <string name="incall_error_supp_service_separate">"Kan oproep niet scheiden."</string>
@@ -266,9 +474,23 @@
     <string name="dtmfDialpadHintText">"Toetsenblok voor toetsgeluid"</string>
     <string name="dtmfDialpadHandleLabel">"Toetsenblok"</string>
     <string name="touchLockText">"Tik twee keer"\n"om te ontgrendelen"</string>
+    <string name="onscreenAnswerText">"Tik twee keer"\n"om te antwoorden"</string>
     <string name="importSimEntry">"Importeren"</string>
     <string name="importAllSimEntries">"Alles importeren"</string>
     <string name="importingSimContacts">"SIM-contacten importeren"</string>
     <string name="importToFDNfromContacts">"Importeren uit contacten"</string>
+  <string-array name="tty_mode_entries">
+    <item>"TTY uit"</item>
+    <item>"TTY HCO"</item>
+    <item>"TTY VCO"</item>
+    <item>"TTY volledig"</item>
+  </string-array>
+    <string name="eri_text_label">"ERI-tekst"</string>
+    <string name="dtmf_tones_title">"DTMF-tonen"</string>
+    <string name="dtmf_tones_summary">"De lengte van DTMF-tonen instellen"</string>
+  <string-array name="dtmf_tone_entries">
+    <item>"Normaal"</item>
+    <item>"Lang"</item>
+  </string-array>
+    <string name="network_message">"Netwerkbericht"</string>
 </resources>
-
