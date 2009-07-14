@@ -725,66 +725,68 @@ public class BluetoothHandsfree {
 
     private final Handler mHandler = new Handler() {
         @Override
-        public synchronized void handleMessage(Message msg) {
-            switch (msg.what) {
-            case SCO_ACCEPTED:
-                if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
-                    if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+        public void handleMessage(Message msg) {
+            synchronized (BluetoothHandsfree.this) {
+                switch (msg.what) {
+                case SCO_ACCEPTED:
+                    if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
+                        if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                                mConnectedSco == null) {
+                            Log.i(TAG, "Routing audio for incoming SCO connection");
+                            mConnectedSco = (ScoSocket)msg.obj;
+                            mAudioManager.setBluetoothScoOn(true);
+                            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
+                        } else {
+                            Log.i(TAG, "Rejecting incoming SCO connection");
+                            ((ScoSocket)msg.obj).close();
+                        }
+                    } // else error trying to accept, try again
+                    mIncomingSco = createScoSocket();
+                    mIncomingSco.accept();
+                    break;
+                case SCO_CONNECTED:
+                    if (msg.arg1 == ScoSocket.STATE_CONNECTED && isHeadsetConnected() &&
                             mConnectedSco == null) {
-                        Log.i(TAG, "Routing audio for incoming SCO connection");
+                        if (DBG) log("Routing audio for outgoing SCO conection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
                         broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
-                    } else {
-                        Log.i(TAG, "Rejecting incoming SCO connection");
+                    } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
+                        if (DBG) log("Rejecting new connected outgoing SCO socket");
                         ((ScoSocket)msg.obj).close();
+                        mOutgoingSco.close();
                     }
-                } // else error trying to accept, try again
-                mIncomingSco = createScoSocket();
-                mIncomingSco.accept();
-                break;
-            case SCO_CONNECTED:
-                if (msg.arg1 == ScoSocket.STATE_CONNECTED && isHeadsetConnected() &&
-                        mConnectedSco == null) {
-                    if (DBG) log("Routing audio for outgoing SCO conection");
-                    mConnectedSco = (ScoSocket)msg.obj;
-                    mAudioManager.setBluetoothScoOn(true);
-                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
-                } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
-                    if (DBG) log("Rejecting new connected outgoing SCO socket");
-                    ((ScoSocket)msg.obj).close();
-                    mOutgoingSco.close();
-                }
-                mOutgoingSco = null;
-                break;
-            case SCO_CLOSED:
-                if (mConnectedSco == (ScoSocket)msg.obj) {
-                    mConnectedSco = null;
-                    mAudioManager.setBluetoothScoOn(false);
-                    broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
-                } else if (mOutgoingSco == (ScoSocket)msg.obj) {
                     mOutgoingSco = null;
-                } else if (mIncomingSco == (ScoSocket)msg.obj) {
-                    mIncomingSco = null;
-                }
-                break;
-            case CHECK_CALL_STARTED:
-                if (mWaitingForCallStart) {
-                    mWaitingForCallStart = false;
-                    Log.e(TAG, "Timeout waiting for call to start");
-                    sendURC("ERROR");
-                    if (mStartCallWakeLock.isHeld()) {
-                        mStartCallWakeLock.release();
+                    break;
+                case SCO_CLOSED:
+                    if (mConnectedSco == (ScoSocket)msg.obj) {
+                        mConnectedSco = null;
+                        mAudioManager.setBluetoothScoOn(false);
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
+                    } else if (mOutgoingSco == (ScoSocket)msg.obj) {
+                        mOutgoingSco = null;
+                    } else if (mIncomingSco == (ScoSocket)msg.obj) {
+                        mIncomingSco = null;
                     }
+                    break;
+                case CHECK_CALL_STARTED:
+                    if (mWaitingForCallStart) {
+                        mWaitingForCallStart = false;
+                        Log.e(TAG, "Timeout waiting for call to start");
+                        sendURC("ERROR");
+                        if (mStartCallWakeLock.isHeld()) {
+                            mStartCallWakeLock.release();
+                        }
+                    }
+                    break;
+                case CHECK_VOICE_RECOGNITION_STARTED:
+                    if (mWaitingForVoiceRecognition) {
+                        mWaitingForVoiceRecognition = false;
+                        Log.e(TAG, "Timeout waiting for voice recognition to start");
+                        sendURC("ERROR");
+                    }
+                    break;
                 }
-                break;
-            case CHECK_VOICE_RECOGNITION_STARTED:
-                if (mWaitingForVoiceRecognition) {
-                    mWaitingForVoiceRecognition = false;
-                    Log.e(TAG, "Timeout waiting for voice recognition to start");
-                    sendURC("ERROR");
-                }
-                break;
             }
         }
     };
