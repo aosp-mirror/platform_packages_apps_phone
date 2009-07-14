@@ -2838,6 +2838,12 @@ public class InCallScreen extends Activity
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
         PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                         // if there is one
+        // Manually set the mute to false, especially in the case of an
+        // incoming call-waiting call
+        // TODO: would this need to be done for GSM also?
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            PhoneUtils.setMute(mPhone, false);
+        }
     }
 
     /**
@@ -3428,12 +3434,15 @@ public class InCallScreen extends Activity
      */
     private void updateOnscreenAnswerUi() {
         if (mOnscreenAnswerUiContainer != null) {
+            if (DBG) log("onscreenAnswerUI: phone state is " + mPhone.getState().toString());
             if (mPhone.getState() == Phone.State.RINGING) {
                 // A phone call is ringing *or* call waiting.
                 mOnscreenAnswerUiContainer.setVisibility(View.VISIBLE);
             } else {
                 mOnscreenAnswerUiContainer.setVisibility(View.GONE);
             }
+            if (DBG) log("set onscreen answer UI visibility to " +
+                    mOnscreenAnswerUiContainer.getVisibility());
         }
     }
 

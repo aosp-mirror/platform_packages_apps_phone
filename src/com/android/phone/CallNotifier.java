@@ -796,25 +796,7 @@ public class CallNotifier extends Handler
                 // Show the "Missed call" notification.
                 // (Note we *don't* do this if this was an incoming call that
                 // the user deliberately rejected.)
-
-                PhoneUtils.CallerInfoToken info =
-                        PhoneUtils.startGetCallerInfo(mApplication, c, this, Long.valueOf(date));
-                if (info != null) {
-                    // at this point, we've requested to start a query, but it makes no
-                    // sense to log this missed call until the query comes back.
-                    if (VDBG) log("onDisconnect: Querying for CallerInfo on missed call...");
-                    if (info.isFinal) {
-                        // it seems that the query we have actually is up to date.
-                        // send the notification then.
-                        CallerInfo ci = info.currentInfo;
-                        NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
-                                ci.phoneLabel, date);
-                    }
-                } else {
-                    // getCallerInfo() can return null in rare cases, like if we weren't
-                    // able to get a valid phone number out of the specified Connection.
-                    Log.w(LOG_TAG, "onDisconnect: got null CallerInfo for Connection " + c);
-                }
+                showMissedCallNotification(c, date);
             }
 
             // Possibly play a "post-disconnect tone" thru the earpiece.
@@ -1292,30 +1274,36 @@ public class CallNotifier extends Handler
             Connection c = ringingCall.getLatestConnection();
 
             if (c != null) {
-                String number = c.getAddress();
-                int isPrivateNumber = c.getNumberPresentation();
-                long date = c.getCreateTime();
-                long duration = c.getDurationMillis();
-                int callLogType = mCallWaitingTimeOut ?
+                final String number = c.getAddress();
+                final int presentation = c.getNumberPresentation();
+                final long date = c.getCreateTime();
+                final long duration = c.getDurationMillis();
+                final int callLogType = mCallWaitingTimeOut ?
                         CallLog.Calls.MISSED_TYPE  : CallLog.Calls.INCOMING_TYPE;
 
                 // get the callerinfo object and then log the call with it.
                 Object o = c.getUserData();
-                CallerInfo ci;
+                final CallerInfo ci;
                 if ((o == null) || (o instanceof CallerInfo)) {
                     ci = (CallerInfo) o;
                 } else {
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
 
-                // Add Call log
-                Calls.addCall(ci, mApplication, number, isPrivateNumber, callLogType,
-                        date, (int) duration / 1000);
+                // Watch out: Calls.addCall() hits the Contacts database,
+                // so we shouldn't call it from the main thread.
+                Thread t = new Thread() {
+                    public void run() {
+                        Calls.addCall(ci, mApplication, number, presentation,
+                                callLogType, date, (int) duration / 1000);
+                        if (DBG) log("onCdmaCallWaitingReject helper thread: Calls.addCall() done.");
+                    }
+                };
+                t.start();
 
                 if (callLogType == CallLog.Calls.MISSED_TYPE) {
                     // Add missed call notification
-                    NotificationMgr.getDefault().notifyMissedCall(ci.name,
-                            ci.phoneNumber, ci.phoneLabel, date);
+                    showMissedCallNotification(c, date);
                 }
 
                 // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
@@ -1350,6 +1338,30 @@ public class CallNotifier extends Handler
      */
     /* package */ boolean getIsCdmaRedialCall() {
         return mIsCdmaRedialCall;
+    }
+
+    /**
+     * Helper function used to show a missed call notification.
+     */
+    private void showMissedCallNotification(Connection c, final long date) {
+        PhoneUtils.CallerInfoToken info =
+            PhoneUtils.startGetCallerInfo(mApplication, c, this, Long.valueOf(date));
+        if (info != null) {
+            // at this point, we've requested to start a query, but it makes no
+            // sense to log this missed call until the query comes back.
+            if (VDBG) log("showMissedCallNotification: Querying for CallerInfo on missed call...");
+            if (info.isFinal) {
+                // it seems that the query we have actually is up to date.
+                // send the notification then.
+                CallerInfo ci = info.currentInfo;
+                NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
+                        ci.phoneLabel, date);
+            }
+        } else {
+            // getCallerInfo() can return null in rare cases, like if we weren't
+            // able to get a valid phone number out of the specified Connection.
+            Log.w(LOG_TAG, "showMissedCallNotification: got null CallerInfo for Connection " + c);
+        }
     }
 
     private void log(String msg) {
