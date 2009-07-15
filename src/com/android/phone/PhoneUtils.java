@@ -222,6 +222,14 @@ public class PhoneUtils {
         boolean answered = false;
         Call call = phone.getRingingCall();
 
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Stop any signalInfo tone being played when a Call waiting gets answered
+            if (call.getState() == Call.State.WAITING) {
+                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                notifier.stopSignalInfoTone();
+            }
+        }
+
         if (call != null && call.isRinging()) {
             if (DBG) log("answerCall: call state = " + call.getState());
             try {
@@ -378,7 +386,7 @@ public class PhoneUtils {
             } else {
                 PhoneApp app = PhoneApp.getInstance();
 
-                if (phone.getPhoneName().equals("CDMA")){
+                if (phone.getPhoneName().equals("CDMA")) {
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.IDLE) {
                         // This is the first outgoing call. Set the Phone Call State to ACTIVE
@@ -664,7 +672,7 @@ public class PhoneUtils {
         // Check to see if a UI exists for the PUK activation.  If it does
         // exist, then it indicates that we're trying to unblock the PUK.
         PhoneApp app = PhoneApp.getInstance();
-        if ((app.getPUKEntryActivity() != null) && (state == MmiCode.State.COMPLETE)){
+        if ((app.getPUKEntryActivity() != null) && (state == MmiCode.State.COMPLETE)) {
             if (DBG) log("displaying PUK unblocking progress dialog.");
 
             // create the progress dialog, make sure the flags and type are
@@ -1129,7 +1137,7 @@ public class PhoneUtils {
     private static final int QUERY_TOKEN = -1;
     static CallerInfoAsyncQuery.OnQueryCompleteListener sCallerInfoQueryListener =
         new CallerInfoAsyncQuery.OnQueryCompleteListener () {
-            public void onQueryComplete(int token, Object cookie, CallerInfo ci){
+            public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
                 if (DBG) log("query complete, updating connection.userdata");
 
                 // Added a check if CallerInfo is coming from ContactInfo or from Connection.

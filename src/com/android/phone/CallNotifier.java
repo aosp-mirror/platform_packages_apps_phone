@@ -330,6 +330,11 @@ public class CallNotifier extends Handler
         }
 
         if (c != null && c.isRinging()) {
+            // Stop any signalInfo tone being played on receiving a Call
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                stopSignalInfoTone();
+            }
+
             Call.State state = c.getState();
             // State will be either INCOMING or WAITING.
             if (VDBG) log("- connection is ringing!  state = " + state);
@@ -657,13 +662,13 @@ public class CallNotifier extends Handler
      * class itself, it is assumed that we have been waiting for the ringtone
      * and direct to voicemail settings to update.
      */
-    public void onQueryComplete(int token, Object cookie, CallerInfo ci){
+    public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
         if (cookie instanceof Long) {
             if (VDBG) log("CallerInfo query complete, posting missed call notification");
 
             NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
                     ci.phoneLabel, ((Long) cookie).longValue());
-        } else if (cookie instanceof CallNotifier){
+        } else if (cookie instanceof CallNotifier) {
             if (VDBG) log("CallerInfo query complete, updating data");
 
             // get rid of the timeout messages
@@ -713,8 +718,8 @@ public class CallNotifier extends Handler
         }
 
         if (mPhone.getPhoneName().equals("CDMA")) {
-            // Create the SignalInfo tone player to stop any signalInfo tone being played.
-            new SignalInfoTonePlayer(ToneGenerator.TONE_CDMA_SIGNAL_OFF).start();
+            // Stop any signalInfo tone being played when a call gets ended
+            stopSignalInfoTone();
         }
 
         Connection c = (Connection) r.result;
@@ -831,7 +836,7 @@ public class CallNotifier extends Handler
             {
                 Object o = c.getUserData();
                 final CallerInfo ci;
-                if ((o == null) || (o instanceof CallerInfo)){
+                if ((o == null) || (o instanceof CallerInfo)) {
                     ci = (CallerInfo) o;
                 } else {
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
@@ -1301,27 +1306,44 @@ public class CallNotifier extends Handler
      * Plays a tone when the phone receives a SignalInfo record.
      */
     private void onSignalInfo(AsyncResult r) {
-        // Extract the SignalInfo String from the message
-        CdmaSignalInfoRec signalInfoRec = (CdmaSignalInfoRec)(r.result);
-        // Only proceed if a Signal info is present.
-        if (signalInfoRec != null) {
-            boolean isPresent = signalInfoRec.isPresent;
-            if (DBG) log("onSignalInfo: isPresent=" + isPresent);
-            if (isPresent) {// if tone is valid
-                int uSignalType = signalInfoRec.signalType;
-                int uAlertPitch = signalInfoRec.alertPitch;
-                int uSignal = signalInfoRec.signal;
+        if (mPhone.getRingingCall().getState() == Call.State.INCOMING) {
+            // Do not start any new SignalInfo tone when Call state is INCOMING
+            // and stop any previous SignalInfo tone which is being played
+            stopSignalInfoTone();
+        } else {
+            // Extract the SignalInfo String from the message
+            CdmaSignalInfoRec signalInfoRec = (CdmaSignalInfoRec)(r.result);
+            // Only proceed if a Signal info is present.
+            if (signalInfoRec != null) {
+                boolean isPresent = signalInfoRec.isPresent;
+                if (DBG) log("onSignalInfo: isPresent=" + isPresent);
+                if (isPresent) {// if tone is valid
+                    int uSignalType = signalInfoRec.signalType;
+                    int uAlertPitch = signalInfoRec.alertPitch;
+                    int uSignal = signalInfoRec.signal;
 
-                if (DBG) log("onSignalInfo: uSignalType=" + uSignalType + ", uAlertPitch=" +
-                        uAlertPitch + ", uSignal=" + uSignal);
-                //Map the Signal to a ToneGenerator ToneID only if Signal info is present
-                int toneID =
-                        SignalToneUtil.getAudioToneFromSignalInfo(uSignalType, uAlertPitch, uSignal);
+                    if (DBG) log("onSignalInfo: uSignalType=" + uSignalType + ", uAlertPitch=" +
+                            uAlertPitch + ", uSignal=" + uSignal);
+                    //Map the Signal to a ToneGenerator ToneID only if Signal info is present
+                    int toneID = SignalToneUtil.getAudioToneFromSignalInfo
+                            (uSignalType, uAlertPitch, uSignal);
 
-                //Create the SignalInfo tone player and pass the ToneID
-                new SignalInfoTonePlayer(toneID).start();
+                    //Create the SignalInfo tone player and pass the ToneID
+                    new SignalInfoTonePlayer(toneID).start();
+                }
             }
         }
+    }
+
+    /**
+     * Stops a SignalInfo tone in the following condition
+     * 1 - On receiving a New Ringing Call
+     * 2 - On disconnecting a call
+     * 3 - On answering a Call Waiting Call
+     */
+    /* package */ void stopSignalInfoTone() {
+        if (DBG) log("stopSignalInfoTone: Stopping SignalInfo tone player");
+        new SignalInfoTonePlayer(ToneGenerator.TONE_CDMA_SIGNAL_OFF).start();
     }
 
     /**
