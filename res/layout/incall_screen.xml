@@ -230,11 +230,11 @@
             />
     </RelativeLayout>
 
-    <!-- Onscreen "answer" UI, used on devices with no hardware CALL
-         button while an incoming call is ringing. -->
-    <ViewStub android:id="@+id/onscreenAnswerUiStub"
-        android:inflatedId="@+id/onscreenAnswerUiContainer"
-        android:layout="@layout/onscreen_answer_ui"
+    <!-- In-call onscreen touch controls, used on some platforms. -->
+    <!-- TODO: if this widget ends up being totally unused on some platforms,
+         then this should probably be a ViewStub. -->
+    <com.android.phone.InCallTouchUi
+        android:id="@+id/inCallTouchUi"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />

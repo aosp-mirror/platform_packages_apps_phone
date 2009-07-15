@@ -239,10 +239,8 @@ public class InCallScreen extends Activity
     private Animation mTouchLockFadeIn;
     private long mTouchLockLastTouchTime;  // in SystemClock.uptimeMillis() time base
 
-    // Onscreen "answer" UI, for devices with no hardware CALL button.
-    private View mOnscreenAnswerUiContainer;  // The container for the whole UI, or null if unused
-    private View mOnscreenAnswerButton;  // The "answer" button itself
-    private long mOnscreenAnswerButtonLastTouchTime;  // in SystemClock.uptimeMillis() time base
+    // Onscreen "in-call touch UI" widget
+    private InCallTouchUi mInCallTouchUi;
 
     // Various dialogs we bring up (see dismissAllDialogs())
     // The MMI started dialog can actually be one of 2 items:
@@ -809,6 +807,9 @@ public class InCallScreen extends Activity
         if (mCallCard != null) {
             mCallCard.setInCallScreenInstance(null);
         }
+        if (mInCallTouchUi != null) {
+            mInCallTouchUi.setInCallScreenInstance(null);
+        }
 
         // Make sure that the dialer session is over and done with.
         // 1. In Landscape mode, we stop the tone generator directly
@@ -1019,8 +1020,8 @@ public class InCallScreen extends Activity
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
 
-        // Other platform-specific UI initialization.
-        initOnscreenAnswerUi();
+        // Onscreen touch UI elements (used on some platforms)
+        initInCallTouchUi();
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -1146,14 +1147,7 @@ public class InCallScreen extends Activity
                 // PhoneWindowManager presumably did NOT handle it:
 
                 // There's an incoming ringing call: CALL means "Answer".
-                if (hasActiveCall && hasHoldingCall) {
-                    if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
-                    internalAnswerCallBothLinesInUse();
-                } else {
-                    if (DBG) log("handleCallKey: ringing ==> answer!");
-                    internalAnswerCall();  // Automatically holds the current active call,
-                                           // if there is one
-                }
+                internalAnswerCall();
             } else if (hasActiveCall && hasHoldingCall) {
                 // Two lines are in use: CALL means "Swap calls".
                 if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
@@ -1936,7 +1930,7 @@ public class InCallScreen extends Activity
         if (VDBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
-        updateOnscreenAnswerUi();
+        updateInCallTouchUi();
         updateMenuButtonHint();
     }
 
@@ -2449,7 +2443,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuEndCall:
                 if (VDBG) log("onClick: EndCall...");
-                PhoneUtils.hangup(mPhone);
+                internalHangup();
                 break;
 
             default:
@@ -2831,18 +2825,49 @@ public class InCallScreen extends Activity
     //
 
     /**
-     * Answer the ringing call.
+     * Answer a ringing call.  This method does nothing if there's no
+     * ringing or waiting call.
      */
     /* package */ void internalAnswerCall() {
         if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
-        PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
-                                        // if there is one
-        // Manually set the mute to false, especially in the case of an
-        // incoming call-waiting call
-        // TODO: would this need to be done for GSM also?
-        if (mPhone.getPhoneName().equals("CDMA")) {
-            PhoneUtils.setMute(mPhone, false);
+
+        final boolean hasRingingCall = !mRingingCall.isIdle();
+
+        if (hasRingingCall) {
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
+                PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
+                                                // if there is one
+
+                // Manually set the mute to false, especially in the case of an
+                // incoming call-waiting call
+                // TODO: would this need to be done for GSM also?
+                PhoneUtils.setMute(mPhone, false);
+            } else {  // GSM
+                // GSM: this is usually just a wrapper around
+                // PhoneUtils.answerCall(), *but* we also need to do
+                // something special for the "both lines in use" case.
+
+                final boolean hasActiveCall = !mForegroundCall.isIdle();
+                final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+
+                if (hasActiveCall && hasHoldingCall) {
+                    if (DBG) log("internalAnswerCall: answering (both lines in use!)...");
+                    // The relatively rare case where both lines are
+                    // already in use.  We "answer incoming, end ongoing"
+                    // in this case, according to the current UI spec.
+                    PhoneUtils.answerAndEndActive(mPhone);
+
+                    // Alternatively, we could use
+                    //    PhoneUtils.answerAndEndHolding(mPhone);
+                    // here to end the on-hold call instead.
+                } else {
+                    if (DBG) log("internalAnswerCall: answering...");
+                    PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
+                                                    // if there is one
+                }
+            }
         }
     }
 
@@ -2856,28 +2881,19 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Answer the ringing call, in the special case where both lines
-     * are already in use.
-     *
-     * We "answer incoming, end ongoing" in this case, according to the
-     * current UI spec.
-     */
-    /* package */ void internalAnswerCallBothLinesInUse() {
-        if (DBG) log("internalAnswerCallBothLinesInUse()...");
-        // if (DBG) PhoneUtils.dumpCallState(mPhone);
-
-        PhoneUtils.answerAndEndActive(mPhone);
-        // Alternatively, we could use
-        //    PhoneUtils.answerAndEndHolding(mPhone);
-        // here to end the on-hold call instead.
-    }
-
-    /**
      * Hang up the ringing call (aka "Don't answer").
      */
     /* package */ void internalHangupRingingCall() {
         if (DBG) log("internalHangupRingingCall()...");
         PhoneUtils.hangupRingingCall(mPhone);
+    }
+
+    /**
+     * Hang up the current active call.
+     */
+    /* package */ void internalHangup() {
+        if (DBG) log("internalHangup()...");
+        PhoneUtils.hangup(mPhone);
     }
 
     /**
@@ -3392,60 +3408,27 @@ public class InCallScreen extends Activity
         return !ConfigurationHelper.isLandscape() && okToDialDTMFTones();
     }
 
-
     /**
-     * Initializes the onscreen "answer" UI on devices that need it.
+     * Initializes the in-call touch UI on devices that need it.
      */
-    private void initOnscreenAnswerUi() {
-        // This UI is only used on devices with no hard CALL or SEND button.
-
-        // TODO: For now, explicitly enable this for sholes devices.
-        // (Note PRODUCT_DEVICE is "sholes" for both sholes and voles builds.)
-        boolean allowOnscreenAnswerUi =
-                "sholes".equals(SystemProperties.get("ro.product.device"));
-        //
-        // TODO: But ultimately we should either (a) use some framework API
-        // to detect whether the current device has a hard SEND button, or
-        // (b) have this depend on a product-specific resource flag in
-        // config.xml, like the forthcoming "is_full_touch_ui" boolean.
-
-        if (DBG) log("initOnscreenAnswerUi: device '" + SystemProperties.get("ro.product.device")
-                     + "', allowOnscreenAnswerUi = " + allowOnscreenAnswerUi);
-
-        if (allowOnscreenAnswerUi) {
-            ViewStub stub = (ViewStub) findViewById(R.id.onscreenAnswerUiStub);
-            mOnscreenAnswerUiContainer = stub.inflate();
-
-            mOnscreenAnswerButton = findViewById(R.id.onscreenAnswerButton);
-            mOnscreenAnswerButton.setOnTouchListener(this);
-        }
+    private void initInCallTouchUi() {
+        if (DBG) log("initInCallTouchUi()...");
+        // TODO: we currently use the InCallTouchUi widget in at least
+        // some states on ALL platforms.  But if some devices ultimately
+        // end up not using *any* onscreen touch UI, we should make sure
+        // to not even inflate the InCallTouchUi widget on those devices.
+        mInCallTouchUi = (InCallTouchUi) findViewById(R.id.inCallTouchUi);
+        mInCallTouchUi.setInCallScreenInstance(this);
     }
 
     /**
-     * Updates the visibility of the onscreen "answer" UI.  On devices
-     * with no hardware CALL button, this UI becomes visible while an
-     * incoming call is ringing.
-     *
-     * TODO: This method should eventually be rolled into a more general
-     * method to update *all* onscreen UI elements that need to be
-     * different on different devices (depending on which hard buttons are
-     * present and/or if we don't have to worry about false touches while
-     * in-call.)
+     * Updates the state of the in-call touch UI.
      */
-    private void updateOnscreenAnswerUi() {
-        if (mOnscreenAnswerUiContainer != null) {
-            if (DBG) log("onscreenAnswerUI: phone state is " + mPhone.getState().toString());
-            if (mPhone.getState() == Phone.State.RINGING) {
-                // A phone call is ringing *or* call waiting.
-                mOnscreenAnswerUiContainer.setVisibility(View.VISIBLE);
-            } else {
-                mOnscreenAnswerUiContainer.setVisibility(View.GONE);
-            }
-            if (DBG) log("set onscreen answer UI visibility to " +
-                    mOnscreenAnswerUiContainer.getVisibility());
+    private void updateInCallTouchUi() {
+        if (mInCallTouchUi != null) {
+            mInCallTouchUi.updateState(mPhone);
         }
     }
-
 
     /**
      * Helper class to manage the (small number of) manual layout and UI
@@ -4022,62 +4005,6 @@ public class InCallScreen extends Activity
                 // touch events while the touch lock UI is (or was) visible.
                 return true;
             }
-
-        // Handle touch events on the onscreen "answer" button.
-        } else if (v == mOnscreenAnswerButton) {
-
-            // TODO: this "double-tap detection" code is also duplicated
-            // above (for mTouchLockIcon).  Instead, extract it out to a
-            // helper class that can listen for double-taps on an
-            // arbitrary View, or maybe even a whole new "DoubleTapButton"
-            // widget.
-
-            // Look for the double-tap gesture.
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                long now = SystemClock.uptimeMillis();
-                if (DBG) log("- onscreen answer button: handling a DOWN event, t = " + now);  // foo -- VDBG
-
-                // Look for the double-tap gesture:
-                if (now < mOnscreenAnswerButtonLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
-                    if (DBG) log("==> onscreen answer button: DOUBLE-TAP!");
-                    // This was the 2nd tap of the double-tap gesture: answer the call!
-
-                    final boolean hasRingingCall = !mRingingCall.isIdle();
-                    if (hasRingingCall) {
-                        final boolean hasActiveCall = !mForegroundCall.isIdle();
-                        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
-                        if (hasActiveCall && hasHoldingCall) {
-                            if (DBG) log("onscreen answer button: ringing (both lines in use) ==> answer!");
-                            internalAnswerCallBothLinesInUse();
-                        } else {
-                            if (DBG) log("onscreen answer button: ringing ==> answer!");
-                            internalAnswerCall();  // Automatically holds the current active call,
-                                                   // if there is one
-                        }
-                    } else {
-                        // The ringing call presumably stopped just when
-                        // the user was double-tapping.
-                        if (DBG) log("onscreen answer button: no ringing call (any more); ignoring...");
-                    }
-                }
-                // The onscreen "answer" button will go away as soon as
-                // the phone goes from ringing to offhook, since that
-                // state change will trigger an updateScreen() call.
-                // TODO: consider explicitly starting some fancier
-                // animation here, like fading out the "answer" button, or
-                // sliding it offscreen...
-
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                // Stash away the current time in case this is the first
-                // tap of a double-tap gesture.  (We measure the time from
-                // the first tap's UP to the second tap's DOWN.)
-                mOnscreenAnswerButtonLastTouchTime = SystemClock.uptimeMillis();
-            }
-
-            // And regardless of what just happened, we *always*
-            // consume touch events to this button.
-            return true;
-
         } else {
             Log.w(LOG_TAG, "onTouch: event from unexpected View: " + v);
             return false;
