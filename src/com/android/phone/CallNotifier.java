@@ -111,6 +111,7 @@ public class CallNotifier extends Handler
     private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 13;
     private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 14;
     private static final int DISPLAYINFO_NOTIFICATION_DONE = 15;
+    private static final int EVENT_OTA_PROVISION_CHANGE = 16;
 
     private PhoneApp mApplication;
     private Phone mPhone;
@@ -139,6 +140,9 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
+        if (mPhone.getPhoneName().equals("CDMA")) {
+                mPhone.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
+        }
 
         if (mPhone.getPhoneName().equals("CDMA")) {
             if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
@@ -258,6 +262,10 @@ public class CallNotifier extends Handler
             case DISPLAYINFO_NOTIFICATION_DONE:
                 if (DBG) log("Received Display Info notification done event ...");
                 CdmaDisplayInfo.dismissDisplayInfoRecord();
+                break;
+
+            case EVENT_OTA_PROVISION_CHANGE:
+                mApplication.handleOtaEvents(msg);
                 break;
 
             case PHONE_ENHANCED_VP_ON:
@@ -565,6 +573,7 @@ public class CallNotifier extends Handler
         mPhone.unregisterForCallWaiting(this);
         mPhone.unregisterForDisplayInfo(this);
         mPhone.unregisterForSignalInfo(this);
+        mPhone.unregisterForCdmaOtaStatusChange(this);
 
         // Release the ToneGenerator used for playing SignalInfo and CallWaiting
         if (mSignalInfoToneGenerator != null) {
@@ -585,6 +594,7 @@ public class CallNotifier extends Handler
             mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
             mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
             mPhone.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
+            mPhone.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
 
             // Instantiate the ToneGenerator for SignalInfo
             try {
@@ -697,6 +707,11 @@ public class CallNotifier extends Handler
             } else if (cause == Connection.DisconnectCause.CONGESTION) {
                 if (DBG) log("- need to play CONGESTION tone!");
                 toneToPlay = InCallTonePlayer.TONE_CONGESTION;
+            } else if (((cause == Connection.DisconnectCause.NORMAL)
+                    || (cause == Connection.DisconnectCause.LOCAL))
+                    && (mApplication.isOtaCallInActiveState())) {
+                if (DBG) log("- need to play OTA_CALL_END tone!");
+                toneToPlay = InCallTonePlayer.TONE_OTA_CALL_END;
             } else if (cause == Connection.DisconnectCause.CDMA_REORDER) {
                 if (DBG) log("- need to play CDMA_REORDER tone!");
                 toneToPlay = InCallTonePlayer.TONE_REORDER;
@@ -784,9 +799,17 @@ public class CallNotifier extends Handler
                 // so we shouldn't call it from the main thread.
                 Thread t = new Thread() {
                         public void run() {
-                            Calls.addCall(ci, mApplication, number, presentation,
-                                          callLogType, date, (int) duration / 1000);
-                            // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
+                            if (mPhone.getPhoneName().equals("CDMA")) {
+                                // If it is OTA call, it shall not be logged into call log.
+                                if (!mApplication.isOtaCallInActiveState()) {
+                                    Calls.addCall(ci, mApplication, number, presentation,
+                                            callLogType, date, (int) duration / 1000);
+                                }
+                            } else {
+                                Calls.addCall(ci, mApplication, number, presentation,
+                                        callLogType, date, (int) duration / 1000);
+                                // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
+                            }
                         }
                     };
                 t.start();
@@ -808,6 +831,14 @@ public class CallNotifier extends Handler
                 new InCallTonePlayer(toneToPlay).start();
                 // The InCallTonePlayer will automatically stop playing (and
                 // clean itself up) after a few seconds.
+                AudioManager audioManager = (AudioManager) mPhone.getContext()
+                        .getSystemService(Context.AUDIO_SERVICE);
+                if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+                    if (mRinger.shouldVibrateOnce()
+                            && (toneToPlay == InCallTonePlayer.TONE_OTA_CALL_END)) {
+                        mRinger.vibrateOnce();
+                    }
+                }
 
                 // TODO: alternatively, we could start an InCallTonePlayer
                 // here with an "unlimited" tone length,
@@ -975,6 +1006,7 @@ public class CallNotifier extends Handler
         public static final int TONE_CDMA_DROP = 9;
         public static final int TONE_OUT_OF_SERVICE = 10;
         public static final int TONE_REDIAL = 11;
+        public static final int TONE_OTA_CALL_END = 12;
 
         // The tone volume relative to other sounds in the stream
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
@@ -1030,6 +1062,18 @@ public class CallNotifier extends Handler
                     toneType = ToneGenerator.TONE_PROP_PROMPT;
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                     toneLengthMillis = 2000;
+                    break;
+                 case TONE_OTA_CALL_END:
+                    if (mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone ==
+                            OtaUtils.OTA_PLAY_SUCCESS_FAILURE_TONE_ON) {
+                        toneType = ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD;
+                        toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
+                        toneLengthMillis = 5000;
+                    } else {
+                        toneType = ToneGenerator.TONE_PROP_PROMPT;
+                        toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                        toneLengthMillis = 2000;
+                    }
                     break;
                 case TONE_VOICE_PRIVACY:
                     toneType = ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE;
@@ -1098,7 +1142,14 @@ public class CallNotifier extends Handler
             boolean okToPlayTone = true;
 
             if (toneGenerator != null) {
-                if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
+                if (toneType == ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD) {
+                    if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
+                            (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                        if (DBG) log("- InCallTonePlayer: start playing call tone=" + toneType);
+                        okToPlayTone = true;
+                        needToStopTone = false;
+                    }
+                } else if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
                         (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
                         (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
                         (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {

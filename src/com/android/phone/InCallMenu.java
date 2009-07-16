@@ -272,6 +272,54 @@ class InCallMenu {
         final Call.State fgCallState = phone.getForegroundCall().getState();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
+        // For OTA call, only show dialpad, endcall, speaker, and mute menu items
+        if (hasActiveCall && (PhoneApp.getInstance().isOtaCallInActiveState())) {
+            mAnswerAndHold.setVisible(false);
+            mAnswerAndHold.setEnabled(false);
+            mAnswerAndEnd.setVisible(false);
+            mAnswerAndEnd.setEnabled(false);
+
+            mManageConference.setVisible(false);
+            mAddCall.setEnabled(false);
+            mSwapCalls.setEnabled(false);
+            mMergeCalls.setEnabled(false);
+            mHold.setEnabled(false);
+            mBluetooth.setEnabled(false);
+            mMute.setEnabled(false);
+            mAnswer.setVisible(false);
+            mIgnore.setVisible(false);
+
+            boolean inConferenceCall =
+                    PhoneUtils.isConferenceCall(phone.getForegroundCall());
+            boolean showShowDialpad = !InCallScreen.ConfigurationHelper.isLandscape()
+                    && !inConferenceCall;
+            boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
+            mShowDialpad.setVisible(showShowDialpad);
+            mShowDialpad.setEnabled(enableShowDialpad);
+            boolean isDtmfDialerOpened = mInCallScreen.isDialerOpened();
+            mShowDialpad.setText(isDtmfDialerOpened
+                                 ? R.string.menu_hideDialpad
+                                 : R.string.menu_showDialpad);
+
+            mEndCall.setVisible(true);
+            mEndCall.setEnabled(true);
+
+            mSpeaker.setVisible(true);
+            if (PhoneApp.getInstance().isHeadsetPlugged()) {
+                // Wired headset is present; Speaker button is meaningless.
+                mSpeaker.setEnabled(false);
+                mSpeaker.setIndicatorState(false);
+            } else {
+                // No wired headset; Speaker button is enabled and behaves normally.
+                mSpeaker.setEnabled(true);
+                boolean speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen.getApplicationContext());
+                mSpeaker.setIndicatorState(speakerOn);
+            }
+
+            mInCallMenuView.updateVisibility();
+            return true;
+        }
+
         // Special cases when an incoming call is ringing.
         if (hasRingingCall) {
             // In the "call waiting" state, show ONLY the "answer & end"

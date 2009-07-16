@@ -182,6 +182,16 @@ public class PhoneApp extends Application {
     /** boolean indicating restoring mute state on InCallScreen.onResume() */
     private boolean mShouldRestoreMuteOnInCallResume;
 
+    // Following are the CDMA OTA information Objects used during OTA Call.
+    // cdmaOtaProvisionData object store static OTA information that needs
+    // to be maintained even during Slider open/close scenarios.
+    // cdmaOtaConfigData object stores configuration info to control visiblity
+    // of each OTA Screens.
+    // cdmaOtaScreenState object store OTA Screen State information.
+    public OtaUtils.CdmaOtaProvisionData cdmaOtaProvisionData;
+    public OtaUtils.CdmaOtaConfigData cdmaOtaConfigData;
+    public OtaUtils.CdmaOtaScreenState cdmaOtaScreenState;
+
     /**
      * Set the restore mute state flag. Used when we are setting the mute state
      * OUTSIDE of user interaction {@link PhoneUtils#startNewCall(Phone)}
@@ -421,6 +431,12 @@ public class PhoneApp extends Application {
             }
         }
 
+        if (phone.getPhoneName().equals("CDMA")) {
+            cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
+            cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
+            cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+        }
+
         // XXX pre-load the SimProvider so that it's ready
         resolver.getType(Uri.parse("content://icc/adn"));
 
@@ -559,12 +575,40 @@ public class PhoneApp extends Application {
      * This also ensures that you won't be able to get back to the in-call
      * UI via the BACK button (since this call removes the InCallScreen
      * from the activity history.)
+     * For OTA Call, it call InCallScreen api to handle OTA Call End scenario
+     * to display OTA Call End screen.
      */
     void dismissCallScreen() {
         if (mInCallScreen != null) {
-            mInCallScreen.finish();
+            if (mInCallScreen.isOtaCallInActiveState() || mInCallScreen.isOtaCallInEndState()) {
+                // TODO(Moto): During OTA Call, display should not become dark to
+                // allow user to see OTA UI update. Phone app needs to hold a SCREEN_DIM_WAKE_LOCK
+                // wake lock during the entire OTA call.
+                wakeUpScreen();
+                mInCallScreen.handleOtaCallEnd();
+                return;
+            } else {
+                mInCallScreen.finish();
+            }
         }
     }
+
+    /**
+     * Handle OTA events
+     *
+     * When OTA call is active and display becomes dark, then CallNotifier will
+     * handle OTA Events by calling this api which then calls OtaUtil function.
+     */
+    void handleOtaEvents(Message msg) {
+
+        if (DBG) Log.d(LOG_TAG, "Enter handleOtaEvents");
+        if ((mInCallScreen != null) && (!isShowingCallScreen())) {
+            if (mInCallScreen.otaUtils != null) {
+                mInCallScreen.otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
+            }
+        }
+    }
+
 
     /**
      * Sets the activity responsible for un-PUK-blocking the device
@@ -953,6 +997,17 @@ public class PhoneApp extends Application {
             // Create an instance of CdmaPhoneCallState and initialize it to IDLE
             cdmaPhoneCallState = new CdmaPhoneCallState();
             cdmaPhoneCallState.CdmaPhoneCallStateInit();
+
+            //create instances of CDMA OTA data classes
+            if (cdmaOtaProvisionData == null) {
+                cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
+            }
+            if (cdmaOtaConfigData == null) {
+                cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
+            }
+            if (cdmaOtaScreenState == null) {
+                cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+            }
         }
     }
 
@@ -1216,5 +1271,23 @@ public class PhoneApp extends Application {
             mEriTextWidgetProvider.performUpdate(this, eriText);
         }
 
+    }
+
+    public boolean isOtaCallInActiveState() {
+        boolean otaCallActive = false;
+        if (mInCallScreen != null) {
+            otaCallActive = mInCallScreen.isOtaCallInActiveState();
+        }
+        if (DBG) Log.d(LOG_TAG, "PhoneApp - isOtaCallInActiveState " + otaCallActive);
+        return otaCallActive;
+    }
+
+    public boolean isOtaCallInEndState() {
+        boolean otaCallEnded = false;
+        if (mInCallScreen != null) {
+            otaCallEnded = mInCallScreen.isOtaCallInEndState();
+        }
+        if (DBG) Log.d(LOG_TAG, "PhoneApp - isOtaCallInEndState " + otaCallEnded);
+        return otaCallEnded;
     }
 }

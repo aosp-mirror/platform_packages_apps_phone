@@ -55,4 +55,21 @@
          so, we wouldn't need this flag at all.) -->
     <bool name="allow_in_call_touch_ui">false</bool>
 
+    <!-- OTA configuration values, used when provisioning CDMA devices.
+         Following defaults values of zero means OTA UI is completely disabled.
+         These OTA UI can be enabled by setting config value to one in the product
+         specific overlay file -->
+
+    <!-- Determine whether we want to display the OTA activation screen, which
+         gives the user option to activate or cancel -->
+    <integer name="OtaShowActivationScreen">0</integer>
+    <!-- Determine whether we should show the "listen for instructions" screen after
+         successfully placing the OTA call -->
+    <integer name="OtaShowListeningScreen">0</integer>
+    <!-- The number of times we should show the activation screen/allow the provisioning
+         to fail before just showing an unsuccessful dialog -->
+    <integer name="OtaShowActivateFailTimes">0</integer>
+    <!-- Determine whether or not we should play the success/failure tone -->
+    <integer name="OtaPlaySuccessFailureTone">0</integer>
+
 </resources>

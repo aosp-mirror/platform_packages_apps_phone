@@ -123,6 +123,41 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <!-- OTA Call Card styles -->
+    <style name="ccOtaLayouts">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
+    <style name="ccOtaActivateButton">
+        <item name="android:layout_marginLeft">4dip</item>
+        <item name="android:layout_width">150dip</item>
+    </style>
 
+    <style name="ccOtaCancelButton">
+        <item name="android:layout_marginRight">4dip</item>
+        <item name="android:layout_width">150dip</item>
+    </style>
+
+    <style name="ccOtaDialVisible">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="ccOtaSpeakerButton">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginBottom">61dip</item>
+        <item name="android:layout_marginRight">5dip</item>
+        <item name="android:layout_width">150dip</item>
+    </style>
+
+    <style name="ccOtaEndButton">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_width">470dip</item>
+    </style>
+
+    <style name="ccOtaActivateDialogOkButton">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">16dip</item>
+        <item name="android:layout_width">470dip</item>
+    </style>
 </resources>

@@ -66,6 +66,7 @@
     <uses-permission android:name="android.permission.BROADCAST_SMS"/>
     <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application android:name="PhoneApp"
                  android:persistent="true"
@@ -194,7 +195,11 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="nosensor"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.phone.InCallScreen.SHOW_ACTIVATION" />
+            </intent-filter>
+        </activity>
 
         <!-- general settings -->
         <activity android:name="Settings" android:label="@string/settings_label">
@@ -322,6 +327,13 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/eri_text_appwidget" />
+        </receiver>
+
+        <!-- Broadcast Receiver that will process BOOT Complete and launch OTA -->
+        <receiver android:name="OtaStartupReceiver" android:exported="false">
+            <intent-filter android:priority="100">
+                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </receiver>
     </application>
 </manifest>

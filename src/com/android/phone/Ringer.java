@@ -326,6 +326,15 @@ public class Ringer {
         }
     }
 
+    public boolean shouldVibrateOnce() {
+        AudioManager audioManager = (AudioManager) mContext
+                .getSystemService(Context.AUDIO_SERVICE);
+        return audioManager.shouldVibrate(AudioManager.VIBRATE_TYPE_NOTIFICATION);
+    }
+
+    public void vibrateOnce() {
+        mVibrator.vibrate(VIBRATE_LENGTH);
+    }
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
     }

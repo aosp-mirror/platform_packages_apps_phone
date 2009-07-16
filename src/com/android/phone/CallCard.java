@@ -813,7 +813,8 @@ public class CallCard extends FrameLayout
      */
     private void displayOnHoldCallStatus(Phone phone, Call call) {
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
-        if (call == null) {
+
+        if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
             mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
             return;
         }
@@ -903,7 +904,8 @@ public class CallCard extends FrameLayout
      */
     private void displayOngoingCallStatus(Phone phone, Call call) {
         if (DBG) log("displayOngoingCallStatus(call =" + call + ")...");
-        if (call == null) {
+
+        if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
             mOtherCallOngoingInfoArea.setVisibility(View.GONE);
             return;
         }
@@ -1466,6 +1468,25 @@ public class CallCard extends FrameLayout
         if (bluetoothIconId != 0) mUpperTitle.setCompoundDrawablePadding(5);
     }
 
+    /**
+     * Hides the top-level UI elements of the call card:  The "main
+     * call card" element representing the current active or ringing call,
+     * and also the info areas for "ongoing" or "on hold" calls in some
+     * states.
+     *
+     * This is intended to be used in special states where the normal
+     * in-call UI is totally replaced by some other UI, like OTA mode on a
+     * CDMA device.
+     *
+     * To bring back the regular CallCard UI, just re-run the normal
+     * updateState() call sequence.
+     */
+
+    public void hideCallCardElements() {
+        mMainCallCard.setVisibility(View.GONE);
+        mOtherCallOngoingInfoArea.setVisibility(View.GONE);
+        mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
+    }
 
     // Debugging / testing code
 

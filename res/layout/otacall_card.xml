@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outer layout for all OTA elements. This contains:
+     (1) Certain call card elements used for the other various OTA screens
+     (2) Activate/Cancel buttons specific to the OTA Activate screen
+     (3) Buttons used on the listen/progress screens
+     (4) Button used for the final success/failure screen -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <!-- (1) The ota call card -->
+    <LinearLayout android:id="@+id/otaBase"
+                  android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/otabase_layout_marginTop"
+                  android:minHeight="@dimen/otabase_minHeight"
+                  android:background="@null"
+                  >
+        <TextView android:id="@+id/otaActivate"
+                  android:gravity="center_horizontal"
+                  android:layout_marginTop="@dimen/otaactivate_layout_marginTop"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="35sp"
+                  android:visibility="gone"
+                  android:text="@string/ota_touch_activate"
+                  />
+        <TextView android:id="@+id/otaListenProgress"
+                  android:gravity="center_horizontal"
+                  android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="35sp"
+                  android:visibility="gone"
+                  />
+        <ProgressBar android:id="@+android:id/progress_large"
+                     style="?android:attr/progressBarStyleLarge"
+                     android:layout_marginTop="10dip"
+                     android:layout_marginLeft="@dimen/progresslarge_layout_marginLeft"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:visibility="gone"/>
+
+        <TextView android:id="@+id/otaSuccessFailStatus"
+                  android:gravity="left"
+                  android:layout_marginTop="@dimen/otasuccessfail_layout_marginTop"
+                  android:layout_marginLeft="5dip"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="35sp"
+                  android:visibility="gone"
+                  />
+
+    </LinearLayout>
+
+    <!-- (2) Activate/cancel buttons -->
+    <RelativeLayout android:id="@+id/callCardOtaActivate"
+                    android:background="#000"
+                    android:gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:visibility="gone"
+                    style="@style/ccOtaLayouts" >
+
+        <!-- "Activate" button -->
+        <Button android:id="@+id/otaActivateButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ota_button"
+                android:layout_marginBottom="1dip"
+                android:text="@string/ota_activate"
+                android:textSize="18sp"
+                android:textColor="#FFFFFFFF"
+                android:layout_height="60dip"
+                style="@style/ccOtaActivateButton" />
+
+        <!-- "Cancel" button -->
+        <Button android:id="@+id/otaCancelButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ota_cancel"
+                android:layout_marginBottom="1dip"
+                android:text="@string/cancel"
+                android:textSize="18sp"
+                android:textColor="#FFFFFFFF"
+                android:layout_height="60dip"
+                style="@style/ccOtaCancelButton" />
+    </RelativeLayout>
+
+    <!-- (3) OTA listen/progress buttons -->
+    <RelativeLayout android:id="@+id/callCardOtaListenProgress"
+                    android:background="#000"
+                    android:gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    style="@style/ccOtaLayouts" >
+
+        <!-- "DialPad" button -->
+        <Button android:id="@+id/otaDialButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ota_button"
+                android:layout_marginBottom="61dip"
+                android:layout_marginLeft="5dip"
+                android:text="@string/ota_dialpad"
+                android:textSize="18sp"
+                android:textColor="#FFFFFFFF"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
+                style="@style/ccOtaDialVisible" />
+
+        <!-- "Speaker" button -->
+        <ToggleButton android:id="@+id/otaSpeakerButton"
+                      android:layout_alignParentBottom="true"
+                      android:background="@drawable/ota_button"
+                      android:textOn="@string/ota_speaker"
+                      android:textOff="@string/ota_speaker"
+                      android:textSize="18sp"
+                      android:textColor="#FFFFFFFF"
+                      android:layout_height="60dip"
+                      style="@style/ccOtaSpeakerButton" />
+
+        <!-- "End" button -->
+        <Button android:id="@+id/otaEndButton"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/endcall_button"
+                android:layout_marginBottom="1dip"
+                android:text="@string/ota_call_end"
+                android:textSize="18sp"
+                android:textColor="#FFFFFFFF"
+                android:layout_height="60dip"
+                style="@style/ccOtaEndButton" />
+    </RelativeLayout>
+
+    <!-- (4) OTA Success/Failure button -->
+    <RelativeLayout android:id="@+id/callCardOtaFailOrSuccessful"
+                    android:background="#000"
+                    android:gravity="center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+        <!-- "OK" button -->
+        <Button android:id="@+id/otaOkButton"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/endcall_button"
+                android:text="@string/ok"
+                android:textSize="18sp"
+                android:textColor="#FFFFFFFF"
+                android:layout_height="60dip"
+                style="@style/ccOtaActivateDialogOkButton" />
+    </RelativeLayout>
+</LinearLayout>

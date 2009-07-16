@@ -957,6 +957,30 @@
     <!-- Title for the dialog used to display CDMA DisplayInfo -->
     <string name="network_message">Network Message</string>
 
+    <!-- OTA-specific strings -->
+    <!-- Message displayed on the OTA activation screen -->
+    <string name="ota_touch_activate">Touch to activate phone</string>
+    <!-- Button label within the OTA activation screen -->
+    <string name="ota_activate">Activate</string>
+    <!-- Message displayed on the OTA listen screen -->
+    <string name="ota_listen">Please listen for instructions</string>
+    <!-- Button label within the OTA listen screen -->
+    <string name="ota_dialpad">Keypad</string>
+    <!-- Button label within the OTA listen screen -->
+    <string name="ota_speaker">Speaker</string>
+    <!-- String to be displayed on OTA listen screen once user has selected the
+         correct option to begin provisioning -->
+    <string name="ota_progress">Programming in progress</string>
+    <!-- String to display within the OTA Fail Notice dialog -->
+    <string name="ota_failure">Programming Unsuccessful</string>
+    <!-- String to be displayed on the OTA Fail/Success screen upon successful provisioning -->
+    <string name="ota_successful">Programming Successful. Press any key to continue.</string>
+    <!-- String to be displayed on the OTA Fail/Success screen upon unsuccessful provisioning -->
+    <string name="ota_unsuccessful">Programming Unsuccessful. Please call Customer Service.</string>
+    <!-- String to display within the OTA SPC Fail Notice dialog -->
+    <string name="ota_spc_failure">EXCESS SPC FAILURES</string>
+    <!-- Button label within the OTA listen screen -->
+    <string name="ota_call_end">End Call</string>
 </resources>
 
 
