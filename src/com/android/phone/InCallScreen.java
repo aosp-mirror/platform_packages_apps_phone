@@ -3530,10 +3530,12 @@ public class InCallScreen extends Activity
 
         final PhoneApp app = PhoneApp.getInstance();
 
+        // OTA-specific cleanup upon closing the dialpad.
         if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)
-                || (app.cdmaOtaScreenState.otaScreenState ==
-                CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION)) {
+            || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)
+            || ((app.cdmaOtaScreenState != null)
+                && (app.cdmaOtaScreenState.otaScreenState ==
+                    CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION))) {
             if (mDialerDrawer != null) {
                 mDialerDrawer.setVisibility(View.GONE);
             }
@@ -3541,6 +3543,7 @@ public class InCallScreen extends Activity
                 otaUtils.otaShowProperScreen();
             }
         }
+
         // Dismiss the "touch lock" overlay if it was visible.
         // (The overlay is only ever used on top of the dialpad).
         enableTouchLock(false);
@@ -4220,8 +4223,8 @@ public class InCallScreen extends Activity
         final PhoneApp app = PhoneApp.getInstance();
         if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
                 || ((app.cdmaOtaScreenState != null)
-                && (app.cdmaOtaScreenState.otaScreenState ==
-                CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION))) {
+                    && (app.cdmaOtaScreenState.otaScreenState ==
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION))) {
             return true;
         } else {
             return false;
