@@ -880,6 +880,9 @@ public class InCallScreen extends Activity
         if (DBG) log("onDestroy()...");
         super.onDestroy();
 
+        // In case the finish() is called directly without dismissing dialogs.
+        dismissAllDialogs();
+
         // Set the magic flag that tells us NOT to handle any handler
         // messages that come in asynchronously after we get destroyed.
         mIsDestroyed = true;
@@ -1174,8 +1177,7 @@ public class InCallScreen extends Activity
 
         // While an incoming call is ringing, BACK behaves just like
         // ENDCALL: it stops the ringing and rejects the current call.
-        final CallNotifier notifier = PhoneApp.getInstance().notifier;
-        if (notifier.isRinging()) {
+        if (!mRingingCall.isIdle()) {
             if (DBG) log("BACK key while ringing: reject the call");
             internalHangupRingingCall();
 
