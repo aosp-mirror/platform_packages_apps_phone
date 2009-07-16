@@ -2185,6 +2185,22 @@ public class InCallScreen extends Activity
         updateDialpadVisibility();
         updateInCallTouchUi();
         updateMenuButtonHint();
+
+        // Forcibly take down all dialog if an incoming call is ringing.
+        if (!mRingingCall.isIdle()) {
+            dismissAllDialogs();
+        } else {
+            // Wait prompt dialog is not currently up.  But it *should* be
+            // up if the FG call has a connection in the WAIT state and
+            // the phone isn't ringing.
+            List<Connection> fgConnections = mForegroundCall.getConnections();
+            for (Connection cn : fgConnections) {
+                if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
+                    String postDialStr = cn.getRemainingPostDialString();
+                    showWaitPromptDialog(cn, postDialStr);
+                }
+            }
+        }
     }
 
     /**
