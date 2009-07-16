@@ -1108,8 +1108,7 @@ public class DTMFTwelveKeyDialer implements
                 } else {
                     if (DBG) log("starting local tone " + tone);
 
-                    // Stop any playing tone and start the new tone.
-                    stopToneCdma();
+                    // Start the new tone.
                     mToneGenerator.startTone(mToneMap.get(tone));
 
                     // Stopped pending and Started new STOP_DTMF_TONE timer.
