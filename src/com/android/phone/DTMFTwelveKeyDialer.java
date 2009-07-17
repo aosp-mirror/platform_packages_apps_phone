@@ -708,7 +708,7 @@ public class DTMFTwelveKeyDialer implements
             synchronized (mToneGeneratorLock) {
                 if (mToneGenerator == null) {
                     try {
-                        mToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL, 80);
+                        mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF, 80);
                     } catch (RuntimeException e) {
                         if (DBG) log("Exception caught while creating local tone generator: " + e);
                         mToneGenerator = null;

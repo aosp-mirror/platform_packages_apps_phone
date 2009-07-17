@@ -204,7 +204,7 @@ public class BluetoothHandsfree {
     /* package */ synchronized void onBluetoothDisabled() {
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -277,8 +277,7 @@ public class BluetoothHandsfree {
         if (name == null) {
             name = "<unknown>";
         }
-        mAudioManager.setParameter(HEADSET_NAME, name);
-        mAudioManager.setParameter(HEADSET_NREC, "on");
+        mAudioManager.setParameters(HEADSET_NAME+"="+name+";"+HEADSET_NREC+"=on");
     }
 
 
@@ -795,7 +794,7 @@ public class BluetoothHandsfree {
                             Log.i(TAG, "Routing audio for incoming SCO connection");
                             mConnectedSco = (ScoSocket)msg.obj;
                             mAudioManager.setBluetoothScoOn(true);
-                            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
+                            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED, mHeadset.getAddress());
                         } else {
                             Log.i(TAG, "Rejecting incoming SCO connection");
                             ((ScoSocket)msg.obj).close();
@@ -810,7 +809,7 @@ public class BluetoothHandsfree {
                         if (DBG) log("Routing audio for outgoing SCO conection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
-                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED);
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED, mHeadset.getAddress());
                     } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
                         if (DBG) log("Rejecting new connected outgoing SCO socket");
                         ((ScoSocket)msg.obj).close();
@@ -822,7 +821,7 @@ public class BluetoothHandsfree {
                     if (mConnectedSco == (ScoSocket)msg.obj) {
                         mConnectedSco = null;
                         mAudioManager.setBluetoothScoOn(false);
-                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
                     } else if (mOutgoingSco == (ScoSocket)msg.obj) {
                         mOutgoingSco = null;
                     } else if (mIncomingSco == (ScoSocket)msg.obj) {
@@ -855,10 +854,11 @@ public class BluetoothHandsfree {
         return new ScoSocket(mPowerManager, mHandler, SCO_ACCEPTED, SCO_CONNECTED, SCO_CLOSED);
     }
 
-    private void broadcastAudioStateIntent(int state) {
+    private void broadcastAudioStateIntent(int state, String address) {
         if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
         Intent intent = new Intent(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
         intent.putExtra(BluetoothIntent.HEADSET_AUDIO_STATE, state);
+        intent.putExtra(BluetoothIntent.ADDRESS, address);
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
@@ -937,7 +937,7 @@ public class BluetoothHandsfree {
 
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -1637,10 +1637,10 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
                 if (args[0].equals(0)) {
-                    mAudioManager.setParameter(HEADSET_NREC, "off");
+                    mAudioManager.setParameters(HEADSET_NREC+"=off");
                     return new AtCommandResult(AtCommandResult.OK);
                 } else if (args[0].equals(1)) {
-                    mAudioManager.setParameter(HEADSET_NREC, "on");
+                    mAudioManager.setParameters(HEADSET_NREC+"=on");
                     return new AtCommandResult(AtCommandResult.OK);
                 }
                 return new AtCommandResult(AtCommandResult.ERROR);
