@@ -1613,6 +1613,15 @@ public class InCallScreen extends Activity
         } else if (cause == Connection.DisconnectCause.FDN_BLOCKED) {
             showGenericErrorDialog(R.string.callFailed_fdn_only, false);
             return;
+        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED) {
+            showGenericErrorDialog(R.string.callFailed_dsac_restricted, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_EMERGENCY) {
+            showGenericErrorDialog(R.string.callFailed_dsac_restricted_emergency, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_NORMAL) {
+            showGenericErrorDialog(R.string.callFailed_dsac_restricted_normal, false);
+            return;
         }
 
         if (mPhone.getPhoneName().equals("CDMA")) {
