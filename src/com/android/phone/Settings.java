@@ -181,8 +181,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         // TODO: The radio technology could be changed dynamically after the phone has been created
         if (isCdma) {
-            Preference otherNetworkType = getPreferenceScreen().findPreference(GSM_OPTIONS_KEY);
-            getPreferenceScreen().removePreference(otherNetworkType);
             mButtonCdmaRoam =
                 (ListPreference) prefSet.findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY);
             // set the listener for the mButtonCdmaRoam list preference so we can issue
