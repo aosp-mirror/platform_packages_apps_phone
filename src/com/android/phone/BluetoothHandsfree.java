@@ -55,7 +55,7 @@ import java.util.LinkedList;
  */
 public class BluetoothHandsfree {
     private static final String TAG = "BT HS/HF";
-    private static final boolean DBG = false;
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
     private static final boolean VDBG = false;  // even more logging
 
     public static final int TYPE_UNKNOWN           = 0;
@@ -329,6 +329,7 @@ public class BluetoothHandsfree {
         private static final int SERVICE_STATE_CHANGED = 1;
         private static final int PHONE_STATE_CHANGED = 2;
         private static final int RING = 3;
+        private static final int PHONE_CDMA_CALL_WAITING = 4;
 
         private Handler mStateChangeHandler = new Handler() {
             @Override
@@ -345,6 +346,7 @@ public class BluetoothHandsfree {
                     updateServiceState(sendUpdate(), state);
                     break;
                 case PHONE_STATE_CHANGED:
+                case PHONE_CDMA_CALL_WAITING:
                     Connection connection = null;
                     if (((AsyncResult) msg.obj).result instanceof Connection) {
                         connection = (Connection) ((AsyncResult) msg.obj).result;
@@ -368,6 +370,10 @@ public class BluetoothHandsfree {
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPhoneStateChanged(mStateChangeHandler,
                                                 PHONE_STATE_CHANGED, null);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                mPhone.registerForCallWaiting(mStateChangeHandler,
+                                              PHONE_CDMA_CALL_WAITING, null);
+            }
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
             mContext.registerReceiver(mStateReceiver, filter);
@@ -379,10 +385,15 @@ public class BluetoothHandsfree {
             //Unregister all events from the old obsolete phone
             mPhone.unregisterForServiceStateChanged(mStateChangeHandler);
             mPhone.unregisterForPhoneStateChanged(mStateChangeHandler);
+            mPhone.unregisterForCallWaiting(mStateChangeHandler);
 
             //Register all events new to the new active phone
             mPhone.registerForServiceStateChanged(mStateChangeHandler, SERVICE_STATE_CHANGED, null);
             mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                mPhone.registerForCallWaiting(mStateChangeHandler,
+                                              PHONE_CDMA_CALL_WAITING, null);
+            }
         }
 
         private boolean sendUpdate() {
@@ -1385,14 +1396,30 @@ public class BluetoothHandsfree {
                             return new AtCommandResult(AtCommandResult.ERROR);
                         }
                     } else if (args[0].equals(1)) {
-                        // Hangup active call, answer held call
-                        if (PhoneUtils.answerAndEndActive(mPhone)) {
+                        if (mPhone.getPhoneName().equals("CDMA")) {
+                            // For CDMA, there is no answerAndEndActive, so we can behave
+                            // the same way as CHLD=2 here
+                            PhoneUtils.answerCall(mPhone);
+                            PhoneUtils.setMute(mPhone, false);
                             return new AtCommandResult(AtCommandResult.OK);
                         } else {
-                            return new AtCommandResult(AtCommandResult.ERROR);
+                            // Hangup active call, answer held call
+                            if (PhoneUtils.answerAndEndActive(mPhone)) {
+                                return new AtCommandResult(AtCommandResult.OK);
+                            } else {
+                                return new AtCommandResult(AtCommandResult.ERROR);
+                            }
                         }
                     } else if (args[0].equals(2)) {
-                        PhoneUtils.switchHoldingAndActive(mPhone);
+                        if (mPhone.getPhoneName().equals("CDMA")) {
+                            // For CDMA, the way we switch to a new incoming call is by
+                            // calling PhoneUtils.answerCall(). switchAndHoldActive() won't
+                            // properly update the call state within telephony.
+                            PhoneUtils.answerCall(mPhone);
+                            PhoneUtils.setMute(mPhone, false);
+                        } else {
+                            PhoneUtils.switchHoldingAndActive(mPhone);
+                        }
                         return new AtCommandResult(AtCommandResult.OK);
                     } else if (args[0].equals(3)) {
                         if (mForegroundCall.getState().isAlive() &&
