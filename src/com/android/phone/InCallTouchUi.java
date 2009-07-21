@@ -52,13 +52,9 @@ public class InCallTouchUi extends FrameLayout
     // Phone app instance
     private PhoneApp mApplication;
 
-    // UI containers and elements
+    // UI containers / elements
     private View mIncomingCallControls;  // UI elements used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
-    //
-    private View mAnswerButton;  // "Answer" (for incoming calls)
-    private View mRejectButton;  // "Decline" or "Reject" (for incoming calls)
-    private View mEndCallButton;  // "Hang up"
 
     // Double-tap detection state
     private long mLastTouchTime;  // in SystemClock.uptimeMillis() time base
@@ -112,12 +108,18 @@ public class InCallTouchUi extends FrameLayout
         mInCallControls = findViewById(R.id.inCallControls);
 
         // The buttons:
-        mAnswerButton = findViewById(R.id.answerButton);
-        mAnswerButton.setOnTouchListener(this);
-        mRejectButton = findViewById(R.id.rejectButton);
-        mRejectButton.setOnTouchListener(this);
-        mEndCallButton = findViewById(R.id.endCallButton);
-        mEndCallButton.setOnTouchListener(this);
+        // "Double-tap" buttons, where we listen for raw touch events
+        // and possibly turn them into double-tap events:
+        mIncomingCallControls.findViewById(R.id.answerButton).setOnTouchListener(this);
+        mIncomingCallControls.findViewById(R.id.rejectButton).setOnTouchListener(this);
+
+        // Regular (single-tap) buttons, where we listen for click events:
+        mInCallControls.findViewById(R.id.holdButton).setOnClickListener(this);
+        mInCallControls.findViewById(R.id.endCallButton).setOnClickListener(this);
+        mInCallControls.findViewById(R.id.dialpadButton).setOnClickListener(this);
+        mInCallControls.findViewById(R.id.bluetoothButton).setOnClickListener(this);
+        mInCallControls.findViewById(R.id.muteButton).setOnClickListener(this);
+        mInCallControls.findViewById(R.id.speakerButton).setOnClickListener(this);
     }
 
     /**
@@ -148,9 +150,18 @@ public class InCallTouchUi extends FrameLayout
             }
         } else {
             if (mAllowInCallTouchUi) {
-                if (DBG) log("- updateState: not ringing; showing regular in-call touch UI...");
-                showInCallControls = true;
+                // Ok, the in-call touch UI is available on this platform,
+                // so make it visible (with some exceptions):
+                if (mInCallScreen.okToShowInCallTouchUi()) {
+                    showInCallControls = true;
+                } else {
+                    if (DBG) log("- updateState: NOT OK to show touch UI; disabling...");
+                }
             }
+        }
+
+        if (showInCallControls) {
+            updateInCallControls(phone);
         }
 
         if (showIncomingCallControls && showInCallControls) {
@@ -170,8 +181,33 @@ public class InCallTouchUi extends FrameLayout
         int id = view.getId();
         if (DBG) log("onClick(View " + view + ", id " + id + ")...");
 
-        // TODO: still need to add all the regular in-call buttons like
-        // mute/speaker/bluetooth, hold, and dialpad.
+        switch (id) {
+            case R.id.answerButton:
+            case R.id.rejectButton:
+                // These are "double-tap" buttons; we should never get regular
+                // clicks from them.
+                Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
+                throw new IllegalStateException("Unexpected click from double-tap button");
+                // TODO: remove above "throw" after initial debugging.
+                // break;
+
+            case R.id.holdButton:
+            case R.id.endCallButton:
+            case R.id.dialpadButton:
+            case R.id.bluetoothButton:
+            case R.id.muteButton:
+            case R.id.speakerButton:
+                // Clicks on the regular onscreen buttons get forwarded
+                // straight to the InCallScreen.
+                mInCallScreen.handleOnscreenButtonClick(id);
+                break;
+
+            default:
+                if (DBG) log("onClick: unexpected click: View " + view + ", id " + id);
+                throw new IllegalStateException("Unexpected click event");
+                // TODO: remove above "throw" after initial debugging.
+                // break;
+        }
     }
 
     private void onDoubleTap(View view) {
@@ -180,33 +216,16 @@ public class InCallTouchUi extends FrameLayout
 
         switch (id) {
             case R.id.answerButton:
-                mInCallScreen.internalAnswerCall();
-                // TODO: It might be cleaner to send an event thru the
-                // InCallScreen's onClick() code path rather than calling
-                // an "internal" InCallScreen method directly from here.
-                break;
-
             case R.id.rejectButton:
-                mInCallScreen.internalHangupRingingCall();
-                // TODO: It might be cleaner to send an event thru the
-                // InCallScreen's onClick() code path rather than calling
-                // an "internal" InCallScreen method directly from here.
-                break;
-
-            case R.id.endCallButton:
-                // TODO: Ultimately the "end call" button won't *need* to
-                // be double-tapped.  (It'll just be a regular button.)
-                // But we can't do that until the proximity sensor features
-                // are all hooked up.
-                mInCallScreen.internalHangup();
-                // TODO: It might be cleaner to send an event thru the
-                // InCallScreen's onClick() code path rather than calling
-                // an "internal" InCallScreen method directly from here.
+                // Pass these clicks on to the InCallScreen.
+                mInCallScreen.handleOnscreenButtonClick(id);
                 break;
 
             default:
-                if (DBG) log("onDoubleTap: unexpected double-tap: View " + view + ", id " + id);
-                break;
+                Log.w(LOG_TAG, "onDoubleTap: unexpected double-tap: View " + view + ", id " + id);
+                throw new IllegalStateException("Unexpected double-tap event");
+                // TODO: remove above "throw" after initial debugging.
+                // break;
         }
     }
 
@@ -254,6 +273,29 @@ public class InCallTouchUi extends FrameLayout
         // And regardless of what just happened, we *always*
         // consume touch events here.
         return true;
+    }
+
+    /**
+     * Updates the enabledness and state of the buttons on the
+     * "inCallControls" panel, based on the current telephony state.
+     */
+    void updateInCallControls(Phone phone) {
+        // TODO: update enabledness and "checked" state of the onscreen
+        // buttons, just like InCallmenu.updateItems() does for the
+        // corresponding menu items.
+    }
+
+
+    //
+    // InCallScreen API
+    //
+
+    /**
+     * @return true if the onscreen touch UI is enabled (for regular
+     * "ongoing call" states) on the current device.
+     */
+    public boolean isTouchUiEnabled() {
+        return mAllowInCallTouchUi;
     }
 
 

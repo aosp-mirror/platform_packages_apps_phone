@@ -96,32 +96,99 @@
 
         <!-- (2) inCallControls: the widgets visible while a regular call
              (or calls) is in progress -->
-        <RelativeLayout android:id="@+id/inCallControls"
-                        android:layout_width="fill_parent"
+        <LinearLayout android:id="@+id/inCallControls"
+                      android:orientation="vertical"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:paddingLeft="10dip"
+                      android:paddingRight="10dip"
+                      android:paddingBottom="4dip"
+                      android:visibility="gone"
+                      >
+
+            <LinearLayout android:id="@+id/inCallControlsRow1"
+                          android:orientation="horizontal"
+                          android:layout_width="fill_parent"
+                          android:layout_height="1dip"
+                          android:layout_weight="3"
+                          >
+                <!-- TODO: use a style for attributes shared by all these buttons -->
+
+                <!-- "Hold" -->
+                <Button android:id="@+id/holdButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
                         android:layout_height="fill_parent"
-                        android:visibility="gone"
-                        >
+                        android:gravity="center"
+                        android:text="@string/onscreenHoldText"
+                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                        />
 
-            <!-- TEMPORARY HACK: provide only an "end call" button for now
-                 (until we have final layout/assets for the full
-                 complement of in-call buttons.) -->
+                <!-- "End call" -->
+                <Button android:id="@+id/endCallButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:text="@string/onscreenEndCallText"
+                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                        />
 
-            <!-- "End call" -->
-            <TextView android:id="@+id/endCallButton"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="center"
-                android:text="@string/onscreenEndCallText"
-                android:textAppearance="?android:attr/textAppearanceMediumInverse"
-                android:background="@*android:drawable/btn_default_normal"
-                android:layout_marginTop="30dip"
-                android:layout_marginBottom="30dip"
-                android:layout_marginRight="20dip"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                />
 
-        </RelativeLayout>
+                <!-- "Dialpad" -->
+                <Button android:id="@+id/dialpadButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:text="@string/onscreenDialpadText"
+                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                        />
+
+            </LinearLayout>
+
+
+            <LinearLayout android:id="@+id/inCallControlsRow2"
+                          android:orientation="horizontal"
+                          android:layout_width="fill_parent"
+                          android:layout_height="1dip"
+                          android:layout_weight="2"
+                          >
+
+                <!-- "Bluetooth" -->
+                <ToggleButton android:id="@+id/bluetoothButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:textOn="@string/onscreenBluetoothText"
+                        android:textOff="@string/onscreenBluetoothText"
+                        />
+
+                <!-- "Mute" -->
+                <ToggleButton android:id="@+id/muteButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:textOn="@string/onscreenMuteText"
+                        android:textOff="@string/onscreenMuteText"
+                        />
+
+
+                <!-- "Speaker" -->
+                <ToggleButton android:id="@+id/speakerButton"
+                        android:layout_width="1dip"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:textOn="@string/onscreenSpeakerText"
+                        android:textOff="@string/onscreenSpeakerText"
+                        />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </FrameLayout>
 

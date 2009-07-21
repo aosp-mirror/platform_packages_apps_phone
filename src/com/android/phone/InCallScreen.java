@@ -203,6 +203,7 @@ public class InCallScreen extends Activity
         UNDEFINED
     }
     private InCallScreenMode mInCallScreenMode = InCallScreenMode.UNDEFINED;
+
     // Possible error conditions that can happen on startup.
     // These are returned as status codes from the various helper
     // functions we call from onCreate() and/or onResume().
@@ -347,7 +348,7 @@ public class InCallScreen extends Activity
                         // We ONLY want to do this on the wired headset connect /
                         // disconnect events for now though, so we're only triggering
                         // on EVENT_HEADSET_PLUG_STATE_CHANGED.
-                        PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                        PhoneUtils.restoreSpeakerMode(InCallScreen.this);
                     }
                     updateScreen();
                     break;
@@ -2600,7 +2601,6 @@ public class InCallScreen extends Activity
         // they want the menu to stay visible for a second afterwards to
         // give you feedback about the state change.
         boolean dismissMenuImmediate = true;
-        Context context = getApplicationContext();
 
         switch (id) {
             case R.id.menuAnswerAndHold:
@@ -2642,12 +2642,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuShowDialpad:
                 if (VDBG) log("onClick: Show/hide dialpad...");
-                if (mDialer.isOpened()) {
-                    mDialer.closeDialer(true);  // do the "closing" animation
-                } else {
-                    mDialer.openDialer(true);  // do the "opening" animation
-                }
-                mDialerDrawer.setVisibility(View.VISIBLE);
+                onShowHideDialpad();
                 break;
 
             case R.id.manage_done:  // mButtonManageConferenceDone
@@ -2658,43 +2653,21 @@ public class InCallScreen extends Activity
 
             case R.id.menuSpeaker:
                 if (VDBG) log("onClick: Speaker...");
-                // TODO: Turning on the speaker seems to enable the mic
-                //   whether or not the "mute" feature is active!
-                // Not sure if this is an feature of the telephony API
-                //   that I need to handle specially, or just a bug.
-                boolean newSpeakerState = !PhoneUtils.isSpeakerOn(context);
-                if (newSpeakerState && isBluetoothAvailable() && isBluetoothAudioConnected()) {
-                    disconnectBluetoothAudio();
-                }
-                PhoneUtils.turnOnSpeaker(context, newSpeakerState);
-
-                if (newSpeakerState) {
-                    // The "touch lock" overlay is NEVER used when the speaker is on.
-                    enableTouchLock(false);
-                } else {
-                    // User just turned the speaker *off*.  If the dialpad
-                    // is open, we need to start the timer that will
-                    // eventually bring up the "touch lock" overlay.
-                    if (mDialer.isOpened() && !isTouchLocked()) {
-                        resetTouchLockTimer();
-                    }
-                }
-
+                onSpeakerClick();
                 // This is a "toggle" button; let the user see the new state for a moment.
                 dismissMenuImmediate = false;
                 break;
 
             case R.id.menuBluetooth:
                 if (VDBG) log("onClick: Bluetooth...");
-                onBluetoothClick(context);
+                onBluetoothClick();
                 // This is a "toggle" button; let the user see the new state for a moment.
                 dismissMenuImmediate = false;
                 break;
 
             case R.id.menuMute:
                 if (VDBG) log("onClick: Mute...");
-                boolean newMuteState = !PhoneUtils.getMute(mPhone);
-                PhoneUtils.setMute(mPhone, newMuteState);
+                onMuteClick();
                 // This is a "toggle" button; let the user see the new state for a moment.
                 dismissMenuImmediate = false;
                 break;
@@ -2813,7 +2786,39 @@ public class InCallScreen extends Activity
         // responsive enough.)
     }
 
-    private void onBluetoothClick(Context context) {
+    private void onSpeakerClick() {
+        if (VDBG) log("onSpeakerClick()...");
+
+        // TODO: Turning on the speaker seems to enable the mic
+        //   whether or not the "mute" feature is active!
+        // Not sure if this is an feature of the telephony API
+        //   that I need to handle specially, or just a bug.
+        boolean newSpeakerState = !PhoneUtils.isSpeakerOn(this);
+        if (newSpeakerState && isBluetoothAvailable() && isBluetoothAudioConnected()) {
+            disconnectBluetoothAudio();
+        }
+        PhoneUtils.turnOnSpeaker(this, newSpeakerState);
+
+        if (newSpeakerState) {
+            // The "touch lock" overlay is NEVER used when the speaker is on.
+            enableTouchLock(false);
+        } else {
+            // User just turned the speaker *off*.  If the dialpad
+            // is open, we need to start the timer that will
+            // eventually bring up the "touch lock" overlay.
+            if (mDialer.isOpened() && !isTouchLocked()) {
+                resetTouchLockTimer();
+            }
+        }
+    }
+
+    private void onMuteClick() {
+        if (VDBG) log("onMuteClick()...");
+        boolean newMuteState = !PhoneUtils.getMute(mPhone);
+        PhoneUtils.setMute(mPhone, newMuteState);
+    }
+
+    private void onBluetoothClick() {
         if (VDBG) log("onBluetoothClick()...");
 
         if (isBluetoothAvailable()) {
@@ -2827,8 +2832,8 @@ public class InCallScreen extends Activity
                 // menuSpeaker code above in onClick().  The onClick() code
                 // disconnects the active bluetooth headsets when the
                 // speakerphone is turned on.
-                if (PhoneUtils.isSpeakerOn(context)) {
-                    PhoneUtils.turnOnSpeaker(context, false);
+                if (PhoneUtils.isSpeakerOn(this)) {
+                    PhoneUtils.turnOnSpeaker(this, false);
                 }
 
                 connectBluetoothAudio();
@@ -2837,6 +2842,63 @@ public class InCallScreen extends Activity
             // Bluetooth isn't available; the "Audio" button shouldn't have
             // been enabled in the first place!
             Log.w(LOG_TAG, "Got onBluetoothClick, but bluetooth is unavailable");
+        }
+    }
+
+    private void onShowHideDialpad() {
+        if (VDBG) log("onShowHideDialpad()...");
+        if (mDialer.isOpened()) {
+            mDialer.closeDialer(true);  // do the "closing" animation
+        } else {
+            mDialer.openDialer(true);  // do the "opening" animation
+        }
+        mDialerDrawer.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Handles button clicks from the InCallTouchUi widget.
+     */
+    /* package */ void handleOnscreenButtonClick(int id) {
+        if (DBG) log("handleOnscreenButtonClick(id " + id + ")...");
+
+        switch (id) {
+            // TODO: since every button here corresponds to a menu item that we
+            // already handle in onClick(), maybe merge the guts of these two
+            // methods into a separate helper that takes an ID (of either a menu
+            // item *or* touch button) and does the appropriate user action.
+
+            // The two "double-tap buttons" displayed while an incoming
+            // call is ringing:
+            case R.id.answerButton:
+                internalAnswerCall();
+                break;
+            case R.id.rejectButton:
+                internalHangupRingingCall();
+                break;
+
+            // The other regular (single-tap) buttons used while in-call:
+            case R.id.holdButton:
+                onHoldClick();
+                break;
+            case R.id.endCallButton:
+                internalHangup();
+                break;
+            case R.id.dialpadButton:
+                onShowHideDialpad();
+                break;
+            case R.id.bluetoothButton:
+                onBluetoothClick();
+                break;
+            case R.id.muteButton:
+                onMuteClick();
+                break;
+            case R.id.speakerButton:
+                onSpeakerClick();
+                break;
+
+            default:
+                Log.w(LOG_TAG, "handleOnscreenButtonClick: unexpected ID " + id);
+                break;
         }
     }
 
@@ -3292,6 +3354,7 @@ public class InCallScreen extends Activity
                     // stop the timer if the panel is hidden.
                     mConferenceTime.stop();
                 }
+                updateInCallTouchUi();  // Hide the in-call buttons
                 updateMenuButtonHint();  // Hide the Menu button hint
 
                 // Make sure the CallCard (which is a child of mInCallPanel) is visible.
@@ -3603,12 +3666,28 @@ public class InCallScreen extends Activity
         //
         // (2) The "sliding drawer" handle:
         //
-        // This handle should be visible only if it's OK to actually open
-        // the dialpad.
-        //
         if (mDialerDrawer != null) {
-            int visibility = okToShowDialpad() ? View.VISIBLE : View.GONE;
-            mDialerDrawer.setVisibility(visibility);
+            // The handle is visible only if it's OK to actually open the
+            // dialpad.
+            boolean visible = okToShowDialpad();
+
+            // TODO: the handle *should* also be hidden if there's an
+            // explicit "show dialpad" button provided by the InCallTouchUi
+            // widget.
+            //
+            // But I can't just do this:
+            //    boolean visible = false;
+            //    if ((mInCallTouchUi == null) || (!mInCallTouchUi.isTouchUiEnabled())) {
+            //        visible = okToShowDialpad();
+            //    }
+            // since hiding the dialer drawer also hides the dialpad itself!
+            //
+            // I could probably do an ugly hack like "don't hide it if
+            // the drawer is open" but I should instead totally clean up
+            // the dialpad to not use a SlidingDrawer AT ALL on devices
+            // that use onscreen touch buttons.
+
+            mDialerDrawer.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -3629,6 +3708,10 @@ public class InCallScreen extends Activity
         // ANY time the dialpad becomes visible, start the timer that will
         // eventually bring up the "touch lock" overlay.
         resetTouchLockTimer();
+
+        // Update the in-call touch UI (which may need to hide itself, if
+        // it's enabled.)
+        updateInCallTouchUi();
 
         // This counts as explicit "user activity".
         PhoneApp.getInstance().pokeUserActivity();
@@ -3666,6 +3749,9 @@ public class InCallScreen extends Activity
         // Dismiss the "touch lock" overlay if it was visible.
         // (The overlay is only ever used on top of the dialpad).
         enableTouchLock(false);
+
+        // Update the in-call touch UI (which may need to re-show itself.)
+        updateInCallTouchUi();
 
         // This counts as explicit "user activity".
         app.getInstance().pokeUserActivity();
@@ -3742,6 +3828,26 @@ public class InCallScreen extends Activity
             mInCallTouchUi.updateState(mPhone);
         }
     }
+
+    /**
+     * @return true if it's OK to display the in-call touch UI, given the
+     * current state of the InCallScreen.
+     */
+    /* package */ boolean okToShowInCallTouchUi() {
+        // Note that this method is concerned only with the internal state
+        // of the InCallScreen.  (The InCallTouchUi widget has separate
+        // logic to make sure it's OK to display the touch UI given the
+        // current telephony state, and that it's allowed on the current
+        // device in the first place.)
+
+        // The touch UI is NOT available if:
+        // - we're in some InCallScreenMode other than NORMAL
+        //   (like CALL_ENDED or one of the OTA modes)
+        // - the dialpad is up
+        return ((mInCallScreenMode == InCallScreenMode.NORMAL)
+                && (!isDialerOpened()));
+    }
+
 
     /**
      * Helper class to manage the (small number of) manual layout and UI
@@ -3850,6 +3956,14 @@ public class InCallScreen extends Activity
         // We only want this special behavior for the "options panel"
         // feature (i.e. the standard menu triggered by the MENU button.)
         if (featureId != Window.FEATURE_OPTIONS_PANEL) {
+            return null;
+        }
+
+        // For now, totally disable the in-call menu on devices where we
+        // use onscreen touchable buttons instead.
+        // TODO: even on "full touch" devices we may still ultimately need
+        // a regular menu in some states.  Need UI spec.
+        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
             return null;
         }
 
@@ -4164,7 +4278,7 @@ public class InCallScreen extends Activity
             }
 
             // Also, the "touch lock" overlay NEVER appears if the speaker is in use.
-            if (PhoneUtils.isSpeakerOn(getApplicationContext())) {
+            if (PhoneUtils.isSpeakerOn(this)) {
                 if (VDBG) log("enableTouchLock: speaker is on, no need to lock screen.");
                 return;
             }
