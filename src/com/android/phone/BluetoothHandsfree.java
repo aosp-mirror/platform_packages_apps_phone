@@ -448,8 +448,8 @@ public class BluetoothHandsfree {
             cdmaIconLevel = (levelDbm < levelEcio) ? levelDbm : levelEcio;
 
             if (mServiceState != null &&
-                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0) ||
-                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
+                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0 ||
+                   mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
                   int evdoEcio = signalStrength.getEvdoEcio();
                   int evdoSnr = signalStrength.getEvdoSnr();
                   int levelEvdoEcio = 0;
