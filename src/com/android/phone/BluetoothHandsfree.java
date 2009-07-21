@@ -407,7 +407,8 @@ public class BluetoothHandsfree {
         /* convert [0,31] ASU signal strength to the [0,5] expected by
          * bluetooth devices. Scale is similar to status bar policy
          */
-        private int gsmAsuToSignal(int asu) {
+        private int gsmAsuToSignal(SignalStrength signalStrength) {
+            int asu = signalStrength.getGsmSignalStrength();
             if      (asu >= 16) return 5;
             else if (asu >= 8)  return 4;
             else if (asu >= 4)  return 3;
@@ -416,24 +417,69 @@ public class BluetoothHandsfree {
             else                return 0;
         }
 
-        /* convert cdma dBm signal strength to the [0,5] expected by
-         * bluetooth devices. Scale is similar to status bar policy
+        /**
+         * Convert the cdma / evdo db levels to appropriate icon level.
+         * The scale is similar to the one used in status bar policy.
+         *
+         * @param signalStrength
+         * @return the icon level
          */
-        private int cdmaDbmToSignal(int cdmaDbm) {
-            if (cdmaDbm >= -75)       return 5;
-            else if (cdmaDbm >= -85)  return 4;
-            else if (cdmaDbm >= -95)  return 3;
-            else if (cdmaDbm >= -100) return 2;
-            else if (cdmaDbm >= -105) return 2;
-            else return 0;
+        private int cdmaDbmEcioToSignal(SignalStrength signalStrength) {
+            int levelDbm = 0;
+            int levelEcio = 0;
+            int cdmaIconLevel = 0;
+            int evdoIconLevel = 0;
+            int cdmaDbm = signalStrength.getCdmaDbm();
+            int cdmaEcio = signalStrength.getCdmaEcio();
+
+            if (cdmaDbm >= -75) levelDbm = 4;
+            else if (cdmaDbm >= -85) levelDbm = 3;
+            else if (cdmaDbm >= -95) levelDbm = 2;
+            else if (cdmaDbm >= -100) levelDbm = 1;
+            else levelDbm = 0;
+
+            // Ec/Io are in dB*10
+            if (cdmaEcio >= -90) levelEcio = 4;
+            else if (cdmaEcio >= -110) levelEcio = 3;
+            else if (cdmaEcio >= -130) levelEcio = 2;
+            else if (cdmaEcio >= -150) levelEcio = 1;
+            else levelEcio = 0;
+
+            cdmaIconLevel = (levelDbm < levelEcio) ? levelDbm : levelEcio;
+
+            if ((mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0)
+                  || (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
+                  int evdoEcio = signalStrength.getEvdoEcio();
+                  int evdoSnr = signalStrength.getEvdoSnr();
+                  int levelEvdoEcio = 0;
+                  int levelEvdoSnr = 0;
+
+                  // Ec/Io are in dB*10
+                  if (evdoEcio >= -650) levelEvdoEcio = 4;
+                  else if (evdoEcio >= -750) levelEvdoEcio = 3;
+                  else if (evdoEcio >= -900) levelEvdoEcio = 2;
+                  else if (evdoEcio >= -1050) levelEvdoEcio = 1;
+                  else levelEvdoEcio = 0;
+
+                  if (evdoSnr > 7) levelEvdoSnr = 4;
+                  else if (evdoSnr > 5) levelEvdoSnr = 3;
+                  else if (evdoSnr > 3) levelEvdoSnr = 2;
+                  else if (evdoSnr > 1) levelEvdoSnr = 1;
+                  else levelEvdoSnr = 0;
+
+                  evdoIconLevel = (levelEvdoEcio < levelEvdoSnr) ? levelEvdoEcio : levelEvdoSnr;
+            }
+            // TODO(): There is a bug open regarding what should be sent.
+            return (cdmaIconLevel > evdoIconLevel) ?  cdmaIconLevel : evdoIconLevel;
+
         }
 
 
         private int asuToSignal(SignalStrength signalStrength) {
-            if (!signalStrength.isGsm()) {
-                return gsmAsuToSignal(signalStrength.getCdmaDbm());
+            if (signalStrength.isGsm()) {
+                return gsmAsuToSignal(signalStrength);
             } else {
-                return cdmaDbmToSignal(signalStrength.getGsmSignalStrength());
+                return cdmaDbmEcioToSignal(signalStrength);
             }
         }
 
