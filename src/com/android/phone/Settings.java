@@ -18,10 +18,12 @@ package com.android.phone;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemProperties;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -31,6 +33,8 @@ import android.util.Log;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.TelephonyProperties;
 
 /**
  * List of Phone-specific settings screens.
@@ -41,10 +45,12 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     // debug data
     private static final String LOG_TAG = "NetworkSettings";
     private static final boolean DBG = true;
+    public static final int REQUEST_CODE_EXIT_ECM         = 17;
 
     //String keys for preference lookup
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
+    private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
 
     private static final String BUTTON_GSM_UMTS_OPTIONS = "gsm_umts_options_key";
     private static final String BUTTON_CDMA_OPTIONS = "cdma_options_key";
@@ -54,6 +60,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
     private CheckBoxPreference mButtonDataRoam;
+    private CdmaRoamingListPreference mButtonCdmaRoam;
 
     private Phone mPhone;
     private MyHandler mHandler;
@@ -95,6 +102,13 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             return true;
         } else if (cdmaOptions != null &&
                    cdmaOptions.onPreferenceTreeClick(preferenceScreen, preference) == true) {
+            if (Boolean.parseBoolean(
+                    SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE))) {
+                // In ECM mode launch ECM app dialog
+                startActivityForResult(
+                    new Intent(TelephonyIntents.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS, null),
+                    REQUEST_CODE_EXIT_ECM);
+            }
             return true;
         } else if (preference == mButtonPreferredNetworkMode) {
             //displays the value taken from the Settings.System
@@ -170,6 +184,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
             if (mPhone.getPhoneName().equals("CDMA")) {
                 addPreferencesFromResource(R.xml.cdma_options);
+                mButtonCdmaRoam =
+                    (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
                 cdmaOptions = new CdmaOptions();
             } else {
                 addPreferencesFromResource(R.xml.gsm_umts_options);
@@ -397,6 +413,25 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             case Phone.NT_MODE_GLOBAL:
             default:
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: Global");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+        case REQUEST_CODE_EXIT_ECM:
+            Boolean isChoiceYes =
+                data.getBooleanExtra(EmergencyCallbackModeExitDialog.EXTRA_EXIT_ECM_RESULT, false);
+            if (isChoiceYes) {
+                // If the phone exits from ECM mode, show the system selection Options
+                mButtonCdmaRoam.showDialog(null);
+            } else {
+                // do nothing
+            }
+            break;
+
+        default:
+            break;
         }
     }
 

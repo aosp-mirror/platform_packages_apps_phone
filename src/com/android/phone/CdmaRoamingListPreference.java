@@ -18,6 +18,8 @@ package com.android.phone;
 
 import android.content.Context;
 import android.os.AsyncResult;
+import android.os.Bundle;
+import android.os.SystemProperties;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.ListPreference;
@@ -27,6 +29,7 @@ import android.util.Log;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.TelephonyProperties;
 
 public class CdmaRoamingListPreference extends ListPreference {
 
@@ -47,6 +50,16 @@ public class CdmaRoamingListPreference extends ListPreference {
 
     public CdmaRoamingListPreference(Context context) {
         this(context, null);
+    }
+
+    @Override
+    protected void showDialog(Bundle state) {
+        if (Boolean.parseBoolean(
+                    SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE))) {
+            // In ECM mode do not show selection options
+        } else {
+            super.showDialog(state);
+        }
     }
 
     @Override
