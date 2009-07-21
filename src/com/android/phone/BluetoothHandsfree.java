@@ -449,8 +449,9 @@ public class BluetoothHandsfree {
 
             cdmaIconLevel = (levelDbm < levelEcio) ? levelDbm : levelEcio;
 
-            if ((mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0)
-                  || (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
+            if (mServiceState != null &&
+                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0) ||
+                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
                   int evdoEcio = signalStrength.getEvdoEcio();
                   int evdoSnr = signalStrength.getEvdoSnr();
                   int levelEvdoEcio = 0;
@@ -555,7 +556,7 @@ public class BluetoothHandsfree {
             int roam = state.getRoaming() ? 1 : 0;
             int stat;
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
-
+            mServiceState = state;
             if (service == 0) {
                 stat = 0;
             } else {
