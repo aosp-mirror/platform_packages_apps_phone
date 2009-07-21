@@ -886,16 +886,6 @@ public class CallNotifier extends Handler
             if (toneToPlay != InCallTonePlayer.TONE_NONE) {
                 if (VDBG) log("- starting post-disconnect tone (" + toneToPlay + ")...");
                 new InCallTonePlayer(toneToPlay).start();
-                // The InCallTonePlayer will automatically stop playing (and
-                // clean itself up) after a few seconds.
-                AudioManager audioManager = (AudioManager) mPhone.getContext()
-                        .getSystemService(Context.AUDIO_SERVICE);
-                if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
-                    if (mRinger.shouldVibrateOnce()
-                            && (toneToPlay == InCallTonePlayer.TONE_OTA_CALL_END)) {
-                        mRinger.vibrateOnce();
-                    }
-                }
 
                 // TODO: alternatively, we could start an InCallTonePlayer
                 // here with an "unlimited" tone length,
@@ -1124,7 +1114,7 @@ public class CallNotifier extends Handler
                     if (mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone ==
                             OtaUtils.OTA_PLAY_SUCCESS_FAILURE_TONE_ON) {
                         toneType = ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD;
-                        toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
+                        toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
                         toneLengthMillis = 5000;
                     } else {
                         toneType = ToneGenerator.TONE_PROP_PROMPT;
@@ -1196,33 +1186,37 @@ public class CallNotifier extends Handler
             // pattern", or simply "play the pattern N times and then
             // stop."
             boolean needToStopTone = true;
-            boolean okToPlayTone = true;
+            boolean okToPlayTone = false;
 
             if (toneGenerator != null) {
-                if (toneType == ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD) {
-                    if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
-                            (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
-                        if (DBG) log("- InCallTonePlayer: start playing call tone=" + toneType);
-                        okToPlayTone = true;
-                        needToStopTone = false;
+                if (mPhone.getPhoneName().equals("CDMA")) {
+                    if (toneType == ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD) {
+                        if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
+                                (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                            if (DBG) log("- InCallTonePlayer: start playing call tone=" + toneType);
+                            okToPlayTone = true;
+                            needToStopTone = false;
+                        }
+                    } else if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
+                            (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
+                            (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
+                            (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {
+                        if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+                            if (DBG) log("InCallTonePlayer:playing call fail tone:" + toneType);
+                            okToPlayTone = true;
+                            needToStopTone = false;
+                        }
+                    } else if ((toneType == ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE) ||
+                               (toneType == ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE)) {
+                        if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
+                                (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                            if (DBG) log("InCallTonePlayer:playing tone for toneType=" + toneType);
+                            okToPlayTone = true;
+                            needToStopTone = false;
+                        }
                     }
-                } else if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
-                        (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
-                        (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
-                        (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {
-                    if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
-                        if (DBG) log("InCallTonePlayer:playing call fail tone:" + toneType);
-                        okToPlayTone = true;
-                        needToStopTone = false;
-                    }
-                } else if ((toneType == ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE) ||
-                           (toneType == ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE)) {
-                    if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
-                            (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
-                        if (DBG) log("InCallTonePlayer:playing tone for toneType=" + toneType);
-                        okToPlayTone = true;
-                        needToStopTone = false;
-                    }
+                } else {
+                    okToPlayTone = true;
                 }
 
                 if (okToPlayTone) {

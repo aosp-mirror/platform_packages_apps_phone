@@ -295,7 +295,27 @@ public class PhoneUtils {
 
     static boolean hangupRingingCall(Phone phone) {
         if (DBG) log("hangup ringing call");
-        return hangup(phone.getRingingCall());
+        Call ringing = phone.getRingingCall();
+
+        if (phone.getPhoneName().equals("CDMA")) {
+            // CDMA: Ringing call and Call waiting hangup is handled differently.
+            // For Call waiting we DO NOT call the conventional hangup(call) function
+            // as in CDMA we just want to hungup the Call waiting connection.
+            if (ringing.getState() == Call.State.INCOMING) {
+                if (DBG) log("hangup ringing call");
+                return hangup(ringing);
+            } else {
+                if (DBG) log("hangup Call waiting call");
+                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                notifier.onCdmaCallWaitingReject();
+                return true;
+            }
+        } else {
+            // GSM:  Ringing Call and Call waiting, both are hungup by calling
+            // hangup(call) function.
+            if (DBG) log("hangup ringing call");
+            return hangup(ringing);
+        }
     }
 
     static boolean hangupActiveCall(Phone phone) {
