@@ -1485,9 +1485,12 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (mButtonCLIR != null ) {
                 mButtonCLIR.setOnPreferenceChangeListener(this);
             }
-            mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
-            mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
-            mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+
+            if (mSubMenuFDNSettings != null) {
+                mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
+                mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
+                mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+            }
         }
 
         if (mSubMenuVoicemailSettings != null) {
