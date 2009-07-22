@@ -17,11 +17,9 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 
 /**
@@ -377,13 +375,15 @@ class InCallMenu {
         // TODO: double-check if any items here need to be disabled based on:
         //   boolean keyguardRestricted = mInCallScreen.isPhoneStateRestricted();
 
+        // The InCallControlState object tells us the enabledness and/or
+        // state of the various menu items:
+        InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
+
         // Manage conference: visible only if the foreground call is a
         // conference call.  Enabled unless the "Manage conference" UI is
         // already up.
-        boolean canManageConference =
-                PhoneUtils.isConferenceCall(phone.getForegroundCall());
-        mManageConference.setVisible(canManageConference);
-        mManageConference.setEnabled(!mInCallScreen.isManageConferenceMode());
+        mManageConference.setVisible(inCallControlState.manageConferenceVisible);
+        mManageConference.setEnabled(inCallControlState.manageConferenceEnabled);
 
         // "Show/Hide dialpad":
         // - Visible: only in portrait mode, but NOT when "Manage
@@ -393,8 +393,10 @@ class InCallMenu {
         //   is visible.)
         // - Text label: "Show" or "Hide", depending on the current state
         //   of the sliding drawer.
+        // (Note this logic is totally specific to the in-call menu, so
+        // this state doesn't come from the inCallControlState object.)
         boolean showShowDialpad = !InCallScreen.ConfigurationHelper.isLandscape()
-                && !canManageConference;
+                && !inCallControlState.manageConferenceVisible;
         boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
         mShowDialpad.setVisible(showShowDialpad);
         mShowDialpad.setEnabled(enableShowDialpad);
@@ -411,72 +413,41 @@ class InCallMenu {
 
         // "Add call"
         mAddCall.setVisible(true);
-        mAddCall.setEnabled(PhoneUtils.okToAddCall(phone));
+        mAddCall.setEnabled(inCallControlState.canAddCall);
 
         // Swap / merge calls
-        boolean canSwap = PhoneUtils.okToSwapCalls(phone);
-        boolean canMerge = PhoneUtils.okToMergeCalls(phone);
         mSwapCalls.setVisible(true);
-        mSwapCalls.setEnabled(canSwap);
+        mSwapCalls.setEnabled(inCallControlState.canSwap);
         mMergeCalls.setVisible(true);
-        mMergeCalls.setEnabled(canMerge);
+        mMergeCalls.setEnabled(inCallControlState.canMerge);
 
         // "Bluetooth": always visible, only enabled if BT is available.
-        updateBluetoothButton();
+        mBluetooth.setVisible(true);
+        mBluetooth.setEnabled(inCallControlState.bluetoothEnabled);
+        mBluetooth.setIndicatorState(inCallControlState.bluetoothIndicatorOn);
 
         // "Speaker": always visible.  Disabled if a wired headset is
         // plugged in, otherwise enabled (and indicates the current
         // speaker state.)
         mSpeaker.setVisible(true);
-        if (PhoneApp.getInstance().isHeadsetPlugged()) {
-            // Wired headset is present; Speaker button is meaningless.
-            mSpeaker.setEnabled(false);
-            mSpeaker.setIndicatorState(false);
-        } else {
-            // No wired headset; Speaker button is enabled and behaves normally.
-            mSpeaker.setEnabled(true);
-            boolean speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen.getApplicationContext());
-            mSpeaker.setIndicatorState(speakerOn);
-        }
+        mSpeaker.setEnabled(inCallControlState.speakerEnabled);
+        mSpeaker.setIndicatorState(inCallControlState.speakerOn);
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
-        if (phone.getPhoneName().equals("CDMA")) {
-            Connection c = phone.getForegroundCall().getLatestConnection();
-            boolean isEmergencyCall =
-                    PhoneNumberUtils.isEmergencyNumber(c.getAddress());
+        // Also disabled (on CDMA devices) during emergency calls.
+        mMute.setVisible(true);
+        mMute.setEnabled(inCallControlState.canMute);
+        mMute.setIndicatorState(inCallControlState.muteIndicatorOn);
 
-            if (isEmergencyCall) { // disable "Mute" item
-                mMute.setEnabled(false);
-            } else {
-                mMute.setVisible(true);
-                boolean muteOn = PhoneUtils.getMute(phone);
-                boolean canMute = (fgCallState == Call.State.ACTIVE);
-                mMute.setIndicatorState(muteOn);
-                mMute.setEnabled(canMute);
-            }
-        } else {
-            mMute.setVisible(true);
-            boolean muteOn = PhoneUtils.getMute(phone);
-            boolean canMute = (fgCallState == Call.State.ACTIVE);
-            mMute.setIndicatorState(muteOn);
-            mMute.setEnabled(canMute);
-        }
-
-        // "Hold": "On hold" means that there's a holding call and
-        // *no* foreground call.  (If there *is* a foreground call,
-        // that's "two lines in use".)  "Hold" is disabled if both
-        // lines are in use, or if the foreground call is non-idle and
-        // in any state other than ACTIVE.
+        // "Hold"
         mHold.setVisible(true);
-        boolean onHold = hasHoldingCall && !hasActiveCall;
-        boolean canHold = !((hasActiveCall && hasHoldingCall)
-                            || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
-        mHold.setIndicatorState(onHold);
-        mHold.setEnabled(canHold);
+        mHold.setIndicatorState(inCallControlState.onHold);
+        mHold.setEnabled(inCallControlState.canHold);
 
-        // In CDMA "Answer" and "Ignore" are only useful
-        // when there's an incoming ringing call (Callwaiting)
+        // "Answer" and "Ignore" are used only when there's an incoming
+        // ringing call (see above).  (And for now they're only used in
+        // CDMA, for the call waiting case.)
         mAnswer.setVisible(false);
         mAnswer.setEnabled(false);
         mIgnore.setVisible(false);
@@ -495,18 +466,6 @@ class InCallMenu {
         mInCallMenuView.updateVisibility();
 
         return true;
-    }
-
-    private void updateBluetoothButton() {
-        mBluetooth.setVisible(true);
-        if (mInCallScreen.isBluetoothAvailable()) {
-            mBluetooth.setEnabled(true);
-            boolean audioConnectedOrPending = mInCallScreen.isBluetoothAudioConnectedOrPending();
-            mBluetooth.setIndicatorState(audioConnectedOrPending);
-        } else {
-            mBluetooth.setEnabled(false);
-            mBluetooth.setIndicatorState(false);
-        }
     }
 
 

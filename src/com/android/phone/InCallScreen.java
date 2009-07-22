@@ -241,7 +241,11 @@ public class InCallScreen extends Activity
 
     // Main in-call UI elements:
     private CallCard mCallCard;
-    private InCallMenu mInCallMenu;  // created lazily on first MENU keypress
+
+    // UI controls:
+    private InCallControlState mInCallControlState;
+    private InCallMenu mInCallMenu;  // used on some devices
+    private InCallTouchUi mInCallTouchUi;  // used on some devices
 
     /**
      * DTMF Dialer objects, including the model and the sliding drawer / dialer
@@ -269,8 +273,6 @@ public class InCallScreen extends Activity
     private Animation mTouchLockFadeIn;
     private long mTouchLockLastTouchTime;  // in SystemClock.uptimeMillis() time base
 
-    // Onscreen "in-call touch UI" widget
-    private InCallTouchUi mInCallTouchUi;
 
     // Various dialogs we bring up (see dismissAllDialogs())
     // The MMI started dialog can actually be one of 2 items:
@@ -1132,6 +1134,9 @@ public class InCallScreen extends Activity
 
         // Onscreen touch UI elements (used on some platforms)
         initInCallTouchUi();
+
+        // Helper class to keep track of enabledness/state of UI controls
+        mInCallControlState = new InCallControlState(this, mPhone);
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -2227,7 +2232,7 @@ public class InCallScreen extends Activity
      *
      * @return the phone number corresponding to the
      *   specified Intent, or null if the Intent is not
-     *   a ACTION_CALL intent or if the intent's data is
+     *   an ACTION_CALL intent or if the intent's data is
      *   malformed or missing.
      *
      * @throws VoiceMailNumberMissingException if the intent
@@ -2393,7 +2398,7 @@ public class InCallScreen extends Activity
                 if (DBG) log("placeCall: specified number was an MMI code: '" + number + "'.");
                 // The passed-in number was an MMI code, not a regular phone number!
                 // This isn't really a failure; the Dialer may have deliberately
-                // fired a ACTION_CALL intent to dial an MMI code, like for a
+                // fired an ACTION_CALL intent to dial an MMI code, like for a
                 // USSD call.
                 //
                 // Presumably an MMI_INITIATE message will come in shortly
@@ -2681,7 +2686,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuAddCall:
                 if (VDBG) log("onClick: AddCall...");
-                PhoneUtils.startNewCall(mPhone);  // Fires off a ACTION_DIAL intent
+                PhoneUtils.startNewCall(mPhone);  // Fires off an ACTION_DIAL intent
                 break;
 
             case R.id.menuEndCall:
@@ -2895,11 +2900,40 @@ public class InCallScreen extends Activity
             case R.id.speakerButton:
                 onSpeakerClick();
                 break;
+            case R.id.addCallButton:
+                PhoneUtils.startNewCall(mPhone);  // Fires off an ACTION_DIAL intent
+                break;
+            case R.id.mergeCallsButton:
+                PhoneUtils.mergeCalls(mPhone);
+                break;
+            case R.id.swapCallsButton:
+                internalSwapCalls();
+                break;
+            case R.id.manageConferenceButton:
+                // Show the Manage Conference panel.
+                setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
+                break;
 
             default:
                 Log.w(LOG_TAG, "handleOnscreenButtonClick: unexpected ID " + id);
                 break;
         }
+
+        // Just in case the user clicked a "stateful" menu item (i.e. one
+        // of the toggle buttons), we force the in-call buttons to update,
+        // to make sure the user sees the *new* current state.
+        //
+        // (But note that some toggle buttons may *not* immediately change
+        // the state of the Phone, in which case the updateInCallTouchUi()
+        // call here won't have any visible effect.  Instead, those
+        // buttons will get updated by the updateScreen() call that gets
+        // triggered when the onPhoneStateChanged() event comes in.)
+        //
+        // TODO: updateInCallTouchUi() is overkill here; it would be
+        // more efficient to update *only* the affected button(s).
+        // Consider adding API for that.  (This is lo-pri since
+        // updateInCallTouchUi() is pretty cheap already...)
+        updateInCallTouchUi();
     }
 
     /**
@@ -2928,6 +2962,15 @@ public class InCallScreen extends Activity
             // is up, or an MMI is running.)
             hintVisible = false;
         }
+
+        // The hint is also hidden on devices where we use onscreen
+        // touchable buttons instead.
+        // TODO: even on "full touch" devices we may still ultimately need
+        // a regular menu in some states.  Need UI spec.
+        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
+            hintVisible = false;
+        }
+
         int hintVisibility = (hintVisible) ? View.VISIBLE : View.GONE;
 
         // We actually have two separate "menu button hint" TextViews; one
@@ -3354,7 +3397,6 @@ public class InCallScreen extends Activity
                     // stop the timer if the panel is hidden.
                     mConferenceTime.stop();
                 }
-                updateInCallTouchUi();  // Hide the in-call buttons
                 updateMenuButtonHint();  // Hide the Menu button hint
 
                 // Make sure the CallCard (which is a child of mInCallPanel) is visible.
@@ -3382,6 +3424,10 @@ public class InCallScreen extends Activity
         // Update the visibility of the DTMF dialer tab on any state
         // change.
         updateDialpadVisibility();
+
+        // Update the in-call touch UI on any state change (since it may
+        // need to hide or re-show itself.)
+        updateInCallTouchUi();
     }
 
     /**
@@ -4598,6 +4644,14 @@ public class InCallScreen extends Activity
                 dismissMenu(true);
             }
         }
+    }
+
+    /**
+     * Updates and returns the InCallControlState instance.
+     */
+    public InCallControlState getUpdatedInCallControlState() {
+        mInCallControlState.update();
+        return mInCallControlState;
     }
 
 

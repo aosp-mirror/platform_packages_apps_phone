@@ -25,7 +25,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ToggleButton;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
@@ -55,6 +57,17 @@ public class InCallTouchUi extends FrameLayout
     // UI containers / elements
     private View mIncomingCallControls;  // UI elements used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
+    //
+    private Button mHoldButton;
+    private Button mEndCallButton;
+    private Button mDialpadButton;
+    private ToggleButton mBluetoothButton;
+    private ToggleButton mMuteButton;
+    private ToggleButton mSpeakerButton;
+    private Button mAddCallButton;
+    private Button mMergeCallsButton;
+    private Button mSwapCallsButton;
+    private Button mManageConferenceButton;
 
     // Double-tap detection state
     private long mLastTouchTime;  // in SystemClock.uptimeMillis() time base
@@ -107,19 +120,35 @@ public class InCallTouchUi extends FrameLayout
         mIncomingCallControls = findViewById(R.id.incomingCallControls);
         mInCallControls = findViewById(R.id.inCallControls);
 
-        // The buttons:
         // "Double-tap" buttons, where we listen for raw touch events
         // and possibly turn them into double-tap events:
         mIncomingCallControls.findViewById(R.id.answerButton).setOnTouchListener(this);
         mIncomingCallControls.findViewById(R.id.rejectButton).setOnTouchListener(this);
 
         // Regular (single-tap) buttons, where we listen for click events:
-        mInCallControls.findViewById(R.id.holdButton).setOnClickListener(this);
-        mInCallControls.findViewById(R.id.endCallButton).setOnClickListener(this);
-        mInCallControls.findViewById(R.id.dialpadButton).setOnClickListener(this);
-        mInCallControls.findViewById(R.id.bluetoothButton).setOnClickListener(this);
-        mInCallControls.findViewById(R.id.muteButton).setOnClickListener(this);
-        mInCallControls.findViewById(R.id.speakerButton).setOnClickListener(this);
+        // Main cluster of buttons:
+        mHoldButton = (Button) mInCallControls.findViewById(R.id.holdButton);
+        mHoldButton.setOnClickListener(this);
+        mEndCallButton = (Button) mInCallControls.findViewById(R.id.endCallButton);
+        mEndCallButton.setOnClickListener(this);
+        mDialpadButton = (Button) mInCallControls.findViewById(R.id.dialpadButton);
+        mDialpadButton.setOnClickListener(this);
+        mBluetoothButton = (ToggleButton) mInCallControls.findViewById(R.id.bluetoothButton);
+        mBluetoothButton.setOnClickListener(this);
+        mMuteButton = (ToggleButton) mInCallControls.findViewById(R.id.muteButton);
+        mMuteButton.setOnClickListener(this);
+        mSpeakerButton = (ToggleButton) mInCallControls.findViewById(R.id.speakerButton);
+        mSpeakerButton.setOnClickListener(this);
+        // Upper corner buttons:
+        mAddCallButton = (Button) mInCallControls.findViewById(R.id.addCallButton);
+        mAddCallButton.setOnClickListener(this);
+        mMergeCallsButton = (Button) mInCallControls.findViewById(R.id.mergeCallsButton);
+        mMergeCallsButton.setOnClickListener(this);
+        mSwapCallsButton = (Button) mInCallControls.findViewById(R.id.swapCallsButton);
+        mSwapCallsButton.setOnClickListener(this);
+        mManageConferenceButton =
+                (Button) mInCallControls.findViewById(R.id.manageConferenceButton);
+        mManageConferenceButton.setOnClickListener(this);
     }
 
     /**
@@ -172,7 +201,7 @@ public class InCallTouchUi extends FrameLayout
         mInCallControls.setVisibility(showInCallControls ? View.VISIBLE : View.GONE);
 
         // TODO: As an optimization, also consider setting the visibility
-        // of the overall InCallTouchUi widget to GONE if *nothing* here
+        // of the overall InCallTouchUi widget to GONE if *nothing at all*
         // is visible right now.
     }
 
@@ -197,6 +226,10 @@ public class InCallTouchUi extends FrameLayout
             case R.id.bluetoothButton:
             case R.id.muteButton:
             case R.id.speakerButton:
+            case R.id.addCallButton:
+            case R.id.mergeCallsButton:
+            case R.id.swapCallsButton:
+            case R.id.manageConferenceButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
@@ -276,13 +309,73 @@ public class InCallTouchUi extends FrameLayout
     }
 
     /**
-     * Updates the enabledness and state of the buttons on the
+     * Updates the enabledness and "checked" state of the buttons on the
      * "inCallControls" panel, based on the current telephony state.
      */
     void updateInCallControls(Phone phone) {
-        // TODO: update enabledness and "checked" state of the onscreen
-        // buttons, just like InCallmenu.updateItems() does for the
-        // corresponding menu items.
+        // Note we do NOT need to worry here about cases where the entire
+        // in-call touch UI is disabled, like during an OTA call or if the
+        // dtmf dialpad is up.  (That's handled by updateState(), which
+        // calls InCallScreen.okToShowInCallTouchUi().)
+        //
+        // If we get here, it *is* OK to show the in-call touch UI, so we
+        // now need to update the enabledness and/or "checked" state of
+        // each individual button.
+        //
+
+        // The InCallControlState object tells us the enabledness and/or
+        // state of the various onscreen buttons:
+        InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
+
+        // "Hold"
+        // Note: for now "Hold" isn't a ToggleButton, so we don't need to
+        // update its "checked" state.  Just enable or disable it:
+        mHoldButton.setEnabled(inCallControlState.canHold);
+
+        // "End call": this button has no state and it's always enabled.
+        mEndCallButton.setEnabled(true);
+
+        // "Dialpad": Enabled only when it's OK to use the dialpad in the
+        // first place.
+        mDialpadButton.setEnabled(inCallControlState.dialpadEnabled);
+
+        // "Bluetooth"
+        mBluetoothButton.setEnabled(inCallControlState.bluetoothEnabled);
+        mBluetoothButton.setChecked(inCallControlState.bluetoothIndicatorOn);
+
+        // "Mute"
+        mMuteButton.setEnabled(inCallControlState.canMute);
+        mMuteButton.setChecked(inCallControlState.muteIndicatorOn);
+
+        // "Speaker"
+        mSpeakerButton.setEnabled(inCallControlState.speakerEnabled);
+        mSpeakerButton.setChecked(inCallControlState.speakerOn);
+
+        // "Add call"
+        // (Note "add call" and "merge calls" are never both available at
+        // the same time.  That's why it's OK for them to both be in the
+        // same position onscreen.)
+        // This button is totally hidden (rather than just disabled)
+        // when the operation isn't available.
+        mAddCallButton.setVisibility(inCallControlState.canAddCall ? View.VISIBLE : View.GONE);
+
+        // "Merge calls"
+        // This button is totally hidden (rather than just disabled)
+        // when the operation isn't available.
+        mMergeCallsButton.setVisibility(inCallControlState.canMerge ? View.VISIBLE : View.GONE);
+
+        // "Swap calls"
+        // This button is totally hidden (rather than just disabled)
+        // when the operation isn't available.
+        mSwapCallsButton.setVisibility(inCallControlState.canSwap ? View.VISIBLE : View.GONE);
+
+        // "Manage conference"
+        // This button is totally hidden (rather than just disabled)
+        // when the operation isn't available.
+        boolean showManageConferenceTouchButton = inCallControlState.manageConferenceVisible
+                && inCallControlState.manageConferenceEnabled;
+        mManageConferenceButton.setVisibility(showManageConferenceTouchButton
+                                              ? View.VISIBLE : View.GONE);
     }
 
 

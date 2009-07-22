@@ -15,42 +15,44 @@
 -->
 
 <!-- In-call onscreen touch UI elements, used on some platforms.
+
      This layout is a fullscreen overlay, drawn on top of the
-     non-touch-sensitive parts of the in-call UI (i.e. the call card). -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     non-touch-sensitive parts of the in-call UI (i.e. the call card).
+
+     The top-level View here is a FrameLayout with 2 children:
+       (1) incomingCallControls: the widgets visible while an incoming call is ringing
+       (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
+     Exactly one of these is visible at any given moment.
+     -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     >
 
-    <!-- Blank space on the top 2/3 of the screen -->
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_weight="2"
-        android:visibility="invisible"
-        />
+    <!--
+        (1) incomingCallControls: the widgets visible while an incoming call is ringing
+    -->
+    <LinearLayout android:id="@+id/incomingCallControls"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:visibility="gone"
+                  >
 
-    <!-- Lower third of the screen, containing the touchable UI elements.
-         This is a FrameLayout with 2 children:
-           (1) incomingCallControls: the widgets visible while an incoming call is ringing
-           (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
-         Exactly one of these is visible at any given moment.  -->
-    <FrameLayout android:id="@+id/uiElements"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_weight="1"
-        >
-
-        <!-- TODO: Need real assets for all the button backgrounds here; these
-             are just temporary placeholders. -->
-
-        <!-- (1) incomingCallControls: the widgets visible while an incoming call is ringing -->
-        <LinearLayout android:id="@+id/incomingCallControls"
+        <!-- Blank space on the top 2/3 of the screen. -->
+        <View
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="1dip"
+            android:layout_weight="2"
+            android:visibility="invisible"
+            />
+
+        <!-- Lower third of the screen, with "Answer" and "Decline" buttons. -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:visibility="gone"
             >
             <View
                 android:layout_height="fill_parent"
@@ -94,26 +96,92 @@
                 />
         </LinearLayout>
 
-        <!-- (2) inCallControls: the widgets visible while a regular call
-             (or calls) is in progress -->
-        <LinearLayout android:id="@+id/inCallControls"
+    </LinearLayout>
+
+    <!--
+        (2) inCallControls: the widgets visible while a regular call
+        (or calls) is in progress
+    -->
+    <RelativeLayout android:id="@+id/inCallControls"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone"
+                    >
+        <!-- Buttons visible in the upper corners of the screen (in some states). -->
+        <!-- TODO: use a style for attributes shared by all these buttons -->
+
+        <!-- "Add call" (upper left) -->
+        <!-- (Note "add call" and "merge calls" are never both available at
+             the same time.  That's why it's OK for them to both be in the
+             same position onscreen.) -->
+        <Button android:id="@+id/addCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="70dip"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dip"
+                android:layout_marginLeft="10dip"
+                android:gravity="center"
+                android:text="@string/onscreenAddCallText"
+                />
+        <!-- "Merge calls" (upper left) -->
+        <Button android:id="@+id/mergeCallsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="70dip"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:layout_marginTop="15dip"
+                android:layout_marginLeft="10dip"
+                android:text="@string/onscreenMergeCallsText"
+                />
+        <!-- "Manage conference" (upper middle) -->
+        <!-- TODO: this button really belongs at upper-right, but
+             we have the "Swap calls" button there right now... -->
+        <Button android:id="@+id/manageConferenceButton"
+                android:layout_width="wrap_content"
+                android:layout_height="70dip"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_marginTop="15dip"
+                android:layout_marginRight="10dip"
+                android:text="@string/onscreenManageConferenceText"
+                />
+        <!-- "Swap calls" (upper right) -->
+        <!-- TODO: this button doesn't actually appear in the UI mocks (yet);
+             we may end up not having a button for this at all, but instead
+             click on the contact photo to swap calls...
+             But for now, use a regular button in the upper-right corner... -->
+        <Button android:id="@+id/swapCallsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="70dip"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:layout_marginTop="15dip"
+                android:layout_marginRight="10dip"
+                android:text="@string/onscreenSwapCallsText"
+                />
+
+        <!-- Main cluster of onscreen buttons on the lower part of the screen. -->
+        <LinearLayout android:id="@+id/bottomButtons"
                       android:orientation="vertical"
                       android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"
+                      android:layout_height="150dip"
+                      android:layout_alignParentBottom="true"
                       android:paddingLeft="10dip"
                       android:paddingRight="10dip"
                       android:paddingBottom="4dip"
-                      android:visibility="gone"
                       >
 
+            <!-- TODO: use a style for attributes shared by all these buttons -->
             <LinearLayout android:id="@+id/inCallControlsRow1"
                           android:orientation="horizontal"
                           android:layout_width="fill_parent"
                           android:layout_height="1dip"
                           android:layout_weight="3"
                           >
-                <!-- TODO: use a style for attributes shared by all these buttons -->
-
                 <!-- "Hold" -->
                 <Button android:id="@+id/holdButton"
                         android:layout_width="1dip"
@@ -123,7 +191,6 @@
                         android:text="@string/onscreenHoldText"
                         android:textAppearance="?android:attr/textAppearanceMediumInverse"
                         />
-
                 <!-- "End call" -->
                 <Button android:id="@+id/endCallButton"
                         android:layout_width="1dip"
@@ -133,8 +200,6 @@
                         android:text="@string/onscreenEndCallText"
                         android:textAppearance="?android:attr/textAppearanceMediumInverse"
                         />
-
-
                 <!-- "Dialpad" -->
                 <Button android:id="@+id/dialpadButton"
                         android:layout_width="1dip"
@@ -144,17 +209,13 @@
                         android:text="@string/onscreenDialpadText"
                         android:textAppearance="?android:attr/textAppearanceMediumInverse"
                         />
-
             </LinearLayout>
-
-
             <LinearLayout android:id="@+id/inCallControlsRow2"
                           android:orientation="horizontal"
                           android:layout_width="fill_parent"
                           android:layout_height="1dip"
                           android:layout_weight="2"
                           >
-
                 <!-- "Bluetooth" -->
                 <ToggleButton android:id="@+id/bluetoothButton"
                         android:layout_width="1dip"
@@ -164,7 +225,6 @@
                         android:textOn="@string/onscreenBluetoothText"
                         android:textOff="@string/onscreenBluetoothText"
                         />
-
                 <!-- "Mute" -->
                 <ToggleButton android:id="@+id/muteButton"
                         android:layout_width="1dip"
@@ -174,8 +234,6 @@
                         android:textOn="@string/onscreenMuteText"
                         android:textOff="@string/onscreenMuteText"
                         />
-
-
                 <!-- "Speaker" -->
                 <ToggleButton android:id="@+id/speakerButton"
                         android:layout_width="1dip"
@@ -185,11 +243,10 @@
                         android:textOn="@string/onscreenSpeakerText"
                         android:textOff="@string/onscreenSpeakerText"
                         />
-
             </LinearLayout>
 
         </LinearLayout>
 
-    </FrameLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</FrameLayout>

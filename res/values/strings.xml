@@ -923,6 +923,14 @@
     <string name="onscreenMuteText">Mute</string>
     <!-- Text for the onscreen "Bluetooth" button -->
     <string name="onscreenBluetoothText">Bluetooth</string>
+    <!-- Text for the onscreen "Add call" button -->
+    <string name="onscreenAddCallText">Add call</string>
+    <!-- Text for the onscreen "Merge calls" button -->
+    <string name="onscreenMergeCallsText">Merge calls</string>
+    <!-- Text for the onscreen "Swap calls" button -->
+    <string name="onscreenSwapCallsText">Swap calls</string>
+    <!-- Text for the onscreen "Manage conference" button -->
+    <string name="onscreenManageConferenceText">Manage conference</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
