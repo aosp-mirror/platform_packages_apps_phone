@@ -911,8 +911,18 @@
     <string name="onscreenAnswerText">Tap twice\nto answer</string>
     <!-- Text for the onscreen "Decline" button -->
     <string name="onscreenRejectText">Tap twice\nto decline</string>
+    <!-- Text for the onscreen "Hold" button -->
+    <string name="onscreenHoldText">Hold</string>
     <!-- Text for the onscreen "End call" button -->
-    <string name="onscreenEndCallText">Tap twice\nto hang up</string>
+    <string name="onscreenEndCallText">End call</string>
+    <!-- Text for the onscreen "Dialpad" button -->
+    <string name="onscreenDialpadText">Dialpad</string>
+    <!-- Text for the onscreen "Speaker" button -->
+    <string name="onscreenSpeakerText">Speaker</string>
+    <!-- Text for the onscreen "Mute" button -->
+    <string name="onscreenMuteText">Mute</string>
+    <!-- Text for the onscreen "Bluetooth" button -->
+    <string name="onscreenBluetoothText">Bluetooth</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
