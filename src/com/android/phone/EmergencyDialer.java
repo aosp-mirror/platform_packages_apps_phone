@@ -44,7 +44,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 /**
- * EmergencyDialer is a special dailer that is used ONLY for dialing emergency calls.
+ * EmergencyDialer is a special dialer that is used ONLY for dialing emergency calls.
  * It is a special case of the TwelveKeyDialer that:
  *   1. allows ONLY emergency calls to be dialed
  *   2. disallows voicemail functionality
@@ -286,8 +286,6 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     }
 
     public void onClick(View view) {
-        final Editable digits = mDigits.getText();
-
         switch (view.getId()) {
             case R.id.one: {
                 playTone(ToneGenerator.TONE_DTMF_1);
@@ -418,7 +416,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     public void onPause() {
         // Turn keyguard back on and set the poke lock timeout to default.  There
         // is no need to do anything with the wake lock.
-        if (DBG) Log.d(LOG_TAG, "turning keyguard back on and closing the dailer");
+        if (DBG) Log.d(LOG_TAG, "turning keyguard back on and closing the dialer");
         PhoneApp app = (PhoneApp) getApplication();
         app.reenableKeyguard();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);

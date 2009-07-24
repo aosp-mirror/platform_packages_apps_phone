@@ -45,11 +45,13 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
+import android.telephony.ServiceState;
 import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.android.internal.telephony.cdma.EriInfo;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
@@ -91,6 +93,7 @@ public class PhoneApp extends Application {
     private static final int EVENT_UPDATE_INCALL_NOTIFICATION = 9;
     private static final int EVENT_DATA_ROAMING_DISCONNECTED = 10;
     private static final int EVENT_DATA_ROAMING_OK = 11;
+    private static final int EVENT_UNSOL_CDMA_INFO_RECORD = 12;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -137,6 +140,9 @@ public class PhoneApp extends Application {
     int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
     boolean mShowBluetoothIndication = false;
+
+    // Internal PhoneApp Call state tracker
+    CdmaPhoneCallState cdmaPhoneCallState;
 
     // The InCallScreen instance (or null if the InCallScreen hasn't been
     // created yet.)
@@ -286,6 +292,10 @@ public class PhoneApp extends Application {
                         }
                     }
                     break;
+
+                case EVENT_UNSOL_CDMA_INFO_RECORD:
+                    //TODO: handle message here;
+                    break;
             }
         }
     };
@@ -363,6 +373,8 @@ public class PhoneApp extends Application {
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
+            intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
+            intentFilter.addAction(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED);
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -409,6 +421,16 @@ public class PhoneApp extends Application {
 
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
+
+        // Register for Cdma Information Records
+        // TODO(Moto): Merge
+        // phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
+
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+        }
    }
 
     /**
@@ -900,24 +922,42 @@ public class PhoneApp extends Application {
     }
 
     private void initForNewRadioTechnology() {
-        if(DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
+        if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
-        if(mBtHandsfree != null) {
+        if (mBtHandsfree != null) {
             mBtHandsfree.updateBtHandsfreeAfterRadioTechnologyChange();
         }
+        if (mInCallScreen != null) {
+            mInCallScreen.updateAfterRadioTechnologyChange();
+        }
 
-        //Update registration for ICC status after radio technology change
+        // Update registration for ICC status after radio technology change
         IccCard sim = phone.getIccCard();
         if (sim != null) {
-            if(DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
+            if (DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
 
             //Register all events new to the new active phone
             sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
             sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
             sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
         }
+
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+        }
+    }
+
+
+    /**
+     * Send ECBM Exit Request
+     */
+
+    void sendEcbmExitRequest() {
+            mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
     }
 
     /**
@@ -1036,10 +1076,10 @@ public class PhoneApp extends Application {
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
-                // if (DBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
-                // if (DBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
-                // if (DBG) Log.d(LOG_TAG, "- reason: "
-                //                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
+                if (VDBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(Phone.STATE_KEY));
+                if (VDBG) Log.d(LOG_TAG, "- reason: "
+                                + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
 
                 // The "data disconnected due to roaming" notification is
                 // visible if you've lost data connectivity because you're
@@ -1078,6 +1118,15 @@ public class PhoneApp extends Application {
                 String newPhone = intent.getStringExtra(Phone.PHONE_NAME_KEY);
                 Log.d(LOG_TAG, "Radio technology switched. Now " + newPhone + " is active.");
                 initForNewRadioTechnology();
+            } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
+                handleServiceStateChanged(intent);
+            } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
+                Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
+                // Send Intend to start ECBM application
+                Intent EcbmAlarm = new Intent(Intent.ACTION_MAIN, null);
+                EcbmAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                EcbmAlarm.setClassName("com.android.phone", EmergencyCallbackMode.class.getName());
+                startActivity(EcbmAlarm);
             }
         }
     }
@@ -1117,5 +1166,50 @@ public class PhoneApp extends Application {
                 }
             }
         }
+    }
+
+    private void handleServiceStateChanged(Intent intent) {
+        // If service just returned, start sending out the queued messages
+        ServiceState ss = ServiceState.newFromBundle(intent.getExtras());
+
+        boolean hasService = true;
+        boolean isCdma = false;
+        String eriText = "";
+
+        if (ss != null) {
+            int state = ss.getState();
+            switch (state) {
+                case ServiceState.STATE_OUT_OF_SERVICE:
+                case ServiceState.STATE_POWER_OFF:
+                    hasService = false;
+                    break;
+            }
+        } else {
+            hasService = false;
+        }
+
+        if (ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_1xRTT
+                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0
+                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A
+                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_IS95A
+                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_IS95B) {
+            isCdma = true;
+        }
+
+        if (!isCdma) {
+            eriText = "";
+        } else {
+            if (!hasService) {
+                eriText = getText(com.android.internal.R.string.roamingTextSearching).toString();
+            } else {
+                eriText = phone.getCdmaEriText();
+            }
+        }
+
+        if (eriText != null) {
+            EriTextWidgetProvider mEriTextWidgetProvider = EriTextWidgetProvider.getInstance();
+            mEriTextWidgetProvider.performUpdate(this, eriText);
+        }
+
     }
 }

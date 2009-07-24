@@ -28,4 +28,6 @@
     <item type="id" name="menuHold" />
     <item type="id" name="menuAnswerAndHold" />
     <item type="id" name="menuAnswerAndEnd" />
+    <item type="id" name="menuAnswer" />
+    <item type="id" name="menuIgnore" />
 </resources>

@@ -442,15 +442,11 @@ public class CellBroadcastSms extends PreferenceActivity
     protected void onPause() {
         super.onPause();
 
-        int currentSelection[] = CellBroadcastSmsConfig.getCbSmsAllValues();
-
-        if (currentSelection[0] > 0) {
             CellBroadcastSmsConfig.setCbSmsNoOfStructs(NO_OF_SERVICE_CATEGORIES);
 
             mPhone.setCellBroadcastSmsConfig(CellBroadcastSmsConfig.getCbSmsAllValues(),
                     Message.obtain(mHandler, MESSAGE_SET_CB_SMS_CONFIG));
         }
-    }
 
     private void enableDisableAllCbConfigButtons(boolean enable) {
         mButtonEmergencyBroadcast.setEnabled(enable);
@@ -630,6 +626,7 @@ public class CellBroadcastSms extends PreferenceActivity
             return(mBSelected);
         }
         
+        // TODO: Change the return value to a RIL_BroadcastSMSConfig
         private static int[] getCbSmsAllValues() {
             return(mConfigDataComplete);
         }

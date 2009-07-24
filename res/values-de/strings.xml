@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"Folgende Töne senden?"\n</string>
     <string name="send_button">"Senden"</string>
     <string name="wild_prompt_str">"Platzhalter ersetzen durch"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth-Headset verbunden."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth-Headset nicht verbunden."</string>
     <string name="no_vm_number">"Fehlende Mailboxnummer"</string>
     <string name="no_vm_number_msg">"Auf der SIM-Karte ist keine Mailboxnummer gespeichert."</string>
     <string name="add_vm_number_str">"Nummer hinzufügen"</string>

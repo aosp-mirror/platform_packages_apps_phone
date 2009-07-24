@@ -103,4 +103,26 @@
         <item name="changeNumButtonText">@string/change_num</item>
         <item name="confirmMode">activation</item>
     </style>
+
+    <!-- Preference Style for the emergency callback mode -->
+    <!-- This styles is currently not used and just prepared for further usage -->
+    <style name="EmergencyCallBack">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorForeground">#fff</item>
+    </style>
+
+    <!-- Preference Style for the ERI text -->
+    <style name="EriWidgetBackground">
+    </style>
+
+    <style name="TextAppearance.EriWidget">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
+
 </resources>

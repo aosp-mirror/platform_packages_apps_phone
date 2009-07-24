@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"De volgende tonen verzenden?"\n</string>
     <string name="send_button">"Verzenden"</string>
     <string name="wild_prompt_str">"Het jokerteken vervangen door"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth-headset aangesloten."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth-headset losgekoppeld."</string>
     <string name="no_vm_number">"Voicemailnummer ontbreekt"</string>
     <string name="no_vm_number_msg">"Er is geen voicemailnummer op de SIM-kaart opgeslagen."</string>
     <string name="add_vm_number_str">"Nummer toevoegen"</string>

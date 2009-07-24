@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"次の番号を送信しますか？"\n</string>
     <string name="send_button">"送信"</string>
     <string name="wild_prompt_str">"ワイルド文字と入れ替える文字"</string>
-    <string name="bluetooth_headset_connected">"Bluetoothヘッドセットが接続されました。"</string>
-    <string name="bluetooth_headset_disconnected">"Bluetoothヘッドセットの接続が切断されました。"</string>
     <string name="no_vm_number">"ボイスメール番号がありません"</string>
     <string name="no_vm_number_msg">"SIMカードにボイスメールの番号がありません。"</string>
     <string name="add_vm_number_str">"番号を追加"</string>

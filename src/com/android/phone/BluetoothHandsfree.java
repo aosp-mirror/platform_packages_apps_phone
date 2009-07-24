@@ -40,6 +40,7 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
+import android.telephony.SignalStrength;
 import android.util.Log;
 
 import com.android.internal.telephony.Call;
@@ -93,7 +94,10 @@ public class BluetoothHandsfree {
     private boolean[] mClccUsed;     // Is this clcc index in use
     private boolean mWaitingForCallStart;
     private boolean mWaitingForVoiceRecognition;
-
+    // do not connect audio until service connection is established
+    // for 3-way supported devices, this is after AT+CHLD
+    // for non-3-way supported devices, this is after AT+CMER (see spec)
+    private boolean mServiceConnectionEstablished;
     private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
 
@@ -257,6 +261,7 @@ public class BluetoothHandsfree {
     private void resetAtState() {
         mClip = false;
         mIndicatorsEnabled = false;
+        mServiceConnectionEstablished = false;
         mCmee = false;
         mClccTimestamps = new long[MAX_CONNECTIONS];
         mClccUsed = new boolean[MAX_CONNECTIONS];
@@ -355,7 +360,7 @@ public class BluetoothHandsfree {
             updatePhoneState(false, null);
             mBattchg = 5;  // There is currently no API to get battery level
                            // on demand, so set to 5 and wait for an update
-            mSignal = asuToSignal(mPhone.getSignalStrengthASU());
+            mSignal = asuToSignal(mPhone.getSignalStrength());
 
             // register for updates
             mPhone.registerForServiceStateChanged(mStateChangeHandler,
@@ -390,7 +395,7 @@ public class BluetoothHandsfree {
         /* convert [0,31] ASU signal strength to the [0,5] expected by
          * bluetooth devices. Scale is similar to status bar policy
          */
-        private int asuToSignal(int asu) {
+        private int gsmAsuToSignal(int asu) {
             if      (asu >= 16) return 5;
             else if (asu >= 8)  return 4;
             else if (asu >= 4)  return 3;
@@ -398,6 +403,28 @@ public class BluetoothHandsfree {
             else if (asu >= 1)  return 1;
             else                return 0;
         }
+
+        /* convert cdma dBm signal strength to the [0,5] expected by
+         * bluetooth devices. Scale is similar to status bar policy
+         */
+        private int cdmaDbmToSignal(int cdmaDbm) {
+            if (cdmaDbm >= -75)       return 5;
+            else if (cdmaDbm >= -85)  return 4;
+            else if (cdmaDbm >= -95)  return 3;
+            else if (cdmaDbm >= -100) return 2;
+            else if (cdmaDbm >= -105) return 2;
+            else return 0;
+        }
+
+
+        private int asuToSignal(SignalStrength signalStrength) {
+            if (!signalStrength.isGsm()) {
+                return gsmAsuToSignal(signalStrength.getCdmaDbm());
+            } else {
+                return cdmaDbmToSignal(signalStrength.getGsmSignalStrength());
+            }
+        }
+
 
         /* convert [0,5] signal strength to a rssi signal strength for CSQ
          * which is [0,31]. Despite the same scale, this is not the same value
@@ -444,14 +471,22 @@ public class BluetoothHandsfree {
         }
 
         private synchronized void updateSignalState(Intent intent) {
+            // NOTE this function is called by the BroadcastReceiver mStateReceiver after intent
+            // ACTION_SIGNAL_STRENGTH_CHANGED and by the DebugThread mDebugThread
+            SignalStrength signalStrength = SignalStrength.newFromBundle(intent.getExtras());
             int signal;
-            signal = asuToSignal(intent.getIntExtra("asu", -1));
-            mRssi = signalToRssi(signal);  // no unsolicited CSQ
-            if (signal != mSignal) {
-                mSignal = signal;
-                if (sendUpdate()) {
-                    sendURC("+CIEV: 5," + mSignal);
+
+            if (signalStrength != null) {
+                signal = asuToSignal(signalStrength);
+                mRssi = signalToRssi(signal);  // no unsolicited CSQ
+                if (signal != mSignal) {
+                    mSignal = signal;
+                    if (sendUpdate()) {
+                        sendURC("+CIEV: 5," + mSignal);
+                    }
                 }
+            } else {
+                Log.e(TAG, "Signal Strength null");
             }
         }
 
@@ -781,6 +816,10 @@ public class BluetoothHandsfree {
         if (VDBG) log("audioOn()");
         if (!isHeadsetConnected()) {
             if (DBG) log("audioOn(): headset is not connected!");
+            return false;
+        }
+        if (mHeadsetType == TYPE_HANDSFREE && !mServiceConnectionEstablished) {
+            if (DBG) log("audioOn(): service connection not yet established!");
             return false;
         }
 
@@ -1182,17 +1221,29 @@ public class BluetoothHandsfree {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 } else if (args[0].equals(3) && args[1].equals(0) &&
                            args[2].equals(0)) {
+                    boolean valid = false;
                     if (args[3].equals(0)) {
                         mIndicatorsEnabled = false;
-                        return new AtCommandResult(AtCommandResult.OK);
+                        valid = true;
                     } else if (args[3].equals(1)) {
                         mIndicatorsEnabled = true;
-                        return new AtCommandResult(AtCommandResult.OK);
+                        valid = true;
                     }
-                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
-                } else {
-                    return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
+                    if (valid) {
+                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) == 0x0) {
+                            mServiceConnectionEstablished = true;
+                            sendURC("OK");  // send immediately, then initiate audio
+                            if (isIncallAudio()) {
+                                audioOn();
+                            }
+                            // only send OK once
+                            return new AtCommandResult(AtCommandResult.UNSOLICITED);
+                        } else {
+                            return new AtCommandResult(AtCommandResult.OK);
+                        }
+                    }
                 }
+                return reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
             }
             @Override
             public AtCommandResult handleTestCommand() {
@@ -1350,7 +1401,14 @@ public class BluetoothHandsfree {
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return new AtCommandResult("+CHLD: (0,1,2,3)");
+                mServiceConnectionEstablished = true;
+                sendURC("+CHLD: (0,1,2,3)");
+                sendURC("OK");  // send reply first, then connect audio
+                if (isIncallAudio()) {
+                    audioOn();
+                }
+                // already replied
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
 
@@ -1774,8 +1832,12 @@ public class BluetoothHandsfree {
 
                 int signalLevel = SystemProperties.getInt(DEBUG_HANDSFREE_SIGNAL, -1);
                 if (signalLevel >= 0 && signalLevel <= 31) {
+                    SignalStrength signalStrength = new SignalStrength(signalLevel, -1, -1, -1,
+                            -1, -1, -1, true);
                     Intent intent = new Intent();
-                    intent.putExtra("asu", signalLevel);
+                    Bundle data = new Bundle();
+                    signalStrength.fillInNotifierBundle(data);
+                    intent.putExtras(data);
                     mPhoneState.updateSignalState(intent);
                 }
 

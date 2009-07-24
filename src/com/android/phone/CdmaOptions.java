@@ -61,7 +61,7 @@ public class CdmaOptions extends PreferenceActivity implements Preference.OnPref
     
     //preferredSubscriptionMode  0 - RUIM/SIM, preferred
     //                           1 - NV
-    static final int preferredSubscriptionMode = 0;
+    static final int preferredSubscriptionMode = CDMA_SUBSCRIPTION_NV;
     
     //UI objects
     private ListPreference mButtonCdmaRoam;
@@ -229,8 +229,10 @@ public class CdmaOptions extends PreferenceActivity implements Preference.OnPref
                         statusCdmaSubscriptionMode = Phone.CDMA_SUBSCRIPTION_NV;
                         break;
                     case CDMA_SUBSCRIPTION_RUIM_SIM:
-                    default:
                         statusCdmaSubscriptionMode = Phone.CDMA_SUBSCRIPTION_RUIM_SIM;
+                        break;
+                    default:
+                        statusCdmaSubscriptionMode = Phone.PREFERRED_CDMA_SUBSCRIPTION;
                 } 
                 //Set the Settings.System network mode        
                 android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),

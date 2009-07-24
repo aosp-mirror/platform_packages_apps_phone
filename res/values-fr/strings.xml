@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"Envoyer les tonalités suivantes ?"\n</string>
     <string name="send_button">"Envoyer"</string>
     <string name="wild_prompt_str">"Remplacer le caractère générique par"</string>
-    <string name="bluetooth_headset_connected">"Le casque Bluetooth est connecté."</string>
-    <string name="bluetooth_headset_disconnected">"Le casque Bluetooth a été déconnecté."</string>
     <string name="no_vm_number">"Numéro de messagerie vocale manquant"</string>
     <string name="no_vm_number_msg">"Aucun numéro de messagerie vocale n\'est enregistré sur la carte SIM."</string>
     <string name="add_vm_number_str">"Ajouter un numéro"</string>

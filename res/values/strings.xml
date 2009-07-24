@@ -67,6 +67,24 @@
     <string name="callFailed_dsac_restricted_emergency">Emergency calls are restricted by access control.</string>
     <!-- In-call screen: call failure reason (Normal call denied because domain specific access control is on)-->
     <string name="callFailed_dsac_restricted_normal">Normal calls are restricted by access control.</string>
+    <!-- In-call screen: call failure reason (Phone is locked until next power cycle)-->
+    <string name="callFailed_cdma_lockedUntilPowerCycle">CDMA: Phone locked until power cycle.</string>
+    <!-- In-call screen: call failure reason (CDMA: call dropped)-->
+    <string name="callFailed_cdma_drop">CDMA: Call dropped.</string>
+    <!-- In-call screen: call failure reason (CDMA: call intercepted)-->
+    <string name="callFailed_cdma_intercept">CDMA: Call intercepted.</string>
+    <!-- In-call screen: call failure reason (CDMA reorder)-->
+    <string name="callFailed_cdma_reorder">CDMA: reorder.</string>
+    <!-- In-call screen: call failure reason (CDMA: Service Option Reject)-->
+    <string name="callFailed_cdma_SO_reject">CDMA: Service Option Reject.</string>
+    <!-- In-call screen: call failure reason (CDMA: retry order)-->
+    <string name="callFailed_cdma_retryOrder">CDMA: retry order.</string>
+    <!-- In-call screen: call failure reason (CDMA: Access failure)-->
+    <string name="callFailed_cdma_accessFailure">CDMA: Access failure.</string>
+    <!-- In-call screen: call failure reason (CDMA: Preempted)-->
+    <string name="callFailed_cdma_preempted">CDMA: Preempted.</string>
+    <!-- In-call screen: call failure reason (Only Emergency calls are possible)-->
+    <string name="callFailed_cdma_notEmergency">Only Emergency calls are possible.</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="confCall">Conference call</string>
 
@@ -79,6 +97,13 @@
     <string name="mmiCancelled">MMI code canceled</string>
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
+
+    <!-- ECBM strings -->
+    <string name="ecbm_mode_text">Emergency Call Back</string>
+    <string name="ecbm_exit_text">EXIT</string>
+    <string name="ecbm_ok_text">  OK  </string>
+    <string name="ecbm_emergency_number">Dial 911</string>
+    <string name="ecbm_instruction_text">Press button for emergency call</string>
 
     <!-- In-call menu item labels -->
     <!-- Regular in-call menu items: -->
@@ -116,6 +141,10 @@
     <string name="menuButtonHint">Press Menu for call options.</string>
     <!-- In-call screen, message just under call window when keyboard is revealed -->
     <string name="menuButtonKeyboardDialHint">"Press Menu for call options  \u2022  Use keyboard to dial"</string>
+    <!-- Incoming call menu: Label for "Answer" menu item -->
+    <string name="menu_answer">Answer</string>
+    <!-- Incoming call menu: Label for "Ignore" menu item -->
+    <string name="menu_ignore">Ignore</string>
 
     <!-- post dial -->
     <!-- In-call screen: body text of the dialog that appears when we encounter
@@ -128,12 +157,6 @@
          for a text widget that lets the user enter the digits that should
          replace the "wild" character. -->
     <string name="wild_prompt_str">Replace the wild character with</string>
-
-    <!-- bluetooth -->
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is connected -->
-    <string name="bluetooth_headset_connected">Bluetooth headset connected.</string>
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is disconnected -->
-    <string name="bluetooth_headset_disconnected">Bluetooth headset disconnected.</string>
 
     <!-- missing voicemail number -->
     <!-- Title of the "Missing voicemail number" dialog -->
@@ -517,7 +540,31 @@
         <item>"2"</item>
         <item>"3"</item>
     </string-array>
- 
+
+    <!-- CDMA System select strings -->
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="cdma_system_select_title">System select</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="cdma_system_select_summary">Change the cdma roaming mode</string>
+    <!-- System select settings screen title -->
+    <string name="cdma_system_select_dialogtitle">System select</string>
+    <string-array name="cdma_system_select_choices">
+        <!-- System select dialog screen, setting option name -->
+        <item>Home only</item>
+        <!-- Remove the following option "Affiliated Networks" from the option list -->
+        <!-- <item>Affiliated Networks</item> -->
+        <!-- System select dialog screen, setting option name -->
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="cdma_system_select_values">
+        <!-- Do not translate. -->
+        <item>"0"</item>
+        <!-- Remove the following value "1" which corresponds to "Affiliated Networks" above -->
+        <!-- <item>"1"</item>  -->
+        <!-- Do not translate. -->
+        <item>"2"</item>
+    </string-array>
+
     <!-- CDMA Options strings --> 
     <string name="cdma_roaming_mode_title">CDMA Roaming Mode</string>
     <string name="cdma_roaming_mode_summary">Change the cdma roaming mode</string>
@@ -589,6 +636,8 @@
     <string name="voice_privacy_summary">Enable enhanced privacy mode</string>
     <string name="tty_mode_title">TTY mode</string>
     <string name="tty_mode_summary">Enable TTY mode</string>
+    <string name="tty_mode_option_title">TTY mode</string>
+    <string name="tty_mode_option_summary">Set TTY mode</string>
 
     <!-- FDN list screen: menu item label -->
     <string name="menu_add">Add contact</string>
@@ -740,12 +789,16 @@
     <string name="card_title_conf_call">Conference call</string>
     <!-- In-call screen: status label for an incoming call -->
     <string name="card_title_incoming_call">Incoming call</string>
+    <!-- In-call screen: status label for an cdma call waiting -->
+    <string name="card_title_cdma_call_waiting">Cdma callwaiting </string>
     <!-- In-call screen: status label displayed briefly after a call ends -->
     <string name="card_title_call_ended">Call ended</string>
     <!-- In-call screen: status label for call that's on hold -->
     <string name="card_title_on_hold">On hold</string>
     <!-- In-call screen: status label for a call that's in the process of hanging up -->
     <string name="card_title_hanging_up">Hanging up</string>
+    <!-- In-call screen: status label for a call that's in CDMA flash mode -->
+    <string name="card_title_in_call">In call</string>
 
     <!-- Notification strings -->
     <!-- Missed call notification label, used when there's exactly one missed call -->
@@ -764,6 +817,9 @@
     <string name="notification_on_hold">On hold</string>
     <!-- Label for the "Voicemail" notification item, when expanded. -->
     <string name="notification_voicemail_title">New voicemail</string>
+    <!-- Label for the expanded "Voicemail" notification item,
+         including a count of messages. -->
+    <string name="notification_voicemail_title_count">New voicemail (<xliff:g id="count">%d</xliff:g>)</string>
     <!-- Message displayed in the "Voicemail" notification item, allowing the user
          to dial the indicated number. -->
     <string name="notification_voicemail_text_format">Dial <xliff:g id="voicemail_number">%s</xliff:g></string>
@@ -829,6 +885,10 @@
          screen. -->
     <string name="touchLockText">Tap twice\nto unlock</string>
 
+    <!-- Text for the onscreen "Answer" button, instructing the user that
+         they need to double-tap to answer the incoming call. -->
+    <string name="onscreenAnswerText">Tap twice\nto answer</string>
+
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
     <!-- Menu item label in SIM Contacts: Import all contact entries from the SIM card -->
@@ -837,6 +897,48 @@
     <string name="importingSimContacts">Importing SIM contacts</string>
     <!-- Import a single contact entry from contacts to the SIM card -->
     <string name="importToFDNfromContacts">Import from contacts</string>
+
+    <!-- Service option entries.  -->
+    <string-array name="tty_mode_entries">
+        <item>TTY Off</item>
+        <item>TTY HCO</item>
+        <item>TTY VCO</item>
+        <item>TTY Full</item>
+    </string-array>
+
+    <!-- Do not translate. -->
+    <string-array name="tty_mode_values">
+        <!-- Do not translate. -->
+        <item>0</item>"
+        <!-- Do not translate. -->
+        <item>2</item>
+        <!-- Do not translate. -->
+        <item>3</item>
+        <!-- Do not translate. -->
+        <item>1</item>
+    </string-array>
+
+    <!-- Label for ERI text widget, shown in list of all gadgets -->
+    <string name="eri_text_label">ERI text</string>
+
+    <!-- Dtmf tones settings -->
+    <!-- Title for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_title">DTMF Tones</string>
+    <!-- Summary for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_summary">Set the length of DTMF tones</string>
+    <!-- Options displayed as part of DTMF Tones in Call Settings -->
+    <string-array name="dtmf_tone_entries">
+      <item>Normal</item>
+      <item>Long</item>
+    </string-array>
+    <!-- Do not translate. -->
+    <string-array name="dtmf_tone_values">
+       <item>0</item>
+       <item>1</item>
+    </string-array>
+
+    <!-- Title for the dialog used to display CDMA DisplayInfo -->
+    <string name="network_message">Network Message</string>
 
 </resources>
 

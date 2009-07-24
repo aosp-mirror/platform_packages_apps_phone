@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"Wysłać następujące dzwonki?"\n</string>
     <string name="send_button">"Wyślij"</string>
     <string name="wild_prompt_str">"Zastąp symbol wieloznaczny"</string>
-    <string name="bluetooth_headset_connected">"Zestaw słuchawkowy Bluetooth jest podłączony."</string>
-    <string name="bluetooth_headset_disconnected">"Zestaw słuchawkowy Bluetooth jest odłączony."</string>
     <string name="no_vm_number">"Brakuje numeru poczty głosowej"</string>
     <string name="no_vm_number_msg">"Na karcie SIM nie ma zapisanego numeru poczty głosowej."</string>
     <string name="add_vm_number_str">"Dodaj numer"</string>
