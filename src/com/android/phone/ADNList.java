@@ -41,12 +41,14 @@ public class ADNList extends ListActivity {
 
     private static final String[] COLUMN_NAMES = new String[] {
         "name",
-        "number"
+        "number",
+        "emails"
     };
-    
+
 
     protected static final int NAME_COLUMN = 0;
     protected static final int NUMBER_COLUMN = 1;
+    protected static final int EMAILS_COLUMN = 2;
 
     private static final int[] VIEW_NAMES = new int[] {
         android.R.id.text1,
@@ -112,11 +114,11 @@ public class ADNList extends ListActivity {
     }
 
     private void setAdapter() {
-        // NOTE: 
+        // NOTE:
         // As it it written, the positioning code below is NOT working.
         // However, this current non-working state is in compliance with
         // the UI paradigm, so we can't really do much to change it.
-        
+
         // In the future, if we wish to get this "positioning" correct,
         // we'll need to do the following:
         //   1. Change the layout to in the cursor adapter to:
@@ -124,18 +126,18 @@ public class ADNList extends ListActivity {
         //   2. replace the selection / focus code with:
         //     getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         //     getListView().setItemChecked(mInitialSelection, true);
-        
+
         // Since the positioning is really only useful for the dialer's
         // SpecialCharSequence case (dialing '2#' to get to the 2nd
         // contact for instance), it doesn't make sense to mess with
         // the usability of the activity just for this case.
-        
-        // These artifacts include: 
+
+        // These artifacts include:
         //  1. UI artifacts (checkbox and highlight at the same time)
-        //  2. Allowing the user to edit / create new SIM contacts when 
+        //  2. Allowing the user to edit / create new SIM contacts when
         //    the user is simply trying to retrieve a number into the d
         //    dialer.
-        
+
         if (mCursorAdapter == null) {
             mCursorAdapter = newAdapter();
 
