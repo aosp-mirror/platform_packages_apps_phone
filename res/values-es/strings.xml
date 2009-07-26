@@ -48,10 +48,10 @@
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Silenciar"</string>
     <string name="menu_hold">"Retener"</string>
-    <string name="menu_endCall">"Finalizar"</string>
-    <string name="menu_swapCalls">"Alternar"</string>
-    <string name="menu_mergeCalls">"A tres"</string>
-    <string name="menu_addCall">"Añadir"</string>
+    <string name="menu_endCall">"Finalizar llamada"</string>
+    <string name="menu_swapCalls">"Alternar llamadas"</string>
+    <string name="menu_mergeCalls">"Llamada a tres"</string>
+    <string name="menu_addCall">"Añadir llamada"</string>
     <string name="menu_manageConference">"Administrar conferencia telefónica"</string>
     <string name="menu_showDialpad">"Mostrar teclado"</string>
     <string name="menu_hideDialpad">"Ocultar teclado"</string>
@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"¿Deseas enviar los siguientes tonos?"\n</string>
     <string name="send_button">"Enviar"</string>
     <string name="wild_prompt_str">"Sustituir el carácter comodín por"</string>
-    <string name="bluetooth_headset_connected">"Móvil Bluetooth conectado"</string>
-    <string name="bluetooth_headset_disconnected">"Los auriculares Bluetooth están desconectados."</string>
     <string name="no_vm_number">"Falta el número del buzón de voz."</string>
     <string name="no_vm_number_msg">"No se ha almacenado ningún número de buzón de voz en la tarjeta SIM."</string>
     <string name="add_vm_number_str">"Añadir número"</string>
@@ -85,16 +83,14 @@
     <string name="unlock_failed">"La solicitud de desbloqueo de red no se ha realizado correctamente."</string>
     <string name="unlock_success">"El desbloqueo de red se ha realizado correctamente."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Configuración adicional"</string>
     <string name="apn_settings">"APN"</string>
     <string name="settings_label">"Configuración de red"</string>
     <string name="voicemail">"Buzón de voz"</string>
     <string name="voicemail_abbreviated">"Buzón de voz:"</string>
     <string name="networks">"Operadores de red"</string>
     <string name="call_settings">"Ajustes de llamadas"</string>
-    <string name="additional_call_settings">"Configuración adicional"</string>
     <string name="labelNwService">"Configuración del servicio de red"</string>
-    <string name="labelCallerId">"ID de emisor"</string>
+    <string name="labelCallerId">"ID del emisor"</string>
     <string name="sum_hide_caller_id">"Número oculto en llamadas salientes"</string>
     <string name="sum_show_caller_id">"Número mostrado en llamadas salientes"</string>
     <string name="sum_default_caller_id">"Utilizar la configuración de operador predeterminada para mostrar mi número en las llamadas salientes"</string>
@@ -160,8 +156,7 @@
     <string name="roaming_disable">"Establecer conexión con servicios de datos en itinerancia"</string>
     <string name="roaming_reenable_message">"Has perdido la conectividad de datos porque has dejado desactivada la itinerancia de datos de tu red doméstica."</string>
     <string name="roaming_warning">"¿Permitir itinerancia de datos? Los costes de itinerancia que deberás asumir pueden ser significativos."</string>
-    <string name="prefer_2g">"Utilizar sólo redes 2G"</string>
-    <string name="prefer_2g_summary">"Ahorra batería"</string>
+
     <string name="fdn">"Marcación fija"</string>
     <string name="manage_fdn_list">"Lista de FDN"</string>
     <string name="fdn_activation">"Activación de FDN"</string>
@@ -251,7 +246,7 @@
     <string name="notification_voicemail_title">"Buzón de voz nuevo"</string>
     <string name="notification_voicemail_text_format">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number">"Número del buzón de voz desconocido"</string>
-    <string name="incall_error_power_off">"Para realizar una llamada, primero debes desactivar el modo avión."</string>
+    <string name="incall_error_power_off">"Para realizar una llamada, primero debes desactivar el modo Avión."</string>
     <string name="incall_error_emergency_only">"No se ha registrado en la red."</string>
     <string name="incall_error_no_phone_number_supplied">"No se ha realizado la llamada; el número introducido no es válido."</string>
     <string name="incall_error_call_failed">"La llamada no se ha enviado."</string>
@@ -269,11 +264,13 @@
     <string name="dial_emergency_error">"No se ha realizado la llamada; <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> no es un número de emergencia."</string>
     <string name="dial_emergency_empty_error">"La llamada no se ha enviado; marca un número de emergencia."</string>
     <string name="dialerKeyboardHintText">"Utilizar teclado para marcar"</string>
-    <string name="dtmfDialpadHintText">"Teclado táctil de tonos"</string>
+    <string name="dtmfDialpadHintText">"Teclado de tonos táctiles"</string>
     <string name="dtmfDialpadHandleLabel">"Teclado"</string>
-    <string name="touchLockText">"Da dos toques"\n"para desbloquear"</string>
+    <string name="touchLockText">"Pulsa dos veces"\n"para desbloquear"</string>
     <string name="importSimEntry">"Importar"</string>
     <string name="importAllSimEntries">"Importar todos"</string>
     <string name="importingSimContacts">"Importando contactos de tarjeta SIM..."</string>
     <string name="importToFDNfromContacts">"Importar de contactos"</string>
 </resources>
+
+

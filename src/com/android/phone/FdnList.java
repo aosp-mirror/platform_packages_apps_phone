@@ -39,7 +39,7 @@ public class FdnList extends ADNList {
     @Override
     protected Uri resolveIntent() {
         Intent intent = getIntent();
-        intent.setData(Uri.parse("content://sim/fdn"));
+        intent.setData(Uri.parse("content://icc/fdn"));
         return intent.getData();
     }
 

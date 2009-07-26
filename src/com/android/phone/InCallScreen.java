@@ -43,6 +43,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.provider.CallLog;
+import android.provider.CallLog.Calls;
 import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
@@ -56,6 +58,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -121,6 +124,9 @@ public class InCallScreen extends Activity
     // The "touch lock" overlay timeout comes from Gservices; this is the default.
     private static final int TOUCH_LOCK_DELAY_DEFAULT =  6000;  // msec
 
+    // Amount of time for Displaying "Dialing" for 3way Calling origination
+    private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
+
     // See CallTracker.MAX_CONNECTIONS_PER_CALL
     private static final int MAX_CALLERS_IN_CONFERENCE = 5;
 
@@ -139,6 +145,8 @@ public class InCallScreen extends Activity
     private static final int ALLOW_SCREEN_ON = 112;
     private static final int TOUCH_LOCK_TIMER = 113;
     private static final int BLUETOOTH_STATE_CHANGED = 114;
+    private static final int PHONE_CDMA_CALL_WAITING = 115;
+    private static final int THREEWAY_CALLERINFO_DISPLAY_DONE = 116;
 
 
     // High-level "modes" of the in-call UI.
@@ -222,6 +230,11 @@ public class InCallScreen extends Activity
     private Animation mTouchLockFadeIn;
     private long mTouchLockLastTouchTime;  // in SystemClock.uptimeMillis() time base
 
+    // Onscreen "answer" UI, for devices with no hardware CALL button.
+    private View mOnscreenAnswerUiContainer;  // The container for the whole UI, or null if unused
+    private View mOnscreenAnswerButton;  // The "answer" button itself
+    private long mOnscreenAnswerButtonLastTouchTime;  // in SystemClock.uptimeMillis() time base
+
     // Various dialogs we bring up (see dismissAllDialogs())
     // The MMI started dialog can actually be one of 2 items:
     //   1. An alert dialog if the MMI code is a normal MMI
@@ -264,6 +277,7 @@ public class InCallScreen extends Activity
                 // foreground...
             }
 
+            PhoneApp app = PhoneApp.getInstance();
             switch (msg.what) {
                 case SUPP_SERVICE_FAILED:
                     onSuppServiceFailed((AsyncResult) msg.obj);
@@ -313,9 +327,14 @@ public class InCallScreen extends Activity
                     // finish, this includes any MMI state that is not
                     // PENDING.
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
-                    if (mmiCode.getState() != MmiCode.State.PENDING) {
-                        if (DBG) log("Got MMI_COMPLETE, finishing...");
-                        finish();
+                    // if phone is a CDMA phone display feature code completed message
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        PhoneUtils.displayMMIComplete(mPhone, app, mmiCode, null, null);
+                    } else {
+                        if (mmiCode.getState() != MmiCode.State.PENDING) {
+                            if (DBG) log("Got MMI_COMPLETE, finishing...");
+                            finish();
+                        }
                     }
                     break;
 
@@ -346,7 +365,7 @@ public class InCallScreen extends Activity
                     // (Note this will cause the screen to turn on
                     // immediately, if it's currently off because of a
                     // prior preventScreenOn(true) call.)
-                    PhoneApp.getInstance().preventScreenOn(false);
+                    app.preventScreenOn(false);
                     break;
 
                 case TOUCH_LOCK_TIMER:
@@ -362,6 +381,31 @@ public class InCallScreen extends Activity
                     // elements that care about the bluetooth state get it
                     // directly from PhoneApp.showBluetoothIndication().)
                     updateScreen();
+                    break;
+
+                case PHONE_CDMA_CALL_WAITING:
+                    if (DBG) log("Received PHONE_CDMA_CALL_WAITING event ...");
+                    Connection cn = mRingingCall.getLatestConnection();
+
+                    // Only proceed if we get a valid connection object
+                    if (cn != null) {
+                        // Finally update screen with Call waiting info and request
+                        // screen to wake up
+                        updateScreen();
+                        app.updateWakeState();
+                    }
+                    break;
+
+                case THREEWAY_CALLERINFO_DISPLAY_DONE:
+                    if (DBG) log("Received THREEWAY_CALLERINFO_DISPLAY_DONE event ...");
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        // Set the mThreeWayCallOrigStateDialing state to true
+                        app.cdmaPhoneCallState.setThreeWayCallOrigState(false);
+
+                        //Finally update screen with with the current on going call
+                        updateScreen();
+                    }
                     break;
             }
         }
@@ -670,7 +714,7 @@ public class InCallScreen extends Activity
         // the same time that the phone state is changing.  This can
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)) {
-            if (DBG) log("onPause(): DELAYED_CLEANUP_AFTER_DISCONNECT detected, finishing...");
+            if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
             finish();
         }
 
@@ -815,14 +859,19 @@ public class InCallScreen extends Activity
         if (!mRegisteredForPhoneStates) {
             mPhone.registerForPhoneStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-            mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
+            if (mPhone.getPhoneName().equals("GSM")) {
+                mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
 
-            // register for the MMI complete message.  Upon completion,
-            // PhoneUtils will bring up a system dialog instead of the
-            // message display class in PhoneUtils.displayMMIComplete().
-            // We'll listen for that message too, so that we can finish
-            // the activity at the same time.
-            mPhone.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+                // register for the MMI complete message.  Upon completion,
+                // PhoneUtils will bring up a system dialog instead of the
+                // message display class in PhoneUtils.displayMMIComplete().
+                // We'll listen for that message too, so that we can finish
+                // the activity at the same time.
+                mPhone.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+            } else { // CDMA
+                if (DBG) log("Registering for Call Waiting.");
+                mPhone.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
+            }
 
             mPhone.setOnPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mPhone.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
@@ -834,8 +883,18 @@ public class InCallScreen extends Activity
         mPhone.unregisterForPhoneStateChanged(mHandler);
         mPhone.unregisterForDisconnect(mHandler);
         mPhone.unregisterForMmiInitiate(mHandler);
+        mPhone.unregisterForCallWaiting(mHandler);
         mPhone.setOnPostDialCharacter(null, POST_ON_DIAL_CHARS, null);
         mRegisteredForPhoneStates = false;
+    }
+
+    /* package */ void updateAfterRadioTechnologyChange() {
+        if (DBG) Log.d(LOG_TAG, "updateAfterRadioTechnologyChange()...");
+        // Unregister for all events from the old obsolete phone
+        unregisterForPhoneStates();
+
+        // (Re)register for all events relevant to the new active phone
+        registerForPhoneStates();
     }
 
     @Override
@@ -946,10 +1005,12 @@ public class InCallScreen extends Activity
         mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
-        mCallCard.reset();
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
+
+        // Other platform-specific UI initialization.
+        initOnscreenAnswerUi();
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -1032,50 +1093,77 @@ public class InCallScreen extends Activity
         final boolean hasActiveCall = !mForegroundCall.isIdle();
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
-        if (hasRingingCall) {
-            // If an incoming call is ringing, the CALL button is actually
-            // handled by the PhoneWindowManager.  (We do this to make
-            // sure that we'll respond to the key even if the InCallScreen
-            // hasn't come to the foreground yet.)
-            //
-            // We'd only ever get here in the extremely rare case that the
-            // incoming call started ringing *after*
-            // PhoneWindowManager.interceptKeyTq() but before the event
-            // got here, or else if the PhoneWindowManager had some
-            // problem connecting to the ITelephony service.
-            Log.w(LOG_TAG, "handleCallKey: incoming call is ringing!"
-                  + " (PhoneWindowManager should have handled this key.)");
-            // But go ahead and handle the key as normal, since the
-            // PhoneWindowManager presumably did NOT handle it:
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            // The green CALL button means either "Answer", "Swap calls/On Hold", or
+            // "Add to 3WC", depending on the current state of the Phone.
 
-            // There's an incoming ringing call: CALL means "Answer".
-            if (hasActiveCall && hasHoldingCall) {
-                if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
-                internalAnswerCallBothLinesInUse();
-            } else {
-                if (DBG) log("handleCallKey: ringing ==> answer!");
+            PhoneApp app = PhoneApp.getInstance();
+            CdmaPhoneCallState.PhoneCallState currCallState =
+                app.cdmaPhoneCallState.getCurrentCallState();
+            if (hasRingingCall) {
+                //Scenario 1: Accepting the First Incoming and Call Waiting call
+                if (DBG) log("answerCall: First Incoming and Call Waiting scenario");
                 internalAnswerCall();  // Automatically holds the current active call,
                                        // if there is one
+            } else if ((currCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && (hasActiveCall)) {
+                //Scenario 2: Merging 3Way calls
+                if (DBG) log("answerCall: Merge 3-way call scenario");
+                // Merge calls
+                PhoneUtils.mergeCalls(mPhone);
+            } else if (currCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                //Scenario 3: Switching between two Call waiting calls or drop the latest
+                // connection if in a 3Way merge scenario
+                if (DBG) log("answerCall: Switch btwn 2 calls scenario");
+                // Send flash cmd
+                PhoneUtils.switchHoldingAndActive(mPhone);
             }
-        } else if (hasActiveCall && hasHoldingCall) {
-            // Two lines are in use: CALL means "Swap calls".
-            if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
-            internalSwapCalls();
-        } else if (hasHoldingCall) {
-            // There's only one line in use, AND it's on hold.
-            // In this case CALL is a shortcut for "unhold".
-            if (DBG) log("handleCallKey: call on hold ==> unhold.");
-            PhoneUtils.switchHoldingAndActive(mPhone);  // Really means "unhold" in this state
-        } else {
-            // The most common case: there's only one line in use, and
-            // it's an active call (i.e. it's not on hold.)
-            // In this case CALL is a no-op.
-            // (This used to be a shortcut for "add call", but that was a
-            // bad idea because "Add call" is so infrequently-used, and
-            // because the user experience is pretty confusing if you
-            // inadvertently trigger it.)
-            if (VDBG) log("handleCallKey: call in foregound ==> ignoring.");
-            // But note we still consume this key event; see below.
+        } else { // GSM.
+            if (hasRingingCall) {
+                // If an incoming call is ringing, the CALL button is actually
+                // handled by the PhoneWindowManager.  (We do this to make
+                // sure that we'll respond to the key even if the InCallScreen
+                // hasn't come to the foreground yet.)
+                //
+                // We'd only ever get here in the extremely rare case that the
+                // incoming call started ringing *after*
+                // PhoneWindowManager.interceptKeyTq() but before the event
+                // got here, or else if the PhoneWindowManager had some
+                // problem connecting to the ITelephony service.
+                Log.w(LOG_TAG, "handleCallKey: incoming call is ringing!"
+                      + " (PhoneWindowManager should have handled this key.)");
+                // But go ahead and handle the key as normal, since the
+                // PhoneWindowManager presumably did NOT handle it:
+
+                // There's an incoming ringing call: CALL means "Answer".
+                if (hasActiveCall && hasHoldingCall) {
+                    if (DBG) log("handleCallKey: ringing (both lines in use) ==> answer!");
+                    internalAnswerCallBothLinesInUse();
+                } else {
+                    if (DBG) log("handleCallKey: ringing ==> answer!");
+                    internalAnswerCall();  // Automatically holds the current active call,
+                                           // if there is one
+                }
+            } else if (hasActiveCall && hasHoldingCall) {
+                // Two lines are in use: CALL means "Swap calls".
+                if (DBG) log("handleCallKey: both lines in use ==> swap calls.");
+                internalSwapCalls();
+            } else if (hasHoldingCall) {
+                // There's only one line in use, AND it's on hold.
+                // In this case CALL is a shortcut for "unhold".
+                if (DBG) log("handleCallKey: call on hold ==> unhold.");
+                PhoneUtils.switchHoldingAndActive(mPhone);  // Really means "unhold" in this state
+            } else {
+                // The most common case: there's only one line in use, and
+                // it's an active call (i.e. it's not on hold.)
+                // In this case CALL is a no-op.
+                // (This used to be a shortcut for "add call", but that was a
+                // bad idea because "Add call" is so infrequently-used, and
+                // because the user experience is pretty confusing if you
+                // inadvertently trigger it.)
+                if (VDBG) log("handleCallKey: call in foregound ==> ignoring.");
+                // But note we still consume this key event; see below.
+            }
         }
 
         // We *always* consume the CALL key, since the system-wide default
@@ -1414,6 +1502,33 @@ public class InCallScreen extends Activity
         } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_NORMAL) {
             showGenericErrorDialog(R.string.callFailed_dsac_restricted_normal, false);
             return;
+        } else if (cause == Connection.DisconnectCause.CDMA_LOCKED_UNTIL_POWER_CYCLE) {
+            showGenericErrorDialog(R.string.callFailed_cdma_lockedUntilPowerCycle, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_DROP) {
+            showGenericErrorDialog(R.string.callFailed_cdma_drop, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_INTERCEPT) {
+            showGenericErrorDialog(R.string.callFailed_cdma_intercept, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_REORDER) {
+            showGenericErrorDialog(R.string.callFailed_cdma_reorder, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_SO_REJECT) {
+            showGenericErrorDialog(R.string.callFailed_cdma_SO_reject, false);
+            return;
+        }else if (cause == Connection.DisconnectCause.CDMA_RETRY_ORDER) {
+            showGenericErrorDialog(R.string.callFailed_cdma_retryOrder, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_ACCESS_FAILURE) {
+            showGenericErrorDialog(R.string.callFailed_cdma_accessFailure, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_PREEMPTED) {
+            showGenericErrorDialog(R.string.callFailed_cdma_preempted, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.CDMA_NOT_EMERGENCY) {
+            showGenericErrorDialog(R.string.callFailed_cdma_notEmergency, false);
+            return;
         }
 
         final PhoneApp app = PhoneApp.getInstance();
@@ -1552,6 +1667,9 @@ public class InCallScreen extends Activity
             mHandler.sendEmptyMessageDelayed(DELAYED_CLEANUP_AFTER_DISCONNECT,
                                              callEndedDisplayDelay);
         }
+
+        // Remove 3way timer (only meaningful for CDMA)
+        mHandler.removeMessages(THREEWAY_CALLERINFO_DISPLAY_DONE);
     }
 
     /**
@@ -1814,6 +1932,7 @@ public class InCallScreen extends Activity
         if (VDBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
+        updateOnscreenAnswerUi();
         updateMenuButtonHint();
     }
 
@@ -1838,8 +1957,9 @@ public class InCallScreen extends Activity
         // this screen in the first place.)
 
         // Need to treat running MMI codes as a connection as well.
+        // Do not check for getPendingMmiCodes when phone is a CDMA phone
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
-            || !mPhone.getPendingMmiCodes().isEmpty()) {
+            || mPhone.getPhoneName().equals("CDMA") || !mPhone.getPendingMmiCodes().isEmpty()) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
@@ -1980,6 +2100,26 @@ public class InCallScreen extends Activity
                 // onPhoneStateChanged().
                 mDialer.clearDigits();
 
+                PhoneApp app = PhoneApp.getInstance();
+                if (app.phone.getPhoneName().equals("CDMA")) {
+                    // Start the 2 second timer for 3 Way CallerInfo
+                    if (app.cdmaPhoneCallState.getCurrentCallState()
+                            == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        //Unmute for the second MO call
+                        PhoneUtils.setMuteInternal(mPhone, false);
+
+                        //Start the timer for displaying "Dialing" for second call
+                        Message msg = Message.obtain(mHandler, THREEWAY_CALLERINFO_DISPLAY_DONE);
+                        mHandler.sendMessageDelayed(msg, THREEWAY_CALLERINFO_DISPLAY_TIME);
+
+                        // Set the mThreeWayCallOrigStateDialing state to true
+                        app.cdmaPhoneCallState.setThreeWayCallOrigState(true);
+
+                        //Update screen to show 3way dialing
+                        updateScreen();
+                    }
+                }
+
                 return InCallInitStatus.SUCCESS;
             case PhoneUtils.CALL_STATUS_DIALED_MMI:
                 if (DBG) log("placeCall: specified number was an MMI code: '" + number + "'.");
@@ -2088,8 +2228,9 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
-        if (DBG) log("show vm setting, finishing...");
         finish();
+
+        if (DBG) log("show vm setting");
 
         // navigate to the Voicemail setting in the Call Settings activity.
         Intent intent = new Intent(CallFeaturesSetting.ACTION_ADD_VOICEMAIL);
@@ -2137,7 +2278,6 @@ public class InCallScreen extends Activity
         // connections still in that state.]
         mPhone.clearDisconnected();
 
-        final PhoneApp app = PhoneApp.getInstance();
         if (!phoneIsInUse()) {
             // Phone is idle!  We should exit this screen now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
@@ -2204,6 +2344,17 @@ public class InCallScreen extends Activity
             case R.id.menuAnswerAndEnd:
                 if (VDBG) log("onClick: AnswerAndEnd...");
                 internalAnswerAndEnd();
+                break;
+
+            case R.id.menuAnswer:
+                if (DBG) log("onClick: Answer...");
+                internalAnswerCall();
+                break;
+
+            case R.id.menuIgnore:
+                if (DBG) log("onClick: Ignore...");
+                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                notifier.onCdmaCallWaitingReject();
                 break;
 
             case R.id.menuSwapCalls:
@@ -3216,6 +3367,58 @@ public class InCallScreen extends Activity
         return !ConfigurationHelper.isLandscape() && okToDialDTMFTones();
     }
 
+
+    /**
+     * Initializes the onscreen "answer" UI on devices that need it.
+     */
+    private void initOnscreenAnswerUi() {
+        // This UI is only used on devices with no hard CALL or SEND button.
+
+        // TODO: For now, explicitly enable this for sholes devices.
+        // (Note PRODUCT_DEVICE is "sholes" for both sholes and voles builds.)
+        boolean allowOnscreenAnswerUi =
+                "sholes".equals(SystemProperties.get("ro.product.device"));
+        //
+        // TODO: But ultimately we should either (a) use some framework API
+        // to detect whether the current device has a hard SEND button, or
+        // (b) have this depend on a product-specific resource flag in
+        // config.xml, like the forthcoming "is_full_touch_ui" boolean.
+
+        if (DBG) log("initOnscreenAnswerUi: device '" + SystemProperties.get("ro.product.device")
+                     + "', allowOnscreenAnswerUi = " + allowOnscreenAnswerUi);
+
+        if (allowOnscreenAnswerUi) {
+            ViewStub stub = (ViewStub) findViewById(R.id.onscreenAnswerUiStub);
+            mOnscreenAnswerUiContainer = stub.inflate();
+
+            mOnscreenAnswerButton = findViewById(R.id.onscreenAnswerButton);
+            mOnscreenAnswerButton.setOnTouchListener(this);
+        }
+    }
+
+    /**
+     * Updates the visibility of the onscreen "answer" UI.  On devices
+     * with no hardware CALL button, this UI becomes visible while an
+     * incoming call is ringing.
+     *
+     * TODO: This method should eventually be rolled into a more general
+     * method to update *all* onscreen UI elements that need to be
+     * different on different devices (depending on which hard buttons are
+     * present and/or if we don't have to worry about false touches while
+     * in-call.)
+     */
+    private void updateOnscreenAnswerUi() {
+        if (mOnscreenAnswerUiContainer != null) {
+            if (mPhone.getState() == Phone.State.RINGING) {
+                // A phone call is ringing *or* call waiting.
+                mOnscreenAnswerUiContainer.setVisibility(View.VISIBLE);
+            } else {
+                mOnscreenAnswerUiContainer.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     /**
      * Helper class to manage the (small number of) manual layout and UI
      * changes needed by the in-call UI when switching between landscape
@@ -3250,7 +3453,7 @@ public class InCallScreen extends Activity
          */
         static void initConfiguration(Configuration config) {
             if (VDBG) Log.d(LOG_TAG, "[InCallScreen.ConfigurationHelper] "
-                            + "initConfiguration(" + config + ")...");
+                           + "initConfiguration(" + config + ")...");
             sOrientation = config.orientation;
         }
 
@@ -3714,77 +3917,137 @@ public class InCallScreen extends Activity
     public boolean onTouch(View v, MotionEvent event) {
         if (VDBG) log ("onTouch(View " + v + ")...");
 
-        //
         // Handle touch events on the "touch lock" overlay.
-        // (v == mTouchLockIcon) means the user hit the lock icon in the
-        // middle of the screen, and (v == mTouchLockOverlay) is a touch
-        // anywhere else on the overlay.
-        //
+        if ((v == mTouchLockIcon) || (v == mTouchLockOverlay)) {
 
-        // We only care about touch events while the touch lock UI is
-        // visible (including the time during the fade-in animation.)
-        if (((v == mTouchLockIcon) || (v == mTouchLockOverlay)) && !isTouchLocked()) {
-            // Got an event from the touch lock UI, but we're not locked!
-            // (This was probably a touch-UP right after we unlocked.
-            // Ignore it.)
-            return false;
-        }
+            // TODO: move this big hunk of code to a helper function, or
+            // even better out to a separate helper class containing all
+            // the touch lock overlay code.
 
-        if (v == mTouchLockIcon) {
-            // Direct hit on the "lock" icon.  Handle the double-tap gesture.
+            // We only care about these touches while the touch lock UI is
+            // visible (including the time during the fade-in animation.)
+            if (!isTouchLocked()) {
+                // Got an event from the touch lock UI, but we're not locked!
+                // (This was probably a touch-UP right after we unlocked.
+                // Ignore it.)
+                return false;
+            }
+
+            // (v == mTouchLockIcon) means the user hit the lock icon in the
+            // middle of the screen, and (v == mTouchLockOverlay) is a touch
+            // anywhere else on the overlay.
+
+            if (v == mTouchLockIcon) {
+                // Direct hit on the "lock" icon.  Handle the double-tap gesture.
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    long now = SystemClock.uptimeMillis();
+                    if (VDBG) log("- touch lock icon: handling a DOWN event, t = " + now);
+
+                    // Look for the double-tap gesture:
+                    if (now < mTouchLockLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
+                        if (VDBG) log("==> touch lock icon: DOUBLE-TAP!");
+                        // This was the 2nd tap of a double-tap gesture.
+                        // Take down the touch lock overlay, but post a
+                        // message in the future to bring it back later.
+                        enableTouchLock(false);
+                        resetTouchLockTimer();
+                        // This counts as explicit "user activity".
+                        PhoneApp.getInstance().pokeUserActivity();
+                    }
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Stash away the current time in case this is the first
+                    // tap of a double-tap gesture.  (We measure the time from
+                    // the first tap's UP to the second tap's DOWN.)
+                    mTouchLockLastTouchTime = SystemClock.uptimeMillis();
+                }
+
+                // And regardless of what just happened, we *always* consume
+                // touch events while the touch lock UI is (or was) visible.
+                return true;
+
+            } else {  // (v == mTouchLockOverlay)
+                // User touched the "background" area of the touch lock overlay.
+
+                // TODO: If we're in the middle of the fade-in animation,
+                // consider making a touch *anywhere* immediately unlock the
+                // UI.  This could be risky, though, if the user tries to
+                // *double-tap* during the fade-in (in which case the 2nd tap
+                // might 't become a false touch on the dialpad!)
+                //
+                //if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                //    if (DBG) log("- touch lock overlay background: handling a DOWN event.");
+                //
+                //    if (mTouchLockFadeIn.hasStarted() && !mTouchLockFadeIn.hasEnded()) {
+                //        // If we're still fading-in, a touch *anywhere* onscreen
+                //        // immediately unlocks.
+                //        if (DBG) log("==> touch lock: tap during fade-in!");
+                //
+                //        mTouchLockOverlay.clearAnimation();
+                //        enableTouchLock(false);
+                //        // ...but post a message in the future to bring it
+                //        // back later.
+                //        resetTouchLockTimer();
+                //    }
+                //}
+
+                // And regardless of what just happened, we *always* consume
+                // touch events while the touch lock UI is (or was) visible.
+                return true;
+            }
+
+        // Handle touch events on the onscreen "answer" button.
+        } else if (v == mOnscreenAnswerButton) {
+
+            // TODO: this "double-tap detection" code is also duplicated
+            // above (for mTouchLockIcon).  Instead, extract it out to a
+            // helper class that can listen for double-taps on an
+            // arbitrary View, or maybe even a whole new "DoubleTapButton"
+            // widget.
+
+            // Look for the double-tap gesture.
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 long now = SystemClock.uptimeMillis();
-                if (VDBG) log("- touch lock icon: handling a DOWN event, t = " + now);
+                if (DBG) log("- onscreen answer button: handling a DOWN event, t = " + now);  // foo -- VDBG
 
                 // Look for the double-tap gesture:
-                if (now < mTouchLockLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
-                    if (VDBG) log("==> touch lock icon: DOUBLE-TAP!");
-                    // This was the 2nd tap of a double-tap gesture.
-                    // Take down the touch lock overlay, but post a
-                    // message in the future to bring it back later.
-                    enableTouchLock(false);
-                    resetTouchLockTimer();
-                    // This counts as explicit "user activity".
-                    PhoneApp.getInstance().pokeUserActivity();
+                if (now < mOnscreenAnswerButtonLastTouchTime + ViewConfiguration.getDoubleTapTimeout()) {
+                    if (DBG) log("==> onscreen answer button: DOUBLE-TAP!");
+                    // This was the 2nd tap of the double-tap gesture: answer the call!
+
+                    final boolean hasRingingCall = !mRingingCall.isIdle();
+                    if (hasRingingCall) {
+                        final boolean hasActiveCall = !mForegroundCall.isIdle();
+                        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+                        if (hasActiveCall && hasHoldingCall) {
+                            if (DBG) log("onscreen answer button: ringing (both lines in use) ==> answer!");
+                            internalAnswerCallBothLinesInUse();
+                        } else {
+                            if (DBG) log("onscreen answer button: ringing ==> answer!");
+                            internalAnswerCall();  // Automatically holds the current active call,
+                                                   // if there is one
+                        }
+                    } else {
+                        // The ringing call presumably stopped just when
+                        // the user was double-tapping.
+                        if (DBG) log("onscreen answer button: no ringing call (any more); ignoring...");
+                    }
                 }
+                // The onscreen "answer" button will go away as soon as
+                // the phone goes from ringing to offhook, since that
+                // state change will trigger an updateScreen() call.
+                // TODO: consider explicitly starting some fancier
+                // animation here, like fading out the "answer" button, or
+                // sliding it offscreen...
+
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Stash away the current time in case this is the first
                 // tap of a double-tap gesture.  (We measure the time from
                 // the first tap's UP to the second tap's DOWN.)
-                mTouchLockLastTouchTime = SystemClock.uptimeMillis();
+                mOnscreenAnswerButtonLastTouchTime = SystemClock.uptimeMillis();
             }
 
-            // And regardless of what just happened, we *always* consume
-            // touch events while the touch lock UI is (or was) visible.
-            return true;
-
-        } else if (v == mTouchLockOverlay) {
-            // User touched the "background" area of the touch lock overlay.
-
-            // TODO: If we're in the middle of the fade-in animation,
-            // consider making a touch *anywhere* immediately unlock the
-            // UI.  This could be risky, though, if the user tries to
-            // *double-tap* during the fade-in (in which case the 2nd tap
-            // might 't become a false touch on the dialpad!)
-            //
-            //if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            //    if (DBG) log("- touch lock overlay background: handling a DOWN event.");
-            //
-            //    if (mTouchLockFadeIn.hasStarted() && !mTouchLockFadeIn.hasEnded()) {
-            //        // If we're still fading-in, a touch *anywhere* onscreen
-            //        // immediately unlocks.
-            //        if (DBG) log("==> touch lock: tap during fade-in!");
-            //
-            //        mTouchLockOverlay.clearAnimation();
-            //        enableTouchLock(false);
-            //        // ...but post a message in the future to bring it
-            //        // back later.
-            //        resetTouchLockTimer();
-            //    }
-            //}
-
-            // And regardless of what just happened, we *always* consume
-            // touch events while the touch lock UI is (or was) visible.
+            // And regardless of what just happened, we *always*
+            // consume touch events to this button.
             return true;
 
         } else {

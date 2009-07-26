@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"次の番号を送信しますか？"\n</string>
     <string name="send_button">"送信"</string>
     <string name="wild_prompt_str">"ワイルド文字と入れ替える文字"</string>
-    <string name="bluetooth_headset_connected">"Bluetoothヘッドセットが接続されました。"</string>
-    <string name="bluetooth_headset_disconnected">"Bluetoothヘッドセットの接続が切断されました。"</string>
     <string name="no_vm_number">"ボイスメール番号がありません"</string>
     <string name="no_vm_number_msg">"SIMカードにボイスメールの番号がありません。"</string>
     <string name="add_vm_number_str">"番号を追加"</string>
@@ -85,14 +83,12 @@
     <string name="unlock_failed">"ネットワークロックを解除できませんでした。"</string>
     <string name="unlock_success">"ネットワークロックを解除しました。"</string>
     <string name="imei">"IMEI（端末識別番号）"</string>
-    <string name="labelMore">"その他の通話設定"</string>
     <string name="apn_settings">"アクセスポイント名"</string>
     <string name="settings_label">"ネットワーク設定"</string>
     <string name="voicemail">"ボイスメール"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"ネットワークオペレーター"</string>
     <string name="call_settings">"通話設定"</string>
-    <string name="additional_call_settings">"その他の通話設定"</string>
     <string name="labelNwService">"ネットワークサービス設定"</string>
     <string name="labelCallerId">"発信者番号"</string>
     <string name="sum_hide_caller_id">"発信時に番号を通知しない"</string>
@@ -160,8 +156,6 @@
     <string name="roaming_disable">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_reenable_message">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
     <string name="roaming_warning">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
-    <string name="prefer_2g">"2Gネットワークのみ使用"</string>
-    <string name="prefer_2g_summary">"節電"</string>
     <string name="fdn">"発信番号制限"</string>
     <string name="manage_fdn_list">"発信番号制限リスト"</string>
     <string name="fdn_activation">"発信番号制限の有効化"</string>
@@ -277,3 +271,6 @@
     <string name="importingSimContacts">"SIMの連絡先をインポート中"</string>
     <string name="importToFDNfromContacts">"連絡先からインポート"</string>
 </resources>
+
+
+

@@ -24,7 +24,8 @@
     <string name="fdnListLabel">"Seznam povolených telefonních čísel"</string>
     <string name="unknown">"Neznámý volající"</string>
     <string name="private_num">"Soukromé číslo"</string>
-    <string name="payphone">"Veřejný telefon"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"Přidržený hovor"</string>
     <string name="ongoing">"Aktuální hovor"</string>
     <string name="callFailed_userBusy">"Linka je obsazená."</string>
@@ -63,8 +64,6 @@
     <string name="wait_prompt_str">"Odeslat následující tóny?"\n</string>
     <string name="send_button">"Odeslat"</string>
     <string name="wild_prompt_str">"Nahradit zástupný znak znakem"</string>
-    <string name="bluetooth_headset_connected">"Náhlavní souprava s rozhraním Bluetooth byla připojena."</string>
-    <string name="bluetooth_headset_disconnected">"Náhlavní souprava s rozhraním Bluetooth byla odpojena."</string>
     <string name="no_vm_number">"Chybí číslo hlasové schránky"</string>
     <string name="no_vm_number_msg">"Na kartě SIM není uloženo žádné číslo hlasové schránky."</string>
     <string name="add_vm_number_str">"Přidat číslo"</string>
@@ -85,15 +84,16 @@
     <string name="unlock_failed">"Požadavek na odblokování sítě se nezdařil."</string>
     <string name="unlock_success">"Síť byla úspěšně odblokována."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Další nastavení hovorů"</string>
+
     <string name="apn_settings">"Názvy přístupových bodů"</string>
     <string name="settings_label">"Nastavení sítě"</string>
     <string name="voicemail">"Hlasová schránka"</string>
     <string name="voicemail_abbreviated">"HS:"</string>
     <string name="networks">"Síťoví operátoři"</string>
     <string name="call_settings">"Nastavení hovorů"</string>
-    <string name="additional_call_settings">"Další nastavení hovorů"</string>
-    <string name="labelNwService">"Nastavení síťové služby"</string>
+
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"ID volajícího"</string>
     <string name="sum_hide_caller_id">"Číslo je v odchozích hovorech skryto"</string>
     <string name="sum_show_caller_id">"Číslo je v odchozích hovorech zobrazeno"</string>
@@ -110,15 +110,15 @@
     <string name="sum_cfu_disabled">"Vypnuto"</string>
     <string name="labelCFB">"Přesměrovat, je-li obsazeno"</string>
     <string name="messageCFB">"Číslo při obsazené lince"</string>
-    <string name="sum_cfb_enabled">"Hovory budou přesměrovány na {0}"</string>
+    <string name="sum_cfb_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled">"Vypnuto"</string>
     <string name="labelCFNRy">"Přesměrovat – nečinnost"</string>
     <string name="messageCFNRy">"Číslo při nečinnosti"</string>
-    <string name="sum_cfnry_enabled">"Hovory budou přesměrovány na {0}"</string>
+    <string name="sum_cfnry_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled">"Vypnuto"</string>
     <string name="labelCFNRc">"Přesměrovat – nedostupnost"</string>
     <string name="messageCFNRc">"Číslo při nedostupnosti"</string>
-    <string name="sum_cfnrc_enabled">"Hovory budou přesměrovány na {0}"</string>
+    <string name="sum_cfnrc_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled">"Vypnuto"</string>
     <string name="updating_title">"Nastavení hovorů"</string>
     <string name="error_updating_title">"Chyba nastavení hovorů"</string>
@@ -160,8 +160,6 @@
     <string name="roaming_disable">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_reenable_message">"Připojení datových služeb bylo přerušeno, protože jste opustili domovskou síť a datové služby při roamingu máte vypnuty."</string>
     <string name="roaming_warning">"Opravdu chcete povolit datové služby při roamingu? Vystavujete se nebezpečí vysokých poplatků."</string>
-    <string name="prefer_2g">"Používat pouze sítě 2G"</string>
-    <string name="prefer_2g_summary">"Šetří baterii"</string>
     <string name="fdn">"Povolená telefonní čísla"</string>
     <string name="manage_fdn_list">"Seznam povolených telefonních čísel"</string>
     <string name="fdn_activation">"Aktivace povolených telefonních čísel"</string>
@@ -270,10 +268,14 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
-    <string name="dtmfDialpadHandleLabel">"Číselník"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Dvojitým klepnutím"\n"odemkněte"</string>
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>
     <string name="importingSimContacts">"Importování kontaktů z karty SIM"</string>
     <string name="importToFDNfromContacts">"Import z kontaktů"</string>
 </resources>
+
+
+

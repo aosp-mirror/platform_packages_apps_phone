@@ -22,11 +22,11 @@ import android.widget.Button;
 import android.os.Bundle;
 
 /**
- * Panel which displays the "SIM missing" message.
+ * Panel which displays the "ICC missing" message.
  */
-public class SimMissingPanel extends SimPanel {
+public class IccMissingPanel extends IccPanel {
 
-    public SimMissingPanel(Context context) {
+    public IccMissingPanel(Context context) {
         super(context);
     }
 

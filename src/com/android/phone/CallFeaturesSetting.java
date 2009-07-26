@@ -16,11 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.gsm.CallForwardInfo;
-import com.android.internal.telephony.gsm.CommandsInterface;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -36,13 +31,20 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.provider.Contacts.PhonesColumns;
 import android.provider.Settings;
+import android.provider.Contacts.PhonesColumns;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
+
+import com.android.internal.telephony.CallForwardInfo;
+import com.android.internal.telephony.CommandsInterface;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.cdma.TtyIntent;
+import android.content.Context;
 
 public class CallFeaturesSetting extends PreferenceActivity
         implements DialogInterface.OnClickListener,
@@ -55,7 +57,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         "com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL";
 
     // debug data
-    private static final String LOG_TAG = "call features settings";
+    private static final String LOG_TAG = "CallFeaturesSetting";
     private static final boolean DBG = false;
 
     // string contants
@@ -73,9 +75,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String BUTTON_FDN_KEY   = "button_fdn_key";
 
     // used to store the state of expanded preferences
-    private static final String BUTTON_CF_EXPAND_KEY = "button_cf_expand_key";
-    private static final String BUTTON_MORE_EXPAND_KEY = "button_more_expand_key";
+    private static final String BUTTON_GSM_MORE_EXPAND_KEY = "button_gsm_more_expand_key";
+    private static final String BUTTON_CDMA_MORE_EXPAND_KEY = "button_cdma_more_expand_key";
 
+    private static final String BUTTON_CF_EXPAND_KEY = "button_cf_expand_key";
     private static final String SUMMARY_CFU_KEY   = "summary_cfu_key";
     private static final String SUMMARY_CFB_KEY   = "summary_cfb_key";
     private static final String SUMMARY_CFNRY_KEY = "summary_cfnry_key";
@@ -83,6 +86,10 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private static final String APP_STATE_KEY     = "app_state_key";
     private static final String DISPLAY_MODE_KEY  = "display_mode_key";
+
+    private static final String BUTTON_TTY_KEY = "button_tty_mode_key";
+    private static final String BUTTON_VP_KEY = "button_voice_privacy_key";
+    private static final String BUTTON_DS_KEY = "dtmf_settings";
 
     private Intent mContactListIntent;
     private Intent mFDNSettingIntent;
@@ -96,6 +103,30 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final int EVENT_VOICEMAIL_CHANGED     = 500;
     /** track the query cancel event. */
     private static final int EVENT_INITAL_QUERY_CANCELED = 600;
+    /** Event for TTY mode change */
+    private static final int EVENT_TTY_EXECUTED          = 700;
+    private static final int EVENT_TTY_MODE_SET          = 800;
+    private static final int EVENT_ENHANCED_VP_EXECUTED  = 1000;
+
+    // preferred TTY mode
+    // 0 = disabled
+    // 1 = full mode
+    // 2 = HCO mode
+    // 3 = VCO mode
+    static final int preferredTtyMode = 0;
+
+    // preferred VoicePrivacy mode
+    // 0 = disabled
+    // 1 = enabled
+    static final int preferredVPMode = 1;
+
+    // Dtmf tone types
+    static final int DTMF_TONE_TYPE_NORMAL = 0;
+    static final int DTMF_TONE_TYPE_LONG   = 1;
+
+    // preferred DTMF Tones mode
+    static final int preferredDtmfMode = DTMF_TONE_TYPE_NORMAL;
+
 
     /** Handle to voicemail pref */
     private static final int VOICEMAIL_PREF_ID = CommandsInterface.CF_REASON_NOT_REACHABLE + 1;
@@ -161,7 +192,11 @@ public class CallFeaturesSetting extends PreferenceActivity
     private EditPhoneNumberPreference mButtonCFNRc;
     private EditPhoneNumberPreference mSubMenuVoicemailSettings;
     private PreferenceScreen mButtonCFExpand;
-    private PreferenceScreen mButtonMoreExpand;
+    private PreferenceScreen mButtonGSMMoreExpand;
+    private PreferenceScreen mButtonCDMAMoreExpand;
+    private CheckBoxPreference mButtonVoicePrivacy;
+    private ListPreference mButtonTTY;
+    private ListPreference mButtonDS;
 
     // cf number strings
     private String mDialingNumCFU;
@@ -212,8 +247,22 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonCFExpand){
             setDisplayMode(DISP_MODE_CF);
             return true;
-        } else if (preference == mButtonMoreExpand){
+        } else if (preference == mButtonGSMMoreExpand){
+            // TODO - should have handler for mButtonCDMAMoreExpand?
             setDisplayMode(DISP_MODE_MORE);
+        } else if (preference == mButtonVoicePrivacy) {
+            handleVoicePrivacyClickRequest(mButtonVoicePrivacy.isChecked());
+        } else if (preference == mButtonTTY) {
+            //displays the value taken from the Settings.System
+            int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                    mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE ,
+                    preferredTtyMode);
+            mButtonTTY.setValue(Integer.toString(settingsTtyMode));
+            return true;
+        } else if (preference == mButtonDS) {
+            // Let the normal listpreference UI take care of this
+            return false;
         }
 
         if (nextState != AppState.INPUT_READY) {
@@ -237,8 +286,14 @@ public class CallFeaturesSetting extends PreferenceActivity
             // send the command and update state.
             handleCLIRClickRequest(mButtonCLIR.findIndexOfValue((String) objValue));
             setAppState(AppState.BUSY_NETWORK_CONNECT);
+        } else if (preference == mButtonTTY) {
+            // send the command and update state.
+            handleTTYClickRequest(preference, objValue);
+        } else if (preference == mButtonDS) {
+            int index = mButtonDS.findIndexOfValue((String) objValue);
+            Settings.System.putInt(mPhone.getContext().getContentResolver(),
+                    Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, index);
         }
-
         // always let the preference setting proceed.
         return true;
     }
@@ -255,33 +310,38 @@ public class CallFeaturesSetting extends PreferenceActivity
                 (mMoreDataStale && (displayMode == DISP_MODE_MORE))){
             if (DBG) log("setDisplayMode: performing requested expansion.");
 
-            // If airplane mode is on, do not bother querying.
-            if (Settings.System.getInt(getContentResolver(),
-                    Settings.System.AIRPLANE_MODE_ON, 0) <= 0) {
-                // query state if radio is available
-                //  if its out of service, just wait for the radio to be ready
-                //  if its neither of these states, throw up an error.
-                setAppState(AppState.INITIAL_QUERY);
-
-                int radioState = mPhone.getServiceState().getState();
-
-                if (radioState == ServiceState.STATE_IN_SERVICE) {
-                    // Query ONLY what we are currently expanding.
-                    if (displayMode == DISP_MODE_CF) {
-                        queryAllCFOptions();
-                    } else {
-                        queryMoreOptions();
-                    }
-                } else if (radioState == ServiceState.STATE_POWER_OFF){
-                    if (DBG) log("onCreate: radio not ready, waiting for signal.");
-                    mPhone.registerForServiceStateChanged(mNetworkServiceHandler,
-                            EVENT_SERVICE_STATE_CHANGED, null);
-                } else {
-                    setAppState(AppState.NETWORK_ERROR, MSG_EXCEPTION);
-                }
+            // check for CDMA, if so just open without querying
+            if ( mPhone.getPhoneName().equals("CDMA") ) {
+                setAppState(AppState.INPUT_READY);
             } else {
-                if (DBG) log("setDisplayMode: radio is off!");
-                setAppState(AppState.NETWORK_ERROR, MSG_RADIO_OFF);
+                // If airplane mode is on, do not bother querying.
+                if (Settings.System.getInt(getContentResolver(),
+                        Settings.System.AIRPLANE_MODE_ON, 0) <= 0 ) {
+                    // query state if radio is available
+                    //  if its out of service, just wait for the radio to be ready
+                    //  if its neither of these states, throw up an error.
+                    setAppState(AppState.INITIAL_QUERY);
+
+                    int radioState = mPhone.getServiceState().getState();
+
+                    if (radioState == ServiceState.STATE_IN_SERVICE) {
+                        // Query ONLY what we are currently expanding.
+                        if (displayMode == DISP_MODE_CF) {
+                            queryAllCFOptions();
+                        } else {
+                            queryMoreOptions();
+                        }
+                    } else if (radioState == ServiceState.STATE_POWER_OFF){
+                        if (DBG) log("onCreate: radio not ready, waiting for signal.");
+                        mPhone.registerForServiceStateChanged(mNetworkServiceHandler,
+                                EVENT_SERVICE_STATE_CHANGED, null);
+                    } else {
+                        setAppState(AppState.NETWORK_ERROR, MSG_EXCEPTION);
+                    }
+                } else {
+                    if (DBG) log("setDisplayMode: radio is off!");
+                    setAppState(AppState.NETWORK_ERROR, MSG_RADIO_OFF);
+                }
             }
         }
     }
@@ -366,7 +426,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             return null;
         }
 
-        String vmDisplay = PhoneFactory.getDefaultPhone().getVoiceMailNumber();
+        String vmDisplay = mPhone.getVoiceMailNumber();
         if (TextUtils.isEmpty(vmDisplay)) {
             // if there is no voicemail number, we just return null to
             // indicate no contribution.
@@ -578,7 +638,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         updateVoiceNumberField();
     }
 
-
     /*
      * Callback to handle query completions
      */
@@ -644,6 +703,19 @@ public class CallFeaturesSetting extends PreferenceActivity
         return MSG_OK;
     }
 
+    // VP Object
+    private int handleGetVPMessage(AsyncResult ar, int voicePrivacyMode) {
+        if (ar.exception != null) {
+            if (DBG) log("handleGetVPMessage: Error getting VP enable state.");
+            return MSG_EXCEPTION;
+        } else {
+            Log.d(LOG_TAG, "voicePrivacyMode = " + voicePrivacyMode);
+            syncVPState((int[]) ar.result);
+        }
+
+        return MSG_OK;
+    }
+
     // CF Object
     private int handleGetCFMessage(AsyncResult ar, int reason) {
         // done with query, display the new settings.
@@ -682,7 +754,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         return MSG_OK;
     }
-
 
     /*
      * Methods used to sync UI state with that of the network
@@ -740,11 +811,11 @@ public class CallFeaturesSetting extends PreferenceActivity
      * Helper function to set both the value and the summary of the CLIR preference.
      */
     private void setButtonCLIRValue (int value) {
-        
+
         if (mButtonCLIR == null) {
             return;
         }
-        
+
         // first, set the value.
         mButtonCLIR.setValueIndex(value);
 
@@ -767,11 +838,11 @@ public class CallFeaturesSetting extends PreferenceActivity
     // called by syncCFUIState to do repetitive changes to UI button state.
     private void adjustCFbuttonState(EditPhoneNumberPreference epn,
             boolean isActive, int template, String number) {
-        
+
         if (epn == null) {
             return;
         }
-        
+
         CharSequence summaryOn = "";
 
         if (isActive) {
@@ -818,7 +889,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (mSubMenuVoicemailSettings == null) {
             return;
         }
-        
+
         mOldVmNumber = mPhone.getVoiceMailNumber();
         if (mOldVmNumber == null) {
             mOldVmNumber = "";
@@ -957,15 +1028,33 @@ public class CallFeaturesSetting extends PreferenceActivity
                     if (status != MSG_OK) {
                         setAppState(AppState.NETWORK_ERROR, status);
                     } else {
-                        mPhone.getCallWaiting(
-                                Message.obtain(mGetMoreOptionsComplete, EVENT_CW_EXECUTED));
+                        mPhone.getCallWaiting(Message.obtain(mGetMoreOptionsComplete,
+                                EVENT_CW_EXECUTED));
                     }
                     break;
 
                 case EVENT_CW_EXECUTED:
                     status = handleGetCWMessage(ar);
                     if (DBG) {
-                        log("mGetAllOptionsComplete: CW query done, all call features queried.");
+                        log("mGetAllOptionsComplete: CW query done, querying VP.");
+                    }
+                    if (status != MSG_OK) {
+                        setAppState(AppState.NETWORK_ERROR, status);
+                    } else {
+                        if (mPhone.getPhoneName().equals("GSM")) {
+                            mMoreDataStale = false;
+                            setAppState(AppState.INPUT_READY);
+                        } else {
+                            mPhone.getEnhancedVoicePrivacy(Message.obtain(mGetMoreOptionsComplete,
+                                EVENT_ENHANCED_VP_EXECUTED));
+                        }
+                    }
+                    break;
+
+                case EVENT_ENHANCED_VP_EXECUTED:
+                    status = handleGetVPMessage(ar, msg.arg1);
+                    if (DBG) {
+                        log("mGetAllOptionsComplete: VP query done, all call features queried.");
                     }
                     if (status != MSG_OK) {
                         setAppState(AppState.NETWORK_ERROR, status);
@@ -1117,8 +1206,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 }
                 break;
             case DISP_MODE_MORE:
-                if (mButtonMoreExpand != null && mButtonMoreExpand.getDialog() != null) {
-                    mButtonMoreExpand.getDialog().dismiss();
+                if (mButtonGSMMoreExpand != null && mButtonGSMMoreExpand.getDialog() != null) {
+                    // TODO - check for mButtonCDMAMoreExpand symmetry
+                    mButtonGSMMoreExpand.getDialog().dismiss();
                 }
                 break;
         }
@@ -1261,6 +1351,30 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPhone = PhoneFactory.getDefaultPhone();
+
+        // upon resumption from the sub-activity, make sure we re-enable the
+        // preferences.
+        getPreferenceScreen().setEnabled(true);
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            // Set UI state in onResume because a user could go home, launch some
+            // app to change this setting's backend, and re-launch this settings app
+            // and the UI state would be inconsistent with actual state
+            handleSetVPMessage();
+            mPhone.queryTTYMode(Message.obtain(mQueryTTYComplete, EVENT_TTY_EXECUTED));
+            // TODO(Moto): Re-launch DTMF settings if necessary onResume
+        } else {
+            mButtonTTY.setEnabled(false);
+            mButtonVoicePrivacy.setChecked(false);
+            mButtonVoicePrivacy.setEnabled(false);
+        }
+
+    }
+
     /*
      * Activity class methods
      */
@@ -1268,109 +1382,158 @@ public class CallFeaturesSetting extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        mPhone = PhoneFactory.getDefaultPhone();
 
-        addPreferencesFromResource(R.xml.call_feature_setting);
-
+        // If the phone loads in CDMA mode , Call Settings XML is CDMA specific
+        // TODO: For World Phone, that has options to switch n/w mode dynamically, this
+        // design will not work and this piece of code may be moved to onResume()
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            addPreferencesFromResource(R.xml.cdma_call_feature_setting);
+        } else {
+            addPreferencesFromResource(R.xml.call_feature_setting);
+        }
         // get buttons
         PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonCLIR  = (ListPreference) prefSet.findPreference(BUTTON_CLIR_KEY);
-        mButtonCW    = (CheckBoxPreference) prefSet.findPreference(BUTTON_CW_KEY);
-        mButtonCFU   = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFU_KEY);
-        mButtonCFB   = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFB_KEY);
-        mButtonCFNRy = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFNRY_KEY);
-        mButtonCFNRc = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFNRC_KEY);
         mSubMenuVoicemailSettings = (EditPhoneNumberPreference)
                 prefSet.findPreference(BUTTON_VOICEMAIL_KEY);
         mSubMenuFDNSettings = (PreferenceScreen) prefSet.findPreference(BUTTON_FDN_KEY);
+        mButtonVoicePrivacy = (CheckBoxPreference) findPreference(BUTTON_VP_KEY);
 
-        // get a reference to the Preference Screens for Call Forwarding and "More" settings.
-        mButtonCFExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_CF_EXPAND_KEY);
-        mButtonMoreExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_MORE_EXPAND_KEY);
+        mButtonTTY = (ListPreference) prefSet.findPreference(BUTTON_TTY_KEY);
+        mButtonTTY.setOnPreferenceChangeListener(this);
 
-        // Set links to the current activity and any UI settings that
-        // effect the dialog for each preference.  Also set the
-        // dependencies between the child (CFB, CFNRy, CFNRc)
-        // preferences and the CFU preference.
-        if (mButtonCFU != null){
-            mButtonCFU.setParentActivity(this, CommandsInterface.CF_REASON_UNCONDITIONAL, this);
-            mButtonCFU.setDialogOnClosedListener(this);
-            mButtonCFU.setDialogTitle(R.string.labelCF);
-            mButtonCFU.setDialogMessage(R.string.messageCFU);
+        // Get the ttyMode from Settings.System and displays it
+        int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                mPhone.getContext().getContentResolver(),
+                android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                preferredTtyMode);
+        mButtonTTY.setValue(Integer.toString(settingsTtyMode));
+        UpdatePreferredTtyModeSummary(settingsTtyMode);
+
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            mButtonDS = (ListPreference) findPreference(BUTTON_DS_KEY);
+            int index = Settings.System.getInt(getContentResolver(),
+                    Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, preferredDtmfMode);
+            mButtonDS.setValueIndex(index);
+            mButtonDS.setOnPreferenceChangeListener(this);
         }
-        
-        if (mButtonCFB != null) {
-            mButtonCFB.setParentActivity(this, CommandsInterface.CF_REASON_BUSY, this);
-            mButtonCFB.setDialogOnClosedListener(this);
-            mButtonCFB.setDependency(BUTTON_CFU_KEY);
-            mButtonCFB.setDialogTitle(R.string.labelCF);
-            mButtonCFB.setDialogMessage(R.string.messageCFB);
+        if (mPhone.getPhoneName().equals("GSM")) {
+            mButtonCLIR  = (ListPreference) prefSet.findPreference(BUTTON_CLIR_KEY);
+            mButtonCW    = (CheckBoxPreference) prefSet.findPreference(BUTTON_CW_KEY);
+            mButtonCFU   = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFU_KEY);
+            mButtonCFB   = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFB_KEY);
+            mButtonCFNRy = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFNRY_KEY);
+            mButtonCFNRc = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_CFNRC_KEY);
+
+            // get a reference to the Preference Screens for Call Forwarding and "More" settings.
+            mButtonCFExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_CF_EXPAND_KEY);
+            mButtonGSMMoreExpand = (PreferenceScreen) prefSet.findPreference(
+                    BUTTON_GSM_MORE_EXPAND_KEY);
+            mButtonCDMAMoreExpand = (PreferenceScreen) prefSet.findPreference(
+                    BUTTON_CDMA_MORE_EXPAND_KEY);
+
+            // The intent code that resided here in the past has been moved into the
+            // more conventional location in network_setting.xml
+
+            mButtonVoicePrivacy.setEnabled(false);
+
+            // Set links to the current activity and any UI settings that
+            // effect the dialog for each preference.  Also set the
+            // dependencies between the child (CFB, CFNRy, CFNRc)
+            // preferences and the CFU preference.
+            if (mButtonCFU != null){
+                mButtonCFU.setParentActivity(this, CommandsInterface.CF_REASON_UNCONDITIONAL, this);
+                mButtonCFU.setDialogOnClosedListener(this);
+                mButtonCFU.setDialogTitle(R.string.labelCF);
+                mButtonCFU.setDialogMessage(R.string.messageCFU);
+            }
+
+            if (mButtonCFB != null) {
+                mButtonCFB.setParentActivity(this, CommandsInterface.CF_REASON_BUSY, this);
+                mButtonCFB.setDialogOnClosedListener(this);
+                mButtonCFB.setDependency(BUTTON_CFU_KEY);
+                mButtonCFB.setDialogTitle(R.string.labelCF);
+                mButtonCFB.setDialogMessage(R.string.messageCFB);
+            }
+
+            if (mButtonCFNRy != null) {
+                mButtonCFNRy.setParentActivity(this, CommandsInterface.CF_REASON_NO_REPLY, this);
+                mButtonCFNRy.setDialogOnClosedListener(this);
+                mButtonCFNRy.setDependency(BUTTON_CFU_KEY);
+                mButtonCFNRy.setDialogTitle(R.string.labelCF);
+                mButtonCFNRy.setDialogMessage(R.string.messageCFNRy);
+            }
+
+            if (mButtonCFNRc != null) {
+                mButtonCFNRc.setParentActivity(this, CommandsInterface.CF_REASON_NOT_REACHABLE, this);
+                mButtonCFNRc.setDialogOnClosedListener(this);
+                mButtonCFNRc.setDependency(BUTTON_CFU_KEY);
+                mButtonCFNRc.setDialogTitle(R.string.labelCF);
+                mButtonCFNRc.setDialogMessage(R.string.messageCFNRc);
+            }
+
+            // set the listener for the CLIR list preference so we can issue CLIR commands.
+            if (mButtonCLIR != null ) {
+                mButtonCLIR.setOnPreferenceChangeListener(this);
+            }
+            mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
+            mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
+            mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
         }
-        
-        if (mButtonCFNRy != null) {
-            mButtonCFNRy.setParentActivity(this, CommandsInterface.CF_REASON_NO_REPLY, this);
-            mButtonCFNRy.setDialogOnClosedListener(this);
-            mButtonCFNRy.setDependency(BUTTON_CFU_KEY);
-            mButtonCFNRy.setDialogTitle(R.string.labelCF);
-            mButtonCFNRy.setDialogMessage(R.string.messageCFNRy);
-        }
-        
-        if (mButtonCFNRc != null) {
-            mButtonCFNRc.setParentActivity(this, CommandsInterface.CF_REASON_NOT_REACHABLE, this);
-            mButtonCFNRc.setDialogOnClosedListener(this);
-            mButtonCFNRc.setDependency(BUTTON_CFU_KEY);
-            mButtonCFNRc.setDialogTitle(R.string.labelCF);
-            mButtonCFNRc.setDialogMessage(R.string.messageCFNRc);
-        }
-        
+
         if (mSubMenuVoicemailSettings != null) {
             mSubMenuVoicemailSettings.setParentActivity(this, VOICEMAIL_PREF_ID, this);
             mSubMenuVoicemailSettings.setDialogOnClosedListener(this);
             mSubMenuVoicemailSettings.setDialogTitle(R.string.voicemail_settings_number_label);
-        }
-        
-        // set the listener for the CLIR list preference so we can issue CLIR commands.
-        if (mButtonCLIR != null ) {
-            mButtonCLIR.setOnPreferenceChangeListener(this);
         }
 
         // create intent to bring up contact list
         mContactListIntent = new Intent(Intent.ACTION_GET_CONTENT);
         mContactListIntent.setType(android.provider.Contacts.Phones.CONTENT_ITEM_TYPE);
 
-        mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
-        mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
-        mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+        if (mSubMenuFDNSettings != null) {
+            mFDNSettingIntent = new Intent(Intent.ACTION_MAIN);
+            mFDNSettingIntent.setClassName(this, FdnSetting.class.getName());
+            mSubMenuFDNSettings.setIntent (mFDNSettingIntent);
+        }
 
-        mPhone = PhoneFactory.getDefaultPhone();
         mAppState = AppState.INPUT_READY;
 
         if (icicle != null) {
-            // retrieve number state
-            mDialingNumCFU = icicle.getString(SUMMARY_CFU_KEY);
-            mDialingNumCFB = icicle.getString(SUMMARY_CFB_KEY);
-            mDialingNumCFNRy = icicle.getString(SUMMARY_CFNRY_KEY);
-            mDialingNumCFNRc = icicle.getString(SUMMARY_CFNRC_KEY);
+            if (mButtonVoicePrivacy != null) {
+                mButtonVoicePrivacy.setChecked(icicle.getBoolean(BUTTON_VP_KEY));
+            }
+            if (mPhone.getPhoneName().equals("GSM")) {
+                // retrieve number state
+                mDialingNumCFU = icicle.getString(SUMMARY_CFU_KEY);
+                mDialingNumCFB = icicle.getString(SUMMARY_CFB_KEY);
+                mDialingNumCFNRy = icicle.getString(SUMMARY_CFNRY_KEY);
+                mDialingNumCFNRc = icicle.getString(SUMMARY_CFNRC_KEY);
 
-            // reset CF buttons
-            adjustCFbuttonState(mButtonCFU, icicle.getBoolean(BUTTON_CFU_KEY),
-                    R.string.sum_cfu_enabled, mDialingNumCFU);
-            adjustCFbuttonState(mButtonCFB, icicle.getBoolean(BUTTON_CFB_KEY),
-                    R.string.sum_cfb_enabled, mDialingNumCFB);
-            adjustCFbuttonState(mButtonCFNRy, icicle.getBoolean(BUTTON_CFNRY_KEY),
-                    R.string.sum_cfnry_enabled, mDialingNumCFNRy);
-            adjustCFbuttonState(mButtonCFNRc, icicle.getBoolean(BUTTON_CFNRC_KEY),
-                    R.string.sum_cfnrc_enabled, mDialingNumCFNRc);
+                // reset CF buttons
+                adjustCFbuttonState(mButtonCFU, icicle.getBoolean(BUTTON_CFU_KEY),
+                        R.string.sum_cfu_enabled, mDialingNumCFU);
+                adjustCFbuttonState(mButtonCFB, icicle.getBoolean(BUTTON_CFB_KEY),
+                        R.string.sum_cfb_enabled, mDialingNumCFB);
+                adjustCFbuttonState(mButtonCFNRy, icicle.getBoolean(BUTTON_CFNRY_KEY),
+                        R.string.sum_cfnry_enabled, mDialingNumCFNRy);
+                adjustCFbuttonState(mButtonCFNRc, icicle.getBoolean(BUTTON_CFNRC_KEY),
+                        R.string.sum_cfnrc_enabled, mDialingNumCFNRc);
 
-            // reset other button state
-            setButtonCLIRValue(icicle.getInt(BUTTON_CLIR_KEY));
-            if (mButtonCW != null) {
-                mButtonCW.setChecked(icicle.getBoolean(BUTTON_CW_KEY));
+                // reset other button state
+                setButtonCLIRValue(icicle.getInt(BUTTON_CLIR_KEY));
+                if (mButtonCW != null) {
+                    mButtonCW.setChecked(icicle.getBoolean(BUTTON_CW_KEY));
+                }
+                if (mButtonVoicePrivacy != null) {
+                    mButtonVoicePrivacy.setEnabled(false);
+                }
+                mCFDataStale = icicle.getBoolean(BUTTON_CF_EXPAND_KEY);
+                mMoreDataStale = icicle.getBoolean(BUTTON_GSM_MORE_EXPAND_KEY);
             }
 
             // set app state
             mAppState = (AppState) icicle.getSerializable(APP_STATE_KEY);
-            mCFDataStale = icicle.getBoolean(BUTTON_CF_EXPAND_KEY);
-            mMoreDataStale = icicle.getBoolean(BUTTON_MORE_EXPAND_KEY);
             mDisplayMode = icicle.getInt(DISPLAY_MODE_KEY);
 
         } else {
@@ -1396,37 +1559,331 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         if (DBG) log("onSaveInstanceState: saving relevant UI state.");
 
+        if (mButtonVoicePrivacy != null) {
+            outState.putBoolean(BUTTON_VP_KEY, mButtonVoicePrivacy.isChecked());
+        }
+        if (mButtonTTY != null) {
+            outState.putInt(BUTTON_TTY_KEY, mButtonTTY.findIndexOfValue(mButtonTTY.getValue()));
+        }
+
         // save button state
-        if (mButtonCLIR != null) {
-            outState.putInt(BUTTON_CLIR_KEY, mButtonCLIR.findIndexOfValue(mButtonCLIR.getValue()));
-        }
-        if (mButtonCW != null) {
-            outState.putBoolean(BUTTON_CW_KEY, mButtonCW.isChecked());
-        }
-        if (mButtonCFU != null) {
-            outState.putBoolean(BUTTON_CFU_KEY, mButtonCFU.isToggled());
-        }
-        if (mButtonCFB != null) {
-            outState.putBoolean(BUTTON_CFB_KEY, mButtonCFB.isToggled());
-        }
-        if (mButtonCFNRy != null) {
-            outState.putBoolean(BUTTON_CFNRY_KEY, mButtonCFNRy.isToggled());
-        }
-        if (mButtonCFNRc != null) {
-            outState.putBoolean(BUTTON_CFNRC_KEY, mButtonCFNRc.isToggled());
-        }
+        if (mPhone.getPhoneName().equals("GSM")) {
+            if (mButtonCLIR != null) {
+                outState.putInt(BUTTON_CLIR_KEY, mButtonCLIR.findIndexOfValue(mButtonCLIR.getValue()));
+            }
+            if (mButtonCW != null) {
+                outState.putBoolean(BUTTON_CW_KEY, mButtonCW.isChecked());
+            }
+            if (mButtonCFU != null) {
+                outState.putBoolean(BUTTON_CFU_KEY, mButtonCFU.isToggled());
+           }
+            if (mButtonCFB != null) {
+                outState.putBoolean(BUTTON_CFB_KEY, mButtonCFB.isToggled());
+            }
+            if (mButtonCFNRy != null) {
+                outState.putBoolean(BUTTON_CFNRY_KEY, mButtonCFNRy.isToggled());
+            }
+            if (mButtonCFNRc != null) {
+                 outState.putBoolean(BUTTON_CFNRC_KEY, mButtonCFNRc.isToggled());
+            }
 
-        // save number state
-        outState.putString(SUMMARY_CFU_KEY, mDialingNumCFU);
-        outState.putString(SUMMARY_CFB_KEY, mDialingNumCFB);
-        outState.putString(SUMMARY_CFNRY_KEY, mDialingNumCFNRy);
-        outState.putString(SUMMARY_CFNRC_KEY, mDialingNumCFNRc);
+            // save number state
+            outState.putString(SUMMARY_CFU_KEY, mDialingNumCFU);
+            outState.putString(SUMMARY_CFB_KEY, mDialingNumCFB);
+            outState.putString(SUMMARY_CFNRY_KEY, mDialingNumCFNRy);
+            outState.putString(SUMMARY_CFNRC_KEY, mDialingNumCFNRc);
 
+            outState.putBoolean(BUTTON_CF_EXPAND_KEY, mCFDataStale);
+            outState.putBoolean(BUTTON_GSM_MORE_EXPAND_KEY, mMoreDataStale);
+        }
         // save state of the app
         outState.putSerializable(APP_STATE_KEY, mAppState);
-        outState.putBoolean(BUTTON_CF_EXPAND_KEY, mCFDataStale);
-        outState.putBoolean(BUTTON_MORE_EXPAND_KEY, mMoreDataStale);
+
         outState.putInt(DISPLAY_MODE_KEY, mDisplayMode);
+    }
+
+    // TTY object
+    private void handleTTYClickRequest(Preference preference, Object objValue) {
+        int buttonTtyMode;
+        buttonTtyMode = Integer.valueOf((String) objValue).intValue();
+        int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                mPhone.getContext().getContentResolver(),
+                android.provider.Settings.Secure.PREFERRED_TTY_MODE, preferredTtyMode);
+        if (DBG) log("handleTTYClickRequest: requesting set TTY mode enable (TTY) to" +
+                Integer.toString(buttonTtyMode));
+
+        if (buttonTtyMode != settingsTtyMode) {
+            switch(buttonTtyMode) {
+            case Phone.TTY_MODE_OFF:
+                mPhone.setTTYMode(Phone.TTY_MODE_OFF,
+                        Message.obtain(mSetTTYComplete, EVENT_TTY_MODE_SET));
+                break;
+            case Phone.TTY_MODE_FULL:
+                mPhone.setTTYMode(Phone.TTY_MODE_FULL,
+                        Message.obtain(mSetTTYComplete, EVENT_TTY_MODE_SET));
+                break;
+            case Phone.TTY_MODE_HCO:
+                mPhone.setTTYMode(Phone.TTY_MODE_HCO,
+                        Message.obtain(mSetTTYComplete, EVENT_TTY_MODE_SET));
+                break;
+            case Phone.TTY_MODE_VCO:
+                mPhone.setTTYMode(Phone.TTY_MODE_VCO,
+                        Message.obtain(mSetTTYComplete, EVENT_TTY_MODE_SET));
+                break;
+            default:
+                mPhone.setTTYMode(Phone.TTY_MODE_OFF,
+                        Message.obtain(mSetTTYComplete, EVENT_TTY_MODE_SET));
+            }
+            UpdatePreferredTtyModeSummary(buttonTtyMode);
+
+            android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                    buttonTtyMode );
+        }
+    }
+
+    /*
+     * Callback to handle TTY mode update completions
+     */
+
+    // **Callback on TTY mode when complete.
+    private Handler mSetTTYComplete = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // query to make sure we're looking at the same data as that in the network.
+            switch (msg.what) {
+                case EVENT_TTY_EXECUTED:
+                    handleQueryTtyResponse(msg);
+                    onResume();
+                    break;
+                case EVENT_TTY_MODE_SET:
+                    onResume();
+                    break;
+                default:
+                    // TODO: should never reach this, may want to throw exception
+            }
+        }
+    };
+
+    // TTY Object
+    private void handleSetTTYMessage() {
+        if (DBG) {
+            log("handleSetTTYMessage: set TTY request complete, reading value from network.");
+        }
+        mPhone.queryTTYMode(Message.obtain(mQueryTTYComplete, EVENT_TTY_EXECUTED));
+        android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                android.provider.Settings.Secure.TTY_MODE_ENABLED, preferredTtyMode );
+    }
+
+    private void handleQueryTtyResponse(Message msg) {
+        AsyncResult ar = (AsyncResult) msg.obj;
+
+        if (ar.exception == null) {
+            int ttyMode = ((int[])ar.result)[0];
+
+
+
+            int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                    mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                    preferredTtyMode);
+
+            //check that modemNetworkMode is from an accepted value
+            if (ttyMode == Phone.TTY_MODE_OFF ||
+                    ttyMode == Phone.TTY_MODE_HCO ||
+                    ttyMode == Phone.TTY_MODE_VCO ||
+                    ttyMode == Phone.TTY_MODE_FULL) {
+
+                //check changes in modemNetworkMode and updates settingsNetworkMode
+                if (ttyMode != settingsTtyMode) {
+                    if (DBG) {
+                        log("handleGetPreferredNetworkTypeResponse: if 2: " +
+                                "modemNetworkMode != settingsNetworkMode");
+                    }
+
+                    settingsTtyMode = ttyMode;
+
+                    if (DBG) { log("handleGetPreferredNetworkTypeResponse: if 2: " +
+                            "settingsNetworkMode = " + settingsTtyMode);
+                    }
+
+                    //changes the Settings.System accordingly to modemNetworkMode
+                    android.provider.Settings.Secure.putInt(
+                            mPhone.getContext().getContentResolver(),
+                            android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
+                            settingsTtyMode);
+                }
+
+                UpdatePreferredTtyModeSummary(ttyMode);
+                // changes the mButtonPreferredNetworkMode accordingly to modemNetworkMode
+                mButtonTTY.setValue(Integer.toString(ttyMode));
+            } else {
+                if (DBG) log("handleGetPreferredNetworkTypeResponse: else: reset to default");
+                resetTtyModeToDefault();
+            }
+        }
+    }
+
+    private void resetTtyModeToDefault() {
+        //set the mButtonPreferredTtyMode
+        mButtonTTY.setValue(Integer.toString(preferredTtyMode));
+        //set the Settings.System
+        android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                    preferredTtyMode );
+        //Set the Modem
+        mPhone.setTTYMode(preferredTtyMode,
+                Message.obtain(mSetTTYComplete, EVENT_TTY_EXECUTED));
+    }
+
+    private void UpdatePreferredTtyModeSummary(int TtyMode) {
+        switch(TtyMode) {
+            case Phone.TTY_MODE_OFF:
+                mButtonTTY.setSummary("TTY Mode OFF");
+                break;
+            case Phone.TTY_MODE_HCO:
+                mButtonTTY.setSummary("TTY Mode HCO");
+                break;
+            case Phone.TTY_MODE_VCO:
+                mButtonTTY.setSummary("TTY Mode VCO");
+                break;
+            case Phone.TTY_MODE_FULL:
+                mButtonTTY.setSummary("TTY Mode Full");
+                break;
+            default:
+                mButtonTTY.setSummary("TTY Mode OFF");
+        }
+    }
+
+    /*
+     * Callback to handle query completions
+     */
+
+    // **Callback on option getting when complete.
+    private Handler mQueryTTYComplete = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case EVENT_TTY_EXECUTED:
+                    handleQueryTTYModeMessage((AsyncResult) msg.obj);
+                    break;
+                default:
+                    // TODO: should never reach this, may want to throw exception
+            }
+        }
+    };
+
+    // TTY Object
+    private int handleQueryTTYModeMessage(AsyncResult ar) {
+        if (ar.exception != null) {
+            if (DBG) log("handleQueryTTYModeMessage: Error getting TTY enable state.");
+            return MSG_EXCEPTION;
+        } else {
+            if (DBG) log("handleQueryTTYModeMessage: TTY enable state successfully queried.");
+            syncTTYState((int[]) ar.result);
+            android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.TTY_MODE_ENABLED, preferredTtyMode );
+        }
+        return MSG_OK;
+    }
+    /**
+     * Tells the StatusBar whether the TTY mode is enabled or disabled
+     */
+    private static void setStatusBarIcon(Context context, boolean enabled) {
+        Intent ttyModeChanged = new Intent(TtyIntent.TTY_ENABLED_CHANGE_ACTION);
+        ttyModeChanged.putExtra("ttyEnabled", enabled);
+        context.sendBroadcast(ttyModeChanged);
+    }
+
+    // set the state of the UI based on TTY State
+    private void syncTTYState(int ttyArray[]) {
+    if (DBG) log("syncTTYState: Setting UI state consistent with TTY enable state of " +
+           ((ttyArray[0] != 0) ? "ENABLED" : "DISABLED"));
+
+        Context context = this;
+
+        if (ttyArray[0] == 0) {
+            // turn off TTY icon at StatusBar
+            setStatusBarIcon(context, false);
+        }
+        else {
+            //display TTY icon at StatusBar
+            setStatusBarIcon(context, true);
+        }
+    }
+
+
+    //VP object click
+    private void handleVoicePrivacyClickRequest(boolean value) {
+        mPhone.enableEnhancedVoicePrivacy(value, Message.obtain(mSetVoicePrivacyComplete,
+                EVENT_ENHANCED_VP_EXECUTED));
+    }
+
+    // **Callback on VP mode when complete.
+    private Handler mSetVoicePrivacyComplete = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // query to make sure we're looking at the same data as that in the network.
+            switch (msg.what) {
+                case EVENT_ENHANCED_VP_EXECUTED:
+                    handleSetVPMessage();
+                    break;
+                default:
+                    // TODO: should never reach this, may want to throw exception
+            }
+        }
+    };
+
+    // VP Object Set
+    private void handleSetVPMessage() {
+        mPhone.getEnhancedVoicePrivacy(Message.obtain(mQueryVoicePrivacyComplete,
+                EVENT_ENHANCED_VP_EXECUTED));
+        android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                android.provider.Settings.Secure.ENHANCED_VOICE_PRIVACY_ENABLED, preferredVPMode);
+    }
+
+    /*
+     * Callback to handle VP query completions
+     */
+
+    // **Callback on option getting when complete.
+    private Handler mQueryVoicePrivacyComplete = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case EVENT_ENHANCED_VP_EXECUTED:
+                    handleQueryVPModeMessage((AsyncResult) msg.obj);
+                    break;
+                default:
+                    // TODO: should never reach this, may want to throw exception
+            }
+        }
+    };
+
+    // VP Object Query
+    private int handleQueryVPModeMessage(AsyncResult ar) {
+        if (ar.exception != null) {
+            if (DBG) {
+                log("handleQueryVPModeMessage: Error getting VoicePrivacy enable state.");
+            }
+            return MSG_EXCEPTION;
+        } else {
+            if (DBG) {
+                log("handleQueryVPModeMessage: VoicePrivacy enable state successfully queried.");
+            }
+            syncVPState((int[]) ar.result);
+            android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.ENHANCED_VOICE_PRIVACY_ENABLED,
+                    preferredVPMode );
+        }
+        return MSG_OK;
+    }
+
+    // set the state of the UI based on VP state
+    private void syncVPState(int vpArray[]) {
+        Log.d(LOG_TAG, "syncVPState: Setting UI state consistent with VP enable state of"
+                + ((vpArray[0] != 0) ? "ENABLED" : "DISABLED"));
+        mButtonVoicePrivacy.setChecked(vpArray[0] != 0);
     }
 
     private static void log(String msg) {

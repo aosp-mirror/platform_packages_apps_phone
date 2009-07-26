@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- Onscreen "answer" UI: Used while an incoming call is ringing, on devices
+     with no hardware CALL button.
+
+     This view hiererarchy appears as a ViewStub in the InCallScreen's layout,
+     and is inflated only on devices where it's needed.
+
+     TODO: This UI is a TEMPORARY HACK until we have a final
+     design and assets from the UI team. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:visibility="gone"
+    >
+
+    <!-- Blank space on the top 2/3 of the screen -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_weight="2"
+        android:visibility="invisible"
+        />
+
+    <!-- The button, on the lower 1/3 of the screen -->
+    <!-- TODO: Need a new asset for the background; this
+         one is just a temporary placeholder. -->
+    <TextView android:id="@+id/onscreenAnswerButton"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginBottom="20dip"
+        android:text="@string/onscreenAnswerText"
+        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+        android:background="@*android:drawable/btn_default_normal"
+        />
+
+</LinearLayout>

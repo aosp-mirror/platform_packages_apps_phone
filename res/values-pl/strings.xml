@@ -55,16 +55,14 @@
     <string name="menu_manageConference">"Zarządzanie rozmową konferencyjną"</string>
     <string name="menu_showDialpad">"Pokaż panel wybierania numeru"</string>
     <string name="menu_hideDialpad">"Ukryj panel wybierania numeru"</string>
-    <string name="menu_answerAndHold">"Zawieś bieżące poł."\n"i odpowiedz"</string>
-    <string name="menu_answerAndEnd">"Zakończ bieżące poł."\n"i odpowiedz"</string>
+    <string name="menu_answerAndHold">"Zawieś bieżące połączenie"\n"i odpowiedz"</string>
+    <string name="menu_answerAndEnd">"Zakończ bieżące połączenie"\n"i odpowiedz"</string>
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Naciśnij Menu, aby zobaczyć opcje połączenia."</string>
     <string name="menuButtonKeyboardDialHint">"Naciśnij Menu, aby wyświetlić opcje połączenia • Użyj klawiatury, aby wybrać numer"</string>
     <string name="wait_prompt_str">"Wysłać następujące dzwonki?"\n</string>
     <string name="send_button">"Wyślij"</string>
     <string name="wild_prompt_str">"Zastąp symbol wieloznaczny"</string>
-    <string name="bluetooth_headset_connected">"Zestaw słuchawkowy Bluetooth jest podłączony."</string>
-    <string name="bluetooth_headset_disconnected">"Zestaw słuchawkowy Bluetooth jest odłączony."</string>
     <string name="no_vm_number">"Brakuje numeru poczty głosowej"</string>
     <string name="no_vm_number_msg">"Na karcie SIM nie ma zapisanego numeru poczty głosowej."</string>
     <string name="add_vm_number_str">"Dodaj numer"</string>
@@ -85,16 +83,14 @@
     <string name="unlock_failed">"Żądanie odblokowania sieci zakończyło się niepowodzeniem."</string>
     <string name="unlock_success">"Sieć została pomyślnie odblokowana."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Dodatkowe ustawienia"</string>
     <string name="apn_settings">"Punkty dostępowe"</string>
     <string name="settings_label">"Ustawienia sieci"</string>
     <string name="voicemail">"Poczta głosowa"</string>
     <string name="voicemail_abbreviated">"Poczta głosowa:"</string>
     <string name="networks">"Operatorzy sieci"</string>
     <string name="call_settings">"Ustawienia połączeń"</string>
-    <string name="additional_call_settings">"Dodatkowe ustawienia"</string>
     <string name="labelNwService">"Ustawienia usługi sieciowej"</string>
-    <string name="labelCallerId">"ID rozmówcy"</string>
+    <string name="labelCallerId">"ID dzwoniącego"</string>
     <string name="sum_hide_caller_id">"Ukrycie numeru podczas rozmów wychodzących"</string>
     <string name="sum_show_caller_id">"Numer wyświetlany w połączeniach wychodzących"</string>
     <string name="sum_default_caller_id">"Użyj domyślnych ustawień operatora, aby wyświetlać mój numer w połączeniach wychodzących"</string>
@@ -108,15 +104,15 @@
     <string name="sum_cfu_enabled_indicator">"Przekierowanie wszystkich rozmów"</string>
     <string name="sum_cfu_enabled">"Przekierowanie wszystkich rozmów do {0}"</string>
     <string name="sum_cfu_disabled">"Wyłączone"</string>
-    <string name="labelCFB">"Przekieruj, gdy zajęty"</string>
+    <string name="labelCFB">"Przekieruj gdy zajęty"</string>
     <string name="messageCFB">"Numer, gdy zajęty"</string>
     <string name="sum_cfb_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfb_disabled">"Wyłączone"</string>
-    <string name="labelCFNRy">"Przekieruj, gdy nieodebrane"</string>
+    <string name="labelCFNRy">"Przekieruj gdy nieodebrane"</string>
     <string name="messageCFNRy">"Numer, gdy nieodebrane"</string>
     <string name="sum_cfnry_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnry_disabled">"Wyłączone"</string>
-    <string name="labelCFNRc">"Przekieruj, gdy nieosiągalny"</string>
+    <string name="labelCFNRc">"Przekieruj gdy nieosiągalny"</string>
     <string name="messageCFNRc">"Numer, gdy nieosiągalny."</string>
     <string name="sum_cfnrc_enabled">"Przekierowanie do {0}"</string>
     <string name="sum_cfnrc_disabled">"Wyłączone"</string>
@@ -160,11 +156,10 @@
     <string name="roaming_disable">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_reenable_message">"Utracono łączność danych, ponieważ pozostawiono wyłączony roaming danych w sieci macierzystej."</string>
     <string name="roaming_warning">"Czy pozwolić na przesył danych w roamingu? Operator może naliczać wysokie opłaty roamingowe!"</string>
-    <string name="prefer_2g">"Używaj tylko sieci 2G"</string>
-    <string name="prefer_2g_summary">"Oszczędza baterię"</string>
+
     <string name="fdn">"Ustalone numery"</string>
     <string name="manage_fdn_list">"Ustalone numery (FDN)"</string>
-    <string name="fdn_activation">"Aktywacja usługi ustalonych numerów (FDN)"</string>
+    <string name="fdn_activation">"Aktywacja usługi ustalnych numerów (FDN)"</string>
     <string name="fdn_enabled">"Włączono tryb ustalonych numerów"</string>
     <string name="fdn_disabled">"Wyłączono tryb ustalonych numerów"</string>
     <string name="enable_fdn">"Włącz ustalone numery (FDN)"</string>
@@ -194,7 +189,7 @@
     <string name="pin2_invalid">"Błędny kod PIN2!"</string>
     <string name="fdn_invalid_number">"Numer nie może być dłuższy niż 20 cyfr."</string>
     <string name="simContacts_emptyLoading">"Czytanie z karty SIM..."</string>
-    <string name="simContacts_empty">"Brak kontaktów na karcie SIM"</string>
+    <string name="simContacts_empty">"Brak kontaktów na karcie SIM."</string>
     <string name="simContacts_title">"Wybierz kontakty do importowania"</string>
     <string name="enable_pin">"Włącz/wyłącz kod PIN do karty SIM"</string>
     <string name="change_pin">"Zmień kod PIN do karty SIM"</string>
@@ -277,3 +272,4 @@
     <string name="importingSimContacts">"Importowanie kontaktów z karty SIM"</string>
     <string name="importToFDNfromContacts">"Importuj z Kontaktów"</string>
 </resources>
+

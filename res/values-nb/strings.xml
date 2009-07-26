@@ -24,7 +24,8 @@
     <string name="fdnListLabel">"Faste nummer"</string>
     <string name="unknown">"Ukjent"</string>
     <string name="private_num">"Hemmelig nummer"</string>
-    <string name="payphone">"Telefonkiosk"</string>
+    <!-- no translation found for payphone (1931775086311769314) -->
+    <skip />
     <string name="onHold">"Parkert"</string>
     <string name="ongoing">"Aktiv samtale"</string>
     <string name="callFailed_userBusy">"Opptatt"</string>
@@ -63,8 +64,6 @@
     <string name="wait_prompt_str">"Send disse tonene?"\n</string>
     <string name="send_button">"Send"</string>
     <string name="wild_prompt_str">"Erstatt jokertegnet med"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth-høretelefoner tilkoblet."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth-høretelefoner frakoblet."</string>
     <string name="no_vm_number">"Mangler nummer til telefonsvarer"</string>
     <string name="no_vm_number_msg">"Det er ikke lagret noe telefonsvarernummer på SIM-kortet."</string>
     <string name="add_vm_number_str">"Legg til nummer"</string>
@@ -85,15 +84,15 @@
     <string name="unlock_failed">"Fikk ikke fjerne operatørlås."</string>
     <string name="unlock_success">"Operatørlåsen er fjernet."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Flere innstillinger"</string>
+
     <string name="apn_settings">"Navn på aksesspunkt"</string>
     <string name="settings_label">"Nettverksinnstillinger"</string>
     <string name="voicemail">"Telefonsvarer"</string>
     <string name="voicemail_abbreviated">"Svarer:"</string>
     <string name="networks">"Nettoperatører"</string>
     <string name="call_settings">"Samtaleinnstillinger"</string>
-    <string name="additional_call_settings">"Flere innstillinger"</string>
-    <string name="labelNwService">"Nettverkstjenester"</string>
+    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <skip />
     <string name="labelCallerId">"Nummervisning"</string>
     <string name="sum_hide_caller_id">"Skjul nummer ved utgående samtaler"</string>
     <string name="sum_show_caller_id">"Vis nummer ved utgående samtaler"</string>
@@ -160,8 +159,6 @@
     <string name="roaming_disable">"Koble til datatjenester ved roaming"</string>
     <string name="roaming_reenable_message">"Du har mistet datakonnektivitet fordi du har forlatt hjemmenettet ditt med dataroaming slått av."</string>
     <string name="roaming_warning">"Tillat dataroaming? Dette kan koste mye penger!"</string>
-    <string name="prefer_2g">"Bruk kun 2G-nettverk"</string>
-    <string name="prefer_2g_summary">"Sparer batteri"</string>
     <string name="fdn">"Faste nummer"</string>
     <string name="manage_fdn_list">"Liste over faste nummer"</string>
     <string name="fdn_activation">"Aktivering av faste nummer"</string>
@@ -270,10 +267,12 @@
     <string name="dial_emergency_empty_error">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
     <string name="dialerKeyboardHintText">"Bruk tastaturet for å ringe"</string>
     <string name="dtmfDialpadHintText">"Talltastatur for tastetoner"</string>
-    <string name="dtmfDialpadHandleLabel">"Talltastatur"</string>
+    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <skip />
     <string name="touchLockText">"Dobbeltklikk"\n"for å låse opp"</string>
     <string name="importSimEntry">"Importer"</string>
     <string name="importAllSimEntries">"Importer alle"</string>
     <string name="importingSimContacts">"Importerer kontakter fra SIM-kortet"</string>
     <string name="importToFDNfromContacts">"Importer fra kontakter"</string>
 </resources>
+

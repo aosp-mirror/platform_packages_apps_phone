@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"Набрать следующие цифры?"\n</string>
     <string name="send_button">"Отправить"</string>
     <string name="wild_prompt_str">"Заменить подстановочный символ"</string>
-    <string name="bluetooth_headset_connected">"Гарнитура Bluetooth подключена."</string>
-    <string name="bluetooth_headset_disconnected">"Гарнитура Bluetooth отключена."</string>
     <string name="no_vm_number">"Номер голосовой почты отсутствует"</string>
     <string name="no_vm_number_msg">"Номер голосовой почты не сохранен на SIM-карте."</string>
     <string name="add_vm_number_str">"Добавить номер"</string>
@@ -85,14 +83,13 @@
     <string name="unlock_failed">"Выполнить запрос на разблокирование сети не удалось."</string>
     <string name="unlock_success">"Сеть успешно разблокирована."</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"Дополнительные настройки вызовов"</string>
+
     <string name="apn_settings">"Названия точек доступа"</string>
     <string name="settings_label">"Настройки сети"</string>
     <string name="voicemail">"Голосовая почта"</string>
     <string name="voicemail_abbreviated">"Голосовая почта:"</string>
     <string name="networks">"Операторы сети"</string>
     <string name="call_settings">"Настройки вызовов"</string>
-    <string name="additional_call_settings">"Дополнительные настройки вызовов"</string>
     <string name="labelNwService">"Настройки сетевой службы"</string>
     <string name="labelCallerId">"Идентификатор звонящего"</string>
     <string name="sum_hide_caller_id">"При исходящих вызовах номер скрыт"</string>
@@ -160,8 +157,6 @@
     <string name="roaming_disable">"Подключаться для передачи данных в роуминге"</string>
     <string name="roaming_reenable_message">"Подключение для передачи данных прервано. Вы покинули домашнюю сеть, не включив роуминг для передачи данных."</string>
     <string name="roaming_warning">"Разрешить передачу данных в роуминге? Это очень дорого!"</string>
-    <string name="prefer_2g">"Использовать только сети 2G"</string>
-    <string name="prefer_2g_summary">"Экономит заряд батареи"</string>
     <string name="fdn">"Номера с фиксированным набором"</string>
     <string name="manage_fdn_list">"Список номеров с фиксированным набором"</string>
     <string name="fdn_activation">"Активация фиксированного набора"</string>
@@ -277,3 +272,4 @@
     <string name="importingSimContacts">"Идет импорт контактов с SIM-карты"</string>
     <string name="importToFDNfromContacts">"Импортировать из контактов"</string>
 </resources>
+

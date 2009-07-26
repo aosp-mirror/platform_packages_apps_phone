@@ -63,8 +63,6 @@
     <string name="wait_prompt_str">"다음 톤을 보내시겠습니까?"\n</string>
     <string name="send_button">"보내기"</string>
     <string name="wild_prompt_str">"와일드 문자를 다음으로 바꾸기"</string>
-    <string name="bluetooth_headset_connected">"Bluetooth 헤드셋이 연결되었습니다."</string>
-    <string name="bluetooth_headset_disconnected">"Bluetooth 헤드셋 연결이 끊어졌습니다."</string>
     <string name="no_vm_number">"음성메일 번호 없음"</string>
     <string name="no_vm_number_msg">"SIM 카드에 저장된 음성메일 번호가 없습니다."</string>
     <string name="add_vm_number_str">"번호 추가"</string>
@@ -85,14 +83,13 @@
     <string name="unlock_failed">"네트워크 잠금해제 요청이 실패했습니다."</string>
     <string name="unlock_success">"네트워크 잠금해제 성공"</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"추가 통화 설정"</string>
+
     <string name="apn_settings">"액세스포인트 이름"</string>
     <string name="settings_label">"네트워크 설정"</string>
     <string name="voicemail">"음성메일"</string>
     <string name="voicemail_abbreviated">"VM:"</string>
     <string name="networks">"네트워크 운영자"</string>
     <string name="call_settings">"통화 설정"</string>
-    <string name="additional_call_settings">"추가 통화 설정"</string>
     <string name="labelNwService">"네트워크 서비스 설정"</string>
     <string name="labelCallerId">"발신자 번호"</string>
     <string name="sum_hide_caller_id">"발신전화의 번호 숨김"</string>
@@ -160,8 +157,6 @@
     <string name="roaming_disable">"로밍할 때 데이터 서비스에 연결"</string>
     <string name="roaming_reenable_message">"데이터 로밍을 해제한 상태에서 홈 네트워크를 벗어났으므로 데이터 연결이 끊어졌습니다."</string>
     <string name="roaming_warning">"데이터 로밍을 허용하시겠습니까? 많은 로밍 요금이 부과될 수 있습니다."</string>
-    <string name="prefer_2g">"2G 네트워크만 사용"</string>
-    <string name="prefer_2g_summary">"배터리 절약"</string>
     <string name="fdn">"FDN(전화걸 수 있는 번호)"</string>
     <string name="manage_fdn_list">"FDN 목록"</string>
     <string name="fdn_activation">"FDN 활성화"</string>
@@ -277,3 +272,4 @@
     <string name="importingSimContacts">"SIM 연락처 가져오는 중"</string>
     <string name="importToFDNfromContacts">"연락처에서 가져오기"</string>
 </resources>
+

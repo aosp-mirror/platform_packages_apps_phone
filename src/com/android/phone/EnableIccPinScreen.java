@@ -21,9 +21,6 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.gsm.CommandException;
 import android.text.TextUtils;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -32,13 +29,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+
 /**
- * UI to enable/disable the SIM PIN.
+ * UI to enable/disable the ICC PIN.
  */
-public class EnableSimPinScreen extends Activity {
+public class EnableIccPinScreen extends Activity {
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
 
-    private static final int ENABLE_SIM_PIN_COMPLETE = 100;
+    private static final int ENABLE_ICC_PIN_COMPLETE = 100;
     private static final boolean DBG = false;
 
     private LinearLayout mPinFieldContainer;
@@ -50,7 +51,7 @@ public class EnableSimPinScreen extends Activity {
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case ENABLE_SIM_PIN_COMPLETE:
+                case ENABLE_ICC_PIN_COMPLETE:
                     AsyncResult ar = (AsyncResult) msg.obj;
                     handleResult(ar);
                     break;
@@ -68,7 +69,7 @@ public class EnableSimPinScreen extends Activity {
         setupView();
 
         mPhone = PhoneFactory.getDefaultPhone();
-        mEnable = !mPhone.getSimCard().getSimLockEnabled();
+        mEnable = !mPhone.getIccCard().getIccLockEnabled();
 
         int id = mEnable ? R.string.enable_sim_pin : R.string.disable_sim_pin;
         setTitle(getResources().getText(id));
@@ -99,11 +100,11 @@ public class EnableSimPinScreen extends Activity {
         return mPinField.getText().toString();
     }
 
-    private void enableSimPin() {
-        Message callback = Message.obtain(mHandler, ENABLE_SIM_PIN_COMPLETE);
-        if (DBG) log("enableSimPin:");
-        mPhone.getSimCard().setSimLockEnabled(mEnable, getPin(), callback);
-        if (DBG) log("enableSimPin: please wait...");
+    private void enableIccPin() {
+        Message callback = Message.obtain(mHandler, ENABLE_ICC_PIN_COMPLETE);
+        if (DBG) log("enableIccPin:");
+        mPhone.getIccCard().setIccLockEnabled(mEnable, getPin(), callback);
+        if (DBG) log("enableIccPin: please wait...");
     }
 
     private void handleResult(AsyncResult ar) {
@@ -135,11 +136,11 @@ public class EnableSimPinScreen extends Activity {
             showStatus(getResources().getText(
                     R.string.enable_in_progress));
 
-            enableSimPin();
+            enableIccPin();
         }
     };
 
     private void log(String msg) {
-        Log.d(LOG_TAG, "[EnableSimPin] " + msg);
+        Log.d(LOG_TAG, "[EnableIccPin] " + msg);
     }
 }

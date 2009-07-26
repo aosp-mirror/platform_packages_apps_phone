@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
+ 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Launcher labels -->
     <!-- Tab title -->
@@ -67,6 +67,24 @@
     <string name="callFailed_dsac_restricted_emergency">Emergency calls are restricted by access control.</string>
     <!-- In-call screen: call failure reason (Normal call denied because domain specific access control is on)-->
     <string name="callFailed_dsac_restricted_normal">Normal calls are restricted by access control.</string>
+    <!-- In-call screen: call failure reason (Phone is locked until next power cycle)-->
+    <string name="callFailed_cdma_lockedUntilPowerCycle">CDMA: Phone locked until power cycle.</string>
+    <!-- In-call screen: call failure reason (CDMA: call dropped)-->
+    <string name="callFailed_cdma_drop">CDMA: Call dropped.</string>
+    <!-- In-call screen: call failure reason (CDMA: call intercepted)-->
+    <string name="callFailed_cdma_intercept">CDMA: Call intercepted.</string>
+    <!-- In-call screen: call failure reason (CDMA reorder)-->
+    <string name="callFailed_cdma_reorder">CDMA: reorder.</string>
+    <!-- In-call screen: call failure reason (CDMA: Service Option Reject)-->
+    <string name="callFailed_cdma_SO_reject">CDMA: Service Option Reject.</string>
+    <!-- In-call screen: call failure reason (CDMA: retry order)-->
+    <string name="callFailed_cdma_retryOrder">CDMA: retry order.</string>
+    <!-- In-call screen: call failure reason (CDMA: Access failure)-->
+    <string name="callFailed_cdma_accessFailure">CDMA: Access failure.</string>
+    <!-- In-call screen: call failure reason (CDMA: Preempted)-->
+    <string name="callFailed_cdma_preempted">CDMA: Preempted.</string>
+    <!-- In-call screen: call failure reason (Only Emergency calls are possible)-->
+    <string name="callFailed_cdma_notEmergency">Only Emergency calls are possible.</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="confCall">Conference call</string>
 
@@ -79,6 +97,13 @@
     <string name="mmiCancelled">MMI code canceled</string>
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
+
+    <!-- ECBM strings -->
+    <string name="ecbm_mode_text">Emergency Call Back</string>
+    <string name="ecbm_exit_text">EXIT</string>
+    <string name="ecbm_ok_text">  OK  </string>
+    <string name="ecbm_emergency_number">Dial 911</string>
+    <string name="ecbm_instruction_text">Press button for emergency call</string>
 
     <!-- In-call menu item labels -->
     <!-- Regular in-call menu items: -->
@@ -116,6 +141,10 @@
     <string name="menuButtonHint">Press Menu for call options.</string>
     <!-- In-call screen, message just under call window when keyboard is revealed -->
     <string name="menuButtonKeyboardDialHint">"Press Menu for call options  \u2022  Use keyboard to dial"</string>
+    <!-- Incoming call menu: Label for "Answer" menu item -->
+    <string name="menu_answer">Answer</string>
+    <!-- Incoming call menu: Label for "Ignore" menu item -->
+    <string name="menu_ignore">Ignore</string>
 
     <!-- post dial -->
     <!-- In-call screen: body text of the dialog that appears when we encounter
@@ -128,12 +157,6 @@
          for a text widget that lets the user enter the digits that should
          replace the "wild" character. -->
     <string name="wild_prompt_str">Replace the wild character with</string>
-
-    <!-- bluetooth -->
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is connected -->
-    <string name="bluetooth_headset_connected">Bluetooth headset connected.</string>
-    <!-- Text displayed in a popup message (toast) when a bluetooth headset is disconnected -->
-    <string name="bluetooth_headset_disconnected">Bluetooth headset disconnected.</string>
 
     <!-- missing voicemail number -->
     <!-- Title of the "Missing voicemail number" dialog -->
@@ -185,8 +208,10 @@
 
     <!-- settings strings -->
 
-    <!-- Call settings screen, setting option name -->
-    <string name="labelMore">Additional call settings</string>
+    <!-- GSM Call settings screen, setting option name -->
+    <string name="labelGSMMore">GSM call settings</string>
+    <!-- CDM Call settings screen, setting option name -->
+    <string name="labelCDMAMore">CDMA call settings</string>
     <!-- Mobile network settings screen, setting option name -->
     <string name="apn_settings">Access Point Names</string>
     <!-- Label for the "Network settings" screen in the Settings UI -->
@@ -199,9 +224,15 @@
     <string name="networks">Network operators</string>
     <!-- Call settings screen title -->
     <string name="call_settings">Call settings</string>
-    <!-- Call settings screen, setting option name -->
-    <string name="additional_call_settings">Additional call settings</string>
-    <!-- Call settings screen, network service setting name -->
+    <!-- GSM Call settings screen, setting option name -->
+    <string name="additional_gsm_call_settings">Additional GSM call settings</string>
+    <!-- GSM-only Call settings screen, setting option name-->
+    <string name="sum_gsm_call_settings">Additional GSM only call settings</string>
+    <!-- CDMA Call settings screen, setting option name -->
+    <string name="additional_cdma_call_settings">Additional CDMA call settings</string>
+    <!-- CDMA-only Call settings screen, setting option name-->
+    <string name="sum_cdma_call_settings">Additional CDMA only call settings</string>
+    <!-- Call setting screen, nework service setting name -->
     <string name="labelNwService">Network service settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="labelCallerId">Caller ID</string>
@@ -268,7 +299,7 @@
     <!-- Toast in Call settings dialog while settings are being saved -->
     <string name="updating_settings">Updating settings\u2026</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
-    <string name="response_error">Unexpected response from network,</string>
+    <string name="response_error">Unexpected response from network.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
     <string name="exception_error">Network or SIM card error.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
@@ -340,10 +371,30 @@
     <string name="select_automatically">Select automatically</string>
     <!-- Available networks screen, setting summary text -->
     <string name="sum_select_automatically">Automatically select preferred network</string>
-    <!-- Available networks screen, toast when registering automatically -->
-    <string name="register_automatically">Registering automatically\u2026</string>
-
-    <!-- Data roaming settings -->
+    <string name="register_automatically">Automatic registration...</string>
+    <string name="preferred_network_mode_title">Network Mode</string>
+    <string name="preferred_network_mode_summary">Change the network operating mode</string>
+    <string name="preferred_network_mode_dialogtitle">Preferred network mode</string>
+    <string-array name="preferred_network_mode_choices">
+        <item>Global</item>
+        <item>EvDo only</item>
+        <item>CDMA w/o EvDo</item>
+        <item>CDMA / EvDo auto</item>
+        <item>GSM / WCDMA auto</item>
+        <item>WCDMA only</item>
+        <item>GSM only</item>
+        <item>GSM / WCDMA preferred</item>
+    </string-array>
+    <string-array name="preferred_network_mode_values">
+        <item>"7"</item>
+        <item>"6"</item>
+        <item>"5"</item>
+        <item>"4"</item>
+        <item>"3"</item>
+        <item>"2"</item>
+        <item>"1"</item>
+        <item>"0"</item>
+    </string-array>
     <!-- Mobile network settings screen, setting check box name -->
     <string name="roaming">Data roaming</string>
     <!-- Mobile network settings screen, setting summary text when check box is selected -->
@@ -356,10 +407,202 @@
     <string name="roaming_reenable_message">You have lost data connectivity because you left your home network with data roaming turned off.</string>
     <!-- Mobile network settings screen, dialog message when user selects the Data roaming check box -->
     <string name="roaming_warning">Allow data roaming? You may incur significant roaming charges!</string>
+    <string name="gsm_umts_options">GSM/UMTS Options</string>
+    <string name="cdma_options">CDMA Options</string>
+    
+    <!-- Cell broadcast SMS strings -->
+    <string name="cdma_cell_broadcast_sms">Cell Broadcast SMS</string>
+    
+    <string name="cell_broadcast_sms">Cell Broadcast SMS</string>
+    
+    <string name="enable_disable_cell_bc_sms">Cell Broadcast SMS</string>
+    <string name="cell_bc_sms_enable">Cell Broadcast SMS enabled</string>
+    <string name="cell_bc_sms_disable">Cell Broadcast SMS disabled</string>
+    
+    <string name="cb_sms_settings">Cell Broadcast SMS settings</string>
+    
+    <string name="enable_disable_emergency_broadcast">Emergency Broadcast</string>
+    <string name="emergency_broadcast_enable">Emergency Broadcast enabled</string>
+    <string name="emergency_broadcast_disable">Emergency Broadcast disabled</string>
+    
+    <string name="enable_disable_administrative">Administrative</string>
+    <string name="administrative_enable">Administrative enabled</string>
+    <string name="administrative_disable">Administrative disabled</string>
+    
+    <string name="enable_disable_maintenance">Maintenance</string>
+    <string name="maintenance_enable">Maintenance enabled</string>
+    <string name="maintenance_disable">Maintenance disabled</string>
+    
+    <string name="general_news_settings">General News</string>
+    <string name="bf_news_settings">Business and Financial News</string>
+    <string name="sports_news_settings">Sports News</string>
+    <string name="entertainment_news_settings">Entertainment News</string>
+
+    <string name="enable_disable_local">Local</string>
+    <string name="local_enable">Local news enabled</string>
+    <string name="local_disable">Local news disabled</string>
+    
+    <string name="enable_disable_regional">Regional</string>
+    <string name="regional_enable">Regional news enabled</string>
+    <string name="regional_disable">Regional news disabled</string>
+    
+    <string name="enable_disable_national">National</string>
+    <string name="national_enable">National news enabled</string>
+    <string name="national_disable">National news disabled</string>
+    
+    <string name="enable_disable_international">International</string>
+    <string name="international_enable">International news enabled</string>
+    <string name="international_disable">International news disabled</string>
+   
+    <string name="list_language_title">Language</string>
+    <string name="list_language_summary">Select the news language</string>
+    <string-array name="list_language_entries">
+        <item>English</item>
+        <item>French</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Chinese</item>
+        <item>Hebrew</item>
+    </string-array>
+    <string-array name="list_language_values">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+    </string-array>
+    <string name="list_language_dtitle">Languages</string>
+
+    <string name="enable_disable_local_weather">Local Weather</string>
+    <string name="local_weather_enable">Local Weather enabled</string>
+    <string name="local_weather_disable">Local Weather disabled</string>
+    
+    <string name="enable_disable_atr">Area Traffic Reports</string>
+    <string name="atr_enable">Area Traffic Reports enabled</string>
+    <string name="atr_disable">Area Traffic Reports disabled</string>
+    
+    <string name="enable_disable_lafs">Local Airport Flight Schedules</string>
+    <string name="lafs_enable">Local Airport Flight Schedules enabled</string>
+    <string name="lafs_disable">Local Airport Flight Schedules disabled</string>
+    
+    <string name="enable_disable_restaurants">Restaurants</string>
+    <string name="restaurants_enable">Restaurants enabled</string>
+    <string name="restaurants_disable">Restaurants disabled</string>
+    
+    <string name="enable_disable_lodgings">Lodgings</string>
+    <string name="lodgings_enable">Lodgings enabled</string>
+    <string name="lodgings_disable">Lodgings disabled</string>
+    
+    <string name="enable_disable_retail_directory">Retail Directory</string>
+    <string name="retail_directory_enable">Retail Directory enabled</string>
+    <string name="retail_directory_disable">Retail Directory disabled</string>
+    
+    <string name="enable_disable_advertisements">Advertisements</string>
+    <string name="advertisements_enable">Advertisements enabled</string>
+    <string name="advertisements_disable">Advertisements disabled</string>
+    
+    <string name="enable_disable_stock_quotes">Stock Quotes</string>
+    <string name="stock_quotes_enable">Stock Quotes enabled</string>
+    <string name="stock_quotes_disable">Stock Quotes disabled</string>
+    
+    <string name="enable_disable_eo">Employment Opportunities</string>
+    <string name="eo_enable">Employment Opportunities enabled</string>
+    <string name="eo_disable">Employment Opportunities disabled</string>
+    
+    <string name="enable_disable_mhh">Medical, Health and Hospital</string>
+    <string name="mhh_enable">Medical, Health and Hospital enabled</string>
+    <string name="mhh_disable">Medical, Health and Hospital disabled</string>
+    
+    <string name="enable_disable_technology_news">Technology News</string>
+    <string name="technology_news_enable">Technology News enabled</string>
+    <string name="technology_news_disable">Technology News disabled</string>
+    
+    <string name="enable_disable_multi_category">Multi-category</string>
+    <string name="multi_category_enable">Multi-category enabled</string>
+    <string name="multi_category_disable">Multi-category disabled</string>
+
+    <!-- GSM/UMTS Options strings -->
+    <string name="gsm_umts_network_preferences_title">GSM/UMTS Network Preferences</string>
+    <string name="gsm_umts_network_preferneces_summary">Not implemented yet! </string>
+    <string name="gsm_umts_network_preferences_dialogtitle">GSM/UMTS network preferences</string>
+    <string-array name="gsm_umts_network_preferences_choices">
+        <item>GSM/WCDMA (auto mode)</item>
+        <item>WCDMA only</item>
+        <item>GSM only</item>
+        <item>GSM/WCDA (WCDMA preferred)</item>
+    </string-array>
+    <string-array name="gsm_umts_network_preferences_values">
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+    </string-array>
+
+    <!-- CDMA System select strings -->
     <!-- Mobile network settings screen, setting option name -->
-    <string name="prefer_2g">Use only 2G networks</string>
+    <string name="cdma_system_select_title">System select</string>
     <!-- Mobile network settings screen, setting summary text -->
-    <string name="prefer_2g_summary">Saves battery</string>
+    <string name="cdma_system_select_summary">Change the cdma roaming mode</string>
+    <!-- System select settings screen title -->
+    <string name="cdma_system_select_dialogtitle">System select</string>
+    <string-array name="cdma_system_select_choices">
+        <!-- System select dialog screen, setting option name -->
+        <item>Home only</item>
+        <!-- Remove the following option "Affiliated Networks" from the option list -->
+        <!-- <item>Affiliated Networks</item> -->
+        <!-- System select dialog screen, setting option name -->
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="cdma_system_select_values">
+        <!-- Do not translate. -->
+        <item>"0"</item>
+        <!-- Remove the following value "1" which corresponds to "Affiliated Networks" above -->
+        <!-- <item>"1"</item>  -->
+        <!-- Do not translate. -->
+        <item>"2"</item>
+    </string-array>
+
+    <!-- CDMA Options strings --> 
+    <string name="cdma_roaming_mode_title">CDMA Roaming Mode</string>
+    <string name="cdma_roaming_mode_summary">Change the cdma roaming mode</string>
+    <string name="cdma_roaming_mode_dialogtitle">CDMA roaming mode</string>
+    <string-array name="cdma_roaming_mode_choices">
+        <item>Home Networks only</item>
+        <item>Affiliated Networks</item>
+        <item>Any Network</item>
+    </string-array>
+    <string-array name="cdma_roaming_mode_values">
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+    </string-array>
+    <string name="cdma_network_preferences_title">CDMA Network Preferences</string>
+    <string name="cdma_network_preferneces_summary">Not implemented yet! </string>
+    <string name="cdma_network_preferences_dialogtitle">CDMA network preferences</string>
+    <string-array name="cdma_network_preferences_choices">
+        <item>CDMA/EvDo</item>
+        <item>CDMA only</item>
+        <item>EvDo only</item>
+    </string-array>
+    <string-array name="cdma_network_preferences_values">
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+    </string-array>
+    <string name="subscription_title">CDMA Subscription TEST</string>
+    <string name="subscription_summary">Change between RUIM/SIM and NV</string>
+    <string name="subscription_dialogtitle">subscription</string>
+    <string-array name="subscription_choices">
+        <item>RUIM/SIM</item>
+        <item>NV</item>
+    </string-array>
+    <string-array name="subscription_values">
+        <item>"0"</item>
+        <item>"1"</item>
+    </string-array>   
 
     <!-- FDN settings strings -->
     <!-- Call settings screen, setting option name -->
@@ -389,6 +632,12 @@
     <string name="sum_fdn_change_pin">Change PIN for FDN access</string>
     <!-- Call settings, FDN screen, setting option name -->
     <string name="sum_fdn_manage_list">Manage phone number list</string>
+    <string name="voice_privacy">Voice Privacy</string>
+    <string name="voice_privacy_summary">Enable enhanced privacy mode</string>
+    <string name="tty_mode_title">TTY mode</string>
+    <string name="tty_mode_summary">Enable TTY mode</string>
+    <string name="tty_mode_option_title">TTY mode</string>
+    <string name="tty_mode_option_summary">Set TTY mode</string>
 
     <!-- FDN list screen: menu item label -->
     <string name="menu_add">Add contact</string>
@@ -540,12 +789,16 @@
     <string name="card_title_conf_call">Conference call</string>
     <!-- In-call screen: status label for an incoming call -->
     <string name="card_title_incoming_call">Incoming call</string>
+    <!-- In-call screen: status label for an cdma call waiting -->
+    <string name="card_title_cdma_call_waiting">Cdma callwaiting </string>
     <!-- In-call screen: status label displayed briefly after a call ends -->
     <string name="card_title_call_ended">Call ended</string>
     <!-- In-call screen: status label for call that's on hold -->
     <string name="card_title_on_hold">On hold</string>
     <!-- In-call screen: status label for a call that's in the process of hanging up -->
     <string name="card_title_hanging_up">Hanging up</string>
+    <!-- In-call screen: status label for a call that's in CDMA flash mode -->
+    <string name="card_title_in_call">In call</string>
 
     <!-- Notification strings -->
     <!-- Missed call notification label, used when there's exactly one missed call -->
@@ -564,6 +817,9 @@
     <string name="notification_on_hold">On hold</string>
     <!-- Label for the "Voicemail" notification item, when expanded. -->
     <string name="notification_voicemail_title">New voicemail</string>
+    <!-- Label for the expanded "Voicemail" notification item,
+         including a count of messages. -->
+    <string name="notification_voicemail_title_count">New voicemail (<xliff:g id="count">%d</xliff:g>)</string>
     <!-- Message displayed in the "Voicemail" notification item, allowing the user
          to dial the indicated number. -->
     <string name="notification_voicemail_text_format">Dial <xliff:g id="voicemail_number">%s</xliff:g></string>
@@ -581,6 +837,8 @@
     <string name="incall_error_call_failed">Call not sent.</string>
     <!-- In-call screen: status message displayed in a dialog when starting an MMI -->
     <string name="incall_status_dialed_mmi">Starting MMI sequence\u2026</string>
+    <!-- In-call screen: status message displayed in a dialog when starting a feature code -->
+    <string name="incall_status_dialed_fc">Starting feature code sequence\u2026</string>
     <!-- In-call screen: message displayed in an error dialog -->
     <string name="incall_error_supp_service_unknown">Unsupported service.</string>
     <!-- In-call screen: message displayed in an error dialog -->
@@ -625,7 +883,11 @@
     <!-- Text displayed on the in-call screen's "touch lock" overlay,
          instructing the user that they need to double-tap to unlock the
          screen. -->
-    <string name="touchLockText">Double-tap\nto unlock</string>
+    <string name="touchLockText">Tap twice\nto unlock</string>
+
+    <!-- Text for the onscreen "Answer" button, instructing the user that
+         they need to double-tap to answer the incoming call. -->
+    <string name="onscreenAnswerText">Tap twice\nto answer</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>
@@ -636,4 +898,48 @@
     <!-- Import a single contact entry from contacts to the SIM card -->
     <string name="importToFDNfromContacts">Import from contacts</string>
 
+    <!-- Service option entries.  -->
+    <string-array name="tty_mode_entries">
+        <item>TTY Off</item>
+        <item>TTY HCO</item>
+        <item>TTY VCO</item>
+        <item>TTY Full</item>
+    </string-array>
+
+    <!-- Do not translate. -->
+    <string-array name="tty_mode_values">
+        <!-- Do not translate. -->
+        <item>0</item>"
+        <!-- Do not translate. -->
+        <item>2</item>
+        <!-- Do not translate. -->
+        <item>3</item>
+        <!-- Do not translate. -->
+        <item>1</item>
+    </string-array>
+
+    <!-- Label for ERI text widget, shown in list of all gadgets -->
+    <string name="eri_text_label">ERI text</string>
+
+    <!-- Dtmf tones settings -->
+    <!-- Title for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_title">DTMF Tones</string>
+    <!-- Summary for the DTMF Tones options displayed in Call Settings -->
+    <string name="dtmf_tones_summary">Set the length of DTMF tones</string>
+    <!-- Options displayed as part of DTMF Tones in Call Settings -->
+    <string-array name="dtmf_tone_entries">
+      <item>Normal</item>
+      <item>Long</item>
+    </string-array>
+    <!-- Do not translate. -->
+    <string-array name="dtmf_tone_values">
+       <item>0</item>
+       <item>1</item>
+    </string-array>
+
+    <!-- Title for the dialog used to display CDMA DisplayInfo -->
+    <string name="network_message">Network Message</string>
+
 </resources>
+
+

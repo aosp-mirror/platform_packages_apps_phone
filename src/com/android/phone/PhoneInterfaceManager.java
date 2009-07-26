@@ -27,12 +27,16 @@ import android.os.Message;
 import android.os.ServiceManager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.ServiceState;
-import com.android.internal.telephony.DefaultPhoneNotifier;
-import com.android.internal.telephony.ITelephony;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.SimCard;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.internal.telephony.DefaultPhoneNotifier;
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.ITelephony;
+import com.android.internal.telephony.Phone;
+
+import static com.android.internal.telephony.RILConstants.GSM_PHONE;
+import static com.android.internal.telephony.RILConstants.CDMA_PHONE;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -366,7 +370,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean supplyPin(String pin) {
         enforceModifyPermission();
-        final CheckSimPin checkSimPin = new CheckSimPin(mPhone.getSimCard());
+        final CheckSimPin checkSimPin = new CheckSimPin(mPhone.getIccCard());
         checkSimPin.start();
         return checkSimPin.checkPin(pin);
     }
@@ -377,7 +381,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      */
     private static class CheckSimPin extends Thread {
 
-        private final SimCard mSimCard;
+        private final IccCard mSimCard;
 
         private boolean mDone = false;
         private boolean mResult = false;
@@ -388,7 +392,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         // For async handler to identify request type
         private static final int SUPPLY_PIN_COMPLETE = 100;
 
-        public CheckSimPin(SimCard simCard) {
+        public CheckSimPin(IccCard simCard) {
             mSimCard = simCard;
         }
 
@@ -534,7 +538,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 android.Manifest.permission.CONTROL_LOCATION_UPDATES, null);
         mPhone.enableLocationUpdates();
     }
-    
+
     public void disableLocationUpdates() {
         mApp.enforceCallingOrSelfPermission(
                 android.Manifest.permission.CONTROL_LOCATION_UPDATES, null);
@@ -547,16 +551,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             mApp.enforceCallingOrSelfPermission(
                     android.Manifest.permission.ACCESS_FINE_LOCATION, null);
         } catch (SecurityException e) {
-            // If we have ACCESS_FINE_LOCATION permission, skip the check 
-            // for ACCESS_COARSE_LOCATION 
-            // A failure should throw the SecurityException from 
+            // If we have ACCESS_FINE_LOCATION permission, skip the check
+            // for ACCESS_COARSE_LOCATION
+            // A failure should throw the SecurityException from
             // ACCESS_COARSE_LOCATION since this is the weaker precondition
             mApp.enforceCallingOrSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION, null);
-        }            
+        }
 
         ArrayList<NeighboringCellInfo> cells = null;
-    
+
         try {
             cells = (ArrayList<NeighboringCellInfo>) sendRequest(
                     CMD_HANDLE_NEIGHBORING_CELL, null);
@@ -598,7 +602,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp.enforceCallingOrSelfPermission(android.Manifest.permission.CALL_PHONE, null);
     }
 
-    
+
     private String createTelUrl(String number) {
         if (TextUtils.isEmpty(number)) {
             return null;
@@ -612,4 +616,43 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private void log(String msg) {
         Log.d(LOG_TAG, "[PhoneIntfMgr] " + msg);
     }
+
+    public int getActivePhoneType() {
+        if(mPhone.getPhoneName().equals("CDMA")) {
+            return CDMA_PHONE;
+        } else {
+            return GSM_PHONE;
+        }
+    }
+
+    /**
+     * Returns the CDMA ERI icon index to display
+     */
+    public int getCdmaEriIconIndex() {
+        return mPhone.getCdmaEriIconIndex();
+    }
+
+    /**
+     * Returns the CDMA ERI icon mode,
+     * 0 - ON
+     * 1 - FLASHING
+     */
+    public int getCdmaEriIconMode() {
+        return mPhone.getCdmaEriIconMode();
+    }
+
+    /**
+     * Returns the CDMA ERI text,
+     */
+    public String getCdmaEriText() {
+        return mPhone.getCdmaEriText();
+    }
+
+    /**
+     * Returns the unread count of voicemails
+     */
+    public int getVoiceMessageCount() {
+        return mPhone.getVoiceMessageCount();
+    }
+
 }

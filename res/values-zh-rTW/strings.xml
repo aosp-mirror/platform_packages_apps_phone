@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"通訊錄"</string>
+    <string name="contactsIconLabel">"聯絡人"</string>
     <string name="contactsFavoritesLabel">"我的最愛"</string>
     <string name="dialerIconLabel">"撥號"</string>
     <string name="emergencyDialerIconLabel">"緊急撥號"</string>
@@ -64,8 +64,6 @@
     <string name="wait_prompt_str">"傳送此鈴聲？"\n</string>
     <string name="send_button">"傳送"</string>
     <string name="wild_prompt_str">"取代萬用字元為"</string>
-    <string name="bluetooth_headset_connected">"藍牙耳機已連線。"</string>
-    <string name="bluetooth_headset_disconnected">"藍牙耳機已斷線。"</string>
     <string name="no_vm_number">"遺失語音信箱號碼"</string>
     <string name="no_vm_number_msg">"SIM 卡中未儲存語音信箱號碼。"</string>
     <string name="add_vm_number_str">"新增號碼"</string>
@@ -86,14 +84,13 @@
     <string name="unlock_failed">"網路解鎖失敗。"</string>
     <string name="unlock_success">"網路解鎖成功。"</string>
     <string name="imei">"IMEI"</string>
-    <string name="labelMore">"其他通話設定"</string>
+
     <string name="apn_settings">"存取點名稱 (APN)"</string>
     <string name="settings_label">"網路設定"</string>
     <string name="voicemail">"語音信箱"</string>
     <string name="voicemail_abbreviated">"語音信箱："</string>
     <string name="networks">"電信業者"</string>
     <string name="call_settings">"通話設定"</string>
-    <string name="additional_call_settings">"其他通話設定"</string>
     <!-- no translation found for labelNwService (4699970172021870983) -->
     <skip />
     <string name="labelCallerId">"本機號碼"</string>
@@ -162,8 +159,6 @@
     <string name="roaming_disable">"漫遊時連線到資料服務"</string>
     <string name="roaming_reenable_message">"由於您離開主要網路時關閉了資料漫遊，目前資料連線已中斷。"</string>
     <string name="roaming_warning">"是否允許資料漫遊？您可能會支付許多漫遊費用！"</string>
-    <string name="prefer_2g">"只使用 2G 網路"</string>
-    <string name="prefer_2g_summary">"節省電力"</string>
     <string name="fdn">"限制撥號號碼"</string>
     <string name="manage_fdn_list">"限制撥號號碼清單"</string>
     <string name="fdn_activation">"啟用限制撥號號碼"</string>
@@ -278,5 +273,6 @@
     <string name="importSimEntry">"匯入"</string>
     <string name="importAllSimEntries">"全部匯入"</string>
     <string name="importingSimContacts">"匯入 SIM 聯絡人"</string>
-    <string name="importToFDNfromContacts">"從通訊錄匯入"</string>
+    <string name="importToFDNfromContacts">"從聯絡人匯入"</string>
 </resources>
+
