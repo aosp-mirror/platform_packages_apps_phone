@@ -2663,8 +2663,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuIgnore:
                 if (DBG) log("onClick: Ignore...");
-                final CallNotifier notifier = PhoneApp.getInstance().notifier;
-                notifier.onCdmaCallWaitingReject();
+                internalHangupRingingCall();
                 break;
 
             case R.id.menuSwapCalls:

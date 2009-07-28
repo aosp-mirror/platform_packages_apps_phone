@@ -280,7 +280,7 @@ public class PhoneUtils {
 
         if (!ringing.isIdle()) {
             if (DBG) log("HANGUP ringing call");
-            hungup = hangup(ringing);
+            hungup = hangupRingingCall(phone);
         } else if (!fg.isIdle()) {
             if (DBG) log("HANGUP foreground call");
             hungup = hangup(fg);
@@ -302,14 +302,21 @@ public class PhoneUtils {
             // CDMA: Ringing call and Call waiting hangup is handled differently.
             // For Call waiting we DO NOT call the conventional hangup(call) function
             // as in CDMA we just want to hungup the Call waiting connection.
-            if (ringing.getState() == Call.State.INCOMING) {
+            Call.State state = ringing.getState();
+            if (state == Call.State.INCOMING) {
                 if (DBG) log("hangup ringing call");
                 return hangup(ringing);
-            } else {
+            } else if (state == Call.State.WAITING) {
                 if (DBG) log("hangup Call waiting call");
                 final CallNotifier notifier = PhoneApp.getInstance().notifier;
                 notifier.onCdmaCallWaitingReject();
                 return true;
+            } else {
+                // This should never happen cause hangupRingingCall should always be called
+                // if the call.isRinging() returns TRUE, which basically means that the call
+                // should either be in INCOMING or WAITING state
+                if (DBG) log("No Ringing call to hangup");
+                return false;
             }
         } else {
             // GSM:  Ringing Call and Call waiting, both are hungup by calling
@@ -327,6 +334,32 @@ public class PhoneUtils {
     static boolean hangupHoldingCall(Phone phone) {
         if (DBG) log("hangup holding call");
         return hangup(phone.getBackgroundCall());
+    }
+
+    /**
+     * Used in CDMA phones to end the complete Call session
+     * @param phone the Phone object.
+     * @return true if *any* call was successfully hung up
+     */
+    static boolean hangupRingingAndActive(Phone phone) {
+        boolean hungUpRingingCall = false;
+        boolean hungUpFgCall = false;
+        Call ringingCall = phone.getRingingCall();
+        Call fgCall = phone.getForegroundCall();
+
+        // Hang up any Ringing Call
+        if (!ringingCall.isIdle()) {
+            if (DBG) log("endCallInternal: Hang up Ringing Call");
+            hungUpRingingCall = hangupRingingCall(phone);
+        }
+
+        // Hang up any Active Call
+        if (!fgCall.isIdle()) {
+            if (DBG) log("endCallInternal: Hang up Foreground Call");
+            hungUpFgCall = hangupActiveCall(phone);
+        }
+
+        return hungUpRingingCall || hungUpFgCall;
     }
 
     /**

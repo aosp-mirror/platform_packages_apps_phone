@@ -1205,12 +1205,12 @@ public class BluetoothHandsfree {
         parser.register("+CHUP", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                if (!mForegroundCall.isIdle()) {
-                    PhoneUtils.hangup(mForegroundCall);
-                } else if (!mRingingCall.isIdle()) {
-                    PhoneUtils.hangup(mRingingCall);
+                if (!mRingingCall.isIdle()) {
+                    PhoneUtils.hangupRingingCall(mPhone);
+                } else if (!mForegroundCall.isIdle()) {
+                    PhoneUtils.hangupActiveCall(mPhone);
                 } else if (!mBackgroundCall.isIdle()) {
-                    PhoneUtils.hangup(mBackgroundCall);
+                    PhoneUtils.hangupHoldingCall(mPhone);
                 }
                 return new AtCommandResult(AtCommandResult.OK);
             }

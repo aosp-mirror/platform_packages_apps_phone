@@ -30,6 +30,7 @@ import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
@@ -133,6 +134,25 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
                 case CMD_SILENCE_RINGER:
                     silenceRingerInternal();
+                    break;
+
+                case CMD_END_CALL:
+                    request = (MainThreadRequest) msg.obj;
+                    boolean hungUp = false;
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        // CDMA: If the user presses the Power button we treat it as
+                        // ending the complete call session
+                        hungUp = PhoneUtils.hangupRingingAndActive(mPhone);
+                    } else {
+                        // GSM: End the call as per the Phone state
+                        hungUp = PhoneUtils.hangup(mPhone);
+                    }
+                    if (DBG) log("CMD_END_CALL: " + (hungUp ? "hung up!" : "no call to hang up"));
+                    request.result = hungUp;
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
                     break;
 
                 default:
@@ -268,16 +288,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return showCallScreenInternal(true, showDialpad);
     }
 
-    // TODO: Watch out: it's dangerous to call into the telephony code
-    // directly from here (we're running in a random binder thread, but
-    // the telephony code expects to always be called from the phone app
-    // main thread.)  We should instead wrap this in a sendRequest() call
-    // (just like with answerRingingCall() / answerRingingCallInternal()).
+    /**
+     * End a call based on call state
+     * @return true is a call was ended
+     */
     public boolean endCall() {
         enforceCallPermission();
-        boolean hungUp = PhoneUtils.hangup(mPhone);
-        if (DBG) log("endCall: " + (hungUp ? "hung up!" : "no call to hang up"));
-        return hungUp;
+        return (Boolean) sendRequest(CMD_END_CALL, null);
     }
 
     public void answerRingingCall() {
