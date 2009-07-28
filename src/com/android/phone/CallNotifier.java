@@ -285,6 +285,8 @@ public class CallNotifier extends Handler
                     int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
                     new InCallTonePlayer(toneToPlay).start();
                     mCdmaVoicePrivacyState = true;
+                    // Update the VP icon:
+                    NotificationMgr.getDefault().updateInCallNotification();
                 }
                 break;
 
@@ -294,6 +296,8 @@ public class CallNotifier extends Handler
                     int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
                     new InCallTonePlayer(toneToPlay).start();
                     mCdmaVoicePrivacyState = false;
+                    // Update the VP icon:
+                    NotificationMgr.getDefault().updateInCallNotification();
                 }
                 break;
 

@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.provider.CallLog.Calls;
 import android.provider.Contacts.Phones;
 import android.telephony.PhoneNumberUtils;
@@ -52,17 +53,8 @@ import com.android.internal.telephony.Phone;
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
-    private static final boolean DBG = false;
-    private static final int EVENT_ENHANCED_VP_ON  = 1;
-    private static final int EVENT_ENHANCED_VP_OFF = 2;
-
-    // **Callback for enhanced voice privacy return value
-    private Handler mEnhancedVPHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            updateInCallNotification();
-        }
-    };
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -118,8 +110,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         PhoneApp app = PhoneApp.getInstance();
         mPhone = app.phone;
-        mPhone.registerForInCallVoicePrivacyOn(mEnhancedVPHandler,  EVENT_ENHANCED_VP_ON,  null);
-        mPhone.registerForInCallVoicePrivacyOff(mEnhancedVPHandler, EVENT_ENHANCED_VP_OFF, null);
     }
 
     static void init(Context context) {
@@ -500,6 +490,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
 
         boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getCdmaVoicePrivacyState();
+        if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
+
         if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {
