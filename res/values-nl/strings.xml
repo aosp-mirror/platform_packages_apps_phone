@@ -53,11 +53,6 @@
     <string name="ussdRunning">"USSD-code uitvoeren..."</string>
     <string name="mmiCancelled">"MMI-code geannuleerd"</string>
     <string name="cancel">"Annuleren"</string>
-    <string name="ecbm_mode_text">"Terugbellen bij noodoproep"</string>
-    <string name="ecbm_exit_text">"AFSLUITEN"</string>
-    <string name="ecbm_ok_text">"OK"</string>
-    <string name="ecbm_emergency_number">"112 bellen"</string>
-    <string name="ecbm_instruction_text">"Druk op knop voor noodoproep"</string>
     <string name="menu_speaker">"Luidspreker"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Dempen"</string>

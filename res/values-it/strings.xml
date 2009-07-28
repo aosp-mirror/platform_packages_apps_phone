@@ -53,11 +53,6 @@
     <string name="ussdRunning">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled">"Codice MMI annullato"</string>
     <string name="cancel">"Annulla"</string>
-    <string name="ecbm_mode_text">"Richiamata di emergenza"</string>
-    <string name="ecbm_exit_text">"ESCI"</string>
-    <string name="ecbm_ok_text">"OK"</string>
-    <string name="ecbm_emergency_number">"Componi il 113"</string>
-    <string name="ecbm_instruction_text">"Premi il pulsante per effettuare chiamate di emergenza"</string>
     <string name="menu_speaker">"Altoparlante"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"No audio"</string>

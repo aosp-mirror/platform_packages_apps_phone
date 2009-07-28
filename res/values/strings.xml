@@ -104,13 +104,6 @@
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
 
-    <!-- ECBM strings -->
-    <string name="ecbm_mode_text">Emergency Call Back</string>
-    <string name="ecbm_exit_text">EXIT</string>
-    <string name="ecbm_ok_text">  OK  </string>
-    <string name="ecbm_emergency_number">Dial 911</string>
-    <string name="ecbm_instruction_text">Press button for emergency call</string>
-
     <!-- In-call menu item labels -->
     <!-- Regular in-call menu items: -->
     <!-- In-call menu: Label for "speakerphone" menu item -->
@@ -1012,6 +1005,41 @@
     <string name="ota_spc_failure">EXCESS SPC FAILURES</string>
     <!-- Button label within the OTA listen screen -->
     <string name="ota_call_end">End Call</string>
+
+    <!-- Emergency Callback Mode (ECM) -->
+    <string name="ecm_exit_dialog">EcmExitDialog</string>
+    <!-- ECM: Status bar notification message -->
+    <string name="phone_entered_ecm_text">Entered Emergency Callback Mode</string>
+    <!-- ECM: Notification title -->
+    <string name="phone_in_ecm_notification_title">Emergency Callback Mode</string>
+    <!-- ECM: Notification body -->
+    <plurals name="phone_in_ecm_notification_time">
+        <!-- number of minutes is one -->
+        <item quantity="one"><xliff:g id="count">%s</xliff:g> minute left</item>
+        <!-- number of minutes is not equal to one -->
+        <item quantity="other"><xliff:g id="count">%s</xliff:g> minutes left</item>
+    </plurals>
+    <!-- ECM: Dialog box message for exiting from the notifications screen -->
+    <plurals name="alert_dialog_exit_ecm">
+        <!-- number of minutes is one -->
+        <item quantity="one">The phone is in the emergency callback mode. The phone will be in this mode for <xliff:g id="count">%s</xliff:g> minute. Would you like to exit?</item>
+        <!-- number of minutes is not equal to one -->
+        <item quantity="other">The phone is in the emergency callback mode. The phone will be in this mode for <xliff:g id="count">%s</xliff:g> minutes. Would you like to exit?</item>
+    </plurals>
+    <!-- ECM: Dialog box message for exiting from any other app -->
+    <plurals name="alert_dialog_not_avaialble_in_ecm">
+        <!-- number of minutes is one -->
+        <item quantity="one">The selected action is not available while in the emergency callback mode. The phone will be in this mode for <xliff:g id="count">%s</xliff:g> minute. Would you like to exit?</item>
+        <!-- number of minutes is not equal to one -->
+        <item quantity="other">The selected action is not available while in the emergency callback mode. The phone will be in this mode for <xliff:g id="count">%s</xliff:g> minutes. Would you like to exit?</item>
+    </plurals>
+    <!-- ECM: Progress text -->
+    <string name="progress_dialog_exiting_ecm">Exiting Emergency Callback Mode</string>
+    <!-- ECM: ECM exit dialog choice -->
+    <string name="alert_dialog_yes">Yes</string>
+    <!-- ECM: ECM exit dialog choice -->
+    <string name="alert_dialog_no">No</string>
+
 </resources>
 
 

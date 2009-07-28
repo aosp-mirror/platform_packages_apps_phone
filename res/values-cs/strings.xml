@@ -53,11 +53,6 @@
     <string name="ussdRunning">"Kód USSD je spuštěn..."</string>
     <string name="mmiCancelled">"Kód MMI byl zrušen"</string>
     <string name="cancel">"Zrušit"</string>
-    <string name="ecbm_mode_text">"Tísňové zpětné volání"</string>
-    <string name="ecbm_exit_text">"UKONČIT"</string>
-    <string name="ecbm_ok_text">"OK"</string>
-    <string name="ecbm_emergency_number">"Volat 112"</string>
-    <string name="ecbm_instruction_text">"Tísňové volání stisknutím tlačítka"</string>
     <string name="menu_speaker">"Reproduktor"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Ztlumit"</string>

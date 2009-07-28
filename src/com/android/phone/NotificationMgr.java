@@ -80,7 +80,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     static final int VOICEMAIL_NOTIFICATION = 5;
     static final int CALL_FORWARD_NOTIFICATION = 6;
     static final int DATA_DISCONNECTED_ROAMING_NOTIFICATION = 7;
-    static final int ECBM_NOTIFICATION = 8;
 
     private static NotificationMgr sMe = null;
     private Phone mPhone;
@@ -426,49 +425,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // reset the number of missed calls to 0.
         mNumberMissedCalls = 0;
         mNotificationMgr.cancel(MISSED_CALL_NOTIFICATION);
-    }
-
-    /**
-     * Displays a notification for Emergency Callback Mode.
-     *
-     * @param nameOrNumber either the contact name, or the phone number if no contact
-     * @param label the label of the number if nameOrNumber is a name, null if it is a number
-     */
-    void notifyECBM() {
-        // The details of our message
-        CharSequence message = "Emergency Callback Mode is active";
-
-        // look up the notification manager service
-        mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // The PendingIntent to launch our activity if the user selects this notification
-        Intent EmcbAlarm = new Intent(Intent.ACTION_MAIN, null);
-        EmcbAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        EmcbAlarm.setClassName("com.android.phone", EmergencyCallbackMode.class.getName());
-
-        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
-                EmcbAlarm, 0);
-
-        // The ticker text, this uses a formatted string so our message could be localized
-        String tickerText = mContext.getString(R.string.ecbm_mode_text, message);
-
-        // construct the Notification object.
-         Notification ecbmNotif = new Notification(com.android.internal.R.drawable.stat_ecb_mode,
-                 tickerText, System.currentTimeMillis());
-
-        // Set the info for the views that show in the notification panel.
-        ecbmNotif.setLatestEventInfo(mContext, null, message, contentIntent);
-
-        // Note that we use R.layout.incoming_message_panel as the ID for
-        // the notification.  It could be any integer you want, but we use
-        // the convention of using a resource id for a string related to
-        // the notification.  It will always be a unique number within your
-        // application.
-        mNotificationMgr.notify(ECBM_NOTIFICATION, ecbmNotif);
-    }
-
-    void cancelEcbmNotification() {
-        mNotificationMgr.cancel(ECBM_NOTIFICATION);
     }
 
     void notifySpeakerphone() {

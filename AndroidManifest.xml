@@ -290,14 +290,6 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        
-        <!-- Emergency Callback Mode screen -->
-        <activity android:name="EmergencyCallbackMode" 
-                android:label="Emergency Call Back"
-                android:theme="@style/EmergencyCallBack"
-                android:launchMode="singleTask"
-                android:taskAffinity=":EmergencyCallbackMode">
-        </activity>
 
         <!-- call feature setting -->
         <activity android:name="CallFeaturesSetting" android:label="@string/call_settings">
@@ -327,6 +319,21 @@
                  <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+        <!-- CDMA Emergency Callback Mode -->
+        <service android:name="EmergencyCallbackModeService">
+        </service>
+
+        <activity android:name="EmergencyCallbackModeExitDialog"
+            android:label="@string/ecm_exit_dialog"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="com.android.phone.action.ACTION_SHOW_ECM_EXIT_DIALOG" />
+                <action android:name="android.intent.action.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
 

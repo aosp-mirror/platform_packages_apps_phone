@@ -53,11 +53,6 @@
     <string name="ussdRunning">"USSD 碼執行中..."</string>
     <string name="mmiCancelled">"MMI 碼已取消"</string>
     <string name="cancel">"取消"</string>
-    <string name="ecbm_mode_text">"緊急回電"</string>
-    <string name="ecbm_exit_text">"離開"</string>
-    <string name="ecbm_ok_text">"確定"</string>
-    <string name="ecbm_emergency_number">"撥打 119"</string>
-    <string name="ecbm_instruction_text">"按鈕撥打緊急電話"</string>
     <string name="menu_speaker">"喇叭"</string>
     <string name="menu_bluetooth">"藍牙"</string>
     <string name="menu_mute">"靜音"</string>

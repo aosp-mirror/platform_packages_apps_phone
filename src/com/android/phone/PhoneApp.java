@@ -1080,14 +1080,6 @@ public class PhoneApp extends Application {
 
 
     /**
-     * Send ECBM Exit Request
-     */
-
-    void sendEcbmExitRequest() {
-            mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
-    }
-
-    /**
      * @return true if a wired headset is currently plugged in.
      *
      * @see Intent.ACTION_HEADSET_PLUG (which we listen for in mReceiver.onReceive())
@@ -1248,12 +1240,17 @@ public class PhoneApp extends Application {
             } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
                 handleServiceStateChanged(intent);
             } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
-                Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
-                // Send Intend to start ECBM application
-                Intent EcbmAlarm = new Intent(Intent.ACTION_MAIN, null);
-                EcbmAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                EcbmAlarm.setClassName("com.android.phone", EmergencyCallbackMode.class.getName());
-                startActivity(EcbmAlarm);
+                if(phone.getPhoneName().equals("CDMA")) {
+                    Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
+                    // Start Emergency Callback Mode service
+                    if (intent.getBooleanExtra("phoneinECMState", false)) {
+                        context.startService(new Intent(context,
+                                EmergencyCallbackModeService.class));
+                    }
+                } else {
+                    Log.e(LOG_TAG, "Error! Emergency Callback Mode not supported for " +
+                            phone.getPhoneName() + " phones");
+                }
             }
         }
     }

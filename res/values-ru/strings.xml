@@ -62,16 +62,6 @@
     <string name="ussdRunning">"Выполняется запрос USSD…"</string>
     <string name="mmiCancelled">"Код MMI отменен"</string>
     <string name="cancel">"Отмена"</string>
-    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
-    <skip />
-    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
-    <skip />
-    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
-    <skip />
-    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
-    <skip />
-    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
-    <skip />
     <string name="menu_speaker">"Динамик"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Отключить звук"</string>

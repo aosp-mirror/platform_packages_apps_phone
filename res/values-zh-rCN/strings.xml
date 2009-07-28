@@ -62,16 +62,6 @@
     <string name="ussdRunning">"正在运行 USSD 代码..."</string>
     <string name="mmiCancelled">"MMI 码已取消"</string>
     <string name="cancel">"取消"</string>
-    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
-    <skip />
-    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
-    <skip />
-    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
-    <skip />
-    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
-    <skip />
-    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
-    <skip />
     <string name="menu_speaker">"免提"</string>
     <string name="menu_bluetooth">"蓝牙"</string>
     <string name="menu_mute">"静音"</string>
