@@ -1904,12 +1904,12 @@ public class InCallScreen extends Activity
             switch (state) {
                 case STARTED:
                     if (mPhone.getPhoneName().equals("CDMA")) {
-                        mDialer.stopDtmfTone();
+                        mDialer.stopLocalToneCdma();
                         if (mPauseInProgress) {
                             showPausePromptDialogCDMA(c, mPostDialStrAfterPause);
                         }
                         mPauseInProgress = false;
-                        mDialer.startDtmfTone(ch);
+                        mDialer.startLocalToneCdma(ch);
                     }
                     // TODO: is this needed, now that you can't actually
                     // type DTMF chars or dial directly from here?
@@ -1922,7 +1922,7 @@ public class InCallScreen extends Activity
                     //if (DBG) log("show wait prompt...");
                     String postDialStr = c.getRemainingPostDialString();
                     if (mPhone.getPhoneName().equals("CDMA")) {
-                        mDialer.stopDtmfTone();
+                        mDialer.stopLocalToneCdma();
                         showWaitPromptDialogCDMA(c, postDialStr);
                     } else {
                         showWaitPromptDialog(c, postDialStr);
@@ -1936,14 +1936,14 @@ public class InCallScreen extends Activity
 
                 case COMPLETE:
                     if (mPhone.getPhoneName().equals("CDMA")) {
-                        mDialer.stopDtmfTone();
+                        mDialer.stopLocalToneCdma();
                     }
                     break;
 
                 case PAUSE:
                     if (mPhone.getPhoneName().equals("CDMA")) {
                         mPostDialStrAfterPause = c.getRemainingPostDialString();
-                        mDialer.stopDtmfTone();
+                        mDialer.stopLocalToneCdma();
                         mPauseInProgress = true;
                     }
                     break;

@@ -1100,6 +1100,13 @@ public class DTMFTwelveKeyDialer implements
             mPhone.startDtmf(tone);
         }
 
+        startLocalToneCdma(tone);
+    }
+
+    /**
+     * Plays local tone for CDMA.
+     */
+    void startLocalToneCdma(char tone) {
         // if local tone playback is enabled, start it.
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
@@ -1151,6 +1158,13 @@ public class DTMFTwelveKeyDialer implements
             mPhone.stopDtmf();
         }
 
+        stopLocalToneCdma();
+    }
+
+    /**
+     * Stops the local dtmf tone.
+     */
+    void stopLocalToneCdma() {
         // if local tone playback is enabled, stop it.
         if (DBG) log("trying to stop local tone...");
         if (mDTMFToneEnabled) {
