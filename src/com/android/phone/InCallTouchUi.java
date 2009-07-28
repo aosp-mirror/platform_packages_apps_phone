@@ -158,6 +158,11 @@ public class InCallTouchUi extends FrameLayout
     void updateState(Phone phone) {
         if (DBG) log("updateState(" + phone + ")...");
 
+        if (mInCallScreen == null) {
+            log("- updateState: mInCallScreen has been destroyed; bailing out...");
+            return;
+        }
+
         Phone.State state = phone.getState();  // IDLE, RINGING, or OFFHOOK
 
         boolean showIncomingCallControls = false;
