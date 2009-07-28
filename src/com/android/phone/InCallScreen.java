@@ -221,6 +221,7 @@ public class InCallScreen extends Activity
     private InCallInitStatus mInCallInitialStatus;  // see onResume()
 
     private boolean mRegisteredForPhoneStates;
+    private boolean mNeedShowCallLostDialog;
 
     private Phone mPhone;
     private Call mForegroundCall;
@@ -594,6 +595,8 @@ public class InCallScreen extends Activity
     protected void onResume() {
         if (DBG) log("onResume()...");
         super.onResume();
+
+        mNeedShowCallLostDialog = false;
 
         mIsForegroundActivity = true;
 
@@ -1602,7 +1605,7 @@ public class InCallScreen extends Activity
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
 
-        int autoretrySetting = 0;
+        int autoretrySetting = AUTO_RETRY_OFF;
         if (mPhone.getPhoneName().equals("CDMA")) {
             // TODO (Moto): Needs Settings to add CALL_AUTO_RETRY to compile
             autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
@@ -1660,12 +1663,21 @@ public class InCallScreen extends Activity
                         && (cause != Connection.DisconnectCause.NORMAL)
                         && (cause != Connection.DisconnectCause.LOCAL)
                         && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
-                    if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
-                        if (autoretrySetting == AUTO_RETRY_OFF) {
-                            showCallLostDialog();
-                        }
-                    } else {
+
+                    if (mNeedShowCallLostDialog) {
+                        // Show the dialog now since the call that just failed was a retry.
                         showCallLostDialog();
+                        mNeedShowCallLostDialog = false;
+                    } else {
+                        if (autoretrySetting == AUTO_RETRY_OFF) {
+                            // Show the dialog for failed call if Auto Retry is OFF in Settings.
+                            showCallLostDialog();
+                            mNeedShowCallLostDialog = false;
+                        } else {
+                            // Set the mNeedShowCallLostDialog flag now, so we'll know to show
+                            // the dialog if *this* call fails.
+                            mNeedShowCallLostDialog = true;
+                        }
                     }
             }
         }
@@ -2365,6 +2377,8 @@ public class InCallScreen extends Activity
                 app.cdmaOtaProvisionData.isOtaCallCommitted = false;
             }
         }
+
+        mNeedShowCallLostDialog = false;
 
         // We have a valid number, so try to actually place a call:
         //make sure we pass along the URI as a reference to the contact.
