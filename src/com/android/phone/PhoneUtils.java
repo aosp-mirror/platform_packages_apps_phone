@@ -16,6 +16,7 @@
 
 package com.android.phone;
 
+import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
@@ -1276,7 +1277,10 @@ public class PhoneUtils {
 
         // Before bringing up the "incoming call" UI, force any system
         // dialogs (like "recent tasks" or the power dialog) to close first.
-        app.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        try {
+            ActivityManagerNative.getDefault().closeSystemDialogs("call");
+        } catch (RemoteException e) {
+        }
 
         // Go directly to the in-call screen.
         // (No need to do anything special if we're already on the in-call
