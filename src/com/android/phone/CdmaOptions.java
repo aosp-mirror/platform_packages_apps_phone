@@ -148,10 +148,6 @@ public class CdmaOptions extends PreferenceActivity implements Preference.OnPref
                     android.provider.Settings.Secure.CDMA_SUBSCRIPTION_MODE, 
                     preferredSubscriptionMode);
             mButtonCdmaSubscription.setValue(Integer.toString(settingsCdmaSubscriptionMode));
-        } else {
-            mButtonCdmaRoam.setEnabled(false);
-            mButtonCdmaSubscription.setEnabled(false);
-            mButtonCbSmsExpand.setEnabled(false);
         }
     }
 
@@ -167,10 +163,6 @@ public class CdmaOptions extends PreferenceActivity implements Preference.OnPref
         if (mPhone.getPhoneName().equals("CDMA")) {
             mPhone.queryCdmaRoamingPreference(
                     mHandler.obtainMessage(MyHandler.MESSAGE_QUERY_ROAMING_PREFERENCE));
-        } else {
-            mButtonCdmaRoam.setEnabled(false);
-            mButtonCdmaSubscription.setEnabled(false);
-            mButtonCbSmsExpand.setEnabled(false);
         }
     }
 

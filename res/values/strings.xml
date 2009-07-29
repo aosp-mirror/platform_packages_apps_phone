@@ -529,17 +529,20 @@
     <string name="gsm_umts_network_preferneces_summary">Not implemented yet! </string>
     <string name="gsm_umts_network_preferences_dialogtitle">GSM/UMTS network preferences</string>
     <string-array name="gsm_umts_network_preferences_choices">
-        <item>GSM/WCDMA (auto mode)</item>
-        <item>WCDMA only</item>
-        <item>GSM only</item>
-        <item>GSM/WCDA (WCDMA preferred)</item>
+        <item>3G preferred</item>
+        <item>2G only</item>
+        <item>3G only</item>
     </string-array>
     <string-array name="gsm_umts_network_preferences_values">
         <item>"0"</item>
         <item>"1"</item>
         <item>"2"</item>
-        <item>"3"</item>
     </string-array>
+
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="prefer_2g">Use only 2G networks</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="prefer_2g_summary">Saves battery</string>
 
     <!-- CDMA System select strings -->
     <!-- Mobile network settings screen, setting option name -->
@@ -583,14 +586,14 @@
     <string name="cdma_network_preferneces_summary">Not implemented yet! </string>
     <string name="cdma_network_preferences_dialogtitle">CDMA network preferences</string>
     <string-array name="cdma_network_preferences_choices">
-        <item>CDMA/EvDo</item>
-        <item>CDMA only</item>
+        <item>CDMA/EvDo auto</item>
+        <item>CDMA w/o EvDo</item>
         <item>EvDo only</item>
     </string-array>
     <string-array name="cdma_network_preferences_values">
-        <item>"0"</item>
-        <item>"1"</item>
-        <item>"2"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
     </string-array>
     <string name="subscription_title">CDMA Subscription TEST</string>
     <string name="subscription_summary">Change between RUIM/SIM and NV</string>

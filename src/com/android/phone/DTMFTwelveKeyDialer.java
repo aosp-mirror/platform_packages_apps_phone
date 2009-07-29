@@ -1108,8 +1108,7 @@ public class DTMFTwelveKeyDialer implements
                 } else {
                     if (DBG) log("starting local tone " + tone);
 
-                    // Stop any playing tone and start the new tone.
-                    stopToneCdma();
+                    // Start the new tone.
                     mToneGenerator.startTone(mToneMap.get(tone));
 
                     // Stopped pending and Started new STOP_DTMF_TONE timer.
@@ -1135,7 +1134,7 @@ public class DTMFTwelveKeyDialer implements
             } else {
                 String dtmfStr = Character.toString(dtmfDigit);
                 Log.i(LOG_TAG,"dtmfsent = " + dtmfStr);
-                mPhone.sendBurstDtmf(dtmfStr, mHandler.obtainMessage(DTMF_SEND_CNF));
+                mPhone.sendBurstDtmf(dtmfStr, 0, 0, mHandler.obtainMessage(DTMF_SEND_CNF));
                 // Set flag to indicate wait for Telephony confirmation.
                 mDTMFBurstCnfPending = true;
             }

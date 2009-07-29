@@ -17,159 +17,454 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"Контакты"</string>
     <string name="contactsFavoritesLabel">"Избранное"</string>
-    <string name="dialerIconLabel">"Набор номеров"</string>
-    <string name="emergencyDialerIconLabel">"Набор экстренных номеров"</string>
+    <string name="dialerIconLabel">"Телефон"</string>
+    <string name="emergencyDialerIconLabel">"Номера экстренных вызовов"</string>
     <string name="phoneIconLabel">"Телефон"</string>
-    <string name="recentCallsIconLabel">"Журнал вызовов"</string>
-    <string name="fdnListLabel">"Список номеров с фиксированным набором"</string>
-    <string name="unknown">"Неизвестно"</string>
-    <string name="private_num">"Частный номер"</string>
+    <string name="recentCallsIconLabel">"Список вызовов"</string>
+    <string name="fdnListLabel">"Список номеров ограниченного набора"</string>
+    <string name="unknown">"Неизвестный абонент"</string>
+    <string name="private_num">"Скрытый номер"</string>
     <string name="payphone">"Телефон-автомат"</string>
-    <string name="onHold">"Удерживается"</string>
-    <string name="ongoing">"Текущий вызов"</string>
+    <string name="onHold">"Ждет ответа"</string>
+    <string name="ongoing">"Активный вызов"</string>
     <string name="callFailed_userBusy">"Линия занята"</string>
     <string name="callFailed_congestion">"Сеть занята"</string>
     <string name="callFailed_noSignal">"Нет сигнала"</string>
-    <string name="callFailed_limitExceeded">"Превышен предел ACM"</string>
-    <string name="callFailed_powerOff">"Радиосвязь отключена"</string>
-    <string name="callFailed_simError">"Нет SIM-карты либо ошибка SIM-карты"</string>
-    <string name="callFailed_outOfService">"Вне зоны обслуживания"</string>
-    <string name="callFailed_fdn_only">"Исходящие вызовы ограничены фиксированным набором."</string>
-    <string name="callFailed_cb_enabled">"Пока включен запрет вызовов, выполнять исходящие вызовы невозможно."</string>
+    <string name="callFailed_limitExceeded">"Превышен лимит ACM"</string>
+    <string name="callFailed_powerOff">"Радио выключено"</string>
+    <string name="callFailed_simError">"SIM-карта не установлена или ошибка SIM-карты"</string>
+    <string name="callFailed_outOfService">"Вне зоны действия сети"</string>
+    <string name="callFailed_fdn_only">"Разрешены только исходящие вызовы из списка ограниченного набора."</string>
+    <string name="callFailed_cb_enabled">"Если включена функция запрета вызовов, невозможно осуществлять исходящие вызовы."</string>
     <string name="callFailed_dsac_restricted">"Все вызовы запрещены настройками доступа."</string>
     <string name="callFailed_dsac_restricted_emergency">"Экстренные вызовы запрещены настройками доступа."</string>
     <string name="callFailed_dsac_restricted_normal">"Обычные вызовы запрещены настройками доступа."</string>
-    <string name="confCall">"Конференц-связь"</string>
-    <string name="mmiStarted">"Запущен код MMI"</string>
-    <string name="ussdRunning">"Выполняется код USSD…"</string>
+    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
+    <skip />
+    <string name="confCall">"Конференц-вызов"</string>
+    <string name="mmiStarted">"Код MMI запущен"</string>
+    <string name="ussdRunning">"Выполняется запрос USSD…"</string>
     <string name="mmiCancelled">"Код MMI отменен"</string>
     <string name="cancel">"Отмена"</string>
+    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
+    <skip />
+    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
+    <skip />
+    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
+    <skip />
+    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
+    <skip />
+    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
+    <skip />
     <string name="menu_speaker">"Динамик"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Отключить звук"</string>
-    <string name="menu_hold">"Удержать"</string>
+    <string name="menu_hold">"Удерживать"</string>
     <string name="menu_endCall">"Завершить вызов"</string>
-    <string name="menu_swapCalls">"Поменять вызовы"</string>
+    <string name="menu_swapCalls">"Переключиться на другой вызов"</string>
     <string name="menu_mergeCalls">"Объединить вызовы"</string>
     <string name="menu_addCall">"Добавить вызов"</string>
     <string name="menu_manageConference">"Управление конференц-связью"</string>
-    <string name="menu_showDialpad">"Показать панель набора"</string>
-    <string name="menu_hideDialpad">"Скрыть панель набора"</string>
-    <string name="menu_answerAndHold">"Удержать текущий вызов"\n"и ответить"</string>
-    <string name="menu_answerAndEnd">"Завершить текущий вызов"\n"и ответить"</string>
+    <string name="menu_showDialpad">"Показать номеронабиратель"</string>
+    <string name="menu_hideDialpad">"Скрыть номеронабиратель"</string>
+    <string name="menu_answerAndHold">"Поставить текущий вызов на удержание"\n"и ответить"</string>
+    <string name="menu_answerAndEnd">"Завершить текущий вызов "\n"и ответить"</string>
     <string name="ok">"ОК"</string>
-    <string name="menuButtonHint">"Для выбора параметров вызова нажмите Menu."</string>
-    <string name="menuButtonKeyboardDialHint">"Для выбора параметров вызова нажмите Menu  •  Для набора воспользуйтесь клавиатурой"</string>
-    <string name="wait_prompt_str">"Набрать следующие цифры?"\n</string>
-    <string name="send_button">"Отправить"</string>
-    <string name="wild_prompt_str">"Заменить подстановочный символ"</string>
-    <string name="no_vm_number">"Номер голосовой почты отсутствует"</string>
-    <string name="no_vm_number_msg">"Номер голосовой почты не сохранен на SIM-карте."</string>
+    <string name="menuButtonHint">"Нажмите кнопку \"Меню\", чтобы просмотреть варианты действий."</string>
+    <string name="menuButtonKeyboardDialHint">"Нажмите кнопку \"Меню\", чтобы увидеть варианты действий.  •  Используйте клавиатуру для набора номера"</string>
+    <!-- no translation found for menu_answer (116686205042231098) -->
+    <skip />
+    <!-- no translation found for menu_ignore (2112030835852537344) -->
+    <skip />
+    <string name="wait_prompt_str">"Отправить следующие тоны?"\n</string>
+    <string name="send_button">"Позвонить"</string>
+    <string name="wild_prompt_str">"Заменить универсальный символ на"</string>
+    <string name="no_vm_number">"Не указан номер голосовой почты"</string>
+    <string name="no_vm_number_msg">"На SIM-карте нет ни одного номера голосовой почты."</string>
     <string name="add_vm_number_str">"Добавить номер"</string>
     <string name="dialer_emptyListWorking">"Идет загрузка…"</string>
-    <string name="enterPin">"Чтобы разблокировать SIM-карту, введите код PIN:"</string>
+    <string name="enterPin">"Чтобы разблокировать SIM-карту, введите PIN."</string>
     <string name="pinUnlocked">"SIM-карта разблокирована"</string>
     <string name="enterNewPin">"Новый PIN SIM-карты"</string>
-    <string name="verifyNewPin">"Еще раз введите новый PIN-код SIM-карты для подтверждения"</string>
-    <string name="verifyFailed">"Указанные PIN-коды SIM-карты не совпадают. Повторите попытку."</string>
-    <string name="enterPuk">"Чтобы разблокировать SIM-карту, введите код PUK"</string>
-    <string name="badPuk">"Неверный код PUK!"</string>
+    <string name="verifyNewPin">"Для подтверждения введите новый PIN SIM-карты"</string>
+    <string name="verifyFailed">"Введенные коды PIN SIM-карты не совпадают. Повторите попытку."</string>
+    <string name="enterPuk">"Введите код PUK, чтобы разблокировать SIM-карту"</string>
+    <string name="badPuk">"Неверный код PUK"</string>
     <string name="buttonTxtContinue">"Продолжить"</string>
-    <string name="puk_unlocked">"Ваша SIM-карта разблокирована. Идет разблокирование телефона…"</string>
-    <string name="label_ndp">"PIN SIM-карты для разблокирования сети"</string>
+    <string name="puk_unlocked">"SIM-карта разблокирована. Осуществляется разблокировка телефона..."</string>
+    <string name="label_ndp">"PIN для разблокировки сети SIM-карты"</string>
     <string name="sim_ndp_unlock_text">"Разблокировать"</string>
     <string name="sim_ndp_dismiss_text">"Закрыть"</string>
-    <string name="requesting_unlock">"Идет запрос на разблокирование сети…"</string>
-    <string name="unlock_failed">"Выполнить запрос на разблокирование сети не удалось."</string>
-    <string name="unlock_success">"Сеть успешно разблокирована."</string>
+    <string name="requesting_unlock">"Запрос разблокировки сети..."</string>
+    <string name="unlock_failed">"Запрос на разблокировку сети не выполнен."</string>
+    <string name="unlock_success">"Разблокировка сети успешно завершена."</string>
     <string name="imei">"IMEI"</string>
-
-    <string name="apn_settings">"Названия точек доступа"</string>
+    <!-- no translation found for labelGSMMore (5930842194056092106) -->
+    <skip />
+    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
+    <skip />
+    <string name="apn_settings">"Точки доступа"</string>
     <string name="settings_label">"Настройки сети"</string>
     <string name="voicemail">"Голосовая почта"</string>
-    <string name="voicemail_abbreviated">"Голосовая почта:"</string>
-    <string name="networks">"Операторы сети"</string>
+    <string name="voicemail_abbreviated">"ГП:"</string>
+    <string name="networks">"Операторы связи"</string>
     <string name="call_settings">"Настройки вызовов"</string>
+    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
+    <skip />
+    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
+    <skip />
+    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
+    <skip />
+    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
+    <skip />
     <string name="labelNwService">"Настройки сетевой службы"</string>
-    <string name="labelCallerId">"Идентификатор звонящего"</string>
-    <string name="sum_hide_caller_id">"При исходящих вызовах номер скрыт"</string>
-    <string name="sum_show_caller_id">"При исходящих вызовах номер отображается"</string>
-    <string name="sum_default_caller_id">"Использовать для отображения моего номера при исходящих вызовах настройки оператора по умолчанию"</string>
-    <string name="labelCW">"Ожидание вызова"</string>
-    <string name="sum_cw_enabled">"Во время вызова уведомлять меня о входящих звонках"</string>
-    <string name="sum_cw_disabled">"Во время вызова уведомлять меня о входящих звонках"</string>
-    <string name="call_forwarding_settings">"Настройки перенаправления вызовов"</string>
-    <string name="labelCF">"Перенаправление вызовов"</string>
-    <string name="labelCFU">"Всегда перенаправлять"</string>
+    <string name="labelCallerId">"АОН"</string>
+    <string name="sum_hide_caller_id">"Скрывать номер при исходящих вызовах"</string>
+    <string name="sum_show_caller_id">"Номер, отображающийся при исходящих вызовах"</string>
+    <string name="sum_default_caller_id">"При исходящих вызовах использовать для отображения моего номера настройки, предоставляемые оператором по умолчанию"</string>
+    <string name="labelCW">"Параллельный вызов"</string>
+    <string name="sum_cw_enabled">"Извещать меня о входящих вызовах во время разговора"</string>
+    <string name="sum_cw_disabled">"Извещать меня о входящих вызовах во время разговора"</string>
+    <string name="call_forwarding_settings">"Настройки переадресации вызова"</string>
+    <string name="labelCF">"Переадресация вызова"</string>
+    <string name="labelCFU">"Переадресовать всегда"</string>
     <string name="messageCFU">"Всегда использовать этот номер"</string>
-    <string name="sum_cfu_enabled_indicator">"Перенаправление всех вызовов"</string>
-    <string name="sum_cfu_enabled">"Перенаправление всех вызовов на номер {0}"</string>
+    <string name="sum_cfu_enabled_indicator">"Переадресация всех вызовов"</string>
+    <string name="sum_cfu_enabled">"Переадресация всех вызовов на номер \\\\{0\\\\}"</string>
     <string name="sum_cfu_disabled">"Отключено"</string>
-    <string name="labelCFB">"Перенаправлять, если занято"</string>
-    <string name="messageCFB">"Номер, если занято"</string>
-    <string name="sum_cfb_enabled">"Перенаправление на номер \\\\{0\\\\}"</string>
+    <string name="labelCFB">"Переадресовать вызов, если абонент занят"</string>
+    <string name="messageCFB">"Номер, использующийся, когда линия занята"</string>
+    <string name="sum_cfb_enabled">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled">"Отключено"</string>
-    <string name="labelCFNRy">"Перенаправление при отсутствии ответа"</string>
-    <string name="messageCFNRy">"Номер при отсутствии ответа"</string>
-    <string name="sum_cfnry_enabled">"Перенаправление на номер \\\\{0\\\\}"</string>
+    <string name="labelCFNRy">"Переадресовать, если абонент не отвечает"</string>
+    <string name="messageCFNRy">"Номер для переадресации при отсутствии ответа"</string>
+    <string name="sum_cfnry_enabled">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled">"Отключено"</string>
-    <string name="labelCFNRc">"Перенаправление при отсутствии доступа"</string>
-    <string name="messageCFNRc">"Номер при отсутствии доступа"</string>
-    <string name="sum_cfnrc_enabled">"Перенаправление на номер \\\\{0\\\\}"</string>
+    <string name="labelCFNRc">"Переадресовать, если абонент недоступен"</string>
+    <string name="messageCFNRc">"Номер для случаев, если абонент недоступен"</string>
+    <string name="sum_cfnrc_enabled">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled">"Отключено"</string>
     <string name="updating_title">"Настройки вызовов"</string>
-    <string name="error_updating_title">"Ошибка настроек вызовов"</string>
-    <string name="reading_settings">"Идет чтение настроек…"</string>
-    <string name="updating_settings">"Идет обновление настроек…"</string>
-    <string name="response_error">"Неожиданный ответ из сети,"</string>
+    <string name="error_updating_title">"Ошибка настройки вызовов"</string>
+    <string name="reading_settings">"Чтение настроек…"</string>
+    <string name="updating_settings">"Обновление настроек…"</string>
+    <!-- no translation found for response_error (6674110501330139405) -->
+    <skip />
     <string name="exception_error">"Ошибка сети или SIM-карты."</string>
-    <string name="radio_off_error">"Перед просмотром этих настроек включите радиосвязь."</string>
+    <string name="radio_off_error">"Чтобы увидеть эти настройки, нужно включить радио."</string>
     <string name="close_dialog">"ОК"</string>
     <string name="enable">"Включить"</string>
     <string name="disable">"Отключить"</string>
     <string name="change_num">"Обновить"</string>
   <string-array name="clir_display_values">
-    <item>"Сеть по умолчанию"</item>
+    <item>"Настройки сети по умолчанию"</item>
     <item>"Скрыть номер"</item>
-    <item>"Показать номер"</item>
+    <item>"Показывать номер"</item>
   </string-array>
     <string name="vm_save_number">"Сохранить номер голосовой почты"</string>
     <string name="vm_changed">"Номер голосовой почты изменен."</string>
-    <string name="vm_change_failed">"Изменить номер голосовой почты не удалось."</string>
-    <string name="no_change">"Настройки не изменены."</string>
+    <string name="vm_change_failed">"Не удалось изменить номер голосовой почты."</string>
+    <string name="no_change">"Номер не изменен."</string>
     <string name="sum_voicemail">"Задать номер голосовой почты"</string>
-    <string name="mobile_networks">"Настройки мобильной сети"</string>
+    <string name="mobile_networks">"Настройки сотовой сети"</string>
     <string name="label_available">"Доступные сети"</string>
-    <string name="load_networks_progress">"Идет поиск…"</string>
-    <string name="empty_networks_list">"Сеть не найдена."</string>
-    <string name="search_networks">"Искать сети"</string>
-    <string name="network_query_error">"Ошибка при поиске сетей."</string>
+    <string name="load_networks_progress">"Поиск…"</string>
+    <string name="empty_networks_list">"Сети не найдены."</string>
+    <string name="search_networks">"Поиск сетей"</string>
+    <string name="network_query_error">"Ошибка поиска сетей."</string>
     <string name="register_on_network">"Регистрация в сети <xliff:g id="NETWORK">%s</xliff:g>…"</string>
-    <string name="not_allowed">"Ваша SIM-карта не позволяет подключиться к этой сети."</string>
-    <string name="registration_done">"Регистрация в сети выполнена."</string>
-    <string name="sum_carrier_select">"Выбрать оператора сети"</string>
-    <string name="sum_search_networks">"Искать все доступные сети"</string>
+    <string name="not_allowed">"Установленная SIM-карта не может подключиться к этой сети."</string>
+    <string name="registration_done">"Регистрация в сети завершена."</string>
+    <string name="sum_carrier_select">"Выберите оператора связи"</string>
+    <string name="sum_search_networks">"Поиск всех доступных сетей"</string>
     <string name="select_automatically">"Выбирать автоматически"</string>
-    <string name="sum_select_automatically">"Автоматически выбирать предпочитаемую сеть"</string>
-    <string name="register_automatically">"Идет автоматическая регистрация…"</string>
-    <string name="roaming">"Передача данных в роуминге"</string>
-    <string name="roaming_enable">"Подключаться для передачи данных в роуминге"</string>
-    <string name="roaming_disable">"Подключаться для передачи данных в роуминге"</string>
-    <string name="roaming_reenable_message">"Подключение для передачи данных прервано. Вы покинули домашнюю сеть, не включив роуминг для передачи данных."</string>
-    <string name="roaming_warning">"Разрешить передачу данных в роуминге? Это очень дорого!"</string>
-    <string name="fdn">"Номера с фиксированным набором"</string>
-    <string name="manage_fdn_list">"Список номеров с фиксированным набором"</string>
-    <string name="fdn_activation">"Активация фиксированного набора"</string>
-    <string name="fdn_enabled">"Номера с фиксированным набором включены"</string>
-    <string name="fdn_disabled">"Номера с фиксированным набором отключены"</string>
-    <string name="enable_fdn">"Включить фиксированный набор"</string>
-    <string name="disable_fdn">"Отключить фиксированный набор"</string>
+    <string name="sum_select_automatically">"Автоматически выбирать предпочтительную сеть"</string>
+    <!-- no translation found for register_automatically (6272031189219101172) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
+    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
+    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
+    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
+    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
+    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
+    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
+    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
+    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
+    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
+    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
+    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
+    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
+    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
+    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
+    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
+    <string name="roaming">"Интернет-роуминг"</string>
+    <string name="roaming_enable">"Подключаться к службам передачи данных в роуминге"</string>
+    <string name="roaming_disable">"Подключаться к службам передачи данных в роуминге"</string>
+    <string name="roaming_reenable_message">"Передача данных прекращена, потому что телефон находится за пределами домашней сети, а интернет-роуминг выключен."</string>
+    <string name="roaming_warning">"Разрешить интернет-роуминг? Возможны высокие расходы за использование роуминга."</string>
+    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
+    <skip />
+    <!-- no translation found for cdma_options (4016822858172249884) -->
+    <skip />
+    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
+    <skip />
+    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
+    <skip />
+    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
+    <skip />
+    <!-- no translation found for cb_sms_settings (651715019785107312) -->
+    <skip />
+    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
+    <skip />
+    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
+    <skip />
+    <!-- no translation found for administrative_enable (1750086122962032235) -->
+    <skip />
+    <!-- no translation found for administrative_disable (8433273857248698539) -->
+    <skip />
+    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
+    <skip />
+    <!-- no translation found for maintenance_enable (8566636458770971189) -->
+    <skip />
+    <!-- no translation found for maintenance_disable (7340189100885066077) -->
+    <skip />
+    <!-- no translation found for general_news_settings (4968779723948432978) -->
+    <skip />
+    <!-- no translation found for bf_news_settings (3935593091894685267) -->
+    <skip />
+    <!-- no translation found for sports_news_settings (7649399631270052835) -->
+    <skip />
+    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
+    <skip />
+    <!-- no translation found for enable_disable_local (7890281063123416120) -->
+    <skip />
+    <!-- no translation found for local_enable (6370463247609136359) -->
+    <skip />
+    <!-- no translation found for local_disable (4405691986943795798) -->
+    <skip />
+    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
+    <skip />
+    <!-- no translation found for regional_enable (4434680415437834759) -->
+    <skip />
+    <!-- no translation found for regional_disable (5359325527213850077) -->
+    <skip />
+    <!-- no translation found for enable_disable_national (236278090206880734) -->
+    <skip />
+    <!-- no translation found for national_enable (1172443648912246952) -->
+    <skip />
+    <!-- no translation found for national_disable (326018148178601166) -->
+    <skip />
+    <!-- no translation found for enable_disable_international (7535348799604565592) -->
+    <skip />
+    <!-- no translation found for international_enable (5855356769925044927) -->
+    <skip />
+    <!-- no translation found for international_disable (2850648591041088931) -->
+    <skip />
+    <!-- no translation found for list_language_title (2841683501919760043) -->
+    <skip />
+    <!-- no translation found for list_language_summary (8109546531071241601) -->
+    <skip />
+    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
+    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
+    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
+    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
+    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
+    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
+    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
+    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
+    <!-- no translation found for list_language_values:1 (289708030346890334) -->
+    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
+    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
+    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
+    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
+    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
+    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
+    <skip />
+    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
+    <skip />
+    <!-- no translation found for local_weather_enable (6199315114382448922) -->
+    <skip />
+    <!-- no translation found for local_weather_disable (2510158089142626480) -->
+    <skip />
+    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
+    <skip />
+    <!-- no translation found for atr_enable (5541757457789181799) -->
+    <skip />
+    <!-- no translation found for atr_disable (7085558154727596455) -->
+    <skip />
+    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
+    <skip />
+    <!-- no translation found for lafs_enable (2791978667205137052) -->
+    <skip />
+    <!-- no translation found for lafs_disable (2391212397725495350) -->
+    <skip />
+    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
+    <skip />
+    <!-- no translation found for restaurants_enable (5137657479469118847) -->
+    <skip />
+    <!-- no translation found for restaurants_disable (3678480270938424092) -->
+    <skip />
+    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
+    <skip />
+    <!-- no translation found for lodgings_enable (3230042508992850322) -->
+    <skip />
+    <!-- no translation found for lodgings_disable (3387879742320682391) -->
+    <skip />
+    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
+    <skip />
+    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
+    <skip />
+    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
+    <skip />
+    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
+    <skip />
+    <!-- no translation found for advertisements_enable (2050305021264683786) -->
+    <skip />
+    <!-- no translation found for advertisements_disable (8350985908788707935) -->
+    <skip />
+    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
+    <skip />
+    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
+    <skip />
+    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
+    <skip />
+    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
+    <skip />
+    <!-- no translation found for eo_enable (8623559062015685813) -->
+    <skip />
+    <!-- no translation found for eo_disable (3863812478090907609) -->
+    <skip />
+    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
+    <skip />
+    <!-- no translation found for mhh_enable (3949276822735205799) -->
+    <skip />
+    <!-- no translation found for mhh_disable (4834280270664925123) -->
+    <skip />
+    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
+    <skip />
+    <!-- no translation found for technology_news_enable (7995209394210455181) -->
+    <skip />
+    <!-- no translation found for technology_news_disable (5483490380561851946) -->
+    <skip />
+    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
+    <skip />
+    <!-- no translation found for multi_category_enable (1179299804641721768) -->
+    <skip />
+    <!-- no translation found for multi_category_disable (880104702904139505) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
+    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
+    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
+    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
+    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
+    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
+    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
+    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
+    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
+    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
+    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
+    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
+    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
+    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
+    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
+    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
+    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
+    <!-- no translation found for subscription_title (5813493350326486) -->
+    <skip />
+    <!-- no translation found for subscription_summary (8435941016743418124) -->
+    <skip />
+    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
+    <skip />
+    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
+    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
+    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
+    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
+    <string name="fdn">"Ограниченный набор"</string>
+    <string name="manage_fdn_list">"Список номеров ограниченного набора"</string>
+    <string name="fdn_activation">"Активация ограниченного набора"</string>
+    <string name="fdn_enabled">"Ограниченный набор включен"</string>
+    <string name="fdn_disabled">"Ограниченный набор отключен"</string>
+    <string name="enable_fdn">"Включить ограниченный набор"</string>
+    <string name="disable_fdn">"Отключить ограниченный набор"</string>
     <string name="change_pin2">"Изменить PIN2"</string>
-    <string name="enable_fdn_ok">"Отключить фиксированный набор"</string>
-    <string name="disable_fdn_ok">"Включить фиксированный набор"</string>
-    <string name="sum_fdn">"Управление номерами с фиксированным набором"</string>
-    <string name="sum_fdn_change_pin">"Изменить PIN для доступа к фиксированному набору"</string>
+    <string name="enable_fdn_ok">"Отключить ограниченный набор"</string>
+    <string name="disable_fdn_ok">"Включить ограниченный набор"</string>
+    <string name="sum_fdn">"Управление номерами ограниченного набора"</string>
+    <string name="sum_fdn_change_pin">"Изменить PIN для доступа к ограниченному набору"</string>
     <string name="sum_fdn_manage_list">"Управление списком телефонных номеров"</string>
+    <!-- no translation found for voice_privacy (7803023024169078619) -->
+    <skip />
+    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
+    <skip />
+    <!-- no translation found for tty_mode_title (3171521903490559138) -->
+    <skip />
+    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
+    <skip />
     <string name="menu_add">"Добавить контакт"</string>
     <string name="menu_edit">"Изменить контакт"</string>
     <string name="menu_delete">"Удалить контакт"</string>
@@ -177,99 +472,123 @@
     <string name="name">"Имя"</string>
     <string name="number">"Номер"</string>
     <string name="save">"Сохранить"</string>
-    <string name="add_fdn_contact">"Добавление контакта с фиксированным набором"</string>
-    <string name="adding_fdn_contact">"Добавление фиксированного набора для контакта…"</string>
-    <string name="fdn_contact_added">"Добавлен фиксированный набор для контакта."</string>
-    <string name="edit_fdn_contact">"Изменение контакта с фиксированным набором"</string>
-    <string name="updating_fdn_contact">"Обновление контакта с фиксированным набором…"</string>
-    <string name="fdn_contact_updated">"Контакт с фиксированным набором обновлен."</string>
-    <string name="delete_fdn_contact">"Удаление фиксированного набора для контакта"</string>
-    <string name="deleting_fdn_contact">"Удаление фиксированного набора для контакта…"</string>
-    <string name="fdn_contact_deleted">"Фиксированный набор для контакта удален."</string>
-    <string name="pin2_invalid">"Неверный PIN2!"</string>
-    <string name="fdn_invalid_number">"Номер не может быть больше 20 цифр."</string>
-    <string name="simContacts_emptyLoading">"Идет чтение с SIM-карты…"</string>
-    <string name="simContacts_empty">"На вашей SIM-карте нет контактов."</string>
-    <string name="simContacts_title">"Выбор контактов для импорта"</string>
-    <string name="enable_pin">"Включение/отключение PIN SIM-карты"</string>
-    <string name="change_pin">"Изменение PIN SIM-карты"</string>
+    <string name="add_fdn_contact">"Добавить контакт ограниченного набора"</string>
+    <string name="adding_fdn_contact">"Добавление контакта для ограниченного набора..."</string>
+    <string name="fdn_contact_added">"Контакт для ограниченного набора добавлен."</string>
+    <string name="edit_fdn_contact">"Изменить контакт ограниченного набора"</string>
+    <string name="updating_fdn_contact">"Обновление контакта для ограниченного набора..."</string>
+    <string name="fdn_contact_updated">"Контакт для ограниченного набора обновлен."</string>
+    <string name="delete_fdn_contact">"Удалить контакт ограниченного набора"</string>
+    <string name="deleting_fdn_contact">"Удаление контакта для ограниченного набора..."</string>
+    <string name="fdn_contact_deleted">"Контакт для ограниченного набора удален."</string>
+    <string name="pin2_invalid">"Недействительный PIN2"</string>
+    <string name="fdn_invalid_number">"Длина номера не может превышать 20 знаков."</string>
+    <string name="simContacts_emptyLoading">"Считывание с SIM-карты…"</string>
+    <string name="simContacts_empty">"На SIM-карте нет контактов."</string>
+    <string name="simContacts_title">"Выберите контакты для импорта"</string>
+    <string name="enable_pin">"Включить/отключить запрос PIN SIM-карты"</string>
+    <string name="change_pin">"Изменить PIN SIM-карты"</string>
     <string name="enter_pin_text">"PIN SIM-карты:"</string>
-    <string name="oldPinLabel">"Старый PIN"</string>
+    <string name="oldPinLabel">"Прежний PIN"</string>
     <string name="newPinLabel">"Новый PIN"</string>
-    <string name="confirmPinLabel">"Подтвердить новый PIN"</string>
-    <string name="badPin">"Указан неверный старый PIN. Повторите попытку."</string>
-    <string name="mismatchPin">"Указанные PIN-коды не совпадают. Повторите попытку."</string>
+    <string name="confirmPinLabel">"Подтвердите новый PIN"</string>
+    <string name="badPin">"Введен неверный прежний PIN. Повторите попытку."</string>
+    <string name="mismatchPin">"Введенные коды PIN не совпадают. Повторите попытку."</string>
     <string name="invalidPin">"Введите PIN, содержащий от 4 до 8 цифр."</string>
-    <string name="disable_sim_pin">"Отключение PIN SIM-карты"</string>
-    <string name="enable_sim_pin">"Включить PIN SIM-карты"</string>
-    <string name="enable_in_progress">"Подождите…"</string>
-    <string name="enable_pin_ok">"PIN SIM-карты включен"</string>
-    <string name="disable_pin_ok">"PIN SIM-карты отключен"</string>
-    <string name="pin_failed">"Указан неверный PIN"</string>
+    <string name="disable_sim_pin">"Отключить запрос PIN SIM-карты"</string>
+    <string name="enable_sim_pin">"Включить запрос PIN SIM-карты"</string>
+    <string name="enable_in_progress">"Подождите..."</string>
+    <string name="enable_pin_ok">"Запрос PIN SIM-карты включен"</string>
+    <string name="disable_pin_ok">"Запрос PIN SIM-карты отключен"</string>
+    <string name="pin_failed">"Введен неверный PIN"</string>
     <string name="pin_changed">"PIN SIM-карты успешно изменен"</string>
-    <string name="puk_requested">"Неверный пароль, SIM-карта заблокирована! Требуется PUK2."</string>
+    <string name="puk_requested">"Неверный пароль, SIM-карта заблокирована! Введите код PUK2."</string>
     <string name="enter_pin2_text">"PIN2"</string>
-    <string name="oldPin2Label">"Старый PIN2"</string>
+    <string name="oldPin2Label">"Прежний PIN2"</string>
     <string name="newPin2Label">"Новый PIN2"</string>
     <string name="confirmPin2Label">"Подтвердите новый PIN2"</string>
-    <string name="badPuk2">"Указан неверный PUK2. Повторите попытку."</string>
-    <string name="badPin2">"Указан неверный старый PIN2. Повторите попытку."</string>
-    <string name="mismatchPin2">"Указанные коды PIN2 не совпадают. Повторите попытку."</string>
+    <string name="badPuk2">"Введен неверный код PUK2. Повторите попытку."</string>
+    <string name="badPin2">"Введен неверный прежний код PIN2. Повторите попытку."</string>
+    <string name="mismatchPin2">"Введенные коды PIN2 не совпадают. Повторите попытку."</string>
     <string name="invalidPin2">"Введите PIN2, содержащий от 4 до 8 цифр."</string>
-    <string name="invalidPuk2">"Введите PUK2, состоящий из 8 цифр."</string>
+    <string name="invalidPuk2">"Введите 8-значный код PUK2."</string>
     <string name="pin2_changed">"PIN2 успешно изменен"</string>
     <string name="label_puk2_code">"Введите код PUK2"</string>
-    <string name="fdn_enable_puk2_requested">"Неверный пароль, измените PIN2 и повторите попытку!"</string>
-    <string name="puk2_requested">"Неверный пароль, SIM-карта заблокирована! Требуется PUK2."</string>
+    <string name="fdn_enable_puk2_requested">"Неверный пароль. Измените код PIN2 и повторите попытку."</string>
+    <string name="puk2_requested">"Неверный пароль, SIM-карта заблокирована! Введите код PUK2."</string>
     <string name="doneButton">"Готово"</string>
-    <string name="caller_manage_header">"Конференц-связь: <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_header">"Конференц-вызов: <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"Вернуться к вызову"</string>
     <string name="sim_missing_continueView_text">"Продолжить без SIM-карты"</string>
-    <string name="sim_missing_msg_text">"SIM-карта не найдена. Вставьте SIM-карту в телефон."</string>
+    <string name="sim_missing_msg_text">"SIM-карта отсутствует. Установите SIM-карту в телефон."</string>
     <string name="sim_unlock_dismiss_text">"Закрыть"</string>
     <string name="sim_unlock_unlock_text">"Разблокировать"</string>
-    <string name="sim_unlock_status_text">"Идет аутентификация PIN…"</string>
+    <string name="sim_unlock_status_text">"Проверка PIN…"</string>
     <string name="voicemail_settings_number_label">"Номер голосовой почты"</string>
-    <string name="card_title_dialing">"Вызывается"</string>
-    <string name="card_title_in_progress">"Текущий вызов"</string>
-    <string name="card_title_conf_call">"Конференц-связь"</string>
+    <string name="card_title_dialing">"Набор номера"</string>
+    <string name="card_title_in_progress">"Активный вызов"</string>
+    <string name="card_title_conf_call">"Конференц-вызов"</string>
     <string name="card_title_incoming_call">"Входящий вызов"</string>
+    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
+    <skip />
     <string name="card_title_call_ended">"Вызов завершен"</string>
-    <string name="card_title_on_hold">"Удерживается"</string>
-    <string name="card_title_hanging_up">"Идет завершение вызова"</string>
+    <string name="card_title_on_hold">"Ждет ответа"</string>
+    <string name="card_title_hanging_up">"Завершение разговора"</string>
+    <!-- no translation found for card_title_in_call (6346543933068225205) -->
+    <skip />
     <string name="notification_missedCallTitle">"Пропущенный вызов"</string>
     <string name="notification_missedCallsTitle">"Пропущенные вызовы"</string>
     <string name="notification_missedCallsMsg">"Пропущенных вызовов: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>"</string>
-    <string name="notification_missedCallTicker">"Пропущенный вызов от абонента <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Текущий вызов (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"Удерживается"</string>
-    <string name="notification_voicemail_title">"Новое голосовое сообщение"</string>
-    <string name="notification_voicemail_text_format">"Вызвать <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Неизвестный номер голосовой почты"</string>
-    <string name="incall_error_power_off">"Чтобы выполнить вызов, отключите режим полета."</string>
+    <string name="notification_missedCallTicker">"Пропущенные вызовы от абонента <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format">"Активный вызов (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold">"На удержании"</string>
+    <string name="notification_voicemail_title">"Новое сообщение голосовой почты"</string>
+    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
+    <skip />
+    <string name="notification_voicemail_text_format">"Набор <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number">"Номер голосовой почты неизвестен"</string>
+    <string name="incall_error_power_off">"Перед тем как звонить, отключите режим полета."</string>
     <string name="incall_error_emergency_only">"Нет регистрации в сети."</string>
-    <string name="incall_error_no_phone_number_supplied">"Вызов не отправлен: не указан действительный номер."</string>
-    <string name="incall_error_call_failed">"Вызов не отправлен."</string>
-    <string name="incall_status_dialed_mmi">"Запуск последовательности MMI…"</string>
+    <string name="incall_error_no_phone_number_supplied">"Вызов не осуществляется, действительный номер телефона не указан."</string>
+    <string name="incall_error_call_failed">"Вызов не осуществляется."</string>
+    <string name="incall_status_dialed_mmi">"Запуск последовательности MMI..."</string>
+    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
+    <skip />
     <string name="incall_error_supp_service_unknown">"Услуга не поддерживается."</string>
-    <string name="incall_error_supp_service_switch">"Переключение вызовов невозможно."</string>
-    <string name="incall_error_supp_service_separate">"Невозможно отделить вызов."</string>
-    <string name="incall_error_supp_service_transfer">"Невозможно передать вызов."</string>
-    <string name="incall_error_supp_service_conference">"Конференц-связь невозможна."</string>
+    <string name="incall_error_supp_service_switch">"Не удается переключить вызовы."</string>
+    <string name="incall_error_supp_service_separate">"Не удалось разделить вызов."</string>
+    <string name="incall_error_supp_service_transfer">"Не удалось перевести вызов."</string>
+    <string name="incall_error_supp_service_conference">"Не удается создать конференц-вызов."</string>
     <string name="incall_error_supp_service_reject">"Невозможно отклонить вызов."</string>
-    <string name="incall_error_supp_service_hangup">"Невозможно снять удержание звонка(ов)."</string>
+    <string name="incall_error_supp_service_hangup">"Не удается разъединить абонентов."</string>
     <string name="emergency_enable_radio_dialog_title">"Экстренный вызов"</string>
-    <string name="emergency_enable_radio_dialog_message">"Идет включение радиосвязи…"</string>
-    <string name="emergency_enable_radio_dialog_retry">"Вне зоны обслуживания, повтор…"</string>
-    <string name="dial_emergency_error">"Вызов не отправлен: <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> – не экстренный номер!"</string>
-    <string name="dial_emergency_empty_error">"Вызов не отправлен. Наберите экстренный номер!"</string>
-    <string name="dialerKeyboardHintText">"Для набора воспользуйтесь клавиатурой"</string>
-    <string name="dtmfDialpadHintText">"Панель тонального набора"</string>
+    <string name="emergency_enable_radio_dialog_message">"Включение радио…"</string>
+    <string name="emergency_enable_radio_dialog_retry">"Вне зоны действия сети, повторное подключение..."</string>
+    <string name="dial_emergency_error">"Вызов не осуществляется, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> не является номером экстренного вызова!"</string>
+    <string name="dial_emergency_empty_error">"Вызов не осуществлен, наберите номер экстренного вызова!"</string>
+    <string name="dialerKeyboardHintText">"Используйте клавиатуру для набора номера"</string>
+    <string name="dtmfDialpadHintText">"Тональная клавиатура"</string>
     <string name="dtmfDialpadHandleLabel">"Номеронабиратель"</string>
-    <string name="touchLockText">"Нажмите дважды"\n"для разблокировки"</string>
+    <!-- no translation found for touchLockText (8742463586429019112) -->
+    <skip />
+    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
+    <skip />
     <string name="importSimEntry">"Импортировать"</string>
     <string name="importAllSimEntries">"Импортировать все"</string>
-    <string name="importingSimContacts">"Идет импорт контактов с SIM-карты"</string>
+    <string name="importingSimContacts">"Импорт контактов с SIM-карты"</string>
     <string name="importToFDNfromContacts">"Импортировать из контактов"</string>
+    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
+    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
+    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
+    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
+    <!-- no translation found for eri_text_label (4326942349915331461) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
+    <skip />
+    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
+    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
+    <!-- no translation found for network_message (5673682885938122239) -->
+    <skip />
 </resources>
-

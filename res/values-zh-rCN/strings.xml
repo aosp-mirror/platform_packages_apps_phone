@@ -16,171 +16,464 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel">"联系人"</string>
-    <string name="contactsFavoritesLabel">"收藏夹"</string>
-    <string name="dialerIconLabel">"拨号程序"</string>
-    <string name="emergencyDialerIconLabel">"紧急拨号程序"</string>
+    <string name="contactsFavoritesLabel">"收藏"</string>
+    <string name="dialerIconLabel">"拨号器"</string>
+    <string name="emergencyDialerIconLabel">"紧急拨号器"</string>
     <string name="phoneIconLabel">"手机"</string>
     <string name="recentCallsIconLabel">"通话记录"</string>
     <string name="fdnListLabel">"FDN 列表"</string>
     <string name="unknown">"未知"</string>
     <string name="private_num">"私人号码"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"投币式公用电话"</string>
     <string name="onHold">"保持"</string>
     <string name="ongoing">"当前通话"</string>
-    <string name="callFailed_userBusy">"占线"</string>
-    <string name="callFailed_congestion">"网络正忙"</string>
+    <string name="callFailed_userBusy">"线路忙"</string>
+    <string name="callFailed_congestion">"网络忙"</string>
     <string name="callFailed_noSignal">"无信号"</string>
-    <string name="callFailed_limitExceeded">"超出了 ACM 限制"</string>
-    <string name="callFailed_powerOff">"收音机已关闭"</string>
-    <string name="callFailed_simError">"无 SIM 卡或 SIM 卡错误"</string>
+    <string name="callFailed_limitExceeded">"超出 ACM 限制"</string>
+    <string name="callFailed_powerOff">"关闭天线"</string>
+    <string name="callFailed_simError">"无 SIM 或 SIM 错误"</string>
     <string name="callFailed_outOfService">"不在服务区"</string>
-    <string name="callFailed_fdn_only">"去电受 FDN 的限制。"</string>
-    <string name="callFailed_cb_enabled">"不能在呼叫禁止开启时拨打电话。"</string>
+    <string name="callFailed_fdn_only">"对外呼叫已被 FDN 限制。"</string>
+    <string name="callFailed_cb_enabled">"在开启通话限制的情况下无法对外呼叫。"</string>
     <string name="callFailed_dsac_restricted">"所有呼叫已被访问控制限制。"</string>
     <string name="callFailed_dsac_restricted_emergency">"紧急呼叫已被访问控制限制。"</string>
     <string name="callFailed_dsac_restricted_normal">"正常呼叫已被访问控制限制。"</string>
-    <string name="confCall">"会议通话"</string>
+    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
+    <skip />
+    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
+    <skip />
+    <string name="confCall">"电话会议"</string>
     <string name="mmiStarted">"MMI 码已启动"</string>
-    <string name="ussdRunning">"USSD 码正在运行..."</string>
+    <string name="ussdRunning">"正在运行 USSD 代码..."</string>
     <string name="mmiCancelled">"MMI 码已取消"</string>
     <string name="cancel">"取消"</string>
-    <string name="menu_speaker">"扬声器"</string>
+    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
+    <skip />
+    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
+    <skip />
+    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
+    <skip />
+    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
+    <skip />
+    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
+    <skip />
+    <string name="menu_speaker">"免提"</string>
     <string name="menu_bluetooth">"蓝牙"</string>
     <string name="menu_mute">"静音"</string>
     <string name="menu_hold">"保持"</string>
     <string name="menu_endCall">"结束通话"</string>
-    <string name="menu_swapCalls">"交换呼叫"</string>
-    <string name="menu_mergeCalls">"合并呼叫"</string>
+    <string name="menu_swapCalls">"交换通话"</string>
+    <string name="menu_mergeCalls">"合并通话"</string>
     <string name="menu_addCall">"添加呼叫"</string>
-    <string name="menu_manageConference">"管理会议通话"</string>
-    <string name="menu_showDialpad">"显示拨号面板"</string>
-    <string name="menu_hideDialpad">"隐藏拨号面板"</string>
-    <string name="menu_answerAndHold">"保持当前通话"\n"并应答"</string>
-    <string name="menu_answerAndEnd">"结束当前通话"\n"并应答"</string>
+    <string name="menu_manageConference">"管理电话会议"</string>
+    <string name="menu_showDialpad">"显示拨号键盘"</string>
+    <string name="menu_hideDialpad">"隐藏拨号键盘"</string>
+    <string name="menu_answerAndHold">"保持当前通话"\n"并接听"</string>
+    <string name="menu_answerAndEnd">"结束当前通话"\n"并接听"</string>
     <string name="ok">"确定"</string>
-    <string name="menuButtonHint">"按“菜单”获取呼叫选项。"</string>
-    <string name="menuButtonKeyboardDialHint">"按“菜单”获取呼叫选项  •  使用键盘拨号"</string>
-    <string name="wait_prompt_str">"是否发送以下音调？"\n</string>
+    <string name="menuButtonHint">"按 MENU 可以选择通话选项。"</string>
+    <string name="menuButtonKeyboardDialHint">"按 MENU 可以选择通话选项 • 使用键盘拨号"</string>
+    <!-- no translation found for menu_answer (116686205042231098) -->
+    <skip />
+    <!-- no translation found for menu_ignore (2112030835852537344) -->
+    <skip />
+    <string name="wait_prompt_str">"发送以下音频？"\n</string>
     <string name="send_button">"发送"</string>
-    <string name="wild_prompt_str">"用以下内容替换通配符"</string>
-    <string name="no_vm_number">"错过语音信箱号码"</string>
-    <string name="no_vm_number_msg">"SIM 卡上没有存储语音信箱号码。"</string>
+    <string name="wild_prompt_str">"将通配符替换为"</string>
+    <string name="no_vm_number">"缺少语音信箱号码"</string>
+    <string name="no_vm_number_msg">"SIM 卡上未存储语音信箱号码。"</string>
     <string name="add_vm_number_str">"添加号码"</string>
     <string name="dialer_emptyListWorking">"正在载入..."</string>
-    <string name="enterPin">"键入 PIN 码以解锁 SIM 卡。"</string>
-    <string name="pinUnlocked">"SIM 卡已解锁"</string>
-    <string name="enterNewPin">"新 SIM 卡 PIN 码"</string>
-    <string name="verifyNewPin">"再次键入新的 SIM 卡 PIN 码以确认"</string>
-    <string name="verifyFailed">"您键入的 SIM 卡 PIN 码不匹配。请重试。"</string>
-    <string name="enterPuk">"键入 PUK 码以解锁 SIM 卡"</string>
+    <string name="enterPin">"输入 PIN 码以解锁 SIM 卡。"</string>
+    <string name="pinUnlocked">"SIM 已解锁"</string>
+    <string name="enterNewPin">"新 SIM PIN 码"</string>
+    <string name="verifyNewPin">"再次输入新的 SIM PIN 码予以确认"</string>
+    <string name="verifyFailed">"您输入的 SIM PIN 不匹配。请重试。"</string>
+    <string name="enterPuk">"输入 PUK 码以解锁 SIM 卡"</string>
     <string name="badPuk">"PUK 码不正确！"</string>
     <string name="buttonTxtContinue">"继续"</string>
-    <string name="puk_unlocked">"您的 SIM 卡已取消禁止。您的手机正在解锁..."</string>
-    <string name="label_ndp">"SIM 卡网络解锁 PIN 码"</string>
+    <string name="puk_unlocked">"您的 SIM 卡已解锁。正在解锁您的手机..."</string>
+    <string name="label_ndp">"SIM 网络解锁 PIN"</string>
     <string name="sim_ndp_unlock_text">"解锁"</string>
-    <string name="sim_ndp_dismiss_text">"清除"</string>
+    <string name="sim_ndp_dismiss_text">"关闭"</string>
     <string name="requesting_unlock">"正在请求网络解锁..."</string>
     <string name="unlock_failed">"网络解锁请求失败。"</string>
     <string name="unlock_success">"网络解锁成功。"</string>
     <string name="imei">"IMEI"</string>
-
+    <!-- no translation found for labelGSMMore (5930842194056092106) -->
+    <skip />
+    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
+    <skip />
     <string name="apn_settings">"接入点名称"</string>
     <string name="settings_label">"网络设置"</string>
     <string name="voicemail">"语音信箱"</string>
-    <string name="voicemail_abbreviated">"VM:"</string>
+    <string name="voicemail_abbreviated">"VM："</string>
     <string name="networks">"网络运营商"</string>
     <string name="call_settings">"通话设置"</string>
-    <!-- no translation found for labelNwService (4699970172021870983) -->
+    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
     <skip />
-    <string name="labelCallerId">"呼叫者 ID"</string>
-    <string name="sum_hide_caller_id">"去电中隐藏的号码"</string>
-    <string name="sum_show_caller_id">"去电中显示的号码"</string>
-    <string name="sum_default_caller_id">"使用默认的运营商设置在去电中显示我的号码"</string>
+    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
+    <skip />
+    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
+    <skip />
+    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
+    <skip />
+    <string name="labelNwService">"网络服务设置"</string>
+    <string name="labelCallerId">"来电显示"</string>
+    <string name="sum_hide_caller_id">"在对外呼叫中隐藏号码"</string>
+    <string name="sum_show_caller_id">"在对外呼叫中显示的号码"</string>
+    <string name="sum_default_caller_id">"使用默认运营商设置在对外呼叫中显示我的号码"</string>
     <string name="labelCW">"呼叫等待"</string>
-    <string name="sum_cw_enabled">"通话期间有来电时通知我"</string>
-    <string name="sum_cw_disabled">"通话期间有来电时通知我"</string>
-    <string name="call_forwarding_settings">"呼叫转移设置"</string>
-    <string name="labelCF">"呼叫转移"</string>
-    <string name="labelCFU">"始终进行呼叫转移"</string>
+    <string name="sum_cw_enabled">"在通话期间，通知我有其他来电"</string>
+    <string name="sum_cw_disabled">"在通话期间，通知我有其他来电"</string>
+    <string name="call_forwarding_settings">"呼叫转接设置"</string>
+    <string name="labelCF">"呼叫转接"</string>
+    <string name="labelCFU">"始终转接"</string>
     <string name="messageCFU">"始终使用此号码"</string>
-    <string name="sum_cfu_enabled_indicator">"正在转移所有呼叫"</string>
-    <string name="sum_cfu_enabled">"正在将所有呼叫转移至{0}"</string>
+    <string name="sum_cfu_enabled_indicator">"转接所有呼叫"</string>
+    <string name="sum_cfu_enabled">"将所有呼叫转接至 \\\\{0\\\\}"</string>
     <string name="sum_cfu_disabled">"已禁用"</string>
-    <string name="labelCFB">"占线时进行呼叫转移"</string>
-    <string name="messageCFB">"占线时拨号"</string>
-    <string name="sum_cfb_enabled">"正在将呼叫转移至\\\\{0\\\\}"</string>
+    <string name="labelCFB">"占线时转接"</string>
+    <string name="messageCFB">"占线时的转接号码"</string>
+    <string name="sum_cfb_enabled">"转接至 \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled">"已禁用"</string>
-    <string name="labelCFNRy">"无应答时转移呼叫"</string>
-    <string name="messageCFNRy">"无应答时拨号"</string>
-    <string name="sum_cfnry_enabled">"正在将呼叫转移至\\\\{0\\\\}"</string>
+    <string name="labelCFNRy">"无人接听时转接"</string>
+    <string name="messageCFNRy">"无人接听时的转接号码"</string>
+    <string name="sum_cfnry_enabled">"转接至 \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled">"已禁用"</string>
-    <string name="labelCFNRc">"无法接通时转移呼叫"</string>
-    <string name="messageCFNRc">"无法接通时拨号"</string>
-    <string name="sum_cfnrc_enabled">"正在将呼叫转移至\\\\{0\\\\}"</string>
+    <string name="labelCFNRc">"无法接通时转接"</string>
+    <string name="messageCFNRc">"无法接通时的转接号码"</string>
+    <string name="sum_cfnrc_enabled">"转接至 \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled">"已禁用"</string>
     <string name="updating_title">"通话设置"</string>
     <string name="error_updating_title">"通话设置错误"</string>
     <string name="reading_settings">"正在读取设置..."</string>
     <string name="updating_settings">"正在更新设置..."</string>
-    <string name="response_error">"来自网络的意外响应，"</string>
+    <!-- no translation found for response_error (6674110501330139405) -->
+    <skip />
     <string name="exception_error">"网络或 SIM 卡错误。"</string>
-    <string name="radio_off_error">"请在查看这些设置之前打开收音机。"</string>
+    <string name="radio_off_error">"请在查看这些设置之前先打开天线。"</string>
     <string name="close_dialog">"确定"</string>
     <string name="enable">"启用"</string>
     <string name="disable">"禁用"</string>
     <string name="change_num">"更新"</string>
   <string-array name="clir_display_values">
-    <item>"网络默认值"</item>
+    <item>"网络默认设置"</item>
     <item>"隐藏号码"</item>
     <item>"显示号码"</item>
   </string-array>
     <string name="vm_save_number">"保存语音信箱号码"</string>
     <string name="vm_changed">"语音信箱号码已更改。"</string>
     <string name="vm_change_failed">"语音信箱号码更改失败。"</string>
-    <string name="no_change">"未进行更改。"</string>
+    <string name="no_change">"未做过更改。"</string>
     <string name="sum_voicemail">"设置语音信箱号码"</string>
-    <string name="mobile_networks">"Google 移动网络设置"</string>
-    <string name="label_available">"可用的网络"</string>
+    <string name="mobile_networks">"移动网络设置"</string>
+    <string name="label_available">"可用网络"</string>
     <string name="load_networks_progress">"正在搜索..."</string>
     <string name="empty_networks_list">"未找到网络。"</string>
     <string name="search_networks">"搜索网络"</string>
     <string name="network_query_error">"搜索网络时出错。"</string>
-    <string name="register_on_network">"正在 <xliff:g id="NETWORK">%s</xliff:g> 上注册..."</string>
+    <string name="register_on_network">"正在<xliff:g id="NETWORK">%s</xliff:g>上注册..."</string>
     <string name="not_allowed">"您的 SIM 卡不允许连接到此网络。"</string>
     <string name="registration_done">"已在网络上注册。"</string>
-    <string name="sum_carrier_select">"选择网络运营商"</string>
-    <string name="sum_search_networks">"搜索所有可用的网络"</string>
+    <string name="sum_carrier_select">"选择一个网络运营商"</string>
+    <string name="sum_search_networks">"搜索所有可用网络"</string>
     <string name="select_automatically">"自动选择"</string>
-    <string name="sum_select_automatically">"自动选择首选的网络"</string>
-    <string name="register_automatically">"正在自动注册..."</string>
+    <string name="sum_select_automatically">"自动选择首选网络"</string>
+    <!-- no translation found for register_automatically (6272031189219101172) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
+    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
+    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
+    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
+    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
+    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
+    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
+    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
+    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
+    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
+    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
+    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
+    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
+    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
+    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
+    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
     <string name="roaming">"数据漫游"</string>
-    <string name="roaming_enable">"漫游时连接至数据服务"</string>
-    <string name="roaming_disable">"漫游时连接至数据服务"</string>
-    <string name="roaming_reenable_message">"您已断开数据连接，因为您离开了主网络并关闭了数据漫游。"</string>
-    <string name="roaming_warning">"是否允许数据漫游？您可能需要支付高额的漫游费！"</string>
-    <string name="fdn">"固定拨号"</string>
+    <string name="roaming_enable">"漫游时连接到数据服务"</string>
+    <string name="roaming_disable">"漫游时连接到数据服务"</string>
+    <string name="roaming_reenable_message">"您已失去数据连接，因为您离开了本地网络并且数据漫游处于关闭状态。"</string>
+    <string name="roaming_warning">"允许数据漫游？您可能会需要支付大量的漫游费！"</string>
+    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
+    <skip />
+    <!-- no translation found for cdma_options (4016822858172249884) -->
+    <skip />
+    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
+    <skip />
+    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
+    <skip />
+    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
+    <skip />
+    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
+    <skip />
+    <!-- no translation found for cb_sms_settings (651715019785107312) -->
+    <skip />
+    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
+    <skip />
+    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
+    <skip />
+    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
+    <skip />
+    <!-- no translation found for administrative_enable (1750086122962032235) -->
+    <skip />
+    <!-- no translation found for administrative_disable (8433273857248698539) -->
+    <skip />
+    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
+    <skip />
+    <!-- no translation found for maintenance_enable (8566636458770971189) -->
+    <skip />
+    <!-- no translation found for maintenance_disable (7340189100885066077) -->
+    <skip />
+    <!-- no translation found for general_news_settings (4968779723948432978) -->
+    <skip />
+    <!-- no translation found for bf_news_settings (3935593091894685267) -->
+    <skip />
+    <!-- no translation found for sports_news_settings (7649399631270052835) -->
+    <skip />
+    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
+    <skip />
+    <!-- no translation found for enable_disable_local (7890281063123416120) -->
+    <skip />
+    <!-- no translation found for local_enable (6370463247609136359) -->
+    <skip />
+    <!-- no translation found for local_disable (4405691986943795798) -->
+    <skip />
+    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
+    <skip />
+    <!-- no translation found for regional_enable (4434680415437834759) -->
+    <skip />
+    <!-- no translation found for regional_disable (5359325527213850077) -->
+    <skip />
+    <!-- no translation found for enable_disable_national (236278090206880734) -->
+    <skip />
+    <!-- no translation found for national_enable (1172443648912246952) -->
+    <skip />
+    <!-- no translation found for national_disable (326018148178601166) -->
+    <skip />
+    <!-- no translation found for enable_disable_international (7535348799604565592) -->
+    <skip />
+    <!-- no translation found for international_enable (5855356769925044927) -->
+    <skip />
+    <!-- no translation found for international_disable (2850648591041088931) -->
+    <skip />
+    <!-- no translation found for list_language_title (2841683501919760043) -->
+    <skip />
+    <!-- no translation found for list_language_summary (8109546531071241601) -->
+    <skip />
+    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
+    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
+    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
+    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
+    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
+    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
+    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
+    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
+    <!-- no translation found for list_language_values:1 (289708030346890334) -->
+    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
+    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
+    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
+    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
+    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
+    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
+    <skip />
+    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
+    <skip />
+    <!-- no translation found for local_weather_enable (6199315114382448922) -->
+    <skip />
+    <!-- no translation found for local_weather_disable (2510158089142626480) -->
+    <skip />
+    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
+    <skip />
+    <!-- no translation found for atr_enable (5541757457789181799) -->
+    <skip />
+    <!-- no translation found for atr_disable (7085558154727596455) -->
+    <skip />
+    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
+    <skip />
+    <!-- no translation found for lafs_enable (2791978667205137052) -->
+    <skip />
+    <!-- no translation found for lafs_disable (2391212397725495350) -->
+    <skip />
+    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
+    <skip />
+    <!-- no translation found for restaurants_enable (5137657479469118847) -->
+    <skip />
+    <!-- no translation found for restaurants_disable (3678480270938424092) -->
+    <skip />
+    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
+    <skip />
+    <!-- no translation found for lodgings_enable (3230042508992850322) -->
+    <skip />
+    <!-- no translation found for lodgings_disable (3387879742320682391) -->
+    <skip />
+    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
+    <skip />
+    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
+    <skip />
+    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
+    <skip />
+    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
+    <skip />
+    <!-- no translation found for advertisements_enable (2050305021264683786) -->
+    <skip />
+    <!-- no translation found for advertisements_disable (8350985908788707935) -->
+    <skip />
+    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
+    <skip />
+    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
+    <skip />
+    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
+    <skip />
+    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
+    <skip />
+    <!-- no translation found for eo_enable (8623559062015685813) -->
+    <skip />
+    <!-- no translation found for eo_disable (3863812478090907609) -->
+    <skip />
+    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
+    <skip />
+    <!-- no translation found for mhh_enable (3949276822735205799) -->
+    <skip />
+    <!-- no translation found for mhh_disable (4834280270664925123) -->
+    <skip />
+    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
+    <skip />
+    <!-- no translation found for technology_news_enable (7995209394210455181) -->
+    <skip />
+    <!-- no translation found for technology_news_disable (5483490380561851946) -->
+    <skip />
+    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
+    <skip />
+    <!-- no translation found for multi_category_enable (1179299804641721768) -->
+    <skip />
+    <!-- no translation found for multi_category_disable (880104702904139505) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
+    <skip />
+    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
+    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
+    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
+    <skip />
+    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
+    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
+    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
+    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
+    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
+    <skip />
+    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
+    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
+    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
+    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
+    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
+    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
+    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
+    <skip />
+    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
+    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
+    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
+    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
+    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
+    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
+    <!-- no translation found for subscription_title (5813493350326486) -->
+    <skip />
+    <!-- no translation found for subscription_summary (8435941016743418124) -->
+    <skip />
+    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
+    <skip />
+    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
+    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
+    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
+    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
+    <string name="fdn">"固定拨号号码"</string>
     <string name="manage_fdn_list">"FDN 列表"</string>
     <string name="fdn_activation">"FDN 激活"</string>
-    <string name="fdn_enabled">"固定拨号启用"</string>
-    <string name="fdn_disabled">"固定拨号被禁用"</string>
+    <string name="fdn_enabled">"固定拨号号码已启用"</string>
+    <string name="fdn_disabled">"固定拨号号码已禁用"</string>
     <string name="enable_fdn">"启用 FDN"</string>
     <string name="disable_fdn">"禁用 FDN"</string>
-    <string name="change_pin2">"更改 PIN2 码"</string>
+    <string name="change_pin2">"更改 PIN2"</string>
     <string name="enable_fdn_ok">"禁用 FDN"</string>
     <string name="disable_fdn_ok">"启用 FDN"</string>
-    <string name="sum_fdn">"管理固定拨号"</string>
-    <string name="sum_fdn_change_pin">"更改 PIN 码以进行 FDN 访问"</string>
-    <string name="sum_fdn_manage_list">"管理电话号码列表"</string>
+    <string name="sum_fdn">"管理固定拨号号码"</string>
+    <string name="sum_fdn_change_pin">"更改 PIN 以访问 FDN"</string>
+    <string name="sum_fdn_manage_list">"管理手机号码列表"</string>
+    <!-- no translation found for voice_privacy (7803023024169078619) -->
+    <skip />
+    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
+    <skip />
+    <!-- no translation found for tty_mode_title (3171521903490559138) -->
+    <skip />
+    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
+    <skip />
+    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
+    <skip />
     <string name="menu_add">"添加联系人"</string>
     <string name="menu_edit">"编辑联系人"</string>
     <string name="menu_delete">"删除联系人"</string>
-    <string name="get_pin2">"输入 PIN2 码"</string>
+    <string name="get_pin2">"输入 PIN2"</string>
     <string name="name">"名称"</string>
     <string name="number">"号码"</string>
     <string name="save">"保存"</string>
     <string name="add_fdn_contact">"添加固定拨号联系人"</string>
-    <string name="adding_fdn_contact">"正在添加固定拨号联系人..."</string>
+    <string name="adding_fdn_contact">"添加固定拨号联系人..."</string>
     <string name="fdn_contact_added">"固定拨号联系人已添加。"</string>
     <string name="edit_fdn_contact">"编辑固定拨号联系人"</string>
     <string name="updating_fdn_contact">"正在更新固定拨号联系人..."</string>
@@ -188,91 +481,114 @@
     <string name="delete_fdn_contact">"删除固定拨号联系人"</string>
     <string name="deleting_fdn_contact">"正在删除固定拨号联系人..."</string>
     <string name="fdn_contact_deleted">"固定拨号联系人已删除。"</string>
-    <string name="pin2_invalid">"PIN2 码无效！"</string>
-    <string name="fdn_invalid_number">"号码不能超过 20 位数。"</string>
+    <string name="pin2_invalid">"PIN2 无效！"</string>
+    <string name="fdn_invalid_number">"号码不得超过 20 位。"</string>
     <string name="simContacts_emptyLoading">"正在从 SIM 卡读取..."</string>
-    <string name="simContacts_empty">"您的 SIM 卡上没有联系人。"</string>
+    <string name="simContacts_empty">"SIM 卡上无联系人。"</string>
     <string name="simContacts_title">"选择要导入的联系人"</string>
-    <string name="enable_pin">"启用/禁用 SIM 卡 PIN 码"</string>
-    <string name="change_pin">"更改 SIM 卡 PIN 码"</string>
-    <string name="enter_pin_text">"SIM 卡 PIN 码："</string>
-    <string name="oldPinLabel">"旧 PIN 码"</string>
-    <string name="newPinLabel">"新 PIN 码"</string>
-    <string name="confirmPinLabel">"确认新 PIN 码"</string>
-    <string name="badPin">"您键入的旧 PIN 码不正确。请重试。"</string>
-    <string name="mismatchPin">"您输入的 PIN 码不匹配。请重试。"</string>
-    <string name="invalidPin">"键入一个 4 到 8 位数的 PIN 码。"</string>
-    <string name="disable_sim_pin">"禁用 SIM 卡 PIN 码"</string>
-    <string name="enable_sim_pin">"启用 SIM 卡 PIN 码"</string>
+    <string name="enable_pin">"启用/禁用 SIM PIN"</string>
+    <string name="change_pin">"更改 SIM PIN"</string>
+    <string name="enter_pin_text">"SIM PIN："</string>
+    <string name="oldPinLabel">"旧 PIN"</string>
+    <string name="newPinLabel">"新 PIN"</string>
+    <string name="confirmPinLabel">"确认新 PIN"</string>
+    <string name="badPin">"您输入的旧 PIN 不正确。请重试。"</string>
+    <string name="mismatchPin">"您输入的 PIN 不匹配。请重试。"</string>
+    <string name="invalidPin">"输入 4 到 8 位数字的 PIN。"</string>
+    <string name="disable_sim_pin">"禁用 SIM PIN"</string>
+    <string name="enable_sim_pin">"启用 SIM PIN"</string>
     <string name="enable_in_progress">"请稍候..."</string>
-    <string name="enable_pin_ok">"SIM 卡 PIN 码已启用"</string>
-    <string name="disable_pin_ok">"SIM 卡 PIN 码被禁用"</string>
-    <string name="pin_failed">"您键入的 PIN 码不正确"</string>
-    <string name="pin_changed">"SIM 卡 PIN 码更改成功"</string>
-    <string name="puk_requested">"密码不正确，SIM 卡被锁定！需要 PUK2 码。"</string>
-    <string name="enter_pin2_text">"PIN2 码"</string>
-    <string name="oldPin2Label">"旧 PIN2 码"</string>
-    <string name="newPin2Label">"新 PIN2 码"</string>
-    <string name="confirmPin2Label">"确认新 PIN2 码"</string>
-    <string name="badPuk2">"您键入的 PUK2 码不正确。请重试。"</string>
-    <string name="badPin2">"您键入的旧 PIN2 码不正确。请重试。"</string>
-    <string name="mismatchPin2">"您输入的 PIN2 码不匹配。请重试。"</string>
-    <string name="invalidPin2">"键入一个 4 到 8 位数的 PIN2 码。"</string>
-    <string name="invalidPuk2">"键入一个 8 位数的 PUK2 码。"</string>
-    <string name="pin2_changed">"PIN2 码更改成功"</string>
-    <string name="label_puk2_code">"键入 PUK2 码"</string>
-    <string name="fdn_enable_puk2_requested">"密码不正确，请更改 PIN2 码，然后重试！"</string>
-    <string name="puk2_requested">"密码不正确，SIM 卡被锁定！需要 PUK2 码。"</string>
+    <string name="enable_pin_ok">"SIM PIN 已启用"</string>
+    <string name="disable_pin_ok">"SIM PIN 已禁用"</string>
+    <string name="pin_failed">"您输入的 PIN 不正确"</string>
+    <string name="pin_changed">"SIM PIN 更改成功"</string>
+    <string name="puk_requested">"密码不正确，SIM 已锁定！需要 PUK2。"</string>
+    <string name="enter_pin2_text">"PIN2"</string>
+    <string name="oldPin2Label">"旧 PIN2"</string>
+    <string name="newPin2Label">"新 PIN2"</string>
+    <string name="confirmPin2Label">"确认新 PIN2"</string>
+    <string name="badPuk2">"您输入的 PUK2 不正确。请重试。"</string>
+    <string name="badPin2">"您输入的旧 PIN2 不正确。请重试。"</string>
+    <string name="mismatchPin2">"您输入的 PIN2 不匹配。请重试。"</string>
+    <string name="invalidPin2">"输入 4 到 8 位数字的 PIN2。"</string>
+    <string name="invalidPuk2">"输入 8 位数字的 PUK2。"</string>
+    <string name="pin2_changed">"PIN2 更改成功"</string>
+    <string name="label_puk2_code">"输入 PUK2 码"</string>
+    <string name="fdn_enable_puk2_requested">"密码不正确，请更改 PIN2 并重试！"</string>
+    <string name="puk2_requested">"密码不正确，SIM 已锁定！需要 PUK2。"</string>
     <string name="doneButton">"完成"</string>
-    <string name="caller_manage_header">"会议通话 <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_header">"电话会议<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text">"返回通话"</string>
-    <string name="sim_missing_continueView_text">"在没有 SIM 卡的情况下继续"</string>
+    <string name="sim_missing_continueView_text">"无 SIM 卡时继续"</string>
     <string name="sim_missing_msg_text">"未找到 SIM 卡。请将 SIM 卡插入手机中。"</string>
-    <string name="sim_unlock_dismiss_text">"清除"</string>
+    <string name="sim_unlock_dismiss_text">"关闭"</string>
     <string name="sim_unlock_unlock_text">"解锁"</string>
-    <string name="sim_unlock_status_text">"正在验证 PIN 码..."</string>
+    <string name="sim_unlock_status_text">"正在验证 PIN..."</string>
     <string name="voicemail_settings_number_label">"语音信箱号码"</string>
     <string name="card_title_dialing">"正在拨号"</string>
     <string name="card_title_in_progress">"当前通话"</string>
-    <string name="card_title_conf_call">"会议通话"</string>
+    <string name="card_title_conf_call">"电话会议"</string>
     <string name="card_title_incoming_call">"来电"</string>
-    <string name="card_title_call_ended">"通话已结束"</string>
+    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
+    <skip />
+    <string name="card_title_call_ended">"通话结束"</string>
     <string name="card_title_on_hold">"保持"</string>
-    <string name="card_title_hanging_up">"正在挂断电话"</string>
-    <string name="notification_missedCallTitle">"未接来电"</string>
-    <string name="notification_missedCallsTitle">"未接来电"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> 个未接来电"</string>
-    <string name="notification_missedCallTicker">"错过了来自<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>的呼叫"</string>
-    <string name="notification_ongoing_call_format">"当前通话（<xliff:g id="DURATION">%s</xliff:g>）"</string>
+    <string name="card_title_hanging_up">"正在挂断"</string>
+    <!-- no translation found for card_title_in_call (6346543933068225205) -->
+    <skip />
+    <string name="notification_missedCallTitle">"未接电话"</string>
+    <string name="notification_missedCallsTitle">"未接电话"</string>
+    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> 个未接电话"</string>
+    <string name="notification_missedCallTicker">"来自<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>的未接电话"</string>
+    <string name="notification_ongoing_call_format">"当前通话 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"保持"</string>
-    <string name="notification_voicemail_title">"新语音信箱"</string>
+    <string name="notification_voicemail_title">"新语音邮件"</string>
+    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
+    <skip />
     <string name="notification_voicemail_text_format">"拨打 <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number">"语音信箱号码未知"</string>
-    <string name="incall_error_power_off">"要拨打电话，请先关闭飞航模式。"</string>
+    <string name="incall_error_power_off">"要进行呼叫，请先关闭飞行模式。"</string>
     <string name="incall_error_emergency_only">"未在网络上注册。"</string>
-    <string name="incall_error_no_phone_number_supplied">"呼叫未发送，未输入有效的号码。"</string>
+    <string name="incall_error_no_phone_number_supplied">"呼叫未发送，输入的号码无效。"</string>
     <string name="incall_error_call_failed">"呼叫未发送。"</string>
-    <string name="incall_status_dialed_mmi">"正在启动 MMI 码序列..."</string>
-    <string name="incall_error_supp_service_unknown">"不支持的服务。"</string>
-    <string name="incall_error_supp_service_switch">"无法切换呼叫。"</string>
-    <string name="incall_error_supp_service_separate">"无法分隔通话。"</string>
+    <string name="incall_status_dialed_mmi">"正在启动 MMI 序列..."</string>
+    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
+    <skip />
+    <string name="incall_error_supp_service_unknown">"不支持此服务。"</string>
+    <string name="incall_error_supp_service_switch">"无法切换通话。"</string>
+    <string name="incall_error_supp_service_separate">"无法分离呼叫。"</string>
     <string name="incall_error_supp_service_transfer">"无法转移呼叫。"</string>
-    <string name="incall_error_supp_service_conference">"无法进行会议通话。"</string>
+    <string name="incall_error_supp_service_conference">"无法进行电话会议。"</string>
     <string name="incall_error_supp_service_reject">"无法拒绝呼叫。"</string>
     <string name="incall_error_supp_service_hangup">"无法释放呼叫。"</string>
-    <string name="emergency_enable_radio_dialog_title">"紧急电话"</string>
-    <string name="emergency_enable_radio_dialog_message">"正在打开收音机..."</string>
+    <string name="emergency_enable_radio_dialog_title">"紧急呼叫"</string>
+    <string name="emergency_enable_radio_dialog_message">"正在打开天线..."</string>
     <string name="emergency_enable_radio_dialog_retry">"不在服务区，正在重试..."</string>
-    <string name="dial_emergency_error">"呼叫未发送，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急号码！"</string>
+    <string name="dial_emergency_error">"呼叫未发送，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是一个紧急号码！"</string>
     <string name="dial_emergency_empty_error">"呼叫未发送，请拨打紧急号码！"</string>
     <string name="dialerKeyboardHintText">"使用键盘拨号"</string>
-    <string name="dtmfDialpadHintText">"按键式键盘"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
+    <string name="dtmfDialpadHintText">"按键式数字键盘"</string>
+    <string name="dtmfDialpadHandleLabel">"拨号键盘"</string>
+    <!-- no translation found for touchLockText (8742463586429019112) -->
     <skip />
-    <string name="touchLockText">"轻击两下"\n"解锁"</string>
+    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
+    <skip />
     <string name="importSimEntry">"导入"</string>
     <string name="importAllSimEntries">"全部导入"</string>
-    <string name="importingSimContacts">"正在导入 SIM 卡联系人"</string>
+    <string name="importingSimContacts">"正在导入 SIM 联系人"</string>
     <string name="importToFDNfromContacts">"从联系人导入"</string>
+    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
+    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
+    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
+    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
+    <!-- no translation found for eri_text_label (4326942349915331461) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
+    <skip />
+    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
+    <skip />
+    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
+    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
+    <!-- no translation found for network_message (5673682885938122239) -->
+    <skip />
 </resources>
-
