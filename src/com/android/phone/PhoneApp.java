@@ -331,6 +331,13 @@ public class PhoneApp extends Application {
             NotificationMgr.init(this);
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
+
+            if (phone.getPhoneName().equals("CDMA")) {
+                // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+                cdmaPhoneCallState = new CdmaPhoneCallState();
+                cdmaPhoneCallState.CdmaPhoneCallStateInit();
+            }
+
             if (getSystemService(Context.BLUETOOTH_SERVICE) != null) {
                 mBtHandsfree = new BluetoothHandsfree(this, phone);
                 startService(new Intent(this, BluetoothHeadsetService.class));
@@ -451,12 +458,6 @@ public class PhoneApp extends Application {
         // Register for Cdma Information Records
         // TODO(Moto): Merge
         // phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
-
-        if (phone.getPhoneName().equals("CDMA")) {
-            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
-            cdmaPhoneCallState = new CdmaPhoneCallState();
-            cdmaPhoneCallState.CdmaPhoneCallStateInit();
-        }
 
         // Read TTY settings and store it into BP NV.
         // AP owns (i.e. stores) the TTY setting in AP settings database and pushes the setting

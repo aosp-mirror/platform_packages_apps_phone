@@ -1236,8 +1236,7 @@ public class InCallScreen extends Activity
                 //Scenario 3: Switching between two Call waiting calls or drop the latest
                 // connection if in a 3Way merge scenario
                 if (DBG) log("answerCall: Switch btwn 2 calls scenario");
-                // Send flash cmd
-                PhoneUtils.switchHoldingAndActive(mPhone);
+                internalSwapCalls();
             }
         } else { // GSM.
             if (hasRingingCall) {
@@ -3344,6 +3343,17 @@ public class InCallScreen extends Activity
 
         // Swap the fg and bg calls.
         PhoneUtils.switchHoldingAndActive(mPhone);
+
+        // If we have a valid BluetoothHandsfree then since CDMA network or
+        // Telephony FW does not send us information on which caller got swapped
+        // we need to update the second call active state in BluetoothHandsfree internally
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            BluetoothHandsfree bthf = PhoneApp.getInstance().getBluetoothHandsfree();
+            if (bthf != null) {
+                bthf.cdmaSwapSecondCallState();
+            }
+        }
+
     }
 
     //

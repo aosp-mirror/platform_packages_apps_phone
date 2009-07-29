@@ -84,7 +84,8 @@ public class BluetoothHandsfree {
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
 
     // AT command state
-    private static final int MAX_CONNECTIONS = 6;  // Max connections allowed by GSM
+    private static final int GSM_MAX_CONNECTIONS = 6;  // Max connections allowed by GSM
+    private static final int CDMA_MAX_CONNECTIONS = 2;  // Max connections allowed by CDMA
 
     private long mBgndEarliestConnectionTime = 0;
     private boolean mClip = false;  // Calling Line Information Presentation
@@ -113,6 +114,13 @@ public class BluetoothHandsfree {
 
     private int mRemoteBrsf = 0;
     private int mLocalBrsf = 0;
+
+    // CDMA specific flag used in context with BT devices having display capabilities
+    // to show which Caller is active. This state might not be always true as in CDMA
+    // networks if a caller drops off no update is provided to the Phone.
+    // This flag is just used as a toggle to provide a update to the BT device to specify
+    // which caller is active.
+    private boolean mCdmaIsSecondCallActive = false;
 
     /* Constants from Bluetooth Specification Hands-Free profile version 1.5 */
     private static final int BRSF_AG_THREE_WAY_CALLING = 1 << 0;
@@ -186,6 +194,7 @@ public class BluetoothHandsfree {
         mUserWantsAudio = true;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        cdmaSetSecondCallState(false);
     }
 
     /* package */ synchronized void onBluetoothEnabled() {
@@ -264,9 +273,9 @@ public class BluetoothHandsfree {
         mIndicatorsEnabled = false;
         mServiceConnectionEstablished = false;
         mCmee = false;
-        mClccTimestamps = new long[MAX_CONNECTIONS];
-        mClccUsed = new boolean[MAX_CONNECTIONS];
-        for (int i = 0; i < MAX_CONNECTIONS; i++) {
+        mClccTimestamps = new long[GSM_MAX_CONNECTIONS];
+        mClccUsed = new boolean[GSM_MAX_CONNECTIONS];
+        for (int i = 0; i < GSM_MAX_CONNECTIONS; i++) {
             mClccUsed[i] = false;
         }
         mRemoteBrsf = 0;
@@ -670,6 +679,41 @@ public class BluetoothHandsfree {
                 }
             }
 
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                PhoneApp app = PhoneApp.getInstance();
+                CdmaPhoneCallState.PhoneCallState currCdmaCallState =
+                        app.cdmaPhoneCallState.getCurrentCallState();
+
+                // In CDMA, the network does not provide any feedback to the phone when the
+                // 2nd MO call goes through the stages of DIALING > ALERTING -> ACTIVE
+                // we fake the sequence
+                if ((currCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                        && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
+                    mAudioPossible = true;
+                    if (sendUpdate) {
+                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                            result.addResponse("+CIEV: 3,2");
+                            result.addResponse("+CIEV: 3,3");
+                            result.addResponse("+CIEV: 3,0");
+                        }
+                    }
+                }
+
+                // In CDMA, the network does not provide any feedback to the phone when a
+                // user merges a 3way call or swaps between two calls we need to send a
+                // CIEV response indicating that a call state got changed which should trigger a
+                // CLCC update request from the BT client.
+                if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                    mAudioPossible = true;
+                    if (sendUpdate) {
+                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                            result.addResponse("+CIEV: 2,1");
+                            result.addResponse("+CIEV: 3,0");
+                        }
+                    }
+                }
+            }
+
             boolean callsSwitched =
                 (callheld == 1 && ! (mBackgroundCall.getEarliestConnectTime() ==
                     mBgndEarliestConnectionTime));
@@ -987,9 +1031,9 @@ public class BluetoothHandsfree {
     /** Build the +CLCC result
      *  The complexity arises from the fact that we need to maintain the same
      *  CLCC index even as a call moves between states. */
-    private synchronized AtCommandResult getClccResult() {
+    private synchronized AtCommandResult gsmGetClccResult() {
         // Collect all known connections
-        Connection[] clccConnections = new Connection[MAX_CONNECTIONS];  // indexed by CLCC index
+        Connection[] clccConnections = new Connection[GSM_MAX_CONNECTIONS];  // indexed by CLCC index
         LinkedList<Connection> newConnections = new LinkedList<Connection>();
         LinkedList<Connection> connections = new LinkedList<Connection>();
         if (mRingingCall.getState().isAlive()) {
@@ -1003,15 +1047,15 @@ public class BluetoothHandsfree {
         }
 
         // Mark connections that we already known about
-        boolean clccUsed[] = new boolean[MAX_CONNECTIONS];
-        for (int i = 0; i < MAX_CONNECTIONS; i++) {
+        boolean clccUsed[] = new boolean[GSM_MAX_CONNECTIONS];
+        for (int i = 0; i < GSM_MAX_CONNECTIONS; i++) {
             clccUsed[i] = mClccUsed[i];
             mClccUsed[i] = false;
         }
         for (Connection c : connections) {
             boolean found = false;
             long timestamp = c.getCreateTime();
-            for (int i = 0; i < MAX_CONNECTIONS; i++) {
+            for (int i = 0; i < GSM_MAX_CONNECTIONS; i++) {
                 if (clccUsed[i] && timestamp == mClccTimestamps[i]) {
                     mClccUsed[i] = true;
                     found = true;
@@ -1107,6 +1151,131 @@ public class BluetoothHandsfree {
         }
         return result;
     }
+
+    /** Build the +CLCC result for CDMA
+     *  The complexity arises from the fact that we need to maintain the same
+     *  CLCC index even as a call moves between states. */
+    private synchronized AtCommandResult cdmaGetClccResult() {
+        // In CDMA at one time a user can have only two live/active connections
+        Connection[] clccConnections = new Connection[CDMA_MAX_CONNECTIONS];// indexed by CLCC index
+
+        Call.State ringingCallState = mRingingCall.getState();
+        // If the Ringing Call state is INCOMING, that means this is the very first call
+        // hence there should not be any Foreground Call
+        if (ringingCallState == Call.State.INCOMING) {
+            if (DBG) log("Filling clccConnections[0] for INCOMING state");
+            clccConnections[0] = mRingingCall.getLatestConnection();
+        } else if (mForegroundCall.getState().isAlive()) {
+            // Getting Foreground Call connection based on Call state
+            if (mRingingCall.isRinging()) {
+                if (DBG) log("Filling clccConnections[0] & [1] for CALL WAITING state");
+                clccConnections[0] = mForegroundCall.getEarliestConnection();
+                clccConnections[1] = mRingingCall.getLatestConnection();
+            } else {
+                if (mForegroundCall.getConnections().size() <= 1) {
+                    // Single call scenario
+                    if (DBG) log("Filling clccConnections[0] with ForgroundCall latest connection");
+                    clccConnections[0] = mForegroundCall.getLatestConnection();
+                } else {
+                    // Multiple Call scenario. This would be true for both
+                    // CONF_CALL and THRWAY_ACTIVE state
+                    if (DBG) log("Filling clccConnections[0] & [1] with ForgroundCall connections");
+                    clccConnections[0] = mForegroundCall.getEarliestConnection();
+                    clccConnections[1] = mForegroundCall.getLatestConnection();
+                }
+            }
+        }
+
+        // Update the mCdmaIsSecondCallActive flag based on the Phone call state
+        if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
+                == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
+            cdmaSetSecondCallState(false);
+        } else if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
+                == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+            cdmaSetSecondCallState(true);
+        }
+
+        // Build CLCC
+        AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
+        for (int i = 0; (i < clccConnections.length) && (clccConnections[i] != null); i++) {
+            String clccEntry = cdmaConnectionToClccEntry(i, clccConnections[i]);
+            if (clccEntry != null) {
+                result.addResponse(clccEntry);
+            }
+        }
+
+        return result;
+    }
+
+    /** Convert a Connection object into a single +CLCC result for CDMA phones */
+    private String cdmaConnectionToClccEntry(int index, Connection c) {
+        int state;
+        PhoneApp app = PhoneApp.getInstance();
+        CdmaPhoneCallState.PhoneCallState currCdmaCallState =
+                app.cdmaPhoneCallState.getCurrentCallState();
+        CdmaPhoneCallState.PhoneCallState prevCdmaCallState =
+                app.cdmaPhoneCallState.getPreviousCallState();
+
+        if ((prevCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                && (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL)) {
+            // If the current state is reached after merging two calls
+            // we set the state of all the connections as ACTIVE
+            state = 0;
+        } else {
+            switch (c.getState()) {
+            case ACTIVE:
+                // For CDMA since both the connections are set as active by FW after accepting
+                // a Call waiting or making a 3 way call, we need to set the state specifically
+                // to ACTIVE/HOLDING based on the mCdmaIsSecondCallActive flag. This way the
+                // CLCC result will allow BT devices to enable the swap or merge options
+                if (index == 0) { // For the 1st active connection
+                    state = mCdmaIsSecondCallActive ? 1 : 0;
+                } else { // for the 2nd active connection
+                    state = mCdmaIsSecondCallActive ? 0 : 1;
+                }
+                break;
+            case HOLDING:
+                state = 1;
+                break;
+            case DIALING:
+                state = 2;
+                break;
+            case ALERTING:
+                state = 3;
+                break;
+            case INCOMING:
+                state = 4;
+                break;
+            case WAITING:
+                state = 5;
+                break;
+            default:
+                return null;  // bad state
+            }
+        }
+
+        int mpty = 0;
+        if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
+            mpty = 0;
+        } else {
+            mpty = 1;
+        }
+
+        int direction = c.isIncoming() ? 1 : 0;
+
+        String number = c.getAddress();
+        int type = -1;
+        if (number != null) {
+            type = PhoneNumberUtils.toaFromString(number);
+        }
+
+        String result = "+CLCC: " + (index + 1) + "," + direction + "," + state + ",0," + mpty;
+        if (number != null) {
+            result += ",\"" + number + "\"," + type;
+        }
+        return result;
+    }
+
     /**
      * Register AT Command handlers to implement the Headset profile
      */
@@ -1425,7 +1594,11 @@ public class BluetoothHandsfree {
         parser.register("+CLCC", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                return getClccResult();
+                if (mPhone.getPhoneName().equals("CDMA")) {
+                    return cdmaGetClccResult();
+                } else {
+                    return gsmGetClccResult();
+                }
             }
         });
 
@@ -1448,12 +1621,23 @@ public class BluetoothHandsfree {
                         }
                     } else if (args[0].equals(1)) {
                         if (mPhone.getPhoneName().equals("CDMA")) {
-                            // For CDMA, there is no answerAndEndActive, so we can behave
-                            // the same way as CHLD=2 here
-                            PhoneUtils.answerCall(mPhone);
-                            PhoneUtils.setMute(mPhone, false);
+                            if (mRingingCall.isRinging()) {
+                                // If there is Call waiting then answer the call and
+                                // put the first call on hold.
+                                if (DBG) log("CHLD:1 Callwaiting Answer call");
+                                PhoneUtils.answerCall(mPhone);
+                                PhoneUtils.setMute(mPhone, false);
+                                // Setting the second callers state flag to TRUE (i.e. active)
+                                cdmaSetSecondCallState(true);
+                            } else {
+                                // If there is no Call waiting then just hangup
+                                // the active call. In CDMA this mean that the complete
+                                // call session would be ended
+                                if (DBG) log("CHLD:1 Hangup Call");
+                                PhoneUtils.hangup(mPhone);
+                            }
                             return new AtCommandResult(AtCommandResult.OK);
-                        } else {
+                        } else { // GSM
                             // Hangup active call, answer held call
                             if (PhoneUtils.answerAndEndActive(mPhone)) {
                                 return new AtCommandResult(AtCommandResult.OK);
@@ -1466,16 +1650,39 @@ public class BluetoothHandsfree {
                             // For CDMA, the way we switch to a new incoming call is by
                             // calling PhoneUtils.answerCall(). switchAndHoldActive() won't
                             // properly update the call state within telephony.
-                            PhoneUtils.answerCall(mPhone);
-                            PhoneUtils.setMute(mPhone, false);
-                        } else {
+                            // If the Phone state is already in CONF_CALL then we simply send
+                            // a flash cmd by calling switchHoldingAndActive()
+                            if (mRingingCall.isRinging()) {
+                                if (DBG) log("CHLD:2 Callwaiting Answer call");
+                                PhoneUtils.answerCall(mPhone);
+                                PhoneUtils.setMute(mPhone, false);
+                                // Setting the second callers state flag to TRUE (i.e. active)
+                                cdmaSetSecondCallState(true);
+                            } else if (PhoneApp.getInstance().cdmaPhoneCallState
+                                    .getCurrentCallState()
+                                    == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                                if (DBG) log("CHLD:2 Swap Calls");
+                                PhoneUtils.switchHoldingAndActive(mPhone);
+                                // Toggle the second callers active state flag
+                                cdmaSwapSecondCallState();
+                            }
+                        } else { // GSM
                             PhoneUtils.switchHoldingAndActive(mPhone);
                         }
                         return new AtCommandResult(AtCommandResult.OK);
                     } else if (args[0].equals(3)) {
-                        if (mForegroundCall.getState().isAlive() &&
-                            mBackgroundCall.getState().isAlive()) {
-                            PhoneUtils.mergeCalls(mPhone);
+                        if (mPhone.getPhoneName().equals("CDMA")) {
+                            // For CDMA, we need to check if the call is in THRWAY_ACTIVE state
+                            if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
+                                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                                if (DBG) log("CHLD:3 Merge Calls");
+                                PhoneUtils.mergeCalls(mPhone);
+                            }
+                        } else { // GSM
+                            if (mForegroundCall.getState().isAlive() &&
+                                    mBackgroundCall.getState().isAlive()) {
+                                PhoneUtils.mergeCalls(mPhone);
+                            }
                         }
                         return new AtCommandResult(AtCommandResult.OK);
                     }
@@ -1925,7 +2132,7 @@ public class BluetoothHandsfree {
                 }
 
                 if (SystemProperties.getBoolean(DEBUG_HANDSFREE_CLCC, false)) {
-                    log(getClccResult().toString());
+                    log(gsmGetClccResult().toString());
                 }
                 try {
                     sleep(1000);  // 1 second
@@ -1943,6 +2150,16 @@ public class BluetoothHandsfree {
                 }
             }
         }
+    }
+
+    public void cdmaSwapSecondCallState() {
+        if (DBG) log("cdmaSetSecondCallState: Toggling mCdmaIsSecondCallActive");
+        mCdmaIsSecondCallActive = !mCdmaIsSecondCallActive;
+    }
+
+    public void cdmaSetSecondCallState(boolean state) {
+        if (DBG) log("cdmaSetSecondCallState: Setting mCdmaIsSecondCallActive to " + state);
+        mCdmaIsSecondCallActive = state;
     }
 
     private static void log(String msg) {

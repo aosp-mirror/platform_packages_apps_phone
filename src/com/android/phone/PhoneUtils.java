@@ -251,6 +251,14 @@ public class PhoneUtils {
                         // Set the Phone Call State to CONF_CALL
                         app.cdmaPhoneCallState.setCurrentCallState(
                                 CdmaPhoneCallState.PhoneCallState.CONF_CALL);
+
+                        // If a BluetoothHandsfree is valid we need to set the second call state
+                        // so that the Bluetooth client can update the Call state correctly when
+                        // a call waiting is answered from the Phone.
+                        BluetoothHandsfree bthf = PhoneApp.getInstance().getBluetoothHandsfree();
+                        if (bthf != null) {
+                            bthf.cdmaSetSecondCallState(true);
+                        }
                     }
                 }
             } catch (CallStateException ex) {
@@ -549,6 +557,7 @@ public class PhoneUtils {
                 Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
             }
         } else { // CDMA
+            if (DBG) log("mergeCalls");
             PhoneApp app = PhoneApp.getInstance();
             if (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
