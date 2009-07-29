@@ -553,6 +553,10 @@ public class CallNotifier extends Handler
         // listens for phone state changes itself.
         mApplication.updateBluetoothIndication(false);
 
+        // Update the proximity sensor mode (on devices that have a
+        // proximity sensor).
+        mApplication.updateProximitySensorMode(state);
+
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
             if (VDBG) log("onPhoneStateChanged: OFF HOOK");

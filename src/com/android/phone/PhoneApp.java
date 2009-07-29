@@ -170,6 +170,7 @@ public class PhoneApp extends Application {
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
     private PowerManager.WakeLock mPartialWakeLock;
+    private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
 
@@ -348,6 +349,14 @@ public class PhoneApp extends Application {
             // lock used to keep the processor awake, when we don't care for the display.
             mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+            // Wake lock used to control proximity sensor behavior.
+            if ((pm.getSupportedWakeLockFlags()
+                 & PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK) != 0x0) {
+                mProximityWakeLock =
+                        pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
+            }
+            if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
+
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
 
@@ -969,6 +978,52 @@ public class PhoneApp extends Application {
             mPowerManagerService.userActivity(SystemClock.uptimeMillis(), false);
         } catch (RemoteException e) {
             Log.w(LOG_TAG, "mPowerManagerService.userActivity() failed: " + e);
+        }
+    }
+
+    /**
+     * Updates the wake lock used to control proximity sensor behavior,
+     * based on the current state of the phone.  This method is called
+     * from the CallNotifier on any phone state change.
+     *
+     * On devices that have a proximity sensor, to avoid false touches
+     * during a call, we hold a PROXIMITY_SCREEN_OFF_WAKE_LOCK wake lock
+     * whenever the phone is off hook.  (When held, that wake lock causes
+     * the screen to turn off automatically when the sensor detects an
+     * object close to the screen.)
+     *
+     * This method is a no-op for devices that don't have a proximity
+     * sensor.
+     *
+     * Note this method doesn't care if the InCallScreen is the foreground
+     * activity or not.  That's because we want the proximity sensor to be
+     * enabled any time the phone is in use, to avoid false cheek events
+     * for whatever app you happen to be running.
+     *
+     * TODO: consider not holding the wake lock if the speakerphone is in
+     * use.  (Although this is probably irrelevant since you won't be
+     * holding the phone to your face in that case, and even so we don't
+     * care if the screen turns off...)
+     *
+     * @param state current state of the phone (see {@link Phone#State})
+     */
+    /* package */ void updateProximitySensorMode(Phone.State state) {
+        if (mProximityWakeLock != null) {
+            if (state == Phone.State.OFFHOOK) {
+                // Phone is in use!  Arrange for the screen to turn off
+                // automatically when the sensor detects a close object.
+                if (!mProximityWakeLock.isHeld()) {
+                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
+                    mProximityWakeLock.acquire();
+                }
+            } else {
+                // Phone is either idle, or ringing.  We don't want any
+                // special proximity sensor behavior in either case.
+                if (mProximityWakeLock.isHeld()) {
+                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
+                    mProximityWakeLock.release();
+                }
+            }
         }
     }
 
