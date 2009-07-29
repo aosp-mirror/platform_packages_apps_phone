@@ -868,7 +868,7 @@ public class CallNotifier extends Handler
                         public void run() {
                             if (mPhone.getPhoneName().equals("CDMA")) {
                                 // Don't put OTA or Emergency calls into call log
-                                if (!mApplication.isOtaCallInActiveState()
+                                if (!mPhone.isOtaSpNumber(eNumber)
                                         && !PhoneNumberUtils.isEmergencyNumber(eNumber)) {
                                     Calls.addCall(ci, mApplication, number, presentation,
                                             callLogType, date, (int) duration / 1000);
