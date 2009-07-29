@@ -1088,11 +1088,33 @@ public class PhoneUtils {
                 if (DBG) log("startGetCallerInfo: query already running, adding listener: " +
                         listener.getClass().toString());
             } else {
-                if (DBG) log("startGetCallerInfo: No query to attach to, send trivial reply.");
-                if (cit.currentInfo == null) {
-                    cit.currentInfo = new CallerInfo();
+                // handling case where number/name gets updated later on by the network
+                String updatedNumber = c.getAddress();
+                if (DBG) log("startGetCallerInfo: updatedNumber = " + updatedNumber);
+                if (!TextUtils.isEmpty(updatedNumber)) {
+                    cit.currentInfo.phoneNumber = updatedNumber;
+
+                    // Store CNAP information retrieved from the Connection
+                    cit.currentInfo.cnapName =  c.getCnapName();
+                    // This can still get overwritten by ContactInfo
+                    cit.currentInfo.name = cit.currentInfo.cnapName;
+                    cit.currentInfo.numberPresentation = c.getNumberPresentation();
+                    cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+
+                    if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
+                            + cit.currentInfo.cnapName
+                            + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                    cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
+                            updatedNumber, sCallerInfoQueryListener, c);
+                    cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
+                    cit.isFinal = false;
+                } else {
+                    if (DBG) log("startGetCallerInfo: No query to attach to, send trivial reply.");
+                    if (cit.currentInfo == null) {
+                        cit.currentInfo = new CallerInfo();
+                    }
+                    cit.isFinal = true; // please see note on isFinal, above.
                 }
-                cit.isFinal = true; // please see note on isFinal, above.
             }
         } else {
             cit = new CallerInfoToken();
