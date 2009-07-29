@@ -24,8 +24,7 @@
     <string name="fdnListLabel">"Seznam povolených telefonních čísel"</string>
     <string name="unknown">"Neznámý volající"</string>
     <string name="private_num">"Soukromé číslo"</string>
-    <!-- no translation found for payphone (1931775086311769314) -->
-    <skip />
+    <string name="payphone">"Veřejný telefon"</string>
     <string name="onHold">"Přidržený hovor"</string>
     <string name="ongoing">"Aktuální hovor"</string>
     <string name="callFailed_userBusy">"Linka je obsazená."</string>
@@ -40,11 +39,25 @@
     <string name="callFailed_dsac_restricted">"Všechny hovory jsou omezeny řízením přístupu."</string>
     <string name="callFailed_dsac_restricted_emergency">"Tísňová volání jsou omezena řízením přístupu."</string>
     <string name="callFailed_dsac_restricted_normal">"Běžné hovory jsou omezeny řízením přístupu."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle">"CDMA: Telefon uzamčen do dalšího cyklu nabíjení."</string>
+    <string name="callFailed_cdma_drop">"CDMA: Hovor přerušen."</string>
+    <string name="callFailed_cdma_intercept">"CDMA: Hovor přerušen."</string>
+    <string name="callFailed_cdma_reorder">"CDMA: přeuspořádání."</string>
+    <string name="callFailed_cdma_SO_reject">"CDMA: Odmítnutí možnosti služby."</string>
+    <string name="callFailed_cdma_retryOrder">"CDMA: Pořadí opakování."</string>
+    <string name="callFailed_cdma_accessFailure">"CDMA: Chyba přístupu."</string>
+    <string name="callFailed_cdma_preempted">"CDMA: Zabráněno."</string>
+    <string name="callFailed_cdma_notEmergency">"Jsou možná jen tísňová volání."</string>
     <string name="confCall">"Konferenční hovor"</string>
     <string name="mmiStarted">"Kód MMI byl spuštěn"</string>
     <string name="ussdRunning">"Kód USSD je spuštěn..."</string>
     <string name="mmiCancelled">"Kód MMI byl zrušen"</string>
     <string name="cancel">"Zrušit"</string>
+    <string name="ecbm_mode_text">"Tísňové zpětné volání"</string>
+    <string name="ecbm_exit_text">"UKONČIT"</string>
+    <string name="ecbm_ok_text">"OK"</string>
+    <string name="ecbm_emergency_number">"Volat 112"</string>
+    <string name="ecbm_instruction_text">"Tísňové volání stisknutím tlačítka"</string>
     <string name="menu_speaker">"Reproduktor"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
     <string name="menu_mute">"Ztlumit"</string>
@@ -61,6 +74,8 @@
     <string name="ok">"OK"</string>
     <string name="menuButtonHint">"Stisknutím tlačítka Menu otevřete možnosti hovoru."</string>
     <string name="menuButtonKeyboardDialHint">"Stisknutím tlačítka Menu otevřete možnosti hovorů  •  Číslo vytočíte pomocí klávesnice"</string>
+    <string name="menu_answer">"Přijmout"</string>
+    <string name="menu_ignore">"Ignorovat"</string>
     <string name="wait_prompt_str">"Odeslat následující tóny?"\n</string>
     <string name="send_button">"Odeslat"</string>
     <string name="wild_prompt_str">"Nahradit zástupný znak znakem"</string>
@@ -84,16 +99,19 @@
     <string name="unlock_failed">"Požadavek na odblokování sítě se nezdařil."</string>
     <string name="unlock_success">"Síť byla úspěšně odblokována."</string>
     <string name="imei">"IMEI"</string>
-
+    <string name="labelGSMMore">"Nastavení hovorů GSM"</string>
+    <string name="labelCDMAMore">"Nastavení hovorů CDMA"</string>
     <string name="apn_settings">"Názvy přístupových bodů"</string>
     <string name="settings_label">"Nastavení sítě"</string>
     <string name="voicemail">"Hlasová schránka"</string>
     <string name="voicemail_abbreviated">"HS:"</string>
     <string name="networks">"Síťoví operátoři"</string>
     <string name="call_settings">"Nastavení hovorů"</string>
-
-    <!-- no translation found for labelNwService (4699970172021870983) -->
-    <skip />
+    <string name="additional_gsm_call_settings">"Další nastavení hovorů GSM"</string>
+    <string name="sum_gsm_call_settings">"Další nastavení hovorů, pouze GSM"</string>
+    <string name="additional_cdma_call_settings">"Další nastavení hovorů CDMA"</string>
+    <string name="sum_cdma_call_settings">"Další nastavení hovorů, pouze CDMA"</string>
+    <string name="labelNwService">"Nastavení síťové služby"</string>
     <string name="labelCallerId">"ID volajícího"</string>
     <string name="sum_hide_caller_id">"Číslo je v odchozích hovorech skryto"</string>
     <string name="sum_show_caller_id">"Číslo je v odchozích hovorech zobrazeno"</string>
@@ -110,21 +128,21 @@
     <string name="sum_cfu_disabled">"Vypnuto"</string>
     <string name="labelCFB">"Přesměrovat, je-li obsazeno"</string>
     <string name="messageCFB">"Číslo při obsazené lince"</string>
-    <string name="sum_cfb_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled">"Hovory budou přesměrovány na {0}"</string>
     <string name="sum_cfb_disabled">"Vypnuto"</string>
     <string name="labelCFNRy">"Přesměrovat – nečinnost"</string>
     <string name="messageCFNRy">"Číslo při nečinnosti"</string>
-    <string name="sum_cfnry_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled">"Hovory budou přesměrovány na {0}"</string>
     <string name="sum_cfnry_disabled">"Vypnuto"</string>
     <string name="labelCFNRc">"Přesměrovat – nedostupnost"</string>
     <string name="messageCFNRc">"Číslo při nedostupnosti"</string>
-    <string name="sum_cfnrc_enabled">"Hovory budou přesměrovány na \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled">"Hovory budou přesměrovány na {0}"</string>
     <string name="sum_cfnrc_disabled">"Vypnuto"</string>
     <string name="updating_title">"Nastavení hovorů"</string>
     <string name="error_updating_title">"Chyba nastavení hovorů"</string>
     <string name="reading_settings">"Načítání nastavení..."</string>
     <string name="updating_settings">"Probíhá aktualizace nastavení..."</string>
-    <string name="response_error">"Neočekávaná odpověď sítě,"</string>
+    <string name="response_error">"Neočekávaná odpověď sítě."</string>
     <string name="exception_error">"Došlo k chybě sítě nebo karty SIM."</string>
     <string name="radio_off_error">"Před zobrazením nastavení zapněte rádio."</string>
     <string name="close_dialog">"OK"</string>
@@ -154,12 +172,188 @@
     <string name="sum_search_networks">"Vyhledá všechny dostupné sítě"</string>
     <string name="select_automatically">"Automatická volba"</string>
     <string name="sum_select_automatically">"Upřednostňovaná síť je volena automaticky"</string>
-    <string name="register_automatically">"Probíhá automatická registrace..."</string>
+    <string name="register_automatically">"Automatická registrace..."</string>
+    <string name="preferred_network_mode_title">"Režim sítě"</string>
+    <string name="preferred_network_mode_summary">"Změnit provozní režim sítě"</string>
+    <string name="preferred_network_mode_dialogtitle">"Upřednostňovaný režim sítě"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item>"Globální"</item>
+    <item>"Pouze EvDo"</item>
+    <item>"CDMA bez EvDo"</item>
+    <item>"CDMA / EvDo – automaticky"</item>
+    <item>"GSM / WCDMA – automaticky"</item>
+    <item>"Pouze WCDMA"</item>
+    <item>"Pouze GSM"</item>
+    <item>"GSM / WCDMA – upřednostňováno"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item>"7"</item>
+    <item>"6"</item>
+    <item>"5"</item>
+    <item>"4"</item>
+    <item>"3"</item>
+    <item>"2"</item>
+    <item>"1"</item>
+    <item>"0"</item>
+  </string-array>
     <string name="roaming">"Datové služby při roamingu"</string>
     <string name="roaming_enable">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_disable">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_reenable_message">"Připojení datových služeb bylo přerušeno, protože jste opustili domovskou síť a datové služby při roamingu máte vypnuty."</string>
     <string name="roaming_warning">"Opravdu chcete povolit datové služby při roamingu? Vystavujete se nebezpečí vysokých poplatků."</string>
+    <string name="gsm_umts_options">"Možnosti GSM/UMTS"</string>
+    <string name="cdma_options">"Možnosti CDMA"</string>
+    <string name="cdma_cell_broadcast_sms">"SMS Cell Broadcast"</string>
+    <string name="cell_broadcast_sms">"SMS Cell Broadcast"</string>
+    <string name="enable_disable_cell_bc_sms">"SMS Cell Broadcast"</string>
+    <string name="cell_bc_sms_enable">"SMS Cell Broadcast povoleny"</string>
+    <string name="cell_bc_sms_disable">"SMS Cell Broadcast zakázány"</string>
+    <string name="cb_sms_settings">"Nastavení SMS Cell Broadcast"</string>
+    <string name="enable_disable_emergency_broadcast">"Tísňové vysílání"</string>
+    <string name="emergency_broadcast_enable">"Tísňové vysílání povoleno"</string>
+    <string name="emergency_broadcast_disable">"Tísňové vysílání zakázáno"</string>
+    <string name="enable_disable_administrative">"Administrativní"</string>
+    <string name="administrative_enable">"Administrativní povoleny"</string>
+    <string name="administrative_disable">"Administrativní zakázány"</string>
+    <string name="enable_disable_maintenance">"Údržba"</string>
+    <string name="maintenance_enable">"Údržba povolena"</string>
+    <string name="maintenance_disable">"Údržba zakázána"</string>
+    <string name="general_news_settings">"Obecné zprávy"</string>
+    <string name="bf_news_settings">"Obchodní a finanční zprávy"</string>
+    <string name="sports_news_settings">"Sportovní zprávy"</string>
+    <string name="entertainment_news_settings">"Zprávy z kultury"</string>
+    <string name="enable_disable_local">"Místní"</string>
+    <string name="local_enable">"Místní zprávy povoleny"</string>
+    <string name="local_disable">"Místní zprávy zakázány"</string>
+    <string name="enable_disable_regional">"Regionální"</string>
+    <string name="regional_enable">"Regionální zprávy povoleny"</string>
+    <string name="regional_disable">"Regionální zprávy zakázány"</string>
+    <string name="enable_disable_national">"Národní"</string>
+    <string name="national_enable">"Národní zprávy povoleny"</string>
+    <string name="national_disable">"Národní zprávy zakázány"</string>
+    <string name="enable_disable_international">"Mezinárodní"</string>
+    <string name="international_enable">"Mezinárodní zprávy povoleny"</string>
+    <string name="international_disable">"Mezinárodní zprávy zakázány"</string>
+    <string name="list_language_title">"Jazyk"</string>
+    <string name="list_language_summary">"Vyberte jazyk zpráv"</string>
+  <string-array name="list_language_entries">
+    <item>"angličtina"</item>
+    <item>"francouzština"</item>
+    <item>"španělština"</item>
+    <item>"japonština"</item>
+    <item>"korejština"</item>
+    <item>"čínština"</item>
+    <item>"hebrejština"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+    <item>"4"</item>
+    <item>"5"</item>
+    <item>"6"</item>
+    <item>"7"</item>
+  </string-array>
+    <string name="list_language_dtitle">"Jazyky"</string>
+    <string name="enable_disable_local_weather">"Místní počasí"</string>
+    <string name="local_weather_enable">"Místní počasí povoleno"</string>
+    <string name="local_weather_disable">"Místní počasí zakázáno"</string>
+    <string name="enable_disable_atr">"Oblastní přehledy dopravy"</string>
+    <string name="atr_enable">"Oblastní přehledy dopravy povoleny"</string>
+    <string name="atr_disable">"Oblastní přehledy dopravy zakázány"</string>
+    <string name="enable_disable_lafs">"Místní přílety a odlety"</string>
+    <string name="lafs_enable">"Místní přílety a odlety povoleny"</string>
+    <string name="lafs_disable">"Místní přílety a odlety zakázány"</string>
+    <string name="enable_disable_restaurants">"Restaurace"</string>
+    <string name="restaurants_enable">"Restaurace povoleny"</string>
+    <string name="restaurants_disable">"Restaurace zakázány"</string>
+    <string name="enable_disable_lodgings">"Ubytování"</string>
+    <string name="lodgings_enable">"Ubytování povolena"</string>
+    <string name="lodgings_disable">"Ubytování zakázána"</string>
+    <string name="enable_disable_retail_directory">"Adresář prodejců"</string>
+    <string name="retail_directory_enable">"Adresář prodejců povolen"</string>
+    <string name="retail_directory_disable">"Adresář prodejců zakázán"</string>
+    <string name="enable_disable_advertisements">"Reklamy"</string>
+    <string name="advertisements_enable">"Reklamy povoleny"</string>
+    <string name="advertisements_disable">"Reklamy zakázány"</string>
+    <string name="enable_disable_stock_quotes">"Zprávy z akciových trhů"</string>
+    <string name="stock_quotes_enable">"Zprávy z akciových trhů zakázány"</string>
+    <string name="stock_quotes_disable">"Zprávy z akciových trhů zakázány"</string>
+    <string name="enable_disable_eo">"Pracovní příležitosti"</string>
+    <string name="eo_enable">"Pracovní příležitosti povoleny"</string>
+    <string name="eo_disable">"Pracovní příležitosti zakázány"</string>
+    <string name="enable_disable_mhh">"Lékařství, zdraví a nemocnice"</string>
+    <string name="mhh_enable">"Lékařství, zdraví a nemocnice povoleny"</string>
+    <string name="mhh_disable">"Lékařství, zdraví a nemocnice zakázány"</string>
+    <string name="enable_disable_technology_news">"Technologické zprávy"</string>
+    <string name="technology_news_enable">"Technologické zprávy povoleny"</string>
+    <string name="technology_news_disable">"Technologické zprávy zakázány"</string>
+    <string name="enable_disable_multi_category">"Více kategorií"</string>
+    <string name="multi_category_enable">"Více kategorií povoleno"</string>
+    <string name="multi_category_disable">"Více kategorií zakázáno"</string>
+    <string name="gsm_umts_network_preferences_title">"Nastavení sítě GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferneces_summary">"Dosud neimplementováno"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle">"Nastavení sítě GSM/UMTS"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item>"GSM/WCDMA (automatický režim)"</item>
+    <item>"Pouze WCDMA"</item>
+    <item>"Pouze GSM"</item>
+    <item>"GSM/WCDA (preferováno WCDMA)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+    <item>"3"</item>
+  </string-array>
+    <string name="cdma_system_select_title">"Výběr systému"</string>
+    <string name="cdma_system_select_summary">"Změnit režim roamingu CDMA"</string>
+    <string name="cdma_system_select_dialogtitle">"Výběr systému"</string>
+  <string-array name="cdma_system_select_choices">
+    <item>"Pouze plocha"</item>
+    <item>"Automaticky"</item>
+  </string-array>
+  <string-array name="cdma_system_select_values">
+    <item>"0"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title">"Režim roamingu CDMA"</string>
+    <string name="cdma_roaming_mode_summary">"Změnit režim roamingu CDMA"</string>
+    <string name="cdma_roaming_mode_dialogtitle">"Režim roamingu CDMA"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item>"Pouze domovské sítě"</item>
+    <item>"Partnerské sítě"</item>
+    <item>"Jakákoli síť"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title">"Nastavení sítě CDMA"</string>
+    <string name="cdma_network_preferneces_summary">"Dosud neimplementováno"</string>
+    <string name="cdma_network_preferences_dialogtitle">"Nastavení sítě CDMA"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item>"CDMA/EvDo"</item>
+    <item>"Pouze CDMA"</item>
+    <item>"Pouze EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item>"0"</item>
+    <item>"1"</item>
+    <item>"2"</item>
+  </string-array>
+    <string name="subscription_title">"TEST odběru CDMA"</string>
+    <string name="subscription_summary">"Přepnout mezi RUIM/SIM a NV"</string>
+    <string name="subscription_dialogtitle">"odběr"</string>
+  <string-array name="subscription_choices">
+    <item>"RUIM/SIM"</item>
+    <item>"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item>"0"</item>
+    <item>"1"</item>
+  </string-array>
     <string name="fdn">"Povolená telefonní čísla"</string>
     <string name="manage_fdn_list">"Seznam povolených telefonních čísel"</string>
     <string name="fdn_activation">"Aktivace povolených telefonních čísel"</string>
@@ -173,6 +367,12 @@
     <string name="sum_fdn">"Umožňuje spravovat povolená telefonní čísla"</string>
     <string name="sum_fdn_change_pin">"Umožňuje změnit kód PIN pro přístup k povoleným telefonním číslům"</string>
     <string name="sum_fdn_manage_list">"Správa telefonního seznamu"</string>
+    <string name="voice_privacy">"Ochrana soukromí hlasové pošty"</string>
+    <string name="voice_privacy_summary">"Povolit režim vylepšené ochrany soukromí"</string>
+    <string name="tty_mode_title">"Režim TTY"</string>
+    <string name="tty_mode_summary">"Povolit režim TTY"</string>
+    <string name="tty_mode_option_title">"Režim TTY"</string>
+    <string name="tty_mode_option_summary">"Nastavit režim TTY"</string>
     <string name="menu_add">"Přidat kontakt"</string>
     <string name="menu_edit">"Upravit kontakt"</string>
     <string name="menu_delete">"Smazat kontakt"</string>
@@ -237,9 +437,11 @@
     <string name="card_title_in_progress">"Aktuální hovor"</string>
     <string name="card_title_conf_call">"Konferenční hovor"</string>
     <string name="card_title_incoming_call">"Příchozí hovor"</string>
+    <string name="card_title_cdma_call_waiting">"Čekající hovor CDMA"</string>
     <string name="card_title_call_ended">"Hovor ukončen"</string>
     <string name="card_title_on_hold">"Přidržený hovor"</string>
     <string name="card_title_hanging_up">"Zavěšování"</string>
+    <string name="card_title_in_call">"Probíhá hovor"</string>
     <string name="notification_missedCallTitle">"Zmeškaný hovor"</string>
     <string name="notification_missedCallsTitle">"Zmeškané hovory"</string>
     <string name="notification_missedCallsMsg">"Zmeškané hovory: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>."</string>
@@ -247,6 +449,7 @@
     <string name="notification_ongoing_call_format">"Aktuální hovor (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold">"Přidržený hovor"</string>
     <string name="notification_voicemail_title">"Nová hlasová zpráva"</string>
+    <string name="notification_voicemail_title_count">"Nová hlasová zpráva (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format">"Volat hlasovou schránku <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number">"Číslo hlasové schránky je neznámé."</string>
     <string name="incall_error_power_off">"Chcete-li telefonovat, vypněte nejprve režim V letadle."</string>
@@ -254,6 +457,7 @@
     <string name="incall_error_no_phone_number_supplied">"Hovor nelze spojit, nebylo zadáno platné číslo."</string>
     <string name="incall_error_call_failed">"Hovor nebyl spojen."</string>
     <string name="incall_status_dialed_mmi">"Spouštění sekvence MMI..."</string>
+    <string name="incall_status_dialed_fc">"Spouštění sekvence kódu funkce…"</string>
     <string name="incall_error_supp_service_unknown">"Nepodporovaná služba."</string>
     <string name="incall_error_supp_service_switch">"Hovory nelze přepnout."</string>
     <string name="incall_error_supp_service_separate">"Hovor nelze oddělit."</string>
@@ -268,14 +472,25 @@
     <string name="dial_emergency_empty_error">"Hovor nebyl spojen, vytočte číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText">"Číslo vytočíte pomocí klávesnice."</string>
     <string name="dtmfDialpadHintText">"Tónová klávesnice"</string>
-    <!-- no translation found for dtmfDialpadHandleLabel (6077872154488117962) -->
-    <skip />
-    <string name="touchLockText">"Dvojitým klepnutím"\n"odemkněte"</string>
+    <string name="dtmfDialpadHandleLabel">"Číselník"</string>
+    <string name="touchLockText">"Odemkněte"\n"dvojím klepnutím"</string>
+    <string name="onscreenAnswerText">"Dvojím klepnutím"\n"přijmete"</string>
     <string name="importSimEntry">"Importovat"</string>
     <string name="importAllSimEntries">"Importovat vše"</string>
     <string name="importingSimContacts">"Importování kontaktů z karty SIM"</string>
     <string name="importToFDNfromContacts">"Import z kontaktů"</string>
+  <string-array name="tty_mode_entries">
+    <item>"TTY vypnuto"</item>
+    <item>"TTY HCO"</item>
+    <item>"TTY VCO"</item>
+    <item>"Úplný režim TTY"</item>
+  </string-array>
+    <string name="eri_text_label">"Text ERI"</string>
+    <string name="dtmf_tones_title">"Tóny DTMF"</string>
+    <string name="dtmf_tones_summary">"Nastavit délku tónů DTMF"</string>
+  <string-array name="dtmf_tone_entries">
+    <item>"Normální"</item>
+    <item>"Dlouhé"</item>
+  </string-array>
+    <string name="network_message">"Zpráva sítě"</string>
 </resources>
-
-
-

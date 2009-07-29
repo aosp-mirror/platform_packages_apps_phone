@@ -18,27 +18,27 @@
     <string name="contactsIconLabel">"Contactos"</string>
     <string name="contactsFavoritesLabel">"Favoritos"</string>
     <string name="dialerIconLabel">"Marcador"</string>
-    <string name="emergencyDialerIconLabel">"Marcador de emergencia"</string>
-    <string name="phoneIconLabel">"Teléfono"</string>
-    <string name="recentCallsIconLabel">"Registro de llamadas"</string>
-    <string name="fdnListLabel">"Lista de NMF"</string>
-    <string name="unknown">"Desconocida"</string>
-    <string name="private_num">"Número privado"</string>
-    <string name="payphone">"Teléfono pago"</string>
-    <string name="onHold">"En espera"</string>
-    <string name="ongoing">"Llamada actual"</string>
-    <string name="callFailed_userBusy">"Línea ocupada"</string>
-    <string name="callFailed_congestion">"Red ocupada"</string>
-    <string name="callFailed_noSignal">"No hay señal"</string>
-    <string name="callFailed_limitExceeded">"Se excedió el límite de ACM"</string>
-    <string name="callFailed_powerOff">"Radio apagada"</string>
-    <string name="callFailed_simError">"Sin SIM o error de SIM"</string>
-    <string name="callFailed_outOfService">"Área fuera de servicio"</string>
-    <string name="callFailed_fdn_only">"Las llamadas salientes están restringidas por NMF."</string>
-    <string name="callFailed_cb_enabled">"No puedes realizar llamadas salientes cuando está activada la restricción de llamadas."</string>
-    <string name="callFailed_dsac_restricted">"Todas las llamadas están restringidas por control de acceso."</string>
-    <string name="callFailed_dsac_restricted_emergency">"Las llamadas de emergencia están restringidas por control de acceso."</string>
-    <string name="callFailed_dsac_restricted_normal">"Las llamadas normales están restringidas por control de acceso."</string>
+    <string name="emergencyDialerIconLabel">"Marcador de emergência"</string>
+    <string name="phoneIconLabel">"Telefone"</string>
+    <string name="recentCallsIconLabel">"Registo de chamadas"</string>
+    <string name="fdnListLabel">"Lista de números de marcação fixa (FDN)"</string>
+    <string name="unknown">"Desconhecido"</string>
+    <string name="private_num">"Número particular"</string>
+    <string name="payphone">"Telefone público"</string>
+    <string name="onHold">"Em espera"</string>
+    <string name="ongoing">"Chamada actual"</string>
+    <string name="callFailed_userBusy">"Linha ocupada"</string>
+    <string name="callFailed_congestion">"Rede ocupada"</string>
+    <string name="callFailed_noSignal">"Sem sinal"</string>
+    <string name="callFailed_limitExceeded">"Limite de ACM excedido"</string>
+    <string name="callFailed_powerOff">"Rádio desactivado"</string>
+    <string name="callFailed_simError">"Sem cartão SIM ou erro do cartão"</string>
+    <string name="callFailed_outOfService">"Fora da área do serviço"</string>
+    <string name="callFailed_fdn_only">"As chamadas efectuadas são restringidas por FDN."</string>
+    <string name="callFailed_cb_enabled">"Não é possível efectuar chamadas com o barramento de chamadas activado."</string>
+    <string name="callFailed_dsac_restricted">"Todas as chamadas são restringidas por controlo de acesso."</string>
+    <string name="callFailed_dsac_restricted_emergency">"As chamadas de emergência são restringidas por controlo de acesso."</string>
+    <string name="callFailed_dsac_restricted_normal">"As chamadas normais são restringidas por controlo de acesso."</string>
     <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
     <skip />
     <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
@@ -57,10 +57,10 @@
     <skip />
     <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
     <skip />
-    <string name="confCall">"Llamada en conferencia"</string>
+    <string name="confCall">"Chamada de conferência"</string>
     <string name="mmiStarted">"Código de MMI iniciado"</string>
-    <string name="ussdRunning">"Ejecutando código USSD..."</string>
-    <string name="mmiCancelled">"Código MMI cancelado"</string>
+    <string name="ussdRunning">"A executar código USSD..."</string>
+    <string name="mmiCancelled">"Código de MMI cancelado"</string>
     <string name="cancel">"Cancelar"</string>
     <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
     <skip />
@@ -72,59 +72,59 @@
     <skip />
     <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
     <skip />
-    <string name="menu_speaker">"Altavoces"</string>
+    <string name="menu_speaker">"Altifalante"</string>
     <string name="menu_bluetooth">"Bluetooth"</string>
-    <string name="menu_mute">"Silenciar"</string>
-    <string name="menu_hold">"Retener"</string>
-    <string name="menu_endCall">"Finalizar llamada"</string>
-    <string name="menu_swapCalls">"Intercambiar llamadas"</string>
-    <string name="menu_mergeCalls">"Combinar llamadas"</string>
-    <string name="menu_addCall">"Agregar llamada"</string>
-    <string name="menu_manageConference">"Administrar llamada en conferencia"</string>
-    <string name="menu_showDialpad">"Mostrar teclado telefónico"</string>
-    <string name="menu_hideDialpad">"Ocultar teclado telefónico"</string>
-    <string name="menu_answerAndHold">"Retener la llamada actual"\n" respuesta"</string>
-    <string name="menu_answerAndEnd">"Finalizar la llamada actual"\n" respuesta"</string>
-    <string name="ok">"Aceptar"</string>
-    <string name="menuButtonHint">"Pulsa Menú para obtener las opciones de llamada."</string>
-    <string name="menuButtonKeyboardDialHint">"Pulsa Menú para obtener las opciones de llamada  •  Utiliza el teclado para marcar"</string>
+    <string name="menu_mute">"Desactivar som"</string>
+    <string name="menu_hold">"Suspender"</string>
+    <string name="menu_endCall">"Terminar chamada"</string>
+    <string name="menu_swapCalls">"Alternar entre chamadas"</string>
+    <string name="menu_mergeCalls">"Intercalar chamadas"</string>
+    <string name="menu_addCall">"Adicionar chamada"</string>
+    <string name="menu_manageConference">"Gerir chamada de conferência"</string>
+    <string name="menu_showDialpad">"Mostrar o teclado de marcação"</string>
+    <string name="menu_hideDialpad">"Ocultar teclado de marcação"</string>
+    <string name="menu_answerAndHold">"Suspender chamada actual "\n"&amp; atender"</string>
+    <string name="menu_answerAndEnd">"Terminar a chamada actual"\n"&amp; atender"</string>
+    <string name="ok">"OK"</string>
+    <string name="menuButtonHint">"Prima Menu para as opções de chamada."</string>
+    <string name="menuButtonKeyboardDialHint">"Prima Menu para opções de chamada  •  Utilize o teclado para a marcação"</string>
     <!-- no translation found for menu_answer (116686205042231098) -->
     <skip />
     <!-- no translation found for menu_ignore (2112030835852537344) -->
     <skip />
-    <string name="wait_prompt_str">"¿Deseas enviar los siguientes tonos?"\n</string>
+    <string name="wait_prompt_str">"Enviar os seguintes tons?"\n</string>
     <string name="send_button">"Enviar"</string>
-    <string name="wild_prompt_str">"Reemplazar el caracter comodín con"</string>
-    <string name="no_vm_number">"Falta el número de correo de voz"</string>
-    <string name="no_vm_number_msg">"No hay un número de correo de voz almacenado en la tarjeta SIM."</string>
-    <string name="add_vm_number_str">"Agregar número"</string>
-    <string name="dialer_emptyListWorking">"Cargando…"</string>
-    <string name="enterPin">"Escribe el código PIN para desbloquear la tarjeta SIM:"</string>
+    <string name="wild_prompt_str">"Substituir o carácter universal por"</string>
+    <string name="no_vm_number">"Número do correio de voz em falta"</string>
+    <string name="no_vm_number_msg">"Não existe um número de correio de voz armazenado no cartão SIM."</string>
+    <string name="add_vm_number_str">"Adicionar número"</string>
+    <string name="dialer_emptyListWorking">"A carregar..."</string>
+    <string name="enterPin">"Introduza o código PIN para desbloquear o cartão SIM."</string>
     <string name="pinUnlocked">"SIM desbloqueado"</string>
-    <string name="enterNewPin">"Nuevo Código de PIN de SIM"</string>
-    <string name="verifyNewPin">"Escribe nuevamente el código PIN de SIM nuevo para confirmarlo"</string>
-    <string name="verifyFailed">"Los PIN de SIM que has ingresado no coinciden. Vuelve a intentarlo."</string>
-    <string name="enterPuk">"Escribe el código PUK para desbloquear la tarjeta SIM"</string>
-    <string name="badPuk">"Código PUK incorrecto."</string>
+    <string name="enterNewPin">"Novo código PIN do cartão SIM"</string>
+    <string name="verifyNewPin">"Introduza o novo código PIN do cartão SIM novamente para confirmar"</string>
+    <string name="verifyFailed">"Os PINs do cartão SIM introduzidos não coincidem. Tente novamente."</string>
+    <string name="enterPuk">"Introduza o código PUK para desbloquear o cartão SIM"</string>
+    <string name="badPuk">"Código PUK incorrecto!"</string>
     <string name="buttonTxtContinue">"Continuar"</string>
-    <string name="puk_unlocked">"Tu tarjeta SIM ha sido desbloqueada. Tu teléfono está desbloqueando..."</string>
-    <string name="label_ndp">"PIN de desbloqueo de red SIM"</string>
+    <string name="puk_unlocked">"O cartão SIM foi desbloqueado. O telefone está a ser desbloqueado..."</string>
+    <string name="label_ndp">"PIN para desbloqueio de rede do cartão SIM"</string>
     <string name="sim_ndp_unlock_text">"Desbloquear"</string>
-    <string name="sim_ndp_dismiss_text">"Descartar"</string>
-    <string name="requesting_unlock">"Solicitando desbloqueo de red..."</string>
-    <string name="unlock_failed">"Solicitud de desbloqueo de red incorrecta."</string>
-    <string name="unlock_success">"Desbloqueo de red correcto."</string>
+    <string name="sim_ndp_dismiss_text">"Ignorar"</string>
+    <string name="requesting_unlock">"A pedir desbloqueio de rede..."</string>
+    <string name="unlock_failed">"O·pedido·de·desbloqueio·de·rede·falhou."</string>
+    <string name="unlock_success">"Desbloqueio de rede bem sucedido."</string>
     <string name="imei">"IMEI"</string>
     <!-- no translation found for labelGSMMore (5930842194056092106) -->
     <skip />
     <!-- no translation found for labelCDMAMore (1630676740428229339) -->
     <skip />
-    <string name="apn_settings">"Nombres de puntos de acceso"</string>
-    <string name="settings_label">"Configuración de red"</string>
-    <string name="voicemail">"Correo de voz"</string>
-    <string name="voicemail_abbreviated">"Correo de voz:"</string>
-    <string name="networks">"Operadores de red"</string>
-    <string name="call_settings">"Configuración de llamada"</string>
+    <string name="apn_settings">"Nomes dos pontos de acesso"</string>
+    <string name="settings_label">"Definições de rede"</string>
+    <string name="voicemail">"Correio de voz"</string>
+    <string name="voicemail_abbreviated">"Correio de voz:"</string>
+    <string name="networks">"Operadores de rede"</string>
+    <string name="call_settings">"Definições de chamada"</string>
     <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
     <skip />
     <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
@@ -133,68 +133,68 @@
     <skip />
     <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
     <skip />
-    <string name="labelNwService">"Configuración de servicios de red"</string>
-    <string name="labelCallerId">"ID de llamada entrante"</string>
-    <string name="sum_hide_caller_id">"Número escondido en llamadas salientes"</string>
-    <string name="sum_show_caller_id">"Número visualizado en llamadas salientes"</string>
-    <string name="sum_default_caller_id">"Utilizar configuración del operador predeterminada para visualizar mi número en las llamadas salientes"</string>
-    <string name="labelCW">"Llamada en espera"</string>
-    <string name="sum_cw_enabled">"Durante una llamada, notificarme sobre las llamadas entrantes"</string>
-    <string name="sum_cw_disabled">"Durante una llamada, notificarme sobre las llamadas entrantes"</string>
-    <string name="call_forwarding_settings">"Configuración de reenvío de llamadas"</string>
-    <string name="labelCF">"Reenvío de llamada"</string>
-    <string name="labelCFU">"Reenviar siempre"</string>
-    <string name="messageCFU">"Usar este teléfono siempre"</string>
-    <string name="sum_cfu_enabled_indicator">"Reenviar todas las llamadas"</string>
-    <string name="sum_cfu_enabled">"Reenviar todas las llamadas a \\\\{0\\\\}"</string>
+    <string name="labelNwService">"Definições do serviço de rede"</string>
+    <string name="labelCallerId">"ID do autor da chamada"</string>
+    <string name="sum_hide_caller_id">"Ocultar o número em chamadas efectuadas"</string>
+    <string name="sum_show_caller_id">"Número apresentado em chamadas efectuadas"</string>
+    <string name="sum_default_caller_id">"Utilizar as predefinições do operador para apresentar o meu número nas chamadas efectuadas"</string>
+    <string name="labelCW">"Chamada em espera"</string>
+    <string name="sum_cw_enabled">"Notificar-me de chamadas a receber durante uma chamada"</string>
+    <string name="sum_cw_disabled">"Notificar-me de chamadas a receber durante uma chamada"</string>
+    <string name="call_forwarding_settings">"Definições do reencaminhamento de chamadas"</string>
+    <string name="labelCF">"Reencaminhamento de chamadas"</string>
+    <string name="labelCFU">"Reencaminhar sempre"</string>
+    <string name="messageCFU">"Utilizar sempre este número"</string>
+    <string name="sum_cfu_enabled_indicator">"A reencaminhar todas as chamadas"</string>
+    <string name="sum_cfu_enabled">"A reencaminhar todas as chamadas para \\\\{0\\\\}"</string>
     <string name="sum_cfu_disabled">"Desactivado"</string>
-    <string name="labelCFB">"Reenviar cuando está ocupado"</string>
-    <string name="messageCFB">"Número cuando está ocupado"</string>
-    <string name="sum_cfb_enabled">"Reenviar a \\\\{0\\\\}"</string>
+    <string name="labelCFB">"Reencaminhar quando ocupado"</string>
+    <string name="messageCFB">"Número no caso de estar ocupado"</string>
+    <string name="sum_cfb_enabled">"A redireccionar para \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled">"Desactivado"</string>
-    <string name="labelCFNRy">"Reenviar cuando no contesta"</string>
-    <string name="messageCFNRy">"Número cuando no contesta"</string>
-    <string name="sum_cfnry_enabled">"Reenviar a \\\\{0\\\\}"</string>
-    <string name="sum_cfnry_disabled">"Deshabilitado"</string>
-    <string name="labelCFNRc">"Reenviar cuando no se puede alcanzar"</string>
-    <string name="messageCFNRc">"Número cuando no se puede alcanzar"</string>
-    <string name="sum_cfnrc_enabled">"Reenviar a \\\\{0\\\\}"</string>
+    <string name="labelCFNRy">"Reencaminhar quando não atende"</string>
+    <string name="messageCFNRy">"Número no caso de não atender"</string>
+    <string name="sum_cfnry_enabled">"A reencaminhar para \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_disabled">"Desactivado"</string>
+    <string name="labelCFNRc">"Reencaminhar quando está inacessível"</string>
+    <string name="messageCFNRc">"Número no caso de estar inacessível"</string>
+    <string name="sum_cfnrc_enabled">"A reencaminhar para \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled">"Desactivado"</string>
-    <string name="updating_title">"Configuración de llamada"</string>
-    <string name="error_updating_title">"Error en configuración de llamada"</string>
-    <string name="reading_settings">"Leyendo configuración..."</string>
-    <string name="updating_settings">"Actualizando configuración..."</string>
+    <string name="updating_title">"Definições de chamadas"</string>
+    <string name="error_updating_title">"Erro nas definições de chamada"</string>
+    <string name="reading_settings">"A ler as definições..."</string>
+    <string name="updating_settings">"A actualizar as definições..."</string>
     <!-- no translation found for response_error (6674110501330139405) -->
     <skip />
-    <string name="exception_error">"Error en la red o en la tarjeta SIM."</string>
-    <string name="radio_off_error">"Enciende la radio antes de ver esta configuración."</string>
-    <string name="close_dialog">"Aceptar"</string>
-    <string name="enable">"Habilitar"</string>
+    <string name="exception_error">"Erro do cartão SIM ou da rede."</string>
+    <string name="radio_off_error">"Active o rádio antes de visualizar estas definições."</string>
+    <string name="close_dialog">"OK"</string>
+    <string name="enable">"Activar"</string>
     <string name="disable">"Desactivar"</string>
     <string name="change_num">"Actualizar"</string>
   <string-array name="clir_display_values">
-    <item>"Red predeterminada"</item>
+    <item>"Predefinição da rede"</item>
     <item>"Ocultar número"</item>
     <item>"Mostrar número"</item>
   </string-array>
-    <string name="vm_save_number">"Guardar número de correo de voz"</string>
-    <string name="vm_changed">"Número de correo de voz cambiado."</string>
-    <string name="vm_change_failed">"Cambio de número de correo de voz incorrecto."</string>
-    <string name="no_change">"No se realizaron cambios."</string>
-    <string name="sum_voicemail">"Definir número de correo de voz"</string>
-    <string name="mobile_networks">"Configuración de red móvil"</string>
-    <string name="label_available">"Red disponible"</string>
-    <string name="load_networks_progress">"Buscando..."</string>
-    <string name="empty_networks_list">"No se encontraron redes."</string>
-    <string name="search_networks">"Buscar redes"</string>
-    <string name="network_query_error">"Error al buscar redes."</string>
-    <string name="register_on_network">"Registrando en <xliff:g id="NETWORK">%s</xliff:g>..."</string>
-    <string name="not_allowed">"Tu tarjeta SIM no permite una conexión a esta red."</string>
-    <string name="registration_done">"Registrado en la red."</string>
-    <string name="sum_carrier_select">"Seleccionar un operador de red"</string>
-    <string name="sum_search_networks">"Buscar todas las redes disponibles"</string>
-    <string name="select_automatically">"Seleccionar automáticamente"</string>
-    <string name="sum_select_automatically">"Seleccionar la red preferida automáticamente"</string>
+    <string name="vm_save_number">"Guardar o número do correio de voz"</string>
+    <string name="vm_changed">"O número do correio de voz foi alterado."</string>
+    <string name="vm_change_failed">"A·alteração·do·número·do·correio·de·voz·falhou."</string>
+    <string name="no_change">"Não foram efectuadas alterações."</string>
+    <string name="sum_voicemail">"Definir o número do correio de voz"</string>
+    <string name="mobile_networks">"Definições da rede móvel"</string>
+    <string name="label_available">"Redes disponíveis"</string>
+    <string name="load_networks_progress">"A pesquisar..."</string>
+    <string name="empty_networks_list">"Nenhuma rede encontrada."</string>
+    <string name="search_networks">"Procurar redes"</string>
+    <string name="network_query_error">"Erro ao procurar redes."</string>
+    <string name="register_on_network">"A registar em <xliff:g id="NETWORK">%s</xliff:g>..."</string>
+    <string name="not_allowed">"O cartão SIM não permite uma ligação a esta rede."</string>
+    <string name="registration_done">"Registado na rede."</string>
+    <string name="sum_carrier_select">"Seleccione um operador de rede"</string>
+    <string name="sum_search_networks">"Procurar todas as redes disponíveis"</string>
+    <string name="select_automatically">"Seleccionar automaticamente"</string>
+    <string name="sum_select_automatically">"Seleccionar rede preferida automaticamente"</string>
     <!-- no translation found for register_automatically (6272031189219101172) -->
     <skip />
     <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
@@ -219,11 +219,11 @@
     <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
     <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
     <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
-    <string name="roaming">"Roaming de datos"</string>
-    <string name="roaming_enable">"Conectarse a servicios de datos en el roaming"</string>
-    <string name="roaming_disable">"Conectarse a servicios de datos en el roaming"</string>
-    <string name="roaming_reenable_message">"Has perdido la conectividad de los datos porque has dejado la red doméstica con roaming de datos desactivado."</string>
-    <string name="roaming_warning">"¿Deseas permitir el roaming de datos? Ten en cuenta que podrás incurrir en gastos significativos."</string>
+    <string name="roaming">"Roaming de dados"</string>
+    <string name="roaming_enable">"Ligar a serviços de dados em roaming"</string>
+    <string name="roaming_disable">"Ligar a serviços de dados em roaming"</string>
+    <string name="roaming_reenable_message">"A ligação de dados foi perdida porque saiu do alcance da sua rede e o roaming de dados estava desactivado."</string>
+    <string name="roaming_warning">"Permitir roaming de dados? Os encargos de roaming podem ser significativos!"</string>
     <!-- no translation found for gsm_umts_options (6538311689850981686) -->
     <skip />
     <!-- no translation found for cdma_options (4016822858172249884) -->
@@ -440,19 +440,19 @@
     <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
     <!-- no translation found for subscription_values:0 (4377788417250295786) -->
     <!-- no translation found for subscription_values:1 (1193066664940329729) -->
-    <string name="fdn">"Números de marcación fija"</string>
-    <string name="manage_fdn_list">"Lista de NMF"</string>
-    <string name="fdn_activation">"Activación de NMF"</string>
-    <string name="fdn_enabled">"Los números de marcación fija están activados"</string>
-    <string name="fdn_disabled">"Los números de marcación fija (NMF) están desactivados"</string>
-    <string name="enable_fdn">"Habilitar NMF"</string>
-    <string name="disable_fdn">"Desactivar NMF"</string>
-    <string name="change_pin2">"Cambiar PIN2"</string>
-    <string name="enable_fdn_ok">"Desactivar NMF"</string>
-    <string name="disable_fdn_ok">"Activar NMF"</string>
-    <string name="sum_fdn">"Administrar números de marcación fija"</string>
-    <string name="sum_fdn_change_pin">"Cambiar PIN para acceso de NMF"</string>
-    <string name="sum_fdn_manage_list">"Administrar lista de números de teléfono"</string>
+    <string name="fdn">"Números de marcação fixa (FDN)"</string>
+    <string name="manage_fdn_list">"Lista de números de marcação fixa (FDN)"</string>
+    <string name="fdn_activation">"Activação de FDN"</string>
+    <string name="fdn_enabled">"Os números de marcação fixa estão activados"</string>
+    <string name="fdn_disabled">"Os números de marcação fixa estão desactivados"</string>
+    <string name="enable_fdn">"Activar FDN"</string>
+    <string name="disable_fdn">"Desactivar FDN"</string>
+    <string name="change_pin2">"Alterar PIN2"</string>
+    <string name="enable_fdn_ok">"Desactivar FDN"</string>
+    <string name="disable_fdn_ok">"Activar FDN"</string>
+    <string name="sum_fdn">"Gerir os números de marcação fixa"</string>
+    <string name="sum_fdn_change_pin">"Alterar o PIN de acesso aos números de marcação fixa"</string>
+    <string name="sum_fdn_manage_list">"Gerir a lista telefónica"</string>
     <!-- no translation found for voice_privacy (7803023024169078619) -->
     <skip />
     <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
@@ -465,118 +465,118 @@
     <skip />
     <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
     <skip />
-    <string name="menu_add">"Agregar contacto"</string>
+    <string name="menu_add">"Adicionar contacto"</string>
     <string name="menu_edit">"Editar contacto"</string>
     <string name="menu_delete">"Eliminar contacto"</string>
-    <string name="get_pin2">"Ingresar PIN2"</string>
-    <string name="name">"Nombre"</string>
+    <string name="get_pin2">"Introduza o PIN2"</string>
+    <string name="name">"Nome"</string>
     <string name="number">"Número"</string>
     <string name="save">"Guardar"</string>
-    <string name="add_fdn_contact">"Agregar contacto de marcación fija"</string>
-    <string name="adding_fdn_contact">"Agregando contacto de marcación fija..."</string>
-    <string name="fdn_contact_added">"Contacto de marcación fija agregado."</string>
-    <string name="edit_fdn_contact">"Editar contacto de marcación fija"</string>
-    <string name="updating_fdn_contact">"Actualizando contacto de marcación fija..."</string>
-    <string name="fdn_contact_updated">"Contacto de marcación fija actualizado."</string>
-    <string name="delete_fdn_contact">"Eliminar contacto de marcación fija"</string>
-    <string name="deleting_fdn_contact">"Eliminando contacto de marcación fija..."</string>
-    <string name="fdn_contact_deleted">"Contacto de marcación fija eliminado."</string>
-    <string name="pin2_invalid">"PIN2 no válido."</string>
-    <string name="fdn_invalid_number">"El número no puede exceder los 20 dígitos."</string>
-    <string name="simContacts_emptyLoading">"Leyendo la tarjeta SIM..."</string>
-    <string name="simContacts_empty">"No hay contactos en tu tarjeta SIM."</string>
-    <string name="simContacts_title">"Seleccionar contactos para importar"</string>
-    <string name="enable_pin">"Habilitar/inhabilitar PIN de SIM"</string>
-    <string name="change_pin">"Cambiar PIN de SIM"</string>
-    <string name="enter_pin_text">"PIN de SIM:"</string>
-    <string name="oldPinLabel">"PIN anterior"</string>
-    <string name="newPinLabel">"PIN nuevo"</string>
-    <string name="confirmPinLabel">"Confirmar PIN nuevo"</string>
-    <string name="badPin">"El PIN anterior ingresado no es correcto. Vuelve a intentarlo."</string>
-    <string name="mismatchPin">"Los PIN que has ingresado no coinciden. Vuelve a intentarlo."</string>
-    <string name="invalidPin">"Escribe un PIN que tenga de 4 a 8 números."</string>
-    <string name="disable_sim_pin">"Desactivar PIN de SIM"</string>
-    <string name="enable_sim_pin">"Habilitar PIN de SIM"</string>
-    <string name="enable_in_progress">"Espera, por favor..."</string>
-    <string name="enable_pin_ok">"PIN de SIM activado"</string>
-    <string name="disable_pin_ok">"PIN de SIM desactivado"</string>
-    <string name="pin_failed">"El PIN que has ingresado es incorrecto"</string>
-    <string name="pin_changed">"PIN de SIM cambiado correctamente"</string>
-    <string name="puk_requested">"Contraseña incorrecta. La tarjeta SIM está bloqueada. Se solicitó PUK2."</string>
+    <string name="add_fdn_contact">"Adicionar contacto de marcação fixa"</string>
+    <string name="adding_fdn_contact">"A adicionar contacto de marcação fixa..."</string>
+    <string name="fdn_contact_added">"Contacto de marcação fixa adicionado."</string>
+    <string name="edit_fdn_contact">"Editar contacto de marcação fixa"</string>
+    <string name="updating_fdn_contact">"A actualizar contacto de marcação fixa..."</string>
+    <string name="fdn_contact_updated">"Contacto de marcação fixa actualizado."</string>
+    <string name="delete_fdn_contact">"Eliminar contacto de marcação fixa"</string>
+    <string name="deleting_fdn_contact">"A eliminar contacto de marcação fixa..."</string>
+    <string name="fdn_contact_deleted">"Contacto de marcação fixa eliminado."</string>
+    <string name="pin2_invalid">"PIN2 inválido!"</string>
+    <string name="fdn_invalid_number">"O número não pode exceder os 20 dígitos."</string>
+    <string name="simContacts_emptyLoading">"A ler a partir do cartão SIM..."</string>
+    <string name="simContacts_empty">"Sem contactos no cartão SIM."</string>
+    <string name="simContacts_title">"Seleccione os contactos a importar"</string>
+    <string name="enable_pin">"Activar/desactivar o PIN do cartão SIM"</string>
+    <string name="change_pin">"Alterar o PIN do cartão SIM"</string>
+    <string name="enter_pin_text">"PIN do SIM:"</string>
+    <string name="oldPinLabel">"PIN antigo"</string>
+    <string name="newPinLabel">"Novo PIN"</string>
+    <string name="confirmPinLabel">"Confirme o novo PIN"</string>
+    <string name="badPin">"O PIN antigo introduzido não está correcto. Tente novamente."</string>
+    <string name="mismatchPin">"Os PINs introduzidos não coincidem. Tente novamente."</string>
+    <string name="invalidPin">"Introduza um PIN com 4 a 8 números."</string>
+    <string name="disable_sim_pin">"Desactivar o PIN do SIM"</string>
+    <string name="enable_sim_pin">"Activar o PIN do cartão SIM"</string>
+    <string name="enable_in_progress">"Queira aguardar..."</string>
+    <string name="enable_pin_ok">"PIN do cartão SIM activado"</string>
+    <string name="disable_pin_ok">"PIN do cartão SIM desactivado"</string>
+    <string name="pin_failed">"O PIN introduzido não estava correcto"</string>
+    <string name="pin_changed">"PIN do cartão SIM alterado com sucesso"</string>
+    <string name="puk_requested">"Palavra-passe incorrecta, o cartão SIM está bloqueado! É necessário o PUK2."</string>
     <string name="enter_pin2_text">"PIN2"</string>
-    <string name="oldPin2Label">"PIN2 anterior"</string>
-    <string name="newPin2Label">"PIN2 nuevo"</string>
-    <string name="confirmPin2Label">"Confirmar PIN2 nuevo"</string>
-    <string name="badPuk2">"El PUK2 ingresado no es correcto. Vuelve a intentarlo."</string>
-    <string name="badPin2">"El PIN2 anterior ingresado no es correcto. Vuelve a intentarlo."</string>
-    <string name="mismatchPin2">"Los PIN2 ingresados no coinciden. Vuelve a intentarlo."</string>
-    <string name="invalidPin2">"Escribe un PIN2 que tenga de 4 a 8 números."</string>
-    <string name="invalidPuk2">"Escribe un PUK2 de 8 cifras."</string>
-    <string name="pin2_changed">"PIN 2 cambiado correctamente"</string>
-    <string name="label_puk2_code">"Escribir código PUK2"</string>
-    <string name="fdn_enable_puk2_requested">"Contraseña incorrecta. Cambia el PIN2 y vuelve a intentarlo."</string>
-    <string name="puk2_requested">"Contraseña incorrecta. La tarjeta SIM está bloqueada. Se solicitó PUK2."</string>
-    <string name="doneButton">"Finalizado"</string>
-    <string name="caller_manage_header">"Llamada en conferencia <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text">"Volver a la llamada"</string>
-    <string name="sim_missing_continueView_text">"Continuar sin tarjeta SIM"</string>
-    <string name="sim_missing_msg_text">"No se encontró tarjeta SIM. Coloca una en el teléfono."</string>
-    <string name="sim_unlock_dismiss_text">"Descartar"</string>
+    <string name="oldPin2Label">"PIN2 antigo"</string>
+    <string name="newPin2Label">"Novo PIN2"</string>
+    <string name="confirmPin2Label">"Confirme o novo PIN2"</string>
+    <string name="badPuk2">"O PUK2 introduzido não está correcto. Tente novamente."</string>
+    <string name="badPin2">"O PIN2 antigo introduzido não está correcto. Tente novamente."</string>
+    <string name="mismatchPin2">"O PIN2 introduzido não coincide. Tente novamente."</string>
+    <string name="invalidPin2">"Introduza um PIN2 com 4 a 8 números."</string>
+    <string name="invalidPuk2">"Introduza um PUK2 com 8 números."</string>
+    <string name="pin2_changed">"PIN2 alterado com sucesso"</string>
+    <string name="label_puk2_code">"Introduza o código PUK2"</string>
+    <string name="fdn_enable_puk2_requested">"Palavra-passe incorrecta. Altere o PIN2 e tente novamente!"</string>
+    <string name="puk2_requested">"Palavra-passe incorrecta, o SIM está bloqueado! É necessário o PUK2."</string>
+    <string name="doneButton">"Concluído"</string>
+    <string name="caller_manage_header">"Chamada de conferência <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text">"Voltar à chamada"</string>
+    <string name="sim_missing_continueView_text">"Continuar sem o cartão SIM"</string>
+    <string name="sim_missing_msg_text">"Cartão SIM não encontrado. Insira um cartão SIM no telefone."</string>
+    <string name="sim_unlock_dismiss_text">"Ignorar"</string>
     <string name="sim_unlock_unlock_text">"Desbloquear"</string>
-    <string name="sim_unlock_status_text">"Autenticando PIN..."</string>
-    <string name="voicemail_settings_number_label">"Número de correo de voz"</string>
-    <string name="card_title_dialing">"Marcando"</string>
-    <string name="card_title_in_progress">"Llamada actual"</string>
-    <string name="card_title_conf_call">"Llamada en conferencia"</string>
-    <string name="card_title_incoming_call">"Llamada entrante"</string>
+    <string name="sim_unlock_status_text">"A autenticar o PIN..."</string>
+    <string name="voicemail_settings_number_label">"Número do correio de voz"</string>
+    <string name="card_title_dialing">"A marcar"</string>
+    <string name="card_title_in_progress">"Chamada actual"</string>
+    <string name="card_title_conf_call">"Chamada de conferência"</string>
+    <string name="card_title_incoming_call">"Chamada recebida"</string>
     <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
     <skip />
-    <string name="card_title_call_ended">"Llamada finalizada"</string>
-    <string name="card_title_on_hold">"En espera"</string>
-    <string name="card_title_hanging_up">"Colgando"</string>
+    <string name="card_title_call_ended">"Chamada terminada"</string>
+    <string name="card_title_on_hold">"Em espera"</string>
+    <string name="card_title_hanging_up">"A desligar"</string>
     <!-- no translation found for card_title_in_call (6346543933068225205) -->
     <skip />
-    <string name="notification_missedCallTitle">"Llamada perdida"</string>
-    <string name="notification_missedCallsTitle">"Llamadas perdidas"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> llamadas perdidas"</string>
-    <string name="notification_missedCallTicker">"Se perdieron las llamadas de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Llamada actual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"En espera"</string>
-    <string name="notification_voicemail_title">"Correo de voz nuevo"</string>
+    <string name="notification_missedCallTitle">"Chamada não atendida"</string>
+    <string name="notification_missedCallsTitle">"Chamadas não atendidas"</string>
+    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> chamadas não atendidas"</string>
+    <string name="notification_missedCallTicker">"Chamada não atendida de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format">"Chamada actual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold">"Em espera"</string>
+    <string name="notification_voicemail_title">"Novo correio de voz"</string>
     <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
     <skip />
     <string name="notification_voicemail_text_format">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Número de correo de voz desconocido"</string>
-    <string name="incall_error_power_off">"Para realizar una llamada, primero desactive el modo Airplane."</string>
-    <string name="incall_error_emergency_only">"No registrado en la red."</string>
-    <string name="incall_error_no_phone_number_supplied">"Llamada no enviada. No se ingresó un número válido."</string>
-    <string name="incall_error_call_failed">"Llamada no enviada."</string>
-    <string name="incall_status_dialed_mmi">"Iniciar la secuencia de MMI"</string>
+    <string name="notification_voicemail_no_vm_number">"Número do correio de voz desconhecido"</string>
+    <string name="incall_error_power_off">"Para efectuar uma chamada, desactive primeiro o modo para Avião."</string>
+    <string name="incall_error_emergency_only">"Sem registo na rede."</string>
+    <string name="incall_error_no_phone_number_supplied">"A chamada não foi efectuada. Não foi introduzido um número válido."</string>
+    <string name="incall_error_call_failed">"Chamada não efectuada."</string>
+    <string name="incall_status_dialed_mmi">"A iniciar sequência de MMI..."</string>
     <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
     <skip />
-    <string name="incall_error_supp_service_unknown">"Servicio no admitido."</string>
-    <string name="incall_error_supp_service_switch">"No es posible cambiar llamadas."</string>
-    <string name="incall_error_supp_service_separate">"No es posible separar la llamada."</string>
-    <string name="incall_error_supp_service_transfer">"No es posible transferir la llamada."</string>
-    <string name="incall_error_supp_service_conference">"No es posible realizar llamadas en conferencia."</string>
-    <string name="incall_error_supp_service_reject">"No es posible rechazar la llamada."</string>
-    <string name="incall_error_supp_service_hangup">"No es posible publicar la(s) llamada(s)."</string>
-    <string name="emergency_enable_radio_dialog_title">"Llamada de emergencia"</string>
-    <string name="emergency_enable_radio_dialog_message">"Encendiendo radio..."</string>
-    <string name="emergency_enable_radio_dialog_retry">"Área fuera de servicio. Intentando nuevamente..."</string>
-    <string name="dial_emergency_error">"Llamada no enviada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> no es un número de emergencia."</string>
-    <string name="dial_emergency_empty_error">"La llamada no pudo enviarse. ¡Marca un número de emergencia!"</string>
-    <string name="dialerKeyboardHintText">"Utilizar teclado para marcar"</string>
-    <string name="dtmfDialpadHintText">"Teclado de tonos del teléfono"</string>
-    <string name="dtmfDialpadHandleLabel">"Teclado telefónico"</string>
+    <string name="incall_error_supp_service_unknown">"Serviço não suportado"</string>
+    <string name="incall_error_supp_service_switch">"Não é possível alternar entre chamadas"</string>
+    <string name="incall_error_supp_service_separate">"Não foi possível separar a chamada."</string>
+    <string name="incall_error_supp_service_transfer">"Não é possível transferir a chamada."</string>
+    <string name="incall_error_supp_service_conference">"Não é possível efectuar chamadas de conferência."</string>
+    <string name="incall_error_supp_service_reject">"Não é possível rejeitar a chamada."</string>
+    <string name="incall_error_supp_service_hangup">"Não é possível efectuar chamada(s)."</string>
+    <string name="emergency_enable_radio_dialog_title">"Chamada de emergência"</string>
+    <string name="emergency_enable_radio_dialog_message">"A ligar o rádio..."</string>
+    <string name="emergency_enable_radio_dialog_retry">"Fora da área do serviço, a tentar novamente..."</string>
+    <string name="dial_emergency_error">"A chamada não foi efectuada, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> não é um número de emergência!"</string>
+    <string name="dial_emergency_empty_error">"Chamada não efectuada. Marque um número de emergência!"</string>
+    <string name="dialerKeyboardHintText">"Utilizar o teclado para marcar"</string>
+    <string name="dtmfDialpadHintText">"Teclado numérico por tons"</string>
+    <string name="dtmfDialpadHandleLabel">"Teclado de marcação"</string>
     <!-- no translation found for touchLockText (8742463586429019112) -->
     <skip />
     <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
     <skip />
     <string name="importSimEntry">"Importar"</string>
-    <string name="importAllSimEntries">"Importar todo"</string>
-    <string name="importingSimContacts">"Importando contactos SIM"</string>
-    <string name="importToFDNfromContacts">"Importar desde contactos"</string>
+    <string name="importAllSimEntries">"Importar todos"</string>
+    <string name="importingSimContacts">"A importar contactos do cartão SIM"</string>
+    <string name="importToFDNfromContacts">"Importar a partir dos contactos"</string>
     <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
     <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
     <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->

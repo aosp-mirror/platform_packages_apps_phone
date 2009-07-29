@@ -55,7 +55,7 @@ import java.util.LinkedList;
  */
 public class BluetoothHandsfree {
     private static final String TAG = "BT HS/HF";
-    private static final boolean DBG = false;
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
     private static final boolean VDBG = false;  // even more logging
 
     public static final int TYPE_UNKNOWN           = 0;
@@ -98,8 +98,9 @@ public class BluetoothHandsfree {
     // for 3-way supported devices, this is after AT+CHLD
     // for non-3-way supported devices, this is after AT+CMER (see spec)
     private boolean mServiceConnectionEstablished;
-    private final BluetoothPhoneState mPhoneState;  // for CIND and CIEV updates
+    private final BluetoothPhoneState mBluetoothPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
+    private Phone.State mPhoneState = Phone.State.IDLE;
 
     private DebugThread mDebugThread;
     private int mScoGain = Integer.MIN_VALUE;
@@ -181,7 +182,7 @@ public class BluetoothHandsfree {
         mRingingCall = mPhone.getRingingCall();
         mForegroundCall = mPhone.getForegroundCall();
         mBackgroundCall = mPhone.getBackgroundCall();
-        mPhoneState = new BluetoothPhoneState();
+        mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -328,6 +329,7 @@ public class BluetoothHandsfree {
         private static final int SERVICE_STATE_CHANGED = 1;
         private static final int PHONE_STATE_CHANGED = 2;
         private static final int RING = 3;
+        private static final int PHONE_CDMA_CALL_WAITING = 4;
 
         private Handler mStateChangeHandler = new Handler() {
             @Override
@@ -344,6 +346,7 @@ public class BluetoothHandsfree {
                     updateServiceState(sendUpdate(), state);
                     break;
                 case PHONE_STATE_CHANGED:
+                case PHONE_CDMA_CALL_WAITING:
                     Connection connection = null;
                     if (((AsyncResult) msg.obj).result instanceof Connection) {
                         connection = (Connection) ((AsyncResult) msg.obj).result;
@@ -367,6 +370,10 @@ public class BluetoothHandsfree {
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPhoneStateChanged(mStateChangeHandler,
                                                 PHONE_STATE_CHANGED, null);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                mPhone.registerForCallWaiting(mStateChangeHandler,
+                                              PHONE_CDMA_CALL_WAITING, null);
+            }
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
             mContext.registerReceiver(mStateReceiver, filter);
@@ -378,10 +385,15 @@ public class BluetoothHandsfree {
             //Unregister all events from the old obsolete phone
             mPhone.unregisterForServiceStateChanged(mStateChangeHandler);
             mPhone.unregisterForPhoneStateChanged(mStateChangeHandler);
+            mPhone.unregisterForCallWaiting(mStateChangeHandler);
 
             //Register all events new to the new active phone
             mPhone.registerForServiceStateChanged(mStateChangeHandler, SERVICE_STATE_CHANGED, null);
             mPhone.registerForPhoneStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                mPhone.registerForCallWaiting(mStateChangeHandler,
+                                              PHONE_CDMA_CALL_WAITING, null);
+            }
         }
 
         private boolean sendUpdate() {
@@ -395,7 +407,8 @@ public class BluetoothHandsfree {
         /* convert [0,31] ASU signal strength to the [0,5] expected by
          * bluetooth devices. Scale is similar to status bar policy
          */
-        private int gsmAsuToSignal(int asu) {
+        private int gsmAsuToSignal(SignalStrength signalStrength) {
+            int asu = signalStrength.getGsmSignalStrength();
             if      (asu >= 16) return 5;
             else if (asu >= 8)  return 4;
             else if (asu >= 4)  return 3;
@@ -404,24 +417,70 @@ public class BluetoothHandsfree {
             else                return 0;
         }
 
-        /* convert cdma dBm signal strength to the [0,5] expected by
-         * bluetooth devices. Scale is similar to status bar policy
+        /**
+         * Convert the cdma / evdo db levels to appropriate icon level.
+         * The scale is similar to the one used in status bar policy.
+         *
+         * @param signalStrength
+         * @return the icon level
          */
-        private int cdmaDbmToSignal(int cdmaDbm) {
-            if (cdmaDbm >= -75)       return 5;
-            else if (cdmaDbm >= -85)  return 4;
-            else if (cdmaDbm >= -95)  return 3;
-            else if (cdmaDbm >= -100) return 2;
-            else if (cdmaDbm >= -105) return 2;
-            else return 0;
+        private int cdmaDbmEcioToSignal(SignalStrength signalStrength) {
+            int levelDbm = 0;
+            int levelEcio = 0;
+            int cdmaIconLevel = 0;
+            int evdoIconLevel = 0;
+            int cdmaDbm = signalStrength.getCdmaDbm();
+            int cdmaEcio = signalStrength.getCdmaEcio();
+
+            if (cdmaDbm >= -75) levelDbm = 4;
+            else if (cdmaDbm >= -85) levelDbm = 3;
+            else if (cdmaDbm >= -95) levelDbm = 2;
+            else if (cdmaDbm >= -100) levelDbm = 1;
+            else levelDbm = 0;
+
+            // Ec/Io are in dB*10
+            if (cdmaEcio >= -90) levelEcio = 4;
+            else if (cdmaEcio >= -110) levelEcio = 3;
+            else if (cdmaEcio >= -130) levelEcio = 2;
+            else if (cdmaEcio >= -150) levelEcio = 1;
+            else levelEcio = 0;
+
+            cdmaIconLevel = (levelDbm < levelEcio) ? levelDbm : levelEcio;
+
+            if (mServiceState != null &&
+                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0 ||
+                   mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
+                  int evdoEcio = signalStrength.getEvdoEcio();
+                  int evdoSnr = signalStrength.getEvdoSnr();
+                  int levelEvdoEcio = 0;
+                  int levelEvdoSnr = 0;
+
+                  // Ec/Io are in dB*10
+                  if (evdoEcio >= -650) levelEvdoEcio = 4;
+                  else if (evdoEcio >= -750) levelEvdoEcio = 3;
+                  else if (evdoEcio >= -900) levelEvdoEcio = 2;
+                  else if (evdoEcio >= -1050) levelEvdoEcio = 1;
+                  else levelEvdoEcio = 0;
+
+                  if (evdoSnr > 7) levelEvdoSnr = 4;
+                  else if (evdoSnr > 5) levelEvdoSnr = 3;
+                  else if (evdoSnr > 3) levelEvdoSnr = 2;
+                  else if (evdoSnr > 1) levelEvdoSnr = 1;
+                  else levelEvdoSnr = 0;
+
+                  evdoIconLevel = (levelEvdoEcio < levelEvdoSnr) ? levelEvdoEcio : levelEvdoSnr;
+            }
+            // TODO(): There is a bug open regarding what should be sent.
+            return (cdmaIconLevel > evdoIconLevel) ?  cdmaIconLevel : evdoIconLevel;
+
         }
 
 
         private int asuToSignal(SignalStrength signalStrength) {
-            if (!signalStrength.isGsm()) {
-                return gsmAsuToSignal(signalStrength.getCdmaDbm());
+            if (signalStrength.isGsm()) {
+                return gsmAsuToSignal(signalStrength);
             } else {
-                return cdmaDbmToSignal(signalStrength.getGsmSignalStrength());
+                return cdmaDbmEcioToSignal(signalStrength);
             }
         }
 
@@ -495,7 +554,7 @@ public class BluetoothHandsfree {
             int roam = state.getRoaming() ? 1 : 0;
             int stat;
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
-
+            mServiceState = state;
             if (service == 0) {
                 stat = 0;
             } else {
@@ -533,13 +592,17 @@ public class BluetoothHandsfree {
 
             if (DBG) log("updatePhoneState()");
 
-            switch (mPhone.getState()) {
-            case IDLE:
-                mUserWantsAudio = true;  // out of call - reset state
-                audioOff();
-                break;
-            default:
-                callStarted();
+            Phone.State newState = mPhone.getState();
+            if (newState != mPhoneState) {
+                mPhoneState = newState;
+                switch (mPhoneState) {
+                case IDLE:
+                    mUserWantsAudio = true;  // out of call - reset state
+                    audioOff();
+                    break;
+                default:
+                    callStarted();
+                }
             }
 
             switch(mForegroundCall.getState()) {
@@ -804,7 +867,7 @@ public class BluetoothHandsfree {
         mForegroundCall = mPhone.getForegroundCall();
         mBackgroundCall = mPhone.getBackgroundCall();
 
-        mPhoneState.updateBtPhoneStateAfterRadioTechnologyChange();
+        mBluetoothPhoneState.updateBtPhoneStateAfterRadioTechnologyChange();
     }
 
     /** Request to establish SCO (audio) connection to bluetooth
@@ -885,7 +948,7 @@ public class BluetoothHandsfree {
     }
 
     /* package */ void ignoreRing() {
-        mPhoneState.ignoreRing();
+        mBluetoothPhoneState.ignoreRing();
     }
 
     private void sendURC(String urc) {
@@ -1297,11 +1360,11 @@ public class BluetoothHandsfree {
         parser.register("+CIND", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return mPhoneState.toCindResult();
+                return mBluetoothPhoneState.toCindResult();
             }
             @Override
             public AtCommandResult handleTestCommand() {
-                return mPhoneState.getCindTestResult();
+                return mBluetoothPhoneState.getCindTestResult();
             }
         });
 
@@ -1309,7 +1372,7 @@ public class BluetoothHandsfree {
         parser.register("+CSQ", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                return mPhoneState.toCsqResult();
+                return mBluetoothPhoneState.toCsqResult();
             }
         });
 
@@ -1317,7 +1380,7 @@ public class BluetoothHandsfree {
         parser.register("+CREG", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return new AtCommandResult(mPhoneState.toCregString());
+                return new AtCommandResult(mBluetoothPhoneState.toCregString());
             }
         });
 
@@ -1380,14 +1443,30 @@ public class BluetoothHandsfree {
                             return new AtCommandResult(AtCommandResult.ERROR);
                         }
                     } else if (args[0].equals(1)) {
-                        // Hangup active call, answer held call
-                        if (PhoneUtils.answerAndEndActive(mPhone)) {
+                        if (mPhone.getPhoneName().equals("CDMA")) {
+                            // For CDMA, there is no answerAndEndActive, so we can behave
+                            // the same way as CHLD=2 here
+                            PhoneUtils.answerCall(mPhone);
+                            PhoneUtils.setMute(mPhone, false);
                             return new AtCommandResult(AtCommandResult.OK);
                         } else {
-                            return new AtCommandResult(AtCommandResult.ERROR);
+                            // Hangup active call, answer held call
+                            if (PhoneUtils.answerAndEndActive(mPhone)) {
+                                return new AtCommandResult(AtCommandResult.OK);
+                            } else {
+                                return new AtCommandResult(AtCommandResult.ERROR);
+                            }
                         }
                     } else if (args[0].equals(2)) {
-                        PhoneUtils.switchHoldingAndActive(mPhone);
+                        if (mPhone.getPhoneName().equals("CDMA")) {
+                            // For CDMA, the way we switch to a new incoming call is by
+                            // calling PhoneUtils.answerCall(). switchAndHoldActive() won't
+                            // properly update the call state within telephony.
+                            PhoneUtils.answerCall(mPhone);
+                            PhoneUtils.setMute(mPhone, false);
+                        } else {
+                            PhoneUtils.switchHoldingAndActive(mPhone);
+                        }
                         return new AtCommandResult(AtCommandResult.OK);
                     } else if (args[0].equals(3)) {
                         if (mForegroundCall.getState().isAlive() &&
@@ -1802,7 +1881,7 @@ public class BluetoothHandsfree {
                     Intent intent = new Intent();
                     intent.putExtra("level", batteryLevel);
                     intent.putExtra("scale", 5);
-                    mPhoneState.updateBatteryState(intent);
+                    mBluetoothPhoneState.updateBatteryState(intent);
                 }
 
                 boolean serviceStateChanged = false;
@@ -1818,7 +1897,7 @@ public class BluetoothHandsfree {
                     Bundle b = new Bundle();
                     b.putInt("state", oldService ? 0 : 1);
                     b.putBoolean("roaming", oldRoam);
-                    mPhoneState.updateServiceState(true, ServiceState.newFromBundle(b));
+                    mBluetoothPhoneState.updateServiceState(true, ServiceState.newFromBundle(b));
                 }
 
                 if (SystemProperties.getBoolean(DEBUG_HANDSFREE_AUDIO, false) != oldAudio) {
@@ -1838,7 +1917,7 @@ public class BluetoothHandsfree {
                     Bundle data = new Bundle();
                     signalStrength.fillInNotifierBundle(data);
                     intent.putExtras(data);
-                    mPhoneState.updateSignalState(intent);
+                    mBluetoothPhoneState.updateSignalState(intent);
                 }
 
                 if (SystemProperties.getBoolean(DEBUG_HANDSFREE_CLCC, false)) {

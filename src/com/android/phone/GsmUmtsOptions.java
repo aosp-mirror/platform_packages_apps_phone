@@ -28,25 +28,10 @@ import com.android.internal.telephony.PhoneFactory;
  */
 public class GsmUmtsOptions extends PreferenceActivity {
 
-    private PreferenceScreen mButtonAPNExpand;
-    private PreferenceScreen mButtonOperatorSelectionExpand;
-
-    private static final String BUTTON_APN_EXPAND_KEY = "button_apn_key";
-    private static final String BUTTON_OPERATOR_SELECTION_EXPAND_KEY = "button_carrier_sel_key";
-
-
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         addPreferencesFromResource(R.xml.gsm_umts_options);
-        PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonAPNExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_APN_EXPAND_KEY);
-        mButtonOperatorSelectionExpand = 
-                (PreferenceScreen) prefSet.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
-            mButtonAPNExpand.setEnabled(false);
-            mButtonOperatorSelectionExpand.setEnabled(false);
-        }
     }
 }

@@ -440,8 +440,16 @@ public class PhoneUtils {
         if (c != null) {
 
             // retrieve the mute value.
-            Boolean shouldMute = sConnectionMuteTable.get(
-                    phone.getForegroundCall().getEarliestConnection());
+            Boolean shouldMute;
+            if (phone.getPhoneName().equals("CDMA") &&
+                    PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
+                    CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                shouldMute = sConnectionMuteTable.get(
+                        phone.getForegroundCall().getLatestConnection());
+            } else {
+                shouldMute = sConnectionMuteTable.get(
+                        phone.getForegroundCall().getEarliestConnection());
+            }
             if (shouldMute == null) {
                 if (DBG) log("problem retrieving mute value for this connection.");
                 shouldMute = Boolean.FALSE;
