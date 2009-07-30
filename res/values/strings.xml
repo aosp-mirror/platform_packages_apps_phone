@@ -235,7 +235,7 @@
     <!-- Call settings screen title -->
     <string name="call_settings">Call settings</string>
     <!-- GSM Call settings screen, setting option name -->
-    <string name="additional_gsm_call_settings">Additional GSM call settings</string>
+    <string name="additional_gsm_call_settings">Additional settings</string>
     <!-- GSM-only Call settings screen, setting option name-->
     <string name="sum_gsm_call_settings">Additional GSM only call settings</string>
     <!-- CDMA Call settings screen, setting option name -->
@@ -939,12 +939,16 @@
     <!-- Import a single contact entry from contacts to the SIM card -->
     <string name="importToFDNfromContacts">Import from contacts</string>
 
+    <!-- Hearing aid settings -->
+    <string name="hac_mode_title">Hearing aids</string>
+    <string name="hac_mode_summary">Turn on hearing aid compatibility</string>
+
     <!-- Service option entries.  -->
     <string-array name="tty_mode_entries">
         <item>TTY Off</item>
+        <item>TTY Full</item>
         <item>TTY HCO</item>
         <item>TTY VCO</item>
-        <item>TTY Full</item>
     </string-array>
 
     <!-- Do not translate. -->
@@ -952,11 +956,11 @@
         <!-- Do not translate. -->
         <item>0</item>"
         <!-- Do not translate. -->
+        <item>1</item>
+        <!-- Do not translate. -->
         <item>2</item>
         <!-- Do not translate. -->
         <item>3</item>
-        <!-- Do not translate. -->
-        <item>1</item>
     </string-array>
 
     <!-- Label for ERI text widget, shown in list of all gadgets -->

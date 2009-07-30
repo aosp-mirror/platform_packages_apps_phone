@@ -1090,7 +1090,7 @@ public class DTMFTwelveKeyDialer implements
         // Read the settings as it may be changed by the user during the call
         mDTMFToneType = Settings.System.getInt(mInCallScreen.getContentResolver(),
                 Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
-                CallFeaturesSetting.preferredDtmfMode);
+                CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL);
         // For Short DTMF we need to play the local tone for fixed duration
         if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
             sendShortDtmfToNetwork (tone);

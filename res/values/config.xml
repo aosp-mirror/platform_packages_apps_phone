@@ -84,4 +84,16 @@
     <!-- How long to vibrate (in msec), if dialer key vibration is enabled. -->
     <integer name="config_dialer_key_vibrate_duration">40</integer>
 
+    <!-- Flag indicating if the tty is enabled -->
+    <bool name="tty_enabled">false</bool>
+
+    <!-- Flag indicating if hac is enabled -->
+    <bool name="hac_enabled">false</bool>
+
+    <!-- Flag indicating if dtmf tone type is enabled -->
+    <bool name="dtmf_type_enabled">false</bool>
+
+    <!-- Flag indicating if auto retry is enabled -->
+    <bool name="auto_retry_enabled">false</bool>
+
 </resources>

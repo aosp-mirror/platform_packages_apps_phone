@@ -235,6 +235,34 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="GsmUmtsCallOptions"
+            android:label="@string/gsm_umts_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="CdmaCallOptions"
+            android:label="@string/cdma_options">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="GsmUmtsCallForwardOptions"
+            android:label="@string/labelCF">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="GsmUmtsAdditionalCallOptions"
+            android:label="@string/labelGSMMore">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="CellBroadcastSms"
             android:label="@string/cell_broadcast_sms">
             <intent-filter>
