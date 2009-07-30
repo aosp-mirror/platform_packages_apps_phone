@@ -1131,7 +1131,7 @@ public class CallNotifier extends Handler
                     break;
                 case TONE_VOICE_PRIVACY:
                     toneType = ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE;
-                    toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                     toneLengthMillis = 5000;
                     break;
                 case TONE_REORDER:
@@ -1152,7 +1152,7 @@ public class CallNotifier extends Handler
                     break;
                 case TONE_REDIAL:
                     toneType = ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE;
-                    toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                     toneLengthMillis = 5000;
                     break;
                 default:
@@ -1522,7 +1522,7 @@ public class CallNotifier extends Handler
                     (ringerMode == AudioManager.RINGER_MODE_NORMAL)) {
                 if (VDBG) log("Play Emergency Tone.");
                 mToneGenerator = new ToneGenerator (AudioManager.STREAM_VOICE_CALL,
-                        mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL));
+                        InCallTonePlayer.TONE_RELATIVE_VOLUME_HIPRI);
                 if (mToneGenerator != null) {
                     mToneGenerator.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK);
                     mCurrentEmergencyToneState = EMERGENCY_TONE_ALERT;
