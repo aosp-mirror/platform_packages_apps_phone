@@ -321,14 +321,6 @@
             </intent-filter>
         </service>
 
-        <!-- Broadcast Receiver that will process cdma ERI text updates -->    
-        <receiver android:name="EriTextWidgetProvider" android:label="@string/eri_text_label">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/eri_text_appwidget" />
-        </receiver>
-
         <!-- Broadcast Receiver that will process BOOT Complete and launch OTA -->
         <receiver android:name="OtaStartupReceiver" android:exported="false">
             <intent-filter android:priority="100">
