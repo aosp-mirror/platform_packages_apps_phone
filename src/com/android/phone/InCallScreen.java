@@ -273,8 +273,9 @@ public class InCallScreen extends Activity
     private Animation mTouchLockFadeIn;
     private long mTouchLockLastTouchTime;  // in SystemClock.uptimeMillis() time base
 
-
-    // Various dialogs we bring up (see dismissAllDialogs())
+    // Various dialogs we bring up (see dismissAllDialogs()).
+    // TODO: convert these all to use the "managed dialogs" framework.
+    //
     // The MMI started dialog can actually be one of 2 items:
     //   1. An alert dialog if the MMI code is a normal MMI
     //   2. A progress dialog if the user requested a USSD
@@ -286,6 +287,7 @@ public class InCallScreen extends Activity
     private AlertDialog mWildPromptDialog;
     private AlertDialog mCallLostDialog;
     private AlertDialog mPausePromptDialog;
+    // NOTE: if you add a new dialog here, be sure to add it to dismissAllDialogs() also.
 
     // TODO: If the Activity class ever provides an easy way to get the
     // current "activity lifecycle" state, we can remove these flags.
@@ -1087,7 +1089,7 @@ public class InCallScreen extends Activity
             }
             if (intent.hasExtra(SHOW_DIALPAD_EXTRA)) {
                 boolean showDialpad = intent.getBooleanExtra(SHOW_DIALPAD_EXTRA, false);
-                if (VDBG) log("- internalResolveIntent: SHOW_DIALPAD_EXTRA value = " + showDialpad);
+                if (VDBG) log("- internalResolveIntent: SHOW_DIALPAD_EXTRA: " + showDialpad);
                 if (showDialpad) {
                     mDialer.openDialer(false);  // no "opening" animation
                 } else {
@@ -1975,7 +1977,9 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * This is a function to process the CDMA specific requirements of WAIT character in a dial string
+     * Processes the CDMA specific requirements of a WAIT character in a
+     * dial string.
+     *
      * Pop up an alert dialog with OK and Cancel buttons to allow user to
      * Accept or Reject the WAIT inserted as part of the Dial string.
      */
@@ -2159,10 +2163,12 @@ public class InCallScreen extends Activity
             return;
         } else if (mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
             if (VDBG) log("- updateScreen: OTA call ended state ...");
-            if (app.cdmaOtaScreenState.otaScreenState == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
+            if (app.cdmaOtaScreenState.otaScreenState
+                == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
                 if (VDBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
                 if (otaUtils != null) {
-                    if (VDBG) log("- updateScreen: otaUtils is not null, call otaShowActivationScreen");
+                    if (VDBG) log("- updateScreen: otaUtils is not null, "
+                                  + "call otaShowActivationScreen");
                     otaUtils.otaShowActivateScreen();
                 }
             } else {
@@ -4599,7 +4605,8 @@ public class InCallScreen extends Activity
             } else {
                 if (app.cdmaOtaScreenState.otaScreenState !=
                         CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED) {
-                    if (DBG) log("checkIsOtaCall action ACTION_MAIN, OTA call in progress with UNDEFINED");
+                    if (DBG) log("checkIsOtaCall action ACTION_MAIN, "
+                                 + "OTA call in progress with UNDEFINED");
                     isOtaCall = true;
                 }
             }
