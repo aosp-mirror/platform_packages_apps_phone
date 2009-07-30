@@ -501,6 +501,33 @@ public class CallCard extends FrameLayout
                     runQuery = mPhotoTracker.isDifferentImageRequest(conn);
                 }
 
+                // Adding a check to see if the update was caused due to a Phone number update
+                // or CNAP update. If so then we need to start a new query
+                if (phone.getPhoneName().equals("CDMA")) {
+                    Object obj = conn.getUserData();
+                    String updatedNumber = conn.getAddress();
+                    String updatedCnapName = conn.getCnapName();
+                    CallerInfo info = null;
+                    if (obj instanceof PhoneUtils.CallerInfoToken) {
+                        info = ((PhoneUtils.CallerInfoToken) o).currentInfo;
+                    } else if (o instanceof CallerInfo) {
+                        info = (CallerInfo) o;
+                    }
+
+                    if (info != null) {
+                        if (updatedNumber != null && !updatedNumber.equals(info.phoneNumber)) {
+                            if (DBG) log("- displayMainCallStatus: updatedNumber = "
+                                    + updatedNumber);
+                            runQuery = true;
+                        }
+                        if (updatedCnapName != null && !updatedCnapName.equals(info.cnapName)) {
+                            if (DBG) log("- displayMainCallStatus: updatedCnapName = "
+                                    + updatedCnapName);
+                            runQuery = true;
+                        }
+                    }
+                }
+
                 if (runQuery) {
                     if (DBG) log("- displayMainCallStatus: starting CallerInfo query...");
                     PhoneUtils.CallerInfoToken info =
