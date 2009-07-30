@@ -1620,7 +1620,8 @@ public class InCallScreen extends Activity
             setInCallScreenMode(InCallScreenMode.OTA_ENDED);
             updateScreen();
             return;
-        } else if (mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
+        } else if ((mInCallScreenMode == InCallScreenMode.OTA_ENDED)
+                || ((app.cdmaOtaProvisionData!=null) && app.cdmaOtaProvisionData.inOtaSpcState)) {
            if (DBG) log("onDisconnect: OTA Call end already handled");
            return;
         }

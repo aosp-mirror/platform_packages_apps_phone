@@ -84,7 +84,8 @@ public class OtaUtils {
     public static final int OTA_PLAY_SUCCESS_FAILURE_TONE_OFF = 0;
     public static final int OTA_PLAY_SUCCESS_FAILURE_TONE_ON = 1;
 
-    public final int OTA_SPC_TIMEOUT = 60000;
+    // SPC Timeout is 60 seconds
+    public final int OTA_SPC_TIMEOUT = 60;
     public final int OTA_FAILURE_DIALOG_TIMEOUT = 2;
 
     private InCallScreen mInCallScreen;
@@ -379,17 +380,11 @@ public class OtaUtils {
      * When SPC notice times out, force phone to power down.
      */
     public void onOtaCloseSpcNotice() {
-        if (DBG) log("onOtaCloseSpcNotice()...");
-        if (mOtaWidgetData.spcErrorDialog != null) {
-            mOtaWidgetData.spcErrorDialog.dismiss();
-            mOtaWidgetData.spcErrorDialog = null;
-        }
-        mApplication.cdmaOtaProvisionData.inOtaSpcState = false;
-        mApplication.cdmaOtaProvisionData.otaSpcUptime = 0;
-        PhoneUtils.hangup(mApplication.phone);
-        if (DBG) log("onOtaCloseSpcNotice(), close and shut down phone");
-        mInCallScreen.finish();
-        ShutdownThread.shutdown(mContext, false);
+        if (DBG) log("onOtaCloseSpcNotice(), send shutdown intent");
+        Intent shutdown = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
+        shutdown.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
+        shutdown.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(shutdown);
     }
 
     /**
@@ -633,7 +628,7 @@ public class OtaUtils {
             tmpOtaSpcRunningTime = SystemClock.elapsedRealtime();
             tmpOtaSpcLeftTime =
                 tmpOtaSpcRunningTime - mApplication.cdmaOtaProvisionData.otaSpcUptime;
-            if (tmpOtaSpcLeftTime >= OTA_SPC_TIMEOUT) {
+            if (tmpOtaSpcLeftTime >= OTA_SPC_TIMEOUT*1000) {
                 tmpSpcTime = 1;
             } else {
                 tmpSpcTime = OTA_SPC_TIMEOUT - (int)tmpOtaSpcLeftTime/1000;
