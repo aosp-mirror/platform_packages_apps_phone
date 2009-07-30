@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -45,27 +46,35 @@ import android.widget.EditText;
 
 /**
  * EmergencyDialer is a special dialer that is used ONLY for dialing emergency calls.
- * It is a special case of the TwelveKeyDialer that:
- *   1. allows ONLY emergency calls to be dialed
- *   2. disallows voicemail functionality
- *   3. handles keyguard access correctly
  *
- * NOTE: TwelveKeyDialer has been moved into the Contacts App, so the "useful"
- * portions of the TwelveKeyDialer have been moved into this class, as part of some
- * code cleanup.
+ * It's a simplified version of the regular dialer (i.e. the TwelveKeyDialer
+ * activity from apps/Contacts) that:
+ *   1. Allows ONLY emergency calls to be dialed
+ *   2. Disallows voicemail functionality
+ *   3. Handles manually enabling/disabling the keyguard (since we get
+ *      launched directly from the lock screen).
+ *
+ * TODO: Even though this is an ultra-simplified version of the normal
+ * dialer, there's still lots of code duplication between this class and
+ * the TwelveKeyDialer class from apps/Contacts.  Could the common code be
+ * moved into a shared base class that would live in the framework?
+ * Or could we figure out some way to move *this* class into apps/Contacts
+ * also?
  */
-public class EmergencyDialer extends Activity implements View.OnClickListener,
-View.OnLongClickListener, View.OnKeyListener, TextWatcher {
-
+public class EmergencyDialer extends Activity
+        implements View.OnClickListener, View.OnLongClickListener,
+        View.OnKeyListener, TextWatcher {
+    // Keys used with onSaveInstanceState().
     private static final String LAST_NUMBER = "lastNumber";
 
-    // intent action for this activity.
+    // Intent action for this activity.
     public static final String ACTION_DIAL = "com.android.phone.EmergencyDialer.DIAL";
 
-    // debug constants
+    // Debug constants.
     private static final boolean DBG = false;
-    private static final String LOG_TAG = "emergency_dialer";
+    private static final String LOG_TAG = "EmergencyDialer";
 
+    // Handler message codes.
     private static final int STOP_TONE = 1;
 
     /** The length of DTMF tones in milliseconds */
@@ -89,6 +98,11 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
 
     // determines if we want to playback local DTMF tones.
     private boolean mDTMFToneEnabled;
+
+    // Vibration (haptic feedback) for dialer key presses.
+    private Vibrator mVibrator;
+    private boolean mVibrateOn;
+    private long mVibrateDuration;
 
     // close activity when screen turns off
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -169,7 +183,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator == null) {
                 try {
-                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_RING,
+                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF,
                             TONE_RELATIVE_VOLUME);
                 } catch (RuntimeException e) {
                     Log.w(LOG_TAG, "Exception caught while creating local tone generator: " + e);
@@ -181,6 +195,13 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mBroadcastReceiver, intentFilter);
+
+        // Initialize vibration parameters.
+        // TODO: We might eventually need to make mVibrateOn come from a
+        // user preference rather than a per-platform resource, in which
+        // case we would need to update it in onResume() rather than here.
+        mVibrateOn = r.getBoolean(R.bool.config_enable_dialer_key_vibration);
+        mVibrateDuration = (long) r.getInteger(R.integer.config_dialer_key_vibrate_duration);
     }
 
     @Override
@@ -200,7 +221,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     protected void onRestoreInstanceState(Bundle icicle) {
         mLastNumber = icicle.getString(LAST_NUMBER);
     }
-    
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -269,6 +290,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     }
 
     private void keyPressed(int keyCode) {
+        vibrate();
         KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
         mDigits.onKeyDown(keyCode, event);
     }
@@ -348,6 +370,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
                 return;
             }
             case R.id.digits: {
+                vibrate();  // Vibrate here too, just like we do for the regular keys
                 placeCall();
                 return;
             }
@@ -392,7 +415,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator == null) {
                 try {
-                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_RING,
+                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF,
                             TONE_RELATIVE_VOLUME);
                 } catch (RuntimeException e) {
                     Log.w(LOG_TAG, "Exception caught while creating local tone generator: " + e);
@@ -478,13 +501,29 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     };
 
     /**
-     * Play a tone for TONE_LENGTH_MS milliseconds.
+     * Plays the specified tone for TONE_LENGTH_MS milliseconds.
+     *
+     * The tone is played locally, using the audio stream for phone calls.
+     * Tones are played only if the "Audible touch tones" user preference
+     * is checked, and are NOT played if the device is in silent mode.
      *
      * @param tone a tone code from {@link ToneGenerator}
      */
     void playTone(int tone) {
         // if local tone playback is disabled, just return.
         if (!mDTMFToneEnabled) {
+            return;
+        }
+
+        // Also do nothing if the phone is in silent mode.
+        // We need to re-check the ringer mode for *every* playTone()
+        // call, rather than keeping a local flag that's updated in
+        // onResume(), since it's possible to toggle silent mode without
+        // leaving the current activity (via the ENDCALL-longpress menu.)
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int ringerMode = audioManager.getRingerMode();
+        if ((ringerMode == AudioManager.RINGER_MODE_SILENT)
+            || (ringerMode == AudioManager.RINGER_MODE_VIBRATE)) {
             return;
         }
 
@@ -510,7 +549,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             return getText(R.string.dial_emergency_empty_error).toString();
         }
     }
-    
+
     @Override
     protected Dialog onCreateDialog(int id) {
         AlertDialog dialog = null;
@@ -527,7 +566,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         }
         return dialog;
     }
-    
+
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         super.onPrepareDialog(id, dialog);
@@ -535,5 +574,18 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             AlertDialog alert = (AlertDialog) dialog;
             alert.setMessage(createErrorMessage(mLastNumber));
         }
+    }
+
+    /**
+     * Triggers haptic feedback (if enabled) for dialer key presses.
+     */
+    private synchronized void vibrate() {
+        if (!mVibrateOn) {
+            return;
+        }
+        if (mVibrator == null) {
+            mVibrator = new Vibrator();
+        }
+        mVibrator.vibrate(mVibrateDuration);
     }
 }

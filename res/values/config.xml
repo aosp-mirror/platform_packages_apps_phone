@@ -75,5 +75,13 @@
     <!-- Flag indicating if the phone is a world phone -->
     <bool name="world_phone">false</bool>
 
+    <!-- If true, enable vibration (haptic feedback) for key presses in
+         the EmergencyDialer activity.  To be consistent with the regular
+         Dialer, this value (and the one below) should agree with the
+         corresponding values from config.xml under apps/Contacts. -->
+    <bool name="config_enable_dialer_key_vibration">true</bool>
+
+    <!-- How long to vibrate (in msec), if dialer key vibration is enabled. -->
+    <integer name="config_dialer_key_vibrate_duration">40</integer>
 
 </resources>
