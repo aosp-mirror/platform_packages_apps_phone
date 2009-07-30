@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.util.AttributeSet;
@@ -27,9 +28,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
-import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
 
 
@@ -59,15 +60,24 @@ public class InCallTouchUi extends FrameLayout
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mHoldButton;
+    private Button mSwapButton;
     private Button mEndCallButton;
     private Button mDialpadButton;
     private ToggleButton mBluetoothButton;
     private ToggleButton mMuteButton;
     private ToggleButton mSpeakerButton;
-    private Button mAddCallButton;
-    private Button mMergeCallsButton;
-    private Button mSwapCallsButton;
-    private Button mManageConferenceButton;
+    //
+    private View mAddCallButtonContainer;
+    private ImageButton mAddCallButton;
+    private View mMergeCallsButtonContainer;
+    private ImageButton mMergeCallsButton;
+    private View mManageConferenceButtonContainer;
+    private ImageButton mManageConferenceButton;
+    //
+    private Drawable mHoldIcon;
+    private Drawable mUnholdIcon;
+    private Drawable mShowDialpadIcon;
+    private Drawable mHideDialpadIcon;
 
     // Double-tap detection state
     private long mLastTouchTime;  // in SystemClock.uptimeMillis() time base
@@ -129,6 +139,8 @@ public class InCallTouchUi extends FrameLayout
         // Main cluster of buttons:
         mHoldButton = (Button) mInCallControls.findViewById(R.id.holdButton);
         mHoldButton.setOnClickListener(this);
+        mSwapButton = (Button) mInCallControls.findViewById(R.id.swapButton);
+        mSwapButton.setOnClickListener(this);
         mEndCallButton = (Button) mInCallControls.findViewById(R.id.endCallButton);
         mEndCallButton.setOnClickListener(this);
         mDialpadButton = (Button) mInCallControls.findViewById(R.id.dialpadButton);
@@ -139,16 +151,27 @@ public class InCallTouchUi extends FrameLayout
         mMuteButton.setOnClickListener(this);
         mSpeakerButton = (ToggleButton) mInCallControls.findViewById(R.id.speakerButton);
         mSpeakerButton.setOnClickListener(this);
+
         // Upper corner buttons:
-        mAddCallButton = (Button) mInCallControls.findViewById(R.id.addCallButton);
+        mAddCallButtonContainer = mInCallControls.findViewById(R.id.addCallButtonContainer);
+        mAddCallButton = (ImageButton) mInCallControls.findViewById(R.id.addCallButton);
         mAddCallButton.setOnClickListener(this);
-        mMergeCallsButton = (Button) mInCallControls.findViewById(R.id.mergeCallsButton);
+        //
+        mMergeCallsButtonContainer = mInCallControls.findViewById(R.id.mergeCallsButtonContainer);
+        mMergeCallsButton = (ImageButton) mInCallControls.findViewById(R.id.mergeCallsButton);
         mMergeCallsButton.setOnClickListener(this);
-        mSwapCallsButton = (Button) mInCallControls.findViewById(R.id.swapCallsButton);
-        mSwapCallsButton.setOnClickListener(this);
+        //
+        mManageConferenceButtonContainer =
+                mInCallControls.findViewById(R.id.manageConferenceButtonContainer);
         mManageConferenceButton =
-                (Button) mInCallControls.findViewById(R.id.manageConferenceButton);
+                (ImageButton) mInCallControls.findViewById(R.id.manageConferenceButton);
         mManageConferenceButton.setOnClickListener(this);
+
+        // Icons
+        mHoldIcon = getResources().getDrawable(R.drawable.ic_in_call_touch_hold);
+        mUnholdIcon = getResources().getDrawable(R.drawable.ic_in_call_touch_unhold);
+        mShowDialpadIcon = getResources().getDrawable(R.drawable.ic_in_call_touch_dialpad);
+        mHideDialpadIcon = getResources().getDrawable(R.drawable.ic_in_call_touch_dialpad_close);
     }
 
     /**
@@ -226,6 +249,7 @@ public class InCallTouchUi extends FrameLayout
                 // break;
 
             case R.id.holdButton:
+            case R.id.swapButton:
             case R.id.endCallButton:
             case R.id.dialpadButton:
             case R.id.bluetoothButton:
@@ -233,7 +257,6 @@ public class InCallTouchUi extends FrameLayout
             case R.id.speakerButton:
             case R.id.addCallButton:
             case R.id.mergeCallsButton:
-            case R.id.swapCallsButton:
             case R.id.manageConferenceButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
@@ -332,10 +355,45 @@ public class InCallTouchUi extends FrameLayout
         // state of the various onscreen buttons:
         InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
 
-        // "Hold"
-        // Note: for now "Hold" isn't a ToggleButton, so we don't need to
-        // update its "checked" state.  Just enable or disable it:
-        mHoldButton.setEnabled(inCallControlState.canHold);
+        // "Hold" and "Swap": These occupy the same space onscreen, so only
+        // one of them should be available at a given moment.
+        if (inCallControlState.canSwap) {
+            mSwapButton.setVisibility(View.VISIBLE);
+            mSwapButton.setEnabled(true);
+            mHoldButton.setVisibility(View.GONE);
+        } else if (inCallControlState.canHold) {
+            // Note: for now "Hold" isn't a ToggleButton, so we don't need to
+            // update its "checked" state.  Just make it visible and enabled.
+            mHoldButton.setVisibility(View.VISIBLE);
+            mHoldButton.setEnabled(true);
+            mSwapButton.setVisibility(View.GONE);
+
+            // The Hold button can be either "Hold" or "Unhold":
+            if (inCallControlState.onHold) {
+                mHoldButton.setText(R.string.onscreenUnholdText);
+                mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mUnholdIcon, null, null);
+            } else {
+                mHoldButton.setText(R.string.onscreenHoldText);
+                mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
+            }
+        } else {
+            // Neither "Swap" nor "Hold" is available.  (This happens in
+            // transient states like while dialing/alerting.)  Just show
+            // the "Hold" button in a disabled state.
+            mHoldButton.setVisibility(View.VISIBLE);
+            mHoldButton.setEnabled(false);
+            mHoldButton.setText(R.string.onscreenHoldText);
+            mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
+            mSwapButton.setVisibility(View.GONE);
+        }
+        if (inCallControlState.canSwap && inCallControlState.canHold) {
+            // Uh oh, the InCallControlState thinks that Swap *and* Hold
+            // should both be available.  This *should* never happen with
+            // either GSM or CDMA, but if it's possible on any future
+            // devices we may need to re-layout Hold and Swap so they can
+            // both be visible at the same time...
+            Log.w(LOG_TAG, "updateInCallControls: Hold *and* Swap enabled, but can't show both!");
+        }
 
         // "End call": this button has no state and it's always enabled.
         mEndCallButton.setEnabled(true);
@@ -343,6 +401,16 @@ public class InCallTouchUi extends FrameLayout
         // "Dialpad": Enabled only when it's OK to use the dialpad in the
         // first place.
         mDialpadButton.setEnabled(inCallControlState.dialpadEnabled);
+        //
+        // TODO: Label and icon should switch between the "Show" and
+        // "Hide" states, but for now we only use the "Show" state since
+        // the dialpad totally covers up the onscreen buttons.
+        mDialpadButton.setText(R.string.onscreenShowDialpadText);
+        mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(null, mShowDialpadIcon, null, null);
+        // The "Hide dialpad" state:
+        // mDialpadButton.setText(R.string.onscreenHideDialpadText);
+        // mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(
+        //         null, mHideDialpadIcon, null, null);
 
         // "Bluetooth"
         mBluetoothButton.setEnabled(inCallControlState.bluetoothEnabled);
@@ -362,25 +430,22 @@ public class InCallTouchUi extends FrameLayout
         // same position onscreen.)
         // This button is totally hidden (rather than just disabled)
         // when the operation isn't available.
-        mAddCallButton.setVisibility(inCallControlState.canAddCall ? View.VISIBLE : View.GONE);
+        mAddCallButtonContainer.setVisibility(
+                inCallControlState.canAddCall ? View.VISIBLE : View.GONE);
 
         // "Merge calls"
         // This button is totally hidden (rather than just disabled)
         // when the operation isn't available.
-        mMergeCallsButton.setVisibility(inCallControlState.canMerge ? View.VISIBLE : View.GONE);
-
-        // "Swap calls"
-        // This button is totally hidden (rather than just disabled)
-        // when the operation isn't available.
-        mSwapCallsButton.setVisibility(inCallControlState.canSwap ? View.VISIBLE : View.GONE);
+        mMergeCallsButtonContainer.setVisibility(
+                inCallControlState.canMerge ? View.VISIBLE : View.GONE);
 
         // "Manage conference"
         // This button is totally hidden (rather than just disabled)
         // when the operation isn't available.
         boolean showManageConferenceTouchButton = inCallControlState.manageConferenceVisible
                 && inCallControlState.manageConferenceEnabled;
-        mManageConferenceButton.setVisibility(showManageConferenceTouchButton
-                                              ? View.VISIBLE : View.GONE);
+        mManageConferenceButtonContainer.setVisibility(
+                showManageConferenceTouchButton ? View.VISIBLE : View.GONE);
     }
 
 

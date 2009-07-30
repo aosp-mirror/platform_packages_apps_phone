@@ -62,12 +62,10 @@
                 />
             <!-- "Answer" button -->
             <TextView android:id="@+id/answerButton"
+                style="@style/InCallTouchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:gravity="center"
                 android:text="@string/onscreenAnswerText"
-                android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                android:background="@*android:drawable/btn_default_normal"
                 android:layout_marginTop="20dip"
                 android:layout_marginBottom="20dip"
                 />
@@ -79,12 +77,10 @@
                 />
             <!-- "Reject" button -->
             <TextView android:id="@+id/rejectButton"
+                style="@style/InCallTouchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:gravity="center"
                 android:text="@string/onscreenRejectText"
-                android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                android:background="@*android:drawable/btn_default_normal"
                 android:layout_marginTop="20dip"
                 android:layout_marginBottom="20dip"
                 />
@@ -108,138 +104,177 @@
                     android:visibility="gone"
                     >
         <!-- Buttons visible in the upper corners of the screen (in some states). -->
-        <!-- TODO: use a style for attributes shared by all these buttons -->
+        <!-- These are small round ImageButtons with a text label floating
+             off to the side. -->
 
         <!-- "Add call" (upper left) -->
         <!-- (Note "add call" and "merge calls" are never both available at
              the same time.  That's why it's OK for them to both be in the
              same position onscreen.) -->
-        <Button android:id="@+id/addCallButton"
+        <LinearLayout android:id="@+id/addCallButtonContainer"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="70dip"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
-                android:gravity="center"
-                android:text="@string/onscreenAddCallText"
-                />
+                android:visibility="gone">
+            <ImageButton android:id="@+id/addCallButton"
+                    style="@style/InCallRoundTouchButton"
+                    android:src="@drawable/ic_in_call_touch_round_add_call" />
+            <TextView
+                style="@style/InCallRoundButtonLabel"
+                android:text="@string/onscreenAddCallText" />
+        </LinearLayout>
+
         <!-- "Merge calls" (upper left) -->
-        <Button android:id="@+id/mergeCallsButton"
+        <LinearLayout android:id="@+id/mergeCallsButtonContainer"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="70dip"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:gravity="center"
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
-                android:text="@string/onscreenMergeCallsText"
-                />
-        <!-- "Manage conference" (upper middle) -->
-        <!-- TODO: this button really belongs at upper-right, but
-             we have the "Swap calls" button there right now... -->
-        <Button android:id="@+id/manageConferenceButton"
+                android:visibility="gone">
+            <ImageButton android:id="@+id/mergeCallsButton"
+                    style="@style/InCallRoundTouchButton"
+                    android:src="@drawable/ic_in_call_touch_round_merge_call" />
+            <TextView
+                style="@style/InCallRoundButtonLabel"
+                android:text="@string/onscreenMergeCallsText" />
+        </LinearLayout>
+
+        <!-- "Manage conference" (upper right) -->
+        <LinearLayout android:id="@+id/manageConferenceButtonContainer"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="70dip"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:layout_marginTop="15dip"
-                android:layout_marginRight="10dip"
-                android:text="@string/onscreenManageConferenceText"
-                />
-        <!-- "Swap calls" (upper right) -->
-        <!-- TODO: this button doesn't actually appear in the UI mocks (yet);
-             we may end up not having a button for this at all, but instead
-             click on the contact photo to swap calls...
-             But for now, use a regular button in the upper-right corner... -->
-        <Button android:id="@+id/swapCallsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="70dip"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:gravity="center"
                 android:layout_marginTop="15dip"
                 android:layout_marginRight="10dip"
-                android:text="@string/onscreenSwapCallsText"
-                />
+                android:visibility="gone">
+            <TextView
+                style="@style/InCallRoundButtonLabel"
+                android:text="@string/onscreenManageConferenceText" />
+            <ImageButton android:id="@+id/manageConferenceButton"
+                    style="@style/InCallRoundTouchButton"
+                    android:src="@drawable/ic_in_call_touch_round_manage_conference" />
+        </LinearLayout>
 
         <!-- Main cluster of onscreen buttons on the lower part of the screen. -->
         <LinearLayout android:id="@+id/bottomButtons"
                       android:orientation="vertical"
                       android:layout_width="fill_parent"
-                      android:layout_height="150dip"
+                      android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
-                      android:paddingLeft="10dip"
-                      android:paddingRight="10dip"
+                      android:paddingLeft="4dip"
+                      android:paddingRight="4dip"
                       android:paddingBottom="4dip"
                       >
 
-            <!-- TODO: use a style for attributes shared by all these buttons -->
             <LinearLayout android:id="@+id/inCallControlsRow1"
                           android:orientation="horizontal"
                           android:layout_width="fill_parent"
-                          android:layout_height="1dip"
-                          android:layout_weight="3"
+                          android:layout_height="wrap_content"
                           >
-                <!-- "Hold" -->
-                <Button android:id="@+id/holdButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
-                        android:text="@string/onscreenHoldText"
-                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
-                        />
+                <!-- The buttons in the top row all have an icon *and* a
+                     text label, so we use a <Button> with a "top"
+                     compound drawable (rather than an ImageButton, which
+                     can't have a label.)  Some buttons set the icon image
+                     here; others do it from Java if the image depends on
+                     the current state of the call. -->
+
+                <!-- The upper-left button is either "Hold" or "Swap",
+                     depending on the state of the call. -->
+                <FrameLayout
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dip"
+                    android:layout_marginBottom="8dip"
+                    android:layout_marginLeft="8dip"
+                    android:layout_marginRight="8dip"
+                    >
+                    <!-- "Hold" -->
+                    <Button android:id="@+id/holdButton"
+                            style="@style/InCallTouchButton"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dip"
+                            android:layout_marginBottom="0dip"
+                            android:layout_marginLeft="0dip"
+                            android:layout_marginRight="0dip"
+                            android:text="@string/onscreenHoldText"
+                            />
+                    <!-- "Swap calls" -->
+                    <Button android:id="@+id/swapButton"
+                            style="@style/InCallTouchButton"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dip"
+                            android:layout_marginBottom="0dip"
+                            android:layout_marginLeft="0dip"
+                            android:layout_marginRight="0dip"
+                            android:text="@string/onscreenSwapCallsText"
+                            android:drawableTop="@drawable/ic_in_call_touch_swap"
+                            />
+                </FrameLayout>
+
                 <!-- "End call" -->
                 <Button android:id="@+id/endCallButton"
+                        style="@style/InCallTouchButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         android:text="@string/onscreenEndCallText"
-                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                        android:drawableTop="@drawable/ic_in_call_touch_end"
+                        android:textColor="@color/incall_endCallButtonLabel"
                         />
+
                 <!-- "Dialpad" -->
                 <Button android:id="@+id/dialpadButton"
+                        style="@style/InCallTouchButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
-                        android:text="@string/onscreenDialpadText"
-                        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onscreenShowDialpadText"
                         />
             </LinearLayout>
             <LinearLayout android:id="@+id/inCallControlsRow2"
                           android:orientation="horizontal"
                           android:layout_width="fill_parent"
-                          android:layout_height="1dip"
-                          android:layout_weight="2"
+                          android:layout_height="wrap_content"
                           >
                 <!-- "Bluetooth" -->
                 <ToggleButton android:id="@+id/bluetoothButton"
+                        style="@style/InCallTouchToggleButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         android:textOn="@string/onscreenBluetoothText"
                         android:textOff="@string/onscreenBluetoothText"
                         />
                 <!-- "Mute" -->
                 <ToggleButton android:id="@+id/muteButton"
+                        style="@style/InCallTouchToggleButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         android:textOn="@string/onscreenMuteText"
                         android:textOff="@string/onscreenMuteText"
                         />
                 <!-- "Speaker" -->
                 <ToggleButton android:id="@+id/speakerButton"
+                        style="@style/InCallTouchToggleButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
-                        android:layout_height="fill_parent"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         android:textOn="@string/onscreenSpeakerText"
                         android:textOff="@string/onscreenSpeakerText"
                         />

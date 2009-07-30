@@ -23,6 +23,7 @@
     <color name="incall_textConnectedBluetooth">#54C1FF</color> <!-- blue -->
     <color name="incall_textEnded">#FF6072</color> <!-- red -->
     <color name="incall_textOnHold">#FF9524</color> <!-- orange -->
+    <color name="incall_endCallButtonLabel">#FF6072</color> <!-- red -->
     
     <!-- DTMF Dialer -->
     <color name="dtmf_dialer_background">#333333</color> <!-- green -->

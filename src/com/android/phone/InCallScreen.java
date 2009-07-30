@@ -2923,6 +2923,9 @@ public class InCallScreen extends Activity
             case R.id.holdButton:
                 onHoldClick();
                 break;
+            case R.id.swapButton:
+                internalSwapCalls();
+                break;
             case R.id.endCallButton:
                 internalHangup();
                 break;
@@ -2943,9 +2946,6 @@ public class InCallScreen extends Activity
                 break;
             case R.id.mergeCallsButton:
                 PhoneUtils.mergeCalls(mPhone);
-                break;
-            case R.id.swapCallsButton:
-                internalSwapCalls();
                 break;
             case R.id.manageConferenceButton:
                 // Show the Manage Conference panel.

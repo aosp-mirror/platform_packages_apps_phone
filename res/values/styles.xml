@@ -160,4 +160,46 @@
         <item name="android:layout_marginBottom">16dip</item>
         <item name="android:layout_width">470dip</item>
     </style>
+
+    <!-- Regular (non-toggle) buttons in the in-call onscreen touch UI. -->
+    <style name="InCallTouchButton">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/incall_button</item>
+        <item name="android:layout_marginTop">8dip</item>
+        <item name="android:layout_marginBottom">8dip</item>
+        <item name="android:layout_marginLeft">8dip</item>
+        <item name="android:layout_marginRight">8dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <!-- Toggle buttons in the in-call onscreen touch UI. -->
+    <style name="InCallTouchToggleButton">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/incall_toggle_button</item>
+        <item name="android:layout_marginTop">8dip</item>
+        <item name="android:layout_marginBottom">8dip</item>
+        <item name="android:layout_marginLeft">8dip</item>
+        <item name="android:layout_marginRight">8dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <!-- Small round ImageButtons at the upper corners of the in-call onscreen touch UI. -->
+    <style name="InCallRoundTouchButton">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/incall_round_button</item>
+    </style>
+
+    <!-- Text label next to the small round ImageButtons. -->
+    <style name="InCallRoundButtonLabel">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dip</item>
+        <item name="android:layout_marginRight">8dip</item>
+    </style>
+
 </resources>
