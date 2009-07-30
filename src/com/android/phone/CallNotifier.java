@@ -773,6 +773,9 @@ public class CallNotifier extends Handler
             } else if (cause == Connection.DisconnectCause.OUT_OF_SERVICE) {
                 if (DBG) log("- need to play OUT OF SERVICE tone!");
                 toneToPlay = InCallTonePlayer.TONE_OUT_OF_SERVICE;
+            } else if (cause == Connection.DisconnectCause.ERROR_UNSPECIFIED) {
+                if (DBG) log("- DisconnectCause is ERROR_UNSPECIFIED: play TONE_CALL_ENDED!");
+                toneToPlay = InCallTonePlayer.TONE_CALL_ENDED;
             }
         }
 
