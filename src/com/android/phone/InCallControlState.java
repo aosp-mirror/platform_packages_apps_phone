@@ -132,8 +132,8 @@ public class InCallControlState {
         // Also disabled (on CDMA devices) during emergency calls.
         if (mPhone.getPhoneName().equals("CDMA")) {
             Connection c = fgCall.getLatestConnection();
-            boolean isEmergencyCall =
-                    PhoneNumberUtils.isEmergencyNumber(c.getAddress());
+            boolean isEmergencyCall = false;
+            if (c != null) isEmergencyCall = PhoneNumberUtils.isEmergencyNumber(c.getAddress());
 
             if (isEmergencyCall) { // disable "Mute" item
                 canMute = false;
