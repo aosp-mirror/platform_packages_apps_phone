@@ -96,4 +96,7 @@
     <!-- Flag indicating if auto retry is enabled -->
     <bool name="auto_retry_enabled">false</bool>
 
+    <!-- Determine whether we want to play local DTMF tones in a call, or
+         just let the radio/BP handle playing of the tones. -->
+    <bool name="allow_local_dtmf_tones">true</bool>
 </resources>
