@@ -33,14 +33,19 @@
         android:paddingRight="6dip"
         >
 
-        <!-- (1) inCallPanel: the main set of in-call UI elements -->
+        <!-- (1) inCallPanel: the main set of in-call UI elements.
+             We update this view's background to indicate the state of the
+             current call; see updateInCallPanelBackground(). -->
         <RelativeLayout android:id="@+id/inCallPanel"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         >
-
-            <!-- The CallCard (see call_card_popup.xml) is inserted
-                 here from Java code (see initInCallScreen()). -->
+            <!-- The "Call Card", which displays info about the currently
+                 active phone call(s) on the device.  See call_card.xml. -->
+            <com.android.phone.CallCard android:id="@+id/callCard"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent"
+                />
 
             <!-- The hint about the Menu button, anchored to the bottom of
                  the screen.  This is used only in landscape mode (see
@@ -56,7 +61,6 @@
                       android:visibility="gone"
                       android:layout_alignParentBottom="true"
                       />
-
         </RelativeLayout>  <!-- End of inCallPanel -->
 
          <!-- Contains all OTA-related UI elements for CDMA -->
