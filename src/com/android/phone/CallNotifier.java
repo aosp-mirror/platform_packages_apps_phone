@@ -1125,7 +1125,7 @@ public class CallNotifier extends Handler
                     if (mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone ==
                             OtaUtils.OTA_PLAY_SUCCESS_FAILURE_TONE_ON) {
                         toneType = ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD;
-                        toneVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+                        toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                         toneLengthMillis = 5000;
                     } else {
                         toneType = ToneGenerator.TONE_PROP_PROMPT;
