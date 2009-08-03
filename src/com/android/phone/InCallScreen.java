@@ -2207,7 +2207,15 @@ public class InCallScreen extends Activity
             for (Connection cn : fgConnections) {
                 if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
                     String postDialStr = cn.getRemainingPostDialString();
-                    showWaitPromptDialog(cn, postDialStr);
+                    if (mPhone.getPhoneName().equals("CDMA")) {
+                        if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() !=
+                            CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                            if(DBG) log("show the Wait dialog for CDMA");
+                            showWaitPromptDialogCDMA(cn, postDialStr);
+                        }
+                    } else {
+                        showWaitPromptDialog(cn, postDialStr);
+                    }
                 }
             }
         }
