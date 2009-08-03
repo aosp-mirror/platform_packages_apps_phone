@@ -314,14 +314,6 @@
                 <action android:name="android.bluetooth.IBluetoothHeadset" />
             </intent-filter>
         </service>
-
-        <!-- Broadcast Receiver that will process cdma ERI text updates -->    
-        <receiver android:name="EriTextWidgetProvider" android:label="@string/eri_text_label">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/eri_text_appwidget" />
-        </receiver>
     </application>
 </manifest>
 

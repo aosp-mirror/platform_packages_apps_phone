@@ -1169,6 +1169,13 @@ public class PhoneApp extends Application {
     }
 
     private void handleServiceStateChanged(Intent intent) {
+        /**
+         * This used to handle updating EriTextWidgetProvider this routine
+         * and and listening for ACTION_SERVICE_STATE_CHANGED intents could
+         * be removed. But leaving just in case it might be needed in the near
+         * future.
+         */
+
         // If service just returned, start sending out the queued messages
         ServiceState ss = ServiceState.newFromBundle(intent.getExtras());
 
@@ -1187,29 +1194,5 @@ public class PhoneApp extends Application {
         } else {
             hasService = false;
         }
-
-        if (ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_1xRTT
-                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0
-                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A
-                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_IS95A
-                || ss.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_IS95B) {
-            isCdma = true;
-        }
-
-        if (!isCdma) {
-            eriText = "";
-        } else {
-            if (!hasService) {
-                eriText = getText(com.android.internal.R.string.roamingTextSearching).toString();
-            } else {
-                eriText = phone.getCdmaEriText();
-            }
-        }
-
-        if (eriText != null) {
-            EriTextWidgetProvider mEriTextWidgetProvider = EriTextWidgetProvider.getInstance();
-            mEriTextWidgetProvider.performUpdate(this, eriText);
-        }
-
     }
 }
