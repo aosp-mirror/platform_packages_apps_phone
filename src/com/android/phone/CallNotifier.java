@@ -870,7 +870,7 @@ public class CallNotifier extends Handler
                                 // Don't put OTA or Emergency calls into call log
                                 if (!mPhone.isOtaSpNumber(eNumber)
                                         && !PhoneNumberUtils.isEmergencyNumber(eNumber)) {
-                                    Calls.addCall(ci, mApplication, number, presentation,
+                                    Calls.addCall(ci, mApplication, cdmaLogNumber, presentation,
                                             callLogType, date, (int) duration / 1000);
                                 }
                             } else {
@@ -1135,7 +1135,7 @@ public class CallNotifier extends Handler
                     break;
                 case TONE_VOICE_PRIVACY:
                     toneType = ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE;
-                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                     toneLengthMillis = 5000;
                     break;
                 case TONE_REORDER:
