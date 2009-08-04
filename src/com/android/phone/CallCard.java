@@ -353,30 +353,8 @@ public class CallCard extends FrameLayout
         Call.State state = call.getState();
         if (DBG) log("  - call.state: " + call.getState());
 
-        int callCardBackgroundResid = 0;
-
-        // Background frame resources are different between portrait/landscape.
-        // TODO: Don't do this manually.  Instead let the resource system do
-        // it: just move the *_land assets over to the res/drawable-land
-        // directory (but with the same filename as the corresponding
-        // portrait asset.)
-        boolean landscapeMode = InCallScreen.ConfigurationHelper.isLandscape();
-
-        // Background images are also different if Bluetooth is active.
-        final boolean bluetoothActive = mApplication.showBluetoothIndication();
-
         switch (state) {
             case ACTIVE:
-                if (bluetoothActive) {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
-                            : R.drawable.incall_frame_bluetooth_tall_port;
-                } else {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_connected_tall_land
-                            : R.drawable.incall_frame_connected_tall_port;
-                }
-
                 // update timer field
                 if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
                 mCallTime.setActiveCallMode(call);
@@ -386,20 +364,12 @@ public class CallCard extends FrameLayout
                 break;
 
             case HOLDING:
-                callCardBackgroundResid =
-                        landscapeMode ? R.drawable.incall_frame_hold_tall_land
-                        : R.drawable.incall_frame_hold_tall_port;
-
                 // update timer field
                 mCallTime.cancelTimer();
 
                 break;
 
             case DISCONNECTED:
-                callCardBackgroundResid =
-                        landscapeMode ? R.drawable.incall_frame_ended_tall_land
-                        : R.drawable.incall_frame_ended_tall_port;
-
                 // Stop getting timer ticks from this call
                 mCallTime.cancelTimer();
 
@@ -407,16 +377,6 @@ public class CallCard extends FrameLayout
 
             case DIALING:
             case ALERTING:
-                if (bluetoothActive) {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
-                            : R.drawable.incall_frame_bluetooth_tall_port;
-                } else {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_normal_tall_land
-                            : R.drawable.incall_frame_normal_tall_port;
-                }
-
                 // Stop getting timer ticks from a previous call
                 mCallTime.cancelTimer();
 
@@ -424,16 +384,6 @@ public class CallCard extends FrameLayout
 
             case INCOMING:
             case WAITING:
-                if (bluetoothActive) {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
-                            : R.drawable.incall_frame_bluetooth_tall_port;
-                } else {
-                    callCardBackgroundResid =
-                            landscapeMode ? R.drawable.incall_frame_normal_tall_land
-                            : R.drawable.incall_frame_normal_tall_port;
-                }
-
                 // Stop getting timer ticks from a previous call
                 mCallTime.cancelTimer();
 
@@ -459,9 +409,12 @@ public class CallCard extends FrameLayout
                 break;
         }
 
-        // Set the background frame color based on the state of the call.
-        setMainCallCardBackgroundResource(callCardBackgroundResid);
-        // (Text colors are set in updateCardTitleWidgets().)
+        // Don't use any background at all for the main CallCard, now that
+        // the InCallScreen uses the background of the InCallPanel to
+        // indicate the current state of the call(s).
+        // TODO: clean up background drawables of the "info areas" for the
+        // other calls too.
+        setMainCallCardBackgroundResource(0);
 
         updateCardTitleWidgets(phone, call);
 
@@ -585,30 +538,10 @@ public class CallCard extends FrameLayout
 
         mMainCallCard.setVisibility(View.VISIBLE);
 
-        // Background frame resources are different between portrait/landscape.
-        // TODO: Don't do this manually.  Instead let the resource system do
-        // it: just move the *_land assets over to the res/drawable-land
-        // directory (but with the same filename as the corresponding
-        // portrait asset.)
-        boolean landscapeMode = InCallScreen.ConfigurationHelper.isLandscape();
-
-        // Background images are also different if Bluetooth is active.
-        final boolean bluetoothActive = mApplication.showBluetoothIndication();
-
-        int callCardBackgroundResid = 0;
-        if (bluetoothActive) {
-            callCardBackgroundResid =
-                    landscapeMode ? R.drawable.incall_frame_bluetooth_tall_land
-                    : R.drawable.incall_frame_bluetooth_tall_port;
-        } else {
-            callCardBackgroundResid =
-                    landscapeMode ? R.drawable.incall_frame_connected_tall_land
-                    : R.drawable.incall_frame_connected_tall_port;
-        }
-
-        // Set the background frame color based on the state of the call.
-        setMainCallCardBackgroundResource(callCardBackgroundResid);
-        // (Text colors are set in updateCardTitleWidgets().)
+        // Don't use any background at all for the main CallCard, now that
+        // the InCallScreen uses the background of the InCallPanel to
+        // indicate the current state of the call(s).
+        setMainCallCardBackgroundResource(0);
 
         // Update timer field:
         // TODO(CDMA): Need to confirm that we can trust the time info

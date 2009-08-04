@@ -16,13 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.MmiCode;
-import com.android.internal.telephony.Phone;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,15 +30,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
-import android.provider.CallLog;
-import android.provider.CallLog.Calls;
 import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
@@ -59,7 +49,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -73,6 +62,12 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.MmiCode;
+import com.android.internal.telephony.Phone;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 import java.util.List;
@@ -1123,17 +1118,8 @@ public class InCallScreen extends Activity
 
         ConfigurationHelper.initConfiguration(getResources().getConfiguration());
 
-        // Create a CallCard and add it to our View hierarchy.
-        // TODO: there's no good reason for call_card_popup to be a
-        // separate layout that we need to manually inflate here.
-        // (That design is left over from when the call card was drawn in
-        // its own PopupWindow.)
-        // Instead, the CallCard should just be <include>d directly from
-        // incall_screen.xml.
-        View callCardLayout = getLayoutInflater().inflate(
-                R.layout.call_card_popup,
-                mInCallPanel);
-        mCallCard = (CallCard) callCardLayout.findViewById(R.id.callCard);
+        // Initialize the CallCard.
+        mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
 
@@ -2198,6 +2184,8 @@ public class InCallScreen extends Activity
             return;
         } else if (mInCallScreenMode == InCallScreenMode.CALL_ENDED) {
             if (VDBG) log("- updateScreen: call ended state (NOT updating in-call UI)...");
+            // Actually we do need to update one thing: the background.
+            updateInCallPanelBackground();
             return;
         }
 
@@ -2206,6 +2194,7 @@ public class InCallScreen extends Activity
         updateDialpadVisibility();
         updateInCallTouchUi();
         updateMenuButtonHint();
+        updateInCallPanelBackground();
 
         // Forcibly take down all dialog if an incoming call is ringing.
         if (!mRingingCall.isIdle()) {
@@ -4692,6 +4681,75 @@ public class InCallScreen extends Activity
     public InCallControlState getUpdatedInCallControlState() {
         mInCallControlState.update();
         return mInCallControlState;
+    }
+
+    /**
+     * Updates the background of mInCallPanel to indicate the state of the
+     * current call(s).
+     */
+    private void updateInCallPanelBackground() {
+        final boolean hasRingingCall = !mRingingCall.isIdle();
+        final boolean hasActiveCall = !mForegroundCall.isIdle();
+        final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+        final PhoneApp app = PhoneApp.getInstance();
+        final boolean bluetoothActive = app.showBluetoothIndication();
+
+        int backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+
+        // Possible states of the InCallPanel background are:
+        // - bg_pattern_gradient_bluetooth    // blue
+        // - bg_pattern_gradient_connected    // green
+        // - bg_pattern_gradient_ended        // red
+        // - bg_pattern_gradient_on_hold      // orange
+        // - bg_pattern_gradient_unidentified // gray
+
+        if (hasRingingCall) {
+            // There's an INCOMING (or WAITING) call.
+            if (bluetoothActive) {
+                backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+            } else {
+                backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+            }
+        } else if (hasHoldingCall && !hasActiveCall) {
+            // No foreground call, but there is a call on hold.
+            backgroundResId = R.drawable.bg_pattern_gradient_on_hold;
+        } else {
+            // In all cases other than "ringing" and "on hold", the state
+            // of the foreground call determines the background.
+            final Call.State fgState = mForegroundCall.getState();
+            switch (fgState) {
+                case ACTIVE:
+                    if (bluetoothActive) {
+                        backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+                    } else {
+                        backgroundResId = R.drawable.bg_pattern_gradient_connected;
+                    }
+                    break;
+
+                case DISCONNECTED:
+                    backgroundResId = R.drawable.bg_pattern_gradient_ended;
+                    break;
+
+                case DIALING:
+                case ALERTING:
+                    if (bluetoothActive) {
+                        backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+                    } else {
+                        backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+                    }
+                    break;
+
+                default:
+                    // Foreground call is (presumably) IDLE.
+                    // We're not usually here at all in this state, but
+                    // this *does* happen in some unusual cases (like
+                    // while displaying an MMI result).
+                    // Use the most generic background.
+                    backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+                    break;
+            }
+        }
+        mInCallPanel.setBackgroundResource(backgroundResId);
     }
 
 
