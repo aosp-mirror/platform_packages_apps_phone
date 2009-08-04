@@ -286,24 +286,6 @@ public class CallCard extends FrameLayout
     }
 
     /**
-     * Updates the UI for the "generic call" state, where the phone is in
-     * use but we don't know any specific details about the state of the
-     * call (like who you're talking to, or how many lines are in use.)
-     */
-    private void updateGenericCall(Phone phone) {
-        if (DBG) log("updateForegroundCall()...");
-
-        Call fgCall = phone.getForegroundCall();
-
-        // Display the special "generic" state in the main call area:
-        displayMainCallGeneric(phone, fgCall);
-
-        // And hide the "other call" info areas:
-        displayOnHoldCallStatus(phone, null);
-        displayOngoingCallStatus(phone, null);
-    }
-
-    /**
      * Updates the UI for the state where an incoming call is ringing (or
      * call waiting), regardless of whether the phone's already offhook.
      */
@@ -525,34 +507,6 @@ public class CallCard extends FrameLayout
         // indication of the current state, rather than displaying the
         // regular photo as set above.
         updatePhotoForCallState(call);
-    }
-
-    /**
-     * Version of displayMainCallStatus() that sets the main call area
-     * into the "generic" state.
-     * @see displayMainCallStatus
-     */
-    private void displayMainCallGeneric(Phone phone, Call call) {
-        if (DBG) log("displayMainCallGeneric(phone " + phone
-                     + ", call " + call + ")...");
-
-        mMainCallCard.setVisibility(View.VISIBLE);
-
-        // Don't use any background at all for the main CallCard, now that
-        // the InCallScreen uses the background of the InCallPanel to
-        // indicate the current state of the call(s).
-        setMainCallCardBackgroundResource(0);
-
-        // Update timer field:
-        // TODO(CDMA): Need to confirm that we can trust the time info
-        // from the passed-in Call object, even though the call is "generic".
-        if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
-        mCallTime.setActiveCallMode(call);
-        mCallTime.reset();
-        mCallTime.periodicUpdateTimer();
-
-        updateCardTitleWidgets(phone, call);
-        updateDisplayForGenericCall();
     }
 
     /**
@@ -992,9 +946,6 @@ public class CallCard extends FrameLayout
      *
      * If the current call is a conference call, use
      * updateDisplayForConference() instead.
-     *
-     * If the phone is in the "generic call" state, use
-     * updateDisplayForGenericCall() instead.
      */
     private void updateDisplayForPerson(CallerInfo info,
                                         int presentation,
@@ -1152,25 +1103,6 @@ public class CallCard extends FrameLayout
         // To do this, our caller would pass us the activeConnections
         // list, and we'd call PhoneUtils.getCallerInfo() separately for
         // each connection.
-    }
-
-    /**
-     * Updates the name / photo / number / label fields
-     * for the special "generic call" state.
-     * @see updateDisplayForPerson
-     * @see updateDisplayForConference
-     */
-    private void updateDisplayForGenericCall() {
-        if (DBG) log("updateDisplayForGenericCall()...");
-
-        // Display a generic "in-call" image in the photo slot, with no
-        // other information.
-
-        showImage(mPhoto, R.drawable.picture_dialing);
-
-        mName.setVisibility(View.GONE);
-        mPhoneNumber.setVisibility(View.GONE);
-        mLabel.setVisibility(View.GONE);
     }
 
     /**
