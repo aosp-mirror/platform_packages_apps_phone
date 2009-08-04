@@ -166,7 +166,7 @@ public class InCallScreen extends Activity
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
-           "com.android.phone.OTAInCallScreen.SHOW_ACTIVATION";
+           "com.android.phone.InCallScreen.SHOW_ACTIVATION";
     public static final String OTA_NUMBER = "*228";
     public static final String EXTRA_OTA_CALL = "android.phone.extra.OTA_CALL";
 
@@ -4622,7 +4622,11 @@ public class InCallScreen extends Activity
             }
         } else if (action.equals(intent.ACTION_MAIN)) {
             if (DBG) log("checkIsOtaCall action ACTION_MAIN");
-            if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
+            boolean isRingingCall = !mRingingCall.isIdle();
+            if (isRingingCall) {
+                if (DBG) log("checkIsOtaCall isRingingCall: " + isRingingCall);
+                return false;
+            } else if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
                     || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)) {
                 if (DBG) log("checkIsOtaCall action ACTION_MAIN, OTA call already in progress");
                 isOtaCall = true;
@@ -4774,6 +4778,10 @@ public class InCallScreen extends Activity
         mMainFrame.setBackgroundDrawable(bd);
     }
 
+    public void resetInCallScreenMode() {
+        if (DBG) log("resetInCallScreenMode - InCallScreenMode set to UNDEFINED");
+        setInCallScreenMode(InCallScreenMode.UNDEFINED);
+    }
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);

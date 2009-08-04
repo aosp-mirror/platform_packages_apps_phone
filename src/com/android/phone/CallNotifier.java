@@ -333,6 +333,25 @@ public class CallNotifier extends Handler
             return;
         }
 
+        // Incoming calls are totally ignored if OTA call is active
+        if (mPhone.getPhoneName().equals("CDMA")) {
+            boolean activateState = (mApplication.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
+            boolean dialogState = (mApplication.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG);
+            boolean spcState = mApplication.cdmaOtaProvisionData.inOtaSpcState;
+
+            if (spcState) {
+                Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: OTA call is active");
+                PhoneUtils.hangupRingingCall(mPhone);
+                return;
+            } else if (activateState || dialogState) {
+                if (dialogState) mApplication.dismissOtaDialogs();
+                mApplication.clearOtaState();
+                mApplication.clearInCallScreenMode();
+            }
+        }
+
         if (c != null && c.isRinging()) {
             // Stop any signalInfo tone being played on receiving a Call
             if (mPhone.getPhoneName().equals("CDMA")) {

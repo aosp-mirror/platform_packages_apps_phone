@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.telephony.PhoneNumberUtils;
 import android.util.Config;
 import android.util.Log;
+import com.android.internal.telephony.Phone;
 
 /**
  * OutgoingCallReceiver receives NEW_OUTGOING_CALL broadcasts from
@@ -50,8 +51,37 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
         }
 
         number = getResultData();
+        final PhoneApp app = PhoneApp.getInstance();
+        if (app.phone.getPhoneName().equals("CDMA")) {
+            boolean activateState = (app.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
+            boolean dialogState = (app.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG);
+            boolean isOtaCallActive = false;
+
+            if ((app.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS)
+                    || (app.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING)) {
+                isOtaCallActive = true;
+            }
+
+            if (activateState || dialogState) {
+                if (dialogState) app.dismissOtaDialogs();
+                app.clearOtaState();
+            } else if (isOtaCallActive) {
+                if (LOGV) Log.v(TAG, "OTA call is active, a 2nd CALL cancelled -- returning.");
+                return;
+            }
+        }
+
         if (number == null) {
             if (LOGV) Log.v(TAG, "CALL cancelled -- returning.");
+            return;
+        } else if ((app.phone.getPhoneName().equals("CDMA"))
+                && ((app.phone.getState() != Phone.State.IDLE)
+                && (app.phone.isOtaSpNumber(number)))) {
+            if (LOGV) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
             return;
         } else if (PhoneNumberUtils.isEmergencyNumber(number)) {
             Log.w(TAG, "Cannot modify outgoing call to emergency number " + number + ".");

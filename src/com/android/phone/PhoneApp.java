@@ -1334,4 +1334,32 @@ public class PhoneApp extends Application {
         if (DBG) Log.d(LOG_TAG, "PhoneApp - isOtaCallInEndState " + otaCallEnded);
         return otaCallEnded;
     }
+
+    // it is safe to call clearOtaState() even if the InCallScreen isn't active
+    public void clearOtaState() {
+        if (DBG) Log.d(LOG_TAG, "PhoneApp - clearOtaState ...");
+        if ((mInCallScreen != null)
+                && (mInCallScreen.otaUtils != null)) {
+            mInCallScreen.otaUtils.cleanOtaScreen();
+            if (DBG) Log.d(LOG_TAG, "PhoneApp - clearOtaState clears OTA screen");
+        }
+    }
+
+    // it is safe to call dismissOtaDialogs() even if the InCallScreen isn't active
+    public void dismissOtaDialogs() {
+        if (DBG) Log.d(LOG_TAG, "PhoneApp - dismissOtaDialogs ...");
+        if ((mInCallScreen != null)
+                && (mInCallScreen.otaUtils != null)) {
+            mInCallScreen.otaUtils.dismissAllOtaDialogs();
+            if (DBG) Log.d(LOG_TAG, "PhoneApp - dismissOtaDialogs clears OTA dialogs");
+        }
+    }
+
+    // it is safe to call clearInCallScreenMode() even if the InCallScreen isn't active
+    public void clearInCallScreenMode() {
+        if (DBG) Log.d(LOG_TAG, "PhoneApp - clearInCallScreenMode ...");
+        if (mInCallScreen != null) {
+            mInCallScreen.resetInCallScreenMode();
+        }
+    }
 }
