@@ -1005,6 +1005,8 @@ public class PhoneApp extends Application {
      * @param state current state of the phone (see {@link Phone#State})
      */
     /* package */ void updateProximitySensorMode(Phone.State state) {
+        // TODO: Extra-verbose debugging is enabled here while tracking down bug 2028728
+        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
         if (mProximityWakeLock != null) {
             if (state == Phone.State.OFFHOOK) {
                 // Phone is in use!  Arrange for the screen to turn off
@@ -1012,6 +1014,8 @@ public class PhoneApp extends Application {
                 if (!mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                     mProximityWakeLock.acquire();
+                } else {
+                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                 }
             } else {
                 // Phone is either idle, or ringing.  We don't want any
@@ -1019,9 +1023,19 @@ public class PhoneApp extends Application {
                 if (mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
                     mProximityWakeLock.release();
+                } else {
+                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
                 }
             }
         }
+    }
+
+    /**
+     * @return true if this device supports the "proximity sensor
+     * auto-lock" feature while in-call (see updateProximitySensorMode()).
+     */
+    /* package */ boolean proximitySensorModeEnabled() {
+        return (mProximityWakeLock != null);
     }
 
     KeyguardManager getKeyguardManager() {

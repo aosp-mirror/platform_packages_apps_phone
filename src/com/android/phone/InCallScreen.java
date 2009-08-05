@@ -265,7 +265,8 @@ public class InCallScreen extends Activity
 
     private EditText mWildPromptText;
 
-    // "Touch lock" overlay graphic
+    // "Touch lock overlay" feature
+    private boolean mUseTouchLockOverlay;  // True if we use this feature on the current device
     private View mTouchLockOverlay;  // The overlay over the whole screen
     private View mTouchLockIcon;  // The "lock" icon in the middle of the screen
     private Animation mTouchLockFadeIn;
@@ -564,6 +565,10 @@ public class InCallScreen extends Activity
         } else {
             mInCallInitialStatus = InCallInitStatus.SUCCESS;
         }
+
+        // The "touch lock overlay" feature is used only on devices that
+        // *don't* use a proximity sensor to turn the screen off while in-call.
+        mUseTouchLockOverlay = !app.proximitySensorModeEnabled();
 
         Profiler.callScreenCreated();
     }
@@ -4306,6 +4311,9 @@ public class InCallScreen extends Activity
     // by itself if the DTMF dialpad is dismissed for any reason, such as
     // the current call getting disconnected (see onDialerClose()).
     //
+    // This entire feature is disabled on devices which use a proximity
+    // sensor to turn the screen off while in-call.
+    //
 
     /**
      * Initializes the "touch lock" UI widgets.  We do this lazily
@@ -4315,6 +4323,11 @@ public class InCallScreen extends Activity
         if (VDBG) log("initTouchLock()...");
         if (mTouchLockOverlay != null) {
             Log.w(LOG_TAG, "initTouchLock: already initialized!");
+            return;
+        }
+
+        if (!mUseTouchLockOverlay) {
+            Log.w(LOG_TAG, "initTouchLock: touch lock isn't used on this device!");
             return;
         }
 
@@ -4332,7 +4345,9 @@ public class InCallScreen extends Activity
     }
 
     private boolean isTouchLocked() {
-        return (mTouchLockOverlay != null) && (mTouchLockOverlay.getVisibility() == View.VISIBLE);
+        return mUseTouchLockOverlay
+                && (mTouchLockOverlay != null)
+                && (mTouchLockOverlay.getVisibility() == View.VISIBLE);
     }
 
     /**
@@ -4355,6 +4370,13 @@ public class InCallScreen extends Activity
     private void enableTouchLock(boolean enable) {
         if (VDBG) log("enableTouchLock(" + enable + ")...");
         if (enable) {
+            // We shouldn't have even gotten here if we don't use the
+            // touch lock overlay feature at all on this device.
+            if (!mUseTouchLockOverlay) {
+                Log.w(LOG_TAG, "enableTouchLock: touch lock isn't used on this device!");
+                return;
+            }
+
             // The "touch lock" overlay is only ever used on top of the
             // DTMF dialpad.
             if (!mDialer.isOpened()) {
@@ -4407,6 +4429,11 @@ public class InCallScreen extends Activity
      */
     private void resetTouchLockTimer() {
         if (VDBG) log("resetTouchLockTimer()...");
+
+        // This is a no-op if this device doesn't use the touch lock
+        // overlay feature at all.
+        if (!mUseTouchLockOverlay) return;
+
         mHandler.removeMessages(TOUCH_LOCK_TIMER);
         if (mDialer.isOpened() && !isTouchLocked()) {
             // The touch lock delay value comes from Gservices; we use

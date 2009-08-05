@@ -550,6 +550,7 @@ public class CallNotifier extends Handler
 
     private void onPhoneStateChanged(AsyncResult r) {
         Phone.State state = mPhone.getState();
+        if (VDBG) log("onPhoneStateChanged: state = " + state);
 
         // Turn status bar notifications on or off depending upon the state
         // of the phone.  Notification Alerts (audible or vibrating) should
