@@ -329,6 +329,14 @@ public class PhoneUtils {
         return hangup(phone.getBackgroundCall());
     }
 
+    /**
+     * Trivial wrapper around Call.hangup(), except that we return a
+     * boolean success code rather than throwing CallStateException on
+     * failure.
+     *
+     * @return true if the call was successfully hung up, or false
+     *         if the call wasn't actually active.
+     */
     static boolean hangup(Call call) {
         try {
             call.hangup();
@@ -340,6 +348,11 @@ public class PhoneUtils {
         return false;
     }
 
+    /**
+     * Trivial wrapper around Connection.hangup(), except that we silently
+     * do nothing (rather than throwing CallStateException) if the
+     * connection wasn't actually active.
+     */
     static void hangup(Connection c) {
         try {
             if (c != null) {
