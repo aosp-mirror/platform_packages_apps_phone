@@ -206,10 +206,12 @@ public class OtaUtils {
         if (mApplication.cdmaOtaConfigData.otaShowActivationScreen
                 == OTA_SHOW_ACTIVATION_SCREEN_ON) {
             if (DBG) log("OtaShowActivationScreen(): show activation screen");
-            if ((mDialer != null) && (!mDialer.isOpened())) {
+            if (!isDialerOpened()) {
                 otaScreenInitialize();
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
+            } else {
+                if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
@@ -229,11 +231,13 @@ public class OtaUtils {
         if (mApplication.cdmaOtaConfigData.otaShowListeningScreen
                 == OTA_SHOW_LISTENING_SCREEN_ON) {
             if (DBG) log("OtaShowListeningScreen(): show listening screen");
-            if ((mDialer != null) && (!mDialer.isOpened())) {
+            if (!isDialerOpened()) {
                 otaScreenInitialize();
                 mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
                 mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_listen);
                 mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
+            } else {
+                if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
@@ -252,12 +256,14 @@ public class OtaUtils {
      */
     private void otaShowInProgressScreen() {
         if (DBG) log("OtaShowInProgressScreen()...");
-        if ((mDialer != null) && (!mDialer.isOpened())) {
+        if (!isDialerOpened()) {
             otaScreenInitialize();
             mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
             mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_progress);
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.VISIBLE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
+        } else {
+            if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
         }
         mApplication.cdmaOtaScreenState.otaScreenState =
             CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS;
@@ -321,7 +327,7 @@ public class OtaUtils {
         mOtaWidgetData.otaTextSuccessFail.setText(R.string.ota_unsuccessful);
         mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.VISIBLE);
         //close the dialer if open
-        if ((mDialer != null) && (mDialer.isOpened())) {
+        if (isDialerOpened()) {
             mDialer.closeDialer(false);
         }
     }
@@ -337,7 +343,7 @@ public class OtaUtils {
         mOtaWidgetData.otaTextSuccessFail.setText(R.string.ota_successful);
         mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.VISIBLE);
         //close the dialer if open
-        if ((mDialer != null) && (mDialer.isOpened())) {
+        if (isDialerOpened()) {
             mDialer.closeDialer(false);
         }
     }
@@ -367,7 +373,7 @@ public class OtaUtils {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             mOtaWidgetData.spcErrorDialog.show();
             //close the dialer if open
-            if ((mDialer != null) && (mDialer.isOpened())) {
+            if (isDialerOpened()) {
                 mDialer.closeDialer(false);
             }
             long noticeTime = length*1000;
@@ -449,6 +455,10 @@ public class OtaUtils {
         mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.GONE);
         mOtaWidgetData.otaCallCardBase.setVisibility(View.GONE);
+    }
+
+    public boolean isDialerOpened() {
+        return (mDialer != null && mDialer.isOpened());
     }
 
     /**

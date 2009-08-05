@@ -59,7 +59,6 @@
 
     <!-- (2) Activate/cancel buttons -->
     <RelativeLayout android:id="@+id/callCardOtaActivate"
-                    android:background="#000"
                     android:gravity="center_horizontal"
                     android:layout_width="fill_parent"
                     android:visibility="gone"
@@ -92,7 +91,6 @@
 
     <!-- (3) OTA listen/progress buttons -->
     <RelativeLayout android:id="@+id/callCardOtaListenProgress"
-                    android:background="#000"
                     android:gravity="center_horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +136,6 @@
 
     <!-- (4) OTA Success/Failure button -->
     <RelativeLayout android:id="@+id/callCardOtaFailOrSuccessful"
-                    android:background="#000"
                     android:gravity="center_horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
