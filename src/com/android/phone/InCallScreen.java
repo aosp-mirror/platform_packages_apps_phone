@@ -593,8 +593,6 @@ public class InCallScreen extends Activity
         if (DBG) log("onResume()...");
         super.onResume();
 
-        mNeedShowCallLostDialog = false;
-
         mIsForegroundActivity = true;
 
         final PhoneApp app = PhoneApp.getInstance();
