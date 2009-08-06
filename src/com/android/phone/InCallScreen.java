@@ -22,13 +22,15 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.AsyncResult;
 import android.os.Bundle;
@@ -2185,7 +2187,7 @@ public class InCallScreen extends Activity
         } else if (mInCallScreenMode == InCallScreenMode.CALL_ENDED) {
             if (VDBG) log("- updateScreen: call ended state (NOT updating in-call UI)...");
             // Actually we do need to update one thing: the background.
-            updateInCallPanelBackground();
+            updateInCallBackground();
             return;
         }
 
@@ -2194,7 +2196,7 @@ public class InCallScreen extends Activity
         updateDialpadVisibility();
         updateInCallTouchUi();
         updateMenuButtonHint();
-        updateInCallPanelBackground();
+        updateInCallBackground();
 
         // Forcibly take down all dialog if an incoming call is ringing.
         if (!mRingingCall.isIdle()) {
@@ -4692,10 +4694,10 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates the background of mInCallPanel to indicate the state of the
-     * current call(s).
+     * Updates the background of the InCallScreen to indicate the state of
+     * the current call(s).
      */
-    private void updateInCallPanelBackground() {
+    private void updateInCallBackground() {
         final boolean hasRingingCall = !mRingingCall.isIdle();
         final boolean hasActiveCall = !mForegroundCall.isIdle();
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
@@ -4704,7 +4706,7 @@ public class InCallScreen extends Activity
 
         int backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
 
-        // Possible states of the InCallPanel background are:
+        // Possible states of the background are:
         // - bg_pattern_gradient_bluetooth    // blue
         // - bg_pattern_gradient_connected    // green
         // - bg_pattern_gradient_ended        // red
@@ -4757,7 +4759,9 @@ public class InCallScreen extends Activity
                     break;
             }
         }
-        mInCallPanel.setBackgroundResource(backgroundResId);
+        BitmapDrawable bd = (BitmapDrawable) getResources().getDrawable(backgroundResId);
+        bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
+        mMainFrame.setBackgroundDrawable(bd);
     }
 
 

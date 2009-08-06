@@ -62,7 +62,7 @@
                 />
             <!-- "Answer" button -->
             <TextView android:id="@+id/answerButton"
-                style="@style/InCallTouchButton"
+                style="@style/IncomingCallTouchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="@string/onscreenAnswerText"
@@ -77,7 +77,7 @@
                 />
             <!-- "Reject" button -->
             <TextView android:id="@+id/rejectButton"
-                style="@style/InCallTouchButton"
+                style="@style/IncomingCallTouchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="@string/onscreenRejectText"
