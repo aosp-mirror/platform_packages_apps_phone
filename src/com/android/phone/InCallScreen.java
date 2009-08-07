@@ -19,6 +19,7 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -4154,14 +4155,14 @@ public class InCallScreen extends Activity
 
         // There's no need to ask the Bluetooth system service if BT is enabled:
         //
-        //    BluetoothDevice bluetoothDevice =
-        //            (BluetoothDevice) getSystemService(Context.BLUETOOTH_SERVICE);
-        //    if ((bluetoothDevice == null) || !bluetoothDevice.isEnabled()) {
+        //    BluetoothAdapter adapter =
+        //            (BluetoothAdapter) getSystemService(Context.BLUETOOTH_SERVICE);
+        //    if ((adapter == null) || !adapter.isEnabled()) {
         //        if (DBG) log("  ==> FALSE (BT not enabled)");
         //        return false;
         //    }
-        //    if (DBG) log("  - BT enabled!  device name " + bluetoothDevice.getName()
-        //                 + ", address " + bluetoothDevice.getAddress());
+        //    if (DBG) log("  - BT enabled!  device name " + adapter.getName()
+        //                 + ", address " + adapter.getAddress());
         //
         // ...since we already have a BluetoothHeadset instance.  We can just
         // call isConnected() on that, and assume it'll be false if BT isn't
@@ -4171,10 +4172,10 @@ public class InCallScreen extends Activity
         boolean isConnected = false;
         if (mBluetoothHeadset != null) {
             if (VDBG) log("  - headset state = " + mBluetoothHeadset.getState());
-            String headsetAddress = mBluetoothHeadset.getHeadsetAddress();
-            if (VDBG) log("  - headset address: " + headsetAddress);
-            if (headsetAddress != null) {
-                isConnected = mBluetoothHeadset.isConnected(headsetAddress);
+            BluetoothDevice headset = mBluetoothHeadset.getCurrentHeadset();
+            if (VDBG) log("  - headset address: " + headset);
+            if (headset != null) {
+                isConnected = mBluetoothHeadset.isConnected(headset);
                 if (VDBG) log("  - isConnected: " + isConnected);
             }
         }
@@ -4259,11 +4260,11 @@ public class InCallScreen extends Activity
         if (mBluetoothHandsfree != null) {
             log("= BluetoothHandsfree.isAudioOn: " + mBluetoothHandsfree.isAudioOn());
             if (mBluetoothHeadset != null) {
-                String headsetAddress = mBluetoothHeadset.getHeadsetAddress();
-                log("= BluetoothHeadset.getHeadsetAddress: " + headsetAddress);
-                if (headsetAddress != null) {
+                BluetoothDevice headset = mBluetoothHeadset.getCurrentHeadset();
+                log("= BluetoothHeadset.getCurrentHeadset: " + headset);
+                if (headset != null) {
                     log("= BluetoothHeadset.isConnected: "
-                        + mBluetoothHeadset.isConnected(headsetAddress));
+                        + mBluetoothHeadset.isConnected(headset));
                 }
             } else {
                 log("= mBluetoothHeadset is null");
