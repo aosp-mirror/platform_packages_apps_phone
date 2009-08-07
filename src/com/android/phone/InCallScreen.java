@@ -880,9 +880,6 @@ public class InCallScreen extends Activity
         if (DBG) log("onDestroy()...");
         super.onDestroy();
 
-        // In case the finish() is called directly without dismissing dialogs.
-        dismissAllDialogs();
-
         // Set the magic flag that tells us NOT to handle any handler
         // messages that come in asynchronously after we get destroyed.
         mIsDestroyed = true;
@@ -3165,6 +3162,12 @@ public class InCallScreen extends Activity
 
     private void showCallLostDialog () {
         if (DBG) log("showCallLostDialog ()...");
+
+        // Don't need to show the dialog if InCallScreen isn't in the forgeround
+        if (!mIsForegroundActivity) {
+            if (DBG) log("showCallLostDialog: not the foreground Activity! Bailing out...");
+            return;
+        }
 
         mCallLostDialog = new AlertDialog.Builder(this)
                 .setMessage(R.string.call_lost)
