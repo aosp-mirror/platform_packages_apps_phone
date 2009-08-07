@@ -565,9 +565,6 @@ public class InCallScreen extends Activity
             mInCallInitialStatus = InCallInitStatus.SUCCESS;
         }
 
-        mDialer.startDialerSession();
-        if (VDBG) log("Dialer initialized.");
-
         Profiler.callScreenCreated();
     }
 
@@ -616,6 +613,10 @@ public class InCallScreen extends Activity
 
         // Listen for broadcast intents that might affect the onscreen UI.
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+
+        // Keep a "dialer session" active when we're in the foreground.
+        // (This is needed to play DTMF tones.)
+        mDialer.startDialerSession();
 
         // Check for any failures that happened during onCreate() or onNewIntent().
         if (DBG) log("- onResume: initial status = " + mInCallInitialStatus);
@@ -771,6 +772,10 @@ public class InCallScreen extends Activity
         // when the UI is no longer in the foreground.
         mDialer.onDialerKeyUp(null);
 
+        // Release any "dialer session" resources, now that we're no
+        // longer in the foreground.
+        mDialer.stopDialerSession();
+
         // If the device is put to sleep as the phone call is ending,
         // we may see cases where the DELAYED_CLEANUP_AFTER_DISCONNECT
         // event gets handled AFTER the device goes to sleep and wakes
@@ -899,20 +904,6 @@ public class InCallScreen extends Activity
             mInCallTouchUi.setInCallScreenInstance(null);
         }
 
-        // Make sure that the dialer session is over and done with.
-        // 1. In Landscape mode, we stop the tone generator directly
-        // 2. In portrait mode, the tone generator is stopped
-        // whenever the dialer is closed by the framework, (either
-        // from a user request or calling close on the drawer
-        // directly), so all we have to do is to make sure the
-        // dialer is closed {see DTMFTwelvKeyDialer.onDialerClose}
-        // (it is ok to call this even if the dialer is not open).
-        if (ConfigurationHelper.isLandscape()) {
-            mDialer.stopDialerSession();
-        } else {
-            // make sure the dialer drawer is closed.
-            mDialer.closeDialer(false);
-        }
         mDialer.clearInCallScreenReference();
         mDialer = null;
 
@@ -1640,7 +1631,7 @@ public class InCallScreen extends Activity
                     && (cause != Connection.DisconnectCause.NORMAL)
                     && (cause != Connection.DisconnectCause.LOCAL)
                     && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
-                showCallLostDialog ();
+                showCallLostDialog();
             } else if ((callState == Call.State.DIALING || callState == Call.State.ALERTING)
                         && (cause != Connection.DisconnectCause.INCOMING_MISSED)
                         && (cause != Connection.DisconnectCause.NORMAL)
@@ -3160,8 +3151,8 @@ public class InCallScreen extends Activity
         mGenericErrorDialog.show();
     }
 
-    private void showCallLostDialog () {
-        if (DBG) log("showCallLostDialog ()...");
+    private void showCallLostDialog() {
+        if (DBG) log("showCallLostDialog()...");
 
         // Don't need to show the dialog if InCallScreen isn't in the forgeround
         if (!mIsForegroundActivity) {

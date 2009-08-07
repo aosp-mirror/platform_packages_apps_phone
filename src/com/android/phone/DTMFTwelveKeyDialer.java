@@ -685,16 +685,21 @@ public class DTMFTwelveKeyDialer implements
             mDialpadDigits.setHint(R.string.dialerKeyboardHintText);
         }
 
-        // setup the local tone generator.
-        startDialerSession();
-
         // Give the InCallScreen a chance to do any necessary UI updates.
         mInCallScreen.onDialerOpen();
     }
 
     /**
-     * Setup the local tone generator.  Should have corresponding calls to
-     * {@link onDialerPause}.
+     * Allocates some resources we keep around during a "dialer session".
+     *
+     * (Currently, a "dialer session" just means any situation where we
+     * might need to play local DTMF tones, which means that we need to
+     * keep a ToneGenerator instance around.  A ToneGenerator instance
+     * keeps an AudioTrack resource busy in AudioFlinger, so we don't want
+     * to keep it around forever.)
+     *
+     * Call {@link stopDialerSession} to release the dialer session
+     * resources.
      */
     public void startDialerSession() {
         // see if we need to play local tones.
@@ -731,15 +736,16 @@ public class DTMFTwelveKeyDialer implements
 
         mPhone.unregisterForDisconnect(mHandler);
 
-        stopDialerSession();
-
         // Give the InCallScreen a chance to do any necessary UI updates.
         mInCallScreen.onDialerClose();
     }
 
     /**
-     * Tear down the local tone generator, corresponds to calls to
-     * {@link onDialerResume}
+     * Releases resources we keep around during a "dialer session"
+     * (see {@link startDialerSession}).
+     *
+     * It's safe to call this even without a corresponding
+     * startDialerSession call.
      */
     public void stopDialerSession() {
         // release the tone generator.
@@ -1195,5 +1201,4 @@ public class DTMFTwelveKeyDialer implements
             sendShortDtmfToNetwork(dtmfChar);
         }
     }
-
 }
