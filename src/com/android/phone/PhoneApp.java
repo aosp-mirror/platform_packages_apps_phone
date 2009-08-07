@@ -1037,6 +1037,23 @@ public class PhoneApp extends Application {
     private void initForNewRadioTechnology() {
         if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
+        if (phone.getPhoneName().equals("CDMA")) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+
+            //create instances of CDMA OTA data classes
+            if (cdmaOtaProvisionData == null) {
+                cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
+            }
+            if (cdmaOtaConfigData == null) {
+                cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
+            }
+            if (cdmaOtaScreenState == null) {
+                cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+            }
+        }
+
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
         if (mBtHandsfree != null) {
@@ -1055,23 +1072,6 @@ public class PhoneApp extends Application {
             sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
             sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
             sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
-        }
-
-        if (phone.getPhoneName().equals("CDMA")) {
-            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
-            cdmaPhoneCallState = new CdmaPhoneCallState();
-            cdmaPhoneCallState.CdmaPhoneCallStateInit();
-
-            //create instances of CDMA OTA data classes
-            if (cdmaOtaProvisionData == null) {
-                cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
-            }
-            if (cdmaOtaConfigData == null) {
-                cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
-            }
-            if (cdmaOtaScreenState == null) {
-                cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
-            }
         }
     }
 

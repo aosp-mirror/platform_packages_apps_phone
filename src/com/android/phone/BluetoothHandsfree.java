@@ -681,34 +681,36 @@ public class BluetoothHandsfree {
 
             if (mPhone.getPhoneName().equals("CDMA")) {
                 PhoneApp app = PhoneApp.getInstance();
-                CdmaPhoneCallState.PhoneCallState currCdmaCallState =
-                        app.cdmaPhoneCallState.getCurrentCallState();
+                if (app.cdmaPhoneCallState != null) {
+                    CdmaPhoneCallState.PhoneCallState currCdmaCallState =
+                            app.cdmaPhoneCallState.getCurrentCallState();
 
-                // In CDMA, the network does not provide any feedback to the phone when the
-                // 2nd MO call goes through the stages of DIALING > ALERTING -> ACTIVE
-                // we fake the sequence
-                if ((currCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
-                        && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
-                    mAudioPossible = true;
-                    if (sendUpdate) {
-                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
-                            result.addResponse("+CIEV: 3,2");
-                            result.addResponse("+CIEV: 3,3");
-                            result.addResponse("+CIEV: 3,0");
+                    // In CDMA, the network does not provide any feedback to the phone when the
+                    // 2nd MO call goes through the stages of DIALING > ALERTING -> ACTIVE
+                    // we fake the sequence
+                    if ((currCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                            && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
+                        mAudioPossible = true;
+                        if (sendUpdate) {
+                            if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                                result.addResponse("+CIEV: 3,2");
+                                result.addResponse("+CIEV: 3,3");
+                                result.addResponse("+CIEV: 3,0");
+                            }
                         }
                     }
-                }
 
-                // In CDMA, the network does not provide any feedback to the phone when a
-                // user merges a 3way call or swaps between two calls we need to send a
-                // CIEV response indicating that a call state got changed which should trigger a
-                // CLCC update request from the BT client.
-                if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                    mAudioPossible = true;
-                    if (sendUpdate) {
-                        if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
-                            result.addResponse("+CIEV: 2,1");
-                            result.addResponse("+CIEV: 3,0");
+                    // In CDMA, the network does not provide any feedback to the phone when a
+                    // user merges a 3way call or swaps between two calls we need to send a
+                    // CIEV response indicating that a call state got changed which should trigger a
+                    // CLCC update request from the BT client.
+                    if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                        mAudioPossible = true;
+                        if (sendUpdate) {
+                            if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                                result.addResponse("+CIEV: 2,1");
+                                result.addResponse("+CIEV: 3,0");
+                            }
                         }
                     }
                 }
