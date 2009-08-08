@@ -23,6 +23,8 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemProperties;
 import android.util.Log;
 
@@ -36,7 +38,7 @@ public class OtaStartupReceiver extends BroadcastReceiver {
     private static final boolean DBG = (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     static final String LOG_TAG = "OTAStartupReceiver";
-    private final String UNACTIVATED_MIN2_VALUE = "999";
+    private final String UNACTIVATED_MIN2_VALUE = "000000";
     private final String UNACTIVATED_MIN_VALUE = "1111110111";
     private boolean mPhoneNeedActivation = false;
     private int mOtaShowActivationScreen = 0;
@@ -45,20 +47,58 @@ public class OtaStartupReceiver extends BroadcastReceiver {
     private  String mMin_string;
     private  String mMin2_string;
     private  int mTmpOtaShowActivationScreen;
+    private Context mContext;
+    private Phone mPhone;
+    private PhoneApp mApp;
+    private boolean mIsInitDone = false;
+
+    private final int MIN_READY = 1;
+
+    private Handler mHandler = new Handler () {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case MIN_READY:
+                if (!mIsInitDone) {
+                    tryInit();
+                }
+                break;
+            }
+        }
+    };
 
     public void onReceive(Context context, Intent intent) {
-
-        PhoneApp app =  PhoneApp.getInstance();
-        Phone mPhone = app.phone;
+        if (DBG) log("onReceive()...");
+        mApp = PhoneApp.getInstance();
+        mPhone = mApp.phone;
+        mContext = context;
 
         if (!mPhone.getPhoneName().equals("CDMA")) {
             if (DBG) log("OTAStartupReceiver: Not CDMA phone, no need to process OTA");
             return;
         }
+
+        tryInit();
+    }
+
+    private void tryInit() {
+        if (mPhone == null) {
+            Log.w(LOG_TAG, "mPhone is null somehow. Bailing out");
+            return;
+        }
+
+        if (!mPhone.isMinInfoReady()) {
+            if (DBG) log("MIN is not ready. Registering to receive notice.");
+            mPhone.registerForSubscriptionInfoReady(mHandler, MIN_READY, null);
+            return;
+        }
+
+        mIsInitDone = true;
+        mPhone.unregisterForSubscriptionInfoReady(mHandler);
         mMin_string = mPhone.getCdmaMin();
         if (DBG) log("OTAStartupReceiver: min_string: " + mMin_string);
-        if ((mMin_string != null) && (mMin_string.length() > 3)) {
-            mMin2_string = mMin_string.substring(0, 3);
+        if ((mMin_string != null) && (mMin_string.length() > 6)) {
+            mMin2_string = mMin_string.substring(0, 6);
             if (DBG) log("OTAStartupReceiver: min2_string: " + mMin2_string);
         } else {
             if (DBG) log("OTAStartupReceiver: min_string is NULL or too short, exit");
@@ -74,7 +114,7 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         }
 
         mTmpOtaShowActivationScreen =
-                context.getResources().getInteger(R.integer.OtaShowActivationScreen);
+                mContext.getResources().getInteger(R.integer.OtaShowActivationScreen);
         if (DBG) log("OTAStartupReceiver: tmpOtaShowActivationScreen: "
                 + mTmpOtaShowActivationScreen);
         mOtaShowActivationScreen = mTmpOtaShowActivationScreen;
@@ -83,11 +123,11 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         if ((mPhoneNeedActivation)
                 && (mOtaShowActivationScreen == OtaUtils.OTA_SHOW_ACTIVATION_SCREEN_ON)) {
             if (DBG) log("OTAStartupReceiver: activation intent sent.");
-            app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
+            mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
             Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
-            newIntent.setClass(context, InCallScreen.class);
+            newIntent.setClass(mContext, InCallScreen.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(newIntent);
+            mContext.startActivity(newIntent);
         } else {
             if (DBG) log("OTAStartupReceiver: activation intent NOT sent.");
         }
