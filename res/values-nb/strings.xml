@@ -15,30 +15,30 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"Kontakter"</string>
-    <string name="contactsFavoritesLabel">"Favoritter"</string>
-    <string name="dialerIconLabel">"Telefon"</string>
-    <string name="emergencyDialerIconLabel">"Nødnummer"</string>
-    <string name="phoneIconLabel">"Telefon"</string>
-    <string name="recentCallsIconLabel">"Logg"</string>
-    <string name="fdnListLabel">"Faste nummer"</string>
-    <string name="unknown">"Ukjent"</string>
-    <string name="private_num">"Hemmelig nummer"</string>
-    <string name="payphone">"Telefonkiosk"</string>
-    <string name="onHold">"Parkert"</string>
-    <string name="ongoing">"Aktiv samtale"</string>
-    <string name="callFailed_userBusy">"Opptatt"</string>
-    <string name="callFailed_congestion">"Nettverket er opptatt"</string>
-    <string name="callFailed_noSignal">"Mangler signal"</string>
-    <string name="callFailed_limitExceeded">"ACM-grense nådd"</string>
-    <string name="callFailed_powerOff">"Radioen er av"</string>
-    <string name="callFailed_simError">"Mangler SIM-kort, eller SIM-feil"</string>
-    <string name="callFailed_outOfService">"Utenfor dekningsområde"</string>
-    <string name="callFailed_fdn_only">"Utgående samtaler er begrenset til faste nummer."</string>
-    <string name="callFailed_cb_enabled">"Du kan ikke ringe ut mens samtaleblokkering er på."</string>
-    <string name="callFailed_dsac_restricted">"Alle samtaler er begrenset av tilgangskontroll."</string>
-    <string name="callFailed_dsac_restricted_emergency">"Nødsamtaler er begrenset av tilgangskontroll."</string>
-    <string name="callFailed_dsac_restricted_normal">"Vanlige samtaler er begrenset av tilgangskontroll."</string>
+    <string name="contactsIconLabel" msgid="9129800048701196916">"Kontakter"</string>
+    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Favoritter"</string>
+    <string name="dialerIconLabel" msgid="1761864493312440268">"Telefon"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Nødnummer"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
+    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Logg"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"Faste nummer"</string>
+    <string name="unknown" msgid="6878797917991465859">"Ukjent"</string>
+    <string name="private_num" msgid="6713286113000232309">"Hemmelig nummer"</string>
+    <string name="payphone" msgid="1931775086311769314">"Telefonkiosk"</string>
+    <string name="onHold" msgid="9035493194749959955">"Parkert"</string>
+    <string name="ongoing" msgid="8300874342848721367">"Aktiv samtale"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"Opptatt"</string>
+    <string name="callFailed_congestion" msgid="8737761615702718375">"Nettverket er opptatt"</string>
+    <string name="callFailed_noSignal" msgid="1889803273616031933">"Mangler signal"</string>
+    <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-grense nådd"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"Radioen er av"</string>
+    <string name="callFailed_simError" msgid="5652345589458834655">"Mangler SIM-kort, eller SIM-feil"</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"Utenfor dekningsområde"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Utgående samtaler er begrenset til faste nummer."</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"Du kan ikke ringe ut mens samtaleblokkering er på."</string>
+    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Alle samtaler er begrenset av tilgangskontroll."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nødsamtaler er begrenset av tilgangskontroll."</string>
+    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Vanlige samtaler er begrenset av tilgangskontroll."</string>
     <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
     <skip />
     <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
@@ -57,11 +57,11 @@
     <skip />
     <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
     <skip />
-    <string name="confCall">"Telefonmøte"</string>
-    <string name="mmiStarted">"MMI-kode påbegynt"</string>
-    <string name="ussdRunning">"USSD-kode kjører…"</string>
-    <string name="mmiCancelled">"MMI-kode avbrutt"</string>
-    <string name="cancel">"Avbrutt"</string>
+    <string name="confCall" msgid="1904840547188336828">"Telefonmøte"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"MMI-kode påbegynt"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"USSD-kode kjører…"</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"MMI-kode avbrutt"</string>
+    <string name="cancel" msgid="5044513931633602634">"Avbrutt"</string>
     <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
     <skip />
     <!-- no translation found for ecbm_exit_text (622759135506401127) -->
@@ -72,59 +72,59 @@
     <skip />
     <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
     <skip />
-    <string name="menu_speaker">"Høyttaler"</string>
-    <string name="menu_bluetooth">"Bluetooth"</string>
-    <string name="menu_mute">"Demp"</string>
-    <string name="menu_hold">"Parker"</string>
-    <string name="menu_endCall">"Avslutt samtale"</string>
-    <string name="menu_swapCalls">"Bytt samtale"</string>
-    <string name="menu_mergeCalls">"Slå sammen samtaler"</string>
-    <string name="menu_addCall">"Legg til samtale"</string>
-    <string name="menu_manageConference">"Styr telefonmøte"</string>
-    <string name="menu_showDialpad">"Vis talltastatur"</string>
-    <string name="menu_hideDialpad">"Skjul talltastatur"</string>
-    <string name="menu_answerAndHold">"Parker denne samtalen"\n"og svar"</string>
-    <string name="menu_answerAndEnd">"Avslutt denne samtalen"\n"og svar"</string>
-    <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Trykk menyknappen for samtalevalg."</string>
-    <string name="menuButtonKeyboardDialHint">"Trykk menyknappen for samtalevalg  •  Bruk tastaturet for å ringe"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Høyttaler"</string>
+    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
+    <string name="menu_mute" msgid="4399723633363773145">"Demp"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Parker"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Avslutt samtale"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Bytt samtale"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Slå sammen samtaler"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Legg til samtale"</string>
+    <string name="menu_manageConference" msgid="3770984362002266733">"Styr telefonmøte"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"Vis talltastatur"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Skjul talltastatur"</string>
+    <string name="menu_answerAndHold" msgid="8830891495953688905">"Parker denne samtalen"\n"og svar"</string>
+    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Avslutt denne samtalen"\n"og svar"</string>
+    <string name="ok" msgid="3811371167865772377">"OK"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Trykk menyknappen for samtalevalg."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Trykk menyknappen for samtalevalg  •  Bruk tastaturet for å ringe"</string>
     <!-- no translation found for menu_answer (116686205042231098) -->
     <skip />
     <!-- no translation found for menu_ignore (2112030835852537344) -->
     <skip />
-    <string name="wait_prompt_str">"Send disse tonene?"\n</string>
-    <string name="send_button">"Send"</string>
-    <string name="wild_prompt_str">"Erstatt jokertegnet med"</string>
-    <string name="no_vm_number">"Mangler nummer til telefonsvarer"</string>
-    <string name="no_vm_number_msg">"Det er ikke lagret noe telefonsvarernummer på SIM-kortet."</string>
-    <string name="add_vm_number_str">"Legg til nummer"</string>
-    <string name="dialer_emptyListWorking">"Laster…"</string>
-    <string name="enterPin">"Skriv inn PIN-kode for å låse opp SIM-kortet."</string>
-    <string name="pinUnlocked">"SIM-kort låst opp"</string>
-    <string name="enterNewPin">"Ny PIN-kode for SIM-kort"</string>
-    <string name="verifyNewPin">"Skriv SIM-koden igjen for å bekrefte"</string>
-    <string name="verifyFailed">"PIN-kodene du skrev inn stemmer ikke overens. Prøv igjen."</string>
-    <string name="enterPuk">"Skriv inn PUK-kode for å låse opp SIM-kortet"</string>
-    <string name="badPuk">"Gal PUK-kode!"</string>
-    <string name="buttonTxtContinue">"Fortsett"</string>
-    <string name="puk_unlocked">"SIM-kortet er blitt avblokkert. Telefonen låses opp…"</string>
-    <string name="label_ndp">"PIN-kode for å fjerne operatørlås"</string>
-    <string name="sim_ndp_unlock_text">"Lås opp"</string>
-    <string name="sim_ndp_dismiss_text">"Skjul"</string>
-    <string name="requesting_unlock">"Spør om fjerning av operatørlås…"</string>
-    <string name="unlock_failed">"Fikk ikke fjerne operatørlås."</string>
-    <string name="unlock_success">"Operatørlåsen er fjernet."</string>
-    <string name="imei">"IMEI"</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Send disse tonene?"\n</string>
+    <string name="send_button" msgid="4106860097497818751">"Send"</string>
+    <string name="wild_prompt_str" msgid="1585989144582892543">"Erstatt jokertegnet med"</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"Mangler nummer til telefonsvarer"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Det er ikke lagret noe telefonsvarernummer på SIM-kortet."</string>
+    <string name="add_vm_number_str" msgid="4676479471644687453">"Legg til nummer"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Laster…"</string>
+    <string name="enterPin" msgid="4753300834213388397">"Skriv inn PIN-kode for å låse opp SIM-kortet."</string>
+    <string name="pinUnlocked" msgid="3260617001055506794">"SIM-kort låst opp"</string>
+    <string name="enterNewPin" msgid="5311243769004752401">"Ny PIN-kode for SIM-kort"</string>
+    <string name="verifyNewPin" msgid="2593629913010458867">"Skriv SIM-koden igjen for å bekrefte"</string>
+    <string name="verifyFailed" msgid="3875778795754857903">"PIN-kodene du skrev inn stemmer ikke overens. Prøv igjen."</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Skriv inn PUK-kode for å låse opp SIM-kortet"</string>
+    <string name="badPuk" msgid="3213017898690275965">"Gal PUK-kode!"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"Fortsett"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"SIM-kortet er blitt avblokkert. Telefonen låses opp…"</string>
+    <string name="label_ndp" msgid="780479633159517250">"PIN-kode for å fjerne operatørlås"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Lås opp"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Skjul"</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"Spør om fjerning av operatørlås…"</string>
+    <string name="unlock_failed" msgid="6490531697031504225">"Fikk ikke fjerne operatørlås."</string>
+    <string name="unlock_success" msgid="6770085622238180152">"Operatørlåsen er fjernet."</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <!-- no translation found for labelGSMMore (5930842194056092106) -->
     <skip />
     <!-- no translation found for labelCDMAMore (1630676740428229339) -->
     <skip />
-    <string name="apn_settings">"Navn på aksesspunkt"</string>
-    <string name="settings_label">"Nettverksinnstillinger"</string>
-    <string name="voicemail">"Telefonsvarer"</string>
-    <string name="voicemail_abbreviated">"Svarer:"</string>
-    <string name="networks">"Nettoperatører"</string>
-    <string name="call_settings">"Samtaleinnstillinger"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Navn på aksesspunkt"</string>
+    <string name="settings_label" msgid="3876743539816984008">"Nettverksinnstillinger"</string>
+    <string name="voicemail" msgid="8693759337917898954">"Telefonsvarer"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"Svarer:"</string>
+    <string name="networks" msgid="8873030692174541976">"Nettoperatører"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Samtaleinnstillinger"</string>
     <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
     <skip />
     <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
@@ -133,68 +133,68 @@
     <skip />
     <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
     <skip />
-    <string name="labelNwService">"Nettverkstjenester"</string>
-    <string name="labelCallerId">"Nummervisning"</string>
-    <string name="sum_hide_caller_id">"Skjul nummer ved utgående samtaler"</string>
-    <string name="sum_show_caller_id">"Vis nummer ved utgående samtaler"</string>
-    <string name="sum_default_caller_id">"La operatøren bestemme om nummeret vises ved utgående samtaler"</string>
-    <string name="labelCW">"Samtale venter"</string>
-    <string name="sum_cw_enabled">"Under samtaler, varsle om innkommende anrop"</string>
-    <string name="sum_cw_disabled">"Under samtaler, ikke varsle om innkommende anrop"</string>
-    <string name="call_forwarding_settings">"Innstillinger for viderekobling"</string>
-    <string name="labelCF">"Viderekobling"</string>
-    <string name="labelCFU">"Alltid viderekoble"</string>
-    <string name="messageCFU">"Alltid bruk dette nummeret"</string>
-    <string name="sum_cfu_enabled_indicator">"Viderekoble alle anrop"</string>
-    <string name="sum_cfu_enabled">"Viderekoble alle anrop til {0}"</string>
-    <string name="sum_cfu_disabled">"Deaktivert"</string>
-    <string name="labelCFB">"Viderekoble når opptatt"</string>
-    <string name="messageCFB">"Nummer ved opptattsignal"</string>
-    <string name="sum_cfb_enabled">"Viderekoble til {0}"</string>
-    <string name="sum_cfb_disabled">"Deaktivert"</string>
-    <string name="labelCFNRy">"Viderekoble når det ikke svares"</string>
-    <string name="messageCFNRy">"Nummer for når det ikke svares"</string>
-    <string name="sum_cfnry_enabled">"Viderekobler til {0}"</string>
-    <string name="sum_cfnry_disabled">"Deaktivert"</string>
-    <string name="labelCFNRc">"Viderekoble ved manglende dekning"</string>
-    <string name="messageCFNRc">"Nummer ved manglende dekning"</string>
-    <string name="sum_cfnrc_enabled">"Viderekobler til {0}"</string>
-    <string name="sum_cfnrc_disabled">"Deaktivert"</string>
-    <string name="updating_title">"Samtaleinnstillinger"</string>
-    <string name="error_updating_title">"Feil ved samtaleinnstillinger"</string>
-    <string name="reading_settings">"Leser innstillinger…"</string>
-    <string name="updating_settings">"Oppdaterer innstillinger…"</string>
+    <string name="labelNwService" msgid="4699970172021870983">"Nettverkstjenester"</string>
+    <string name="labelCallerId" msgid="3888899447379069198">"Nummervisning"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"Skjul nummer ved utgående samtaler"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"Vis nummer ved utgående samtaler"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"La operatøren bestemme om nummeret vises ved utgående samtaler"</string>
+    <string name="labelCW" msgid="6120513814915920200">"Samtale venter"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Under samtaler, varsle om innkommende anrop"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Under samtaler, ikke varsle om innkommende anrop"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"Innstillinger for viderekobling"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Viderekobling"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Alltid viderekoble"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"Alltid bruk dette nummeret"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Viderekoble alle anrop"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Viderekoble alle anrop til {0}"</string>
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"Deaktivert"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Viderekoble når opptatt"</string>
+    <string name="messageCFB" msgid="3711089705936187129">"Nummer ved opptattsignal"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Viderekoble til {0}"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"Deaktivert"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"Viderekoble når det ikke svares"</string>
+    <string name="messageCFNRy" msgid="672317899884380374">"Nummer for når det ikke svares"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Viderekobler til {0}"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Deaktivert"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Viderekoble ved manglende dekning"</string>
+    <string name="messageCFNRc" msgid="6380695421020295119">"Nummer ved manglende dekning"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Viderekobler til {0}"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Deaktivert"</string>
+    <string name="updating_title" msgid="6146755386174019046">"Samtaleinnstillinger"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Feil ved samtaleinnstillinger"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"Leser innstillinger…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"Oppdaterer innstillinger…"</string>
     <!-- no translation found for response_error (6674110501330139405) -->
     <skip />
-    <string name="exception_error">"Nettverks- eller SIM-kort-feil."</string>
-    <string name="radio_off_error">"Slå på radioen før du ser på disse innstillingene."</string>
-    <string name="close_dialog">"OK"</string>
-    <string name="enable">"Aktiver"</string>
-    <string name="disable">"Deaktiver"</string>
-    <string name="change_num">"Oppdater"</string>
+    <string name="exception_error" msgid="7027667130619518211">"Nettverks- eller SIM-kort-feil."</string>
+    <string name="radio_off_error" msgid="6717116288405111269">"Slå på radioen før du ser på disse innstillingene."</string>
+    <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
+    <string name="enable" msgid="1059008390636773574">"Aktiver"</string>
+    <string name="disable" msgid="7274240979164762320">"Deaktiver"</string>
+    <string name="change_num" msgid="239476305819844391">"Oppdater"</string>
   <string-array name="clir_display_values">
-    <item>"Nettverksstandard"</item>
-    <item>"Skjul nummer"</item>
-    <item>"Vis nummer"</item>
+    <item msgid="5560134294467334594">"Nettverksstandard"</item>
+    <item msgid="7876195870037833661">"Skjul nummer"</item>
+    <item msgid="1108394741608734023">"Vis nummer"</item>
   </string-array>
-    <string name="vm_save_number">"Lagre nummer til telefonsvarer"</string>
-    <string name="vm_changed">"Telefonsvarernummeret ble endret."</string>
-    <string name="vm_change_failed">"Kunne ikke endre telefonsvarernummeret."</string>
-    <string name="no_change">"Ingen endringer ble utført."</string>
-    <string name="sum_voicemail">"Velg telefonsvarernummer"</string>
-    <string name="mobile_networks">"Innstillinger for mobilt nettverk"</string>
-    <string name="label_available">"Tilgjengelige nettverk"</string>
-    <string name="load_networks_progress">"Søker…"</string>
-    <string name="empty_networks_list">"Fant ingen nettverk."</string>
-    <string name="search_networks">"Søk etter nettverk"</string>
-    <string name="network_query_error">"Det oppsto en feil under søking etter nettverk."</string>
-    <string name="register_on_network">"Kobler til <xliff:g id="NETWORK">%s</xliff:g>…"</string>
-    <string name="not_allowed">"SIM-kortet tillater ikke tilkobling til dette nettverket."</string>
-    <string name="registration_done">"Registrert i nettverket."</string>
-    <string name="sum_carrier_select">"Velg en nettoperatør"</string>
-    <string name="sum_search_networks">"Søk etter alle tilgjengelige nettverk"</string>
-    <string name="select_automatically">"Velg automatisk"</string>
-    <string name="sum_select_automatically">"Velg foretrukket nettverk automatisk"</string>
+    <string name="vm_save_number" msgid="4579969432544566719">"Lagre nummer til telefonsvarer"</string>
+    <string name="vm_changed" msgid="380744030726254139">"Telefonsvarernummeret ble endret."</string>
+    <string name="vm_change_failed" msgid="8484504256705014152">"Kunne ikke endre telefonsvarernummeret."</string>
+    <string name="no_change" msgid="3186040086622435212">"Ingen endringer ble utført."</string>
+    <string name="sum_voicemail" msgid="2528087245989303328">"Velg telefonsvarernummer"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Innstillinger for mobilt nettverk"</string>
+    <string name="label_available" msgid="1181658289009300430">"Tilgjengelige nettverk"</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"Søker…"</string>
+    <string name="empty_networks_list" msgid="4249426905018815316">"Fant ingen nettverk."</string>
+    <string name="search_networks" msgid="1601136049300882441">"Søk etter nettverk"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"Det oppsto en feil under søking etter nettverk."</string>
+    <string name="register_on_network" msgid="9055203954040805084">"Kobler til <xliff:g id="NETWORK">%s</xliff:g>…"</string>
+    <string name="not_allowed" msgid="3540496123717833833">"SIM-kortet tillater ikke tilkobling til dette nettverket."</string>
+    <string name="registration_done" msgid="495135664535876612">"Registrert i nettverket."</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"Velg en nettoperatør"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"Søk etter alle tilgjengelige nettverk"</string>
+    <string name="select_automatically" msgid="8615980695510888796">"Velg automatisk"</string>
+    <string name="sum_select_automatically" msgid="8460954604521755275">"Velg foretrukket nettverk automatisk"</string>
     <!-- no translation found for register_automatically (6272031189219101172) -->
     <skip />
     <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
@@ -219,11 +219,11 @@
     <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
     <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
     <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
-    <string name="roaming">"Dataroaming"</string>
-    <string name="roaming_enable">"Koble til datatjenester ved roaming"</string>
-    <string name="roaming_disable">"Koble til datatjenester ved roaming"</string>
-    <string name="roaming_reenable_message">"Du har mistet datakonnektivitet fordi du har forlatt hjemmenettet ditt med dataroaming slått av."</string>
-    <string name="roaming_warning">"Tillat dataroaming? Dette kan koste mye penger!"</string>
+    <string name="roaming" msgid="8871412572928323707">"Dataroaming"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Koble til datatjenester ved roaming"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Koble til datatjenester ved roaming"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"Du har mistet datakonnektivitet fordi du har forlatt hjemmenettet ditt med dataroaming slått av."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Tillat dataroaming? Dette kan koste mye penger!"</string>
     <!-- no translation found for gsm_umts_options (6538311689850981686) -->
     <skip />
     <!-- no translation found for cdma_options (4016822858172249884) -->
@@ -388,14 +388,14 @@
     <skip />
     <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
     <skip />
-    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:0 (4327916632016252900) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:1 (7890032659744442614) -->
+    <!-- no translation found for gsm_umts_network_preferences_choices:2 (7306003477602941058) -->
     <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
     <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
     <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
+    <string name="prefer_2g" msgid="8442550937280449639">"Bruk kun 2G-nettverk"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Sparer batteri"</string>
     <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
     <skip />
     <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
@@ -424,12 +424,12 @@
     <skip />
     <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
     <skip />
-    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
-    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
+    <!-- no translation found for cdma_network_preferences_choices:0 (7278992425338592489) -->
+    <!-- no translation found for cdma_network_preferences_choices:1 (3155327921861137068) -->
     <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
-    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
-    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
-    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
+    <!-- no translation found for cdma_network_preferences_values:0 (1821235500822403409) -->
+    <!-- no translation found for cdma_network_preferences_values:1 (6355374585098185445) -->
+    <!-- no translation found for cdma_network_preferences_values:2 (213552629330086398) -->
     <!-- no translation found for subscription_title (5813493350326486) -->
     <skip />
     <!-- no translation found for subscription_summary (8435941016743418124) -->
@@ -440,19 +440,19 @@
     <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
     <!-- no translation found for subscription_values:0 (4377788417250295786) -->
     <!-- no translation found for subscription_values:1 (1193066664940329729) -->
-    <string name="fdn">"Faste nummer"</string>
-    <string name="manage_fdn_list">"Liste over faste nummer"</string>
-    <string name="fdn_activation">"Aktivering av faste nummer"</string>
-    <string name="fdn_enabled">"Kun faste nummer kan ringes"</string>
-    <string name="fdn_disabled">"Ikke-faste nummer kan ringes"</string>
-    <string name="enable_fdn">"Slå på faste nummer"</string>
-    <string name="disable_fdn">"Slå av faste nummer"</string>
-    <string name="change_pin2">"Endre PIN2"</string>
-    <string name="enable_fdn_ok">"Slå av faste nummer"</string>
-    <string name="disable_fdn_ok">"Slå av faste nummer"</string>
-    <string name="sum_fdn">"Vedlikehold liste over faste nummer"</string>
-    <string name="sum_fdn_change_pin">"Endre PIN-kode for å styre faste nummer"</string>
-    <string name="sum_fdn_manage_list">"Endre liste over telefonnummer"</string>
+    <string name="fdn" msgid="7878832555095183202">"Faste nummer"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Liste over faste nummer"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"Aktivering av faste nummer"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Kun faste nummer kan ringes"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Ikke-faste nummer kan ringes"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Slå på faste nummer"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Slå av faste nummer"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"Endre PIN2"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Slå av faste nummer"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"Slå av faste nummer"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Vedlikehold liste over faste nummer"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Endre PIN-kode for å styre faste nummer"</string>
+    <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Endre liste over telefonnummer"</string>
     <!-- no translation found for voice_privacy (7803023024169078619) -->
     <skip />
     <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
@@ -465,118 +465,118 @@
     <skip />
     <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
     <skip />
-    <string name="menu_add">"Legg til kontakt"</string>
-    <string name="menu_edit">"Rediger kontakt"</string>
-    <string name="menu_delete">"Fjern kontakt"</string>
-    <string name="get_pin2">"Skriv inn PIN2"</string>
-    <string name="name">"Navn"</string>
-    <string name="number">"Num,er"</string>
-    <string name="save">"Lagre"</string>
-    <string name="add_fdn_contact">"Legg til fast kontakt"</string>
-    <string name="adding_fdn_contact">"Legger til fast kontakt…"</string>
-    <string name="fdn_contact_added">"Den faste kontakten ble lagt til."</string>
-    <string name="edit_fdn_contact">"Rediger fast kontakt"</string>
-    <string name="updating_fdn_contact">"Oppdaterer fast kontakt…"</string>
-    <string name="fdn_contact_updated">"Den faste kontakten ble oppdatert."</string>
-    <string name="delete_fdn_contact">"Fjern fast kontakt"</string>
-    <string name="deleting_fdn_contact">"Fjerner fast kontakt…"</string>
-    <string name="fdn_contact_deleted">"Den faste kontakten ble fjernet."</string>
-    <string name="pin2_invalid">"Ugyldig PIN2!"</string>
-    <string name="fdn_invalid_number">"Tallet kan ikke være lengre enn 20 siffer."</string>
-    <string name="simContacts_emptyLoading">"Leser fra SIM-kort…"</string>
-    <string name="simContacts_empty">"Ingen kontakter på SIM-kortet."</string>
-    <string name="simContacts_title">"Velg kontakter som skal importeres"</string>
-    <string name="enable_pin">"Slå av/på PIN-kode for SIM-kort"</string>
-    <string name="change_pin">"Endre PIN-kode for SIM-kort"</string>
-    <string name="enter_pin_text">"SIM-kortets PIN-kode:"</string>
-    <string name="oldPinLabel">"Gammel PIN-kode"</string>
-    <string name="newPinLabel">"Ny PIN-kode"</string>
-    <string name="confirmPinLabel">"Bekreft ny PIN-kode"</string>
-    <string name="badPin">"Du skrev gal gammel PIN-kode. Prøv igjen."</string>
-    <string name="mismatchPin">"PIN-kodene du skrev inn, stemmer ikke overens. Prøv igjen."</string>
-    <string name="invalidPin">"Skriv inn en PIN-kode som er fra 4 til 8 siffer."</string>
-    <string name="disable_sim_pin">"Slå av PIN-kode for SIM-kort"</string>
-    <string name="enable_sim_pin">"Slå på PIN-kode for SIM-kort"</string>
-    <string name="enable_in_progress">"Vent litt…"</string>
-    <string name="enable_pin_ok">"PIN-kode for SIM-kort slått på"</string>
-    <string name="disable_pin_ok">"PIN-kode for SIM-kort slått av"</string>
-    <string name="pin_failed">"PIN-koden du skrev inn var gal"</string>
-    <string name="pin_changed">"PIN-koden for SIM-kortet ble endret"</string>
-    <string name="puk_requested">"Galt passord, SIM-kortet er låst! Skriv inn PUK2-koden."</string>
-    <string name="enter_pin2_text">"PIN2-kode"</string>
-    <string name="oldPin2Label">"Gammel PIN2-kode"</string>
-    <string name="newPin2Label">"Ny PIN2-kode"</string>
-    <string name="confirmPin2Label">"Bekreft ny PIN2-kode"</string>
-    <string name="badPuk2">"PUK2-koden er ikke riktig. Prøv igjen."</string>
-    <string name="badPin2">"Den gamle PIN2-koden du skrev er ikke riktig. Prøv igjen."</string>
-    <string name="mismatchPin2">"PIN2-kodene du skrev inn, stemmer ikke overens. Prøv igjen."</string>
-    <string name="invalidPin2">"Skriv inn en PIN2-kode som er mellom 4 og 8 siffer."</string>
-    <string name="invalidPuk2">"Skriv inn en PUK2-kode som er 8 siffer."</string>
-    <string name="pin2_changed">"PIN2-koden ble endret."</string>
-    <string name="label_puk2_code">"Skriv inn PUk2-kode"</string>
-    <string name="fdn_enable_puk2_requested">"Galt passord, endre PIN2-koden og prøv igjen!"</string>
-    <string name="puk2_requested">"Galt passord, SIM-kortet er låst! Skriv inn PUK2-koden."</string>
-    <string name="doneButton">"Ferdig"</string>
-    <string name="caller_manage_header">"Telefonmøte <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text">"Tilbake til samtale"</string>
-    <string name="sim_missing_continueView_text">"Fortsett uten SIM-kort"</string>
-    <string name="sim_missing_msg_text">"Fant ikke noe SIM-kort. Sett et SIM-kort i telefonen."</string>
-    <string name="sim_unlock_dismiss_text">"Skjul"</string>
-    <string name="sim_unlock_unlock_text">"Lås opp"</string>
-    <string name="sim_unlock_status_text">"Godkjenner PIN-kode…"</string>
-    <string name="voicemail_settings_number_label">"Nummer til telefonsvarer"</string>
-    <string name="card_title_dialing">"Ringer"</string>
-    <string name="card_title_in_progress">"Aktiv samtale"</string>
-    <string name="card_title_conf_call">"Telefonmøte"</string>
-    <string name="card_title_incoming_call">"Innkommende anrop"</string>
+    <string name="menu_add" msgid="1882023737425114762">"Legg til kontakt"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"Rediger kontakt"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"Fjern kontakt"</string>
+    <string name="get_pin2" msgid="1198225482542827652">"Skriv inn PIN2"</string>
+    <string name="name" msgid="7329028332786872378">"Navn"</string>
+    <string name="number" msgid="7905950798349903858">"Num,er"</string>
+    <string name="save" msgid="4094274636321939086">"Lagre"</string>
+    <string name="add_fdn_contact" msgid="5412242719704146070">"Legg til fast kontakt"</string>
+    <string name="adding_fdn_contact" msgid="1008984230265031168">"Legger til fast kontakt…"</string>
+    <string name="fdn_contact_added" msgid="3283284983265410270">"Den faste kontakten ble lagt til."</string>
+    <string name="edit_fdn_contact" msgid="3440054765948798731">"Rediger fast kontakt"</string>
+    <string name="updating_fdn_contact" msgid="5918299270800552372">"Oppdaterer fast kontakt…"</string>
+    <string name="fdn_contact_updated" msgid="510187720367785051">"Den faste kontakten ble oppdatert."</string>
+    <string name="delete_fdn_contact" msgid="2237838617123538040">"Fjern fast kontakt"</string>
+    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Fjerner fast kontakt…"</string>
+    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Den faste kontakten ble fjernet."</string>
+    <string name="pin2_invalid" msgid="6408721267712649637">"Ugyldig PIN2!"</string>
+    <string name="fdn_invalid_number" msgid="1484959418054136856">"Tallet kan ikke være lengre enn 20 siffer."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leser fra SIM-kort…"</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Ingen kontakter på SIM-kortet."</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"Velg kontakter som skal importeres"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Slå av/på PIN-kode for SIM-kort"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Endre PIN-kode for SIM-kort"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"SIM-kortets PIN-kode:"</string>
+    <string name="oldPinLabel" msgid="5287773661246368314">"Gammel PIN-kode"</string>
+    <string name="newPinLabel" msgid="207488227285336897">"Ny PIN-kode"</string>
+    <string name="confirmPinLabel" msgid="257597715098070206">"Bekreft ny PIN-kode"</string>
+    <string name="badPin" msgid="4154316827946559447">"Du skrev gal gammel PIN-kode. Prøv igjen."</string>
+    <string name="mismatchPin" msgid="5974597541268042785">"PIN-kodene du skrev inn, stemmer ikke overens. Prøv igjen."</string>
+    <string name="invalidPin" msgid="5981171102258684792">"Skriv inn en PIN-kode som er fra 4 til 8 siffer."</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"Slå av PIN-kode for SIM-kort"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"Slå på PIN-kode for SIM-kort"</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"Vent litt…"</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"PIN-kode for SIM-kort slått på"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"PIN-kode for SIM-kort slått av"</string>
+    <string name="pin_failed" msgid="6597695909685242127">"PIN-koden du skrev inn var gal"</string>
+    <string name="pin_changed" msgid="9000716792724195093">"PIN-koden for SIM-kortet ble endret"</string>
+    <string name="puk_requested" msgid="3898394204193202803">"Galt passord, SIM-kortet er låst! Skriv inn PUK2-koden."</string>
+    <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2-kode"</string>
+    <string name="oldPin2Label" msgid="8559146795026261502">"Gammel PIN2-kode"</string>
+    <string name="newPin2Label" msgid="4573956902204349054">"Ny PIN2-kode"</string>
+    <string name="confirmPin2Label" msgid="8100319484454787708">"Bekreft ny PIN2-kode"</string>
+    <string name="badPuk2" msgid="4072035207011308856">"PUK2-koden er ikke riktig. Prøv igjen."</string>
+    <string name="badPin2" msgid="515218795152422178">"Den gamle PIN2-koden du skrev er ikke riktig. Prøv igjen."</string>
+    <string name="mismatchPin2" msgid="4177060915600342718">"PIN2-kodene du skrev inn, stemmer ikke overens. Prøv igjen."</string>
+    <string name="invalidPin2" msgid="8237110107480395938">"Skriv inn en PIN2-kode som er mellom 4 og 8 siffer."</string>
+    <string name="invalidPuk2" msgid="1290977391033057871">"Skriv inn en PUK2-kode som er 8 siffer."</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"PIN2-koden ble endret."</string>
+    <string name="label_puk2_code" msgid="302845876240219560">"Skriv inn PUk2-kode"</string>
+    <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Galt passord, endre PIN2-koden og prøv igjen!"</string>
+    <string name="puk2_requested" msgid="5863580927788820813">"Galt passord, SIM-kortet er låst! Skriv inn PUK2-koden."</string>
+    <string name="doneButton" msgid="2859593360997984240">"Ferdig"</string>
+    <string name="caller_manage_header" msgid="3231519674734638786">"Telefonmøte <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Tilbake til samtale"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Fortsett uten SIM-kort"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"Fant ikke noe SIM-kort. Sett et SIM-kort i telefonen."</string>
+    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Skjul"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Lås opp"</string>
+    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Godkjenner PIN-kode…"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Nummer til telefonsvarer"</string>
+    <string name="card_title_dialing" msgid="5769417478498348054">"Ringer"</string>
+    <string name="card_title_in_progress" msgid="8603765629781648862">"Aktiv samtale"</string>
+    <string name="card_title_conf_call" msgid="1162980346189744501">"Telefonmøte"</string>
+    <string name="card_title_incoming_call" msgid="7364539451234646909">"Innkommende anrop"</string>
     <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
     <skip />
-    <string name="card_title_call_ended">"Samtale avsluttet"</string>
-    <string name="card_title_on_hold">"Parkert"</string>
-    <string name="card_title_hanging_up">"Legger på"</string>
+    <string name="card_title_call_ended" msgid="5544730338889702298">"Samtale avsluttet"</string>
+    <string name="card_title_on_hold" msgid="821463117892339942">"Parkert"</string>
+    <string name="card_title_hanging_up" msgid="3999101620995182450">"Legger på"</string>
     <!-- no translation found for card_title_in_call (6346543933068225205) -->
     <skip />
-    <string name="notification_missedCallTitle">"Tapt anrop"</string>
-    <string name="notification_missedCallsTitle">"Tapte anrop"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> tapte anrop"</string>
-    <string name="notification_missedCallTicker">"Tapt anrop fra <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Aktiv samtale (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"Parkert"</string>
-    <string name="notification_voicemail_title">"Nye beskjeder på telefonsvarer"</string>
+    <string name="notification_missedCallTitle" msgid="7554385905572364535">"Tapt anrop"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Tapte anrop"</string>
+    <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> tapte anrop"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"Tapt anrop fra <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Aktiv samtale (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold" msgid="3480694969511790465">"Parkert"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"Nye beskjeder på telefonsvarer"</string>
     <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
     <skip />
-    <string name="notification_voicemail_text_format">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Mangler nummer til telefonsvarer"</string>
-    <string name="incall_error_power_off">"For å ringe, slå av flymodus først."</string>
-    <string name="incall_error_emergency_only">"Ikke registrert på nettverket."</string>
-    <string name="incall_error_no_phone_number_supplied">"Samtalen ble ikke opprettet, mangler eller ugyldig nummer."</string>
-    <string name="incall_error_call_failed">"Samtalen ble ikke opprettet."</string>
-    <string name="incall_status_dialed_mmi">"Begynner MMI-sekvens…"</string>
+    <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Mangler nummer til telefonsvarer"</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"For å ringe, slå av flymodus først."</string>
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ikke registrert på nettverket."</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Samtalen ble ikke opprettet, mangler eller ugyldig nummer."</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"Samtalen ble ikke opprettet."</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Begynner MMI-sekvens…"</string>
     <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
     <skip />
-    <string name="incall_error_supp_service_unknown">"Ustøttet tjeneste."</string>
-    <string name="incall_error_supp_service_switch">"Kan ikke bytte samtale."</string>
-    <string name="incall_error_supp_service_separate">"Kan ikke skille samtale."</string>
-    <string name="incall_error_supp_service_transfer">"Kan ikke overføre samtale."</string>
-    <string name="incall_error_supp_service_conference">"Kan ikke opprette telefonmøte."</string>
-    <string name="incall_error_supp_service_reject">"Kan ikke avvise anrop."</string>
-    <string name="incall_error_supp_service_hangup">"Kan ikke legge på."</string>
-    <string name="emergency_enable_radio_dialog_title">"Nødanrop"</string>
-    <string name="emergency_enable_radio_dialog_message">"Slår på radio…"</string>
-    <string name="emergency_enable_radio_dialog_retry">"Utenfor dekningsområde, prøver igjen…"</string>
-    <string name="dial_emergency_error">"Samtalen ble ikke opprettet, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> er ikke et nødnummer!"</string>
-    <string name="dial_emergency_empty_error">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
-    <string name="dialerKeyboardHintText">"Bruk tastaturet for å ringe"</string>
-    <string name="dtmfDialpadHintText">"Talltastatur for tastetoner"</string>
-    <string name="dtmfDialpadHandleLabel">"Talltastatur"</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Ustøttet tjeneste."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Kan ikke bytte samtale."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Kan ikke skille samtale."</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Kan ikke overføre samtale."</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Kan ikke opprette telefonmøte."</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Kan ikke avvise anrop."</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"Kan ikke legge på."</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Nødanrop"</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Slår på radio…"</string>
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Utenfor dekningsområde, prøver igjen…"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"Samtalen ble ikke opprettet, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> er ikke et nødnummer!"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Samtalen ble ikke opprettet, ring et nødnummer!"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Bruk tastaturet for å ringe"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Talltastatur for tastetoner"</string>
+    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Talltastatur"</string>
     <!-- no translation found for touchLockText (8742463586429019112) -->
     <skip />
     <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
     <skip />
-    <string name="importSimEntry">"Importer"</string>
-    <string name="importAllSimEntries">"Importer alle"</string>
-    <string name="importingSimContacts">"Importerer kontakter fra SIM-kortet"</string>
-    <string name="importToFDNfromContacts">"Importer fra kontakter"</string>
+    <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
+    <string name="importAllSimEntries" msgid="1503181169636198673">"Importer alle"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"Importerer kontakter fra SIM-kortet"</string>
+    <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importer fra kontakter"</string>
     <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
     <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
     <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
