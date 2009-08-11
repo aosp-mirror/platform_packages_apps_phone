@@ -1375,6 +1375,15 @@ public class CallNotifier extends Handler
      * Plays a Call waiting tone if it is present in the second incoming call.
      */
     private void onCdmaCallWaiting(AsyncResult r) {
+        // Remove any previous Call waiting timers in the queue
+        removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
+        removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
+
+        // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
+        // else we would not have received Call waiting
+        mApplication.cdmaPhoneCallState.setCurrentCallState(
+                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+
         // Start the InCallScreen Activity if its not on foreground
         if (!mApplication.isShowingCallScreen()) {
             PhoneUtils.showIncomingCallUi();
@@ -1454,11 +1463,10 @@ public class CallNotifier extends Handler
                 if (callLogType == CallLog.Calls.MISSED_TYPE) {
                     // Add missed call notification
                     showMissedCallNotification(c, date);
+                } else {
+                    // Remove Call waiting 20 second display timer in the queue
+                    removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
                 }
-
-                // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
-                mApplication.cdmaPhoneCallState.setCurrentCallState(
-                        CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
 
                 // Hangup the RingingCall connection for CW
                 PhoneUtils.hangup(c);
