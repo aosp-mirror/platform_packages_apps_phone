@@ -1048,4 +1048,7 @@
     <!-- ECM: ECM exit dialog choice -->
     <string name="alert_dialog_no">No</string>
 
+    <!-- For incoming calls, this is a string we can get from a CDMA network instead of
+         the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
+    <string name="absent_num">ABSENT NUMBER</string>
 </resources>

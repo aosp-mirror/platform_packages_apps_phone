@@ -1131,7 +1131,6 @@ public class PhoneUtils {
             // No URI, or Existing CallerInfo, so we'll have to make do with
             // querying a new CallerInfo using the connection's phone number.
             String number = c.getAddress();
-            int cnapSpecialCase;
 
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
@@ -1149,19 +1148,11 @@ public class PhoneUtils {
                 if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
                         + cit.currentInfo.cnapName
                         + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
-                // Only when numberPresentation is ALLOWED, check the special string:
-                if (cit.currentInfo.numberPresentation == Connection.PRESENTATION_ALLOWED) {
-                    cnapSpecialCase = checkCnapSpecialCases(number);
-                    if (cnapSpecialCase != CNAP_SPECIAL_CASE_NO) {
-                        // For all special strings, change number & numberPresentation.
-                        if (cnapSpecialCase == Connection.PRESENTATION_RESTRICTED) {
-                            number = context.getString(R.string.private_num);
-                        } else if (cnapSpecialCase == Connection.PRESENTATION_UNKNOWN) {
-                            number = context.getString(R.string.unknown);
-                        }
-                        cit.currentInfo.numberPresentation = cnapSpecialCase;
-                    }
-                }
+
+                // Check for special CNAP cases and modify the CallerInfo accordingly
+                // to be sure we keep the right information to display/log later
+                number = modifyForSpecialCnapCases(context, cit.currentInfo, number,
+                        cit.currentInfo.numberPresentation);
 
                 cit.currentInfo.phoneNumber = number;
                 cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
@@ -1793,6 +1784,45 @@ public class PhoneUtils {
             if (DBG) log("checkCnapSpecialCases, normal str. number: " + n);
             return CNAP_SPECIAL_CASE_NO;
         }
+    }
+
+    /**
+     * Handles certain "corner cases" for CNAP. When we receive weird phone numbers
+     * from the network to indicate different number presentations, convert them to
+     * expected number and presentation values within the CallerInfo object.
+     * @param number number we use to verify if we are in a corner case
+     * @param presentation presentation value used to verify if we are in a corner case
+     * @return the new String that should be used for the phone number
+     */
+    /* package */ static String modifyForSpecialCnapCases(Context context, CallerInfo ci,
+            String number, int presentation) {
+        if (ci == null) return number;
+
+        // "ABSENT NUMBER" is a possible value we could get from the network as the
+        // phone number, so if this happens, change it to "Unknown" in the CallerInfo
+        // and fix the presentation to be the same.
+        if (number.equals(context.getString(R.string.absent_num))) {
+            number = context.getString(R.string.unknown);
+            ci.numberPresentation = Connection.PRESENTATION_UNKNOWN;
+        }
+
+        // Check for other special "corner cases" for CNAP and fix them similarly.
+        if (ci.numberPresentation == Connection.PRESENTATION_ALLOWED
+                || ci.numberPresentation != presentation) {
+            int cnapSpecialCase = checkCnapSpecialCases(number);
+            if (cnapSpecialCase != CNAP_SPECIAL_CASE_NO) {
+                // For all special strings, change number & numberPresentation.
+                if (cnapSpecialCase == Connection.PRESENTATION_RESTRICTED) {
+                    number = context.getString(R.string.private_num);
+                } else if (cnapSpecialCase == Connection.PRESENTATION_UNKNOWN) {
+                    number = context.getString(R.string.unknown);
+                }
+                if (DBG) log("SpecialCnap: number=" + number
+                        + "; presentation now=" + cnapSpecialCase);
+                ci.numberPresentation = cnapSpecialCase;
+            }
+        }
+        return number;
     }
 
     //
