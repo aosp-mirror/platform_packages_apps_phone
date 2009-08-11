@@ -129,7 +129,7 @@ public class CallNotifier extends Handler
     private ToneGenerator mSignalInfoToneGenerator;
 
     // The tone volume relative to other sounds in the stream SignalInfo
-    private static final int TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO = 50;
+    private static final int TONE_RELATIVE_VOLUME_SIGNALINFO = 80;
 
     // Additional members for CDMA
     private Call.State mPreviousCdmaCallState;
@@ -168,8 +168,8 @@ public class CallNotifier extends Handler
             // around forever. Need to change it so as to create a ToneGenerator instance only
             // when a tone is being played and releases it after its done playing.
             try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
-                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
+                        TONE_RELATIVE_VOLUME_SIGNALINFO);
             } catch (RuntimeException e) {
                 Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
                         "mSignalInfoToneGenerator: " + e);
@@ -671,8 +671,8 @@ public class CallNotifier extends Handler
 
             // Instantiate the ToneGenerator for SignalInfo
             try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
-                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
+                        TONE_RELATIVE_VOLUME_SIGNALINFO);
             } catch (RuntimeException e) {
                 Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
                         "mSignalInfoToneGenerator: " + e);
