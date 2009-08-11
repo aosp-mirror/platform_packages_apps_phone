@@ -71,7 +71,11 @@ public class InCallControlState {
     //
     public boolean dialpadEnabled;
     //
+    /** True if the "Hold" function is *ever* available on this device */
+    public boolean supportsHold;
+    /** True if the call is currently on hold */
     public boolean onHold;
+    /** True if the "Hold" function should be available right now */
     public boolean canHold;
 
 
@@ -92,11 +96,19 @@ public class InCallControlState {
         final boolean hasActiveCall = !fgCall.isIdle();
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
 
-        // Manage conference: visible only if the foreground call is a
-        // conference call.  Enabled unless the "Manage conference" UI is
-        // already up.
-        manageConferenceVisible = PhoneUtils.isConferenceCall(fgCall);
-        manageConferenceEnabled = !mInCallScreen.isManageConferenceMode();
+        // Manage conference:
+        if (mPhone.getPhoneName().equals("GSM")) {
+            // This item is visible only if the foreground call is a
+            // conference call, and it's enabled unless the "Manage
+            // conference" UI is already up.
+            manageConferenceVisible = PhoneUtils.isConferenceCall(fgCall);
+            manageConferenceEnabled =
+                    manageConferenceVisible && !mInCallScreen.isManageConferenceMode();
+        } else {
+            // CDMA has no concept of managing a conference call.
+            manageConferenceVisible = false;
+            manageConferenceEnabled = false;
+        }
 
         // "Add call":
         canAddCall = PhoneUtils.okToAddCall(mPhone);
@@ -151,14 +163,23 @@ public class InCallControlState {
         // first place.
         dialpadEnabled = mInCallScreen.okToShowDialpad();
 
-        // "Hold": "On hold" means that there's a holding call and
-        // *no* foreground call.  (If there *is* a foreground call,
-        // that's "two lines in use".)  "Hold" is disabled if both
-        // lines are in use, or if the foreground call is non-idle and
-        // in any state other than ACTIVE.
-        onHold = hasHoldingCall && !hasActiveCall;
-        canHold = !((hasActiveCall && hasHoldingCall)
-                    || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
+        // "Hold:
+        if (mPhone.getPhoneName().equals("GSM")) {
+            // "On hold" means that there's a holding call and
+            // *no* foreground call.  (If there *is* a foreground call,
+            // that's "two lines in use".)  "Hold" is disabled if both
+            // lines are in use, or if the foreground call is non-idle and
+            // in any state other than ACTIVE.
+            supportsHold = true;
+            onHold = hasHoldingCall && !hasActiveCall;
+            canHold = !((hasActiveCall && hasHoldingCall)
+                        || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
+        } else {
+            // CDMA has no concept of "putting a call on hold."
+            supportsHold = false;
+            onHold = false;
+            canHold = false;
+        }
 
         if (DBG) dumpState();
     }

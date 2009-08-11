@@ -441,7 +441,7 @@ class InCallMenu {
         mMute.setIndicatorState(inCallControlState.muteIndicatorOn);
 
         // "Hold"
-        mHold.setVisible(true);
+        mHold.setVisible(inCallControlState.supportsHold);
         mHold.setIndicatorState(inCallControlState.onHold);
         mHold.setEnabled(inCallControlState.canHold);
 

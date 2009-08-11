@@ -355,37 +355,48 @@ public class InCallTouchUi extends FrameLayout
         // state of the various onscreen buttons:
         InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
 
-        // "Hold" and "Swap": These occupy the same space onscreen, so only
-        // one of them should be available at a given moment.
-        if (inCallControlState.canSwap) {
-            mSwapButton.setVisibility(View.VISIBLE);
-            mSwapButton.setEnabled(true);
-            mHoldButton.setVisibility(View.GONE);
-        } else if (inCallControlState.canHold) {
-            // Note: for now "Hold" isn't a ToggleButton, so we don't need to
-            // update its "checked" state.  Just make it visible and enabled.
-            mHoldButton.setVisibility(View.VISIBLE);
-            mHoldButton.setEnabled(true);
-            mSwapButton.setVisibility(View.GONE);
+        // "Hold" or "Swap":
+        if (inCallControlState.supportsHold) {
+            // These two buttons occupy the same space onscreen, so only
+            // one of them should be available at a given moment.
+            if (inCallControlState.canSwap) {
+                mSwapButton.setVisibility(View.VISIBLE);
+                mSwapButton.setEnabled(true);
+                mHoldButton.setVisibility(View.GONE);
+            } else if (inCallControlState.canHold) {
+                // Note: for now "Hold" isn't a ToggleButton, so we don't need to
+                // update its "checked" state.  Just make it visible and enabled.
+                mHoldButton.setVisibility(View.VISIBLE);
+                mHoldButton.setEnabled(true);
+                mSwapButton.setVisibility(View.GONE);
 
-            // The Hold button can be either "Hold" or "Unhold":
-            if (inCallControlState.onHold) {
-                mHoldButton.setText(R.string.onscreenUnholdText);
-                mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mUnholdIcon, null, null);
+                // The Hold button can be either "Hold" or "Unhold":
+                if (inCallControlState.onHold) {
+                    mHoldButton.setText(R.string.onscreenUnholdText);
+                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mUnholdIcon, null, null);
+                } else {
+                    mHoldButton.setText(R.string.onscreenHoldText);
+                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
+                }
             } else {
+                // Neither "Swap" nor "Hold" is available.  (This happens in
+                // transient states like while dialing/alerting.)  Just show
+                // the "Hold" button in a disabled state.
+                mHoldButton.setVisibility(View.VISIBLE);
+                mHoldButton.setEnabled(false);
                 mHoldButton.setText(R.string.onscreenHoldText);
                 mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
+                mSwapButton.setVisibility(View.GONE);
             }
         } else {
-            // Neither "Swap" nor "Hold" is available.  (This happens in
-            // transient states like while dialing/alerting.)  Just show
-            // the "Hold" button in a disabled state.
-            mHoldButton.setVisibility(View.VISIBLE);
-            mHoldButton.setEnabled(false);
-            mHoldButton.setText(R.string.onscreenHoldText);
-            mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
-            mSwapButton.setVisibility(View.GONE);
+            // This device doesn't support the "Hold" feature at all.
+            // The only button that can possibly go in this slot is Swap,
+            // so make it visible all the time.
+            mSwapButton.setVisibility(View.VISIBLE);
+            mSwapButton.setEnabled(inCallControlState.canSwap);
+            mHoldButton.setVisibility(View.GONE);
         }
+
         if (inCallControlState.canSwap && inCallControlState.canHold) {
             // Uh oh, the InCallControlState thinks that Swap *and* Hold
             // should both be available.  This *should* never happen with
