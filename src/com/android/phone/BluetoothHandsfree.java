@@ -716,6 +716,10 @@ public class BluetoothHandsfree {
                                 result.addResponse("+CIEV: 3,0");
                             }
                         }
+                        // We also need to send a Call started indication for cases where
+                        // the 2nd MO was initiated was from a *BT hands free* and is waiting
+                        // for a +BLND: OK response
+                        callStarted();
                     }
 
                     // In CDMA, the network does not provide any feedback to the phone when a
