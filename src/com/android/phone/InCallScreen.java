@@ -1050,10 +1050,11 @@ public class InCallScreen extends Activity
         if ((action.equals(ACTION_SHOW_ACTIVATION))
                 && (mPhone.getPhoneName().equals("CDMA"))) {
             setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
-            app.cdmaOtaScreenState.otaScreenState =
-                    CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
-            if (app.cdmaOtaProvisionData != null) {
+            if ((app.cdmaOtaProvisionData != null)
+                    && (!app.cdmaOtaProvisionData.isOtaCallIntentProcessed)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
+                app.cdmaOtaScreenState.otaScreenState =
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
             }
             return InCallInitStatus.SUCCESS;
         } else if (action.equals(Intent.ACTION_ANSWER)) {
@@ -4622,8 +4623,12 @@ public class InCallScreen extends Activity
         boolean isOtaCall = false;
         if (action.equals(ACTION_SHOW_ACTIVATION)) {
             if (DBG) log("checkIsOtaCall action = ACTION_SHOW_ACTIVATION");
-            app.cdmaOtaScreenState.otaScreenState =
-                    CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
+            if (!app.cdmaOtaProvisionData.isOtaCallIntentProcessed) {
+                if (DBG) log("checkIsOtaCall: ACTION_SHOW_ACTIVATION is not handled before");
+                app.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
+                app.cdmaOtaScreenState.otaScreenState =
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
+            }
             isOtaCall = true;
         } else if (action.equals(Intent.ACTION_CALL)
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
