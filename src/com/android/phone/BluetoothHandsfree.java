@@ -684,6 +684,24 @@ public class BluetoothHandsfree {
                 if (app.cdmaPhoneCallState != null) {
                     CdmaPhoneCallState.PhoneCallState currCdmaCallState =
                             app.cdmaPhoneCallState.getCurrentCallState();
+                    CdmaPhoneCallState.PhoneCallState prevCdmaCallState =
+                        app.cdmaPhoneCallState.getPreviousCallState();
+
+                    // Update the Call held information
+                    if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                        if (prevCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                            callheld = 0; //0: no calls held, as now *both* the caller are active
+                        } else {
+                            callheld = 1; //1: held call and active call, as on answering a
+                                          // Call Waiting, one of the caller *is* put on hold
+                        }
+                    } else if (currCdmaCallState ==
+                            CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        callheld = 1; //1: held call and active call, as on make a 3 Way Call
+                                      // the first caller *is* put on hold
+                    } else {
+                        callheld = 0; //0: no calls held as this is a SINGLE_ACTIVE call
+                    }
 
                     // In CDMA, the network does not provide any feedback to the phone when the
                     // 2nd MO call goes through the stages of DIALING > ALERTING -> ACTIVE
@@ -698,6 +716,10 @@ public class BluetoothHandsfree {
                                 result.addResponse("+CIEV: 3,0");
                             }
                         }
+                        // We also need to send a Call started indication for cases where
+                        // the 2nd MO was initiated was from a *BT hands free* and is waiting
+                        // for a +BLND: OK response
+                        callStarted();
                     }
 
                     // In CDMA, the network does not provide any feedback to the phone when a

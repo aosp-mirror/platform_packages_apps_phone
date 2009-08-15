@@ -16,8 +16,6 @@
 
 package com.android.phone;
 
-
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
@@ -51,12 +49,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.android.internal.telephony.cdma.EriInfo;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.cdma.EriInfo;
 
 /**
  * Top-level Application class for the Phone app.
@@ -913,16 +912,18 @@ public class PhoneApp extends Application {
         //
         // (2) Decide whether to force the screen on or not.
         //
-        // Force the screen to be on if the phone is ringing, or if we're
-        // displaying the "Call ended" UI for a connection in the
-        // "disconnected" state.
+        // Force the screen to be on if the phone is ringing or dialing,
+        // or if we're displaying the "Call ended" UI for a connection in
+        // the "disconnected" state.
         //
         boolean isRinging = (state == Phone.State.RINGING);
+        boolean isDialing = (phone.getForegroundCall().getState() == Call.State.DIALING);
         boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
-        boolean keepScreenOn = isRinging || showingDisconnectedConnection;
+        boolean keepScreenOn = isRinging || isDialing || showingDisconnectedConnection;
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
                        + " (isRinging " + isRinging
+                       + ", isDialing " + isDialing
                        + ", showingDisc " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);

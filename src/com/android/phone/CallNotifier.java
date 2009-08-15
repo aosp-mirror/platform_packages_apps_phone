@@ -129,7 +129,7 @@ public class CallNotifier extends Handler
     private ToneGenerator mSignalInfoToneGenerator;
 
     // The tone volume relative to other sounds in the stream SignalInfo
-    private static final int TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO = 50;
+    private static final int TONE_RELATIVE_VOLUME_SIGNALINFO = 80;
 
     // Additional members for CDMA
     private Call.State mPreviousCdmaCallState;
@@ -168,8 +168,8 @@ public class CallNotifier extends Handler
             // around forever. Need to change it so as to create a ToneGenerator instance only
             // when a tone is being played and releases it after its done playing.
             try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
-                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
+                        TONE_RELATIVE_VOLUME_SIGNALINFO);
             } catch (RuntimeException e) {
                 Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
                         "mSignalInfoToneGenerator: " + e);
@@ -671,8 +671,8 @@ public class CallNotifier extends Handler
 
             // Instantiate the ToneGenerator for SignalInfo
             try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION,
-                        TONE_RELATIVE_VOLUME_LOPRI_SIGNALINFO);
+                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
+                        TONE_RELATIVE_VOLUME_SIGNALINFO);
             } catch (RuntimeException e) {
                 Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
                         "mSignalInfoToneGenerator: " + e);
@@ -1375,6 +1375,15 @@ public class CallNotifier extends Handler
      * Plays a Call waiting tone if it is present in the second incoming call.
      */
     private void onCdmaCallWaiting(AsyncResult r) {
+        // Remove any previous Call waiting timers in the queue
+        removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
+        removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
+
+        // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
+        // else we would not have received Call waiting
+        mApplication.cdmaPhoneCallState.setCurrentCallState(
+                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+
         // Start the InCallScreen Activity if its not on foreground
         if (!mApplication.isShowingCallScreen()) {
             PhoneUtils.showIncomingCallUi();
@@ -1454,11 +1463,10 @@ public class CallNotifier extends Handler
                 if (callLogType == CallLog.Calls.MISSED_TYPE) {
                     // Add missed call notification
                     showMissedCallNotification(c, date);
+                } else {
+                    // Remove Call waiting 20 second display timer in the queue
+                    removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
                 }
-
-                // Set the Phone Call State to SINGLE_ACTIVE as there is only one connection
-                mApplication.cdmaPhoneCallState.setCurrentCallState(
-                        CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
 
                 // Hangup the RingingCall connection for CW
                 PhoneUtils.hangup(c);
