@@ -62,7 +62,7 @@
 
     <!-- Determine whether we want to display the OTA activation screen, which
          gives the user option to activate or cancel -->
-    <integer name="OtaShowActivationScreen">0</integer>
+    <integer name="OtaShowActivationScreen">1</integer>
     <!-- Determine whether we should show the "listen for instructions" screen after
          successfully placing the OTA call -->
     <integer name="OtaShowListeningScreen">0</integer>
