@@ -181,7 +181,6 @@
     <string name="vm_changed">"Numret till röstbrevlåda har ändrats."</string>
     <string name="vm_change_failed">"Det gick inte att ändra numret till röstbrevlådan."</string>
     <string name="no_change">"Du har inte gjort några ändringar."</string>
-    <string name="sum_voicemail">"Ange nummer till röstbrevlåda"</string>
     <string name="mobile_networks">"Mobila nätverksinställningar"</string>
     <string name="label_available">"Tillgängliga nätverk"</string>
     <string name="load_networks_progress">"Söker…"</string>

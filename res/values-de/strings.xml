@@ -153,7 +153,6 @@
     <string name="vm_changed">"Mailboxnummer geändert."</string>
     <string name="vm_change_failed">"Ändern der Mailboxnummer nicht erfolgreich."</string>
     <string name="no_change">"Es wurden keine Änderungen vorgenommen."</string>
-    <string name="sum_voicemail">"Mailboxnummer festlegen"</string>
     <string name="mobile_networks">"Mobile Netzwerkeinstellungen"</string>
     <string name="label_available">"Verfügbare Netzwerke"</string>
     <string name="load_networks_progress">"Suchvorgang läuft...."</string>

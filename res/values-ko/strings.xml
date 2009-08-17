@@ -171,7 +171,6 @@
     <string name="vm_changed">"음성메일 번호가 변경되었습니다."</string>
     <string name="vm_change_failed">"음성메일 번호를 변경하지 못했습니다."</string>
     <string name="no_change">"변경사항이 없습니다."</string>
-    <string name="sum_voicemail">"음성메일 번호 설정"</string>
     <string name="mobile_networks">"모바일 네트워크 설정"</string>
     <string name="label_available">"사용 가능한 네트워크"</string>
     <string name="load_networks_progress">"검색 중..."</string>

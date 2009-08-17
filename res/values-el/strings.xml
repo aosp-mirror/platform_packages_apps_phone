@@ -181,7 +181,6 @@
     <string name="vm_changed">"Ο αριθμός αυτόματου τηλεφωνητή άλλαξε."</string>
     <string name="vm_change_failed">"Η αλλαγή ονόματος του αυτόματου τηλεφωνητή απέτυχε."</string>
     <string name="no_change">"Δεν έγιναν αλλαγές."</string>
-    <string name="sum_voicemail">"Ορισμός αριθμού αυτόματου τηλεφωνητή"</string>
     <string name="mobile_networks">"Ρυθμίσεις δικτύου κινητής τηλεφωνίας"</string>
     <string name="label_available">"Διαθέσιμα δίκτυα"</string>
     <string name="load_networks_progress">"Αναζήτηση..."</string>

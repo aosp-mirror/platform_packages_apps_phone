@@ -181,7 +181,6 @@
     <string name="vm_changed">"Sesli mesaj numarası değiştirildi."</string>
     <string name="vm_change_failed">"Sesli mesaj numarası değiştirilemedi."</string>
     <string name="no_change">"Hiçbir değişiklik yapılmadı."</string>
-    <string name="sum_voicemail">"Sesli mesaj numarasını ayarla"</string>
     <string name="mobile_networks">"Mobil ağ ayarları"</string>
     <string name="label_available">"Kullanılabilir ağlar"</string>
     <string name="load_networks_progress">"Aranıyor..."</string>

@@ -153,7 +153,6 @@
     <string name="vm_changed">"El número del buzón de voz se ha cambiado."</string>
     <string name="vm_change_failed">"El número del buzón de voz se ha cambiado correctamente."</string>
     <string name="no_change">"No se ha realizado ningún cambio."</string>
-    <string name="sum_voicemail">"Establecer número de buzón de voz"</string>
     <string name="mobile_networks">"Configuración de red móvil"</string>
     <string name="label_available">"Redes disponibles"</string>
     <string name="load_networks_progress">"Buscando..."</string>
