@@ -181,7 +181,6 @@
     <string name="vm_changed">"Voicemailnummeret blev ændret."</string>
     <string name="vm_change_failed">"Ændring af voicemailnummer mislykkedes."</string>
     <string name="no_change">"Der blev ikke foretaget nogen ændringer."</string>
-    <string name="sum_voicemail">"Indstil voicemailnummer"</string>
     <string name="mobile_networks">"Indstillinger for mobilt netværk"</string>
     <string name="label_available">"Tilgængelige netværk"</string>
     <string name="load_networks_progress">"Søger ..."</string>

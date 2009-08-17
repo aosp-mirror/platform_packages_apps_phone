@@ -153,7 +153,6 @@
     <string name="vm_changed">"Číslo hlasové schránky bylo změněno."</string>
     <string name="vm_change_failed">"Změna čísla hlasové schránky se nezdařila."</string>
     <string name="no_change">"Nebyly provedeny žádné změny."</string>
-    <string name="sum_voicemail">"Umožňuje nastavit číslo hlasové schránky"</string>
     <string name="mobile_networks">"Nastavení mobilní sítě"</string>
     <string name="label_available">"Dostupné sítě"</string>
     <string name="load_networks_progress">"Vyhledávání..."</string>

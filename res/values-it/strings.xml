@@ -153,7 +153,6 @@
     <string name="vm_changed">"Numero segreteria modificato."</string>
     <string name="vm_change_failed">"Modifica del numero della segreteria non riuscita."</string>
     <string name="no_change">"Nessuna modifica effettuata."</string>
-    <string name="sum_voicemail">"Imposta numero segreteria"</string>
     <string name="mobile_networks">"Impostazioni rete cellulare"</string>
     <string name="label_available">"Reti disponibili"</string>
     <string name="load_networks_progress">"Ricerca..."</string>

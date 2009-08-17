@@ -16,9 +16,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
         android:title="@string/call_settings">
-        
-    <PreferenceScreen 
-        android:key="button_fdn_key" 
+
+    <PreferenceScreen
+        android:key="button_fdn_key"
         android:title="@string/fdn"
         android:summary="@string/sum_fdn"
         android:persistent="false">
@@ -28,26 +28,45 @@
             android:targetClass="com.android.phone.FdnSetting" />
 
     </PreferenceScreen>
-    
-    <!-- Note for all com.android.phone.EditPhoneNumberPreference objects
-    
-         The last several attributes are for use with the EditText field 
-         in the dialog.  These attributes are forwarded to that field 
-         when the edittext is created.  The attributes include:
-           1. android:singleLine
-           2. android:autoText
-           3. android:background -->
-           
-    <com.android.phone.EditPhoneNumberPreference 
-        android:key="button_voicemail_key" 
+
+    <PreferenceCategory
+        android:key="button_voicemail_category_key"
         android:title="@string/voicemail"
-        android:summary="@string/sum_voicemail"
-        android:persistent="false"
-        android:dialogTitle="@string/voicemail"
-        phone:confirmMode="confirm"
-        android:singleLine="true"
-        android:autoText="false"/>
-        
+        android:persistent="false">
+      <ListPreference
+          android:key="button_voicemail_provider_key"
+          android:title="@string/voicemail_provider"
+          android:summary="@string/sum_voicemail_choose_provider"
+          android:persistent="true"
+      />
+      <PreferenceScreen android:key="button_voicemail_setting_key"
+            android:title="@string/voicemail_settings"
+            android:persistent="false">
+
+            <!-- Note for all com.android.phone.EditPhoneNumberPreference objects
+
+           The last several attributes are for use with the EditText field
+           in the dialog.  These attributes are forwarded to that field
+           when the edittext is created.  The attributes include:
+             1. android:singleLine
+             2. android:autoText
+             3. android:background -->
+
+              <com.android.phone.EditPhoneNumberPreference
+                android:key="button_voicemail_key"
+                android:title="@string/voicemail_settings_number_label"
+                android:persistent="false"
+                android:dialogTitle="@string/voicemail"
+                phone:confirmMode="confirm"
+                android:singleLine="true"
+                android:autoText="false" />
+      </PreferenceScreen>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:key="button_misc_category_key"
+        android:title="@string/other_settings"
+        android:persistent="false" />
+
     <CheckBoxPreference
         android:key="button_auto_retry_key"
         android:title="@string/auto_retry_mode_title"

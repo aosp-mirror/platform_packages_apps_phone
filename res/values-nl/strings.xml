@@ -153,7 +153,6 @@
     <string name="vm_changed">"Voicemailnummer gewijzigd."</string>
     <string name="vm_change_failed">"Het wijzigen van het voicemailnummer is mislukt."</string>
     <string name="no_change">"Er zijn geen wijzigingen aangebracht."</string>
-    <string name="sum_voicemail">"Voicemailnummer instellen"</string>
     <string name="mobile_networks">"Instellingen mobiel netwerk"</string>
     <string name="label_available">"Beschikbare netwerken"</string>
     <string name="load_networks_progress">"Zoeken..."</string>
