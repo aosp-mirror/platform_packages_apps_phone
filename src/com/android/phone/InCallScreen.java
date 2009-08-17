@@ -920,6 +920,10 @@ public class InCallScreen extends Activity
             mBluetoothHeadset.close();
             mBluetoothHeadset = null;
         }
+
+        // Dismiss all dialogs, to be absolutely sure we won't leak any of
+        // them while changing orientation.
+        dismissAllDialogs();
     }
 
     /**
@@ -4766,6 +4770,8 @@ public class InCallScreen extends Activity
             final Call.State fgState = mForegroundCall.getState();
             switch (fgState) {
                 case ACTIVE:
+                case DISCONNECTING:  // Call will disconnect soon, but keep showing
+                                     // the normal "connected" background for now.
                     if (bluetoothActive) {
                         backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
                     } else {
