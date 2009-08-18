@@ -25,12 +25,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.os.AsyncResult;
 import android.os.Binder;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemProperties;
 import android.util.Log;
 
+import com.android.internal.telephony.cdma.CDMAPhone;
+import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
@@ -50,10 +55,23 @@ public class EmergencyCallbackModeService extends Service {
     private NotificationManager mNotificationManager = null;
     private CountDownTimer mTimer = null;
     private long mTimeLeft = 0;
+    private PhoneApp mApp;
+    private Phone mPhone;
+
+    private static final int ECM_TIMER_RESET = 1;
+
+    private Handler mHandler = new Handler () {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ECM_TIMER_RESET:
+                    resetEcmTimer((AsyncResult) msg.obj);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
-
         // Check if it is CDMA phone
         if(!(PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA"))) {
             Log.e(LOG_TAG, "Error! Emergency Callback Mode not supported for " +
@@ -69,34 +87,21 @@ public class EmergencyCallbackModeService extends Service {
 
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        // Get Emergency Callback Mode timeout value
-        long ecmTimeout = SystemProperties.getLong(
-                    TelephonyProperties.PROPERTY_ECM_EXIT_TIMER, DEFAULT_ECM_EXIT_TIMER_VALUE);
+        // Register ECM timer reset notfication
+        mApp = PhoneApp.getInstance();
+        mPhone = mApp.phone;
+        mPhone.registerForEcmTimerReset(mHandler, ECM_TIMER_RESET, null);
 
-        // Show the notification
-        showNotification(ecmTimeout);
-
-        // Start countdown timer for the notification updates
-        mTimer = new CountDownTimer(ecmTimeout, 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeft = millisUntilFinished;
-                EmergencyCallbackModeService.this.showNotification(millisUntilFinished);
-            }
-
-            @Override
-            public void onFinish() {
-                //Do nothing
-            }
-
-        }.start();
+        startTimerNotification();
     }
 
     @Override
     public void onDestroy() {
         // Unregister receiver
         unregisterReceiver(mEcmReceiver);
+        // Unregister ECM timer reset notification
+        mPhone.unregisterForEcmTimerReset(mHandler);
+
         // Cancel the notification and timer
         mNotificationManager.cancel(R.string.phone_in_ecm_notification_title);
         mTimer.cancel();
@@ -124,6 +129,34 @@ public class EmergencyCallbackModeService extends Service {
             }
         }
     };
+
+    /**
+     * Start timer notification for Emergency Callback Mode
+     */
+    private void startTimerNotification() {
+        // Get Emergency Callback Mode timeout value
+        long ecmTimeout = SystemProperties.getLong(
+                    TelephonyProperties.PROPERTY_ECM_EXIT_TIMER, DEFAULT_ECM_EXIT_TIMER_VALUE);
+
+        // Show the notification
+        showNotification(ecmTimeout);
+
+        // Start countdown timer for the notification updates
+        mTimer = new CountDownTimer(ecmTimeout, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeft = millisUntilFinished;
+                EmergencyCallbackModeService.this.showNotification(millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                //Do nothing
+            }
+
+        }.start();
+    }
 
     /**
      * Shows notification for Emergency Callback Mode
@@ -154,6 +187,19 @@ public class EmergencyCallbackModeService extends Service {
 
         // Show notification
         mNotificationManager.notify(R.string.phone_in_ecm_notification_title, notification);
+    }
+
+    /**
+     * Handle ECM_TIMER_RESET notification
+     */
+    private void resetEcmTimer(AsyncResult r) {
+        boolean isTimerCanceled = ((Boolean)r.result).booleanValue();
+
+        if (isTimerCanceled) {
+            mTimer.cancel();
+        } else {
+            startTimerNotification();
+        }
     }
 
     @Override
