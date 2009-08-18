@@ -383,7 +383,9 @@ public class PhoneApp extends Application {
             }
 
             // register for MMI/USSD
-            phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
+            if (phone.getPhoneName().equals("GSM")) {
+                phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
+            }
 
             // register connection tracking to PhoneUtils
             PhoneUtils.initializeConnectionHandler(phone);
