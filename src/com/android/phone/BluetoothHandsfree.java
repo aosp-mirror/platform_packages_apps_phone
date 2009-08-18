@@ -19,6 +19,7 @@ package com.android.phone;
 import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothIntent;
@@ -99,6 +100,7 @@ public class BluetoothHandsfree {
     // for 3-way supported devices, this is after AT+CHLD
     // for non-3-way supported devices, this is after AT+CMER (see spec)
     private boolean mServiceConnectionEstablished;
+
     private final BluetoothPhoneState mBluetoothPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
     private Phone.State mPhoneState = Phone.State.IDLE;
@@ -156,9 +158,9 @@ public class BluetoothHandsfree {
     public BluetoothHandsfree(Context context, Phone phone) {
         mPhone = phone;
         mContext = context;
-        BluetoothDevice bluetooth =
-                (BluetoothDevice)context.getSystemService(Context.BLUETOOTH_SERVICE);
-        boolean bluetoothCapable = (bluetooth != null);
+        BluetoothAdapter adapter =
+                (BluetoothAdapter) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        boolean bluetoothCapable = (adapter != null);
         mHeadset = null;  // nothing connected yet
 
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -213,7 +215,8 @@ public class BluetoothHandsfree {
     /* package */ synchronized void onBluetoothDisabled() {
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
+                    mHeadset.getRemoteDevice());
             mConnectedSco.close();
             mConnectedSco = null;
         }
@@ -282,7 +285,7 @@ public class BluetoothHandsfree {
     }
 
     private void configAudioParameters() {
-        String name = mHeadset.getName();
+        String name = mHeadset.getRemoteDevice().getName();
         if (name == null) {
             name = "<unknown>";
         }
@@ -862,7 +865,8 @@ public class BluetoothHandsfree {
                             Log.i(TAG, "Routing audio for incoming SCO connection");
                             mConnectedSco = (ScoSocket)msg.obj;
                             mAudioManager.setBluetoothScoOn(true);
-                            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED, mHeadset.getAddress());
+                            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED,
+                                    mHeadset.getRemoteDevice());
                         } else {
                             Log.i(TAG, "Rejecting incoming SCO connection");
                             ((ScoSocket)msg.obj).close();
@@ -877,7 +881,8 @@ public class BluetoothHandsfree {
                         if (DBG) log("Routing audio for outgoing SCO conection");
                         mConnectedSco = (ScoSocket)msg.obj;
                         mAudioManager.setBluetoothScoOn(true);
-                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED, mHeadset.getAddress());
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED,
+                                mHeadset.getRemoteDevice());
                     } else if (msg.arg1 == ScoSocket.STATE_CONNECTED) {
                         if (DBG) log("Rejecting new connected outgoing SCO socket");
                         ((ScoSocket)msg.obj).close();
@@ -889,7 +894,8 @@ public class BluetoothHandsfree {
                     if (mConnectedSco == (ScoSocket)msg.obj) {
                         mConnectedSco = null;
                         mAudioManager.setBluetoothScoOn(false);
-                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
+                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
+                                mHeadset.getRemoteDevice());
                     } else if (mOutgoingSco == (ScoSocket)msg.obj) {
                         mOutgoingSco = null;
                     } else if (mIncomingSco == (ScoSocket)msg.obj) {
@@ -922,11 +928,11 @@ public class BluetoothHandsfree {
         return new ScoSocket(mPowerManager, mHandler, SCO_ACCEPTED, SCO_CONNECTED, SCO_CLOSED);
     }
 
-    private void broadcastAudioStateIntent(int state, String address) {
+    private void broadcastAudioStateIntent(int state, BluetoothDevice device) {
         if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
         Intent intent = new Intent(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
         intent.putExtra(BluetoothIntent.HEADSET_AUDIO_STATE, state);
-        intent.putExtra(BluetoothIntent.ADDRESS, address);
+        intent.putExtra(BluetoothIntent.DEVICE, device);
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
@@ -973,7 +979,7 @@ public class BluetoothHandsfree {
             return true;
         }
         mOutgoingSco = createScoSocket();
-        if (!mOutgoingSco.connect(mHeadset.getAddress())) {
+        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
             mOutgoingSco = null;
         }
 
@@ -1005,7 +1011,8 @@ public class BluetoothHandsfree {
 
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, mHeadset.getAddress());
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
+                    mHeadset.getRemoteDevice());
             mConnectedSco.close();
             mConnectedSco = null;
         }
