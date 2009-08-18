@@ -69,6 +69,7 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
             if (activateState || dialogState) {
                 if (dialogState) app.dismissOtaDialogs();
                 app.clearOtaState();
+                app.clearInCallScreenMode();
             } else if (isOtaCallActive) {
                 if (LOGV) Log.v(TAG, "OTA call is active, a 2nd CALL cancelled -- returning.");
                 return;

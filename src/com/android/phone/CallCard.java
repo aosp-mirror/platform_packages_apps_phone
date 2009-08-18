@@ -337,6 +337,7 @@ public class CallCard extends FrameLayout
 
         switch (state) {
             case ACTIVE:
+            case DISCONNECTING:
                 // update timer field
                 if (DBG) log("displayMainCallStatus: start periodicUpdateTimer");
                 mCallTime.setActiveCallMode(call);
@@ -586,7 +587,7 @@ public class CallCard extends FrameLayout
         // We display *either* the "upper title" or the "lower title", but
         // never both.
 
-        if (state == Call.State.ACTIVE) {
+        if ((state == Call.State.ACTIVE) || (state == Call.State.DISCONNECTING)) {
             final boolean bluetoothActive = mApplication.showBluetoothIndication();
             int ongoingCallIcon = bluetoothActive ? R.drawable.ic_incall_ongoing_bluetooth
                     : R.drawable.ic_incall_ongoing;
@@ -710,6 +711,10 @@ public class CallCard extends FrameLayout
             case INCOMING:
             case WAITING:
                 retVal = context.getString(R.string.card_title_incoming_call);
+                break;
+
+            case DISCONNECTING:
+                retVal = context.getString(R.string.card_title_hanging_up);
                 break;
 
             case DISCONNECTED:

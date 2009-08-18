@@ -195,7 +195,8 @@
             android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:screenOrientation="nosensor"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.android.phone.InCallScreen.SHOW_ACTIVATION" />
