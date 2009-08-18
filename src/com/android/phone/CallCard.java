@@ -1393,8 +1393,4 @@ public class CallCard extends FrameLayout
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
     }
-
-    private static void logErr(String msg) {
-        Log.e(LOG_TAG, msg);
-    }
 }
