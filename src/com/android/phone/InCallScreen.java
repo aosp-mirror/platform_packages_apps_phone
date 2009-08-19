@@ -102,7 +102,17 @@ public class InCallScreen extends Activity
      * extra is present, the dialpad will be initially shown if the extra
      * has the boolean value true, and initially hidden otherwise.)
      */
+    // TODO: Should be EXTRA_SHOW_DIALPAD for consistency.
     static final String SHOW_DIALPAD_EXTRA = "com.android.phone.ShowDialpad";
+
+    /**
+     * Intent extra to specify a RemoteViews (Parcelable) to be
+     * inflated in the provider's badge area during call setup. The
+     * badge indicates to the user that the outgoing call is being
+     * modified or re-routed in some way by a 3rd party app.
+     */
+    /* package */ static final String EXTRA_PROVIDER_BADGE =
+            "com.android.phone.extra.PROVIDER_BADGE";
 
     // Event values used with Checkin.Events.Tag.PHONE_UI events:
     /** The in-call UI became active */
