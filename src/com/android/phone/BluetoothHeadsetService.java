@@ -319,12 +319,16 @@ public class BluetoothHeadsetService extends Service {
     };
 
     private static final int RECONNECT_LAST_HEADSET = 1;
+    private static final int CONNECT_HEADSET_DELAYED = 2;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case RECONNECT_LAST_HEADSET:
                 autoConnectHeadset();
+                break;
+            case CONNECT_HEADSET_DELAYED:
+                getSdpRecordsAndConnect();
                 break;
             }
         }
@@ -470,7 +474,7 @@ public class BluetoothHeadsetService extends Service {
         }
     }
 
-    private void getSdpRecords() {
+    private void getSdpRecordsAndConnect() {
         String[] uuids = mRemoteDevice.getUuids();
         String savedUuid = null;
         boolean isHandsfree = false;
@@ -518,7 +522,7 @@ public class BluetoothHeadsetService extends Service {
         mRemoteDevice = mAutoConnectQueue.removeFirst();
         if (DBG) log("pulled " + mRemoteDevice + " off auto-connect queue");
         setState(BluetoothHeadset.STATE_CONNECTING);
-        getSdpRecords();
+        getSdpRecordsAndConnect();
 
         return true;
     }
@@ -554,7 +558,14 @@ public class BluetoothHeadsetService extends Service {
                 }
                 mRemoteDevice = device;
                 setState(BluetoothHeadset.STATE_CONNECTING);
-                getSdpRecords();
+                if (mRemoteDevice.getUuids() == null) {
+                    // We might not have got the UUID change notification from
+                    // Bluez yet, if we have just paired. Try after 1.5 secs.
+                    mHandler.sendMessageDelayed(
+                            mHandler.obtainMessage(CONNECT_HEADSET_DELAYED), 1500);
+                } else {
+                    getSdpRecordsAndConnect();
+                }
             }
             return true;
         }
