@@ -1406,6 +1406,7 @@ public class BluetoothHandsfree {
         parser.register("+CHUP", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
+                sendURC("OK");
                 if (!mRingingCall.isIdle()) {
                     PhoneUtils.hangupRingingCall(mPhone);
                 } else if (!mForegroundCall.isIdle()) {
@@ -1413,7 +1414,7 @@ public class BluetoothHandsfree {
                 } else if (!mBackgroundCall.isIdle()) {
                     PhoneUtils.hangupHoldingCall(mPhone);
                 }
-                return new AtCommandResult(AtCommandResult.OK);
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
 
