@@ -27,6 +27,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -162,6 +163,10 @@ public class PhoneApp extends Application {
     // mReceiver.onReceive().
     private boolean mIsHeadsetPlugged;
 
+    // True if the keyboard is currently *not* hidden
+    // Gets updated whenever there is a Configuration change
+    private boolean mIsHardKeyboardOpen;
+
     private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
     private boolean mIgnoreTouchUserActivity = false;
@@ -282,6 +287,8 @@ public class PhoneApp extends Application {
                         PhoneUtils.restoreSpeakerMode(getApplicationContext());
                     }
                     NotificationMgr.getDefault().updateSpeakerNotification();
+                    // Update the Proximity sensor based on headset state
+                    updateProximitySensorMode(phone.getState());
                     break;
 
                 case EVENT_SIM_STATE_CHANGED:
@@ -472,6 +479,19 @@ public class PhoneApp extends Application {
             phone.setTTYMode(settingsTtyMode, null);
         }
    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            mIsHardKeyboardOpen = true;
+        } else {
+            mIsHardKeyboardOpen = false;
+        }
+
+        // Update the Proximity sensor based on keyboard state
+        updateProximitySensorMode(phone.getState());
+        super.onConfigurationChanged(newConfig);
+    }
 
     /**
      * Returns the singleton instance of the PhoneApp.
@@ -1000,18 +1020,25 @@ public class PhoneApp extends Application {
      * enabled any time the phone is in use, to avoid false cheek events
      * for whatever app you happen to be running.
      *
-     * TODO: consider not holding the wake lock if the speakerphone is in
-     * use.  (Although this is probably irrelevant since you won't be
-     * holding the phone to your face in that case, and even so we don't
-     * care if the screen turns off...)
+     * Proximity wake lock will *not* be held if any one of the
+     * conditions is true while on a call:
+     * 1) If the audio is routed via Bluetooth
+     * 2) If a wired headset is connected
+     * 3) if the speaker is ON
+     * 4) If the slider is open(i.e. the hardkeyboard is *not* hidden)
      *
      * @param state current state of the phone (see {@link Phone#State})
      */
     /* package */ void updateProximitySensorMode(Phone.State state) {
         // TODO: Extra-verbose debugging is enabled here while tracking down bug 2028728
         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
+
         if (mProximityWakeLock != null) {
-            if (state == Phone.State.OFFHOOK) {
+            if ((state == Phone.State.OFFHOOK)
+                    && !(isHeadsetPlugged()
+                    || PhoneUtils.isSpeakerOn(this)
+                    || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                    || mIsHardKeyboardOpen)) {
                 // Phone is in use!  Arrange for the screen to turn off
                 // automatically when the sensor detects a close object.
                 if (!mProximityWakeLock.isHeld()) {
@@ -1137,6 +1164,9 @@ public class PhoneApp extends Application {
             if (isShowingCallScreen()) mInCallScreen.updateBluetoothIndication();
             mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
         }
+
+        // Update the Proximity sensor based on Bluetooth audio state
+        updateProximitySensorMode(phone.getState());
     }
 
     /**

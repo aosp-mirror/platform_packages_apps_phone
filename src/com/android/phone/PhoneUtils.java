@@ -52,6 +52,7 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -1459,6 +1460,9 @@ public class PhoneUtils {
         // in use.
         PhoneApp app = PhoneApp.getInstance();
         app.updateWakeState();
+
+        // Update the Proximity sensor based on speaker state
+        app.updateProximitySensorMode(app.phone.getState());
     }
 
     /**
