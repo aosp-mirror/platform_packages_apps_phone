@@ -96,6 +96,7 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                 // set to network
                 if (DBG) Log.d(LOG_TAG, "reason=" + reason + ", action=" + action
                         + ", number=" + number);
+                setSummaryOn("");
                 // the interface of Phone.setCallForwardingOption has error:
                 // should be action, reason...
                 phone.setCallForwardingOption(action,
@@ -161,9 +162,10 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                 if (DBG) Log.d(LOG_TAG, "handleGetCFResponse: ar.exception=" + ar.exception);
                 setEnabled(false);
                 tcpListener.onError(CallForwardEditPreference.this, EXCEPTION_ERROR);
-            } else if (ar.userObj instanceof Throwable) {
-                tcpListener.onError(CallForwardEditPreference.this, RESPONSE_ERROR);
             } else {
+                if (ar.userObj instanceof Throwable) {
+                    tcpListener.onError(CallForwardEditPreference.this, RESPONSE_ERROR);
+                }
                 CallForwardInfo cfInfoArray[] = (CallForwardInfo[]) ar.result;
                 if (cfInfoArray.length == 0) {
                     if (DBG) Log.d(LOG_TAG, "handleGetCFResponse: cfInfoArray.length==0");
