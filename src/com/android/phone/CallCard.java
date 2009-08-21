@@ -27,7 +27,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.pim.ContactsAsyncHelper;
-import android.provider.Contacts.People;
+import android.provider.ContactsContract.Contacts;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -1008,7 +1008,7 @@ public class CallCard extends FrameLayout
                     label = info.phoneLabel;
                 }
             }
-            personUri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
+            personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, info.person_id);
         } else {
             name =  getPresentationString(presentation);
         }
