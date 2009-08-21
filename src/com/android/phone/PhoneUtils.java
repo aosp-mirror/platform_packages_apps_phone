@@ -444,20 +444,23 @@ public class PhoneUtils {
             Connection cn = phone.dial(number);
             if (DBG) log("===> phone.dial() returned: " + cn);
 
-            // Presently, null is returned for MMI codes
+            // On GSM phones, null is returned for MMI codes
             if (cn == null) {
-                if (DBG) log("dialed MMI code: " + number);
-                status = CALL_STATUS_DIALED_MMI;
-                // Set dialed MMI command to service
-                if (mNwService != null) {
-                    try {
-                        mNwService.setMmiString(number);
-                        if (DBG) log("Extended NW bindService setUssdString (" + number + ")");
-                    } catch (RemoteException e) {
-                        mNwService = null;
+                if (phone.getPhoneName().equals("GSM")) {
+                    if (DBG) log("dialed MMI code: " + number);
+                    status = CALL_STATUS_DIALED_MMI;
+                    // Set dialed MMI command to service
+                    if (mNwService != null) {
+                        try {
+                            mNwService.setMmiString(number);
+                            if (DBG) log("Extended NW bindService setUssdString (" + number + ")");
+                        } catch (RemoteException e) {
+                            mNwService = null;
+                        }
                     }
+                } else {
+                    status = PhoneUtils.CALL_STATUS_FAILED;
                 }
-
             } else {
                 PhoneApp app = PhoneApp.getInstance();
 
