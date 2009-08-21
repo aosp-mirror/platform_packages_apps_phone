@@ -703,8 +703,12 @@ public class DTMFTwelveKeyDialer implements
      */
     public void startDialerSession() {
         // see if we need to play local tones.
-        mDTMFToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
-                Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
+        if (mPhone.getContext().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
+            mDTMFToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
+                    Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
+        } else {
+            mDTMFToneEnabled = false;
+        }
 
         // create the tone generator
         // if the mToneGenerator creation fails, just continue without it.  It is
