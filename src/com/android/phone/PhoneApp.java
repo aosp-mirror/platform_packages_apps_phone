@@ -736,6 +736,10 @@ public class PhoneApp extends Application {
         if (duration == mScreenTimeoutDuration) {
             return;
         }
+        // stick with default timeout if we are using the proximity sensor
+        if (proximitySensorModeEnabled()) {
+            return;
+        }
         mScreenTimeoutDuration = duration;
         updatePokeLock();
     }
@@ -1033,7 +1037,7 @@ public class PhoneApp extends Application {
         // TODO: Extra-verbose debugging is enabled here while tracking down bug 2028728
         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
 
-        if (mProximityWakeLock != null) {
+        if (proximitySensorModeEnabled()) {
             if ((state == Phone.State.OFFHOOK)
                     && !(isHeadsetPlugged()
                     || PhoneUtils.isSpeakerOn(this)
