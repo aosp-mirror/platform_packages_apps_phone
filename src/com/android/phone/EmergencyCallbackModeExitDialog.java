@@ -96,6 +96,18 @@ public class EmergencyCallbackModeExitDialog extends Activity {
         unregisterReceiver(mEcmExitReceiver);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mDialogType = savedInstanceState.getInt("DIALOG_TYPE");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("DIALOG_TYPE", mDialogType);
+    }
+
     /**
      * Waits until bind to the service completes
      */
