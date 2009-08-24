@@ -1047,7 +1047,7 @@ public class CallCard extends FrameLayout
             mPhoneNumber.setVisibility(View.GONE);
         }
 
-        if (label != null) {
+        if (label != null && !call.isGeneric()) {
             mLabel.setText(label);
             mLabel.setVisibility(View.VISIBLE);
         } else {

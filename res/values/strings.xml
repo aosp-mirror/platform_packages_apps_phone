@@ -1064,4 +1064,8 @@
 
     <!-- Title displayed above settings coming after voicemail in the call features screen -->
     <string name="other_settings">Other call settings</string>
+
+    <!-- For incoming calls, this is a string we can get from a CDMA network instead of
+         the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
+    <string name="absent_num">ABSENT NUMBER</string>
 </resources>

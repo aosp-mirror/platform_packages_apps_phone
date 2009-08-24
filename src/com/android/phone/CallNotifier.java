@@ -843,14 +843,12 @@ public class CallNotifier extends Handler
         }
 
         if (c != null) {
-            final String number = c.getAddress();
-            final int presentation = c.getNumberPresentation();
+            String number = c.getAddress();
+            int presentation = c.getNumberPresentation();
             if (DBG) log("- onDisconnect: presentation=" + presentation);
             final long date = c.getCreateTime();
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
-            // For international calls, 011 needs to be logged as +
-            final String cdmaLogNumber = c.isIncoming()? number : c.getOrigDialString();
 
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
             final int callLogType;
@@ -873,6 +871,16 @@ public class CallNotifier extends Handler
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
 
+                // Do final CNAP modifications of logNumber prior to logging
+                final String logNumber = PhoneUtils.modifyForSpecialCnapCases(
+                        mPhone.getContext(), ci, number, presentation);
+
+                // For international calls, 011 needs to be logged as +
+                final String cdmaLogNumber = c.isIncoming() ? logNumber : c.getOrigDialString();
+                final int newPresentation = (ci != null) ? ci.numberPresentation : presentation;
+                if (DBG) log("- onDisconnect(): cdmaLogNumber set to: " + cdmaLogNumber
+                        + ", newPresentation value is: " + newPresentation);
+
                 final String eNumber = c.getAddress();
                 if (mPhone.getPhoneName().equals("CDMA")) {
                     if ((PhoneNumberUtils.isEmergencyNumber(eNumber))
@@ -890,11 +898,11 @@ public class CallNotifier extends Handler
                                 // Don't put OTA or Emergency calls into call log
                                 if (!mPhone.isOtaSpNumber(eNumber)
                                         && !PhoneNumberUtils.isEmergencyNumber(eNumber)) {
-                                    Calls.addCall(ci, mApplication, cdmaLogNumber, presentation,
+                                    Calls.addCall(ci, mApplication, cdmaLogNumber, newPresentation,
                                             callLogType, date, (int) duration / 1000);
                                 }
                             } else {
-                                Calls.addCall(ci, mApplication, number, presentation,
+                                Calls.addCall(ci, mApplication, logNumber, newPresentation,
                                         callLogType, date, (int) duration / 1000);
                                 // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
                             }
