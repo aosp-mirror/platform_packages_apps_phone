@@ -25,13 +25,11 @@ import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaDisplayInf
 import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.gsm.GSMPhone;
+import com.android.internal.telephony.PhoneBase;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
@@ -199,13 +197,16 @@ public class CallNotifier extends Handler
             case PHONE_INCOMING_RING:
                 // repeat the ring when requested by the RIL, and when the user has NOT
                 // specifically requested silence.
-                if (msg.obj != null && ((AsyncResult) msg.obj).result != null &&
-                        ((GSMPhone)((AsyncResult) msg.obj).result).getState() == Phone.State.RINGING
-                        && mSilentRingerRequested == false) {
-                    if (DBG) log("RINGING... (PHONE_INCOMING_RING event)");
-                    mRinger.ring();
-                } else {
-                    if (DBG) log("RING before NEW_RING, skipping");
+                if (msg.obj != null && ((AsyncResult) msg.obj).result != null) {
+                    PhoneBase pb =  (PhoneBase)((AsyncResult)msg.obj).result;
+
+                    if ((pb.getState() == Phone.State.RINGING)
+                            && (mSilentRingerRequested == false)) {
+                        if (DBG) log("RINGING... (PHONE_INCOMING_RING event)");
+                        mRinger.ring();
+                    } else {
+                        if (DBG) log("RING before NEW_RING, skipping");
+                    }
                 }
                 break;
 
