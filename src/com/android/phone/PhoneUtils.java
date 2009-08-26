@@ -235,10 +235,6 @@ public class PhoneUtils {
         if (call != null && call.isRinging()) {
             if (DBG) log("answerCall: call state = " + call.getState());
             try {
-                //if (DBG) log("sPhone.acceptCall");
-                phone.acceptCall();
-                answered = true;
-                setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
                 if (phone.getPhoneName().equals("CDMA")) {
                     PhoneApp app = PhoneApp.getInstance();
                     if (app.cdmaPhoneCallState.getCurrentCallState()
@@ -262,6 +258,11 @@ public class PhoneUtils {
                         }
                     }
                 }
+
+                //if (DBG) log("sPhone.acceptCall");
+                phone.acceptCall();
+                answered = true;
+                setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
             }
