@@ -102,16 +102,12 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
 
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
         newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
-        // TODO: There should be an Intent method to selectively forward extras.
-        if (intent.hasExtra(InCallScreen.EXTRA_PROVIDER_BADGE)) {
-            newIntent.putExtra(
-                InCallScreen.EXTRA_PROVIDER_BADGE,
-                intent.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_BADGE));
-        }
+
+        PhoneUtils.copyPhoneProviderExtras(intent, newIntent);
+
         newIntent.setClass(context, InCallScreen.class);
         newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(newIntent);
     }
-
 }

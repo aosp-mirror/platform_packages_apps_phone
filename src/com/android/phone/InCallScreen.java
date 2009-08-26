@@ -33,6 +33,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,6 +114,15 @@ public class InCallScreen extends Activity
      */
     /* package */ static final String EXTRA_PROVIDER_BADGE =
             "com.android.phone.extra.PROVIDER_BADGE";
+
+    /**
+     * Intent extra to specify the number of the provider to place the
+     * call. Should not start with a 'tel:' scheme.  This is the
+     * number that will actually be dialed instead of the number
+     * passed in the intent URL or in the EXTRA_PHONE_NUMBER extra.
+     */
+    /* package */ static final String EXTRA_PROVIDER_NUMBER =
+            "com.android.phone.extra.PROVIDER_NUMBER";
 
     // Event values used with Checkin.Events.Tag.PHONE_UI events:
     /** The in-call UI became active */
@@ -2387,8 +2397,20 @@ public class InCallScreen extends Activity
         mNeedShowCallLostDialog = false;
 
         // We have a valid number, so try to actually place a call:
-        //make sure we pass along the URI as a reference to the contact.
-        int callStatus = PhoneUtils.placeCall(mPhone, number, intent.getData());
+        // make sure we pass along the intent's URI which is a
+        // reference to the contact. We may have a provider gateway
+        // phone number to use for the outgoing call.
+        int callStatus;
+        Uri contactUri = intent.getData();
+
+        if (intent.hasExtra(EXTRA_PROVIDER_NUMBER)) {
+            String gatewayNumber = intent.getStringExtra(EXTRA_PROVIDER_NUMBER);
+
+            callStatus = PhoneUtils.placeCallVia(mPhone, number, contactUri, gatewayNumber);
+        } else {
+            callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
+        }
+
         switch (callStatus) {
             case PhoneUtils.CALL_STATUS_DIALED:
                 if (VDBG) log("placeCall: PhoneUtils.placeCall() succeeded for regular call '"
