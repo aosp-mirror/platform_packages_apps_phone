@@ -434,7 +434,10 @@ public class PhoneUtils {
      * Dial the number using the phone passed in.
      *
      * @param phone the Phone object.
-     * @param number the number to be dialed.
+     * @param number to be dialed as requested by the user.
+     * @param contactRef that triggered the call. Either a 'tel:' or a
+     * 'content://contacts' uri depending on how the call was
+     * initiated (dialpad vs contact).
      * @return either CALL_STATUS_DIALED, CALL_STATUS_DIALED_MMI, or CALL_STATUS_FAILED
      */
     static int placeCall(Phone phone, String number, Uri contactRef) {
@@ -491,6 +494,9 @@ public class PhoneUtils {
                     if (userDataObject == null) {
                         cn.setUserData(contactRef);
                     } else {
+                        // TODO: This branch is dead code, we have
+                        // just created the connection 'cn' which has
+                        // no user data (null) by default.
                         if (userDataObject instanceof CallerInfo) {
                             ((CallerInfo) userDataObject).contactRefUri = contactRef;
                         } else {
@@ -507,6 +513,28 @@ public class PhoneUtils {
         }
 
         return status;
+    }
+
+    /**
+     * Dial the number using a 3rd party provider gateway.  If the
+     * original number was an MMI or emergency one, the call will not
+     * be routed throught the gateway.
+     *
+     * @param phone the Phone object.
+     * @param number to be dialed as requested by the user. This is
+     * NOT the phone number to connect to. It is used only to build the
+     * call card and to update the call log.
+     * @param contactRef that triggered the call. Typically a 'tel:'
+     * uri but can also be a 'content://contacts' one.
+     * @param gatewayNumber Is the phone number that will be dialed to
+     * setup the connection.
+     * @return either CALL_STATUS_DIALED, CALL_STATUS_DIALED_MMI, or CALL_STATUS_FAILED
+     */
+    static int placeCallVia(Phone phone, String number, Uri contactRef, String gatewayNumber) {
+        int status = CALL_STATUS_DIALED;
+
+        // TODO: refactor placeCall and implement.
+        throw new RuntimeException("Not implemented.");
     }
 
     static void switchHoldingAndActive(Phone phone) {
@@ -1823,6 +1851,30 @@ public class PhoneUtils {
             }
         }
         return number;
+    }
+
+    //
+    // Support for 3rd party phone service providers.
+    //
+
+    /**
+     * Copy all the expected extras set when a 3rd party provider is
+     * used from the source intent to the destination one.  Checks all
+     * the required extras are present, if any is missing, none will
+     * be copied.
+     * @param src Intent which may contain the provider's extras.
+     * @param dst Intent where a copy of the extras will be added if applicable.
+     */
+    /* package */ static void copyPhoneProviderExtras(Intent src, Intent dst) {
+        final boolean hasBadge = src.hasExtra(InCallScreen.EXTRA_PROVIDER_BADGE);
+        final boolean hasNumber = src.hasExtra(InCallScreen.EXTRA_PROVIDER_NUMBER);
+
+        if (hasBadge && hasNumber) {
+            dst.putExtra(InCallScreen.EXTRA_PROVIDER_BADGE,
+                         src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_BADGE));
+            dst.putExtra(InCallScreen.EXTRA_PROVIDER_NUMBER,
+                         src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_NUMBER));
+        }
     }
 
     //
