@@ -17,54 +17,31 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.app.ShutdownThread;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Typeface;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.content.pm.ResolveInfo;
 import android.os.AsyncResult;
-import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
-import android.os.Vibrator;
+import android.provider.Settings;
 
-import android.provider.Checkin;
-import android.telephony.ServiceState;
-import android.text.TextUtils;
-import android.text.method.DialerKeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.IWindowManager;
 
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ToggleButton;
-import android.widget.RelativeLayout;
-import android.widget.Chronometer;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Handles all OTA Call related logic and UI functionality.
@@ -73,6 +50,8 @@ import android.widget.Toast;
 
 public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
+    private static final String UNACTIVATED_MIN2_VALUE = "000000";
+    private static final String UNACTIVATED_MIN_VALUE = "1111110111";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     public static final int OTA_SHOW_ACTIVATION_SCREEN_OFF = 0;
@@ -142,6 +121,79 @@ public class OtaUtils {
         otaCallCardStub.inflate();
         readXmlSettings();
         initOtaInCallScreen();
+    }
+    
+    /**
+     * Returns true if the phone needs activation.
+     * 
+     * @param minString the phone's MIN configuration string
+     * @return true if phone needs activation
+     * @throws OtaConfigurationException if the string is invalid
+     */
+    public static boolean needsActivation(String minString) throws IllegalArgumentException {
+        if (minString == null || (minString.length() < 6)) {
+            throw new IllegalArgumentException();
+        }
+        return (minString.equals(UNACTIVATED_MIN_VALUE) 
+                || minString.substring(0,6).equals(UNACTIVATED_MIN2_VALUE))
+                || SystemProperties.getBoolean("test_cdma_setup", false);
+    }
+    
+    /**
+     * Starts the OTA provisioning call.  If the MIN isn't available yet, it returns false and adds
+     * an event to return the request to the calling app when it becomes available. 
+     * 
+     * @param context
+     * @param handler
+     * @param request
+     * @return true if we were able to launch Ota activity or it's not required; false otherwise
+     */
+    public static boolean maybeDoOtaCall(Context context, Handler handler, int request) {
+        PhoneApp app = PhoneApp.getInstance();
+        Phone phone = app.phone;
+
+        if (!isCdmaPhone()) {
+            if (DBG) Log.v("OtaUtils", "Can't run provisioning on a non-CDMA phone");
+            return true; // sanity check - a non-cdma phone doesn't need to run this
+        }
+
+        if (!phone.isMinInfoReady()) {
+            if (DBG) log("MIN is not ready. Registering to receive notification.");
+            phone.registerForSubscriptionInfoReady(handler, request, null);
+            return false;
+        }
+
+        phone.unregisterForSubscriptionInfoReady(handler);
+        String min = phone.getCdmaMin();
+
+        if (DBG) log("min_string: " + min);
+
+        boolean phoneNeedsActivation = false;
+        try {
+            phoneNeedsActivation = needsActivation(min);
+        } catch (IllegalArgumentException e) {
+            if (DBG) log("invalid MIN string, exit");
+            return true; // If the MIN string is wrong, there's nothing else we can do.
+        }
+
+        if (DBG) log("phoneNeedsActivation is set to " + phoneNeedsActivation);
+        
+        int otaShowActivationScreen = context.getResources().getInteger(
+                R.integer.OtaShowActivationScreen);
+
+        if (DBG) log("otaShowActivationScreen: " + otaShowActivationScreen);
+
+        if (phoneNeedsActivation && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
+            app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
+            Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
+            newIntent.setClass(context, InCallScreen.class);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(newIntent);
+            if (DBG) log("activation intent sent.");
+        } else {
+            if (DBG) log("activation intent NOT sent.");
+        }
+        return true;
     }
 
     private void setSpeaker(boolean state) {
@@ -773,5 +825,9 @@ public class OtaUtils {
 
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
+    }
+
+    public static boolean isCdmaPhone() {
+        return PhoneApp.getInstance().phone.getPhoneName().equals("CDMA");
     }
 }

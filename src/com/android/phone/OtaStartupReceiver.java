@@ -16,124 +16,84 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.cdma.CDMAPhone;
-import com.android.internal.telephony.Phone;
-
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 /*
- * Handles OTA Start procedure at phone power up.
- * At phone power up, if phone is not OTA provisioned (check MIN value of the Phone),
+ * Handles OTA Start procedure at phone power up. At phone power up, if phone is not OTA
+ * provisioned (check MIN value of the Phone) and 'device_provisioned' is not set,
  * OTA Activation screen is shown that helps user activate the phone
  */
-
 public class OtaStartupReceiver extends BroadcastReceiver {
+    private static final String TAG = "OtaStartupReceiver";
     private static final boolean DBG = (SystemProperties.getInt("ro.debuggable", 0) == 1);
-
-    static final String LOG_TAG = "OTAStartupReceiver";
-    private final String UNACTIVATED_MIN2_VALUE = "000000";
-    private final String UNACTIVATED_MIN_VALUE = "1111110111";
-    private boolean mPhoneNeedActivation = false;
-    private int mOtaShowActivationScreen = 0;
-    private  int mMin2 = 0;
-    private  int mMin = 0;
-    private  String mMin_string;
-    private  String mMin2_string;
-    private  int mTmpOtaShowActivationScreen;
+    private static final int MIN_READY = 10;
     private Context mContext;
-    private Phone mPhone;
-    private PhoneApp mApp;
-    private boolean mIsInitDone = false;
 
-    private final int MIN_READY = 1;
-
-    private Handler mHandler = new Handler () {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case MIN_READY:
-                if (!mIsInitDone) {
-                    tryInit();
-                }
-                break;
+                Log.v(TAG, "Attempting OtaActivation from handler");
+                OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
             }
         }
     };
 
     public void onReceive(Context context, Intent intent) {
-        if (DBG) log("onReceive()...");
-        mApp = PhoneApp.getInstance();
-        mPhone = mApp.phone;
         mContext = context;
 
-        if (!mPhone.getPhoneName().equals("CDMA")) {
-            if (DBG) log("OTAStartupReceiver: Not CDMA phone, no need to process OTA");
+        if (!OtaUtils.isCdmaPhone()) {
+            if (DBG) Log.d(TAG, "Not a CDMA phone, no need to process OTA");
             return;
         }
 
-        tryInit();
+        if (shouldPostpone(context)) {
+            if (DBG) Log.d(TAG, "Postponing CDMA provisioning until wizard runs");
+            return;
+        }
+
+        // The following depends on the phone process being persistent. Normally we can't
+        // expect a BroadcastReceiver to persist after returning from this function but it does
+        // because the phone activity is persistent.
+        OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
     }
-
-    private void tryInit() {
-        if (mPhone == null) {
-            Log.w(LOG_TAG, "mPhone is null somehow. Bailing out");
-            return;
+    
+    /**
+     * On devices that provide a phone initialization wizard (such as Google Setup Wizard), we 
+     * allow delaying CDMA OTA setup so it can be done in a single wizard. The wizard is responsible
+     * for (1) disabling itself once it has been run and/or (2) setting the 'device_provisioned' 
+     * flag to something non-zero and (3) calling the OTA Setup with the action below.
+     * 
+     * NB: Typical phone initialization wizards will install themselves as the homescreen
+     * (category "android.intent.category.HOME") with a priority higher than the default.  
+     * The wizard should set 'device_provisioned' when it completes, disable itself with the
+     * PackageManager.setComponentEnabledSetting() and then start home screen.
+     * 
+     * @return true if setup will be handled by wizard, false if it should be done now.
+     */
+    private boolean shouldPostpone(Context context) {
+        Intent intent = new Intent("android.intent.action.DEVICE_INITIALIZATION_WIZARD");
+        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent, 
+                PackageManager.MATCH_DEFAULT_ONLY);
+        boolean provisioned = Settings.Secure.getInt(context.getContentResolver(),
+                Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
+        String mode = SystemProperties.get("ro.setupwizard.mode", "REQUIRED");
+        boolean runningSetupWizard = "REQUIRED".equals(mode) || "OPTIONAL".equals(mode);
+        if (DBG) {
+            Log.v(TAG, "resolvInfo = " + resolveInfo + ", provisioned = " + provisioned 
+                    + ", runningSetupWizard = " + runningSetupWizard);
         }
-
-        if (!mPhone.isMinInfoReady()) {
-            if (DBG) log("MIN is not ready. Registering to receive notice.");
-            mPhone.registerForSubscriptionInfoReady(mHandler, MIN_READY, null);
-            return;
-        }
-
-        mIsInitDone = true;
-        mPhone.unregisterForSubscriptionInfoReady(mHandler);
-        mMin_string = mPhone.getCdmaMin();
-        if (DBG) log("OTAStartupReceiver: min_string: " + mMin_string);
-        if ((mMin_string != null) && (mMin_string.length() > 6)) {
-            mMin2_string = mMin_string.substring(0, 6);
-            if (DBG) log("OTAStartupReceiver: min2_string: " + mMin2_string);
-        } else {
-            if (DBG) log("OTAStartupReceiver: min_string is NULL or too short, exit");
-            return;
-        }
-
-        if ((mMin2_string.equals(UNACTIVATED_MIN2_VALUE))
-                || (mMin_string.equals(UNACTIVATED_MIN_VALUE))) {
-            mPhoneNeedActivation = true;
-            if (DBG) log("OTAStartupReceiver: mPhoneNeedActivation is set to TRUE");
-        } else {
-            if (DBG) log("OTAStartupReceiver: mPhoneNeedActivation is set to FALSE");
-        }
-
-        mTmpOtaShowActivationScreen =
-                mContext.getResources().getInteger(R.integer.OtaShowActivationScreen);
-        if (DBG) log("OTAStartupReceiver: tmpOtaShowActivationScreen: "
-                + mTmpOtaShowActivationScreen);
-        mOtaShowActivationScreen = mTmpOtaShowActivationScreen;
-        if (DBG) log("OTAStartupReceiver: mOtaShowActivationScreen: " + mOtaShowActivationScreen);
-
-        if ((mPhoneNeedActivation)
-                && (mOtaShowActivationScreen == OtaUtils.OTA_SHOW_ACTIVATION_SCREEN_ON)) {
-            if (DBG) log("OTAStartupReceiver: activation intent sent.");
-            mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
-            Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
-            newIntent.setClass(mContext, InCallScreen.class);
-            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(newIntent);
-        } else {
-            if (DBG) log("OTAStartupReceiver: activation intent NOT sent.");
-        }
-    }
-
-    private void log(String msg) {
-        Log.d(LOG_TAG, msg);
+        return resolveInfo != null && !provisioned && runningSetupWizard;
     }
 }
