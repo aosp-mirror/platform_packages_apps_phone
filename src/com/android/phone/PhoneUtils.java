@@ -1258,10 +1258,17 @@ public class PhoneUtils {
                         cit.currentInfo.numberPresentation);
 
                 cit.currentInfo.phoneNumber = number;
-                cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
-                        number, sCallerInfoQueryListener, c);
-                cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
-                cit.isFinal = false;
+                // For scenarios where we may receive a valid number from the network but a
+                // restricted/unavailable presentation, we do not want to perform a contact query
+                // (see note on isFinal above). So we set isFinal to true here as well.
+                if (cit.currentInfo.numberPresentation != Connection.PRESENTATION_ALLOWED) {
+                    cit.isFinal = true;
+                } else {
+                    cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
+                            number, sCallerInfoQueryListener, c);
+                    cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
+                    cit.isFinal = false;
+                }
             } else {
                 // This is the case where we are querying on a number that
                 // is null or empty, like a caller whose caller id is
@@ -1303,10 +1310,17 @@ public class PhoneUtils {
                     if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
                             + cit.currentInfo.cnapName
                             + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
-                    cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
-                            updatedNumber, sCallerInfoQueryListener, c);
-                    cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
-                    cit.isFinal = false;
+                    // For scenarios where we may receive a valid number from the network but a
+                    // restricted/unavailable presentation, we do not want to perform a contact query
+                    // (see note on isFinal above). So we set isFinal to true here as well.
+                    if (cit.currentInfo.numberPresentation != Connection.PRESENTATION_ALLOWED) {
+                        cit.isFinal = true;
+                    } else {
+                        cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
+                                updatedNumber, sCallerInfoQueryListener, c);
+                        cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
+                        cit.isFinal = false;
+                    }
                 } else {
                     if (DBG) log("startGetCallerInfo: No query to attach to, send trivial reply.");
                     if (cit.currentInfo == null) {
