@@ -2412,9 +2412,8 @@ public class InCallScreen extends Activity
         int callStatus;
         Uri contactUri = intent.getData();
 
-        if (intent.hasExtra(EXTRA_PROVIDER_NUMBER) &&
-            !(isEmergencyNumber || isEmergencyIntent)) {
-            // TODO: Should look for GSM MMI codes and CDMA feature codes as well above.
+        if (intent.hasExtra(EXTRA_PROVIDER_NUMBER) && !(isEmergencyNumber || isEmergencyIntent) &&
+            PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
             String gatewayNumber = intent.getStringExtra(EXTRA_PROVIDER_NUMBER);
 
             callStatus = PhoneUtils.placeCallVia(this, mPhone, number, contactUri, gatewayNumber);
