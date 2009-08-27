@@ -4634,7 +4634,10 @@ public class InCallScreen extends Activity
         final PhoneApp app = PhoneApp.getInstance();
 
         if (DBG) log("handleOtaCallEnd entering");
-        if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
+        if (((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
+                || ((app.cdmaOtaScreenState != null)
+                && (app.cdmaOtaScreenState.otaScreenState !=
+                    CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED)))
                 && ((app.cdmaOtaProvisionData != null)
                 && (!app.cdmaOtaProvisionData.inOtaSpcState))) {
             if (DBG) log("handleOtaCallEnd - Set OTA Call End stater");
