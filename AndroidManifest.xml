@@ -198,10 +198,17 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden"
             android:exported="false">
-            <intent-filter>
-                <action android:name="com.android.phone.InCallScreen.SHOW_ACTIVATION" />
-            </intent-filter>
         </activity>
+
+        <activity-alias android:name="InCallScreenOtaActivation"
+                android:targetActivity="InCallScreen"
+                android:permission="android.permission.PERFORM_CDMA_PROVISIONING"
+                android:excludeFromRecents="true">
+                <intent-filter>
+                    <action android:name="com.android.phone.InCallScreen.SHOW_ACTIVATION" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                </intent-filter>
+        </activity-alias>
 
         <!-- general settings -->
         <activity android:name="Settings" android:label="@string/settings_label">
