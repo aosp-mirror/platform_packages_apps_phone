@@ -31,7 +31,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.internal.telephony.Call;
 import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
@@ -664,6 +663,25 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      */
     public String getCdmaEriText() {
         return mPhone.getCdmaEriText();
+    }
+
+    /**
+     * Returns true if CDMA provisioning needs to run.
+     */
+    public boolean getCdmaNeedsProvisioning() {
+        if (getActivePhoneType() == GSM_PHONE) {
+            return false;
+        }
+
+        boolean needsProvisioning = false;
+        String cdmaMin = mPhone.getCdmaMin();
+        try {
+            needsProvisioning = OtaUtils.needsActivation(cdmaMin);
+        } catch (IllegalArgumentException e) {
+            // shouldn't get here unless hardware is misconfigured
+            Log.e(LOG_TAG, "CDMA MIN string " + ((cdmaMin == null) ? "was null" : "was too short"));
+        }
+        return needsProvisioning;
     }
 
     /**
