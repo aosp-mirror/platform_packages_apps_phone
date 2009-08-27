@@ -34,14 +34,10 @@
     <bool name="sim_network_unlock_allow_dismiss">true</bool>
 
     <!-- If true, enable the onscreen touch UI for incoming calls.
-         For now, enable this on *all* devices, even devices with hard
-         SEND/END keys.
-         TODO: need final decision on which devices should actually allow this.
-         TODO: maybe this can be determined algorithmically based on
-         specific properties of the device, perhaps by detecting the
-         presence of hard SEND/END keys.  (If so, we wouldn't need this
-         flag at all.) -->
-    <bool name="allow_incoming_call_touch_ui">true</bool>
+         This feature is necessary for devices with no hard SEND/END keys,
+         and optional on all other devices.  (For now, at least, it's
+         disabled by default and enabled only for specific products.) -->
+    <bool name="allow_incoming_call_touch_ui">false</bool>
 
     <!-- If true, enable the onscreen touch UI for regular "ongoing call"
          states of the in-call UI.
