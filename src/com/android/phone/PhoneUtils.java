@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.cdma.CdmaConnection;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -432,6 +434,30 @@ public class PhoneUtils {
     }
 
     /**
+     * For a CDMA phone, advance the call state upon making a new
+     * outgoing call.
+     *
+     * <pre>
+     *   IDLE -> SINGLE_ACTIVE
+     * or
+     *   SINGLE_ACTIVE -> THRWAY_ACTIVE
+     * </pre>
+     * @param app The phone instance.
+     */
+    static private void updateCdmaCallStateOnNewOutgoingCall(PhoneApp app) {
+        if (app.cdmaPhoneCallState.getCurrentCallState() ==
+            CdmaPhoneCallState.PhoneCallState.IDLE) {
+            // This is the first outgoing call. Set the Phone Call State to ACTIVE
+            app.cdmaPhoneCallState.setCurrentCallState(
+                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
+        } else {
+            // This is the second outgoing call. Set the Phone Call State to 3WAY
+            app.cdmaPhoneCallState.setCurrentCallState(
+                CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
+        }
+    }
+
+    /**
      * Dial the number using the phone passed in.
      *
      * @param phone the Phone object.
@@ -470,16 +496,7 @@ public class PhoneUtils {
                 PhoneApp app = PhoneApp.getInstance();
 
                 if (phone.getPhoneName().equals("CDMA")) {
-                    if (app.cdmaPhoneCallState.getCurrentCallState()
-                            == CdmaPhoneCallState.PhoneCallState.IDLE) {
-                        // This is the first outgoing call. Set the Phone Call State to ACTIVE
-                        app.cdmaPhoneCallState.setCurrentCallState(
-                                CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
-                    } else {
-                        // This is the second outgoing call. Set the Phone Call State to 3WAY
-                        app.cdmaPhoneCallState.setCurrentCallState(
-                                CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
-                    }
+                    updateCdmaCallStateOnNewOutgoingCall(app);
                 }
 
                 PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
@@ -517,25 +534,82 @@ public class PhoneUtils {
     }
 
     /**
-     * Dial the number using a 3rd party provider gateway.  If the
-     * original number was an MMI or emergency one, the call will not
-     * be routed throught the gateway.
+     * Dial the number using a 3rd party provider gateway.  Should
+     * *NOT* be called if the number is either:
+     * . An emergency one
+     * . A GSM MMI code
+     * . A CDMA feature code
+     * None of the above is  checked in this method, it's the caller's
+     * responsability to make sure the number is 'valid'.
+     *
+     * If the connection is establised, this method issues a sync call
+     * that may block to query the caller info.
+     * TODO: Change the logic to use the async query.
      *
      * @param phone the Phone object.
+     * @param context To perform the CallerInfo query.
      * @param number to be dialed as requested by the user. This is
      * NOT the phone number to connect to. It is used only to build the
-     * call card and to update the call log.
+     * call card and to update the call log. See above for restrictions.
      * @param contactRef that triggered the call. Typically a 'tel:'
      * uri but can also be a 'content://contacts' one.
      * @param gatewayNumber Is the phone number that will be dialed to
      * setup the connection.
-     * @return either CALL_STATUS_DIALED, CALL_STATUS_DIALED_MMI, or CALL_STATUS_FAILED
+     * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
-    static int placeCallVia(Phone phone, String number, Uri contactRef, String gatewayNumber) {
-        int status = CALL_STATUS_DIALED;
+    static int placeCallVia(Context context, Phone phone,
+                            String number, Uri contactRef, String gatewayNumber) {
+        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayNumber + "'");
 
-        // TODO: refactor placeCall and implement.
-        throw new RuntimeException("Not implemented.");
+        Connection connection;
+        try {
+            connection = phone.dial(gatewayNumber);
+        } catch (CallStateException ex) {
+            Log.e(LOG_TAG, "PhoneUtils: Exception dialing gateway", ex);
+            connection = null;
+        }
+
+        if (null == connection) {
+            Log.e(LOG_TAG, "PhoneUtils: Got null connection.");
+            return CALL_STATUS_FAILED;
+        }
+
+        PhoneApp app = PhoneApp.getInstance();
+        final boolean is_cdma = phone.getPhoneName().equals("CDMA");
+
+        if (is_cdma) {
+            updateCdmaCallStateOnNewOutgoingCall(app);
+        }
+        PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
+
+        // Clean up the number to be displayed.
+        if (is_cdma) {
+            number = CdmaConnection.formatDialString(number);
+        }
+        number = PhoneNumberUtils.extractNetworkPortion(number);
+        number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
+        number = PhoneNumberUtils.formatNumber(number);
+
+        // Get the caller info synchronously because we need the final
+        // CallerInfo object to update the dialed number with the one
+        // requested by the user (and not the provider's gateway number).
+        CallerInfo info = null;
+
+        if (ContentResolver.SCHEME_CONTENT.equals(contactRef.getScheme())) {
+            info = CallerInfo.getCallerInfo(context, contactRef);
+        }
+
+        // Fallback, lookup contact using the phone number if the
+        // contact's URI scheme was not content:// or if is was but
+        // the lookup failed.
+        if (null == info) {
+            info = CallerInfo.getCallerInfo(context, number);
+        }
+        info.phoneNumber = number;
+        connection.setUserData(info);
+
+        setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+        return CALL_STATUS_DIALED;
     }
 
     static void switchHoldingAndActive(Phone phone) {
@@ -1874,7 +1948,7 @@ public class PhoneUtils {
             dst.putExtra(InCallScreen.EXTRA_PROVIDER_BADGE,
                          src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_BADGE));
             dst.putExtra(InCallScreen.EXTRA_PROVIDER_NUMBER,
-                         src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_NUMBER));
+                         src.getStringExtra(InCallScreen.EXTRA_PROVIDER_NUMBER));
         }
     }
 
