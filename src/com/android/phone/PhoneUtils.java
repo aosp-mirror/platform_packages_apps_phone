@@ -1952,6 +1952,29 @@ public class PhoneUtils {
         }
     }
 
+    /**
+     * Check if a phone number can be route through a 3rd party
+     * gateway. The number must be a global phone number in numerical
+     * form (1-800-666-SEXY won't work).
+     *
+     * MMI codes and the like cannot be used as a dial number for the
+     * gateway either.
+     *
+     * @param number To be dialed via a 3rd party gateway.
+     * @return true If the number can be routed through the 3rd party network.
+     */
+    /* package */ static boolean isRoutableViaGateway(String number) {
+        if (TextUtils.isEmpty(number)) {
+            return false;
+        }
+        number = PhoneNumberUtils.stripSeparators(number);
+        if (!number.equals(PhoneNumberUtils.convertKeypadLettersToDigits(number))) {
+            return false;
+        }
+        number = PhoneNumberUtils.extractNetworkPortion(number);
+        return PhoneNumberUtils.isGlobalPhoneNumber(number);
+    }
+
     //
     // General phone and call state debugging/testing code
     //
