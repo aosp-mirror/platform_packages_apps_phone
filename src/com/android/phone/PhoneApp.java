@@ -57,6 +57,7 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.cdma.EriInfo;
+import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 /**
  * Top-level Application class for the Phone app.
@@ -619,11 +620,19 @@ public class PhoneApp extends Application {
      */
     void dismissCallScreen() {
         if (mInCallScreen != null) {
-            if (mInCallScreen.isOtaCallInActiveState() || mInCallScreen.isOtaCallInEndState()) {
+            if (mInCallScreen.isOtaCallInActiveState()
+                    || mInCallScreen.isOtaCallInEndState()
+                    || ((cdmaOtaScreenState != null)
+                    && (cdmaOtaScreenState.otaScreenState
+                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED))) {
                 // TODO(Moto): During OTA Call, display should not become dark to
                 // allow user to see OTA UI update. Phone app needs to hold a SCREEN_DIM_WAKE_LOCK
                 // wake lock during the entire OTA call.
                 wakeUpScreen();
+                // If InCallScreen is not in foreground we resume it to show the OTA call end screen
+                // Fire off the InCallScreen intent
+                displayCallScreen();
+
                 mInCallScreen.handleOtaCallEnd();
                 return;
             } else {
