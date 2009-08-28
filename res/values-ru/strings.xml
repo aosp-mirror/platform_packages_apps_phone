@@ -171,7 +171,6 @@
     <string name="vm_changed">"Номер голосовой почты изменен."</string>
     <string name="vm_change_failed">"Не удалось изменить номер голосовой почты."</string>
     <string name="no_change">"Номер не изменен."</string>
-    <string name="sum_voicemail">"Задать номер голосовой почты"</string>
     <string name="mobile_networks">"Настройки сотовой сети"</string>
     <string name="label_available">"Доступные сети"</string>
     <string name="load_networks_progress">"Поиск…"</string>

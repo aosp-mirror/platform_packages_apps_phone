@@ -171,7 +171,6 @@
     <string name="vm_changed">"语音信箱号码已更改。"</string>
     <string name="vm_change_failed">"语音信箱号码更改失败。"</string>
     <string name="no_change">"未做过更改。"</string>
-    <string name="sum_voicemail">"设置语音信箱号码"</string>
     <string name="mobile_networks">"移动网络设置"</string>
     <string name="label_available">"可用网络"</string>
     <string name="load_networks_progress">"正在搜索..."</string>

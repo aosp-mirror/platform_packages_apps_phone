@@ -181,7 +181,6 @@
     <string name="vm_changed">"O número do correio de voz foi alterado."</string>
     <string name="vm_change_failed">"A·alteração·do·número·do·correio·de·voz·falhou."</string>
     <string name="no_change">"Não foram efectuadas alterações."</string>
-    <string name="sum_voicemail">"Definir o número do correio de voz"</string>
     <string name="mobile_networks">"Definições da rede móvel"</string>
     <string name="label_available">"Redes disponíveis"</string>
     <string name="load_networks_progress">"A pesquisar..."</string>

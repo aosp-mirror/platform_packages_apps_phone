@@ -153,7 +153,6 @@
     <string name="vm_changed">"語音信箱號碼已變更。"</string>
     <string name="vm_change_failed">"語音信箱號碼變更失敗。"</string>
     <string name="no_change">"未變更設定。"</string>
-    <string name="sum_voicemail">"設定語音信箱號碼"</string>
     <string name="mobile_networks">"行動網路設定"</string>
     <string name="label_available">"可用網路"</string>
     <string name="load_networks_progress">"搜尋中..."</string>
