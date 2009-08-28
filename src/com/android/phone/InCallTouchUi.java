@@ -19,18 +19,16 @@ package com.android.phone;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.os.SystemProperties;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
 
 
@@ -41,7 +39,7 @@ import com.android.internal.telephony.Phone;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, View.OnTouchListener {
+        implements View.OnClickListener {
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1);
 
@@ -56,7 +54,7 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApplication;
 
     // UI containers / elements
-    private View mIncomingCallControls;  // UI elements used for an incoming call
+    private View mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mHoldButton;
@@ -79,9 +77,8 @@ public class InCallTouchUi extends FrameLayout
     private Drawable mShowDialpadIcon;
     private Drawable mHideDialpadIcon;
 
-    // Double-tap detection state
-    private long mLastTouchTime;  // in SystemClock.uptimeMillis() time base
-    private View mLastTouchView;
+    // Time of the most recent "answer" or "reject" action (see updateState())
+    private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
 
     // Overall enabledness of the "touch UI" features
     private boolean mAllowIncomingCallTouchUi;
@@ -125,15 +122,9 @@ public class InCallTouchUi extends FrameLayout
         if (DBG) log("InCallTouchUi onFinishInflate(this = " + this + ")...");
 
         // Look up the various UI elements.
-
-        // The containers:
-        mIncomingCallControls = findViewById(R.id.incomingCallControls);
+        mIncomingCallWidget = findViewById(R.id.incomingCallWidget);
+        ((IncomingCallDialWidget) mIncomingCallWidget).setInCallTouchUiInstance(this);
         mInCallControls = findViewById(R.id.inCallControls);
-
-        // "Double-tap" buttons, where we listen for raw touch events
-        // and possibly turn them into double-tap events:
-        mIncomingCallControls.findViewById(R.id.answerButton).setOnTouchListener(this);
-        mIncomingCallControls.findViewById(R.id.rejectButton).setOnTouchListener(this);
 
         // Regular (single-tap) buttons, where we listen for click events:
         // Main cluster of buttons:
@@ -187,6 +178,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         Phone.State state = phone.getState();  // IDLE, RINGING, or OFFHOOK
+        if (DBG) log("- updateState: phone state is " + state);
 
         boolean showIncomingCallControls = false;
         boolean showInCallControls = false;
@@ -194,8 +186,26 @@ public class InCallTouchUi extends FrameLayout
         if (state == Phone.State.RINGING) {
             // A phone call is ringing *or* call waiting.
             if (mAllowIncomingCallTouchUi) {
-                if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
-                showIncomingCallControls = true;
+                // Watch out: even if the phone state is RINGING, it's
+                // possible for the ringing call to be in the DISCONNECTING
+                // state.  (This typically happens immediately after the user
+                // rejects an incoming call, and in that case we *don't* show
+                // the incoming call controls.)
+                final Call ringingCall = phone.getRingingCall();
+                if (ringingCall.getState().isAlive()) {
+                    if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
+                    showIncomingCallControls = true;
+                }
+
+                // Ugly hack to cover up slow response from the radio:
+                // if we attempted to answer or reject an incoming call
+                // within the last 500 msec, *don't* show the incoming call
+                // UI even if the phone is still in the RINGING state.
+                long now = SystemClock.uptimeMillis();
+                if (now < mLastIncomingCallActionTime + 500) {
+                    log("updateState: Too soon after last action; not drawing!");
+                    showIncomingCallControls = false;
+                }
 
                 // TODO: UI design issue: if the device is NOT currently
                 // locked, we probably don't need to make the user
@@ -225,7 +235,7 @@ public class InCallTouchUi extends FrameLayout
             throw new IllegalStateException(
                 "'Incoming' and 'in-call' touch controls visible at the same time!");
         }
-        mIncomingCallControls.setVisibility(showIncomingCallControls ? View.VISIBLE : View.GONE);
+        mIncomingCallWidget.setVisibility(showIncomingCallControls ? View.VISIBLE : View.GONE);
         mInCallControls.setVisibility(showInCallControls ? View.VISIBLE : View.GONE);
 
         // TODO: As an optimization, also consider setting the visibility
@@ -239,15 +249,6 @@ public class InCallTouchUi extends FrameLayout
         if (DBG) log("onClick(View " + view + ", id " + id + ")...");
 
         switch (id) {
-            case R.id.answerButton:
-            case R.id.rejectButton:
-                // These are "double-tap" buttons; we should never get regular
-                // clicks from them.
-                Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
-                throw new IllegalStateException("Unexpected click from double-tap button");
-                // TODO: remove above "throw" after initial debugging.
-                // break;
-
             case R.id.holdButton:
             case R.id.swapButton:
             case R.id.endCallButton:
@@ -269,71 +270,6 @@ public class InCallTouchUi extends FrameLayout
                 // TODO: remove above "throw" after initial debugging.
                 // break;
         }
-    }
-
-    private void onDoubleTap(View view) {
-        int id = view.getId();
-        if (DBG) log("onDoubleTap(View " + view + ", id " + id + ")...");
-
-        switch (id) {
-            case R.id.answerButton:
-            case R.id.rejectButton:
-                // Pass these clicks on to the InCallScreen.
-                mInCallScreen.handleOnscreenButtonClick(id);
-                break;
-
-            default:
-                Log.w(LOG_TAG, "onDoubleTap: unexpected double-tap: View " + view + ", id " + id);
-                throw new IllegalStateException("Unexpected double-tap event");
-                // TODO: remove above "throw" after initial debugging.
-                // break;
-        }
-    }
-
-    // View.OnTouchListener implementation
-    public boolean onTouch(View v, MotionEvent event) {
-        if (DBG) log ("onTouch(View " + v + ")...");
-
-        // Look for double-tap events.
-
-        // TODO: it's a little ugly to do the double-tap detection right
-        // here; consider extracting it out to a helper class that can
-        // listen for double-taps on arbitrary View(s), or maybe even
-        // a whole new "DoubleTapButton" widget.
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            long now = SystemClock.uptimeMillis();
-            if (DBG) log("- InCallTouchUi: handling a DOWN event, t = " + now);
-
-            // Look for a double-tap on a particular View:
-            if ((v == mLastTouchView)
-                && (now < (mLastTouchTime
-                           + ViewConfiguration.getDoubleTapTimeout()))) {
-                if (DBG) log("==> InCallTouchUi: DOUBLE-TAP!");
-                onDoubleTap(v);
-
-                // Since we (presumably) just answered or rejected an
-                // incoming call, that means the phone state is about to
-                // change.  The in-call touch UI will update itself as
-                // soon as the phone state change event gets back to the
-                // InCallScreen (which will ultimately trigger an
-                // updateScreen() call here.)
-                // TODO: But also, consider explicitly starting some
-                // fancier animation here, like fading out the
-                // answer/decline buttons, or sliding them offscreen...
-            }
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            // Stash away the view that was touched and the current
-            // time in case this is the first tap of a double-tap
-            // gesture.  (We measure the time from the first tap's UP
-            // to the second tap's DOWN.)
-            mLastTouchTime = SystemClock.uptimeMillis();
-            mLastTouchView = v;
-        }
-
-        // And regardless of what just happened, we *always*
-        // consume touch events here.
-        return true;
     }
 
     /**
@@ -373,10 +309,12 @@ public class InCallTouchUi extends FrameLayout
                 // The Hold button can be either "Hold" or "Unhold":
                 if (inCallControlState.onHold) {
                     mHoldButton.setText(R.string.onscreenUnholdText);
-                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mUnholdIcon, null, null);
+                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mUnholdIcon,
+                                                                        null, null);
                 } else {
                     mHoldButton.setText(R.string.onscreenHoldText);
-                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon, null, null);
+                    mHoldButton.setCompoundDrawablesWithIntrinsicBounds(null, mHoldIcon,
+                                                                        null, null);
                 }
             } else {
                 // Neither "Swap" nor "Hold" is available.  (This happens in
@@ -459,7 +397,6 @@ public class InCallTouchUi extends FrameLayout
                 showManageConferenceTouchButton ? View.VISIBLE : View.GONE);
     }
 
-
     //
     // InCallScreen API
     //
@@ -472,14 +409,63 @@ public class InCallTouchUi extends FrameLayout
         return mAllowInCallTouchUi;
     }
 
+    //
+    // IncomingCallDialWidget API
+    //
+
+    /*
+     * "Answer" and "Reject" actions for an incoming call.
+     * These methods are the API used by the IncomingCallDialWidget
+     * when the user triggers an action.
+     *
+     * To answer or reject the incoming call, we call
+     * InCallScreen.handleOnscreenButtonClick() and pass one of the
+     * special "virtual button" IDs:
+     *   - R.id.answerButton to answer the call
+     * or
+     *   - R.id.rejectButton to reject the call.
+     */
+
+    /* package */ void answerIncomingCall() {
+        if (DBG) log("answerIncomingCall()...");
+
+        // Immediately hide the incoming call UI.
+        mIncomingCallWidget.setVisibility(View.GONE);
+        // ...and also prevent it from reappearing right away.
+        // (This covers up a slow response from the radio; see updateState().)
+        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
+
+        // Do the appropriate action.
+        if (mInCallScreen != null) {
+            // Send this to the InCallScreen as a virtual "button click" event:
+            mInCallScreen.handleOnscreenButtonClick(R.id.answerButton);
+        } else {
+            Log.e(LOG_TAG, "answerIncomingCall: mInCallScreen is null");
+        }
+    }
+
+    /* package */ void rejectIncomingCall() {
+        if (DBG) log("rejectIncomingCall()...");
+
+        // Immediately hide the incoming call UI.
+        mIncomingCallWidget.setVisibility(View.GONE);
+        // ...and also prevent it from reappearing right away.
+        // (This covers up a slow response from the radio; see updateState().)
+        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
+
+        // Do the appropriate action.
+        if (mInCallScreen != null) {
+            // Send this to the InCallScreen as a virtual "button click" event:
+            mInCallScreen.handleOnscreenButtonClick(R.id.rejectButton);
+        } else {
+            Log.e(LOG_TAG, "rejectIncomingCall: mInCallScreen is null");
+        }
+    }
+
 
     // Debugging / testing code
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
-    }
-
-    private static void logErr(String msg) {
-        Log.e(LOG_TAG, msg);
     }
 }

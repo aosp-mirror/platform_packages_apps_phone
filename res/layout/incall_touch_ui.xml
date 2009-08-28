@@ -20,7 +20,7 @@
      non-touch-sensitive parts of the in-call UI (i.e. the call card).
 
      The top-level View here is a FrameLayout with 2 children:
-       (1) incomingCallControls: the widgets visible while an incoming call is ringing
+       (1) incomingCallWidget: the UI displayed while an incoming call is ringing
        (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
      Exactly one of these is visible at any given moment.
      -->
@@ -30,69 +30,14 @@
     >
 
     <!--
-        (1) incomingCallControls: the widgets visible while an incoming call is ringing
+        (1) incomingCallWidget: the UI displayed while an incoming call is ringing
     -->
-    <LinearLayout android:id="@+id/incomingCallControls"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:orientation="vertical"
-                  android:visibility="gone"
-                  >
-
-        <!-- Blank space on the top 2/3 of the screen. -->
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:layout_weight="2"
-            android:visibility="invisible"
-            />
-
-        <!-- Lower third of the screen, with "Answer" and "Decline" buttons. -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            >
-            <View
-                android:layout_height="fill_parent"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                />
-            <!-- "Answer" button -->
-            <TextView android:id="@+id/answerButton"
-                style="@style/IncomingCallTouchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="@string/onscreenAnswerText"
-                android:layout_marginTop="20dip"
-                android:layout_marginBottom="20dip"
-                />
-            <View
-                android:layout_height="fill_parent"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                />
-            <!-- "Reject" button -->
-            <TextView android:id="@+id/rejectButton"
-                style="@style/IncomingCallTouchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="@string/onscreenRejectText"
-                android:layout_marginTop="20dip"
-                android:layout_marginBottom="20dip"
-                />
-            <View
-                android:layout_height="fill_parent"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
+    <com.android.phone.IncomingCallDialWidget
+        android:id="@+id/incomingCallWidget"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        />
 
     <!--
         (2) inCallControls: the widgets visible while a regular call
