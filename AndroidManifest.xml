@@ -4,9 +4,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@
     <protected-broadcast android:name="android.intent.action.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS" />
     <protected-broadcast android:name="android.intent.action.ACTION_MDN_STATE_CHANGED" />
     <protected-broadcast android:name="android.provider.Telephony.SPN_STRINGS_UPDATED" />
-    
+
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
@@ -222,7 +222,7 @@
         <!-- networks setting -->
         <!-- service to handle network query requests sent to RIL -->
         <service android:name="NetworkQueryService" />
-        
+
         <activity android:name="NetworkSetting" android:label="@string/networks">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -278,7 +278,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        
+
         <!-- fdn setting -->
         <activity android:name="FdnSetting" android:label="@string/fdn">
             <intent-filter>
@@ -310,10 +310,10 @@
         <activity android:name="EditFdnContactScreen">
         </activity>
 
-        <activity android:name="DeleteFdnContactScreen" 
+        <activity android:name="DeleteFdnContactScreen"
         android:label="@string/delete_fdn_contact">
         </activity>
-        
+
         <activity android:name="DataRoamingReenable" android:label="@string/android:dialog_alert_title"
             android:theme="@android:style/Theme.Dialog">
             <intent-filter>
@@ -334,6 +334,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -342,7 +343,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance">
         </activity>
-        
+
         <!-- bluetooth headset service -->
         <service android:name="BluetoothHeadsetService">
             <intent-filter>
