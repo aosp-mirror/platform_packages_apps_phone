@@ -45,6 +45,7 @@ import android.text.TextUtils;
 
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ListAdapter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,17 +58,21 @@ public class CallFeaturesSetting extends PreferenceActivity
         EditPhoneNumberPreference.OnDialogClosedListener,
         EditPhoneNumberPreference.GetDefaultNumberListener{
 
-    // intent action for this activity.
+    // intent action to bring up voice mail settings
     public static final String ACTION_ADD_VOICEMAIL =
         "com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL";
+    // intent action sent by this activity to a voice mail provider
+    // to trigger its configuration UI
     public static final String ACTION_CONFIGURE_VOICEMAIL =
         "com.android.phone.CallFeaturesSetting.CONFIGURE_VOICEMAIL";
+    // Extra put in the return from VM provider config containing voicemail number to set
+    public static final String VM_NUMBER_EXTRA = "com.android.phone.VoicemailNumber";
 
     // debug data
     private static final String LOG_TAG = "CallFeaturesSetting";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
-    // string contants
+    // string constants
     private static final String NUM_PROJECTION[] = {PhonesColumns.NUMBER};
 
     // String keys for preference lookup
@@ -213,6 +218,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
             updateVMPreferenceWidgets((String)objValue);
+            // If we were called to explicitly configure voice mail then force the user into
+            // a configuration of the chosen provider right after the chose the provider
+            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+                simulatePreferenceClick(mVoicemailSettings);
+            }
         }
         // always let the preference setting proceed.
         return true;
@@ -286,7 +296,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 if (DBG) log("onActivityResult: vm provider cfg result has no data");
                 return;
             }
-            String vmNum = data.getStringExtra("vmnum");
+            String vmNum = data.getStringExtra(VM_NUMBER_EXTRA);
             if (vmNum == null) {
                 if (DBG) log("onActivityResult: vm provider cfg result has no vmnum");
                 return;
@@ -477,6 +487,10 @@ public class CallFeaturesSetting extends PreferenceActivity
                 finish();
                 break;
             default:
+                // If we were called to explicitly configure voice mail then finish here
+                if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+                    finish();
+                }
                 // just let the dialog close and go back to the input
                 // ready state
                 // Positive Button
@@ -580,8 +594,17 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         // check the intent that started this activity and pop up the voicemail
         // dialog if we've been asked to.
-        if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
-            mSubMenuVoicemailSettings.showPhoneNumberDialog();
+        // If we have at least one non default VM provider registered then bring up
+        // the selection for the VM provider, otherwise bring up a VM number dialog.
+        // We only bring up the dialog the first time we are called (not after orientation change)
+        if (icicle == null) {
+            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+                if (mVMProvidersData.size() > 1) {
+                    simulatePreferenceClick(mVoicemailProviders);
+                } else {
+                    mSubMenuVoicemailSettings.showPhoneNumberDialog();
+                }
+            }
         }
         updateVoiceNumberField();
     }
@@ -737,8 +760,18 @@ public class CallFeaturesSetting extends PreferenceActivity
     /**
      * Enumerates existing VM providers and puts their data into the list and populates
      * the preference list objects with their names.
+     * In case we are called with ACTION_ADD_VOICEMAIL intent the intent may have
+     * an extra string called "providerToIgnore" with "package.activityName" of the provider
+     * which should be hidden when we bring up the list of possible VM providers to choose.
+     * This allows a provider which is being disabled (e.g. GV user logging out) to force the user
+     * to pick some other provider.
      */
     private void initVoiceMailProviders() {
+        String providerToIgnore = null;
+        if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+            providerToIgnore = getIntent().getStringExtra("providerToIgnore");
+        }
+
         mVMProvidersData.clear();
 
         // Stick the default element which is always there
@@ -750,31 +783,72 @@ public class CallFeaturesSetting extends PreferenceActivity
         Intent intent = new Intent();
         intent.setAction(ACTION_CONFIGURE_VOICEMAIL);
         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, 0);
+        int len = resolveInfos.size() + 1; // +1 for the default choice we will insert.
 
-        final int len = resolveInfos.size() + 1;
-        String [] entries = new String [len];
-        String [] values = new String [len];
-        entries[0] = myCarrier;
-        values[0] = "";
+        // Go through the list of discovered providers populating the data map
+        // skip the provider we were instructed to ignore if there was one
         for (int i = 0; i < resolveInfos.size(); i++) {
             final ResolveInfo ri= resolveInfos.get(i);
+            final ActivityInfo currentActivityInfo = ri.activityInfo;
+            final String key = makeKeyForActivity(currentActivityInfo);
+            if (key.equals(providerToIgnore)) {
+                len--;
+                continue;
+            }
             final String nameForDisplay = ri.loadLabel(pm).toString();
-            ActivityInfo currentActivityInfo = ri.activityInfo;
             Intent providerIntent = new Intent();
             providerIntent.setAction(ACTION_CONFIGURE_VOICEMAIL);
             providerIntent.setClassName(currentActivityInfo.packageName,
                     currentActivityInfo.name);
-            final String key = currentActivityInfo.packageName + "." + currentActivityInfo.name;
             mVMProvidersData.put(
                     key,
                     new VoiceMailProvider(nameForDisplay, providerIntent));
-            entries[i + 1] = nameForDisplay;
-            values[i + 1] = key;
+
+        }
+
+        // Now we know which providers to display - create entries and values array for
+        // the list preference
+        String [] entries = new String [len];
+        String [] values = new String [len];
+        entries[0] = myCarrier;
+        values[0] = "";
+        int entryIdx = 1;
+        for (int i = 0; i < resolveInfos.size(); i++) {
+            final String key = makeKeyForActivity(resolveInfos.get(i).activityInfo);
+            if (!mVMProvidersData.containsKey(key)) {
+                continue;
+            }
+            entries[entryIdx] = mVMProvidersData.get(key).name;
+            values[entryIdx] = key;
+            entryIdx++;
         }
 
         mVoicemailProviders.setEntries(entries);
         mVoicemailProviders.setEntryValues(values);
 
         updateVMPreferenceWidgets(mVoicemailProviders.getValue());
+    }
+
+    private String makeKeyForActivity(ActivityInfo ai) {
+        return ai.packageName + "." + ai.name;
+    }
+
+    /**
+     * Simulates user clicking on a passed preference.
+     * Usually needed when the preference is a dialog preference and we want to invoke
+     * a dialog for this preference programmatically.
+     * TODO(iliat): figure out if there is a cleaner way to cause preference dlg to come up
+     */
+    private void simulatePreferenceClick(Preference preference) {
+        // Go through settings until we find our setting
+        // and then simulate a click on it to bring up the dialog
+        final ListAdapter adapter = getPreferenceScreen().getRootAdapter();
+        for (int idx = 0; idx < adapter.getCount(); idx++) {
+            if (adapter.getItem(idx) == preference) {
+                getPreferenceScreen().onItemClick(this.getListView(),
+                        null, idx, adapter.getItemId(idx));
+                break;
+            }
+        }
     }
 }
