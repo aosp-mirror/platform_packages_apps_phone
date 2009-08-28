@@ -2948,8 +2948,7 @@ public class InCallScreen extends Activity
             // methods into a separate helper that takes an ID (of either a menu
             // item *or* touch button) and does the appropriate user action.
 
-            // The two "double-tap buttons" displayed while an incoming
-            // call is ringing:
+            // Actions while an incoming call is ringing:
             case R.id.answerButton:
                 internalAnswerCall();
                 break;
@@ -3935,7 +3934,7 @@ public class InCallScreen extends Activity
     /**
      * @return true if the in-call DTMF dialpad should be available to the
      *      user, given the current state of the phone and the in-call UI.
-     *      (This is used to control the visiblity of the dialer's
+     *      (This is used to control the visibility of the dialer's
      *      SlidingDrawer handle, and the enabledness of the "Show
      *      dialpad" menu item.)
      */
@@ -4047,7 +4046,7 @@ public class InCallScreen extends Activity
                 // Update CallCard-related stuff
                 inCallScreen.mCallCard.updateForLandscapeMode();
 
-                // No need to adjust the visiblity for mDTMFDisplay here because
+                // No need to adjust the visibility for mDTMFDisplay here because
                 // we're relying on the resources (layouts in layout-finger vs.
                 // layout-land-finger) to manage when mDTMFDisplay is shown.
             }
