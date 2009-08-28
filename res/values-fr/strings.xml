@@ -153,7 +153,6 @@
     <string name="vm_changed">"Le numéro de messagerie vocale a été modifié."</string>
     <string name="vm_change_failed">"Échec de la modification du numéro de messagerie vocale."</string>
     <string name="no_change">"Aucune modification n\'a été apportée."</string>
-    <string name="sum_voicemail">"Définir numéro messagerie vocale"</string>
     <string name="mobile_networks">"Paramètres du réseau mobile"</string>
     <string name="label_available">"Réseaux disponibles"</string>
     <string name="load_networks_progress">"Recherche..."</string>

@@ -153,7 +153,6 @@
     <string name="vm_changed">"Numer poczty głosowej został zmieniony."</string>
     <string name="vm_change_failed">"Zmiana numeru poczty głosowej zakończona niepowodzeniem."</string>
     <string name="no_change">"Nie dokonano żadnych zmian."</string>
-    <string name="sum_voicemail">"Ustaw numer poczty głosowej"</string>
     <string name="mobile_networks">"Ustawienia sieci komórkowej"</string>
     <string name="label_available">"Dostępne sieci"</string>
     <string name="load_networks_progress">"Wyszukiwanie..."</string>

@@ -171,7 +171,6 @@
     <string name="vm_changed">"ボイスメールの番号が変更されました。"</string>
     <string name="vm_change_failed">"ボイスメールの番号を変更できませんでした。"</string>
     <string name="no_change">"変更されていません。"</string>
-    <string name="sum_voicemail">"ボイスメールの番号設定"</string>
     <string name="mobile_networks">"モバイルネットワーク設定"</string>
     <string name="label_available">"利用可能なネットワーク"</string>
     <string name="load_networks_progress">"検索中..."</string>

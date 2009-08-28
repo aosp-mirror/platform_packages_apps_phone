@@ -171,7 +171,6 @@
     <string name="vm_changed">"Telefonsvarernummeret ble endret."</string>
     <string name="vm_change_failed">"Kunne ikke endre telefonsvarernummeret."</string>
     <string name="no_change">"Ingen endringer ble utført."</string>
-    <string name="sum_voicemail">"Velg telefonsvarernummer"</string>
     <string name="mobile_networks">"Innstillinger for mobilt nettverk"</string>
     <string name="label_available">"Tilgjengelige nettverk"</string>
     <string name="load_networks_progress">"Søker…"</string>
