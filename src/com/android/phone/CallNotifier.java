@@ -1147,7 +1147,7 @@ public class CallNotifier extends Handler
                     break;
                 case TONE_CALL_ENDED:
                     toneType = ToneGenerator.TONE_PROP_PROMPT;
-                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                     toneLengthMillis = 2000;
                     break;
                  case TONE_OTA_CALL_END:
@@ -1158,7 +1158,7 @@ public class CallNotifier extends Handler
                         toneLengthMillis = 5000;
                     } else {
                         toneType = ToneGenerator.TONE_PROP_PROMPT;
-                        toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                        toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                         toneLengthMillis = 2000;
                     }
                     break;
@@ -1254,8 +1254,10 @@ public class CallNotifier extends Handler
                             okToPlayTone = true;
                             needToStopTone = false;
                         }
+                    } else { // For the rest of the tones, always OK to play.
+                        okToPlayTone = true;
                     }
-                } else {
+                } else {  // Not "CDMA"
                     okToPlayTone = true;
                 }
 
