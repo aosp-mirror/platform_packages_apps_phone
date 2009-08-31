@@ -43,6 +43,7 @@ import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 
@@ -130,6 +131,8 @@ public class CallNotifier extends Handler
     private static final int TONE_RELATIVE_VOLUME_SIGNALINFO = 80;
 
     // Additional members for CDMA
+    // TODO: Replace all instance of the string based "CDMA" tests with this boolean.
+    private boolean mPhoneIsCdma = false;
     private Call.State mPreviousCdmaCallState;
     private boolean mCdmaVoicePrivacyState = false;
     private boolean mIsCdmaRedialCall = false;
@@ -144,6 +147,7 @@ public class CallNotifier extends Handler
         mApplication = app;
 
         mPhone = phone;
+        mPhoneIsCdma = mPhone.getPhoneName().equals("CDMA");
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
@@ -737,7 +741,7 @@ public class CallNotifier extends Handler
 
         mCdmaVoicePrivacyState = false;
         int autoretrySetting = 0;
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhoneIsCdma) {
             autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
                     getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
         }
@@ -746,7 +750,7 @@ public class CallNotifier extends Handler
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
         }
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhoneIsCdma) {
             // Stop any signalInfo tone being played when a call gets ended
             stopSignalInfoTone();
         }
@@ -844,9 +848,7 @@ public class CallNotifier extends Handler
         }
 
         if (c != null) {
-            String number = c.getAddress();
-            int presentation = c.getNumberPresentation();
-            if (DBG) log("- onDisconnect: presentation=" + presentation);
+            final String number = c.getAddress();
             final long date = c.getCreateTime();
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
@@ -862,54 +864,42 @@ public class CallNotifier extends Handler
             }
             if (VDBG) log("- callLogType: " + callLogType + ", UserData: " + c.getUserData());
 
-            // Get the CallerInfo object and then log the call with it.
-            {
-                Object o = c.getUserData();
-                final CallerInfo ci;
-                if ((o == null) || (o instanceof CallerInfo)) {
-                    ci = (CallerInfo) o;
-                } else {
-                    ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
-                }
 
-                // Do final CNAP modifications of logNumber prior to logging
-                final String logNumber = PhoneUtils.modifyForSpecialCnapCases(
-                        mPhone.getContext(), ci, number, presentation);
+            {
+                final CallerInfo ci = getCallerInfoFromConnection(c);  // May be null.
+                final String logNumber = getLogNumber(c, ci);
+
+                if (DBG) log("- onDisconnect(): logNumber set to: " + logNumber);
+
+                // TODO: In getLogNumber we use the presentation from
+                // the connection for the CNAP. Should we use the one
+                // below instead? (comes from caller info)
 
                 // For international calls, 011 needs to be logged as +
-                final String cdmaLogNumber = c.isIncoming() ? logNumber : c.getOrigDialString();
-                final int newPresentation = (ci != null) ? ci.numberPresentation : presentation;
-                if (DBG) log("- onDisconnect(): cdmaLogNumber set to: " + cdmaLogNumber
-                        + ", newPresentation value is: " + newPresentation);
+                final int presentation = getPresentation(c, ci);
 
-                final String eNumber = c.getAddress();
-                if (mPhone.getPhoneName().equals("CDMA")) {
-                    if ((PhoneNumberUtils.isEmergencyNumber(eNumber))
+                if (mPhoneIsCdma) {
+                    if ((PhoneNumberUtils.isEmergencyNumber(number))
                             && (mCurrentEmergencyToneState != EMERGENCY_TONE_OFF)) {
                         if (mEmergencyTonePlayerVibrator != null) {
                             mEmergencyTonePlayerVibrator.stop();
                         }
                     }
                 }
-                // Watch out: Calls.addCall() hits the Contacts database,
-                // so we shouldn't call it from the main thread.
-                Thread t = new Thread() {
-                        public void run() {
-                            if (mPhone.getPhoneName().equals("CDMA")) {
-                                // Don't put OTA or Emergency calls into call log
-                                if (!mPhone.isOtaSpNumber(eNumber)
-                                        && !PhoneNumberUtils.isEmergencyNumber(eNumber)) {
-                                    Calls.addCall(ci, mApplication, cdmaLogNumber, newPresentation,
-                                            callLogType, date, (int) duration / 1000);
-                                }
-                            } else {
-                                Calls.addCall(ci, mApplication, logNumber, newPresentation,
-                                        callLogType, date, (int) duration / 1000);
+
+                // Don't put OTA or Emergency calls into call log
+                if (!mPhone.isOtaSpNumber(number) && !PhoneNumberUtils.isEmergencyNumber(number)) {
+                    // Watch out: Calls.addCall() hits the Contacts database,
+                    // so we shouldn't call it from the main thread.
+                    Thread t = new Thread() {
+                            public void run() {
+                                Calls.addCall(ci, mApplication, logNumber, presentation,
+                                              callLogType, date, (int) duration / 1000);
                                 // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
                             }
-                        }
-                    };
-                t.start();
+                        };
+                    t.start();
+                }
             }
 
             if (callLogType == CallLog.Calls.MISSED_TYPE) {
@@ -975,7 +965,7 @@ public class CallNotifier extends Handler
             }
         }
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhoneIsCdma) {
             // Resetting the CdmaPhoneCallState members
             mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
 
@@ -1596,6 +1586,90 @@ public class CallNotifier extends Handler
             }
             mCurrentEmergencyToneState = EMERGENCY_TONE_OFF;
         }
+    }
+
+    /**
+     * Retrieve the phone number from the caller info or the connection.
+     *
+     * For incoming call the number is in the Connection object. For
+     * outgoing call we use the CallerInfo phoneNumber field if
+     * present. All the processing should have been done already (CDMA vs GSM numbers).
+     *
+     * If CallerInfo is missing the phone number, get it from the connection.
+     * Apply the Call Name Presentation (CNAP) transform in the connection on the number.
+     *
+     * @param conn The phone connection.
+     * @param info The CallerInfo. Maybe null.
+     * @return the phone number.
+     */
+    private String getLogNumber(Connection conn, CallerInfo callerInfo) {
+        String number = null;
+
+        if (conn.isIncoming()) {
+            number = conn.getAddress();
+        } else {
+            if (null != callerInfo && !TextUtils.isEmpty(callerInfo.phoneNumber)) {
+                number = callerInfo.phoneNumber;
+            }
+            if (null == number) {
+                if (mPhoneIsCdma) {
+                    // In cdma getAddress() is not always equals to getOrigDialString().
+                    number = conn.getOrigDialString();
+                } else {
+                    number = conn.getAddress();
+                }
+            }
+        }
+
+        if (null == number) {
+            return null;
+        } else {
+            int presentation = conn.getNumberPresentation();
+
+            // Do final CNAP modifications.
+            return PhoneUtils.modifyForSpecialCnapCases(mPhone.getContext(), callerInfo,
+                                                        number, presentation);
+        }
+    }
+
+    /**
+     * Get the caller info.
+     *
+     * @param conn The phone connection.
+     * @return The CallerInfo associated with the connection. Maybe null.
+     */
+    private CallerInfo getCallerInfoFromConnection(Connection conn) {
+        CallerInfo ci = null;
+        Object o = conn.getUserData();
+
+        if ((o == null) || (o instanceof CallerInfo)) {
+            ci = (CallerInfo) o;
+        } else {
+            ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
+        }
+        return ci;
+    }
+
+    /**
+     * Get the presentation from the callerinfo if not null otherwise,
+     * get it from the connection.
+     *
+     * @param conn The phone connection.
+     * @param info The CallerInfo. Maybe null.
+     * @return The presentation to use in the logs.
+     */
+    private int getPresentation(Connection conn, CallerInfo callerInfo) {
+        int presentation;
+
+        if (null == callerInfo) {
+            presentation = conn.getNumberPresentation();
+        } else {
+            presentation = callerInfo.numberPresentation;
+            if (DBG) log("- getPresentation(): ignoring connection's presentation: " +
+                         conn.getNumberPresentation());
+        }
+        if (DBG) log("- getPresentation: presentation: " + presentation);
+        return presentation;
     }
 
     private void log(String msg) {
