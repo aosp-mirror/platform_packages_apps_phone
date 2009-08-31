@@ -58,13 +58,13 @@
     <string name="ecbm_ok_text" msgid="1373363960570351032">"OK"</string>
     <string name="ecbm_emergency_number" msgid="4131632362330756509">"Volat 112"</string>
     <string name="ecbm_instruction_text" msgid="5039940054364946169">"Tísňové volání stisknutím tlačítka"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Reproduktor"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Hlasitě"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Ztlumit"</string>
     <string name="menu_hold" msgid="6970441130344786273">"Přidržet"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Ukončit hovor"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Zaměnit hovory"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Spojit hovory"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Ukončit"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Přepnout"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Spojit"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Přidat hovor"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Spravovat konferenční hovor"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Zobrazit číselník"</string>
@@ -296,7 +296,7 @@
     <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Nastavení sítě GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="4327916632016252900">"Preferováno 3G"</item>
-    <item msgid="7890032659744442614">"Pouze 2G"</item>
+    <item msgid="7890032659744442614">"pouze 2G"</item>
     <item msgid="7306003477602941058">"Pouze 3G"</item>
   </string-array>
   <string-array name="gsm_umts_network_preferences_values">

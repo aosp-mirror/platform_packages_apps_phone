@@ -72,8 +72,8 @@
     <string name="menu_answerAndHold" msgid="8830891495953688905">"保留目前通話"\n"並接聽"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"結束目前通話"\n"並接聽"</string>
     <string name="ok" msgid="3811371167865772377">"確定"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"按下 [選單] 開啟通話選項。"</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"按一下 [選單] 開啟通話選項•使用鍵盤撥號"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"按下 [Menu] 開啟通話選項。"</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"按一下 [Menu] 開啟通話選項•使用鍵盤撥號"</string>
     <string name="menu_answer" msgid="116686205042231098">"接聽"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"忽略"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"傳送此鈴聲？"\n</string>

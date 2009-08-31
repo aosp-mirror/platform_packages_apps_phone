@@ -108,7 +108,7 @@
     <string name="networks" msgid="8873030692174541976">"Operatorzy sieci"</string>
     <string name="call_settings" msgid="6112441768261754562">"Ustawienia połączeń"</string>
     <string name="additional_gsm_call_settings" msgid="6472260354879794056">"Dodatkowe ustawienia połączenia GSM"</string>
-    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Dodatkowe ustawienia tylko połączenia GSM"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Dodatkowe ustawienia: tylko połączenia GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Dodatkowe ustawienia połączenia CDMA"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Dodatkowe ustawienia tylko połączenia CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Ustawienia usługi sieciowej"</string>

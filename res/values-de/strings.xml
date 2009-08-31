@@ -355,7 +355,7 @@
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
     <string name="fdn" msgid="7878832555095183202">"Anrufbegrenzung"</string>
-    <string name="manage_fdn_list" msgid="8777755791892122369">"Liste der begrenzten Rufnummern"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Begrenzte Rufnummern"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Aktivierung der Anrufbegrenzung"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Anrufbegrenzung ist aktiviert"</string>
     <string name="fdn_disabled" msgid="4700049736675368279">"Anrufbegrenzung ist deaktiviert"</string>
