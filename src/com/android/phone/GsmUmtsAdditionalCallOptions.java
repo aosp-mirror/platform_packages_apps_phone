@@ -64,7 +64,7 @@ public class GsmUmtsAdditionalCallOptions extends
 
     @Override
     public void onFinished(Preference preference, boolean reading) {
-        if (mInitIndex < mPreferences.size()-1) {
+        if (mInitIndex < mPreferences.size()-1 && !isFinishing()) {
             mInitIndex++;
             Preference pref = mPreferences.get(mInitIndex);
             if (pref instanceof CallWaitingCheckBoxPreference) {

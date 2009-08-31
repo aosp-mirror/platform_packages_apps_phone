@@ -94,7 +94,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
 
     @Override
     public void onFinished(Preference preference, boolean reading) {
-        if (mInitIndex < mPreferences.size()-1) {
+        if (mInitIndex < mPreferences.size()-1 && !isFinishing()) {
             mInitIndex++;
             mPreferences.get(mInitIndex).init(this, false);
         }

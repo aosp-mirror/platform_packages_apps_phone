@@ -18,7 +18,8 @@ interface  TimeConsumingPreferenceListener {
 }
 
 public class TimeConsumingPreferenceActivity extends PreferenceActivity
-                        implements TimeConsumingPreferenceListener, DialogInterface.OnClickListener {
+                        implements TimeConsumingPreferenceListener, DialogInterface.OnClickListener,
+                        DialogInterface.OnCancelListener {
     private static final String LOG_TAG = "TimeConsumingPreferenceActivity";
     private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -41,6 +42,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
             switch(id) {
                 case BUSY_READING_DIALOG:
                     dialog.setCancelable(true);
+                    dialog.setOnCancelListener(this);
                     dialog.setMessage(getText(R.string.reading_settings));
                     return dialog;
                 case BUSY_SAVING_DIALOG:
@@ -127,6 +129,11 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         if (DBG) dumpState();
         if (DBG) Log.d(LOG_TAG, "onError, preference=" + preference.getKey() + ", error=" + error);
         showDialog(error);
+    }
+
+    public void onCancel(DialogInterface dialog) {
+        if (DBG) dumpState();
+        finish();
     }
 
     void dumpState() {
