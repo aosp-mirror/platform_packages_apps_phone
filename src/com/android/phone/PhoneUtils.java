@@ -1251,20 +1251,21 @@ public class PhoneUtils {
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
 
+            // Store CNAP information retrieved from the Connection (we want to do this
+            // here regardless of whether the number is empty or not).
+            cit.currentInfo.cnapName =  c.getCnapName();
+            cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
+                                                             // by ContactInfo later
+            cit.currentInfo.numberPresentation = c.getNumberPresentation();
+            cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+
             if (DBG) log("startGetCallerInfo: number = " + number);
+            if (DBG) log("startGetCallerInfo: CNAP Info from FW(1): name="
+                    + cit.currentInfo.cnapName
+                    + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
 
             // handling case where number is null (caller id hidden) as well.
             if (!TextUtils.isEmpty(number)) {
-                // Store CNAP information retrieved from the Connection
-                cit.currentInfo.cnapName =  c.getCnapName();
-                cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
-                                                                 // by ContactInfo later
-                cit.currentInfo.numberPresentation = c.getNumberPresentation();
-                cit.currentInfo.namePresentation = c.getCnapNamePresentation();
-                if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
-                        + cit.currentInfo.cnapName
-                        + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
-
                 // Check for special CNAP cases and modify the CallerInfo accordingly
                 // to be sure we keep the right information to display/log later
                 number = modifyForSpecialCnapCases(context, cit.currentInfo, number,
@@ -1309,10 +1310,8 @@ public class PhoneUtils {
             } else {
                 // handling case where number/name gets updated later on by the network
                 String updatedNumber = c.getAddress();
-                if (DBG) log("startGetCallerInfo: updatedNumber = " + updatedNumber);
+                if (DBG) log("startGetCallerInfo: updatedNumber initially = " + updatedNumber);
                 if (!TextUtils.isEmpty(updatedNumber)) {
-                    cit.currentInfo.phoneNumber = updatedNumber;
-
                     // Store CNAP information retrieved from the Connection
                     cit.currentInfo.cnapName =  c.getCnapName();
                     // This can still get overwritten by ContactInfo
@@ -1320,7 +1319,12 @@ public class PhoneUtils {
                     cit.currentInfo.numberPresentation = c.getNumberPresentation();
                     cit.currentInfo.namePresentation = c.getCnapNamePresentation();
 
-                    if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
+                    updatedNumber = modifyForSpecialCnapCases(context, cit.currentInfo,
+                            updatedNumber, cit.currentInfo.numberPresentation);
+
+                    cit.currentInfo.phoneNumber = updatedNumber;
+                    if (DBG) log("startGetCallerInfo: updatedNumber=" + updatedNumber);
+                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(2): name="
                             + cit.currentInfo.cnapName
                             + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
                     // For scenarios where we may receive a valid number from the network but a
@@ -1339,6 +1343,16 @@ public class PhoneUtils {
                     if (cit.currentInfo == null) {
                         cit.currentInfo = new CallerInfo();
                     }
+                    // Store CNAP information retrieved from the Connection
+                    cit.currentInfo.cnapName = c.getCnapName();  // This can still get
+                                                                 // overwritten by ContactInfo
+                    cit.currentInfo.name = cit.currentInfo.cnapName;
+                    cit.currentInfo.numberPresentation = c.getNumberPresentation();
+                    cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+
+                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(3): name="
+                            + cit.currentInfo.cnapName
+                            + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
                     cit.isFinal = true; // please see note on isFinal, above.
                 }
             }
@@ -1400,11 +1414,24 @@ public class PhoneUtils {
             if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
                 compactName = ci.phoneNumber;
             }
+            // Perform any modifications for special CNAP cases to the name being displayed,
+            // if applicable.
+            compactName = modifyForSpecialCnapCases(context, ci, compactName, ci.numberPresentation);
         }
-        // TODO: figure out UNKNOWN, PRIVATE numbers?
+
         if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
-            compactName = context.getString(R.string.unknown);
+            // If we're still null/empty here, then check if we have a presentation
+            // string that takes precedence that we could return, otherwise display
+            // "unknown" string.
+            if (ci != null && ci.numberPresentation == Connection.PRESENTATION_RESTRICTED) {
+                compactName = context.getString(R.string.private_num);
+            } else if (ci != null && ci.numberPresentation == Connection.PRESENTATION_PAYPHONE) {
+                compactName = context.getString(R.string.payphone);
+            } else {
+                compactName = context.getString(R.string.unknown);
+            }
         }
+        if (DBG) log("getCompactNameFromCallerInfo: compactName=" + compactName);
         return compactName;
     }
 
@@ -1905,6 +1932,9 @@ public class PhoneUtils {
      */
     /* package */ static String modifyForSpecialCnapCases(Context context, CallerInfo ci,
             String number, int presentation) {
+        // Obviously we return number if ci == null, but still return number if
+        // number == null, because in these cases the correct string will still be
+        // displayed/logged after this function returns based on the presentation value.
         if (ci == null || number == null) return number;
 
         if (DBG) log("modifyForSpecialCnapCases: initially, number=" + number
@@ -1913,14 +1943,20 @@ public class PhoneUtils {
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
         // and fix the presentation to be the same.
-        if (number.equals(context.getString(R.string.absent_num))) {
+        if (number.equals(context.getString(R.string.absent_num))
+                && presentation == Connection.PRESENTATION_ALLOWED) {
             number = context.getString(R.string.unknown);
             ci.numberPresentation = Connection.PRESENTATION_UNKNOWN;
         }
 
-        // Check for other special "corner cases" for CNAP and fix them similarly.
+        // Check for other special "corner cases" for CNAP and fix them similarly. Corner
+        // cases only apply if we received an allowed presentation from the network, so check
+        // if we think we have an allowed presentation, or if the CallerInfo presentation doesn't
+        // match the presentation passed in for verification (meaning we changed it previously
+        // because it's a corner case and we're being called from a different entry point).
         if (ci.numberPresentation == Connection.PRESENTATION_ALLOWED
-                || ci.numberPresentation != presentation) {
+                || (ci.numberPresentation != presentation
+                        && presentation == Connection.PRESENTATION_ALLOWED)) {
             int cnapSpecialCase = checkCnapSpecialCases(number);
             if (cnapSpecialCase != CNAP_SPECIAL_CASE_NO) {
                 // For all special strings, change number & numberPresentation.
