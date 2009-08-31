@@ -143,7 +143,7 @@ public class OutgoingCallBroadcaster extends Activity {
         if (number != null) {
             broadcastIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
         }
-        PhoneUtils.copyPhoneProviderExtras(intent, broadcastIntent);
+        PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
         if (LOGV) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");
