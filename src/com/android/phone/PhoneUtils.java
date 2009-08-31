@@ -1710,52 +1710,29 @@ public class PhoneUtils {
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
-        if (phone.getPhoneName().equals("CDMA")) {
-            PhoneApp app = PhoneApp.getInstance();
-            if (hasRingingCall) {
+        if (hasRingingCall) {
+            // If an incoming call is ringing, answer it (just like with the
+            // CALL button):
+            if (phone.getPhoneName().equals("CDMA")) {
                 answerCall(phone);
-            } else {
-                if (app.cdmaPhoneCallState.getCurrentCallState()
-                        == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
-                    // Send a flash command to CDMA network for putting the other
-                    // party on hold.
-                    // For CDMA networks which do not support this the user would just
-                    // hear a beep from the network.
-                    // For CDMA networks which do support it it will put the other
-                    // party on hold.
-                    switchHoldingAndActive(phone);
-                }
-
-                // No incoming ringing call.  Toggle the mute state.
-                if (getMute(phone)) {
-                    if (DBG) log("handleHeadsetHook: UNmuting...");
-                    setMute(phone, false);
-                } else {
-                    if (DBG) log("handleHeadsetHook: muting...");
-                    setMute(phone, true);
-                }
-            }
-        } else { // GSM
-            if (hasRingingCall) {
-                // If an incoming call is ringing, answer it (just like with the
-                // CALL button):
+            } else { //GSM
                 if (hasActiveCall && hasHoldingCall) {
                     if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
                     answerAndEndActive(phone);
                 } else {
                     if (DBG) log("handleHeadsetHook: ringing ==> answer!");
                     answerCall(phone);  // Automatically holds the current active call,
-                                     // if there is one
+                                        // if there is one
                 }
+            }
+        } else {
+            // No incoming ringing call.  Toggle the mute state.
+            if (getMute(phone)) {
+                if (DBG) log("handleHeadsetHook: UNmuting...");
+                setMute(phone, false);
             } else {
-                // No incoming ringing call.  Toggle the mute state.
-                if (getMute(phone)) {
-                    if (DBG) log("handleHeadsetHook: UNmuting...");
-                    setMute(phone, false);
-                } else {
-                    if (DBG) log("handleHeadsetHook: muting...");
-                    setMute(phone, true);
-                }
+                if (DBG) log("handleHeadsetHook: muting...");
+                setMute(phone, true);
             }
         }
 
