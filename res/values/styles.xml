@@ -124,41 +124,47 @@
     </style>
 
     <!-- OTA Call Card styles -->
-    <style name="ccOtaLayouts">
+    <style name="ccOtaButtonBar">
+        <!-- TODO: change height to 'wrap_content' when layout bug is fixed -->
+        <item name="android:layout_height">60dip</item> 
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ccOtaButton">
+        <item name="android:layout_width">150dip</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
     </style>
 
-    <style name="ccOtaActivateButton">
-        <item name="android:layout_marginLeft">4dip</item>
-        <item name="android:layout_width">150dip</item>
-    </style>
-
-    <style name="ccOtaCancelButton">
+    <style name="ccOtaNextButton" parent="ccOtaButton">
+        <!-- <item name="android:drawableRight">@drawable/ic_btn_next</item>
+             <item name="android:drawablePadding">10dip</item>
+          -->
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">4dip</item>
-        <item name="android:layout_width">150dip</item>
+    </style>
+
+    <style name="ccOtaBackButton" parent="ccOtaButton">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">4dip</item>
     </style>
 
     <style name="ccOtaDialVisible">
         <item name="android:visibility">visible</item>
     </style>
 
-    <style name="ccOtaSpeakerButton">
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginBottom">61dip</item>
-        <item name="android:layout_marginRight">5dip</item>
-        <item name="android:layout_width">150dip</item>
+    <style name="ccOtaWizardTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/ota_title_color</item>
     </style>
 
-    <style name="ccOtaEndButton">
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_width">470dip</item>
-    </style>
-
-    <style name="ccOtaActivateDialogOkButton">
-        <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:layout_marginBottom">16dip</item>
-        <item name="android:layout_width">470dip</item>
+    <style name="ccOtaTextPrimary">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <!-- The double-tap "incoming call" buttons in the in-call onscreen touch UI. -->
