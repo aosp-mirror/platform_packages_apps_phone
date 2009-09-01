@@ -307,10 +307,6 @@
     <item>"Tylko główne"</item>
     <item>"Automatyczny"</item>
   </string-array>
-  <string-array name="cdma_system_select_values">
-    <item>"0"</item>
-    <item>"2"</item>
-  </string-array>
     <string name="cdma_roaming_mode_title">"Tryb roamingu CDMA"</string>
     <string name="cdma_roaming_mode_summary">"Zmień tryb roamingu CDMA"</string>
     <string name="cdma_roaming_mode_dialogtitle">"Tryb roamingu CDMA"</string>
