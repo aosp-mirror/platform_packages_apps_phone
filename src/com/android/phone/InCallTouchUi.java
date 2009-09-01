@@ -39,7 +39,7 @@ import com.android.internal.telephony.Phone;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener {
+        implements View.OnClickListener, IncomingCallDialWidget.OnDialTriggerListener {
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1);
 
@@ -54,7 +54,7 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApplication;
 
     // UI containers / elements
-    private View mIncomingCallWidget;  // UI used for an incoming call
+    private IncomingCallDialWidget mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mHoldButton;
@@ -122,8 +122,14 @@ public class InCallTouchUi extends FrameLayout
         if (DBG) log("InCallTouchUi onFinishInflate(this = " + this + ")...");
 
         // Look up the various UI elements.
-        mIncomingCallWidget = findViewById(R.id.incomingCallWidget);
-        ((IncomingCallDialWidget) mIncomingCallWidget).setInCallTouchUiInstance(this);
+
+        // "Dial-to-answer" widget for incoming calls.
+        mIncomingCallWidget = (IncomingCallDialWidget) findViewById(R.id.incomingCallWidget);
+        mIncomingCallWidget.setLeftHandleResource(R.drawable.ic_jog_dial_answer);
+        mIncomingCallWidget.setRightHandleResource(R.drawable.ic_jog_dial_decline);
+        mIncomingCallWidget.setOnDialTriggerListener(this);
+
+        // Container for the UI elements shown while on a regular call.
         mInCallControls = findViewById(R.id.inCallControls);
 
         // Regular (single-tap) buttons, where we listen for click events:
@@ -410,12 +416,12 @@ public class InCallTouchUi extends FrameLayout
     }
 
     //
-    // IncomingCallDialWidget API
+    // IncomingCallDialWidget.OnDialTriggerListener implementation
     //
 
-    /*
-     * "Answer" and "Reject" actions for an incoming call.
-     * These methods are the API used by the IncomingCallDialWidget
+    /**
+     * Handles "Answer" and "Reject" actions for an incoming call.
+     * We get this callback from the IncomingCallDialWidget
      * when the user triggers an action.
      *
      * To answer or reject the incoming call, we call
@@ -425,40 +431,53 @@ public class InCallTouchUi extends FrameLayout
      * or
      *   - R.id.rejectButton to reject the call.
      */
+    public void onDialTrigger(View v, int whichHandle) {
+        if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
-    /* package */ void answerIncomingCall() {
-        if (DBG) log("answerIncomingCall()...");
+        switch (whichHandle) {
+            case IncomingCallDialWidget.OnDialTriggerListener.LEFT_HANDLE:
+                if (DBG) log("LEFT_HANDLE: answer!");
 
-        // Immediately hide the incoming call UI.
-        mIncomingCallWidget.setVisibility(View.GONE);
-        // ...and also prevent it from reappearing right away.
-        // (This covers up a slow response from the radio; see updateState().)
-        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
+                // Immediately hide the incoming call UI.
+                mIncomingCallWidget.setVisibility(View.GONE);
+                // ...and also prevent it from reappearing right away.
+                // (This covers up a slow response from the radio; see updateState().)
+                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
 
-        // Do the appropriate action.
-        if (mInCallScreen != null) {
-            // Send this to the InCallScreen as a virtual "button click" event:
-            mInCallScreen.handleOnscreenButtonClick(R.id.answerButton);
-        } else {
-            Log.e(LOG_TAG, "answerIncomingCall: mInCallScreen is null");
-        }
-    }
+                // Do the appropriate action.
+                if (mInCallScreen != null) {
+                    // Send this to the InCallScreen as a virtual "button click" event:
+                    mInCallScreen.handleOnscreenButtonClick(R.id.answerButton);
+                } else {
+                    Log.e(LOG_TAG, "answer trigger: mInCallScreen is null");
+                }
+                break;
 
-    /* package */ void rejectIncomingCall() {
-        if (DBG) log("rejectIncomingCall()...");
+            case IncomingCallDialWidget.OnDialTriggerListener.RIGHT_HANDLE:
+                if (DBG) log("RIGHT_HANDLE: reject!");
 
-        // Immediately hide the incoming call UI.
-        mIncomingCallWidget.setVisibility(View.GONE);
-        // ...and also prevent it from reappearing right away.
-        // (This covers up a slow response from the radio; see updateState().)
-        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
+                // Immediately hide the incoming call UI.
+                mIncomingCallWidget.setVisibility(View.GONE);
+                // ...and also prevent it from reappearing right away.
+                // (This covers up a slow response from the radio; see updateState().)
+                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
 
-        // Do the appropriate action.
-        if (mInCallScreen != null) {
-            // Send this to the InCallScreen as a virtual "button click" event:
-            mInCallScreen.handleOnscreenButtonClick(R.id.rejectButton);
-        } else {
-            Log.e(LOG_TAG, "rejectIncomingCall: mInCallScreen is null");
+                // Do the appropriate action.
+                if (mInCallScreen != null) {
+                    // Send this to the InCallScreen as a virtual "button click" event:
+                    mInCallScreen.handleOnscreenButtonClick(R.id.rejectButton);
+                } else {
+                    Log.e(LOG_TAG, "reject trigger: mInCallScreen is null");
+                }
+                break;
+
+            case IncomingCallDialWidget.OnDialTriggerListener.CENTER_HANDLE:
+                Log.e(LOG_TAG, "onDialTrigger: unexpected CENTER_HANDLE event");
+                break;
+
+            default:
+                Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
+                break;
         }
     }
 
