@@ -27,6 +27,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Shader;
@@ -62,6 +64,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -164,6 +167,9 @@ public class InCallScreen extends Activity
     // Amount of time for Displaying "Dialing" for 3way Calling origination
     private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
 
+    // Amount of time that we display the provider's badge if applicable.
+    private static final int PROVIDER_BADGE_TIMEOUT = 5000;  // msec
+
     // These are values for the settings of the auto retry mode:
     // 0 = disabled
     // 1 = enabled
@@ -196,6 +202,7 @@ public class InCallScreen extends Activity
     public static final int CLOSE_SPC_ERROR_NOTICE = 118;
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
+    private static final int EVENT_HIDE_PROVIDER_BADGE = 121;  // Time to remove the badge
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -282,6 +289,12 @@ public class InCallScreen extends Activity
     private DTMFTwelveKeyDialer mDialer;
     private SlidingDrawer mDialerDrawer;
     private EditText mDTMFDisplay;
+
+    // Optional overlay when a 3rd party provider is used.
+    private boolean mProviderOverlayVisible = false;
+    private RemoteViews mProviderBadge;
+    private CharSequence mProviderName;
+    private String mProviderAddress;  // Typically a phone number.
 
     // For OTA Call
     public OtaUtils otaUtils;
@@ -519,6 +532,11 @@ public class InCallScreen extends Activity
                         mPausePromptDialog.dismiss();  // safe even if already dismissed
                         mPausePromptDialog = null;
                     }
+                    break;
+
+                case EVENT_HIDE_PROVIDER_BADGE:
+                    mProviderOverlayVisible = false;
+                    updateProviderBadge();  // Clear the badge.
                     break;
             }
         }
@@ -1111,6 +1129,28 @@ public class InCallScreen extends Activity
         } else if (action.equals(Intent.ACTION_CALL)
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
+
+            // Remember if there is a provider badge. It'll be
+            // displayed the first time updateScreen is called.
+            if (PhoneUtils.hasPhoneProviderExtras(intent)) {
+                String packageName = intent.getStringExtra(
+                    InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+                PackageManager pm = getPackageManager();
+
+                try {
+                    ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+
+                    mProviderName = pm.getApplicationLabel(info);
+                    mProviderBadge = (RemoteViews) intent.getParcelableExtra(
+                        InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+                    mProviderOverlayVisible = true;
+                } catch (PackageManager.NameNotFoundException e) {
+                    // Don't show anything
+                    mProviderOverlayVisible = false;
+                }
+            } else {
+                mProviderOverlayVisible = false;
+            }
             return placeCall(intent);
         } else if (action.equals(intent.ACTION_MAIN)) {
             // The MAIN action is used to bring up the in-call screen without
@@ -2239,6 +2279,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateInCallTouchUi();
+        updateProviderBadge();
         updateMenuButtonHint();
         updateInCallBackground();
 
@@ -2434,9 +2475,15 @@ public class InCallScreen extends Activity
         if (PhoneUtils.hasPhoneProviderExtras(intent) &&
             !(isEmergencyNumber || isEmergencyIntent) &&
             PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
-            String gatewayUri = intent.getStringExtra(EXTRA_GATEWAY_URI);
+            Uri gatewayUri = Uri.parse(intent.getStringExtra(EXTRA_GATEWAY_URI));
 
-            callStatus = PhoneUtils.placeCallVia(this, mPhone, number, contactUri, gatewayUri);
+            mProviderAddress = gatewayUri.getSchemeSpecificPart();
+            if ("tel".equals(gatewayUri.getScheme())) {
+                mProviderAddress = PhoneNumberUtils.formatNumber(mProviderAddress);
+            }
+
+            callStatus = PhoneUtils.placeCallVia(
+                this, mPhone, number, contactUri, gatewayUri.toString());
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
@@ -3028,6 +3075,41 @@ public class InCallScreen extends Activity
         // Consider adding API for that.  (This is lo-pri since
         // updateInCallTouchUi() is pretty cheap already...)
         updateInCallTouchUi();
+    }
+
+    /**
+     * Update the network provider's overlay based on the value of
+     * mProviderBadge. If null the badge is hidden otherwise the badge
+     * is inflated and a message is posted to take the badge down
+     * after PROVIDER_BADGE_TIMEOUT. This ensures the user will see
+     * the badge even if the call setup phase is very short.
+     */
+    private void updateProviderBadge() {
+        if (VDBG) log("updateProviderBadge: " + mProviderBadge);
+
+        ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
+        ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);
+
+        if (mProviderOverlayVisible) {
+            // apply inflates but does not attach the new view.
+            View hierarchy = mProviderBadge.apply(this, placeholder);
+            placeholder.addView(hierarchy);
+
+            CharSequence template = getText(R.string.calling_via_template);
+            CharSequence text = TextUtils.expandTemplate(template, mProviderName, mProviderAddress);
+
+            TextView message = (TextView) findViewById(R.id.callingVia);
+            message.setText(text);
+
+            overlay.setVisibility(View.VISIBLE);
+
+            // Send a message to self to remove the badge after some time.
+            Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_BADGE);
+            mHandler.sendMessageDelayed(msg, PROVIDER_BADGE_TIMEOUT);
+        } else {
+            overlay.setVisibility(View.GONE);
+            placeholder.removeAllViews();
+        }
     }
 
     /**
