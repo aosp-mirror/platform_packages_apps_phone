@@ -1890,7 +1890,10 @@ public class PhoneUtils {
      */
     /* package */ static String modifyForSpecialCnapCases(Context context, CallerInfo ci,
             String number, int presentation) {
-        if (ci == null) return number;
+        if (ci == null || number == null) return number;
+
+        if (DBG) log("modifyForSpecialCnapCases: initially, number=" + number
+                + ", presentation=" + presentation);
 
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
@@ -1916,6 +1919,7 @@ public class PhoneUtils {
                 ci.numberPresentation = cnapSpecialCase;
             }
         }
+        if (DBG) log("modifyForSpecialCnapCases: returning number string=" + number);
         return number;
     }
 
