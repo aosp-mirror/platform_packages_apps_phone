@@ -282,12 +282,18 @@ public class PhoneApp extends Application {
                     // speakerphone, update the "speaker" state.  We ONLY want to do
                     // this on the wired headset connect / disconnect events for now
                     // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
-                    if (!isHeadsetPlugged() &&
-                            (mBtHandsfree == null || !mBtHandsfree.isAudioOn())) {
-                        // is the state is "not connected", restore the speaker state.
-                        PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                    // If in call screen is showing, let InCallScreen handle the speaker.
+                    if (!isShowingCallScreen() &&
+                        (mBtHandsfree == null || !mBtHandsfree.isAudioOn())) {
+                        if (!isHeadsetPlugged()) {
+                            // if the state is "not connected", restore the speaker state.
+                            PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                        } else {
+                            // if the state is "connected", force the speaker off without 
+                            // storing the state.
+                            PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
+                        }
                     }
-                    NotificationMgr.getDefault().updateSpeakerNotification();
                     // Update the Proximity sensor based on headset state
                     updateProximitySensorMode(phone.getState());
                     break;
