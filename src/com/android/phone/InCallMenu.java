@@ -304,16 +304,9 @@ class InCallMenu {
             mEndCall.setEnabled(true);
 
             mSpeaker.setVisible(true);
-            if (PhoneApp.getInstance().isHeadsetPlugged()) {
-                // Wired headset is present; Speaker button is meaningless.
-                mSpeaker.setEnabled(false);
-                mSpeaker.setIndicatorState(false);
-            } else {
-                // No wired headset; Speaker button is enabled and behaves normally.
-                mSpeaker.setEnabled(true);
-                boolean speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen.getApplicationContext());
-                mSpeaker.setIndicatorState(speakerOn);
-            }
+            mSpeaker.setEnabled(true);
+            boolean speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen.getApplicationContext());
+            mSpeaker.setIndicatorState(speakerOn);
 
             mInCallMenuView.updateVisibility();
             return true;

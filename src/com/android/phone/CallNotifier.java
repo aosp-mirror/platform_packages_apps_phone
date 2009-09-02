@@ -986,7 +986,7 @@ public class CallNotifier extends Handler
         }
 
         if (PhoneUtils.isSpeakerOn(mPhone.getContext())) {
-            PhoneUtils.turnOnSpeaker(mPhone.getContext(), false);
+            PhoneUtils.turnOnSpeaker(mPhone.getContext(), false, true);
         }
 
         PhoneUtils.setAudioMode(mPhone.getContext(), AudioManager.MODE_NORMAL);

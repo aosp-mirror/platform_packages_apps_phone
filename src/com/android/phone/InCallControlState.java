@@ -126,18 +126,10 @@ public class InCallControlState {
             bluetoothIndicatorOn = false;
         }
 
-        // "Speaker": Disabled if a wired headset is plugged in,
-        // otherwise enabled.  The current speaker state comes from
-        // the AudioManager.
-        if (PhoneApp.getInstance().isHeadsetPlugged()) {
-            // Wired headset is present; Speaker button is meaningless.
-            speakerEnabled = false;
-            speakerOn = false;
-        } else {
-            // No wired headset; Speaker button is enabled and behaves normally.
-            speakerEnabled = true;
-            speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen);
-        }
+        // "Speaker": always enabled.
+        // The current speaker state comes from the AudioManager.
+        speakerEnabled = true;
+        speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen);
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
