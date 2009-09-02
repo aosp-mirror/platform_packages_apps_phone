@@ -1977,6 +1977,7 @@ public class PhoneUtils {
     //
 
     /* package */ static void dumpCallState(Phone phone) {
+        PhoneApp app = PhoneApp.getInstance();
         Log.d(LOG_TAG, "##### dumpCallState()");
         Log.d(LOG_TAG, "- Phone: " + phone + ", name = " + phone.getPhoneName()
               + ", state = " + phone.getState());
@@ -2021,10 +2022,20 @@ public class PhoneUtils {
         Log.d(LOG_TAG, "- hasHoldingCall: " + hasHoldingCall);
         Log.d(LOG_TAG, "- allLinesTaken: " + allLinesTaken);
 
+        // On CDMA phones, dump out the CdmaPhoneCallState too:
+        if (phone.getPhoneName().equals("CDMA")) {
+            if (app.cdmaPhoneCallState != null) {
+                Log.d(LOG_TAG, "- CDMA current call state: "
+                      + app.cdmaPhoneCallState.getCurrentCallState());
+            } else {
+                Log.d(LOG_TAG, "- CDMA device, but null cdmaPhoneCallState!");
+            }
+        }
+
         // Watch out: the isRinging() call below does NOT tell us anything
         // about the state of the telephony layer; it merely tells us whether
         // the Ringer manager is currently playing the ringtone.
-        boolean ringing = PhoneApp.getInstance().getRinger().isRinging();
+        boolean ringing = app.getRinger().isRinging();
         Log.d(LOG_TAG, "- ringing (Ringer manager state): " + ringing);
         Log.d(LOG_TAG, "-----");
     }
