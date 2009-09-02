@@ -207,7 +207,7 @@ public class OtaUtils {
                 && mInCallScreen.isBluetoothAudioConnected()) {
             mInCallScreen.disconnectBluetoothAudio();
         }
-        PhoneUtils.turnOnSpeaker(mContext, state);
+        PhoneUtils.turnOnSpeaker(mContext, state, true);
     }
 
     /**

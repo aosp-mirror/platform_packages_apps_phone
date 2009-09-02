@@ -1549,13 +1549,15 @@ public class PhoneUtils {
         app.displayCallScreen();
     }
 
-    static void turnOnSpeaker(Context context, boolean flag) {
+    static void turnOnSpeaker(Context context, boolean flag, boolean store) {
         if (DBG) log("turnOnSpeaker: " + flag);
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         audioManager.setSpeakerphoneOn(flag);
         // record the speaker-enable value
-        sIsSpeakerEnabled = flag;
+        if (store) {
+            sIsSpeakerEnabled = flag;
+        }
         if (flag) {
             NotificationMgr.getDefault().notifySpeakerphone();
         } else {
@@ -1582,7 +1584,7 @@ public class PhoneUtils {
 
         // change the mode if needed.
         if (isSpeakerOn(context) != sIsSpeakerEnabled) {
-            turnOnSpeaker(context, sIsSpeakerEnabled);
+            turnOnSpeaker(context, sIsSpeakerEnabled, false);
         }
     }
 

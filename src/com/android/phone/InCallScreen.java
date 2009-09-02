@@ -367,12 +367,23 @@ public class InCallScreen extends Activity
                     // single menu item.  (But even a full updateScreen()
                     // is still pretty cheap, so let's keep this simple
                     // for now.)
-                    if (msg.arg1 != 1 && !isBluetoothAudioConnected()){
-                        // If the state is "not connected", restore the speaker state.
-                        // We ONLY want to do this on the wired headset connect /
-                        // disconnect events for now though, so we're only triggering
-                        // on EVENT_HEADSET_PLUG_STATE_CHANGED.
-                        PhoneUtils.restoreSpeakerMode(InCallScreen.this);
+                    if (!isBluetoothAudioConnected()) {
+                        if (msg.arg1 != 1){
+                            // If the state is "not connected", restore the speaker state.
+                            // We ONLY want to do this on the wired headset connect /
+                            // disconnect events for now though, so we're only triggering
+                            // on EVENT_HEADSET_PLUG_STATE_CHANGED.
+                            PhoneUtils.restoreSpeakerMode(InCallScreen.this);
+                        } else {
+                            // If the state is "connected", force the speaker off without
+                            // storing the state.
+                            PhoneUtils.turnOnSpeaker(InCallScreen.this, false, false);
+                            // If the dialpad is open, we need to start the timer that will
+                            // eventually bring up the "touch lock" overlay.
+                            if (mDialer.isOpened() && !isTouchLocked()) {
+                                resetTouchLockTimer();
+                            }
+                        }
                     }
                     updateScreen();
                     break;
@@ -2877,7 +2888,7 @@ public class InCallScreen extends Activity
         if (newSpeakerState && isBluetoothAvailable() && isBluetoothAudioConnected()) {
             disconnectBluetoothAudio();
         }
-        PhoneUtils.turnOnSpeaker(this, newSpeakerState);
+        PhoneUtils.turnOnSpeaker(this, newSpeakerState, true);
 
         if (newSpeakerState) {
             // The "touch lock" overlay is NEVER used when the speaker is on.
@@ -2913,7 +2924,7 @@ public class InCallScreen extends Activity
                 // disconnects the active bluetooth headsets when the
                 // speakerphone is turned on.
                 if (PhoneUtils.isSpeakerOn(this)) {
-                    PhoneUtils.turnOnSpeaker(this, false);
+                    PhoneUtils.turnOnSpeaker(this, false, true);
                 }
 
                 connectBluetoothAudio();
