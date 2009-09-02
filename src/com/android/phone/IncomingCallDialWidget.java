@@ -38,48 +38,40 @@ public class IncomingCallDialWidget extends View {
     private static final String LOG_TAG = "IncomingCallDialWidget";
     private static final boolean DBG = false;
 
-    /**
-     * Reference to the InCallTouchUi widget that owns us.
-     */
-    private InCallTouchUi mInCallTouchUi;
+    // Listener for onDialTrigger() callbacks.
+    private OnDialTriggerListener mOnDialTriggerListener;
 
     private float mDensity;
-
-    private Paint mTmpPaint;
 
     // UI elements
     private Drawable mBackground;
     private Drawable mDimple;
 
-    // TODO: fix uses of "answer icon" and "reject icon" to just be
-    // "left" and "right", to make the widget more generic.
-    private Drawable mAnswerIcon;
-    private Drawable mRejectIcon;
+    private Drawable mLeftHandleIcon;
+    private Drawable mRightHandleIcon;
 
     private Drawable mArrowShortLeftAndRight;
-    private Drawable mArrowLongLeftGreen;
-    private Drawable mArrowLongRightRed;
+    private Drawable mArrowLongLeft;  // Long arrow starting on the left, pointing clockwise
+    private Drawable mArrowLongRight;  // Long arrow starting on the right, pointing CCW
 
     // Misc positions / dimensions (see onSizeChanged())
     private int mKnobX;
     private int mKnobY;
     private int mKnobRadius;
 
-    // Angular distance of the answer / reject icons, relative to the
+    // Angular distance of the left or right icons, relative to the
     // top of the dial.  (This is also the spacing between "dimples".)
     private float mIconOffsetRadians;
 
-    // TODO: fix uses of "green handle" and "red handle" to just be
-    // "left" and "right", to make the widget more generic.
-    private int mGreenHandleX;
-    private int mGreenHandleY;
-    private int mRedHandleX;
-    private int mRedHandleY;
+    private int mLeftHandleX;
+    private int mLeftHandleY;
+    private int mRightHandleX;
+    private int mRightHandleY;
 
-    // Bounds of the green and red handles, as of the most recent onDraw()
+    // Bounds of the handles, as of the most recent onDraw()
     // call.  Used for hit detection with DOWN events.
-    private final Rect mGreenHandleBounds = new Rect();
-    private final Rect mRedHandleBounds = new Rect();
+    private final Rect mLeftHandleBounds = new Rect();
+    private final Rect mRightHandleBounds = new Rect();
 
     // Temp rect used by compareWithSlop()
     private final Rect mTempRect = new Rect();
@@ -95,8 +87,8 @@ public class IncomingCallDialWidget extends View {
 
     private int mGrabbedState = NOTHING_GRABBED;
     private static final int NOTHING_GRABBED = 0;
-    private static final int GREEN_HANDLE_GRABBED = 1;
-    private static final int RED_HANDLE_GRABBED = 2;
+    private static final int LEFT_HANDLE_GRABBED = 1;
+    private static final int RIGHT_HANDLE_GRABBED = 2;
 
     // Vibration (haptic feedback)
     private Vibrator mVibrator;
@@ -137,31 +129,67 @@ public class IncomingCallDialWidget extends View {
         mBackground = r.getDrawable(R.drawable.jog_dial_bg);
         mDimple = r.getDrawable(R.drawable.jog_dial_dimple);
 
-        // TODO: provide public API to pass in resource IDs for these,
-        // to make the widget more generic.  These should also be
-        // specifyable via XML.
-        mAnswerIcon = r.getDrawable(R.drawable.ic_jog_dial_answer);
-        mRejectIcon = r.getDrawable(R.drawable.ic_jog_dial_decline);
-
-        mArrowLongLeftGreen = r.getDrawable(R.drawable.jog_dial_arrow_long_left_green);
-        mArrowLongRightRed = r.getDrawable(R.drawable.jog_dial_arrow_long_right_red);
+        mArrowLongLeft = r.getDrawable(R.drawable.jog_dial_arrow_long_left_green);
+        mArrowLongRight = r.getDrawable(R.drawable.jog_dial_arrow_long_right_red);
         mArrowShortLeftAndRight = r.getDrawable(R.drawable.jog_dial_arrow_short_left_and_right);
-
-        // TODO: Paint used for layout debugging; remove before ship.
-        mTmpPaint = new Paint();
-        mTmpPaint.setColor(0XFFDDDDDD);
-        mTmpPaint.setStyle(Paint.Style.STROKE);
-        mTmpPaint.setStrokeWidth((int) (2 * mDensity + 0.5f));
-        mTmpPaint.setAntiAlias(true);
     }
 
-    public void setInCallTouchUiInstance(InCallTouchUi inCallTouchUi) {
-        mInCallTouchUi = inCallTouchUi;
+    /**
+     * Sets the left handle icon to a given resource.
+     *
+     * The resource should refer to a Drawable object, or use 0 to remove
+     * the icon.
+     *
+     * @param resId the resource ID.
+     */
+    public void setLeftHandleResource(int resId) {
+        Drawable d = null;
+        if (resId != 0) {
+            d = getResources().getDrawable(resId);
+        }
+        setLeftHandleDrawable(d);
+    }
+
+    /**
+     * Sets the left handle icon to a given Drawable.
+     *
+     * @param d the Drawable to use as the icon, or null to remove the icon.
+     */
+    public void setLeftHandleDrawable(Drawable d) {
+        mLeftHandleIcon = d;
+        invalidate();
+    }
+
+    /**
+     * Sets the right handle icon to a given resource.
+     *
+     * The resource should refer to a Drawable object, or use 0 to remove
+     * the icon.
+     *
+     * @param resId the resource ID.
+     */
+    public void setRightHandleResource(int resId) {
+        Drawable d = null;
+        if (resId != 0) {
+            d = getResources().getDrawable(resId);
+        }
+        setRightHandleDrawable(d);
+    }
+
+    /**
+     * Sets the right handle icon to a given Drawable.
+     *
+     * @param d the Drawable to use as the icon, or null to remove the icon.
+     */
+    public void setRightHandleDrawable(Drawable d) {
+        mRightHandleIcon = d;
+        invalidate();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        if (DBG) log("onSizeChanged()...  new = " + w + " x " + h + ", old = " + oldw + " x " + oldh);
+        if (DBG) log("onSizeChanged()...  new = " + w + " x " + h
+                     + ", old = " + oldw + " x " + oldh);
         // HVGA device: size here is 320 x 455
         // WVGA800 device: size here is 480 x 762
         // WVGA854 device: size here is 480 x 816
@@ -251,11 +279,11 @@ public class IncomingCallDialWidget extends View {
             case NOTHING_GRABBED:
                 mCurrentArrow  = mArrowShortLeftAndRight;
                 break;
-            case GREEN_HANDLE_GRABBED:
-                mCurrentArrow = mArrowLongLeftGreen;
+            case LEFT_HANDLE_GRABBED:
+                mCurrentArrow = mArrowLongLeft;
                 break;
-            case RED_HANDLE_GRABBED:
-                mCurrentArrow = mArrowLongRightRed;
+            case RIGHT_HANDLE_GRABBED:
+                mCurrentArrow = mArrowLongRight;
                 break;
             default:
                 throw new IllegalStateException("invalid mGrabbedState: " + mGrabbedState);
@@ -264,12 +292,7 @@ public class IncomingCallDialWidget extends View {
                                 arrowW, arrowY + arrowH);
         mCurrentArrow.draw(canvas);
 
-        // Debugging: uncomment this to draw an arc showing whether or not
-        // the moving "dial" is aligned correctly with the background
-        // artwork.
-        // canvas.drawCircle(mKnobX, mKnobY, mKnobRadius, mTmpPaint);
-
-        // Update m{Green,Red}Handle{X,Y}
+        // Update m{Left,Right}Handle{X,Y}
         computeHandlePositions();
 
         // Draw the various handle icons (depending on the current grabbed state.)
@@ -278,21 +301,20 @@ public class IncomingCallDialWidget extends View {
         // We also stash away a copy of each handle's last known bounds
         // (to be used for hit detection; see the DOWN event handling.)
 
-        drawCentered(mDimple, canvas, mGreenHandleX, mGreenHandleY);
-        if (mGrabbedState != RED_HANDLE_GRABBED) {
-            drawCentered(mAnswerIcon, canvas, mGreenHandleX, mGreenHandleY);
-            mAnswerIcon.copyBounds(mGreenHandleBounds);
+        drawCentered(mDimple, canvas, mLeftHandleX, mLeftHandleY);
+        if ((mGrabbedState == NOTHING_GRABBED) || (mGrabbedState == LEFT_HANDLE_GRABBED)) {
+            drawCentered(mLeftHandleIcon, canvas, mLeftHandleX, mLeftHandleY);
+            mLeftHandleIcon.copyBounds(mLeftHandleBounds);
         } else {
-            // Green handle is gone; don't
-            mGreenHandleBounds.setEmpty();
+            mLeftHandleBounds.setEmpty();
         }
 
-        drawCentered(mDimple, canvas, mRedHandleX, mRedHandleY);
-        if (mGrabbedState != GREEN_HANDLE_GRABBED) {
-            drawCentered(mRejectIcon, canvas, mRedHandleX, mRedHandleY);
-            mRejectIcon.copyBounds(mRedHandleBounds);
+        drawCentered(mDimple, canvas, mRightHandleX, mRightHandleY);
+        if ((mGrabbedState == NOTHING_GRABBED) || (mGrabbedState == RIGHT_HANDLE_GRABBED)) {
+            drawCentered(mRightHandleIcon, canvas, mRightHandleX, mRightHandleY);
+            mRightHandleIcon.copyBounds(mRightHandleBounds);
         } else {
-            mRedHandleBounds.setEmpty();
+            mRightHandleBounds.setEmpty();
         }
 
         // One blank dimple in the center:
@@ -366,13 +388,6 @@ public class IncomingCallDialWidget extends View {
         mDownY = eventY;
         mDeltaX = mDeltaY = 0;
 
-        // if (DBG) log("* Hit detection:");
-        // if (DBG) log("*   - event: " + eventX + " , " + eventY);
-        // if (DBG) log("*   - Green handle bounds: " + mGreenHandleBounds);
-        // if (DBG) log("*   - Green handle x/y: " + mGreenHandleX + " , " + mGreenHandleY);
-        // if (DBG) log("*   - Red handle bounds: " + mRedHandleBounds);
-        // if (DBG) log("*   - Red handle x/y: " + mRedHandleX + " , " + mRedHandleY);
-
         // Check for a hit on either handle.
 
         // TODO: rather than a straight contains() call, we should
@@ -385,13 +400,13 @@ public class IncomingCallDialWidget extends View {
         //      e.g. mTempRect.inset(-width / 4, -height / 4);
         //   Then use mTempRect.contains() to test for a hit
 
-        if (mGreenHandleBounds.contains(eventX, eventY)) {
-            log("- HIT! on green handle...");
-            mGrabbedState = GREEN_HANDLE_GRABBED;
+        if (mLeftHandleBounds.contains(eventX, eventY)) {
+            log("- HIT! on left handle...");
+            mGrabbedState = LEFT_HANDLE_GRABBED;
             vibrate(VIBRATE_SHORT);
-        } else if (mRedHandleBounds.contains(eventX, eventY)) {
-            log("- HIT! on red handle...");
-            mGrabbedState = RED_HANDLE_GRABBED;
+        } else if (mRightHandleBounds.contains(eventX, eventY)) {
+            log("- HIT! on right handle...");
+            mGrabbedState = RIGHT_HANDLE_GRABBED;
             vibrate(VIBRATE_SHORT);
         } else {
             if (DBG) log("- Missed!");
@@ -462,18 +477,18 @@ public class IncomingCallDialWidget extends View {
             final int EDGE_THRESHOLD = (int) (EDGE_THRESHOLD_DIP * mDensity + 0.5f);
             if (DBG) log("    (width = " + width + ", EDGE_THRESHOLD = " + EDGE_THRESHOLD + ")");
 
-            if ((mGrabbedState == GREEN_HANDLE_GRABBED)
-                && (mGreenHandleX > width - EDGE_THRESHOLD)) {
+            if ((mGrabbedState == LEFT_HANDLE_GRABBED)
+                && (mLeftHandleX > width - EDGE_THRESHOLD)) {
                 if (DBG) log("- TRIGGER: positive!");
                 vibrate(VIBRATE_LONG);
                 mGrabbedState = NOTHING_GRABBED;  // Don't process any further MOVE events
-                answer();
-            } else if ((mGrabbedState == RED_HANDLE_GRABBED)
-                       && (mRedHandleX < EDGE_THRESHOLD)) {
+                dispatchTriggerEvent(OnDialTriggerListener.LEFT_HANDLE);
+            } else if ((mGrabbedState == RIGHT_HANDLE_GRABBED)
+                       && (mRightHandleX < EDGE_THRESHOLD)) {
                 if (DBG) log("- TRIGGER: negative!");
                 vibrate(VIBRATE_LONG);
                 mGrabbedState = NOTHING_GRABBED;  // Don't process any further MOVE events
-                reject();
+                dispatchTriggerEvent(OnDialTriggerListener.RIGHT_HANDLE);
             }
             invalidate();
         } else {
@@ -516,45 +531,45 @@ public class IncomingCallDialWidget extends View {
         // Note mDialTheta=0 means the dial is at the very top, so that's why
         // sin(theta) affects the X axis and cos(theta) affects Y.
 
-        // Green handle:
+        // Left handle:
 
-        float greenHandleTheta = mDialTheta + mIconOffsetRadians;
-        float xComponent = (float) -Math.sin(greenHandleTheta);
-        float yComponent = 1.0f - (float) Math.cos(greenHandleTheta);
+        float leftHandleTheta = mDialTheta + mIconOffsetRadians;
+        float xComponent = (float) -Math.sin(leftHandleTheta);
+        float yComponent = 1.0f - (float) Math.cos(leftHandleTheta);
         // if (DBG) log("    components: " + xComponent + " , " + yComponent);
 
         xComponent *= mHandleTrackRadius;
         yComponent *= mHandleTrackRadius;
         // if (DBG) log("        scaled: " + xComponent + " , " + yComponent);
 
-        mGreenHandleX = handleApogeeX + (int) xComponent;
-        mGreenHandleY = handleApogeeY + (int) yComponent;
+        mLeftHandleX = handleApogeeX + (int) xComponent;
+        mLeftHandleY = handleApogeeY + (int) yComponent;
 
-        if (DBG) log("==> GREEN: mDialTheta = "
+        if (DBG) log("==> LEFT: mDialTheta = "
                      + Math.toDegrees(mDialTheta) + " degrees; "
-                     + "greenHandleTheta = "
-                     + Math.toDegrees(greenHandleTheta) + " degrees; "
-                     + "handle pos = " + mGreenHandleX + " , " + mGreenHandleY);
+                     + "leftHandleTheta = "
+                     + Math.toDegrees(leftHandleTheta) + " degrees; "
+                     + "handle pos = " + mLeftHandleX + " , " + mLeftHandleY);
 
-        // Red handle:
+        // Right handle:
 
-        float redHandleTheta = mDialTheta - mIconOffsetRadians;
-        xComponent = (float) -Math.sin(redHandleTheta);
-        yComponent = 1.0f - (float) Math.cos(redHandleTheta);
+        float rightHandleTheta = mDialTheta - mIconOffsetRadians;
+        xComponent = (float) -Math.sin(rightHandleTheta);
+        yComponent = 1.0f - (float) Math.cos(rightHandleTheta);
         // if (DBG) log("    components: " + xComponent + " , " + yComponent);
 
         xComponent *= mHandleTrackRadius;
         yComponent *= mHandleTrackRadius;
         // if (DBG) log("        scaled: " + xComponent + " , " + yComponent);
 
-        mRedHandleX = handleApogeeX + (int) xComponent;
-        mRedHandleY = handleApogeeY + (int) yComponent;
+        mRightHandleX = handleApogeeX + (int) xComponent;
+        mRightHandleY = handleApogeeY + (int) yComponent;
 
-        if (DBG) log("==> RED: mDialTheta = "
+        if (DBG) log("==> RIGHT: mDialTheta = "
                      + Math.toDegrees(mDialTheta) + " degrees; "
-                     + "redHandleTheta = "
-                     + Math.toDegrees(redHandleTheta) + " degrees; "
-                     + "handle pos = " + mRedHandleX + " , " + mRedHandleY);
+                     + "rightHandleTheta = "
+                     + Math.toDegrees(rightHandleTheta) + " degrees; "
+                     + "handle pos = " + mRightHandleX + " , " + mRightHandleY);
     }
 
     /*
@@ -588,30 +603,6 @@ public class IncomingCallDialWidget extends View {
         drawCentered(mDimple, canvas, dimpleX, dimpleY);
     }
 
-    //
-    // "Answer" and "Reject" actions.
-    //
-    // For now, just call the corresponding InCallTouchUi method.
-    // TODO: use a more general callback mechanism here to make this
-    // widget reusable.
-    //
-
-    private void answer() {
-        if (mInCallTouchUi != null) {
-            mInCallTouchUi.answerIncomingCall();
-        } else {
-            Log.e(LOG_TAG, "Got 'answer' gesture but mInCallTouchUi is null");
-        }
-    }
-
-    private void reject() {
-        if (mInCallTouchUi != null) {
-            mInCallTouchUi.rejectIncomingCall();
-        } else {
-            Log.e(LOG_TAG, "Got 'reject' gesture but mInCallTouchUi is null");
-        }
-    }
-
     /**
      * Triggers haptic feedback.
      */
@@ -627,7 +618,7 @@ public class IncomingCallDialWidget extends View {
      * on the point (x,y), then draws it onto the specified canvas.
      * TODO: is there already a utility method somewhere for this?
      */
-    private void drawCentered(Drawable d, Canvas c, int x, int y) {
+    private static void drawCentered(Drawable d, Canvas c, int x, int y) {
         int w = d.getIntrinsicWidth();
         int h = d.getIntrinsicHeight();
 
@@ -635,6 +626,60 @@ public class IncomingCallDialWidget extends View {
         d.setBounds(x - (w / 2), y - (h / 2),
                     x + (w / 2), y + (h / 2));
         d.draw(c);
+    }
+
+
+    /**
+     * Registers a callback to be invoked when the dial
+     * is "triggered" by rotating it one way or the other.
+     *
+     * @param l the OnDialTriggerListener to attach to this view
+     */
+    public void setOnDialTriggerListener(OnDialTriggerListener l) {
+        mOnDialTriggerListener = l;
+    }
+
+    /**
+     * Dispatches a trigger event to our listener.
+     */
+    private void dispatchTriggerEvent(int whichHandle) {
+        if (mOnDialTriggerListener != null) {
+            mOnDialTriggerListener.onDialTrigger(this, whichHandle);
+        }
+    }
+
+    /**
+     * Interface definition for a callback to be invoked when the dial
+     * is "triggered" by rotating it one way or the other.
+     */
+    public interface OnDialTriggerListener {
+        /**
+         * The dial was triggered because the user grabbed the left handle,
+         * and rotated the dial clockwise.
+         */
+        public static final int LEFT_HANDLE = 1;
+
+        /**
+         * The dial was triggered because the user grabbed the right handle,
+         * and rotated the dial counterclockwise.
+         */
+        public static final int RIGHT_HANDLE = 2;
+
+        /**
+         * @hide
+         * The center handle is currently unused.
+         */
+        public static final int CENTER_HANDLE = 3;
+
+        /**
+         * Called when the dial is triggered.
+         *
+         * @param v The view that was triggered
+         * @param whichHandle  Which "dial handle" the user grabbed,
+         *        either {@link LEFT_HANDLE}, {@link RIGHT_HANDLE}, or
+         *        {@link CENTER_HANDLE}.
+         */
+         void onDialTrigger(View v, int whichHandle);
     }
 
 
