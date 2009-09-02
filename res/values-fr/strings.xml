@@ -307,10 +307,6 @@
     <item>"Réseaux domestiques uniquement"</item>
     <item>"Automatique"</item>
   </string-array>
-  <string-array name="cdma_system_select_values">
-    <item>"0"</item>
-    <item>"2"</item>
-  </string-array>
     <string name="cdma_roaming_mode_title">"Mode d\'itinérance CDMA"</string>
     <string name="cdma_roaming_mode_summary">"Modifier le mode d\'itinérance CDMA"</string>
     <string name="cdma_roaming_mode_dialogtitle">"Mode d\'itinérance CDMA"</string>

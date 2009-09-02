@@ -307,10 +307,6 @@
     <item>"Alleen thuis"</item>
     <item>"Automatisch"</item>
   </string-array>
-  <string-array name="cdma_system_select_values">
-    <item>"0"</item>
-    <item>"2"</item>
-  </string-array>
     <string name="cdma_roaming_mode_title">"CDMA-roamingmodus"</string>
     <string name="cdma_roaming_mode_summary">"De CDMA-roamingmodus wijzigen"</string>
     <string name="cdma_roaming_mode_dialogtitle">"CDMA-roamingmodus"</string>

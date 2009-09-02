@@ -307,10 +307,6 @@
     <item>"Pouze plocha"</item>
     <item>"Automaticky"</item>
   </string-array>
-  <string-array name="cdma_system_select_values">
-    <item>"0"</item>
-    <item>"2"</item>
-  </string-array>
     <string name="cdma_roaming_mode_title">"Režim roamingu CDMA"</string>
     <string name="cdma_roaming_mode_summary">"Změnit režim roamingu CDMA"</string>
     <string name="cdma_roaming_mode_dialogtitle">"Režim roamingu CDMA"</string>

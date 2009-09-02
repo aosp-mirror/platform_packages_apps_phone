@@ -307,10 +307,6 @@
     <item>"僅限住家電話"</item>
     <item>"自動"</item>
   </string-array>
-  <string-array name="cdma_system_select_values">
-    <item>"0"</item>
-    <item>"2"</item>
-  </string-array>
     <string name="cdma_roaming_mode_title">"CDMA 漫遊模式"</string>
     <string name="cdma_roaming_mode_summary">"變更 CDMA 漫遊模式"</string>
     <string name="cdma_roaming_mode_dialogtitle">"CDMA 漫遊模式"</string>
