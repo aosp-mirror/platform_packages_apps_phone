@@ -573,7 +573,7 @@
         <!-- System select dialog screen, setting option name -->
         <item>Automatic</item>
     </string-array>
-    <string-array name="cdma_system_select_values">
+    <string-array name="cdma_system_select_values" translatable="false">
         <!-- Do not translate. -->
         <item>"0"</item>
         <!-- Remove the following value "1" which corresponds to "Affiliated Networks" above -->
@@ -958,7 +958,7 @@
     </string-array>
 
     <!-- Do not translate. -->
-    <string-array name="tty_mode_values">
+    <string-array name="tty_mode_values" translatable="false">
         <!-- Do not translate. -->
         <item>0</item>
         <!-- Do not translate. -->
