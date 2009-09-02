@@ -218,11 +218,9 @@ public class CallFeaturesSetting extends PreferenceActivity
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
             updateVMPreferenceWidgets((String)objValue);
-            // If we were called to explicitly configure voice mail then force the user into
-            // a configuration of the chosen provider right after the chose the provider
-            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
-                simulatePreferenceClick(mVoicemailSettings);
-            }
+            // Force the user into a configuration of the chosen provider
+            // right after the chose the provider
+            simulatePreferenceClick(mVoicemailSettings);
         }
         // always let the preference setting proceed.
         return true;
