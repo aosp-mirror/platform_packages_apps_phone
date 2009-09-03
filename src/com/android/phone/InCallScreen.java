@@ -2275,7 +2275,7 @@ public class InCallScreen extends Activity
     private InCallInitStatus syncWithPhoneState() {
         boolean updateSuccessful = false;
         if (DBG) log("syncWithPhoneState()...");
-        if (VDBG) PhoneUtils.dumpCallState(mPhone);
+        if (DBG) PhoneUtils.dumpCallState(mPhone);
         if (VDBG) dumpBluetoothState();
 
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
@@ -3821,21 +3821,21 @@ public class InCallScreen extends Activity
             // dialpad.
             boolean visible = okToShowDialpad();
 
-            // TODO: the handle *should* also be hidden if there's an
-            // explicit "show dialpad" button provided by the InCallTouchUi
-            // widget.
+            // Hide the dialpad handle on "touch UI" devices, which don't
+            // need the handle since they have a separate "show dialpad"
+            // button.
+            // (TODO: this is a temporary hack.  The real fix is that we
+            // shouldn't use a SlidingDrawer *at all* on devices with
+            // onscreen buttons.)
             //
-            // But I can't just do this:
-            //    boolean visible = false;
-            //    if ((mInCallTouchUi == null) || (!mInCallTouchUi.isTouchUiEnabled())) {
-            //        visible = okToShowDialpad();
-            //    }
-            // since hiding the dialer drawer also hides the dialpad itself!
-            //
-            // I could probably do an ugly hack like "don't hide it if
-            // the drawer is open" but I should instead totally clean up
-            // the dialpad to not use a SlidingDrawer AT ALL on devices
-            // that use onscreen touch buttons.
+            // Note we *don't* hide the dialer drawer if the dialer is
+            // open, since hiding the drawer also hides the dialpad
+            // itself!
+            if ((mInCallTouchUi != null)
+                && mInCallTouchUi.isTouchUiEnabled()
+                && !isDialerOpened()) {
+                visible = false;
+            }
 
             mDialerDrawer.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
@@ -3853,7 +3853,7 @@ public class InCallScreen extends Activity
      * @see DTMFTwelveKeyDialer.onDialerOpen()
      */
     /* package */ void onDialerOpen() {
-        if (VDBG) log("onDialerOpen()...");
+        if (DBG) log("onDialerOpen()...");
 
         // ANY time the dialpad becomes visible, start the timer that will
         // eventually bring up the "touch lock" overlay.
@@ -3878,7 +3878,7 @@ public class InCallScreen extends Activity
      * @see DTMFTwelveKeyDialer.onDialerClose()
      */
     /* package */ void onDialerClose() {
-        if (VDBG) log("onDialerClose()...");
+        if (DBG) log("onDialerClose()...");
 
         final PhoneApp app = PhoneApp.getInstance();
 
@@ -3902,6 +3902,10 @@ public class InCallScreen extends Activity
 
         // Update the in-call touch UI (which may need to re-show itself.)
         updateInCallTouchUi();
+
+        // Update the visibility of the dialpad itself (in case we need to
+        // hide the drawer handle.)
+        updateDialpadVisibility();
 
         // This counts as explicit "user activity".
         app.getInstance().pokeUserActivity();
