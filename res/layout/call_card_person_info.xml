@@ -31,14 +31,9 @@
          to account for the incall_photo_border background, which
          adds a white border around the image (and a shadow around
          the white border.) -->
-    <!-- TODO: Right now, for contact photos *smaller* than the standard
-         size, we still draw the picture frame at its normal size, so
-         you see the white border *and* lots of gray space around the
-         photo...  Need to confirm this is OK. -->
     <ImageView android:id="@+id/photo"
-               android:layout_width="116px"
-               android:layout_height="116px"
-               android:scaleType="center"
+               android:layout_width="116dp"
+               android:layout_height="116dp"
                android:background="@drawable/incall_photo_border"
                />
 
