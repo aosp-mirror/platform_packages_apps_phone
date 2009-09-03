@@ -51,7 +51,7 @@ public class SimContacts extends ADNList {
     private static final int MENU_IMPORT_ALL = 2;
     private ProgressDialog mProgressDialog;
 
-    
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -60,22 +60,26 @@ public class SimContacts extends ADNList {
 
     private class ImportAllThread extends Thread implements OnCancelListener, OnClickListener {
         boolean mCanceled = false;
-        
+
         public ImportAllThread() {
             super("ImportAllThread");
         }
-        
+
         @Override
         public void run() {
             ContentValues map = new ContentValues();
             ContentResolver cr = getContentResolver();
             Object[] parsed = new Object[2];
-            
+
             mCursor.moveToPosition(-1);
             while (!mCanceled && mCursor.moveToNext()) {
                 String name = mCursor.getString(0);
                 String number = mCursor.getString(1);
-
+                String email = mCursor.getString(2);
+                String[] emails = null;
+                if (email != null) {
+                    emails = email.split(",");
+                }
                 Uri personUrl = parseName(name, parsed);
 
                 if (personUrl == null) {
@@ -91,10 +95,12 @@ public class SimContacts extends ADNList {
                 map.clear();
                 map.put(Contacts.People.Phones.NUMBER, number);
                 map.put(Contacts.People.Phones.TYPE, (Integer) parsed[1]);
+                // TODO() : Add email address to contacts.
+                // The provider is being changed.
                 Uri numberUrl = cr.insert(
                         Uri.withAppendedPath(personUrl, Contacts.People.Phones.CONTENT_DIRECTORY),
                         map);
-                
+
                 mProgressDialog.incrementProgressBy(1);
                 if (numberUrl == null) {
                     Log.e(TAG, "Error inserting phone " + map + " for person " +
@@ -102,7 +108,7 @@ public class SimContacts extends ADNList {
                     continue;
                 }
             }
-            
+
             mProgressDialog.dismiss();
 
             finish();
@@ -147,7 +153,7 @@ public class SimContacts extends ADNList {
         switch (item.getItemId()) {
             case MENU_IMPORT_ALL:
                 CharSequence title = getString(R.string.importAllSimEntries);
-                CharSequence message = getString(R.string.importingSimContacts); 
+                CharSequence message = getString(R.string.importingSimContacts);
 
                 ImportAllThread thread = new ImportAllThread();
 
@@ -159,14 +165,14 @@ public class SimContacts extends ADNList {
                 mProgressDialog.setProgress(0);
                 mProgressDialog.setMax(mCursor.getCount());
                 mProgressDialog.show();
-                
+
                 thread.start();
-                
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -181,7 +187,7 @@ public class SimContacts extends ADNList {
         return super.onContextItemSelected(item);
     }
 
-    
+
     public void onCreateContextMenu(ContextMenu menu, View v,
             ContextMenu.ContextMenuInfo menuInfo) {
         if (menuInfo instanceof AdapterView.AdapterContextMenuInfo) {
@@ -204,8 +210,14 @@ public class SimContacts extends ADNList {
         if (mCursor.moveToPosition(position)) {
             String name = mCursor.getString(NAME_COLUMN);
             String number = mCursor.getString(NUMBER_COLUMN);
+            String email = mCursor.getString(EMAILS_COLUMN);
             Object[] parsed = new Object[2];
             Uri personUrl = parseName(name, parsed);
+            String[] emails = null;
+            Log.d(TAG, "Email string is " + email);
+            if (email != null) {
+                emails = email.split(",");
+            }
 
             Intent intent;
             if (personUrl == null) {
@@ -215,11 +227,15 @@ public class SimContacts extends ADNList {
                 intent.putExtra(Contacts.Intents.Insert.NAME, (String)parsed[0]);
                 intent.putExtra(Contacts.Intents.Insert.PHONE, number);
                 intent.putExtra(Contacts.Intents.Insert.PHONE_TYPE, ((Integer)parsed[1]).intValue());
+                // TODO() : Add email address to contacts.
+                // The provider is being changed.
             } else {
                 // Add the number to an existing contact
                 intent = new Intent(Intent.ACTION_EDIT, personUrl);
                 intent.putExtra(Contacts.Intents.Insert.PHONE, number);
                 intent.putExtra(Contacts.Intents.Insert.PHONE_TYPE, ((Integer)parsed[1]).intValue());
+                // TODO() : Add email address to contacts.
+                // The provider is being changed.
             }
             startActivity(intent);
         }
