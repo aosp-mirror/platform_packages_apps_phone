@@ -255,9 +255,6 @@ public class InCallScreen extends Activity
     private ViewGroup mMainFrame;
     private ViewGroup mInCallPanel;
 
-    // Menu button hint below the "main frame"
-    private TextView mMenuButtonHint;
-
     // Main in-call UI elements:
     private CallCard mCallCard;
 
@@ -1154,9 +1151,6 @@ public class InCallScreen extends Activity
         mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
-
-        // Menu Button hint
-        mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
 
         // Onscreen touch UI elements (used on some platforms)
         initInCallTouchUi();
@@ -3052,25 +3046,12 @@ public class InCallScreen extends Activity
 
         // The hint is also hidden on devices where we use onscreen
         // touchable buttons instead.
-        // TODO: even on "full touch" devices we may still ultimately need
-        // a regular menu in some states.  Need UI spec.
         if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
             hintVisible = false;
         }
 
         int hintVisibility = (hintVisible) ? View.VISIBLE : View.GONE;
-
-        // We actually have two separate "menu button hint" TextViews; one
-        // used only in portrait mode (part of the CallCard) and one used
-        // only in landscape mode (part of the InCallScreen.)
-        TextView callCardMenuButtonHint = mCallCard.getMenuButtonHint();
-        if (ConfigurationHelper.isLandscape()) {
-            callCardMenuButtonHint.setVisibility(View.GONE);
-            mMenuButtonHint.setVisibility(hintVisibility);
-        } else {
-            callCardMenuButtonHint.setVisibility(hintVisibility);
-            mMenuButtonHint.setVisibility(View.GONE);
-        }
+        mCallCard.getMenuButtonHint().setVisibility(hintVisibility);
 
         // TODO: Consider hiding the hint(s) whenever the menu is onscreen!
         // (Currently, the menu is rendered on top of the hint, but the
@@ -4052,20 +4033,6 @@ public class InCallScreen extends Activity
 
             // find the landscape-only DTMF display field.
             inCallScreen.mDTMFDisplay = (EditText) inCallScreen.findViewById(R.id.dtmfDialerField);
-
-            // Our layout resources describe the *portrait mode* layout of
-            // the Phone UI (see the TODO above in the doc comment for
-            // the ConfigurationHelper class.)  So if we're in landscape
-            // mode now, reach into our View hierarchy and update the
-            // (few) layout params that need to be different.
-            if (isLandscape()) {
-                // Update CallCard-related stuff
-                inCallScreen.mCallCard.updateForLandscapeMode();
-
-                // No need to adjust the visibility for mDTMFDisplay here because
-                // we're relying on the resources (layouts in layout-finger vs.
-                // layout-land-finger) to manage when mDTMFDisplay is shown.
-            }
         }
     }
 

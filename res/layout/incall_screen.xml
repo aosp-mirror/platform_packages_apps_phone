@@ -46,21 +46,6 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="fill_parent"
                 />
-
-            <!-- The hint about the Menu button, anchored to the bottom of
-                 the screen.  This is used only in landscape mode (see
-                 updateMenuButtonHint()); in portrait mode we use the
-                 menuButtonHint built-in to the CallCard. -->
-            <TextView android:id="@+id/menuButtonHint"
-                      android:text="@string/menuButtonKeyboardDialHint"
-                      android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textColor="?android:attr/textColorSecondary"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:visibility="gone"
-                      android:layout_alignParentBottom="true"
-                      />
         </RelativeLayout>  <!-- End of inCallPanel -->
 
          <!-- Contains all OTA-related UI elements for CDMA -->
