@@ -34,12 +34,8 @@
              for the current foreground call, or the currently-ringing
              incoming call (if there is one.)
 
-         (2) The "other call" info area for the current ongoing call,
-             visible only if an incoming call is ringing while you're
-             already using a phone line.
-
-         (3) The "other call" info area for the current call on hold,
-             visible only if there's a call on hold.
+         (2) The "other call on hold" info area, visible only if there's a
+             call on hold.
     -->
 
     <!-- (1) The main call card -->
@@ -116,59 +112,9 @@
     </LinearLayout>    <!-- End of (1) The main call card -->
 
 
-    <!-- The "other call" info area. -->
-    <!-- There are two possible rows of information to display here:
-         (1) a one-liner with info about the "ongoing" (active) call,
-             displayed only if the main body of the CallCard is showing
-             an incoming call and a foreground call exists.
-         (2) a one-liner with info about the call on hold,
-             if there's a call on hold.
-         Note that BOTH can be visible in the rare case of an
-         incoming call while both lines are in use.  -->
-    <!-- The "other call" boxes are always bottom-aligned on the call card. -->
-
-    <!-- Fix the CallCard's updateState method to just fully
-         update EVERYTHING in the callcard based on the current phone
-         state: set the overall type of the CallCard, load up the main
-         caller info area, and load up and show or hide the "other call"
-         widgets as necessary.  -->
-
-    <!-- (2) Info area for the "ongoing" call -->
-    <LinearLayout android:id="@+id/otherCallOngoingInfoArea"
-                  android:orientation="horizontal"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_vertical"
-                  android:layout_marginTop="4dip"
-                  >
-        <ImageView android:id="@+id/otherCallOngoingIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dip"
-            android:layout_marginRight="8dip"
-            android:src="@drawable/ic_incall_ongoing"
-            />
-        <TextView android:id="@+id/otherCallOngoingName"
-              android:textAppearance="?android:attr/textAppearanceMedium"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:layout_width="wrap_content"
-              android:layout_weight="1"
-              android:layout_height="wrap_content"
-              android:gravity="left"
-              />
-        <TextView android:id="@+id/otherCallOngoingStatus"
-              android:text="@string/ongoing"
-              android:textAppearance="?android:attr/textAppearanceMedium"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:layout_marginRight="6dip"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              />
-    </LinearLayout>
-
-    <!-- (3) Info area for the "on hold" call -->
+    <!-- (2) The "other call on hold" info area. -->
+    <!-- If you're on a call with both lines in use, we use this area
+         to display the status and caller-id info of the call on hold. -->
     <LinearLayout android:id="@+id/otherCallOnHoldInfoArea"
                   android:orientation="horizontal"
                   android:layout_width="fill_parent"
@@ -204,11 +150,7 @@
     </LinearLayout>
 
     <!-- The hint about the Menu button, anchored to the bottom of the
-         CallCard.
-         This is used only in portrait mode.  (See updateMenuButtonHint());
-         in landscape mode we use the menuButtonHint from
-         incall_screen.xml, which is anchored to the bottom of the
-         screen.) -->
+         CallCard. -->
     <TextView android:id="@+id/menuButtonHint"
               android:text="@string/menuButtonHint"
               android:textAppearance="?android:attr/textAppearanceMedium"
