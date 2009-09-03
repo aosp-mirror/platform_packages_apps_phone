@@ -561,11 +561,13 @@ public class DTMFTwelveKeyDialer implements
         }
     };
 
-
-    public DTMFTwelveKeyDialer(InCallScreen parent) {
+    public DTMFTwelveKeyDialer(InCallScreen parent, DTMFTwelveKeyDialerView dialerView,
+            SlidingDrawer dialerContainer, EditText inCallDigits) {
         mInCallScreen = parent;
         mPhone = ((PhoneApp) mInCallScreen.getApplication()).phone;
-        mDialerContainer = (SlidingDrawer) mInCallScreen.findViewById(R.id.dialer_container);
+        mDialerContainer = dialerContainer;
+        mDialerView = dialerView;
+        mDialerView.setDialer(this);
 
         // mDialerContainer is only valid when we're looking at the portrait version of
         // dtmf_twelve_key_dialer.
@@ -578,9 +580,9 @@ public class DTMFTwelveKeyDialer implements
         // landscape mode.  (This widget belongs to the InCallScreen, as
         // opposed to mDialpadDigits, which is part of the full dialpad,
         // and is used in portrait mode.)
-        mInCallDigits = mInCallScreen.getDialerDisplay();
-
+        mInCallDigits = inCallDigits;
         mDialerKeyListener = new DTMFKeyListener(mInCallDigits);
+
         // If the widget exists, set the behavior correctly.
         if (mInCallDigits != null && InCallScreen.ConfigurationHelper.isLandscape()) {
             mInCallDigits.setKeyListener(mDialerKeyListener);
@@ -651,27 +653,30 @@ public class DTMFTwelveKeyDialer implements
     private void onDialerOpen() {
         if (DBG) log("onDialerOpen()...");
 
-        // inflate the view.
-        mDialerView = (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.dtmf_dialer);
-        mDialerView.setDialer(this);
+        initializeDialer();
 
+        // Give the InCallScreen a chance to do any necessary UI updates.
+        mInCallScreen.onDialerOpen();
+    }
+
+    /* package */ void initializeDialer() {
         // Have the WindowManager filter out cheek touch events
         mInCallScreen.getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
 
         mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
 
         // set to a longer delay while the dialer is up.
-        PhoneApp app = PhoneApp.getInstance();
-        app.updateWakeState();
+        PhoneApp.getInstance().updateWakeState();
 
         // setup the digit display
         mDialpadDigits = (EditText) mDialerView.findViewById(R.id.dtmfDialerField);
-        mDialpadDigits.setKeyListener(new DTMFKeyListener(null));
-        mDialpadDigits.requestFocus();
-
-        // remove the long-press context menus that support
-        // the edit (copy / paste / select) functions.
-        mDialpadDigits.setLongClickable(false);
+        if (mDialpadDigits != null) {
+            mDialpadDigits.setKeyListener(new DTMFKeyListener(null));
+            mDialpadDigits.requestFocus();
+            // remove the long-press context menus that support
+            // the edit (copy / paste / select) functions.
+            mDialpadDigits.setLongClickable(false);
+        }
 
         // Check for the presence of the keypad (portrait mode)
         View view = mDialerView.findViewById(R.id.one);
@@ -682,11 +687,8 @@ public class DTMFTwelveKeyDialer implements
             if (DBG) log("landscape mode setup");
             // Adding hint text to the field to indicate that keyboard
             // is needed while in landscape mode.
-            mDialpadDigits.setHint(R.string.dialerKeyboardHintText);
+            if (mDialpadDigits != null) mDialpadDigits.setHint(R.string.dialerKeyboardHintText);
         }
-
-        // Give the InCallScreen a chance to do any necessary UI updates.
-        mInCallScreen.onDialerOpen();
     }
 
     /**

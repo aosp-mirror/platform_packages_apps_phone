@@ -3,8 +3,7 @@
     <!-- Dimensions for OTA Call Card -->
     <dimen name="otabase_layout_marginTop">30dip</dimen>
     <dimen name="otabase_minHeight">270dip</dimen>
-    <dimen name="otaactivate_layout_marginTop">30dip</dimen>
-    <dimen name="otalistenprogress_layout_marginTop">30dip</dimen>
-    <dimen name="progresslarge_layout_marginLeft">120dip</dimen>
-    <dimen name="otasuccessfail_layout_marginTop">30dip</dimen>
+    <dimen name="otaactivate_layout_marginTop">10dip</dimen>
+    <dimen name="otalistenprogress_layout_marginTop">5dip</dimen>
+    <dimen name="otasuccessfail_layout_marginTop">10dip</dimen>
 </resources>

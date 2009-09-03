@@ -992,29 +992,44 @@
     <string name="network_message">Network Message</string>
 
     <!-- OTA-specific strings -->
+    <!-- Title shown on OTA screen -->
+    <string name="ota_title_activate">Activate your phone</string>
     <!-- Message displayed on the OTA activation screen -->
-    <string name="ota_touch_activate">Touch to activate phone</string>
+    <string name="ota_touch_activate">A special call needs to be made to activate your phone service.
+    \n\nAfter pressing \u201CActivate\u201D, listen to the instructions provided to activate your phone.</string>
     <!-- Button label within the OTA activation screen -->
     <string name="ota_activate">Activate</string>
-    <!-- Message displayed on the OTA listen screen -->
-    <string name="ota_listen">Please listen for instructions</string>
+    <!-- Title text shown when phone activation is successful -->
+    <string name="ota_title_activate_success">Phone is activated!</string>
+    <!-- Title text shown on screen where activation fails -->
+    <string name="ota_title_problem_with_activation">Problem with activation</string>
+    <!-- Message displayed on the OTA listen screen. This message should be short to ensure the dialer fits. -->
+    <string name="ota_listen">Listen to the instructions to activate your phone. Stay on the line until you hear confirmation that your phone is activated.</string>
     <!-- Button label within the OTA listen screen -->
     <string name="ota_dialpad">Keypad</string>
     <!-- Button label within the OTA listen screen -->
     <string name="ota_speaker">Speaker</string>
     <!-- String to be displayed on OTA listen screen once user has selected the
          correct option to begin provisioning -->
-    <string name="ota_progress">Programming in progress</string>
+    <string name="ota_progress">Please wait while your phone is being programmed.</string>
     <!-- String to display within the OTA Fail Notice dialog -->
     <string name="ota_failure">Programming Unsuccessful</string>
     <!-- String to be displayed on the OTA Fail/Success screen upon successful provisioning -->
-    <string name="ota_successful">Programming Successful. Press any key to continue.</string>
+    <string name="ota_successful">Your phone is now activated.  It may take up to 15 minutes for service to start.</string>
     <!-- String to be displayed on the OTA Fail/Success screen upon unsuccessful provisioning -->
-    <string name="ota_unsuccessful">Programming Unsuccessful. Please call Customer Service.</string>
+    <string name="ota_unsuccessful">Your phone did not activate.
+    \nYou may need to find an area with better coverage (near a window, or outside).
+    \n\nTry again or call customer service for more options.</string>
     <!-- String to display within the OTA SPC Fail Notice dialog -->
     <string name="ota_spc_failure">EXCESS SPC FAILURES</string>
-    <!-- Button label within the OTA listen screen -->
-    <string name="ota_call_end">End Call</string>
+    <!-- Button label in OTA listen screen that cancels activation and goes to the previous screen -->
+    <string name="ota_call_end">Back</string>
+    <!-- Button label shown on OTA error screen to allow the user to try again -->
+    <string name="ota_try_again">Try again</string>
+    <!-- Button label shown on OTA screens that have a next screen -->
+    <string name="ota_next">Next</string>
+    <!-- Button label shown on OTA screens to go back to the previous screen -->
+    <string name="ota_back">Back</string>
 
     <!-- Emergency Callback Mode (ECM) -->
     <string name="ecm_exit_dialog">EcmExitDialog</string>

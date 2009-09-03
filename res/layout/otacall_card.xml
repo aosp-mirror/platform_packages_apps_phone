@@ -11,144 +11,132 @@
     android:layout_height="fill_parent"
     >
 
-    <!-- (1) The ota call card -->
-    <LinearLayout android:id="@+id/otaBase"
-                  android:orientation="vertical"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/otabase_layout_marginTop"
-                  android:minHeight="@dimen/otabase_minHeight"
-                  android:background="@null"
-                  >
-        <TextView android:id="@+id/otaActivate"
-                  android:gravity="center_horizontal"
-                  android:layout_marginTop="@dimen/otaactivate_layout_marginTop"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:textSize="35sp"
-                  android:visibility="gone"
-                  android:text="@string/ota_touch_activate"
-                  />
-        <TextView android:id="@+id/otaListenProgress"
-                  android:gravity="center_horizontal"
-                  android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:textSize="35sp"
-                  android:visibility="gone"
-                  />
-        <ProgressBar android:id="@+android:id/progress_large"
-                     style="?android:attr/progressBarStyleLarge"
-                     android:layout_marginTop="10dip"
-                     android:layout_marginLeft="@dimen/progresslarge_layout_marginLeft"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:visibility="gone"/>
+    <!-- (1) The ota call card shared widgets -->
+    <ScrollView android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-        <TextView android:id="@+id/otaSuccessFailStatus"
-                  android:gravity="left"
-                  android:layout_marginTop="@dimen/otasuccessfail_layout_marginTop"
-                  android:layout_marginLeft="5dip"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:textSize="35sp"
-                  android:visibility="gone"
-                  />
+        <LinearLayout android:id="@+id/otaBase"
+                      android:orientation="vertical"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content" >
+    
+            <TextView android:id="@+id/otaTitle"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:textAppearance="@style/ccOtaWizardTitle"
+                      android:text="@string/ota_title_activate"
+            />
+    
+            <TextView android:id="@+id/otaActivate"
+                      android:layout_marginTop="@dimen/otaactivate_layout_marginTop"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:textAppearance="@style/ccOtaTextPrimary"
+                      android:visibility="gone"
+                      android:text="@string/ota_touch_activate"
+                      />
+    
+            <TextView android:id="@+id/otaListenProgress"
+                      android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:textAppearance="@style/ccOtaTextPrimary"
+                      android:visibility="gone"
+                      />
+    
+            <ProgressBar android:id="@+android:id/progress_large"
+                         style="?android:attr/progressBarStyleHorizontal"
+                         android:layout_marginTop="10dip"
+                         android:layout_marginLeft="20dip"
+                         android:layout_marginRight="20dip"
+                         android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:visibility="gone"/>
+    
+            <TextView android:id="@+id/otaSuccessFailStatus"
+                      android:gravity="left"
+                      android:layout_marginTop="@dimen/otasuccessfail_layout_marginTop"
+                      android:layout_marginLeft="5dip"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:textAppearance="@style/ccOtaTextPrimary"
+                      android:visibility="gone"
+                      />
+    
+            <!-- DTMF Dialer section -->
+            <com.android.phone.DTMFTwelveKeyDialerView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/otaDtmfDialer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="1dip"
+                    android:background="@color/dtmf_dialer_background"
+                    android:visibility="gone" >
+    
+                    <!-- Keypad section -->
+                    <include layout="@layout/dialpad" />
+    
+            </com.android.phone.DTMFTwelveKeyDialerView>
+    
+            <!-- "Speaker" button -->
+            <ToggleButton android:id="@+id/otaSpeakerButton"
+                      android:layout_gravity="center"
+                      android:textOn="@string/ota_speaker"
+                      android:textOff="@string/ota_speaker"
+                      style="@style/ccOtaButton" />
+    
+        </LinearLayout>
+    
+    </ScrollView>
 
-    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+    />
 
     <!-- (2) Activate/cancel buttons -->
     <RelativeLayout android:id="@+id/callCardOtaActivate"
-                    android:gravity="center_horizontal"
-                    android:layout_width="fill_parent"
                     android:visibility="gone"
-                    style="@style/ccOtaLayouts" >
+                    style="@style/ccOtaButtonBar" >
 
         <!-- "Activate" button -->
         <Button android:id="@+id/otaActivateButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/ota_button"
-                android:layout_marginBottom="1dip"
                 android:text="@string/ota_activate"
-                android:textSize="18sp"
-                android:textColor="#FFFFFFFF"
-                android:layout_height="60dip"
-                style="@style/ccOtaActivateButton" />
+                style="@style/ccOtaNextButton" />
 
         <!-- "Cancel" button -->
         <Button android:id="@+id/otaCancelButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ota_cancel"
-                android:layout_marginBottom="1dip"
-                android:text="@string/cancel"
-                android:textSize="18sp"
-                android:textColor="#FFFFFFFF"
-                android:layout_height="60dip"
-                style="@style/ccOtaCancelButton" />
+                android:text="@string/ota_back"
+                style="@style/ccOtaBackButton" />
+
     </RelativeLayout>
 
     <!-- (3) OTA listen/progress buttons -->
     <RelativeLayout android:id="@+id/callCardOtaListenProgress"
-                    android:gravity="center_horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
                     android:visibility="gone"
-                    style="@style/ccOtaLayouts" >
-
-        <!-- "DialPad" button -->
-        <Button android:id="@+id/otaDialButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/ota_button"
-                android:layout_marginBottom="61dip"
-                android:layout_marginLeft="5dip"
-                android:text="@string/ota_dialpad"
-                android:textSize="18sp"
-                android:textColor="#FFFFFFFF"
-                android:layout_width="150dip"
-                android:layout_height="60dip"
-                style="@style/ccOtaDialVisible" />
-
-        <!-- "Speaker" button -->
-        <ToggleButton android:id="@+id/otaSpeakerButton"
-                      android:layout_alignParentBottom="true"
-                      android:background="@drawable/ota_button"
-                      android:textOn="@string/ota_speaker"
-                      android:textOff="@string/ota_speaker"
-                      android:textSize="18sp"
-                      android:textColor="#FFFFFFFF"
-                      android:layout_height="60dip"
-                      style="@style/ccOtaSpeakerButton" />
+                    style="@style/ccOtaButtonBar" >
 
         <!-- "End" button -->
         <Button android:id="@+id/otaEndButton"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/endcall_button"
-                android:layout_marginBottom="1dip"
                 android:text="@string/ota_call_end"
-                android:textSize="18sp"
-                android:textColor="#FFFFFFFF"
-                android:layout_height="60dip"
-                style="@style/ccOtaEndButton" />
+                style="@style/ccOtaBackButton" />
     </RelativeLayout>
 
     <!-- (4) OTA Success/Failure button -->
     <RelativeLayout android:id="@+id/callCardOtaFailOrSuccessful"
-                    android:gravity="center_horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    style="@style/ccOtaButtonBar" >
 
-        <!-- "OK" button -->
-        <Button android:id="@+id/otaOkButton"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/endcall_button"
-                android:text="@string/ok"
-                android:textSize="18sp"
-                android:textColor="#FFFFFFFF"
-                android:layout_height="60dip"
-                style="@style/ccOtaActivateDialogOkButton" />
+        <!-- "Next" button -->
+        <Button android:id="@+id/otaNextButton"
+                android:text="@string/ota_next"
+                style="@style/ccOtaNextButton" />
+
+        <!-- "Try Again" button -->
+        <Button android:id="@+id/otaTryAgainButton"
+                android:text="@string/ota_try_again"
+                style="@style/ccOtaBackButton" />
     </RelativeLayout>
 </LinearLayout>

@@ -570,7 +570,9 @@ public class InCallScreen extends Activity
         // Create the dtmf dialer.  Note that mDialer is instantiated
         // regardless of screen orientation, although the onscreen touchable
         // dialpad is used only in portrait mode.
-        mDialer = new DTMFTwelveKeyDialer(this);
+        DTMFTwelveKeyDialerView dialView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
+        SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
+        mDialer = new DTMFTwelveKeyDialer(this, dialView, slidingDrawer, getDialerDisplay());
 
         registerForPhoneStates();
 
