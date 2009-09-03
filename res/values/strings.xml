@@ -1080,4 +1080,7 @@
 
     <!-- Title displayed above settings coming after voicemail in the call features screen -->
     <string name="other_settings">Other call settings</string>
+
+    <!-- Label for onscreen "Dial" button used in the EmergencyDialer -->
+    <string name="dial_button_label">Dial</string>
 </resources>
