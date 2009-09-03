@@ -105,6 +105,8 @@ public class BluetoothHandsfree {
     private final BluetoothPhoneState mBluetoothPhoneState;  // for CIND and CIEV updates
     private final BluetoothAtPhonebook mPhonebook;
     private Phone.State mPhoneState = Phone.State.IDLE;
+    CdmaPhoneCallState.PhoneCallState mCdmaThreeWayCallState =
+                                            CdmaPhoneCallState.PhoneCallState.IDLE;
 
     private DebugThread mDebugThread;
     private int mScoGain = Integer.MIN_VALUE;
@@ -339,7 +341,7 @@ public class BluetoothHandsfree {
         private boolean mIgnoreRing = false;
 
         private static final int SERVICE_STATE_CHANGED = 1;
-        private static final int PHONE_STATE_CHANGED = 2;
+        private static final int PRECISE_CALL_STATE_CHANGED = 2;
         private static final int RING = 3;
         private static final int PHONE_CDMA_CALL_WAITING = 4;
 
@@ -357,13 +359,13 @@ public class BluetoothHandsfree {
                     ServiceState state = (ServiceState) ((AsyncResult) msg.obj).result;
                     updateServiceState(sendUpdate(), state);
                     break;
-                case PHONE_STATE_CHANGED:
+                case PRECISE_CALL_STATE_CHANGED:
                 case PHONE_CDMA_CALL_WAITING:
                     Connection connection = null;
                     if (((AsyncResult) msg.obj).result instanceof Connection) {
                         connection = (Connection) ((AsyncResult) msg.obj).result;
                     }
-                    updatePhoneState(sendUpdate(), connection);
+                    handlePreciseCallStateChange(sendUpdate(), connection);
                     break;
                 }
             }
@@ -372,7 +374,7 @@ public class BluetoothHandsfree {
         private BluetoothPhoneState() {
             // init members
             updateServiceState(false, mPhone.getServiceState());
-            updatePhoneState(false, null);
+            handlePreciseCallStateChange(false, null);
             mBattchg = 5;  // There is currently no API to get battery level
                            // on demand, so set to 5 and wait for an update
             mSignal = asuToSignal(mPhone.getSignalStrength());
@@ -381,7 +383,7 @@ public class BluetoothHandsfree {
             mPhone.registerForServiceStateChanged(mStateChangeHandler,
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
-                                                PHONE_STATE_CHANGED, null);
+                    PRECISE_CALL_STATE_CHANGED, null);
             if (mPhone.getPhoneName().equals("CDMA")) {
                 mPhone.registerForCallWaiting(mStateChangeHandler,
                                               PHONE_CDMA_CALL_WAITING, null);
@@ -403,7 +405,7 @@ public class BluetoothHandsfree {
             mPhone.registerForServiceStateChanged(mStateChangeHandler,
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
-                                                      PHONE_STATE_CHANGED, null);
+                    PRECISE_CALL_STATE_CHANGED, null);
             if (mPhone.getPhoneName().equals("CDMA")) {
                 mPhone.registerForCallWaiting(mStateChangeHandler,
                                               PHONE_CDMA_CALL_WAITING, null);
@@ -597,7 +599,8 @@ public class BluetoothHandsfree {
             sendURC(result.toString());
         }
 
-        private synchronized void updatePhoneState(boolean sendUpdate, Connection connection) {
+        private synchronized void handlePreciseCallStateChange(boolean sendUpdate,
+                Connection connection) {
             int call = 0;
             int callsetup = 0;
             int callheld = 0;
@@ -605,6 +608,11 @@ public class BluetoothHandsfree {
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
 
             if (VDBG) log("updatePhoneState()");
+
+            // This function will get called when the Precise Call State
+            // {@link Call.State} changes. Hence, we might get this update
+            // even if the {@link Phone.state} is same as before.
+            // Check for the same.
 
             Phone.State newState = mPhone.getState();
             if (newState != mPhoneState) {
@@ -686,59 +694,54 @@ public class BluetoothHandsfree {
             if (mPhone.getPhoneName().equals("CDMA")) {
                 PhoneApp app = PhoneApp.getInstance();
                 if (app.cdmaPhoneCallState != null) {
-                    CdmaPhoneCallState.PhoneCallState currCdmaCallState =
+                    CdmaPhoneCallState.PhoneCallState currCdmaThreeWayCallState =
                             app.cdmaPhoneCallState.getCurrentCallState();
-                    CdmaPhoneCallState.PhoneCallState prevCdmaCallState =
+                    CdmaPhoneCallState.PhoneCallState prevCdmaThreeWayCallState =
                         app.cdmaPhoneCallState.getPreviousCallState();
 
-                    // Update the Call held information
-                    if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                        if (prevCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
-                            callheld = 0; //0: no calls held, as now *both* the caller are active
-                        } else {
-                            callheld = 1; //1: held call and active call, as on answering a
-                                          // Call Waiting, one of the caller *is* put on hold
-                        }
-                    } else if (currCdmaCallState ==
-                            CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
-                        callheld = 1; //1: held call and active call, as on make a 3 Way Call
-                                      // the first caller *is* put on hold
-                    } else {
-                        callheld = 0; //0: no calls held as this is a SINGLE_ACTIVE call
-                    }
+                    callheld = getCdmaCallHeldStatus(currCdmaThreeWayCallState,
+                                                     prevCdmaThreeWayCallState);
 
-                    // In CDMA, the network does not provide any feedback to the phone when the
-                    // 2nd MO call goes through the stages of DIALING > ALERTING -> ACTIVE
-                    // we fake the sequence
-                    if ((currCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
-                            && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
-                        mAudioPossible = true;
-                        if (sendUpdate) {
-                            if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
-                                result.addResponse("+CIEV: 3,2");
-                                result.addResponse("+CIEV: 3,3");
-                                result.addResponse("+CIEV: 3,0");
+                    if (mCdmaThreeWayCallState != currCdmaThreeWayCallState) {
+                        // In CDMA, the network does not provide any feedback
+                        // to the phone when the 2nd MO call goes through the
+                        // stages of DIALING > ALERTING -> ACTIVE we fake the
+                        // sequence
+                        if ((currCdmaThreeWayCallState ==
+                                CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                                    && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
+                            mAudioPossible = true;
+                            if (sendUpdate) {
+                                if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                                    result.addResponse("+CIEV: 3,2");
+                                    result.addResponse("+CIEV: 3,3");
+                                    result.addResponse("+CIEV: 3,0");
+                                }
                             }
+                            // We also need to send a Call started indication
+                            // for cases where the 2nd MO was initiated was
+                            // from a *BT hands free* and is waiting for a
+                            // +BLND: OK response
+                            callStarted();
                         }
-                        // We also need to send a Call started indication for cases where
-                        // the 2nd MO was initiated was from a *BT hands free* and is waiting
-                        // for a +BLND: OK response
-                        callStarted();
-                    }
 
-                    // In CDMA, the network does not provide any feedback to the phone when a
-                    // user merges a 3way call or swaps between two calls we need to send a
-                    // CIEV response indicating that a call state got changed which should trigger a
-                    // CLCC update request from the BT client.
-                    if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                        mAudioPossible = true;
-                        if (sendUpdate) {
-                            if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
-                                result.addResponse("+CIEV: 2,1");
-                                result.addResponse("+CIEV: 3,0");
+                        // In CDMA, the network does not provide any feedback to
+                        // the phone when a user merges a 3way call or swaps
+                        // between two calls we need to send a CIEV response
+                        // indicating that a call state got changed which should
+                        // trigger a CLCC update request from the BT client.
+                        if (currCdmaThreeWayCallState ==
+                                CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                            mAudioPossible = true;
+                            if (sendUpdate) {
+                                if ((mRemoteBrsf & BRSF_HF_CW_THREE_WAY_CALLING) != 0x0) {
+                                    result.addResponse("+CIEV: 2,1");
+                                    result.addResponse("+CIEV: 3,0");
+                                }
                             }
                         }
                     }
+                    mCdmaThreeWayCallState = currCdmaThreeWayCallState;
                 }
             }
 
@@ -788,7 +791,7 @@ public class BluetoothHandsfree {
                     mRingingType = type;
                     mIgnoreRing = false;
 
-                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) == 0x1) {
+                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) != 0x0) {
                         audioOn();
                     }
                     result.addResult(ring());
@@ -796,6 +799,27 @@ public class BluetoothHandsfree {
             }
             sendURC(result.toString());
         }
+
+        private int getCdmaCallHeldStatus(CdmaPhoneCallState.PhoneCallState currState,
+                                  CdmaPhoneCallState.PhoneCallState prevState) {
+            int callheld;
+            // Update the Call held information
+            if (currState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                if (prevState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                    callheld = 0; //0: no calls held, as now *both* the caller are active
+                } else {
+                    callheld = 1; //1: held call and active call, as on answering a
+                            // Call Waiting, one of the caller *is* put on hold
+                }
+            } else if (currState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                callheld = 1; //1: held call and active call, as on make a 3 Way Call
+                        // the first caller *is* put on hold
+            } else {
+                callheld = 0; //0: no calls held as this is a SINGLE_ACTIVE call
+            }
+            return callheld;
+        }
+
 
         private AtCommandResult ring() {
             if (!mIgnoreRing && mRingingCall.isRinging()) {
