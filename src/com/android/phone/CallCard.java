@@ -16,12 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.Phone;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -40,7 +34,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.Phone;
+
 import java.util.List;
+
 
 /**
  * "Call card" UI element: the in-call screen contains a tiled layout of call
@@ -65,7 +66,6 @@ public class CallCard extends FrameLayout
 
     // Top-level subviews of the CallCard
     private ViewGroup mMainCallCard;
-    private ViewGroup mOtherCallOngoingInfoArea;
     private ViewGroup mOtherCallOnHoldInfoArea;
 
     // "Upper" and "lower" title widgets
@@ -87,9 +87,6 @@ public class CallCard extends FrameLayout
     private TextView mLabel;
 
     // "Other call" info area
-    private ImageView mOtherCallOngoingIcon;
-    private TextView mOtherCallOngoingName;
-    private TextView mOtherCallOngoingStatus;
     private TextView mOtherCallOnHoldName;
     private TextView mOtherCallOnHoldStatus;
 
@@ -100,16 +97,6 @@ public class CallCard extends FrameLayout
 
     // Track the state for the photo.
     private ContactsAsyncHelper.ImageTracker mPhotoTracker;
-
-    // A few hardwired constants used in our screen layout.
-    // TODO: These should all really come from resources, but that's
-    // nontrivial; see the javadoc for the ConfigurationHelper class.
-    // For now, let's at least keep them all here in one place
-    // rather than sprinkled througout this file.
-    //
-    static final int MAIN_CALLCARD_MIN_HEIGHT_LANDSCAPE = 200;
-    static final int CALLCARD_SIDE_MARGIN_LANDSCAPE = 50;
-    static final float TITLE_TEXT_SIZE_LANDSCAPE = 22F;  // scaled pixels
 
     public CallCard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -155,7 +142,6 @@ public class CallCard extends FrameLayout
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
 
         mMainCallCard = (ViewGroup) findViewById(R.id.mainCallCard);
-        mOtherCallOngoingInfoArea = (ViewGroup) findViewById(R.id.otherCallOngoingInfoArea);
         mOtherCallOnHoldInfoArea = (ViewGroup) findViewById(R.id.otherCallOnHoldInfoArea);
 
         // "Upper" and "lower" title widgets
@@ -179,9 +165,6 @@ public class CallCard extends FrameLayout
         mLabel = (TextView) findViewById(R.id.label);
 
         // "Other call" info area
-        mOtherCallOngoingIcon = (ImageView) findViewById(R.id.otherCallOngoingIcon);
-        mOtherCallOngoingName = (TextView) findViewById(R.id.otherCallOngoingName);
-        mOtherCallOngoingStatus = (TextView) findViewById(R.id.otherCallOngoingStatus);
         mOtherCallOnHoldName = (TextView) findViewById(R.id.otherCallOnHoldName);
         mOtherCallOnHoldStatus = (TextView) findViewById(R.id.otherCallOnHoldStatus);
 
@@ -197,8 +180,11 @@ public class CallCard extends FrameLayout
         if (DBG) log("updateState(" + phone + ")...");
 
         // Update some internal state based on the current state of the phone.
-        // TODO: This code, and updateForegroundCall() / updateRingingCall(),
-        // can probably still be simplified some more.
+
+        // TODO: clean up this method to just fully update EVERYTHING in
+        // the callcard based on the current phone state: set the overall
+        // type of the CallCard, load up the main caller info area, and
+        // load up and show or hide the "other call" area if necessary.
 
         Phone.State state = phone.getState();  // IDLE, RINGING, or OFFHOOK
         if (state == Phone.State.RINGING) {
@@ -281,8 +267,6 @@ public class CallCard extends FrameLayout
         } else {
             displayOnHoldCallStatus(phone, bgCall);
         }
-
-        displayOngoingCallStatus(phone, null);
     }
 
     /**
@@ -296,9 +280,14 @@ public class CallCard extends FrameLayout
         Call fgCall = phone.getForegroundCall();
         Call bgCall = phone.getBackgroundCall();
 
+        // Display caller-id info and photo from the incoming call:
         displayMainCallStatus(phone, ringingCall);
-        displayOnHoldCallStatus(phone, bgCall);
-        displayOngoingCallStatus(phone, fgCall);
+
+        // And even in the Call Waiting case, *don't* show any info about
+        // the current ongoing call and/or the current call on hold.
+        // (Since the caller-id info for the incoming call totally trumps
+        // any info about the current call(s) in progress.)
+        displayOnHoldCallStatus(phone, null);
     }
 
     /**
@@ -314,7 +303,6 @@ public class CallCard extends FrameLayout
 
         displayMainCallStatus(phone, null);
         displayOnHoldCallStatus(phone, null);
-        displayOngoingCallStatus(phone, null);
     }
 
     /**
@@ -391,13 +379,6 @@ public class CallCard extends FrameLayout
                 Log.w(LOG_TAG, "displayMainCallStatus: unexpected call state: " + state);
                 break;
         }
-
-        // Don't use any background at all for the main CallCard, now that
-        // the InCallScreen uses the background of the InCallPanel to
-        // indicate the current state of the call(s).
-        // TODO: clean up background drawables of the "info areas" for the
-        // other calls too.
-        setMainCallCardBackgroundResource(0);
 
         updateCardTitleWidgets(phone, call);
 
@@ -574,7 +555,7 @@ public class CallCard extends FrameLayout
         String cardTitle;
         if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
             if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
-                cardTitle = getTitleForCallCard(call);// Normal "foreground" call card:
+                cardTitle = getTitleForCallCard(call);  // Normal "foreground" call card
             } else {
                 cardTitle = getContext().getString(R.string.card_title_redialing);
             }
@@ -764,9 +745,7 @@ public class CallCard extends FrameLayout
 
                 mOtherCallOnHoldName.setText(name);
 
-                // The call here is always "on hold", so use the orange "hold" frame
-                // and orange text color:
-                setOnHoldInfoAreaBackgroundResource(R.drawable.incall_frame_hold_short);
+                // The call here is always "on hold", so use the orange text color:
                 mOtherCallOnHoldName.setTextColor(mTextColorOnHold);
                 mOtherCallOnHoldStatus.setTextColor(mTextColorOnHold);
 
@@ -799,9 +778,7 @@ public class CallCard extends FrameLayout
 
                     mOtherCallOnHoldName.setText(name);
 
-                    // The call here is either in Callwaiting or 3way, use the orange "hold" frame
-                    // and orange text color:
-                    setOnHoldInfoAreaBackgroundResource(R.drawable.incall_frame_hold_short);
+                    // The call here is either in Callwaiting or 3way, use the orange text color:
                     mOtherCallOnHoldName.setTextColor(mTextColorOnHold);
                     mOtherCallOnHoldStatus.setTextColor(mTextColorOnHold);
                     mOtherCallOnHoldInfoArea.setVisibility(View.VISIBLE);
@@ -816,79 +793,6 @@ public class CallCard extends FrameLayout
                 break;
         }
     }
-
-    /**
-     * Updates the "Ongoing call" box in the "other call" info area
-     * (ie. the stuff in the otherCallOngoingInfo block)
-     * based on the specified Call.
-     * Or, clear out the "ongoing call" box if the specified call
-     * is null or idle.
-     */
-    private void displayOngoingCallStatus(Phone phone, Call call) {
-        if (DBG) log("displayOngoingCallStatus(call =" + call + ")...");
-
-        if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
-            mOtherCallOngoingInfoArea.setVisibility(View.GONE);
-            return;
-        }
-
-        Call.State state = call.getState();
-        switch (state) {
-            case ACTIVE:
-            case DIALING:
-            case ALERTING:
-                // Ok, there actually is an ongoing call.
-                // Display the "ongoing call" box.
-                String name;
-
-                // First, see if we need to query.
-                if (call.isGeneric()) {
-                    name = getContext().getString(R.string.card_title_in_call);
-                } else if (PhoneUtils.isConferenceCall(call)) {
-                    name = getContext().getString(R.string.confCall);
-                } else {
-                    // perform query and update the name temporarily
-                    // make sure we hand the textview we want updated to the
-                    // callback function.
-                    PhoneUtils.CallerInfoToken info = PhoneUtils.startGetCallerInfo(
-                            getContext(), call, this, mOtherCallOngoingName);
-                    name = PhoneUtils.getCompactNameFromCallerInfo(info.currentInfo, getContext());
-                }
-
-                mOtherCallOngoingName.setText(name);
-
-                // This is an "ongoing" call: we normally use the green
-                // background frame and text color, but we use blue
-                // instead if bluetooth is in use.
-                boolean bluetoothActive = mApplication.showBluetoothIndication();
-
-                int ongoingCallBackground =
-                        bluetoothActive ? R.drawable.incall_frame_bluetooth_short
-                        : R.drawable.incall_frame_connected_short;
-                setOngoingInfoAreaBackgroundResource(ongoingCallBackground);
-
-                int ongoingCallIcon = bluetoothActive ? R.drawable.ic_incall_ongoing_bluetooth
-                        : R.drawable.ic_incall_ongoing;
-                mOtherCallOngoingIcon.setImageResource(ongoingCallIcon);
-
-                int textColor = bluetoothActive ? mTextColorConnectedBluetooth
-                        : mTextColorConnected;
-                mOtherCallOngoingName.setTextColor(textColor);
-                mOtherCallOngoingStatus.setTextColor(textColor);
-
-                mOtherCallOngoingInfoArea.setVisibility(View.VISIBLE);
-
-                break;
-
-            default:
-                // There's actually no ongoing call.  (Presumably this call's
-                // state is IDLE, since any other state is meaningless for the
-                // foreground call.)
-                mOtherCallOngoingInfoArea.setVisibility(View.GONE);
-                break;
-        }
-    }
-
 
     private String getCallFailedString(Call call) {
         Connection c = call.getEarliestConnection();
@@ -1272,57 +1176,12 @@ public class CallCard extends FrameLayout
     }
 
     /**
-     * Sets the background drawable of the main call card.
-     */
-    private void setMainCallCardBackgroundResource(int resid) {
-        mMainCallCard.setBackgroundResource(resid);
-    }
-
-    /**
-     * Sets the background drawable of the "ongoing call" info area.
-     */
-    private void setOngoingInfoAreaBackgroundResource(int resid) {
-        mOtherCallOngoingInfoArea.setBackgroundResource(resid);
-    }
-
-    /**
-     * Sets the background drawable of the "call on hold" info area.
-     */
-    private void setOnHoldInfoAreaBackgroundResource(int resid) {
-        mOtherCallOnHoldInfoArea.setBackgroundResource(resid);
-    }
-
-    /**
      * Returns the "Menu button hint" TextView (which is manipulated
      * directly by the InCallScreen.)
      * @see InCallScreen.updateMenuButtonHint()
      */
     /* package */ TextView getMenuButtonHint() {
         return mMenuButtonHint;
-    }
-
-    /**
-     * Updates anything about our View hierarchy or internal state
-     * that needs to be different in landscape mode.
-     *
-     * @see InCallScreen.applyConfigurationToLayout()
-     */
-    /* package */ void updateForLandscapeMode() {
-        if (DBG) log("updateForLandscapeMode()...");
-
-        // The main CallCard's minimum height is smaller in landscape mode
-        // than in portrait mode.
-        mMainCallCard.setMinimumHeight(MAIN_CALLCARD_MIN_HEIGHT_LANDSCAPE);
-
-        // Add some left and right margin to the top-level elements, since
-        // there's no need to use the full width of the screen (which is
-        // much wider in landscape mode.)
-        setSideMargins(mMainCallCard, CALLCARD_SIDE_MARGIN_LANDSCAPE);
-        setSideMargins(mOtherCallOngoingInfoArea, CALLCARD_SIDE_MARGIN_LANDSCAPE);
-        setSideMargins(mOtherCallOnHoldInfoArea, CALLCARD_SIDE_MARGIN_LANDSCAPE);
-
-        // A couple of TextViews are slightly smaller in landscape mode.
-        mUpperTitle.setTextSize(TITLE_TEXT_SIZE_LANDSCAPE);
     }
 
     /**
@@ -1384,7 +1243,6 @@ public class CallCard extends FrameLayout
 
     public void hideCallCardElements() {
         mMainCallCard.setVisibility(View.GONE);
-        mOtherCallOngoingInfoArea.setVisibility(View.GONE);
         mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
     }
 
