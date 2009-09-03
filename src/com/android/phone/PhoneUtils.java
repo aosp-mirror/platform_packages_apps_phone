@@ -226,6 +226,8 @@ public class PhoneUtils {
 
         boolean answered = false;
         Call call = phone.getRingingCall();
+        PhoneApp app = PhoneApp.getInstance();
+        BluetoothHandsfree bthf = null;
 
         if (phone.getPhoneName().equals("CDMA")) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -239,7 +241,6 @@ public class PhoneUtils {
             if (DBG) log("answerCall: call state = " + call.getState());
             try {
                 if (phone.getPhoneName().equals("CDMA")) {
-                    PhoneApp app = PhoneApp.getInstance();
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.IDLE) {
                         // This is the FIRST incoming call being answered.
@@ -255,7 +256,7 @@ public class PhoneUtils {
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        BluetoothHandsfree bthf = PhoneApp.getInstance().getBluetoothHandsfree();
+                        bthf = app.getBluetoothHandsfree();
                         if (bthf != null) {
                             bthf.cdmaSetSecondCallState(true);
                         }
@@ -268,6 +269,15 @@ public class PhoneUtils {
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
+
+                if (phone.getPhoneName().equals("CDMA")) {
+                    // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
+                    app.cdmaPhoneCallState.setCurrentCallState(
+                            app.cdmaPhoneCallState.getPreviousCallState());
+                    if (bthf != null) {
+                        bthf.cdmaSetSecondCallState(false);
+                    }
+                }
             }
         }
         return answered;
