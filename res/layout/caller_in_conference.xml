@@ -32,20 +32,20 @@
             android:id="@+id/conferenceCallerDisconnect"
             style="?android:attr/buttonStyleSmall"
             android:src="@drawable/ic_button_conference_end"
-            android:layout_width="46px"
-            android:layout_height="46px"
-            android:layout_marginTop="2dip"
-            android:layout_marginLeft="6dip"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="6dp"
             android:scaleType="center"/>
 
         <!-- Caller information -->
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="1dip"
+            android:layout_width="1dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_marginLeft="4dip">
+            android:layout_marginLeft="4dp">
 
             <!-- Name or number of this caller -->
             <TextView
@@ -55,7 +55,7 @@
                 android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_marginRight="2dip"
+                android:layout_marginRight="2dp"
                 />
 
             <!-- Number of this caller if name is supplied above -->
@@ -73,8 +73,8 @@
                     android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_marginRight="4dip"
-                    android:layout_marginBottom="2dip"/>
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="2dp"/>
 
                 <!-- Number -->
                 <TextView
@@ -93,10 +93,10 @@
             android:id="@+id/conferenceCallerSeparate"
             style="?android:attr/buttonStyleSmall"
             android:src="@drawable/ic_button_conference_private"
-            android:layout_width="46px"
-            android:layout_height="46px"
-            android:layout_marginTop="2dip"
-            android:layout_marginRight="6dip"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
             android:scaleType="center"/>
 
     </LinearLayout>  <!-- End of single list element -->
@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:src="@android:drawable/divider_horizontal_dark"
         android:scaleType="fitXY"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
 </LinearLayout>
