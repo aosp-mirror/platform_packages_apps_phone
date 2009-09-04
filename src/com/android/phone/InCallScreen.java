@@ -107,22 +107,34 @@ public class InCallScreen extends Activity
     static final String SHOW_DIALPAD_EXTRA = "com.android.phone.ShowDialpad";
 
     /**
-     * Intent extra to specify a RemoteViews (Parcelable) to be
-     * inflated in the provider's badge area during call setup. The
-     * badge indicates to the user that the outgoing call is being
-     * modified or re-routed in some way by a 3rd party app.
+     * Intent extra to specify a RemoteViews to be inflated in the
+     * overlay shown during call setup. The overlay indicates to the
+     * user that the outgoing call is being modified or re-routed in
+     * some way by a 3rd party app. The value is a Parcelable.
      */
-    /* package */ static final String EXTRA_PROVIDER_BADGE =
-            "com.android.phone.extra.PROVIDER_BADGE";
+    /* package */ static final String EXTRA_GATEWAY_PROVIDER_BADGE =
+            "com.android.phone.extra.GATEWAY_PROVIDER_BADGE";
 
     /**
-     * Intent extra to specify the number of the provider to place the
-     * call. Should not start with a 'tel:' scheme.  This is the
-     * number that will actually be dialed instead of the number
-     * passed in the intent URL or in the EXTRA_PHONE_NUMBER extra.
+     * Intent extra to specify the package name of the gateway
+     * provider.  Used to get the name displayed in the in-call screen
+     * during the call setup. The value is a string.
      */
-    /* package */ static final String EXTRA_PROVIDER_NUMBER =
-            "com.android.phone.extra.PROVIDER_NUMBER";
+    // TODO: This extra is currently set by the gateway application as
+    // a temporary measure. Ultimately, the framework will securely
+    // set it.
+    /* package */ static final String EXTRA_GATEWAY_PROVIDER_PACKAGE =
+            "com.android.phone.extra.GATEWAY_PROVIDER_PACKAGE";
+
+    /**
+     * Intent extra to specify the URI of the provider to place the
+     * call. The value is a string. It holds the gateway address
+     * (phone gateway URL should start with the 'tel:' scheme) that
+     * will actually be contacted to call the number passed in the
+     * intent URL or in the EXTRA_PHONE_NUMBER extra.
+     */
+    /* package */ static final String EXTRA_GATEWAY_URI =
+            "com.android.phone.extra.GATEWAY_URI";
 
     // Event values used with Checkin.Events.Tag.PHONE_UI events:
     /** The in-call UI became active */
@@ -2419,11 +2431,12 @@ public class InCallScreen extends Activity
         int callStatus;
         Uri contactUri = intent.getData();
 
-        if (intent.hasExtra(EXTRA_PROVIDER_NUMBER) && !(isEmergencyNumber || isEmergencyIntent) &&
+        if (PhoneUtils.hasPhoneProviderExtras(intent) &&
+            !(isEmergencyNumber || isEmergencyIntent) &&
             PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
-            String gatewayNumber = intent.getStringExtra(EXTRA_PROVIDER_NUMBER);
+            String gatewayUri = intent.getStringExtra(EXTRA_GATEWAY_URI);
 
-            callStatus = PhoneUtils.placeCallVia(this, mPhone, number, contactUri, gatewayNumber);
+            callStatus = PhoneUtils.placeCallVia(this, mPhone, number, contactUri, gatewayUri);
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
