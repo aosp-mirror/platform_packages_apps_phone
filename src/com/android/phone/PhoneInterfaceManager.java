@@ -722,4 +722,11 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 return TelephonyManager.NETWORK_TYPE_UNKNOWN;
         }
     }
+
+    /**
+     * @return true if a ICC card is present
+     */
+    public boolean hasIccCard() {
+        return mPhone.getIccCard().hasIccCard();
+    }
 }
