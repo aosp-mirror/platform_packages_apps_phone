@@ -526,7 +526,7 @@ public class PhoneUtils {
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             }
         } catch (CallStateException ex) {
-            Log.w(LOG_TAG, "PhoneUtils: Exception from phone.dial()", ex);
+            Log.w(LOG_TAG, "Exception from phone.dial()", ex);
             status = CALL_STATUS_FAILED;
         }
 
@@ -553,24 +553,37 @@ public class PhoneUtils {
      * call card and to update the call log. See above for restrictions.
      * @param contactRef that triggered the call. Typically a 'tel:'
      * uri but can also be a 'content://contacts' one.
-     * @param gatewayNumber Is the phone number that will be dialed to
-     * setup the connection.
+     * @param gatewayUri Is the address used to setup the connection.
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
     static int placeCallVia(Context context, Phone phone,
-                            String number, Uri contactRef, String gatewayNumber) {
-        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayNumber + "'");
+                            String number, Uri contactRef, String gatewayUri) {
+        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayUri + "'");
 
+        // TODO: 'tel' should be a contant defined in framework base
+        // somewhere (it is in webkit.)
+        Uri url = Uri.parse(gatewayUri);
+        if (null == url || !url.getScheme().equals("tel")) {
+            Log.e(LOG_TAG, "Unsupported URL:" + url);
+            return CALL_STATUS_FAILED;
+        }
+
+        // We can use getSchemeSpecificPart because we don't allow #
+        // in the gateway numbers (treated a fragment delim.) However
+        // if we allow more complex gateway numbers sequence (with
+        // passwords or whatnot) that use #, this may break.
+        // TODO: Need to support MMI codes.
+        String gatewayNumber = url.getSchemeSpecificPart();
         Connection connection;
         try {
             connection = phone.dial(gatewayNumber);
         } catch (CallStateException ex) {
-            Log.e(LOG_TAG, "PhoneUtils: Exception dialing gateway", ex);
+            Log.e(LOG_TAG, "Exception dialing gateway", ex);
             connection = null;
         }
 
         if (null == connection) {
-            Log.e(LOG_TAG, "PhoneUtils: Got null connection.");
+            Log.e(LOG_TAG, "Got null connection.");
             return CALL_STATUS_FAILED;
         }
 
@@ -1641,7 +1654,7 @@ public class PhoneUtils {
      * are ignored.
      */
     /* package */ static void setAudioMode(Context context, int mode) {
-        if (DBG) Log.d(LOG_TAG, "PhoneUtils.setAudioMode(" + audioModeToString(mode) + ")...");
+        if (DBG) Log.d(LOG_TAG, "setAudioMode(" + audioModeToString(mode) + ")...");
 
         //decide whether or not to ignore the audio setting
         boolean ignore = false;
@@ -1666,7 +1679,7 @@ public class PhoneUtils {
             if (DBG_SETAUDIOMODE_STACK) Log.d(LOG_TAG, "Stack:", new Throwable("stack dump"));
             audioManager.setMode(mode);
         } else {
-            if (DBG) Log.d(LOG_TAG, "PhoneUtils.setAudioMode(), state is " + sAudioBehaviourState +
+            if (DBG) Log.d(LOG_TAG, "setAudioMode(), state is " + sAudioBehaviourState +
                     " ignoring " + audioModeToString(mode) + " request");
         }
     }
@@ -1930,6 +1943,20 @@ public class PhoneUtils {
     //
 
     /**
+     * Check if all the provider's info is present in the intent.
+     * @param intent Expected to have the provider's extra.
+     * @return true if the intent has all the extras to build the
+     * in-call screen's provider info overlay.
+     */
+    /* package */ static boolean hasPhoneProviderExtras(Intent intent) {
+        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+
+        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+    }
+
+    /**
      * Copy all the expected extras set when a 3rd party provider is
      * used from the source intent to the destination one.  Checks all
      * the required extras are present, if any is missing, none will
@@ -1937,16 +1964,18 @@ public class PhoneUtils {
      * @param src Intent which may contain the provider's extras.
      * @param dst Intent where a copy of the extras will be added if applicable.
      */
-    /* package */ static void copyPhoneProviderExtras(Intent src, Intent dst) {
-        final boolean hasBadge = src.hasExtra(InCallScreen.EXTRA_PROVIDER_BADGE);
-        final boolean hasNumber = src.hasExtra(InCallScreen.EXTRA_PROVIDER_NUMBER);
-
-        if (hasBadge && hasNumber) {
-            dst.putExtra(InCallScreen.EXTRA_PROVIDER_BADGE,
-                         src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_BADGE));
-            dst.putExtra(InCallScreen.EXTRA_PROVIDER_NUMBER,
-                         src.getStringExtra(InCallScreen.EXTRA_PROVIDER_NUMBER));
+    /* package */ static void checkAndCopyPhoneProviderExtras(Intent src, Intent dst) {
+        if (!hasPhoneProviderExtras(src)) {
+            Log.w(LOG_TAG, "checkAndCopyPhoneProviderExtras: some or all extras are missing.");
+            return;
         }
+
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE,
+                     src.getParcelableExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE));
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE,
+                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE));
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_URI,
+                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI));
     }
 
     /**

@@ -29,7 +29,7 @@ import com.android.internal.telephony.Phone;
 /**
  * OutgoingCallReceiver receives NEW_OUTGOING_CALL broadcasts from
  * OutgoingCallBroadcaster, and passes them on to InCallScreen, possibly with
- * a modified phone number and optional network provider's badge.
+ * a modified phone number and optional provider info (uri + package name + remote views.)
  */
 public class OutgoingCallReceiver extends BroadcastReceiver {
 
@@ -103,7 +103,7 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
         newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
 
-        PhoneUtils.copyPhoneProviderExtras(intent, newIntent);
+        PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
         newIntent.setClass(context, InCallScreen.class);
         newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
