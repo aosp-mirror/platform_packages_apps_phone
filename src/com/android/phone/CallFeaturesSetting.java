@@ -40,7 +40,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.provider.Contacts.PhonesColumns;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.Settings;
 import android.text.TextUtils;
 
@@ -78,7 +78,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // string constants
-    private static final String NUM_PROJECTION[] = {PhonesColumns.NUMBER};
+    private static final String NUM_PROJECTION[] = {CommonDataKinds.Phone.NUMBER};
 
     // String keys for preference lookup
     private static final String BUTTON_VOICEMAIL_KEY = "button_voicemail_key";
