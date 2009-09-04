@@ -112,6 +112,7 @@ public class PhoneUtils {
      * Mute settings for each connection as needed.
      */
     private static class ConnectionHandler extends Handler {
+        @Override
         public void handleMessage(Message msg) {
             AsyncResult ar = (AsyncResult) msg.obj;
             switch (msg.what) {
@@ -1393,12 +1394,6 @@ public class PhoneUtils {
             }
         };
 
-    static void saveToContact(Context context, String number) {
-        Intent intent = new Intent(Contacts.Intents.Insert.ACTION,
-                Contacts.People.CONTENT_URI);
-        intent.putExtra(Contacts.Intents.Insert.PHONE, number);
-        context.startActivity(intent);
-    }
 
     /**
      * Returns a single "name" for the specified given a CallerInfo object.
