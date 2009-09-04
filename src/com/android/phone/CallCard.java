@@ -769,11 +769,19 @@ public class CallCard extends FrameLayout
                         // This means that the current Mobile Originated call IS the first 3-Way
                         // and hence we display the first callers/party's info here.
                         Connection conn = call.getEarliestConnection();
-                        PhoneUtils.CallerInfoToken info = PhoneUtils.startGetCallerInfo(
+                        PhoneUtils.CallerInfoToken infoToken = PhoneUtils.startGetCallerInfo(
                                 getContext(), conn, this, mOtherCallOnHoldName);
 
-                        name = PhoneUtils.getCompactNameFromCallerInfo(info.currentInfo,
+                        // Get the compactName to be displayed, but then check that against
+                        // the number presentation value for the call. If it's not an allowed
+                        // presentation, then display the appropriate presentation string instead.
+                        CallerInfo info = infoToken.currentInfo;
+                        name = PhoneUtils.getCompactNameFromCallerInfo(info,
                                 getContext());
+                        if (info != null && info.numberPresentation !=
+                                Connection.PRESENTATION_ALLOWED) {
+                            name = getPresentationString(info.numberPresentation);
+                        }
                     }
 
                     mOtherCallOnHoldName.setText(name);
