@@ -1086,4 +1086,11 @@
 
     <!-- Label for onscreen "Dial" button used in the EmergencyDialer -->
     <string name="dial_button_label">Dial</string>
+
+    <!-- Title displayed in the overlay when a call is placed using a 3rd party provider.
+         ^1 is the localized name of the provider obtained from the package manager.
+         ^2 is a phone number.
+         E.g: "Calling via Google Voice\n 1-800-666-1234"
+    -->
+    <string name="calling_via_template">Calling via ^1\n<b>^2</b></string>
 </resources>
