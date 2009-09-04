@@ -87,6 +87,7 @@ public class EmergencyDialer extends Activity
 
     EditText mDigits;
     private View mDelete;
+    private View mDialButton;
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
 
@@ -141,6 +142,11 @@ public class EmergencyDialer extends Activity
             mDigits.setBackgroundDrawable(mDigitsEmptyBackground);
             mDigits.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
+
+        // Update the enabledness of the "Dial" button
+        if (mDialButton != null) {
+            mDialButton.setEnabled(mDigits.length() != 0);
+        }
     }
 
     @Override
@@ -168,6 +174,13 @@ public class EmergencyDialer extends Activity
         View view = findViewById(R.id.one);
         if (view != null) {
             setupKeypad();
+        }
+
+        // Check whether we should show the onscreen "Dial" button.
+        if (r.getBoolean(R.bool.config_show_onscreen_dial_button)) {
+            mDialButton = findViewById(R.id.dialButton);
+            mDialButton.setVisibility(View.VISIBLE);  // It's GONE by default
+            mDialButton.setOnClickListener(this);
         }
 
         mDelete = findViewById(R.id.backspace);
@@ -369,6 +382,7 @@ public class EmergencyDialer extends Activity
                 keyPressed(KeyEvent.KEYCODE_STAR);
                 return;
             }
+            case R.id.dialButton:
             case R.id.digits: {
                 vibrate();  // Vibrate here too, just like we do for the regular keys
                 placeCall();

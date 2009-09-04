@@ -1083,4 +1083,7 @@
     <!-- For incoming calls, this is a string we can get from a CDMA network instead of
          the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
     <string name="absent_num">ABSENT NUMBER</string>
+
+    <!-- Label for onscreen "Dial" button used in the EmergencyDialer -->
+    <string name="dial_button_label">Dial</string>
 </resources>
