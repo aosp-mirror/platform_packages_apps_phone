@@ -104,10 +104,10 @@ public class BluetoothHeadsetService extends Service {
         }
         IntentFilter filter = new IntentFilter(
                 BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
-        filter.addAction(BluetoothIntent.BLUETOOTH_STATE_CHANGED_ACTION);
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         filter.addAction(BluetoothIntent.BOND_STATE_CHANGED_ACTION);
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
-        registerReceiver(mBluetoothIntentReceiver, filter);
+        registerReceiver(mBluetoothReceiver, filter);
 
         mPhone.registerForPreciseCallStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
     }
@@ -267,7 +267,7 @@ public class BluetoothHeadsetService extends Service {
         }
     }
 
-    private final BroadcastReceiver mBluetoothIntentReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mBluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -281,16 +281,16 @@ public class BluetoothHeadsetService extends Service {
                 try {
                     mBinder.disconnectHeadset();
                 } catch (RemoteException e) {}
-            } else if (action.equals(BluetoothIntent.BLUETOOTH_STATE_CHANGED_ACTION)) {
-                switch (intent.getIntExtra(BluetoothIntent.BLUETOOTH_STATE,
+            } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
                                            BluetoothError.ERROR)) {
-                case BluetoothAdapter.BLUETOOTH_STATE_ON:
+                case BluetoothAdapter.STATE_ON:
                     mHeadsetPriority.load();
                     mHandler.sendMessageDelayed(mHandler.obtainMessage(RECONNECT_LAST_HEADSET), 8000);
                     mAg.start(mIncomingConnectionHandler);
                     mBtHandsfree.onBluetoothEnabled();
                     break;
-                case BluetoothAdapter.BLUETOOTH_STATE_TURNING_OFF:
+                case BluetoothAdapter.STATE_TURNING_OFF:
                     mBtHandsfree.onBluetoothDisabled();
                     mAg.stop();
                     setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
@@ -661,7 +661,7 @@ public class BluetoothHeadsetService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (DBG) log("Stopping BluetoothHeadsetService");
-        unregisterReceiver(mBluetoothIntentReceiver);
+        unregisterReceiver(mBluetoothReceiver);
         mBtHandsfree.onBluetoothDisabled();
         mAg.stop();
         sHasStarted = false;
