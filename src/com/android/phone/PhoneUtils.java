@@ -558,14 +558,13 @@ public class PhoneUtils {
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
     static int placeCallVia(Context context, Phone phone,
-                            String number, Uri contactRef, String gatewayUri) {
+                            String number, Uri contactRef, Uri gatewayUri) {
         if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayUri + "'");
 
         // TODO: 'tel' should be a contant defined in framework base
         // somewhere (it is in webkit.)
-        Uri url = Uri.parse(gatewayUri);
-        if (null == url || !url.getScheme().equals("tel")) {
-            Log.e(LOG_TAG, "Unsupported URL:" + url);
+        if (null == gatewayUri || !"tel".equals(gatewayUri.getScheme())) {
+            Log.e(LOG_TAG, "Unsupported URL:" + gatewayUri);
             return CALL_STATUS_FAILED;
         }
 
@@ -574,7 +573,7 @@ public class PhoneUtils {
         // if we allow more complex gateway numbers sequence (with
         // passwords or whatnot) that use #, this may break.
         // TODO: Need to support MMI codes.
-        String gatewayNumber = url.getSchemeSpecificPart();
+        String gatewayNumber = gatewayUri.getSchemeSpecificPart();
         Connection connection;
         try {
             connection = phone.dial(gatewayNumber);
