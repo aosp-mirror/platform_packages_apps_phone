@@ -561,11 +561,12 @@ public class CallFeaturesSetting extends PreferenceActivity
         mButtonHAC = (CheckBoxPreference) findPreference(BUTTON_HAC_KEY);
         mButtonTTY = (ListPreference) findPreference(BUTTON_TTY_KEY);
         mVoicemailProviders = (ListPreference) findPreference(BUTTON_VOICEMAIL_PROVIDER_KEY);
-        mVoicemailProviders.setOnPreferenceChangeListener(this);
-        mVoicemailSettings = (PreferenceScreen)findPreference(BUTTON_VOICEMAIL_SETTING_KEY);
+        if (mVoicemailProviders != null) {
+            mVoicemailProviders.setOnPreferenceChangeListener(this);
+            mVoicemailSettings = (PreferenceScreen)findPreference(BUTTON_VOICEMAIL_SETTING_KEY);
 
-        initVoiceMailProviders();
-
+            initVoiceMailProviders();
+        }
         if (getResources().getBoolean(R.bool.dtmf_type_enabled)) {
             mButtonDTMF.setOnPreferenceChangeListener(this);
         } else {
@@ -617,7 +618,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         // the selection for the VM provider, otherwise bring up a VM number dialog.
         // We only bring up the dialog the first time we are called (not after orientation change)
         if (icicle == null) {
-            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL) &&
+                    mVoicemailProviders != null) {
                 if (mVMProvidersData.size() > 1) {
                     simulatePreferenceClick(mVoicemailProviders);
                 } else {
@@ -882,6 +884,9 @@ public class CallFeaturesSetting extends PreferenceActivity
      * Later on this number will be used when the user switches a provider.
      */
     private void maybeSaveNumberForVoicemailProvider(String newVMNumber) {
+        if (mVoicemailProviders == null) {
+            return;
+        }
         final String key = mVoicemailProviders.getValue();
         final String curNumber = loadNumberForVoiceMailProvider(key);
         if (newVMNumber.equals(curNumber)) {
