@@ -566,8 +566,12 @@ public class DTMFTwelveKeyDialer implements
         mInCallScreen = parent;
         mPhone = ((PhoneApp) mInCallScreen.getApplication()).phone;
         mDialerContainer = dialerContainer;
-        mDialerView = dialerView;
-        mDialerView.setDialer(this);
+        if (dialerView != null) {
+            mDialerView = dialerView;
+            mDialerView.setDialer(this);
+        } else {
+            if (DBG) log("DTMFTwelveKeyDialer: dialerView is null!");
+        }
 
         // mDialerContainer is only valid when we're looking at the portrait version of
         // dtmf_twelve_key_dialer.
