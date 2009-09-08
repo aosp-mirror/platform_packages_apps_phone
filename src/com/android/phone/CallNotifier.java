@@ -389,6 +389,13 @@ public class CallNotifier extends Handler
             // We'd need to protect this with a new "intercept incoming calls"
             // system permission.
 
+            // Obtain a partial wake lock to make sure the CPU doesn't go to
+            // sleep before we finish bringing up the InCallScreen.
+            // (This will be upgraded soon to a full wake lock; see
+            // PhoneUtils.showIncomingCallUi().)
+            if (VDBG) log("Holding wake lock on new incoming connection.");
+            mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
+
             // - don't ring for call waiting connections
             // - do this before showing the incoming call panel
             if (state == Call.State.INCOMING) {
@@ -410,13 +417,6 @@ public class CallNotifier extends Handler
                 PhoneUtils.showIncomingCallUi();
             }
         }
-
-        // Obtain a partial wake lock to make sure the CPU doesn't go to
-        // sleep before we finish bringing up the InCallScreen.
-        // (This will be upgraded soon to a full wake lock; see
-        // PhoneUtils.showIncomingCallUi().)
-        if (VDBG) log("Holding wake lock on new incoming connection.");
-        mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
         if (VDBG) log("- onNewRingingConnection() done.");
     }
