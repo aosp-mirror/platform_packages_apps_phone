@@ -79,13 +79,6 @@
     
             </com.android.phone.DTMFTwelveKeyDialerView>
     
-            <!-- "Speaker" button -->
-            <ToggleButton android:id="@+id/otaSpeakerButton"
-                      android:layout_gravity="center"
-                      android:textOn="@string/ota_speaker"
-                      android:textOff="@string/ota_speaker"
-                      style="@style/ccOtaButton" />
-    
         </LinearLayout>
     
     </ScrollView>
@@ -95,6 +88,13 @@
         android:layout_height="0dip"
         android:layout_weight="1"
     />
+
+    <!-- "Speaker" button -->
+    <ToggleButton android:id="@+id/otaSpeakerButton"
+              android:layout_gravity="center"
+              android:textOn="@string/ota_speaker"
+              android:textOff="@string/ota_speaker"
+              style="@style/ccOtaButton" />
 
     <!-- (2) Activate/cancel buttons -->
     <RelativeLayout android:id="@+id/callCardOtaActivate"

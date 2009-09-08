@@ -1434,8 +1434,8 @@ public class CallNotifier extends Handler
             Connection c = ringingCall.getLatestConnection();
 
             if (c != null) {
-                final String number = c.getAddress();
-                final int presentation = c.getNumberPresentation();
+                String number = c.getAddress();
+                int presentation = c.getNumberPresentation();
                 final long date = c.getCreateTime();
                 final long duration = c.getDurationMillis();
                 final int callLogType = mCallWaitingTimeOut ?
@@ -1450,11 +1450,19 @@ public class CallNotifier extends Handler
                     ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                 }
 
+                // Do final CNAP modifications of logNumber prior to logging [mimicking
+                // onDisconnect()]
+                final String logNumber = PhoneUtils.modifyForSpecialCnapCases(
+                        mPhone.getContext(), ci, number, presentation);
+                final int newPresentation = (ci != null) ? ci.numberPresentation : presentation;
+                if (DBG) log("- onCdmaCallWaitingReject(): logNumber set to: " + logNumber
+                        + ", newPresentation value is: " + newPresentation);
+
                 // Watch out: Calls.addCall() hits the Contacts database,
                 // so we shouldn't call it from the main thread.
                 Thread t = new Thread() {
                     public void run() {
-                        Calls.addCall(ci, mApplication, number, presentation,
+                        Calls.addCall(ci, mApplication, logNumber, newPresentation,
                                 callLogType, date, (int) duration / 1000);
                         if (DBG) log("onCdmaCallWaitingReject helper thread: Calls.addCall() done.");
                     }
@@ -1513,7 +1521,21 @@ public class CallNotifier extends Handler
                 // it seems that the query we have actually is up to date.
                 // send the notification then.
                 CallerInfo ci = info.currentInfo;
-                NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
+
+                // Check number presentation value; if we have a non-allowed presentation,
+                // then display an appropriate presentation string instead as the missed
+                // call.
+                String name = ci.name;
+                String number = ci.phoneNumber;
+                if (ci.numberPresentation == Connection.PRESENTATION_RESTRICTED) {
+                    name = mPhone.getContext().getString(R.string.private_num);
+                } else if (ci.numberPresentation != Connection.PRESENTATION_ALLOWED) {
+                    name = mPhone.getContext().getString(R.string.unknown);
+                } else {
+                    number = PhoneUtils.modifyForSpecialCnapCases(mPhone.getContext(),
+                            ci, number, ci.numberPresentation);
+                }
+                NotificationMgr.getDefault().notifyMissedCall(name, number,
                         ci.phoneLabel, date);
             }
         } else {

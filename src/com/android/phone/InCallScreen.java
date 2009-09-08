@@ -27,6 +27,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Shader;
@@ -62,6 +64,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,22 +110,34 @@ public class InCallScreen extends Activity
     static final String SHOW_DIALPAD_EXTRA = "com.android.phone.ShowDialpad";
 
     /**
-     * Intent extra to specify a RemoteViews (Parcelable) to be
-     * inflated in the provider's badge area during call setup. The
-     * badge indicates to the user that the outgoing call is being
-     * modified or re-routed in some way by a 3rd party app.
+     * Intent extra to specify a RemoteViews to be inflated in the
+     * overlay shown during call setup. The overlay indicates to the
+     * user that the outgoing call is being modified or re-routed in
+     * some way by a 3rd party app. The value is a Parcelable.
      */
-    /* package */ static final String EXTRA_PROVIDER_BADGE =
-            "com.android.phone.extra.PROVIDER_BADGE";
+    /* package */ static final String EXTRA_GATEWAY_PROVIDER_BADGE =
+            "com.android.phone.extra.GATEWAY_PROVIDER_BADGE";
 
     /**
-     * Intent extra to specify the number of the provider to place the
-     * call. Should not start with a 'tel:' scheme.  This is the
-     * number that will actually be dialed instead of the number
-     * passed in the intent URL or in the EXTRA_PHONE_NUMBER extra.
+     * Intent extra to specify the package name of the gateway
+     * provider.  Used to get the name displayed in the in-call screen
+     * during the call setup. The value is a string.
      */
-    /* package */ static final String EXTRA_PROVIDER_NUMBER =
-            "com.android.phone.extra.PROVIDER_NUMBER";
+    // TODO: This extra is currently set by the gateway application as
+    // a temporary measure. Ultimately, the framework will securely
+    // set it.
+    /* package */ static final String EXTRA_GATEWAY_PROVIDER_PACKAGE =
+            "com.android.phone.extra.GATEWAY_PROVIDER_PACKAGE";
+
+    /**
+     * Intent extra to specify the URI of the provider to place the
+     * call. The value is a string. It holds the gateway address
+     * (phone gateway URL should start with the 'tel:' scheme) that
+     * will actually be contacted to call the number passed in the
+     * intent URL or in the EXTRA_PHONE_NUMBER extra.
+     */
+    /* package */ static final String EXTRA_GATEWAY_URI =
+            "com.android.phone.extra.GATEWAY_URI";
 
     // Event values used with Checkin.Events.Tag.PHONE_UI events:
     /** The in-call UI became active */
@@ -151,6 +166,9 @@ public class InCallScreen extends Activity
 
     // Amount of time for Displaying "Dialing" for 3way Calling origination
     private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
+
+    // Amount of time that we display the provider's badge if applicable.
+    private static final int PROVIDER_BADGE_TIMEOUT = 5000;  // msec
 
     // These are values for the settings of the auto retry mode:
     // 0 = disabled
@@ -184,6 +202,7 @@ public class InCallScreen extends Activity
     public static final int CLOSE_SPC_ERROR_NOTICE = 118;
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
+    private static final int EVENT_HIDE_PROVIDER_BADGE = 121;  // Time to remove the badge
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -255,9 +274,6 @@ public class InCallScreen extends Activity
     private ViewGroup mMainFrame;
     private ViewGroup mInCallPanel;
 
-    // Menu button hint below the "main frame"
-    private TextView mMenuButtonHint;
-
     // Main in-call UI elements:
     private CallCard mCallCard;
 
@@ -273,6 +289,12 @@ public class InCallScreen extends Activity
     private DTMFTwelveKeyDialer mDialer;
     private SlidingDrawer mDialerDrawer;
     private EditText mDTMFDisplay;
+
+    // Optional overlay when a 3rd party provider is used.
+    private boolean mProviderOverlayVisible = false;
+    private RemoteViews mProviderBadge;
+    private CharSequence mProviderName;
+    private String mProviderAddress;  // Typically a phone number.
 
     // For OTA Call
     public OtaUtils otaUtils;
@@ -510,6 +532,11 @@ public class InCallScreen extends Activity
                         mPausePromptDialog.dismiss();  // safe even if already dismissed
                         mPausePromptDialog = null;
                     }
+                    break;
+
+                case EVENT_HIDE_PROVIDER_BADGE:
+                    mProviderOverlayVisible = false;
+                    updateProviderBadge();  // Clear the badge.
                     break;
             }
         }
@@ -1102,6 +1129,28 @@ public class InCallScreen extends Activity
         } else if (action.equals(Intent.ACTION_CALL)
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
+
+            // Remember if there is a provider badge. It'll be
+            // displayed the first time updateScreen is called.
+            if (PhoneUtils.hasPhoneProviderExtras(intent)) {
+                String packageName = intent.getStringExtra(
+                    InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+                PackageManager pm = getPackageManager();
+
+                try {
+                    ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+
+                    mProviderName = pm.getApplicationLabel(info);
+                    mProviderBadge = (RemoteViews) intent.getParcelableExtra(
+                        InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+                    mProviderOverlayVisible = true;
+                } catch (PackageManager.NameNotFoundException e) {
+                    // Don't show anything
+                    mProviderOverlayVisible = false;
+                }
+            } else {
+                mProviderOverlayVisible = false;
+            }
             return placeCall(intent);
         } else if (action.equals(intent.ACTION_MAIN)) {
             // The MAIN action is used to bring up the in-call screen without
@@ -1154,9 +1203,6 @@ public class InCallScreen extends Activity
         mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
         mCallCard.setInCallScreenInstance(this);
-
-        // Menu Button hint
-        mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
 
         // Onscreen touch UI elements (used on some platforms)
         initInCallTouchUi();
@@ -2233,6 +2279,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateInCallTouchUi();
+        updateProviderBadge();
         updateMenuButtonHint();
         updateInCallBackground();
 
@@ -2425,11 +2472,18 @@ public class InCallScreen extends Activity
         int callStatus;
         Uri contactUri = intent.getData();
 
-        if (intent.hasExtra(EXTRA_PROVIDER_NUMBER) && !(isEmergencyNumber || isEmergencyIntent) &&
+        if (PhoneUtils.hasPhoneProviderExtras(intent) &&
+            !(isEmergencyNumber || isEmergencyIntent) &&
             PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
-            String gatewayNumber = intent.getStringExtra(EXTRA_PROVIDER_NUMBER);
+            Uri gatewayUri = Uri.parse(intent.getStringExtra(EXTRA_GATEWAY_URI));
 
-            callStatus = PhoneUtils.placeCallVia(this, mPhone, number, contactUri, gatewayNumber);
+            mProviderAddress = gatewayUri.getSchemeSpecificPart();
+            if ("tel".equals(gatewayUri.getScheme())) {
+                mProviderAddress = PhoneNumberUtils.formatNumber(mProviderAddress);
+            }
+
+            callStatus = PhoneUtils.placeCallVia(
+                this, mPhone, number, contactUri, gatewayUri.toString());
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
@@ -3024,6 +3078,41 @@ public class InCallScreen extends Activity
     }
 
     /**
+     * Update the network provider's overlay based on the value of
+     * mProviderBadge. If null the badge is hidden otherwise the badge
+     * is inflated and a message is posted to take the badge down
+     * after PROVIDER_BADGE_TIMEOUT. This ensures the user will see
+     * the badge even if the call setup phase is very short.
+     */
+    private void updateProviderBadge() {
+        if (VDBG) log("updateProviderBadge: " + mProviderBadge);
+
+        ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
+        ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);
+
+        if (mProviderOverlayVisible) {
+            // apply inflates but does not attach the new view.
+            View hierarchy = mProviderBadge.apply(this, placeholder);
+            placeholder.addView(hierarchy);
+
+            CharSequence template = getText(R.string.calling_via_template);
+            CharSequence text = TextUtils.expandTemplate(template, mProviderName, mProviderAddress);
+
+            TextView message = (TextView) findViewById(R.id.callingVia);
+            message.setText(text);
+
+            overlay.setVisibility(View.VISIBLE);
+
+            // Send a message to self to remove the badge after some time.
+            Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_BADGE);
+            mHandler.sendMessageDelayed(msg, PROVIDER_BADGE_TIMEOUT);
+        } else {
+            overlay.setVisibility(View.GONE);
+            placeholder.removeAllViews();
+        }
+    }
+
+    /**
      * Updates the "Press Menu for more options" hint based on the current
      * state of the Phone.
      */
@@ -3052,25 +3141,12 @@ public class InCallScreen extends Activity
 
         // The hint is also hidden on devices where we use onscreen
         // touchable buttons instead.
-        // TODO: even on "full touch" devices we may still ultimately need
-        // a regular menu in some states.  Need UI spec.
         if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
             hintVisible = false;
         }
 
         int hintVisibility = (hintVisible) ? View.VISIBLE : View.GONE;
-
-        // We actually have two separate "menu button hint" TextViews; one
-        // used only in portrait mode (part of the CallCard) and one used
-        // only in landscape mode (part of the InCallScreen.)
-        TextView callCardMenuButtonHint = mCallCard.getMenuButtonHint();
-        if (ConfigurationHelper.isLandscape()) {
-            callCardMenuButtonHint.setVisibility(View.GONE);
-            mMenuButtonHint.setVisibility(hintVisibility);
-        } else {
-            callCardMenuButtonHint.setVisibility(hintVisibility);
-            mMenuButtonHint.setVisibility(View.GONE);
-        }
+        mCallCard.getMenuButtonHint().setVisibility(hintVisibility);
 
         // TODO: Consider hiding the hint(s) whenever the menu is onscreen!
         // (Currently, the menu is rendered on top of the hint, but the
@@ -4052,20 +4128,6 @@ public class InCallScreen extends Activity
 
             // find the landscape-only DTMF display field.
             inCallScreen.mDTMFDisplay = (EditText) inCallScreen.findViewById(R.id.dtmfDialerField);
-
-            // Our layout resources describe the *portrait mode* layout of
-            // the Phone UI (see the TODO above in the doc comment for
-            // the ConfigurationHelper class.)  So if we're in landscape
-            // mode now, reach into our View hierarchy and update the
-            // (few) layout params that need to be different.
-            if (isLandscape()) {
-                // Update CallCard-related stuff
-                inCallScreen.mCallCard.updateForLandscapeMode();
-
-                // No need to adjust the visibility for mDTMFDisplay here because
-                // we're relying on the resources (layouts in layout-finger vs.
-                // layout-land-finger) to manage when mDTMFDisplay is shown.
-            }
         }
     }
 

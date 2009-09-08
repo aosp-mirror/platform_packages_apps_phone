@@ -112,6 +112,7 @@ public class PhoneUtils {
      * Mute settings for each connection as needed.
      */
     private static class ConnectionHandler extends Handler {
+        @Override
         public void handleMessage(Message msg) {
             AsyncResult ar = (AsyncResult) msg.obj;
             switch (msg.what) {
@@ -526,7 +527,7 @@ public class PhoneUtils {
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             }
         } catch (CallStateException ex) {
-            Log.w(LOG_TAG, "PhoneUtils: Exception from phone.dial()", ex);
+            Log.w(LOG_TAG, "Exception from phone.dial()", ex);
             status = CALL_STATUS_FAILED;
         }
 
@@ -553,24 +554,37 @@ public class PhoneUtils {
      * call card and to update the call log. See above for restrictions.
      * @param contactRef that triggered the call. Typically a 'tel:'
      * uri but can also be a 'content://contacts' one.
-     * @param gatewayNumber Is the phone number that will be dialed to
-     * setup the connection.
+     * @param gatewayUri Is the address used to setup the connection.
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
     static int placeCallVia(Context context, Phone phone,
-                            String number, Uri contactRef, String gatewayNumber) {
-        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayNumber + "'");
+                            String number, Uri contactRef, String gatewayUri) {
+        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayUri + "'");
 
+        // TODO: 'tel' should be a contant defined in framework base
+        // somewhere (it is in webkit.)
+        Uri url = Uri.parse(gatewayUri);
+        if (null == url || !url.getScheme().equals("tel")) {
+            Log.e(LOG_TAG, "Unsupported URL:" + url);
+            return CALL_STATUS_FAILED;
+        }
+
+        // We can use getSchemeSpecificPart because we don't allow #
+        // in the gateway numbers (treated a fragment delim.) However
+        // if we allow more complex gateway numbers sequence (with
+        // passwords or whatnot) that use #, this may break.
+        // TODO: Need to support MMI codes.
+        String gatewayNumber = url.getSchemeSpecificPart();
         Connection connection;
         try {
             connection = phone.dial(gatewayNumber);
         } catch (CallStateException ex) {
-            Log.e(LOG_TAG, "PhoneUtils: Exception dialing gateway", ex);
+            Log.e(LOG_TAG, "Exception dialing gateway", ex);
             connection = null;
         }
 
         if (null == connection) {
-            Log.e(LOG_TAG, "PhoneUtils: Got null connection.");
+            Log.e(LOG_TAG, "Got null connection.");
             return CALL_STATUS_FAILED;
         }
 
@@ -1238,20 +1252,21 @@ public class PhoneUtils {
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
 
+            // Store CNAP information retrieved from the Connection (we want to do this
+            // here regardless of whether the number is empty or not).
+            cit.currentInfo.cnapName =  c.getCnapName();
+            cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
+                                                             // by ContactInfo later
+            cit.currentInfo.numberPresentation = c.getNumberPresentation();
+            cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+
             if (DBG) log("startGetCallerInfo: number = " + number);
+            if (DBG) log("startGetCallerInfo: CNAP Info from FW(1): name="
+                    + cit.currentInfo.cnapName
+                    + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
 
             // handling case where number is null (caller id hidden) as well.
             if (!TextUtils.isEmpty(number)) {
-                // Store CNAP information retrieved from the Connection
-                cit.currentInfo.cnapName =  c.getCnapName();
-                cit.currentInfo.name = cit.currentInfo.cnapName; // This can still get overwritten
-                                                                 // by ContactInfo later
-                cit.currentInfo.numberPresentation = c.getNumberPresentation();
-                cit.currentInfo.namePresentation = c.getCnapNamePresentation();
-                if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
-                        + cit.currentInfo.cnapName
-                        + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
-
                 // Check for special CNAP cases and modify the CallerInfo accordingly
                 // to be sure we keep the right information to display/log later
                 number = modifyForSpecialCnapCases(context, cit.currentInfo, number,
@@ -1296,10 +1311,8 @@ public class PhoneUtils {
             } else {
                 // handling case where number/name gets updated later on by the network
                 String updatedNumber = c.getAddress();
-                if (DBG) log("startGetCallerInfo: updatedNumber = " + updatedNumber);
+                if (DBG) log("startGetCallerInfo: updatedNumber initially = " + updatedNumber);
                 if (!TextUtils.isEmpty(updatedNumber)) {
-                    cit.currentInfo.phoneNumber = updatedNumber;
-
                     // Store CNAP information retrieved from the Connection
                     cit.currentInfo.cnapName =  c.getCnapName();
                     // This can still get overwritten by ContactInfo
@@ -1307,7 +1320,12 @@ public class PhoneUtils {
                     cit.currentInfo.numberPresentation = c.getNumberPresentation();
                     cit.currentInfo.namePresentation = c.getCnapNamePresentation();
 
-                    if (DBG) log("startGetCallerInfo: CNAP Info from FW: name="
+                    updatedNumber = modifyForSpecialCnapCases(context, cit.currentInfo,
+                            updatedNumber, cit.currentInfo.numberPresentation);
+
+                    cit.currentInfo.phoneNumber = updatedNumber;
+                    if (DBG) log("startGetCallerInfo: updatedNumber=" + updatedNumber);
+                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(2): name="
                             + cit.currentInfo.cnapName
                             + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
                     // For scenarios where we may receive a valid number from the network but a
@@ -1326,6 +1344,16 @@ public class PhoneUtils {
                     if (cit.currentInfo == null) {
                         cit.currentInfo = new CallerInfo();
                     }
+                    // Store CNAP information retrieved from the Connection
+                    cit.currentInfo.cnapName = c.getCnapName();  // This can still get
+                                                                 // overwritten by ContactInfo
+                    cit.currentInfo.name = cit.currentInfo.cnapName;
+                    cit.currentInfo.numberPresentation = c.getNumberPresentation();
+                    cit.currentInfo.namePresentation = c.getCnapNamePresentation();
+
+                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(3): name="
+                            + cit.currentInfo.cnapName
+                            + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
                     cit.isFinal = true; // please see note on isFinal, above.
                 }
             }
@@ -1366,12 +1394,6 @@ public class PhoneUtils {
             }
         };
 
-    static void saveToContact(Context context, String number) {
-        Intent intent = new Intent(Contacts.Intents.Insert.ACTION,
-                Contacts.People.CONTENT_URI);
-        intent.putExtra(Contacts.Intents.Insert.PHONE, number);
-        context.startActivity(intent);
-    }
 
     /**
      * Returns a single "name" for the specified given a CallerInfo object.
@@ -1387,11 +1409,24 @@ public class PhoneUtils {
             if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
                 compactName = ci.phoneNumber;
             }
+            // Perform any modifications for special CNAP cases to the name being displayed,
+            // if applicable.
+            compactName = modifyForSpecialCnapCases(context, ci, compactName, ci.numberPresentation);
         }
-        // TODO: figure out UNKNOWN, PRIVATE numbers?
+
         if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
-            compactName = context.getString(R.string.unknown);
+            // If we're still null/empty here, then check if we have a presentation
+            // string that takes precedence that we could return, otherwise display
+            // "unknown" string.
+            if (ci != null && ci.numberPresentation == Connection.PRESENTATION_RESTRICTED) {
+                compactName = context.getString(R.string.private_num);
+            } else if (ci != null && ci.numberPresentation == Connection.PRESENTATION_PAYPHONE) {
+                compactName = context.getString(R.string.payphone);
+            } else {
+                compactName = context.getString(R.string.unknown);
+            }
         }
+        if (DBG) log("getCompactNameFromCallerInfo: compactName=" + compactName);
         return compactName;
     }
 
@@ -1641,7 +1676,7 @@ public class PhoneUtils {
      * are ignored.
      */
     /* package */ static void setAudioMode(Context context, int mode) {
-        if (DBG) Log.d(LOG_TAG, "PhoneUtils.setAudioMode(" + audioModeToString(mode) + ")...");
+        if (DBG) Log.d(LOG_TAG, "setAudioMode(" + audioModeToString(mode) + ")...");
 
         //decide whether or not to ignore the audio setting
         boolean ignore = false;
@@ -1666,7 +1701,7 @@ public class PhoneUtils {
             if (DBG_SETAUDIOMODE_STACK) Log.d(LOG_TAG, "Stack:", new Throwable("stack dump"));
             audioManager.setMode(mode);
         } else {
-            if (DBG) Log.d(LOG_TAG, "PhoneUtils.setAudioMode(), state is " + sAudioBehaviourState +
+            if (DBG) Log.d(LOG_TAG, "setAudioMode(), state is " + sAudioBehaviourState +
                     " ignoring " + audioModeToString(mode) + " request");
         }
     }
@@ -1892,6 +1927,9 @@ public class PhoneUtils {
      */
     /* package */ static String modifyForSpecialCnapCases(Context context, CallerInfo ci,
             String number, int presentation) {
+        // Obviously we return number if ci == null, but still return number if
+        // number == null, because in these cases the correct string will still be
+        // displayed/logged after this function returns based on the presentation value.
         if (ci == null || number == null) return number;
 
         if (DBG) log("modifyForSpecialCnapCases: initially, number=" + number
@@ -1900,14 +1938,20 @@ public class PhoneUtils {
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
         // and fix the presentation to be the same.
-        if (number.equals(context.getString(R.string.absent_num))) {
+        if (number.equals(context.getString(R.string.absent_num))
+                && presentation == Connection.PRESENTATION_ALLOWED) {
             number = context.getString(R.string.unknown);
             ci.numberPresentation = Connection.PRESENTATION_UNKNOWN;
         }
 
-        // Check for other special "corner cases" for CNAP and fix them similarly.
+        // Check for other special "corner cases" for CNAP and fix them similarly. Corner
+        // cases only apply if we received an allowed presentation from the network, so check
+        // if we think we have an allowed presentation, or if the CallerInfo presentation doesn't
+        // match the presentation passed in for verification (meaning we changed it previously
+        // because it's a corner case and we're being called from a different entry point).
         if (ci.numberPresentation == Connection.PRESENTATION_ALLOWED
-                || ci.numberPresentation != presentation) {
+                || (ci.numberPresentation != presentation
+                        && presentation == Connection.PRESENTATION_ALLOWED)) {
             int cnapSpecialCase = checkCnapSpecialCases(number);
             if (cnapSpecialCase != CNAP_SPECIAL_CASE_NO) {
                 // For all special strings, change number & numberPresentation.
@@ -1930,6 +1974,20 @@ public class PhoneUtils {
     //
 
     /**
+     * Check if all the provider's info is present in the intent.
+     * @param intent Expected to have the provider's extra.
+     * @return true if the intent has all the extras to build the
+     * in-call screen's provider info overlay.
+     */
+    /* package */ static boolean hasPhoneProviderExtras(Intent intent) {
+        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+
+        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+    }
+
+    /**
      * Copy all the expected extras set when a 3rd party provider is
      * used from the source intent to the destination one.  Checks all
      * the required extras are present, if any is missing, none will
@@ -1937,16 +1995,18 @@ public class PhoneUtils {
      * @param src Intent which may contain the provider's extras.
      * @param dst Intent where a copy of the extras will be added if applicable.
      */
-    /* package */ static void copyPhoneProviderExtras(Intent src, Intent dst) {
-        final boolean hasBadge = src.hasExtra(InCallScreen.EXTRA_PROVIDER_BADGE);
-        final boolean hasNumber = src.hasExtra(InCallScreen.EXTRA_PROVIDER_NUMBER);
-
-        if (hasBadge && hasNumber) {
-            dst.putExtra(InCallScreen.EXTRA_PROVIDER_BADGE,
-                         src.getParcelableExtra(InCallScreen.EXTRA_PROVIDER_BADGE));
-            dst.putExtra(InCallScreen.EXTRA_PROVIDER_NUMBER,
-                         src.getStringExtra(InCallScreen.EXTRA_PROVIDER_NUMBER));
+    /* package */ static void checkAndCopyPhoneProviderExtras(Intent src, Intent dst) {
+        if (!hasPhoneProviderExtras(src)) {
+            Log.w(LOG_TAG, "checkAndCopyPhoneProviderExtras: some or all extras are missing.");
+            return;
         }
+
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE,
+                     src.getParcelableExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE));
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE,
+                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE));
+        dst.putExtra(InCallScreen.EXTRA_GATEWAY_URI,
+                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI));
     }
 
     /**

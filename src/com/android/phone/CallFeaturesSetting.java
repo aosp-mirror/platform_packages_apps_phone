@@ -25,6 +25,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -39,7 +40,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.provider.Contacts.PhonesColumns;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.Settings;
 import android.text.TextUtils;
 
@@ -68,12 +69,16 @@ public class CallFeaturesSetting extends PreferenceActivity
     // Extra put in the return from VM provider config containing voicemail number to set
     public static final String VM_NUMBER_EXTRA = "com.android.phone.VoicemailNumber";
 
+    // Extra put into ACTION_ADD_VOICEMAIL call to indicate which provider
+    // to remove from the list of providers presented to the user
+    public static final String IGNORE_PROVIDER_EXTRA = "com.android.phone.ProviderToIgnore";
+
     // debug data
     private static final String LOG_TAG = "CallFeaturesSetting";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // string constants
-    private static final String NUM_PROJECTION[] = {PhonesColumns.NUMBER};
+    private static final String NUM_PROJECTION[] = {CommonDataKinds.Phone.NUMBER};
 
     // String keys for preference lookup
     private static final String BUTTON_VOICEMAIL_KEY = "button_voicemail_key";
@@ -88,6 +93,8 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private static final String BUTTON_GSM_UMTS_OPTIONS = "button_gsm_more_expand_key";
     private static final String BUTTON_CDMA_OPTIONS = "button_cdma_more_expand_key";
+
+    private static final String VM_NUMBERS_SHARED_PREFERENCES_NAME = "vm_numbers";
 
     private Intent mContactListIntent;
 
@@ -145,6 +152,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         public String name;
         public Intent intent;
     }
+    SharedPreferences mPerProviderSavedVMNumbers;
 
     /**
      * Data about discovered voice mail settings providers.
@@ -218,9 +226,21 @@ public class CallFeaturesSetting extends PreferenceActivity
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
             updateVMPreferenceWidgets((String)objValue);
-            // Force the user into a configuration of the chosen provider
-            // right after the chose the provider
-            simulatePreferenceClick(mVoicemailSettings);
+
+            // If the user switches to a voice mail provider and we have a
+            // number stored for it we will automatically change the phone's
+            // voice mail number to the stored one.
+            // Otherwise we will bring up provider's config UI.
+
+            final String providerVMNumber = loadNumberForVoiceMailProvider(
+                (String)objValue);
+
+            if (providerVMNumber == null) {
+                // Force the user into a configuration of the chosen provider
+                simulatePreferenceClick(mVoicemailSettings);
+            } else {
+                saveVoiceMailNumber(providerVMNumber);
+            }
         }
         // always let the preference setting proceed.
         return true;
@@ -346,6 +366,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             return;
         }
 
+        maybeSaveNumberForVoicemailProvider(newVMNumber);
         // otherwise, set it.
         if (DBG) log("save voicemail #: " + newVMNumber);
         mPhone.setVoiceMailNumber(
@@ -540,11 +561,12 @@ public class CallFeaturesSetting extends PreferenceActivity
         mButtonHAC = (CheckBoxPreference) findPreference(BUTTON_HAC_KEY);
         mButtonTTY = (ListPreference) findPreference(BUTTON_TTY_KEY);
         mVoicemailProviders = (ListPreference) findPreference(BUTTON_VOICEMAIL_PROVIDER_KEY);
-        mVoicemailProviders.setOnPreferenceChangeListener(this);
-        mVoicemailSettings = (PreferenceScreen)findPreference(BUTTON_VOICEMAIL_SETTING_KEY);
+        if (mVoicemailProviders != null) {
+            mVoicemailProviders.setOnPreferenceChangeListener(this);
+            mVoicemailSettings = (PreferenceScreen)findPreference(BUTTON_VOICEMAIL_SETTING_KEY);
 
-        initVoiceMailProviders();
-
+            initVoiceMailProviders();
+        }
         if (getResources().getBoolean(R.bool.dtmf_type_enabled)) {
             mButtonDTMF.setOnPreferenceChangeListener(this);
         } else {
@@ -596,7 +618,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         // the selection for the VM provider, otherwise bring up a VM number dialog.
         // We only bring up the dialog the first time we are called (not after orientation change)
         if (icicle == null) {
-            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+            if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL) &&
+                    mVoicemailProviders != null) {
                 if (mVMProvidersData.size() > 1) {
                     simulatePreferenceClick(mVoicemailProviders);
                 } else {
@@ -759,7 +782,7 @@ public class CallFeaturesSetting extends PreferenceActivity
      * Enumerates existing VM providers and puts their data into the list and populates
      * the preference list objects with their names.
      * In case we are called with ACTION_ADD_VOICEMAIL intent the intent may have
-     * an extra string called "providerToIgnore" with "package.activityName" of the provider
+     * an extra string called IGNORE_PROVIDER_EXTRA with "package.activityName" of the provider
      * which should be hidden when we bring up the list of possible VM providers to choose.
      * This allows a provider which is being disabled (e.g. GV user logging out) to force the user
      * to pick some other provider.
@@ -767,7 +790,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private void initVoiceMailProviders() {
         String providerToIgnore = null;
         if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
-            providerToIgnore = getIntent().getStringExtra("providerToIgnore");
+            providerToIgnore = getIntent().getStringExtra(IGNORE_PROVIDER_EXTRA);
         }
 
         mVMProvidersData.clear();
@@ -825,6 +848,10 @@ public class CallFeaturesSetting extends PreferenceActivity
         mVoicemailProviders.setEntryValues(values);
 
         updateVMPreferenceWidgets(mVoicemailProviders.getValue());
+
+        mPerProviderSavedVMNumbers =
+            this.getApplicationContext().getSharedPreferences(
+                VM_NUMBERS_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
     }
 
     private String makeKeyForActivity(ActivityInfo ai) {
@@ -848,5 +875,35 @@ public class CallFeaturesSetting extends PreferenceActivity
                 break;
             }
         }
+    }
+
+    /**
+     * Saves the new VM number associating it with the currently selected
+     * provider if the number is different than the one already stored for this
+     * provider.
+     * Later on this number will be used when the user switches a provider.
+     */
+    private void maybeSaveNumberForVoicemailProvider(String newVMNumber) {
+        if (mVoicemailProviders == null) {
+            return;
+        }
+        final String key = mVoicemailProviders.getValue();
+        final String curNumber = loadNumberForVoiceMailProvider(key);
+        if (newVMNumber.equals(curNumber)) {
+            return;
+        }
+        mPerProviderSavedVMNumbers.edit().putString(key,
+            newVMNumber).commit();
+    }
+
+    /**
+     * Returns a voice mail number previously stored for the currently selected
+     * voice mail provider. If none is stored returns null.
+     * If the user switches to a voice mail provider and we have a number
+     * stored for it we will automatically change the phone's voice mail number
+     * to the stored one. Otherwise we will bring up provider's config UI.
+     */
+    private String loadNumberForVoiceMailProvider(String key) {
+        return mPerProviderSavedVMNumbers.getString(key, null);
     }
 }

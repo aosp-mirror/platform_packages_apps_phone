@@ -318,6 +318,7 @@ public class OtaUtils {
             mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_progress);
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.VISIBLE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
+            mOtaWidgetData.otaSpeakerButton.setVisibility(View.VISIBLE);
         } else {
             if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
         }

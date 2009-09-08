@@ -74,6 +74,7 @@ public class OutgoingCallBroadcaster extends Activity {
         }
 
         /* Change CALL_PRIVILEGED into CALL or CALL_EMERGENCY as needed. */
+        // TODO: This code is redundant with some code in InCallScreen: refactor.
         if (Intent.ACTION_CALL_PRIVILEGED.equals(action)) {
             action = emergencyNumber
                     ? Intent.ACTION_CALL_EMERGENCY
@@ -85,6 +86,20 @@ public class OutgoingCallBroadcaster extends Activity {
             if (emergencyNumber) {
                 Log.w(TAG, "Cannot call emergency number " + number
                         + " with CALL Intent " + intent + ".");
+
+                Intent invokeFrameworkDialer = new Intent();
+
+                // TwelveKeyDialer is in a tab so we really want
+                // DialtactsActivity.  Build the intent 'manually' to
+                // use the java resolver to find the dialer class (as
+                // opposed to a Context which look up known android
+                // packages only)
+                // TODO: Don't use DialtactsActivity under the *phone* package, it is cruft.
+                invokeFrameworkDialer.setClassName("com.android.contacts",
+                                                   "com.android.contacts.DialtactsActivity");
+                invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
+                invokeFrameworkDialer.setData(intent.getData());
+                startActivity(invokeFrameworkDialer);
                 finish();
                 return;
             }
@@ -128,7 +143,7 @@ public class OutgoingCallBroadcaster extends Activity {
         if (number != null) {
             broadcastIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
         }
-        PhoneUtils.copyPhoneProviderExtras(intent, broadcastIntent);
+        PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
         if (LOGV) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");

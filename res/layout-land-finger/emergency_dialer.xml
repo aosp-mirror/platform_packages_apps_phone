@@ -22,18 +22,18 @@
 >
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="66px"
-        android:layout_marginTop="3px"
-        android:layout_marginBottom="5px"
-        android:layout_marginLeft="3px"
-        android:layout_marginRight="3px"
+        android:layout_height="66dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:orientation="horizontal"
     >
 
         <EditText android:id="@+id/digits"
             android:layout_width="0dip"
             android:layout_weight="1"
-            android:layout_height="66px"
+            android:layout_height="66dp"
             android:maxLines="1"
             android:scrollHorizontally="true"
             android:textSize="28sp"
@@ -49,11 +49,27 @@
         <ImageButton android:id="@+id/backspace"
             style="@android:style/Widget.Button.Inset"
             android:layout_width="wrap_content"
-            android:layout_height="66px"
+            android:layout_height="66dp"
             android:background="@drawable/btn_dial_delete"
             android:src="@drawable/ic_delete_phone_number"
             android:gravity="center"
         />
 
     </LinearLayout>
+
+    <!-- Onscreen "Dial" button, used on some platforms -->
+    <Button android:id="@+id/dialButton"
+            android:text="@string/dial_button_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="60dip"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dip"
+            android:paddingLeft="100dip"
+            android:paddingRight="100dip"
+            android:enabled="false"
+            android:visibility="gone"
+            />
+
 </LinearLayout>
