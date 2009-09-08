@@ -2483,7 +2483,7 @@ public class InCallScreen extends Activity
             }
 
             callStatus = PhoneUtils.placeCallVia(
-                this, mPhone, number, contactUri, gatewayUri.toString());
+                this, mPhone, number, contactUri, gatewayUri);
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
