@@ -2298,17 +2298,28 @@ public class InCallScreen extends Activity
             // Wait prompt dialog is not currently up.  But it *should* be
             // up if the FG call has a connection in the WAIT state and
             // the phone isn't ringing.
+            String postDialStr = null;
             List<Connection> fgConnections = mForegroundCall.getConnections();
-            for (Connection cn : fgConnections) {
-                if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
-                    String postDialStr = cn.getRemainingPostDialString();
-                    if (mPhone.getPhoneName().equals("CDMA")) {
-                        if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() !=
-                            CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                            if(DBG) log("show the Wait dialog for CDMA");
-                            showWaitPromptDialogCDMA(cn, postDialStr);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                Connection fgLatestConnection = mForegroundCall.getLatestConnection();
+                if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
+                        CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                    for (Connection cn : fgConnections) {
+                        if ((cn != null) && (cn.getPostDialState() ==
+                                Connection.PostDialState.WAIT)) {
+                            cn.cancelPostDial();
                         }
-                    } else {
+                    }
+                } else if ((fgLatestConnection != null)
+                     && (fgLatestConnection.getPostDialState() == Connection.PostDialState.WAIT)) {
+                    if(DBG) log("show the Wait dialog for CDMA");
+                    postDialStr = fgLatestConnection.getRemainingPostDialString();
+                    showWaitPromptDialogCDMA(fgLatestConnection, postDialStr);
+                }
+            } else { // GSM
+                for (Connection cn : fgConnections) {
+                    if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
+                        postDialStr = cn.getRemainingPostDialString();
                         showWaitPromptDialog(cn, postDialStr);
                     }
                 }
