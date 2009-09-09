@@ -753,6 +753,13 @@ public class CallNotifier extends Handler
         if (mPhoneIsCdma) {
             // Stop any signalInfo tone being played when a call gets ended
             stopSignalInfoTone();
+
+            // Resetting the CdmaPhoneCallState members
+            mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
+
+            // Remove Call waiting timers
+            removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
+            removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
         }
 
         Connection c = (Connection) r.result;
@@ -963,15 +970,6 @@ public class CallNotifier extends Handler
                     mIsCdmaRedialCall = false;
                 }
             }
-        }
-
-        if (mPhoneIsCdma) {
-            // Resetting the CdmaPhoneCallState members
-            mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
-
-            // Remove Call waiting timers
-            removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
-            removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
         }
     }
 
