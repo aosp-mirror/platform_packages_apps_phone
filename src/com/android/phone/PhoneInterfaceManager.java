@@ -469,7 +469,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         // No permission check needed here: this call is harmless, and it's
         // needed for the ServiceState.requestStateUpdate() call (which is
         // already intentionally exposed to 3rd parties.)
-        mPhone.updateServiceLocation(null);
+        mPhone.updateServiceLocation();
     }
 
     public boolean isRadioOn() {
