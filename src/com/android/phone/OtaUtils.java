@@ -124,10 +124,10 @@ public class OtaUtils {
         readXmlSettings();
         initOtaInCallScreen();
     }
-    
+
     /**
      * Returns true if the phone needs activation.
-     * 
+     *
      * @param minString the phone's MIN configuration string
      * @return true if phone needs activation
      * @throws OtaConfigurationException if the string is invalid
@@ -136,15 +136,15 @@ public class OtaUtils {
         if (minString == null || (minString.length() < 6)) {
             throw new IllegalArgumentException();
         }
-        return (minString.equals(UNACTIVATED_MIN_VALUE) 
+        return (minString.equals(UNACTIVATED_MIN_VALUE)
                 || minString.substring(0,6).equals(UNACTIVATED_MIN2_VALUE))
                 || SystemProperties.getBoolean("test_cdma_setup", false);
     }
-    
+
     /**
      * Starts the OTA provisioning call.  If the MIN isn't available yet, it returns false and adds
-     * an event to return the request to the calling app when it becomes available. 
-     * 
+     * an event to return the request to the calling app when it becomes available.
+     *
      * @param context
      * @param handler
      * @param request
@@ -179,7 +179,7 @@ public class OtaUtils {
         }
 
         if (DBG) log("phoneNeedsActivation is set to " + phoneNeedsActivation);
-        
+
         int otaShowActivationScreen = context.getResources().getInteger(
                 R.integer.OtaShowActivationScreen);
 
@@ -292,6 +292,8 @@ public class OtaUtils {
                 mOtaWidgetData.otaDtmfDialerView.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
                 mOtaWidgetData.otaSpeakerButton.setVisibility(View.VISIBLE);
+                boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
+                mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
             } else {
                 if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
             }
@@ -319,6 +321,8 @@ public class OtaUtils {
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.VISIBLE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
             mOtaWidgetData.otaSpeakerButton.setVisibility(View.VISIBLE);
+            boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
+            mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
         } else {
             if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
         }
@@ -637,7 +641,13 @@ public class OtaUtils {
     private void onClickOtaEndButton() {
         if (DBG) log("Activation End Call Button Clicked!");
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
-            PhoneUtils.hangup(mApplication.phone);
+            if (PhoneUtils.hangup(mApplication.phone) == false) {
+                // If something went wrong when placing the OTA call,
+                // the screen is not updated by the call disconnect
+                // handler and we have to do it here
+                setSpeaker(false);
+                mInCallScreen.handleOtaCallEnd();
+            }
         }
     }
 
@@ -747,13 +757,13 @@ public class OtaUtils {
         mOtaWidgetData.otaTryAgainButton =
                 (Button) mInCallScreen.findViewById(R.id.otaTryAgainButton);
         mOtaWidgetData.otaTryAgainButton.setOnClickListener(mInCallScreen);
-        
+
 
         if (!InCallScreen.ConfigurationHelper.isLandscape()) {
             mOtaWidgetData.otaDtmfDialerView =
                     (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.otaDtmfDialer);
             DTMFTwelveKeyDialer dialer;
-            dialer = new DTMFTwelveKeyDialer(mInCallScreen, mOtaWidgetData.otaDtmfDialerView, 
+            dialer = new DTMFTwelveKeyDialer(mInCallScreen, mOtaWidgetData.otaDtmfDialerView,
                     null, null);
             mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
             dialer.initializeDialer();
@@ -790,6 +800,10 @@ public class OtaUtils {
         mOtaWidgetData.otaDtmfDialerView.setVisibility(View.GONE);
         mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
         mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
+
+        // turn off the speaker in case it was turned on
+        // but the OTA call could not be completed
+        setSpeaker(false);
     }
 
     /**
