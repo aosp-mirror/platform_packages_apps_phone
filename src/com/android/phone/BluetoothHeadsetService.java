@@ -20,7 +20,6 @@ import android.app.Service;
 import android.bluetooth.BluetoothAudioGateway;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothError;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothIntent;
 import android.bluetooth.BluetoothUuid;
@@ -283,7 +282,7 @@ public class BluetoothHeadsetService extends Service {
                 } catch (RemoteException e) {}
             } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                                           BluetoothError.ERROR)) {
+                                           BluetoothAdapter.ERROR)) {
                 case BluetoothAdapter.STATE_ON:
                     mHeadsetPriority.load();
                     mHandler.sendMessageDelayed(mHandler.obtainMessage(RECONNECT_LAST_HEADSET), 8000);
@@ -298,7 +297,7 @@ public class BluetoothHeadsetService extends Service {
                 }
             } else if (action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION)) {
                 int bondState = intent.getIntExtra(BluetoothIntent.BOND_STATE,
-                                                   BluetoothError.ERROR);
+                                                   BluetoothDevice.ERROR);
                 switch(bondState) {
                 case BluetoothDevice.BOND_BONDED:
                     mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_AUTO);
