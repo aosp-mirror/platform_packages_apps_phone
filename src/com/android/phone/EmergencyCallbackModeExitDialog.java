@@ -28,11 +28,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
+import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Message;
 import android.os.SystemProperties;
 import android.util.Log;
 
@@ -57,6 +59,7 @@ public class EmergencyCallbackModeExitDialog extends Activity {
     public static final int EXIT_ECM_BLOCK_OTHERS = 1;
     public static final int EXIT_ECM_DIALOG = 2;
     public static final int EXIT_ECM_PROGRESS_DIALOG = 3;
+    public static final int EXIT_ECM_IN_EMERGENCY_CALL_DIALOG = 4;
 
     AlertDialog mAlertDialog = null;
     ProgressDialog mProgressDialog = null;
@@ -65,6 +68,9 @@ public class EmergencyCallbackModeExitDialog extends Activity {
     Handler mHandler = null;
     int mDialogType = 0;
     long mEcmTimeout = 0;
+    private boolean mInEmergencyCall = false;
+    private static final int ECM_TIMER_RESET = 1;
+    private Phone mPhone = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,10 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                 "EcmExitDialogWaitThread");
         waitForConnectionCompleteThread.start();
 
+        // Register ECM timer reset notfication
+        mPhone = PhoneFactory.getDefaultPhone();
+        mPhone.registerForEcmTimerReset(mTimerResetHandler, ECM_TIMER_RESET, null);
+
         // Register receiver for intent closing the dialog
         IntentFilter filter = new IntentFilter();
         filter.addAction(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED);
@@ -94,6 +104,8 @@ public class EmergencyCallbackModeExitDialog extends Activity {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mEcmExitReceiver);
+        // Unregister ECM timer reset notification
+        mPhone.unregisterForEcmTimerReset(mHandler);
     }
 
     @Override
@@ -130,9 +142,10 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                 }
             }
 
-            // Get timeout value from the service
+            // Get timeout value and call state from the service
             if (mService != null) {
                 mEcmTimeout = mService.getEmergencyCallbackModeTimeout();
+                mInEmergencyCall = mService.getEmergencyCallbackModeCallState();
             }
 
             // Unbind from remote service
@@ -151,27 +164,33 @@ public class EmergencyCallbackModeExitDialog extends Activity {
      * Shows Emergency Callback Mode dialog and starts countdown timer
      */
     private void showEmergencyCallbackModeExitDialog() {
-        if (getIntent().getAction().equals(
-            TelephonyIntents.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS)) {
-            mDialogType = EXIT_ECM_BLOCK_OTHERS;
-            showDialog(EXIT_ECM_BLOCK_OTHERS);
-        } else if (getIntent().getAction().equals(ACTION_SHOW_ECM_EXIT_DIALOG)) {
-            mDialogType = EXIT_ECM_DIALOG;
-            showDialog(EXIT_ECM_DIALOG);
+
+        if(mInEmergencyCall) {
+            mDialogType = EXIT_ECM_IN_EMERGENCY_CALL_DIALOG;
+            showDialog(EXIT_ECM_IN_EMERGENCY_CALL_DIALOG);
+        } else {
+            if (getIntent().getAction().equals(
+                    TelephonyIntents.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS)) {
+                mDialogType = EXIT_ECM_BLOCK_OTHERS;
+                showDialog(EXIT_ECM_BLOCK_OTHERS);
+            } else if (getIntent().getAction().equals(ACTION_SHOW_ECM_EXIT_DIALOG)) {
+                mDialogType = EXIT_ECM_DIALOG;
+                showDialog(EXIT_ECM_DIALOG);
+            }
+
+            mTimer = new CountDownTimer(mEcmTimeout, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    CharSequence text = getDialogText(millisUntilFinished);
+                    mAlertDialog.setMessage(text);
+                }
+
+                @Override
+                public void onFinish() {
+                    //Do nothing
+                }
+            }.start();
         }
-
-        mTimer = new CountDownTimer(mEcmTimeout, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                CharSequence text = getDialogText(millisUntilFinished);
-                mAlertDialog.setMessage(text);
-            }
-
-            @Override
-            public void onFinish() {
-                //Do nothing
-            }
-        }.start();
     }
 
     /**
@@ -184,14 +203,14 @@ public class EmergencyCallbackModeExitDialog extends Activity {
         case EXIT_ECM_DIALOG:
             CharSequence text = getDialogText(mEcmTimeout);
             mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
-                    .setIcon(R.drawable.picture_emergency32x32).setTitle(
-                            R.string.phone_in_ecm_notification_title).setMessage(text)
+                    .setIcon(R.drawable.picture_emergency32x32)
+                    .setTitle(R.string.phone_in_ecm_notification_title)
+                    .setMessage(text)
                     .setPositiveButton(R.string.alert_dialog_yes,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int whichButton) {
                                     // User clicked Yes. Exit Emergency Callback Mode.
-                                    Phone phone = PhoneFactory.getDefaultPhone();
-                                    phone.exitEmergencyCallbackMode();
+                                    mPhone.exitEmergencyCallbackMode();
 
                                     // Show progress dialog
                                     showDialog(EXIT_ECM_PROGRESS_DIALOG);
@@ -202,6 +221,22 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // User clicked No
+                                    setResult(RESULT_OK, (new Intent()).putExtra(
+                                            EXTRA_EXIT_ECM_RESULT, false));
+                                    finish();
+                                }
+                            }).create();
+            return mAlertDialog;
+
+        case EXIT_ECM_IN_EMERGENCY_CALL_DIALOG:
+            mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
+                    .setIcon(R.drawable.picture_emergency32x32)
+                    .setTitle(R.string.phone_in_ecm_notification_title)
+                    .setMessage(R.string.alert_dialog_in_ecm_call)
+                    .setNeutralButton(R.string.alert_dialog_dismiss,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // User clicked Dismiss
                                     setResult(RESULT_OK, (new Intent()).putExtra(
                                             EXTRA_EXIT_ECM_RESULT, false));
                                     finish();
@@ -277,6 +312,23 @@ public class EmergencyCallbackModeExitDialog extends Activity {
 
         public void onServiceDisconnected(ComponentName className) {
             mService = null;
+        }
+    };
+
+    /**
+     * Class for receiving framework timer reset notifications
+     */
+    private Handler mTimerResetHandler = new Handler () {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ECM_TIMER_RESET:
+                    if(!((Boolean)((AsyncResult) msg.obj).result).booleanValue()) {
+                        EmergencyCallbackModeExitDialog.this.setResult(RESULT_OK, (new Intent())
+                                .putExtra(EXTRA_EXIT_ECM_RESULT, false));
+                        finish();
+                    }
+                    break;
+            }
         }
     };
 }
