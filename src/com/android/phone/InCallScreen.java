@@ -2256,6 +2256,8 @@ public class InCallScreen extends Activity
             return;
         } else if (mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
             if (VDBG) log("- updateScreen: OTA call ended state ...");
+            // Wake up the screen when we get notification, good or bad.
+            PhoneApp.getInstance().wakeUpScreen();
             if (app.cdmaOtaScreenState.otaScreenState
                 == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
                 if (VDBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
