@@ -74,9 +74,6 @@ public class EmergencyDialer extends Activity
     private static final boolean DBG = false;
     private static final String LOG_TAG = "EmergencyDialer";
 
-    // Handler message codes.
-    private static final int STOP_TONE = 1;
-
     /** The length of DTMF tones in milliseconds */
     private static final int TONE_LENGTH_MS = 150;
 
@@ -222,7 +219,6 @@ public class EmergencyDialer extends Activity
         super.onDestroy();
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator != null) {
-                mToneStopper.removeMessages(STOP_TONE);
                 mToneGenerator.release();
                 mToneGenerator = null;
             }
@@ -462,7 +458,6 @@ public class EmergencyDialer extends Activity
 
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator != null) {
-                mToneStopper.removeMessages(STOP_TONE);
                 mToneGenerator.release();
                 mToneGenerator = null;
             }
@@ -497,22 +492,6 @@ public class EmergencyDialer extends Activity
         }
     }
 
-    Handler mToneStopper = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case STOP_TONE:
-                    synchronized (mToneGeneratorLock) {
-                        if (mToneGenerator == null) {
-                            Log.w(LOG_TAG, "mToneStopper: mToneGenerator == null");
-                        } else {
-                            mToneGenerator.stopTone();
-                        }
-                    }
-                    break;
-            }
-        }
-    };
 
     /**
      * Plays the specified tone for TONE_LENGTH_MS milliseconds.
@@ -547,12 +526,8 @@ public class EmergencyDialer extends Activity
                 return;
             }
 
-            // Remove pending STOP_TONE messages
-            mToneStopper.removeMessages(STOP_TONE);
-
             // Start the new tone (will stop any playing tone)
-            mToneGenerator.startTone(tone);
-            mToneStopper.sendEmptyMessageDelayed(STOP_TONE, TONE_LENGTH_MS);
+            mToneGenerator.startTone(tone, TONE_LENGTH_MS);
         }
     }
 

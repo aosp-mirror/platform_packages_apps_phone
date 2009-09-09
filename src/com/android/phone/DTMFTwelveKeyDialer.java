@@ -48,6 +48,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
+
 /**
  * Dialer class that encapsulates the DTMF twelve key behaviour.
  * This model backs up the UI behaviour in DTMFTwelveKeyDialerView.java.
@@ -64,7 +65,6 @@ public class DTMFTwelveKeyDialer implements
     // events
     private static final int PHONE_DISCONNECT = 100;
     private static final int DTMF_SEND_CNF = 101;
-    private static final int STOP_DTMF_TONE = 102;
 
 
 
@@ -553,10 +553,6 @@ public class DTMFTwelveKeyDialer implements
                     // handle burst dtmf confirmation
                     handleBurstDtmfConfirmation();
                     break;
-                case STOP_DTMF_TONE:
-                    if (DBG) log("stop-dtmf-tone received.");
-                    stopToneCdma();
-                    break;
             }
         }
     };
@@ -566,8 +562,12 @@ public class DTMFTwelveKeyDialer implements
         mInCallScreen = parent;
         mPhone = ((PhoneApp) mInCallScreen.getApplication()).phone;
         mDialerContainer = dialerContainer;
-        mDialerView = dialerView;
-        mDialerView.setDialer(this);
+        if (dialerView != null) {
+            mDialerView = dialerView;
+            mDialerView.setDialer(this);
+        } else {
+            if (DBG) log("DTMFTwelveKeyDialer: dialerView is null!");
+        }
 
         // mDialerContainer is only valid when we're looking at the portrait version of
         // dtmf_twelve_key_dialer.
@@ -636,7 +636,6 @@ public class DTMFTwelveKeyDialer implements
             mDialerContainer.setOnDrawerCloseListener(null);
         }
         if (mPhone.getPhoneName().equals("CDMA")) {
-            mHandler.removeMessages(STOP_DTMF_TONE);
             mHandler.removeMessages(DTMF_SEND_CNF);
             synchronized (mDTMFQueue) {
                 mDTMFBurstCnfPending = false;
@@ -1128,13 +1127,11 @@ public class DTMFTwelveKeyDialer implements
                     if (DBG) log("starting local tone " + tone);
 
                     // Start the new tone.
-                    mToneGenerator.startTone(mToneMap.get(tone));
-
-                    // Stopped pending and Started new STOP_DTMF_TONE timer.
+                    int toneDuration = -1;
                     if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
-                        mHandler.removeMessages(STOP_DTMF_TONE);
-                        mHandler.sendEmptyMessageDelayed(STOP_DTMF_TONE,DTMF_DURATION_MS);
+                        toneDuration = DTMF_DURATION_MS;
                     }
+                    mToneGenerator.startTone(mToneMap.get(tone), toneDuration);
                 }
             }
         }
@@ -1166,10 +1163,7 @@ public class DTMFTwelveKeyDialer implements
     private void stopToneCdma() {
         if (DBG) log("stopping remote tone.");
 
-        if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
-            mPhone.stopDtmf();
-        }
-
+        mPhone.stopDtmf();
         stopLocalToneCdma();
     }
 
@@ -1182,7 +1176,7 @@ public class DTMFTwelveKeyDialer implements
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
                 if (mToneGenerator == null) {
-                    if (DBG) log("stopToneCdma: mToneGenerator == null");
+                    if (DBG) log("stopLocalToneCdma: mToneGenerator == null");
                 } else {
                     if (DBG) log("stopping local tone.");
                     mToneGenerator.stopTone();

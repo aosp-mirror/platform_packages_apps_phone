@@ -536,7 +536,7 @@ public class InCallScreen extends Activity
 
                 case EVENT_HIDE_PROVIDER_BADGE:
                     mProviderOverlayVisible = false;
-                    updateProviderBadge();  // Clear the badge.
+                    updateProviderOverlay();  // Clear the overlay.
                     break;
             }
         }
@@ -819,12 +819,20 @@ public class InCallScreen extends Activity
         // landscape.)
     }
 
+    // onPause is guaranteed to be called when the InCallScreen goes
+    // in the background.
     @Override
     protected void onPause() {
         if (DBG) log("onPause()...");
         super.onPause();
 
         mIsForegroundActivity = false;
+
+        // Force a clear of the provider overlay' frame. Since the
+        // overlay is removed using a timed message, it is
+        // possible we missed it if the prev call was interrupted.
+        mProviderOverlayVisible = false;
+        updateProviderOverlay();
 
         final PhoneApp app = PhoneApp.getInstance();
 
@@ -2279,7 +2287,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateInCallTouchUi();
-        updateProviderBadge();
+        updateProviderOverlay();
         updateMenuButtonHint();
         updateInCallBackground();
 
@@ -2290,17 +2298,28 @@ public class InCallScreen extends Activity
             // Wait prompt dialog is not currently up.  But it *should* be
             // up if the FG call has a connection in the WAIT state and
             // the phone isn't ringing.
+            String postDialStr = null;
             List<Connection> fgConnections = mForegroundCall.getConnections();
-            for (Connection cn : fgConnections) {
-                if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
-                    String postDialStr = cn.getRemainingPostDialString();
-                    if (mPhone.getPhoneName().equals("CDMA")) {
-                        if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() !=
-                            CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                            if(DBG) log("show the Wait dialog for CDMA");
-                            showWaitPromptDialogCDMA(cn, postDialStr);
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                Connection fgLatestConnection = mForegroundCall.getLatestConnection();
+                if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
+                        CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+                    for (Connection cn : fgConnections) {
+                        if ((cn != null) && (cn.getPostDialState() ==
+                                Connection.PostDialState.WAIT)) {
+                            cn.cancelPostDial();
                         }
-                    } else {
+                    }
+                } else if ((fgLatestConnection != null)
+                     && (fgLatestConnection.getPostDialState() == Connection.PostDialState.WAIT)) {
+                    if(DBG) log("show the Wait dialog for CDMA");
+                    postDialStr = fgLatestConnection.getRemainingPostDialString();
+                    showWaitPromptDialogCDMA(fgLatestConnection, postDialStr);
+                }
+            } else { // GSM
+                for (Connection cn : fgConnections) {
+                    if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
+                        postDialStr = cn.getRemainingPostDialString();
                         showWaitPromptDialog(cn, postDialStr);
                     }
                 }
@@ -2483,7 +2502,7 @@ public class InCallScreen extends Activity
             }
 
             callStatus = PhoneUtils.placeCallVia(
-                this, mPhone, number, contactUri, gatewayUri.toString());
+                this, mPhone, number, contactUri, gatewayUri);
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
@@ -3084,8 +3103,8 @@ public class InCallScreen extends Activity
      * after PROVIDER_BADGE_TIMEOUT. This ensures the user will see
      * the badge even if the call setup phase is very short.
      */
-    private void updateProviderBadge() {
-        if (VDBG) log("updateProviderBadge: " + mProviderBadge);
+    private void updateProviderOverlay() {
+        if (VDBG) log("updateProviderOverlay: " + mProviderBadge);
 
         ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
         ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);

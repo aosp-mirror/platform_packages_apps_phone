@@ -753,6 +753,13 @@ public class CallNotifier extends Handler
         if (mPhoneIsCdma) {
             // Stop any signalInfo tone being played when a call gets ended
             stopSignalInfoTone();
+
+            // Resetting the CdmaPhoneCallState members
+            mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
+
+            // Remove Call waiting timers
+            removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
+            removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
         }
 
         Connection c = (Connection) r.result;
@@ -964,15 +971,6 @@ public class CallNotifier extends Handler
                 }
             }
         }
-
-        if (mPhoneIsCdma) {
-            // Resetting the CdmaPhoneCallState members
-            mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
-
-            // Remove Call waiting timers
-            removeMessages(CALLWAITING_CALLERINFO_DISPLAY_DONE);
-            removeMessages(CALLWAITING_ADDCALL_DISABLE_TIMEOUT);
-        }
     }
 
     /**
@@ -1145,7 +1143,7 @@ public class CallNotifier extends Handler
                             OtaUtils.OTA_PLAY_SUCCESS_FAILURE_TONE_ON) {
                         toneType = ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                        toneLengthMillis = 5000;
+                        toneLengthMillis = 2000;
                     } else {
                         toneType = ToneGenerator.TONE_PROP_PROMPT;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;

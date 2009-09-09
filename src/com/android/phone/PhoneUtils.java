@@ -226,6 +226,8 @@ public class PhoneUtils {
 
         boolean answered = false;
         Call call = phone.getRingingCall();
+        PhoneApp app = PhoneApp.getInstance();
+        BluetoothHandsfree bthf = null;
 
         if (phone.getPhoneName().equals("CDMA")) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -239,7 +241,6 @@ public class PhoneUtils {
             if (DBG) log("answerCall: call state = " + call.getState());
             try {
                 if (phone.getPhoneName().equals("CDMA")) {
-                    PhoneApp app = PhoneApp.getInstance();
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.IDLE) {
                         // This is the FIRST incoming call being answered.
@@ -255,7 +256,7 @@ public class PhoneUtils {
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        BluetoothHandsfree bthf = PhoneApp.getInstance().getBluetoothHandsfree();
+                        bthf = app.getBluetoothHandsfree();
                         if (bthf != null) {
                             bthf.cdmaSetSecondCallState(true);
                         }
@@ -268,6 +269,15 @@ public class PhoneUtils {
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
+
+                if (phone.getPhoneName().equals("CDMA")) {
+                    // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
+                    app.cdmaPhoneCallState.setCurrentCallState(
+                            app.cdmaPhoneCallState.getPreviousCallState());
+                    if (bthf != null) {
+                        bthf.cdmaSetSecondCallState(false);
+                    }
+                }
             }
         }
         return answered;
@@ -558,14 +568,13 @@ public class PhoneUtils {
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
     static int placeCallVia(Context context, Phone phone,
-                            String number, Uri contactRef, String gatewayUri) {
+                            String number, Uri contactRef, Uri gatewayUri) {
         if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayUri + "'");
 
         // TODO: 'tel' should be a contant defined in framework base
         // somewhere (it is in webkit.)
-        Uri url = Uri.parse(gatewayUri);
-        if (null == url || !url.getScheme().equals("tel")) {
-            Log.e(LOG_TAG, "Unsupported URL:" + url);
+        if (null == gatewayUri || !"tel".equals(gatewayUri.getScheme())) {
+            Log.e(LOG_TAG, "Unsupported URL:" + gatewayUri);
             return CALL_STATUS_FAILED;
         }
 
@@ -574,7 +583,7 @@ public class PhoneUtils {
         // if we allow more complex gateway numbers sequence (with
         // passwords or whatnot) that use #, this may break.
         // TODO: Need to support MMI codes.
-        String gatewayNumber = url.getSchemeSpecificPart();
+        String gatewayNumber = gatewayUri.getSchemeSpecificPart();
         Connection connection;
         try {
             connection = phone.dial(gatewayNumber);
@@ -1980,11 +1989,15 @@ public class PhoneUtils {
      * in-call screen's provider info overlay.
      */
     /* package */ static boolean hasPhoneProviderExtras(Intent intent) {
-        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
-        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
-        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+        try {
+            final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+            final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+            final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
 
-        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+            return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+        } catch (NullPointerException npe) {
+            return false;
+        }
     }
 
     /**
