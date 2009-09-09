@@ -55,8 +55,8 @@ public class EmergencyCallbackModeService extends Service {
     private NotificationManager mNotificationManager = null;
     private CountDownTimer mTimer = null;
     private long mTimeLeft = 0;
-    private PhoneApp mApp;
-    private Phone mPhone;
+    private Phone mPhone = null;
+    private boolean mInEmergencyCall = false;
 
     private static final int ECM_TIMER_RESET = 1;
 
@@ -88,8 +88,7 @@ public class EmergencyCallbackModeService extends Service {
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Register ECM timer reset notfication
-        mApp = PhoneApp.getInstance();
-        mPhone = mApp.phone;
+        mPhone = PhoneFactory.getDefaultPhone();
         mPhone.registerForEcmTimerReset(mHandler, ECM_TIMER_RESET, null);
 
         startTimerNotification();
@@ -174,11 +173,15 @@ public class EmergencyCallbackModeService extends Service {
                 new Intent(EmergencyCallbackModeExitDialog.ACTION_SHOW_ECM_EXIT_DIALOG), 0);
 
         // Format notification string
-        int minutes = (int)(millisUntilFinished / 60000);
-        String time = String.format("%d:%02d", minutes, (millisUntilFinished % 60000) / 1000);
-        String text = String.format(getResources().getQuantityText(
-                R.plurals.phone_in_ecm_notification_time, minutes).toString(), time);
-
+        String text = null;
+        if(mInEmergencyCall) {
+            text = getText(R.string.phone_in_ecm_call_notification_text).toString();
+        } else {
+            int minutes = (int)(millisUntilFinished / 60000);
+            String time = String.format("%d:%02d", minutes, (millisUntilFinished % 60000) / 1000);
+            text = String.format(getResources().getQuantityText(
+                     R.plurals.phone_in_ecm_notification_time, minutes).toString(), time);
+        }
         // Set the info in the notification
         notification.setLatestEventInfo(this, getText(R.string.phone_in_ecm_notification_title),
                 text, contentIntent);
@@ -196,8 +199,11 @@ public class EmergencyCallbackModeService extends Service {
         boolean isTimerCanceled = ((Boolean)r.result).booleanValue();
 
         if (isTimerCanceled) {
+            mInEmergencyCall = true;
             mTimer.cancel();
+            showNotification(0);
         } else {
+            mInEmergencyCall = false;
             startTimerNotification();
         }
     }
@@ -224,5 +230,12 @@ public class EmergencyCallbackModeService extends Service {
      */
     public long getEmergencyCallbackModeTimeout() {
         return mTimeLeft;
+    }
+
+    /**
+     * Returns Emergency Callback Mode call state
+     */
+    public boolean getEmergencyCallbackModeCallState() {
+        return mInEmergencyCall;
     }
 }

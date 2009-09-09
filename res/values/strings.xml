@@ -1038,6 +1038,7 @@
     <!-- ECM: Notification title -->
     <string name="phone_in_ecm_notification_title">Emergency Callback Mode</string>
     <!-- ECM: Notification body -->
+    <string name="phone_in_ecm_call_notification_text">Data connection disabled</string>
     <plurals name="phone_in_ecm_notification_time">
         <!-- number of minutes is one -->
         <item quantity="one">No data connection for <xliff:g id="count">%s</xliff:g> minute</item>
@@ -1058,12 +1059,16 @@
         <!-- number of minutes is not equal to one -->
         <item quantity="other">The selected action is not available while in the emergency callback mode. The phone will be in this mode for <xliff:g id="count">%s</xliff:g> minutes. Would you like to exit now?</item>
     </plurals>
+    <!-- ECM: Dialog box message while in emergency call -->
+    <string name="alert_dialog_in_ecm_call">The selected action is not available while in an emergency call</string>
     <!-- ECM: Progress text -->
     <string name="progress_dialog_exiting_ecm">Exiting Emergency Callback Mode</string>
     <!-- ECM: ECM exit dialog choice -->
     <string name="alert_dialog_yes">Yes</string>
     <!-- ECM: ECM exit dialog choice -->
     <string name="alert_dialog_no">No</string>
+    <!-- ECM: ECM exit dialog choice -->
+    <string name="alert_dialog_dismiss">Dismiss</string>
     <!-- For incoming calls, this is a string we can get from a CDMA network instead of
          the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
     <string name="absent_num">ABSENT NUMBER</string>

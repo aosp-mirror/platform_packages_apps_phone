@@ -363,8 +363,9 @@
         </service>
 
         <activity android:name="EmergencyCallbackModeExitDialog"
-            android:label="@string/ecm_exit_dialog"
             android:excludeFromRecents="true"
+            android:label="@string/ecm_exit_dialog"
+            android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="com.android.phone.action.ACTION_SHOW_ECM_EXIT_DIALOG" />
