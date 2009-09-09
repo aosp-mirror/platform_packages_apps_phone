@@ -536,7 +536,7 @@ public class InCallScreen extends Activity
 
                 case EVENT_HIDE_PROVIDER_BADGE:
                     mProviderOverlayVisible = false;
-                    updateProviderBadge();  // Clear the badge.
+                    updateProviderOverlay();  // Clear the overlay.
                     break;
             }
         }
@@ -819,12 +819,20 @@ public class InCallScreen extends Activity
         // landscape.)
     }
 
+    // onPause is guaranteed to be called when the InCallScreen goes
+    // in the background.
     @Override
     protected void onPause() {
         if (DBG) log("onPause()...");
         super.onPause();
 
         mIsForegroundActivity = false;
+
+        // Force a clear of the provider overlay' frame. Since the
+        // overlay is removed using a timed message, it is
+        // possible we missed it if the prev call was interrupted.
+        mProviderOverlayVisible = false;
+        updateProviderOverlay();
 
         final PhoneApp app = PhoneApp.getInstance();
 
@@ -2279,7 +2287,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateInCallTouchUi();
-        updateProviderBadge();
+        updateProviderOverlay();
         updateMenuButtonHint();
         updateInCallBackground();
 
@@ -3084,8 +3092,8 @@ public class InCallScreen extends Activity
      * after PROVIDER_BADGE_TIMEOUT. This ensures the user will see
      * the badge even if the call setup phase is very short.
      */
-    private void updateProviderBadge() {
-        if (VDBG) log("updateProviderBadge: " + mProviderBadge);
+    private void updateProviderOverlay() {
+        if (VDBG) log("updateProviderOverlay: " + mProviderBadge);
 
         ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
         ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);
