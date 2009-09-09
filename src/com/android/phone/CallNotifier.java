@@ -584,7 +584,7 @@ public class CallNotifier extends Handler
 
         // Update the proximity sensor mode (on devices that have a
         // proximity sensor).
-        mApplication.updateProximitySensorMode(state);
+        mApplication.updatePhoneState(state);
 
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);

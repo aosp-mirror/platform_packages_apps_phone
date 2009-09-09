@@ -168,6 +168,12 @@ public class PhoneApp extends Application {
     // Gets updated whenever there is a Configuration change
     private boolean mIsHardKeyboardOpen;
 
+    // True if we are beginning a call, but the phone state has not changed yet
+    private boolean mBeginningCall;
+
+    // Last phone state seen by updatePhoneState()
+    Phone.State mLastPhoneState = Phone.State.IDLE;
+
     private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
     private boolean mIgnoreTouchUserActivity = false;
@@ -1021,6 +1027,19 @@ public class PhoneApp extends Application {
     }
 
     /**
+     * Set when a new outgoing call is beginning, so we can update
+     * the proximity sensor state.
+     * Cleared when the InCallScreen is no longer in the foreground,
+     * in case the call fails without changing the telephony state.
+     */
+    /* package */ void setBeginningCall(boolean beginning) {
+        // Note that we are beginning a new call, for proximity sensor support
+        mBeginningCall = beginning;
+        // Update the Proximity sensor based on mBeginningCall state
+        updateProximitySensorMode(phone.getState());
+    }
+
+    /**
      * Updates the wake lock used to control proximity sensor behavior,
      * based on the current state of the phone.  This method is called
      * from the CallNotifier on any phone state change.
@@ -1049,11 +1068,10 @@ public class PhoneApp extends Application {
      * @param state current state of the phone (see {@link Phone#State})
      */
     /* package */ void updateProximitySensorMode(Phone.State state) {
-        // TODO: Extra-verbose debugging is enabled here while tracking down bug 2028728
-        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
+        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
 
         if (proximitySensorModeEnabled()) {
-            if ((state == Phone.State.OFFHOOK)
+            if (((state == Phone.State.OFFHOOK) || mBeginningCall)
                     && !(isHeadsetPlugged()
                     || PhoneUtils.isSpeakerOn(this)
                     || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
@@ -1064,7 +1082,7 @@ public class PhoneApp extends Application {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                     mProximityWakeLock.acquire();
                 } else {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
+                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                 }
             } else {
                 // Phone is either idle, or ringing.  We don't want any
@@ -1073,9 +1091,22 @@ public class PhoneApp extends Application {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
                     mProximityWakeLock.release();
                 } else {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
+                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
                 }
             }
+        }
+    }
+
+    /**
+     * Notifies the phone app when the phone state changes.
+     * Currently used only for proximity sensor support.
+     */
+    /* package */ void updatePhoneState(Phone.State state) {
+        if (state != mLastPhoneState) {
+            mLastPhoneState = state;
+            updateProximitySensorMode(state);
+            // clear our beginning call flag
+            mBeginningCall = false;
         }
     }
 
