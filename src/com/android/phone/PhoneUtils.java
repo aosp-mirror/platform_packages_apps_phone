@@ -1989,11 +1989,15 @@ public class PhoneUtils {
      * in-call screen's provider info overlay.
      */
     /* package */ static boolean hasPhoneProviderExtras(Intent intent) {
-        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
-        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
-        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+        try {
+            final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+            final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+            final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
 
-        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+            return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+        } catch (NullPointerException npe) {
+            return false;
+        }
     }
 
     /**
