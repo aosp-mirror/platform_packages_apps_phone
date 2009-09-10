@@ -21,7 +21,6 @@ import android.bluetooth.BluetoothAudioGateway;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothIntent;
 import android.bluetooth.BluetoothUuid;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.IBluetoothHeadset;
@@ -102,9 +101,9 @@ public class BluetoothHeadsetService extends Service {
             mHeadsetPriority.load();
         }
         IntentFilter filter = new IntentFilter(
-                BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
+                BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-        filter.addAction(BluetoothIntent.BOND_STATE_CHANGED_ACTION);
+        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         registerReceiver(mBluetoothReceiver, filter);
 
@@ -271,11 +270,11 @@ public class BluetoothHeadsetService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             BluetoothDevice device =
-                    intent.getParcelableExtra(BluetoothIntent.DEVICE);
+                    intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
             if ((mState == BluetoothHeadset.STATE_CONNECTED ||
                     mState == BluetoothHeadset.STATE_CONNECTING) &&
-                    action.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION) &&
+                    action.equals(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED) &&
                     device.equals(mRemoteDevice)) {
                 try {
                     mBinder.disconnectHeadset();
@@ -295,14 +294,14 @@ public class BluetoothHeadsetService extends Service {
                     setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
                     break;
                 }
-            } else if (action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION)) {
-                int bondState = intent.getIntExtra(BluetoothIntent.BOND_STATE,
+            } else if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE,
                                                    BluetoothDevice.ERROR);
                 switch(bondState) {
                 case BluetoothDevice.BOND_BONDED:
                     mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_AUTO);
                     break;
-                case BluetoothDevice.BOND_NOT_BONDED:
+                case BluetoothDevice.BOND_NONE:
                     mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_OFF);
                     break;
                 }
@@ -453,11 +452,11 @@ public class BluetoothHeadsetService extends Service {
                 mBtHandsfree.audioOff();
                 mBtHandsfree.disconnectHeadset();
             }
-            Intent intent = new Intent(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION);
-            intent.putExtra(BluetoothIntent.HEADSET_PREVIOUS_STATE, mState);
+            Intent intent = new Intent(BluetoothHeadset.ACTION_STATE_CHANGED);
+            intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, mState);
             mState = state;
-            intent.putExtra(BluetoothIntent.HEADSET_STATE, mState);
-            intent.putExtra(BluetoothIntent.DEVICE, mRemoteDevice);
+            intent.putExtra(BluetoothHeadset.EXTRA_STATE, mState);
+            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, mRemoteDevice);
             sendBroadcast(intent, BLUETOOTH_PERM);
             if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
                 mHeadset = null;

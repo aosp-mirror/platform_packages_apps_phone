@@ -21,7 +21,6 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -413,8 +412,8 @@ public class PhoneApp extends Application {
             // Register for misc other intent broadcasts.
             IntentFilter intentFilter =
                     new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intentFilter.addAction(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION);
-            intentFilter.addAction(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
+            intentFilter.addAction(BluetoothHeadset.ACTION_STATE_CHANGED);
+            intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
@@ -1275,15 +1274,15 @@ public class PhoneApp extends Application {
                 boolean enabled = System.getInt(getContentResolver(),
                         System.AIRPLANE_MODE_ON, 0) == 0;
                 phone.setRadioPower(enabled);
-            } else if (action.equals(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION)) {
-                mBluetoothHeadsetState = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
+            } else if (action.equals(BluetoothHeadset.ACTION_STATE_CHANGED)) {
+                mBluetoothHeadsetState = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
                                                             BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
-            } else if (action.equals(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION)) {
+            } else if (action.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)) {
                 mBluetoothHeadsetAudioState =
-                        intent.getIntExtra(BluetoothIntent.HEADSET_AUDIO_STATE,
+                        intent.getIntExtra(BluetoothHeadset.EXTRA_AUDIO_STATE,
                                            BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
