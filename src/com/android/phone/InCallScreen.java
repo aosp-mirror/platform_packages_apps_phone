@@ -167,8 +167,8 @@ public class InCallScreen extends Activity
     // Amount of time for Displaying "Dialing" for 3way Calling origination
     private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
 
-    // Amount of time that we display the provider's badge if applicable.
-    private static final int PROVIDER_BADGE_TIMEOUT = 5000;  // msec
+    // Amount of time that we display the provider's overlay if applicable.
+    private static final int PROVIDER_OVERLAY_TIMEOUT = 5000;  // msec
 
     // These are values for the settings of the auto retry mode:
     // 0 = disabled
@@ -202,7 +202,7 @@ public class InCallScreen extends Activity
     public static final int CLOSE_SPC_ERROR_NOTICE = 118;
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
-    private static final int EVENT_HIDE_PROVIDER_BADGE = 121;  // Time to remove the badge
+    private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -534,7 +534,7 @@ public class InCallScreen extends Activity
                     }
                     break;
 
-                case EVENT_HIDE_PROVIDER_BADGE:
+                case EVENT_HIDE_PROVIDER_OVERLAY:
                     mProviderOverlayVisible = false;
                     updateProviderOverlay();  // Clear the overlay.
                     break;
@@ -1138,8 +1138,9 @@ public class InCallScreen extends Activity
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
 
-            // Remember if there is a provider badge. It'll be
-            // displayed the first time updateScreen is called.
+            // Remember if we need to display the provider
+            // overlay. It'll be displayed the first time updateScreen
+            // is called.
             if (PhoneUtils.hasPhoneProviderExtras(intent)) {
                 String packageName = intent.getStringExtra(
                     InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
@@ -2256,6 +2257,8 @@ public class InCallScreen extends Activity
             return;
         } else if (mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
             if (VDBG) log("- updateScreen: OTA call ended state ...");
+            // Wake up the screen when we get notification, good or bad.
+            PhoneApp.getInstance().wakeUpScreen();
             if (app.cdmaOtaScreenState.otaScreenState
                 == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
                 if (VDBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
@@ -3098,13 +3101,15 @@ public class InCallScreen extends Activity
 
     /**
      * Update the network provider's overlay based on the value of
-     * mProviderBadge. If null the badge is hidden otherwise the badge
-     * is inflated and a message is posted to take the badge down
-     * after PROVIDER_BADGE_TIMEOUT. This ensures the user will see
-     * the badge even if the call setup phase is very short.
+     * mProviderOverlayVisible.
+     * If false the overlay is hidden otherwise it is shown. The
+     * provider's badge is inflated. A delayed message is posted to take
+     * the overalay down after PROVIDER_OVERLAY_TIMEOUT. This ensures the
+     * user will see the overlay even if the call setup phase is very
+     * short.
      */
     private void updateProviderOverlay() {
-        if (VDBG) log("updateProviderOverlay: " + mProviderBadge);
+        if (VDBG) log("updateProviderOverlay: " + mProviderOverlayVisible);
 
         ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
         ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);
@@ -3122,9 +3127,11 @@ public class InCallScreen extends Activity
 
             overlay.setVisibility(View.VISIBLE);
 
-            // Send a message to self to remove the badge after some time.
-            Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_BADGE);
-            mHandler.sendMessageDelayed(msg, PROVIDER_BADGE_TIMEOUT);
+            // Remove any zombie messages and then send a message to
+            // self to remove the overlay after some time.
+            mHandler.removeMessages(EVENT_HIDE_PROVIDER_OVERLAY);
+            Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_OVERLAY);
+            mHandler.sendMessageDelayed(msg, PROVIDER_OVERLAY_TIMEOUT);
         } else {
             overlay.setVisibility(View.GONE);
             placeholder.removeAllViews();
