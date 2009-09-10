@@ -243,10 +243,11 @@
         android:layout_marginTop="8dip"
         android:layout_gravity="top"
         android:visibility="gone">
-        <FrameLayout android:id="@+id/inCallProviderBadge"
+        <ImageView android:id="@+id/inCallProviderIcon"
             android:layout_width="64dip"
             android:layout_height="fill_parent"
             android:layout_gravity="left"
+            android:gravity="center"
             android:clipChildren="true"
             />
         <TextView android:id="@+id/callingVia"
