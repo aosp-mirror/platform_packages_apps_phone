@@ -839,6 +839,10 @@ public class InCallScreen extends Activity
 
         final PhoneApp app = PhoneApp.getInstance();
 
+        // A safety measure to disable proximity sensor in case call failed
+        // and the telephony state did not change.
+        app.setBeginningCall(false);
+
         // make sure the chronometer is stopped when we move away from
         // the foreground.
         if (mConferenceTime != null) {
@@ -1159,7 +1163,13 @@ public class InCallScreen extends Activity
             } else {
                 clearProvider();
             }
-            return placeCall(intent);
+            InCallInitStatus status = placeCall(intent);
+            if (status == InCallInitStatus.SUCCESS) {
+                // Notify the phone app that a call is beginning so it can
+                // enable the proximity sensor
+                app.setBeginningCall(true);
+            }
+            return status;
         } else if (action.equals(intent.ACTION_MAIN)) {
             // The MAIN action is used to bring up the in-call screen without
             // doing any other explicit action, like when you return to the
@@ -2409,6 +2419,13 @@ public class InCallScreen extends Activity
         if (VDBG) log("placeCall()...  intent = " + intent);
 
         String number;
+
+        if (!mIsForegroundActivity) {
+            // if this happens, we need to rethink our handling of the proximity sensor.
+            // our assumption is that we can use onPause() to clear the beginning call flag,
+            // but if we ever get here, that assumption is flawed.
+            Log.e(LOG_TAG, "placeCall() called when not in foreground", new Exception());
+        }
 
         // Check the current ServiceState to make sure it's OK
         // to even try making a call.
