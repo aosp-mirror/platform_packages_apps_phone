@@ -894,8 +894,19 @@ public class CallNotifier extends Handler
                     }
                 }
 
-                // Don't put OTA or Emergency calls into call log
-                if (!mPhone.isOtaSpNumber(number) && !PhoneNumberUtils.isEmergencyNumber(number)) {
+                // To prevent accidental redial of emergency numbers
+                // (carrier requirement) the quickest solution is to
+                // not log the emergency number. We gate on CDMA
+                // (ugly) when we actually mean carrier X.
+                // TODO: Clean this up and come up with a unified strategy.
+                final boolean shouldNotlogEmergencyNumber = mPhoneIsCdma;
+
+                // Don't call isOtaSpNumber on GSM phones.
+                final boolean isOtaNumber = mPhoneIsCdma && mPhone.isOtaSpNumber(number);
+                final boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
+
+                // Don't put OTA or CDMA Emergency calls into call log
+                if (!(isOtaNumber || isEmergencyNumber && shouldNotlogEmergencyNumber)) {
                     // Watch out: Calls.addCall() hits the Contacts database,
                     // so we shouldn't call it from the main thread.
                     Thread t = new Thread() {
