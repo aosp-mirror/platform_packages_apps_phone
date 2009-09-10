@@ -27,8 +27,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Shader;
@@ -136,6 +134,8 @@ public class InCallScreen extends Activity
      * will actually be contacted to call the number passed in the
      * intent URL or in the EXTRA_PHONE_NUMBER extra.
      */
+    // TODO: Should the value be a Uri (Parcelable)? Need to make sure
+    // MMI code '#' don't get confused as URI fragments.
     /* package */ static final String EXTRA_GATEWAY_URI =
             "com.android.phone.extra.GATEWAY_URI";
 
@@ -290,11 +290,14 @@ public class InCallScreen extends Activity
     private SlidingDrawer mDialerDrawer;
     private EditText mDTMFDisplay;
 
+    // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
     private boolean mProviderOverlayVisible = false;
     private RemoteViews mProviderBadge;
-    private CharSequence mProviderName;
-    private String mProviderAddress;  // Typically a phone number.
+    private CharSequence mProviderLabel;
+    private Uri mProviderGatewayUri;
+    // The formated address extracted from mProviderGatewayUri. User visible.
+    private String mProviderAddress;
 
     // For OTA Call
     public OtaUtils otaUtils;
@@ -1138,27 +1141,23 @@ public class InCallScreen extends Activity
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
 
-            // Remember if we need to display the provider
-            // overlay. It'll be displayed the first time updateScreen
-            // is called.
+            // If a provider is used, extract the info to build the
+            // overlay and route the call.  The overlay will be
+            // displayed the first time updateScreen is called.
             if (PhoneUtils.hasPhoneProviderExtras(intent)) {
-                String packageName = intent.getStringExtra(
-                    InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
-                PackageManager pm = getPackageManager();
+                mProviderBadge = (RemoteViews) intent.getParcelableExtra(
+                    InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+                mProviderLabel = PhoneUtils.getProviderLabel(this, intent);
+                mProviderGatewayUri = PhoneUtils.getProviderGatewayUri(intent);
+                mProviderAddress = PhoneUtils.formatProviderUri(mProviderGatewayUri);
+                mProviderOverlayVisible = true;
 
-                try {
-                    ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
-
-                    mProviderName = pm.getApplicationLabel(info);
-                    mProviderBadge = (RemoteViews) intent.getParcelableExtra(
-                        InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
-                    mProviderOverlayVisible = true;
-                } catch (PackageManager.NameNotFoundException e) {
-                    // Don't show anything
-                    mProviderOverlayVisible = false;
+                if (null == mProviderBadge || TextUtils.isEmpty(mProviderLabel) ||
+                    null == mProviderGatewayUri || TextUtils.isEmpty(mProviderAddress)) {
+                    clearProvider();
                 }
             } else {
-                mProviderOverlayVisible = false;
+                clearProvider();
             }
             return placeCall(intent);
         } else if (action.equals(intent.ACTION_MAIN)) {
@@ -2494,18 +2493,12 @@ public class InCallScreen extends Activity
         int callStatus;
         Uri contactUri = intent.getData();
 
-        if (PhoneUtils.hasPhoneProviderExtras(intent) &&
+        if (null != mProviderGatewayUri &&
             !(isEmergencyNumber || isEmergencyIntent) &&
             PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
-            Uri gatewayUri = Uri.parse(intent.getStringExtra(EXTRA_GATEWAY_URI));
-
-            mProviderAddress = gatewayUri.getSchemeSpecificPart();
-            if ("tel".equals(gatewayUri.getScheme())) {
-                mProviderAddress = PhoneNumberUtils.formatNumber(mProviderAddress);
-            }
 
             callStatus = PhoneUtils.placeCallVia(
-                this, mPhone, number, contactUri, gatewayUri);
+                this, mPhone, number, contactUri, mProviderGatewayUri);
         } else {
             callStatus = PhoneUtils.placeCall(mPhone, number, contactUri);
         }
@@ -3120,7 +3113,8 @@ public class InCallScreen extends Activity
             placeholder.addView(hierarchy);
 
             CharSequence template = getText(R.string.calling_via_template);
-            CharSequence text = TextUtils.expandTemplate(template, mProviderName, mProviderAddress);
+            CharSequence text = TextUtils.expandTemplate(template, mProviderLabel,
+                                                         mProviderAddress);
 
             TextView message = (TextView) findViewById(R.id.callingVia);
             message.setText(text);
@@ -4960,6 +4954,17 @@ public class InCallScreen extends Activity
     public void resetInCallScreenMode() {
         if (DBG) log("resetInCallScreenMode - InCallScreenMode set to UNDEFINED");
         setInCallScreenMode(InCallScreenMode.UNDEFINED);
+    }
+
+    /**
+     * Clear all the fields related to the provider support.
+     */
+    private void clearProvider() {
+        mProviderOverlayVisible = false;
+        mProviderBadge = null;
+        mProviderLabel = null;
+        mProviderGatewayUri = null;
+        mProviderAddress = null;
     }
 
     private void log(String msg) {
