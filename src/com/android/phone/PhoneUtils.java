@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -1989,15 +1991,14 @@ public class PhoneUtils {
      * in-call screen's provider info overlay.
      */
     /* package */ static boolean hasPhoneProviderExtras(Intent intent) {
-        try {
-            final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
-            final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
-            final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
-
-            return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
-        } catch (NullPointerException npe) {
+        if (null == intent) {
             return false;
         }
+        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
+        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+
+        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
     }
 
     /**
@@ -2020,6 +2021,53 @@ public class PhoneUtils {
                      src.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE));
         dst.putExtra(InCallScreen.EXTRA_GATEWAY_URI,
                      src.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI));
+    }
+
+    /**
+     * Get the provider's label from the intent.
+     * @param context to lookup the provider's package name.
+     * @param intent with an extra set to the provider's package name.
+     * @return The providers' application label.
+     */
+    /* package */ static CharSequence getProviderLabel(Context context, Intent intent) {
+        String packageName = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+
+            return pm.getApplicationLabel(info);
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Return the gateway uri from the intent.
+     * @param intent With the gateway uri extra.
+     * @return The gateway URI or null if not found.
+     */
+    /* package */ static Uri getProviderGatewayUri(Intent intent) {
+        String uri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+        return TextUtils.isEmpty(uri) ? null : Uri.parse(uri);
+    }
+
+    /**
+     * Return a formatted version of the uri's scheme specific
+     * part. E.g for 'tel:12345678', return '1-234-5678'.
+     * @param uri A 'tel:' URI with the gateway phone number.
+     * @return the provider's address (from the gateway uri) formatted
+     * for user display. null if uri was null or its scheme was not 'tel:'.
+     */
+    /* package */ static String formatProviderUri(Uri uri) {
+        if (null != uri) {
+            if ("tel".equals(uri.getScheme())) {
+                return PhoneNumberUtils.formatNumber(uri.getSchemeSpecificPart());
+            } else {
+                return uri.toString();
+            }
+        }
+        return null;
     }
 
     /**
