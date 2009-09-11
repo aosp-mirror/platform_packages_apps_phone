@@ -21,7 +21,6 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -168,6 +167,12 @@ public class PhoneApp extends Application {
     // Gets updated whenever there is a Configuration change
     private boolean mIsHardKeyboardOpen;
 
+    // True if we are beginning a call, but the phone state has not changed yet
+    private boolean mBeginningCall;
+
+    // Last phone state seen by updatePhoneState()
+    Phone.State mLastPhoneState = Phone.State.IDLE;
+
     private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
     private boolean mIgnoreTouchUserActivity = false;
@@ -289,7 +294,7 @@ public class PhoneApp extends Application {
                             // if the state is "not connected", restore the speaker state.
                             PhoneUtils.restoreSpeakerMode(getApplicationContext());
                         } else {
-                            // if the state is "connected", force the speaker off without 
+                            // if the state is "connected", force the speaker off without
                             // storing the state.
                             PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
                         }
@@ -407,8 +412,8 @@ public class PhoneApp extends Application {
             // Register for misc other intent broadcasts.
             IntentFilter intentFilter =
                     new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intentFilter.addAction(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION);
-            intentFilter.addAction(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
+            intentFilter.addAction(BluetoothHeadset.ACTION_STATE_CHANGED);
+            intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
@@ -1021,6 +1026,19 @@ public class PhoneApp extends Application {
     }
 
     /**
+     * Set when a new outgoing call is beginning, so we can update
+     * the proximity sensor state.
+     * Cleared when the InCallScreen is no longer in the foreground,
+     * in case the call fails without changing the telephony state.
+     */
+    /* package */ void setBeginningCall(boolean beginning) {
+        // Note that we are beginning a new call, for proximity sensor support
+        mBeginningCall = beginning;
+        // Update the Proximity sensor based on mBeginningCall state
+        updateProximitySensorMode(phone.getState());
+    }
+
+    /**
      * Updates the wake lock used to control proximity sensor behavior,
      * based on the current state of the phone.  This method is called
      * from the CallNotifier on any phone state change.
@@ -1049,11 +1067,10 @@ public class PhoneApp extends Application {
      * @param state current state of the phone (see {@link Phone#State})
      */
     /* package */ void updateProximitySensorMode(Phone.State state) {
-        // TODO: Extra-verbose debugging is enabled here while tracking down bug 2028728
-        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
+        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
 
         if (proximitySensorModeEnabled()) {
-            if ((state == Phone.State.OFFHOOK)
+            if (((state == Phone.State.OFFHOOK) || mBeginningCall)
                     && !(isHeadsetPlugged()
                     || PhoneUtils.isSpeakerOn(this)
                     || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
@@ -1064,7 +1081,7 @@ public class PhoneApp extends Application {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                     mProximityWakeLock.acquire();
                 } else {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
+                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                 }
             } else {
                 // Phone is either idle, or ringing.  We don't want any
@@ -1073,9 +1090,22 @@ public class PhoneApp extends Application {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
                     mProximityWakeLock.release();
                 } else {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
+                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
                 }
             }
+        }
+    }
+
+    /**
+     * Notifies the phone app when the phone state changes.
+     * Currently used only for proximity sensor support.
+     */
+    /* package */ void updatePhoneState(Phone.State state) {
+        if (state != mLastPhoneState) {
+            mLastPhoneState = state;
+            updateProximitySensorMode(state);
+            // clear our beginning call flag
+            mBeginningCall = false;
         }
     }
 
@@ -1244,15 +1274,15 @@ public class PhoneApp extends Application {
                 boolean enabled = System.getInt(getContentResolver(),
                         System.AIRPLANE_MODE_ON, 0) == 0;
                 phone.setRadioPower(enabled);
-            } else if (action.equals(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION)) {
-                mBluetoothHeadsetState = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
+            } else if (action.equals(BluetoothHeadset.ACTION_STATE_CHANGED)) {
+                mBluetoothHeadsetState = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
                                                             BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
-            } else if (action.equals(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION)) {
+            } else if (action.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)) {
                 mBluetoothHeadsetAudioState =
-                        intent.getIntExtra(BluetoothIntent.HEADSET_AUDIO_STATE,
+                        intent.getIntExtra(BluetoothHeadset.EXTRA_AUDIO_STATE,
                                            BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
@@ -1372,6 +1402,7 @@ public class PhoneApp extends Application {
 
         if (ss != null) {
             int state = ss.getState();
+            NotificationMgr.getDefault().updateNetworkSelection(state);
             switch (state) {
                 case ServiceState.STATE_OUT_OF_SERVICE:
                 case ServiceState.STATE_POWER_OFF:
