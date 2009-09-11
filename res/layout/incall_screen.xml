@@ -55,10 +55,6 @@
                   android:layout_height="fill_parent"
                   />
 
-        <!-- Simple, 1 line display for dtmf tones.  In portrait mode, this is just an
-             empty layout, in landscape mode this field fades in and out as needed. -->
-        <include layout="@layout/dtmf_dialer_display"/>
-
     </FrameLayout>  <!-- End of mainFrame -->
 
     <!-- (2) manageConferencePanel: the "Manage conference" UI.
