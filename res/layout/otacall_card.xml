@@ -74,8 +74,12 @@
                     android:background="@color/dtmf_dialer_background"
                     android:visibility="gone" >
     
-                    <!-- Keypad section -->
-                    <include layout="@layout/dialpad" />
+                <!-- Note there's no "dtmfDialerField" EditText here;
+                     in the OTA UI there's no visible "digits" display
+                     attached to the dialpad. -->
+
+                <!-- Keypad section -->
+                <include layout="@layout/dialpad" />
     
             </com.android.phone.DTMFTwelveKeyDialerView>
     

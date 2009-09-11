@@ -290,8 +290,7 @@ class InCallMenu {
 
             boolean inConferenceCall =
                     PhoneUtils.isConferenceCall(phone.getForegroundCall());
-            boolean showShowDialpad = !InCallScreen.ConfigurationHelper.isLandscape()
-                    && !inConferenceCall;
+            boolean showShowDialpad = !inConferenceCall;
             boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
             mShowDialpad.setVisible(showShowDialpad);
             mShowDialpad.setEnabled(enableShowDialpad);
@@ -388,8 +387,7 @@ class InCallMenu {
         //   of the sliding drawer.
         // (Note this logic is totally specific to the in-call menu, so
         // this state doesn't come from the inCallControlState object.)
-        boolean showShowDialpad = !InCallScreen.ConfigurationHelper.isLandscape()
-                && !inCallControlState.manageConferenceVisible;
+        boolean showShowDialpad = !inCallControlState.manageConferenceVisible;
         boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
         mShowDialpad.setVisible(showShowDialpad);
         mShowDialpad.setEnabled(enableShowDialpad);

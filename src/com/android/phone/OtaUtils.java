@@ -758,16 +758,16 @@ public class OtaUtils {
                 (Button) mInCallScreen.findViewById(R.id.otaTryAgainButton);
         mOtaWidgetData.otaTryAgainButton.setOnClickListener(mInCallScreen);
 
-
-        if (!InCallScreen.ConfigurationHelper.isLandscape()) {
-            mOtaWidgetData.otaDtmfDialerView =
-                    (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.otaDtmfDialer);
-            DTMFTwelveKeyDialer dialer;
-            dialer = new DTMFTwelveKeyDialer(mInCallScreen, mOtaWidgetData.otaDtmfDialerView,
-                    null, null);
-            mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
-            dialer.initializeDialer();
+        mOtaWidgetData.otaDtmfDialerView =
+                (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.otaDtmfDialer);
+        // Sanity-check: the otaDtmfDialer widget should *always* be present.
+        if (mOtaWidgetData.otaDtmfDialerView == null) {
+            Log.e(LOG_TAG, "onCreate: couldn't find otaDtmfDialer", new IllegalStateException());
         }
+        DTMFTwelveKeyDialer dialer = new DTMFTwelveKeyDialer(mInCallScreen,
+                                                             mOtaWidgetData.otaDtmfDialerView,
+                                                             null);
+        mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
     }
 
     /**
