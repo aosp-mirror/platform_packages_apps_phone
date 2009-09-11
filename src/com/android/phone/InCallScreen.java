@@ -1687,11 +1687,15 @@ public class InCallScreen extends Activity
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
 
+        boolean currentlyIdle = !phoneIsInUse();
         int autoretrySetting = AUTO_RETRY_OFF;
         if (mPhone.getPhoneName().equals("CDMA")) {
-            // TODO (Moto): Needs Settings to add CALL_AUTO_RETRY to compile
-            autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
-                    getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+            // Get the Auto-retry setting only if Phone State is IDLE,
+            // else let it stay as AUTO_RETRY_OFF
+            if (currentlyIdle) {
+                autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
+                        getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+            }
         }
 
         // for OTA Call, only if in OTA NORMAL mode, handle OTA END scenario
@@ -1764,8 +1768,6 @@ public class InCallScreen extends Activity
                     }
             }
         }
-
-        boolean currentlyIdle = !phoneIsInUse();
 
         // Explicitly clean up up any DISCONNECTED connections
         // in a conference call.
@@ -1893,6 +1895,20 @@ public class InCallScreen extends Activity
             }
 
             // Updating the screen wake state is done in onPhoneStateChanged().
+
+
+            // CDMA: We only clean up if the Phone state is IDLE as we might receive an
+            // onDisconnect for a Call Collision case (rare but possible).
+            // For Call collision cases i.e. when the user makes an out going call
+            // and at the same time receives an Incoming Call, the Incoming Call is given
+            // higher preference. At this time framework sends a disconnect for the Out going
+            // call connection hence we should *not* bring down the InCallScreen as the Phone
+            // State would be RINGING
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                if (!currentlyIdle) {
+                    return;
+                }
+            }
 
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
             // called after a short interval (during which we display the

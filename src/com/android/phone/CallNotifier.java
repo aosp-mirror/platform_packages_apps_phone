@@ -776,8 +776,26 @@ public class CallNotifier extends Handler
         // foreground or background call disconnects while an incoming call
         // is still ringing, but that's a really rare corner case.
         // It's safest to just unconditionally stop the ringer here.
-        if (DBG) log("stopRing()... (onDisconnect)");
-        mRinger.stopRing();
+
+        // CDMA: For Call collision cases i.e. when the user makes an out going call
+        // and at the same time receives an Incoming Call, the Incoming Call is given
+        // higher preference. At this time framework sends a disconnect for the Out going
+        // call connection hence we should *not* be stopping the ringer being played for
+        // the Incoming Call
+        if (mPhoneIsCdma) {
+            if (mPhone.getRingingCall().getState() == Call.State.INCOMING) {
+                // Also we need to take off the "In Call" icon from the Notification
+                // area as the Out going Call never got connected
+                if (DBG) log("cancelCallInProgressNotification()... (onDisconnect)");
+                NotificationMgr.getDefault().cancelCallInProgressNotification();
+            } else {
+                if (DBG) log("stopRing()... (onDisconnect)");
+                mRinger.stopRing();
+            }
+        } else { // GSM
+            if (DBG) log("stopRing()... (onDisconnect)");
+            mRinger.stopRing();
+        }
 
         // Check for the various tones we might need to play (thru the
         // earpiece) after a call disconnects.
