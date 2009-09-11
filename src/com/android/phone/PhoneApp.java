@@ -295,7 +295,7 @@ public class PhoneApp extends Application {
                             // if the state is "not connected", restore the speaker state.
                             PhoneUtils.restoreSpeakerMode(getApplicationContext());
                         } else {
-                            // if the state is "connected", force the speaker off without 
+                            // if the state is "connected", force the speaker off without
                             // storing the state.
                             PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
                         }
@@ -1403,6 +1403,7 @@ public class PhoneApp extends Application {
 
         if (ss != null) {
             int state = ss.getState();
+            NotificationMgr.getDefault().updateNetworkSelection(state);
             switch (state) {
                 case ServiceState.STATE_OUT_OF_SERVICE:
                 case ServiceState.STATE_POWER_OFF:

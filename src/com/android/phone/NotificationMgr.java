@@ -21,9 +21,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.StatusBarManager;
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -32,13 +34,16 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.Contacts.Phones;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+import android.provider.Settings;
 
 import com.android.internal.R.drawable;
 import com.android.internal.telephony.Call;
@@ -46,6 +51,7 @@ import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneBase;
 
 
 /**
@@ -72,6 +78,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     static final int VOICEMAIL_NOTIFICATION = 5;
     static final int CALL_FORWARD_NOTIFICATION = 6;
     static final int DATA_DISCONNECTED_ROAMING_NOTIFICATION = 7;
+    static final int SELECTED_OPERATOR_FAIL_NOTIFICATION = 8;
 
     private static NotificationMgr sMe = null;
     private Phone mPhone;
@@ -90,6 +97,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     // Currently-displayed resource IDs for some status bar icons (or zero
     // if no notification is active):
     private int mInCallResId;
+
+    // used to track the notification of selected network unavailable
+    private boolean mSelectedUnavailableNotify = false;
 
     // Retry params for the getVoiceMailNumber() call; see updateMwi().
     private static final int MAX_VM_NUMBER_RETRIES = 5;
@@ -869,6 +879,83 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     /* package */ void hideDataDisconnectedRoaming() {
         if (DBG) log("hideDataDisconnectedRoaming()...");
         mNotificationMgr.cancel(DATA_DISCONNECTED_ROAMING_NOTIFICATION);
+    }
+
+    /**
+     * Display the network selection "no service" notification
+     * @param operator is the numeric operator number
+     */
+    private void showNetworkSelection(String operator) {
+        if (DBG) log("showNetworkSelection(" + operator + ")...");
+
+        String titleText = mContext.getString(
+                R.string.notification_network_selection_title);
+        String expandedText = mContext.getString(
+                R.string.notification_network_selection_text, operator);
+
+        Notification notification = new Notification();
+        notification.icon = com.android.internal.R.drawable.stat_sys_warning;
+        notification.when = 0;
+        notification.flags = Notification.FLAG_ONGOING_EVENT;
+        notification.tickerText = null;
+
+        // create the target network operators settings intent
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        // Use NetworkSetting to handle the selection intent
+        intent.setComponent(new ComponentName("com.android.phone",
+                "com.android.phone.NetworkSetting"));
+        PendingIntent pi = PendingIntent.getActivity(mContext, 0, intent, 0);
+
+        notification.setLatestEventInfo(mContext, titleText, expandedText, pi);
+
+        mNotificationMgr.notify(SELECTED_OPERATOR_FAIL_NOTIFICATION, notification);
+    }
+
+    /**
+     * Turn off the network selection "no service" notification
+     */
+    private void cancelNetworkSelection() {
+        if (DBG) log("cancelNetworkSelection()...");
+        mNotificationMgr.cancel(SELECTED_OPERATOR_FAIL_NOTIFICATION);
+    }
+
+    /**
+     * Update notification about no service of user selected operator
+     *
+     * @param serviceState Phone service state
+     */
+    void updateNetworkSelection(int serviceState) {
+        if (mPhone.getPhoneName().equals("GSM")) {
+            // get the shared preference of network_selection.
+            // empty is auto mode, otherwise it is the operator alpha name
+            // in case there is no operator name, check the operator numeric
+            SharedPreferences sp =
+                    PreferenceManager.getDefaultSharedPreferences(mContext);
+            String networkSelection =
+                    sp.getString(PhoneBase.NETWORK_SELECTION_NAME_KEY, "");
+            if (TextUtils.isEmpty(networkSelection)) {
+                networkSelection =
+                        sp.getString(PhoneBase.NETWORK_SELECTION_KEY, "");
+            }
+
+            if (DBG) log("updateNetworkSelection()..." + "state = " +
+                    serviceState + " new network " + networkSelection);
+
+            if (serviceState == ServiceState.STATE_OUT_OF_SERVICE
+                    && !TextUtils.isEmpty(networkSelection)) {
+                if (!mSelectedUnavailableNotify) {
+                    showNetworkSelection(networkSelection);
+                    mSelectedUnavailableNotify = true;
+                }
+            } else {
+                if (mSelectedUnavailableNotify) {
+                    cancelNetworkSelection();
+                    mSelectedUnavailableNotify = false;
+                }
+            }
+        }
     }
 
     /* package */ void postTransientNotification(int notifyId, CharSequence msg) {
