@@ -22,7 +22,6 @@ import android.bluetooth.AtParser;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothIntent;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.ScoSocket;
 import android.content.ActivityNotFoundException;
@@ -955,9 +954,9 @@ public class BluetoothHandsfree {
 
     private void broadcastAudioStateIntent(int state, BluetoothDevice device) {
         if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
-        Intent intent = new Intent(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
-        intent.putExtra(BluetoothIntent.HEADSET_AUDIO_STATE, state);
-        intent.putExtra(BluetoothIntent.DEVICE, device);
+        Intent intent = new Intent(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
+        intent.putExtra(BluetoothHeadset.EXTRA_AUDIO_STATE, state);
+        intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
