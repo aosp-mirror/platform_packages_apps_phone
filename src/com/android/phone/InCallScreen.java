@@ -806,14 +806,6 @@ public class InCallScreen extends Activity
         if (VDBG) log("onResume() done.");
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (VDBG) log("onSaveInstanceState()...");
-        super.onSaveInstanceState(outState);
-        // There's nothing to do here, since this Activity doesn't switch
-        // between portrait and landscape.
-    }
-
     // onPause is guaranteed to be called when the InCallScreen goes
     // in the background.
     @Override
@@ -1248,16 +1240,19 @@ public class InCallScreen extends Activity
         return false;
     }
 
-    /**
-     * Handles a DOWN keypress on the BACK key.
-     */
-    private boolean handleBackKey() {
-        if (VDBG) log("handleBackKey()...");
+    @Override
+    public void onBackPressed() {
+        if (VDBG) log("onBackPressed()...");
 
-        // While an incoming call is ringing, BACK behaves just like
-        // ENDCALL: it stops the ringing and rejects the current call.
-        // (This is only enabled on some platforms, though.)
+        // To consume this BACK press, the code here should just do
+        // something and return.  Otherwise, call super.onBackPressed() to
+        // get the default implementation (which simply finishes the
+        // current activity.)
+
         if (!mRingingCall.isIdle()) {
+            // While an incoming call is ringing, BACK behaves just like
+            // ENDCALL: it stops the ringing and rejects the current call.
+            // (This is only enabled on some platforms, though.)
             if (getResources().getBoolean(R.bool.allow_back_key_to_reject_incoming_call)) {
                 if (DBG) log("BACK key while ringing: reject the call");
                 internalHangupRingingCall();
@@ -1265,13 +1260,14 @@ public class InCallScreen extends Activity
                 // Don't consume the key; instead let the BACK event *also*
                 // get handled normally by the framework (which presumably
                 // will cause us to exit out of this activity.)
-                return false;
+                super.onBackPressed();
+                return;
             } else {
                 // The BACK key is disabled; don't reject the call, but
                 // *do* consume the keypress (otherwise we'll exit out of
                 // this activity.)
                 if (DBG) log("BACK key while ringing: ignored");
-                return true;
+                return;
             }
         }
 
@@ -1284,16 +1280,17 @@ public class InCallScreen extends Activity
             enableTouchLock(false);
 
             mDialer.closeDialer(true);  // do the "closing" animation
-            return true;
+            return;
         }
 
         if (mInCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
             // Hide the Manage Conference panel, return to NORMAL mode.
             setInCallScreenMode(InCallScreenMode.NORMAL);
-            return true;
+            return;
         }
 
-        return false;
+        // Nothing special to do.  Fall back to the default behavior.
+        super.onBackPressed();
     }
 
     /**
@@ -1467,12 +1464,6 @@ public class InCallScreen extends Activity
             // already implements exactly what the UI spec wants,
             // namely (1) "hang up" if there's a current active call,
             // or (2) "don't answer" if there's a current ringing call.
-
-            case KeyEvent.KEYCODE_BACK:
-                if (handleBackKey()) {
-                    return true;
-                }
-                break;
 
             case KeyEvent.KEYCODE_CAMERA:
                 // Disable the CAMERA button while in-call since it's too
