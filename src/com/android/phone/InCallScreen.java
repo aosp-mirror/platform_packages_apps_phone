@@ -31,6 +31,7 @@ import android.content.res.Resources;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -60,6 +61,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.SlidingDrawer;
@@ -105,15 +107,6 @@ public class InCallScreen extends Activity
      */
     // TODO: Should be EXTRA_SHOW_DIALPAD for consistency.
     static final String SHOW_DIALPAD_EXTRA = "com.android.phone.ShowDialpad";
-
-    /**
-     * Intent extra to specify a RemoteViews to be inflated in the
-     * overlay shown during call setup. The overlay indicates to the
-     * user that the outgoing call is being modified or re-routed in
-     * some way by a 3rd party app. The value is a Parcelable.
-     */
-    /* package */ static final String EXTRA_GATEWAY_PROVIDER_BADGE =
-            "com.android.phone.extra.GATEWAY_PROVIDER_BADGE";
 
     /**
      * Intent extra to specify the package name of the gateway
@@ -291,8 +284,8 @@ public class InCallScreen extends Activity
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
     private boolean mProviderOverlayVisible = false;
-    private RemoteViews mProviderBadge;
     private CharSequence mProviderLabel;
+    private Drawable mProviderIcon;
     private Uri mProviderGatewayUri;
     // The formated address extracted from mProviderGatewayUri. User visible.
     private String mProviderAddress;
@@ -1148,14 +1141,13 @@ public class InCallScreen extends Activity
             // overlay and route the call.  The overlay will be
             // displayed the first time updateScreen is called.
             if (PhoneUtils.hasPhoneProviderExtras(intent)) {
-                mProviderBadge = (RemoteViews) intent.getParcelableExtra(
-                    InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
                 mProviderLabel = PhoneUtils.getProviderLabel(this, intent);
+                mProviderIcon = PhoneUtils.getProviderIcon(this, intent);
                 mProviderGatewayUri = PhoneUtils.getProviderGatewayUri(intent);
                 mProviderAddress = PhoneUtils.formatProviderUri(mProviderGatewayUri);
                 mProviderOverlayVisible = true;
 
-                if (null == mProviderBadge || TextUtils.isEmpty(mProviderLabel) ||
+                if (TextUtils.isEmpty(mProviderLabel) || null == mProviderIcon ||
                     null == mProviderGatewayUri || TextUtils.isEmpty(mProviderAddress)) {
                     clearProvider();
                 }
@@ -3112,22 +3104,20 @@ public class InCallScreen extends Activity
     /**
      * Update the network provider's overlay based on the value of
      * mProviderOverlayVisible.
-     * If false the overlay is hidden otherwise it is shown. The
-     * provider's badge is inflated. A delayed message is posted to take
-     * the overalay down after PROVIDER_OVERLAY_TIMEOUT. This ensures the
-     * user will see the overlay even if the call setup phase is very
-     * short.
+     * If false the overlay is hidden otherwise it is shown.  A
+     * delayed message is posted to take the overalay down after
+     * PROVIDER_OVERLAY_TIMEOUT. This ensures the user will see the
+     * overlay even if the call setup phase is very short.
      */
     private void updateProviderOverlay() {
         if (VDBG) log("updateProviderOverlay: " + mProviderOverlayVisible);
 
         ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
-        ViewGroup placeholder = (ViewGroup) findViewById(R.id.inCallProviderBadge);
 
         if (mProviderOverlayVisible) {
-            // apply inflates but does not attach the new view.
-            View hierarchy = mProviderBadge.apply(this, placeholder);
-            placeholder.addView(hierarchy);
+            ImageView icon = (ImageView) findViewById(R.id.inCallProviderIcon);
+
+            icon.setImageDrawable(mProviderIcon);
 
             CharSequence template = getText(R.string.calling_via_template);
             CharSequence text = TextUtils.expandTemplate(template, mProviderLabel,
@@ -3145,7 +3135,6 @@ public class InCallScreen extends Activity
             mHandler.sendMessageDelayed(msg, PROVIDER_OVERLAY_TIMEOUT);
         } else {
             overlay.setVisibility(View.GONE);
-            placeholder.removeAllViews();
         }
     }
 
@@ -4917,8 +4906,8 @@ public class InCallScreen extends Activity
      */
     private void clearProvider() {
         mProviderOverlayVisible = false;
-        mProviderBadge = null;
         mProviderLabel = null;
+        mProviderIcon = null;
         mProviderGatewayUri = null;
         mProviderAddress = null;
     }
