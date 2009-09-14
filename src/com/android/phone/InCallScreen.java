@@ -27,7 +27,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Shader;
 import android.graphics.Typeface;
@@ -284,11 +283,10 @@ public class InCallScreen extends Activity
 
     /**
      * DTMF Dialer objects, including the model and the sliding drawer / dialer
-     * UI container and the dialer display field for landscape presentation.
+     * UI container.
      */
     private DTMFTwelveKeyDialer mDialer;
     private SlidingDrawer mDialerDrawer;
-    private EditText mDTMFDisplay;
 
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
@@ -597,12 +595,15 @@ public class InCallScreen extends Activity
 
         initInCallScreen();
 
-        // Create the dtmf dialer.  Note that mDialer is instantiated
-        // regardless of screen orientation, although the onscreen touchable
-        // dialpad is used only in portrait mode.
+        // Create the dtmf dialer.
         DTMFTwelveKeyDialerView dialView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
         SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
-        mDialer = new DTMFTwelveKeyDialer(this, dialView, slidingDrawer, getDialerDisplay());
+        // Now that the in-call UI is portrait-only, the dtmf_dialer
+        // widget should *always* be present.
+        if (dialView == null) {
+            Log.e(LOG_TAG, "onCreate: couldn't find dialView", new IllegalStateException());
+        }
+        mDialer = new DTMFTwelveKeyDialer(this, dialView, slidingDrawer);
 
         registerForPhoneStates();
 
@@ -816,10 +817,8 @@ public class InCallScreen extends Activity
     protected void onSaveInstanceState(Bundle outState) {
         if (VDBG) log("onSaveInstanceState()...");
         super.onSaveInstanceState(outState);
-
-        // TODO: Save any state of the UI that needs to persist across
-        // configuration changes (ie. switching between portrait and
-        // landscape.)
+        // There's nothing to do here, since this Activity doesn't switch
+        // between portrait and landscape.
     }
 
     // onPause is guaranteed to be called when the InCallScreen goes
@@ -1215,8 +1214,6 @@ public class InCallScreen extends Activity
         mMainFrame = (ViewGroup) findViewById(R.id.mainFrame);
         mInCallPanel = (ViewGroup) findViewById(R.id.inCallPanel);
 
-        ConfigurationHelper.initConfiguration(getResources().getConfiguration());
-
         // Initialize the CallCard.
         mCallCard = (CallCard) findViewById(R.id.callCard);
         if (VDBG) log("  - mCallCard = " + mCallCard);
@@ -1227,10 +1224,6 @@ public class InCallScreen extends Activity
 
         // Helper class to keep track of enabledness/state of UI controls
         mInCallControlState = new InCallControlState(this, mPhone);
-
-        // Make any final updates to our View hierarchy that depend on the
-        // current configuration.
-        ConfigurationHelper.applyConfigurationToLayout(this);
     }
 
     /**
@@ -1251,6 +1244,13 @@ public class InCallScreen extends Activity
         // only if the okToDialDTMFTones() conditions pass.
         if (okToDialDTMFTones()) {
             return mDialer.onDialerKeyDown(event);
+
+            // TODO: If the dialpad isn't currently visible, maybe
+            // consider automatically bringing it up right now?
+            // (Just to make sure the user sees the digits widget...)
+            // But this probably isn't too critical since it's awkward to
+            // use the hard keyboard while in-call in the first place,
+            // especially now that the in-call UI is portrait-only...
         }
 
         return false;
@@ -3601,7 +3601,9 @@ public class InCallScreen extends Activity
                 mConferenceTime.start();
 
                 mInCallPanel.setVisibility(View.GONE);
-                mDialer.hideDTMFDisplay(true);
+
+                // No need to close the dialer here, since the Manage
+                // Conference UI will just cover it up anyway.
 
                 break;
 
@@ -3618,13 +3620,11 @@ public class InCallScreen extends Activity
 
                 // Make sure the CallCard (which is a child of mInCallPanel) is visible.
                 mInCallPanel.setVisibility(View.VISIBLE);
-                mDialer.hideDTMFDisplay(false);
 
                 break;
 
             case NORMAL:
                 mInCallPanel.setVisibility(View.VISIBLE);
-                mDialer.hideDTMFDisplay(false);
                 if (mManageConferencePanel != null) {
                     mManageConferencePanel.setVisibility(View.GONE);
                     // stop the timer if the panel is hidden.
@@ -4025,13 +4025,6 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Get the DTMF dialer display field.
-     */
-    /* package */ EditText getDialerDisplay() {
-        return mDTMFDisplay;
-    }
-
-    /**
      * Determines when we can dial DTMF tones.
      */
     private boolean okToDialDTMFTones() {
@@ -4068,10 +4061,9 @@ public class InCallScreen extends Activity
      *      dialpad" menu item.)
      */
     /* package */ boolean okToShowDialpad() {
-        // The dialpad is never used in landscape mode.  And even in
-        // portrait mode, it's available only when it's OK to dial DTMF
+        // The dialpad is available only when it's OK to dial DTMF
         // tones given the current state of the current call.
-        return !ConfigurationHelper.isLandscape() && okToDialDTMFTones();
+        return okToDialDTMFTones();
     }
 
     /**
@@ -4113,59 +4105,6 @@ public class InCallScreen extends Activity
         // - the dialpad is up
         return ((mInCallScreenMode == InCallScreenMode.NORMAL)
                 && (!isDialerOpened()));
-    }
-
-
-    /**
-     * Helper class to manage the (small number of) manual layout and UI
-     * changes needed by the in-call UI when switching between landscape
-     * and portrait mode.
-     *
-     * TODO: Ideally, all this information should come directly from
-     * resources, with alternate sets of resources for for different
-     * configurations (like alternate layouts under res/layout-land
-     * or res/layout-finger.)
-     *
-     * But for now, we don't use any alternate resources.  Instead, the
-     * resources under res/layout are hardwired for portrait mode, and we
-     * use this class's applyConfigurationToLayout() method to reach into
-     * our View hierarchy and manually patch up anything that needs to be
-     * different for landscape mode.
-     */
-    /* package */ static class ConfigurationHelper {
-        /** This class is never instantiated. */
-        private ConfigurationHelper() {
-        }
-
-        // "Configuration constants" set by initConfiguration()
-        static int sOrientation = Configuration.ORIENTATION_UNDEFINED;
-
-        static boolean isLandscape() {
-            return sOrientation == Configuration.ORIENTATION_LANDSCAPE;
-        }
-
-        /**
-         * Initializes the "Configuration constants" based on the
-         * specified configuration.
-         */
-        static void initConfiguration(Configuration config) {
-            if (VDBG) Log.d(LOG_TAG, "[InCallScreen.ConfigurationHelper] "
-                           + "initConfiguration(" + config + ")...");
-            sOrientation = config.orientation;
-        }
-
-        /**
-         * Updates the InCallScreen's View hierarchy, applying any
-         * necessary changes given the current configuration.
-         */
-        static void applyConfigurationToLayout(InCallScreen inCallScreen) {
-            if (sOrientation == Configuration.ORIENTATION_UNDEFINED) {
-                throw new IllegalStateException("need to call initConfiguration first");
-            }
-
-            // find the landscape-only DTMF display field.
-            inCallScreen.mDTMFDisplay = (EditText) inCallScreen.findViewById(R.id.dtmfDialerField);
-        }
     }
 
     /**
