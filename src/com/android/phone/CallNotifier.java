@@ -1658,8 +1658,11 @@ public class CallNotifier extends Handler
             int presentation = conn.getNumberPresentation();
 
             // Do final CNAP modifications.
-            return PhoneUtils.modifyForSpecialCnapCases(mPhone.getContext(), callerInfo,
-                                                        number, presentation);
+            number = PhoneUtils.modifyForSpecialCnapCases(mPhone.getContext(), callerInfo,
+                                                          number, presentation);
+            number = PhoneNumberUtils.stripSeparators(number);
+            if (VDBG) log("getLogNumber: " + number);
+            return number;
         }
     }
 
