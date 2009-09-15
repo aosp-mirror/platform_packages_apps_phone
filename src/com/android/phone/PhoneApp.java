@@ -288,19 +288,24 @@ public class PhoneApp extends Application {
                     // this on the wired headset connect / disconnect events for now
                     // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
                     // If in call screen is showing, let InCallScreen handle the speaker.
-                    if (!isShowingCallScreen() &&
-                        (mBtHandsfree == null || !mBtHandsfree.isAudioOn())) {
-                        if (!isHeadsetPlugged()) {
-                            // if the state is "not connected", restore the speaker state.
-                            PhoneUtils.restoreSpeakerMode(getApplicationContext());
-                        } else {
-                            // if the state is "connected", force the speaker off without
-                            // storing the state.
-                            PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
+
+                    Phone.State phoneState = phone.getState();
+                    // Do not change speaker state if phone is not off hook
+                    if (phoneState == Phone.State.OFFHOOK) {
+                        if (!isShowingCallScreen() &&
+                            (mBtHandsfree == null || !mBtHandsfree.isAudioOn())) {
+                            if (!isHeadsetPlugged()) {
+                                // if the state is "not connected", restore the speaker state.
+                                PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                            } else {
+                                // if the state is "connected", force the speaker off without
+                                // storing the state.
+                                PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
+                            }
                         }
                     }
                     // Update the Proximity sensor based on headset state
-                    updateProximitySensorMode(phone.getState());
+                    updateProximitySensorMode(phoneState);
                     break;
 
                 case EVENT_SIM_STATE_CHANGED:
