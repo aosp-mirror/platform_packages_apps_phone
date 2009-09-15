@@ -994,9 +994,9 @@ public class CallNotifier extends Handler
             mBluetoothHandsfree.audioOff();
         }
 
-        if (PhoneUtils.isSpeakerOn(mPhone.getContext())) {
-            PhoneUtils.turnOnSpeaker(mPhone.getContext(), false, true);
-        }
+        // call turnOnSpeaker() with state=false and store=true even if speaker
+        // is already off to reset user requested speaker state.
+        PhoneUtils.turnOnSpeaker(mPhone.getContext(), false, true);
 
         PhoneUtils.setAudioMode(mPhone.getContext(), AudioManager.MODE_NORMAL);
     }
