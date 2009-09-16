@@ -269,6 +269,11 @@ public class PhoneUtils {
                 //if (DBG) log("sPhone.acceptCall");
                 phone.acceptCall();
                 answered = true;
+                if (phone.getPhoneName().equals("CDMA")) {
+                    // automatically reset mute state to unmuted for CDMA
+                    // TODO: Would GSM want this also?
+                    setMute(phone, false);
+                }
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
@@ -1795,6 +1800,10 @@ public class PhoneUtils {
         // bar, and there's no "mute" indication in the InCallScreen
         // itself (other than the menu item, which only ever stays
         // onscreen for a second anyway.)
+        // TODO: (2) isn't entirely true anymore. Once we return our result
+        // to the PhoneApp, we ask InCallScreen to update its control widgets
+        // in case we changed mute or speaker state and phones with touch-
+        // screen [toggle] buttons need to update themselves.
 
         return true;
     }
