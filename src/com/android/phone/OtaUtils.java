@@ -40,7 +40,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ToggleButton;
 import android.widget.ProgressBar;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 /**
@@ -74,7 +73,6 @@ public class OtaUtils {
     private ViewGroup mInCallPanel;
     private CallCard mCallCard;
     private DTMFTwelveKeyDialer mDialer;
-    private SlidingDrawer mDialerDrawer;
 
     /**
      * OtaWidgetData class represent all OTA UI elements
@@ -104,8 +102,7 @@ public class OtaUtils {
                     InCallScreen inCallScreen,
                     ViewGroup inCallPanel,
                     CallCard callCard,
-                    DTMFTwelveKeyDialer dialer,
-                    SlidingDrawer dialerDrawer) {
+                    DTMFTwelveKeyDialer dialer) {
 
         if (DBG) log("Enter OtaUtil constructor");
 
@@ -114,7 +111,6 @@ public class OtaUtils {
         mInCallPanel = inCallPanel;
         mCallCard = callCard;
         mDialer = dialer;
-        mDialerDrawer = dialerDrawer;
         mApplication = PhoneApp.getInstance();
         mOtaWidgetData = new OtaWidgetData();
 
@@ -265,7 +261,7 @@ public class OtaUtils {
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
             } else {
-                if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
+                mDialer.setHandleVisible(true);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
@@ -295,7 +291,7 @@ public class OtaUtils {
                 boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
                 mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
             } else {
-                if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
+                mDialer.setHandleVisible(true);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
@@ -324,7 +320,7 @@ public class OtaUtils {
             boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
             mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
         } else {
-            if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
+            mDialer.setHandleVisible(true);
         }
         mApplication.cdmaOtaScreenState.otaScreenState =
             CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS;
@@ -493,7 +489,7 @@ public class OtaUtils {
 
     /**
      * Initialize all OTA UI elements to be gone. Also set inCallPanel,
-     * callCard and dialerDrawer to be gone. This is called before any OTA screen
+     * callCard and the dialpad handle to be gone. This is called before any OTA screen
      * gets drawn.
      */
     private void otaScreenInitialize() {
@@ -501,7 +497,7 @@ public class OtaUtils {
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
-        if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.GONE);
+        mDialer.setHandleVisible(false);
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
@@ -765,8 +761,7 @@ public class OtaUtils {
             Log.e(LOG_TAG, "onCreate: couldn't find otaDtmfDialer", new IllegalStateException());
         }
         DTMFTwelveKeyDialer dialer = new DTMFTwelveKeyDialer(mInCallScreen,
-                                                             mOtaWidgetData.otaDtmfDialerView,
-                                                             null);
+                                                             mOtaWidgetData.otaDtmfDialerView);
         mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
     }
 
@@ -787,7 +782,7 @@ public class OtaUtils {
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
-        if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.VISIBLE);
+        mDialer.setHandleVisible(true);
 
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
         mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
