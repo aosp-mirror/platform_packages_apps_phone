@@ -64,7 +64,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -274,12 +273,8 @@ public class InCallScreen extends Activity
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
 
-    /**
-     * DTMF Dialer objects, including the model and the sliding drawer / dialer
-     * UI container.
-     */
+    // DTMF Dialer controller:
     private DTMFTwelveKeyDialer mDialer;
-    private SlidingDrawer mDialerDrawer;
 
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
@@ -584,19 +579,17 @@ public class InCallScreen extends Activity
 
         // Inflate everything in incall_screen.xml and add it to the screen.
         setContentView(R.layout.incall_screen);
-        mDialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
 
         initInCallScreen();
 
         // Create the dtmf dialer.
         DTMFTwelveKeyDialerView dialView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
-        SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
         // Now that the in-call UI is portrait-only, the dtmf_dialer
         // widget should *always* be present.
         if (dialView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find dialView", new IllegalStateException());
         }
-        mDialer = new DTMFTwelveKeyDialer(this, dialView, slidingDrawer);
+        mDialer = new DTMFTwelveKeyDialer(this, dialView);
 
         registerForPhoneStates();
 
@@ -734,7 +727,7 @@ public class InCallScreen extends Activity
         } else if (mPhone.getPhoneName().equals("CDMA")) {
             if (mInCallScreenMode == InCallScreenMode.OTA_NORMAL ||
                     mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
-                if (mDialerDrawer != null) mDialerDrawer.setVisibility(View.GONE);
+                mDialer.setHandleVisible(false);
                 if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
                 updateScreen();
                 return;
@@ -804,14 +797,6 @@ public class InCallScreen extends Activity
 
         Profiler.profileViewCreate(getWindow(), InCallScreen.class.getName());
         if (VDBG) log("onResume() done.");
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (VDBG) log("onSaveInstanceState()...");
-        super.onSaveInstanceState(outState);
-        // There's nothing to do here, since this Activity doesn't switch
-        // between portrait and landscape.
     }
 
     // onPause is guaranteed to be called when the InCallScreen goes
@@ -1248,16 +1233,19 @@ public class InCallScreen extends Activity
         return false;
     }
 
-    /**
-     * Handles a DOWN keypress on the BACK key.
-     */
-    private boolean handleBackKey() {
-        if (VDBG) log("handleBackKey()...");
+    @Override
+    public void onBackPressed() {
+        if (VDBG) log("onBackPressed()...");
 
-        // While an incoming call is ringing, BACK behaves just like
-        // ENDCALL: it stops the ringing and rejects the current call.
-        // (This is only enabled on some platforms, though.)
+        // To consume this BACK press, the code here should just do
+        // something and return.  Otherwise, call super.onBackPressed() to
+        // get the default implementation (which simply finishes the
+        // current activity.)
+
         if (!mRingingCall.isIdle()) {
+            // While an incoming call is ringing, BACK behaves just like
+            // ENDCALL: it stops the ringing and rejects the current call.
+            // (This is only enabled on some platforms, though.)
             if (getResources().getBoolean(R.bool.allow_back_key_to_reject_incoming_call)) {
                 if (DBG) log("BACK key while ringing: reject the call");
                 internalHangupRingingCall();
@@ -1265,13 +1253,14 @@ public class InCallScreen extends Activity
                 // Don't consume the key; instead let the BACK event *also*
                 // get handled normally by the framework (which presumably
                 // will cause us to exit out of this activity.)
-                return false;
+                super.onBackPressed();
+                return;
             } else {
                 // The BACK key is disabled; don't reject the call, but
                 // *do* consume the keypress (otherwise we'll exit out of
                 // this activity.)
                 if (DBG) log("BACK key while ringing: ignored");
-                return true;
+                return;
             }
         }
 
@@ -1284,16 +1273,17 @@ public class InCallScreen extends Activity
             enableTouchLock(false);
 
             mDialer.closeDialer(true);  // do the "closing" animation
-            return true;
+            return;
         }
 
         if (mInCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
             // Hide the Manage Conference panel, return to NORMAL mode.
             setInCallScreenMode(InCallScreenMode.NORMAL);
-            return true;
+            return;
         }
 
-        return false;
+        // Nothing special to do.  Fall back to the default behavior.
+        super.onBackPressed();
     }
 
     /**
@@ -1467,12 +1457,6 @@ public class InCallScreen extends Activity
             // already implements exactly what the UI spec wants,
             // namely (1) "hang up" if there's a current active call,
             // or (2) "don't answer" if there's a current ringing call.
-
-            case KeyEvent.KEYCODE_BACK:
-                if (handleBackKey()) {
-                    return true;
-                }
-                break;
 
             case KeyEvent.KEYCODE_CAMERA:
                 // Disable the CAMERA button while in-call since it's too
@@ -1687,11 +1671,15 @@ public class InCallScreen extends Activity
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: " + c + ", cause=" + cause);
 
+        boolean currentlyIdle = !phoneIsInUse();
         int autoretrySetting = AUTO_RETRY_OFF;
         if (mPhone.getPhoneName().equals("CDMA")) {
-            // TODO (Moto): Needs Settings to add CALL_AUTO_RETRY to compile
-            autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
-                    getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+            // Get the Auto-retry setting only if Phone State is IDLE,
+            // else let it stay as AUTO_RETRY_OFF
+            if (currentlyIdle) {
+                autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
+                        getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+            }
         }
 
         // for OTA Call, only if in OTA NORMAL mode, handle OTA END scenario
@@ -1764,8 +1752,6 @@ public class InCallScreen extends Activity
                     }
             }
         }
-
-        boolean currentlyIdle = !phoneIsInUse();
 
         // Explicitly clean up up any DISCONNECTED connections
         // in a conference call.
@@ -1893,6 +1879,20 @@ public class InCallScreen extends Activity
             }
 
             // Updating the screen wake state is done in onPhoneStateChanged().
+
+
+            // CDMA: We only clean up if the Phone state is IDLE as we might receive an
+            // onDisconnect for a Call Collision case (rare but possible).
+            // For Call collision cases i.e. when the user makes an out going call
+            // and at the same time receives an Incoming Call, the Incoming Call is given
+            // higher preference. At this time framework sends a disconnect for the Out going
+            // call connection hence we should *not* bring down the InCallScreen as the Phone
+            // State would be RINGING
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                if (!currentlyIdle) {
+                    return;
+                }
+            }
 
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
             // called after a short interval (during which we display the
@@ -3023,7 +3023,7 @@ public class InCallScreen extends Activity
         } else {
             mDialer.openDialer(true);  // do the "opening" animation
         }
-        mDialerDrawer.setVisibility(View.VISIBLE);
+        mDialer.setHandleVisible(true);
     }
 
     /**
@@ -3889,9 +3889,9 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates the visibility of the DTMF dialpad and the "sliding drawer"
-     * handle, based on the current state of the phone and/or the current
-     * InCallScreenMode.
+     * Updates the visibility of the DTMF dialpad (and its onscreen
+     * "handle", if applicable), based on the current state of the phone
+     * and/or the current InCallScreenMode.
      */
     private void updateDialpadVisibility() {
         //
@@ -3916,31 +3916,29 @@ public class InCallScreen extends Activity
         }
 
         //
-        // (2) The "sliding drawer" handle:
+        // (2) The onscreen "handle":
         //
-        if (mDialerDrawer != null) {
-            // The handle is visible only if it's OK to actually open the
-            // dialpad.
-            boolean visible = okToShowDialpad();
 
-            // Hide the dialpad handle on "touch UI" devices, which don't
-            // need the handle since they have a separate "show dialpad"
-            // button.
-            // (TODO: this is a temporary hack.  The real fix is that we
-            // shouldn't use a SlidingDrawer *at all* on devices with
-            // onscreen buttons.)
-            //
-            // Note we *don't* hide the dialer drawer if the dialer is
-            // open, since hiding the drawer also hides the dialpad
-            // itself!
-            if ((mInCallTouchUi != null)
-                && mInCallTouchUi.isTouchUiEnabled()
-                && !isDialerOpened()) {
-                visible = false;
-            }
+        // The handle is visible only if it's OK to actually open the
+        // dialpad.
+        boolean visible = okToShowDialpad();
 
-            mDialerDrawer.setVisibility(visible ? View.VISIBLE : View.GONE);
+        // Hide the dialpad handle on "touch UI" devices, which don't
+        // need the handle since they have a separate "show dialpad"
+        // button.
+        // (TODO: this is a temporary hack.  The real fix is that we
+        // shouldn't use a SlidingDrawer *at all* on devices with
+        // onscreen buttons.)
+        //
+        // Note we *don't* hide the dialer drawer if the dialer is
+        // open, since hiding the drawer also hides the dialpad
+        // itself!
+        if ((mInCallTouchUi != null)
+            && mInCallTouchUi.isTouchUiEnabled()
+            && !isDialerOpened()) {
+            visible = false;
         }
+        mDialer.setHandleVisible(visible);
     }
 
     /**
@@ -3990,9 +3988,7 @@ public class InCallScreen extends Activity
             || ((app.cdmaOtaScreenState != null)
                 && (app.cdmaOtaScreenState.otaScreenState ==
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION))) {
-            if (mDialerDrawer != null) {
-                mDialerDrawer.setVisibility(View.GONE);
-            }
+            mDialer.setHandleVisible(false);
             if (otaUtils != null) {
                 otaUtils.otaShowProperScreen();
             }
@@ -4005,8 +4001,7 @@ public class InCallScreen extends Activity
         // Update the in-call touch UI (which may need to re-show itself.)
         updateInCallTouchUi();
 
-        // Update the visibility of the dialpad itself (in case we need to
-        // hide the drawer handle.)
+        // Update the visibility of the dialpad itself.
         updateDialpadVisibility();
 
         // This counts as explicit "user activity".
@@ -4046,8 +4041,8 @@ public class InCallScreen extends Activity
      * @return true if the in-call DTMF dialpad should be available to the
      *      user, given the current state of the phone and the in-call UI.
      *      (This is used to control the visibility of the dialer's
-     *      SlidingDrawer handle, and the enabledness of the "Show
-     *      dialpad" menu item.)
+     *      onscreen handle, if applicable, and the enabledness of the "Show
+     *      dialpad" onscreen button or menu item.)
      */
     /* package */ boolean okToShowDialpad() {
         // The dialpad is available only when it's OK to dial DTMF
@@ -4785,7 +4780,7 @@ public class InCallScreen extends Activity
            if (isOtaCall) {
                if (otaUtils == null) {
                    otaUtils = new OtaUtils(getApplicationContext(),
-                           this, mInCallPanel, mCallCard, mDialer, mDialerDrawer);
+                           this, mInCallPanel, mCallCard, mDialer);
                }
            }
 
