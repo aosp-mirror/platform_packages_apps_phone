@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<!-- Copyright (C) 2009 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,12 +14,15 @@
      limitations under the License.
 -->
 
+<!-- Background resource for digit buttons in the "new" style in-call
+     DTMF dialpad (see non_drawer_dialpad.xml). 
+     This is just like btn_dial.xml, except the default state uses the
+     "normal_green" asset rather than the plain "normal" asset. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" 
-        android:drawable="@drawable/dial_num_1_blk" />
+    <item android:state_pressed="true"
+        android:drawable="@drawable/btn_dial_pressed" />
     <item android:state_focused="true"
-        android:drawable="@drawable/dial_num_1_blk" />
+        android:drawable="@drawable/btn_dial_selected" />
     <item
-        android:drawable="@drawable/dial_num_1_wht" />
+        android:drawable="@drawable/btn_dial_normal_green" />
 </selector>
-

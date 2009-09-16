@@ -128,7 +128,7 @@ public class DTMFTwelveKeyDialer implements
     // doesn't use a SlidingDrawer.
     private SlidingDrawer mDialerDrawer;
 
-    // The DTMFTwelveKeyDialerView we use to display the dialpad
+    // The DTMFTwelveKeyDialerView we use to display the dialpad.
     private DTMFTwelveKeyDialerView mDialerView;
 
     // KeyListener used with the "dialpad digits" EditText widget.
@@ -396,9 +396,13 @@ public class DTMFTwelveKeyDialer implements
      *
      * @param parent the InCallScreen instance that owns us.
      * @param dialerView the DTMFTwelveKeyDialerView we should use to display the dialpad.
+     * @param dialerDrawer the SlidingDrawer widget that contains dialerView, or
+     *                     null if this device doesn't use a SlidingDrawer
+     *                     as a container for the dialpad.
      */
     public DTMFTwelveKeyDialer(InCallScreen parent,
-                               DTMFTwelveKeyDialerView dialerView) {
+                               DTMFTwelveKeyDialerView dialerView,
+                               SlidingDrawer dialerDrawer) {
         if (DBG) log("DTMFTwelveKeyDialer constructor...");
 
         mInCallScreen = parent;
@@ -414,10 +418,8 @@ public class DTMFTwelveKeyDialer implements
         mDialerView = dialerView;
         if (DBG) log("- Got passed-in mDialerView: " + mDialerView);
 
-        // Look up the SlidingDrawer that contains the dialpad.
-        // (On some platforms this may be null.)
-        mDialerDrawer = (SlidingDrawer) mInCallScreen.findViewById(R.id.dialer_container);
-        if (DBG) log("- Looked up the SlidingDrawer: " + mDialerDrawer);
+        mDialerDrawer = dialerDrawer;
+        if (DBG) log("- Got passed-in mDialerDrawer: " + mDialerDrawer);
 
         if (mDialerView != null) {
             mDialerView.setDialer(this);
@@ -676,10 +678,28 @@ public class DTMFTwelveKeyDialer implements
     }
 
     /**
-     * @return true if the dialer is currently opened (i.e. expanded).
+     * @return true if the dialer is currently visible onscreen.
      */
+    // TODO: clean up naming inconsistency of "opened" vs. "visible".
+    // This should be called isVisible(), and open/closeDialer() should
+    // be "show" and "hide".
     public boolean isOpened() {
-        return mDialerDrawer != null && mDialerDrawer.isOpened();
+        if (mDialerDrawer != null) {
+            // If we're using a SlidingDrawer, report whether or not the
+            // drawer is open.
+            return mDialerDrawer.isOpened();
+        } else {
+            // Otherwise, return whether or not the dialer view is visible.
+            return mDialerView.getVisibility() == View.VISIBLE;
+        }
+    }
+
+    /**
+     * @return true if we're using the style of dialpad that's contained
+     *         within a SlidingDrawer.
+     */
+    public boolean usingSlidingDrawer() {
+        return (mDialerDrawer != null);
     }
 
     /**
@@ -689,11 +709,26 @@ public class DTMFTwelveKeyDialer implements
      * @param animate if true, open the dialer with an animation.
      */
     public void openDialer(boolean animate) {
-        if (mDialerDrawer != null && !mDialerDrawer.isOpened()) {
-            if (animate) {
-                mDialerDrawer.animateToggle();
+        if (DBG) log("openDialer()...");
+
+        if (!isOpened()) {
+            if (mDialerDrawer != null) {
+                // If we're using a SlidingDrawer, open the drawer.
+                if (animate) {
+                    mDialerDrawer.animateToggle();
+                } else {
+                    mDialerDrawer.toggle();
+                }
             } else {
-                mDialerDrawer.toggle();
+                // If we're not using a SlidingDrawer, just make
+                // the dialer view visible.
+                // TODO: add a fade-in animation if "animate" is true?
+                mDialerView.setVisibility(View.VISIBLE);
+
+                // And since we're not using a SlidingDrawer, we won't get an
+                // onDrawerOpened() event, so we have to to manually trigger
+                // an onDialerOpen() call.
+                onDialerOpen();
             }
         }
     }
@@ -705,11 +740,26 @@ public class DTMFTwelveKeyDialer implements
      * @param animate if true, close the dialer with an animation.
      */
     public void closeDialer(boolean animate) {
-        if (mDialerDrawer != null && mDialerDrawer.isOpened()) {
-            if (animate) {
-                mDialerDrawer.animateToggle();
+        if (DBG) log("closeDialer()...");
+
+        if (isOpened()) {
+            if (mDialerDrawer != null) {
+                // If we're using a SlidingDrawer, close the drawer.
+                if (animate) {
+                    mDialerDrawer.animateToggle();
+                } else {
+                    mDialerDrawer.toggle();
+                }
             } else {
-                mDialerDrawer.toggle();
+                // If we're not using a SlidingDrawer, just hide
+                // the dialer view.
+                // TODO: add a fade-out animation if "animate" is true?
+                mDialerView.setVisibility(View.GONE);
+
+                // And since we're not using a SlidingDrawer, we won't get an
+                // onDrawerClosed() event, so we have to to manually trigger
+                // an onDialerClose() call.
+                onDialerClose();
             }
         }
     }
