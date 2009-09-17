@@ -45,7 +45,6 @@ public class ADNList extends ListActivity {
         "emails"
     };
 
-
     protected static final int NAME_COLUMN = 0;
     protected static final int NUMBER_COLUMN = 1;
     protected static final int EMAILS_COLUMN = 2;

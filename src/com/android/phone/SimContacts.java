@@ -32,6 +32,7 @@ import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.text.TextUtils;
@@ -131,6 +132,13 @@ public class SimContacts extends ADNList {
         final String name = namePhoneTypePair.name;
         final int phoneType = namePhoneTypePair.phoneType;
         final String phoneNumber = cursor.getString(NUMBER_COLUMN);
+        final String emailAddresses = cursor.getString(EMAILS_COLUMN);
+        final String[] emailAddressArray;
+        if (!TextUtils.isEmpty(emailAddresses)) {
+            emailAddressArray = emailAddresses.split(",");
+        } else {
+            emailAddressArray = null;
+        }
 
         final ArrayList<ContentProviderOperation> operationList =
             new ArrayList<ContentProviderOperation>();
@@ -153,6 +161,22 @@ public class SimContacts extends ADNList {
         builder.withValue(Phone.NUMBER, phoneNumber);
         builder.withValue(Data.IS_PRIMARY, 1);
         operationList.add(builder.build());
+
+        if (emailAddresses != null) {
+            boolean first = true;
+            for (String emailAddress : emailAddressArray) {
+                builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);
+                builder.withValueBackReference(Email.RAW_CONTACT_ID, 0);
+                builder.withValue(Data.MIMETYPE, Email.CONTENT_ITEM_TYPE);
+                builder.withValue(Email.TYPE, Email.TYPE_MOBILE);
+                builder.withValue(Email.DATA, emailAddress);
+                if (first) {
+                    builder.withValue(Data.IS_PRIMARY, 1);
+                    first = false;
+                }
+                operationList.add(builder.build());
+            }
+        }
 
         // TODO: We should insert this into MyGroups if possible.
 
