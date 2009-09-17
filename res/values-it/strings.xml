@@ -49,12 +49,9 @@
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: annullato."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Sono possibili solo chiamate di emergenza."</string>
     <string name="confCall" msgid="1904840547188336828">"Audioconferenza"</string>
-    <!-- no translation found for call_lost (317670617901479594) -->
-    <skip />
-    <!-- no translation found for retry (8462986804300767852) -->
-    <skip />
-    <!-- no translation found for call_lost_title (6696949678847938515) -->
-    <skip />
+    <string name="call_lost" msgid="317670617901479594">"La chiamata è stata persa."</string>
+    <string name="retry" msgid="8462986804300767852">"Riprova"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"Chiama Persa"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Codice MMI avviato"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Codice MMI annullato"</string>
@@ -78,13 +75,10 @@
     <string name="menu_answer" msgid="116686205042231098">"Risposta"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignora"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Inviare i numeri successivi?"\n</string>
-    <!-- no translation found for pause_prompt_str (341477243019906241) -->
-    <skip />
+    <string name="pause_prompt_str" msgid="341477243019906241">"Invio toni"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Invia"</string>
-    <!-- no translation found for pause_prompt_yes (3564467212025151797) -->
-    <skip />
-    <!-- no translation found for pause_prompt_no (6686238803236884877) -->
-    <skip />
+    <string name="pause_prompt_yes" msgid="3564467212025151797">"Sì"</string>
+    <string name="pause_prompt_no" msgid="6686238803236884877">"No"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Sostituisci carattere jolly con"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Numero segreteria mancante"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Nessun numero di segreteria presente nella SIM."</string>
@@ -106,8 +100,7 @@
     <string name="unlock_failed" msgid="6490531697031504225">"Richiesta di sblocco della rete respinta."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Sblocco della rete riuscito."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <!-- no translation found for meid (66004808679046045) -->
-    <skip />
+    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Impostaz. di chiamata GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Impostazioni di chiamata CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Nomi punti di accesso"</string>
@@ -116,8 +109,7 @@
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"ST:"</string>
     <string name="networks" msgid="8873030692174541976">"Operatori di rete"</string>
     <string name="call_settings" msgid="6112441768261754562">"Impostazioni chiamate"</string>
-    <!-- no translation found for additional_gsm_call_settings (1391795981938800617) -->
-    <skip />
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Altre impostazioni"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Altre impostazioni chiamata solo GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Altre impostazioni chiamata CDMA"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Altre impostazioni chiamata solo CDMA"</string>
@@ -168,10 +160,8 @@
     <string name="vm_changed" msgid="380744030726254139">"Numero segreteria modificato."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Modifica del numero della segreteria non riuscita."</string>
     <string name="no_change" msgid="3186040086622435212">"Nessuna modifica effettuata."</string>
-    <!-- no translation found for sum_voicemail_choose_provider (59911196126278922) -->
-    <skip />
-    <!-- no translation found for voicemail_default (5902099213882352338) -->
-    <skip />
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Scegli il servizio di segreteria"</string>
+    <string name="voicemail_default" msgid="5902099213882352338">"Il mio gestore"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Impostazioni rete cellulare"</string>
     <string name="label_available" msgid="1181658289009300430">"Reti disponibili"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Ricerca..."</string>
@@ -384,10 +374,8 @@
     <string name="tty_mode_summary" msgid="5057244302665817977">"Attiva modalità TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Modalità TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Imposta modalità TTY"</string>
-    <!-- no translation found for auto_retry_mode_title (1478311108889330757) -->
-    <skip />
-    <!-- no translation found for auto_retry_mode_summary (4921028586041909574) -->
-    <skip />
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Nuovo tentativo automatico"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Attiva la modalità Nuovo tentativo automatico"</string>
     <string name="menu_add" msgid="1882023737425114762">"Aggiungi contatto"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Modifica contatto"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Elimina contatto"</string>
@@ -449,8 +437,7 @@
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autenticazione PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numero segreteria"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Chiamata in corso"</string>
-    <!-- no translation found for card_title_redialing (4831412164303596395) -->
-    <skip />
+    <string name="card_title_redialing" msgid="4831412164303596395">"Nuovo tentativo in corso"</string>
     <string name="card_title_in_progress" msgid="8603765629781648862">"Chiamata corrente"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Audioconferenza"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Chiamata in arrivo"</string>
@@ -469,6 +456,10 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nuovo msg vocale (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Componi <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Numero segreteria sconosciuto"</string>
+    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
+    <skip />
+    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Per fare una telefonata, disattiva la modalità Aereo."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Non registrato sulla rete."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chiamata non inviata. Nessun numero valido inserito."</string>
@@ -492,43 +483,31 @@
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Tastierino"</string>
     <string name="touchLockText" msgid="8742463586429019112">"Tocca due volte"\n"per sbloccare"</string>
     <string name="onscreenAnswerText" msgid="7643040500342720792">"Tocca due volte"\n"per rispondere"</string>
-    <!-- no translation found for onscreenRejectText (2133550093891165440) -->
-    <skip />
-    <!-- no translation found for onscreenHoldText (2285258239691145872) -->
-    <skip />
-    <!-- no translation found for onscreenUnholdText (5033582269005230794) -->
-    <skip />
-    <!-- no translation found for onscreenEndCallText (4403855834875398585) -->
-    <skip />
-    <!-- no translation found for onscreenShowDialpadText (8561805492659639893) -->
-    <skip />
-    <!-- no translation found for onscreenHideDialpadText (2572388822571686252) -->
-    <skip />
-    <!-- no translation found for onscreenSpeakerText (9013795366801657948) -->
-    <skip />
-    <!-- no translation found for onscreenMuteText (5011369181754261374) -->
-    <skip />
-    <!-- no translation found for onscreenBluetoothText (2479639597725504499) -->
-    <skip />
-    <!-- no translation found for onscreenAddCallText (5140385634712287403) -->
-    <skip />
-    <!-- no translation found for onscreenMergeCallsText (6640195098064538950) -->
-    <skip />
-    <!-- no translation found for onscreenSwapCallsText (1602990689244030047) -->
-    <skip />
-    <!-- no translation found for onscreenManageConferenceText (6952581578445378981) -->
-    <skip />
+    <string name="onscreenRejectText" msgid="2133550093891165440">"Tocca due volte"\n"per rifiutare"</string>
+    <string name="onscreenHoldText" msgid="2285258239691145872">"In attesa"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"Riprendi"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tastierino"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Nascondi"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoparlante"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"No audio"</string>
+    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"Aggiungi"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Unisci"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Scambia"</string>
+    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gestisci"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importa"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importa tutti"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importazione contatti SIM"</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importa da contatti"</string>
-    <!-- no translation found for hac_mode_title (8740268574688743289) -->
-    <skip />
-    <!-- no translation found for hac_mode_summary (6833851160514929341) -->
-    <skip />
-    <!-- no translation found for tty_mode_entries:1 (3971695875449640648) -->
-    <!-- no translation found for tty_mode_entries:2 (1937509904407445684) -->
-    <!-- no translation found for tty_mode_entries:3 (5644925873488772224) -->
+    <string name="hac_mode_title" msgid="8740268574688743289">"Apparecchi acustici"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"Attiva la compatibilità con apparecchi acustici"</string>
+  <string-array name="tty_mode_entries">
+    <item msgid="512950011423868021">"TTY disattivato"</item>
+    <item msgid="3971695875449640648">"TTY completa"</item>
+    <item msgid="1937509904407445684">"TTY HCO"</item>
+    <item msgid="5644925873488772224">"TTY VCO"</item>
+  </string-array>
     <string name="eri_text_label" msgid="4326942349915331461">"Testo ERI"</string>
     <string name="dtmf_tones_title" msgid="3866923093113274152">"Toni DTMF"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Imposta la lunghezza dei toni DTMF"</string>
@@ -537,70 +516,52 @@
     <item msgid="2883365539347850535">"Lunghi"</item>
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Messaggio di rete"</string>
-    <!-- no translation found for ota_title_activate (8616918561356194398) -->
+    <string name="ota_title_activate" msgid="8616918561356194398">"Attiva il telefono"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. "\n\n"Dopo avere premuto “Attiva”, ascolta le istruzioni fornite per attivare il telefono."</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Attiva"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"Il telefono è attivo."</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con l\'attivazione"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"Ascolta le istruzioni fornite per attivare il telefono. Rimani in linea fino alla conferma dell\'attivazione del telefono."</string>
+    <string name="ota_dialpad" msgid="3530900997110658409">"Tastierino"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Altoparlante"</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Attendere la programmazione del telefono."</string>
+    <string name="ota_failure" msgid="8600027551822478181">"Programmazione non riuscita"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"Il telefono è attivo. L\'avvio del servizio potrebbe richiedere fino a 15 minuti."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Il telefono non è stato attivato. "\n"Potrebbe essere necessario trovare una zona con copertura migliore (vicino a una finestra o all\'esterno). "\n\n"Riprova o contatta l\'assistenza tecnica per conoscere altre soluzioni."</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"TROPPI ERRORI SPC"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Indietro"</string>
+    <string name="ota_try_again" msgid="7685477206465902290">"Riprova"</string>
+    <string name="ota_next" msgid="3904945374358235910">"Avanti"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Indietro"</string>
+    <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Modalità di richiamata di emergenza attivata"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modalità di richiamata di emergenza"</string>
+    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
     <skip />
-    <!-- no translation found for ota_touch_activate (6553212803262586244) -->
+  <plurals name="phone_in_ecm_notification_time">
+    <item quantity="one" msgid="4866221796252472622">"Nessuna connessione dati per <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
+    <item quantity="other" msgid="3122217344579273583">"Nessuna connessione dati per <xliff:g id="COUNT">%s</xliff:g> minuti"</item>
+  </plurals>
+  <plurals name="alert_dialog_exit_ecm">
+    <item quantity="one" msgid="2181569650640386253">"Il telefono sarà in modalità di richiamata di emergenza per <xliff:g id="COUNT">%s</xliff:g> minuto. In questa modalità non è possibile utilizzare alcuna applicazione che richiede una connessione dati. Uscire ora?"</item>
+    <item quantity="other" msgid="3231879566243957821">"Il telefono sarà in modalità di richiamata di emergenza per <xliff:g id="COUNT">%s</xliff:g> minuti. In questa modalità non è possibile utilizzare alcuna applicazione che richiede una connessione dati. Uscire ora?"</item>
+  </plurals>
+  <plurals name="alert_dialog_not_avaialble_in_ecm">
+    <item quantity="one" msgid="8939225905428421722">"L\'azione selezionata non è disponibile in modalità di richiamata di emergenza. Il telefono sarà in questa modalità per <xliff:g id="COUNT">%s</xliff:g> minuto. Uscire ora?"</item>
+    <item quantity="other" msgid="3489076611710869904">"L\'azione selezionata non è disponibile in modalità di richiamata di emergenza. Il telefono sarà in questa modalità per <xliff:g id="COUNT">%s</xliff:g> minuti. Uscire ora?"</item>
+  </plurals>
+    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
     <skip />
-    <!-- no translation found for ota_activate (1368528132525626264) -->
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Uscita dalla modalità di richiamata di emergenza in corso"</string>
+    <string name="alert_dialog_yes" msgid="6674268047820703974">"Sì"</string>
+    <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
+    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
     <skip />
-    <!-- no translation found for ota_title_activate_success (3344632328991980578) -->
-    <skip />
-    <!-- no translation found for ota_title_problem_with_activation (7095824491970084367) -->
-    <skip />
-    <!-- no translation found for ota_listen (3656020498420727053) -->
-    <skip />
-    <!-- no translation found for ota_dialpad (3530900997110658409) -->
-    <skip />
-    <!-- no translation found for ota_speaker (6904589278542719647) -->
-    <skip />
-    <!-- no translation found for ota_progress (4644512049143969504) -->
-    <skip />
-    <!-- no translation found for ota_failure (8600027551822478181) -->
-    <skip />
-    <!-- no translation found for ota_successful (1880780692887077407) -->
-    <skip />
-    <!-- no translation found for ota_unsuccessful (623361244652068739) -->
-    <skip />
-    <!-- no translation found for ota_spc_failure (3909983542575030796) -->
-    <skip />
-    <!-- no translation found for ota_call_end (4537279738134612388) -->
-    <skip />
-    <!-- no translation found for ota_try_again (7685477206465902290) -->
-    <skip />
-    <!-- no translation found for ota_next (3904945374358235910) -->
-    <skip />
-    <!-- no translation found for ota_back (2190038043403850052) -->
-    <skip />
-    <!-- no translation found for ecm_exit_dialog (4448531867763097533) -->
-    <skip />
-    <!-- no translation found for phone_entered_ecm_text (6266424252578731203) -->
-    <skip />
-    <!-- no translation found for phone_in_ecm_notification_title (3226896828951687085) -->
-    <skip />
-    <!-- no translation found for phone_in_ecm_notification_time:one (4866221796252472622) -->
-    <!-- no translation found for phone_in_ecm_notification_time:other (3122217344579273583) -->
-    <!-- no translation found for alert_dialog_exit_ecm:one (2181569650640386253) -->
-    <!-- no translation found for alert_dialog_exit_ecm:other (3231879566243957821) -->
-    <!-- no translation found for alert_dialog_not_avaialble_in_ecm:one (8939225905428421722) -->
-    <!-- no translation found for alert_dialog_not_avaialble_in_ecm:other (3489076611710869904) -->
-    <!-- no translation found for progress_dialog_exiting_ecm (8751952246695857820) -->
-    <skip />
-    <!-- no translation found for alert_dialog_yes (6674268047820703974) -->
-    <skip />
-    <!-- no translation found for alert_dialog_no (1476091437797628703) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (2288633492587133022) -->
-    <skip />
-    <!-- no translation found for voicemail_number_not_set (1604580506447265808) -->
-    <skip />
-    <!-- no translation found for voicemail_provider (6299679757491942924) -->
-    <skip />
-    <!-- no translation found for voicemail_settings_for (9018656268027893088) -->
-    <skip />
-    <!-- no translation found for other_settings (3672912580359716394) -->
-    <skip />
-    <!-- no translation found for dial_button_label (5551611636419190229) -->
-    <skip />
-    <!-- no translation found for calling_via_template (7374498518104190489) -->
-    <skip />
+    <string name="voicemail_settings" msgid="2288633492587133022">"Impostazioni segreteria"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non impostato&gt;"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Servizio di segreteria"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"Impostazioni per <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Altre impostazioni chiamate"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"Componi"</string>
+    <string name="calling_via_template" msgid="7374498518104190489">"Chiamata in corso tramite ^1"\n<b>"^2"</b></string>
 </resources>
