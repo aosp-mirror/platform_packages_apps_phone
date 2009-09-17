@@ -313,4 +313,3 @@ public class SimContacts extends ADNList {
         return super.onKeyDown(keyCode, event);
     }
 }
-<
