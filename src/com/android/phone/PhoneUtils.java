@@ -1392,8 +1392,8 @@ public class PhoneUtils {
 
                 // Added a check if CallerInfo is coming from ContactInfo or from Connection.
                 // If no ContactInfo, then we want to use CNAP information coming from network
-                if (DBG) log("- onQueryComplete: contactExists=" + ci.contactExists);
-                if (ci.contactExists) {
+                if (DBG) log("- onQueryComplete: CallerInfo:" + ci);
+                if (ci.contactExists || ci.isEmergencyNumber() || ci.isVoiceMailNumber()) {
                     ((Connection) cookie).setUserData(ci);
                 } else {
                     CallerInfo newCi = getCallerInfo(null, (Connection) cookie);
@@ -1401,7 +1401,9 @@ public class PhoneUtils {
                         newCi.phoneNumber = ci.phoneNumber; // To get formatted phone number
                         ((Connection) cookie).setUserData(newCi);
                     }
-                    else ((Connection) cookie).setUserData(ci);
+                    else {
+                        ((Connection) cookie).setUserData(ci);
+                    }
                 }
             }
         };

@@ -3798,7 +3798,7 @@ public class InCallScreen extends Activity
      * refreshes the nameTextView when called.
      */
     public void onQueryComplete(int token, Object cookie, CallerInfo ci){
-        if (VDBG) log("callerinfo query complete, updating UI.");
+        if (VDBG) log("callerinfo query complete, updating UI." + ci);
 
         // get the viewgroup (conference call list item) and make it visible
         ViewGroup vg = (ViewGroup) cookie;
