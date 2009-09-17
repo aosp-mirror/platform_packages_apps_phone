@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -1994,11 +1995,10 @@ public class PhoneUtils {
         if (null == intent) {
             return false;
         }
-        final boolean badge = intent.hasExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE);
         final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
         final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
 
-        return badge && !(TextUtils.isEmpty(name) || TextUtils.isEmpty(gatewayUri));
+        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(gatewayUri);
     }
 
     /**
@@ -2015,8 +2015,6 @@ public class PhoneUtils {
             return;
         }
 
-        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE,
-                     src.getParcelableExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_BADGE));
         dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE,
                      src.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE));
         dst.putExtra(InCallScreen.EXTRA_GATEWAY_URI,
@@ -2027,7 +2025,8 @@ public class PhoneUtils {
      * Get the provider's label from the intent.
      * @param context to lookup the provider's package name.
      * @param intent with an extra set to the provider's package name.
-     * @return The providers' application label.
+     * @return The provider's application label. null if an error
+     * occurred during the lookup of the package name or the label.
      */
     /* package */ static CharSequence getProviderLabel(Context context, Intent intent) {
         String packageName = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
@@ -2037,6 +2036,23 @@ public class PhoneUtils {
             ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
 
             return pm.getApplicationLabel(info);
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get the provider's icon.
+     * @param context to lookup the provider's icon.
+     * @param intent with an extra set to the provider's package name.
+     * @return The provider's application icon. null if an error occured during the icon lookup.
+     */
+    /* package */ static Drawable getProviderIcon(Context context, Intent intent) {
+        String packageName = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            return pm.getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException e) {
             return null;
         }
