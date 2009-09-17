@@ -1671,16 +1671,21 @@ public class CallNotifier extends Handler
         if (conn.isIncoming()) {
             number = conn.getAddress();
         } else {
-            if (null != callerInfo && !TextUtils.isEmpty(callerInfo.phoneNumber)) {
-                number = callerInfo.phoneNumber;
-            }
-            if (null == number) {
+            // For emergency and voicemail calls,
+            // CallerInfo.phoneNumber does *not* contain a valid phone
+            // number.  Instead it contains an I18N'd string such as
+            // "Emergency Number" or "Voice Mail" so we get the number
+            // from the connection.
+            if (null == callerInfo || TextUtils.isEmpty(callerInfo.phoneNumber) ||
+                callerInfo.isEmergencyNumber() || callerInfo.isVoiceMailNumber()) {
                 if (mPhoneIsCdma) {
                     // In cdma getAddress() is not always equals to getOrigDialString().
                     number = conn.getOrigDialString();
                 } else {
                     number = conn.getAddress();
                 }
+            } else {
+                number = callerInfo.phoneNumber;
             }
         }
 
