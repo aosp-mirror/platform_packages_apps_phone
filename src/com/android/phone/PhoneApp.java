@@ -1085,6 +1085,8 @@ public class PhoneApp extends Application {
                 if (!mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                     mProximityWakeLock.acquire();
+                    // disable keyguard while we are using the proximity sensor
+                    disableKeyguard();
                 } else {
                     if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                 }
@@ -1094,6 +1096,7 @@ public class PhoneApp extends Application {
                 if (mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
                     mProximityWakeLock.release();
+                    reenableKeyguard();
                 } else {
                     if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
                 }
