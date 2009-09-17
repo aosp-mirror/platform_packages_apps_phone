@@ -24,6 +24,7 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothUuid;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.IBluetoothHeadset;
+import android.bluetooth.ParcelUuid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +47,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Provides Bluetooth Headset and Handsfree profile, as a service in
@@ -473,33 +473,19 @@ public class BluetoothHeadsetService extends Service {
     }
 
     private void getSdpRecordsAndConnect() {
-        String[] uuids = mRemoteDevice.getUuids();
-        String savedUuid = null;
-        boolean isHandsfree = false;
-        boolean isHeadset = false;
+        ParcelUuid[] uuids = mRemoteDevice.getUuids();
         if (uuids != null) {
-            for (String uuid: uuids) {
-                UUID remoteUuid = UUID.fromString(uuid);
-                if (BluetoothUuid.isHandsfree(remoteUuid)) {
-                    isHandsfree = true;
-                    savedUuid = uuid;
-                    break;
-                } else if (BluetoothUuid.isHeadset(remoteUuid)) {
-                    isHeadset = true;
-                    savedUuid = uuid;
-                }
-            }
-            if (isHandsfree) {
+            if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree)) {
                 log("SDP UUID: TYPE_HANDSFREE");
                 mHeadsetType = BluetoothHandsfree.TYPE_HANDSFREE;
-                int channel = mRemoteDevice.getServiceChannel(savedUuid);
+                int channel = mRemoteDevice.getServiceChannel(BluetoothUuid.Handsfree);
                 mConnectThread = new RfcommConnectThread(mRemoteDevice, channel, mHeadsetType);
                 mConnectThread.start();
                 return;
-            } else if (isHeadset) {
+            } else if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.HSP)) {
                 log("SDP UUID: TYPE_HEADSET");
                 mHeadsetType = BluetoothHandsfree.TYPE_HEADSET;
-                int channel = mRemoteDevice.getServiceChannel(savedUuid);
+                int channel = mRemoteDevice.getServiceChannel(BluetoothUuid.HSP);
                 mConnectThread = new RfcommConnectThread(mRemoteDevice, channel, mHeadsetType);
                 mConnectThread.start();
                 return;
