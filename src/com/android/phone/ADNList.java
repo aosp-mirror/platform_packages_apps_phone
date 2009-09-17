@@ -41,12 +41,14 @@ public class ADNList extends ListActivity {
 
     private static final String[] COLUMN_NAMES = new String[] {
         "name",
-        "number"
+        "number",
+        "email"
     };
     
 
     protected static final int NAME_COLUMN = 0;
     protected static final int NUMBER_COLUMN = 1;
+    protected static final int EMAIL_COLUMN = 2;
 
     private static final int[] VIEW_NAMES = new int[] {
         android.R.id.text1,
