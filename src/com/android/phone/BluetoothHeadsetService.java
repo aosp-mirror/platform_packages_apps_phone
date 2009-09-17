@@ -150,23 +150,25 @@ public class BluetoothHeadsetService extends Service {
                   ") connection from " + info.mRemoteDevice + "on channel " + info.mRfcommChan);
 
             int priority = BluetoothHeadset.PRIORITY_OFF;
+            HeadsetBase headset;
             try {
                 priority = mBinder.getPriority(info.mRemoteDevice);
             } catch (RemoteException e) {}
             if (priority <= BluetoothHeadset.PRIORITY_OFF) {
                 Log.i(TAG, "Rejecting incoming connection because priority = " + priority);
 
-                // TODO: disconnect RFCOMM not ACL. Happens elsewhere too.
-                // Use the new rfcomm socket.
-                info.mRemoteDevice.removeBond();
+                headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
+                        info.mSocketFd, info.mRfcommChan, null);
+                headset.disconnect();
+                return;
             }
             switch (mState) {
             case BluetoothHeadset.STATE_DISCONNECTED:
                 // headset connecting us, lets join
                 setState(BluetoothHeadset.STATE_CONNECTING);
                 mRemoteDevice = info.mRemoteDevice;
-                HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice,
-                        info.mSocketFd, info.mRfcommChan, mConnectedStatusHandler);
+                headset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice, info.mSocketFd,
+                        info.mRfcommChan, mConnectedStatusHandler);
                 mHeadsetType = type;
 
                 mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
@@ -178,9 +180,9 @@ public class BluetoothHeadsetService extends Service {
                     Log.i(TAG, "Already attempting connect to " + mRemoteDevice +
                           ", disconnecting " + info.mRemoteDevice);
 
-                    // TODO: Fix when using the new rfcomm socket.
-                    info.mRemoteDevice.removeBond();
-                    break;
+                    headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
+                            info.mSocketFd, info.mRfcommChan, null);
+                    headset.disconnect();
                 }
                 // If we are here, we are in danger of a race condition
                 // incoming rfcomm connection, but we are also attempting an
@@ -218,8 +220,9 @@ public class BluetoothHeadsetService extends Service {
                 Log.i(TAG, "Already connected to " + mRemoteDevice + ", disconnecting " +
                       info.mRemoteDevice);
 
-                // TODO: Fix when using the new rfcomm socket.
-                info.mRemoteDevice.removeBond();
+                headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
+                        info.mSocketFd, info.mRfcommChan, null);
+                headset.disconnect();
                 break;
             }
         }
