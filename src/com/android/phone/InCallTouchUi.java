@@ -19,6 +19,7 @@ package com.android.phone;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,8 @@ import com.android.internal.telephony.Phone;
 public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, IncomingCallDialWidget.OnDialTriggerListener {
     private static final String LOG_TAG = "InCallTouchUi";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1);
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -357,15 +359,17 @@ public class InCallTouchUi extends FrameLayout
         // first place.
         mDialpadButton.setEnabled(inCallControlState.dialpadEnabled);
         //
-        // TODO: Label and icon should switch between the "Show" and
-        // "Hide" states, but for now we only use the "Show" state since
-        // the dialpad totally covers up the onscreen buttons.
-        mDialpadButton.setText(R.string.onscreenShowDialpadText);
-        mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(null, mShowDialpadIcon, null, null);
-        // The "Hide dialpad" state:
-        // mDialpadButton.setText(R.string.onscreenHideDialpadText);
-        // mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(
-        //         null, mHideDialpadIcon, null, null);
+        if (inCallControlState.dialpadVisible) {
+            // Show the "hide dialpad" state.
+            mDialpadButton.setText(R.string.onscreenHideDialpadText);
+            mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(
+                null, mHideDialpadIcon, null, null);
+        } else {
+            // Show the "show dialpad" state.
+            mDialpadButton.setText(R.string.onscreenShowDialpadText);
+            mDialpadButton.setCompoundDrawablesWithIntrinsicBounds(
+                    null, mShowDialpadIcon, null, null);
+        }
 
         // "Bluetooth"
         mBluetoothButton.setEnabled(inCallControlState.bluetoothEnabled);
@@ -401,6 +405,14 @@ public class InCallTouchUi extends FrameLayout
                 && inCallControlState.manageConferenceEnabled;
         mManageConferenceButtonContainer.setVisibility(
                 showManageConferenceTouchButton ? View.VISIBLE : View.GONE);
+
+        // One final special case: if the dialpad is visible, that trumps
+        // *any* of the upper corner buttons:
+        if (inCallControlState.dialpadVisible) {
+            mAddCallButtonContainer.setVisibility(View.GONE);
+            mMergeCallsButtonContainer.setVisibility(View.GONE);
+            mManageConferenceButtonContainer.setVisibility(View.GONE);
+        }
     }
 
     //

@@ -761,7 +761,8 @@ public class OtaUtils {
             Log.e(LOG_TAG, "onCreate: couldn't find otaDtmfDialer", new IllegalStateException());
         }
         DTMFTwelveKeyDialer dialer = new DTMFTwelveKeyDialer(mInCallScreen,
-                                                             mOtaWidgetData.otaDtmfDialerView);
+                                                             mOtaWidgetData.otaDtmfDialerView,
+                                                             null /* no SlidingDrawer used here */);
         mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
     }
 
