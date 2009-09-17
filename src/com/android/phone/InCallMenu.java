@@ -391,7 +391,7 @@ class InCallMenu {
         boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
         mShowDialpad.setVisible(showShowDialpad);
         mShowDialpad.setEnabled(enableShowDialpad);
-        mShowDialpad.setText(mInCallScreen.isDialerOpened()
+        mShowDialpad.setText(inCallControlState.dialpadVisible
                              ? R.string.menu_hideDialpad
                              : R.string.menu_showDialpad);
 
