@@ -126,7 +126,7 @@ public class DTMFTwelveKeyDialer implements
 
     // The SlidingDrawer containing mDialerView, or null if the current UI
     // doesn't use a SlidingDrawer.
-    private SlidingDrawer mDialerContainer;
+    private SlidingDrawer mDialerDrawer;
 
     // The DTMFTwelveKeyDialerView we use to display the dialpad
     private DTMFTwelveKeyDialerView mDialerView;
@@ -396,15 +396,13 @@ public class DTMFTwelveKeyDialer implements
      *
      * @param parent the InCallScreen instance that owns us.
      * @param dialerView the DTMFTwelveKeyDialerView we should use to display the dialpad.
-     * @param dialerContainer the SlidingDrawer containing dialerView, or null if
-     *                        the current UI doesn't use a SlidingDrawer.
      */
     public DTMFTwelveKeyDialer(InCallScreen parent,
-                               DTMFTwelveKeyDialerView dialerView,
-                               SlidingDrawer dialerContainer) {
+                               DTMFTwelveKeyDialerView dialerView) {
+        if (DBG) log("DTMFTwelveKeyDialer constructor...");
+
         mInCallScreen = parent;
         mPhone = PhoneApp.getInstance().phone;
-        mDialerContainer = dialerContainer;
 
         // The passed-in DTMFTwelveKeyDialerView *should* always be
         // non-null, now that the in-call UI uses only portrait mode.
@@ -414,6 +412,12 @@ public class DTMFTwelveKeyDialer implements
             // be pretty broken without the mDialerView UI elements!
         }
         mDialerView = dialerView;
+        if (DBG) log("- Got passed-in mDialerView: " + mDialerView);
+
+        // Look up the SlidingDrawer that contains the dialpad.
+        // (On some platforms this may be null.)
+        mDialerDrawer = (SlidingDrawer) mInCallScreen.findViewById(R.id.dialer_container);
+        if (DBG) log("- Looked up the SlidingDrawer: " + mDialerDrawer);
 
         if (mDialerView != null) {
             mDialerView.setDialer(this);
@@ -441,9 +445,9 @@ public class DTMFTwelveKeyDialer implements
             setupKeypad(mDialerView);
         }
 
-        if (mDialerContainer != null) {
-            mDialerContainer.setOnDrawerOpenListener(this);
-            mDialerContainer.setOnDrawerCloseListener(this);
+        if (mDialerDrawer != null) {
+            mDialerDrawer.setOnDrawerOpenListener(this);
+            mDialerDrawer.setOnDrawerCloseListener(this);
         }
 
     }
@@ -458,9 +462,9 @@ public class DTMFTwelveKeyDialer implements
         if (DBG) log("clearInCallScreenReference()...");
         mInCallScreen = null;
         mDialerKeyListener = null;
-        if (mDialerContainer != null) {
-            mDialerContainer.setOnDrawerOpenListener(null);
-            mDialerContainer.setOnDrawerCloseListener(null);
+        if (mDialerDrawer != null) {
+            mDialerDrawer.setOnDrawerOpenListener(null);
+            mDialerDrawer.setOnDrawerCloseListener(null);
         }
         if (mPhone.getPhoneName().equals("CDMA")) {
             mHandler.removeMessages(DTMF_SEND_CNF);
@@ -675,7 +679,7 @@ public class DTMFTwelveKeyDialer implements
      * @return true if the dialer is currently opened (i.e. expanded).
      */
     public boolean isOpened() {
-        return mDialerContainer != null && mDialerContainer.isOpened();
+        return mDialerDrawer != null && mDialerDrawer.isOpened();
     }
 
     /**
@@ -685,11 +689,11 @@ public class DTMFTwelveKeyDialer implements
      * @param animate if true, open the dialer with an animation.
      */
     public void openDialer(boolean animate) {
-        if (mDialerContainer != null && !mDialerContainer.isOpened()) {
+        if (mDialerDrawer != null && !mDialerDrawer.isOpened()) {
             if (animate) {
-                mDialerContainer.animateToggle();
+                mDialerDrawer.animateToggle();
             } else {
-                mDialerContainer.toggle();
+                mDialerDrawer.toggle();
             }
         }
     }
@@ -701,12 +705,23 @@ public class DTMFTwelveKeyDialer implements
      * @param animate if true, close the dialer with an animation.
      */
     public void closeDialer(boolean animate) {
-        if (mDialerContainer != null && mDialerContainer.isOpened()) {
+        if (mDialerDrawer != null && mDialerDrawer.isOpened()) {
             if (animate) {
-                mDialerContainer.animateToggle();
+                mDialerDrawer.animateToggle();
             } else {
-                mDialerContainer.toggle();
+                mDialerDrawer.toggle();
             }
+        }
+    }
+
+    /**
+     * Sets the visibility of the dialpad's onscreen "handle".
+     * This has no effect on platforms that don't use
+     * a SlidingDrawer as a container for the dialpad.
+     */
+    public void setHandleVisible(boolean visible) {
+        if (mDialerDrawer != null) {
+            mDialerDrawer.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 
