@@ -571,6 +571,8 @@ public class CallNotifier extends Handler
                     int toneToPlay = InCallTonePlayer.TONE_REDIAL;
                     new InCallTonePlayer(toneToPlay).start();
                 }
+                // Stop any signal info tone when call moves to ACTIVE state
+                stopSignalInfoTone();
             }
             mPreviousCdmaCallState = mPhone.getForegroundCall().getState();
         }
@@ -589,6 +591,18 @@ public class CallNotifier extends Handler
         if (state == Phone.State.OFFHOOK) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
             if (VDBG) log("onPhoneStateChanged: OFF HOOK");
+            // If Audio Mode is not In Call, then set the Audio Mode.  This
+            // changes is needed because for one of the carrier specific test case,
+            // call is originated from the lower layer without using the UI, and
+            // since calling does not go through DIALING state, it skips the steps
+            // of setting the Audio Mode
+            if (mPhone.getPhoneName().equals("CDMA")) {
+                AudioManager audioManager =
+                        (AudioManager) mPhone.getContext().getSystemService(Context.AUDIO_SERVICE);
+                if (audioManager.getMode() != AudioManager.MODE_IN_CALL) {
+                    PhoneUtils.setAudioMode(mPhone.getContext(), AudioManager.MODE_IN_CALL);
+                }
+            }
 
             // if the call screen is showing, let it handle the event,
             // otherwise handle it here.
