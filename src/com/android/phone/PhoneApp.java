@@ -183,6 +183,7 @@ public class PhoneApp extends Application {
     private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
+    private int mKeyguardDisableCount;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -723,7 +724,11 @@ public class PhoneApp extends Application {
     /* package */ void disableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "disable keyguard");
         // if (DBG) Log.d(LOG_TAG, "disableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.disableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount++ == 0) {
+                mKeyguardLock.disableKeyguard();
+            }
+        }
     }
 
     /**
@@ -735,7 +740,15 @@ public class PhoneApp extends Application {
     /* package */ void reenableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "re-enable keyguard");
         // if (DBG) Log.d(LOG_TAG, "reenableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.reenableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount > 0) {
+                if (--mKeyguardDisableCount == 0) {
+                    mKeyguardLock.reenableKeyguard();
+                }
+            } else {
+                Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
+            }
+        }
     }
 
     /**
