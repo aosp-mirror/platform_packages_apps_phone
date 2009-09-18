@@ -3092,7 +3092,7 @@ public class InCallScreen extends Activity
             case R.id.swapButton:
                 internalSwapCalls();
                 break;
-            case R.id.endCallButton:
+            case R.id.endButton:
                 internalHangup();
                 break;
             case R.id.dialpadButton:
@@ -3107,10 +3107,10 @@ public class InCallScreen extends Activity
             case R.id.speakerButton:
                 onSpeakerClick();
                 break;
-            case R.id.addCallButton:
+            case R.id.addButton:
                 PhoneUtils.startNewCall(mPhone);  // Fires off an ACTION_DIAL intent
                 break;
-            case R.id.mergeCallsButton:
+            case R.id.mergeButton:
                 PhoneUtils.mergeCalls(mPhone);
                 break;
             case R.id.manageConferenceButton:
