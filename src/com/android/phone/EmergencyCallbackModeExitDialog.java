@@ -205,6 +205,7 @@ public class EmergencyCallbackModeExitDialog extends Activity {
             mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
                     .setIcon(R.drawable.picture_emergency32x32)
                     .setTitle(R.string.phone_in_ecm_notification_title)
+                    .setCancelable(false)
                     .setMessage(text)
                     .setPositiveButton(R.string.alert_dialog_yes,
                             new DialogInterface.OnClickListener() {
@@ -232,6 +233,7 @@ public class EmergencyCallbackModeExitDialog extends Activity {
             mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
                     .setIcon(R.drawable.picture_emergency32x32)
                     .setTitle(R.string.phone_in_ecm_notification_title)
+                    .setCancelable(false)
                     .setMessage(R.string.alert_dialog_in_ecm_call)
                     .setNeutralButton(R.string.alert_dialog_dismiss,
                             new DialogInterface.OnClickListener() {
