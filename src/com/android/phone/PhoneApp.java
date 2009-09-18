@@ -183,6 +183,7 @@ public class PhoneApp extends Application {
     private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
+    private int mKeyguardDisableCount;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -723,7 +724,11 @@ public class PhoneApp extends Application {
     /* package */ void disableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "disable keyguard");
         // if (DBG) Log.d(LOG_TAG, "disableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.disableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount++ == 0) {
+                mKeyguardLock.disableKeyguard();
+            }
+        }
     }
 
     /**
@@ -735,7 +740,15 @@ public class PhoneApp extends Application {
     /* package */ void reenableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "re-enable keyguard");
         // if (DBG) Log.d(LOG_TAG, "reenableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.reenableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount > 0) {
+                if (--mKeyguardDisableCount == 0) {
+                    mKeyguardLock.reenableKeyguard();
+                }
+            } else {
+                Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
+            }
+        }
     }
 
     /**
@@ -1085,6 +1098,8 @@ public class PhoneApp extends Application {
                 if (!mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                     mProximityWakeLock.acquire();
+                    // disable keyguard while we are using the proximity sensor
+                    disableKeyguard();
                 } else {
                     if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                 }
@@ -1094,6 +1109,7 @@ public class PhoneApp extends Application {
                 if (mProximityWakeLock.isHeld()) {
                     if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
                     mProximityWakeLock.release();
+                    reenableKeyguard();
                 } else {
                     if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
                 }
@@ -1378,6 +1394,12 @@ public class PhoneApp extends Application {
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
                     if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
                     if (consumed) {
+                        // If a headset is attached and the press is consumed, also update
+                        // any UI items (such as an InCallScreen mute button) that may need to
+                        // be updated if their state changed.
+                        if (isShowingCallScreen()) {
+                            mInCallScreen.requestUpdateTouchUi();
+                        }
                         abortBroadcast();
                     }
                 } else if (phone.getState() != Phone.State.IDLE) {

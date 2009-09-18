@@ -70,12 +70,13 @@ public class InCallControlState {
     public boolean muteIndicatorOn;
     //
     public boolean dialpadEnabled;
+    public boolean dialpadVisible;
     //
     /** True if the "Hold" function is *ever* available on this device */
     public boolean supportsHold;
     /** True if the call is currently on hold */
     public boolean onHold;
-    /** True if the "Hold" function should be available right now */
+    /** True if the "Hold" or "Unhold" function should be available right now */
     public boolean canHold;
 
 
@@ -155,6 +156,10 @@ public class InCallControlState {
         // first place.
         dialpadEnabled = mInCallScreen.okToShowDialpad();
 
+        // Also keep track of whether the dialpad is currently "opened"
+        // (i.e. visible).
+        dialpadVisible = mInCallScreen.isDialerOpened();
+
         // "Hold:
         if (mPhone.getPhoneName().equals("GSM")) {
             // "On hold" means that there's a holding call and
@@ -190,6 +195,7 @@ public class InCallControlState {
         log("  canMute: " + canMute);
         log("  muteIndicatorOn: " + muteIndicatorOn);
         log("  dialpadEnabled: " + dialpadEnabled);
+        log("  dialpadVisible: " + dialpadVisible);
         log("  onHold: " + onHold);
         log("  canHold: " + canHold);
     }

@@ -52,11 +52,11 @@
         <!-- These are small round ImageButtons with a text label floating
              off to the side. -->
 
-        <!-- "Add call" (upper left) -->
-        <!-- (Note "add call" and "merge calls" are never both available at
+        <!-- "Hold" (upper left) -->
+        <!-- (Note "Hold" and "Swap" are never both available at
              the same time.  That's why it's OK for them to both be in the
              same position onscreen.) -->
-        <LinearLayout android:id="@+id/addCallButtonContainer"
+        <LinearLayout android:id="@+id/holdButtonContainer"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
@@ -66,16 +66,15 @@
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
                 android:visibility="gone">
-            <ImageButton android:id="@+id/addCallButton"
+            <ImageButton android:id="@+id/holdButton"
                     style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_add_call" />
-            <TextView
-                style="@style/InCallRoundButtonLabel"
-                android:text="@string/onscreenAddCallText" />
+                    android:src="@drawable/ic_in_call_touch_round_hold" />
+            <TextView android:id="@+id/holdButtonLabel"
+                    style="@style/InCallRoundButtonLabel" />
         </LinearLayout>
 
-        <!-- "Merge calls" (upper left) -->
-        <LinearLayout android:id="@+id/mergeCallsButtonContainer"
+        <!-- "Swap" (upper left) -->
+        <LinearLayout android:id="@+id/swapButtonContainer"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
@@ -85,12 +84,12 @@
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
                 android:visibility="gone">
-            <ImageButton android:id="@+id/mergeCallsButton"
+            <ImageButton android:id="@+id/swapButton"
                     style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_merge_call" />
+                    android:src="@drawable/ic_in_call_touch_round_swap" />
             <TextView
                 style="@style/InCallRoundButtonLabel"
-                android:text="@string/onscreenMergeCallsText" />
+                android:text="@string/onscreenSwapCallsText" />
         </LinearLayout>
 
         <!-- "Manage conference" (upper right) -->
@@ -111,6 +110,12 @@
                     style="@style/InCallRoundTouchButton"
                     android:src="@drawable/ic_in_call_touch_round_manage_conference" />
         </LinearLayout>
+
+        <!-- DTMF dialpad shown in the upper part of the screen
+             (above the main cluster of buttons.) -->
+        <!-- TODO: this should be a ViewStub, and should only get inflated
+             when first needed. -->
+        <include layout="@layout/non_drawer_dialpad"/>
 
         <!-- Main cluster of onscreen buttons on the lower part of the screen. -->
         <LinearLayout android:id="@+id/bottomButtons"
@@ -135,8 +140,8 @@
                      here; others do it from Java if the image depends on
                      the current state of the call. -->
 
-                <!-- The upper-left button is either "Hold" or "Swap",
-                     depending on the state of the call. -->
+                <!-- The upper-left button in the main cluster is either
+                     "Add" or "Merge", depending on the state of the call. -->
                 <FrameLayout
                     android:layout_width="1dip"
                     android:layout_weight="1"
@@ -146,8 +151,8 @@
                     android:layout_marginLeft="8dip"
                     android:layout_marginRight="8dip"
                     >
-                    <!-- "Hold" -->
-                    <Button android:id="@+id/holdButton"
+                    <!-- "Add Call" -->
+                    <Button android:id="@+id/addButton"
                             style="@style/InCallTouchButton"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -155,10 +160,11 @@
                             android:layout_marginBottom="0dip"
                             android:layout_marginLeft="0dip"
                             android:layout_marginRight="0dip"
-                            android:text="@string/onscreenHoldText"
+                            android:text="@string/onscreenAddCallText"
+                            android:drawableTop="@drawable/ic_in_call_touch_add_call"
                             />
-                    <!-- "Swap calls" -->
-                    <Button android:id="@+id/swapButton"
+                    <!-- "Merge calls" -->
+                    <Button android:id="@+id/mergeButton"
                             style="@style/InCallTouchButton"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -166,20 +172,20 @@
                             android:layout_marginBottom="0dip"
                             android:layout_marginLeft="0dip"
                             android:layout_marginRight="0dip"
-                            android:text="@string/onscreenSwapCallsText"
-                            android:drawableTop="@drawable/ic_in_call_touch_swap"
+                            android:text="@string/onscreenMergeCallsText"
+                            android:drawableTop="@drawable/ic_in_call_touch_merge_call"
                             />
                 </FrameLayout>
 
                 <!-- "End call" -->
-                <Button android:id="@+id/endCallButton"
+                <Button android:id="@+id/endButton"
                         style="@style/InCallTouchButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="@string/onscreenEndCallText"
                         android:drawableTop="@drawable/ic_in_call_touch_end"
-                        android:textColor="@color/incall_endCallButtonLabel"
+                        android:textColor="@color/incall_endButtonLabel"
                         />
 
                 <!-- "Dialpad" -->

@@ -64,6 +64,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -194,6 +195,7 @@ public class InCallScreen extends Activity
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
     private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
+    private static final int REQUEST_UPDATE_TOUCH_UI = 122;
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -527,6 +529,10 @@ public class InCallScreen extends Activity
                     mProviderOverlayVisible = false;
                     updateProviderOverlay();  // Clear the overlay.
                     break;
+
+                case REQUEST_UPDATE_TOUCH_UI:
+                    updateInCallTouchUi();
+                    break;
             }
         }
     };
@@ -582,14 +588,44 @@ public class InCallScreen extends Activity
 
         initInCallScreen();
 
-        // Create the dtmf dialer.
-        DTMFTwelveKeyDialerView dialView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
-        // Now that the in-call UI is portrait-only, the dtmf_dialer
-        // widget should *always* be present.
-        if (dialView == null) {
-            Log.e(LOG_TAG, "onCreate: couldn't find dialView", new IllegalStateException());
+        // Create the dtmf dialer.  The dialer view we use depends on the
+        // current platform:
+        //
+        // - On non-prox-sensor devices, it's the dialpad contained inside
+        //   a SlidingDrawer widget (see dtmf_twelve_key_dialer.xml).
+        //
+        // - On "full touch UI" devices, it's the compact non-sliding
+        //   dialpad that appears on the upper half of the screen,
+        //   above the main cluster of InCallTouchUi buttons
+        //   (see non_drawer_dialpad.xml).
+        //
+        // TODO: These should both be ViewStubs, and right here we should
+        // inflate one or the other.
+        //
+        DTMFTwelveKeyDialerView dialerView;
+        SlidingDrawer dialerDrawer;
+        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
+            // This is a "full touch" device.
+            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
+            if (DBG) log("- Full touch device!  Found dialerView: " + dialerView);
+            dialerDrawer = null;  // No SlidingDrawer used on this device.
+        } else {
+            // Use the old-style dialpad contained within the SlidingDrawer.
+            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
+            if (DBG) log("- Using SlidingDrawer-based dialpad.  Found dialerView: " + dialerView);
+            dialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
+            if (DBG) log("  ...and the SlidingDrawer: " + dialerDrawer);
         }
-        mDialer = new DTMFTwelveKeyDialer(this, dialView);
+        // Sanity-check that (regardless of the device) at least the
+        // dialer view is present:
+        if (dialerView == null) {
+            Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
+            // STOPSHIP: For now, throw an exception to make sure we notice
+            // this.  But remove this before ship.
+            throw new IllegalStateException("Couldn't find dialerView");
+        }
+        // Finally, create the DTMFTwelveKeyDialer instance.
+        mDialer = new DTMFTwelveKeyDialer(this, dialerView, dialerDrawer);
 
         registerForPhoneStates();
 
@@ -2955,6 +2991,9 @@ public class InCallScreen extends Activity
         // nothing here, and instead let the menu get updated when the
         // onPhoneStateChanged() callback comes in.  (This seems to be
         // responsive enough.)
+
+        // Also, any time we hold or unhold, force the DTMF dialpad to close.
+        mDialer.closeDialer(true);  // do the "closing" animation
     }
 
     private void onSpeakerClick() {
@@ -3053,7 +3092,7 @@ public class InCallScreen extends Activity
             case R.id.swapButton:
                 internalSwapCalls();
                 break;
-            case R.id.endCallButton:
+            case R.id.endButton:
                 internalHangup();
                 break;
             case R.id.dialpadButton:
@@ -3068,10 +3107,10 @@ public class InCallScreen extends Activity
             case R.id.speakerButton:
                 onSpeakerClick();
                 break;
-            case R.id.addCallButton:
+            case R.id.addButton:
                 PhoneUtils.startNewCall(mPhone);  // Fires off an ACTION_DIAL intent
                 break;
-            case R.id.mergeCallsButton:
+            case R.id.mergeButton:
                 PhoneUtils.mergeCalls(mPhone);
                 break;
             case R.id.manageConferenceButton:
@@ -3425,11 +3464,6 @@ public class InCallScreen extends Activity
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                 // if there is one
-
-                // Manually set the mute to false, especially in the case of an
-                // incoming call-waiting call
-                // TODO: would this need to be done for GSM also?
-                PhoneUtils.setMute(mPhone, false);
             } else {  // GSM
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
@@ -3918,27 +3952,33 @@ public class InCallScreen extends Activity
         //
         // (2) The onscreen "handle":
         //
-
         // The handle is visible only if it's OK to actually open the
-        // dialpad.
-        boolean visible = okToShowDialpad();
+        // dialpad.  (Note this is meaningful only on platforms that use a
+        // SlidingDrawer as a container for the dialpad.)
+        mDialer.setHandleVisible(okToShowDialpad());
 
-        // Hide the dialpad handle on "touch UI" devices, which don't
-        // need the handle since they have a separate "show dialpad"
-        // button.
-        // (TODO: this is a temporary hack.  The real fix is that we
-        // shouldn't use a SlidingDrawer *at all* on devices with
-        // onscreen buttons.)
         //
-        // Note we *don't* hide the dialer drawer if the dialer is
-        // open, since hiding the drawer also hides the dialpad
-        // itself!
-        if ((mInCallTouchUi != null)
-            && mInCallTouchUi.isTouchUiEnabled()
-            && !isDialerOpened()) {
-            visible = false;
+        // (3) The main in-call panel (containing the CallCard):
+        //
+        // On some platforms(*) we need to hide the CallCard (which is a
+        // child of mInCallPanel) while the dialpad is visible.
+        //
+        // (*) We need to do this when using the dialpad from the
+        //     InCallTouchUi widget, but not when using the
+        //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
+        //     is opaque.)
+        if (!mDialer.usingSlidingDrawer()) {
+            if (isDialerOpened()) {
+                mInCallPanel.setVisibility(View.GONE);
+            } else {
+                // Dialpad is dismissed; bring back the CallCard if
+                // it's supposed to be visible.
+                if ((mInCallScreenMode == InCallScreenMode.NORMAL)
+                    || (mInCallScreenMode == InCallScreenMode.CALL_ENDED)) {
+                    mInCallPanel.setVisibility(View.VISIBLE);
+                }
+            }
         }
-        mDialer.setHandleVisible(visible);
     }
 
     /**
@@ -3963,9 +4003,15 @@ public class InCallScreen extends Activity
         // it's enabled.)
         updateInCallTouchUi();
 
+        // Update any other onscreen UI elements that depend on the dialpad.
+        updateDialpadVisibility();
+
         // This counts as explicit "user activity".
         PhoneApp.getInstance().pokeUserActivity();
+
         //If on OTA Call, hide OTA Screen
+        // TODO: This may not be necessary, now that the dialpad is
+        // always visible in OTA mode.
         if  ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL
                 || mInCallScreenMode == InCallScreenMode.OTA_ENDED)
                 && otaUtils != null) {
@@ -4001,7 +4047,8 @@ public class InCallScreen extends Activity
         // Update the in-call touch UI (which may need to re-show itself.)
         updateInCallTouchUi();
 
-        // Update the visibility of the dialpad itself.
+        // Update the visibility of the dialpad itself (and any other
+        // onscreen UI elements that depend on it.)
         updateDialpadVisibility();
 
         // This counts as explicit "user activity".
@@ -4073,6 +4120,17 @@ public class InCallScreen extends Activity
     }
 
     /**
+     * Post message indicating that InCallScreen should update its UI elements.
+     * Essentially a wrapper to call updateInCallTouchUi from the rest of the phone app.
+     */
+    /* package */ void requestUpdateTouchUi() {
+        if (DBG) log("requestUpdateTouchUi()...");
+
+        mHandler.removeMessages(REQUEST_UPDATE_TOUCH_UI);
+        mHandler.sendEmptyMessage(REQUEST_UPDATE_TOUCH_UI);
+    }
+
+    /**
      * @return true if it's OK to display the in-call touch UI, given the
      * current state of the InCallScreen.
      */
@@ -4086,9 +4144,7 @@ public class InCallScreen extends Activity
         // The touch UI is NOT available if:
         // - we're in some InCallScreenMode other than NORMAL
         //   (like CALL_ENDED or one of the OTA modes)
-        // - the dialpad is up
-        return ((mInCallScreenMode == InCallScreenMode.NORMAL)
-                && (!isDialerOpened()));
+        return (mInCallScreenMode == InCallScreenMode.NORMAL);
     }
 
     /**
