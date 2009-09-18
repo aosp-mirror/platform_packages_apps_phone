@@ -32,6 +32,7 @@ import android.widget.ToggleButton;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
+import com.android.internal.widget.RotarySelector;
 
 
 /**
@@ -41,7 +42,7 @@ import com.android.internal.telephony.Phone;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, IncomingCallDialWidget.OnDialTriggerListener {
+        implements View.OnClickListener, RotarySelector.OnDialTriggerListener {
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
@@ -57,7 +58,7 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApplication;
 
     // UI containers / elements
-    private IncomingCallDialWidget mIncomingCallWidget;  // UI used for an incoming call
+    private RotarySelector mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mAddButton;
@@ -128,7 +129,7 @@ public class InCallTouchUi extends FrameLayout
         // Look up the various UI elements.
 
         // "Dial-to-answer" widget for incoming calls.
-        mIncomingCallWidget = (IncomingCallDialWidget) findViewById(R.id.incomingCallWidget);
+        mIncomingCallWidget = (RotarySelector) findViewById(R.id.incomingCallWidget);
         mIncomingCallWidget.setLeftHandleResource(R.drawable.ic_jog_dial_answer);
         mIncomingCallWidget.setRightHandleResource(R.drawable.ic_jog_dial_decline);
         mIncomingCallWidget.setOnDialTriggerListener(this);
@@ -446,7 +447,7 @@ public class InCallTouchUi extends FrameLayout
      * or
      *   - R.id.rejectButton to reject the call.
      */
-    public void onDialTrigger(View v, int whichHandle) {
+    public boolean onDialTrigger(View v, int whichHandle) {
         if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
@@ -494,6 +495,9 @@ public class InCallTouchUi extends FrameLayout
                 Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
+        // we want to freeze the widget because both of these actions result in transition to a
+        // different layout
+        return true;
     }
 
 
