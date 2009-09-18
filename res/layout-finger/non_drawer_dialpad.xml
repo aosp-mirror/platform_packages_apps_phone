@@ -61,13 +61,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         >
-
-        <!-- TODO: the PPLs call for a few pixels of blank space
-             between rows, but the ButtonGridLayout has no way to
-             do that, *and* it doesn't pay attention to the
-             layout_marginTop or layout_marginBottom attributes
-             of its children. -->
-
         <ImageButton android:id="@+id/one"
                      android:layout_width="96dp"
                      android:layout_height="48dp"

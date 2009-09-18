@@ -76,7 +76,7 @@ public class InCallControlState {
     public boolean supportsHold;
     /** True if the call is currently on hold */
     public boolean onHold;
-    /** True if the "Hold" function should be available right now */
+    /** True if the "Hold" or "Unhold" function should be available right now */
     public boolean canHold;
 
 
