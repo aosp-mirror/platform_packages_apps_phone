@@ -1381,6 +1381,12 @@ public class PhoneApp extends Application {
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
                     if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
                     if (consumed) {
+                        // If a headset is attached and the press is consumed, also update
+                        // any UI items (such as an InCallScreen mute button) that may need to
+                        // be updated if their state changed.
+                        if (isShowingCallScreen()) {
+                            mInCallScreen.requestUpdateTouchUi();
+                        }
                         abortBroadcast();
                     }
                 } else if (phone.getState() != Phone.State.IDLE) {

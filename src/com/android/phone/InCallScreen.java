@@ -195,6 +195,7 @@ public class InCallScreen extends Activity
     public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
     private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
+    private static final int REQUEST_UPDATE_TOUCH_UI = 122;
 
     //following constants are used for OTA Call
     public static final String ACTION_SHOW_ACTIVATION =
@@ -527,6 +528,10 @@ public class InCallScreen extends Activity
                 case EVENT_HIDE_PROVIDER_OVERLAY:
                     mProviderOverlayVisible = false;
                     updateProviderOverlay();  // Clear the overlay.
+                    break;
+
+                case REQUEST_UPDATE_TOUCH_UI:
+                    updateInCallTouchUi();
                     break;
             }
         }
@@ -3459,11 +3464,6 @@ public class InCallScreen extends Activity
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                 // if there is one
-
-                // Manually set the mute to false, especially in the case of an
-                // incoming call-waiting call
-                // TODO: would this need to be done for GSM also?
-                PhoneUtils.setMute(mPhone, false);
             } else {  // GSM
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
@@ -4117,6 +4117,17 @@ public class InCallScreen extends Activity
         if (mInCallTouchUi != null) {
             mInCallTouchUi.updateState(mPhone);
         }
+    }
+
+    /**
+     * Post message indicating that InCallScreen should update its UI elements.
+     * Essentially a wrapper to call updateInCallTouchUi from the rest of the phone app.
+     */
+    /* package */ void requestUpdateTouchUi() {
+        if (DBG) log("requestUpdateTouchUi()...");
+
+        mHandler.removeMessages(REQUEST_UPDATE_TOUCH_UI);
+        mHandler.sendEmptyMessage(REQUEST_UPDATE_TOUCH_UI);
     }
 
     /**
