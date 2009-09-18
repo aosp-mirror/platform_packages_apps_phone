@@ -163,17 +163,12 @@ public class SimContacts extends ADNList {
         operationList.add(builder.build());
 
         if (emailAddresses != null) {
-            boolean first = true;
             for (String emailAddress : emailAddressArray) {
                 builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);
                 builder.withValueBackReference(Email.RAW_CONTACT_ID, 0);
                 builder.withValue(Data.MIMETYPE, Email.CONTENT_ITEM_TYPE);
                 builder.withValue(Email.TYPE, Email.TYPE_MOBILE);
                 builder.withValue(Email.DATA, emailAddress);
-                if (first) {
-                    builder.withValue(Data.IS_PRIMARY, 1);
-                    first = false;
-                }
                 operationList.add(builder.build());
             }
         }
