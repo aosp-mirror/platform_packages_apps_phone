@@ -165,12 +165,12 @@ public class SimContacts extends ADNList {
                         Groups.TITLE + "=?", new String[] {
                         GOOGLE_MY_CONTACTS_GROUP }, null);
                 try {
-                    if (cursor != null && tmpCursor.moveToFirst()) {
-                        myGroupsId = cursor.getString(0);
+                    if (tmpCursor != null && tmpCursor.moveToFirst()) {
+                        myGroupsId = tmpCursor.getString(0);
                     }
                 } finally {
-                    if (cursor != null) {
-                        cursor.close();
+                    if (tmpCursor != null) {
+                        tmpCursor.close();
                     }
                 }
             }
