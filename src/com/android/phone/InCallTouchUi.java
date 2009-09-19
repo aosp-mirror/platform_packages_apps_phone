@@ -495,9 +495,11 @@ public class InCallTouchUi extends FrameLayout
                 Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
-        // we want to freeze the widget because both of these actions result in transition to a
-        // different layout
-        return true;
+
+        // Don't freeze the widget.
+        // TODO: currently necessary to work around bug 2131875, where the RotarySelector
+        // doesn't reset itself after triggering.
+        return false;
     }
 
 
