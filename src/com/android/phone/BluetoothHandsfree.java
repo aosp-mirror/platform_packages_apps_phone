@@ -790,9 +790,11 @@ public class BluetoothHandsfree {
                     mRingingType = type;
                     mIgnoreRing = false;
 
-                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) != 0x0) {
-                        audioOn();
-                    }
+                    // Set up SCO channel immediately, regardless of in-band
+                    // ringtone support. SCO can take up to 2s to set up so
+                    // do it now before the call is answered
+                    audioOn();
+
                     result.addResult(ring());
                 }
             }
@@ -1344,8 +1346,7 @@ public class BluetoothHandsfree {
                 if (mRingingCall.isRinging()) {
                     // Answer the call
                     PhoneUtils.answerCall(mPhone);
-                    // If in-band ring tone is supported, SCO connection will already
-                    // be up and the following call will just return.
+                    // SCO might already be up, but just make sure
                     audioOn();
                 } else if (mForegroundCall.getState().isAlive()) {
                     if (!isAudioOn()) {
