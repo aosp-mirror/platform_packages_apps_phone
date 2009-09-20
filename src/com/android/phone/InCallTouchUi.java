@@ -447,7 +447,7 @@ public class InCallTouchUi extends FrameLayout
      * or
      *   - R.id.rejectButton to reject the call.
      */
-    public boolean onDialTrigger(View v, int whichHandle) {
+    public void onDialTrigger(View v, int whichHandle) {
         if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
@@ -495,11 +495,6 @@ public class InCallTouchUi extends FrameLayout
                 Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
-
-        // Don't freeze the widget.
-        // TODO: currently necessary to work around bug 2131875, where the RotarySelector
-        // doesn't reset itself after triggering.
-        return false;
     }
 
 
