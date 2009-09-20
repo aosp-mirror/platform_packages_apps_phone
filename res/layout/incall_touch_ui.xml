@@ -24,19 +24,23 @@
        (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
      Exactly one of these is visible at any given moment.
      -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
 
     <!--
-        (1) incomingCallWidget: the UI displayed while an incoming call is ringing
+        (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
+        By measuring from the top, this will layou out properly on hvga and wvga devices,
+        includign taller ones.
     -->
-    <com.android.phone.IncomingCallDialWidget
+    <com.android.internal.widget.RotarySelector
         android:id="@+id/incomingCallWidget"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="286dip" 
         />
 
     <!--
@@ -46,6 +50,7 @@
     <RelativeLayout android:id="@+id/inCallControls"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
                     android:visibility="gone"
                     >
         <!-- Buttons visible in the upper corners of the screen (in some states). -->
@@ -235,4 +240,4 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

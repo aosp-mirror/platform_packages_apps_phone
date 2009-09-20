@@ -16,6 +16,7 @@
 
 package com.android.phone;
 
+import android.accounts.Account;
 import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -31,8 +32,10 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
+import android.provider.ContactsContract.Groups;
 import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.GroupMembership;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.text.TextUtils;
@@ -62,6 +65,8 @@ public class SimContacts extends ADNList {
     private static final int MENU_IMPORT_ALL = 2;
     private ProgressDialog mProgressDialog;
     
+    private Account mAccount;
+
     private static class NamePhoneTypePair {
         final String name;
         final int phoneType;
@@ -102,7 +107,7 @@ public class SimContacts extends ADNList {
 
             mCursor.moveToPosition(-1);
             while (!mCanceled && mCursor.moveToNext()) {
-                actuallyImportOneSimContact(mCursor, resolver);
+                actuallyImportOneSimContact(mCursor, resolver, mAccount);
                 mProgressDialog.incrementProgressBy(1);
             }
             
@@ -124,8 +129,13 @@ public class SimContacts extends ADNList {
         }
     }
 
+    // From HardCodedSources.java in Contacts app.
+    // TODO: fix this.
+    private static final String ACCOUNT_TYPE_GOOGLE = "com.google.GAIA";
+    private static final String GOOGLE_MY_CONTACTS_GROUP = "System Group: My Contacts";
+
     private static void actuallyImportOneSimContact(
-            final Cursor cursor, final ContentResolver resolver) {
+            final Cursor cursor, final ContentResolver resolver, Account account) {
         final NamePhoneTypePair namePhoneTypePair =
             new NamePhoneTypePair(cursor.getString(NAME_COLUMN));
         final String name = namePhoneTypePair.name;
@@ -143,8 +153,30 @@ public class SimContacts extends ADNList {
             new ArrayList<ContentProviderOperation>();
         ContentProviderOperation.Builder builder =
             ContentProviderOperation.newInsert(RawContacts.CONTENT_URI);
-        // TODO: We need account selection.
-        builder.withValues(sEmptyContentValues);
+        String myGroupsId = null;
+        if (account != null) {
+            builder.withValue(RawContacts.ACCOUNT_NAME, account.name);
+            builder.withValue(RawContacts.ACCOUNT_TYPE, account.type);
+
+            // TODO: temporal fix for "My Groups" issue. Need to be refactored.
+            if (ACCOUNT_TYPE_GOOGLE.equals(account.type)) {
+                final Cursor tmpCursor = resolver.query(Groups.CONTENT_URI, new String[] {
+                        Groups.SOURCE_ID },
+                        Groups.TITLE + "=?", new String[] {
+                        GOOGLE_MY_CONTACTS_GROUP }, null);
+                try {
+                    if (tmpCursor != null && tmpCursor.moveToFirst()) {
+                        myGroupsId = tmpCursor.getString(0);
+                    }
+                } finally {
+                    if (tmpCursor != null) {
+                        tmpCursor.close();
+                    }
+                }
+            }
+        } else {
+            builder.withValues(sEmptyContentValues);
+        }
         operationList.add(builder.build());
 
         builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);
@@ -172,7 +204,13 @@ public class SimContacts extends ADNList {
             }
         }
 
-        // TODO: We should insert this into MyGroups if possible.
+        if (myGroupsId != null) {
+            builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);
+            builder.withValueBackReference(GroupMembership.RAW_CONTACT_ID, 0);
+            builder.withValue(Data.MIMETYPE, GroupMembership.CONTENT_ITEM_TYPE);
+            builder.withValue(GroupMembership.GROUP_SOURCE_ID, myGroupsId);
+            operationList.add(builder.build());
+        }
 
         try {
             resolver.applyBatch(ContactsContract.AUTHORITY, operationList);
@@ -186,7 +224,7 @@ public class SimContacts extends ADNList {
     private void importOneSimContact(int position) {
         final ContentResolver resolver = getContentResolver();
         if (mCursor.moveToPosition(position)) {
-            actuallyImportOneSimContact(mCursor, resolver);
+            actuallyImportOneSimContact(mCursor, resolver, mAccount);
         } else {
             Log.e(LOG_TAG, "Failed to move the cursor to the position \"" + position + "\"");
         }
@@ -197,6 +235,16 @@ public class SimContacts extends ADNList {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            final String accountName = intent.getStringExtra("account_name");
+            final String accountType = intent.getStringExtra("account_type");
+            if (!TextUtils.isEmpty(accountName) && !TextUtils.isEmpty(accountType)) {
+                mAccount = new Account(accountName, accountType);
+            }
+        }
+
         registerForContextMenu(getListView());
     }
 
