@@ -2448,13 +2448,6 @@ public class InCallScreen extends Activity
 
         String number;
 
-        if (!mIsForegroundActivity) {
-            // if this happens, we need to rethink our handling of the proximity sensor.
-            // our assumption is that we can use onPause() to clear the beginning call flag,
-            // but if we ever get here, that assumption is flawed.
-            Log.e(LOG_TAG, "placeCall() called when not in foreground", new Exception());
-        }
-
         // Check the current ServiceState to make sure it's OK
         // to even try making a call.
         InCallInitStatus okToCallStatus = checkIfOkToInitiateOutgoingCall();
