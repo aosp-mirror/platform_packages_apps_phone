@@ -16,8 +16,7 @@
 
 <!-- XML resource file for the "person info" area of the main
      CallCard of the in-call UI, which includes the photo and
-     name/number TextViews.
-     This is the PORTRAIT mode version of this layout. -->
+     name/number TextViews. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:gravity="center_horizontal"
@@ -81,5 +80,18 @@
                   android:layout_height="wrap_content"
                   />
     </LinearLayout>
+
+    <!-- Social status -->
+    <TextView android:id="@+id/socialStatus"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textSize="16sp"
+              android:textColor="?android:attr/textColorSecondary"
+              android:maxLines="2"
+              android:ellipsize="end"
+              android:paddingLeft="10dip"
+              android:paddingRight="10dip"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
 
 </LinearLayout>

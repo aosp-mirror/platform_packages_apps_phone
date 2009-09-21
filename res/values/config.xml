@@ -35,9 +35,8 @@
 
     <!-- If true, enable the onscreen touch UI for incoming calls.
          This feature is necessary for devices with no hard SEND/END keys,
-         and optional on all other devices.  (For now, at least, it's
-         disabled by default and enabled only for specific products.) -->
-    <bool name="allow_incoming_call_touch_ui">false</bool>
+         and optional on all other devices. -->
+    <bool name="allow_incoming_call_touch_ui">true</bool>
 
     <!-- If true, enable the onscreen touch UI for regular "ongoing call"
          states of the in-call UI.
@@ -107,10 +106,10 @@
          overlay.  -->
     <bool name="allow_back_key_to_reject_incoming_call">true</bool>
 
-    <!-- If true, show an onscreen "Dial" button in the emergency dialer.
-         (In practice this is used only on platforms with no hard SEND/END
+    <!-- If true, show an onscreen "Dial" button in the dialer.
+         In practice this is used on all platforms even the ones with hard SEND/END
          keys, but for maximum flexibility it's controlled by a flag here
-         (which can be overridden on a per-product basis.)) -->
-    <bool name="config_show_onscreen_dial_button">false</bool>
+         (which can be overridden on a per-product basis.) -->
+    <bool name="config_show_onscreen_dial_button">true</bool>
 
 </resources>
