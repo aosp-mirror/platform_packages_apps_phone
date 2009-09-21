@@ -235,7 +235,7 @@ public class PhoneUtils {
         if (phone.getPhoneName().equals("CDMA")) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
             if (call.getState() == Call.State.WAITING) {
-                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                final CallNotifier notifier = app.notifier;
                 notifier.stopSignalInfoTone();
             }
         }
