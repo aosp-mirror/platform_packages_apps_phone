@@ -1394,22 +1394,39 @@ public class PhoneUtils {
         new CallerInfoAsyncQuery.OnQueryCompleteListener () {
             public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
                 if (DBG) log("query complete, updating connection.userdata");
+                Connection conn = (Connection) cookie;
 
                 // Added a check if CallerInfo is coming from ContactInfo or from Connection.
                 // If no ContactInfo, then we want to use CNAP information coming from network
                 if (DBG) log("- onQueryComplete: CallerInfo:" + ci);
                 if (ci.contactExists || ci.isEmergencyNumber() || ci.isVoiceMailNumber()) {
-                    ((Connection) cookie).setUserData(ci);
+                    // If the number presentation has not been set by
+                    // the ContactInfo, use the one from the
+                    // connection.
+
+                    // TODO: Need a new util method to merge the info
+                    // from the Connection in a CallerInfo object.
+                    // Here 'ci' is a new CallerInfo instance read
+                    // from the DB. It has lost all the connection
+                    // info preset before the query (see PhoneUtils
+                    // line 1334). We should have a method to merge
+                    // back into this new instance the info from the
+                    // connection object not set by the DB. If the
+                    // Connection already has a CallerInfo instance in
+                    // userData, then we could use this instance to
+                    // fill 'ci' in. The same routine could be used in
+                    // PhoneUtils.
+                    if (0 == ci.numberPresentation) {
+                        ci.numberPresentation = conn.getNumberPresentation();
+                    }
                 } else {
-                    CallerInfo newCi = getCallerInfo(null, (Connection) cookie);
+                    CallerInfo newCi = getCallerInfo(null, conn);
                     if (newCi != null) {
                         newCi.phoneNumber = ci.phoneNumber; // To get formatted phone number
-                        ((Connection) cookie).setUserData(newCi);
-                    }
-                    else {
-                        ((Connection) cookie).setUserData(ci);
+                        ci = newCi;
                     }
                 }
+                conn.setUserData(ci);
             }
         };
 
