@@ -81,10 +81,12 @@ public class CallCard extends FrameLayout
     private int mTextColorEnded;
     private int mTextColorOnHold;
 
+    // "Caller info" area, including photo / name / phone numbers / etc
     private ImageView mPhoto;
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
+    private TextView mSocialStatus;
 
     // "Other call" info area
     private TextView mOtherCallOnHoldName;
@@ -97,6 +99,9 @@ public class CallCard extends FrameLayout
 
     // Track the state for the photo.
     private ContactsAsyncHelper.ImageTracker mPhotoTracker;
+
+    // Cached DisplayMetrics density.
+    private float mDensity;
 
     public CallCard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -118,6 +123,9 @@ public class CallCard extends FrameLayout
 
         // create a new object to track the state for the photo.
         mPhotoTracker = new ContactsAsyncHelper.ImageTracker();
+
+        mDensity = getResources().getDisplayMetrics().density;
+        if (DBG) log("- Density: " + mDensity);
     }
 
     void setInCallScreenInstance(InCallScreen inCallScreen) {
@@ -163,6 +171,7 @@ public class CallCard extends FrameLayout
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
+        mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
         // "Other call" info area
         mOtherCallOnHoldName = (TextView) findViewById(R.id.otherCallOnHoldName);
@@ -613,19 +622,34 @@ public class CallCard extends FrameLayout
             mLowerTitle.setTextColor(mTextColorEnded);
             mElapsedTime.setTextColor(mTextColorEnded);
             setUpperTitle("");
+        } else if (state == Call.State.HOLDING) {
+            // For a single call on hold, use the "lower title" in orange.
+            mLowerTitleViewGroup.setVisibility(View.VISIBLE);
+            mLowerTitleIcon.setImageResource(R.drawable.ic_incall_onhold);
+            mLowerTitle.setText(cardTitle);
+            mLowerTitle.setTextColor(mTextColorOnHold);
+            // mElapsedTime isn't used in this state; see below.
+            setUpperTitle("");
         } else {
             // All other states (DIALING, INCOMING, etc.) use the "upper title":
             setUpperTitle(cardTitle, state);
             mLowerTitleViewGroup.setVisibility(View.INVISIBLE);
         }
 
-        // Draw the onscreen "elapsed time" indication EXCEPT if we're in
-        // the "Call ended" state.  (In that case, don't touch the
-        // mElapsedTime widget, so we continue to see the elapsed time of
-        // the call that just ended.)
+        // Draw the onscreen "elapsed time" indication in most states,
+        // with a couple of exceptions:
         if (call.getState() == Call.State.DISCONNECTED) {
-            // "Call ended" state -- don't touch the onscreen elapsed time.
+            // In the "Call ended" state, leave the mElapsedTime widget
+            // visible, but don't touch it (so  we continue to see the elapsed time of
+            // the call that just ended.)
+            mElapsedTime.setVisibility(View.VISIBLE);
+        } else if (call.getState() == Call.State.HOLDING) {
+            // Don't show the elapsed time indication at all while on hold.
+            mElapsedTime.setVisibility(View.INVISIBLE);
         } else {
+            // Normal case: use the elapsed time widget to show the
+            // current call duration.
+            mElapsedTime.setVisibility(View.VISIBLE);
             long duration = CallTime.getCallDuration(call);  // msec
             updateElapsedTimeWidget(duration / 1000);
             // Also see onTickForCallTimeElapsed(), which updates this
@@ -878,6 +902,8 @@ public class CallCard extends FrameLayout
         String displayNumber = null;
         String label = null;
         Uri personUri = null;
+        String socialStatusText = null;
+        Drawable socialStatusBadge = null;
 
         if (info != null) {
             // It appears that there is a small change in behaviour with the
@@ -965,8 +991,20 @@ public class CallCard extends FrameLayout
         } else {
             mLabel.setVisibility(View.GONE);
         }
-    }
 
+        // "Social status": currently unused.
+        // Note socialStatus is *only* visible while an incoming
+        // call is ringing, never in any other call state.
+        if ((socialStatusText != null) && call.isRinging() && !call.isGeneric()) {
+            mSocialStatus.setVisibility(View.VISIBLE);
+            mSocialStatus.setText(socialStatusText);
+            mSocialStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    socialStatusBadge, null, null, null);
+            mSocialStatus.setCompoundDrawablePadding((int) (mDensity * 6));
+        } else {
+            mSocialStatus.setVisibility(View.GONE);
+        }
+    }
 
     private String getPresentationString(int presentation) {
         String name = getContext().getString(R.string.unknown);
@@ -991,11 +1029,14 @@ public class CallCard extends FrameLayout
         if (mApplication.phone.getPhoneName().equals("CDMA")) {
             // This state corresponds to both 3-Way merged call and
             // Call Waiting accepted call.
-            // Display only the "dialing" icon and no caller information cause in CDMA
-            // as in this state the user does not really know which caller party he is talking to.
+            // In this case we display the UI in a "generic" state, with
+            // the generic "dialing" icon and no caller information,
+            // because in this state in CDMA the user does not really know
+            // which caller party he is talking to.
             showImage(mPhoto, R.drawable.picture_dialing);
             mName.setText(R.string.card_title_in_call);
         } else {
+            // This is a GSM conference call.
             // Display the "conference call" image in the photo slot,
             // with no other information.
             showImage(mPhoto, R.drawable.picture_conference);
@@ -1009,13 +1050,16 @@ public class CallCard extends FrameLayout
         // and Hazel Nutt" or "Bill Foldes and 2 others".
         // But for now, just hide it:
         mPhoneNumber.setVisibility(View.GONE);
-
         mLabel.setVisibility(View.GONE);
 
-        // TODO: consider also showing names / numbers / photos of some of the
-        // people on the conference here, so you can see that info without
-        // having to click "Manage conference".  We probably have enough
-        // space to show info for 2 people, at least.
+        // socialStatus is never visible in this state.
+        mSocialStatus.setVisibility(View.GONE);
+
+        // TODO: for a GSM conference call, since we do actually know who
+        // you're talking to, consider also showing names / numbers /
+        // photos of some of the people on the conference here, so you can
+        // see that info without having to click "Manage conference".  We
+        // probably have enough space to show info for 2 people, at least.
         //
         // To do this, our caller would pass us the activeConnections
         // list, and we'd call PhoneUtils.getCallerInfo() separately for
@@ -1232,7 +1276,7 @@ public class CallCard extends FrameLayout
         }
 
         mUpperTitle.setCompoundDrawablesWithIntrinsicBounds(bluetoothIconId, 0, 0, 0);
-        if (bluetoothIconId != 0) mUpperTitle.setCompoundDrawablePadding(5);
+        if (bluetoothIconId != 0) mUpperTitle.setCompoundDrawablePadding((int) (mDensity * 5));
     }
 
     /**
