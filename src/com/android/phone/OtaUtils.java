@@ -73,6 +73,7 @@ public class OtaUtils {
     private ViewGroup mInCallPanel;
     private CallCard mCallCard;
     private DTMFTwelveKeyDialer mDialer;
+    private static boolean mIsWizardMode = true;
 
     /**
      * OtaWidgetData class represent all OTA UI elements
@@ -186,6 +187,7 @@ public class OtaUtils {
             Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
             newIntent.setClass(context, InCallScreen.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mIsWizardMode = false;
             context.startActivity(newIntent);
             if (DBG) log("activation intent sent.");
         } else {
@@ -258,6 +260,8 @@ public class OtaUtils {
             if (DBG) log("OtaShowActivationScreen(): show activation screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
+                mOtaWidgetData.otaCancelButton.setVisibility(mIsWizardMode ?
+                        View.VISIBLE : View.INVISIBLE);
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
             } else {
@@ -512,6 +516,7 @@ public class OtaUtils {
         mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
         mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
         mOtaWidgetData.otaCallCardBase.setVisibility(View.VISIBLE);
+        mOtaWidgetData.otaCancelButton.setVisibility(View.VISIBLE);
     }
 
     public void hideOtaScreen() {
