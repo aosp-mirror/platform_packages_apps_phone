@@ -83,16 +83,17 @@ public class EmergencyDialer extends Activity
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
     EditText mDigits;
-    private View mDelete;
+    // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
+    private View mVoicemailDialAndDeleteRow;
     private View mDialButton;
+    private View mDelete;
+
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
 
     // new UI background assets
     private Drawable mDigitsBackground;
     private Drawable mDigitsEmptyBackground;
-    private Drawable mDeleteBackground;
-    private Drawable mDeleteEmptyBackground;
 
     // determines if we want to playback local DTMF tones.
     private boolean mDTMFToneEnabled;
@@ -125,25 +126,10 @@ public class EmergencyDialer extends Activity
     public void afterTextChanged(Editable input) {
         if (SpecialCharSequenceMgr.handleChars(this, input.toString(), this)) {
             // A special sequence was entered, clear the digits
-            mDigits.getText().delete(0, mDigits.getText().length());
+            mDigits.getText().clear();
         }
 
-        // Set the proper background for the dial input area
-        if (mDigits.length() != 0) {
-            mDelete.setBackgroundDrawable(mDeleteBackground);
-            mDigits.setBackgroundDrawable(mDigitsBackground);
-            mDigits.setCompoundDrawablesWithIntrinsicBounds(
-                    getResources().getDrawable(R.drawable.ic_dial_number), null, null, null);
-        } else {
-            mDelete.setBackgroundDrawable(mDeleteEmptyBackground);
-            mDigits.setBackgroundDrawable(mDigitsEmptyBackground);
-            mDigits.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        }
-
-        // Update the enabledness of the "Dial" button
-        if (mDialButton != null) {
-            mDialButton.setEnabled(mDigits.length() != 0);
-        }
+        updateDialAndDeleteButtonStateEnabledAttr();
     }
 
     @Override
@@ -157,8 +143,6 @@ public class EmergencyDialer extends Activity
         Resources r = getResources();
         mDigitsBackground = r.getDrawable(R.drawable.btn_dial_textfield_active);
         mDigitsEmptyBackground = r.getDrawable(R.drawable.btn_dial_textfield);
-        mDeleteBackground = r.getDrawable(R.drawable.btn_dial_delete_active);
-        mDeleteEmptyBackground = r.getDrawable(R.drawable.btn_dial_delete);
 
         mDigits = (EditText) findViewById(R.id.digits);
         mDigits.setKeyListener(DialerKeyListener.getInstance());
@@ -173,16 +157,28 @@ public class EmergencyDialer extends Activity
             setupKeypad();
         }
 
-        // Check whether we should show the onscreen "Dial" button.
+        mVoicemailDialAndDeleteRow = findViewById(R.id.voicemailAndDialAndDelete);
+
+        // Check whether we should show the onscreen "Dial" button and co.
         if (r.getBoolean(R.bool.config_show_onscreen_dial_button)) {
-            mDialButton = findViewById(R.id.dialButton);
-            mDialButton.setVisibility(View.VISIBLE);  // It's GONE by default
+
+            // The voicemail button is not active. Even if we marked
+            // it as disabled in the layout, we have to manually clear
+            // that state as well (b/2134374)
+            // TODO: Check with UI designer if we should not show that button at all. (b/2134854)
+            mVoicemailDialAndDeleteRow.findViewById(R.id.voicemailButton).setEnabled(false);
+
+            mDialButton = mVoicemailDialAndDeleteRow.findViewById(R.id.dialButton);
             mDialButton.setOnClickListener(this);
+
+            mDelete = mVoicemailDialAndDeleteRow.findViewById(R.id.deleteButton);
+            mDelete.setOnClickListener(this);
+            mDelete.setOnLongClickListener(this);
+        } else {
+            mVoicemailDialAndDeleteRow.setVisibility(View.GONE); // It's VISIBLE by default
+            mVoicemailDialAndDeleteRow = null;
         }
 
-        mDelete = findViewById(R.id.backspace);
-        mDelete.setOnClickListener(this);
-        mDelete.setOnLongClickListener(this);
 
         if (icicle != null) {
             super.onRestoreInstanceState(icicle);
@@ -384,7 +380,7 @@ public class EmergencyDialer extends Activity
                 placeCall();
                 return;
             }
-            case R.id.backspace: {
+            case R.id.deleteButton: {
                 keyPressed(KeyEvent.KEYCODE_DEL);
                 return;
             }
@@ -397,8 +393,12 @@ public class EmergencyDialer extends Activity
     public boolean onLongClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.backspace: {
-                mDigits.getText().delete(0, mDigits.getText().length());
+            case R.id.deleteButton: {
+                mDigits.getText().clear();
+                // TODO: The framework forgets to clear the pressed
+                // status of disabled button. Until this is fixed,
+                // clear manually the pressed status. b/2133127
+                mDelete.setPressed(false);
                 return true;
             }
             case R.id.zero: {
@@ -440,6 +440,8 @@ public class EmergencyDialer extends Activity
         PhoneApp app = (PhoneApp) getApplication();
         app.disableKeyguard();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
+
+        updateDialAndDeleteButtonStateEnabledAttr();
     }
 
     /**
@@ -576,5 +578,17 @@ public class EmergencyDialer extends Activity
             mVibrator = new Vibrator();
         }
         mVibrator.vibrate(mVibrateDuration);
+    }
+
+    /**
+     * Update the enabledness of the "Dial" and "Backspace" buttons if applicable.
+     */
+    private void updateDialAndDeleteButtonStateEnabledAttr() {
+        if (null != mVoicemailDialAndDeleteRow) {
+            final boolean notEmpty = mDigits.length() != 0;
+
+            mDialButton.setEnabled(notEmpty);
+            mDelete.setEnabled(notEmpty);
+        }
     }
 }
