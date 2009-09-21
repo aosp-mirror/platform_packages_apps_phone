@@ -442,8 +442,8 @@ public class OtaUtils {
                 mDialer.closeDialer(false);
             }
             long noticeTime = length*1000;
-            if (DBG) log("OtaShowSpcErrorNotice(), remaining SPC noticeTime"+noticeTime);
-            mInCallScreen.postNewMessageDelay(InCallScreen.CLOSE_SPC_ERROR_NOTICE,noticeTime);
+            if (DBG) log("OtaShowSpcErrorNotice(), remaining SPC noticeTime" + noticeTime);
+            mInCallScreen.requestCloseSpcErrorNotice(noticeTime);
         }
     }
 
@@ -474,7 +474,7 @@ public class OtaUtils {
             mOtaWidgetData.otaFailureDialog.show();
 
             long noticeTime = length*1000;
-            mInCallScreen.postNewMessageDelay(InCallScreen.CLOSE_OTA_FAILURE_NOTICE, noticeTime);
+            mInCallScreen.requestCloseOtaFailureNotice(noticeTime);
         }
     }
 
