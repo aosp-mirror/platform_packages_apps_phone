@@ -35,9 +35,8 @@
 
     <!-- If true, enable the onscreen touch UI for incoming calls.
          This feature is necessary for devices with no hard SEND/END keys,
-         and optional on all other devices.  (For now, at least, it's
-         disabled by default and enabled only for specific products.) -->
-    <bool name="allow_incoming_call_touch_ui">false</bool>
+         and optional on all other devices. -->
+    <bool name="allow_incoming_call_touch_ui">true</bool>
 
     <!-- If true, enable the onscreen touch UI for regular "ongoing call"
          states of the in-call UI.
