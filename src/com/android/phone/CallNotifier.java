@@ -48,8 +48,10 @@ import android.util.Log;
 
 
 /**
- * Stub which listens for phone state changes and decides whether it is worth
- * telling the user what just happened.
+ * Phone app module that listens for phone state changes and various other
+ * events from the telephony layer, and triggers any resulting UI behavior
+ * (like starting the Ringer and Incoming Call UI, playing in-call tones,
+ * updating notifications, writing call log entries, etc.)
  */
 public class CallNotifier extends Handler
         implements CallerInfoAsyncQuery.OnQueryCompleteListener {

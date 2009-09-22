@@ -1231,7 +1231,7 @@ public class PhoneApp extends Application {
         if (forceUiUpdate) {
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
-            if (isShowingCallScreen()) mInCallScreen.updateBluetoothIndication();
+            if (isShowingCallScreen()) mInCallScreen.requestUpdateBluetoothIndication();
             mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
         }
 

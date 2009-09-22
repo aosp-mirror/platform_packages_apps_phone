@@ -432,12 +432,12 @@ public class InCallTouchUi extends FrameLayout
     }
 
     //
-    // IncomingCallDialWidget.OnDialTriggerListener implementation
+    // RotarySelector.OnDialTriggerListener implementation
     //
 
     /**
      * Handles "Answer" and "Reject" actions for an incoming call.
-     * We get this callback from the IncomingCallDialWidget
+     * We get this callback from the RotarySelector
      * when the user triggers an action.
      *
      * To answer or reject the incoming call, we call
@@ -451,7 +451,7 @@ public class InCallTouchUi extends FrameLayout
         if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
-            case IncomingCallDialWidget.OnDialTriggerListener.LEFT_HANDLE:
+            case RotarySelector.OnDialTriggerListener.LEFT_HANDLE:
                 if (DBG) log("LEFT_HANDLE: answer!");
 
                 // Immediately hide the incoming call UI.
@@ -469,7 +469,7 @@ public class InCallTouchUi extends FrameLayout
                 }
                 break;
 
-            case IncomingCallDialWidget.OnDialTriggerListener.RIGHT_HANDLE:
+            case RotarySelector.OnDialTriggerListener.RIGHT_HANDLE:
                 if (DBG) log("RIGHT_HANDLE: reject!");
 
                 // Immediately hide the incoming call UI.
@@ -485,10 +485,6 @@ public class InCallTouchUi extends FrameLayout
                 } else {
                     Log.e(LOG_TAG, "reject trigger: mInCallScreen is null");
                 }
-                break;
-
-            case IncomingCallDialWidget.OnDialTriggerListener.CENTER_HANDLE:
-                Log.e(LOG_TAG, "onDialTrigger: unexpected CENTER_HANDLE event");
                 break;
 
             default:
