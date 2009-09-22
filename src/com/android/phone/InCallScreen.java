@@ -2767,6 +2767,7 @@ public class InCallScreen extends Activity
                 if (mShowCallLogAfterDisconnect && !isPhoneStateRestricted()) {
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     // Even in this case we still call finish() (below),
                     // to make sure we don't stay in the activity history.
