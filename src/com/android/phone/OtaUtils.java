@@ -44,9 +44,13 @@ import android.widget.TextView;
 
 /**
  * Handles all OTA Call related logic and UI functionality.
- * InCallScreen interacts with this class to perform OTA Call
+ * The InCallScreen interacts with this class to perform an OTA Call.
+ *
+ * OTA is a CDMA-specific feature:
+ *   OTA or OTASP == Over The Air service provisioning
+ *   SPC == Service Programming Code
+ *   TODO: Include pointer to more detailed documentation.
  */
-
 public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
     private static final String UNACTIVATED_MIN2_VALUE = "000000";
