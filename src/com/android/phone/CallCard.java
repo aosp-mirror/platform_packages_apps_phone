@@ -260,7 +260,8 @@ public class CallCard extends FrameLayout
 
         displayMainCallStatus(phone, fgCall);
 
-        if (phone.getPhoneName().equals("CDMA")) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (mApplication.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                 displayOnHoldCallStatus(phone, fgCall);
@@ -269,7 +270,7 @@ public class CallCard extends FrameLayout
                 // we need to clean up the background call area.
                 displayOnHoldCallStatus(phone, bgCall);
             }
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             displayOnHoldCallStatus(phone, bgCall);
         }
     }
@@ -394,10 +395,13 @@ public class CallCard extends FrameLayout
             // Update onscreen info for a regular call (which presumably
             // has only one connection.)
             Connection conn = null;
-            if (phone.getPhoneName().equals("CDMA")) {
+            int phoneType = phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 conn = call.getLatestConnection();
-            } else { // GSM.
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 conn = call.getEarliestConnection();
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
 
             if (conn == null) {
@@ -425,7 +429,7 @@ public class CallCard extends FrameLayout
 
                 // Adding a check to see if the update was caused due to a Phone number update
                 // or CNAP update. If so then we need to start a new query
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     Object obj = conn.getUserData();
                     String updatedNumber = conn.getAddress();
                     String updatedCnapName = conn.getCnapName();
@@ -559,14 +563,17 @@ public class CallCard extends FrameLayout
         // need to be set.)
 
         String cardTitle;
-        if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
+        int phoneType = mApplication.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
                 cardTitle = getTitleForCallCard(call);  // Normal "foreground" call card
             } else {
                 cardTitle = getContext().getString(R.string.card_title_redialing);
             }
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             cardTitle = getTitleForCallCard(call);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
         if (DBG) log("updateCardTitleWidgets: " + cardTitle);
 
@@ -580,7 +587,7 @@ public class CallCard extends FrameLayout
                 int connectedTextColor = bluetoothActive
                         ? mTextColorConnectedBluetooth : mTextColorConnected;
 
-                if (mApplication.phone.getPhoneName().equals("CDMA")) {
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     // Check if the "Dialing" 3Way call needs to be displayed
                     // as the Foreground Call state still remains ACTIVE
                     if (mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
@@ -590,7 +597,7 @@ public class CallCard extends FrameLayout
                         // Normal "ongoing call" state; don't use any "title" at all.
                         clearUpperTitle();
                     }
-                } else { // GSM
+                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                     // Normal "ongoing call" state; don't use any "title" at all.
                     clearUpperTitle();
                 }
@@ -683,14 +690,17 @@ public class CallCard extends FrameLayout
             case ACTIVE:
                 // Title is "Call in progress".  (Note this appears in the
                 // "lower title" area of the CallCard.)
-                if (mApplication.phone.getPhoneName().equals("CDMA")) {
+                int phoneType = mApplication.phone.getPhoneType();
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     if (mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
                         retVal = context.getString(R.string.card_title_dialing);
                     } else {
                         retVal = context.getString(R.string.card_title_in_progress);
                     }
-                } else { //GSM
+                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                     retVal = context.getString(R.string.card_title_in_progress);
+                } else {
+                    throw new IllegalStateException("Unexpected phone type: " + phoneType);
                 }
                 break;
 
@@ -773,7 +783,7 @@ public class CallCard extends FrameLayout
                 // CDMA: This is because in CDMA when the user originates the second call,
                 // although the Foreground call state is still ACTIVE in reality the network
                 // put the first call on hold.
-                if (mApplication.phone.getPhoneName().equals("CDMA")) {
+                if (mApplication.phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                     List<Connection> connections = call.getConnections();
                     if (connections.size() > 2) {
                         // This means that current Mobile Originated call is the not the first 3-Way
@@ -1018,7 +1028,8 @@ public class CallCard extends FrameLayout
     private void updateDisplayForConference() {
         if (DBG) log("updateDisplayForConference()...");
 
-        if (mApplication.phone.getPhoneName().equals("CDMA")) {
+        int phoneType = mApplication.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // This state corresponds to both 3-Way merged call and
             // Call Waiting accepted call.
             // In this case we display the UI in a "generic" state, with
@@ -1027,12 +1038,13 @@ public class CallCard extends FrameLayout
             // which caller party he is talking to.
             showImage(mPhoto, R.drawable.picture_dialing);
             mName.setText(R.string.card_title_in_call);
-        } else {
-            // This is a GSM conference call.
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // Display the "conference call" image in the photo slot,
             // with no other information.
             showImage(mPhoto, R.drawable.picture_conference);
             mName.setText(R.string.card_title_conf_call);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
 
         mName.setVisibility(View.VISIBLE);
@@ -1121,10 +1133,13 @@ public class CallCard extends FrameLayout
                 CallerInfo ci = null;
                 {
                     Connection conn = null;
-                    if (mApplication.phone.getPhoneName().equals("CDMA")) {
+                    int phoneType = mApplication.phone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         conn = call.getLatestConnection();
-                    } else { // GSM.
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         conn = call.getEarliestConnection();
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
 
                     if (conn != null) {

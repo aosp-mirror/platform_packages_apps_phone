@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.android.phone;
 
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
+import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
 /**
@@ -42,7 +42,7 @@ public class CdmaOptions extends PreferenceActivity {
         PreferenceScreen prefSet = getPreferenceScreen();
         mButtonCdmaRoam =
                 (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneName().equals("GSM")) {
+        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
             mButtonCdmaRoam.setEnabled(false);
         }
     }
@@ -55,5 +55,3 @@ public class CdmaOptions extends PreferenceActivity {
         return false;
     }
 }
-
-

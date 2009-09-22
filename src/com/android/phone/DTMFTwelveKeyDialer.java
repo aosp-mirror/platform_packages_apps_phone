@@ -468,7 +468,7 @@ public class DTMFTwelveKeyDialer implements
             mDialerDrawer.setOnDrawerOpenListener(null);
             mDialerDrawer.setOnDrawerCloseListener(null);
         }
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             mHandler.removeMessages(DTMF_SEND_CNF);
             synchronized (mDTMFQueue) {
                 mDTMFBurstCnfPending = false;
@@ -931,10 +931,13 @@ public class DTMFTwelveKeyDialer implements
      * Plays the local tone based the phone type.
      */
     private void startTone(char c) {
-        if (mPhone.getPhoneName().equals("GSM")) {
+        int phoneType = mPhone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_GSM) {
             startDtmfTone(c);
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
             startToneCdma(c);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -942,13 +945,16 @@ public class DTMFTwelveKeyDialer implements
      * Stops the local tone based on the phone type.
      */
     private void stopTone() {
-        if (mPhone.getPhoneName().equals("GSM")) {
+        int phoneType = mPhone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_GSM) {
             stopDtmfTone();
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // Cdma case we do stopTone only for Long DTMF Setting
             if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
                 stopToneCdma();
             }
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 

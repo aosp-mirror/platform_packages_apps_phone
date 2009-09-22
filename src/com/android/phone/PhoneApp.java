@@ -356,7 +356,9 @@ public class PhoneApp extends Application {
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
 
-            if (phone.getPhoneName().equals("CDMA")) {
+            int phoneType = phone.getPhoneType();
+
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 // Create an instance of CdmaPhoneCallState and initialize it to IDLE
                 cdmaPhoneCallState = new CdmaPhoneCallState();
                 cdmaPhoneCallState.CdmaPhoneCallStateInit();
@@ -408,7 +410,7 @@ public class PhoneApp extends Application {
             }
 
             // register for MMI/USSD
-            if (phone.getPhoneName().equals("GSM")) {
+            if (phoneType == Phone.PHONE_TYPE_GSM) {
                 phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
             }
 
@@ -469,7 +471,9 @@ public class PhoneApp extends Application {
             }
         }
 
-        if (phone.getPhoneName().equals("CDMA")) {
+        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+
+        if (phoneIsCdma) {
             cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
             cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
             cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
@@ -489,7 +493,7 @@ public class PhoneApp extends Application {
         // AP owns (i.e. stores) the TTY setting in AP settings database and pushes the setting
         // to BP at power up (BP does not need to make the TTY setting persistent storage).
         // This way, there is a single owner (i.e AP) for the TTY setting in the phone.
-        if (phone.getPhoneName().equals("CDMA")) {
+        if (phoneIsCdma) {
             int settingsTtyMode = android.provider.Settings.Secure.getInt(
                     phone.getContext().getContentResolver(),
                     android.provider.Settings.Secure.PREFERRED_TTY_MODE,
@@ -1151,7 +1155,7 @@ public class PhoneApp extends Application {
     private void initForNewRadioTechnology() {
         if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
-        if (phone.getPhoneName().equals("CDMA")) {
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             // Create an instance of CdmaPhoneCallState and initialize it to IDLE
             cdmaPhoneCallState = new CdmaPhoneCallState();
             cdmaPhoneCallState.CdmaPhoneCallStateInit();
@@ -1354,7 +1358,7 @@ public class PhoneApp extends Application {
             } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
                 handleServiceStateChanged(intent);
             } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
-                if(phone.getPhoneName().equals("CDMA")) {
+                if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                     Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
                     // Start Emergency Callback Mode service
                     if (intent.getBooleanExtra("phoneinECMState", false)) {
