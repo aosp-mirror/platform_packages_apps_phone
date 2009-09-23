@@ -129,6 +129,13 @@ public class EmergencyDialer extends Activity
             mDigits.getText().clear();
         }
 
+        final boolean notEmpty = mDigits.length() != 0;
+        if (notEmpty) {
+            mDigits.setBackgroundDrawable(mDigitsBackground);
+        } else {
+            mDigits.setBackgroundDrawable(mDigitsEmptyBackground);
+        }
+
         updateDialAndDeleteButtonStateEnabledAttr();
     }
 
