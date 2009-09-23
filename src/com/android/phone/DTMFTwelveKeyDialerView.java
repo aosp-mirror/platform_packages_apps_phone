@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.FocusFinder;
@@ -30,32 +31,34 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-/** 
+/**
  * DTMFTwelveKeyDialerView is the view logic that the DTMFDialer uses.
  * This is really a thin wrapper around Linear Layout that intercepts
  * some user interactions to provide the correct UI behaviour for the
  * dialer.
  */
 class DTMFTwelveKeyDialerView extends LinearLayout {
-    
+
     private static final String LOG_TAG = "PHONE/DTMFTwelveKeyDialerView";
     private static final boolean DBG = false;
 
     private DTMFTwelveKeyDialer mDialer;
-    
+    private ButtonGridLayout mButtonGrid;
+
     public DTMFTwelveKeyDialerView (Context context) {
         super(context);
     }
-    
+
     public DTMFTwelveKeyDialerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-    
+
     void setDialer (DTMFTwelveKeyDialer dialer) {
         mDialer = dialer;
+        mButtonGrid = (ButtonGridLayout)findViewById(R.id.dialpad);
     }
-    
-    /** 
+
+    /**
      * Normally we ignore everything except for the BACK and CALL keys.
      * For those, we pass them to the model (and then the InCallScreen).
      */
@@ -68,43 +71,43 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
                 case KeyEvent.KEYCODE_CALL:
-                    return event.isDown() ? mDialer.onKeyDown(keyCode, event) : 
-                        mDialer.onKeyUp(keyCode, event); 
+                    return event.isDown() ? mDialer.onKeyDown(keyCode, event) :
+                        mDialer.onKeyUp(keyCode, event);
             }
         }
 
         if (DBG) log("==> dispatchKeyEvent: forwarding event to the DTMFDialer");
         return super.dispatchKeyEvent(event);
     }
-    
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        
+
         int x = (int)event.getX();
         int y = (int)event.getY();
         int closestDeltaX = 0;
         int closestDeltaY = 0;
-        
+
         ArrayList<View> touchables = getTouchables();
         int minDistance = Integer.MAX_VALUE;
         View closest = null;
 
         final int numTouchables = touchables.size();
-        
+
         Rect touchableBounds = new Rect();
-        
+
         for (int i = 0; i < numTouchables; i++) {
             View touchable = touchables.get(i);
 
             // get visible bounds of other view in same coordinate system
             touchable.getDrawingRect(touchableBounds);
-            
+
             offsetDescendantRectToMyCoords(touchable, touchableBounds);
 
             if (touchableBounds.contains(x, y)) {
                 return super.dispatchTouchEvent(event);
-            } 
-            
+            }
+
             int deltaX;
             if (x > touchableBounds.right) {
                 deltaX = touchableBounds.right - 1 - x;
@@ -113,7 +116,7 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
             } else {
                 deltaX = 0;
             }
-            
+
             int deltaY;
             if (y > touchableBounds.bottom) {
                 deltaY = touchableBounds.bottom - 1 - y;
@@ -122,7 +125,7 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
             } else {
                 deltaY = 0;
             }
-            
+
             final int distanceSquared = (deltaX * deltaX) + (deltaY * deltaY);
             if (distanceSquared < minDistance) {
                 minDistance = distanceSquared;
@@ -131,8 +134,8 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
                 closestDeltaY = deltaY;
             }
         }
-        
-        
+
+
         if (closest != null) {
             event.offsetLocation(closestDeltaX, closestDeltaY);
             return super.dispatchTouchEvent(event);
@@ -140,9 +143,17 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
             return super.dispatchTouchEvent(event);
         }
     }
-    
+
+    /**
+     * Set the background of all the keys.
+     * @param background Is a drawable to be used for each keys's background.
+     */
+    public void setKeysBackground(Drawable background) {
+        mButtonGrid.setChildrenBackground(background);
+    }
+
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
     }
-    
+
 }
