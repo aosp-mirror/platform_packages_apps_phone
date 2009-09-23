@@ -18,23 +18,45 @@
      CallCard of the in-call UI, which includes the photo and
      name/number TextViews. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/callCardPersonInfo"
               android:orientation="vertical"
               android:gravity="center_horizontal"
-              android:layout_width="wrap_content"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               >
 
-    <!-- Photo, or else a generic placeholder image. -->
-    <!-- Contact photos are generally 96x96 (but may be smaller.)
-         The layout size of this ImageView is larger than that, though,
-         to account for the incall_photo_border background, which
-         adds a white border around the image (and a shadow around
-         the white border.) -->
-    <ImageView android:id="@+id/photo"
-               android:layout_width="116dp"
-               android:layout_height="116dp"
-               android:background="@drawable/incall_photo_border"
-               />
+    <!-- Photo, with elapsed time widget off to the side. -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="116dp"
+        >
+        <!-- Photo, or else a generic placeholder image. -->
+        <!-- Contact photos are generally 96x96 (but may be smaller.)
+             The layout size of this ImageView is larger than that, though,
+             to account for the incall_photo_border background, which
+             adds a white border around the image (and a shadow around
+             the white border.) -->
+        <ImageView android:id="@+id/photo"
+                   android:layout_width="116dp"
+                   android:layout_height="116dp"
+                   android:layout_centerHorizontal="true"
+                   android:background="@drawable/incall_photo_border"
+                   />
+
+        <!-- Elapsed time indication for a call in progress. -->
+        <TextView android:id="@+id/elapsedTime"
+                  android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:singleLine="true"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toRightOf="@id/photo"
+                  android:layout_alignParentBottom="true"
+                  android:layout_marginBottom="4dip"
+                  android:layout_marginLeft="4dip"
+                  />
+    </RelativeLayout>
 
     <!-- Placeholder to add some space between the photo and name/number
          if there's enough room. -->
