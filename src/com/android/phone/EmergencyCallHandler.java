@@ -30,10 +30,20 @@ import com.android.internal.telephony.PhoneFactory;
 import android.telephony.ServiceState;
 import android.view.WindowManager;
 
- /**
- * This class coordinates with the InCallScreen by throwing the original intent
- * (from the dialer) back and forth. An extra integer referenced by 
- * EMERGENCY_CALL_RETRY_KEY, is used to convey all the information we need.
+/**
+ * Helper class used by the InCallScreen to handle certain special
+ * cases when making an emergency call.
+ *
+ * Specifically, if the user tries to dial an emergency number but the
+ * radio is off, e.g. if the device is in airplane mode, this class is
+ * responsible for turning the radio back on and retrying the call.
+ *
+ * This class is initially launched using the same intent originally
+ * passed to the InCallScreen (presumably an ACTION_CALL_EMERGENCY intent)
+ * but with this class explicitly set as the className/component.  Later,
+ * we retry the emergency call by firing off that same intent, with the
+ * component cleared, and using an integer extra called
+ * EMERGENCY_CALL_RETRY_KEY to convey information about the current state.
  */
 public class EmergencyCallHandler extends Activity {
     /** the key used to get the count from our Intent's extra(s) */
@@ -67,7 +77,6 @@ public class EmergencyCallHandler extends Activity {
     private static class EmergencyCallEventHandler extends Handler {
         public void handleMessage(Message msg) {
             switch(msg.what) {
-                
                 case EVENT_SERVICE_STATE_CHANGED: {
                         // make the initial call attempt after the radio is turned on.
                         ServiceState state = (ServiceState) ((AsyncResult) msg.obj).result;
@@ -81,8 +90,7 @@ public class EmergencyCallHandler extends Activity {
                         }
                     }
                     break;
-                
-                
+
                 case EVENT_TIMEOUT_EMERGENCY_CALL: {
                         // repeated call after the timeout period.
                         EmergencyCallInfo eci = (EmergencyCallInfo) msg.obj;
@@ -92,8 +100,8 @@ public class EmergencyCallHandler extends Activity {
                     break;
             }
         }
-    };
-    
+    }
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -107,8 +115,16 @@ public class EmergencyCallHandler extends Activity {
         eci.phone = phone;
         eci.app = getApplication();
         eci.dialog = constructDialog(retryCount);
+
+        // The Intent we're going to fire off to retry the call is the
+        // same one that got us here (except that we *don't* explicitly
+        // specify this class as the component!)
         eci.intent = getIntent().setComponent(null);
-        
+        // And we'll be firing this Intent from the PhoneApp's context
+        // (see the startActivity() calls above) so the
+        // FLAG_ACTIVITY_NEW_TASK flag is required.
+        eci.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         // create the handler.
         if (sHandler == null) {
             sHandler = new EmergencyCallEventHandler();
@@ -185,6 +201,4 @@ public class EmergencyCallHandler extends Activity {
         
         return pd;
     }
-    
-    
 }

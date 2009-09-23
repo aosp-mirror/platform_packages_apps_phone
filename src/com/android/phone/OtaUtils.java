@@ -44,9 +44,13 @@ import android.widget.TextView;
 
 /**
  * Handles all OTA Call related logic and UI functionality.
- * InCallScreen interacts with this class to perform OTA Call
+ * The InCallScreen interacts with this class to perform an OTA Call.
+ *
+ * OTA is a CDMA-specific feature:
+ *   OTA or OTASP == Over The Air service provisioning
+ *   SPC == Service Programming Code
+ *   TODO: Include pointer to more detailed documentation.
  */
-
 public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
     private static final String UNACTIVATED_MIN2_VALUE = "000000";
@@ -442,8 +446,8 @@ public class OtaUtils {
                 mDialer.closeDialer(false);
             }
             long noticeTime = length*1000;
-            if (DBG) log("OtaShowSpcErrorNotice(), remaining SPC noticeTime"+noticeTime);
-            mInCallScreen.postNewMessageDelay(InCallScreen.CLOSE_SPC_ERROR_NOTICE,noticeTime);
+            if (DBG) log("OtaShowSpcErrorNotice(), remaining SPC noticeTime" + noticeTime);
+            mInCallScreen.requestCloseSpcErrorNotice(noticeTime);
         }
     }
 
@@ -474,7 +478,7 @@ public class OtaUtils {
             mOtaWidgetData.otaFailureDialog.show();
 
             long noticeTime = length*1000;
-            mInCallScreen.postNewMessageDelay(InCallScreen.CLOSE_OTA_FAILURE_NOTICE, noticeTime);
+            mInCallScreen.requestCloseOtaFailureNotice(noticeTime);
         }
     }
 

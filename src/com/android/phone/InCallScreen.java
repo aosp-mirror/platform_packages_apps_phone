@@ -187,12 +187,12 @@ public class InCallScreen extends Activity
     private static final int DISMISS_MENU = 111;
     private static final int ALLOW_SCREEN_ON = 112;
     private static final int TOUCH_LOCK_TIMER = 113;
-    private static final int BLUETOOTH_STATE_CHANGED = 114;
+    private static final int REQUEST_UPDATE_BLUETOOTH_INDICATION = 114;
     private static final int PHONE_CDMA_CALL_WAITING = 115;
     private static final int THREEWAY_CALLERINFO_DISPLAY_DONE = 116;
     private static final int EVENT_OTA_PROVISION_CHANGE = 117;
-    public static final int CLOSE_SPC_ERROR_NOTICE = 118;
-    public static final int CLOSE_OTA_FAILURE_NOTICE = 119;
+    private static final int REQUEST_CLOSE_SPC_ERROR_NOTICE = 118;
+    private static final int REQUEST_CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
     private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
     private static final int REQUEST_UPDATE_TOUCH_UI = 122;
@@ -275,8 +275,11 @@ public class InCallScreen extends Activity
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
 
-    // DTMF Dialer controller:
+    // DTMF Dialer controller and its view:
     private DTMFTwelveKeyDialer mDialer;
+    private DTMFTwelveKeyDialerView mDialerView;
+    private Drawable mGreenKeyBackground;
+    private Drawable mBlueKeyBackground;
 
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
@@ -464,8 +467,8 @@ public class InCallScreen extends Activity
                     touchLockTimerExpired();
                     break;
 
-                case BLUETOOTH_STATE_CHANGED:
-                    if (VDBG) log("BLUETOOTH_STATE_CHANGED...");
+                case REQUEST_UPDATE_BLUETOOTH_INDICATION:
+                    if (VDBG) log("REQUEST_UPDATE_BLUETOOTH_INDICATION...");
                     // The bluetooth headset state changed, so some UI
                     // elements may need to update.  (There's no need to
                     // look up the current state here, since any UI
@@ -505,13 +508,13 @@ public class InCallScreen extends Activity
                     }
                     break;
 
-                case CLOSE_SPC_ERROR_NOTICE:
+                case REQUEST_CLOSE_SPC_ERROR_NOTICE:
                     if (otaUtils != null) {
                         otaUtils.onOtaCloseSpcNotice();
                     }
                     break;
 
-                case CLOSE_OTA_FAILURE_NOTICE:
+                case REQUEST_CLOSE_OTA_FAILURE_NOTICE:
                     if (otaUtils != null) {
                         otaUtils.onOtaCloseFailureNotice();
                     }
@@ -602,30 +605,29 @@ public class InCallScreen extends Activity
         // TODO: These should both be ViewStubs, and right here we should
         // inflate one or the other.
         //
-        DTMFTwelveKeyDialerView dialerView;
         SlidingDrawer dialerDrawer;
         if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
             // This is a "full touch" device.
-            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
-            if (DBG) log("- Full touch device!  Found dialerView: " + dialerView);
+            mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
+            if (DBG) log("- Full touch device!  Found dialerView: " + mDialerView);
             dialerDrawer = null;  // No SlidingDrawer used on this device.
         } else {
             // Use the old-style dialpad contained within the SlidingDrawer.
-            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
-            if (DBG) log("- Using SlidingDrawer-based dialpad.  Found dialerView: " + dialerView);
+            mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
+            if (DBG) log("- Using SlidingDrawer-based dialpad.  Found dialerView: " + mDialerView);
             dialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
             if (DBG) log("  ...and the SlidingDrawer: " + dialerDrawer);
         }
         // Sanity-check that (regardless of the device) at least the
         // dialer view is present:
-        if (dialerView == null) {
+        if (mDialerView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
             // STOPSHIP: For now, throw an exception to make sure we notice
             // this.  But remove this before ship.
             throw new IllegalStateException("Couldn't find dialerView");
         }
         // Finally, create the DTMFTwelveKeyDialer instance.
-        mDialer = new DTMFTwelveKeyDialer(this, dialerView, dialerDrawer);
+        mDialer = new DTMFTwelveKeyDialer(this, mDialerView, dialerDrawer);
 
         registerForPhoneStates();
 
@@ -728,7 +730,9 @@ public class InCallScreen extends Activity
         }
 
         // Set the volume control handler while we are in the foreground.
-        if (isBluetoothAudioConnected()) {
+        final boolean bluetoothConnected = isBluetoothAudioConnected();
+
+        if (bluetoothConnected) {
             setVolumeControlStream(AudioManager.STREAM_BLUETOOTH_SCO);
         } else {
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
@@ -1220,6 +1224,10 @@ public class InCallScreen extends Activity
 
     private void initInCallScreen() {
         if (VDBG) log("initInCallScreen()...");
+
+        Resources r = getResources();
+        mGreenKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_green);
+        mBlueKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_blue);
 
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
@@ -3962,6 +3970,9 @@ public class InCallScreen extends Activity
         //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
         //     is opaque.)
         if (!mDialer.usingSlidingDrawer()) {
+            mDialerView.setKeysBackground(
+                isBluetoothAudioConnected() ? mBlueKeyBackground : mGreenKeyBackground);
+
             if (isDialerOpened()) {
                 mInCallPanel.setVisibility(View.GONE);
             } else {
@@ -4114,8 +4125,11 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Post message indicating that InCallScreen should update its UI elements.
-     * Essentially a wrapper to call updateInCallTouchUi from the rest of the phone app.
+     * Posts a handler message telling the InCallScreen to update the
+     * onscreen in-call touch UI.
+     *
+     * This is just a wrapper around updateInCallTouchUi(), for use by the
+     * rest of the phone app or from a thread other than the UI thread.
      */
     /* package */ void requestUpdateTouchUi() {
         if (DBG) log("requestUpdateTouchUi()...");
@@ -4370,13 +4384,13 @@ public class InCallScreen extends Activity
      * Posts a message to our handler saying to update the onscreen UI
      * based on a bluetooth headset state change.
      */
-    /* package */ void updateBluetoothIndication() {
-        if (VDBG) log("updateBluetoothIndication()...");
+    /* package */ void requestUpdateBluetoothIndication() {
+        if (VDBG) log("requestUpdateBluetoothIndication()...");
         // No need to look at the current state here; any UI elements that
         // care about the bluetooth state (i.e. the CallCard) get
         // the necessary state directly from PhoneApp.showBluetoothIndication().
-        mHandler.removeMessages(BLUETOOTH_STATE_CHANGED);
-        mHandler.sendEmptyMessage(BLUETOOTH_STATE_CHANGED);
+        mHandler.removeMessages(REQUEST_UPDATE_BLUETOOTH_INDICATION);
+        mHandler.sendEmptyMessage(REQUEST_UPDATE_BLUETOOTH_INDICATION);
     }
 
     private void dumpBluetoothState() {
@@ -4695,9 +4709,31 @@ public class InCallScreen extends Activity
         }
     }
 
-    public void postNewMessageDelay(int event, long timeout) {
-        if (DBG) log("PostNewMessageDelay() with event: " + event + "and timeout: " + timeout);
-        mHandler.sendEmptyMessageDelayed(event, timeout);
+    /**
+     * Posts a handler message telling the InCallScreen to close
+     * the OTA failure notice after the specified delay.
+     * @see OtaUtils.otaShowProgramFailureNotice
+     */
+    /* package */ void requestCloseOtaFailureNotice(long timeout) {
+        if (DBG) log("requestCloseOtaFailureNotice() with timeout: " + timeout);
+        mHandler.sendEmptyMessageDelayed(REQUEST_CLOSE_OTA_FAILURE_NOTICE, timeout);
+
+        // TODO: we probably ought to call removeMessages() for this
+        // message code in either onPause or onResume, just to be 100%
+        // sure that the message we just posted has no way to affect a
+        // *different* call if the user quickly backs out and restarts.
+        // (This is also true for requestCloseSpcErrorNotice() below, and
+        // probably anywhere else we use mHandler.sendEmptyMessageDelayed().)
+    }
+
+    /**
+     * Posts a handler message telling the InCallScreen to close
+     * the SPC error notice after the specified delay.
+     * @see OtaUtils.otaShowSpcErrorNotice
+     */
+    /* package */ void requestCloseSpcErrorNotice(long timeout) {
+        if (DBG) log("requestCloseSpcErrorNotice() with timeout: " + timeout);
+        mHandler.sendEmptyMessageDelayed(REQUEST_CLOSE_SPC_ERROR_NOTICE, timeout);
     }
 
     public boolean isOtaCallInActiveState() {

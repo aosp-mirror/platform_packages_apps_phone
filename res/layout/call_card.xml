@@ -77,38 +77,6 @@
             android:layout_height="1dip"
             android:layout_weight="10" />
 
-        <!-- "Lower title" and elapsed time counter, used only in the
-             "call in progress" state. -->
-        <LinearLayout android:id="@+id/lowerTitleViewGroup"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_margin="6dip"
-                      >
-            <ImageView android:id="@+id/lowerTitleIcon"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginRight="8dip"
-                />
-            <TextView android:id="@+id/lowerTitle"
-                      android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textSize="18sp"
-                      android:singleLine="true"
-                      android:layout_width="wrap_content"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"
-                      android:gravity="left"
-                      />
-            <TextView android:id="@+id/elapsedTime"
-                      android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textSize="18sp"
-                      android:singleLine="true"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      />
-        </LinearLayout>
-
     </LinearLayout>    <!-- End of (1) The main call card -->
 
 

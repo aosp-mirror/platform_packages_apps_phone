@@ -105,6 +105,11 @@ public class OutgoingCallBroadcaster extends Activity {
             }
             callNow = false;
         } else if (Intent.ACTION_CALL_EMERGENCY.equals(action)) {
+            // ACTION_CALL_EMERGENCY case: this is either a CALL_PRIVILEGED
+            // intent that we just turned into a CALL_EMERGENCY intent (see
+            // above), or else it really is an CALL_EMERGENCY intent that
+            // came directly from some other app (e.g. the EmergencyDialer
+            // activity built in to the Phone app.)
             if (!emergencyNumber) {
                 Log.w(TAG, "Cannot call non-emergency number " + number
                         + " with EMERGENCY_CALL Intent " + intent + ".");
