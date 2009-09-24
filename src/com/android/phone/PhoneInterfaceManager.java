@@ -582,6 +582,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             cells = (ArrayList<NeighboringCellInfo>) sendRequest(
                     CMD_HANDLE_NEIGHBORING_CELL, null);
         } catch (RuntimeException e) {
+            Log.e(LOG_TAG, "getNeighboringCellInfo " + e);
         }
 
         return (List <NeighboringCellInfo>) cells;
