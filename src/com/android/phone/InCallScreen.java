@@ -406,9 +406,10 @@ public class InCallScreen extends Activity
                     // PENDING.
                     MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
                     // if phone is a CDMA phone display feature code completed message
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    int phoneType = mPhone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         PhoneUtils.displayMMIComplete(mPhone, app, mmiCode, null, null);
-                    } else {
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         if (mmiCode.getState() != MmiCode.State.PENDING) {
                             if (DBG) log("Got MMI_COMPLETE, finishing...");
                             finish();
@@ -725,7 +726,9 @@ public class InCallScreen extends Activity
 
         takeKeyEvents(true);
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        boolean phoneIsCdma = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+
+        if (phoneIsCdma) {
             initOtaState();
         }
 
@@ -749,7 +752,7 @@ public class InCallScreen extends Activity
             // have an error dialog up that the user needs to see.
             // (And in that case, the error dialog is responsible for calling
             // finish() when the user dismisses it.)
-        } else if (mPhone.getPhoneName().equals("CDMA")) {
+        } else if (phoneIsCdma) {
             if (mInCallScreenMode == InCallScreenMode.OTA_NORMAL ||
                     mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
                 mDialer.setHandleVisible(false);
@@ -1035,7 +1038,8 @@ public class InCallScreen extends Activity
         if (!mRegisteredForPhoneStates) {
             mPhone.registerForPreciseCallStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-            if (mPhone.getPhoneName().equals("GSM")) {
+            int phoneType = mPhone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_GSM) {
                 mPhone.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
 
                 // register for the MMI complete message.  Upon completion,
@@ -1044,14 +1048,16 @@ public class InCallScreen extends Activity
                 // We'll listen for that message too, so that we can finish
                 // the activity at the same time.
                 mPhone.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
-            } else { // CDMA
+            } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 if (DBG) log("Registering for Call Waiting.");
                 mPhone.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
 
             mPhone.setOnPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mPhone.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 mPhone.registerForCdmaOtaStatusChange(mHandler, EVENT_OTA_PROVISION_CHANGE, null);
             }
             mRegisteredForPhoneStates = true;
@@ -1128,7 +1134,7 @@ public class InCallScreen extends Activity
         // InCallScreen UI started with Intent of ACTION_SHOW_ACTIVATION
         // to show OTA Activation screen at power up.
         if ((action.equals(ACTION_SHOW_ACTIVATION))
-                && (mPhone.getPhoneName().equals("CDMA"))) {
+                && ((mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA))) {
             setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
             if ((app.cdmaOtaProvisionData != null)
                     && (!app.cdmaOtaProvisionData.isOtaCallIntentProcessed)) {
@@ -1329,7 +1335,8 @@ public class InCallScreen extends Activity
         final boolean hasActiveCall = !mForegroundCall.isIdle();
         final boolean hasHoldingCall = !mBackgroundCall.isIdle();
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        int phoneType = mPhone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // The green CALL button means either "Answer", "Swap calls/On Hold", or
             // "Add to 3WC", depending on the current state of the Phone.
 
@@ -1353,7 +1360,7 @@ public class InCallScreen extends Activity
                 if (DBG) log("answerCall: Switch btwn 2 calls scenario");
                 internalSwapCalls();
             }
-        } else { // GSM.
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             if (hasRingingCall) {
                 // If an incoming call is ringing, the CALL button is actually
                 // handled by the PhoneWindowManager.  (We do this to make
@@ -1392,6 +1399,8 @@ public class InCallScreen extends Activity
                 if (VDBG) log("handleCallKey: call in foregound ==> ignoring.");
                 // But note we still consume this key event; see below.
             }
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
 
         // We *always* consume the CALL key, since the system-wide default
@@ -1703,7 +1712,8 @@ public class InCallScreen extends Activity
 
         boolean currentlyIdle = !phoneIsInUse();
         int autoretrySetting = AUTO_RETRY_OFF;
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        boolean phoneIsCdma = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+        if (phoneIsCdma) {
             // Get the Auto-retry setting only if Phone State is IDLE,
             // else let it stay as AUTO_RETRY_OFF
             if (currentlyIdle) {
@@ -1751,7 +1761,7 @@ public class InCallScreen extends Activity
             return;
         }
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (phoneIsCdma) {
             Call.State callState = PhoneApp.getInstance().notifier.getPreviousCdmaCallState();
             if ((callState == Call.State.ACTIVE)
                     && (cause != Connection.DisconnectCause.INCOMING_MISSED)
@@ -1918,10 +1928,8 @@ public class InCallScreen extends Activity
             // higher preference. At this time framework sends a disconnect for the Out going
             // call connection hence we should *not* bring down the InCallScreen as the Phone
             // State would be RINGING
-            if (mPhone.getPhoneName().equals("CDMA")) {
-                if (!currentlyIdle) {
-                    return;
-                }
+            if ((mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) && (!currentlyIdle)) {
+                return;
             }
 
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
@@ -2014,9 +2022,10 @@ public class InCallScreen extends Activity
             if (VDBG) log("handlePostOnDialChar: state = " +
                     state + ", ch = " + ch);
 
+            int phoneType = mPhone.getPhoneType();
             switch (state) {
                 case STARTED:
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         mDialer.stopLocalToneCdma();
                         if (mPauseInProgress) {
                             showPausePromptDialogCDMA(c, mPostDialStrAfterPause);
@@ -2034,11 +2043,13 @@ public class InCallScreen extends Activity
                 case WAIT:
                     //if (DBG) log("show wait prompt...");
                     String postDialStr = c.getRemainingPostDialString();
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         mDialer.stopLocalToneCdma();
                         showWaitPromptDialogCDMA(c, postDialStr);
-                    } else {
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         showWaitPromptDialog(c, postDialStr);
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
                     break;
 
@@ -2048,13 +2059,13 @@ public class InCallScreen extends Activity
                     break;
 
                 case COMPLETE:
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         mDialer.stopLocalToneCdma();
                     }
                     break;
 
                 case PAUSE:
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         mPostDialStrAfterPause = c.getRemainingPostDialString();
                         mDialer.stopLocalToneCdma();
                         mPauseInProgress = true;
@@ -2334,7 +2345,8 @@ public class InCallScreen extends Activity
             // the phone isn't ringing.
             String postDialStr = null;
             List<Connection> fgConnections = mForegroundCall.getConnections();
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            int phoneType = mPhone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 Connection fgLatestConnection = mForegroundCall.getLatestConnection();
                 if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
                         CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
@@ -2350,13 +2362,15 @@ public class InCallScreen extends Activity
                     postDialStr = fgLatestConnection.getRemainingPostDialString();
                     showWaitPromptDialogCDMA(fgLatestConnection, postDialStr);
                 }
-            } else { // GSM
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 for (Connection cn : fgConnections) {
                     if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
                         postDialStr = cn.getRemainingPostDialString();
                         showWaitPromptDialog(cn, postDialStr);
                     }
                 }
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
     }
@@ -2383,14 +2397,19 @@ public class InCallScreen extends Activity
 
         // Need to treat running MMI codes as a connection as well.
         // Do not check for getPendingMmiCodes when phone is a CDMA phone
-        if (mPhone.getPhoneName().equals("CDMA")
+        int phoneType = mPhone.getPhoneType();
+
+        if ((phoneType == Phone.PHONE_TYPE_CDMA)
                 && ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
                 || (mInCallScreenMode == InCallScreenMode.OTA_ENDED))) {
             // Even when OTA Call ends, need to show OTA End UI,
             // so return Success to allow UI update.
             return InCallInitStatus.SUCCESS;
-        } else if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
-                || mPhone.getPhoneName().equals("CDMA") || !mPhone.getPendingMmiCodes().isEmpty()) {
+        }
+
+        if ((phoneType == Phone.PHONE_TYPE_CDMA)
+                || !mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
+                || !mPhone.getPendingMmiCodes().isEmpty()) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
@@ -2507,8 +2526,7 @@ public class InCallScreen extends Activity
 
         final PhoneApp app = PhoneApp.getInstance();
 
-        if ((mPhone.isOtaSpNumber(number))
-                && (mPhone.getPhoneName().equals("CDMA"))) {
+        if ((mPhone.isOtaSpNumber(number)) && (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
             if (DBG) log("placeCall: isOtaSpNumber() returns true");
             setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
             if (app.cdmaOtaProvisionData != null) {
@@ -2564,7 +2582,7 @@ public class InCallScreen extends Activity
                 // onPhoneStateChanged().
                 mDialer.clearDigits();
 
-                if (app.phone.getPhoneName().equals("CDMA")) {
+                if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                     // Start the 2 second timer for 3 Way CallerInfo
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
@@ -3454,11 +3472,12 @@ public class InCallScreen extends Activity
         final boolean hasRingingCall = !mRingingCall.isIdle();
 
         if (hasRingingCall) {
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            int phoneType = mPhone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                 // if there is one
-            } else {  // GSM
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
                 // something special for the "both lines in use" case.
@@ -3481,6 +3500,8 @@ public class InCallScreen extends Activity
                     PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                     // if there is one
                 }
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
     }
@@ -3534,7 +3555,7 @@ public class InCallScreen extends Activity
         // If we have a valid BluetoothHandsfree then since CDMA network or
         // Telephony FW does not send us information on which caller got swapped
         // we need to update the second call active state in BluetoothHandsfree internally
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             BluetoothHandsfree bthf = PhoneApp.getInstance().getBluetoothHandsfree();
             if (bthf != null) {
                 bthf.cdmaSwapSecondCallState();
@@ -4625,39 +4646,38 @@ public class InCallScreen extends Activity
      * Framework events that result in OTA State change
      */
     private void initOtaState() {
-       if (mPhone.getPhoneName().equals("CDMA")) {
-           final PhoneApp app = PhoneApp.getInstance();
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            final PhoneApp app = PhoneApp.getInstance();
 
-           if ((app.cdmaOtaScreenState == null)
-                   || (app.cdmaOtaProvisionData == null)) {
-               if (DBG) log("initOtaState func - All CdmaOTA utility classes not initialized");
-               return;
-           }
+            if ((app.cdmaOtaScreenState == null) || (app.cdmaOtaProvisionData == null)) {
+                if (DBG) log("initOtaState func - All CdmaOTA utility classes not initialized");
+                return;
+            }
 
-           boolean isOtaCall = checkIsOtaCall(getIntent());
+            boolean isOtaCall = checkIsOtaCall(getIntent());
 
-           if (isOtaCall) {
-               if (otaUtils == null) {
-                   otaUtils = new OtaUtils(getApplicationContext(),
-                           this, mInCallPanel, mCallCard, mDialer);
-               }
-           }
+            if (isOtaCall) {
+                if (otaUtils == null) {
+                    otaUtils = new OtaUtils(getApplicationContext(),
+                            this, mInCallPanel, mCallCard, mDialer);
+                }
+            }
 
-           if (isOtaCall) {
-               if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                       || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)) {
-                   if (DBG) log("initOtaState - Already in OTA_NORMAL/OTA_END state");
-                   setInCallScreenMode(mInCallScreenMode);
-               } else if (app.cdmaOtaScreenState.otaScreenState ==
-                       CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG) {
-                   if (DBG) log("initOtaState - set OTA END Mode");
-                   setInCallScreenMode(InCallScreenMode.OTA_ENDED);
-               } else {
-                   if (DBG) log("initOtaState - Set OTA NORMAL Mode");
-                   setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
-               }
-           }
-       }
+            if (isOtaCall) {
+                if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
+                        || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)) {
+                    if (DBG) log("initOtaState - Already in OTA_NORMAL/OTA_END state");
+                    setInCallScreenMode(mInCallScreenMode);
+                } else if (app.cdmaOtaScreenState.otaScreenState ==
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG) {
+                    if (DBG) log("initOtaState - set OTA END Mode");
+                    setInCallScreenMode(InCallScreenMode.OTA_ENDED);
+                } else {
+                    if (DBG) log("initOtaState - Set OTA NORMAL Mode");
+                    setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+                }
+            }
+        }
     }
 
     public void updateMenuItems() {

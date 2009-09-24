@@ -214,7 +214,8 @@ class InCallMenu {
         // "Manage conference" if a conference call is active.
         PhoneApp app = PhoneApp.getInstance();
         // As managing conference is only valid for GSM and not for CDMA
-        if (app.phone.getPhoneName().equals("GSM")) {
+        int phoneType = app.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_GSM) {
             mInCallMenuView.addItemView(mManageConference, 0);
         }
         mInCallMenuView.addItemView(mShowDialpad, 0);
@@ -229,13 +230,15 @@ class InCallMenu {
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
         // For CDMA only Answer or Ignore option is valid for a Call Waiting scenario
-        if (app.phone.getPhoneName().equals("CDMA")) {
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             mInCallMenuView.addItemView(mAnswer, 2);
             mInCallMenuView.addItemView(mIgnore, 2);
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             mInCallMenuView.addItemView(mHold, 2);
             mInCallMenuView.addItemView(mAnswerAndHold, 2);
             mInCallMenuView.addItemView(mAnswerAndEnd, 2);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
         mInCallMenuView.addItemView(mMute, 2);
         mInCallMenuView.addItemView(mSpeaker, 2);
@@ -318,8 +321,9 @@ class InCallMenu {
             // TODO: be sure to test this for "only one line in use and it's
             // active" AND for "only one line in use and it's on hold".
             if (hasActiveCall && !hasHoldingCall) {
+                int phoneType = phone.getPhoneType();
                 // For CDMA only make "Answer" and "Ignore" visible
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     mAnswer.setVisible(true);
                     mAnswer.setEnabled(true);
                     mIgnore.setVisible(true);
@@ -328,7 +332,7 @@ class InCallMenu {
                     // Explicitly remove GSM menu items
                     mAnswerAndHold.setVisible(false);
                     mAnswerAndEnd.setVisible(false);
-                } else {
+                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                     mAnswerAndHold.setVisible(true);
                     mAnswerAndHold.setEnabled(true);
                     mAnswerAndEnd.setVisible(true);
@@ -339,6 +343,8 @@ class InCallMenu {
                     mIgnore.setVisible(false);
 
                     mManageConference.setVisible(false);
+                } else {
+                    throw new IllegalStateException("Unexpected phone type: " + phoneType);
                 }
 
                 mShowDialpad.setVisible(false);
