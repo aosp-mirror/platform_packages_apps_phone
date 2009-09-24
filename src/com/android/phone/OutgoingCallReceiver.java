@@ -52,7 +52,8 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
 
         number = getResultData();
         final PhoneApp app = PhoneApp.getInstance();
-        if (app.phone.getPhoneName().equals("CDMA")) {
+        int phoneType = app.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             boolean activateState = (app.cdmaOtaScreenState.otaScreenState
                     == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
             boolean dialogState = (app.cdmaOtaScreenState.otaScreenState
@@ -79,7 +80,7 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
         if (number == null) {
             if (LOGV) Log.v(TAG, "CALL cancelled -- returning.");
             return;
-        } else if ((app.phone.getPhoneName().equals("CDMA"))
+        } else if ((phoneType == Phone.PHONE_TYPE_CDMA)
                 && ((app.phone.getState() != Phone.State.IDLE)
                 && (app.phone.isOtaSpNumber(number)))) {
             if (LOGV) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");

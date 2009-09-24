@@ -230,12 +230,13 @@ public class PhoneUtils {
         boolean answered = false;
         Call call = phone.getRingingCall();
         PhoneApp app = PhoneApp.getInstance();
+        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
         BluetoothHandsfree bthf = null;
 
-        if (phone.getPhoneName().equals("CDMA")) {
+        if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
             if (call.getState() == Call.State.WAITING) {
-                final CallNotifier notifier = PhoneApp.getInstance().notifier;
+                final CallNotifier notifier = app.notifier;
                 notifier.stopSignalInfoTone();
             }
         }
@@ -243,7 +244,7 @@ public class PhoneUtils {
         if (call != null && call.isRinging()) {
             if (DBG) log("answerCall: call state = " + call.getState());
             try {
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneIsCdma) {
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.IDLE) {
                         // This is the FIRST incoming call being answered.
@@ -269,7 +270,7 @@ public class PhoneUtils {
                 //if (DBG) log("sPhone.acceptCall");
                 phone.acceptCall();
                 answered = true;
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneIsCdma) {
                     // automatically reset mute state to unmuted for CDMA
                     // TODO: Would GSM want this also?
                     setMute(phone, false);
@@ -278,7 +279,7 @@ public class PhoneUtils {
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
 
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneIsCdma) {
                     // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
                     app.cdmaPhoneCallState.setCurrentCallState(
                             app.cdmaPhoneCallState.getPreviousCallState());
@@ -328,8 +329,9 @@ public class PhoneUtils {
     static boolean hangupRingingCall(Phone phone) {
         if (DBG) log("hangup ringing call");
         Call ringing = phone.getRingingCall();
+        int phoneType = phone.getPhoneType();
 
-        if (phone.getPhoneName().equals("CDMA")) {
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA: Ringing call and Call waiting hangup is handled differently.
             // For Call waiting we DO NOT call the conventional hangup(call) function
             // as in CDMA we just want to hungup the Call waiting connection.
@@ -349,11 +351,13 @@ public class PhoneUtils {
                 if (DBG) log("No Ringing call to hangup");
                 return false;
             }
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM:  Ringing Call and Call waiting, both are hungup by calling
             // hangup(call) function.
             if (DBG) log("hangup ringing call");
             return hangup(ringing);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -494,9 +498,11 @@ public class PhoneUtils {
             Connection cn = phone.dial(number);
             if (DBG) log("===> phone.dial() returned: " + cn);
 
+            int phoneType = phone.getPhoneType();
+
             // On GSM phones, null is returned for MMI codes
             if (cn == null) {
-                if (phone.getPhoneName().equals("GSM")) {
+                if (phoneType == Phone.PHONE_TYPE_GSM) {
                     if (DBG) log("dialed MMI code: " + number);
                     status = CALL_STATUS_DIALED_MMI;
                     // Set dialed MMI command to service
@@ -514,7 +520,7 @@ public class PhoneUtils {
             } else {
                 PhoneApp app = PhoneApp.getInstance();
 
-                if (phone.getPhoneName().equals("CDMA")) {
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     updateCdmaCallStateOnNewOutgoingCall(app);
                 }
 
@@ -606,15 +612,15 @@ public class PhoneUtils {
         }
 
         PhoneApp app = PhoneApp.getInstance();
-        final boolean is_cdma = phone.getPhoneName().equals("CDMA");
+        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
 
-        if (is_cdma) {
+        if (phoneIsCdma) {
             updateCdmaCallStateOnNewOutgoingCall(app);
         }
         PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
         // Clean up the number to be displayed.
-        if (is_cdma) {
+        if (phoneIsCdma) {
             number = CdmaConnection.formatDialString(number);
         }
         number = PhoneNumberUtils.extractNetworkPortion(number);
@@ -663,16 +669,20 @@ public class PhoneUtils {
         // only do this if connection is not null.
         if (c != null) {
 
+            int phoneType = phone.getPhoneType();
+
             // retrieve the mute value.
             Boolean shouldMute;
-            if (phone.getPhoneName().equals("CDMA") &&
+            if (phoneType == Phone.PHONE_TYPE_CDMA &&
                     PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
                     CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                 shouldMute = sConnectionMuteTable.get(
                         phone.getForegroundCall().getLatestConnection());
-            } else {
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 shouldMute = sConnectionMuteTable.get(
                         phone.getForegroundCall().getEarliestConnection());
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
             if (shouldMute == null) {
                 if (DBG) log("problem retrieving mute value for this connection.");
@@ -687,14 +697,15 @@ public class PhoneUtils {
     }
 
     static void mergeCalls(Phone phone) {
-        if (phone.getPhoneName().equals("GSM")) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_GSM) {
             try {
                 if (DBG) log("mergeCalls");
                 phone.conference();
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
             }
-        } else { // CDMA
+        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (DBG) log("mergeCalls");
             PhoneApp app = PhoneApp.getInstance();
             if (app.cdmaPhoneCallState.getCurrentCallState()
@@ -709,6 +720,8 @@ public class PhoneUtils {
                 app.cdmaPhoneCallState.setCurrentCallState(
                         CdmaPhoneCallState.PhoneCallState.CONF_CALL);
             }
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -1194,10 +1207,13 @@ public class PhoneUtils {
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
         PhoneApp app = PhoneApp.getInstance();
         Connection conn = null;
-        if (app.phone.getPhoneName().equals("CDMA")) {
+        int phoneType = app.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             conn = call.getLatestConnection();
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             conn = call.getEarliestConnection();
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
 
         return startGetCallerInfo(context, conn, listener, cookie);
@@ -1489,16 +1505,19 @@ public class PhoneUtils {
         // state of the UI.)  So as far as the in-call UI is concerned,
         // Conference corresponds to generic display.
         PhoneApp app = PhoneApp.getInstance();
-        if (app.phone.getPhoneName().equals("CDMA")) {
+        int phoneType = app.phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                 return true;
             }
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             List<Connection> connections = call.getConnections();
             if (connections != null && connections.size() > 1) {
                 return true;
             }
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
         return false;
 
@@ -1786,9 +1805,10 @@ public class PhoneUtils {
         if (hasRingingCall) {
             // If an incoming call is ringing, answer it (just like with the
             // CALL button):
-            if (phone.getPhoneName().equals("CDMA")) {
+            int phoneType = phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 answerCall(phone);
-            } else { //GSM
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 if (hasActiveCall && hasHoldingCall) {
                     if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
                     answerAndEndActive(phone);
@@ -1797,6 +1817,8 @@ public class PhoneUtils {
                     answerCall(phone);  // Automatically holds the current active call,
                                         // if there is one
                 }
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         } else {
             // No incoming ringing call.  Toggle the mute state.
@@ -1865,13 +1887,14 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToSwapCalls(Phone phone) {
-        if (phone.getPhoneName().equals("CDMA")) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA: "Swap" is enabled only when the phone reaches a *generic*.
             // state by either accepting a Call Waiting or by merging two calls
             PhoneApp app = PhoneApp.getInstance();
             return (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.CONF_CALL);
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM: "Swap" is available if both lines are in use and there's no
             // incoming call.  (Actually we need to verify that the active
             // call really is in the ACTIVE state and the holding call really
@@ -1880,6 +1903,8 @@ public class PhoneUtils {
             return phone.getRingingCall().isIdle()
                     && (phone.getForegroundCall().getState() == Call.State.ACTIVE)
                     && (phone.getBackgroundCall().getState() == Call.State.HOLDING);
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -1888,16 +1913,19 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToMergeCalls(Phone phone) {
-        if (phone.getPhoneName().equals("CDMA")) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA: "Merge" is enabled only when the user is in a 3Way call.
             PhoneApp app = PhoneApp.getInstance();
             return (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
-        } else { //GSM.
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM: "Merge" is available if both lines are in use and there's no
             // incoming call, *and* the current conference isn't already
             // "full".
             return phone.getRingingCall().isIdle() && phone.canConference();
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -1906,7 +1934,8 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToAddCall(Phone phone) {
-       if (phone.getPhoneName().equals("CDMA")) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
            // CDMA: "Add call" menu item is only enabled when the call is in
            // - SINGLE_ACTIVE state
            // - After 60 seconds of user Ignoring/Missing a Call Waiting call.
@@ -1914,7 +1943,7 @@ public class PhoneUtils {
             return ((app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE)
                     && (app.cdmaPhoneCallState.getAddCallMenuStateAfterCallWaiting()));
-        } else {
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM: "Add call" is available only if ALL of the following are true:
             // - There's no incoming ringing call
             // - There's < 2 lines in use
@@ -1931,6 +1960,8 @@ public class PhoneUtils {
                     && ((fgCallState == Call.State.ACTIVE)
                         || (fgCallState == Call.State.IDLE)
                         || (fgCallState == Call.State.DISCONNECTED));
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
     }
 
@@ -2188,7 +2219,7 @@ public class PhoneUtils {
         Log.d(LOG_TAG, "- allLinesTaken: " + allLinesTaken);
 
         // On CDMA phones, dump out the CdmaPhoneCallState too:
-        if (phone.getPhoneName().equals("CDMA")) {
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             if (app.cdmaPhoneCallState != null) {
                 Log.d(LOG_TAG, "- CDMA current call state: "
                       + app.cdmaPhoneCallState.getCurrentCallState());

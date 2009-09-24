@@ -600,11 +600,14 @@ public class CallFeaturesSetting extends PreferenceActivity
             prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
             prefSet.removePreference(prefSet.findPreference(BUTTON_GSM_UMTS_OPTIONS));
 
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            int phoneType = mPhone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 prefSet.removePreference(prefSet.findPreference(BUTTON_FDN_KEY));
                 addPreferencesFromResource(R.xml.cdma_call_options);
-            } else {
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 addPreferencesFromResource(R.xml.gsm_umts_call_options);
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
 

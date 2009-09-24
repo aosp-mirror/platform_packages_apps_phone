@@ -36,9 +36,6 @@ import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.Phone;
 
-import static com.android.internal.telephony.RILConstants.GSM_PHONE;
-import static com.android.internal.telephony.RILConstants.CDMA_PHONE;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -139,13 +136,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 case CMD_END_CALL:
                     request = (MainThreadRequest) msg.obj;
                     boolean hungUp = false;
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    int phoneType = mPhone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         // CDMA: If the user presses the Power button we treat it as
                         // ending the complete call session
                         hungUp = PhoneUtils.hangupRingingAndActive(mPhone);
-                    } else {
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         // GSM: End the call as per the Phone state
                         hungUp = PhoneUtils.hangup(mPhone);
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
                     if (DBG) log("CMD_END_CALL: " + (hungUp ? "hung up!" : "no call to hang up"));
                     request.result = hungUp;
@@ -582,6 +582,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             cells = (ArrayList<NeighboringCellInfo>) sendRequest(
                     CMD_HANDLE_NEIGHBORING_CELL, null);
         } catch (RuntimeException e) {
+            Log.e(LOG_TAG, "getNeighboringCellInfo " + e);
         }
 
         return (List <NeighboringCellInfo>) cells;
@@ -635,11 +636,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public int getActivePhoneType() {
-        if(mPhone.getPhoneName().equals("CDMA")) {
-            return CDMA_PHONE;
-        } else {
-            return GSM_PHONE;
-        }
+        return mPhone.getPhoneType();
     }
 
     /**
@@ -669,7 +666,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      * Returns true if CDMA provisioning needs to run.
      */
     public boolean getCdmaNeedsProvisioning() {
-        if (getActivePhoneType() == GSM_PHONE) {
+        if (getActivePhoneType() == Phone.PHONE_TYPE_GSM) {
             return false;
         }
 
