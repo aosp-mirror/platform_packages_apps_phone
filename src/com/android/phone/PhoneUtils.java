@@ -1819,13 +1819,17 @@ public class PhoneUtils {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         } else {
-            // No incoming ringing call.  Toggle the mute state.
-            if (getMute(phone)) {
-                if (DBG) log("handleHeadsetHook: UNmuting...");
-                setMute(phone, false);
-            } else {
-                if (DBG) log("handleHeadsetHook: muting...");
-                setMute(phone, true);
+            // No incoming ringing call.
+            // If it is NOT an emg #, toggle the mute state. Otherwise, ignore the hook.
+            Connection c = phone.getForegroundCall().getLatestConnection();
+            if (c != null && !PhoneNumberUtils.isEmergencyNumber(c.getAddress())) {
+                if (getMute(phone)) {
+                    if (DBG) log("handleHeadsetHook: UNmuting...");
+                    setMute(phone, false);
+                } else {
+                    if (DBG) log("handleHeadsetHook: muting...");
+                    setMute(phone, true);
+                }
             }
         }
 
