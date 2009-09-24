@@ -672,7 +672,7 @@ public class PhoneUtils {
             int phoneType = phone.getPhoneType();
 
             // retrieve the mute value.
-            Boolean shouldMute;
+            Boolean shouldMute = null;
             if (phoneType == Phone.PHONE_TYPE_CDMA &&
                     PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
                     CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
@@ -681,8 +681,6 @@ public class PhoneUtils {
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 shouldMute = sConnectionMuteTable.get(
                         phone.getForegroundCall().getEarliestConnection());
-            } else {
-                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
             if (shouldMute == null) {
                 if (DBG) log("problem retrieving mute value for this connection.");
