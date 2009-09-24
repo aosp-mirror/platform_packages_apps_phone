@@ -82,6 +82,9 @@ public class EmergencyDialer extends Activity
 
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
+    /** Play the vibrate pattern only once. */
+    private static final int VIBRATE_NO_REPEAT = -1;
+
     EditText mDigits;
     // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
     private View mVoicemailDialAndDeleteRow;
@@ -101,7 +104,7 @@ public class EmergencyDialer extends Activity
     // Vibration (haptic feedback) for dialer key presses.
     private Vibrator mVibrator;
     private boolean mVibrateOn;
-    private long mVibrateDuration;
+    private long[] mVibratePattern;
 
     // close activity when screen turns off
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -213,8 +216,7 @@ public class EmergencyDialer extends Activity
         // TODO: We might eventually need to make mVibrateOn come from a
         // user preference rather than a per-platform resource, in which
         // case we would need to update it in onResume() rather than here.
-        mVibrateOn = r.getBoolean(R.bool.config_enable_dialer_key_vibration);
-        mVibrateDuration = (long) r.getInteger(R.integer.config_dialer_key_vibrate_duration);
+        initVibrationPattern(r);
     }
 
     @Override
@@ -584,7 +586,7 @@ public class EmergencyDialer extends Activity
         if (mVibrator == null) {
             mVibrator = new Vibrator();
         }
-        mVibrator.vibrate(mVibrateDuration);
+        mVibrator.vibrate(mVibratePattern, VIBRATE_NO_REPEAT);
     }
 
     /**
@@ -598,4 +600,34 @@ public class EmergencyDialer extends Activity
             mDelete.setEnabled(notEmpty);
         }
     }
+
+    /**
+     * Initialize the vibration parameters.
+     * @param r The Resources with the vibration parameters.
+     */
+    private void initVibrationPattern(Resources r) {
+        int[] pattern = null;
+        try {
+            mVibrateOn = r.getBoolean(R.bool.config_enable_dialer_key_vibration);
+            pattern = r.getIntArray(com.android.internal.R.array.config_virtualKeyVibePattern);
+            if (null == pattern) {
+                Log.e(LOG_TAG, "Vibrate pattern is null.");
+                mVibrateOn = false;
+            }
+        } catch (Resources.NotFoundException nfe) {
+            Log.e(LOG_TAG, "Vibrate control bool or pattern missing.", nfe);
+            mVibrateOn = false;
+        }
+
+        if (!mVibrateOn) {
+            return;
+        }
+
+        // int[] to long[] conversion.
+        mVibratePattern = new long[pattern.length];
+        for (int i = 0; i < pattern.length; i++) {
+            mVibratePattern[i] = pattern[i];
+        }
+    }
+
 }
