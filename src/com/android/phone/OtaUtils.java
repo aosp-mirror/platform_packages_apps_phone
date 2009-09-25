@@ -866,6 +866,6 @@ public class OtaUtils {
     }
 
     public static boolean isCdmaPhone() {
-        return PhoneApp.getInstance().phone.getPhoneName().equals("CDMA");
+        return (PhoneApp.getInstance().phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 }

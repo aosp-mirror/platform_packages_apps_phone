@@ -182,14 +182,17 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             prefSet.removePreference(mButtonPreferredNetworkMode);
             prefSet.removePreference(prefSet.findPreference(BUTTON_GSM_UMTS_OPTIONS));
             prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            int phoneType = mPhone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 addPreferencesFromResource(R.xml.cdma_options);
                 mButtonCdmaRoam =
                     (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
                 cdmaOptions = new CdmaOptions();
-            } else {
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 addPreferencesFromResource(R.xml.gsm_umts_options);
                 gsmumtsOptions = new GsmUmtsOptions();
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
     }

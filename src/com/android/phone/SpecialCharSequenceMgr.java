@@ -173,10 +173,11 @@ public class SpecialCharSequenceMgr {
     static boolean handleIMEIDisplay(Context context,
                                      String input, boolean useSystemWindow) {
         if (input.equals(MMI_IMEI_DISPLAY)) {
-            if (PhoneApp.getInstance().phone.getPhoneName().equals("CDMA")) {
+            int phoneType = PhoneApp.getInstance().phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 showMEIDPanel(context, useSystemWindow);
                 return true;
-            } else {
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 showIMEIPanel(context, useSystemWindow);
                 return true;
             }

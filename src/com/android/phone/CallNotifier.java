@@ -132,9 +132,6 @@ public class CallNotifier extends Handler
     // The tone volume relative to other sounds in the stream SignalInfo
     private static final int TONE_RELATIVE_VOLUME_SIGNALINFO = 80;
 
-    // Additional members for CDMA
-    // TODO: Replace all instance of the string based "CDMA" tests with this boolean.
-    private boolean mPhoneIsCdma = false;
     private Call.State mPreviousCdmaCallState;
     private boolean mCdmaVoicePrivacyState = false;
     private boolean mIsCdmaRedialCall = false;
@@ -149,17 +146,16 @@ public class CallNotifier extends Handler
         mApplication = app;
 
         mPhone = phone;
-        mPhoneIsCdma = mPhone.getPhoneName().equals("CDMA");
+
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-        if (mPhone.getPhoneName().equals("CDMA")) {
-                mPhone.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
-        }
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            mPhone.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
+
             if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
             mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
             mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
@@ -341,7 +337,7 @@ public class CallNotifier extends Handler
         }
 
         // Incoming calls are totally ignored if OTA call is active
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             boolean activateState = (mApplication.cdmaOtaScreenState.otaScreenState
                     == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
             boolean dialogState = (mApplication.cdmaOtaScreenState.otaScreenState
@@ -361,7 +357,7 @@ public class CallNotifier extends Handler
 
         if (c != null && c.isRinging()) {
             // Stop any signalInfo tone being played on receiving a Call
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 stopSignalInfoTone();
             }
 
@@ -565,7 +561,7 @@ public class CallNotifier extends Handler
         NotificationMgr.getDefault().getStatusBarMgr()
                 .enableNotificationAlerts(state == Phone.State.IDLE);
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             if ((mPhone.getForegroundCall().getState() == Call.State.ACTIVE)
                     && ((mPreviousCdmaCallState == Call.State.DIALING)
                     ||  (mPreviousCdmaCallState == Call.State.ALERTING))) {
@@ -598,7 +594,7 @@ public class CallNotifier extends Handler
             // call is originated from the lower layer without using the UI, and
             // since calling does not go through DIALING state, it skips the steps
             // of setting the Audio Mode
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 AudioManager audioManager =
                         (AudioManager) mPhone.getContext().getSystemService(Context.AUDIO_SERVICE);
                 if (audioManager.getMode() != AudioManager.MODE_IN_CALL) {
@@ -626,7 +622,7 @@ public class CallNotifier extends Handler
             NotificationMgr.getDefault().updateInCallNotification();
         }
 
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             Connection c = mPhone.getForegroundCall().getLatestConnection();
             if ((c != null) && (PhoneNumberUtils.isEmergencyNumber(c.getAddress()))) {
                 if (VDBG) log("onPhoneStateChanged: it is an emergency call.");
@@ -683,7 +679,7 @@ public class CallNotifier extends Handler
         mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-        if (mPhone.getPhoneName().equals("CDMA")) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
             mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
             mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
@@ -757,7 +753,7 @@ public class CallNotifier extends Handler
 
         mCdmaVoicePrivacyState = false;
         int autoretrySetting = 0;
-        if (mPhoneIsCdma) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
                     getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
         }
@@ -766,7 +762,7 @@ public class CallNotifier extends Handler
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
         }
 
-        if (mPhoneIsCdma) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             // Stop any signalInfo tone being played when a call gets ended
             stopSignalInfoTone();
 
@@ -798,7 +794,7 @@ public class CallNotifier extends Handler
         // higher preference. At this time framework sends a disconnect for the Out going
         // call connection hence we should *not* be stopping the ringer being played for
         // the Incoming Call
-        if (mPhoneIsCdma) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             if (mPhone.getRingingCall().getState() == Call.State.INCOMING) {
                 // Also we need to take off the "In Call" icon from the Notification
                 // area as the Out going Call never got connected
@@ -919,7 +915,7 @@ public class CallNotifier extends Handler
                 // For international calls, 011 needs to be logged as +
                 final int presentation = getPresentation(c, ci);
 
-                if (mPhoneIsCdma) {
+                if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                     if ((PhoneNumberUtils.isEmergencyNumber(number))
                             && (mCurrentEmergencyToneState != EMERGENCY_TONE_OFF)) {
                         if (mEmergencyTonePlayerVibrator != null) {
@@ -933,10 +929,12 @@ public class CallNotifier extends Handler
                 // not log the emergency number. We gate on CDMA
                 // (ugly) when we actually mean carrier X.
                 // TODO: Clean this up and come up with a unified strategy.
-                final boolean shouldNotlogEmergencyNumber = mPhoneIsCdma;
+                final boolean shouldNotlogEmergencyNumber =
+                        (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
 
                 // Don't call isOtaSpNumber on GSM phones.
-                final boolean isOtaNumber = mPhoneIsCdma && mPhone.isOtaSpNumber(number);
+                final boolean isOtaNumber = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA)
+                        && mPhone.isOtaSpNumber(number);
                 final boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
 
                 // Don't put OTA or CDMA Emergency calls into call log
@@ -1154,14 +1152,17 @@ public class CallNotifier extends Handler
                     toneLengthMillis = 5000;
                     break;
                 case TONE_BUSY:
-                    if (mPhone.getPhoneName().equals("CDMA")) {
+                    int phoneType = mPhone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         toneType = ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT;
                         toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                         toneLengthMillis = 5000;
-                    } else {
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         toneType = ToneGenerator.TONE_SUP_BUSY;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                         toneLengthMillis = 4000;
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
                     break;
                 case TONE_CONGESTION:
@@ -1262,10 +1263,12 @@ public class CallNotifier extends Handler
             boolean okToPlayTone = false;
 
             if (toneGenerator != null) {
-                if (mPhone.getPhoneName().equals("CDMA")) {
+                int phoneType = mPhone.getPhoneType();
+                int ringerMode = audioManager.getRingerMode();
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     if (toneType == ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD) {
-                        if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
-                                (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                        if ((ringerMode != AudioManager.RINGER_MODE_SILENT) &&
+                                (ringerMode != AudioManager.RINGER_MODE_VIBRATE)) {
                             if (DBG) log("- InCallTonePlayer: start playing call tone=" + toneType);
                             okToPlayTone = true;
                             needToStopTone = false;
@@ -1274,15 +1277,15 @@ public class CallNotifier extends Handler
                             (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
                             (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
                             (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {
-                        if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+                        if (ringerMode != AudioManager.RINGER_MODE_SILENT) {
                             if (DBG) log("InCallTonePlayer:playing call fail tone:" + toneType);
                             okToPlayTone = true;
                             needToStopTone = false;
                         }
                     } else if ((toneType == ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE) ||
                                (toneType == ToneGenerator.TONE_CDMA_ALERT_NETWORK_LITE)) {
-                        if ((audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) &&
-                                (audioManager.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE)) {
+                        if ((ringerMode != AudioManager.RINGER_MODE_SILENT) &&
+                                (ringerMode != AudioManager.RINGER_MODE_VIBRATE)) {
                             if (DBG) log("InCallTonePlayer:playing tone for toneType=" + toneType);
                             okToPlayTone = true;
                             needToStopTone = false;
@@ -1680,7 +1683,7 @@ public class CallNotifier extends Handler
             // from the connection.
             if (null == callerInfo || TextUtils.isEmpty(callerInfo.phoneNumber) ||
                 callerInfo.isEmergencyNumber() || callerInfo.isVoiceMailNumber()) {
-                if (mPhoneIsCdma) {
+                if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                     // In cdma getAddress() is not always equals to getOrigDialString().
                     number = conn.getOrigDialString();
                 } else {

@@ -383,7 +383,7 @@ public class BluetoothHandsfree {
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
                     PRECISE_CALL_STATE_CHANGED, null);
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 mPhone.registerForCallWaiting(mStateChangeHandler,
                                               PHONE_CDMA_CALL_WAITING, null);
             }
@@ -405,7 +405,7 @@ public class BluetoothHandsfree {
                                                   SERVICE_STATE_CHANGED, null);
             mPhone.registerForPreciseCallStateChanged(mStateChangeHandler,
                     PRECISE_CALL_STATE_CHANGED, null);
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 mPhone.registerForCallWaiting(mStateChangeHandler,
                                               PHONE_CDMA_CALL_WAITING, null);
             }
@@ -690,7 +690,7 @@ public class BluetoothHandsfree {
                 }
             }
 
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 PhoneApp app = PhoneApp.getInstance();
                 if (app.cdmaPhoneCallState != null) {
                     CdmaPhoneCallState.PhoneCallState currCdmaThreeWayCallState =
@@ -1651,10 +1651,13 @@ public class BluetoothHandsfree {
         parser.register("+CLCC", new AtCommandHandler() {
             @Override
             public AtCommandResult handleActionCommand() {
-                if (mPhone.getPhoneName().equals("CDMA")) {
+                int phoneType = mPhone.getPhoneType();
+                if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     return cdmaGetClccResult();
-                } else {
+                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                     return gsmGetClccResult();
+                } else {
+                    throw new IllegalStateException("Unexpected phone type: " + phoneType);
                 }
             }
         });
@@ -1663,6 +1666,7 @@ public class BluetoothHandsfree {
         parser.register("+CHLD", new AtCommandHandler() {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
+                int phoneType = mPhone.getPhoneType();
                 if (args.length >= 1) {
                     if (args[0].equals(0)) {
                         boolean result;
@@ -1677,7 +1681,7 @@ public class BluetoothHandsfree {
                             return new AtCommandResult(AtCommandResult.ERROR);
                         }
                     } else if (args[0].equals(1)) {
-                        if (mPhone.getPhoneName().equals("CDMA")) {
+                        if (phoneType == Phone.PHONE_TYPE_CDMA) {
                             if (mRingingCall.isRinging()) {
                                 // If there is Call waiting then answer the call and
                                 // put the first call on hold.
@@ -1694,16 +1698,18 @@ public class BluetoothHandsfree {
                                 PhoneUtils.hangup(mPhone);
                             }
                             return new AtCommandResult(AtCommandResult.OK);
-                        } else { // GSM
+                        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                             // Hangup active call, answer held call
                             if (PhoneUtils.answerAndEndActive(mPhone)) {
                                 return new AtCommandResult(AtCommandResult.OK);
                             } else {
                                 return new AtCommandResult(AtCommandResult.ERROR);
                             }
+                        } else {
+                            throw new IllegalStateException("Unexpected phone type: " + phoneType);
                         }
                     } else if (args[0].equals(2)) {
-                        if (mPhone.getPhoneName().equals("CDMA")) {
+                        if (phoneType == Phone.PHONE_TYPE_CDMA) {
                             // For CDMA, the way we switch to a new incoming call is by
                             // calling PhoneUtils.answerCall(). switchAndHoldActive() won't
                             // properly update the call state within telephony.
@@ -1723,23 +1729,27 @@ public class BluetoothHandsfree {
                                 // Toggle the second callers active state flag
                                 cdmaSwapSecondCallState();
                             }
-                        } else { // GSM
+                        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                             PhoneUtils.switchHoldingAndActive(mPhone);
+                        } else {
+                            throw new IllegalStateException("Unexpected phone type: " + phoneType);
                         }
                         return new AtCommandResult(AtCommandResult.OK);
                     } else if (args[0].equals(3)) {
-                        if (mPhone.getPhoneName().equals("CDMA")) {
+                        if (phoneType == Phone.PHONE_TYPE_CDMA) {
                             // For CDMA, we need to check if the call is in THRWAY_ACTIVE state
                             if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
                                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                                 if (VDBG) log("CHLD:3 Merge Calls");
                                 PhoneUtils.mergeCalls(mPhone);
                             }
-                        } else { // GSM
+                        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                             if (mForegroundCall.getState().isAlive() &&
                                     mBackgroundCall.getState().isAlive()) {
                                 PhoneUtils.mergeCalls(mPhone);
                             }
+                        } else {
+                            throw new IllegalStateException("Unexpected phone type: " + phoneType);
                         }
                         return new AtCommandResult(AtCommandResult.OK);
                     }

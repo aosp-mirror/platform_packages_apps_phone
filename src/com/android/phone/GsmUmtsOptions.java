@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.android.phone;
 
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
+import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
 /**
@@ -49,7 +49,7 @@ public class GsmUmtsOptions extends PreferenceActivity {
         mButtonOperatorSelectionExpand =
                 (PreferenceScreen) prefSet.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
         mButtonPrefer2g = (CheckBoxPreference) prefSet.findPreference(BUTTON_PREFER_2G_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneName().equals("CDMA")) {
+        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
             mButtonAPNExpand.setEnabled(false);
             mButtonOperatorSelectionExpand.setEnabled(false);
             mButtonPrefer2g.setEnabled(false);
