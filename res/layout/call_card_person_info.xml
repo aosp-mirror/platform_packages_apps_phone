@@ -28,7 +28,7 @@
     <!-- Photo, with elapsed time widget off to the side. -->
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="116dp"
+        android:layout_height="150dp"
         >
         <!-- Photo, or else a generic placeholder image. -->
         <!-- Contact photos are generally 96x96 (but may be smaller.)
@@ -37,8 +37,8 @@
              adds a white border around the image (and a shadow around
              the white border.) -->
         <ImageView android:id="@+id/photo"
-                   android:layout_width="116dp"
-                   android:layout_height="116dp"
+                   android:layout_width="150dp"
+                   android:layout_height="150dp"
                    android:layout_centerHorizontal="true"
                    android:background="@drawable/incall_photo_border"
                    />
@@ -46,7 +46,7 @@
         <!-- Elapsed time indication for a call in progress. -->
         <TextView android:id="@+id/elapsedTime"
                   android:textAppearance="?android:attr/textAppearanceMedium"
-                  android:textSize="16sp"
+                  android:textSize="15sp"
                   android:textStyle="bold"
                   android:singleLine="true"
                   android:layout_width="wrap_content"
