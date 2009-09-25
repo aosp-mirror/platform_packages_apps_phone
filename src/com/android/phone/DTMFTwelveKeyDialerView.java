@@ -145,11 +145,13 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
     }
 
     /**
-     * Set the background of all the keys.
-     * @param background Is a drawable to be used for each keys's background.
+     * Set the background of all the dialpad keys. Typically a selector to
+     * change the background based on some combination of the
+     * attributes.
+     * @param resid Is a resource id to be used for each button's background.
      */
-    public void setKeysBackground(Drawable background) {
-        mButtonGrid.setChildrenBackground(background);
+    public void setKeysBackgroundResource(int resid) {
+        mButtonGrid.setChildrenBackgroundResource(resid);
     }
 
     private void log(String msg) {
