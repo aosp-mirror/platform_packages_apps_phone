@@ -203,6 +203,7 @@ public class PhoneApp extends Application {
     public OtaUtils.CdmaOtaProvisionData cdmaOtaProvisionData;
     public OtaUtils.CdmaOtaConfigData cdmaOtaConfigData;
     public OtaUtils.CdmaOtaScreenState cdmaOtaScreenState;
+    public OtaUtils.CdmaOtaInCallScreenUiState cdmaOtaInCallScreenUiState;
 
     /**
      * Set the restore mute state flag. Used when we are setting the mute state
@@ -477,6 +478,7 @@ public class PhoneApp extends Application {
             cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
             cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
             cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+            cdmaOtaInCallScreenUiState = new OtaUtils.CdmaOtaInCallScreenUiState();
         }
 
         // XXX pre-load the SimProvider so that it's ready
