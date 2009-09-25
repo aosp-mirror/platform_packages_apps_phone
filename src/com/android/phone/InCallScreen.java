@@ -3368,6 +3368,12 @@ public class InCallScreen extends Activity
             return;
         }
 
+        // Don't need to show the dialog again, if there is one already.
+        if (mCallLostDialog != null) {
+            if (DBG) log("showCallLostDialog: There is a mCallLostDialog already.");
+            return;
+        }
+
         mCallLostDialog = new AlertDialog.Builder(this)
                 .setMessage(R.string.call_lost)
                 .setIcon(android.R.drawable.ic_dialog_alert)
