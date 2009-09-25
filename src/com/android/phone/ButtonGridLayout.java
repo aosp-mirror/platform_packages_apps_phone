@@ -17,7 +17,6 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View.MeasureSpec;
 import android.view.View;
@@ -44,14 +43,16 @@ public class ButtonGridLayout extends ViewGroup {
     }
 
     /**
-     * Set the background of all the children.
-     * @param background Is a drawable to be used for each button's background.
+     * Set the background of all the children. Typically a selector to
+     * change the background based on some combination of the button's
+     * attributes (e.g pressed, enabled...)
+     * @param background Is a resource id to be used for each button's background.
      */
-    public void setChildrenBackground(Drawable background) {
+    public void setChildrenBackgroundResource(int resid) {
         final int count = getChildCount();
 
         for (int i = 0; i < count; i++) {
-            getChildAt(i).setBackgroundDrawable(background);
+            getChildAt(i).setBackgroundResource(resid);
         }
     }
 
