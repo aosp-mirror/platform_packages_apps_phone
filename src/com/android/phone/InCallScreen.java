@@ -883,7 +883,8 @@ public class InCallScreen extends Activity
         // app and the keyguard - the keyguard is trying to sleep at
         // the same time that the phone state is changing.  This can
         // end up causing the sleep request to be ignored.
-        if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)) {
+        if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)
+                && mPhone.getState() != Phone.State.RINGING) {
             if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
             finish();
         }
@@ -1928,8 +1929,19 @@ public class InCallScreen extends Activity
             // higher preference. At this time framework sends a disconnect for the Out going
             // call connection hence we should *not* bring down the InCallScreen as the Phone
             // State would be RINGING
-            if ((mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) && (!currentlyIdle)) {
-                return;
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                if (!currentlyIdle) {
+                    // Clean up any connections in the DISCONNECTED state.
+                    // This is necessary cause in CallCollision the foreground call might have
+                    // connections in DISCONNECTED state which needs to be cleared.
+                    mPhone.clearDisconnected();
+
+                    // The phone is still in use.  Stay here in this activity.
+                    // But we don't need to keep the screen on.
+                    if (DBG) log("onDisconnect: Call Collision case - staying on InCallScreen.");
+                    if (DBG) PhoneUtils.dumpCallState(mPhone);
+                    return;
+                }
             }
 
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
