@@ -275,8 +275,11 @@ public class InCallScreen extends Activity
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
 
-    // DTMF Dialer controller:
+    // DTMF Dialer controller and its view:
     private DTMFTwelveKeyDialer mDialer;
+    private DTMFTwelveKeyDialerView mDialerView;
+    private Drawable mGreenKeyBackground;
+    private Drawable mBlueKeyBackground;
 
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
@@ -602,30 +605,29 @@ public class InCallScreen extends Activity
         // TODO: These should both be ViewStubs, and right here we should
         // inflate one or the other.
         //
-        DTMFTwelveKeyDialerView dialerView;
         SlidingDrawer dialerDrawer;
         if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
             // This is a "full touch" device.
-            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
-            if (DBG) log("- Full touch device!  Found dialerView: " + dialerView);
+            mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
+            if (DBG) log("- Full touch device!  Found dialerView: " + mDialerView);
             dialerDrawer = null;  // No SlidingDrawer used on this device.
         } else {
             // Use the old-style dialpad contained within the SlidingDrawer.
-            dialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
-            if (DBG) log("- Using SlidingDrawer-based dialpad.  Found dialerView: " + dialerView);
+            mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_dialer);
+            if (DBG) log("- Using SlidingDrawer-based dialpad.  Found dialerView: " + mDialerView);
             dialerDrawer = (SlidingDrawer) findViewById(R.id.dialer_container);
             if (DBG) log("  ...and the SlidingDrawer: " + dialerDrawer);
         }
         // Sanity-check that (regardless of the device) at least the
         // dialer view is present:
-        if (dialerView == null) {
+        if (mDialerView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
             // STOPSHIP: For now, throw an exception to make sure we notice
             // this.  But remove this before ship.
             throw new IllegalStateException("Couldn't find dialerView");
         }
         // Finally, create the DTMFTwelveKeyDialer instance.
-        mDialer = new DTMFTwelveKeyDialer(this, dialerView, dialerDrawer);
+        mDialer = new DTMFTwelveKeyDialer(this, mDialerView, dialerDrawer);
 
         registerForPhoneStates();
 
@@ -728,7 +730,9 @@ public class InCallScreen extends Activity
         }
 
         // Set the volume control handler while we are in the foreground.
-        if (isBluetoothAudioConnected()) {
+        final boolean bluetoothConnected = isBluetoothAudioConnected();
+
+        if (bluetoothConnected) {
             setVolumeControlStream(AudioManager.STREAM_BLUETOOTH_SCO);
         } else {
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
@@ -1220,6 +1224,10 @@ public class InCallScreen extends Activity
 
     private void initInCallScreen() {
         if (VDBG) log("initInCallScreen()...");
+
+        Resources r = getResources();
+        mGreenKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_green);
+        mBlueKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_blue);
 
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
@@ -3962,6 +3970,9 @@ public class InCallScreen extends Activity
         //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
         //     is opaque.)
         if (!mDialer.usingSlidingDrawer()) {
+            mDialerView.setKeysBackground(
+                isBluetoothAudioConnected() ? mBlueKeyBackground : mGreenKeyBackground);
+
             if (isDialerOpened()) {
                 mInCallPanel.setVisibility(View.GONE);
             } else {

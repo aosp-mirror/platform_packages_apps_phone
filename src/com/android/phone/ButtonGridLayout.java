@@ -17,12 +17,15 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View.MeasureSpec;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
 
-// TODO: This class and the one in the Contacts app are duplicates.
+// TODO: This class and the one in the Contacts app are almost
+// duplicates. The Contacts instance does not have a
+// setChildrenBackground method.
 
 public class ButtonGridLayout extends ViewGroup {
 
@@ -38,6 +41,18 @@ public class ButtonGridLayout extends ViewGroup {
 
     public ButtonGridLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    /**
+     * Set the background of all the children.
+     * @param background Is a drawable to be used for each button's background.
+     */
+    public void setChildrenBackground(Drawable background) {
+        final int count = getChildCount();
+
+        for (int i = 0; i < count; i++) {
+            getChildAt(i).setBackgroundDrawable(background);
+        }
     }
 
     @Override
