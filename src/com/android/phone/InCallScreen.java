@@ -57,20 +57,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
@@ -82,8 +76,7 @@ import java.util.List;
  * Phone app "in call" screen.
  */
 public class InCallScreen extends Activity
-        implements View.OnClickListener, View.OnTouchListener,
-                CallerInfoAsyncQuery.OnQueryCompleteListener {
+        implements View.OnClickListener, View.OnTouchListener {
     private static final String LOG_TAG = "InCallScreen";
 
     private static final boolean DBG =
@@ -169,9 +162,6 @@ public class InCallScreen extends Activity
     // they should be moved to Settings where the value is being looked up in the first place
     static final int AUTO_RETRY_OFF = 0;
     static final int AUTO_RETRY_ON = 1;
-
-    // See CallTracker.MAX_CONNECTIONS_PER_CALL
-    private static final int MAX_CALLERS_IN_CONFERENCE = 5;
 
     // Message codes; see mHandler below.
     // Note message codes < 100 are reserved for the PhoneApp.
@@ -274,6 +264,7 @@ public class InCallScreen extends Activity
     private InCallControlState mInCallControlState;
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
+    private ManageConferenceUtils mManageConferenceUtils;
 
     // DTMF Dialer controller and its view:
     private DTMFTwelveKeyDialer mDialer;
@@ -292,13 +283,6 @@ public class InCallScreen extends Activity
 
     // For OTA Call
     public OtaUtils otaUtils;
-
-    // "Manage conference" UI elements
-    private ViewGroup mManageConferencePanel;
-    private Button mButtonManageConferenceDone;
-    private ViewGroup[] mConferenceCallList;
-    private int mNumCallersInConference;
-    private Chronometer mConferenceTime;
 
     private EditText mWildPromptText;
 
@@ -603,7 +587,8 @@ public class InCallScreen extends Activity
         //   (see non_drawer_dialpad.xml).
         //
         // TODO: These should both be ViewStubs, and right here we should
-        // inflate one or the other.
+        // inflate one or the other.  (Also, while doing that, let's also
+        // move this block of code over to initInCallScreen().)
         //
         SlidingDrawer dialerDrawer;
         if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
@@ -860,11 +845,9 @@ public class InCallScreen extends Activity
         // and the telephony state did not change.
         app.setBeginningCall(false);
 
-        // make sure the chronometer is stopped when we move away from
-        // the foreground.
-        if (mConferenceTime != null) {
-            mConferenceTime.stop();
-        }
+        // Make sure the "Manage conference" chronometer is stopped when
+        // we move away from the foreground.
+        mManageConferenceUtils.stopConferenceTime();
 
         // as a catch-all, make sure that any dtmf tones are stopped
         // when the UI is no longer in the foreground.
@@ -1226,8 +1209,8 @@ public class InCallScreen extends Activity
         if (VDBG) log("initInCallScreen()...");
 
         Resources r = getResources();
-        mGreenKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_green);
-        mBlueKeyBackground = (Drawable)r.getDrawable(R.drawable.btn_dial_blue);
+        mGreenKeyBackground = (Drawable) r.getDrawable(R.drawable.btn_dial_green);
+        mBlueKeyBackground = (Drawable) r.getDrawable(R.drawable.btn_dial_blue);
 
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
@@ -1245,6 +1228,9 @@ public class InCallScreen extends Activity
 
         // Helper class to keep track of enabledness/state of UI controls
         mInCallControlState = new InCallControlState(this, mPhone);
+
+        // Helper class to run the "Manage conference" UI
+        mManageConferenceUtils = new ManageConferenceUtils(this, mPhone);
     }
 
     /**
@@ -1722,20 +1708,20 @@ public class InCallScreen extends Activity
             // else let it stay as AUTO_RETRY_OFF
             if (currentlyIdle) {
                 autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
-                        getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+                        getContentResolver(), android.provider.Settings.System.CALL_AUTO_RETRY, 0);
             }
         }
 
         // for OTA Call, only if in OTA NORMAL mode, handle OTA END scenario
         final PhoneApp app = PhoneApp.getInstance();
         if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                && ((app.cdmaOtaProvisionData!=null)
+                && ((app.cdmaOtaProvisionData != null)
                 && (!app.cdmaOtaProvisionData.inOtaSpcState))) {
             setInCallScreenMode(InCallScreenMode.OTA_ENDED);
             updateScreen();
             return;
         } else if ((mInCallScreenMode == InCallScreenMode.OTA_ENDED)
-                || ((app.cdmaOtaProvisionData!=null) && app.cdmaOtaProvisionData.inOtaSpcState)) {
+                || ((app.cdmaOtaProvisionData != null) && app.cdmaOtaProvisionData.inOtaSpcState)) {
            if (DBG) log("onDisconnect: OTA Call end already handled");
            return;
         }
@@ -1768,7 +1754,7 @@ public class InCallScreen extends Activity
         if (mPhone.getPhoneName().equals("CDMA")) {
             Call.State callState = PhoneApp.getInstance().notifier.getPreviousCdmaCallState();
             if ((callState == Call.State.ACTIVE)
-                    && (cause != Connection.DisconnectCause.INCOMING_MISSED )
+                    && (cause != Connection.DisconnectCause.INCOMING_MISSED)
                     && (cause != Connection.DisconnectCause.NORMAL)
                     && (cause != Connection.DisconnectCause.LOCAL)
                     && (cause != Connection.DisconnectCause.INCOMING_REJECTED)) {
@@ -3557,38 +3543,6 @@ public class InCallScreen extends Activity
 
     }
 
-    //
-    // "Manage conference" UI.
-    //
-    // TODO: There's a lot of code here, and this source file is already too large.
-    // Consider moving all this code out to a separate class.
-    //
-
-    private void initManageConferencePanel() {
-        if (VDBG) log("initManageConferencePanel()...");
-        if (mManageConferencePanel == null) {
-            mManageConferencePanel = (ViewGroup) findViewById(R.id.manageConferencePanel);
-
-            // set up the Conference Call chronometer
-            mConferenceTime = (Chronometer) findViewById(R.id.manageConferencePanelHeader);
-            mConferenceTime.setFormat(getString(R.string.caller_manage_header));
-
-            // Create list of conference call widgets
-            mConferenceCallList = new ViewGroup[MAX_CALLERS_IN_CONFERENCE];
-            {
-                final int[] viewGroupIdList = {R.id.caller0, R.id.caller1, R.id.caller2,
-                        R.id.caller3, R.id.caller4};
-                for (int i = 0; i < MAX_CALLERS_IN_CONFERENCE; i++) {
-                    mConferenceCallList[i] = (ViewGroup) findViewById(viewGroupIdList[i]);
-                }
-            }
-
-            mButtonManageConferenceDone =
-                    (Button) findViewById(R.id.manage_done);
-            mButtonManageConferenceDone.setOnClickListener(this);
-        }
-    }
-
     /**
      * Sets the current high-level "mode" of the in-call UI.
      *
@@ -3619,17 +3573,27 @@ public class InCallScreen extends Activity
                     return;
                 }
 
-                initManageConferencePanel();  // if necessary
-                updateManageConferencePanel(connections);
+                // TODO: Don't do this here. The call to
+                // initManageConferencePanel() should instead happen
+                // automagically in ManageConferenceUtils the very first
+                // time you call updateManageConferencePanel() or
+                // setPanelVisible(true).
+                mManageConferenceUtils.initManageConferencePanel();  // if necessary
+
+                mManageConferenceUtils.updateManageConferencePanel(connections);
 
                 // The "Manage conference" UI takes up the full main frame,
                 // replacing the inCallPanel and CallCard PopupWindow.
-                mManageConferencePanel.setVisibility(View.VISIBLE);
+                mManageConferenceUtils.setPanelVisible(true);
 
-                // start the chronometer.
+                // Start the chronometer.
+                // TODO: Similarly, we shouldn't expose startConferenceTime()
+                // and stopConferenceTime(); the ManageConferenceUtils
+                // class ought to manage the conferenceTime widget itself
+                // based on setPanelVisible() calls.
                 long callDuration = mForegroundCall.getEarliestConnection().getDurationMillis();
-                mConferenceTime.setBase(SystemClock.elapsedRealtime() - callDuration);
-                mConferenceTime.start();
+                mManageConferenceUtils.startConferenceTime(
+                        SystemClock.elapsedRealtime() - callDuration);
 
                 mInCallPanel.setVisibility(View.GONE);
 
@@ -3642,11 +3606,9 @@ public class InCallScreen extends Activity
                 // Display the CallCard (in the "Call ended" state)
                 // and hide all other UI.
 
-                if (mManageConferencePanel != null) {
-                    mManageConferencePanel.setVisibility(View.GONE);
-                    // stop the timer if the panel is hidden.
-                    mConferenceTime.stop();
-                }
+                mManageConferenceUtils.setPanelVisible(false);
+                mManageConferenceUtils.stopConferenceTime();
+
                 updateMenuButtonHint();  // Hide the Menu button hint
 
                 // Make sure the CallCard (which is a child of mInCallPanel) is visible.
@@ -3656,11 +3618,8 @@ public class InCallScreen extends Activity
 
             case NORMAL:
                 mInCallPanel.setVisibility(View.VISIBLE);
-                if (mManageConferencePanel != null) {
-                    mManageConferencePanel.setVisibility(View.GONE);
-                    // stop the timer if the panel is hidden.
-                    mConferenceTime.stop();
-                }
+                mManageConferenceUtils.setPanelVisible(false);
+                mManageConferenceUtils.stopConferenceTime();
                 break;
 
             case OTA_NORMAL:
@@ -3686,44 +3645,15 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates the "Manage conference" UI based on the specified List of
-     * connections.
-     *
-     * @param connections the List of connections belonging to
-     *        the current foreground call; size must be greater than 1
-     *        (or it wouldn't be a conference call in the first place.)
-     */
-    private void updateManageConferencePanel(List<Connection> connections) {
-        mNumCallersInConference = connections.size();
-        if (VDBG) log("updateManageConferencePanel()... num connections in conference = "
-                     + mNumCallersInConference);
-
-        // Can we give the user the option to separate out ("go private with") a single
-        // caller from this conference?
-        final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
-        boolean canSeparate = !(hasActiveCall && hasHoldingCall);
-
-        for (int i = 0; i < MAX_CALLERS_IN_CONFERENCE; i++) {
-            if (i < mNumCallersInConference) {
-                // Fill in the row in the UI for this caller.
-                Connection connection = (Connection) connections.get(i);
-                updateManageConferenceRow(i, connection, canSeparate);
-            } else {
-                // Blank out this row in the UI
-                updateManageConferenceRow(i, null, false);
-            }
-        }
-    }
-
-    /**
      * Checks if the "Manage conference" UI needs to be updated.
      * If the state of the current conference call has changed
      * since our previous call to updateManageConferencePanel()),
-     * do a fresh update.
+     * do a fresh update.  Also, if the current call is no longer a
+     * conference call at all, bail out of the "Manage conference" UI and
+     * return to InCallScreenMode.NORMAL mode.
      */
     private void updateManageConferencePanelIfNecessary() {
-        if (VDBG) log("updateManageConferencePanel: mForegroundCall " + mForegroundCall + "...");
+        if (VDBG) log("updateManageConferencePanelIfNecessary: " + mForegroundCall + "...");
 
         List<Connection> connections = mForegroundCall.getConnections();
         if (connections == null) {
@@ -3758,176 +3688,13 @@ public class InCallScreen extends Activity
             }
             return;
         }
-        if (numConnections != mNumCallersInConference) {
+
+        // TODO: the test to see if numConnections has changed can go in
+        // updateManageConferencePanel(), rather than here.
+        if (numConnections != mManageConferenceUtils.getNumCallersInConference()) {
             if (VDBG) log("==> Conference size has changed; need to rebuild UI!");
-            updateManageConferencePanel(connections);
-            return;
+            mManageConferenceUtils.updateManageConferencePanel(connections);
         }
-    }
-
-    /**
-     * Updates a single row of the "Manage conference" UI.  (One row in this
-     * UI represents a single caller in the conference.)
-     *
-     * @param i the row to update
-     * @param connection the Connection corresponding to this caller.
-     *        If null, that means this is an "empty slot" in the conference,
-     *        so hide this row in the UI.
-     * @param canSeparate if true, show a "Separate" (i.e. "Private") button
-     *        on this row in the UI.
-     */
-    private void updateManageConferenceRow(final int i,
-                                           final Connection connection,
-                                           boolean canSeparate) {
-        if (VDBG) log("updateManageConferenceRow(" + i + ")...  connection = " + connection);
-
-        if (connection != null) {
-            // Activate this row of the Manage conference panel:
-            mConferenceCallList[i].setVisibility(View.VISIBLE);
-
-            // get the relevant children views
-            ImageButton endButton = (ImageButton) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerDisconnect);
-            ImageButton separateButton = (ImageButton) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerSeparate);
-            TextView nameTextView = (TextView) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerName);
-            TextView numberTextView = (TextView) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerNumber);
-            TextView numberTypeTextView = (TextView) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerNumberType);
-
-            if (VDBG) log("- button: " + endButton + ", nameTextView: " + nameTextView);
-
-            // Hook up this row's buttons.
-            View.OnClickListener endThisConnection = new View.OnClickListener() {
-                    public void onClick(View v) {
-                        endConferenceConnection(i, connection);
-                        PhoneApp.getInstance().pokeUserActivity();
-                    }
-                };
-            endButton.setOnClickListener(endThisConnection);
-            //
-            if (canSeparate) {
-                View.OnClickListener separateThisConnection = new View.OnClickListener() {
-                        public void onClick(View v) {
-                            separateConferenceConnection(i, connection);
-                            PhoneApp.getInstance().pokeUserActivity();
-                        }
-                    };
-                separateButton.setOnClickListener(separateThisConnection);
-                separateButton.setVisibility(View.VISIBLE);
-            } else {
-                separateButton.setVisibility(View.INVISIBLE);
-            }
-
-            // Name/number for this caller.
-            // TODO: need to deal with private or blocked caller id?
-            PhoneUtils.CallerInfoToken info = PhoneUtils.startGetCallerInfo(this, connection,
-                    this, mConferenceCallList[i]);
-
-            // display the CallerInfo.
-            displayCallerInfoForConferenceRow (info.currentInfo, nameTextView,
-                    numberTypeTextView, numberTextView);
-        } else {
-            // Disable this row of the Manage conference panel:
-            mConferenceCallList[i].setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
-     * refreshes the nameTextView when called.
-     */
-    public void onQueryComplete(int token, Object cookie, CallerInfo ci){
-        if (VDBG) log("callerinfo query complete, updating UI." + ci);
-
-        // get the viewgroup (conference call list item) and make it visible
-        ViewGroup vg = (ViewGroup) cookie;
-        vg.setVisibility(View.VISIBLE);
-
-        // update the list item with this information.
-        displayCallerInfoForConferenceRow (ci,
-                (TextView) vg.findViewById(R.id.conferenceCallerName),
-                (TextView) vg.findViewById(R.id.conferenceCallerNumberType),
-                (TextView) vg.findViewById(R.id.conferenceCallerNumber));
-    }
-
-    /**
-     * Helper function to fill out the Conference Call(er) information
-     * for each item in the "Manage Conference Call" list.
-     */
-    private final void displayCallerInfoForConferenceRow(CallerInfo ci, TextView nameTextView,
-            TextView numberTypeTextView, TextView numberTextView) {
-
-        // gather the correct name and number information.
-        String callerName = "";
-        String callerNumber = "";
-        String callerNumberType = "";
-        if (ci != null) {
-            callerName = ci.name;
-            if (TextUtils.isEmpty(callerName)) {
-                callerName = ci.phoneNumber;
-                if (TextUtils.isEmpty(callerName)) {
-                    callerName = getString(R.string.unknown);
-                }
-            } else {
-                callerNumber = ci.phoneNumber;
-                callerNumberType = ci.phoneLabel;
-            }
-        }
-
-        // set the caller name
-        nameTextView.setText(callerName);
-
-        // set the caller number in subscript, or make the field disappear.
-        if (TextUtils.isEmpty(callerNumber)) {
-            numberTextView.setVisibility(View.GONE);
-            numberTypeTextView.setVisibility(View.GONE);
-        } else {
-            numberTextView.setVisibility(View.VISIBLE);
-            numberTextView.setText(callerNumber);
-            numberTypeTextView.setVisibility(View.VISIBLE);
-            numberTypeTextView.setText(callerNumberType);
-        }
-    }
-
-    /**
-     * Ends the specified connection on a conference call.  This method is
-     * run (via a closure containing a row index and Connection) when the
-     * user clicks the "End" button on a specific row in the Manage
-     * conference UI.
-     */
-    private void endConferenceConnection(int i, Connection connection) {
-        if (VDBG) log("===> ENDING conference connection " + i
-                      + ": Connection " + connection);
-        // The actual work of ending the connection:
-        PhoneUtils.hangup(connection);
-        // No need to manually update the "Manage conference" UI here;
-        // that'll happen automatically very soon (when we get the
-        // onDisconnect() callback triggered by this hangup() call.)
-    }
-
-    /**
-     * Separates out the specified connection on a conference call.  This
-     * method is run (via a closure containing a row index and Connection)
-     * when the user clicks the "Separate" (i.e. "Private") button on a
-     * specific row in the Manage conference UI.
-     */
-    private void separateConferenceConnection(int i, Connection connection) {
-        if (VDBG) log("===> SEPARATING conference connection " + i
-                      + ": Connection " + connection);
-
-        PhoneUtils.separateCall(connection);
-
-        // Note that separateCall() automagically makes the
-        // newly-separated call into the foreground call (which is the
-        // desired UI), so there's no need to do any further
-        // call-switching here.
-        // There's also no need to manually update (or hide) the "Manage
-        // conference" UI; that'll happen on its own in a moment (when we
-        // get the phone state change event triggered by the call to
-        // separateCall().)
     }
 
     /**
