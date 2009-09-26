@@ -843,6 +843,40 @@ public class OtaUtils {
     }
 
     /**
+     * The state of the OTA InCallScreen UI.
+     */
+    public static class CdmaOtaInCallScreenUiState {
+        public enum State {
+            UNDEFINED,
+            NORMAL,
+            ENDED
+        }
+
+        public State state;
+
+        public CdmaOtaInCallScreenUiState() {
+            if (DBG) log("CdmaOtaInCallScreenState: constructor init to UNDEFINED");
+            state = CdmaOtaInCallScreenUiState.State.UNDEFINED;
+        }
+    }
+
+    /**
+     * Save the Ota InCallScreen UI state
+     */
+    public void setCdmaOtaInCallScreenUiState(CdmaOtaInCallScreenUiState.State state) {
+        if (DBG) log("setCdmaOtaInCallScreenState: " + state);
+        mApplication.cdmaOtaInCallScreenUiState.state = state;
+    }
+
+    /**
+     * Get the Ota InCallScreen UI state
+     */
+    public CdmaOtaInCallScreenUiState.State getCdmaOtaInCallScreenUiState() {
+        if (DBG) log("getCdmaOtaInCallScreenState: " + mApplication.cdmaOtaInCallScreenUiState.state);
+        return mApplication.cdmaOtaInCallScreenUiState.state;
+    }
+
+    /**
      * The OTA screen state machine.
      */
     public static class CdmaOtaScreenState {
