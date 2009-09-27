@@ -68,6 +68,7 @@ import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
+import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 import java.util.List;
@@ -630,6 +631,7 @@ public class InCallScreen extends Activity
             // mInCallInitialStatus field.  If it's an error code, we'll
             // handle it in onResume().
             mInCallInitialStatus = internalResolveIntent(getIntent());
+            if (DBG) log("onCreate(): mInCallInitialStatus = " + mInCallInitialStatus);
             if (mInCallInitialStatus != InCallInitStatus.SUCCESS) {
                 Log.w(LOG_TAG, "onCreate: status " + mInCallInitialStatus
                       + " from internalResolveIntent()");
@@ -644,6 +646,7 @@ public class InCallScreen extends Activity
         mUseTouchLockOverlay = !app.proximitySensorModeEnabled();
 
         Profiler.callScreenCreated();
+        if (DBG) log("onCreate(): exit");
     }
 
     /**
@@ -1119,6 +1122,8 @@ public class InCallScreen extends Activity
         if (intent == null || intent.getAction() == null) {
             return InCallInitStatus.SUCCESS;
         }
+
+        checkIsOtaCall(intent);
 
         String action = intent.getAction();
         if (DBG) log("internalResolveIntent: action=" + action);
@@ -3650,8 +3655,21 @@ public class InCallScreen extends Activity
                 break;
 
             case OTA_NORMAL:
-            case OTA_ENDED:
+                otaUtils.setCdmaOtaInCallScreenUiState(
+                        OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL);
                 mInCallPanel.setVisibility(View.GONE);
+                break;
+
+            case OTA_ENDED:
+                otaUtils.setCdmaOtaInCallScreenUiState(
+                        OtaUtils.CdmaOtaInCallScreenUiState.State.ENDED);
+                mInCallPanel.setVisibility(View.GONE);
+                break;
+
+            case UNDEFINED:
+                otaUtils.setCdmaOtaInCallScreenUiState(
+                        OtaUtils.CdmaOtaInCallScreenUiState.State.UNDEFINED);
+                mInCallPanel.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -4623,8 +4641,10 @@ public class InCallScreen extends Activity
             if (isRingingCall) {
                 if (DBG) log("checkIsOtaCall isRingingCall: " + isRingingCall);
                 return false;
-            } else if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                    || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)) {
+            } else if ((app.cdmaOtaInCallScreenUiState.state
+                            == CdmaOtaInCallScreenUiState.State.NORMAL)
+                    || (app.cdmaOtaInCallScreenUiState.state
+                            == CdmaOtaInCallScreenUiState.State.ENDED)) {
                 if (DBG) log("checkIsOtaCall action ACTION_MAIN, OTA call already in progress");
                 isOtaCall = true;
             } else {
@@ -4637,6 +4657,11 @@ public class InCallScreen extends Activity
             }
         }
         if (DBG) log("checkIsOtaCall valid =" + isOtaCall);
+        if (isOtaCall && (otaUtils == null)) {
+            if (DBG) log("checkIsOtaCall create OtaUtils");
+            otaUtils = new OtaUtils(getApplicationContext(),
+                                        this, mInCallPanel, mCallCard, mDialer);
+        }
         return isOtaCall;
     }
 
@@ -4660,22 +4685,17 @@ public class InCallScreen extends Activity
                 return;
             }
 
-            boolean isOtaCall = checkIsOtaCall(getIntent());
-
-            if (isOtaCall) {
-                if (otaUtils == null) {
-                    otaUtils = new OtaUtils(getApplicationContext(),
-                            this, mInCallPanel, mCallCard, mDialer);
-                }
-            }
-
-            if (isOtaCall) {
-                if ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                        || (mInCallScreenMode == InCallScreenMode.OTA_ENDED)) {
-                    if (DBG) log("initOtaState - Already in OTA_NORMAL/OTA_END state");
-                    setInCallScreenMode(mInCallScreenMode);
+            if (checkIsOtaCall(getIntent())) {
+                OtaUtils.CdmaOtaInCallScreenUiState.State cdmaOtaInCallScreenState =
+                        otaUtils.getCdmaOtaInCallScreenUiState();
+                if (cdmaOtaInCallScreenState == OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL) {
+                    if (DBG) log("initOtaState - in OTA Normal mode");
+                    setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+                } else if (cdmaOtaInCallScreenState == OtaUtils.CdmaOtaInCallScreenUiState.State.ENDED) {
+                    if (DBG) log("initOtaState - in OTA END mode");
+                    setInCallScreenMode(InCallScreenMode.OTA_ENDED);
                 } else if (app.cdmaOtaScreenState.otaScreenState ==
-                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG) {
+                                CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG) {
                     if (DBG) log("initOtaState - set OTA END Mode");
                     setInCallScreenMode(InCallScreenMode.OTA_ENDED);
                 } else {
