@@ -269,8 +269,6 @@ public class InCallScreen extends Activity
     // DTMF Dialer controller and its view:
     private DTMFTwelveKeyDialer mDialer;
     private DTMFTwelveKeyDialerView mDialerView;
-    private Drawable mGreenKeyBackground;
-    private Drawable mBlueKeyBackground;
 
     // TODO: Move these providers related fields in their own class.
     // Optional overlay when a 3rd party provider is used.
@@ -1214,10 +1212,6 @@ public class InCallScreen extends Activity
 
     private void initInCallScreen() {
         if (VDBG) log("initInCallScreen()...");
-
-        Resources r = getResources();
-        mGreenKeyBackground = (Drawable) r.getDrawable(R.drawable.btn_dial_green);
-        mBlueKeyBackground = (Drawable) r.getDrawable(R.drawable.btn_dial_blue);
 
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
@@ -3776,8 +3770,8 @@ public class InCallScreen extends Activity
         //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
         //     is opaque.)
         if (!mDialer.usingSlidingDrawer()) {
-            mDialerView.setKeysBackground(
-                isBluetoothAudioConnected() ? mBlueKeyBackground : mGreenKeyBackground);
+            mDialerView.setKeysBackgroundResource(
+                isBluetoothAudioConnected() ? R.drawable.btn_dial_blue : R.drawable.btn_dial_green);
 
             if (isDialerOpened()) {
                 mInCallPanel.setVisibility(View.GONE);
