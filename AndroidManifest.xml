@@ -157,6 +157,7 @@
 
         <activity-alias android:name="PrivilegedOutgoingCallBroadcaster"
                 android:targetActivity="OutgoingCallBroadcaster"
+                android:theme="@android:style/Theme.NoDisplay"
                 android:permission="android.permission.CALL_PRIVILEGED">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
@@ -180,13 +181,6 @@
         <receiver android:name="ProcessOutgoingCallTest" android:exported="false"
             android:enabled="false">
             <intent-filter android:priority="1">
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name="OutgoingCallReceiver" android:exported="false">
-            <intent-filter android:priority="-100">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

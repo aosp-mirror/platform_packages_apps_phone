@@ -45,6 +45,99 @@ public class OutgoingCallBroadcaster extends Activity {
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
 
+    /**
+     * OutgoingCallReceiver finishes NEW_OUTGOING_CALL broadcasts, starting
+     * the InCallScreen if the broadcast has not been canceled, possibly with
+     * a modified phone number and optional provider info (uri + package name + remote views.)
+     */
+    public class OutgoingCallReceiver extends BroadcastReceiver {
+
+        private static final String TAG = "OutgoingCallReceiver";
+        private static final boolean LOGV = Config.LOGV;
+
+        public void onReceive(Context context, Intent intent) {
+            doReceive(context, intent);
+            finish();
+        }
+        
+        public void doReceive(Context context, Intent intent) {
+            boolean alreadyCalled;
+            String number;
+            String originalUri;
+
+            if (LOGV) Log.v(TAG, "Receiving intent " + intent + ".");
+
+            alreadyCalled = intent.getBooleanExtra(
+                    OutgoingCallBroadcaster.EXTRA_ALREADY_CALLED, false);
+            if (alreadyCalled) {
+                if (LOGV) Log.v(TAG, "CALL already placed -- returning.");
+                return;
+            }
+
+            number = getResultData();
+            final PhoneApp app = PhoneApp.getInstance();
+            int phoneType = app.phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                boolean activateState = (app.cdmaOtaScreenState.otaScreenState
+                        == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
+                boolean dialogState = (app.cdmaOtaScreenState.otaScreenState
+                        == OtaUtils.CdmaOtaScreenState.OtaScreenState
+                        .OTA_STATUS_SUCCESS_FAILURE_DLG);
+                boolean isOtaCallActive = false;
+
+                if ((app.cdmaOtaScreenState.otaScreenState
+                        == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS)
+                        || (app.cdmaOtaScreenState.otaScreenState
+                        == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING)) {
+                    isOtaCallActive = true;
+                }
+
+                if (activateState || dialogState) {
+                    if (dialogState) app.dismissOtaDialogs();
+                    app.clearOtaState();
+                    app.clearInCallScreenMode();
+                } else if (isOtaCallActive) {
+                    if (LOGV) Log.v(TAG, "OTA call is active, a 2nd CALL cancelled -- returning.");
+                    return;
+                }
+            }
+
+            if (number == null) {
+                if (LOGV) Log.v(TAG, "CALL cancelled -- returning.");
+                return;
+            } else if ((phoneType == Phone.PHONE_TYPE_CDMA)
+                    && ((app.phone.getState() != Phone.State.IDLE)
+                    && (app.phone.isOtaSpNumber(number)))) {
+                if (LOGV) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
+                return;
+            } else if (PhoneNumberUtils.isEmergencyNumber(number)) {
+                Log.w(TAG, "Cannot modify outgoing call to emergency number " + number + ".");
+                return;
+            }
+
+            originalUri = intent.getStringExtra(
+                    OutgoingCallBroadcaster.EXTRA_ORIGINAL_URI);
+            if (originalUri == null) {
+                Log.e(TAG, "Intent is missing EXTRA_ORIGINAL_URI -- returning.");
+                return;
+            }
+
+            Uri uri = Uri.parse(originalUri);
+
+            if (LOGV) Log.v(TAG, "CALL to " + number + " proceeding.");
+
+            Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
+            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+
+            PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
+
+            newIntent.setClass(context, InCallScreen.class);
+            newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            context.startActivity(newIntent);
+        }
+    }
+    
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -152,10 +245,8 @@ public class OutgoingCallBroadcaster extends Activity {
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
         if (LOGV) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");
-        sendOrderedBroadcast(broadcastIntent, PERMISSION, null, null,
-                             Activity.RESULT_OK, number, null);
-
-        finish();
+        sendOrderedBroadcast(broadcastIntent, PERMISSION,
+                new OutgoingCallReceiver(), null, Activity.RESULT_OK, number, null);
+        // The receiver will finish our activity when it finally runs.
     }
-
 }
