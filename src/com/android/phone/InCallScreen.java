@@ -3667,8 +3667,10 @@ public class InCallScreen extends Activity
                 break;
 
             case UNDEFINED:
-                otaUtils.setCdmaOtaInCallScreenUiState(
-                        OtaUtils.CdmaOtaInCallScreenUiState.State.UNDEFINED);
+                if (otaUtils != null) {
+                    otaUtils.setCdmaOtaInCallScreenUiState(
+                            OtaUtils.CdmaOtaInCallScreenUiState.State.UNDEFINED);
+                }
                 mInCallPanel.setVisibility(View.VISIBLE);
                 break;
         }
