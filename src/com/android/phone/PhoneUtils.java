@@ -673,9 +673,12 @@ public class PhoneUtils {
 
             // retrieve the mute value.
             Boolean shouldMute = null;
-            if (phoneType == Phone.PHONE_TYPE_CDMA &&
-                    PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
-                    CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+
+            // In CDMA, mute is not maintained per Connection. Single mute apply for
+            // a call where  call can have multiple connections such as
+            // Three way and Call Waiting.  Therefore retrieving Mute state for
+            // latest connection can apply for all connection in that call
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 shouldMute = sConnectionMuteTable.get(
                         phone.getForegroundCall().getLatestConnection());
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
