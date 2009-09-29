@@ -99,7 +99,7 @@
     <string name="unlock_failed" msgid="6490531697031504225">"Richiesta di sblocco della rete respinta."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Sblocco della rete riuscito."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Impostaz. di chiamata GSM"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Imp. chiamate GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Impostazioni di chiamata CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Nomi punti di accesso"</string>
     <string name="settings_label" msgid="3876743539816984008">"Impostazioni di rete"</string>
@@ -354,7 +354,7 @@
     <item msgid="4377788417250295786">"0"</item>
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
-    <string name="fdn" msgid="7878832555095183202">"Numeri di selez. fissa"</string>
+    <string name="fdn" msgid="7878832555095183202">"Numeri selezione fissa"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Elenco FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Attivazione FDN"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Numeri di selezione fissa attivi"</string>

@@ -39,39 +39,25 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Alle opkald er begrænset af adgangskontrol."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nødopkald er begrænset af adgangskontrol."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Normale opkald er begrænset af adgangskontrol."</string>
-    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
-    <skip />
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefon låst indtil strømcyklus."</string>
+    <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: Opkald opgivet."</string>
+    <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA: Opkald aflyttet."</string>
+    <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: genkald."</string>
+    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Servicemulighed afvist."</string>
+    <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: prøv genkald igen."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Adgangsfejl."</string>
+    <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Flyttet."</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Det er kun muligt at foretage nødopkald."</string>
     <string name="confCall" msgid="1904840547188336828">"Telefonmøde"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI-nummer er startet"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD-kode kører ..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI-nummer annulleret"</string>
     <string name="cancel" msgid="5044513931633602634">"Annuller"</string>
-    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
-    <skip />
-    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
-    <skip />
-    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
-    <skip />
-    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
-    <skip />
-    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
-    <skip />
+    <string name="ecbm_mode_text" msgid="6485648046794782672">"Nødtilbagekald"</string>
+    <string name="ecbm_exit_text" msgid="622759135506401127">"AFSLUT"</string>
+    <string name="ecbm_ok_text" msgid="1373363960570351032">"OK"</string>
+    <string name="ecbm_emergency_number" msgid="4131632362330756509">"Ring til 112"</string>
+    <string name="ecbm_instruction_text" msgid="5039940054364946169">"Tryk på knap for nødopkald"</string>
     <string name="menu_speaker" msgid="6069700688651964705">"Højttaler"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Slå lyd fra"</string>
@@ -88,10 +74,8 @@
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="menuButtonHint" msgid="4853215496220101699">"Tryk på Menu for at få opkaldsvalgmuligheder."</string>
     <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryk på menu for opkaldsvalgmuligheder  •  Brug tastatur til at ringe op"</string>
-    <!-- no translation found for menu_answer (116686205042231098) -->
-    <skip />
-    <!-- no translation found for menu_ignore (2112030835852537344) -->
-    <skip />
+    <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
+    <string name="menu_ignore" msgid="2112030835852537344">"Ignorer"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Send følgende toner?"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Send"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Erstat jokertegnet med"</string>
@@ -115,24 +99,18 @@
     <string name="unlock_failed" msgid="6490531697031504225">"Anmodningen om oplåsning af netværk mislykkedes."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Netværket blev låst op."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI-nummer"</string>
-    <!-- no translation found for labelGSMMore (5930842194056092106) -->
-    <skip />
-    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
-    <skip />
+    <string name="labelGSMMore" msgid="5930842194056092106">"GSM-opkaldsindstillinger"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA-opkaldsindstillinger"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Navne på adgangspkt."</string>
     <string name="settings_label" msgid="3876743539816984008">"Netværksindstillinger"</string>
     <string name="voicemail" msgid="8693759337917898954">"Voicemail"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"Netværksudbydere"</string>
     <string name="call_settings" msgid="6112441768261754562">"Opkaldsindstillinger"</string>
-    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
-    <skip />
-    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
-    <skip />
-    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
-    <skip />
-    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
-    <skip />
+    <string name="additional_gsm_call_settings" msgid="6472260354879794056">"Yderligere GSM-opkaldsindstillinger"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Yderligere opkaldsindstillinger for kun GSM"</string>
+    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Yderligere CDMA-opkaldsindstillinger"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Yderligere opkaldsindstillinger for kun CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Indstillinger for netværkstjeneste"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Opkalds-id"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Nummer skjules i udgående opkald"</string>
@@ -164,8 +142,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Fejl med opkaldsindstillinger"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Læser indstillinger ..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Opdaterer indstillinger ..."</string>
-    <!-- no translation found for response_error (6674110501330139405) -->
-    <skip />
+    <string name="response_error" msgid="6674110501330139405">"Uventet svar fra netværk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netværks- eller SIM-kortfejl"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Slå radioen til, inden du viser disse indstillinger."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
@@ -195,251 +172,188 @@
     <string name="sum_search_networks" msgid="2921092249873272715">"Søg efter alle tilgængelige netværk"</string>
     <string name="select_automatically" msgid="8615980695510888796">"Vælg automatisk"</string>
     <string name="sum_select_automatically" msgid="8460954604521755275">"Vælg automatisk det foretrukne netværk"</string>
-    <!-- no translation found for register_automatically (6272031189219101172) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
-    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
-    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
-    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
-    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
-    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
-    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
-    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
-    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
-    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
-    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
-    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
-    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
-    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
-    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
-    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
+    <string name="register_automatically" msgid="6272031189219101172">"Automatisk registrering ..."</string>
+    <string name="preferred_network_mode_title" msgid="8873246565334559308">"Netværkstilstand"</string>
+    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Skift netværksdriftstilstand"</string>
+    <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Foretrukken netværkstilstand"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item msgid="2987674222882365152">"Global"</item>
+    <item msgid="3273348576277144124">"Kun EvDo"</item>
+    <item msgid="454610224530856274">"CDMA u. EvDo"</item>
+    <item msgid="8928247118825616081">"Automatisk CDMA/EvDo"</item>
+    <item msgid="8595462903294812666">"Automatisk GSM/WCDMA"</item>
+    <item msgid="5189164180446264504">"Kun WCDMA"</item>
+    <item msgid="5714714953966979187">"Kun GSM"</item>
+    <item msgid="4775796025725908913">"GSM/WCDMA foretrukket"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item msgid="7164534877603905916">"7"</item>
+    <item msgid="2520921432080278213">"6"</item>
+    <item msgid="4978887990900575049">"5"</item>
+    <item msgid="6891436459357445885">"4"</item>
+    <item msgid="339825043192186272">"3"</item>
+    <item msgid="3062641619893382241">"2"</item>
+    <item msgid="2494009747968041784">"1"</item>
+    <item msgid="2568449734331711605">"0"</item>
+  </string-array>
     <string name="roaming" msgid="8871412572928323707">"Dataroaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Opret forbindelse til datatjenester under roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Opret forbindelse til datatjenester under roaming"</string>
     <string name="roaming_reenable_message" msgid="6973894869473170666">"Du har mistet dataforbindelsen, fordi du har forladt dit hjemmenetværk med dataroaming slået fra."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"Tillad dataroaming? Du kan komme ud for væsentlige gebyrer for roaming."</string>
-    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
-    <skip />
-    <!-- no translation found for cdma_options (4016822858172249884) -->
-    <skip />
-    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
-    <skip />
-    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
-    <skip />
-    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
-    <skip />
-    <!-- no translation found for cb_sms_settings (651715019785107312) -->
-    <skip />
-    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
-    <skip />
-    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
-    <skip />
-    <!-- no translation found for administrative_enable (1750086122962032235) -->
-    <skip />
-    <!-- no translation found for administrative_disable (8433273857248698539) -->
-    <skip />
-    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
-    <skip />
-    <!-- no translation found for maintenance_enable (8566636458770971189) -->
-    <skip />
-    <!-- no translation found for maintenance_disable (7340189100885066077) -->
-    <skip />
-    <!-- no translation found for general_news_settings (4968779723948432978) -->
-    <skip />
-    <!-- no translation found for bf_news_settings (3935593091894685267) -->
-    <skip />
-    <!-- no translation found for sports_news_settings (7649399631270052835) -->
-    <skip />
-    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
-    <skip />
-    <!-- no translation found for enable_disable_local (7890281063123416120) -->
-    <skip />
-    <!-- no translation found for local_enable (6370463247609136359) -->
-    <skip />
-    <!-- no translation found for local_disable (4405691986943795798) -->
-    <skip />
-    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
-    <skip />
-    <!-- no translation found for regional_enable (4434680415437834759) -->
-    <skip />
-    <!-- no translation found for regional_disable (5359325527213850077) -->
-    <skip />
-    <!-- no translation found for enable_disable_national (236278090206880734) -->
-    <skip />
-    <!-- no translation found for national_enable (1172443648912246952) -->
-    <skip />
-    <!-- no translation found for national_disable (326018148178601166) -->
-    <skip />
-    <!-- no translation found for enable_disable_international (7535348799604565592) -->
-    <skip />
-    <!-- no translation found for international_enable (5855356769925044927) -->
-    <skip />
-    <!-- no translation found for international_disable (2850648591041088931) -->
-    <skip />
-    <!-- no translation found for list_language_title (2841683501919760043) -->
-    <skip />
-    <!-- no translation found for list_language_summary (8109546531071241601) -->
-    <skip />
-    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
-    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
-    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
-    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
-    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
-    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
-    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
-    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
-    <!-- no translation found for list_language_values:1 (289708030346890334) -->
-    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
-    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
-    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
-    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
-    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
-    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
-    <skip />
-    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
-    <skip />
-    <!-- no translation found for local_weather_enable (6199315114382448922) -->
-    <skip />
-    <!-- no translation found for local_weather_disable (2510158089142626480) -->
-    <skip />
-    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
-    <skip />
-    <!-- no translation found for atr_enable (5541757457789181799) -->
-    <skip />
-    <!-- no translation found for atr_disable (7085558154727596455) -->
-    <skip />
-    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
-    <skip />
-    <!-- no translation found for lafs_enable (2791978667205137052) -->
-    <skip />
-    <!-- no translation found for lafs_disable (2391212397725495350) -->
-    <skip />
-    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
-    <skip />
-    <!-- no translation found for restaurants_enable (5137657479469118847) -->
-    <skip />
-    <!-- no translation found for restaurants_disable (3678480270938424092) -->
-    <skip />
-    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
-    <skip />
-    <!-- no translation found for lodgings_enable (3230042508992850322) -->
-    <skip />
-    <!-- no translation found for lodgings_disable (3387879742320682391) -->
-    <skip />
-    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
-    <skip />
-    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
-    <skip />
-    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
-    <skip />
-    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
-    <skip />
-    <!-- no translation found for advertisements_enable (2050305021264683786) -->
-    <skip />
-    <!-- no translation found for advertisements_disable (8350985908788707935) -->
-    <skip />
-    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
-    <skip />
-    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
-    <skip />
-    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
-    <skip />
-    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
-    <skip />
-    <!-- no translation found for eo_enable (8623559062015685813) -->
-    <skip />
-    <!-- no translation found for eo_disable (3863812478090907609) -->
-    <skip />
-    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
-    <skip />
-    <!-- no translation found for mhh_enable (3949276822735205799) -->
-    <skip />
-    <!-- no translation found for mhh_disable (4834280270664925123) -->
-    <skip />
-    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
-    <skip />
-    <!-- no translation found for technology_news_enable (7995209394210455181) -->
-    <skip />
-    <!-- no translation found for technology_news_disable (5483490380561851946) -->
-    <skip />
-    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
-    <skip />
-    <!-- no translation found for multi_category_enable (1179299804641721768) -->
-    <skip />
-    <!-- no translation found for multi_category_disable (880104702904139505) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_choices:0 (4327916632016252900) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:1 (7890032659744442614) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:2 (7306003477602941058) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
+    <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS-valgmuligheder"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"CDMA-valgmuligheder"</string>
+    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Celletransmissions-sms"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"Celletransmissions-sms"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Celletransmissions-sms"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Celletransmissions-sms aktiveret"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"Celletransmissions-sms deaktiveret"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"Indstillinger for celletransmissions-sms"</string>
+    <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"Nødtransmission"</string>
+    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Nødtransmission aktiveret"</string>
+    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Nødtransmission deaktiveret"</string>
+    <string name="enable_disable_administrative" msgid="6501582322182059412">"Administration"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"Administration aktiveret"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"Administration deaktiveret"</string>
+    <string name="enable_disable_maintenance" msgid="1819693083025106678">"Vedligeholdelse"</string>
+    <string name="maintenance_enable" msgid="8566636458770971189">"Vedligeholdelse aktiveret"</string>
+    <string name="maintenance_disable" msgid="7340189100885066077">"Vedligeholdelse deaktiveret"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"Generelle nyheder"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"Erhvervs- og økonomiske nyheder"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"Sportsnyheder"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"Underholdningsnyheder"</string>
+    <string name="enable_disable_local" msgid="7890281063123416120">"Lokal"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Lokale nyheder aktiveret"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Lokale nyheder deaktiveret"</string>
+    <string name="enable_disable_regional" msgid="4905652414535565872">"Regional"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Regionale nyheder aktiveret"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Regionale nyheder deaktiveret"</string>
+    <string name="enable_disable_national" msgid="236278090206880734">"National"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Nationale nyheder aktiveret"</string>
+    <string name="national_disable" msgid="326018148178601166">"Nationale nyheder deaktiveret"</string>
+    <string name="enable_disable_international" msgid="7535348799604565592">"International"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Internationale nyheder aktiveret"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Internationale nyheder deaktiveret"</string>
+    <string name="list_language_title" msgid="2841683501919760043">"Sprog"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"Vælg nyhedssproget"</string>
+  <string-array name="list_language_entries">
+    <item msgid="6137851079727305485">"Engelsk"</item>
+    <item msgid="1151988412809572526">"Fransk"</item>
+    <item msgid="577840534704312665">"Spansk"</item>
+    <item msgid="8385712091143148180">"Japansk"</item>
+    <item msgid="1858401628368130638">"Koreansk"</item>
+    <item msgid="1933212028684529632">"Kinesisk"</item>
+    <item msgid="1908428006803639064">"Hebraisk"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item msgid="1804908636436467150">"1"</item>
+    <item msgid="289708030346890334">"2"</item>
+    <item msgid="1121469729692402684">"3"</item>
+    <item msgid="2614093115912897722">"4"</item>
+    <item msgid="2411164639857960614">"5"</item>
+    <item msgid="5884448729274543324">"6"</item>
+    <item msgid="5511864807618312598">"7"</item>
+  </string-array>
+    <string name="list_language_dtitle" msgid="5442908726538951934">"Sprog"</string>
+    <string name="enable_disable_local_weather" msgid="986967454867219114">"Lokalt vejr"</string>
+    <string name="local_weather_enable" msgid="6199315114382448922">"Lokalt vejr aktiveret"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"Lokalt vejr deaktiveret"</string>
+    <string name="enable_disable_atr" msgid="8339572391278872343">"Trafikmeldinger i området"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"Trafikmeldinger i området aktiveret"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"Trafikmeldinger i området deaktiveret"</string>
+    <string name="enable_disable_lafs" msgid="668189073721277199">"Flyafgange for lokal lufthavn"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"Flyafgange for lokal lufthavn aktiveret"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"Flyafgange for lokal lufthavn deaktiveret"</string>
+    <string name="enable_disable_restaurants" msgid="6240381945336814024">"Restauranter"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"Restauranter aktiveret"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"Restauranter deaktiveret"</string>
+    <string name="enable_disable_lodgings" msgid="1822029172658551202">"Logi"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"Logi aktiveret"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"Logi deaktiveret"</string>
+    <string name="enable_disable_retail_directory" msgid="1357809784475660303">"Detailindeks"</string>
+    <string name="retail_directory_enable" msgid="3280626290436111496">"Detailindeks aktiveret"</string>
+    <string name="retail_directory_disable" msgid="6479739816662879027">"Detailindeks deaktiveret"</string>
+    <string name="enable_disable_advertisements" msgid="5999495926176182128">"Annoncer"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"Annoncer aktiveret"</string>
+    <string name="advertisements_disable" msgid="8350985908788707935">"Annoncer deaktiveret"</string>
+    <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Aktiekurser"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"Aktiekurser aktiveret"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Aktiekurser deaktiveret"</string>
+    <string name="enable_disable_eo" msgid="4863043263443942494">"Jobmuligheder"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"Jobmuligheder aktiveret"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Jobmuligheder deaktiveret"</string>
+    <string name="enable_disable_mhh" msgid="5698783743098373681">"Læger, helbred og hospital"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"Læger, helbred og hospital aktiveret"</string>
+    <string name="mhh_disable" msgid="4834280270664925123">"Læger, helbred og hospital deaktiveret"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"Teknologinyheder"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Teknologinyheder deaktiveret"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Teknologinyheder deaktiveret"</string>
+    <string name="enable_disable_multi_category" msgid="626771003122899280">"Flere kategorier"</string>
+    <string name="multi_category_enable" msgid="1179299804641721768">"Flere kategorier aktiveret"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"Flere kategorier deaktiveret"</string>
+    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"GSM-/UMTS-netværkspræferencer"</string>
+    <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Ikke implementeret endnu!"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"GSM-/UMTS-netværkspræferencer"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item msgid="4327916632016252900">"3G foretrukken"</item>
+    <item msgid="7890032659744442614">"Kun 2G"</item>
+    <item msgid="7306003477602941058">"Kun 3G"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item msgid="117293148930527265">"0"</item>
+    <item msgid="2264578612775462302">"1"</item>
+    <item msgid="1268081943590316978">"2"</item>
+  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Brug kun 2G-netværk"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Sparer på batteriet"</string>
-    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
-    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
-    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
-    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
-    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
-    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
-    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
-    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
-    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
-    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
-    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_choices:0 (7278992425338592489) -->
-    <!-- no translation found for cdma_network_preferences_choices:1 (3155327921861137068) -->
-    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
-    <!-- no translation found for cdma_network_preferences_values:0 (1821235500822403409) -->
-    <!-- no translation found for cdma_network_preferences_values:1 (6355374585098185445) -->
-    <!-- no translation found for cdma_network_preferences_values:2 (213552629330086398) -->
-    <!-- no translation found for subscription_title (5813493350326486) -->
-    <skip />
-    <!-- no translation found for subscription_summary (8435941016743418124) -->
-    <skip />
-    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
-    <skip />
-    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
-    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
-    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
-    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
+    <string name="cdma_system_select_title" msgid="5757657769327732833">"Vælg system"</string>
+    <string name="cdma_system_select_summary" msgid="2528661990595284707">"Skift cdma-roamingtilstand"</string>
+    <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Vælg system"</string>
+  <string-array name="cdma_system_select_choices">
+    <item msgid="176474317493999285">"Kun hjemme"</item>
+    <item msgid="1205664026446156265">"Automatisk"</item>
+  </string-array>
+  <string-array name="cdma_system_select_values">
+    <item msgid="4354305960068894315">"0"</item>
+    <item msgid="3046877284450231151">"2"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-roamingtilstand"</string>
+    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Skift cdma-roamingtilstand"</string>
+    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-roamingtilstand"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item msgid="6024072766548865002">"Kun hjemmenetværk"</item>
+    <item msgid="8174642753290624634">"Tilknyttede netværker"</item>
+    <item msgid="2241951431403168661">"Alle netværk"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item msgid="2549203161367380954">"0"</item>
+    <item msgid="6007798728227141997">"1"</item>
+    <item msgid="4039511109802141047">"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title" msgid="41193174429510391">"CDMA-netværkspræferencer"</string>
+    <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"Ikke implementeret endnu!"</string>
+    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"CDMA-netværkspræferencer"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item msgid="7278992425338592489">"Automatisk CDMA/EvDo"</item>
+    <item msgid="3155327921861137068">"CDMA u. EvDo"</item>
+    <item msgid="2683555124647197574">"Kun EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item msgid="1821235500822403409">"4"</item>
+    <item msgid="6355374585098185445">"5"</item>
+    <item msgid="213552629330086398">"6"</item>
+  </string-array>
+    <string name="subscription_title" msgid="5813493350326486">"CDMA-abonnement TEST"</string>
+    <string name="subscription_summary" msgid="8435941016743418124">"Skift mellem RUIM/SIM og NV"</string>
+    <string name="subscription_dialogtitle" msgid="531571450448009255">"abonnement"</string>
+  <string-array name="subscription_choices">
+    <item msgid="6540107472553796600">"RUIM/SIM"</item>
+    <item msgid="1433427108940308332">"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item msgid="4377788417250295786">"0"</item>
+    <item msgid="1193066664940329729">"1"</item>
+  </string-array>
     <string name="fdn" msgid="7878832555095183202">"Faste opkaldsnumre"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"FDN-liste"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"FDN-aktivering"</string>
@@ -453,18 +367,12 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Administrer numre til fast opkald"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Skift PIN-kode for at få FDN-adgang"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Administrer telefonnummerliste"</string>
-    <!-- no translation found for voice_privacy (7803023024169078619) -->
-    <skip />
-    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
-    <skip />
-    <!-- no translation found for tty_mode_title (3171521903490559138) -->
-    <skip />
-    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
-    <skip />
+    <string name="voice_privacy" msgid="7803023024169078619">"Stemme Fortrolighed"</string>
+    <string name="voice_privacy_summary" msgid="3159383389833516214">"Aktiver øget fortrolighedstilstand"</string>
+    <string name="tty_mode_title" msgid="3171521903490559138">"TTY-tilstand"</string>
+    <string name="tty_mode_summary" msgid="5057244302665817977">"Aktiver TTY-tilstand"</string>
+    <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-tilstand"</string>
+    <string name="tty_mode_option_summary" msgid="1073835131534808732">"Indstil TTY-tilstand"</string>
     <string name="menu_add" msgid="1882023737425114762">"Tilføj kontakt"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Rediger kontakt"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Slet kontakt"</string>
@@ -529,13 +437,11 @@
     <string name="card_title_in_progress" msgid="8603765629781648862">"Aktuelt opkald"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Telefonmøde"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Indgående opkald"</string>
-    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
-    <skip />
+    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Cdma opkaldventer"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Opkald afsluttet"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Ventende"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Lægger på"</string>
-    <!-- no translation found for card_title_in_call (6346543933068225205) -->
-    <skip />
+    <string name="card_title_in_call" msgid="6346543933068225205">"Opkald i gang"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Ubesvarede opkald"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Ubesvarede opkald"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> ubesvarede opkald"</string>
@@ -543,8 +449,7 @@
     <string name="notification_ongoing_call_format" msgid="227216462548540316">"Aktuelt opkald (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Ventende"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Ny voicemail"</string>
-    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
-    <skip />
+    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Ny voicemail (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring til <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Voicemailnummer ukendt"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Slå Flytilstand fra først for at foretage et opkald."</string>
@@ -552,8 +457,7 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Opkaldet blev ikke sendt. Der blev ikke indtastet et gyldigt nummer."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Opkaldet blev ikke sendt."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Starter MMI-sekvens ..."</string>
-    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
-    <skip />
+    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Starter funktionskodesekvens ..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Tjenesten er ikke understøttet."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Der kunne ikke skiftes opkald."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Opkald kunne ikke separeres."</string>
@@ -569,26 +473,24 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Brug tastatur til at ringe op"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Touch-tone-tastatur"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Nummerblok"</string>
-    <!-- no translation found for touchLockText (8742463586429019112) -->
-    <skip />
-    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
-    <skip />
+    <string name="touchLockText" msgid="8742463586429019112">"Tryk to gange"\n"for at låse op"</string>
+    <string name="onscreenAnswerText" msgid="7643040500342720792">"Tryk to gange"\n"for at besvare"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importer alle"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importerer SIM-kontakter"</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importer fra kontakter"</string>
-    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
-    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
-    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
-    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
-    <!-- no translation found for eri_text_label (4326942349915331461) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
-    <skip />
-    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
-    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
-    <!-- no translation found for network_message (5673682885938122239) -->
-    <skip />
+  <string-array name="tty_mode_entries">
+    <item msgid="512950011423868021">"TTY fra"</item>
+    <item msgid="4781215771530681384">"TTY HCO"</item>
+    <item msgid="5659212685488676933">"TTY VCO"</item>
+    <item msgid="1113703196326500239">"TTY er fuld"</item>
+  </string-array>
+    <string name="eri_text_label" msgid="4326942349915331461">"ERI-tekst"</string>
+    <string name="dtmf_tones_title" msgid="3866923093113274152">"DTMF-toner"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Indstil længden på DTMF-toner"</string>
+  <string-array name="dtmf_tone_entries">
+    <item msgid="899650777817315681">"Normal"</item>
+    <item msgid="2883365539347850535">"Lang"</item>
+  </string-array>
+    <string name="network_message" msgid="5673682885938122239">"Netværksbesked"</string>
 </resources>
