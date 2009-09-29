@@ -53,13 +53,7 @@
         android:orientation="horizontal">
 
         <!-- Onscreen "Voicemail" button. The background is hardcoded
-             to disable which means that even when focused the button
-             will look the same. Not a big deal, this is the emergency
-             dialer.
-
-             TODO: We show the voicemail icon. This is fine
-             since the button is disabled but need to check with the
-             UI designer.
+             to disable and the foreground has been dimmed down to 30%.
         -->
         <ImageButton android:id="@+id/voicemailButton"
             android:layout_width="90dip"
@@ -67,6 +61,7 @@
             android:layout_gravity="center_vertical"
             android:state_enabled="false"
             android:background="@drawable/btn_dial_action_left_disable"
+            android:tint="#ff555555"
             android:src="@drawable/ic_dial_action_voice_mail" />
 
         <!-- Onscreen "Dial" button, used on all platforms by
