@@ -24,7 +24,7 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothUuid;
 import android.bluetooth.HeadsetBase;
 import android.bluetooth.IBluetoothHeadset;
-import android.bluetooth.ParcelUuid;
+import android.os.ParcelUuid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
