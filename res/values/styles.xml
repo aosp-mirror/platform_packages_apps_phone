@@ -212,13 +212,27 @@
         <item name="android:background">@drawable/incall_round_button</item>
     </style>
 
-    <!-- Text label next to the small round ImageButtons. -->
+    <!-- Text label next to the small round ImageButtons at the upper
+         corners of the in-call onscreen touch UI. -->
     <style name="InCallRoundButtonLabel">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">8dip</item>
-        <item name="android:layout_marginRight">8dip</item>
+        <item name="android:layout_marginLeft">5dip</item>
+        <item name="android:layout_marginRight">5dip</item>
+    </style>
+
+    <!-- Style for the LinearLayout used to hold the ImageButton and
+         TextView for the small round buttons at the upper corners of the
+         in-call onscreen touch UI. -->
+    <style name="InCallRoundButtonContainer">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">10dip</item>
     </style>
 
 </resources>

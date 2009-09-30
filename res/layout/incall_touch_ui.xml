@@ -62,13 +62,8 @@
              the same time.  That's why it's OK for them to both be in the
              same position onscreen.) -->
         <LinearLayout android:id="@+id/holdButtonContainer"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
                 android:visibility="gone">
             <ImageButton android:id="@+id/holdButton"
@@ -80,13 +75,8 @@
 
         <!-- "Swap" (upper left) -->
         <LinearLayout android:id="@+id/swapButtonContainer"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="15dip"
                 android:layout_marginLeft="10dip"
                 android:visibility="gone">
             <ImageButton android:id="@+id/swapButton"
@@ -99,13 +89,8 @@
 
         <!-- "Manage conference" (upper right) -->
         <LinearLayout android:id="@+id/manageConferenceButtonContainer"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="15dip"
                 android:layout_marginRight="10dip"
                 android:visibility="gone">
             <TextView
