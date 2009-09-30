@@ -1065,10 +1065,13 @@ public class BluetoothHandsfree {
                 mHandler.sendMessageDelayed(msg, 2000);
             } else {
                 Log.w(TAG, "Could not suspend A2DP stream for SCO, going ahead with SCO");
-                mOutgoingSco = createScoSocket();
-                if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
-                    mOutgoingSco = null;
-                }
+            }
+        }
+
+        if (!mPendingSco) {
+            mOutgoingSco = createScoSocket();
+            if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
+                mOutgoingSco = null;
             }
         }
 
