@@ -65,8 +65,8 @@ public class CallCard extends FrameLayout
     private PhoneApp mApplication;
 
     // Top-level subviews of the CallCard
-    private ViewGroup mMainCallCard;
-    private ViewGroup mOtherCallOnHoldInfoArea;
+    private ViewGroup mPrimaryCallInfo;
+    private ViewGroup mSecondaryCallInfo;
 
     // Title and elapsed-time widgets
     private TextView mUpperTitle;
@@ -79,16 +79,19 @@ public class CallCard extends FrameLayout
     private int mTextColorEnded;
     private int mTextColorOnHold;
 
-    // "Caller info" area, including photo / name / phone numbers / etc
+    // The main block of info about the "primary" or "active" call,
+    // including photo / name / phone number / etc.
     private ImageView mPhoto;
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
     private TextView mSocialStatus;
 
-    // "Other call" info area
-    private TextView mOtherCallOnHoldName;
-    private TextView mOtherCallOnHoldStatus;
+    // Info about the "secondary" call, which is the "call on hold" when
+    // two lines are in use.
+    private TextView mSecondaryCallName;
+    private TextView mSecondaryCallStatus;
+    private ImageView mSecondaryCallPhoto;
 
     // Menu button hint
     private TextView mMenuButtonHint;
@@ -147,8 +150,8 @@ public class CallCard extends FrameLayout
 
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
 
-        mMainCallCard = (ViewGroup) findViewById(R.id.mainCallCard);
-        mOtherCallOnHoldInfoArea = (ViewGroup) findViewById(R.id.otherCallOnHoldInfoArea);
+        mPrimaryCallInfo = (ViewGroup) findViewById(R.id.primaryCallInfo);
+        mSecondaryCallInfo = (ViewGroup) findViewById(R.id.secondaryCallInfo);
 
         // "Upper" and "lower" title widgets
         mUpperTitle = (TextView) findViewById(R.id.upperTitle);
@@ -170,8 +173,9 @@ public class CallCard extends FrameLayout
         mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
         // "Other call" info area
-        mOtherCallOnHoldName = (TextView) findViewById(R.id.otherCallOnHoldName);
-        mOtherCallOnHoldStatus = (TextView) findViewById(R.id.otherCallOnHoldStatus);
+        mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
+        mSecondaryCallStatus = (TextView) findViewById(R.id.secondaryCallStatus);
+        mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
@@ -313,7 +317,7 @@ public class CallCard extends FrameLayout
 
     /**
      * Updates the main block of caller info on the CallCard
-     * (ie. the stuff in the mainCallCard block) based on the specified Call.
+     * (ie. the stuff in the primaryCallInfo block) based on the specified Call.
      */
     private void displayMainCallStatus(Phone phone, Call call) {
         if (DBG) log("displayMainCallStatus(phone " + phone
@@ -321,10 +325,10 @@ public class CallCard extends FrameLayout
 
         if (call == null) {
             // There's no call to display, presumably because the phone is idle.
-            mMainCallCard.setVisibility(View.GONE);
+            mPrimaryCallInfo.setVisibility(View.GONE);
             return;
         }
-        mMainCallCard.setVisibility(View.VISIBLE);
+        mPrimaryCallInfo.setVisibility(View.VISIBLE);
 
         Call.State state = call.getState();
         if (DBG) log("  - call.state: " + call.getState());
@@ -735,7 +739,7 @@ public class CallCard extends FrameLayout
 
     /**
      * Updates the "on hold" box in the "other call" info area
-     * (ie. the stuff in the otherCallOnHoldInfo block)
+     * (ie. the stuff in the secondaryCallInfo block)
      * based on the specified Call.
      * Or, clear out the "on hold" box if the specified call
      * is null or idle.
@@ -744,38 +748,49 @@ public class CallCard extends FrameLayout
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
 
         if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
-            mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
+            mSecondaryCallInfo.setVisibility(View.GONE);
             return;
         }
 
-        String name = null;
         Call.State state = call.getState();
         switch (state) {
             case HOLDING:
                 // Ok, there actually is a background call on hold.
                 // Display the "on hold" box.
 
-                // First, see if we need to query.
+                // Note this case occurs only on GSM devices.  (On CDMA,
+                // the "call on hold" is actually the 2nd connection of
+                // that ACTIVE call; see the ACTIVE case below.)
+
                 if (PhoneUtils.isConferenceCall(call)) {
                     if (DBG) log("==> conference call.");
-                    name = getContext().getString(R.string.confCall);
+                    mSecondaryCallName.setText(getContext().getString(R.string.confCall));
+                    showImage(mSecondaryCallPhoto, R.drawable.picture_conference);
                 } else {
                     // perform query and update the name temporarily
                     // make sure we hand the textview we want updated to the
                     // callback function.
                     if (DBG) log("==> NOT a conf call; call startGetCallerInfo...");
-                    PhoneUtils.CallerInfoToken info = PhoneUtils.startGetCallerInfo(
-                            getContext(), call, this, mOtherCallOnHoldName);
-                    name = PhoneUtils.getCompactNameFromCallerInfo(info.currentInfo, getContext());
+                    PhoneUtils.CallerInfoToken infoToken = PhoneUtils.startGetCallerInfo(
+                            getContext(), call, this, mSecondaryCallName);
+                    mSecondaryCallName.setText(
+                            PhoneUtils.getCompactNameFromCallerInfo(infoToken.currentInfo,
+                                                                    getContext()));
+
+                    // Also pull the photo out of the current CallerInfo.
+                    // (Note we assume we already have a valid photo at
+                    // this point, since *presumably* the caller-id query
+                    // was already run at some point *before* this call
+                    // got put on hold.  If there's no cached photo, just
+                    // fall back to the default "unknown" image.)
+                    if (infoToken.isFinal) {
+                        showCachedImage(mSecondaryCallPhoto, infoToken.currentInfo);
+                    } else {
+                        showImage(mSecondaryCallPhoto, R.drawable.picture_unknown);
+                    }
                 }
 
-                mOtherCallOnHoldName.setText(name);
-
-                // The call here is always "on hold", so use the orange text color:
-                mOtherCallOnHoldName.setTextColor(mTextColorOnHold);
-                mOtherCallOnHoldStatus.setTextColor(mTextColorOnHold);
-
-                mOtherCallOnHoldInfoArea.setVisibility(View.VISIBLE);
+                mSecondaryCallInfo.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -790,32 +805,48 @@ public class CallCard extends FrameLayout
                         // call the user is making, which in turn tells the PhoneApp that we no
                         // longer know which previous caller/party had dropped out before the user
                         // made this call.
-                        name = getContext().getString(R.string.card_title_in_call);
+                        mSecondaryCallName.setText(
+                                getContext().getString(R.string.card_title_in_call));
+                        showImage(mSecondaryCallPhoto, R.drawable.picture_unknown);
                     } else {
                         // This means that the current Mobile Originated call IS the first 3-Way
                         // and hence we display the first callers/party's info here.
                         Connection conn = call.getEarliestConnection();
                         PhoneUtils.CallerInfoToken infoToken = PhoneUtils.startGetCallerInfo(
-                                getContext(), conn, this, mOtherCallOnHoldName);
+                                getContext(), conn, this, mSecondaryCallName);
 
                         // Get the compactName to be displayed, but then check that against
                         // the number presentation value for the call. If it's not an allowed
                         // presentation, then display the appropriate presentation string instead.
                         CallerInfo info = infoToken.currentInfo;
-                        name = PhoneUtils.getCompactNameFromCallerInfo(info,
-                                getContext());
+
+                        String name = PhoneUtils.getCompactNameFromCallerInfo(info, getContext());
+                        boolean forceGenericPhoto = false;
                         if (info != null && info.numberPresentation !=
                                 Connection.PRESENTATION_ALLOWED) {
                             name = getPresentationString(info.numberPresentation);
+                            forceGenericPhoto = true;
+                        }
+                        mSecondaryCallName.setText(name);
+
+                        // Also pull the photo out of the current CallerInfo.
+                        // (Note we assume we already have a valid photo at
+                        // this point, since *presumably* the caller-id query
+                        // was already run at some point *before* this call
+                        // got put on hold.  If there's no cached photo, just
+                        // fall back to the default "unknown" image.)
+                        if (!forceGenericPhoto && infoToken.isFinal) {
+                            showCachedImage(mSecondaryCallPhoto, info);
+                        } else {
+                            showImage(mSecondaryCallPhoto, R.drawable.picture_unknown);
                         }
                     }
+                    mSecondaryCallInfo.setVisibility(View.VISIBLE);
 
-                    mOtherCallOnHoldName.setText(name);
-
-                    // The call here is either in Callwaiting or 3way, use the orange text color:
-                    mOtherCallOnHoldName.setTextColor(mTextColorOnHold);
-                    mOtherCallOnHoldStatus.setTextColor(mTextColorOnHold);
-                    mOtherCallOnHoldInfoArea.setVisibility(View.VISIBLE);
+                } else {
+                    // We shouldn't ever get here at all for non-CDMA devices.
+                    Log.w(LOG_TAG, "displayOnHoldCallStatus: ACTIVE state on non-CDMA device");
+                    mSecondaryCallInfo.setVisibility(View.GONE);
                 }
                 break;
 
@@ -823,7 +854,7 @@ public class CallCard extends FrameLayout
                 // There's actually no call on hold.  (Presumably this call's
                 // state is IDLE, since any other state is meaningless for the
                 // background call.)
-                mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
+                mSecondaryCallInfo.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1198,7 +1229,7 @@ public class CallCard extends FrameLayout
      *
      *  @return true if we were able to find the image in the cache, false otherwise.
      */
-    private static final boolean showCachedImage (ImageView view, CallerInfo ci) {
+    private static final boolean showCachedImage(ImageView view, CallerInfo ci) {
         if ((ci != null) && ci.isCachedPhotoCurrent) {
             if (ci.cachedPhoto != null) {
                 showImage(view, ci.cachedPhoto);
@@ -1303,8 +1334,8 @@ public class CallCard extends FrameLayout
      */
 
     public void hideCallCardElements() {
-        mMainCallCard.setVisibility(View.GONE);
-        mOtherCallOnHoldInfoArea.setVisibility(View.GONE);
+        mPrimaryCallInfo.setVisibility(View.GONE);
+        mSecondaryCallInfo.setVisibility(View.GONE);
     }
 
     // Debugging / testing code
