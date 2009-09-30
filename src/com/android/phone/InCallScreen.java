@@ -4736,25 +4736,25 @@ public class InCallScreen extends Activity
         final PhoneApp app = PhoneApp.getInstance();
         final boolean bluetoothActive = app.showBluetoothIndication();
 
-        int backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+        int backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
 
         // Possible states of the background are:
-        // - bg_pattern_gradient_bluetooth    // blue
-        // - bg_pattern_gradient_connected    // green
-        // - bg_pattern_gradient_ended        // red
-        // - bg_pattern_gradient_on_hold      // orange
-        // - bg_pattern_gradient_unidentified // gray
+        // - bg_in_call_gradient_bluetooth.9.png     // blue
+        // - bg_in_call_gradient_connected.9.png     // green
+        // - bg_in_call_gradient_ended.9.png         // red
+        // - bg_in_call_gradient_on_hold.9.png       // orange
+        // - bg_in_call_gradient_unidentified.9.png  // gray
 
         if (hasRingingCall) {
             // There's an INCOMING (or WAITING) call.
             if (bluetoothActive) {
-                backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+                backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
             } else {
-                backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+                backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
             }
         } else if (hasHoldingCall && !hasActiveCall) {
             // No foreground call, but there is a call on hold.
-            backgroundResId = R.drawable.bg_pattern_gradient_on_hold;
+            backgroundResId = R.drawable.bg_in_call_gradient_on_hold;
         } else {
             // In all cases other than "ringing" and "on hold", the state
             // of the foreground call determines the background.
@@ -4764,22 +4764,22 @@ public class InCallScreen extends Activity
                 case DISCONNECTING:  // Call will disconnect soon, but keep showing
                                      // the normal "connected" background for now.
                     if (bluetoothActive) {
-                        backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+                        backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
                     } else {
-                        backgroundResId = R.drawable.bg_pattern_gradient_connected;
+                        backgroundResId = R.drawable.bg_in_call_gradient_connected;
                     }
                     break;
 
                 case DISCONNECTED:
-                    backgroundResId = R.drawable.bg_pattern_gradient_ended;
+                    backgroundResId = R.drawable.bg_in_call_gradient_ended;
                     break;
 
                 case DIALING:
                 case ALERTING:
                     if (bluetoothActive) {
-                        backgroundResId = R.drawable.bg_pattern_gradient_bluetooth;
+                        backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
                     } else {
-                        backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+                        backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
                     }
                     break;
 
@@ -4789,13 +4789,11 @@ public class InCallScreen extends Activity
                     // this *does* happen in some unusual cases (like
                     // while displaying an MMI result).
                     // Use the most generic background.
-                    backgroundResId = R.drawable.bg_pattern_gradient_unidentified;
+                    backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
                     break;
             }
         }
-        BitmapDrawable bd = (BitmapDrawable) getResources().getDrawable(backgroundResId);
-        bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
-        mMainFrame.setBackgroundDrawable(bd);
+        mMainFrame.setBackgroundResource(backgroundResId);
     }
 
     public void resetInCallScreenMode() {
