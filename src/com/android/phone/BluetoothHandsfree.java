@@ -19,6 +19,7 @@ package com.android.phone;
 import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
+import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
@@ -49,6 +50,7 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyIntents;
 
 import java.util.LinkedList;
+
 /**
  * Bluetooth headset manager for the Phone app.
  * @hide
@@ -65,6 +67,11 @@ public class BluetoothHandsfree {
 
     private final Context mContext;
     private final Phone mPhone;
+    private final BluetoothA2dp mA2dp;
+
+    private BluetoothDevice mA2dpDevice;
+    private int mA2dpState;
+
     private ServiceState mServiceState;
     private HeadsetBase mHeadset;  // null when not connected
     private int mHeadsetType;
@@ -80,6 +87,7 @@ public class BluetoothHandsfree {
     private AudioManager mAudioManager;
     private PowerManager mPowerManager;
 
+    private boolean mPendingSco;  // waiting for a2dp sink to suspend before establishing SCO
     private boolean mUserWantsAudio;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
@@ -164,6 +172,9 @@ public class BluetoothHandsfree {
                 (BluetoothAdapter) context.getSystemService(Context.BLUETOOTH_SERVICE);
         boolean bluetoothCapable = (adapter != null);
         mHeadset = null;  // nothing connected yet
+        mA2dp = new BluetoothA2dp(mContext);
+        mA2dpState = BluetoothA2dp.STATE_DISCONNECTED;
+        mA2dpDevice = null;
 
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mStartCallWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -389,6 +400,7 @@ public class BluetoothHandsfree {
             }
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
+            filter.addAction(BluetoothA2dp.ACTION_SINK_STATE_CHANGED);
             mContext.registerReceiver(mStateReceiver, filter);
         }
 
@@ -523,8 +535,32 @@ public class BluetoothHandsfree {
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
                     updateBatteryState(intent);
-                } else if (intent.getAction().equals(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED)) {
+                } else if (intent.getAction().equals(
+                            TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED)) {
                     updateSignalState(intent);
+                } else if (intent.getAction().equals(BluetoothA2dp.ACTION_SINK_STATE_CHANGED)) {
+                    int state = intent.getIntExtra(BluetoothA2dp.EXTRA_SINK_STATE,
+                            BluetoothA2dp.STATE_DISCONNECTED);
+                    int oldState = intent.getIntExtra(BluetoothA2dp.EXTRA_PREVIOUS_SINK_STATE,
+                            BluetoothA2dp.STATE_DISCONNECTED);
+                    BluetoothDevice device =
+                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    synchronized (BluetoothHandsfree.this) {
+                        mA2dpState = state;
+                        mA2dpDevice = device;
+                        if (isA2dpMultiProfile() && mPendingSco) {
+                            mHandler.removeMessages(MESSAGE_CHECK_PENDING_SCO);
+                            if (mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+                                if (DBG) log("A2DP suspended, completing SCO");
+                                mOutgoingSco = createScoSocket();
+                                if (!mOutgoingSco.connect(
+                                        mHeadset.getRemoteDevice().getAddress())) {
+                                    mOutgoingSco = null;
+                                }
+                            }
+                        }
+                        mPendingSco = false;
+                    }
                 }
             }
         };
@@ -878,6 +914,7 @@ public class BluetoothHandsfree {
     private static final int SCO_CLOSED = 3;
     private static final int CHECK_CALL_STARTED = 4;
     private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
+    private static final int MESSAGE_CHECK_PENDING_SCO = 6;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -945,6 +982,17 @@ public class BluetoothHandsfree {
                         sendURC("ERROR");
                     }
                     break;
+                case MESSAGE_CHECK_PENDING_SCO:
+                    if (mPendingSco && isA2dpMultiProfile()) {
+                        Log.w(TAG, "Timeout suspending A2DP for SCO (mA2dpState = " +
+                                mA2dpState + "). Starting SCO anyway");
+                        mOutgoingSco = createScoSocket();
+                        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
+                            mOutgoingSco = null;
+                        }
+                        mPendingSco = false;
+                    }
+                    break;
                 }
             }
         }
@@ -961,7 +1009,6 @@ public class BluetoothHandsfree {
         intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
-
 
     void updateBtHandsfreeAfterRadioTechnologyChange() {
         if(VDBG) Log.d(TAG, "updateBtHandsfreeAfterRadioTechnologyChange...");
@@ -1004,9 +1051,25 @@ public class BluetoothHandsfree {
             if (DBG) log("audioOn(): outgoing SCO already in progress");
             return true;
         }
-        mOutgoingSco = createScoSocket();
-        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
-            mOutgoingSco = null;
+
+        if (mPendingSco) {
+            if (DBG) log("audioOn(): SCO already pending");
+            return true;
+        }
+
+        if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_PLAYING) {
+            if (DBG) log("suspending A2DP stream for SCO");
+            mPendingSco = mA2dp.suspendSink(mA2dpDevice);
+            if (mPendingSco) {
+                Message msg = mHandler.obtainMessage(MESSAGE_CHECK_PENDING_SCO);
+                mHandler.sendMessageDelayed(msg, 2000);
+            } else {
+                Log.w(TAG, "Could not suspend A2DP stream for SCO, going ahead with SCO");
+                mOutgoingSco = createScoSocket();
+                if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
+                    mOutgoingSco = null;
+                }
+            }
         }
 
         return true;
@@ -1046,10 +1109,21 @@ public class BluetoothHandsfree {
             mOutgoingSco.close();
             mOutgoingSco = null;
         }
+
+        mPendingSco = false;
+        if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+            if (DBG) log("resuming A2DP stream after SCO");
+            mA2dp.resumeSink(mA2dpDevice);
+        }
     }
 
     /* package */ boolean isAudioOn() {
         return (mConnectedSco != null);
+    }
+
+    private boolean isA2dpMultiProfile() {
+        return mA2dp != null && mHeadset != null && mA2dpDevice != null &&
+                mA2dpDevice.equals(mHeadset.getRemoteDevice());
     }
 
     /* package */ void ignoreRing() {
