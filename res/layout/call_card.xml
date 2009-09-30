@@ -73,7 +73,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="16dip"
         >
 
         <!-- "Upper title" at the very top of the CallCard. -->
@@ -91,10 +91,10 @@
 
     </LinearLayout>    <!-- End of (1) The main call card -->
 
-    <!-- The hint about the Menu button, anchored to the bottom of the
-         CallCard.  This is only shown on devices that actually use have a
-         menu while in-call; it's never shown on devices where the
-         InCallTouchUi is enabled.)  See InCallScreen.updateMenuButtonHint(). -->
+    <!-- The hint about the Menu button, below all the call info.
+         This is only ever shown on devices that actually have a
+         menu while in-call, i.e. it's never shown on devices where the
+         InCallTouchUi is enabled (see InCallScreen.updateMenuButtonHint().) -->
     <TextView android:id="@+id/menuButtonHint"
               android:text="@string/menuButtonHint"
               android:textAppearance="?android:attr/textAppearanceMedium"
@@ -102,9 +102,9 @@
               android:textColor="?android:attr/textColorSecondary"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_alignParentBottom="true"
+              android:layout_below="@id/primaryCallInfo"
+              android:layout_marginTop="22dip"
               android:layout_centerHorizontal="true"
-              android:layout_marginBottom="100dip"
               android:visibility="gone"
               />
 
