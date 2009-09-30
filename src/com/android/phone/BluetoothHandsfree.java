@@ -1101,22 +1101,23 @@ public class BluetoothHandsfree {
     /* package */ synchronized void audioOff() {
         if (VDBG) log("audioOff()");
 
+        mPendingSco = false;
+
         if (mConnectedSco != null) {
             mAudioManager.setBluetoothScoOn(false);
             broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
                     mHeadset.getRemoteDevice());
             mConnectedSco.close();
             mConnectedSco = null;
+
+            if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+                if (DBG) log("resuming A2DP stream after disconnecting SCO");
+                mA2dp.resumeSink(mA2dpDevice);
+            }
         }
         if (mOutgoingSco != null) {
             mOutgoingSco.close();
             mOutgoingSco = null;
-        }
-
-        mPendingSco = false;
-        if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
-            if (DBG) log("resuming A2DP stream after SCO");
-            mA2dp.resumeSink(mA2dpDevice);
         }
     }
 
