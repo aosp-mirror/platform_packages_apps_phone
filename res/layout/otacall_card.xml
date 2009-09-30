@@ -19,7 +19,7 @@
                       android:orientation="vertical"
                       android:layout_width="fill_parent"
                       android:layout_height="wrap_content" >
-    
+
             <TextView android:id="@+id/otaTitle"
                       android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                       android:visibility="gone"
                       android:text="@string/ota_touch_activate"
                       />
-    
+
             <TextView android:id="@+id/otaListenProgress"
                       android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
                       android:layout_width="fill_parent"
@@ -53,14 +53,14 @@
                       android:textAppearance="@style/ccOtaTextPrimary"
                       android:visibility="gone"
                       />
-    
+
             <ProgressBar android:id="@+android:id/progress_large"
                          style="?android:attr/progressBarStyleHorizontal"
                          android:layout_marginTop="20dip"
                          android:layout_width="fill_parent"
                          android:layout_height="wrap_content"
                          android:visibility="gone"/>
-    
+
             <TextView android:id="@+id/otaSuccessFailStatus"
                       android:gravity="left"
                       android:layout_marginTop="@dimen/otasuccessfail_layout_marginTop"
@@ -70,7 +70,7 @@
                       android:textAppearance="@style/ccOtaTextPrimary"
                       android:visibility="gone"
                       />
-    
+
             <!-- DTMF Dialer section -->
             <com.android.phone.DTMFTwelveKeyDialerView
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -79,20 +79,19 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:layout_marginTop="1dip"
-                    android:background="@color/dtmf_dialer_background"
                     android:visibility="gone" >
-    
+
                 <!-- Note there's no "dtmfDialerField" EditText here;
                      in the OTA UI there's no visible "digits" display
                      attached to the dialpad. -->
 
                 <!-- Keypad section -->
                 <include layout="@layout/dialpad" />
-    
+
             </com.android.phone.DTMFTwelveKeyDialerView>
-    
+
         </LinearLayout>
-    
+
     </ScrollView>
 
     <View
