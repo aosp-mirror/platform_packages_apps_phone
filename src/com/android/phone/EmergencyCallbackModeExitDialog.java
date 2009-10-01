@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -48,7 +49,7 @@ import com.android.internal.telephony.TelephonyProperties;
  *
  * @see EmergencyCallbackModeService
  */
-public class EmergencyCallbackModeExitDialog extends Activity {
+public class EmergencyCallbackModeExitDialog extends Activity implements OnDismissListener {
 
     /** Intent to trigger the Emergency Callback Mode exit dialog */
     static final String ACTION_SHOW_ECM_EXIT_DIALOG =
@@ -205,7 +206,6 @@ public class EmergencyCallbackModeExitDialog extends Activity {
             mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
                     .setIcon(R.drawable.picture_emergency32x32)
                     .setTitle(R.string.phone_in_ecm_notification_title)
-                    .setCancelable(false)
                     .setMessage(text)
                     .setPositiveButton(R.string.alert_dialog_yes,
                             new DialogInterface.OnClickListener() {
@@ -227,13 +227,13 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                                     finish();
                                 }
                             }).create();
+            mAlertDialog.setOnDismissListener(this);
             return mAlertDialog;
 
         case EXIT_ECM_IN_EMERGENCY_CALL_DIALOG:
             mAlertDialog = new AlertDialog.Builder(EmergencyCallbackModeExitDialog.this)
                     .setIcon(R.drawable.picture_emergency32x32)
                     .setTitle(R.string.phone_in_ecm_notification_title)
-                    .setCancelable(false)
                     .setMessage(R.string.alert_dialog_in_ecm_call)
                     .setNeutralButton(R.string.alert_dialog_dismiss,
                             new DialogInterface.OnClickListener() {
@@ -244,6 +244,7 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                                     finish();
                                 }
                             }).create();
+            mAlertDialog.setOnDismissListener(this);
             return mAlertDialog;
 
         case EXIT_ECM_PROGRESS_DIALOG:
@@ -276,6 +277,15 @@ public class EmergencyCallbackModeExitDialog extends Activity {
                     minutes).toString(), time);
         }
         return null;
+    }
+
+    /**
+     * Closes activity when dialog is dismissed
+     */
+    public void onDismiss(DialogInterface dialog) {
+        EmergencyCallbackModeExitDialog.this.setResult(RESULT_OK, (new Intent())
+                .putExtra(EXTRA_EXIT_ECM_RESULT, false));
+        finish();
     }
 
     /**
