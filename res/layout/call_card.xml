@@ -32,12 +32,12 @@
          primaryCallInfo block, so it's the first child listed here. -->
     <LinearLayout android:id="@+id/secondaryCallInfo"
                   android:orientation="vertical"
-                  android:layout_width="150dp"
+                  android:layout_width="160dp"
                   android:layout_height="wrap_content"
                   android:gravity="center_horizontal"
                   android:layout_alignParentTop="true"
                   android:layout_alignParentRight="true"
-                  android:layout_marginTop="6dp"
+                  android:layout_marginTop="16dp"
                   >
         <TextView android:id="@+id/secondaryCallStatus"
               android:text="@string/onHold"
@@ -59,9 +59,10 @@
 
         <!-- Scaled-down photo, or else a generic placeholder image. -->
         <ImageView android:id="@+id/secondaryCallPhoto"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:background="@drawable/incall_photo_border"
+            android:layout_width="106dp"
+            android:layout_height="101dp"
+            android:layout_marginTop="-6dip"
+            android:background="@drawable/incall_photo_border_med"
             />
     </LinearLayout>
 
@@ -73,7 +74,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="16dip"
+        android:layout_marginTop="18dip"
         >
 
         <!-- "Upper title" at the very top of the CallCard. -->
