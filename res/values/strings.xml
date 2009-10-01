@@ -1103,4 +1103,21 @@
          E.g: "Calling via Google Voice\n 1-800-666-1234"
     -->
     <string name="calling_via_template">Calling via ^1\n<b>^2</b></string>
+
+    <!-- Onscreen hints used for various states of the RotarySelector
+         widget used for incoming calls. -->
+    <eat-comment />
+    <!-- Incoming call hint: rotate the dial to answer -->
+    <string name="rotate_to_answer">Rotate to answer</string>
+    <!-- Incoming call hint: rotate the dial to silence ringer -->
+    <string name="rotate_to_silence">Rotate to silence ringer</string>
+    <!-- Incoming call hint: rotate the dial to decline the incoming call -->
+    <string name="rotate_to_decline">Rotate to decline call</string>
+    <!-- Incoming call hint: rotate the dial to answer and hold the active call -->
+    <string name="rotate_to_answer_and_hold">Rotate to answer and\nhold active call</string>
+    <!-- Incoming call hint: rotate the dial to answer and end the active call -->
+    <string name="rotate_to_answer_and_end_active">Rotate to answer and\nend active call</string>
+    <!-- Incoming call hint: rotate the dial to answer and end the call on hold -->
+    <string name="rotate_to_answer_and_end_onhold">Rotate to answer and\nend call on hold</string>
+
 </resources>
