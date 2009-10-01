@@ -37,7 +37,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
-import android.provider.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,7 +55,6 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.cdma.CdmaConnection;
 
 import java.util.Hashtable;
