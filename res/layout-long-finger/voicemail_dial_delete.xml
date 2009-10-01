@@ -17,13 +17,18 @@
 <!-- Horizontal row of buttons (Voicemail + DialButton + Delete.) for the
      emergency dialer: The voicemail icon is dimmed down to 33%.
      Tall screen version with taller buttons.
+     The button are below a fixed 6dip top padding so we can control how
+     far they are from the dialpad above.
+     The enclosing LinearLayout has a layout_weight of 1 which controls
+     how much the remaining free space will be placed below the button bar.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/voicemailAndDialAndDelete"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="24dip"
+    android:layout_weight="1"
+    android:paddingTop="6dp"
     android:orientation="horizontal">
 
     <!-- Onscreen "Voicemail" button. The background is hardcoded
@@ -34,7 +39,7 @@
     <ImageButton android:id="@+id/voicemailButton"
         android:layout_width="87dip"
         android:layout_height="58dip"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center_vertical|top"
         android:state_enabled="false"
         android:background="@drawable/btn_dial_action_left_disable"
         android:tint="#ff555555"
@@ -46,7 +51,7 @@
     <ImageButton android:id="@+id/dialButton"
         android:layout_width="116dip"
         android:layout_height="58dip"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center_vertical|top"
         android:state_enabled="false"
         android:background="@drawable/btn_dial_action"
         android:src="@drawable/ic_dial_action_call" />
@@ -58,7 +63,7 @@
     <ImageButton android:id="@+id/deleteButton"
         android:layout_width="87dip"
         android:layout_height="58dip"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center_vertical|top"
         android:state_enabled="false"
         android:background="@drawable/btn_dial_delete"
         android:src="@drawable/ic_dial_action_delete" />

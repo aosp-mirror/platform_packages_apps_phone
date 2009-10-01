@@ -26,7 +26,7 @@
     <EditText android:id="@+id/digits"
         android:layout_width="fill_parent"
         android:layout_height="74dip"
-        android:layout_marginBottom="44dip"
+        android:layout_marginBottom="60dip"
         android:layout_marginTop="1dip"
         android:gravity="center"
         android:maxLines="1"
