@@ -357,11 +357,29 @@ public class BluetoothHeadsetService extends Service {
         private BluetoothDevice device;
         private int channel;
         private int type;
+
+        private static final int ECONNREFUSED = -111; // Socket error code - Connection refused
+        private static final int EINTERRUPT = -1000;
+        private static final int ETIMEOUT = -1001;
+
         public RfcommConnectThread(BluetoothDevice device, int channel, int type) {
             super();
             this.device = device;
             this.channel = channel;
             this.type = type;
+        }
+
+        private int waitForConnect(HeadsetBase headset) {
+            // Try to connect for 20 seconds
+            int result = ETIMEOUT;
+            for (int i=0; i < 40 && result == ETIMEOUT; i++) {
+                result = headset.waitForAsyncConnect(500, mConnectedStatusHandler);
+                if (isInterrupted()) {
+                    headset.disconnect();
+                    return EINTERRUPT;
+                }
+            }
+            return result;
         }
 
         @Override
@@ -371,15 +389,18 @@ public class BluetoothHeadsetService extends Service {
             timestamp = System.currentTimeMillis();
             HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter, device, channel);
 
-            // Try to connect for 20 seconds
-            int result = 0;
-            for (int i=0; i < 40 && result == 0; i++) {
-                result = headset.waitForAsyncConnect(500, mConnectedStatusHandler);
-                if (isInterrupted()) {
-                    headset.disconnect();
-                    return;
-                }
+            int result = waitForConnect(headset);
+
+            if (result == ECONNREFUSED) {
+                Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
+                try {
+                    sleep(1000);  // 1 second
+                } catch (InterruptedException e) {}
+
+                result = waitForConnect(headset);
             }
+
+            if (result == EINTERRUPT) return;
 
             if (DBG) log("RFCOMM connection attempt took " +
                   (System.currentTimeMillis() - timestamp) + " ms");
@@ -389,10 +410,9 @@ public class BluetoothHeadsetService extends Service {
             }
             if (result < 0) {
                 Log.w(TAG, "headset.waitForAsyncConnect() error: " + result);
-                mConnectingStatusHandler.obtainMessage(RFCOMM_ERROR).sendToTarget();
-                return;
-            } else if (result == 0) {
-                Log.w(TAG, "mHeadset.waitForAsyncConnect() error: " + result + "(timeout)");
+                if (result == ETIMEOUT) {
+                    Log.w(TAG, "headset.waitForAsyncConnect(): timed out");
+                }
                 mConnectingStatusHandler.obtainMessage(RFCOMM_ERROR).sendToTarget();
                 return;
             } else {
