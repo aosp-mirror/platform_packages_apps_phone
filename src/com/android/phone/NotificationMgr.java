@@ -29,23 +29,20 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.provider.CallLog.Calls;
-import android.provider.Contacts.Phones;
+import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-import android.provider.Settings;
 
-import com.android.internal.R.drawable;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
@@ -244,8 +241,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     /** The projection to use when querying the phones table */
     static final String[] PHONES_PROJECTION = new String[] {
-            Phones.NUMBER,
-            Phones.NAME
+        PhoneLookup.NUMBER,
+        PhoneLookup.DISPLAY_NAME
     };
 
     /**
@@ -305,8 +302,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                             if (DBG) log("query contacts for number: " + n.number);
 
                             mQueryHandler.startQuery(CONTACT_TOKEN, n,
-                                    Uri.withAppendedPath(Phones.CONTENT_FILTER_URL, n.number),
-                                    PHONES_PROJECTION, null, null, Phones.DEFAULT_SORT_ORDER);
+                                    Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, n.number),
+                                    PHONES_PROJECTION, null, null, PhoneLookup.NUMBER);
                         }
 
                         if (DBG) log("closing call log cursor.");
@@ -323,7 +320,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                         if (cursor.moveToFirst()) {
                             // we have contacts data, get the name.
                             if (DBG) log("contact :" + n.name + " found for phone: " + n.number);
-                            n.name = cursor.getString(cursor.getColumnIndexOrThrow(Phones.NAME));
+                            n.name = cursor.getString(
+                                    cursor.getColumnIndexOrThrow(PhoneLookup.DISPLAY_NAME));
                         }
 
                         // send the notification
