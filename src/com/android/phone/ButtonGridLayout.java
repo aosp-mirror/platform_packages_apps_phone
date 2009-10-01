@@ -35,6 +35,7 @@ import android.view.ViewGroup;
  *   - vertical = top + bottom padding.
  *
  * This class assumes that all the buttons have the same size.
+ * The buttons will be bottom aligned in their view on layout.
  *
  * Invocation: onMeasure is called first by the framework to know our
  * size. Then onLayout is invoked to layout the buttons.
@@ -56,6 +57,10 @@ public class ButtonGridLayout extends ViewGroup {
     // Width and height of a button + padding.
     private int mWidthInc;
     private int mHeightInc;
+
+    // Height of the dialpad. Used to align it at the bottom of the
+    // view.
+    private int mHeight;
 
     public ButtonGridLayout(Context context) {
         super(context);
@@ -86,7 +91,8 @@ public class ButtonGridLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int i = 0;
-        int y = mPaddingTop;
+        // The last row is bottom aligned.
+        int y = (b - t) - mHeight;
         for (int row = 0; row < ROWS; row++) {
             int x = mPaddingLeft;
             for (int col = 0; col < COLUMNS; col++) {
@@ -117,9 +123,10 @@ public class ButtonGridLayout extends ViewGroup {
         mButtonHeight = child.getMeasuredHeight();
         mWidthInc = mButtonWidth + mPaddingLeft + mPaddingRight;
         mHeightInc = mButtonHeight + mPaddingTop + mPaddingBottom;
+        mHeight = ROWS * mHeightInc;
 
         final int width = resolveSize(COLUMNS * mWidthInc, widthMeasureSpec);
-        final int height = resolveSize(ROWS * mHeightInc, heightMeasureSpec);
+        final int height = resolveSize(mHeight, heightMeasureSpec);
 
         setMeasuredDimension(width, height);
     }
