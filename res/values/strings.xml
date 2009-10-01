@@ -349,6 +349,10 @@
     <string name="vm_changed">Voicemail number changed.</string>
     <!-- Call settings screen, Set voicemail number dialog text -->
     <string name="vm_change_failed">Voicemail number change unsuccessful.</string>
+    <!-- Call settings screen, displayed when vm provider supplied forwarding number change fails-->
+    <string name="fw_change_failed">Forwarding number change unsuccessful.</string>
+    <!-- Call settings screen, displayed when forwarding number read fails-->
+    <string name="fw_get_in_vm_failed">Failed to retrieve and save current forwarding number settings.\nDo you want to switch to the new provider anyway?</string>
     <!-- Call settings screen, Set voicemail number dialog text -->
     <string name="no_change">No changes were made.</string>
     <!-- Call settings screen, "Voicemail" provider setting summary text when no provider is selected -->
