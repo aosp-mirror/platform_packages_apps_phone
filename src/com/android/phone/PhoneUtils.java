@@ -2075,7 +2075,7 @@ public class PhoneUtils {
      */
     /* package */ static void checkAndCopyPhoneProviderExtras(Intent src, Intent dst) {
         if (!hasPhoneProviderExtras(src)) {
-            Log.w(LOG_TAG, "checkAndCopyPhoneProviderExtras: some or all extras are missing.");
+            Log.d(LOG_TAG, "checkAndCopyPhoneProviderExtras: some or all extras are missing.");
             return;
         }
 
