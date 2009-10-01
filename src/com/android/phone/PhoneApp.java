@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.app.StatusBarManager;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -184,6 +185,7 @@ public class PhoneApp extends Application {
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
     private int mKeyguardDisableCount;
+    private StatusBarManager mStatusBarManager;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -393,6 +395,7 @@ public class PhoneApp extends Application {
 
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
+            mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
             // get a handle to the service so that we can use it later when we
             // want to set the poke lock.
@@ -733,6 +736,7 @@ public class PhoneApp extends Application {
         synchronized (mKeyguardLock) {
             if (mKeyguardDisableCount++ == 0) {
                 mKeyguardLock.disableKeyguard();
+                mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
             }
         }
     }
@@ -750,6 +754,7 @@ public class PhoneApp extends Application {
             if (mKeyguardDisableCount > 0) {
                 if (--mKeyguardDisableCount == 0) {
                     mKeyguardLock.reenableKeyguard();
+                    mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
                 }
             } else {
                 Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
