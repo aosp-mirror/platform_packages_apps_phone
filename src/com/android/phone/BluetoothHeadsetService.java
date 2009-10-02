@@ -360,7 +360,6 @@ public class BluetoothHeadsetService extends Service {
 
         private static final int ECONNREFUSED = -111; // Socket error code - Connection refused
         private static final int EINTERRUPT = -1000;
-        private static final int ETIMEOUT = -1001;
 
         public RfcommConnectThread(BluetoothDevice device, int channel, int type) {
             super();
@@ -371,8 +370,9 @@ public class BluetoothHeadsetService extends Service {
 
         private int waitForConnect(HeadsetBase headset) {
             // Try to connect for 20 seconds
-            int result = ETIMEOUT;
-            for (int i=0; i < 40 && result == ETIMEOUT; i++) {
+            int result = 0;
+            for (int i=0; i < 40 && result == 0; i++) {
+                // waitForAsyncConnect returns 0 on timeout, 1 on success, < 0 on error.
                 result = headset.waitForAsyncConnect(500, mConnectedStatusHandler);
                 if (isInterrupted()) {
                     headset.disconnect();
@@ -410,10 +410,11 @@ public class BluetoothHeadsetService extends Service {
             }
             if (result < 0) {
                 Log.w(TAG, "headset.waitForAsyncConnect() error: " + result);
-                if (result == ETIMEOUT) {
-                    Log.w(TAG, "headset.waitForAsyncConnect(): timed out");
-                }
                 mConnectingStatusHandler.obtainMessage(RFCOMM_ERROR).sendToTarget();
+                return;
+            } else if (result == 0) {
+                mConnectingStatusHandler.obtainMessage(RFCOMM_ERROR).sendToTarget();
+                Log.w(TAG, "mHeadset.waitForAsyncConnect() error: " + result + "(timeout)");
                 return;
             } else {
                 mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
