@@ -752,6 +752,7 @@ public class CallCard extends FrameLayout
             return;
         }
 
+        boolean showSecondaryCallInfo = false;
         Call.State state = call.getState();
         switch (state) {
             case HOLDING:
@@ -790,7 +791,7 @@ public class CallCard extends FrameLayout
                     }
                 }
 
-                mSecondaryCallInfo.setVisibility(View.VISIBLE);
+                showSecondaryCallInfo = true;
 
                 break;
 
@@ -841,12 +842,12 @@ public class CallCard extends FrameLayout
                             showImage(mSecondaryCallPhoto, R.drawable.picture_unknown);
                         }
                     }
-                    mSecondaryCallInfo.setVisibility(View.VISIBLE);
+                    showSecondaryCallInfo = true;
 
                 } else {
                     // We shouldn't ever get here at all for non-CDMA devices.
                     Log.w(LOG_TAG, "displayOnHoldCallStatus: ACTIVE state on non-CDMA device");
-                    mSecondaryCallInfo.setVisibility(View.GONE);
+                    showSecondaryCallInfo = false;
                 }
                 break;
 
@@ -854,8 +855,32 @@ public class CallCard extends FrameLayout
                 // There's actually no call on hold.  (Presumably this call's
                 // state is IDLE, since any other state is meaningless for the
                 // background call.)
-                mSecondaryCallInfo.setVisibility(View.GONE);
+                showSecondaryCallInfo = false;
                 break;
+        }
+
+        if (showSecondaryCallInfo) {
+            // Ok, we have something useful to display in the "secondary
+            // call" info area.
+            mSecondaryCallInfo.setVisibility(View.VISIBLE);
+
+            // Watch out: there are some cases where we need to display the
+            // secondary call photo but *not* the two lines of text above it.
+            // Specifically, that's any state where the CallCard "upper title" is
+            // in use, since the title (e.g. "Dialing" or "Call ended") might
+            // collide with the secondaryCallStatus and secondaryCallName widgets.
+            //
+            // We detect this case by simply seeing whether or not there's any text
+            // in mUpperTitle.  (This is much simpler than detecting all possible
+            // telephony states where the "upper title" is used!  But note it does
+            // rely on the fact that updateCardTitleWidgets() gets called *earlier*
+            // than this method, in the CallCard.updateState() sequence...)
+            boolean okToShowLabels = TextUtils.isEmpty(mUpperTitle.getText());
+            mSecondaryCallName.setVisibility(okToShowLabels ? View.VISIBLE : View.INVISIBLE);
+            mSecondaryCallStatus.setVisibility(okToShowLabels ? View.VISIBLE : View.INVISIBLE);
+        } else {
+            // Hide the entire "secondary call" info area.
+            mSecondaryCallInfo.setVisibility(View.GONE);
         }
     }
 
