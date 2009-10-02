@@ -4812,6 +4812,31 @@ public class InCallScreen extends Activity
         mProviderAddress = null;
     }
 
+    /**
+     * Updates the onscreen hint displayed while the user is dragging one
+     * of the handles of the RotarySelector widget used for incoming
+     * calls.
+     *
+     * @param hintTextResId resource ID of the hint text to display,
+     *        or 0 if no hint should be visible.
+     * @param hintColorResId resource ID for the color of the hint text
+     */
+    /* package */ void updateRotarySelectorHint(int hintTextResId, int hintColorResId) {
+        if (VDBG) log("updateRotarySelectorHint(" + hintTextResId + ")...");
+        if (mCallCard != null) {
+            mCallCard.setRotarySelectorHint(hintTextResId, hintColorResId);
+            mCallCard.updateState(mPhone);
+            // TODO: if hintTextResId == 0, consider NOT clearing the onscreen
+            // hint right away, but instead post a delayed handler message to
+            // keep it onscreen for an extra second or two.  (This might make
+            // the hint more helpful if the user quickly taps one of the
+            // handles without dragging at all...)
+            // (Or, maybe this should happen completely within the RotarySelector
+            // widget, since the widget itself probably wants to keep the colored
+            // arrow visible for some extra time also...)
+        }
+    }
+
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
     }
