@@ -491,6 +491,53 @@ public class InCallTouchUi extends FrameLayout
                 Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
+
+        // Regardless of what action the user did, be sure to clear out
+        // the hint text we were displaying while the user was dragging.
+        mInCallScreen.updateRotarySelectorHint(0, 0);
+    }
+
+    /**
+     * Handles state changes of the RotarySelector widget.  While the user
+     * is dragging one of the handles, we display an onscreen hint; see
+     * CallCard.getRotateWidgetHint().
+     */
+    public void onGrabbedStateChange(View v, int grabbedState) {
+        if (mInCallScreen != null) {
+            // Look up the hint based on which handle is currently grabbed.
+            // (Note we don't simply pass grabbedState thru to the InCallScreen,
+            // since *this* class is the only place that knows that the left
+            // handle means "Answer" and the right handle means "Decline".)
+            int hintTextResId, hintColorResId;
+            switch (grabbedState) {
+                case RotarySelector.NOTHING_GRABBED:
+                    hintTextResId = 0;
+                    hintColorResId = 0;
+                    break;
+                case RotarySelector.LEFT_HANDLE_GRABBED:
+                    // TODO: Use different variants of "Rotate to answer" in some cases
+                    // depending on the phone state, like rotate_to_answer_and_hold
+                    // for a call waiting call, or rotate_to_answer_and_end_active or
+                    // rotate_to_answer_and_end_onhold for the 2-lines-in-use case.
+                    // (Note these are GSM-only cases, though.)
+                    hintTextResId = R.string.rotate_to_answer;
+                    hintColorResId = R.color.incall_textConnected;  // green
+                    break;
+                case RotarySelector.RIGHT_HANDLE_GRABBED:
+                    hintTextResId = R.string.rotate_to_decline;
+                    hintColorResId = R.color.incall_textEnded;  // red
+                    break;
+                default:
+                    Log.e(LOG_TAG, "onGrabbedStateChange: unexpected grabbedState: " + grabbedState);
+                    hintTextResId = 0;
+                    hintColorResId = 0;
+                    break;
+            }
+
+            // Tell the InCallScreen to update the CallCard and force the
+            // screen to redraw.
+            mInCallScreen.updateRotarySelectorHint(hintTextResId, hintColorResId);
+        }
     }
 
 
