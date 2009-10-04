@@ -14,12 +14,17 @@
      limitations under the License.
 -->
 
-<!-- Horizontal row of buttons (Voicemail + DialButton + Delete.) for the
-     emergency dialer: The voicemail icon is dimmed down to 33%.
-     The button are below a fixed 6dip top padding so we can control how
-     far they are from the dialpad above.
+<!-- Horizontal row of buttons: Voicemail + DialButton + Delete (aka 'torpedo')
+     for the emergency dialer: The voicemail icon is dimmed down to 33%.
+
+     In HVGA layouts the vertical padding between the last dialpad row
+     and the torpedo is the same as the amount of padding between the dialpad's
+     buttons: 12dip.
+     However the dialpad's last row already specified 6dip of bottom padding
+     so here we pick up the remainder: 6dip.
+
      The enclosing LinearLayout has a layout_weight of 1 which controls
-     how much the remaining free space will be placed below the button bar.
+     how much the remaining free space will be placed below the torpedo.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/voicemailAndDialAndDelete"
@@ -27,7 +32,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_weight="1"
-    android:paddingTop="6dp"
+    android:paddingTop="6dip"
     android:orientation="horizontal">
 
     <!-- Onscreen "Voicemail" button. The background is hardcoded
