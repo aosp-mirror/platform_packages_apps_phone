@@ -1119,6 +1119,12 @@ public class BluetoothHandsfree {
             mOutgoingSco.close();
             mOutgoingSco = null;
         }
+
+        mPendingSco = false;
+        if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+            if (DBG) log("resuming A2DP stream after SCO");
+            mA2dp.resumeSink(mA2dpDevice);
+        }
     }
 
     /* package */ boolean isAudioOn() {
