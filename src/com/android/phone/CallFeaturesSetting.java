@@ -364,9 +364,12 @@ public class CallFeaturesSetting extends PreferenceActivity
             return true;
         } else if (preference == mVoicemailSettings) {
             if (preference.getIntent() != null) {
+                if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
                 this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
             } else {
+                if (DBG) log("Opening VM number cfg dialog");
                 updateVoiceNumberField();
+                mSubMenuVoicemailSettings.showPhoneNumberDialog();
             }
             return true;
         }
@@ -389,7 +392,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonTTY) {
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
-            mPreviousVMProviderKey = mVoicemailProviders.getValue();
+            mPreviousVMProviderKey = getCurrentVoicemailProviderKey();
             final String newProviderKey = (String)objValue;
             if (DBG) log("VM provider changes to " + newProviderKey + " from " +
                     mPreviousVMProviderKey);
@@ -405,10 +408,12 @@ public class CallFeaturesSetting extends PreferenceActivity
             // Otherwise we will bring up provider's configuration UI.
 
             if (newProviderSettings == null) {
+                if (DBG) log("Saved preferences not found - invoking config");
                 mVMProviderSettingsForced = true;
                 // Force the user into a configuration of the chosen provider
                 simulatePreferenceClick(mVoicemailSettings);
             } else {
+                if (DBG) log("Saved preferences found - switching to them");
                 saveVoiceMailAndForwardingNumber(newProviderKey, newProviderSettings);
             }
         }
@@ -494,33 +499,36 @@ public class CallFeaturesSetting extends PreferenceActivity
             final boolean isVMProviderSettingsForced = mVMProviderSettingsForced;
             mVMProviderSettingsForced = false;
 
+            String vmNum = null;
             if (resultCode != RESULT_OK) {
                 if (DBG) log("onActivityResult: vm provider cfg result not OK.");
                 failure = true;
-            }
-            if (data == null) {
-                if (DBG) log("onActivityResult: vm provider cfg result has no data");
-                failure = true;
-            }
-            if (data.getBooleanExtra(SIGNOUT_EXTRA, false)) {
-                if (DBG) log("Provider requested signout");
-                if (isVMProviderSettingsForced) {
-                    if (DBG) log("Going back to previous provider on signout");
-                    switchToPreviousVoicemailProvider();
+            } else {
+                if (data == null) {
+                    if (DBG) log("onActivityResult: vm provider cfg result has no data");
+                    failure = true;
                 } else {
-                    final String victim = mVoicemailProviders.getValue();
-                    if (DBG) log("Relaunching activity and ignoring " + victim);
-                    Intent i = new Intent(ACTION_ADD_VOICEMAIL);
-                    i.putExtra(IGNORE_PROVIDER_EXTRA, victim);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    this.startActivity(i);
+                    if (data.getBooleanExtra(SIGNOUT_EXTRA, false)) {
+                        if (DBG) log("Provider requested signout");
+                        if (isVMProviderSettingsForced) {
+                            if (DBG) log("Going back to previous provider on signout");
+                            switchToPreviousVoicemailProvider();
+                        } else {
+                            final String victim = getCurrentVoicemailProviderKey();
+                            if (DBG) log("Relaunching activity and ignoring " + victim);
+                            Intent i = new Intent(ACTION_ADD_VOICEMAIL);
+                            i.putExtra(IGNORE_PROVIDER_EXTRA, victim);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            this.startActivity(i);
+                        }
+                        return;
+                    }
+                    vmNum = data.getStringExtra(VM_NUMBER_EXTRA);
+                    if (vmNum == null || vmNum.length() == 0) {
+                        if (DBG) log("onActivityResult: vm provider cfg result has no vmnum");
+                        failure = true;
+                    }
                 }
-                return;
-            }
-            String vmNum = data.getStringExtra(VM_NUMBER_EXTRA);
-            if (vmNum == null || vmNum.length() == 0) {
-                if (DBG) log("onActivityResult: vm provider cfg result has no vmnum");
-                failure = true;
             }
             if (failure) {
                 if (DBG) log("Failure in return from voicemail provider");
@@ -539,7 +547,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             if (DBG) log("onActivityResult: vm provider cfg result " +
                     (fwdNum != null ? "has" : " does not have") + " forwarding number");
-            saveVoiceMailAndForwardingNumber(mVoicemailProviders.getValue(),
+            saveVoiceMailAndForwardingNumber(getCurrentVoicemailProviderKey(),
                     new VoiceMailProviderSettings(vmNum, (String)fwdNum, fwdNumTime));
             return;
         }
@@ -573,7 +581,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         // call now, we won't need to do so here anymore.
 
         saveVoiceMailAndForwardingNumber(
-                mVoicemailProviders.getValue(),
+                getCurrentVoicemailProviderKey(),
                 new VoiceMailProviderSettings(mSubMenuVoicemailSettings.getPhoneNumber(),
                         FWD_SETTINGS_DONT_TOUCH));
     }
@@ -1249,7 +1257,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 providerToIgnore = getIntent().getStringExtra(IGNORE_PROVIDER_EXTRA);
             }
             if (DBG) log("providerToIgnore=" + providerToIgnore);
-            deleteSettingsForVoicemailProvider(providerToIgnore);
+            if (providerToIgnore != null) {
+                deleteSettingsForVoicemailProvider(providerToIgnore);
+            }
         }
 
         mVMProvidersData.clear();
@@ -1308,7 +1318,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         mVoicemailProviders.setEntries(entries);
         mVoicemailProviders.setEntryValues(values);
 
-        mPreviousVMProviderKey = mVoicemailProviders.getValue();
+        mPreviousVMProviderKey = getCurrentVoicemailProviderKey();
         updateVMPreferenceWidgets(mPreviousVMProviderKey);
     }
 
@@ -1427,5 +1437,10 @@ public class CallFeaturesSetting extends PreferenceActivity
             .putString(key + VM_NUMBER_TAG, null)
             .putInt(key + FWD_SETTINGS_TAG + FWD_SETTINGS_LENGTH_TAG, 0)
             .commit();
+    }
+
+    private String getCurrentVoicemailProviderKey() {
+        final String key = mVoicemailProviders.getValue();
+        return (key != null) ? key : DEFAULT_VM_PROVIDER_KEY;
     }
 }
