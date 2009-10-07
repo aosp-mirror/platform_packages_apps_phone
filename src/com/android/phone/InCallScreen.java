@@ -562,7 +562,7 @@ public class InCallScreen extends Activity
 
         if (mBluetoothHandsfree != null) {
             // The PhoneApp only creates a BluetoothHandsfree instance in the
-            // first place if getSystemService(Context.BLUETOOTH_SERVICE)
+            // first place if BluetoothAdapter.getDefaultAdapter()
             // succeeds.  So at this point we know the device is BT-capable.
             mBluetoothHeadset = new BluetoothHeadset(this, null);
             if (VDBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
@@ -4083,8 +4083,8 @@ public class InCallScreen extends Activity
     //
     // Bluetooth helper methods.
     //
-    // - BluetoothDevice is the Bluetooth system service
-    //   (Context.BLUETOOTH_SERVICE).  If getSystemService() returns null
+    // - BluetoothAdapter is the Bluetooth system service.  If
+    //   getDefaultAdapter() returns null
     //   then the device is not BT capable.  Use BluetoothDevice.isEnabled()
     //   to see if BT is enabled on the device.
     //
@@ -4116,8 +4116,7 @@ public class InCallScreen extends Activity
 
         // There's no need to ask the Bluetooth system service if BT is enabled:
         //
-        //    BluetoothAdapter adapter =
-        //            (BluetoothAdapter) getSystemService(Context.BLUETOOTH_SERVICE);
+        //    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         //    if ((adapter == null) || !adapter.isEnabled()) {
         //        if (DBG) log("  ==> FALSE (BT not enabled)");
         //        return false;
