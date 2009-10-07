@@ -3171,15 +3171,12 @@ public class InCallScreen extends Activity
         ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
 
         if (mProviderOverlayVisible) {
-            ImageView icon = (ImageView) findViewById(R.id.inCallProviderIcon);
-
-            icon.setImageDrawable(mProviderIcon);
-
             CharSequence template = getText(R.string.calling_via_template);
             CharSequence text = TextUtils.expandTemplate(template, mProviderLabel,
                                                          mProviderAddress);
 
             TextView message = (TextView) findViewById(R.id.callingVia);
+            message.setCompoundDrawablesWithIntrinsicBounds(mProviderIcon, null, null, null);
             message.setText(text);
 
             overlay.setVisibility(View.VISIBLE);
