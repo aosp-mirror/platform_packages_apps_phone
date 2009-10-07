@@ -121,13 +121,6 @@
         android:layout_marginTop="8dip"
         android:layout_gravity="top"
         android:visibility="gone">
-        <ImageView android:id="@+id/inCallProviderIcon"
-            android:layout_width="64dip"
-            android:layout_height="fill_parent"
-            android:layout_gravity="left"
-            android:gravity="center"
-            android:clipChildren="true"
-            />
         <TextView android:id="@+id/callingVia"
             android:text="@string/calling_via_template"
             android:layout_width="wrap_content"
@@ -135,7 +128,6 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMediumInverse"
-            android:lines="2"
             />
     </FrameLayout>
 
