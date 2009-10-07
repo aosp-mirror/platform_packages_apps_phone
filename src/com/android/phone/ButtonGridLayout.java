@@ -92,7 +92,7 @@ public class ButtonGridLayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int i = 0;
         // The last row is bottom aligned.
-        int y = (b - t) - mHeight;
+        int y = (b - t) - mHeight + mPaddingTop;
         for (int row = 0; row < ROWS; row++) {
             int x = mPaddingLeft;
             for (int col = 0; col < COLUMNS; col++) {
