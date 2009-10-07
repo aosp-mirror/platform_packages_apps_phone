@@ -168,8 +168,7 @@ public class BluetoothHandsfree {
     public BluetoothHandsfree(Context context, Phone phone) {
         mPhone = phone;
         mContext = context;
-        BluetoothAdapter adapter =
-                (BluetoothAdapter) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         boolean bluetoothCapable = (adapter != null);
         mHeadset = null;  // nothing connected yet
         mA2dp = new BluetoothA2dp(mContext);

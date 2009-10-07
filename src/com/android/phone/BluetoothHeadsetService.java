@@ -90,7 +90,7 @@ public class BluetoothHeadsetService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mAdapter = (BluetoothAdapter) getSystemService(Context.BLUETOOTH_SERVICE);
+        mAdapter = BluetoothAdapter.getDefaultAdapter();
         mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mBtHandsfree = PhoneApp.getInstance().getBluetoothHandsfree();
         mAg = new BluetoothAudioGateway(mAdapter);
