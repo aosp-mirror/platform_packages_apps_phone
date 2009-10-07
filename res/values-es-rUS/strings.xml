@@ -159,10 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar número de correo de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"Número de correo de voz cambiado."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Cambio de número de correo de voz incorrecto."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="fw_change_failed" msgid="3124377684971600400">"No se pudo cambiar de número de desvío."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Error al recuperar y al guardar la configuración actual del número de desvío."\n"¿Deseas cambiar al nuevo proveedor de todos modos?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se realizaron cambios."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Elegir servicio de buzón de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mi proveedor"</string>
@@ -563,16 +561,10 @@
     <string name="other_settings" msgid="3672912580359716394">"Otras configuraciones de llamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Marcar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Llamar mediante ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="rotate_to_answer" msgid="250167639217498442">"Gira para responder."</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Gira para silenciar el timbre."</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Gira para rehusar la llamada."</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Gira para responder y"\n" mantener la llamada activa."</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Gira para responder y"\n" finalizar la llamada activa."</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Gira para responder y"\n"finalizar la llamada en espera."</string>
 </resources>
