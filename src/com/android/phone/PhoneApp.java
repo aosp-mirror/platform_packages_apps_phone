@@ -21,6 +21,7 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.app.StatusBarManager;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -367,7 +368,7 @@ public class PhoneApp extends Application {
                 cdmaPhoneCallState.CdmaPhoneCallStateInit();
             }
 
-            if (getSystemService(Context.BLUETOOTH_SERVICE) != null) {
+            if (BluetoothAdapter.getDefaultAdapter() != null) {
                 mBtHandsfree = new BluetoothHandsfree(this, phone);
                 startService(new Intent(this, BluetoothHeadsetService.class));
             } else {
