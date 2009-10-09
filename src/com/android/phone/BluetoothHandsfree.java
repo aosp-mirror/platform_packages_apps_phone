@@ -88,6 +88,7 @@ public class BluetoothHandsfree {
     private PowerManager mPowerManager;
 
     private boolean mPendingSco;  // waiting for a2dp sink to suspend before establishing SCO
+    private boolean mA2dpSuspended;
     private boolean mUserWantsAudio;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
@@ -174,6 +175,7 @@ public class BluetoothHandsfree {
         mA2dp = new BluetoothA2dp(mContext);
         mA2dpState = BluetoothA2dp.STATE_DISCONNECTED;
         mA2dpDevice = null;
+        mA2dpSuspended = false;
 
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mStartCallWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -547,18 +549,21 @@ public class BluetoothHandsfree {
                     synchronized (BluetoothHandsfree.this) {
                         mA2dpState = state;
                         mA2dpDevice = device;
-                        if (isA2dpMultiProfile() && mPendingSco) {
-                            mHandler.removeMessages(MESSAGE_CHECK_PENDING_SCO);
-                            if (mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
-                                if (DBG) log("A2DP suspended, completing SCO");
-                                mOutgoingSco = createScoSocket();
-                                if (!mOutgoingSco.connect(
-                                        mHeadset.getRemoteDevice().getAddress())) {
-                                    mOutgoingSco = null;
+                        if (oldState == BluetoothA2dp.STATE_PLAYING &&
+                            mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+                            if (mA2dpSuspended) {
+                                if (mPendingSco) {
+                                    mHandler.removeMessages(MESSAGE_CHECK_PENDING_SCO);
+                                    if (DBG) log("A2DP suspended, completing SCO");
+                                    mOutgoingSco = createScoSocket();
+                                    if (!mOutgoingSco.connect(
+                                            mHeadset.getRemoteDevice().getAddress())) {
+                                        mOutgoingSco = null;
+                                    }
+                                    mPendingSco = false;
                                 }
                             }
                         }
-                        mPendingSco = false;
                     }
                 }
             }
@@ -1056,10 +1061,13 @@ public class BluetoothHandsfree {
             return true;
         }
 
+        mA2dpSuspended = false;
+        mPendingSco = false;
         if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_PLAYING) {
             if (DBG) log("suspending A2DP stream for SCO");
-            mPendingSco = mA2dp.suspendSink(mA2dpDevice);
-            if (mPendingSco) {
+            mA2dpSuspended = mA2dp.suspendSink(mA2dpDevice);
+            if (mA2dpSuspended) {
+                mPendingSco = true;
                 Message msg = mHandler.obtainMessage(MESSAGE_CHECK_PENDING_SCO);
                 mHandler.sendMessageDelayed(msg, 2000);
             } else {
@@ -1098,7 +1106,15 @@ public class BluetoothHandsfree {
      * headset/handsfree, if one is connected. Does not block.
      */
     /* package */ synchronized void audioOff() {
-        if (VDBG) log("audioOff()");
+        if (VDBG) log("audioOff(): mPendingSco: "+mPendingSco+", mConnectedSco: "+
+                mConnectedSco+", mOutgoingSco: "+mOutgoingSco+", mA2dpState: "+mA2dpState+
+                ", mA2dpSuspended: "+mA2dpSuspended);
+
+        if (mA2dpSuspended) {
+            if (DBG) log("resuming A2DP stream after disconnecting SCO");
+            mA2dp.resumeSink(mA2dpDevice);
+            mA2dpSuspended = false;
+        }
 
         mPendingSco = false;
 
@@ -1109,10 +1125,6 @@ public class BluetoothHandsfree {
             mConnectedSco.close();
             mConnectedSco = null;
 
-            if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
-                if (DBG) log("resuming A2DP stream after disconnecting SCO");
-                mA2dp.resumeSink(mA2dpDevice);
-            }
         }
         if (mOutgoingSco != null) {
             mOutgoingSco.close();
