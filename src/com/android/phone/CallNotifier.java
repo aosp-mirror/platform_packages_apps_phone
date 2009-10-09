@@ -1168,6 +1168,11 @@ public class CallNotifier extends Handler
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
         private static final int TONE_RELATIVE_VOLUME_LOPRI = 50;
 
+        // Buffer time (in msec) to add on to tone timeout value.
+        // Needed mainly when the timeout value for a tone is the
+        // exact duration of the tone itself.
+        private static final int TONE_TIMEOUT_BUFFER = 20;
+
         InCallTonePlayer(int toneId) {
             super();
             mToneId = toneId;
@@ -1194,7 +1199,7 @@ public class CallNotifier extends Handler
                     if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         toneType = ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT;
                         toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
-                        toneLengthMillis = 5000;
+                        toneLengthMillis = 1000;
                     } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         toneType = ToneGenerator.TONE_SUP_BUSY;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
@@ -1220,18 +1225,18 @@ public class CallNotifier extends Handler
                 case TONE_CALL_ENDED:
                     toneType = ToneGenerator.TONE_PROP_PROMPT;
                     toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                    toneLengthMillis = 2000;
+                    toneLengthMillis = 200;
                     break;
                  case TONE_OTA_CALL_END:
                     if (mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone ==
                             OtaUtils.OTA_PLAY_SUCCESS_FAILURE_TONE_ON) {
                         toneType = ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                        toneLengthMillis = 2000;
+                        toneLengthMillis = 750;
                     } else {
                         toneType = ToneGenerator.TONE_PROP_PROMPT;
                         toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                        toneLengthMillis = 2000;
+                        toneLengthMillis = 200;
                     }
                     break;
                 case TONE_VOICE_PRIVACY:
@@ -1242,18 +1247,18 @@ public class CallNotifier extends Handler
                 case TONE_REORDER:
                     toneType = ToneGenerator.TONE_CDMA_ABBR_REORDER;
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
-                    toneLengthMillis = 5000;
+                    toneLengthMillis = 4000;
                     break;
                 case TONE_INTERCEPT:
                     toneType = ToneGenerator.TONE_CDMA_ABBR_INTERCEPT;
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
-                    toneLengthMillis = 5000;
+                    toneLengthMillis = 500;
                     break;
                 case TONE_CDMA_DROP:
                 case TONE_OUT_OF_SERVICE:
                     toneType = ToneGenerator.TONE_CDMA_CALLDROP_LITE;
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
-                    toneLengthMillis = 5000;
+                    toneLengthMillis = 375;
                     break;
                 case TONE_REDIAL:
                     toneType = ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE;
@@ -1337,7 +1342,7 @@ public class CallNotifier extends Handler
 
                 if (okToPlayTone) {
                     toneGenerator.startTone(toneType);
-                    SystemClock.sleep(toneLengthMillis);
+                    SystemClock.sleep(toneLengthMillis + TONE_TIMEOUT_BUFFER);
                     if (needToStopTone) {
                         toneGenerator.stopTone();
                     }
