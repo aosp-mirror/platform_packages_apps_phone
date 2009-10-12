@@ -2177,57 +2177,61 @@ public class PhoneUtils {
 
     /* package */ static void dumpCallState(Phone phone) {
         PhoneApp app = PhoneApp.getInstance();
-        Log.d(LOG_TAG, "##### dumpCallState()");
+        Log.d(LOG_TAG, "dumpCallState():");
         Log.d(LOG_TAG, "- Phone: " + phone + ", name = " + phone.getPhoneName()
               + ", state = " + phone.getState());
-        Log.d(LOG_TAG, "-");
 
-        Call fgCall = phone.getForegroundCall();
-        Log.d(LOG_TAG, "- FG call: " + fgCall);
-        Log.d(LOG_TAG, "-  state: " + fgCall.getState());
-        Log.d(LOG_TAG, "-  isAlive(): " + fgCall.getState().isAlive());
-        Log.d(LOG_TAG, "-  isRinging(): " + fgCall.getState().isRinging());
-        Log.d(LOG_TAG, "-  isDialing(): " + fgCall.getState().isDialing());
-        Log.d(LOG_TAG, "-  isIdle(): " + fgCall.isIdle());
-        Log.d(LOG_TAG, "-  hasConnections: " + fgCall.hasConnections());
-        Log.d(LOG_TAG, "-");
+        StringBuilder b = new StringBuilder(128);
 
-        Call bgCall = phone.getBackgroundCall();
-        Log.d(LOG_TAG, "- BG call: " + bgCall);
-        Log.d(LOG_TAG, "-  state: " + bgCall.getState());
-        Log.d(LOG_TAG, "-  isAlive(): " + bgCall.getState().isAlive());
-        Log.d(LOG_TAG, "-  isRinging(): " + bgCall.getState().isRinging());
-        Log.d(LOG_TAG, "-  isDialing(): " + bgCall.getState().isDialing());
-        Log.d(LOG_TAG, "-  isIdle(): " + bgCall.isIdle());
-        Log.d(LOG_TAG, "-  hasConnections: " + bgCall.hasConnections());
-        Log.d(LOG_TAG, "-");
+        Call call = phone.getForegroundCall();
+        b.setLength(0);
+        b.append("  - FG call: ").append(call.getState());
+        b.append(" isAlive ").append(call.getState().isAlive());
+        b.append(" isRinging ").append(call.getState().isRinging());
+        b.append(" isDialing ").append(call.getState().isDialing());
+        b.append(" isIdle ").append(call.isIdle());
+        b.append(" hasConnections ").append(call.hasConnections());
+        Log.d(LOG_TAG, b.toString());
 
-        Call ringingCall = phone.getRingingCall();
-        Log.d(LOG_TAG, "- RINGING call: " + ringingCall);
-        Log.d(LOG_TAG, "-  state: " + ringingCall.getState());
-        Log.d(LOG_TAG, "-  isAlive(): " + ringingCall.getState().isAlive());
-        Log.d(LOG_TAG, "-  isRinging(): " + ringingCall.getState().isRinging());
-        Log.d(LOG_TAG, "-  isDialing(): " + ringingCall.getState().isDialing());
-        Log.d(LOG_TAG, "-  isIdle(): " + ringingCall.isIdle());
-        Log.d(LOG_TAG, "-  hasConnections: " + ringingCall.hasConnections());
-        Log.d(LOG_TAG, "-");
+        call = phone.getBackgroundCall();
+        b.setLength(0);
+        b.append("  - BG call: ").append(call.getState());
+        b.append(" isAlive ").append(call.getState().isAlive());
+        b.append(" isRinging ").append(call.getState().isRinging());
+        b.append(" isDialing ").append(call.getState().isDialing());
+        b.append(" isIdle ").append(call.isIdle());
+        b.append(" hasConnections ").append(call.hasConnections());
+        Log.d(LOG_TAG, b.toString());
+
+        call = phone.getRingingCall();
+        b.setLength(0);
+        b.append("  - RINGING call: ").append(call.getState());
+        b.append(" isAlive ").append(call.getState().isAlive());
+        b.append(" isRinging ").append(call.getState().isRinging());
+        b.append(" isDialing ").append(call.getState().isDialing());
+        b.append(" isIdle ").append(call.isIdle());
+        b.append(" hasConnections ").append(call.hasConnections());
+        Log.d(LOG_TAG, b.toString());
+
 
         final boolean hasRingingCall = !phone.getRingingCall().isIdle();
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
         final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
-        Log.d(LOG_TAG, "- hasRingingCall: " + hasRingingCall);
-        Log.d(LOG_TAG, "- hasActiveCall: " + hasActiveCall);
-        Log.d(LOG_TAG, "- hasHoldingCall: " + hasHoldingCall);
-        Log.d(LOG_TAG, "- allLinesTaken: " + allLinesTaken);
+        b.setLength(0);
+        b.append("  - hasRingingCall ").append(hasRingingCall);
+        b.append(" hasActiveCall ").append(hasActiveCall);
+        b.append(" hasHoldingCall ").append(hasHoldingCall);
+        b.append(" allLinesTaken ").append(allLinesTaken);
+        Log.d(LOG_TAG, b.toString());
 
         // On CDMA phones, dump out the CdmaPhoneCallState too:
         if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             if (app.cdmaPhoneCallState != null) {
-                Log.d(LOG_TAG, "- CDMA current call state: "
+                Log.d(LOG_TAG, "  - CDMA call state: "
                       + app.cdmaPhoneCallState.getCurrentCallState());
             } else {
-                Log.d(LOG_TAG, "- CDMA device, but null cdmaPhoneCallState!");
+                Log.d(LOG_TAG, "  - CDMA device, but null cdmaPhoneCallState!");
             }
         }
 
@@ -2235,8 +2239,7 @@ public class PhoneUtils {
         // about the state of the telephony layer; it merely tells us whether
         // the Ringer manager is currently playing the ringtone.
         boolean ringing = app.getRinger().isRinging();
-        Log.d(LOG_TAG, "- ringing (Ringer manager state): " + ringing);
-        Log.d(LOG_TAG, "-----");
+        Log.d(LOG_TAG, "  - Ringer state: " + ringing);
     }
 
     private static void log(String msg) {

@@ -52,8 +52,7 @@ public class DTMFTwelveKeyDialer implements
         View.OnTouchListener,
         View.OnKeyListener {
     private static final String LOG_TAG = "DTMFTwelveKeyDialer";
-    private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // events
     private static final int PHONE_DISCONNECT = 100;
