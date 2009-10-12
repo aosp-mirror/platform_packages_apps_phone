@@ -1458,7 +1458,7 @@ public class PhoneApp extends Application {
         if (mInCallScreen != null) {
             otaCallActive = mInCallScreen.isOtaCallInActiveState();
         }
-        if (DBG) Log.d(LOG_TAG, "PhoneApp - isOtaCallInActiveState " + otaCallActive);
+        if (VDBG) Log.d(LOG_TAG, "- isOtaCallInActiveState " + otaCallActive);
         return otaCallActive;
     }
 
@@ -1467,33 +1467,33 @@ public class PhoneApp extends Application {
         if (mInCallScreen != null) {
             otaCallEnded = mInCallScreen.isOtaCallInEndState();
         }
-        if (DBG) Log.d(LOG_TAG, "PhoneApp - isOtaCallInEndState " + otaCallEnded);
+        if (VDBG) Log.d(LOG_TAG, "- isOtaCallInEndState " + otaCallEnded);
         return otaCallEnded;
     }
 
     // it is safe to call clearOtaState() even if the InCallScreen isn't active
     public void clearOtaState() {
-        if (DBG) Log.d(LOG_TAG, "PhoneApp - clearOtaState ...");
+        if (DBG) Log.d(LOG_TAG, "- clearOtaState ...");
         if ((mInCallScreen != null)
                 && (mInCallScreen.otaUtils != null)) {
             mInCallScreen.otaUtils.cleanOtaScreen();
-            if (DBG) Log.d(LOG_TAG, "PhoneApp - clearOtaState clears OTA screen");
+            if (DBG) Log.d(LOG_TAG, "  - clearOtaState clears OTA screen");
         }
     }
 
     // it is safe to call dismissOtaDialogs() even if the InCallScreen isn't active
     public void dismissOtaDialogs() {
-        if (DBG) Log.d(LOG_TAG, "PhoneApp - dismissOtaDialogs ...");
+        if (DBG) Log.d(LOG_TAG, "- dismissOtaDialogs ...");
         if ((mInCallScreen != null)
                 && (mInCallScreen.otaUtils != null)) {
             mInCallScreen.otaUtils.dismissAllOtaDialogs();
-            if (DBG) Log.d(LOG_TAG, "PhoneApp - dismissOtaDialogs clears OTA dialogs");
+            if (DBG) Log.d(LOG_TAG, "  - dismissOtaDialogs clears OTA dialogs");
         }
     }
 
     // it is safe to call clearInCallScreenMode() even if the InCallScreen isn't active
     public void clearInCallScreenMode() {
-        if (DBG) Log.d(LOG_TAG, "PhoneApp - clearInCallScreenMode ...");
+        if (DBG) Log.d(LOG_TAG, "- clearInCallScreenMode ...");
         if (mInCallScreen != null) {
             mInCallScreen.resetInCallScreenMode();
         }

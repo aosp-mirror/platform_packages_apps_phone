@@ -613,9 +613,6 @@ public class InCallScreen extends Activity
         // dialer view is present:
         if (mDialerView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
-            // STOPSHIP: For now, throw an exception to make sure we notice
-            // this.  But remove this before ship.
-            throw new IllegalStateException("Couldn't find dialerView");
         }
         // Finally, create the DTMFTwelveKeyDialer instance.
         mDialer = new DTMFTwelveKeyDialer(this, mDialerView, dialerDrawer);
@@ -3094,7 +3091,7 @@ public class InCallScreen extends Activity
      * Handles button clicks from the InCallTouchUi widget.
      */
     /* package */ void handleOnscreenButtonClick(int id) {
-        if (DBG) log("handleOnscreenButtonClick(id " + id + ")...");
+        if (VDBG) log("handleOnscreenButtonClick(id " + id + ")...");
 
         switch (id) {
             // TODO: since every button here corresponds to a menu item that we
@@ -3482,7 +3479,7 @@ public class InCallScreen extends Activity
      * ringing or waiting call.
      */
     /* package */ void internalAnswerCall() {
-        if (DBG) log("internalAnswerCall()...");
+        // if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
         final boolean hasRingingCall = !mRingingCall.isIdle();
@@ -3490,6 +3487,7 @@ public class InCallScreen extends Activity
         if (hasRingingCall) {
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                if (DBG) log("internalAnswerCall: answering (CDMA)...");
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                 // if there is one
@@ -3820,8 +3818,11 @@ public class InCallScreen extends Activity
         //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
         //     is opaque.)
         if (!mDialer.usingSlidingDrawer()) {
-            mDialerView.setKeysBackgroundResource(
-                isBluetoothAudioConnected() ? R.drawable.btn_dial_blue : R.drawable.btn_dial_green);
+            if (mDialerView != null) {
+                mDialerView.setKeysBackgroundResource(
+                        isBluetoothAudioConnected() ? R.drawable.btn_dial_blue
+                        : R.drawable.btn_dial_green);
+            }
 
             if (isDialerOpened()) {
                 mInCallPanel.setVisibility(View.GONE);
