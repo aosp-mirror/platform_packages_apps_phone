@@ -55,9 +55,8 @@ import com.android.internal.telephony.PhoneBase;
  * NotificationManager-related utility code for the Phone app.
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
-    private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final String LOG_TAG = "NotificationMgr";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -966,6 +965,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     private void log(String msg) {
-        Log.d(LOG_TAG, "[NotificationMgr] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 }
