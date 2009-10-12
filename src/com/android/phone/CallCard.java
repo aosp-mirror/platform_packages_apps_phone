@@ -73,7 +73,8 @@ public class CallCard extends FrameLayout
     private TextView mElapsedTime;
 
     // Text colors, used for various labels / titles
-    private int mTextColorTitleDefault;
+    private int mTextColorDefaultPrimary;
+    private int mTextColorDefaultSecondary;
     private int mTextColorConnected;
     private int mTextColorConnectedBluetooth;
     private int mTextColorEnded;
@@ -95,6 +96,10 @@ public class CallCard extends FrameLayout
 
     // Menu button hint
     private TextView mMenuButtonHint;
+
+    // Onscreen hint for the incoming call RotarySelector widget.
+    private int mRotarySelectorHintTextResId;
+    private int mRotarySelectorHintColorResId;
 
     private CallTime mCallTime;
 
@@ -158,7 +163,10 @@ public class CallCard extends FrameLayout
         mElapsedTime = (TextView) findViewById(R.id.elapsedTime);
 
         // Text colors
-        mTextColorTitleDefault = getResources().getColor(android.R.color.primary_text_dark);
+        mTextColorDefaultPrimary =  // corresponds to textAppearanceLarge
+                getResources().getColor(android.R.color.primary_text_dark);
+        mTextColorDefaultSecondary =  // corresponds to textAppearanceSmall
+                getResources().getColor(android.R.color.secondary_text_dark);
         mTextColorConnected = getResources().getColor(R.color.incall_textConnected);
         mTextColorConnectedBluetooth =
                 getResources().getColor(R.color.incall_textConnectedBluetooth);
@@ -502,6 +510,21 @@ public class CallCard extends FrameLayout
         // indication of the current state, rather than displaying the
         // regular photo as set above.
         updatePhotoForCallState(call);
+
+        // One special feature of the "number" text field: For incoming
+        // calls, while the user is dragging the RotarySelector widget, we
+        // use mPhoneNumber to display a hint like "Rotate to answer".
+        if (mRotarySelectorHintTextResId != 0) {
+            // Display the hint!
+            mPhoneNumber.setText(mRotarySelectorHintTextResId);
+            mPhoneNumber.setTextColor(getResources().getColor(mRotarySelectorHintColorResId));
+            mPhoneNumber.setVisibility(View.VISIBLE);
+            mLabel.setVisibility(View.GONE);
+        }
+        // If we don't have a hint to display, just don't touch
+        // mPhoneNumber and mLabel. (Their text / color / visibility have
+        // already been set correctly, by either updateDisplayForPerson()
+        // or updateDisplayForConference().)
     }
 
     /**
@@ -596,7 +619,7 @@ public class CallCard extends FrameLayout
                     // as the Foreground Call state still remains ACTIVE
                     if (mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
                         // Use the "upper title":
-                        setUpperTitle(cardTitle, mTextColorTitleDefault, state);
+                        setUpperTitle(cardTitle, mTextColorDefaultPrimary, state);
                     } else {
                         // Normal "ongoing call" state; don't use any "title" at all.
                         clearUpperTitle();
@@ -652,7 +675,7 @@ public class CallCard extends FrameLayout
 
             default:
                 // All other states (DIALING, INCOMING, etc.) use the "upper title":
-                setUpperTitle(cardTitle, mTextColorTitleDefault, state);
+                setUpperTitle(cardTitle, mTextColorDefaultPrimary, state);
 
                 // ...and we don't show the elapsed time.
                 mElapsedTime.setVisibility(View.INVISIBLE);
@@ -1038,6 +1061,7 @@ public class CallCard extends FrameLayout
         }
         if (displayNumber != null && !call.isGeneric()) {
             mPhoneNumber.setText(displayNumber);
+            mPhoneNumber.setTextColor(mTextColorDefaultSecondary);
             mPhoneNumber.setVisibility(View.VISIBLE);
         } else {
             mPhoneNumber.setVisibility(View.GONE);
@@ -1357,11 +1381,20 @@ public class CallCard extends FrameLayout
      * To bring back the regular CallCard UI, just re-run the normal
      * updateState() call sequence.
      */
-
     public void hideCallCardElements() {
         mPrimaryCallInfo.setVisibility(View.GONE);
         mSecondaryCallInfo.setVisibility(View.GONE);
     }
+
+    /*
+     * Updates the hint (like "Rotate to answer") that we display while
+     * the user is dragging the incoming call RotarySelector widget.
+     */
+    /* package */ void setRotarySelectorHint(int hintTextResId, int hintColorResId) {
+        mRotarySelectorHintTextResId = hintTextResId;
+        mRotarySelectorHintColorResId = hintColorResId;
+    }
+
 
     // Debugging / testing code
 
