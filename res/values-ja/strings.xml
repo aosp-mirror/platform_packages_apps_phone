@@ -159,6 +159,10 @@
     <string name="vm_save_number" msgid="4579969432544566719">"ボイスメールの番号の保存"</string>
     <string name="vm_changed" msgid="380744030726254139">"ボイスメールの番号が変更されました。"</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"ボイスメールの番号を変更できませんでした。"</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
     <string name="no_change" msgid="3186040086622435212">"変更されていません。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"ボイスメールサービスを選択"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"携帯通信会社"</string>
@@ -481,9 +485,11 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"キーボードで番号を入力してください"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"タッチトーンキー"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"ダイヤルキー"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"ダブルタップでロック"\n"を解除できます"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"ダブルタップで電話に"\n"出ることができます"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"ダブルタップで"\n"拒否できます"</string>
+    <string name="touchLockText" msgid="566824588267376287">"ロックを解除するには"\n"ここをダブルタップ"</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
     <string name="onscreenHoldText" msgid="2285258239691145872">"保留"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"保留解除"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"終了"</string>
@@ -564,4 +570,16 @@
     <string name="other_settings" msgid="3672912580359716394">"その他の通話設定"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"発信"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"^1で発信中:"\n<b>"^2"</b></string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
+    <skip />
 </resources>

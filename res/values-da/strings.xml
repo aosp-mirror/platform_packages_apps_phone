@@ -159,6 +159,10 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Gem voicemailnummer"</string>
     <string name="vm_changed" msgid="380744030726254139">"Voicemailnummeret blev ændret."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Ændring af voicemailnummer mislykkedes."</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
     <string name="no_change" msgid="3186040086622435212">"Der blev ikke foretaget nogen ændringer."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Vælg voicemail-tjeneste"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min udbyder"</string>
@@ -481,9 +485,11 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Brug tastatur til at ringe op"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Touch-tone-tastatur"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Nummerblok"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Tryk to gange"\n"for at låse op"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Tryk to gange"\n"for at besvare"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Tryk to gange"\n"for at afvise"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Tryk to gange"\n"for at låse op"</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
     <string name="onscreenHoldText" msgid="2285258239691145872">"Hold"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Hold fra"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Afslut"</string>
@@ -564,4 +570,16 @@
     <string name="other_settings" msgid="3672912580359716394">"Andre opkaldsindstillinger"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring til"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ringer op via ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
+    <skip />
 </resources>
