@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
+import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -55,7 +56,7 @@ public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
     private static final String UNACTIVATED_MIN2_VALUE = "000000";
     private static final String UNACTIVATED_MIN_VALUE = "1111110111";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1);
 
     public static final int OTA_SHOW_ACTIVATION_SCREEN_OFF = 0;
     public static final int OTA_SHOW_ACTIVATION_SCREEN_ON = 1;
@@ -789,6 +790,7 @@ public class OtaUtils {
         mApplication.cdmaOtaProvisionData.inOtaSpcState = false;
         mApplication.cdmaOtaProvisionData.activationCount = 0;
         mApplication.cdmaOtaProvisionData.otaSpcUptime = 0;
+        mApplication.cdmaOtaInCallScreenUiState.state = State.UNDEFINED;
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
