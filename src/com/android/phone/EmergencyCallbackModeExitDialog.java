@@ -135,7 +135,9 @@ public class EmergencyCallbackModeExitDialog extends Activity implements OnDismi
             // Wait for bind to finish
             synchronized (EmergencyCallbackModeExitDialog.this) {
                 try {
-                    EmergencyCallbackModeExitDialog.this.wait();
+                    if (mService == null) {
+                        EmergencyCallbackModeExitDialog.this.wait();
+                    }
                 } catch (InterruptedException e) {
                     Log.d("ECM", "EmergencyCallbackModeExitDialog InterruptedException: "
                             + e.getMessage());
