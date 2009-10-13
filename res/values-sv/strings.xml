@@ -15,579 +15,571 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"Kontakter"</string>
-    <string name="contactsFavoritesLabel">"Favoriter"</string>
-    <string name="dialerIconLabel">"Samtal"</string>
-    <string name="emergencyDialerIconLabel">"Nödsamtal"</string>
-    <string name="phoneIconLabel">"Telefon"</string>
-    <string name="recentCallsIconLabel">"Samtalshistorik"</string>
-    <string name="fdnListLabel">"FDN-lista"</string>
-    <string name="unknown">"Okänd"</string>
-    <string name="private_num">"Privat nummer"</string>
-    <string name="payphone">"Telefonautomat"</string>
-    <string name="onHold">"Parkerat"</string>
-    <string name="ongoing">"Pågående samtal"</string>
-    <string name="callFailed_userBusy">"Linjen är upptagen"</string>
-    <string name="callFailed_congestion">"Nätverket är upptaget"</string>
-    <string name="callFailed_noSignal">"Ingen signal"</string>
-    <string name="callFailed_limitExceeded">"ACM-gränsen har överskridits"</string>
-    <string name="callFailed_powerOff">"Radio av"</string>
-    <string name="callFailed_simError">"Inget SIM-kort eller SIM-kortsfel"</string>
-    <string name="callFailed_outOfService">"Fungerar inte i detta område"</string>
-    <string name="callFailed_fdn_only">"Utgående samtal begränsas av FDN."</string>
-    <string name="callFailed_cb_enabled">"Du kan inte ringa utgående samtal när samtalsspärren är aktiverad."</string>
-    <string name="callFailed_dsac_restricted">"Alla samtal begränsas av åtkomstkontroll."</string>
-    <string name="callFailed_dsac_restricted_emergency">"Nödsamtal begränsas av åtkomstkontroll."</string>
-    <string name="callFailed_dsac_restricted_normal">"Vanliga samtal begränsas av åtkomstkontroll."</string>
-    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
-    <skip />
-    <string name="confCall">"Konferenssamtal"</string>
-    <string name="mmiStarted">"MMI-kod körs"</string>
-    <string name="ussdRunning">"USSD-kod körs…"</string>
-    <string name="mmiCancelled">"MMI-koden har annullerats"</string>
-    <string name="cancel">"Avbryt"</string>
-    <!-- no translation found for ecbm_mode_text (6485648046794782672) -->
-    <skip />
-    <!-- no translation found for ecbm_exit_text (622759135506401127) -->
-    <skip />
-    <!-- no translation found for ecbm_ok_text (1373363960570351032) -->
-    <skip />
-    <!-- no translation found for ecbm_emergency_number (4131632362330756509) -->
-    <skip />
-    <!-- no translation found for ecbm_instruction_text (5039940054364946169) -->
-    <skip />
-    <string name="menu_speaker">"Högtalare"</string>
-    <string name="menu_bluetooth">"Bluetooth"</string>
-    <string name="menu_mute">"Ljud av"</string>
-    <string name="menu_hold">"Parkera"</string>
-    <string name="menu_endCall">"Avsl. samt."</string>
-    <string name="menu_swapCalls">"Byt samtal"</string>
-    <string name="menu_mergeCalls">"Koppla ihop samtal"</string>
-    <string name="menu_addCall">"Lägg till samtal"</string>
-    <string name="menu_manageConference">"Hantera konferenssamtal"</string>
-    <string name="menu_showDialpad">"Visa knappsats"</string>
-    <string name="menu_hideDialpad">"Dölj knappsatsen"</string>
-    <string name="menu_answerAndHold">"Parkera pågående samtal "\n" och svara"</string>
-    <string name="menu_answerAndEnd">"Avsluta pågående samtal"\n" och svara"</string>
-    <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Tryck på Meny om du vill visa samtalsalternativ."</string>
-    <string name="menuButtonKeyboardDialHint">"Tryck på Meny om du vill visa samtalsalternativ  •   Använd tangentbordet om du vill ringa"</string>
-    <!-- no translation found for menu_answer (116686205042231098) -->
-    <skip />
-    <!-- no translation found for menu_ignore (2112030835852537344) -->
-    <skip />
-    <string name="wait_prompt_str">"Skicka följande toner?"\n</string>
-    <string name="send_button">"Skicka"</string>
-    <string name="wild_prompt_str">"Ersätt jokertecknet med"</string>
-    <string name="no_vm_number">"Nummer till röstbrevlåda saknas"</string>
-    <string name="no_vm_number_msg">"Det finns inget nummer till röstbrevlådan sparat på SIM-kortet."</string>
-    <string name="add_vm_number_str">"Lägg till nummer"</string>
-    <string name="dialer_emptyListWorking">"Läser in…"</string>
-    <string name="enterPin">"Ange PIN-kod för att låsa upp SIM-kortet."</string>
-    <string name="pinUnlocked">"SIM-kortet är upplåst"</string>
-    <string name="enterNewPin">"Ny PIN-kod för SIM-kort"</string>
-    <string name="verifyNewPin">"Bekräfta genom att ange SIM-kortets nya PIN-kod igen"</string>
-    <string name="verifyFailed">"PIN-koderna som du angav för SIM-kortet matchar inte. Försök igen."</string>
-    <string name="enterPuk">"Ange PUK-kod för att låsa upp SIM-kortet"</string>
-    <string name="badPuk">"Felaktig PUK-kod!"</string>
-    <string name="buttonTxtContinue">"Fortsätt"</string>
-    <string name="puk_unlocked">"SIM-kortets spärr har tagits bort. Låser upp telefonen…"</string>
-    <string name="label_ndp">"PIN-kod för upplåsning av SIM-nätverk"</string>
-    <string name="sim_ndp_unlock_text">"Lås upp"</string>
-    <string name="sim_ndp_dismiss_text">"Ta bort permanent"</string>
-    <string name="requesting_unlock">"Försöker låsa upp nätverket…"</string>
-    <string name="unlock_failed">"Det gick inte att låsa upp nätverket."</string>
-    <string name="unlock_success">"Nätverket upplåst"</string>
-    <string name="imei">"IMEI-kod"</string>
-    <!-- no translation found for labelGSMMore (5930842194056092106) -->
-    <skip />
-    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
-    <skip />
-    <string name="apn_settings">"Åtkomstpunktsnamn"</string>
-    <string name="settings_label">"Nätverksinställningar"</string>
-    <string name="voicemail">"Röstbrevlåda"</string>
-    <string name="voicemail_abbreviated">"RB:"</string>
-    <string name="networks">"Nätverksoperatörer"</string>
-    <string name="call_settings">"Samtalsinställningar"</string>
-    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
-    <skip />
-    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
-    <skip />
-    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
-    <skip />
-    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
-    <skip />
-    <string name="labelNwService">"Inställningar för nätverkstjänst"</string>
-    <string name="labelCallerId">"Nummerpresentatör"</string>
-    <string name="sum_hide_caller_id">"Dolt nummer i utgående samtal"</string>
-    <string name="sum_show_caller_id">"Nummer som visas för utgående samtal"</string>
-    <string name="sum_default_caller_id">"Använd operatörens standardinställningar när mitt nummer visas för utgående samtal"</string>
-    <string name="labelCW">"Samtal väntar"</string>
-    <string name="sum_cw_enabled">"Meddela mig om inkommande samtal under samtal"</string>
-    <string name="sum_cw_disabled">"Meddela mig om inkommande samtal under samtal"</string>
-    <string name="call_forwarding_settings">"Inställningar för Vidarebefordra samtal"</string>
-    <string name="labelCF">"Vidarebefordra samtal"</string>
-    <string name="labelCFU">"Vidarebefordra alltid"</string>
-    <string name="messageCFU">"Använd alltid detta nummer"</string>
-    <string name="sum_cfu_enabled_indicator">"Vidarebefordra alla samtal"</string>
-    <string name="sum_cfu_enabled">"Vidarebefordrar alla samtal till \\\\{0\\\\}"</string>
-    <string name="sum_cfu_disabled">"Inaktiverat"</string>
-    <string name="labelCFB">"Vidarebefordra vid upptaget"</string>
-    <string name="messageCFB">"Nummer vid upptagen"</string>
-    <string name="sum_cfb_enabled">"Vidarebefordrar till \\\\{0\\\\}"</string>
-    <string name="sum_cfb_disabled">"Inaktiverat"</string>
-    <string name="labelCFNRy">"Vidarebefordra vid ej svar"</string>
-    <string name="messageCFNRy">"Nummer vid ej svar"</string>
-    <string name="sum_cfnry_enabled">"Vidarebefordrar till \\\\{0\\\\}"</string>
-    <string name="sum_cfnry_disabled">"Inaktiverat"</string>
-    <string name="labelCFNRc">"Vidarebefordra när du inte är tillgänglig"</string>
-    <string name="messageCFNRc">"Nummer när du inte är tillgänglig"</string>
-    <string name="sum_cfnrc_enabled">"Vidarebefordrar till \\\\{0\\\\}"</string>
-    <string name="sum_cfnrc_disabled">"Inaktiverat"</string>
-    <string name="updating_title">"Samtalsinställningar"</string>
-    <string name="error_updating_title">"Felaktiga samtalsinställningar"</string>
-    <string name="reading_settings">"Läser inställningar…"</string>
-    <string name="updating_settings">"Uppdaterar inställningar…"</string>
-    <!-- no translation found for response_error (6674110501330139405) -->
-    <skip />
-    <string name="exception_error">"Nätverks- eller SIM-kortsfel."</string>
-    <string name="radio_off_error">"Sätt på radion innan du visar inställningarna."</string>
-    <string name="close_dialog">"OK"</string>
-    <string name="enable">"Aktivera"</string>
-    <string name="disable">"Inaktivera"</string>
-    <string name="change_num">"Uppdatera"</string>
+    <string name="contactsIconLabel" msgid="9129800048701196916">"Kontakter"</string>
+    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Favoriter"</string>
+    <string name="dialerIconLabel" msgid="1761864493312440268">"Samtal"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Nödsamtal"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
+    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Logg"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"FDN-lista"</string>
+    <string name="unknown" msgid="6878797917991465859">"Okänd"</string>
+    <string name="private_num" msgid="6713286113000232309">"Privat nummer"</string>
+    <string name="payphone" msgid="1931775086311769314">"Telefonautomat"</string>
+    <string name="onHold" msgid="9035493194749959955">"Parkerat"</string>
+    <string name="ongoing" msgid="8300874342848721367">"Pågående samtal"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"Linjen är upptagen"</string>
+    <string name="callFailed_congestion" msgid="8737761615702718375">"Nätverket är upptaget"</string>
+    <string name="callFailed_noSignal" msgid="1889803273616031933">"Ingen signal"</string>
+    <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-gränsen har överskridits"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"Radio av"</string>
+    <string name="callFailed_simError" msgid="5652345589458834655">"Inget SIM-kort eller SIM-kortsfel"</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"Fungerar inte i detta område"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Utgående samtal begränsas av FDN."</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"Du kan inte ringa utgående samtal när samtalsspärren är aktiverad."</string>
+    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Alla samtal begränsas av åtkomstkontroll."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nödsamtal begränsas av åtkomstkontroll."</string>
+    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Vanliga samtal begränsas av åtkomstkontroll."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefonen är låst till kall omstart."</string>
+    <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: Samtalet gick förlorat."</string>
+    <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA: Samtalet hänvisades."</string>
+    <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: Beställ igen."</string>
+    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Tillval av tjänst avvisat."</string>
+    <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: Beställ igen."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Åtkomstfel."</string>
+    <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Flyttat."</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Det går bara att ringa nödsamtal."</string>
+    <string name="confCall" msgid="1904840547188336828">"Konferenssamtal"</string>
+    <string name="call_lost" msgid="317670617901479594">"Samtal har försvunnit."</string>
+    <string name="retry" msgid="8462986804300767852">"Försök igen"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"Samtalet försvann"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"MMI-kod körs"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"USSD-kod körs…"</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"MMI-koden har annullerats"</string>
+    <string name="cancel" msgid="5044513931633602634">"Avbryt"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Högtalare"</string>
+    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
+    <string name="menu_mute" msgid="4399723633363773145">"Ljud av"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Parkera"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Avsl. samt."</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Byt samtal"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Koppla ihop samtal"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Lägg till"</string>
+    <string name="menu_manageConference" msgid="3770984362002266733">"Hantera konferenssamtal"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"Visa knappsats"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Dölj knappsatsen"</string>
+    <string name="menu_answerAndHold" msgid="8830891495953688905">"Parkera pågående samtal "\n" och svara"</string>
+    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Avsluta pågående samtal"\n" och svara"</string>
+    <string name="ok" msgid="3811371167865772377">"OK"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Tryck på Meny om du vill visa samtalsalternativ."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryck på Meny om du vill visa samtalsalternativ  •   Använd tangentbordet om du vill ringa"</string>
+    <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
+    <string name="menu_ignore" msgid="2112030835852537344">"Ignorera"</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?"\n</string>
+    <string name="pause_prompt_str" msgid="341477243019906241">"Skickar signaler"\n</string>
+    <string name="send_button" msgid="4106860097497818751">"Skicka"</string>
+    <string name="pause_prompt_yes" msgid="3564467212025151797">"Ja"</string>
+    <string name="pause_prompt_no" msgid="6686238803236884877">"Nej"</string>
+    <string name="wild_prompt_str" msgid="1585989144582892543">"Ersätt jokertecknet med"</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"Nummer till röstbrevlåda saknas"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Det finns inget nummer till röstbrevlådan sparat på SIM-kortet."</string>
+    <string name="add_vm_number_str" msgid="4676479471644687453">"Lägg till nummer"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Läser in…"</string>
+    <string name="enterPin" msgid="4753300834213388397">"Ange PIN-kod för att låsa upp SIM-kortet."</string>
+    <string name="pinUnlocked" msgid="3260617001055506794">"SIM-kortet är upplåst"</string>
+    <string name="enterNewPin" msgid="5311243769004752401">"Ny PIN-kod för SIM-kort"</string>
+    <string name="verifyNewPin" msgid="2593629913010458867">"Bekräfta genom att ange SIM-kortets nya PIN-kod igen"</string>
+    <string name="verifyFailed" msgid="3875778795754857903">"PIN-koderna som du angav för SIM-kortet matchar inte. Försök igen."</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Ange PUK-kod för att låsa upp SIM-kortet"</string>
+    <string name="badPuk" msgid="3213017898690275965">"Felaktig PUK-kod!"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"Fortsätt"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"SIM-kortets spärr har tagits bort. Låser upp telefonen…"</string>
+    <string name="label_ndp" msgid="780479633159517250">"PIN-kod för upplåsning av SIM-nätverk"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Lås upp"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Ta bort permanent"</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"Försöker låsa upp nätverket…"</string>
+    <string name="unlock_failed" msgid="6490531697031504225">"Det gick inte att låsa upp nätverket."</string>
+    <string name="unlock_success" msgid="6770085622238180152">"Nätverket upplåst"</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI-kod"</string>
+    <string name="meid" msgid="66004808679046045">"MEID"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Samtalsinst. för GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Samtalsinst. för CDMA"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Åtkomstpunktsnamn"</string>
+    <string name="settings_label" msgid="3876743539816984008">"Nätverksinställningar"</string>
+    <string name="voicemail" msgid="8693759337917898954">"Röstbrevlåda"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"RB:"</string>
+    <string name="networks" msgid="8873030692174541976">"Nätverksoperatörer"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Samtalsinställningar"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Ytterligare inställningar"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Ytterligare samtalsinställningar för endast GSM"</string>
+    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Övriga CDMA-samtalsinställningar"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Ytterligare samtalsinställningar för endast CDMA"</string>
+    <string name="labelNwService" msgid="4699970172021870983">"Inställningar för nätverkstjänst"</string>
+    <string name="labelCallerId" msgid="3888899447379069198">"Nummerpresentatör"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"Dolt nummer i utgående samtal"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"Nummer som visas för utgående samtal"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Använd operatörens standardinställningar när mitt nummer visas för utgående samtal"</string>
+    <string name="labelCW" msgid="6120513814915920200">"Samtal väntar"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Meddela mig om inkommande samtal under samtal"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Meddela mig om inkommande samtal under samtal"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"Inställningar för Vidarebefordra samtal"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Vidarebefordra samtal"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Vidarebefordra alltid"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"Använd alltid detta nummer"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Vidarebefordra alla samtal"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Vidarebefordrar alla samtal till \\\\{0\\\\}"</string>
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"Inaktiverat"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Vidarebefordra vid upptaget"</string>
+    <string name="messageCFB" msgid="3711089705936187129">"Nummer vid upptagen"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Vidarebefordrar till \\\\{0\\\\}"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"Inaktiverat"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"Vidarebefordra vid ej svar"</string>
+    <string name="messageCFNRy" msgid="672317899884380374">"Nummer vid ej svar"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Vidarebefordrar till \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Inaktiverat"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Vidarebefordra när du inte är tillgänglig"</string>
+    <string name="messageCFNRc" msgid="6380695421020295119">"Nummer när du inte är tillgänglig"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Vidarebefordrar till \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Inaktiverat"</string>
+    <string name="updating_title" msgid="6146755386174019046">"Samtalsinställningar"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Felaktiga samtalsinställningar"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"Läser inställningar…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"Uppdaterar inställningar…"</string>
+    <string name="response_error" msgid="6674110501330139405">"Oväntat svar från nätverket."</string>
+    <string name="exception_error" msgid="7027667130619518211">"Nätverks- eller SIM-kortsfel."</string>
+    <string name="radio_off_error" msgid="6717116288405111269">"Sätt på radion innan du visar inställningarna."</string>
+    <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
+    <string name="enable" msgid="1059008390636773574">"Aktivera"</string>
+    <string name="disable" msgid="7274240979164762320">"Inaktivera"</string>
+    <string name="change_num" msgid="239476305819844391">"Uppdatera"</string>
   <string-array name="clir_display_values">
-    <item>"Standardinställning för nätverk"</item>
-    <item>"Dölj nummer"</item>
-    <item>"Visa nummer"</item>
+    <item msgid="5560134294467334594">"Standardinställning för nätverk"</item>
+    <item msgid="7876195870037833661">"Dölj nummer"</item>
+    <item msgid="1108394741608734023">"Visa nummer"</item>
   </string-array>
-    <string name="vm_save_number">"Spara nummer till röstbrevlåda"</string>
-    <string name="vm_changed">"Numret till röstbrevlåda har ändrats."</string>
-    <string name="vm_change_failed">"Det gick inte att ändra numret till röstbrevlådan."</string>
-    <string name="no_change">"Du har inte gjort några ändringar."</string>
-    <string name="mobile_networks">"Mobila nätverksinställningar"</string>
-    <string name="label_available">"Tillgängliga nätverk"</string>
-    <string name="load_networks_progress">"Söker…"</string>
-    <string name="empty_networks_list">"Hittade inga nätverk."</string>
-    <string name="search_networks">"Sök efter nätverk"</string>
-    <string name="network_query_error">"Ett fel uppstod när vi sökte efter nätverk."</string>
-    <string name="register_on_network">"Registrerar på <xliff:g id="NETWORK">%s</xliff:g>…"</string>
-    <string name="not_allowed">"Ditt SIM-kort tillåter inte anslutning till detta nätverk."</string>
-    <string name="registration_done">"Registrerad på nätverk."</string>
-    <string name="sum_carrier_select">"Välj en nätverksoperatör"</string>
-    <string name="sum_search_networks">"Sök efter alla tillgängliga nätverk"</string>
-    <string name="select_automatically">"Välj automatiskt"</string>
-    <string name="sum_select_automatically">"Välj önskat nätverk automatiskt"</string>
-    <!-- no translation found for register_automatically (6272031189219101172) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
-    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
-    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
-    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
-    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
-    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
-    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
-    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
-    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
-    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
-    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
-    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
-    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
-    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
-    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
-    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
-    <string name="roaming">"Roaming"</string>
-    <string name="roaming_enable">"Anslut till datatjänster vid roaming"</string>
-    <string name="roaming_disable">"Anslut till datatjänster vid roaming"</string>
-    <string name="roaming_reenable_message">"Du förlorade dataanslutningen eftersom du lämnade ditt hemnätverk utan att aktivera roaming."</string>
-    <string name="roaming_warning">"Tillåta roaming? Observera att detta kan leda till höga kostnader!"</string>
-    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
-    <skip />
-    <!-- no translation found for cdma_options (4016822858172249884) -->
-    <skip />
-    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
-    <skip />
-    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
-    <skip />
-    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
-    <skip />
-    <!-- no translation found for cb_sms_settings (651715019785107312) -->
-    <skip />
-    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
-    <skip />
-    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
-    <skip />
-    <!-- no translation found for administrative_enable (1750086122962032235) -->
-    <skip />
-    <!-- no translation found for administrative_disable (8433273857248698539) -->
-    <skip />
-    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
-    <skip />
-    <!-- no translation found for maintenance_enable (8566636458770971189) -->
-    <skip />
-    <!-- no translation found for maintenance_disable (7340189100885066077) -->
-    <skip />
-    <!-- no translation found for general_news_settings (4968779723948432978) -->
-    <skip />
-    <!-- no translation found for bf_news_settings (3935593091894685267) -->
-    <skip />
-    <!-- no translation found for sports_news_settings (7649399631270052835) -->
-    <skip />
-    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
-    <skip />
-    <!-- no translation found for enable_disable_local (7890281063123416120) -->
-    <skip />
-    <!-- no translation found for local_enable (6370463247609136359) -->
-    <skip />
-    <!-- no translation found for local_disable (4405691986943795798) -->
-    <skip />
-    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
-    <skip />
-    <!-- no translation found for regional_enable (4434680415437834759) -->
-    <skip />
-    <!-- no translation found for regional_disable (5359325527213850077) -->
-    <skip />
-    <!-- no translation found for enable_disable_national (236278090206880734) -->
-    <skip />
-    <!-- no translation found for national_enable (1172443648912246952) -->
-    <skip />
-    <!-- no translation found for national_disable (326018148178601166) -->
-    <skip />
-    <!-- no translation found for enable_disable_international (7535348799604565592) -->
-    <skip />
-    <!-- no translation found for international_enable (5855356769925044927) -->
-    <skip />
-    <!-- no translation found for international_disable (2850648591041088931) -->
-    <skip />
-    <!-- no translation found for list_language_title (2841683501919760043) -->
-    <skip />
-    <!-- no translation found for list_language_summary (8109546531071241601) -->
-    <skip />
-    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
-    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
-    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
-    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
-    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
-    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
-    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
-    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
-    <!-- no translation found for list_language_values:1 (289708030346890334) -->
-    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
-    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
-    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
-    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
-    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
-    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
-    <skip />
-    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
-    <skip />
-    <!-- no translation found for local_weather_enable (6199315114382448922) -->
-    <skip />
-    <!-- no translation found for local_weather_disable (2510158089142626480) -->
-    <skip />
-    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
-    <skip />
-    <!-- no translation found for atr_enable (5541757457789181799) -->
-    <skip />
-    <!-- no translation found for atr_disable (7085558154727596455) -->
-    <skip />
-    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
-    <skip />
-    <!-- no translation found for lafs_enable (2791978667205137052) -->
-    <skip />
-    <!-- no translation found for lafs_disable (2391212397725495350) -->
-    <skip />
-    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
-    <skip />
-    <!-- no translation found for restaurants_enable (5137657479469118847) -->
-    <skip />
-    <!-- no translation found for restaurants_disable (3678480270938424092) -->
-    <skip />
-    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
-    <skip />
-    <!-- no translation found for lodgings_enable (3230042508992850322) -->
-    <skip />
-    <!-- no translation found for lodgings_disable (3387879742320682391) -->
-    <skip />
-    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
-    <skip />
-    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
-    <skip />
-    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
-    <skip />
-    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
-    <skip />
-    <!-- no translation found for advertisements_enable (2050305021264683786) -->
-    <skip />
-    <!-- no translation found for advertisements_disable (8350985908788707935) -->
-    <skip />
-    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
-    <skip />
-    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
-    <skip />
-    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
-    <skip />
-    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
-    <skip />
-    <!-- no translation found for eo_enable (8623559062015685813) -->
-    <skip />
-    <!-- no translation found for eo_disable (3863812478090907609) -->
-    <skip />
-    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
-    <skip />
-    <!-- no translation found for mhh_enable (3949276822735205799) -->
-    <skip />
-    <!-- no translation found for mhh_disable (4834280270664925123) -->
-    <skip />
-    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
-    <skip />
-    <!-- no translation found for technology_news_enable (7995209394210455181) -->
-    <skip />
-    <!-- no translation found for technology_news_disable (5483490380561851946) -->
-    <skip />
-    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
-    <skip />
-    <!-- no translation found for multi_category_enable (1179299804641721768) -->
-    <skip />
-    <!-- no translation found for multi_category_disable (880104702904139505) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
-    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
-    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
-    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
-    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
-    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
-    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
-    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
-    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
-    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
-    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
-    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
-    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
-    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
-    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
-    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
-    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
-    <!-- no translation found for subscription_title (5813493350326486) -->
-    <skip />
-    <!-- no translation found for subscription_summary (8435941016743418124) -->
-    <skip />
-    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
-    <skip />
-    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
-    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
-    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
-    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
-    <string name="fdn">"Fasta nummer"</string>
-    <string name="manage_fdn_list">"FDN-lista"</string>
-    <string name="fdn_activation">"FDN-aktivering"</string>
-    <string name="fdn_enabled">"Fasta nummer är aktiverade"</string>
-    <string name="fdn_disabled">"Fasta nummer är inaktiverade"</string>
-    <string name="enable_fdn">"Aktivera FDN"</string>
-    <string name="disable_fdn">"Inaktivera FDN"</string>
-    <string name="change_pin2">"Ändra PIN2-kod"</string>
-    <string name="enable_fdn_ok">"Inaktivera FDN"</string>
-    <string name="disable_fdn_ok">"Aktivera FDN"</string>
-    <string name="sum_fdn">"Hantera Fasta nummer"</string>
-    <string name="sum_fdn_change_pin">"Ändra PIN-kod för FDN-åtkomst"</string>
-    <string name="sum_fdn_manage_list">"Hantera nummerlistan"</string>
-    <!-- no translation found for voice_privacy (7803023024169078619) -->
-    <skip />
-    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
-    <skip />
-    <!-- no translation found for tty_mode_title (3171521903490559138) -->
-    <skip />
-    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
-    <skip />
-    <string name="menu_add">"Lägg till kontakt"</string>
-    <string name="menu_edit">"Redigera kontakt"</string>
-    <string name="menu_delete">"Ta bort kontakt"</string>
-    <string name="get_pin2">"Ange PIN2"</string>
-    <string name="name">"Namn"</string>
-    <string name="number">"Nummer"</string>
-    <string name="save">"Spara"</string>
-    <string name="add_fdn_contact">"Lägg till kontakt med fast nummer"</string>
-    <string name="adding_fdn_contact">"Lägger till kontakt med fast nummer…"</string>
-    <string name="fdn_contact_added">"Kontakt med fast nummer har lagts till."</string>
-    <string name="edit_fdn_contact">"Redigera fast nummer för kontakt"</string>
-    <string name="updating_fdn_contact">"Uppdaterar kontakt med fast nummer…"</string>
-    <string name="fdn_contact_updated">"Kontakt med fast nummer uppdaterad."</string>
-    <string name="delete_fdn_contact">"Ta bort kontakt med fast nummer"</string>
-    <string name="deleting_fdn_contact">"Tar bort kontakt med fast nummer…"</string>
-    <string name="fdn_contact_deleted">"Kontakt med fast nummer har tagits bort."</string>
-    <string name="pin2_invalid">"PIN2 är ogiltig!"</string>
-    <string name="fdn_invalid_number">"Numret får inte vara längre än 20 siffror."</string>
-    <string name="simContacts_emptyLoading">"Läser från SIM-kort…"</string>
-    <string name="simContacts_empty">"Inga kontakter på SIM-kortet."</string>
-    <string name="simContacts_title">"Välj vilka kontakter som ska importeras"</string>
-    <string name="enable_pin">"Aktivera/inaktivera SIM-kortets PIN-kod"</string>
-    <string name="change_pin">"Ändra SIM-kortets PIN-kod"</string>
-    <string name="enter_pin_text">"SIM-kortets PIN-kod:"</string>
-    <string name="oldPinLabel">"Gammal PIN-kod"</string>
-    <string name="newPinLabel">"Ny PIN-kod"</string>
-    <string name="confirmPinLabel">"Bekräfta ny PIN-kod"</string>
-    <string name="badPin">"Den gamla PIN-koden är felaktig. Försök igen."</string>
-    <string name="mismatchPin">"PIN-koderna som du angav matchar inte. Försök igen."</string>
-    <string name="invalidPin">"Ange en PIN-kod med 4 till 8 siffror."</string>
-    <string name="disable_sim_pin">"Inaktivera SIM-kortets PIN-kod"</string>
-    <string name="enable_sim_pin">"Aktivera PIN-kod"</string>
-    <string name="enable_in_progress">"Vänta…"</string>
-    <string name="enable_pin_ok">"SIM-kortets PIN-kod är aktiverad"</string>
-    <string name="disable_pin_ok">"SIM-kortets PIN-kod är inaktiverad"</string>
-    <string name="pin_failed">"PIN-koden du angav är felaktig"</string>
-    <string name="pin_changed">"SIM-kortets PIN-kod har ändrats"</string>
-    <string name="puk_requested">"Lösenordet är felaktigt och SIM-kortet har spärrats! PUK2 krävs."</string>
-    <string name="enter_pin2_text">"PIN2"</string>
-    <string name="oldPin2Label">"Gammal PIN2"</string>
-    <string name="newPin2Label">"Ny PIN2"</string>
-    <string name="confirmPin2Label">"Bekräfta ny PIN2-kod"</string>
-    <string name="badPuk2">"PUK2-koden du angav är felaktig. Försök igen."</string>
-    <string name="badPin2">"Den gamla PIN2-koden du angav är felaktig. Försök igen."</string>
-    <string name="mismatchPin2">"PIN2-koderna som du angav matchar inte. Försök igen."</string>
-    <string name="invalidPin2">"Ange en PIN2-kod med 4 till 8 siffror."</string>
-    <string name="invalidPuk2">"Ange en PUK2-kod med 8 siffror."</string>
-    <string name="pin2_changed">"PIN2 har ändrats"</string>
-    <string name="label_puk2_code">"Ange PUK2-kod"</string>
-    <string name="fdn_enable_puk2_requested">"Lösenordet är felaktigt. Ange en annan PIN2-kod och försök igen!"</string>
-    <string name="puk2_requested">"Lösenordet är felaktigt och SIM-kortet har spärrats! PUK2 krävs."</string>
-    <string name="doneButton">"Färdig"</string>
-    <string name="caller_manage_header">"Konferenssamtal <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text">"Återgå till samtal"</string>
-    <string name="sim_missing_continueView_text">"Fortsätt utan SIM-kort"</string>
-    <string name="sim_missing_msg_text">"Inget SIM-kort hittades. Sätt i ett SIM-kort i telefonen."</string>
-    <string name="sim_unlock_dismiss_text">"Ta bort permanent"</string>
-    <string name="sim_unlock_unlock_text">"Lås upp"</string>
-    <string name="sim_unlock_status_text">"Verifierar PIN-kod…"</string>
-    <string name="voicemail_settings_number_label">"Nummer till röstbrevlåda"</string>
-    <string name="card_title_dialing">"Ringer"</string>
-    <string name="card_title_in_progress">"Pågående samtal"</string>
-    <string name="card_title_conf_call">"Konferenssamtal"</string>
-    <string name="card_title_incoming_call">"Inkommande samtal"</string>
-    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
-    <skip />
-    <string name="card_title_call_ended">"Samtal avslutat"</string>
-    <string name="card_title_on_hold">"Parkerat"</string>
-    <string name="card_title_hanging_up">"Lägger på"</string>
-    <!-- no translation found for card_title_in_call (6346543933068225205) -->
-    <skip />
-    <string name="notification_missedCallTitle">"Missat samtal"</string>
-    <string name="notification_missedCallsTitle">"Missade samtal"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> missade samtal"</string>
-    <string name="notification_missedCallTicker">"Missat samtal från <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Pågående samtal (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"Parkerat"</string>
-    <string name="notification_voicemail_title">"Ny röstbrevlåda"</string>
-    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
-    <skip />
-    <string name="notification_voicemail_text_format">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Nummer till röstbrevlåda okänt"</string>
-    <string name="incall_error_power_off">"Om du vill ringa ett samtal måste du först inaktivera flygplansläge."</string>
-    <string name="incall_error_emergency_only">"Inte registrerat på nätverk."</string>
-    <string name="incall_error_no_phone_number_supplied">"Samtalet har inte skickats. Du måste ange ett giltigt nummer."</string>
-    <string name="incall_error_call_failed">"Samtalet har inte skickats."</string>
-    <string name="incall_status_dialed_mmi">"Startar sekvens för MMI-kod…"</string>
-    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
-    <skip />
-    <string name="incall_error_supp_service_unknown">"Inget stöd för tjänsten."</string>
-    <string name="incall_error_supp_service_switch">"Det gick inte att växla mellan samtal."</string>
-    <string name="incall_error_supp_service_separate">"Det gick inte att koppla isär samtalen."</string>
-    <string name="incall_error_supp_service_transfer">"Det gick inte överföra samtal."</string>
-    <string name="incall_error_supp_service_conference">"Det gick inte att ringa konferenssamtal."</string>
-    <string name="incall_error_supp_service_reject">"Det gick inte att avvisa samtal."</string>
-    <string name="incall_error_supp_service_hangup">"Det gick inte att släppa samtal."</string>
-    <string name="emergency_enable_radio_dialog_title">"Nödsamtal"</string>
-    <string name="emergency_enable_radio_dialog_message">"Sätter på radion…"</string>
-    <string name="emergency_enable_radio_dialog_retry">"Fungerar inte i detta område. Försöker igen…"</string>
-    <string name="dial_emergency_error">"Samtalet har inte skickats. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> är inte ett nödsamtalsnummer!"</string>
-    <string name="dial_emergency_empty_error">"Samtalet har inte skickats. Ring ett nödsamtalsnummer!"</string>
-    <string name="dialerKeyboardHintText">"Använd tangentbordet om du vill ringa"</string>
-    <string name="dtmfDialpadHintText">"Knappsats för tonval"</string>
-    <string name="dtmfDialpadHandleLabel">"Knappsats"</string>
-    <!-- no translation found for touchLockText (8742463586429019112) -->
-    <skip />
-    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
-    <skip />
-    <string name="importSimEntry">"Importera"</string>
-    <string name="importAllSimEntries">"Importera alla"</string>
-    <string name="importingSimContacts">"Importera SIM-kontakter"</string>
-    <string name="importToFDNfromContacts">"Importera från Kontakter"</string>
-    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
-    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
-    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
-    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
-    <!-- no translation found for eri_text_label (4326942349915331461) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
-    <skip />
-    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
-    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
-    <!-- no translation found for network_message (5673682885938122239) -->
+    <string name="vm_save_number" msgid="4579969432544566719">"Spara nummer till röstbrevlåda"</string>
+    <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
+    <string name="vm_change_failed" msgid="8484504256705014152">"Det gick inte att ändra numret till röstbrevlådan."</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
+    <string name="no_change" msgid="3186040086622435212">"Du har inte gjort några ändringar."</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Välj tjänst för röstbrevlådan"</string>
+    <string name="voicemail_default" msgid="5902099213882352338">"Min operatör"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Mobila nätverksinställningar"</string>
+    <string name="label_available" msgid="1181658289009300430">"Tillgängliga nätverk"</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"Söker…"</string>
+    <string name="empty_networks_list" msgid="4249426905018815316">"Hittade inga nätverk."</string>
+    <string name="search_networks" msgid="1601136049300882441">"Sök efter nätverk"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"Ett fel uppstod när vi sökte efter nätverk."</string>
+    <string name="register_on_network" msgid="9055203954040805084">"Registrerar på <xliff:g id="NETWORK">%s</xliff:g>…"</string>
+    <string name="not_allowed" msgid="3540496123717833833">"Ditt SIM-kort tillåter inte anslutning till detta nätverk."</string>
+    <string name="registration_done" msgid="495135664535876612">"Registrerad på nätverk."</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"Välj en nätverksoperatör"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"Sök efter alla tillgängliga nätverk"</string>
+    <string name="select_automatically" msgid="8615980695510888796">"Välj automatiskt"</string>
+    <string name="sum_select_automatically" msgid="8460954604521755275">"Välj önskat nätverk automatiskt"</string>
+    <string name="register_automatically" msgid="6272031189219101172">"Automatisk registrering..."</string>
+    <string name="preferred_network_mode_title" msgid="8873246565334559308">"Nätverksläge"</string>
+    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Ändra nätverksläge"</string>
+    <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Föredraget nätverksläge"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item msgid="2987674222882365152">"Globalt"</item>
+    <item msgid="3273348576277144124">"Endast EvDo"</item>
+    <item msgid="454610224530856274">"CDMA utan EvDo"</item>
+    <item msgid="8928247118825616081">"CDMA / EvDo auto"</item>
+    <item msgid="8595462903294812666">"GSM / WCDMA auto"</item>
+    <item msgid="5189164180446264504">"Endast WCDMA"</item>
+    <item msgid="5714714953966979187">"Endast GSM"</item>
+    <item msgid="4775796025725908913">"Föredrar GSM / WCDMA"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item msgid="7164534877603905916">"7"</item>
+    <item msgid="2520921432080278213">"6"</item>
+    <item msgid="4978887990900575049">"5"</item>
+    <item msgid="6891436459357445885">"4"</item>
+    <item msgid="339825043192186272">"3"</item>
+    <item msgid="3062641619893382241">"2"</item>
+    <item msgid="2494009747968041784">"1"</item>
+    <item msgid="2568449734331711605">"0"</item>
+  </string-array>
+    <string name="roaming" msgid="8871412572928323707">"Roaming"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Anslut till datatjänster vid roaming"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Anslut till datatjänster vid roaming"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"Du förlorade dataanslutningen eftersom du lämnade ditt hemnätverk utan att aktivera roaming."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Tillåta roaming? Observera att detta kan leda till höga kostnader!"</string>
+    <string name="gsm_umts_options" msgid="6538311689850981686">"Alternativ för GSM/UMTS"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"CDMA-alternativ"</string>
+    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast SMS"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast SMS"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Cell Broadcast SMS aktiverat"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"Cell Broadcast SMS inaktiverat"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"Inställningar för Cell Broadcast SMS"</string>
+    <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"Nödsändning"</string>
+    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Nödsändning aktiverat"</string>
+    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Nödsändning inaktiverad"</string>
+    <string name="enable_disable_administrative" msgid="6501582322182059412">"Administration"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"Administration aktiverat"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"Administration inaktiverad"</string>
+    <string name="enable_disable_maintenance" msgid="1819693083025106678">"Underhåll"</string>
+    <string name="maintenance_enable" msgid="8566636458770971189">"Underhåll aktiverat"</string>
+    <string name="maintenance_disable" msgid="7340189100885066077">"Underhåll inaktiverat"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"Allmänna nyheter"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"Ekonominyheter"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"Sportnyheter"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"Nöjesnyheter"</string>
+    <string name="enable_disable_local" msgid="7890281063123416120">"Lokal"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Lokala nyheter aktiverade"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Lokala nyheter inaktiverade"</string>
+    <string name="enable_disable_regional" msgid="4905652414535565872">"Regionalt"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Regionala nyheter aktiverade"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Regionala nyheter inaktiverade"</string>
+    <string name="enable_disable_national" msgid="236278090206880734">"Nationellt"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Nationella nyheter aktiverade"</string>
+    <string name="national_disable" msgid="326018148178601166">"Nationella nyheter har inaktiverats"</string>
+    <string name="enable_disable_international" msgid="7535348799604565592">"Internationellt"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Internationella nyheter aktiverade"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Internationella nyheter inaktiverade"</string>
+    <string name="list_language_title" msgid="2841683501919760043">"Språk"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"Välj språk för nyheterna"</string>
+  <string-array name="list_language_entries">
+    <item msgid="6137851079727305485">"Engelska"</item>
+    <item msgid="1151988412809572526">"Franska"</item>
+    <item msgid="577840534704312665">"Spanska"</item>
+    <item msgid="8385712091143148180">"Japanska"</item>
+    <item msgid="1858401628368130638">"Koreanska"</item>
+    <item msgid="1933212028684529632">"Kinesiska"</item>
+    <item msgid="1908428006803639064">"Hebreiska"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item msgid="1804908636436467150">"1"</item>
+    <item msgid="289708030346890334">"2"</item>
+    <item msgid="1121469729692402684">"3"</item>
+    <item msgid="2614093115912897722">"4"</item>
+    <item msgid="2411164639857960614">"5"</item>
+    <item msgid="5884448729274543324">"6"</item>
+    <item msgid="5511864807618312598">"7"</item>
+  </string-array>
+    <string name="list_language_dtitle" msgid="5442908726538951934">"Språk"</string>
+    <string name="enable_disable_local_weather" msgid="986967454867219114">"Lokala väderprognoser"</string>
+    <string name="local_weather_enable" msgid="6199315114382448922">"Lokala väderprognoser aktiverade"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"Lokala väderprognoser inaktiverade"</string>
+    <string name="enable_disable_atr" msgid="8339572391278872343">"Trafikrapporter för området"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"Trafikrapporter för området aktiverade"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"Trafikrapporter för området inaktiverade"</string>
+    <string name="enable_disable_lafs" msgid="668189073721277199">"Flygtider för lokal flygplats"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"Flygtider för lokal flygplats aktiverade"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"Flygtider för lokal flygplats inaktiverade"</string>
+    <string name="enable_disable_restaurants" msgid="6240381945336814024">"Restauranger"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"Restauranger aktiverade"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"Restauranger inaktiverade"</string>
+    <string name="enable_disable_lodgings" msgid="1822029172658551202">"Logi"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"Logi aktiverat"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"Logi inaktiverat"</string>
+    <string name="enable_disable_retail_directory" msgid="1357809784475660303">"Detaljhandelskatalog"</string>
+    <string name="retail_directory_enable" msgid="3280626290436111496">"Detaljhandelskatalog aktiverad"</string>
+    <string name="retail_directory_disable" msgid="6479739816662879027">"Detaljhandelskatalog inaktiverad"</string>
+    <string name="enable_disable_advertisements" msgid="5999495926176182128">"Annonsering"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"Annonsering aktiverat"</string>
+    <string name="advertisements_disable" msgid="8350985908788707935">"Annonsering inaktiverat"</string>
+    <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Aktiekurser"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"Aktiekurser aktiverade"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Aktiekurser inaktiverade"</string>
+    <string name="enable_disable_eo" msgid="4863043263443942494">"Jobbannonser"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"Jobbannonser aktiverade"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Jobbannonser inaktiverade"</string>
+    <string name="enable_disable_mhh" msgid="5698783743098373681">"Medicin, hälsa och sjukvård"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"Medicin, hälsa och sjukvård aktiverade"</string>
+    <string name="mhh_disable" msgid="4834280270664925123">"Medicin, hälsa och sjukvård inaktiverade"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"Tekniknyheter"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Tekniknyheter aktiverade"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Tekniknyheter inaktiverade"</string>
+    <string name="enable_disable_multi_category" msgid="626771003122899280">"Multi-kategori"</string>
+    <string name="multi_category_enable" msgid="1179299804641721768">"Multikategori aktiverad"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"Multikategori inaktiverad"</string>
+    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Nätverksinställningar för GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Inte implementerad än!"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Nätverksinställningar för GSM/UMTS"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item msgid="935612021902787683">"GSM/WCDMA (autoläge)"</item>
+    <item msgid="8912042051809329533">"Endast WCDMA"</item>
+    <item msgid="8776934131146642662">"Endast GSM"</item>
+    <item msgid="4684679567848300935">"GSM/WCDA (föredrar WCDMA)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item msgid="117293148930527265">"0"</item>
+    <item msgid="2264578612775462302">"1"</item>
+    <item msgid="1268081943590316978">"2"</item>
+    <item msgid="4469871047641902607">"3"</item>
+  </string-array>
+    <string name="prefer_2g" msgid="8442550937280449639">"Använd endast 2G-nätv."</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Sparar batteri"</string>
+    <string name="cdma_system_select_title" msgid="5757657769327732833">"Systemval"</string>
+    <string name="cdma_system_select_summary" msgid="2528661990595284707">"Ändra cdma-roamingläge"</string>
+    <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Systemval"</string>
+  <string-array name="cdma_system_select_choices">
+    <item msgid="176474317493999285">"Endast hemma"</item>
+    <item msgid="1205664026446156265">"Automatiskt"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-roamingläge"</string>
+    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Ändra cdma-roamingläge"</string>
+    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-roamingläge"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item msgid="6024072766548865002">"Endast hemnätverk"</item>
+    <item msgid="8174642753290624634">"Anslutna nätverk"</item>
+    <item msgid="2241951431403168661">"Alla nätverk"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item msgid="2549203161367380954">"0"</item>
+    <item msgid="6007798728227141997">"1"</item>
+    <item msgid="4039511109802141047">"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title" msgid="41193174429510391">"Nätverksinställningar för CDMA"</string>
+    <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"Inte implementerad än!"</string>
+    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Nätverksinställningar för CDMA"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
+    <item msgid="6143696847467859795">"Endast CDMA"</item>
+    <item msgid="2683555124647197574">"Endast EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item msgid="5584048199290030331">"0"</item>
+    <item msgid="5741268642513143762">"1"</item>
+    <item msgid="419525200910932450">"2"</item>
+  </string-array>
+    <string name="subscription_title" msgid="5813493350326486">"TEST av CDMA-prenumeration"</string>
+    <string name="subscription_summary" msgid="8435941016743418124">"Växla mellan RUIM/SIM och NV"</string>
+    <string name="subscription_dialogtitle" msgid="531571450448009255">"prenumeration"</string>
+  <string-array name="subscription_choices">
+    <item msgid="6540107472553796600">"RUIM/SIM"</item>
+    <item msgid="1433427108940308332">"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item msgid="4377788417250295786">"0"</item>
+    <item msgid="1193066664940329729">"1"</item>
+  </string-array>
+    <string name="fdn" msgid="7878832555095183202">"Fasta nummer"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"FDN-lista"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"FDN-aktivering"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Fasta nummer är aktiverade"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Fasta nummer är inaktiverade"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Aktivera FDN"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Inaktivera FDN"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"Ändra PIN2-kod"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Inaktivera FDN"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"Aktivera FDN"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Hantera fasta nummer"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Ändra PIN-kod för FDN-åtkomst"</string>
+    <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Hantera nummerlistan"</string>
+    <string name="voice_privacy" msgid="7803023024169078619">"Röstsekretess"</string>
+    <string name="voice_privacy_summary" msgid="3159383389833516214">"Aktivera avancerat sekretessläge"</string>
+    <string name="tty_mode_title" msgid="3171521903490559138">"TTY-läge"</string>
+    <string name="tty_mode_summary" msgid="5057244302665817977">"Aktivera TTY-läge"</string>
+    <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-läge"</string>
+    <string name="tty_mode_option_summary" msgid="1073835131534808732">"Ange TTY-läge"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Försök igen automatiskt"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Aktivera läget Försök igen automatiskt"</string>
+    <string name="menu_add" msgid="1882023737425114762">"Lägg till kontakt"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"Redigera kontakt"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"Ta bort kontakt"</string>
+    <string name="get_pin2" msgid="1198225482542827652">"Ange PIN2"</string>
+    <string name="name" msgid="7329028332786872378">"Namn"</string>
+    <string name="number" msgid="7905950798349903858">"Nummer"</string>
+    <string name="save" msgid="4094274636321939086">"Spara"</string>
+    <string name="add_fdn_contact" msgid="5412242719704146070">"Lägg till kontakt med fast nummer"</string>
+    <string name="adding_fdn_contact" msgid="1008984230265031168">"Lägger till kontakt med fast nummer…"</string>
+    <string name="fdn_contact_added" msgid="3283284983265410270">"Kontakt med fast nummer har lagts till."</string>
+    <string name="edit_fdn_contact" msgid="3440054765948798731">"Redigera fast nummer för kontakt"</string>
+    <string name="updating_fdn_contact" msgid="5918299270800552372">"Uppdaterar kontakt med fast nummer…"</string>
+    <string name="fdn_contact_updated" msgid="510187720367785051">"Kontakt med fast nummer uppdaterad."</string>
+    <string name="delete_fdn_contact" msgid="2237838617123538040">"Ta bort kontakt med fast nummer"</string>
+    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Tar bort kontakt med fast nummer…"</string>
+    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Kontakt med fast nummer har tagits bort."</string>
+    <string name="pin2_invalid" msgid="6408721267712649637">"PIN2 är ogiltig!"</string>
+    <string name="fdn_invalid_number" msgid="1484959418054136856">"Numret får inte vara längre än 20 siffror."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Läser från SIM-kort…"</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Inga kontakter på SIM-kortet."</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"Välj vilka kontakter som ska importeras"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Aktivera/inaktivera SIM-kortets PIN-kod"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Ändra SIM-kortets PIN-kod"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"SIM-kortets PIN-kod:"</string>
+    <string name="oldPinLabel" msgid="5287773661246368314">"Gammal PIN-kod"</string>
+    <string name="newPinLabel" msgid="207488227285336897">"Ny PIN-kod"</string>
+    <string name="confirmPinLabel" msgid="257597715098070206">"Bekräfta ny PIN-kod"</string>
+    <string name="badPin" msgid="4154316827946559447">"Den gamla PIN-koden är felaktig. Försök igen."</string>
+    <string name="mismatchPin" msgid="5974597541268042785">"PIN-koderna som du angav matchar inte. Försök igen."</string>
+    <string name="invalidPin" msgid="5981171102258684792">"Ange en PIN-kod med 4 till 8 siffror."</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"Inaktivera SIM-kortets PIN-kod"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"Aktivera PIN-kod"</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"Vänta…"</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"SIM-kortets PIN-kod är aktiverad"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"SIM-kortets PIN-kod är inaktiverad"</string>
+    <string name="pin_failed" msgid="6597695909685242127">"PIN-koden du angav är felaktig"</string>
+    <string name="pin_changed" msgid="9000716792724195093">"SIM-kortets PIN-kod har ändrats"</string>
+    <string name="puk_requested" msgid="3898394204193202803">"Lösenordet är felaktigt och SIM-kortet har spärrats! PUK2 krävs."</string>
+    <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2"</string>
+    <string name="oldPin2Label" msgid="8559146795026261502">"Gammal PIN2"</string>
+    <string name="newPin2Label" msgid="4573956902204349054">"Ny PIN2"</string>
+    <string name="confirmPin2Label" msgid="8100319484454787708">"Bekräfta ny PIN2-kod"</string>
+    <string name="badPuk2" msgid="4072035207011308856">"PUK2-koden du angav är felaktig. Försök igen."</string>
+    <string name="badPin2" msgid="515218795152422178">"Den gamla PIN2-koden du angav är felaktig. Försök igen."</string>
+    <string name="mismatchPin2" msgid="4177060915600342718">"PIN2-koderna som du angav matchar inte. Försök igen."</string>
+    <string name="invalidPin2" msgid="8237110107480395938">"Ange en PIN2-kod med 4 till 8 siffror."</string>
+    <string name="invalidPuk2" msgid="1290977391033057871">"Ange en PUK2-kod med 8 siffror."</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"PIN2 har ändrats"</string>
+    <string name="label_puk2_code" msgid="302845876240219560">"Ange PUK2-kod"</string>
+    <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Lösenordet är felaktigt. Ange en annan PIN2-kod och försök igen!"</string>
+    <string name="puk2_requested" msgid="5863580927788820813">"Lösenordet är felaktigt och SIM-kortet har spärrats! PUK2 krävs."</string>
+    <string name="doneButton" msgid="2859593360997984240">"Färdig"</string>
+    <string name="caller_manage_header" msgid="3231519674734638786">"Konferenssamtal <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Återgå till samtal"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Fortsätt utan SIM-kort"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"Inget SIM-kort hittades. Sätt i ett SIM-kort i telefonen."</string>
+    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Ta bort permanent"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Lås upp"</string>
+    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Verifierar PIN-kod…"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Nummer till röstbrevlåda"</string>
+    <string name="card_title_dialing" msgid="5769417478498348054">"Ringer"</string>
+    <string name="card_title_redialing" msgid="4831412164303596395">"Försöker igen"</string>
+    <string name="card_title_in_progress" msgid="8603765629781648862">"Pågående samtal"</string>
+    <string name="card_title_conf_call" msgid="1162980346189744501">"Konferenssamtal"</string>
+    <string name="card_title_incoming_call" msgid="7364539451234646909">"Inkommande samtal"</string>
+    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Cdma-samtal väntar"</string>
+    <string name="card_title_call_ended" msgid="5544730338889702298">"Samtal avslutat"</string>
+    <string name="card_title_on_hold" msgid="821463117892339942">"Parkerat"</string>
+    <string name="card_title_hanging_up" msgid="3999101620995182450">"Lägger på"</string>
+    <string name="card_title_in_call" msgid="6346543933068225205">"I samtal"</string>
+    <string name="notification_missedCallTitle" msgid="7554385905572364535">"Missat samtal"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Missade samtal"</string>
+    <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> missade samtal"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"Missat samtal från <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Pågående samtal (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold" msgid="3480694969511790465">"Parkerat"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"Ny röstbrevlåda"</string>
+    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Ny röstbrevlåda (<xliff:g id="COUNT">%d</xliff:g>)"</string>
+    <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Nummer till röstbrevlåda okänt"</string>
+    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
+    <skip />
+    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
+    <skip />
+    <string name="incall_error_power_off" msgid="6550191216405193368">"Om du vill ringa ett samtal måste du först inaktivera flygplansläge."</string>
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"Inte registrerat på nätverk."</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Samtalet har inte skickats. Du måste ange ett giltigt nummer."</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"Samtalet har inte skickats."</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Startar sekvens för MMI-kod…"</string>
+    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Startar sekvens för funktionskod..."</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Inget stöd för tjänsten."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Det gick inte att växla mellan samtal."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Det gick inte att koppla isär samtalen."</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Det gick inte överföra samtal."</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Det gick inte att ringa konferenssamtal."</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Det gick inte att avvisa samtal."</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"Det gick inte att släppa samtal."</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Nödsamtal"</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Sätter på radion…"</string>
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Fungerar inte i detta område. Försöker igen…"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"Samtalet har inte skickats. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> är inte ett nödsamtalsnummer!"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Samtalet har inte skickats. Ring ett nödsamtalsnummer!"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Använd tangentbordet om du vill ringa"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Knappsats för tonval"</string>
+    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Knappsats"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Dubbelklicka"\n"för att låsa upp"</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
+    <string name="onscreenHoldText" msgid="2285258239691145872">"Parkera"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"Ta bort parkering"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"Avsluta"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Knappsats"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Dölj"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Högtalare"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Ljud av"</string>
+    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"Lägg till samtal"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Koppla ihop samtal"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Växla"</string>
+    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Hantera"</string>
+    <string name="importSimEntry" msgid="6614358325359736031">"Importera"</string>
+    <string name="importAllSimEntries" msgid="1503181169636198673">"Importera alla"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"Importera SIM-kontakter"</string>
+    <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importera från Kontakter"</string>
+    <string name="hac_mode_title" msgid="8740268574688743289">"Hörapparater"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"Aktivera kompatibilitet med hörapparat"</string>
+  <string-array name="tty_mode_entries">
+    <item msgid="512950011423868021">"TTY av"</item>
+    <item msgid="3971695875449640648">"TTY är full"</item>
+    <item msgid="1937509904407445684">"TTY HCO"</item>
+    <item msgid="5644925873488772224">"TTY VCO"</item>
+  </string-array>
+    <string name="eri_text_label" msgid="4326942349915331461">"ERI-text"</string>
+    <string name="dtmf_tones_title" msgid="3866923093113274152">"DTMF-signaler"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Ange längd på DTMF-signaler"</string>
+  <string-array name="dtmf_tone_entries">
+    <item msgid="899650777817315681">"Normal"</item>
+    <item msgid="2883365539347850535">"Lång"</item>
+  </string-array>
+    <string name="network_message" msgid="5673682885938122239">"Nätverksmeddelande"</string>
+    <string name="ota_title_activate" msgid="8616918561356194398">"Aktivera telefonen"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Du måste ringa ett särskilt samtal för att aktivera telefontjänsten. "\n\n" Tryck på \"Aktivera\" och lyssna på instruktionerna om hur du aktiverar telefonen."</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Aktivera"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefonen är aktiverad!"</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problem med aktivering"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"Följ instruktionerna om hur du aktiverar telefonen. Lägg inte på förrän du hör en bekräftelse på att telefonen har aktiverats."</string>
+    <string name="ota_dialpad" msgid="3530900997110658409">"Knappsats"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Högtalare"</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Vänta medan telefonen programmeras."</string>
+    <string name="ota_failure" msgid="8600027551822478181">"Det gick inte att programmera"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"Telefonen är nu aktiverad. Det kan ta upp till 15 minuter innan tjänsten startar."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Telefonen har inte aktiverats. "\n"Du kanske måste hitta en plats med bättre täckning (nära ett fönster eller utomhus). "\n\n"Försök igen eller ring kundtjänst om du vill ha fler alternativ."</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"FÖR MÅNGA MISSLYCKADE SPC"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Tillbaka"</string>
+    <string name="ota_try_again" msgid="7685477206465902290">"Försök igen"</string>
+    <string name="ota_next" msgid="3904945374358235910">"Nästa"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Tillbaka"</string>
+    <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Starta läget Återuppringning vid nödsamtal"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Läget Återuppringning vid nödsamtal"</string>
+    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
+    <skip />
+  <plurals name="phone_in_ecm_notification_time">
+    <item quantity="one" msgid="4866221796252472622">"Inga dataanslutningar på <xliff:g id="COUNT">%s</xliff:g> minut"</item>
+    <item quantity="other" msgid="3122217344579273583">"Inga dataanslutningar på <xliff:g id="COUNT">%s</xliff:g> minuter"</item>
+  </plurals>
+  <plurals name="alert_dialog_exit_ecm">
+    <item quantity="one" msgid="2181569650640386253">"Telefonen är i läget Återuppringning vid nödsamtal i <xliff:g id="COUNT">%s</xliff:g> minut. I det här läget kan inga program som använder dataanslutningar användas. Vill du avsluta nu?"</item>
+    <item quantity="other" msgid="3231879566243957821">"Telefonen är i läget Återuppringning vid nödsamtal i <xliff:g id="COUNT">%s</xliff:g> minuter. I det här läget kan inga program som använder dataanslutningar användas. Vill du avsluta nu?"</item>
+  </plurals>
+  <plurals name="alert_dialog_not_avaialble_in_ecm">
+    <item quantity="one" msgid="8939225905428421722">"Den valda åtgärden är inte tillgänglig i läget Återuppringning vid nödsamtal. Telefonen kommer att vara i det här läget i <xliff:g id="COUNT">%s</xliff:g> minut. Vill du avsluta nu?"</item>
+    <item quantity="other" msgid="3489076611710869904">"Den valda åtgärden är inte tillgänglig i läget Återuppringning vid nödsamtal. Telefonen kommer att vara i det här läget i <xliff:g id="COUNT">%s</xliff:g> minuter. Vill du avsluta nu?"</item>
+  </plurals>
+    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
+    <skip />
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Avslutar läget Återuppringning vid nödsamtal"</string>
+    <string name="alert_dialog_yes" msgid="6674268047820703974">"Ja"</string>
+    <string name="alert_dialog_no" msgid="1476091437797628703">"Nej"</string>
+    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
+    <skip />
+    <string name="voicemail_settings" msgid="2288633492587133022">"Inställningar för röstbrevlådan"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;Har inte angetts&gt;"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Tjänst för röstbrevlådan"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"Inställningar för <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Övriga samtalsinställningar"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
+    <string name="calling_via_template" msgid="7374498518104190489">"Ringer via ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
     <skip />
 </resources>

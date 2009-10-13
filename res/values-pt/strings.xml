@@ -15,569 +15,571 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel">"Contatos"</string>
-    <string name="contactsFavoritesLabel">"Favoritos"</string>
-    <string name="dialerIconLabel">"Discador"</string>
-    <string name="emergencyDialerIconLabel">"Discador de emergência"</string>
-    <string name="phoneIconLabel">"Telefone"</string>
-    <string name="recentCallsIconLabel">"Registro de chamadas"</string>
-    <string name="fdnListLabel">"Lista FDN"</string>
-    <string name="unknown">"Desconhecido"</string>
-    <string name="private_num">"Número privado"</string>
-    <string name="payphone">"Orelhão"</string>
-    <string name="onHold">"Em espera"</string>
-    <string name="ongoing">"Chamada atual"</string>
-    <string name="callFailed_userBusy">"Linha ocupada"</string>
-    <string name="callFailed_congestion">"Rede ocupada"</string>
-    <string name="callFailed_noSignal">"Sem sinal"</string>
-    <string name="callFailed_limitExceeded">"Limite de ACM excedido"</string>
-    <string name="callFailed_powerOff">"Rádio desativado"</string>
-    <string name="callFailed_simError">"Sem SIM, ou erro de SIM"</string>
-    <string name="callFailed_outOfService">"Área fora de serviço"</string>
-    <string name="callFailed_fdn_only">"As chamadas enviadas são restringidas pelo FDN."</string>
-    <string name="callFailed_cb_enabled">"Você não pode fazer chamadas enquanto o bloqueio de chamadas estiver ativado."</string>
-    <string name="callFailed_dsac_restricted">"Todas as chamada são restringidas pelo controle de acesso."</string>
-    <string name="callFailed_dsac_restricted_emergency">"As chamadas de emergência são restringidas pelo controle de acesso."</string>
-    <string name="callFailed_dsac_restricted_normal">"As chamadas normais são restringidas pelo controle de acesso."</string>
-    <!-- no translation found for callFailed_cdma_lockedUntilPowerCycle (775483211928061084) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_drop (6030084920001082496) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_intercept (8402269373120277330) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_reorder (5605791471418711552) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_SO_reject (8969174256492763555) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_retryOrder (5848488692485148804) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_accessFailure (2844306027616452215) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_preempted (1097095321180029879) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_notEmergency (2347377816822720761) -->
-    <skip />
-    <string name="confCall">"Conferência telefônica"</string>
-    <string name="mmiStarted">"Código MMI iniciado"</string>
-    <string name="ussdRunning">"Código USSD em execução…"</string>
-    <string name="mmiCancelled">"Código MMI cancelado"</string>
-    <string name="cancel">"Cancelar"</string>
-    <string name="menu_speaker">"Alto-falante"</string>
-    <string name="menu_bluetooth">"Bluetooth"</string>
-    <string name="menu_mute">"Desativar som"</string>
-    <string name="menu_hold">"Em espera"</string>
-    <string name="menu_endCall">"Finalizar chamada"</string>
-    <string name="menu_swapCalls">"Trocar chamadas"</string>
-    <string name="menu_mergeCalls">"Mesclar chamadas"</string>
-    <string name="menu_addCall">"Adicionar chamada"</string>
-    <string name="menu_manageConference">"Gerenciar conferência telefônica"</string>
-    <string name="menu_showDialpad">"Mostrar teclado"</string>
-    <string name="menu_hideDialpad">"Ocultar teclado"</string>
-    <string name="menu_answerAndHold">"Colocar chamada atual em espera"\n"e responder"</string>
-    <string name="menu_answerAndEnd">"Encerrar chamada atual"\n"e responder"</string>
-    <string name="ok">"OK"</string>
-    <string name="menuButtonHint">"Pressione Menu para opções de chamada."</string>
-    <string name="menuButtonKeyboardDialHint">"Pressione Menu para as opções de chamada  •  Use o teclado para discar"</string>
-    <!-- no translation found for menu_answer (116686205042231098) -->
-    <skip />
-    <!-- no translation found for menu_ignore (2112030835852537344) -->
-    <skip />
-    <string name="wait_prompt_str">"Enviar os toques a seguir?"\n</string>
-    <string name="send_button">"Enviar"</string>
-    <string name="wild_prompt_str">"Substitua o caractere curinga por"</string>
-    <string name="no_vm_number">"Número de correio de voz ausente"</string>
-    <string name="no_vm_number_msg">"Não há um número de correio de voz armazenado no cartão SIM."</string>
-    <string name="add_vm_number_str">"Adicionar número"</string>
-    <string name="dialer_emptyListWorking">"Carregando..."</string>
-    <string name="enterPin">"Digite o código PIN para desbloquear o cartão SIM."</string>
-    <string name="pinUnlocked">"SIM desbloqueado"</string>
-    <string name="enterNewPin">"Novo código PIN do SIM"</string>
-    <string name="verifyNewPin">"Digite novamente o novo código PIN do SIM para confirmar"</string>
-    <string name="verifyFailed">"Os PINs do SIM digitados não correspondem. Tente novamente."</string>
-    <string name="enterPuk">"Digite o código PUK para desbloquear o cartão SIM."</string>
-    <string name="badPuk">"Código PUK incorreto!"</string>
-    <string name="buttonTxtContinue">"Continuar"</string>
-    <string name="puk_unlocked">"O seu cartão SIM foi desbloqueado. O seu telefone está desbloqueando…"</string>
-    <string name="label_ndp">"PIN de desbloqueio da rede SIM"</string>
-    <string name="sim_ndp_unlock_text">"Desbloquear"</string>
-    <string name="sim_ndp_dismiss_text">"Dispensar"</string>
-    <string name="requesting_unlock">"Solicitando o desbloqueio de rede…"</string>
-    <string name="unlock_failed">"Falha na solicitação de desbloqueio de rede."</string>
-    <string name="unlock_success">"Desbloqueio de rede bem-sucedido."</string>
-    <string name="imei">"IMEI"</string>
-    <!-- no translation found for labelGSMMore (5930842194056092106) -->
-    <skip />
-    <!-- no translation found for labelCDMAMore (1630676740428229339) -->
-    <skip />
-    <string name="apn_settings">"Nomes do ponto de acesso"</string>
-    <string name="settings_label">"Configurações de rede"</string>
-    <string name="voicemail">"Correio de voz"</string>
-    <string name="voicemail_abbreviated">"VM:"</string>
-    <string name="networks">"Operadores de rede"</string>
-    <string name="call_settings">"Configurações da chamada"</string>
-    <!-- no translation found for additional_gsm_call_settings (6472260354879794056) -->
-    <skip />
-    <!-- no translation found for sum_gsm_call_settings (4076647190996778012) -->
-    <skip />
-    <!-- no translation found for additional_cdma_call_settings (8628958775721886909) -->
-    <skip />
-    <!-- no translation found for sum_cdma_call_settings (284753265979035549) -->
-    <skip />
-    <string name="labelNwService">"Configurações do serviço de rede"</string>
-    <string name="labelCallerId">"ID do chamador"</string>
-    <string name="sum_hide_caller_id">"Número oculto nas chamadas enviadas"</string>
-    <string name="sum_show_caller_id">"Número exibido nas chamadas enviadas"</string>
-    <string name="sum_default_caller_id">"Usar configurações padrão da operadora para exibir meu número em chamadas enviadas"</string>
-    <string name="labelCW">"Chamada em espera"</string>
-    <string name="sum_cw_enabled">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
-    <string name="sum_cw_disabled">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
-    <string name="call_forwarding_settings">"Configurações de encaminhamento de chamada"</string>
-    <string name="labelCF">"Encaminhamento de chamada"</string>
-    <string name="labelCFU">"Sempre encaminhar"</string>
-    <string name="messageCFU">"Sempre usar este número"</string>
-    <string name="sum_cfu_enabled_indicator">"Encaminhando todas as chamadas"</string>
-    <string name="sum_cfu_enabled">"Encaminhando todas as chamadas para \\\\{0\\\\}"</string>
-    <string name="sum_cfu_disabled">"Desativado"</string>
-    <string name="labelCFB">"Encaminhar quando ocupado"</string>
-    <string name="messageCFB">"Número quando ocupado"</string>
-    <string name="sum_cfb_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfb_disabled">"Desativado"</string>
-    <string name="labelCFNRy">"Encaminhar quando não houver resposta"</string>
-    <string name="messageCFNRy">"Número quando não há resposta"</string>
-    <string name="sum_cfnry_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfnry_disabled">"Desativado"</string>
-    <string name="labelCFNRc">"Encaminhar quando não estiver acessível"</string>
-    <string name="messageCFNRc">"Número quando não acessível"</string>
-    <string name="sum_cfnrc_enabled">"Encaminhando para \\\\{0\\\\}"</string>
-    <string name="sum_cfnrc_disabled">"Desativado"</string>
-    <string name="updating_title">"Configurações da chamada"</string>
-    <string name="error_updating_title">"Erro de configuração da chamada"</string>
-    <string name="reading_settings">"Lendo as configurações…"</string>
-    <string name="updating_settings">"Atualizando configurações…"</string>
-    <!-- no translation found for response_error (6674110501330139405) -->
-    <skip />
-    <string name="exception_error">"Erro de rede ou do cartão SIM."</string>
-    <string name="radio_off_error">"Ative o rádio antes de ver essas configurações."</string>
-    <string name="close_dialog">"OK"</string>
-    <string name="enable">"Ativar"</string>
-    <string name="disable">"Desativar"</string>
-    <string name="change_num">"Atualizar"</string>
+    <string name="contactsIconLabel" msgid="9129800048701196916">"Contatos"</string>
+    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Favoritos"</string>
+    <string name="dialerIconLabel" msgid="1761864493312440268">"Discador"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Discador de emergência"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"Telefone"</string>
+    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Registro de chamadas"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"Lista FDN"</string>
+    <string name="unknown" msgid="6878797917991465859">"Desconhecido"</string>
+    <string name="private_num" msgid="6713286113000232309">"Número privado"</string>
+    <string name="payphone" msgid="1931775086311769314">"Orelhão"</string>
+    <string name="onHold" msgid="9035493194749959955">"Em espera"</string>
+    <string name="ongoing" msgid="8300874342848721367">"Chamada atual"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"Linha ocupada"</string>
+    <string name="callFailed_congestion" msgid="8737761615702718375">"Rede ocupada"</string>
+    <string name="callFailed_noSignal" msgid="1889803273616031933">"Sem sinal"</string>
+    <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Limite de ACM excedido"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"Rádio desativado"</string>
+    <string name="callFailed_simError" msgid="5652345589458834655">"Sem SIM, ou erro de SIM"</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"Área fora de serviço"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"As chamadas enviadas são restringidas pelo FDN."</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"Você não pode fazer chamadas enquanto o bloqueio de chamadas estiver ativado."</string>
+    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Todas as chamada são restringidas pelo controle de acesso."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"As chamadas de emergência são restringidas pelo controle de acesso."</string>
+    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"As chamadas normais são restringidas pelo controle de acesso."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefone bloqueado até a conclusão do ciclo de energia."</string>
+    <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: Caiu a chamada."</string>
+    <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA: Chamada interceptada."</string>
+    <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: reordenar."</string>
+    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Rejeição de opção de serviço."</string>
+    <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: ordem de repetição."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Falha de acesso."</string>
+    <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Ocupado."</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Somente as chamadas de emergência são permitidas."</string>
+    <string name="confCall" msgid="1904840547188336828">"Conferência telefônica"</string>
+    <string name="call_lost" msgid="317670617901479594">"A chamada foi perdida."</string>
+    <string name="retry" msgid="8462986804300767852">"Tentar novamente"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"Chamada perdida"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"Código MMI iniciado"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"Código USSD em execução…"</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"Código MMI cancelado"</string>
+    <string name="cancel" msgid="5044513931633602634">"Cancelar"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Alto-falante"</string>
+    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
+    <string name="menu_mute" msgid="4399723633363773145">"Desativar som"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Em espera"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Finalizar chamada"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Trocar chamadas"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Mesclar chamadas"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Adicionar chamada"</string>
+    <string name="menu_manageConference" msgid="3770984362002266733">"Gerenciar conferência telefônica"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"Mostrar teclado"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Ocultar teclado"</string>
+    <string name="menu_answerAndHold" msgid="8830891495953688905">"Colocar chamada atual em espera"\n"e responder"</string>
+    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Encerrar chamada atual"\n"e responder"</string>
+    <string name="ok" msgid="3811371167865772377">"OK"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Pressione Menu para opções de chamada."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Pressione Menu para as opções de chamada  •  Use o teclado para discar"</string>
+    <string name="menu_answer" msgid="116686205042231098">"Atender"</string>
+    <string name="menu_ignore" msgid="2112030835852537344">"Ignorar"</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Enviar os toques a seguir?"\n</string>
+    <string name="pause_prompt_str" msgid="341477243019906241">"Enviando tons"\n</string>
+    <string name="send_button" msgid="4106860097497818751">"Enviar"</string>
+    <string name="pause_prompt_yes" msgid="3564467212025151797">"Sim"</string>
+    <string name="pause_prompt_no" msgid="6686238803236884877">"Não"</string>
+    <string name="wild_prompt_str" msgid="1585989144582892543">"Substitua o caractere curinga por"</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"Número de correio de voz ausente"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Não há um número de correio de voz armazenado no cartão SIM."</string>
+    <string name="add_vm_number_str" msgid="4676479471644687453">"Adicionar número"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Carregando..."</string>
+    <string name="enterPin" msgid="4753300834213388397">"Digite o código PIN para desbloquear o cartão SIM."</string>
+    <string name="pinUnlocked" msgid="3260617001055506794">"SIM desbloqueado"</string>
+    <string name="enterNewPin" msgid="5311243769004752401">"Novo código PIN do SIM"</string>
+    <string name="verifyNewPin" msgid="2593629913010458867">"Digite novamente o novo código PIN do SIM para confirmar"</string>
+    <string name="verifyFailed" msgid="3875778795754857903">"Os PINs do SIM digitados não correspondem. Tente novamente."</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Digite o código PUK para desbloquear o cartão SIM."</string>
+    <string name="badPuk" msgid="3213017898690275965">"Código PUK incorreto!"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"Continuar"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"O seu cartão SIM foi desbloqueado. O seu telefone está desbloqueando…"</string>
+    <string name="label_ndp" msgid="780479633159517250">"PIN de desbloqueio da rede SIM"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Desbloquear"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Dispensar"</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"Solicitando o desbloqueio de rede…"</string>
+    <string name="unlock_failed" msgid="6490531697031504225">"Falha na solicitação de desbloqueio de rede."</string>
+    <string name="unlock_success" msgid="6770085622238180152">"Desbloqueio de rede bem-sucedido."</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
+    <string name="meid" msgid="66004808679046045">"MEID"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Configurações de chamada GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Configurações de chamada CDMA"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Nomes ponto de acesso"</string>
+    <string name="settings_label" msgid="3876743539816984008">"Configurações de rede"</string>
+    <string name="voicemail" msgid="8693759337917898954">"Correio de voz"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
+    <string name="networks" msgid="8873030692174541976">"Operadores de rede"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Configurações da chamada"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Configurações adicionais"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Configurações adicionais somente de chamada GSM"</string>
+    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Configurações de chamada CDMA adicionais"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configurações adicionais somente de chamada CDMA"</string>
+    <string name="labelNwService" msgid="4699970172021870983">"Configurações do serviço de rede"</string>
+    <string name="labelCallerId" msgid="3888899447379069198">"ID do chamador"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número oculto nas chamadas enviadas"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"Número exibido nas chamadas enviadas"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Usar configurações padrão da operadora para exibir meu número em chamadas enviadas"</string>
+    <string name="labelCW" msgid="6120513814915920200">"Chamada em espera"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"Configurações de encaminhamento de chamada"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Encaminhamento"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Sempre encaminhar"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"Sempre usar este número"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Encaminhando todas as chamadas"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Encaminhando todas as chamadas para \\\\{0\\\\}"</string>
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"Desativado"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Encaminhar quando ocupado"</string>
+    <string name="messageCFB" msgid="3711089705936187129">"Número quando ocupado"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Encaminhando para \\\\{0\\\\}"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"Desativado"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"Encaminhar quando não houver resposta"</string>
+    <string name="messageCFNRy" msgid="672317899884380374">"Número quando não há resposta"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Encaminhando para \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Desativado"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Encaminhar quando não estiver acessível"</string>
+    <string name="messageCFNRc" msgid="6380695421020295119">"Número quando não acessível"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Encaminhando para \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Desativado"</string>
+    <string name="updating_title" msgid="6146755386174019046">"Configurações da chamada"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Erro de configuração da chamada"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"Lendo as configurações…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"Atualizando configurações…"</string>
+    <string name="response_error" msgid="6674110501330139405">"Resposta inesperada da rede."</string>
+    <string name="exception_error" msgid="7027667130619518211">"Erro de rede ou do cartão SIM."</string>
+    <string name="radio_off_error" msgid="6717116288405111269">"Ative o rádio antes de ver essas configurações."</string>
+    <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
+    <string name="enable" msgid="1059008390636773574">"Ativar"</string>
+    <string name="disable" msgid="7274240979164762320">"Desativar"</string>
+    <string name="change_num" msgid="239476305819844391">"Atualizar"</string>
   <string-array name="clir_display_values">
-    <item>"Padrão de rede"</item>
-    <item>"Ocultar número"</item>
-    <item>"Mostrar número"</item>
+    <item msgid="5560134294467334594">"Padrão de rede"</item>
+    <item msgid="7876195870037833661">"Ocultar número"</item>
+    <item msgid="1108394741608734023">"Mostrar número"</item>
   </string-array>
-    <string name="vm_save_number">"Salvar o número do correio de voz"</string>
-    <string name="vm_changed">"Número do correio de voz alterado."</string>
-    <string name="vm_change_failed">"Falha na alteração de número do correio de voz."</string>
-    <string name="no_change">"Nenhuma alteração foi feita."</string>
-    <string name="mobile_networks">"Configurações de rede para celular"</string>
-    <string name="label_available">"Redes disponíveis"</string>
-    <string name="load_networks_progress">"Pesquisando..."</string>
-    <string name="empty_networks_list">"Nenhuma rede encontrada."</string>
-    <string name="search_networks">"Pesquisar redes"</string>
-    <string name="network_query_error">"Erro ao pesquisar redes."</string>
-    <string name="register_on_network">"Registrando na <xliff:g id="NETWORK">%s</xliff:g>…"</string>
-    <string name="not_allowed">"O seu cartão SIM não permite uma conexão com esta rede."</string>
-    <string name="registration_done">"Registrado na rede."</string>
-    <string name="sum_carrier_select">"Selecione um operador de rede"</string>
-    <string name="sum_search_networks">"Pesquisar todas as redes disponíveis"</string>
-    <string name="select_automatically">"Selecionar automaticamente"</string>
-    <string name="sum_select_automatically">"Selecionar automaticamente a rede preferida"</string>
-    <!-- no translation found for register_automatically (6272031189219101172) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_title (8873246565334559308) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_summary (1434820673166126609) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_dialogtitle (8176355237105593793) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_choices:0 (2987674222882365152) -->
-    <!-- no translation found for preferred_network_mode_choices:1 (3273348576277144124) -->
-    <!-- no translation found for preferred_network_mode_choices:2 (454610224530856274) -->
-    <!-- no translation found for preferred_network_mode_choices:3 (8928247118825616081) -->
-    <!-- no translation found for preferred_network_mode_choices:4 (8595462903294812666) -->
-    <!-- no translation found for preferred_network_mode_choices:5 (5189164180446264504) -->
-    <!-- no translation found for preferred_network_mode_choices:6 (5714714953966979187) -->
-    <!-- no translation found for preferred_network_mode_choices:7 (4775796025725908913) -->
-    <!-- no translation found for preferred_network_mode_values:0 (7164534877603905916) -->
-    <!-- no translation found for preferred_network_mode_values:1 (2520921432080278213) -->
-    <!-- no translation found for preferred_network_mode_values:2 (4978887990900575049) -->
-    <!-- no translation found for preferred_network_mode_values:3 (6891436459357445885) -->
-    <!-- no translation found for preferred_network_mode_values:4 (339825043192186272) -->
-    <!-- no translation found for preferred_network_mode_values:5 (3062641619893382241) -->
-    <!-- no translation found for preferred_network_mode_values:6 (2494009747968041784) -->
-    <!-- no translation found for preferred_network_mode_values:7 (2568449734331711605) -->
-    <string name="roaming">"Roaming de dados"</string>
-    <string name="roaming_enable">"Conectar aos serviços de dados quando estiver em trânsito"</string>
-    <string name="roaming_disable">"Conectar aos serviços de dados quando estiver em trânsito"</string>
-    <string name="roaming_reenable_message">"Você perdeu a conectividade de dados porque deixou o roaming de dados da sua rede doméstica desativado."</string>
-    <string name="roaming_warning">"Permitir roaming de dados? Isso pode causar cobranças significativas de roaming!"</string>
-    <!-- no translation found for gsm_umts_options (6538311689850981686) -->
-    <skip />
-    <!-- no translation found for cdma_options (4016822858172249884) -->
-    <skip />
-    <!-- no translation found for cdma_cell_broadcast_sms (7898475142527341808) -->
-    <skip />
-    <!-- no translation found for cell_broadcast_sms (5584192824053625842) -->
-    <skip />
-    <!-- no translation found for enable_disable_cell_bc_sms (4851147873691392255) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_enable (6441688565738921084) -->
-    <skip />
-    <!-- no translation found for cell_bc_sms_disable (3398365088309408749) -->
-    <skip />
-    <!-- no translation found for cb_sms_settings (651715019785107312) -->
-    <skip />
-    <!-- no translation found for enable_disable_emergency_broadcast (2157014609041245335) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_enable (2645980025414010211) -->
-    <skip />
-    <!-- no translation found for emergency_broadcast_disable (3665199821267569426) -->
-    <skip />
-    <!-- no translation found for enable_disable_administrative (6501582322182059412) -->
-    <skip />
-    <!-- no translation found for administrative_enable (1750086122962032235) -->
-    <skip />
-    <!-- no translation found for administrative_disable (8433273857248698539) -->
-    <skip />
-    <!-- no translation found for enable_disable_maintenance (1819693083025106678) -->
-    <skip />
-    <!-- no translation found for maintenance_enable (8566636458770971189) -->
-    <skip />
-    <!-- no translation found for maintenance_disable (7340189100885066077) -->
-    <skip />
-    <!-- no translation found for general_news_settings (4968779723948432978) -->
-    <skip />
-    <!-- no translation found for bf_news_settings (3935593091894685267) -->
-    <skip />
-    <!-- no translation found for sports_news_settings (7649399631270052835) -->
-    <skip />
-    <!-- no translation found for entertainment_news_settings (5051153952959405035) -->
-    <skip />
-    <!-- no translation found for enable_disable_local (7890281063123416120) -->
-    <skip />
-    <!-- no translation found for local_enable (6370463247609136359) -->
-    <skip />
-    <!-- no translation found for local_disable (4405691986943795798) -->
-    <skip />
-    <!-- no translation found for enable_disable_regional (4905652414535565872) -->
-    <skip />
-    <!-- no translation found for regional_enable (4434680415437834759) -->
-    <skip />
-    <!-- no translation found for regional_disable (5359325527213850077) -->
-    <skip />
-    <!-- no translation found for enable_disable_national (236278090206880734) -->
-    <skip />
-    <!-- no translation found for national_enable (1172443648912246952) -->
-    <skip />
-    <!-- no translation found for national_disable (326018148178601166) -->
-    <skip />
-    <!-- no translation found for enable_disable_international (7535348799604565592) -->
-    <skip />
-    <!-- no translation found for international_enable (5855356769925044927) -->
-    <skip />
-    <!-- no translation found for international_disable (2850648591041088931) -->
-    <skip />
-    <!-- no translation found for list_language_title (2841683501919760043) -->
-    <skip />
-    <!-- no translation found for list_language_summary (8109546531071241601) -->
-    <skip />
-    <!-- no translation found for list_language_entries:0 (6137851079727305485) -->
-    <!-- no translation found for list_language_entries:1 (1151988412809572526) -->
-    <!-- no translation found for list_language_entries:2 (577840534704312665) -->
-    <!-- no translation found for list_language_entries:3 (8385712091143148180) -->
-    <!-- no translation found for list_language_entries:4 (1858401628368130638) -->
-    <!-- no translation found for list_language_entries:5 (1933212028684529632) -->
-    <!-- no translation found for list_language_entries:6 (1908428006803639064) -->
-    <!-- no translation found for list_language_values:0 (1804908636436467150) -->
-    <!-- no translation found for list_language_values:1 (289708030346890334) -->
-    <!-- no translation found for list_language_values:2 (1121469729692402684) -->
-    <!-- no translation found for list_language_values:3 (2614093115912897722) -->
-    <!-- no translation found for list_language_values:4 (2411164639857960614) -->
-    <!-- no translation found for list_language_values:5 (5884448729274543324) -->
-    <!-- no translation found for list_language_values:6 (5511864807618312598) -->
-    <!-- no translation found for list_language_dtitle (5442908726538951934) -->
-    <skip />
-    <!-- no translation found for enable_disable_local_weather (986967454867219114) -->
-    <skip />
-    <!-- no translation found for local_weather_enable (6199315114382448922) -->
-    <skip />
-    <!-- no translation found for local_weather_disable (2510158089142626480) -->
-    <skip />
-    <!-- no translation found for enable_disable_atr (8339572391278872343) -->
-    <skip />
-    <!-- no translation found for atr_enable (5541757457789181799) -->
-    <skip />
-    <!-- no translation found for atr_disable (7085558154727596455) -->
-    <skip />
-    <!-- no translation found for enable_disable_lafs (668189073721277199) -->
-    <skip />
-    <!-- no translation found for lafs_enable (2791978667205137052) -->
-    <skip />
-    <!-- no translation found for lafs_disable (2391212397725495350) -->
-    <skip />
-    <!-- no translation found for enable_disable_restaurants (6240381945336814024) -->
-    <skip />
-    <!-- no translation found for restaurants_enable (5137657479469118847) -->
-    <skip />
-    <!-- no translation found for restaurants_disable (3678480270938424092) -->
-    <skip />
-    <!-- no translation found for enable_disable_lodgings (1822029172658551202) -->
-    <skip />
-    <!-- no translation found for lodgings_enable (3230042508992850322) -->
-    <skip />
-    <!-- no translation found for lodgings_disable (3387879742320682391) -->
-    <skip />
-    <!-- no translation found for enable_disable_retail_directory (1357809784475660303) -->
-    <skip />
-    <!-- no translation found for retail_directory_enable (3280626290436111496) -->
-    <skip />
-    <!-- no translation found for retail_directory_disable (6479739816662879027) -->
-    <skip />
-    <!-- no translation found for enable_disable_advertisements (5999495926176182128) -->
-    <skip />
-    <!-- no translation found for advertisements_enable (2050305021264683786) -->
-    <skip />
-    <!-- no translation found for advertisements_disable (8350985908788707935) -->
-    <skip />
-    <!-- no translation found for enable_disable_stock_quotes (6397810445293533603) -->
-    <skip />
-    <!-- no translation found for stock_quotes_enable (4384802470887170543) -->
-    <skip />
-    <!-- no translation found for stock_quotes_disable (4781450084565594998) -->
-    <skip />
-    <!-- no translation found for enable_disable_eo (4863043263443942494) -->
-    <skip />
-    <!-- no translation found for eo_enable (8623559062015685813) -->
-    <skip />
-    <!-- no translation found for eo_disable (3863812478090907609) -->
-    <skip />
-    <!-- no translation found for enable_disable_mhh (5698783743098373681) -->
-    <skip />
-    <!-- no translation found for mhh_enable (3949276822735205799) -->
-    <skip />
-    <!-- no translation found for mhh_disable (4834280270664925123) -->
-    <skip />
-    <!-- no translation found for enable_disable_technology_news (3517184627114999149) -->
-    <skip />
-    <!-- no translation found for technology_news_enable (7995209394210455181) -->
-    <skip />
-    <!-- no translation found for technology_news_disable (5483490380561851946) -->
-    <skip />
-    <!-- no translation found for enable_disable_multi_category (626771003122899280) -->
-    <skip />
-    <!-- no translation found for multi_category_enable (1179299804641721768) -->
-    <skip />
-    <!-- no translation found for multi_category_disable (880104702904139505) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_title (4834419333547382436) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferneces_summary (1905018644156819521) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_dialogtitle (6356332580813229898) -->
-    <skip />
-    <!-- no translation found for gsm_umts_network_preferences_choices:0 (935612021902787683) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:1 (8912042051809329533) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:2 (8776934131146642662) -->
-    <!-- no translation found for gsm_umts_network_preferences_choices:3 (4684679567848300935) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:0 (117293148930527265) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:1 (2264578612775462302) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:2 (1268081943590316978) -->
-    <!-- no translation found for gsm_umts_network_preferences_values:3 (4469871047641902607) -->
-    <!-- no translation found for cdma_system_select_title (5757657769327732833) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_summary (2528661990595284707) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_dialogtitle (6083355415165359075) -->
-    <skip />
-    <!-- no translation found for cdma_system_select_choices:0 (176474317493999285) -->
-    <!-- no translation found for cdma_system_select_choices:1 (1205664026446156265) -->
-    <!-- no translation found for cdma_system_select_values:0 (4354305960068894315) -->
-    <!-- no translation found for cdma_system_select_values:1 (3046877284450231151) -->
-    <!-- no translation found for cdma_roaming_mode_title (6366737033053855198) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_summary (8604713111805562261) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_dialogtitle (1802896889172094947) -->
-    <skip />
-    <!-- no translation found for cdma_roaming_mode_choices:0 (6024072766548865002) -->
-    <!-- no translation found for cdma_roaming_mode_choices:1 (8174642753290624634) -->
-    <!-- no translation found for cdma_roaming_mode_choices:2 (2241951431403168661) -->
-    <!-- no translation found for cdma_roaming_mode_values:0 (2549203161367380954) -->
-    <!-- no translation found for cdma_roaming_mode_values:1 (6007798728227141997) -->
-    <!-- no translation found for cdma_roaming_mode_values:2 (4039511109802141047) -->
-    <!-- no translation found for cdma_network_preferences_title (41193174429510391) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferneces_summary (3524451924935793338) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_dialogtitle (4548860809290455653) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferences_choices:0 (3711054371631487248) -->
-    <!-- no translation found for cdma_network_preferences_choices:1 (6143696847467859795) -->
-    <!-- no translation found for cdma_network_preferences_choices:2 (2683555124647197574) -->
-    <!-- no translation found for cdma_network_preferences_values:0 (5584048199290030331) -->
-    <!-- no translation found for cdma_network_preferences_values:1 (5741268642513143762) -->
-    <!-- no translation found for cdma_network_preferences_values:2 (419525200910932450) -->
-    <!-- no translation found for subscription_title (5813493350326486) -->
-    <skip />
-    <!-- no translation found for subscription_summary (8435941016743418124) -->
-    <skip />
-    <!-- no translation found for subscription_dialogtitle (531571450448009255) -->
-    <skip />
-    <!-- no translation found for subscription_choices:0 (6540107472553796600) -->
-    <!-- no translation found for subscription_choices:1 (1433427108940308332) -->
-    <!-- no translation found for subscription_values:0 (4377788417250295786) -->
-    <!-- no translation found for subscription_values:1 (1193066664940329729) -->
-    <string name="fdn">"Números de chamadas fixas"</string>
-    <string name="manage_fdn_list">"Lista FDN"</string>
-    <string name="fdn_activation">"Ativação do FDN"</string>
-    <string name="fdn_enabled">"Os números de chamadas fixas estão ativados"</string>
-    <string name="fdn_disabled">"Os números de chamadas fixas estão desativados"</string>
-    <string name="enable_fdn">"Ativar FDN"</string>
-    <string name="disable_fdn">"Desativar FDN"</string>
-    <string name="change_pin2">"Alterar PIN2"</string>
-    <string name="enable_fdn_ok">"Desativar FDN"</string>
-    <string name="disable_fdn_ok">"Ativar FDN"</string>
-    <string name="sum_fdn">"Gerenciar números de chamadas fixas"</string>
-    <string name="sum_fdn_change_pin">"Alterar PIN para acesso FDN"</string>
-    <string name="sum_fdn_manage_list">"Gerenciar lista de números telefônicos"</string>
-    <!-- no translation found for voice_privacy (7803023024169078619) -->
-    <skip />
-    <!-- no translation found for voice_privacy_summary (3159383389833516214) -->
-    <skip />
-    <!-- no translation found for tty_mode_title (3171521903490559138) -->
-    <skip />
-    <!-- no translation found for tty_mode_summary (5057244302665817977) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_title (9033098925144434669) -->
-    <skip />
-    <!-- no translation found for tty_mode_option_summary (1073835131534808732) -->
-    <skip />
-    <string name="menu_add">"Adicionar contato"</string>
-    <string name="menu_edit">"Editar contato"</string>
-    <string name="menu_delete">"Excluir contato"</string>
-    <string name="get_pin2">"Inserir PIN2"</string>
-    <string name="name">"Nome"</string>
-    <string name="number">"Número"</string>
-    <string name="save">"Salvar"</string>
-    <string name="add_fdn_contact">"Adicionar contato de chamadas fixas"</string>
-    <string name="adding_fdn_contact">"Adicionando contato de chamadas fixas…"</string>
-    <string name="fdn_contact_added">"Contato de chamadas fixas adicionado."</string>
-    <string name="edit_fdn_contact">"Editar o contato de chamadas fixas"</string>
-    <string name="updating_fdn_contact">"Atualizando contato de chamadas fixas…"</string>
-    <string name="fdn_contact_updated">"Contato de chamadas fixas atualizado."</string>
-    <string name="delete_fdn_contact">"Excluir contato de chamadas fixas"</string>
-    <string name="deleting_fdn_contact">"Excluindo contato de chamadas fixas…"</string>
-    <string name="fdn_contact_deleted">"Contato de chamadas fixas excluído."</string>
-    <string name="pin2_invalid">"PIN2 inválido!"</string>
-    <string name="fdn_invalid_number">"O número não pode exceder 20 dígitos."</string>
-    <string name="simContacts_emptyLoading">"Lendo a partir do cartão SIM…"</string>
-    <string name="simContacts_empty">"Não há contatos no seu cartão SIM."</string>
-    <string name="simContacts_title">"Selecione os contatos a serem importados"</string>
-    <string name="enable_pin">"Ativar/desativar PIN do SIM"</string>
-    <string name="change_pin">"Alterar PIN do SIM"</string>
-    <string name="enter_pin_text">"PIN do SIM:"</string>
-    <string name="oldPinLabel">"PIN antigo"</string>
-    <string name="newPinLabel">"Novo PIN"</string>
-    <string name="confirmPinLabel">"Confirmar novo PIN"</string>
-    <string name="badPin">"O PIN antigo digitado não está correto. Tente novamente."</string>
-    <string name="mismatchPin">"Os PINs digitados não correspondem. Tente novamente."</string>
-    <string name="invalidPin">"Digite um PIN com 4 a 8 números."</string>
-    <string name="disable_sim_pin">"Desativar PIN do SIM"</string>
-    <string name="enable_sim_pin">"Ativar PIN do SIM"</string>
-    <string name="enable_in_progress">"Aguarde..."</string>
-    <string name="enable_pin_ok">"PIN do SIM ativado"</string>
-    <string name="disable_pin_ok">"PIN do SIM desativado"</string>
-    <string name="pin_failed">"O PIN digitado estava incorreto"</string>
-    <string name="pin_changed">"PIN do SIM alterado com êxito"</string>
-    <string name="puk_requested">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
-    <string name="enter_pin2_text">"PIN2"</string>
-    <string name="oldPin2Label">"PIN2 antigo"</string>
-    <string name="newPin2Label">"Novo PIN2"</string>
-    <string name="confirmPin2Label">"Confirmar novo PIN2"</string>
-    <string name="badPuk2">"O PUK2 digitado não está correto. Tente novamente."</string>
-    <string name="badPin2">"O PIN2 antigo digitado não está correto. Tente novamente."</string>
-    <string name="mismatchPin2">"Os PIN2s digitados não correspondem. Tente novamente."</string>
-    <string name="invalidPin2">"Digite um PIN2 com 4 a 8 números."</string>
-    <string name="invalidPuk2">"Digite um PUK2 com 8 números."</string>
-    <string name="pin2_changed">"PIN2 alterado com êxito"</string>
-    <string name="label_puk2_code">"Digitar o código PUK2"</string>
-    <string name="fdn_enable_puk2_requested">"Senha incorreta. Altere o PIN2 e tente novamente!"</string>
-    <string name="puk2_requested">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
-    <string name="doneButton">"Concluído"</string>
-    <string name="caller_manage_header">"Conferência telefônica <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text">"Voltar à chamada"</string>
-    <string name="sim_missing_continueView_text">"Continuar sem o cartão SIM"</string>
-    <string name="sim_missing_msg_text">"Nenhum cartão SIM encontrado. Insira um cartão SIM no telefone."</string>
-    <string name="sim_unlock_dismiss_text">"Dispensar"</string>
-    <string name="sim_unlock_unlock_text">"Desbloquear"</string>
-    <string name="sim_unlock_status_text">"Autenticando o PIN…"</string>
-    <string name="voicemail_settings_number_label">"Número do correio de voz"</string>
-    <string name="card_title_dialing">"Discando"</string>
-    <string name="card_title_in_progress">"Chamada atual"</string>
-    <string name="card_title_conf_call">"Conferência telefônica"</string>
-    <string name="card_title_incoming_call">"Recebendo chamada"</string>
-    <!-- no translation found for card_title_cdma_call_waiting (4532445524811272644) -->
-    <skip />
-    <string name="card_title_call_ended">"Chamada encerrada"</string>
-    <string name="card_title_on_hold">"Em espera"</string>
-    <string name="card_title_hanging_up">"Desligando"</string>
-    <!-- no translation found for card_title_in_call (6346543933068225205) -->
-    <skip />
-    <string name="notification_missedCallTitle">"Chamada perdida"</string>
-    <string name="notification_missedCallsTitle">"Chamadas perdidas"</string>
-    <string name="notification_missedCallsMsg">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> chamadas perdidas"</string>
-    <string name="notification_missedCallTicker">"Chamada perdida de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format">"Chamada atual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="notification_on_hold">"Em espera"</string>
-    <string name="notification_voicemail_title">"Novo correio de voz"</string>
-    <!-- no translation found for notification_voicemail_title_count (4366360747660929916) -->
-    <skip />
-    <string name="notification_voicemail_text_format">"Discar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number">"Número do correio de voz desconhecido"</string>
-    <string name="incall_error_power_off">"Para fazer uma chamada, primeiro desative o modo avião."</string>
-    <string name="incall_error_emergency_only">"Não registrado na rede."</string>
-    <string name="incall_error_no_phone_number_supplied">"Chamada não enviada, nenhum número válido foi inserido."</string>
-    <string name="incall_error_call_failed">"Chamada não enviada."</string>
-    <string name="incall_status_dialed_mmi">"Iniciando sequência MMI…"</string>
-    <!-- no translation found for incall_status_dialed_fc (1632879988662225263) -->
-    <skip />
-    <string name="incall_error_supp_service_unknown">"Serviço não suportado."</string>
-    <string name="incall_error_supp_service_switch">"Não é possível alternar chamadas."</string>
-    <string name="incall_error_supp_service_separate">"Não é possível separar a chamada."</string>
-    <string name="incall_error_supp_service_transfer">"Não é possível transferir a chamada."</string>
-    <string name="incall_error_supp_service_conference">"Não é possível realizar conferências telefônicas."</string>
-    <string name="incall_error_supp_service_reject">"Não é possível rejeitar a chamada."</string>
-    <string name="incall_error_supp_service_hangup">"Não é possível liberar a(s) chamada(s)."</string>
-    <string name="emergency_enable_radio_dialog_title">"Chamada de emergência"</string>
-    <string name="emergency_enable_radio_dialog_message">"Ativando o rádio…"</string>
-    <string name="emergency_enable_radio_dialog_retry">"Área fora de serviço, tentando novamente..."</string>
-    <string name="dial_emergency_error">"Chamada não enviada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> não é um número de emergência!"</string>
-    <string name="dial_emergency_empty_error">"Chamada não enviada. Disque um número de emergência!"</string>
-    <string name="dialerKeyboardHintText">"Use o teclado para discar"</string>
-    <string name="dtmfDialpadHintText">"Teclado multifrequencial"</string>
-    <string name="dtmfDialpadHandleLabel">"Teclado"</string>
-    <!-- no translation found for touchLockText (8742463586429019112) -->
-    <skip />
-    <!-- no translation found for onscreenAnswerText (7643040500342720792) -->
-    <skip />
-    <string name="importSimEntry">"Importar"</string>
-    <string name="importAllSimEntries">"Importar tudo"</string>
-    <string name="importingSimContacts">"Importando contatos do SIM"</string>
-    <string name="importToFDNfromContacts">"Importar dos contatos"</string>
-    <!-- no translation found for tty_mode_entries:0 (512950011423868021) -->
-    <!-- no translation found for tty_mode_entries:1 (4781215771530681384) -->
-    <!-- no translation found for tty_mode_entries:2 (5659212685488676933) -->
-    <!-- no translation found for tty_mode_entries:3 (1113703196326500239) -->
-    <!-- no translation found for eri_text_label (4326942349915331461) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_title (3866923093113274152) -->
-    <skip />
-    <!-- no translation found for dtmf_tones_summary (3351820372864020331) -->
-    <skip />
-    <!-- no translation found for dtmf_tone_entries:0 (899650777817315681) -->
-    <!-- no translation found for dtmf_tone_entries:1 (2883365539347850535) -->
-    <!-- no translation found for network_message (5673682885938122239) -->
+    <string name="vm_save_number" msgid="4579969432544566719">"Salvar o número do correio de voz"</string>
+    <string name="vm_changed" msgid="380744030726254139">"Número do correio de voz alterado."</string>
+    <string name="vm_change_failed" msgid="8484504256705014152">"Falha na alteração de número do correio de voz."</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
+    <string name="no_change" msgid="3186040086622435212">"Nenhuma alteração foi feita."</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Escolha o serviço de correio de voz"</string>
+    <string name="voicemail_default" msgid="5902099213882352338">"Minha operadora"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Configurações de rede para celular"</string>
+    <string name="label_available" msgid="1181658289009300430">"Redes disponíveis"</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"Pesquisando..."</string>
+    <string name="empty_networks_list" msgid="4249426905018815316">"Nenhuma rede encontrada."</string>
+    <string name="search_networks" msgid="1601136049300882441">"Pesquisar redes"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"Erro ao pesquisar redes."</string>
+    <string name="register_on_network" msgid="9055203954040805084">"Registrando na <xliff:g id="NETWORK">%s</xliff:g>…"</string>
+    <string name="not_allowed" msgid="3540496123717833833">"O seu cartão SIM não permite uma conexão com esta rede."</string>
+    <string name="registration_done" msgid="495135664535876612">"Registrado na rede."</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"Selecione um operador de rede"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"Pesquisar todas as redes disponíveis"</string>
+    <string name="select_automatically" msgid="8615980695510888796">"Selecionar automaticamente"</string>
+    <string name="sum_select_automatically" msgid="8460954604521755275">"Selecionar automaticamente a rede preferida"</string>
+    <string name="register_automatically" msgid="6272031189219101172">"Registro automático..."</string>
+    <string name="preferred_network_mode_title" msgid="8873246565334559308">"Modo de rede"</string>
+    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Alterar o modo de operação de rede"</string>
+    <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Modo de rede de preferência"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item msgid="2987674222882365152">"Global"</item>
+    <item msgid="3273348576277144124">"Somente EvDo"</item>
+    <item msgid="454610224530856274">"CDMA sem EvDo"</item>
+    <item msgid="8928247118825616081">"CDMA/EvDo automático"</item>
+    <item msgid="8595462903294812666">"GSM/WCDMA automático"</item>
+    <item msgid="5189164180446264504">"Somente WCDMA"</item>
+    <item msgid="5714714953966979187">"Somente GSM"</item>
+    <item msgid="4775796025725908913">"GSM/WCDMA de preferência"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item msgid="7164534877603905916">"7"</item>
+    <item msgid="2520921432080278213">"6"</item>
+    <item msgid="4978887990900575049">"5"</item>
+    <item msgid="6891436459357445885">"4"</item>
+    <item msgid="339825043192186272">"3"</item>
+    <item msgid="3062641619893382241">"2"</item>
+    <item msgid="2494009747968041784">"1"</item>
+    <item msgid="2568449734331711605">"0"</item>
+  </string-array>
+    <string name="roaming" msgid="8871412572928323707">"Roaming de dados"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Conectar aos serviços de dados quando estiver em roaming"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Conectar aos serviços de dados quando estiver em roaming"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"Você perdeu a conectividade de dados porque deixou o roaming de dados da sua rede doméstica desativado."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Permitir roaming de dados? Isso pode causar cobranças significativas de roaming!"</string>
+    <string name="gsm_umts_options" msgid="6538311689850981686">"Opções GSM/UMTS"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"Opções CDMA"</string>
+    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"SMS de difusão celular"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS de difusão celular"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS de difusão celular"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"SMS de difusão celular ativado"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"SMS de difusão celular desativado"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"Configurações de SMS de difusão celular"</string>
+    <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"Difusão de emergência"</string>
+    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Difusão de emergência ativada"</string>
+    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Difusão de emergência desativada"</string>
+    <string name="enable_disable_administrative" msgid="6501582322182059412">"Administrativo"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"Administrativo ativado"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"Administrativo desativado"</string>
+    <string name="enable_disable_maintenance" msgid="1819693083025106678">"Manutenção"</string>
+    <string name="maintenance_enable" msgid="8566636458770971189">"Manutenção ativada"</string>
+    <string name="maintenance_disable" msgid="7340189100885066077">"Manutenção desativada"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"Notícias gerais"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"Notícias de negócios e finanças"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"Notícias de esporte"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"Notícias de entretenimento"</string>
+    <string name="enable_disable_local" msgid="7890281063123416120">"Local"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Notícias locais ativadas"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Notícias locais desativadas"</string>
+    <string name="enable_disable_regional" msgid="4905652414535565872">"Regional"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Notícias regionais ativadas"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Notícias regionais desativadas"</string>
+    <string name="enable_disable_national" msgid="236278090206880734">"Nacional"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Notícias nacionais ativadas"</string>
+    <string name="national_disable" msgid="326018148178601166">"Notícias nacionais desativadas"</string>
+    <string name="enable_disable_international" msgid="7535348799604565592">"Internacional"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Notícias internacionais ativadas"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Notícias internacionais desativadas"</string>
+    <string name="list_language_title" msgid="2841683501919760043">"Idioma"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"Selecione o idioma das notícias"</string>
+  <string-array name="list_language_entries">
+    <item msgid="6137851079727305485">"Inglês"</item>
+    <item msgid="1151988412809572526">"Francês"</item>
+    <item msgid="577840534704312665">"Espanhol"</item>
+    <item msgid="8385712091143148180">"Japonês"</item>
+    <item msgid="1858401628368130638">"Coreano"</item>
+    <item msgid="1933212028684529632">"Chinês"</item>
+    <item msgid="1908428006803639064">"Hebraico"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item msgid="1804908636436467150">"1"</item>
+    <item msgid="289708030346890334">"2"</item>
+    <item msgid="1121469729692402684">"3"</item>
+    <item msgid="2614093115912897722">"4"</item>
+    <item msgid="2411164639857960614">"5"</item>
+    <item msgid="5884448729274543324">"6"</item>
+    <item msgid="5511864807618312598">"7"</item>
+  </string-array>
+    <string name="list_language_dtitle" msgid="5442908726538951934">"Idiomas"</string>
+    <string name="enable_disable_local_weather" msgid="986967454867219114">"Clima local"</string>
+    <string name="local_weather_enable" msgid="6199315114382448922">"Clima local ativado"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"Clima local desativado"</string>
+    <string name="enable_disable_atr" msgid="8339572391278872343">"Relatórios de trânsito da área"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"Relatórios de trânsito da área ativados"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"Relatórios de trânsito da área desativados"</string>
+    <string name="enable_disable_lafs" msgid="668189073721277199">"Programação de voos do aeroporto local"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"Programação de voos do aeroporto local ativada"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"Programação de voos do aeroporto local desativada"</string>
+    <string name="enable_disable_restaurants" msgid="6240381945336814024">"Restaurantes"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"Restaurantes ativados"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"Restaurantes desativados"</string>
+    <string name="enable_disable_lodgings" msgid="1822029172658551202">"Alojamentos"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"Alojamentos ativados"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"Alojamentos desativados"</string>
+    <string name="enable_disable_retail_directory" msgid="1357809784475660303">"Diretório de varejo"</string>
+    <string name="retail_directory_enable" msgid="3280626290436111496">"Diretório de varejo ativado"</string>
+    <string name="retail_directory_disable" msgid="6479739816662879027">"Diretório de varejo desativado"</string>
+    <string name="enable_disable_advertisements" msgid="5999495926176182128">"Anúncios"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"Anúncios ativados"</string>
+    <string name="advertisements_disable" msgid="8350985908788707935">"Anúncios desativados"</string>
+    <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Cotação de ações"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"Cotação de ações ativada"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Cotação de ações desativada"</string>
+    <string name="enable_disable_eo" msgid="4863043263443942494">"Oportunidades de emprego"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"Oportunidades de emprego ativadas"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Oportunidades de emprego desativadas"</string>
+    <string name="enable_disable_mhh" msgid="5698783743098373681">"Serviços médicos, de saúde e hospitalares"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"Serviços médicos, de saúde e hospitalares ativados"</string>
+    <string name="mhh_disable" msgid="4834280270664925123">"Serviços médicos, de saúde e hospitalares desativados"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"Notícias de tecnologia"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Notícias de tecnologia ativadas"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Notícias de tecnologia desativadas"</string>
+    <string name="enable_disable_multi_category" msgid="626771003122899280">"Várias categorias"</string>
+    <string name="multi_category_enable" msgid="1179299804641721768">"Várias categorias ativadas"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"Várias categorias desativadas"</string>
+    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Preferências de rede GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Ainda não implementado."</string>
+    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Preferências de rede GSM/UMTS"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item msgid="935612021902787683">"GSM/WCDMA (modo automático)"</item>
+    <item msgid="8912042051809329533">"Somente WCDMA"</item>
+    <item msgid="8776934131146642662">"Somente GSM"</item>
+    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA de preferência)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item msgid="117293148930527265">"0"</item>
+    <item msgid="2264578612775462302">"1"</item>
+    <item msgid="1268081943590316978">"2"</item>
+    <item msgid="4469871047641902607">"3"</item>
+  </string-array>
+    <string name="prefer_2g" msgid="8442550937280449639">"Use apenas redes de 2 G"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Economiza bateria"</string>
+    <string name="cdma_system_select_title" msgid="5757657769327732833">"Seleção de sistema"</string>
+    <string name="cdma_system_select_summary" msgid="2528661990595284707">"Alterar o modo de roaming CDMA"</string>
+    <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Selecionar sistema"</string>
+  <string-array name="cdma_system_select_choices">
+    <item msgid="176474317493999285">"Somente doméstica"</item>
+    <item msgid="1205664026446156265">"Automático"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modo de roaming CDMA"</string>
+    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Alterar o modo de roaming CDMA"</string>
+    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Modo de roaming CDMA"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item msgid="6024072766548865002">"Somente redes domésticas"</item>
+    <item msgid="8174642753290624634">"Redes afiliadas"</item>
+    <item msgid="2241951431403168661">"Qualquer rede"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item msgid="2549203161367380954">"0"</item>
+    <item msgid="6007798728227141997">"1"</item>
+    <item msgid="4039511109802141047">"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title" msgid="41193174429510391">"Preferências de rede CDMA"</string>
+    <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"Ainda não implementado."</string>
+    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Preferências de rede CDMA"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
+    <item msgid="6143696847467859795">"Somente CDMA"</item>
+    <item msgid="2683555124647197574">"Somente EvDo"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item msgid="5584048199290030331">"0"</item>
+    <item msgid="5741268642513143762">"1"</item>
+    <item msgid="419525200910932450">"2"</item>
+  </string-array>
+    <string name="subscription_title" msgid="5813493350326486">"Inscrição CDMA de TESTE"</string>
+    <string name="subscription_summary" msgid="8435941016743418124">"Alterar entre RUIM/SIM e NV"</string>
+    <string name="subscription_dialogtitle" msgid="531571450448009255">"inscrição"</string>
+  <string-array name="subscription_choices">
+    <item msgid="6540107472553796600">"RUIM/SIM"</item>
+    <item msgid="1433427108940308332">"NV"</item>
+  </string-array>
+  <string-array name="subscription_values">
+    <item msgid="4377788417250295786">"0"</item>
+    <item msgid="1193066664940329729">"1"</item>
+  </string-array>
+    <string name="fdn" msgid="7878832555095183202">"Chamadas fixas"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Lista FDN"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"Ativação do FDN"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Os números de chamadas fixas estão ativados"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Os números de chamadas fixas estão desativados"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Ativar FDN"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Desativar FDN"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"Alterar PIN2"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Desativar FDN"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"Ativar FDN"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Gerenciar números de chamadas fixas"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Alterar PIN para acesso FDN"</string>
+    <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Gerenciar lista de números telefônicos"</string>
+    <string name="voice_privacy" msgid="7803023024169078619">"Privacidade de voz"</string>
+    <string name="voice_privacy_summary" msgid="3159383389833516214">"Ativar modo de privacidade aprimorado"</string>
+    <string name="tty_mode_title" msgid="3171521903490559138">"Modo TTY"</string>
+    <string name="tty_mode_summary" msgid="5057244302665817977">"Ativar modo TTY"</string>
+    <string name="tty_mode_option_title" msgid="9033098925144434669">"Modo TTY"</string>
+    <string name="tty_mode_option_summary" msgid="1073835131534808732">"Definir modo TTY"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Repetir automaticamente"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Ativar modo Repetir automaticamente"</string>
+    <string name="menu_add" msgid="1882023737425114762">"Adicionar contato"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"Editar contato"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"Excluir contato"</string>
+    <string name="get_pin2" msgid="1198225482542827652">"Inserir PIN2"</string>
+    <string name="name" msgid="7329028332786872378">"Nome"</string>
+    <string name="number" msgid="7905950798349903858">"Número"</string>
+    <string name="save" msgid="4094274636321939086">"Salvar"</string>
+    <string name="add_fdn_contact" msgid="5412242719704146070">"Adicionar contato de chamadas fixas"</string>
+    <string name="adding_fdn_contact" msgid="1008984230265031168">"Adicionando contato de chamadas fixas…"</string>
+    <string name="fdn_contact_added" msgid="3283284983265410270">"Contato de chamadas fixas adicionado."</string>
+    <string name="edit_fdn_contact" msgid="3440054765948798731">"Editar o contato de chamadas fixas"</string>
+    <string name="updating_fdn_contact" msgid="5918299270800552372">"Atualizando contato de chamadas fixas…"</string>
+    <string name="fdn_contact_updated" msgid="510187720367785051">"Contato de chamadas fixas atualizado."</string>
+    <string name="delete_fdn_contact" msgid="2237838617123538040">"Excluir contato de chamadas fixas"</string>
+    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Excluindo contato de chamadas fixas…"</string>
+    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Contato de chamadas fixas excluído."</string>
+    <string name="pin2_invalid" msgid="6408721267712649637">"PIN2 inválido!"</string>
+    <string name="fdn_invalid_number" msgid="1484959418054136856">"O número não pode exceder 20 dígitos."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Lendo a partir do cartão SIM…"</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Não há contatos no seu cartão SIM."</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"Selecione os contatos a serem importados"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Ativar/desativar PIN do SIM"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Alterar PIN do SIM"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"PIN do SIM:"</string>
+    <string name="oldPinLabel" msgid="5287773661246368314">"PIN antigo"</string>
+    <string name="newPinLabel" msgid="207488227285336897">"Novo PIN"</string>
+    <string name="confirmPinLabel" msgid="257597715098070206">"Confirmar novo PIN"</string>
+    <string name="badPin" msgid="4154316827946559447">"O PIN antigo digitado não está correto. Tente novamente."</string>
+    <string name="mismatchPin" msgid="5974597541268042785">"Os PINs digitados não correspondem. Tente novamente."</string>
+    <string name="invalidPin" msgid="5981171102258684792">"Digite um PIN com 4 a 8 números."</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"Desativar PIN do SIM"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"Ativar PIN do SIM"</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"Aguarde..."</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"PIN do SIM ativado"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"PIN do SIM desativado"</string>
+    <string name="pin_failed" msgid="6597695909685242127">"O PIN digitado estava incorreto"</string>
+    <string name="pin_changed" msgid="9000716792724195093">"PIN do SIM alterado com êxito"</string>
+    <string name="puk_requested" msgid="3898394204193202803">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
+    <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2"</string>
+    <string name="oldPin2Label" msgid="8559146795026261502">"PIN2 antigo"</string>
+    <string name="newPin2Label" msgid="4573956902204349054">"Novo PIN2"</string>
+    <string name="confirmPin2Label" msgid="8100319484454787708">"Confirmar novo PIN2"</string>
+    <string name="badPuk2" msgid="4072035207011308856">"O PUK2 digitado não está correto. Tente novamente."</string>
+    <string name="badPin2" msgid="515218795152422178">"O PIN2 antigo digitado não está correto. Tente novamente."</string>
+    <string name="mismatchPin2" msgid="4177060915600342718">"Os PIN2s digitados não correspondem. Tente novamente."</string>
+    <string name="invalidPin2" msgid="8237110107480395938">"Digite um PIN2 com 4 a 8 números."</string>
+    <string name="invalidPuk2" msgid="1290977391033057871">"Digite um PUK2 com 8 números."</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"PIN2 alterado com êxito"</string>
+    <string name="label_puk2_code" msgid="302845876240219560">"Digitar o código PUK2"</string>
+    <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Senha incorreta. Altere o PIN2 e tente novamente!"</string>
+    <string name="puk2_requested" msgid="5863580927788820813">"Senha incorreta. SIM bloqueado! PUK2 solicitado."</string>
+    <string name="doneButton" msgid="2859593360997984240">"Concluído"</string>
+    <string name="caller_manage_header" msgid="3231519674734638786">"Conferência telefônica <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Voltar à chamada"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Continuar sem o cartão SIM"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"Nenhum cartão SIM encontrado. Insira um cartão SIM no telefone."</string>
+    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Dispensar"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Desbloquear"</string>
+    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autenticando o PIN…"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Número do correio de voz"</string>
+    <string name="card_title_dialing" msgid="5769417478498348054">"Discando"</string>
+    <string name="card_title_redialing" msgid="4831412164303596395">"Tentando novamente"</string>
+    <string name="card_title_in_progress" msgid="8603765629781648862">"Chamada atual"</string>
+    <string name="card_title_conf_call" msgid="1162980346189744501">"Conferência telefônica"</string>
+    <string name="card_title_incoming_call" msgid="7364539451234646909">"Recebendo chamada"</string>
+    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Aguardando chamada CDMA"</string>
+    <string name="card_title_call_ended" msgid="5544730338889702298">"Chamada encerrada"</string>
+    <string name="card_title_on_hold" msgid="821463117892339942">"Em espera"</string>
+    <string name="card_title_hanging_up" msgid="3999101620995182450">"Desligando"</string>
+    <string name="card_title_in_call" msgid="6346543933068225205">"Em chamada"</string>
+    <string name="notification_missedCallTitle" msgid="7554385905572364535">"Chamada perdida"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Chamadas perdidas"</string>
+    <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> chamadas perdidas"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"Chamada perdida de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Chamada atual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold" msgid="3480694969511790465">"Em espera"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"Novo correio de voz"</string>
+    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Novo correio de voz (<xliff:g id="COUNT">%d</xliff:g>)"</string>
+    <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Discar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número do correio de voz desconhecido"</string>
+    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
+    <skip />
+    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
+    <skip />
+    <string name="incall_error_power_off" msgid="6550191216405193368">"Para fazer uma chamada, primeiro desative o modo avião."</string>
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"Não registrado na rede."</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chamada não enviada, nenhum número válido foi inserido."</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"Chamada não enviada."</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Iniciando sequência MMI…"</string>
+    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Iniciando sequência do código de recursos..."</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Serviço não suportado."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Não é possível alternar chamadas."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Não é possível separar a chamada."</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Não é possível transferir a chamada."</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Não é possível realizar conferências telefônicas."</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Não é possível rejeitar a chamada."</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"Não é possível liberar a(s) chamada(s)."</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Chamada de emergência"</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Ativando o rádio…"</string>
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Área fora de serviço, tentando novamente..."</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"Chamada não enviada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> não é um número de emergência!"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Chamada não enviada. Disque um número de emergência!"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Use o teclado para discar"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado multifrequencial"</string>
+    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Teclado"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Toque duas vezes"\n"para desbloquear"</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
+    <string name="onscreenHoldText" msgid="2285258239691145872">"Em espera"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"Desativar modo de espera"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"Finalizar"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Teclado"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Ocultar"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Alto-falante"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Desativar som"</string>
+    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"Adicionar chamada"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Mesclar chamadas"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Trocar"</string>
+    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gerenciar"</string>
+    <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
+    <string name="importAllSimEntries" msgid="1503181169636198673">"Importar tudo"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"Importando contatos do SIM"</string>
+    <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importar dos contatos"</string>
+    <string name="hac_mode_title" msgid="8740268574688743289">"Aparelhos auditivos"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"Ativar compatibilidade com aparelhos auditivos"</string>
+  <string-array name="tty_mode_entries">
+    <item msgid="512950011423868021">"TTY desativado"</item>
+    <item msgid="3971695875449640648">"TTY completo"</item>
+    <item msgid="1937509904407445684">"TTY HCO"</item>
+    <item msgid="5644925873488772224">"TTY VCO"</item>
+  </string-array>
+    <string name="eri_text_label" msgid="4326942349915331461">"Texto ERI"</string>
+    <string name="dtmf_tones_title" msgid="3866923093113274152">"Tons DTMF"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Definir duração dos tons DTMF"</string>
+  <string-array name="dtmf_tone_entries">
+    <item msgid="899650777817315681">"Normal"</item>
+    <item msgid="2883365539347850535">"Longo"</item>
+  </string-array>
+    <string name="network_message" msgid="5673682885938122239">"Mensagem de rede"</string>
+    <string name="ota_title_activate" msgid="8616918561356194398">"Ativar o seu telefone"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Uma chamada especial precisa ser feita para ativar o serviço do seu telefone. "\n\n"Depois de pressionar “Ativar”, ouça as instruções fornecidas para ativar o seu telefone."</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Ativar"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"O telefone está ativado!"</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema com a ativação"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"Ouça as instruções para ativar o seu telefone. Fique na linha até ouvir a confirmação de que o seu telefone está ativado."</string>
+    <string name="ota_dialpad" msgid="3530900997110658409">"Teclado"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Alto-falante"</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Aguarde enquanto o seu telefone está sendo programado."</string>
+    <string name="ota_failure" msgid="8600027551822478181">"Falha de programação"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"O seu telefone está ativado. Pode demorar até 15 minutos para o serviço ser iniciado."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"O seu telefone não foi ativado. "\n"Talvez seja necessário encontrar uma área com uma cobertura melhor (próximo de uma janela ou no lado de fora). "\n\n"Tente novamente ou ligue para o serviço de atendimento ao cliente para obter mais opções."</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"FALHAS EM EXCESSO DE SPC"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Voltar"</string>
+    <string name="ota_try_again" msgid="7685477206465902290">"Tentar novamente"</string>
+    <string name="ota_next" msgid="3904945374358235910">"Próxima"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Voltar"</string>
+    <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Modo de retorno de chamada de emergência acessado"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modo de retorno de chamada de emergência"</string>
+    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
+    <skip />
+  <plurals name="phone_in_ecm_notification_time">
+    <item quantity="one" msgid="4866221796252472622">"Nenhuma conexão de dados durante <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
+    <item quantity="other" msgid="3122217344579273583">"Nenhuma conexão de dados durante <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
+  </plurals>
+  <plurals name="alert_dialog_exit_ecm">
+    <item quantity="one" msgid="2181569650640386253">"O telefone ficará no modo de retorno de chamada de emergência durante <xliff:g id="COUNT">%s</xliff:g> minuto. Enquanto estiver nesse modo, nenhum aplicativo que use uma conexão de dados poderá ser usado. Deseja sair?"</item>
+    <item quantity="other" msgid="3231879566243957821">"O telefone ficará no modo de retorno de chamada de emergência durante <xliff:g id="COUNT">%s</xliff:g> minutos. Enquanto estiver nesse modo, nenhum aplicativo que use uma conexão de dados poderá ser usado. Deseja sair?"</item>
+  </plurals>
+  <plurals name="alert_dialog_not_avaialble_in_ecm">
+    <item quantity="one" msgid="8939225905428421722">"A ação selecionada não está disponível no modo de retorno de chamada de emergência. O telefone ficará nesse modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. Deseja sair?"</item>
+    <item quantity="other" msgid="3489076611710869904">"A ação selecionada não está disponível no modo de retorno de chamada de emergência. O telefone ficará nesse modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. Deseja sair?"</item>
+  </plurals>
+    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
+    <skip />
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Saindo do modo de retorno de chamada de emergência"</string>
+    <string name="alert_dialog_yes" msgid="6674268047820703974">"Sim"</string>
+    <string name="alert_dialog_no" msgid="1476091437797628703">"Não"</string>
+    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
+    <skip />
+    <string name="voicemail_settings" msgid="2288633492587133022">"Configurações do correio de voz"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;não definido&gt;"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Serviço de correio de voz"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"Configurações para <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Outras configurações de chamada"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"Discar"</string>
+    <string name="calling_via_template" msgid="7374498518104190489">"Chamando por meio de ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
     <skip />
 </resources>
