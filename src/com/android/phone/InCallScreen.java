@@ -194,6 +194,12 @@ public class InCallScreen extends Activity
     public static final String OTA_NUMBER = "*228";
     public static final String EXTRA_OTA_CALL = "android.phone.extra.OTA_CALL";
 
+    // When InCallScreenMode is UNDEFINED set the default action
+    // to ACTION_UNDEFINED so if we are resumed the activity will
+    // know its undefined. In particular checkIsOtaCall will return
+    // false.
+    public static final String ACTION_UNDEFINED = "com.android.phone.InCallScreen.UNDEFINED";
+
     // High-level "modes" of the in-call UI.
     private enum InCallScreenMode {
         /**
@@ -607,9 +613,6 @@ public class InCallScreen extends Activity
         // dialer view is present:
         if (mDialerView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
-            // STOPSHIP: For now, throw an exception to make sure we notice
-            // this.  But remove this before ship.
-            throw new IllegalStateException("Couldn't find dialerView");
         }
         // Finally, create the DTMFTwelveKeyDialer instance.
         mDialer = new DTMFTwelveKeyDialer(this, mDialerView, dialerDrawer);
@@ -935,13 +938,13 @@ public class InCallScreen extends Activity
 
     @Override
     protected void onStop() {
-        if (VDBG) log("onStop()...");
+        if (DBG) log("onStop()...");
         super.onStop();
 
         stopTimer();
 
         Phone.State state = mPhone.getState();
-        if (VDBG) log("onStop: state = " + state);
+        if (DBG) log("onStop: state = " + state);
 
         if (state == Phone.State.IDLE) {
             final PhoneApp app = PhoneApp.getInstance();
@@ -1202,6 +1205,8 @@ public class InCallScreen extends Activity
                     mDialer.closeDialer(false);  // no "closing" animation
                 }
             }
+            return InCallInitStatus.SUCCESS;
+        } else if (action.equals(ACTION_UNDEFINED)) {
             return InCallInitStatus.SUCCESS;
         } else {
             Log.w(LOG_TAG, "internalResolveIntent: unexpected intent action: " + action);
@@ -3086,7 +3091,7 @@ public class InCallScreen extends Activity
      * Handles button clicks from the InCallTouchUi widget.
      */
     /* package */ void handleOnscreenButtonClick(int id) {
-        if (DBG) log("handleOnscreenButtonClick(id " + id + ")...");
+        if (VDBG) log("handleOnscreenButtonClick(id " + id + ")...");
 
         switch (id) {
             // TODO: since every button here corresponds to a menu item that we
@@ -3474,7 +3479,7 @@ public class InCallScreen extends Activity
      * ringing or waiting call.
      */
     /* package */ void internalAnswerCall() {
-        if (DBG) log("internalAnswerCall()...");
+        // if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
         final boolean hasRingingCall = !mRingingCall.isIdle();
@@ -3482,6 +3487,7 @@ public class InCallScreen extends Activity
         if (hasRingingCall) {
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                if (DBG) log("internalAnswerCall: answering (CDMA)...");
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(mPhone);  // Automatically holds the current active call,
                                                 // if there is one
@@ -3580,7 +3586,7 @@ public class InCallScreen extends Activity
      * sure the "call ended" state goes away after a couple of seconds.
      */
     private void setInCallScreenMode(InCallScreenMode newMode) {
-        if (VDBG) log("setInCallScreenMode: " + newMode);
+        if (DBG) log("setInCallScreenMode: " + newMode);
         mInCallScreenMode = newMode;
         switch (mInCallScreenMode) {
             case MANAGE_CONFERENCE:
@@ -3664,9 +3670,34 @@ public class InCallScreen extends Activity
                 break;
 
             case UNDEFINED:
+                // Set our Activities intent to ACTION_UNDEFINED so
+                // that if we get resumed after we've completed a call
+                // the next call will not cause checkIsOtaCall to
+                // return true.
+                //
+                // With the framework as of October 2009 the sequence below
+                // causes the framework to call onResume, onPause, onNewIntent,
+                // onResume. If we don't call setIntent below then when the
+                // first onResume calls checkIsOtaCall via initOtaState it will
+                // return true and the Activity will be confused.
+                //
+                //  1) Power up Phone A
+                //  2) Place *22899 call and activate Phone A
+                //  3) Press the power key on Phone A to turn off the display
+                //  4) Call Phone A from Phone B answering Phone A
+                //  5) The screen will be blank (Should be normal InCallScreen)
+                //  6) Hang up the Phone B
+                //  7) Phone A displays the activation screen.
+                //
+                // Step 3 is the critical step to cause the onResume, onPause
+                // onNewIntent, onResume sequence. If step 3 is skipped the
+                // sequence will be onNewIntent, onResume and all will be well.
+                setIntent(new Intent(ACTION_UNDEFINED));
+
+                // Cleanup Ota Screen if necessary and set the panel
+                // to VISIBLE.
                 if (otaUtils != null) {
-                    otaUtils.setCdmaOtaInCallScreenUiState(
-                            OtaUtils.CdmaOtaInCallScreenUiState.State.UNDEFINED);
+                    otaUtils.cleanOtaScreen();
                 }
                 mInCallPanel.setVisibility(View.VISIBLE);
                 break;
@@ -3787,8 +3818,11 @@ public class InCallScreen extends Activity
         //     SlidingDrawer-based dialpad, because the SlidingDrawer itself
         //     is opaque.)
         if (!mDialer.usingSlidingDrawer()) {
-            mDialerView.setKeysBackgroundResource(
-                isBluetoothAudioConnected() ? R.drawable.btn_dial_blue : R.drawable.btn_dial_green);
+            if (mDialerView != null) {
+                mDialerView.setKeysBackgroundResource(
+                        isBluetoothAudioConnected() ? R.drawable.btn_dial_blue
+                        : R.drawable.btn_dial_green);
+            }
 
             if (isDialerOpened()) {
                 mInCallPanel.setVisibility(View.GONE);
@@ -4699,6 +4733,10 @@ public class InCallScreen extends Activity
                 } else {
                     if (DBG) log("initOtaState - Set OTA NORMAL Mode");
                     setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+                }
+            } else {
+                if (otaUtils != null) {
+                    otaUtils.cleanOtaScreen();
                 }
             }
         }

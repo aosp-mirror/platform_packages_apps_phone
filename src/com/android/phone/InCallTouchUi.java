@@ -44,8 +44,7 @@ import com.android.internal.widget.RotarySelector;
 public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, RotarySelector.OnDialTriggerListener {
     private static final String LOG_TAG = "InCallTouchUi";
-    private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -278,10 +277,8 @@ public class InCallTouchUi extends FrameLayout
                 break;
 
             default:
-                if (DBG) log("onClick: unexpected click: View " + view + ", id " + id);
-                throw new IllegalStateException("Unexpected click event");
-                // TODO: remove above "throw" after initial debugging.
-                // break;
+                Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
+                break;
         }
     }
 
@@ -448,7 +445,7 @@ public class InCallTouchUi extends FrameLayout
      *   - R.id.rejectButton to reject the call.
      */
     public void onDialTrigger(View v, int whichHandle) {
-        if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
+        log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
             case RotarySelector.OnDialTriggerListener.LEFT_HANDLE:
