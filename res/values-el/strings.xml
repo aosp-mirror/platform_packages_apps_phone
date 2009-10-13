@@ -17,10 +17,10 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Επαφές"</string>
     <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Αγαπ."</string>
-    <string name="dialerIconLabel" msgid="1761864493312440268">"Πρόγρ.κλήσ."</string>
+    <string name="dialerIconLabel" msgid="1761864493312440268">"Κλήσεις"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Πρόγραμμα κλήσης έκτακτης ανάγκης"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Τηλέφωνο"</string>
-    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Αρχ.καταγρ.κλ."</string>
+    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Αρχείο"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Λίστα FDN"</string>
     <string name="unknown" msgid="6878797917991465859">"Άγνωστος"</string>
     <string name="private_num" msgid="6713286113000232309">"Απόκρυψη"</string>
@@ -62,10 +62,10 @@
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Σίγαση"</string>
     <string name="menu_hold" msgid="6970441130344786273">"Αναμονή"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Τερματ. κλήσ."</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Ανταλλαγή κλήσεων"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Συγχών. κλήσ."</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Προσθ. κλήσ."</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Τερματισμός"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Αλλαγή κλ."</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Συγχώνευση"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Προσθήκη"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Διαχείριση κλήσης συνδιάσκεψης"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Εμφάνιση πληκτρολογίου κλήσης"</string>
     <string name="menu_hideDialpad" msgid="2733813546746296771">"Απόκρυψη πληκτρολογίου κλήσης"</string>

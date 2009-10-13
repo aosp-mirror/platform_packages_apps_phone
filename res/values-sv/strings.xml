@@ -99,8 +99,8 @@
     <string name="unlock_failed" msgid="6490531697031504225">"Det gick inte att låsa upp nätverket."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Nätverket upplåst"</string>
     <string name="imei" msgid="8552502717594321281">"IMEI-kod"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Samtalsinställningar för GSM"</string>
-    <string name="labelCDMAMore" msgid="1630676740428229339">"Samtalsinställningar för CDMA"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Samtalsinst. för GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Samtalsinst. för CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Åtkomstpunktsnamn"</string>
     <string name="settings_label" msgid="3876743539816984008">"Nätverksinställningar"</string>
     <string name="voicemail" msgid="8693759337917898954">"Röstbrevlåda"</string>

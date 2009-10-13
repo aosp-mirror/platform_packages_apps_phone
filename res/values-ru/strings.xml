@@ -61,9 +61,9 @@
     <string name="menu_speaker" msgid="6069700688651964705">"Динамик"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Микрофон выкл."</string>
-    <string name="menu_hold" msgid="6970441130344786273">"Удерживать"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Удержание"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"Завершить вызов"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Переключиться на другой вызов"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Другой вызов"</string>
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Объединить вызовы"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Добавить вызов"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Управление конференц-связью"</string>

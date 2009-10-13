@@ -62,10 +62,10 @@
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Demp"</string>
     <string name="menu_hold" msgid="6970441130344786273">"Parker"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Avslutt samtale"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Avslutt"</string>
     <string name="menu_swapCalls" msgid="1548647524816600795">"Bytt samtale"</string>
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Slå sammen samtaler"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Legg til samtale"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Legg til"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Styr telefonmøte"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Vis talltastatur"</string>
     <string name="menu_hideDialpad" msgid="2733813546746296771">"Skjul talltastatur"</string>
@@ -99,7 +99,7 @@
     <string name="unlock_failed" msgid="6490531697031504225">"Fikk ikke fjerne operatørlås."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Operatørlåsen er fjernet."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Innstillinger for GSM-samtaler"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Innstillinger for GSM-samt."</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Innstillinger for CDMA-samtaler"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Navn på aksesspunkt"</string>
     <string name="settings_label" msgid="3876743539816984008">"Nettverksinnstillinger"</string>
