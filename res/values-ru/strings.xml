@@ -59,9 +59,9 @@
     <string name="menu_speaker" msgid="6069700688651964705">"Динамик"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Микрофон выкл."</string>
-    <string name="menu_hold" msgid="6970441130344786273">"Удерживать"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Удержание"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"Завершить вызов"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Переключиться на другой вызов"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Другой вызов"</string>
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Объединить вызовы"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Добавить вызов"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Управление конференц-связью"</string>
@@ -159,6 +159,10 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Сохранить номер голосовой почты"</string>
     <string name="vm_changed" msgid="380744030726254139">"Номер голосовой почты изменен."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Не удалось изменить номер голосовой почты."</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
     <string name="no_change" msgid="3186040086622435212">"Номер не изменен."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Выберите службу голосовой почты"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Мой оператор"</string>
@@ -481,9 +485,11 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Используйте клавиатуру для набора номера"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Тональная клавиатура"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Номеронабиратель"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Дважды нажмите"\n"для снятия блокировки"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Дважды нажмите"\n"для ответа"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Дважды нажмите"\n"для отклонения"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Нажмите дважды"\n"для разблокировки"</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
     <string name="onscreenHoldText" msgid="2285258239691145872">"Удерживать"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Снять удержание"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Завершить"</string>
@@ -564,4 +570,16 @@
     <string name="other_settings" msgid="3672912580359716394">"Другие настройки вызовов"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Набрать"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Звонок через ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
+    <skip />
 </resources>

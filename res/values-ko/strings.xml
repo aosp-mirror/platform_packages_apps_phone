@@ -159,6 +159,10 @@
     <string name="vm_save_number" msgid="4579969432544566719">"음성메일 번호 저장"</string>
     <string name="vm_changed" msgid="380744030726254139">"음성메일 번호가 변경되었습니다."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"음성메일 번호를 변경하지 못했습니다."</string>
+    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <skip />
+    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <skip />
     <string name="no_change" msgid="3186040086622435212">"변경사항이 없습니다."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"음성메일 서비스 선택"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"내 이동통신사"</string>
@@ -481,9 +485,11 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"터치톤 키패드"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"다이얼패드"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"잠금을 해제하려면"\n"두 번 터치"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"통화에 응답하려면"\n"두 번 터치"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"통화를 거부하려면"\n"두 번 터치"</string>
+    <string name="touchLockText" msgid="566824588267376287">"잠금해제하려면"\n"두 번 누르세요."</string>
+    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
+    <skip />
+    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
+    <skip />
     <string name="onscreenHoldText" msgid="2285258239691145872">"길게 누르기"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"놓기"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"종료"</string>
@@ -564,4 +570,16 @@
     <string name="other_settings" msgid="3672912580359716394">"기타 통화 설정"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"전화걸기"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"^1"\n<b>"^2"</b>"을(를) 통해 전화걸기"</string>
+    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <skip />
+    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <skip />
+    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <skip />
+    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
+    <skip />
 </resources>
