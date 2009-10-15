@@ -42,59 +42,52 @@ public class SpecialCharSequenceMgr {
     private SpecialCharSequenceMgr() {
     }
 
-    static boolean handleChars(Context context, String input) {
-        return handleChars(context, input, false, null);
-    }
-    
     /**
-     * Generally used for the PUK unlocking case, where we
-     * want to be able to maintain a handle to the calling
-     * activity so that we can close it or otherwise display
+     * Check for special strings of digits from an input
+     * string.
+     * @param context input Context for the events we handle.
+     * @param input the dial string to be examined.
+     */
+    static boolean handleChars(Context context, String input) {
+        return handleChars(context, input, null);
+    }
+
+    /**
+     * Generally used for the Personal Unblocking Key (PUK) unlocking
+     * case, where we want to be able to maintain a handle to the
+     * calling activity so that we can close it or otherwise display
      * indication if the PUK code is recognized.
-     * 
+     *
      * NOTE: The counterpart to this file in Contacts does
      * NOT contain the special PUK handling code, since it
      * does NOT need it.  When the device gets into PUK-
      * locked state, the keyguard comes up and the only way
      * to unlock the device is through the Emergency dialer,
      * which is still in the Phone App.
-     */
-    static boolean handleChars(Context context, String input, Activity pukInputActivity) {
-        return handleChars(context, input, false, pukInputActivity);
-    }
-
-    static boolean handleChars(Context context, String input, boolean useSystemWindow) {
-        return handleChars(context, input, useSystemWindow, null);
-    }
-
-    /**
-     * Check for special strings of digits from an input 
-     * string.
-     * 
-     * @param context input Context for the events we handle
-     * @param input the dial string to be examined
-     * @param useSystemWindow used for the IMEI event to
-     * determine display behaviour.
+     *
+     * @param context input Context for the events we handle.
+     * @param input the dial string to be examined.
      * @param pukInputActivity activity that originated this
-     * PUK call, tracked so that we can close it or otherwise 
-     * indicate that special character sequence is 
-     * successfully processed. 
+     * PUK call, tracked so that we can close it or otherwise
+     * indicate that special character sequence is
+     * successfully processed. Can be null.
+     * @return true if the input was a special string which has been
+     * handled.
      */
     static boolean handleChars(Context context,
-                               String input, 
-                               boolean useSystemWindow,
+                               String input,
                                Activity pukInputActivity) {
-        
-        //get rid of the separators so that the string gets parsed correctly 
+
+        //get rid of the separators so that the string gets parsed correctly
         String dialString = PhoneNumberUtils.stripSeparators(input);
-        
-        if (handleIMEIDisplay(context, dialString, useSystemWindow)
+
+        if (handleIMEIDisplay(context, dialString)
             || handlePinEntry(context, dialString, pukInputActivity)
             || handleAdnEntry(context, dialString)
             || handleSecretCode(context, dialString)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -102,12 +95,12 @@ public class SpecialCharSequenceMgr {
      * Handles secret codes to launch arbitrary activities in the form of *#*#<code>#*#*.
      * If a secret code is encountered an Intent is started with the android_secret_code://<code>
      * URI.
-     * 
+     *
      * @param context the context to use
      * @param input the text to check for a secret code in
      * @return true if a secret code was encountered
      */
-    static boolean handleSecretCode(Context context, String input) {
+    static private boolean handleSecretCode(Context context, String input) {
         // Secret codes are in the form *#*#<code>#*#*
         int len = input.length();
         if (len > 8 && input.startsWith("*#*#") && input.endsWith("#*#*")) {
@@ -120,9 +113,9 @@ public class SpecialCharSequenceMgr {
         return false;
     }
 
-    static boolean handleAdnEntry(Context context, String input) {
+    static private boolean handleAdnEntry(Context context, String input) {
         /* ADN entries are of the form "N(N)(N)#" */
-        
+
         // if the phone is keyguard-restricted, then just ignore this
         // input.  We want to make sure that sim card contacts are NOT
         // exposed unless the phone is unlocked, and this code can be
@@ -130,7 +123,7 @@ public class SpecialCharSequenceMgr {
         if (PhoneApp.getInstance().getKeyguardManager().inKeyguardRestrictedInputMode()) {
             return false;
         }
-        
+
         int len = input.length();
         if ((len > 1) && (len < 5) && (input.endsWith("#"))) {
             try {
@@ -149,14 +142,16 @@ public class SpecialCharSequenceMgr {
         return false;
     }
 
-    static boolean handlePinEntry(Context context, String input, Activity pukInputActivity) {
-        // TODO: The string constants here should be removed in favor of some call to a 
-        // static the MmiCode class that determines if a dialstring is an MMI code.
-        if ((input.startsWith("**04") || input.startsWith("**05")) 
+    static private boolean handlePinEntry(Context context, String input,
+                                          Activity pukInputActivity) {
+        // TODO: The string constants here should be removed in favor
+        // of some call to a static the MmiCode class that determines
+        // if a dialstring is an MMI code.
+        if ((input.startsWith("**04") || input.startsWith("**05"))
                 && input.endsWith("#")) {
             PhoneApp app = PhoneApp.getInstance();
             boolean isMMIHandled = app.phone.handlePinMmi(input);
-            
+
             // if the PUK code is recognized then indicate to the
             // phone app that an attempt to unPUK the device was
             // made with this activity.  The PUK code may still
@@ -170,15 +165,15 @@ public class SpecialCharSequenceMgr {
         return false;
     }
 
-    static boolean handleIMEIDisplay(Context context,
-                                     String input, boolean useSystemWindow) {
+    static private boolean handleIMEIDisplay(Context context,
+                                             String input) {
         if (input.equals(MMI_IMEI_DISPLAY)) {
             int phoneType = PhoneApp.getInstance().phone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                showMEIDPanel(context, useSystemWindow);
+                showMEIDPanel(context);
                 return true;
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                showIMEIPanel(context, useSystemWindow);
+                showIMEIPanel(context);
                 return true;
             }
         }
@@ -186,7 +181,9 @@ public class SpecialCharSequenceMgr {
         return false;
     }
 
-    static void showIMEIPanel(Context context, boolean useSystemWindow) {
+    // TODO: showIMEIPanel and showMEIDPanel are almost cut and paste
+    // clones. Refactor.
+    static private void showIMEIPanel(Context context) {
         if (DBG) log("showIMEIPanel");
 
         String imeiStr = PhoneFactory.getDefaultPhone().getDeviceId();
@@ -200,7 +197,7 @@ public class SpecialCharSequenceMgr {
         alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
     }
 
-    static void showMEIDPanel(Context context, boolean useSystemWindow) {
+    static private void showMEIDPanel(Context context) {
         if (DBG) log("showMEIDPanel");
 
         String meidStr = PhoneFactory.getDefaultPhone().getDeviceId();
