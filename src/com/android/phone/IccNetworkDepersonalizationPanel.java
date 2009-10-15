@@ -74,7 +74,7 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
 
         public void afterTextChanged(Editable buffer) {
             if (SpecialCharSequenceMgr.handleChars(
-                    getContext(), buffer.toString(), true)) {
+                    getContext(), buffer.toString())) {
                 mPinEntry.getText().clear();
             }
         }

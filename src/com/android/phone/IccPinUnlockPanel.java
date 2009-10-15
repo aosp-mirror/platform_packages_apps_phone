@@ -95,7 +95,7 @@ public class IccPinUnlockPanel extends IccPanel {
 
         public void afterTextChanged(Editable buffer) {
             if (SpecialCharSequenceMgr.handleChars(
-                    mContext, buffer.toString(), true)) {
+                    mContext, buffer.toString())) {
                 mEntry.getText().clear();
             }
         }
@@ -246,7 +246,7 @@ public class IccPinUnlockPanel extends IccPanel {
 
         // store the ICC pin in memory, to be used later for keyguard lock
         // and radio reboots.
-        PhoneApp.getInstance().setCachedSimPin(mEntry.getText().toString()); 
+        PhoneApp.getInstance().setCachedSimPin(mEntry.getText().toString());
     }
 
     void handleFailure() {
