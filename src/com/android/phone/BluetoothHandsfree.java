@@ -227,17 +227,7 @@ public class BluetoothHandsfree {
     }
 
     /* package */ synchronized void onBluetoothDisabled() {
-        if (mConnectedSco != null) {
-            mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
-                    mHeadset.getRemoteDevice());
-            mConnectedSco.close();
-            mConnectedSco = null;
-        }
-        if (mOutgoingSco != null) {
-            mOutgoingSco.close();
-            mOutgoingSco = null;
-        }
+        audioOff();
         if (mIncomingSco != null) {
             mIncomingSco.close();
             mIncomingSco = null;
@@ -1111,8 +1101,10 @@ public class BluetoothHandsfree {
                 ", mA2dpSuspended: "+mA2dpSuspended);
 
         if (mA2dpSuspended) {
-            if (DBG) log("resuming A2DP stream after disconnecting SCO");
-            mA2dp.resumeSink(mA2dpDevice);
+            if (isA2dpMultiProfile()) {
+              if (DBG) log("resuming A2DP stream after disconnecting SCO");
+              mA2dp.resumeSink(mA2dpDevice);
+            }
             mA2dpSuspended = false;
         }
 
@@ -1129,12 +1121,6 @@ public class BluetoothHandsfree {
         if (mOutgoingSco != null) {
             mOutgoingSco.close();
             mOutgoingSco = null;
-        }
-
-        mPendingSco = false;
-        if (isA2dpMultiProfile() && mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
-            if (DBG) log("resuming A2DP stream after SCO");
-            mA2dp.resumeSink(mA2dpDevice);
         }
     }
 
