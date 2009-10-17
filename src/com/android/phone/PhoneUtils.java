@@ -647,6 +647,22 @@ public class PhoneUtils {
         return CALL_STATUS_DIALED;
     }
 
+    /**
+     * Wrapper function to control when to send an empty Flash command to the network.
+     * Mainly needed for CDMA networks, such as scenarios when we need to send a blank flash
+     * to the network prior to placing a 3-way call for it to be successful.
+     */
+    static void sendEmptyFlash(Phone phone) {
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            Call fgCall = phone.getForegroundCall();
+            if (fgCall.getState() == Call.State.ACTIVE) {
+                // Send the empty flash
+                if (DBG) Log.d(LOG_TAG, "onReceive: (CDMA) sending empty flash to network");
+                switchHoldingAndActive(phone);
+            }
+        }
+    }
+
     static void switchHoldingAndActive(Phone phone) {
         try {
             if (DBG) log("switchHoldingAndActive");
