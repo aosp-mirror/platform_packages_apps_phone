@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Config;
 import com.android.internal.telephony.Phone;
 import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -46,6 +47,18 @@ public class OutgoingCallBroadcaster extends Activity {
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
 
     /**
+     * Identifier for intent extra for sending an empty Flash message for
+     * CDMA networks. This message is used by the network to simulate a
+     * press/depress of the "hookswitch" of a landline phone. Aka "empty flash".
+     *
+     * TODO: Receiving an intent extra to tell the phone to send this flash is a
+     * temporary measure. To be replaced with an external ITelephony call in the future.
+     * TODO: Keep in sync with the string defined in TwelveKeyDialer.java in Contacts app
+     * until this is replaced with the ITelephony API.
+     */
+    public static final String EXTRA_SEND_EMPTY_FLASH = "com.android.phone.extra.SEND_EMPTY_FLASH";
+
+    /**
      * OutgoingCallReceiver finishes NEW_OUTGOING_CALL broadcasts, starting
      * the InCallScreen if the broadcast has not been canceled, possibly with
      * a modified phone number and optional provider info (uri + package name + remote views.)
@@ -59,7 +72,7 @@ public class OutgoingCallBroadcaster extends Activity {
             doReceive(context, intent);
             finish();
         }
-        
+
         public void doReceive(Context context, Intent intent) {
             boolean alreadyCalled;
             String number;
@@ -137,7 +150,7 @@ public class OutgoingCallBroadcaster extends Activity {
             context.startActivity(newIntent);
         }
     }
-    
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -227,10 +240,18 @@ public class OutgoingCallBroadcaster extends Activity {
         // as well.
         PhoneApp.getInstance().wakeUpScreen();
 
-        /* If number is null, we're probably trying to call a non-existent voicemail number or
-         * something else fishy.  Whatever the problem, there's no number, so there's no point
-         * in allowing apps to modify the number. */
-        if (number == null) callNow = true;
+        /* If number is null, we're probably trying to call a non-existent voicemail number,
+         * send an empty flash or something else is fishy.  Whatever the problem, there's no
+         * number, so there's no point in allowing apps to modify the number. */
+        if (number == null || TextUtils.isEmpty(number)) {
+            if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
+                PhoneUtils.sendEmptyFlash(PhoneApp.getInstance().phone);
+                finish();
+                return;
+            } else {
+                callNow = true;
+            }
+        }
 
         if (callNow) {
             intent.setClass(this, InCallScreen.class);
