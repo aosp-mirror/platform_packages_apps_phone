@@ -313,6 +313,13 @@ public class CallFeaturesSetting extends PreferenceActivity
      * due to vm provider change.
      */
     boolean mVMProviderSettingsForced = false;
+
+    /**
+     * Flag indicating that we are making changes to vm or fwd numbers
+     * due to vm provider change.
+     */
+    boolean mChangingVMorFwdDueToProviderChange = false;
+
     /**
      * Data about discovered voice mail settings providers.
      * Is populated by querying which activities can handle ACTION_CONFIGURE_VOICEMAIL.
@@ -539,6 +546,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 }
                 return;
             }
+            mChangingVMorFwdDueToProviderChange = isVMProviderSettingsForced;
             final String fwdNum = data.getStringExtra(FWD_NUMBER_EXTRA);
 
             // TODO(iliat): It would be nice to load the current network setting for this and
@@ -809,17 +817,30 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         if (success) {
             if (DBG) log("change VM success!");
-            showVMDialog(MSG_VM_OK);
+            handleVMAndFwdSetSuccess(MSG_VM_OK);
         } else {
             if (fwdFailure) {
                 log("change FW failed: " + exceptionMessage);
-                showVMDialog(MSG_FW_SET_EXCEPTION);
+                handleVMOrFwdSetError(MSG_FW_SET_EXCEPTION);
             } else {
                 log("change VM failed: " + exceptionMessage);
-                showVMDialog(MSG_VM_EXCEPTION);
+                handleVMOrFwdSetError(MSG_VM_EXCEPTION);
             }
         }
         updateVoiceNumberField();
+    }
+
+    private void handleVMOrFwdSetError(int msgId) {
+        if (mChangingVMorFwdDueToProviderChange) {
+            switchToPreviousVoicemailProvider();
+        }
+        mChangingVMorFwdDueToProviderChange = false;
+        showVMDialog(msgId);
+    }
+
+    private void handleVMAndFwdSetSuccess(int msgId) {
+        mChangingVMorFwdDueToProviderChange = false;
+        showVMDialog(msgId);
     }
 
     /*
