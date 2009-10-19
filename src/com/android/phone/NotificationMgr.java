@@ -363,6 +363,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     /**
+     * Configures a Notification to emit the blinky green message-waiting/
+     * missed-call signal.
+     */
+    private static void configureLedNotification(Notification note) {
+        note.flags |= Notification.FLAG_SHOW_LIGHTS;
+        note.ledARGB = 0xff00ff00;
+        note.ledOnMS = 500;
+        note.ledOffMS = 2000;
+    }
+
+    /**
      * Displays a notification about a missed call.
      *
      * @param nameOrNumber either the contact name, or the phone number if no contact
@@ -404,18 +415,16 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         final Intent intent = PhoneApp.createCallLogIntent();
 
         // make the notification
-        mNotificationMgr.notify(
-                MISSED_CALL_NOTIFICATION,
-                new Notification(
-                    mContext,  // context
-                    android.R.drawable.stat_notify_missed_call,  // icon
-                    mContext.getString(
-                            R.string.notification_missedCallTicker, callName), // tickerText
-                    date, // when
-                    mContext.getText(titleResId), // expandedTitle
-                    expandedText,  // expandedText
-                    intent // contentIntent
-                    ));
+        Notification note = new Notification(mContext, // context
+                android.R.drawable.stat_notify_missed_call, // icon
+                mContext.getString(R.string.notification_missedCallTicker, callName), // tickerText
+                date, // when
+                mContext.getText(titleResId), // expandedTitle
+                expandedText, // expandedText
+                intent // contentIntent
+                );
+        configureLedNotification(note);
+        mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
     }
 
     void cancelMissedCallNotification() {
@@ -776,14 +785,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     );
             notification.defaults |= Notification.DEFAULT_SOUND;
             notification.flags |= Notification.FLAG_NO_CLEAR;
-            notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-            notification.ledARGB = 0xff00ff00;
-            notification.ledOnMS = 500;
-            notification.ledOffMS = 2000;
-
-            mNotificationMgr.notify(
-                    VOICEMAIL_NOTIFICATION,
-                    notification);
+            configureLedNotification(notification);
+            mNotificationMgr.notify(VOICEMAIL_NOTIFICATION, notification);
         } else {
             mNotificationMgr.cancel(VOICEMAIL_NOTIFICATION);
         }
