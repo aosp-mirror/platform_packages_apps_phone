@@ -111,4 +111,9 @@
          (which can be overridden on a per-product basis.) -->
     <bool name="config_show_onscreen_dial_button">true</bool>
 
+    <!-- Determine whether calls to mute the microphone in PhoneUtils
+         are routed through the android.media.AudioManager class (true) or through
+         the com.android.internal.telephony.Phone interface (false). -->
+    <bool name="send_mic_mute_to_AudioManager">false</bool>
+
 </resources>

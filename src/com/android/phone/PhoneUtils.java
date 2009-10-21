@@ -1724,7 +1724,17 @@ public class PhoneUtils {
      */
     static void setMuteInternal(Phone phone, boolean muted) {
         if (DBG) log("setMute: " + muted);
-        phone.setMute(muted);
+        Context context = phone.getContext();
+        boolean routeToAudioManager =
+            context.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+        if (routeToAudioManager) {
+            AudioManager audioManager =
+                (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+            if (DBG) log(" setMicrophoneMute: " + muted);
+            audioManager.setMicrophoneMute(muted);
+        } else {
+            phone.setMute(muted);
+        }
         if (muted) {
             NotificationMgr.getDefault().notifyMute();
         } else {
@@ -1733,7 +1743,16 @@ public class PhoneUtils {
     }
 
     static boolean getMute(Phone phone) {
-        return phone.getMute();
+        Context context = phone.getContext();
+        boolean routeToAudioManager =
+            context.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+        if (routeToAudioManager) {
+            AudioManager audioManager =
+                (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+            return audioManager.isMicrophoneMute();
+        } else {
+            return phone.getMute();
+        }
     }
 
     /**
