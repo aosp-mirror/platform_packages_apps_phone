@@ -59,9 +59,9 @@
     <string name="menu_speaker" msgid="6069700688651964705">"Динамик"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Микрофон выкл."</string>
-    <string name="menu_hold" msgid="6970441130344786273">"Удерживать"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"Удержание"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"Завершить вызов"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Переключиться на другой вызов"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"Другой вызов"</string>
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Объединить вызовы"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Добавить вызов"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Управление конференц-связью"</string>
@@ -159,6 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Сохранить номер голосовой почты"</string>
     <string name="vm_changed" msgid="380744030726254139">"Номер голосовой почты изменен."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Не удалось изменить номер голосовой почты."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"Не удалось изменить номер переадресации."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Не удалось извлечь и сохранить текущие настройки переадресации."\n"Все равно сменить провайдера?"</string>
     <string name="no_change" msgid="3186040086622435212">"Номер не изменен."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Выберите службу голосовой почты"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Мой оператор"</string>
@@ -456,10 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Новое сообщение голосовой почты (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Набор <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Номер голосовой почты неизвестен"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Сеть не найдена"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Выбранная сеть (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) недоступна."</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Перед тем как звонить, отключите режим полета."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Нет регистрации в сети."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Вызов не осуществляется, действительный номер телефона не указан."</string>
@@ -481,9 +481,9 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Используйте клавиатуру для набора номера"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Тональная клавиатура"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Номеронабиратель"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Дважды нажмите"\n"для снятия блокировки"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Дважды нажмите"\n"для ответа"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Дважды нажмите"\n"для отклонения"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Нажмите дважды"\n"для разблокировки"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Нажмите дважды,"\n"чтобы ответить."</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Нажмите дважды,"\n"чтобы отклонить."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Удерживать"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Снять удержание"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Завершить"</string>
@@ -520,14 +520,14 @@
     <string name="ota_touch_activate" msgid="6553212803262586244">"Необходим специальный звонок для активации службы телефона. "\n\n"После нажатия кнопки \"Активировать\" прослушайте инструкции по активации телефона."</string>
     <string name="ota_activate" msgid="1368528132525626264">"Активировать"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Телефон активирован!"</string>
-    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Проблема с активацией"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Прослушайте инструкции по активации телефона. Оставайтесь на линии, чтобы услышать подтверждение об активации телефона."</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Неполадки при активации"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"Прослушайте инструкции по активации телефона. Оставайтесь на связи, чтобы услышать подтверждение об активации телефона."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Клавиатура"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Динамик"</string>
-    <string name="ota_progress" msgid="4644512049143969504">"Дождитесь завершения программирования вашего телефона."</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Дождитесь завершения программирования телефона."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Сбой при программировании"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Ваш телефон активирован. Включение службы может занять до 15 минут."</string>
-    <string name="ota_unsuccessful" msgid="623361244652068739">"Телефон не был активирован. "\n"Возможно, вам следует найти зону с лучшим покрытием (у окна или на улице). "\n\n"Повторите попытку или свяжитесь со службой поддержки."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Телефон не был активирован. "\n"Возможно, вам следует найти зону с более высоким уровнем сигнала (у окна или на улице). "\n\n"Повторите попытку или свяжитесь со службой поддержки."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"ПРЕВЫШЕНИЕ ЧИСЛА ОШИБОК SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Назад"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Повторите попытку"</string>
@@ -536,8 +536,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"ДиалогВыходаРАЭВ"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Телефон переведен в режим экстренных обратных вызовов"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Режим экстренных обратных вызовов"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Передача данных отключена"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Подключение для передачи данных отсутствует <xliff:g id="COUNT">%s</xliff:g> мин."</item>
     <item quantity="other" msgid="3122217344579273583">"Подключение для передачи данных отсутствует <xliff:g id="COUNT">%s</xliff:g> мин."</item>
@@ -550,18 +549,22 @@
     <item quantity="one" msgid="8939225905428421722">"Выбранное действие недоступно в режиме экстренных обратных вызовов. Телефон будет оставаться в этом режиме еще <xliff:g id="COUNT">%s</xliff:g> мин. Выйти из режима?"</item>
     <item quantity="other" msgid="3489076611710869904">"Выбранное действие недоступно в режиме экстренных обратных вызовов. Телефон будет оставаться в этом режиме еще <xliff:g id="COUNT">%s</xliff:g> мин. Выйти из режима?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"Выбранное действие невозможно в режиме экстренной связи"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Выход из режима экстренных обратных вызовов"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Да"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Нет"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Закрыть"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Настройки голосовой почты"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;не задано&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Служба голосовой почты"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Настройки (<xliff:g id="PROVIDER_NAME">%s</xliff:g>)"</string>
     <string name="other_settings" msgid="3672912580359716394">"Другие настройки вызовов"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Набрать"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"Набор номера"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Звонок через ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Поверните, чтобы ответить"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Поверните, чтобы отключить звонок"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Поверните, чтобы отклонить вызов"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Поверните, чтобы ответить,"\n"удерживая активный вызов"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Поверните, чтобы ответить,"\n"завершив активный вызов"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Поверните, чтобы ответить,"\n"завершив удерживаемый вызов"</string>
 </resources>

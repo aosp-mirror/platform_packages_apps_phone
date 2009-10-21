@@ -101,7 +101,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Desbloqueo de red correcto."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Configuración de llamadas de GSM"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Config. de llam. GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Configuración de llamadas de CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Nombres de puntos de acc."</string>
     <string name="settings_label" msgid="3876743539816984008">"Configuración de red"</string>
