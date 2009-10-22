@@ -103,7 +103,7 @@
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Configurações de chamada GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Configurações de chamada CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Nomes do ponto de acesso"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Nomes ponto de acesso"</string>
     <string name="settings_label" msgid="3876743539816984008">"Configurações de rede"</string>
     <string name="voicemail" msgid="8693759337917898954">"Correio de voz"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
@@ -122,7 +122,7 @@
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Durante uma chamada, me avise sobre chamadas recebidas"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Configurações de encaminhamento de chamada"</string>
-    <string name="labelCF" msgid="2574386948026924737">"Encaminhamento de chamada"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Encaminhamento"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Sempre encaminhar"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Sempre usar este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Encaminhando todas as chamadas"</string>
@@ -159,6 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Salvar o número do correio de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"Número do correio de voz alterado."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Falha na alteração de número do correio de voz."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"Falha na alteração de número de encaminhamento."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Falha ao recuperar e salvar as configurações atuais de números de encaminhamento."\n"Deseja mudar para a nova operadora mesmo assim?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nenhuma alteração foi feita."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Escolha o serviço de correio de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Minha operadora"</string>
@@ -355,7 +357,7 @@
     <item msgid="4377788417250295786">"0"</item>
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
-    <string name="fdn" msgid="7878832555095183202">"Números de chamadas fixas"</string>
+    <string name="fdn" msgid="7878832555095183202">"Chamadas fixas"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Lista FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Ativação do FDN"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Os números de chamadas fixas estão ativados"</string>
@@ -456,10 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Novo correio de voz (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Discar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número do correio de voz desconhecido"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Sem serviço"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"A rede selecionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) não está disponível"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para fazer uma chamada, primeiro desative o modo avião."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Não registrado na rede."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chamada não enviada, nenhum número válido foi inserido."</string>
@@ -481,9 +481,9 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Use o teclado para discar"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado multifrequencial"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Teclado"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Toque duas vezes"\n"para desbloquear"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Toque duas vezes"\n"para atender"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Toque duas vezes"\n"para recusar"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Toque duas vezes"\n"para desbloquear"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Toque duas vezes"\n"para responder"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Toque duas vezes"\n"para recusar"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Em espera"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Desativar modo de espera"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Finalizar"</string>
@@ -536,8 +536,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Modo de retorno de chamada de emergência acessado"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modo de retorno de chamada de emergência"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Conexão de dados desativada"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Nenhuma conexão de dados durante <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
     <item quantity="other" msgid="3122217344579273583">"Nenhuma conexão de dados durante <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
@@ -550,13 +549,11 @@
     <item quantity="one" msgid="8939225905428421722">"A ação selecionada não está disponível no modo de retorno de chamada de emergência. O telefone ficará nesse modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. Deseja sair?"</item>
     <item quantity="other" msgid="3489076611710869904">"A ação selecionada não está disponível no modo de retorno de chamada de emergência. O telefone ficará nesse modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. Deseja sair?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"A ação selecionada não está disponível durante uma chamada de emergência"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Saindo do modo de retorno de chamada de emergência"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sim"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Não"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Descartar"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Configurações do correio de voz"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;não definido&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Serviço de correio de voz"</string>
@@ -564,4 +561,10 @@
     <string name="other_settings" msgid="3672912580359716394">"Outras configurações de chamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Discar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Chamando por meio de ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Gire para atender"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Gire para silenciar a campainha"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Gire para recusar a chamada"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Gire para atender e"\n"colocar a chamada ativa em espera"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Gire para atender e"\n"finalizar a chamada ativa"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Gire para atender e"\n"finalizar a chamada em espera"</string>
 </resources>

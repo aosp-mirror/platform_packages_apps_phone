@@ -159,6 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Enregistrer le numéro de messagerie vocale"</string>
     <string name="vm_changed" msgid="380744030726254139">"Le numéro de messagerie vocale a été modifié."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Échec de la modification du numéro de messagerie vocale."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"Échec de la modification du numéro de transfert."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Échec de la récupération et de l\'enregistrement des paramètres actuels du numéro de transfert."\n"Voulez-vous tout de même changer d\'opérateur ?"</string>
     <string name="no_change" msgid="3186040086622435212">"Aucune modification n\'a été apportée."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Choisissez un service de messagerie vocale."</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mon opérateur"</string>
@@ -456,10 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nouveaux messages vocaux (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Composer le <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Numéro de messagerie vocale inconnu"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Aucun service"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Réseau sélectionné (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) non disponible"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Veuillez d\'abord désactiver le mode Avion, afin d\'effectuer un appel."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Non enregistré sur le réseau."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"L\'appel n\'a pas été effectué. Le numéro composé n\'est pas valide."</string>
@@ -481,9 +481,9 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Touches sonores"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Clavier"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Appuyez deux fois"\n"pour déverrouiller."</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Appuyez deux fois"\n"pour répondre."</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Appuyez deux fois"\n"pour refuser."</string>
+    <string name="touchLockText" msgid="566824588267376287">"Appuyez deux fois"\n"pour déverrouiller"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Appuyez deux fois"\n"pour répondre."</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Appuyez deux fois"\n"pour refuser."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"En attente"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Reprendre"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Raccrocher"</string>
@@ -536,8 +536,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Mode de rappel d\'urgence activé"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Mode de rappel d\'urgence"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Connexion des données désactivée"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Aucune connexion de données pendant <xliff:g id="COUNT">%s</xliff:g> minute"</item>
     <item quantity="other" msgid="3122217344579273583">"Aucune connexion de données pendant <xliff:g id="COUNT">%s</xliff:g> minutes"</item>
@@ -550,13 +549,11 @@
     <item quantity="one" msgid="8939225905428421722">"L\'action sélectionnée n\'est pas disponible lorsque le téléphone est en mode de rappel d\'urgence. Ce mode restera activé pendant <xliff:g id="COUNT">%s</xliff:g> minute. Souhaitez-vous quitter dès maintenant ?"</item>
     <item quantity="other" msgid="3489076611710869904">"L\'action sélectionnée n\'est pas disponible lorsque le téléphone est en mode de rappel d\'urgence. Ce mode restera activé pendant <xliff:g id="COUNT">%s</xliff:g> minutes. Souhaitez-vous quitter dès maintenant ?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"L\'action sélectionnée n\'est pas disponible pendant un appel d\'urgence."</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Sortie du mode de rappel d\'urgence"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Oui"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Non"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorer"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres de la messagerie vocale"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non défini&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie vocale"</string>
@@ -564,4 +561,10 @@
     <string name="other_settings" msgid="3672912580359716394">"Paramètres d\'appel supplémentaires"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Composer"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Appel via ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Tourner pour répondre"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Tourner pour passer en mode silencieux"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Tourner pour refuser l\'appel"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Tourner pour répondre et"\n"mettre l\'appel en cours en attente"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Tourner pour répondre et"\n"terminer l\'appel en cours"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Tourner pour répondre et"\n"terminer l\'appel en attente"</string>
 </resources>

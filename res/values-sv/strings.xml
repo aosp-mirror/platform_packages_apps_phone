@@ -101,8 +101,8 @@
     <string name="unlock_success" msgid="6770085622238180152">"Nätverket upplåst"</string>
     <string name="imei" msgid="8552502717594321281">"IMEI-kod"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Samtalsinställningar för GSM"</string>
-    <string name="labelCDMAMore" msgid="1630676740428229339">"Samtalsinställningar för CDMA"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Samtalsinst. för GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Samtalsinst. för CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Åtkomstpunktsnamn"</string>
     <string name="settings_label" msgid="3876743539816984008">"Nätverksinställningar"</string>
     <string name="voicemail" msgid="8693759337917898954">"Röstbrevlåda"</string>
@@ -159,6 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Spara nummer till röstbrevlåda"</string>
     <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Det gick inte att ändra numret till röstbrevlådan."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"Det gick inte att ändra numret för vidarebefordran."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Det gick inte att hämta och spara det aktuella numret för vidarebefordran. "\n"Vill du byta till den nya leverantören i alla fall?"</string>
     <string name="no_change" msgid="3186040086622435212">"Du har inte gjort några ändringar."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Välj tjänst för röstbrevlådan"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min operatör"</string>
@@ -456,10 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Ny röstbrevlåda (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Nummer till röstbrevlåda okänt"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Ingen tjänst"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Det valda nätverket (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) är inte tillgängligt"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Om du vill ringa ett samtal måste du först inaktivera flygplansläge."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Inte registrerat på nätverk."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Samtalet har inte skickats. Du måste ange ett giltigt nummer."</string>
@@ -481,9 +481,9 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Använd tangentbordet om du vill ringa"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Knappsats för tonval"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Knappsats"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Tryck två gånger"\n"om du vill låsa upp"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Tryck två gånger"\n" om du vill svara"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Tryck två gånger"\n"om du vill avvisa"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Dubbelklicka"\n"för att låsa upp"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Dubbelklicka"\n"om du vill svara"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Dubbelklicka"\n"om du vill avvisa"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Parkera"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Ta bort parkering"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Avsluta"</string>
@@ -536,8 +536,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Starta läget Återuppringning vid nödsamtal"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Läget Återuppringning vid nödsamtal"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Dataanslutning inaktiverad"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Inga dataanslutningar på <xliff:g id="COUNT">%s</xliff:g> minut"</item>
     <item quantity="other" msgid="3122217344579273583">"Inga dataanslutningar på <xliff:g id="COUNT">%s</xliff:g> minuter"</item>
@@ -550,13 +549,11 @@
     <item quantity="one" msgid="8939225905428421722">"Den valda åtgärden är inte tillgänglig i läget Återuppringning vid nödsamtal. Telefonen kommer att vara i det här läget i <xliff:g id="COUNT">%s</xliff:g> minut. Vill du avsluta nu?"</item>
     <item quantity="other" msgid="3489076611710869904">"Den valda åtgärden är inte tillgänglig i läget Återuppringning vid nödsamtal. Telefonen kommer att vara i det här läget i <xliff:g id="COUNT">%s</xliff:g> minuter. Vill du avsluta nu?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"Den valda åtgärden är inte tillgänglig under nödsamtal"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Avslutar läget Återuppringning vid nödsamtal"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ja"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Nej"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ta bort permanent"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Inställningar för röstbrevlådan"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;Har inte angetts&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Tjänst för röstbrevlådan"</string>
@@ -564,4 +561,10 @@
     <string name="other_settings" msgid="3672912580359716394">"Övriga samtalsinställningar"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ringer via ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Rotera om du vill svara"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Rotera om du vill använda tyst signal"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Rotera om du vill avvisa samtalet"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Rotera om du vill svara och"\n"parkera det aktiva samtalet"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Rotera om du vill svara och"\n"avsluta det aktiva samtalet"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Rotera om du vill svara och"\n"avsluta det parkerade samtalet"</string>
 </resources>

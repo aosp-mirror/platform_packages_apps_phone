@@ -49,7 +49,7 @@
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: ble kommet i forkjøpet."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Kun nødsamtaler er mulig."</string>
     <string name="confCall" msgid="1904840547188336828">"Telefonmøte"</string>
-    <string name="call_lost" msgid="317670617901479594">"Samtalen er mistet."</string>
+    <string name="call_lost" msgid="317670617901479594">"Samtalen ble brutt."</string>
     <string name="retry" msgid="8462986804300767852">"Prøv på nytt"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"Samtale mistet"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI-kode påbegynt"</string>
@@ -60,10 +60,10 @@
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Demp"</string>
     <string name="menu_hold" msgid="6970441130344786273">"Parker"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Avslutt samtale"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"Avslutt"</string>
     <string name="menu_swapCalls" msgid="1548647524816600795">"Bytt samtale"</string>
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Slå sammen samtaler"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Legg til samtale"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"Legg til"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Styr telefonmøte"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Vis talltastatur"</string>
     <string name="menu_hideDialpad" msgid="2733813546746296771">"Skjul talltastatur"</string>
@@ -75,7 +75,7 @@
     <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorer"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Send disse tonene?"\n</string>
-    <string name="pause_prompt_str" msgid="341477243019906241">"Sender ringetoner"\n</string>
+    <string name="pause_prompt_str" msgid="341477243019906241">"Sendetoner"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Send"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Ja"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Nei"</string>
@@ -101,7 +101,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Operatørlåsen er fjernet."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Innstillinger for GSM-samtaler"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Innstillinger for GSM-samt."</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Innstillinger for CDMA-samtaler"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Navn på aksesspunkt"</string>
     <string name="settings_label" msgid="3876743539816984008">"Nettverksinnstillinger"</string>
@@ -159,6 +159,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Lagre nummer til telefonsvarer"</string>
     <string name="vm_changed" msgid="380744030726254139">"Telefonsvarernummeret ble endret."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"Kunne ikke endre telefonsvarernummeret."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"Videresending av nummerendringen mislyktes."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Fikk·ikke·hentet·og·lagret·innstillingene·for·videresendingsnummer."\n"Vil du bytte til den nye operatøren likevel?"</string>
     <string name="no_change" msgid="3186040086622435212">"Ingen endringer ble utført."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Velg talemeldingsleverandør"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min teleoperatør"</string>
@@ -374,8 +376,8 @@
     <string name="tty_mode_summary" msgid="5057244302665817977">"Aktiver TTY-modus"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-modus"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Velg TTY-modus"</string>
-    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Automatisk nytt forsøk"</string>
-    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Aktiver Automatisk nytt forsøk"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Automatisk forsøksgjentakelse"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Aktiver automatisk·forsøksgjentakelse"</string>
     <string name="menu_add" msgid="1882023737425114762">"Legg til kontakt"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Rediger kontakt"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Fjern kontakt"</string>
@@ -456,10 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nye beskjeder på telefonsvarer (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Mangler nummer til telefonsvarer"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Ingen dekning"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Valgt nettverk (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) er ikke tilgjengelig"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"For å ringe, slå av flymodus først."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ikke registrert på nettverket."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Samtalen ble ikke opprettet, mangler eller ugyldig nummer."</string>
@@ -481,16 +481,16 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Bruk tastaturet for å ringe"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Talltastatur for tastetoner"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Talltastatur"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Trykk to ganger"\n" for å låse opp"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Trykk to ganger"\n" for å svare"</string>
-    <string name="onscreenRejectText" msgid="2133550093891165440">"Trykk to ganger "\n" for å avslå"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Dobbeltklikk"\n"for å låse opp"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Trykk to ganger"\n"for å svare"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Trykk to ganger"\n"for å avvise"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Hold"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Opphev"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Avslutt"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Talltastatur"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Skjul"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Høyttaler"</string>
-    <string name="onscreenMuteText" msgid="5011369181754261374">"Ignorer"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Kutt lyd"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Legg til anrop"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Slå sammen samtaler"</string>
@@ -501,7 +501,7 @@
     <string name="importingSimContacts" msgid="7374056215462575769">"Importerer kontakter fra SIM-kortet"</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importer fra kontakter"</string>
     <string name="hac_mode_title" msgid="8740268574688743289">"Høreapparater"</string>
-    <string name="hac_mode_summary" msgid="6833851160514929341">"Slå på kompatibilitet med høreapparat"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"Slå på kompatibilitet for høreapparat"</string>
   <string-array name="tty_mode_entries">
     <item msgid="512950011423868021">"TTY av"</item>
     <item msgid="3971695875449640648">"TTY full"</item>
@@ -526,42 +526,45 @@
     <string name="ota_speaker" msgid="6904589278542719647">"Høyttaler"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Vent mens telefonen programmeres."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Programmering mislyktes"</string>
-    <string name="ota_successful" msgid="1880780692887077407">"Telefonen din er aktivert. Det kan ta opptil 15 minutter før tjenestene er i gang."</string>
-    <string name="ota_unsuccessful" msgid="623361244652068739">"Telefonen din ble ikke aktivert. "\n" Prøv å finne et område med bedre dekning (ved et vindu eller utendørs). "\n\n"Prøv på nytt, eller ring kundetjenestene for å få flere forslag."</string>
+    <string name="ota_successful" msgid="1880780692887077407">"Telefonen er aktivert. Det kan ta opptil 15 minutter før tjenestene trer i kraft."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Telefonen ble ikke aktivert. "\n" Prøv å finne et område med bedre dekning (ved et vindu eller utendørs). "\n\n"Prøv på nytt, eller ring kundetjenestene for å få flere forslag."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"Omfattende SPC-feil"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Tilbake"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Prøv igjen"</string>
     <string name="ota_next" msgid="3904945374358235910">"Neste"</string>
     <string name="ota_back" msgid="2190038043403850052">"Tilbake"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
-    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Startet modusen nødsamtale-tilbakeringing"</string>
-    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modusen nødsamtale-tilbakeringing"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Startet·nødsamtalemodus"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Nødsamtalemodus"</string>
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Datatilkoblingen er deaktivert"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Ingen datatilkobling i <xliff:g id="COUNT">%s</xliff:g> minutt"</item>
     <item quantity="other" msgid="3122217344579273583">"Ingen datatilkobling i <xliff:g id="COUNT">%s</xliff:g> minutter"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
-    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
+    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i nødsamtalemodus i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte nå?"</item>
+    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i nødsamtalemodus i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte nå?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="8939225905428421722">"Den valgte handlingen er ikke tilgjengelig i modusen nødsamtale-tilbakeringing. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutt. Vil du avslutte?"</item>
-    <item quantity="other" msgid="3489076611710869904">"Den valgte handlingen er ikke tilgjengelig i modusen nødsamtale-tilbakeringing. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutter. Vil du avslutte?"</item>
+    <item quantity="one" msgid="8939225905428421722">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutt. Vil du avslutte nå?"</item>
+    <item quantity="other" msgid="3489076611710869904">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutter. Vil du avslutte nå?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
-    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Avslutter modusen nødsamtale-tilbakeringing"</string>
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"Handlingen er ikke tilgjengelig for nødanrop"</string>
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Avslutter·nødsamtalemodus"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ja"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Nei"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Lukk"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Innstillinger for talemelding"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;ikke angitt&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Talemeldingtjeneste"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Talemeldingstjeneste"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Innstillinger for <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Andre ringeinnstillinger"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ring via ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Drei for å svare"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Drei for·å·slå·av·ringetonen"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Drei·for·å·avvise samtale"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Drei for·å·svare·og·sette "\n"aktiv samtale på vent"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Drei for å svare og "\n"avslutte aktiv samtale"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Drei for·å·svare og "\n"avslutte ventende samtale"</string>
 </resources>
