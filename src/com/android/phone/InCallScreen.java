@@ -416,8 +416,8 @@ public class InCallScreen extends Activity
                         PhoneUtils.displayMMIComplete(mPhone, app, mmiCode, null, null);
                     } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         if (mmiCode.getState() != MmiCode.State.PENDING) {
-                            if (DBG) log("Got MMI_COMPLETE, finishing...");
-                            finish();
+                            if (DBG) log("Got MMI_COMPLETE, finishing InCallScreen...");
+                            endInCallScreenSession();
                         }
                     }
                     break;
@@ -752,10 +752,10 @@ public class InCallScreen extends Activity
         if (status != InCallInitStatus.SUCCESS) {
             if (DBG) log("- syncWithPhoneState failed! status = " + status);
             // Couldn't update the UI, presumably because the phone is totally
-            // idle.  But don't finish() immediately, since we might still
+            // idle.  But don't endInCallScreenSession immediately, since we might still
             // have an error dialog up that the user needs to see.
             // (And in that case, the error dialog is responsible for calling
-            // finish() when the user dismisses it.)
+            // endInCallScreenSession when the user dismisses it.)
         } else if (phoneIsCdma) {
             if (mInCallScreenMode == InCallScreenMode.OTA_NORMAL ||
                     mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
@@ -890,7 +890,7 @@ public class InCallScreen extends Activity
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)
                 && mPhone.getState() != Phone.State.RINGING) {
             if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
-            finish();
+            endInCallScreenSession();
         }
 
         if (ENABLE_PHONE_UI_EVENT_LOGGING) {
@@ -951,8 +951,7 @@ public class InCallScreen extends Activity
             // when OTA Activation, OTA Success/Failure dialog or OTA SPC
             // failure dialog is running, do not destroy inCallScreen. Because call
             // is already ended and dialog will not get redrawn on slider event.
-            if ((app.cdmaOtaProvisionData != null)
-                    && (app.cdmaOtaScreenState != null)
+            if ((app.cdmaOtaProvisionData != null) && (app.cdmaOtaScreenState != null)
                     && ((app.cdmaOtaScreenState.otaScreenState !=
                             CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION)
                         && (app.cdmaOtaScreenState.otaScreenState !=
@@ -961,9 +960,9 @@ public class InCallScreen extends Activity
                 // we don't want the call screen to remain in the activity history
                 // if there are not active or ringing calls.
                 if (DBG) log("- onStop: calling finish() to clear activity history...");
-                finish();
+                moveTaskToBack(true);
                 if (otaUtils != null) {
-                    otaUtils.cleanOtaScreen();
+                    otaUtils.cleanOtaScreen(true);
                 }
             }
         }
@@ -1031,6 +1030,18 @@ public class InCallScreen extends Activity
     @Override
     public void finish() {
         if (DBG) log("finish()...");
+        moveTaskToBack(true);
+    }
+
+    /**
+     * End the current in call screen session.
+     *
+     * This must be called when an InCallScreen session has
+     * complete so that the next invocation via an onResume will
+     * not be in an old state.
+     */
+    public void endInCallScreenSession() {
+        if (DBG) log("endInCallScreenSession()...");
         moveTaskToBack(true);
         setInCallScreenMode(InCallScreenMode.UNDEFINED);
     }
@@ -1276,7 +1287,7 @@ public class InCallScreen extends Activity
 
     @Override
     public void onBackPressed() {
-        if (VDBG) log("onBackPressed()...");
+        if (DBG) log("onBackPressed()...");
 
         // To consume this BACK press, the code here should just do
         // something and return.  Otherwise, call super.onBackPressed() to
@@ -1677,13 +1688,13 @@ public class InCallScreen extends Activity
      * Something has changed in the phone's state.  Update the UI.
      */
     private void onPhoneStateChanged(AsyncResult r) {
-        if (VDBG) log("onPhoneStateChanged()...");
+        if (DBG) log("onPhoneStateChanged()...");
 
         // There's nothing to do here if we're not the foreground activity.
         // (When we *do* eventually come to the foreground, we'll do a
         // full update then.)
         if (!mIsForegroundActivity) {
-            if (VDBG) log("onPhoneStateChanged: Activity not in foreground! Bailing out...");
+            if (DBG) log("onPhoneStateChanged: Activity not in foreground! Bailing out...");
             return;
         }
 
@@ -1868,7 +1879,7 @@ public class InCallScreen extends Activity
             // Exit the in-call UI!
             // (This is basically the same "delayed cleanup" we do below,
             // just with zero delay.  Since the Phone is currently idle,
-            // this call is guaranteed to immediately finish() this activity.)
+            // this call is guaranteed to immediately finish this activity.)
             delayedCleanupAfterDisconnect();
 
             // Retry the call, by resending the intent to the emergency
@@ -1951,7 +1962,7 @@ public class InCallScreen extends Activity
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
             // called after a short interval (during which we display the
             // "call ended" state.)  At that point, if the
-            // Phone is idle, we'll finish() out of this activity.
+            // Phone is idle, we'll finish out of this activity.
             int callEndedDisplayDelay =
                     (cause == Connection.DisconnectCause.LOCAL)
                     ? CALL_ENDED_SHORT_DELAY : CALL_ENDED_LONG_DELAY;
@@ -2015,8 +2026,8 @@ public class InCallScreen extends Activity
         // the in-call screen, since we'll be visible in a
         // partially-constructed state as soon as the "MMI Started" dialog
         // gets dismissed.  So let's forcibly bail out right now.
-        if (DBG) log("onMMICancel: finishing...");
-        finish();
+        if (DBG) log("onMMICancel: finishing InCallScreen...");
+        endInCallScreenSession();
     }
 
     /**
@@ -2273,7 +2284,7 @@ public class InCallScreen extends Activity
      * the Phone.
      */
     private void updateScreen() {
-        if (VDBG) log("updateScreen()...");
+        if (DBG) log("updateScreen()...");
 
         // Don't update anything if we're not in the foreground (there's
         // no point updating our UI widgets since we're not visible!)
@@ -2281,14 +2292,14 @@ public class InCallScreen extends Activity
         // in the middle of pausing, which could cause a visible glitch in
         // the "activity ending" transition.
         if (!mIsForegroundActivity) {
-            if (VDBG) log("- updateScreen: not the foreground Activity! Bailing out...");
+            if (DBG) log("- updateScreen: not the foreground Activity! Bailing out...");
             return;
         }
 
         // Update the state of the in-call menu items.
         if (mInCallMenu != null) {
             // TODO: do this only if the menu is visible!
-            if (VDBG) log("- updateScreen: updating menu items...");
+            if (DBG) log("- updateScreen: updating menu items...");
             boolean okToShowMenu = mInCallMenu.updateItems(mPhone);
             if (!okToShowMenu) {
                 // Uh oh: we were only trying to update the state of the
@@ -2298,7 +2309,7 @@ public class InCallScreen extends Activity
                 // asynchronously while the menu was up.)
                 //
                 // So take the menu down ASAP.
-                if (VDBG) log("- updateScreen: Tried to update menu; now need to dismiss!");
+                if (DBG) log("- updateScreen: Tried to update menu; now need to dismiss!");
                 // dismissMenu() has no effect if the menu is already closed.
                 dismissMenu(true);  // dismissImmediate = true
             }
@@ -2307,44 +2318,44 @@ public class InCallScreen extends Activity
         final PhoneApp app = PhoneApp.getInstance();
 
         if (mInCallScreenMode == InCallScreenMode.OTA_NORMAL) {
-            if (VDBG) log("- updateScreen: OTA call state NORMAL...");
+            if (DBG) log("- updateScreen: OTA call state NORMAL...");
             if (otaUtils != null) {
-                if (VDBG) log("- updateScreen: otaUtils is not null, call otaShowProperScreen");
+                if (DBG) log("- updateScreen: otaUtils is not null, call otaShowProperScreen");
                 otaUtils.otaShowProperScreen();
             }
             return;
         } else if (mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
-            if (VDBG) log("- updateScreen: OTA call ended state ...");
+            if (DBG) log("- updateScreen: OTA call ended state ...");
             // Wake up the screen when we get notification, good or bad.
             PhoneApp.getInstance().wakeUpScreen();
             if (app.cdmaOtaScreenState.otaScreenState
                 == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
-                if (VDBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
+                if (DBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
                 if (otaUtils != null) {
-                    if (VDBG) log("- updateScreen: otaUtils is not null, "
+                    if (DBG) log("- updateScreen: otaUtils is not null, "
                                   + "call otaShowActivationScreen");
                     otaUtils.otaShowActivateScreen();
                 }
             } else {
-                if (VDBG) log("- updateScreen: OTA Call end state for Dialogs");
+                if (DBG) log("- updateScreen: OTA Call end state for Dialogs");
                 if (otaUtils != null) {
-                    if (VDBG) log("- updateScreen: Show OTA Success Failure dialog");
+                    if (DBG) log("- updateScreen: Show OTA Success Failure dialog");
                     otaUtils.otaShowSuccessFailure();
                 }
             }
             return;
         } else if (mInCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
-            if (VDBG) log("- updateScreen: manage conference mode (NOT updating in-call UI)...");
+            if (DBG) log("- updateScreen: manage conference mode (NOT updating in-call UI)...");
             updateManageConferencePanelIfNecessary();
             return;
         } else if (mInCallScreenMode == InCallScreenMode.CALL_ENDED) {
-            if (VDBG) log("- updateScreen: call ended state (NOT updating in-call UI)...");
+            if (DBG) log("- updateScreen: call ended state (NOT updating in-call UI)...");
             // Actually we do need to update one thing: the background.
             updateInCallBackground();
             return;
         }
 
-        if (VDBG) log("- updateScreen: updating the in-call UI...");
+        if (DBG) log("- updateScreen: updating the in-call UI...");
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateInCallTouchUi();
@@ -2399,8 +2410,8 @@ public class InCallScreen extends Activity
      *    InCallInitStatus.PHONE_NOT_IN_USE if there was no phone state to sync
      *    with (ie. the phone was completely idle).  In the latter case, we
      *    shouldn't even be in the in-call UI in the first place, and it's
-     *    the caller's responsibility to bail out of this activity (by
-     *    calling finish()) if appropriate.
+     *    the caller's responsibility to bail out of this activity by
+     *    calling endInCallScreenSession if appropriate.
      */
     private InCallInitStatus syncWithPhoneState() {
         boolean updateSuccessful = false;
@@ -2532,8 +2543,8 @@ public class InCallScreen extends Activity
             // it) and just return the success state.
             if (isEmergencyNumber && (okToCallStatus == InCallInitStatus.POWER_OFF)) {
                 startActivity(intent.setClassName(this, EmergencyCallHandler.class.getName()));
-                if (DBG) log("placeCall: starting EmergencyCallHandler, finishing...");
-                finish();
+                if (DBG) log("placeCall: starting EmergencyCallHandler, finishing InCallScreen...");
+                endInCallScreenSession();
                 return InCallInitStatus.SUCCESS;
             } else {
                 return okToCallStatus;
@@ -2725,7 +2736,8 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
-        finish();
+        if (DBG) log("addVoiceMailNumberPanel: finishing InCallScreen...");
+        endInCallScreenSession();
 
         if (DBG) log("show vm setting");
 
@@ -2740,8 +2752,8 @@ public class InCallScreen extends Activity
             mMissingVoicemailDialog.dismiss();
             mMissingVoicemailDialog = null;
         }
-        if (DBG) log("dontAddVoiceMailNumber: finishing...");
-        finish();
+        if (DBG) log("dontAddVoiceMailNumber: finishing InCallScreen...");
+        endInCallScreenSession();
     }
 
     /**
@@ -2753,7 +2765,7 @@ public class InCallScreen extends Activity
      *
      * If the Phone is totally idle right now, that means we've already
      * shown the "call ended" state for a couple of seconds, and it's now
-     * time to finish() this activity.
+     * time to endInCallScreenSession this activity.
      *
      * If the Phone is *not* idle right now, that probably means that one
      * call ended but the other line is still in use.  In that case, we
@@ -2785,23 +2797,23 @@ public class InCallScreen extends Activity
             // And (finally!) exit from the in-call screen
             // (but not if we're already in the process of pausing...)
             if (mIsForegroundActivity) {
-                if (DBG) log("- delayedCleanupAfterDisconnect: finishing...");
+                if (DBG) log("- delayedCleanupAfterDisconnect: finishing InCallScreen...");
 
                 // If this is a call that was initiated by the user, and
                 // we're *not* in emergency mode, finish the call by
                 // taking the user to the Call Log.
-                // Otherwise we simply call finish(), which will take us
+                // Otherwise we simply call endInCallScreenSession, which will take us
                 // back to wherever we came from.
                 if (mShowCallLogAfterDisconnect && !isPhoneStateRestricted()) {
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
-                    // Even in this case we still call finish() (below),
+                    // Even in this case we still call endInCallScreenSession (below),
                     // to make sure we don't stay in the activity history.
                 }
 
-                finish();
+                endInCallScreenSession();
             }
         } else {
             // The phone is still in use.  Stay here in this activity, but
@@ -2854,7 +2866,7 @@ public class InCallScreen extends Activity
                 break;
 
             case R.id.menuSwapCalls:
-                if (VDBG) log("onClick: SwapCalls...");
+                if (DBG) log("onClick: SwapCalls...");
                 internalSwapCalls();
                 break;
 
@@ -3091,7 +3103,7 @@ public class InCallScreen extends Activity
      * Handles button clicks from the InCallTouchUi widget.
      */
     /* package */ void handleOnscreenButtonClick(int id) {
-        if (VDBG) log("handleOnscreenButtonClick(id " + id + ")...");
+        if (DBG) log("handleOnscreenButtonClick(id " + id + ")...");
 
         switch (id) {
             // TODO: since every button here corresponds to a menu item that we
@@ -3254,9 +3266,10 @@ public class InCallScreen extends Activity
         // this point, so we don't ever want the user to see it.
         // That means:
         // - Any cases here that need to go to some other activity should
-        //   call startActivity() AND immediately call finish() on this one.
+        //   call startActivity() AND immediately call endInCallScreenSession
+        //   on this one.
         // - Any cases here that bring up a Dialog must ensure that the
-        //   Dialog handles both OK *and* cancel by calling finish() on this
+        //   Dialog handles both OK *and* cancel by calling endInCallScreenSession.
         //   Activity.  (See showGenericErrorDialog() for an example.)
 
         switch(status) {
@@ -3400,12 +3413,12 @@ public class InCallScreen extends Activity
 
     private void bailOutAfterErrorDialog() {
         if (mGenericErrorDialog != null) {
-            if (VDBG) log("bailOutAfterErrorDialog: DISMISSING mGenericErrorDialog.");
+            if (DBG) log("bailOutAfterErrorDialog: DISMISSING mGenericErrorDialog.");
             mGenericErrorDialog.dismiss();
             mGenericErrorDialog = null;
         }
-        if (DBG) log("bailOutAfterErrorDialog(): finishing...");
-        finish();
+        if (DBG) log("bailOutAfterErrorDialog(): end InCallScreen session...");
+        endInCallScreenSession();
     }
 
     /**
@@ -3415,7 +3428,7 @@ public class InCallScreen extends Activity
      * or (b) as a cleanup step when the Activity is going away.
      */
     private void dismissAllDialogs() {
-        if (VDBG) log("dismissAllDialogs()...");
+        if (DBG) log("dismissAllDialogs()...");
 
         // Note it's safe to dismiss() a dialog that's already dismissed.
         // (Even if the AlertDialog object(s) below are still around, it's
@@ -3549,7 +3562,7 @@ public class InCallScreen extends Activity
      * InCallScreen-specific wrapper around PhoneUtils.switchHoldingAndActive().
      */
     private void internalSwapCalls() {
-        if (VDBG) log("internalSwapCalls()...");
+        if (DBG) log("internalSwapCalls()...");
 
         // Any time we swap calls, force the DTMF dialpad to close.
         // (We want the regular in-call UI to be visible right now, so the
@@ -3696,8 +3709,13 @@ public class InCallScreen extends Activity
 
                 // Cleanup Ota Screen if necessary and set the panel
                 // to VISIBLE.
-                if (otaUtils != null) {
-                    otaUtils.cleanOtaScreen();
+                if (mPhone.getState() != Phone.State.OFFHOOK) {
+                    if (otaUtils != null) {
+                        otaUtils.cleanOtaScreen(true);
+                    }
+                } else {
+                    log("WARNING: Setting mode to UNDEFINED but phone is OFFHOOK,"
+                            + " skip cleanOtaScreen.");
                 }
                 mInCallPanel.setVisibility(View.VISIBLE);
                 break;
@@ -3740,8 +3758,8 @@ public class InCallScreen extends Activity
                 Log.w(LOG_TAG, "- syncWithPhoneState failed! status = " + status);
                 // We shouldn't even be in the in-call UI in the first
                 // place, so bail out:
-                if (DBG) log("updateManageConferencePanelIfNecessary: finishing...");
-                finish();
+                if (DBG) log("updateManageConferencePanelIfNecessary: endInCallScreenSession... 1");
+                endInCallScreenSession();
                 return;
             }
             return;
@@ -3757,8 +3775,8 @@ public class InCallScreen extends Activity
                 Log.w(LOG_TAG, "- syncWithPhoneState failed! status = " + status);
                 // We shouldn't even be in the in-call UI in the first
                 // place, so bail out:
-                if (DBG) log("updateManageConferencePanelIfNecessary: finishing...");
-                finish();
+                if (DBG) log("updateManageConferencePanelIfNecessary: endInCallScreenSession... 2");
+                endInCallScreenSession();
                 return;
             }
             return;
@@ -4723,7 +4741,8 @@ public class InCallScreen extends Activity
                 if (cdmaOtaInCallScreenState == OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL) {
                     if (DBG) log("initOtaState - in OTA Normal mode");
                     setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
-                } else if (cdmaOtaInCallScreenState == OtaUtils.CdmaOtaInCallScreenUiState.State.ENDED) {
+                } else if (cdmaOtaInCallScreenState ==
+                                OtaUtils.CdmaOtaInCallScreenUiState.State.ENDED) {
                     if (DBG) log("initOtaState - in OTA END mode");
                     setInCallScreenMode(InCallScreenMode.OTA_ENDED);
                 } else if (app.cdmaOtaScreenState.otaScreenState ==
@@ -4736,7 +4755,7 @@ public class InCallScreen extends Activity
                 }
             } else {
                 if (otaUtils != null) {
-                    otaUtils.cleanOtaScreen();
+                    otaUtils.cleanOtaScreen(false);
                 }
             }
         }
