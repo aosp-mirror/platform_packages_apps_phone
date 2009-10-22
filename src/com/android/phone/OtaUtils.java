@@ -243,12 +243,11 @@ public class OtaUtils {
         if (DBG) log("OtaShowHome()...");
         mApplication.cdmaOtaScreenState.otaScreenState =
                 CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED;
-        cleanOtaScreen();
+        mInCallScreen.endInCallScreenSession();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory (Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
-        mInCallScreen.finish();
         return;
     }
 
@@ -688,7 +687,6 @@ public class OtaUtils {
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED;
             otaShowHome();
-            mInCallScreen.finish();
         }
     }
 
@@ -779,8 +777,9 @@ public class OtaUtils {
     /**
      * Clear out all OTA UI widget elements. Needs to get called
      * when OTA call ends or InCallScreen is destroyed.
+     * @param disableSpeaker parameter control whether Speaker should be turned off.
      */
-    public void cleanOtaScreen() {
+    public void cleanOtaScreen(boolean disableSpeaker) {
         if (DBG) log("OTA ends, cleanOtaScreen!");
 
         mApplication.cdmaOtaScreenState.otaScreenState =
@@ -810,7 +809,9 @@ public class OtaUtils {
 
         // turn off the speaker in case it was turned on
         // but the OTA call could not be completed
-        setSpeaker(false);
+        if (disableSpeaker) {
+            setSpeaker(false);
+        }
     }
 
     /**
