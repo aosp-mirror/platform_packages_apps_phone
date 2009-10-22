@@ -1476,7 +1476,7 @@ public class PhoneApp extends Application {
         if (DBG) Log.d(LOG_TAG, "- clearOtaState ...");
         if ((mInCallScreen != null)
                 && (mInCallScreen.otaUtils != null)) {
-            mInCallScreen.otaUtils.cleanOtaScreen();
+            mInCallScreen.otaUtils.cleanOtaScreen(true);
             if (DBG) Log.d(LOG_TAG, "  - clearOtaState clears OTA screen");
         }
     }
