@@ -127,11 +127,6 @@ public class EmergencyDialer extends Activity
 
 
     public void afterTextChanged(Editable input) {
-        if (SpecialCharSequenceMgr.handleChars(this, input.toString(), this)) {
-            // A special sequence was entered, clear the digits
-            mDigits.getText().clear();
-        }
-
         final boolean notEmpty = mDigits.length() != 0;
         if (notEmpty) {
             mDigits.setBackgroundDrawable(mDigitsBackground);
