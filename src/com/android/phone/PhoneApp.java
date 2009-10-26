@@ -1100,30 +1100,34 @@ public class PhoneApp extends Application {
         if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
 
         if (proximitySensorModeEnabled()) {
-            if (((state == Phone.State.OFFHOOK) || mBeginningCall)
-                    && !(isHeadsetPlugged()
-                    || PhoneUtils.isSpeakerOn(this)
-                    || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                    || mIsHardKeyboardOpen)) {
-                // Phone is in use!  Arrange for the screen to turn off
-                // automatically when the sensor detects a close object.
-                if (!mProximityWakeLock.isHeld()) {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
-                    mProximityWakeLock.acquire();
-                    // disable keyguard while we are using the proximity sensor
-                    disableKeyguard();
+            synchronized (mProximityWakeLock) {
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall)
+                        && !(isHeadsetPlugged()
+                        || PhoneUtils.isSpeakerOn(this)
+                        || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                        || mIsHardKeyboardOpen)) {
+                    // Phone is in use!  Arrange for the screen to turn off
+                    // automatically when the sensor detects a close object.
+                    if (!mProximityWakeLock.isHeld()) {
+                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
+                        mProximityWakeLock.acquire();
+                        // disable keyguard while we are using the proximity sensor
+                        disableKeyguard();
+                    } else {
+                        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
+                    }
                 } else {
-                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
-                }
-            } else {
-                // Phone is either idle, or ringing.  We don't want any
-                // special proximity sensor behavior in either case.
-                if (mProximityWakeLock.isHeld()) {
-                    if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
-                    mProximityWakeLock.release();
-                    reenableKeyguard();
-                } else {
-                    if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
+                    // Phone is either idle, or ringing.  We don't want any
+                    // special proximity sensor behavior in either case.
+                    if (mProximityWakeLock.isHeld()) {
+                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
+                        mProximityWakeLock.release();
+                        reenableKeyguard();
+                    } else {
+                        if (VDBG) {
+                            Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
+                        }
+                    }
                 }
             }
         }
