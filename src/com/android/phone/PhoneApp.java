@@ -187,6 +187,7 @@ public class PhoneApp extends Application {
     private KeyguardManager.KeyguardLock mKeyguardLock;
     private int mKeyguardDisableCount;
     private StatusBarManager mStatusBarManager;
+    private int mStatusBarDisableCount;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -737,7 +738,6 @@ public class PhoneApp extends Application {
         synchronized (mKeyguardLock) {
             if (mKeyguardDisableCount++ == 0) {
                 mKeyguardLock.disableKeyguard();
-                mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
             }
         }
     }
@@ -755,10 +755,45 @@ public class PhoneApp extends Application {
             if (mKeyguardDisableCount > 0) {
                 if (--mKeyguardDisableCount == 0) {
                     mKeyguardLock.reenableKeyguard();
-                    mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
                 }
             } else {
                 Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
+            }
+        }
+    }
+
+    /**
+     * Disables the status bar.  This is used by the phone app when in-call UI is active.
+     *
+     * Any call to this method MUST be followed (eventually)
+     * by a corresponding reenableStatusBar() call.
+     */
+    /* package */ void disableStatusBar() {
+        if (DBG) Log.d(LOG_TAG, "disable status bar");
+        synchronized (this) {
+            if (mStatusBarDisableCount++ == 0) {
+               if (DBG)  Log.d(LOG_TAG, "StatusBarManager.DISABLE_EXPAND");
+                mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
+            }
+        }
+    }
+
+    /**
+     * Re-enables the status bar after a previous disableStatusBar() call.
+     *
+     * Any call to this method MUST correspond to (i.e. be balanced with)
+     * a previous disableStatusBar() call.
+     */
+    /* package */ void reenableStatusBar() {
+        if (DBG) Log.d(LOG_TAG, "re-enable status bar");
+        synchronized (this) {
+            if (mStatusBarDisableCount > 0) {
+                if (--mStatusBarDisableCount == 0) {
+                    if (DBG) Log.d(LOG_TAG, "StatusBarManager.DISABLE_NONE");
+                    mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
+                }
+            } else {
+                Log.e(LOG_TAG, "mStatusBarDisableCount is already zero");
             }
         }
     }
