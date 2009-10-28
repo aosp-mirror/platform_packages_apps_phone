@@ -365,6 +365,11 @@ public class EditPhoneNumberPreference extends EditTextPreference {
         return PhoneNumberUtils.stripSeparators(mPhoneNumber);
     }
 
+    /** The phone number including any formatting characters */
+    protected String getRawPhoneNumber() {
+        return mPhoneNumber;
+    }
+
     //set the phone number value.
     // return the current preference to allow for chaining preferences.
     public EditPhoneNumberPreference setPhoneNumber(String number) {
