@@ -151,7 +151,7 @@ public class InCallScreen extends Activity
     private static final int TOUCH_LOCK_DELAY_DEFAULT =  6000;  // msec
 
     // Amount of time for Displaying "Dialing" for 3way Calling origination
-    private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 2000; // msec
+    private static final int THREEWAY_CALLERINFO_DISPLAY_TIME = 3000; // msec
 
     // Amount of time that we display the provider's overlay if applicable.
     private static final int PROVIDER_OVERLAY_TIMEOUT = 5000;  // msec
@@ -3147,6 +3147,7 @@ public class InCallScreen extends Activity
                 PhoneUtils.startNewCall(mPhone);  // Fires off an ACTION_DIAL intent
                 break;
             case R.id.mergeButton:
+            case R.id.cdmaMergeButton:
                 PhoneUtils.mergeCalls(mPhone);
                 break;
             case R.id.manageConferencePhotoButton:
