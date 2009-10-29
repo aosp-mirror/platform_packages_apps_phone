@@ -664,6 +664,15 @@ public class BluetoothHandsfree {
             case DIALING:
                 callsetup = 2;
                 mAudioPossible = false;
+                // We also need to send a Call started indication
+                // for cases where the 2nd MO was initiated was
+                // from a *BT hands free* and is waiting for a
+                // +BLND: OK response
+                // There is a special case handling of the same case
+                // for CDMA below
+                if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
+                    callStarted();
+                }
                 break;
             case ALERTING:
                 callsetup = 3;
