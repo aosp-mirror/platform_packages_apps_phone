@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
-import android.provider.Contacts.PhonesColumns;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import com.android.internal.telephony.CallForwardInfo;
 import android.util.Log;
 
@@ -18,7 +18,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
     private static final String LOG_TAG = "GsmUmtsCallForwardOptions";
     private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
-    private static final String NUM_PROJECTION[] = {PhonesColumns.NUMBER};
+    private static final String NUM_PROJECTION[] = {Phone.NUMBER};
 
     private static final String BUTTON_CFU_KEY   = "button_cfu_key";
     private static final String BUTTON_CFB_KEY   = "button_cfb_key";
