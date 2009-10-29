@@ -685,6 +685,7 @@ public class InCallScreen extends Activity
         // but we always re-enable the keyguard as soon as you leave this
         // screen (see onPause().))
         app.disableKeyguard();
+        app.disableStatusBar();
 
         // Touch events are never considered "user activity" while the
         // InCallScreen is active, so that unintentional touches won't
@@ -930,6 +931,7 @@ public class InCallScreen extends Activity
         // The keyguard was disabled the entire time the InCallScreen was
         // active (see onResume()).  Re-enable it now.
         app.reenableKeyguard();
+        app.reenableStatusBar();
 
         // Make sure we revert the poke lock and wake lock when we move to
         // the background.

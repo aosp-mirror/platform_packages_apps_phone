@@ -443,6 +443,7 @@ public class EmergencyDialer extends Activity
         if (DBG) Log.d(LOG_TAG, "turning keyguard off, set to long timeout");
         PhoneApp app = (PhoneApp) getApplication();
         app.disableKeyguard();
+        app.disableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
 
         updateDialAndDeleteButtonStateEnabledAttr();
@@ -458,6 +459,7 @@ public class EmergencyDialer extends Activity
         if (DBG) Log.d(LOG_TAG, "turning keyguard back on and closing the dialer");
         PhoneApp app = (PhoneApp) getApplication();
         app.reenableKeyguard();
+        app.reenableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
 
         super.onPause();
