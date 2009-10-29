@@ -73,8 +73,6 @@ public class InCallTouchUi extends FrameLayout
     private TextView mHoldButtonLabel;
     private View mSwapButtonContainer;
     private ImageButton mSwapButton;
-    private View mManageConferenceButtonContainer;
-    private ImageButton mManageConferenceButton;
     //
     private Drawable mHoldIcon;
     private Drawable mUnholdIcon;
@@ -162,12 +160,6 @@ public class InCallTouchUi extends FrameLayout
         mSwapButtonContainer = mInCallControls.findViewById(R.id.swapButtonContainer);
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
-        //
-        mManageConferenceButtonContainer =
-                mInCallControls.findViewById(R.id.manageConferenceButtonContainer);
-        mManageConferenceButton =
-                (ImageButton) mInCallControls.findViewById(R.id.manageConferenceButton);
-        mManageConferenceButton.setOnClickListener(this);
 
         // Icons we need to change dynamically.  (Most other icons are specified
         // directly in incall_touch_ui.xml.)
@@ -270,7 +262,6 @@ public class InCallTouchUi extends FrameLayout
             case R.id.speakerButton:
             case R.id.holdButton:
             case R.id.swapButton:
-            case R.id.manageConferenceButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
@@ -399,20 +390,11 @@ public class InCallTouchUi extends FrameLayout
             Log.w(LOG_TAG, "updateInCallControls: Hold *and* Swap enabled, but can't show both!");
         }
 
-        // "Manage conference"
-        // This button is totally hidden (rather than just disabled)
-        // when the operation isn't available.
-        boolean showManageConferenceTouchButton = inCallControlState.manageConferenceVisible
-                && inCallControlState.manageConferenceEnabled;
-        mManageConferenceButtonContainer.setVisibility(
-                showManageConferenceTouchButton ? View.VISIBLE : View.GONE);
-
         // One final special case: if the dialpad is visible, that trumps
         // *any* of the upper corner buttons:
         if (inCallControlState.dialpadVisible) {
             mHoldButtonContainer.setVisibility(View.GONE);
             mSwapButtonContainer.setVisibility(View.GONE);
-            mManageConferenceButtonContainer.setVisibility(View.GONE);
         }
     }
 
@@ -424,7 +406,7 @@ public class InCallTouchUi extends FrameLayout
      * @return true if the onscreen touch UI is enabled (for regular
      * "ongoing call" states) on the current device.
      */
-    public boolean isTouchUiEnabled() {
+    /* package */ boolean isTouchUiEnabled() {
         return mAllowInCallTouchUi;
     }
 
