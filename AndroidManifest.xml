@@ -193,7 +193,16 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="nosensor"
-            android:exported="false" />
+            android:permission="android.permission.MODIFY_PHONE_STATE">
+            <!-- Receive ANSWER intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.ANSWER" />
+                <action android:name="android.intent.action.CONFERENCE" />
+                <action android:name="android.intent.action.HANGUP" />
+                <action android:name="android.intent.action.HOLD" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <!-- general settings -->
         <activity android:name="Settings" android:label="@string/settings_label">

@@ -952,6 +952,15 @@ public class InCallScreen extends Activity
                 || action.equals(Intent.ACTION_CALL_EMERGENCY)) {
             app.setRestoreMuteOnInCallResume(false);
             return placeCall(intent);
+        } else if (action.equals(Intent.ACTION_HANGUP)) {
+            PhoneUtils.hangup(mPhone);
+            return InCallInitStatus.SUCCESS;
+        } else if (action.equals(Intent.ACTION_HOLD)) {
+            internalSwapCalls();
+            return InCallInitStatus.SUCCESS;
+        } else if (action.equals(Intent.ACTION_CONFERENCE)) {
+            PhoneUtils.mergeCalls(mPhone);
+            return InCallInitStatus.SUCCESS;
         } else if (action.equals(intent.ACTION_MAIN)) {
             // The MAIN action is used to bring up the in-call screen without
             // doing any other explicit action, like when you return to the
