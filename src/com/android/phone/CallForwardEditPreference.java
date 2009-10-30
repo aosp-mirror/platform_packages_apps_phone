@@ -5,13 +5,13 @@ import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -58,8 +58,10 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
         tcpListener = listener;
         if (!skipReading) {
             phone.getCallForwardingOption(reason,
-                    mHandler.obtainMessage(MyHandler.MESSAGE_GET_CF, reason,
-                    MyHandler.MESSAGE_GET_CF, null));
+                    mHandler.obtainMessage(MyHandler.MESSAGE_GET_CF,
+                            // unused in this case
+                            CommandsInterface.CF_ACTION_DISABLE,
+                            MyHandler.MESSAGE_GET_CF, null));
             if (tcpListener != null) {
                 tcpListener.onStarted(this, true);
             }
@@ -108,7 +110,9 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                         reason,
                         number,
                         time,
-                        mHandler.obtainMessage(MyHandler.MESSAGE_SET_CF));
+                        mHandler.obtainMessage(MyHandler.MESSAGE_SET_CF,
+                                action,
+                                MyHandler.MESSAGE_SET_CF));
 
                 if (tcpListener != null) {
                     tcpListener.onStarted(this, false);
@@ -140,6 +144,10 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
 
     }
 
+    // Message protocol:
+    // what: get vs. set
+    // arg1: action -- register vs. disable
+    // arg2: get vs. set for the preceding request
     private class MyHandler extends Handler {
         private static final int MESSAGE_GET_CF = 0;
         private static final int MESSAGE_SET_CF = 1;
@@ -187,7 +195,34 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                                 + cfInfoArray[i]);
                         if ((mServiceClass & cfInfoArray[i].serviceClass) != 0) {
                             // corresponding class
-                            handleCallForwardResult(cfInfoArray[i]);
+                            CallForwardInfo info = cfInfoArray[i];
+                            handleCallForwardResult(info);
+
+                            // Show an alert if we got a success response but
+                            // with unexpected values.
+                            // Currently only handle the fail-to-disable case
+                            // since we haven't observed fail-to-enable.
+                            if (msg.arg2 == MESSAGE_SET_CF &&
+                                    msg.arg1 == CommandsInterface.CF_ACTION_DISABLE &&
+                                    info.status == 1) {
+                                CharSequence s;
+                                switch (reason) {
+                                    case CommandsInterface.CF_REASON_BUSY:
+                                        s = getContext().getText(R.string.disable_cfb_forbidden);
+                                        break;
+                                    case CommandsInterface.CF_REASON_NO_REPLY:
+                                        s = getContext().getText(R.string.disable_cfnry_forbidden);
+                                        break;
+                                    default: // not reachable
+                                        s = getContext().getText(R.string.disable_cfnrc_forbidden);
+                                }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setNeutralButton(R.string.close_dialog, null);
+                                builder.setTitle(getContext().getText(R.string.error_updating_title));
+                                builder.setMessage(s);
+                                builder.setCancelable(true);
+                                builder.create().show();
+                            }
                         }
                     }
                 }
@@ -208,7 +243,7 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
             }
             if (DBG) Log.d(LOG_TAG, "handleSetCFResponse: re get");
             phone.getCallForwardingOption(reason,
-                    obtainMessage(MESSAGE_GET_CF, reason, MESSAGE_SET_CF, ar.exception));
+                    obtainMessage(MESSAGE_GET_CF, msg.arg1, MESSAGE_SET_CF, ar.exception));
         }
     }
 }
