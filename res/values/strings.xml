@@ -284,6 +284,8 @@
     <string name="sum_cfb_enabled">Forwarding to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when forwarding when busy is disabled -->
     <string name="sum_cfb_disabled">Disabled</string>
+    <!-- Error message displayed after failing to disable forwarding calls when the phone is busy -->
+    <string name="disable_cfb_forbidden">Your carrier does not support disabling call-forwarding when your phone is busy.</string>
 
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFNRy">Forward when unanswered</string>
@@ -293,6 +295,8 @@
     <string name="sum_cfnry_enabled">Forwarding to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when Forward when unanswered is disabled -->
     <string name="sum_cfnry_disabled">Disabled</string>
+    <!-- Error message displayed after failing to disable forwarding calls when the phone does not answer -->
+    <string name="disable_cfnry_forbidden">Your carrier does not support disabling call-forwarding when your phone doesn\'t answer.</string>
 
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFNRc">Forward when unreachable</string>
@@ -302,6 +306,9 @@
     <string name="sum_cfnrc_enabled">Forwarding to {0}</string>
     <!-- Call forwarding settings screen, setting summary text when Forward when unreachable is disabled -->
     <string name="sum_cfnrc_disabled">Disabled</string>
+    <!-- Error message displayed after failing to disable forwarding calls when the phone is unreachable -->
+    <string name="disable_cfnrc_forbidden">Your carrier does not support disabling call-forwarding when your phone is unreachable.</string>
+
     <!-- Title of the progress dialog displayed while updating Call settings -->
     <string name="updating_title">Call settings</string>
     <!-- Title of the alert dialog displayed if an error occurs while updating Call settings -->
