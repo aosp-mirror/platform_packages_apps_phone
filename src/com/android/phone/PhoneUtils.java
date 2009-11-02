@@ -108,6 +108,9 @@ public class PhoneUtils {
     // used to cancel MMI command after 15 seconds timeout for NWService requirement
     private static Message mMmiTimeoutCbMsg = null;
 
+    /** Noise suppression status as selected by user */
+    private static boolean sIsNoiseSuppressionEnabled = true;
+
     /**
      * Handler that tracks the connections and updates the value of the
      * Mute settings for each connection as needed.
@@ -1696,6 +1699,59 @@ public class PhoneUtils {
     static boolean isSpeakerOn(Context context) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         return audioManager.isSpeakerphoneOn();
+    }
+
+
+    static void turnOnNoiseSuppression(Context context, boolean flag, boolean store) {
+        if (DBG) log("turnOnNoiseSuppression: " + flag);
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        if (!context.getResources().getBoolean(R.bool.has_in_call_noise_suppression)) {
+            return;
+        }
+
+        if (flag) {
+            audioManager.setParameters("noise_suppression=auto");
+        } else {
+            audioManager.setParameters("noise_suppression=off");
+        }
+
+        // record the speaker-enable value
+        if (store) {
+            sIsNoiseSuppressionEnabled = flag;
+        }
+
+        // TODO: implement and manage ICON
+
+    }
+
+    static void restoreNoiseSuppression(Context context) {
+        if (DBG) log("restoreNoiseSuppression, restoring to: " + sIsNoiseSuppressionEnabled);
+
+        if (!context.getResources().getBoolean(R.bool.has_in_call_noise_suppression)) {
+            return;
+        }
+
+        // change the mode if needed.
+        if (isNoiseSuppressionOn(context) != sIsNoiseSuppressionEnabled) {
+            turnOnNoiseSuppression(context, sIsNoiseSuppressionEnabled, false);
+        }
+    }
+
+    static boolean isNoiseSuppressionOn(Context context) {
+
+        if (!context.getResources().getBoolean(R.bool.has_in_call_noise_suppression)) {
+            return false;
+        }
+
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        String noiseSuppression = audioManager.getParameters("noise_suppression");
+        if (DBG) log("isNoiseSuppressionOn: " + noiseSuppression);
+        if (noiseSuppression.contains("off")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
