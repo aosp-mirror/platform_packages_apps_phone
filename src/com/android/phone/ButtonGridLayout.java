@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View.MeasureSpec;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +48,12 @@ import android.view.ViewGroup;
 // setChildrenBackground method.
 
 public class ButtonGridLayout extends ViewGroup {
-    private final int COLUMNS = 3;
-    private final int ROWS = 4;
+    static private final String TAG = "ButtonGridLayout";
+    static private final int COLUMNS = 3;
+    static private final int ROWS = 4;
+    static private final int NUM_CHILDREN = ROWS * COLUMNS;
+
+    private View[] mButtons = new View[NUM_CHILDREN];
 
     // Width and height of a button
     private int mButtonWidth;
@@ -78,44 +83,50 @@ public class ButtonGridLayout extends ViewGroup {
      * Set the background of all the children. Typically a selector to
      * change the background based on some combination of the button's
      * attributes (e.g pressed, enabled...)
-     * @param background Is a resource id to be used for each button's background.
+     * @param resid Is a resource id to be used for each button's background.
      */
     public void setChildrenBackgroundResource(int resid) {
-        final int count = ROWS * COLUMNS;
-
-        for (int i = 0; i < count; i++) {
-            getChildAt(i).setBackgroundResource(resid);
+        final View[] buttons = mButtons;
+        for (int i = 0; i < NUM_CHILDREN; i++) {
+            buttons[i].setBackgroundResource(resid);
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        final View[] buttons = mButtons;
+        final int paddingLeft = mPaddingLeft;
+        final int buttonWidth = mButtonWidth;
+        final int buttonHeight = mButtonHeight;
+        final int widthInc = mWidthInc;
+        final int heightInc = mHeightInc;
+
         int i = 0;
         // The last row is bottom aligned.
         int y = (b - t) - mHeight + mPaddingTop;
         for (int row = 0; row < ROWS; row++) {
-            int x = mPaddingLeft;
+            int x = paddingLeft;
             for (int col = 0; col < COLUMNS; col++) {
-                View child = getChildAt(i);
-
-                child.layout(x, y, x + mButtonWidth, y + mButtonHeight);
-
-                x += mWidthInc;
+                buttons[i].layout(x, y, x + buttonWidth, y + buttonHeight);
+                x += widthInc;
                 i++;
             }
-            y += mHeightInc;
+            y += heightInc;
         }
       }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        final View[] buttons = getButtons();
         // Measure the first child and get it's size
-        View child = getChildAt(0);
+        View child = buttons[0];
         child.measure(MeasureSpec.UNSPECIFIED , MeasureSpec.UNSPECIFIED);
 
         // Make sure the other children are measured as well, to initialize
-        for (int i = 1; i < getChildCount(); i++) {
-            getChildAt(i).measure(MeasureSpec.UNSPECIFIED , MeasureSpec.UNSPECIFIED);
+        for (int i = 1; i < NUM_CHILDREN; i++) {
+            buttons[i].measure(MeasureSpec.UNSPECIFIED , MeasureSpec.UNSPECIFIED);
         }
 
         // Store these to be reused in onLayout.
@@ -129,5 +140,19 @@ public class ButtonGridLayout extends ViewGroup {
         final int height = resolveSize(mHeight, heightMeasureSpec);
 
         setMeasuredDimension(width, height);
+    }
+
+    /**
+     * Cache the buttons in a member for faster access.
+     */
+    private View[] getButtons() {
+        if (getChildCount() != NUM_CHILDREN) {
+            // If you see this, something is going to blow later on.
+            Log.e(TAG, "Wrong number of children:" + getChildCount());
+        }
+        for (int i = 0; i < NUM_CHILDREN; i++) {
+            mButtons[i] = getChildAt(i);
+        }
+        return mButtons;
     }
 }
