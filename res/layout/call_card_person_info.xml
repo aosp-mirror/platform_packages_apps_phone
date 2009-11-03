@@ -43,6 +43,21 @@
                    android:background="@drawable/incall_photo_border_lg"
                    />
 
+        <!-- The big "Manage conference" button that we show in place of
+             the contact photo during a conference call (but only on
+             devices where the in-call touch UI is enabled.)  The photo is
+             invisible if this button is visible, and vice-versa. -->
+        <Button android:id="@+id/manageConferencePhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/onscreenManageConferenceText"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@drawable/manage_conference_photo_button"
+                android:layout_marginTop="16dip"
+            />
+
         <!-- Elapsed time indication for a call in progress. -->
         <TextView android:id="@+id/elapsedTime"
                   android:textAppearance="?android:attr/textAppearanceMedium"

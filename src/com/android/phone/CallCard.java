@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +51,7 @@ import java.util.List;
  */
 public class CallCard extends FrameLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
-                ContactsAsyncHelper.OnImageLoadCompleteListener{
+                   ContactsAsyncHelper.OnImageLoadCompleteListener, View.OnClickListener {
     private static final String LOG_TAG = "CallCard";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -83,6 +84,7 @@ public class CallCard extends FrameLayout
     // The main block of info about the "primary" or "active" call,
     // including photo / name / phone number / etc.
     private ImageView mPhoto;
+    private Button mManageConferencePhotoButton;  // Possibly shown in place of mPhoto
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
@@ -175,6 +177,8 @@ public class CallCard extends FrameLayout
 
         // "Caller info" area, including photo / name / phone numbers / etc
         mPhoto = (ImageView) findViewById(R.id.photo);
+        mManageConferencePhotoButton = (Button) findViewById(R.id.manageConferencePhotoButton);
+        mManageConferencePhotoButton.setOnClickListener(this);
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
@@ -1059,6 +1063,10 @@ public class CallCard extends FrameLayout
             ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(info, 0, this, call,
                     getContext(), mPhoto, personUri, -1);
         }
+        // And no matter what, on all devices, we never see the "manage
+        // conference" button in this state.
+        mManageConferencePhotoButton.setVisibility(View.INVISIBLE);
+
         if (displayNumber != null && !call.isGeneric()) {
             mPhoneNumber.setText(displayNumber);
             mPhoneNumber.setTextColor(mTextColorDefaultSecondary);
@@ -1119,9 +1127,16 @@ public class CallCard extends FrameLayout
             showImage(mPhoto, R.drawable.picture_dialing);
             mName.setText(R.string.card_title_in_call);
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-            // Display the "conference call" image in the photo slot,
-            // with no other information.
-            showImage(mPhoto, R.drawable.picture_conference);
+            if (mInCallScreen.isTouchUiEnabled()) {
+                // Display the "manage conference" button in place of the photo.
+                mManageConferencePhotoButton.setVisibility(View.VISIBLE);
+                mPhoto.setVisibility(View.INVISIBLE);  // Not GONE, since that would break
+                                                       // other views in our RelativeLayout.
+            } else {
+                // Display the "conference call" image in the photo slot,
+                // with no other information.
+                showImage(mPhoto, R.drawable.picture_conference);
+            }
             mName.setText(R.string.card_title_conf_call);
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
@@ -1303,18 +1318,6 @@ public class CallCard extends FrameLayout
     }
 
     /**
-     * Intercepts (and discards) any touch events to the CallCard.
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        // if (DBG) log("CALLCARD: dispatchTouchEvent(): ev = " + ev);
-
-        // We *never* let touch events get thru to the UI inside the
-        // CallCard, since there's nothing touchable there.
-        return true;
-    }
-
-    /**
      * Returns the "Menu button hint" TextView (which is manipulated
      * directly by the InCallScreen.)
      * @see InCallScreen.updateMenuButtonHint()
@@ -1393,6 +1396,24 @@ public class CallCard extends FrameLayout
     /* package */ void setRotarySelectorHint(int hintTextResId, int hintColorResId) {
         mRotarySelectorHintTextResId = hintTextResId;
         mRotarySelectorHintColorResId = hintColorResId;
+    }
+
+    // View.OnClickListener implementation
+    public void onClick(View view) {
+        int id = view.getId();
+        if (DBG) log("onClick(View " + view + ", id " + id + ")...");
+
+        switch (id) {
+            case R.id.manageConferencePhotoButton:
+                // A click on anything here gets forwarded
+                // straight to the InCallScreen.
+                mInCallScreen.handleOnscreenButtonClick(id);
+                break;
+
+            default:
+                Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
+                break;
+        }
     }
 
 
