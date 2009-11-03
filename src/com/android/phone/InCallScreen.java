@@ -597,7 +597,7 @@ public class InCallScreen extends Activity
         // move this block of code over to initInCallScreen().)
         //
         SlidingDrawer dialerDrawer;
-        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
+        if (isTouchUiEnabled()) {
             // This is a "full touch" device.
             mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.non_drawer_dtmf_dialer);
             if (DBG) log("- Full touch device!  Found dialerView: " + mDialerView);
@@ -3149,7 +3149,7 @@ public class InCallScreen extends Activity
             case R.id.mergeButton:
                 PhoneUtils.mergeCalls(mPhone);
                 break;
-            case R.id.manageConferenceButton:
+            case R.id.manageConferencePhotoButton:
                 // Show the Manage Conference panel.
                 setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
                 break;
@@ -3239,7 +3239,7 @@ public class InCallScreen extends Activity
 
         // The hint is also hidden on devices where we use onscreen
         // touchable buttons instead.
-        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
+        if (isTouchUiEnabled()) {
             hintVisible = false;
         }
 
@@ -3996,6 +3996,14 @@ public class InCallScreen extends Activity
     }
 
     /**
+     * @return true if the onscreen touch UI is enabled (for regular
+     * "ongoing call" states) on the current device.
+     */
+    public boolean isTouchUiEnabled() {
+        return (mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled();
+    }
+
+    /**
      * Posts a handler message telling the InCallScreen to update the
      * onscreen in-call touch UI.
      *
@@ -4074,7 +4082,7 @@ public class InCallScreen extends Activity
         // use onscreen touchable buttons instead.
         // TODO: even on "full touch" devices we may still ultimately need
         // a regular menu in some states.  Need UI spec.
-        if ((mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled()) {
+        if (isTouchUiEnabled()) {
             return null;
         }
 
