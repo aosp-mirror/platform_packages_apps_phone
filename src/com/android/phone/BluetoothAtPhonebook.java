@@ -138,15 +138,16 @@ public class BluetoothAtPhonebook {
             public AtCommandResult handleReadCommand() {
                 // Return current size and max size
                 if ("SM".equals(mCurrentPhonebook)) {
-                    return new AtCommandResult("+CPBS: \"SM\",0," + MAX_PHONEBOOK_SIZE);
+                    return new AtCommandResult("+CPBS: \"SM\",0," + getMaxPhoneBookSize(0));
                 }
 
                 PhonebookResult pbr = getPhonebookResult(mCurrentPhonebook, true);
                 if (pbr == null) {
                     return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_ALLOWED);
                 }
+                int size = pbr.cursor.getCount();
                 return new AtCommandResult("+CPBS: \"" + mCurrentPhonebook + "\"," +
-                        pbr.cursor.getCount() + "," + MAX_PHONEBOOK_SIZE);
+                        size + "," + getMaxPhoneBookSize(size));
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -363,6 +364,28 @@ public class BluetoothAtPhonebook {
         }
         Log.i(TAG, "Refreshed phonebook " + pb + " with " + pbr.cursor.getCount() + " results");
         return true;
+    }
+
+    private synchronized int getMaxPhoneBookSize(int currSize) {
+        // some car kits ignore the current size and request max phone book
+        // size entries. Thus, it takes a long time to transfer all the
+        // entries. Use a heuristic to calculate the max phone book size
+        // considering future expansion.
+        // maxSize = currSize + currSize / 2 rounded up to nearest power of 2
+        // If currSize < 100, use 100 as the currSize
+
+        int maxSize = (currSize < 100) ? 100 : currSize;
+        maxSize += maxSize / 2;
+        return roundUpToPowerOfTwo(maxSize);
+    }
+
+    private int roundUpToPowerOfTwo(int x) {
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        return x + 1;
     }
 
     private static String getPhoneType(int type) {
