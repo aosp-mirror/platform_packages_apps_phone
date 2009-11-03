@@ -87,20 +87,6 @@
                 android:text="@string/onscreenSwapCallsText" />
         </LinearLayout>
 
-        <!-- "Manage conference" (upper right) -->
-        <LinearLayout android:id="@+id/manageConferenceButtonContainer"
-                style="@style/InCallRoundButtonContainer"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dip"
-                android:visibility="gone">
-            <TextView
-                style="@style/InCallRoundButtonLabel"
-                android:text="@string/onscreenManageConferenceText" />
-            <ImageButton android:id="@+id/manageConferenceButton"
-                    style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_manage_conference" />
-        </LinearLayout>
-
         <!-- DTMF dialpad shown in the upper part of the screen
              (above the main cluster of buttons.) -->
         <!-- TODO: this should be a ViewStub, and should only get inflated
