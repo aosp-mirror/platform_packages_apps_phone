@@ -200,7 +200,6 @@ public class OutgoingCallBroadcaster extends Activity {
                 // use the java resolver to find the dialer class (as
                 // opposed to a Context which look up known android
                 // packages only)
-                // TODO: Don't use DialtactsActivity under the *phone* package, it is cruft.
                 invokeFrameworkDialer.setClassName("com.android.contacts",
                                                    "com.android.contacts.DialtactsActivity");
                 invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
