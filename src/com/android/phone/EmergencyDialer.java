@@ -378,14 +378,19 @@ public class EmergencyDialer extends Activity
                 keyPressed(KeyEvent.KEYCODE_STAR);
                 return;
             }
-            case R.id.dialButton:
-            case R.id.digits: {
+            case R.id.deleteButton: {
+                keyPressed(KeyEvent.KEYCODE_DEL);
+                return;
+            }
+            case R.id.dialButton: {
                 vibrate();  // Vibrate here too, just like we do for the regular keys
                 placeCall();
                 return;
             }
-            case R.id.deleteButton: {
-                keyPressed(KeyEvent.KEYCODE_DEL);
+            case R.id.digits: {
+                if (mDigits.length() != 0) {
+                    mDigits.setCursorVisible(true);
+                }
                 return;
             }
         }
