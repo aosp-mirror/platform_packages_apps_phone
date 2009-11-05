@@ -1408,10 +1408,10 @@ public class BluetoothHandsfree {
         }
 
         int mpty = 0;
-        if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
-            mpty = 0;
-        } else {
+        if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
             mpty = 1;
+        } else {
+            mpty = 0;
         }
 
         int direction = c.isIncoming() ? 1 : 0;
