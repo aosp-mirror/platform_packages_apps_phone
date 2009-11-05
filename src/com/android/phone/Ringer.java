@@ -33,7 +33,6 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
-
 /**
  * Ringer manager for the Phone app.
  */
@@ -71,7 +70,7 @@ public class Ringer {
     /**
      * After a radio technology change, e.g. from CDMA to GSM or vice versa,
      * the Context of the Ringer has to be updated. This is done by that function.
-     * 
+     *
      * @parameter Phone, the new active phone for the appropriate radio
      * technology
      */
@@ -127,7 +126,11 @@ public class Ringer {
 
         synchronized (this) {
             try {
-                mHardwareService.setAttentionLight(true);
+                if (PhoneApp.getInstance().showBluetoothIndication()) {
+                    mHardwareService.setAttentionLight(true, 0x000000ff);
+		} else {
+                    mHardwareService.setAttentionLight(true, 0x00ffffff);
+		}
             } catch (RemoteException ex) {
                 // the other end of this binder call is in the system process.
             }
@@ -193,7 +196,7 @@ public class Ringer {
             if (DBG) log("stopRing()...");
 
             try {
-                mHardwareService.setAttentionLight(false);
+                mHardwareService.setAttentionLight(false, 0x00000000);
             } catch (RemoteException ex) {
                 // the other end of this binder call is in the system process.
             }
@@ -235,7 +238,7 @@ public class Ringer {
     private class Worker implements Runnable {
         private final Object mLock = new Object();
         private Looper mLooper;
-        
+
         Worker(String name) {
             Thread t = new Thread(null, this, name);
             t.start();
@@ -248,11 +251,11 @@ public class Ringer {
                 }
             }
         }
-        
+
         public Looper getLooper() {
             return mLooper;
         }
-        
+
         public void run() {
             synchronized (mLock) {
                 Looper.prepare();
@@ -261,7 +264,7 @@ public class Ringer {
             }
             Looper.loop();
         }
-        
+
         public void quit() {
             mLooper.quit();
         }
