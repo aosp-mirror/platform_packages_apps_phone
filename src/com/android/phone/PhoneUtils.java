@@ -257,6 +257,10 @@ public class PhoneUtils {
                         // Set the Phone Call State to CONF_CALL
                         app.cdmaPhoneCallState.setCurrentCallState(
                                 CdmaPhoneCallState.PhoneCallState.CONF_CALL);
+                        // Enable "Add Call" option after answering a Call Waiting as the user
+                        // should be allowed to add another call in case one of the parties
+                        // drops off
+                        app.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(true);
 
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
@@ -1525,8 +1529,10 @@ public class PhoneUtils {
         PhoneApp app = PhoneApp.getInstance();
         int phoneType = app.phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            if (app.cdmaPhoneCallState.getCurrentCallState()
-                    == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+            CdmaPhoneCallState.PhoneCallState state = app.cdmaPhoneCallState.getCurrentCallState();
+            if ((state == CdmaPhoneCallState.PhoneCallState.CONF_CALL)
+                    || ((state == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && !app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing())) {
                 return true;
             }
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
@@ -2011,8 +2017,9 @@ public class PhoneUtils {
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA: "Merge" is enabled only when the user is in a 3Way call.
             PhoneApp app = PhoneApp.getInstance();
-            return (app.cdmaPhoneCallState.getCurrentCallState()
-                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE);
+            return ((app.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && !app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing());
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM: "Merge" is available if both lines are in use and there's no
             // incoming call, *and* the current conference isn't already
@@ -2029,13 +2036,13 @@ public class PhoneUtils {
      */
     /* package */ static boolean okToAddCall(Phone phone) {
         int phoneType = phone.getPhoneType();
+        final Call.State fgCallState = phone.getForegroundCall().getState();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
            // CDMA: "Add call" menu item is only enabled when the call is in
-           // - SINGLE_ACTIVE state
-           // - After 60 seconds of user Ignoring/Missing a Call Waiting call.
+           // - ForegroundCall is in ACTIVE state
+           // - After 30 seconds of user Ignoring/Missing a Call Waiting call.
             PhoneApp app = PhoneApp.getInstance();
-            return ((app.cdmaPhoneCallState.getCurrentCallState()
-                    == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE)
+            return ((fgCallState == Call.State.ACTIVE)
                     && (app.cdmaPhoneCallState.getAddCallMenuStateAfterCallWaiting()));
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             // GSM: "Add call" is available only if ALL of the following are true:
@@ -2047,7 +2054,6 @@ public class PhoneUtils {
             final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
             final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
             final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
-            final Call.State fgCallState = phone.getForegroundCall().getState();
 
             return !hasRingingCall
                     && !allLinesTaken

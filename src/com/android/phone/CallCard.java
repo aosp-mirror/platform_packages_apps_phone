@@ -278,8 +278,9 @@ public class CallCard extends FrameLayout
 
         int phoneType = phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            if (mApplication.cdmaPhoneCallState.getCurrentCallState()
-                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+            if ((mApplication.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
                 displayOnHoldCallStatus(phone, fgCall);
             } else {
                 //This is required so that even if a background call is not present

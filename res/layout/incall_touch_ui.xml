@@ -58,8 +58,8 @@
              off to the side. -->
 
         <!-- "Hold" (upper left) -->
-        <!-- (Note "Hold" and "Swap" are never both available at
-             the same time.  That's why it's OK for them to both be in the
+        <!-- (Note "Hold", "Swap" and "Merge" are never available at
+             the same time.  That's why it's OK for them to be in the
              same position onscreen.) -->
         <LinearLayout android:id="@+id/holdButtonContainer"
                 style="@style/InCallRoundButtonContainer"
@@ -82,9 +82,22 @@
             <ImageButton android:id="@+id/swapButton"
                     style="@style/InCallRoundTouchButton"
                     android:src="@drawable/ic_in_call_touch_round_swap" />
+            <TextView android:id="@+id/swapButtonLabel"
+                style="@style/InCallRoundButtonLabel" />
+        </LinearLayout>
+
+        <!-- "Merge" (upper left) CDMA specific -->
+        <LinearLayout android:id="@+id/cdmaMergeButtonContainer"
+                style="@style/InCallRoundButtonContainer"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dip"
+                android:visibility="gone">
+            <ImageButton android:id="@+id/cdmaMergeButton"
+                    style="@style/InCallRoundTouchButton"
+                    android:src="@drawable/ic_in_call_touch_round_merge_call" />
             <TextView
                 style="@style/InCallRoundButtonLabel"
-                android:text="@string/onscreenSwapCallsText" />
+                android:text="@string/onscreenMergeCallsText" />
         </LinearLayout>
 
         <!-- DTMF dialpad shown in the upper part of the screen
@@ -139,7 +152,7 @@
                             android:text="@string/onscreenAddCallText"
                             android:drawableTop="@drawable/ic_in_call_touch_add_call"
                             />
-                    <!-- "Merge calls" -->
+                    <!-- "Merge calls". GSM specific -->
                     <Button android:id="@+id/mergeButton"
                             style="@style/InCallTouchButton"
                             android:layout_width="fill_parent"
