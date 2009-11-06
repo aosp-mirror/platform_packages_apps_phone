@@ -989,7 +989,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 if (DBG) log("Negative button");
                 if (mCurrentDialogId == FW_GET_RESPONSE_ERROR) {
                     // We failed to get current forwarding settings and the user
-                    // does not wishes to continue.
+                    // does not wish to continue.
                     switchToPreviousVoicemailProvider();
                 }
                 break;
@@ -1002,13 +1002,15 @@ public class CallFeaturesSetting extends PreferenceActivity
                 } else {
                     finish();
                 }
-                break;
+                return;
             default:
-                // If we were called to explicitly configure voice mail then finish here
-                if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
-                    finish();
-                }
                 // just let the dialog close and go back to the input
+        }
+        // In all dialogs, all buttons except BUTTON_POSITIVE lead to the end of user interaction
+        // with settings UI. If we were called to explicitly configure voice mail then
+        // we finish the settings activity here to come back to whatever the user was doing.
+        if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
+            finish();
         }
     }
 
