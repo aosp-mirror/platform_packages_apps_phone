@@ -1449,7 +1449,7 @@ public class PhoneApp extends Application {
                         // any UI items (such as an InCallScreen mute button) that may need to
                         // be updated if their state changed.
                         if (isShowingCallScreen()) {
-                            mInCallScreen.requestUpdateTouchUi();
+                            updateInCallScreenTouchUi();
                         }
                         abortBroadcast();
                     }
@@ -1535,6 +1535,14 @@ public class PhoneApp extends Application {
         if (DBG) Log.d(LOG_TAG, "- clearInCallScreenMode ...");
         if (mInCallScreen != null) {
             mInCallScreen.resetInCallScreenMode();
+        }
+    }
+
+    // Update InCallScreen's touch UI. It is safe to call even if InCallScreen isn't active
+    public void updateInCallScreenTouchUi() {
+        if (DBG) Log.d(LOG_TAG, "- updateInCallScreenTouchUi ...");
+        if (mInCallScreen != null) {
+            mInCallScreen.requestUpdateTouchUi();
         }
     }
 }
