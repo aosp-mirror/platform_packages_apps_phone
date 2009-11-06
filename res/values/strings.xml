@@ -942,6 +942,8 @@
     <string name="onscreenMergeCallsText">Merge calls</string>
     <!-- Text for the onscreen "Swap calls" button -->
     <string name="onscreenSwapCallsText">Swap</string>
+    <!-- Text for the onscreen "Manage calls" button -->
+    <string name="onscreenManageCallsText">Manage calls</string>
     <!-- Text for the onscreen "Manage conference" button -->
     <string name="onscreenManageConferenceText">Manage</string>
 

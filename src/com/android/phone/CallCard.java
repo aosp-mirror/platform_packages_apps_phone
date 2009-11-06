@@ -278,8 +278,9 @@ public class CallCard extends FrameLayout
 
         int phoneType = phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            if (mApplication.cdmaPhoneCallState.getCurrentCallState()
-                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+            if ((mApplication.cdmaPhoneCallState.getCurrentCallState()
+                    == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                    && mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
                 displayOnHoldCallStatus(phone, fgCall);
             } else {
                 //This is required so that even if a background call is not present
@@ -977,7 +978,8 @@ public class CallCard extends FrameLayout
                                         int presentation,
                                         boolean isTemporary,
                                         Call call) {
-        if (DBG) log("updateDisplayForPerson(" + info + ")...");
+        if (DBG) log("updateDisplayForPerson(" + info + ")\npresentation:" +
+                     presentation + " isTemporary:" + isTemporary);
 
         // inform the state machine that we are displaying a photo.
         mPhotoTracker.setPhotoRequest(info);
@@ -1059,9 +1061,9 @@ public class CallCard extends FrameLayout
             showImage(mPhoto, info.photoResource);
         } else if (!showCachedImage(mPhoto, info)) {
             // Load the image with a callback to update the image state.
-            // Use a placeholder image value of -1 to indicate no image.
-            ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(info, 0, this, call,
-                    getContext(), mPhoto, personUri, -1);
+            // Use the default unknown picture while the query is running.
+            ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
+                info, 0, this, call, getContext(), mPhoto, personUri, R.drawable.picture_unknown);
         }
         // And no matter what, on all devices, we never see the "manage
         // conference" button in this state.
