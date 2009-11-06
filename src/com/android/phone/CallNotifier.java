@@ -74,7 +74,7 @@ public class CallNotifier extends Handler
     // 1) For displaying Caller Info
     // 2) For disabling "Add Call" menu option once User selects Ignore or CW Timeout occures
     private static final int CALLWAITING_CALLERINFO_DISPLAY_TIME = 20000; // msec
-    private static final int CALLWAITING_ADDCALL_DISABLE_TIME = 60000; // msec
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIME = 30000; // msec
 
     // Time to display the  DisplayInfo Record sent by CDMA network
     private static final int DISPLAYINFO_NOTIFICATION_TIME = 2000; // msec
@@ -275,6 +275,7 @@ public class CallNotifier extends Handler
                 if (DBG) log("Received CALLWAITING_ADDCALL_DISABLE_TIMEOUT event ...");
                 // Set the mAddCallMenuStateAfterCW state to true
                 mApplication.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(true);
+                mApplication.updateInCallScreenTouchUi();
                 break;
 
             case PHONE_STATE_DISPLAYINFO:
