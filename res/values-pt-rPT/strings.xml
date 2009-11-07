@@ -127,19 +127,27 @@
     <string name="messageCFU" msgid="3560082430662923687">"Utilizar sempre este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"A reencaminhar todas as chamadas"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"A reencaminhar todas as chamadas para \\\\{0\\\\}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Desactivado"</string>
     <string name="labelCFB" msgid="218938523102207587">"Reencaminhar quando ocupado"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Número no caso de estar ocupado"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"A redireccionar para \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Desactivado"</string>
+    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
+    <skip />
     <string name="labelCFNRy" msgid="3646316323834351390">"Reencaminhar quando não atende"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Número no caso de não atender"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"A reencaminhar para \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Desactivado"</string>
+    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
+    <skip />
     <string name="labelCFNRc" msgid="47183615370850000">"Reencaminhar quando está inacessível"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Número no caso de estar inacessível"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"A reencaminhar para \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Desactivado"</string>
+    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
+    <skip />
     <string name="updating_title" msgid="6146755386174019046">"Definições de chamadas"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Erro nas definições de chamada"</string>
     <string name="reading_settings" msgid="1920291699287055284">"A ler as definições..."</string>
@@ -159,10 +167,8 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar o número do correio de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"O número do correio de voz foi alterado."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"A alteração do número do correio de voz falhou."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="fw_change_failed" msgid="3124377684971600400">"A alteração do número de encaminhamento falhou."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Falha ao obter e guardar as definições do número de encaminhamento actual."\n"Pretende mudar para o novo fornecedor mesmo assim?"</string>
     <string name="no_change" msgid="3186040086622435212">"Não foram efectuadas alterações."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Escolha o serviço de correio de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"O meu operador"</string>
@@ -460,10 +466,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Novo correio de voz (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número do correio de voz desconhecido"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Nenhum serviço"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Rede seleccionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) indisponível"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para efectuar uma chamada, desactive primeiro o modo para Avião."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Sem registo na rede."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"A chamada não foi efectuada. Não foi introduzido um número válido."</string>
@@ -486,10 +490,8 @@
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado numérico por tons"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Teclado de marcação"</string>
     <string name="touchLockText" msgid="566824588267376287">"Toque duas vezes em "\n"para desbloquear"</string>
-    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
-    <skip />
-    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
-    <skip />
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Toque duas vezes"\n"para atender"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Toque duas vezes"\n"para recusar"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Suspender"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Retomar"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Terminar"</string>
@@ -501,6 +503,8 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Adicionar chamada"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Intercalar chamadas"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Trocar"</string>
+    <!-- no translation found for onscreenManageCallsText (5473231160123254154) -->
+    <skip />
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gerir"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar todos"</string>
@@ -542,8 +546,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Entrou em Modo de Chamada de Retorno de Emergência"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modo de Chamada de Retorno de Emergência"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Ligação de dados desactivada"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Sem ligação de dados durante <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
     <item quantity="other" msgid="3122217344579273583">"Sem ligação de dados durante <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
@@ -556,13 +559,11 @@
     <item quantity="one" msgid="8939225905428421722">"A acção seleccionada não está disponível no modo de chamada de retorno de emergência. O telefone permanecerá neste modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. Pretende sair agora?"</item>
     <item quantity="other" msgid="3489076611710869904">"A acção seleccionada não está disponível no modo de chamada de retorno de emergência. O telefone permanecerá neste modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. Pretende sair agora?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"A acção seleccionada não está disponível durante uma chamada de emergência"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Sair do Modo de Chamada de Retorno de Emergência"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sim"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Não"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorar"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Definições de correio de voz"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;não definido&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Serviço de correio de voz"</string>
@@ -570,16 +571,10 @@
     <string name="other_settings" msgid="3672912580359716394">"Outras definições de chamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Marcar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"A ligar através de ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="rotate_to_answer" msgid="250167639217498442">"Rodar para responder"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Rodar para silenciar toque"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Rodar para recusar a chamada"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Rodar para responder e"\n"manter a chamada activa em espera"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Rodar para responder e"\n"terminar a chamada activa"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Rodar para responder e"\n"terminar a chamada em espera"</string>
 </resources>
