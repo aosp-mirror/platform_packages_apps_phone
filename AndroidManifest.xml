@@ -325,7 +325,8 @@
         </activity>
 
         <!-- call feature setting -->
-        <activity android:name="CallFeaturesSetting" android:label="@string/call_settings">
+        <activity android:name="CallFeaturesSetting" android:label="@string/call_settings"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
