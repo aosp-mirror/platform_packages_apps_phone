@@ -60,6 +60,7 @@ public class BluetoothAtPhonebook {
     private static final String OUTGOING_CALL_WHERE = Calls.TYPE + "=" + Calls.OUTGOING_TYPE;
     private static final String INCOMING_CALL_WHERE = Calls.TYPE + "=" + Calls.INCOMING_TYPE;
     private static final String MISSED_CALL_WHERE = Calls.TYPE + "=" + Calls.MISSED_TYPE;
+    private static final String VISIBLE_PHONEBOOK_WHERE = Phone.IN_VISIBLE_GROUP + "=1";
 
     private class PhonebookResult {
         public Cursor  cursor; // result set of last query
@@ -331,7 +332,7 @@ public class BluetoothAtPhonebook {
 
         if (pb.equals("ME")) {
             ancillaryPhonebook = false;
-            where = null;
+            where = VISIBLE_PHONEBOOK_WHERE;
         } else if (pb.equals("DC")) {
             where = OUTGOING_CALL_WHERE;
         } else if (pb.equals("RC")) {
@@ -356,7 +357,7 @@ public class BluetoothAtPhonebook {
             pbr.nameColumn = -1;
         } else {
             pbr.cursor = mContext.getContentResolver().query(
-                    Phone.CONTENT_URI, PHONES_PROJECTION, null, null,
+                    Phone.CONTENT_URI, PHONES_PROJECTION, where, null,
                     Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
             pbr.numberColumn = pbr.cursor.getColumnIndex(Phone.NUMBER);
             pbr.typeColumn = pbr.cursor.getColumnIndex(Phone.TYPE);
