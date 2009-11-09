@@ -829,12 +829,16 @@ public class BluetoothHandsfree {
                     mRingingType = type;
                     mIgnoreRing = false;
 
-                    // Set up SCO channel immediately, regardless of in-band
-                    // ringtone support. SCO can take up to 2s to set up so
-                    // do it now before the call is answered
-                    audioOn();
-
+                    // Ideally, we would like to set up the SCO channel
+                    // before sending the ring() so that we don't miss any
+                    // incall audio. However, some headsets don't play the
+                    // ringtone in such scenarios. So send the ring() first
+                    // and then setup SCO after a delay of 1 second.
                     result.addResult(ring());
+
+                    Message msg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
+                    mHandler.sendMessageDelayed(msg, 1000);
+
                 }
             }
             sendURC(result.toString());
@@ -918,6 +922,7 @@ public class BluetoothHandsfree {
     private static final int CHECK_CALL_STARTED = 4;
     private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
     private static final int MESSAGE_CHECK_PENDING_SCO = 6;
+    private static final int DELAYED_SCO_FOR_RINGTONE = 7;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -994,6 +999,11 @@ public class BluetoothHandsfree {
                             mOutgoingSco = null;
                         }
                         mPendingSco = false;
+                    }
+                    break;
+                case DELAYED_SCO_FOR_RINGTONE:
+                    if (!mForegroundCall.isIdle() || !mRingingCall.isIdle()) {
+                        audioOn();
                     }
                     break;
                 }
