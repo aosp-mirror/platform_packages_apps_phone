@@ -407,29 +407,39 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonTTY) {
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
-            mPreviousVMProviderKey = getCurrentVoicemailProviderKey();
+            final String currentProviderKey = getCurrentVoicemailProviderKey();
             final String newProviderKey = (String)objValue;
-            if (DBG) log("VM provider changes to " + newProviderKey + " from " +
-                    mPreviousVMProviderKey);
 
-            updateVMPreferenceWidgets(newProviderKey);
-
-            final VoiceMailProviderSettings newProviderSettings =
-                loadSettingsForVoiceMailProvider(newProviderKey);
-
-            // If the user switches to a voice mail provider and we have a
-            // numbers stored for it we will automatically change the phone's
-            // voice mail and forwarding number to the stored ones.
-            // Otherwise we will bring up provider's configuration UI.
-
-            if (newProviderSettings == null) {
-                if (DBG) log("Saved preferences not found - invoking config");
-                mVMProviderSettingsForced = true;
-                // Force the user into a configuration of the chosen provider
-                simulatePreferenceClick(mVoicemailSettings);
+            if (currentProviderKey.equals(newProviderKey)) {
+                if (DBG) log("VM provider unchanged (" + newProviderKey + ")");
             } else {
-                if (DBG) log("Saved preferences found - switching to them");
-                saveVoiceMailAndForwardingNumber(newProviderKey, newProviderSettings);
+                if (DBG)
+                    log("VM provider changes to " + newProviderKey + " from "
+                            + mPreviousVMProviderKey);
+
+                mPreviousVMProviderKey = currentProviderKey;
+
+                updateVMPreferenceWidgets(newProviderKey);
+
+                final VoiceMailProviderSettings newProviderSettings =
+                        loadSettingsForVoiceMailProvider(newProviderKey);
+
+                // If the user switches to a voice mail provider and we have a
+                // numbers stored for it we will automatically change the
+                // phone's
+                // voice mail and forwarding number to the stored ones.
+                // Otherwise we will bring up provider's configuration UI.
+
+                if (newProviderSettings == null) {
+                    if (DBG) log("Saved preferences not found - invoking config");
+                    mVMProviderSettingsForced = true;
+                    // Force the user into a configuration of the chosen
+                    // provider
+                    simulatePreferenceClick(mVoicemailSettings);
+                } else {
+                    if (DBG) log("Saved preferences found - switching to them");
+                    saveVoiceMailAndForwardingNumber(newProviderKey, newProviderSettings);
+                }
             }
         }
         // always let the preference setting proceed.
