@@ -22,26 +22,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Config;
-import com.android.internal.telephony.Phone;
+import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.Phone;
+
 /**
- * OutgoingCallBroadcaster receives CALL Intents and sends out broadcast
- * Intents that allow other applications to monitor, redirect, or prevent
- * the outgoing call.  If not aborted, the broadcasts will reach
- * {@link OutgoingCallReceiver}, and be passed on to {@link InCallScreen}.
+ * OutgoingCallBroadcaster receives CALL and CALL_PRIVILEGED Intents, and
+ * broadcasts the ACTION_NEW_OUTGOING_CALL intent which allows other
+ * applications to monitor, redirect, or prevent the outgoing call.
+
+ * After the other applications have had a chance to see the
+ * ACTION_NEW_OUTGOING_CALL intent, it finally reaches the
+ * {@link OutgoingCallReceiver}, which passes the (possibly modified)
+ * intent on to the {@link InCallScreen}.
  *
- * Emergency calls and calls to voicemail when no number is present are
- * exempt from being broadcast.
+ * Emergency calls and calls where no number is present (like for a CDMA
+ * "empty flash" or a nonexistent voicemail number) are exempt from being
+ * broadcast.
  */
 public class OutgoingCallBroadcaster extends Activity {
 
     private static final String PERMISSION = android.Manifest.permission.PROCESS_OUTGOING_CALLS;
     private static final String TAG = "OutgoingCallBroadcaster";
-    private static final boolean LOGV = Config.LOGV;
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
@@ -64,9 +71,7 @@ public class OutgoingCallBroadcaster extends Activity {
      * a modified phone number and optional provider info (uri + package name + remote views.)
      */
     public class OutgoingCallReceiver extends BroadcastReceiver {
-
         private static final String TAG = "OutgoingCallReceiver";
-        private static final boolean LOGV = Config.LOGV;
 
         public void onReceive(Context context, Intent intent) {
             doReceive(context, intent);
@@ -74,16 +79,16 @@ public class OutgoingCallBroadcaster extends Activity {
         }
 
         public void doReceive(Context context, Intent intent) {
+            if (DBG) Log.v(TAG, "doReceive: " + intent);
+
             boolean alreadyCalled;
             String number;
             String originalUri;
 
-            if (LOGV) Log.v(TAG, "Receiving intent " + intent + ".");
-
             alreadyCalled = intent.getBooleanExtra(
                     OutgoingCallBroadcaster.EXTRA_ALREADY_CALLED, false);
             if (alreadyCalled) {
-                if (LOGV) Log.v(TAG, "CALL already placed -- returning.");
+                if (DBG) Log.v(TAG, "CALL already placed -- returning.");
                 return;
             }
 
@@ -110,18 +115,18 @@ public class OutgoingCallBroadcaster extends Activity {
                     app.clearOtaState();
                     app.clearInCallScreenMode();
                 } else if (isOtaCallActive) {
-                    if (LOGV) Log.v(TAG, "OTA call is active, a 2nd CALL cancelled -- returning.");
+                    if (DBG) Log.v(TAG, "OTA call is active, a 2nd CALL cancelled -- returning.");
                     return;
                 }
             }
 
             if (number == null) {
-                if (LOGV) Log.v(TAG, "CALL cancelled -- returning.");
+                if (DBG) Log.v(TAG, "CALL cancelled (null number), returning...");
                 return;
             } else if ((phoneType == Phone.PHONE_TYPE_CDMA)
                     && ((app.phone.getState() != Phone.State.IDLE)
                     && (app.phone.isOtaSpNumber(number)))) {
-                if (LOGV) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
+                if (DBG) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
                 return;
             } else if (PhoneNumberUtils.isEmergencyNumber(number)) {
                 Log.w(TAG, "Cannot modify outgoing call to emergency number " + number + ".");
@@ -137,7 +142,7 @@ public class OutgoingCallBroadcaster extends Activity {
 
             Uri uri = Uri.parse(originalUri);
 
-            if (LOGV) Log.v(TAG, "CALL to " + number + " proceeding.");
+            if (DBG) Log.v(TAG, "CALL to " + number + " proceeding.");
 
             Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
             newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
@@ -147,6 +152,7 @@ public class OutgoingCallBroadcaster extends Activity {
             newIntent.setClass(context, InCallScreen.class);
             newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            if (DBG) Log.v(TAG, "doReceive(): calling startActivity: " + newIntent);
             context.startActivity(newIntent);
         }
     }
@@ -156,7 +162,7 @@ public class OutgoingCallBroadcaster extends Activity {
         super.onCreate(icicle);
 
         Intent intent = getIntent();
-        if (LOGV) Log.v(TAG, "onResume: Got intent " + intent + ".");
+        if (DBG) Log.v(TAG, "onCreate: getIntent() = " + intent);
 
         String action = intent.getAction();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, this);
@@ -204,6 +210,9 @@ public class OutgoingCallBroadcaster extends Activity {
                                                    "com.android.contacts.DialtactsActivity");
                 invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
                 invokeFrameworkDialer.setData(intent.getData());
+
+                if (DBG) Log.v(TAG, "onCreate(): calling startActivity for Dialer: "
+                               + invokeFrameworkDialer);
                 startActivity(invokeFrameworkDialer);
                 finish();
                 return;
@@ -254,6 +263,7 @@ public class OutgoingCallBroadcaster extends Activity {
 
         if (callNow) {
             intent.setClass(this, InCallScreen.class);
+            if (DBG) Log.v(TAG, "onCreate(): callNow case, calling startActivity: " + intent);
             startActivity(intent);
         }
 
@@ -264,7 +274,8 @@ public class OutgoingCallBroadcaster extends Activity {
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
-        if (LOGV) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");
+
+        if (DBG) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION,
                 new OutgoingCallReceiver(), null, Activity.RESULT_OK, number, null);
         // The receiver will finish our activity when it finally runs.

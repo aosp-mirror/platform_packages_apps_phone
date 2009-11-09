@@ -1664,7 +1664,7 @@ public class PhoneUtils {
     }
 
     static void turnOnSpeaker(Context context, boolean flag, boolean store) {
-        if (DBG) log("turnOnSpeaker: " + flag);
+        if (DBG) log("turnOnSpeaker(flag=" + flag + ", store=" + store + ")...");
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         audioManager.setSpeakerphoneOn(flag);
