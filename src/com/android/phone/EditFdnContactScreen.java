@@ -205,7 +205,7 @@ public class EditFdnContactScreen extends Activity {
         mName =  intent.getStringExtra(INTENT_EXTRA_NAME);
         mNumber =  intent.getStringExtra(INTENT_EXTRA_NUMBER);
 
-        if (TextUtils.isEmpty(mName)) {
+        if (TextUtils.isEmpty(mName) && TextUtils.isEmpty(mNumber)) {
             mAddContact = true;
         }
     }
@@ -388,7 +388,7 @@ public class EditFdnContactScreen extends Activity {
             } else if (v == mNumberField) {
                 mButton.requestFocus();
             } else if (v == mButton) {
-                // Autheticate the pin AFTER the contact information
+                // Authenticate the pin AFTER the contact information
                 // is entered, and if we're not busy.
                 if (!mDataBusy) {
                     authenticatePin2();
