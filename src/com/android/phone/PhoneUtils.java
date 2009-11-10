@@ -1315,10 +1315,12 @@ public class PhoneUtils {
             cit.currentInfo.numberPresentation = c.getNumberPresentation();
             cit.currentInfo.namePresentation = c.getCnapNamePresentation();
 
-            if (DBG) log("startGetCallerInfo: number = " + number);
-            if (DBG) log("startGetCallerInfo: CNAP Info from FW(1): name="
+            if (DBG) {
+                log("startGetCallerInfo: number = " + number);
+                log("startGetCallerInfo: CNAP Info from FW(1): name="
                     + cit.currentInfo.cnapName
                     + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+            }
 
             // handling case where number is null (caller id hidden) as well.
             if (!TextUtils.isEmpty(number)) {
@@ -1479,13 +1481,15 @@ public class PhoneUtils {
 
         String compactName = null;
         if (ci != null) {
-            compactName = ci.name;
-            if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
-                compactName = ci.phoneNumber;
+            if (TextUtils.isEmpty(ci.name)) {
+                // Perform any modifications for special CNAP cases to
+                // the phone number being displayed, if applicable.
+                compactName = modifyForSpecialCnapCases(context, ci, ci.phoneNumber,
+                                                        ci.numberPresentation);
+            } else {
+                // Don't call modifyForSpecialCnapCases on regular name. See b/2160795.
+                compactName = ci.name;
             }
-            // Perform any modifications for special CNAP cases to the name being displayed,
-            // if applicable.
-            compactName = modifyForSpecialCnapCases(context, ci, compactName, ci.numberPresentation);
         }
 
         if ((compactName == null) || (TextUtils.isEmpty(compactName))) {
@@ -2104,7 +2108,7 @@ public class PhoneUtils {
         if (ci == null || number == null) return number;
 
         if (DBG) log("modifyForSpecialCnapCases: initially, number=" + number
-                + ", presentation=" + presentation);
+                + ", presentation=" + presentation + " ci " + ci);
 
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
