@@ -34,7 +34,7 @@
         By measuring from the top, this will layou out properly on hvga and wvga devices,
         includign taller ones.
     -->
-    <com.android.internal.widget.RotarySelector
+    <com.android.internal.widget.SlidingTab
         android:id="@+id/incomingCallWidget"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
