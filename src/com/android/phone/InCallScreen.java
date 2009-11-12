@@ -4885,7 +4885,7 @@ public class InCallScreen extends Activity
      *        or 0 if no hint should be visible.
      * @param hintColorResId resource ID for the color of the hint text
      */
-    /* package */ void updateRotarySelectorHint(int hintTextResId, int hintColorResId) {
+    /* package */ void updateSlidingTabHint(int hintTextResId, int hintColorResId) {
         if (VDBG) log("updateRotarySelectorHint(" + hintTextResId + ")...");
         if (mCallCard != null) {
             mCallCard.setRotarySelectorHint(hintTextResId, hintColorResId);
