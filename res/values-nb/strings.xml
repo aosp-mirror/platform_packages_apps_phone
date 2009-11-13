@@ -144,6 +144,8 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Feil ved samtaleinnstillinger"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Leser innstillinger…"</string>
     <string name="updating_settings" msgid="8171225533884883252">"Oppdaterer innstillinger…"</string>
+    <!-- no translation found for reverting_settings (4752151682666912828) -->
+    <skip />
     <string name="response_error" msgid="6674110501330139405">"Uventet svar fra nettverket."</string>
     <string name="exception_error" msgid="7027667130619518211">"Nettverks- eller SIM-kort-feil."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Slå på radioen før du ser på disse innstillingene."</string>
@@ -158,8 +160,10 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Lagre nummer til telefonsvarer"</string>
     <string name="vm_changed" msgid="380744030726254139">"Telefonsvarernummeret ble endret."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Kunne ikke endre telefonsvarernummeret."</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"Kunne ikke endre viderekoblingen."</string>
+    <!-- no translation found for vm_change_failed (6912718596496220653) -->
+    <skip />
+    <!-- no translation found for fw_change_failed (4437005899675054038) -->
+    <skip />
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Kunne ikke kopiere over gjeldende viderekoblingsinnstillinger."\n"Ønsker du å bytte til den nye leverandøren uansett?"</string>
     <string name="no_change" msgid="3186040086622435212">"Ingen endringer ble utført."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Velg talemeldingsleverandør"</string>
@@ -495,6 +499,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Legg til anrop"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Slå sammen samtaler"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Bytt"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Administrer samtaler"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Administrer"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importer alle"</string>
@@ -561,10 +566,20 @@
     <string name="other_settings" msgid="3672912580359716394">"Andre ringeinnstillinger"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ring via ^1"\n<b>"^2"</b></string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"Rotér for å svare"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"Rotér for å slå av ringelyden"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"Rotér for å avslå samtalen"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Rotér for å svare og"\n"sette aktiv samtale på vent"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Rotér for å svare og"\n"avslutte aktiv samtale"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Rotér for å svare og"\n"sette samtalen på vent"</string>
+    <!-- no translation found for slide_to_answer (255903188611244476) -->
+    <skip />
+    <!-- no translation found for slide_to_silence (2224982696981131553) -->
+    <skip />
+    <!-- no translation found for slide_to_decline (7342094219435077069) -->
+    <skip />
+    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
+    <skip />
+    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
+    <skip />
+    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
+    <skip />
+    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
+    <skip />
+    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
+    <skip />
 </resources>

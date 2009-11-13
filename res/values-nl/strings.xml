@@ -144,6 +144,8 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Fout met oproepinstellingen"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Instellingen lezen..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Instellingen bijwerken..."</string>
+    <!-- no translation found for reverting_settings (4752151682666912828) -->
+    <skip />
     <string name="response_error" msgid="6674110501330139405">"Onverwachte reactie van netwerk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netwerk- of SIM-kaartfout."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Schakel de radio in voordat u deze instellingen bekijkt."</string>
@@ -158,11 +160,11 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Voicemailnummer opslaan"</string>
     <string name="vm_changed" msgid="380744030726254139">"Voicemailnummer gewijzigd."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Het wijzigen van het voicemailnummer is mislukt."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
+    <!-- no translation found for vm_change_failed (6912718596496220653) -->
     <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
+    <!-- no translation found for fw_change_failed (4437005899675054038) -->
     <skip />
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Kan huidige instellingen voor doorschakelnummer niet ophalen en opslaan."\n"Wilt u toch overgaan naar de nieuwe provider?"</string>
     <string name="no_change" msgid="3186040086622435212">"Er zijn geen wijzigingen aangebracht."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Service voor voicemail selecteren"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mijn provider"</string>
@@ -497,6 +499,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Oproep toevoegen"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Oproepen samenvoegen"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Wisselen"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gesprekken beheren"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Beheren"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importeren"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Alles importeren"</string>
@@ -563,16 +566,20 @@
     <string name="other_settings" msgid="3672912580359716394">"Andere instellingen voor bellen"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Bellen"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Bellen via ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
+    <!-- no translation found for slide_to_answer (255903188611244476) -->
     <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
+    <!-- no translation found for slide_to_silence (2224982696981131553) -->
     <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
+    <!-- no translation found for slide_to_decline (7342094219435077069) -->
     <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
+    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
     <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
+    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
     <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
+    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
+    <skip />
+    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
+    <skip />
+    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
     <skip />
 </resources>
