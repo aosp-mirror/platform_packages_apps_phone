@@ -358,7 +358,6 @@ public class BluetoothHeadsetService extends Service {
         private int channel;
         private int type;
 
-        private static final int ECONNREFUSED = -111; // Socket error code - Connection refused
         private static final int EINTERRUPT = -1000;
 
         public RfcommConnectThread(BluetoothDevice device, int channel, int type) {
@@ -391,7 +390,7 @@ public class BluetoothHeadsetService extends Service {
 
             int result = waitForConnect(headset);
 
-            if (result == ECONNREFUSED) {
+            if (result != EINTERRUPT && result != 1) {
                 Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
                 try {
                     sleep(1000);  // 1 second
