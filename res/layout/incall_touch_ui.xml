@@ -29,18 +29,14 @@
     android:layout_height="fill_parent"
     >
 
-    <!--
-        (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
-        By measuring from the top, this will layou out properly on hvga and wvga devices,
-        includign taller ones.
-    -->
+    <!-- (1) incomingCallWidget: the UI displayed while an incoming call is ringing. -->
     <com.android.internal.widget.SlidingTab
         android:id="@+id/incomingCallWidget"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="286dip" 
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dip"
         />
 
     <!--
