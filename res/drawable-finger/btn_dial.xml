@@ -14,6 +14,10 @@
      limitations under the License.
 -->
 
+<!-- Background resource for digit buttons in the various dialpads
+     used by the phone app (see dialpad.xml).
+     Also see btn_dial_green.xml for a slight variation of this,
+     used in the new "non-drawer" in-call dialpad. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
         android:drawable="@drawable/btn_dial_pressed" />

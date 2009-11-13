@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions for OTA Call Card -->
+    <dimen name="otabase_layout_marginTop">30dip</dimen>
+    <dimen name="otabase_minHeight">270dip</dimen>
+    <dimen name="otaactivate_layout_marginTop">10dip</dimen>
+    <dimen name="otalistenprogress_layout_marginTop">5dip</dimen>
+    <dimen name="otasuccessfail_layout_marginTop">10dip</dimen>
+</resources>

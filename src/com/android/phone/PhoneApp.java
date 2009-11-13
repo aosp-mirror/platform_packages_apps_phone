@@ -16,19 +16,19 @@
 
 package com.android.phone;
 
-
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.app.StatusBarManager;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -51,12 +51,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.android.internal.telephony.cdma.EriInfo;
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.cdma.EriInfo;
+import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 /**
  * Top-level Application class for the Phone app.
@@ -163,6 +165,16 @@ public class PhoneApp extends Application {
     // mReceiver.onReceive().
     private boolean mIsHeadsetPlugged;
 
+    // True if the keyboard is currently *not* hidden
+    // Gets updated whenever there is a Configuration change
+    private boolean mIsHardKeyboardOpen;
+
+    // True if we are beginning a call, but the phone state has not changed yet
+    private boolean mBeginningCall;
+
+    // Last phone state seen by updatePhoneState()
+    Phone.State mLastPhoneState = Phone.State.IDLE;
+
     private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
     private boolean mIgnoreTouchUserActivity = false;
@@ -170,8 +182,12 @@ public class PhoneApp extends Application {
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
     private PowerManager.WakeLock mPartialWakeLock;
+    private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
     private KeyguardManager.KeyguardLock mKeyguardLock;
+    private int mKeyguardDisableCount;
+    private StatusBarManager mStatusBarManager;
+    private int mStatusBarDisableCount;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -181,6 +197,17 @@ public class PhoneApp extends Application {
 
     /** boolean indicating restoring mute state on InCallScreen.onResume() */
     private boolean mShouldRestoreMuteOnInCallResume;
+
+    // Following are the CDMA OTA information Objects used during OTA Call.
+    // cdmaOtaProvisionData object store static OTA information that needs
+    // to be maintained even during Slider open/close scenarios.
+    // cdmaOtaConfigData object stores configuration info to control visiblity
+    // of each OTA Screens.
+    // cdmaOtaScreenState object store OTA Screen State information.
+    public OtaUtils.CdmaOtaProvisionData cdmaOtaProvisionData;
+    public OtaUtils.CdmaOtaConfigData cdmaOtaConfigData;
+    public OtaUtils.CdmaOtaScreenState cdmaOtaScreenState;
+    public OtaUtils.CdmaOtaInCallScreenUiState cdmaOtaInCallScreenUiState;
 
     /**
      * Set the restore mute state flag. Used when we are setting the mute state
@@ -266,12 +293,25 @@ public class PhoneApp extends Application {
                     // speakerphone, update the "speaker" state.  We ONLY want to do
                     // this on the wired headset connect / disconnect events for now
                     // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
-                    if (!isHeadsetPlugged() &&
+                    // If in call screen is showing, let InCallScreen handle the speaker.
+
+                    Phone.State phoneState = phone.getState();
+                    // Do not change speaker state if phone is not off hook
+                    if (phoneState == Phone.State.OFFHOOK) {
+                        if (!isShowingCallScreen() &&
                             (mBtHandsfree == null || !mBtHandsfree.isAudioOn())) {
-                        // is the state is "not connected", restore the speaker state.
-                        PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                            if (!isHeadsetPlugged()) {
+                                // if the state is "not connected", restore the speaker state.
+                                PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                            } else {
+                                // if the state is "connected", force the speaker off without
+                                // storing the state.
+                                PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
+                            }
+                        }
                     }
-                    NotificationMgr.getDefault().updateSpeakerNotification();
+                    // Update the Proximity sensor based on headset state
+                    updateProximitySensorMode(phoneState);
                     break;
 
                 case EVENT_SIM_STATE_CHANGED:
@@ -320,7 +360,16 @@ public class PhoneApp extends Application {
             NotificationMgr.init(this);
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
-            if (getSystemService(Context.BLUETOOTH_SERVICE) != null) {
+
+            int phoneType = phone.getPhoneType();
+
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+                cdmaPhoneCallState = new CdmaPhoneCallState();
+                cdmaPhoneCallState.CdmaPhoneCallStateInit();
+            }
+
+            if (BluetoothAdapter.getDefaultAdapter() != null) {
                 mBtHandsfree = new BluetoothHandsfree(this, phone);
                 startService(new Intent(this, BluetoothHeadsetService.class));
             } else {
@@ -338,8 +387,17 @@ public class PhoneApp extends Application {
             // lock used to keep the processor awake, when we don't care for the display.
             mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+            // Wake lock used to control proximity sensor behavior.
+            if ((pm.getSupportedWakeLockFlags()
+                 & PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK) != 0x0) {
+                mProximityWakeLock =
+                        pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
+            }
+            if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
+
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
+            mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
             // get a handle to the service so that we can use it later when we
             // want to set the poke lock.
@@ -358,7 +416,9 @@ public class PhoneApp extends Application {
             }
 
             // register for MMI/USSD
-            phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
+            if (phoneType == Phone.PHONE_TYPE_GSM) {
+                phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
+            }
 
             // register connection tracking to PhoneUtils
             PhoneUtils.initializeConnectionHandler(phone);
@@ -366,8 +426,8 @@ public class PhoneApp extends Application {
             // Register for misc other intent broadcasts.
             IntentFilter intentFilter =
                     new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intentFilter.addAction(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION);
-            intentFilter.addAction(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION);
+            intentFilter.addAction(BluetoothHeadset.ACTION_STATE_CHANGED);
+            intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
@@ -392,6 +452,7 @@ public class PhoneApp extends Application {
 
             //set the default values for the preferences in the phone.
             PreferenceManager.setDefaultValues(this, R.xml.network_setting, false);
+
             PreferenceManager.setDefaultValues(this, R.xml.call_feature_setting, false);
 
             // Make sure the audio mode (along with some
@@ -416,6 +477,15 @@ public class PhoneApp extends Application {
             }
         }
 
+        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+
+        if (phoneIsCdma) {
+            cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
+            cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
+            cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+            cdmaOtaInCallScreenUiState = new OtaUtils.CdmaOtaInCallScreenUiState();
+        }
+
         // XXX pre-load the SimProvider so that it's ready
         resolver.getType(Uri.parse("content://icc/adn"));
 
@@ -426,12 +496,31 @@ public class PhoneApp extends Application {
         // TODO(Moto): Merge
         // phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
 
-        if (phone.getPhoneName().equals("CDMA")) {
-            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
-            cdmaPhoneCallState = new CdmaPhoneCallState();
-            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+        // Read TTY settings and store it into BP NV.
+        // AP owns (i.e. stores) the TTY setting in AP settings database and pushes the setting
+        // to BP at power up (BP does not need to make the TTY setting persistent storage).
+        // This way, there is a single owner (i.e AP) for the TTY setting in the phone.
+        if (phoneIsCdma) {
+            int settingsTtyMode = android.provider.Settings.Secure.getInt(
+                    phone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_TTY_MODE,
+                    Phone.TTY_MODE_OFF);
+            phone.setTTYMode(settingsTtyMode, null);
         }
    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            mIsHardKeyboardOpen = true;
+        } else {
+            mIsHardKeyboardOpen = false;
+        }
+
+        // Update the Proximity sensor based on keyboard state
+        updateProximitySensorMode(phone.getState());
+        super.onConfigurationChanged(newConfig);
+    }
 
     /**
      * Returns the singleton instance of the PhoneApp.
@@ -554,12 +643,48 @@ public class PhoneApp extends Application {
      * This also ensures that you won't be able to get back to the in-call
      * UI via the BACK button (since this call removes the InCallScreen
      * from the activity history.)
+     * For OTA Call, it call InCallScreen api to handle OTA Call End scenario
+     * to display OTA Call End screen.
      */
     void dismissCallScreen() {
         if (mInCallScreen != null) {
-            mInCallScreen.finish();
+            if (mInCallScreen.isOtaCallInActiveState()
+                    || mInCallScreen.isOtaCallInEndState()
+                    || ((cdmaOtaScreenState != null)
+                    && (cdmaOtaScreenState.otaScreenState
+                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED))) {
+                // TODO(Moto): During OTA Call, display should not become dark to
+                // allow user to see OTA UI update. Phone app needs to hold a SCREEN_DIM_WAKE_LOCK
+                // wake lock during the entire OTA call.
+                wakeUpScreen();
+                // If InCallScreen is not in foreground we resume it to show the OTA call end screen
+                // Fire off the InCallScreen intent
+                displayCallScreen();
+
+                mInCallScreen.handleOtaCallEnd();
+                return;
+            } else {
+                mInCallScreen.finish();
+            }
         }
     }
+
+    /**
+     * Handle OTA events
+     *
+     * When OTA call is active and display becomes dark, then CallNotifier will
+     * handle OTA Events by calling this api which then calls OtaUtil function.
+     */
+    void handleOtaEvents(Message msg) {
+
+        if (DBG) Log.d(LOG_TAG, "Enter handleOtaEvents");
+        if ((mInCallScreen != null) && (!isShowingCallScreen())) {
+            if (mInCallScreen.otaUtils != null) {
+                mInCallScreen.otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
+            }
+        }
+    }
+
 
     /**
      * Sets the activity responsible for un-PUK-blocking the device
@@ -610,7 +735,11 @@ public class PhoneApp extends Application {
     /* package */ void disableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "disable keyguard");
         // if (DBG) Log.d(LOG_TAG, "disableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.disableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount++ == 0) {
+                mKeyguardLock.disableKeyguard();
+            }
+        }
     }
 
     /**
@@ -622,7 +751,51 @@ public class PhoneApp extends Application {
     /* package */ void reenableKeyguard() {
         if (DBG) Log.d(LOG_TAG, "re-enable keyguard");
         // if (DBG) Log.d(LOG_TAG, "reenableKeyguard()...", new Throwable("stack dump"));
-        mKeyguardLock.reenableKeyguard();
+        synchronized (mKeyguardLock) {
+            if (mKeyguardDisableCount > 0) {
+                if (--mKeyguardDisableCount == 0) {
+                    mKeyguardLock.reenableKeyguard();
+                }
+            } else {
+                Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
+            }
+        }
+    }
+
+    /**
+     * Disables the status bar.  This is used by the phone app when in-call UI is active.
+     *
+     * Any call to this method MUST be followed (eventually)
+     * by a corresponding reenableStatusBar() call.
+     */
+    /* package */ void disableStatusBar() {
+        if (DBG) Log.d(LOG_TAG, "disable status bar");
+        synchronized (this) {
+            if (mStatusBarDisableCount++ == 0) {
+               if (DBG)  Log.d(LOG_TAG, "StatusBarManager.DISABLE_EXPAND");
+                mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
+            }
+        }
+    }
+
+    /**
+     * Re-enables the status bar after a previous disableStatusBar() call.
+     *
+     * Any call to this method MUST correspond to (i.e. be balanced with)
+     * a previous disableStatusBar() call.
+     */
+    /* package */ void reenableStatusBar() {
+        if (DBG) Log.d(LOG_TAG, "re-enable status bar");
+        synchronized (this) {
+            if (mStatusBarDisableCount > 0) {
+                if (--mStatusBarDisableCount == 0) {
+                    if (DBG) Log.d(LOG_TAG, "StatusBarManager.DISABLE_NONE");
+                    mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
+                }
+            } else {
+                Log.e(LOG_TAG, "mStatusBarDisableCount is already zero");
+            }
+        }
     }
 
     /**
@@ -646,6 +819,10 @@ public class PhoneApp extends Application {
         // avoid triggering the userActivity calls in
         // PowerManagerService.setPokeLock().
         if (duration == mScreenTimeoutDuration) {
+            return;
+        }
+        // stick with default timeout if we are using the proximity sensor
+        if (proximitySensorModeEnabled()) {
             return;
         }
         mScreenTimeoutDuration = duration;
@@ -846,16 +1023,18 @@ public class PhoneApp extends Application {
         //
         // (2) Decide whether to force the screen on or not.
         //
-        // Force the screen to be on if the phone is ringing, or if we're
-        // displaying the "Call ended" UI for a connection in the
-        // "disconnected" state.
+        // Force the screen to be on if the phone is ringing or dialing,
+        // or if we're displaying the "Call ended" UI for a connection in
+        // the "disconnected" state.
         //
         boolean isRinging = (state == Phone.State.RINGING);
+        boolean isDialing = (phone.getForegroundCall().getState() == Call.State.DIALING);
         boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
-        boolean keepScreenOn = isRinging || showingDisconnectedConnection;
+        boolean keepScreenOn = isRinging || isDialing || showingDisconnectedConnection;
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
                        + " (isRinging " + isRinging
+                       + ", isDialing " + isDialing
                        + ", showingDisc " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
@@ -911,6 +1090,105 @@ public class PhoneApp extends Application {
         }
     }
 
+    /**
+     * Set when a new outgoing call is beginning, so we can update
+     * the proximity sensor state.
+     * Cleared when the InCallScreen is no longer in the foreground,
+     * in case the call fails without changing the telephony state.
+     */
+    /* package */ void setBeginningCall(boolean beginning) {
+        // Note that we are beginning a new call, for proximity sensor support
+        mBeginningCall = beginning;
+        // Update the Proximity sensor based on mBeginningCall state
+        updateProximitySensorMode(phone.getState());
+    }
+
+    /**
+     * Updates the wake lock used to control proximity sensor behavior,
+     * based on the current state of the phone.  This method is called
+     * from the CallNotifier on any phone state change.
+     *
+     * On devices that have a proximity sensor, to avoid false touches
+     * during a call, we hold a PROXIMITY_SCREEN_OFF_WAKE_LOCK wake lock
+     * whenever the phone is off hook.  (When held, that wake lock causes
+     * the screen to turn off automatically when the sensor detects an
+     * object close to the screen.)
+     *
+     * This method is a no-op for devices that don't have a proximity
+     * sensor.
+     *
+     * Note this method doesn't care if the InCallScreen is the foreground
+     * activity or not.  That's because we want the proximity sensor to be
+     * enabled any time the phone is in use, to avoid false cheek events
+     * for whatever app you happen to be running.
+     *
+     * Proximity wake lock will *not* be held if any one of the
+     * conditions is true while on a call:
+     * 1) If the audio is routed via Bluetooth
+     * 2) If a wired headset is connected
+     * 3) if the speaker is ON
+     * 4) If the slider is open(i.e. the hardkeyboard is *not* hidden)
+     *
+     * @param state current state of the phone (see {@link Phone#State})
+     */
+    /* package */ void updateProximitySensorMode(Phone.State state) {
+        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
+
+        if (proximitySensorModeEnabled()) {
+            synchronized (mProximityWakeLock) {
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall)
+                        && !(isHeadsetPlugged()
+                        || PhoneUtils.isSpeakerOn(this)
+                        || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                        || mIsHardKeyboardOpen)) {
+                    // Phone is in use!  Arrange for the screen to turn off
+                    // automatically when the sensor detects a close object.
+                    if (!mProximityWakeLock.isHeld()) {
+                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
+                        mProximityWakeLock.acquire();
+                        // disable keyguard while we are using the proximity sensor
+                        disableKeyguard();
+                    } else {
+                        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
+                    }
+                } else {
+                    // Phone is either idle, or ringing.  We don't want any
+                    // special proximity sensor behavior in either case.
+                    if (mProximityWakeLock.isHeld()) {
+                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
+                        mProximityWakeLock.release();
+                        reenableKeyguard();
+                    } else {
+                        if (VDBG) {
+                            Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifies the phone app when the phone state changes.
+     * Currently used only for proximity sensor support.
+     */
+    /* package */ void updatePhoneState(Phone.State state) {
+        if (state != mLastPhoneState) {
+            mLastPhoneState = state;
+            updateProximitySensorMode(state);
+            // clear our beginning call flag
+            mBeginningCall = false;
+        }
+    }
+
+    /**
+     * @return true if this device supports the "proximity sensor
+     * auto-lock" feature while in-call (see updateProximitySensorMode()).
+     */
+    /* package */ boolean proximitySensorModeEnabled() {
+        return (mProximityWakeLock != null);
+    }
+
     KeyguardManager getKeyguardManager() {
         return mKeyguardManager;
     }
@@ -923,6 +1201,23 @@ public class PhoneApp extends Application {
 
     private void initForNewRadioTechnology() {
         if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
+
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
+            cdmaPhoneCallState = new CdmaPhoneCallState();
+            cdmaPhoneCallState.CdmaPhoneCallStateInit();
+
+            //create instances of CDMA OTA data classes
+            if (cdmaOtaProvisionData == null) {
+                cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
+            }
+            if (cdmaOtaConfigData == null) {
+                cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
+            }
+            if (cdmaOtaScreenState == null) {
+                cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
+            }
+        }
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
@@ -943,22 +1238,8 @@ public class PhoneApp extends Application {
             sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
             sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
         }
-
-        if (phone.getPhoneName().equals("CDMA")) {
-            // Create an instance of CdmaPhoneCallState and initialize it to IDLE
-            cdmaPhoneCallState = new CdmaPhoneCallState();
-            cdmaPhoneCallState.CdmaPhoneCallStateInit();
-        }
     }
 
-
-    /**
-     * Send ECBM Exit Request
-     */
-
-    void sendEcbmExitRequest() {
-            mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
-    }
 
     /**
      * @return true if a wired headset is currently plugged in.
@@ -1001,9 +1282,12 @@ public class PhoneApp extends Application {
         if (forceUiUpdate) {
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
-            if (isShowingCallScreen()) mInCallScreen.updateBluetoothIndication();
+            if (isShowingCallScreen()) mInCallScreen.requestUpdateBluetoothIndication();
             mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
         }
+
+        // Update the Proximity sensor based on Bluetooth audio state
+        updateProximitySensorMode(phone.getState());
     }
 
     /**
@@ -1062,15 +1346,15 @@ public class PhoneApp extends Application {
                 boolean enabled = System.getInt(getContentResolver(),
                         System.AIRPLANE_MODE_ON, 0) == 0;
                 phone.setRadioPower(enabled);
-            } else if (action.equals(BluetoothIntent.HEADSET_STATE_CHANGED_ACTION)) {
-                mBluetoothHeadsetState = intent.getIntExtra(BluetoothIntent.HEADSET_STATE,
+            } else if (action.equals(BluetoothHeadset.ACTION_STATE_CHANGED)) {
+                mBluetoothHeadsetState = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
                                                             BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
-            } else if (action.equals(BluetoothIntent.HEADSET_AUDIO_STATE_CHANGED_ACTION)) {
+            } else if (action.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)) {
                 mBluetoothHeadsetAudioState =
-                        intent.getIntExtra(BluetoothIntent.HEADSET_AUDIO_STATE,
+                        intent.getIntExtra(BluetoothHeadset.EXTRA_AUDIO_STATE,
                                            BluetoothHeadset.STATE_ERROR);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
@@ -1121,12 +1405,17 @@ public class PhoneApp extends Application {
             } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
                 handleServiceStateChanged(intent);
             } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
-                Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
-                // Send Intend to start ECBM application
-                Intent EcbmAlarm = new Intent(Intent.ACTION_MAIN, null);
-                EcbmAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                EcbmAlarm.setClassName("com.android.phone", EmergencyCallbackMode.class.getName());
-                startActivity(EcbmAlarm);
+                if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                    Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
+                    // Start Emergency Callback Mode service
+                    if (intent.getBooleanExtra("phoneinECMState", false)) {
+                        context.startService(new Intent(context,
+                                EmergencyCallbackModeService.class));
+                    }
+                } else {
+                    Log.e(LOG_TAG, "Error! Emergency Callback Mode not supported for " +
+                            phone.getPhoneName() + " phones");
+                }
             }
         }
     }
@@ -1156,6 +1445,12 @@ public class PhoneApp extends Application {
                     boolean consumed = PhoneUtils.handleHeadsetHook(phone);
                     if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
                     if (consumed) {
+                        // If a headset is attached and the press is consumed, also update
+                        // any UI items (such as an InCallScreen mute button) that may need to
+                        // be updated if their state changed.
+                        if (isShowingCallScreen()) {
+                            updateInCallScreenTouchUi();
+                        }
                         abortBroadcast();
                     }
                 } else if (phone.getState() != Phone.State.IDLE) {
@@ -1185,6 +1480,7 @@ public class PhoneApp extends Application {
 
         if (ss != null) {
             int state = ss.getState();
+            NotificationMgr.getDefault().updateNetworkSelection(state);
             switch (state) {
                 case ServiceState.STATE_OUT_OF_SERVICE:
                 case ServiceState.STATE_POWER_OFF:
@@ -1193,6 +1489,60 @@ public class PhoneApp extends Application {
             }
         } else {
             hasService = false;
+        }
+    }
+
+    public boolean isOtaCallInActiveState() {
+        boolean otaCallActive = false;
+        if (mInCallScreen != null) {
+            otaCallActive = mInCallScreen.isOtaCallInActiveState();
+        }
+        if (VDBG) Log.d(LOG_TAG, "- isOtaCallInActiveState " + otaCallActive);
+        return otaCallActive;
+    }
+
+    public boolean isOtaCallInEndState() {
+        boolean otaCallEnded = false;
+        if (mInCallScreen != null) {
+            otaCallEnded = mInCallScreen.isOtaCallInEndState();
+        }
+        if (VDBG) Log.d(LOG_TAG, "- isOtaCallInEndState " + otaCallEnded);
+        return otaCallEnded;
+    }
+
+    // it is safe to call clearOtaState() even if the InCallScreen isn't active
+    public void clearOtaState() {
+        if (DBG) Log.d(LOG_TAG, "- clearOtaState ...");
+        if ((mInCallScreen != null)
+                && (mInCallScreen.otaUtils != null)) {
+            mInCallScreen.otaUtils.cleanOtaScreen(true);
+            if (DBG) Log.d(LOG_TAG, "  - clearOtaState clears OTA screen");
+        }
+    }
+
+    // it is safe to call dismissOtaDialogs() even if the InCallScreen isn't active
+    public void dismissOtaDialogs() {
+        if (DBG) Log.d(LOG_TAG, "- dismissOtaDialogs ...");
+        if ((mInCallScreen != null)
+                && (mInCallScreen.otaUtils != null)) {
+            mInCallScreen.otaUtils.dismissAllOtaDialogs();
+            if (DBG) Log.d(LOG_TAG, "  - dismissOtaDialogs clears OTA dialogs");
+        }
+    }
+
+    // it is safe to call clearInCallScreenMode() even if the InCallScreen isn't active
+    public void clearInCallScreenMode() {
+        if (DBG) Log.d(LOG_TAG, "- clearInCallScreenMode ...");
+        if (mInCallScreen != null) {
+            mInCallScreen.resetInCallScreenMode();
+        }
+    }
+
+    // Update InCallScreen's touch UI. It is safe to call even if InCallScreen isn't active
+    public void updateInCallScreenTouchUi() {
+        if (DBG) Log.d(LOG_TAG, "- updateInCallScreenTouchUi ...");
+        if (mInCallScreen != null) {
+            mInCallScreen.requestUpdateTouchUi();
         }
     }
 }

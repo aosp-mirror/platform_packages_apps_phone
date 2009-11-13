@@ -4,9 +4,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,19 +14,27 @@
      limitations under the License.
 -->
 
-<!-- Sliding drawer widget containing the DTMF dialer in portrait mode.  In
-     landscape mode, the item is replaced with a simple <merge/>, so its
-     never inflated. -->
+<!-- Sliding drawer widget containing the in-call DTMF dialpad.
+
+     On devices that do *not* use an onscreen InCallTouchUi
+     widget, the dialpad is contained within a SlidingDrawer
+     (which provides a "handle" that the user must drag open
+     to access the dialpad.)
+
+     See non_drawer_dialpad.xml for the corresponding layout file
+     for devices that *do* use an InCallTouchUi widget.
+     -->
 <SlidingDrawer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialer_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:topOffset="5px"
-    android:bottomOffset="7px"
+    android:topOffset="5dp"
+    android:bottomOffset="7dp"
     android:handle="@+id/dialer_tab"
     android:content="@+id/dtmf_dialer"
     android:allowSingleTap="false"
+    android:visibility="gone"
     >
 
     <!-- Drawer handle -->
@@ -81,13 +89,13 @@
         <!-- Number Display Field, padded for correct text alignment -->
         <EditText android:id="@+id/dtmfDialerField"
             android:layout_width="fill_parent"
-            android:layout_height="66px"
-            android:layout_marginTop="14px"
-            android:layout_marginBottom="5px"
-            android:layout_marginLeft="3px"
-            android:layout_marginRight="3px"
-            android:paddingRight="16px"
-            android:paddingLeft="16px"
+            android:layout_height="66dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
             android:maxLines="1"
             android:scrollHorizontally="true"
             android:textSize="28sp"
@@ -99,6 +107,11 @@
 
         <!-- Keypad section -->
         <include layout="@layout/dialpad" />
+
+        <!-- Dummy element to pad below the dialpad -->
+        <View android:layout_height="1dp"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/>
 
     </com.android.phone.DTMFTwelveKeyDialerView>
 

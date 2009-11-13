@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Telephony.Intents;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.WindowManager;
@@ -172,8 +173,14 @@ public class SpecialCharSequenceMgr {
     static boolean handleIMEIDisplay(Context context,
                                      String input, boolean useSystemWindow) {
         if (input.equals(MMI_IMEI_DISPLAY)) {
-            showIMEIPanel(context, useSystemWindow);
-            return true;
+            int phoneType = PhoneApp.getInstance().phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                showMEIDPanel(context, useSystemWindow);
+                return true;
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                showIMEIPanel(context, useSystemWindow);
+                return true;
+            }
         }
 
         return false;
@@ -187,6 +194,20 @@ public class SpecialCharSequenceMgr {
         AlertDialog alert = new AlertDialog.Builder(context)
                 .setTitle(R.string.imei)
                 .setMessage(imeiStr)
+                .setPositiveButton(R.string.ok, null)
+                .setCancelable(false)
+                .show();
+        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
+    }
+
+    static void showMEIDPanel(Context context, boolean useSystemWindow) {
+        if (DBG) log("showMEIDPanel");
+
+        String meidStr = PhoneFactory.getDefaultPhone().getDeviceId();
+
+        AlertDialog alert = new AlertDialog.Builder(context)
+                .setTitle(R.string.meid)
+                .setMessage(meidStr)
                 .setPositiveButton(R.string.ok, null)
                 .setCancelable(false)
                 .show();

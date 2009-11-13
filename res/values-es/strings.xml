@@ -49,15 +49,13 @@
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: reemplazada"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Sólo es posible realizar llamadas de emergencia."</string>
     <string name="confCall" msgid="1904840547188336828">"Conferencia telefónica"</string>
+    <string name="call_lost" msgid="317670617901479594">"La llamada se ha perdido."</string>
+    <string name="retry" msgid="8462986804300767852">"Reintentar"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"Llamada perdida"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"El código MMI se ha iniciado."</string>
     <string name="ussdRunning" msgid="485588686340541690">"Código USSD en ejecución..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"El código MMI se ha cancelado."</string>
     <string name="cancel" msgid="5044513931633602634">"Cancelar"</string>
-    <string name="ecbm_mode_text" msgid="6485648046794782672">"Llamada de emergencia"</string>
-    <string name="ecbm_exit_text" msgid="622759135506401127">"SALIR"</string>
-    <string name="ecbm_ok_text" msgid="1373363960570351032">"Aceptar"</string>
-    <string name="ecbm_emergency_number" msgid="4131632362330756509">"Marcar 911"</string>
-    <string name="ecbm_instruction_text" msgid="5039940054364946169">"Pulsar botón para realizar llamada de emergencia"</string>
     <string name="menu_speaker" msgid="6069700688651964705">"Altavoz"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Silenciar"</string>
@@ -77,7 +75,10 @@
     <string name="menu_answer" msgid="116686205042231098">"Responder"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorar"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"¿Deseas enviar los siguientes tonos?"\n</string>
+    <string name="pause_prompt_str" msgid="341477243019906241">"Enviando tonos"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Enviar"</string>
+    <string name="pause_prompt_yes" msgid="3564467212025151797">"Sí"</string>
+    <string name="pause_prompt_no" msgid="6686238803236884877">"No"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Sustituir el carácter comodín por"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Falta el número del buzón de voz."</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"No se ha almacenado ningún número de buzón de voz en la tarjeta SIM."</string>
@@ -99,6 +100,7 @@
     <string name="unlock_failed" msgid="6490531697031504225">"La solicitud de desbloqueo de red no se ha realizado correctamente."</string>
     <string name="unlock_success" msgid="6770085622238180152">"El desbloqueo de red se ha realizado correctamente."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
+    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Configuración de llamadas GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Configuración de llamada CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"APN"</string>
@@ -107,7 +109,7 @@
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"Buzón de voz:"</string>
     <string name="networks" msgid="8873030692174541976">"Operadores de red"</string>
     <string name="call_settings" msgid="6112441768261754562">"Ajustes de llamadas"</string>
-    <string name="additional_gsm_call_settings" msgid="6472260354879794056">"Configuración adicional de llamadas GSM"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Configuración adicional"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Configuración adicional de llamadas sólo GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Configuración adicional de llamadas CDMA"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configuración adicional de llamadas sólo CDMA"</string>
@@ -157,8 +159,11 @@
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar número de buzón de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"El número del buzón de voz se ha cambiado."</string>
     <string name="vm_change_failed" msgid="8484504256705014152">"El número del buzón de voz se ha cambiado correctamente."</string>
+    <string name="fw_change_failed" msgid="3124377684971600400">"El cambio de número de desvío no se ha realizado correctamente."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Se ha producido un error al recuperar y guardar la configuración actual del número de desvío."\n"¿Quieres realizar el cambio al nuevo operador de todas formas?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se ha realizado ningún cambio."</string>
-    <string name="sum_voicemail" msgid="2528087245989303328">"Establecer número de buzón de voz"</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Seleccionar servicio de buzón de voz"</string>
+    <string name="voicemail_default" msgid="5902099213882352338">"Mi operador"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Configuración de red móvil"</string>
     <string name="label_available" msgid="1181658289009300430">"Redes disponibles"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Buscando..."</string>
@@ -295,14 +300,16 @@
     <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Aún no se ha implementado."</string>
     <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Preferencias de red GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="4327916632016252900">"3G preferido"</item>
-    <item msgid="7890032659744442614">"Sólo 2G"</item>
-    <item msgid="7306003477602941058">"Sólo 3G"</item>
+    <item msgid="935612021902787683">"GSM/WCDMA (modo automático)"</item>
+    <item msgid="8912042051809329533">"Sólo WCDMA"</item>
+    <item msgid="8776934131146642662">"Sólo GSM"</item>
+    <item msgid="4684679567848300935">"GSM/WCDA (preferencia de WCDMA)"</item>
   </string-array>
   <string-array name="gsm_umts_network_preferences_values">
     <item msgid="117293148930527265">"0"</item>
     <item msgid="2264578612775462302">"1"</item>
     <item msgid="1268081943590316978">"2"</item>
+    <item msgid="4469871047641902607">"3"</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Utilizar sólo redes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorra batería"</string>
@@ -312,10 +319,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Sólo sistema doméstico"</item>
     <item msgid="1205664026446156265">"Automático"</item>
-  </string-array>
-  <string-array name="cdma_system_select_values">
-    <item msgid="4354305960068894315">"0"</item>
-    <item msgid="3046877284450231151">"2"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modo de itinerancia CDMA"</string>
     <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Cambiar modo de itinerancia CDMA"</string>
@@ -334,14 +337,14 @@
     <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"Aún no se ha implementado."</string>
     <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Preferencias de red CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
-    <item msgid="7278992425338592489">"Modo automático de CDMA/EvDo"</item>
-    <item msgid="3155327921861137068">"CDMA sin EvDo"</item>
+    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
+    <item msgid="6143696847467859795">"Sólo CDMA"</item>
     <item msgid="2683555124647197574">"Sólo EvDo"</item>
   </string-array>
   <string-array name="cdma_network_preferences_values">
-    <item msgid="1821235500822403409">"4"</item>
-    <item msgid="6355374585098185445">"5"</item>
-    <item msgid="213552629330086398">"6"</item>
+    <item msgid="5584048199290030331">"0"</item>
+    <item msgid="5741268642513143762">"1"</item>
+    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="subscription_title" msgid="5813493350326486">"PRUEBA de suscripción CDMA"</string>
     <string name="subscription_summary" msgid="8435941016743418124">"Cambiar entre RUIM/SIM y NV"</string>
@@ -373,6 +376,8 @@
     <string name="tty_mode_summary" msgid="5057244302665817977">"Habilitar modo TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Modo TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Establecer modo TTY"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Reintento automático"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Habilitar modo de reintento automático"</string>
     <string name="menu_add" msgid="1882023737425114762">"Añadir contacto"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Editar contacto"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Eliminar contacto"</string>
@@ -434,6 +439,7 @@
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autenticando PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Número del buzón de voz"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Llamando"</string>
+    <string name="card_title_redialing" msgid="4831412164303596395">"Reintentando"</string>
     <string name="card_title_in_progress" msgid="8603765629781648862">"Llamada actual"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Conferencia telefónica"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Llamada entrante"</string>
@@ -452,6 +458,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Buzón de voz nuevo (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número del buzón de voz desconocido"</string>
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Sin servicio"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"La red seleccionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) no está disponible."</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero debes desactivar el modo avión."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"No se ha registrado en la red."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"No se ha realizado la llamada; el número introducido no es válido."</string>
@@ -473,17 +481,32 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilizar teclado para marcar"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado táctil de tonos"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Teclado"</string>
-    <string name="touchLockText" msgid="8742463586429019112">"Tocar dos veces"\n"para desbloquear"</string>
-    <string name="onscreenAnswerText" msgid="7643040500342720792">"Tocar dos veces"\n"para responder"</string>
+    <string name="touchLockText" msgid="566824588267376287">"Da dos toques"\n"para desbloquear"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Toca dos veces"\n"para responder."</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Toca dos veces"\n"para rechazar la llamada."</string>
+    <string name="onscreenHoldText" msgid="2285258239691145872">"Retener"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"Soltar"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"Finalizar"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Teclado"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Ocultar"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altavoz"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Silenciar"</string>
+    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"Añadir llamada"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Llamada a tres"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Cambiar"</string>
+    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Administrar"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar todos"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importando contactos de tarjeta SIM..."</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"Importar de contactos"</string>
+    <string name="hac_mode_title" msgid="8740268574688743289">"Audífonos"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"Activar compatibilidad con audífono"</string>
   <string-array name="tty_mode_entries">
     <item msgid="512950011423868021">"TTY desactivado"</item>
-    <item msgid="4781215771530681384">"TTY HCO"</item>
-    <item msgid="5659212685488676933">"TTY VCO"</item>
-    <item msgid="1113703196326500239">"Modo TTY completo"</item>
+    <item msgid="3971695875449640648">"Modo TTY completo"</item>
+    <item msgid="1937509904407445684">"TTY HCO"</item>
+    <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
     <string name="eri_text_label" msgid="4326942349915331461">"Texto de ERI"</string>
     <string name="dtmf_tones_title" msgid="3866923093113274152">"Tonos DTMF"</string>
@@ -493,4 +516,55 @@
     <item msgid="2883365539347850535">"Largo"</item>
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Mensaje de red"</string>
+    <string name="ota_title_activate" msgid="8616918561356194398">"Activar tu teléfono"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Es necesario realizar una llamada especial para activar el servicio telefónico. "\n\n"Tras pulsar \"Activar\", escucha las instrucciones sobre cómo activar el teléfono."</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Activar"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"El teléfono está activado."</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con la activación"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"Escucha las instrucciones sobre cómo activar el teléfono. No cuelgues hasta que escuches la confirmación de que el teléfono se ha activado."</string>
+    <string name="ota_dialpad" msgid="3530900997110658409">"Teclado"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Altavoz"</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Espera mientras se programa tu teléfono."</string>
+    <string name="ota_failure" msgid="8600027551822478181">"Programación incorrecta"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"Tu teléfono ya está activado. El servicio puede tardar un máximo de 15 minutos en iniciarse."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"El teléfono no se ha activado. "\n"Es posible que necesites situarte en un área con mejor cobertura (cerca de una ventana o en el exterior). "\n\n"Inténtalo de nuevo o llama al servicio de atención al cliente para consultar más opciones."</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"EXCESO DE ERRORES DE SPC"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Atrás"</string>
+    <string name="ota_try_again" msgid="7685477206465902290">"Volver a intentarlo"</string>
+    <string name="ota_next" msgid="3904945374358235910">"Siguiente"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Anterior"</string>
+    <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Se ha activado el modo de devolución de llamada de emergencia."</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modo de devolución de llamada de emergencia"</string>
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Conexión de datos inhabilitada"</string>
+  <plurals name="phone_in_ecm_notification_time">
+    <item quantity="one" msgid="4866221796252472622">"Ninguna conexión de datos durante <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
+    <item quantity="other" msgid="3122217344579273583">"Ninguna conexión de datos durante <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
+  </plurals>
+  <plurals name="alert_dialog_exit_ecm">
+    <item quantity="one" msgid="2181569650640386253">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minuto. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Deseas salir ahora?"</item>
+    <item quantity="other" msgid="3231879566243957821">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minutos. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Deseas salir ahora?"</item>
+  </plurals>
+  <plurals name="alert_dialog_not_avaialble_in_ecm">
+    <item quantity="one" msgid="8939225905428421722">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. ¿Deseas salir ahora?"</item>
+    <item quantity="other" msgid="3489076611710869904">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. ¿Deseas salir ahora?"</item>
+  </plurals>
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"La acción seleccionada no está disponible en modo de llamada de emergencia."</string>
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Saliendo del modo de devolución de llamada de emergencia"</string>
+    <string name="alert_dialog_yes" msgid="6674268047820703974">"Sí"</string>
+    <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Descartar"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Configuración de buzón de voz"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;sin definir&gt;"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Servicio de buzón de voz"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"Configuración de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Otras opciones de llamada"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"Llamar"</string>
+    <string name="calling_via_template" msgid="7374498518104190489">"Llamando a través de ^1"\n<b>"^2"</b></string>
+    <string name="rotate_to_answer" msgid="250167639217498442">"Girar para responder"</string>
+    <string name="rotate_to_silence" msgid="7975072229114030369">"Girar para silenciar el timbre"</string>
+    <string name="rotate_to_decline" msgid="4027883214757161197">"Girar para rechazar una llamada"</string>
+    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Girar para responder y"\n"retener una llamada activa"</string>
+    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Girar para responder y"\n"finalizar una llamada activa"</string>
+    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Girar para responder y "\n"finalizar una llamada en espera"</string>
 </resources>

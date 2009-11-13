@@ -23,10 +23,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog.Calls;
-import android.provider.Contacts.Phones;
-import android.provider.Contacts.PhonesColumns;
+import android.provider.ContactsContract.PhoneLookup;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.PhoneNumberUtils;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ import java.util.HashMap;
 public class BluetoothAtPhonebook {
     private static final String TAG = "BtAtPhonebook";
     private static final boolean DBG = false;
-    
+
     /** The projection to use when querying the call log database in response
      *  to AT+CPBR for the MC, RC, and DC phone books (missed, received, and
      *   dialed calls respectively)
@@ -51,15 +50,7 @@ public class BluetoothAtPhonebook {
      *   to AT+CPBR for the ME phonebook (saved phone numbers).
      */
     private static final String[] PHONES_PROJECTION = new String[] {
-        Phones._ID, Phones.NAME, Phones.NUMBER, Phones.TYPE
-    };
-
-    /** The projection to use when querying the contacts database in response
-     *  to AT+CNUM for the ME phonebook (saved phone numbers).  We need only
-     *   the phone numbers here and the phone type.
-     */
-    private static final String[] PHONES_LITE_PROJECTION = new String[] {
-        Phones._ID, Phones.NUMBER, Phones.TYPE
+        Phone._ID, Phone.DISPLAY_NAME, Phone.NUMBER, Phone.TYPE
     };
 
     /** Android supports as many phonebook entries as the flash can hold, but
@@ -69,6 +60,7 @@ public class BluetoothAtPhonebook {
     private static final String OUTGOING_CALL_WHERE = Calls.TYPE + "=" + Calls.OUTGOING_TYPE;
     private static final String INCOMING_CALL_WHERE = Calls.TYPE + "=" + Calls.INCOMING_TYPE;
     private static final String MISSED_CALL_WHERE = Calls.TYPE + "=" + Calls.MISSED_TYPE;
+    private static final String VISIBLE_PHONEBOOK_WHERE = Phone.IN_VISIBLE_GROUP + "=1";
 
     private class PhonebookResult {
         public Cursor  cursor; // result set of last query
@@ -112,7 +104,7 @@ public class BluetoothAtPhonebook {
         cursor.close();
         return number;
     }
-    
+
     public void register(AtParser parser) {
         // Select Character Set
         // Always send UTF-8, but pretend to support IRA and GSM for compatability
@@ -147,15 +139,16 @@ public class BluetoothAtPhonebook {
             public AtCommandResult handleReadCommand() {
                 // Return current size and max size
                 if ("SM".equals(mCurrentPhonebook)) {
-                    return new AtCommandResult("+CPBS: \"SM\",0," + MAX_PHONEBOOK_SIZE);
+                    return new AtCommandResult("+CPBS: \"SM\",0," + getMaxPhoneBookSize(0));
                 }
-                    
+
                 PhonebookResult pbr = getPhonebookResult(mCurrentPhonebook, true);
                 if (pbr == null) {
                     return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_ALLOWED);
                 }
+                int size = pbr.cursor.getCount();
                 return new AtCommandResult("+CPBS: \"" + mCurrentPhonebook + "\"," +
-                        pbr.cursor.getCount() + "," + MAX_PHONEBOOK_SIZE);
+                        size + "," + getMaxPhoneBookSize(size));
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -215,8 +208,12 @@ public class BluetoothAtPhonebook {
                 }
 
                 // More sanity checks
-                if (index1 <= 0 || index2 < index1 || index2 > pbr.cursor.getCount()) {
-                    return new AtCommandResult(AtCommandResult.ERROR);
+                // Send OK instead of ERROR if these checks fail.
+                // When we send error, certain kits like BMW disconnect the
+                // Handsfree connection.
+                if (pbr.cursor.getCount() == 0 || index1 <= 0 || index2 < index1  ||
+                    index2 > pbr.cursor.getCount() || index1 > pbr.cursor.getCount()) {
+                    return new AtCommandResult(AtCommandResult.OK);
                 }
 
                 // Process
@@ -232,8 +229,9 @@ public class BluetoothAtPhonebook {
                         // TODO: This code is horribly inefficient. I saw it
                         // take 7 seconds to process 100 missed calls.
                         Cursor c = mContext.getContentResolver().query(
-                                Uri.withAppendedPath(Phones.CONTENT_FILTER_URL, number),
-                                new String[] {Phones.NAME, Phones.TYPE}, null, null, null);
+                                Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, number),
+                                new String[] {PhoneLookup.DISPLAY_NAME, PhoneLookup.TYPE},
+                                null, null, null);
                         if (c != null) {
                             if (c.moveToFirst()) {
                                 name = c.getString(0);
@@ -334,7 +332,7 @@ public class BluetoothAtPhonebook {
 
         if (pb.equals("ME")) {
             ancillaryPhonebook = false;
-            where = null;
+            where = VISIBLE_PHONEBOOK_WHERE;
         } else if (pb.equals("DC")) {
             where = OUTGOING_CALL_WHERE;
         } else if (pb.equals("RC")) {
@@ -359,29 +357,51 @@ public class BluetoothAtPhonebook {
             pbr.nameColumn = -1;
         } else {
             pbr.cursor = mContext.getContentResolver().query(
-                    Phones.CONTENT_URI, PHONES_PROJECTION, where, null,
-                    Phones.DEFAULT_SORT_ORDER + " LIMIT " + MAX_PHONEBOOK_SIZE);
-            pbr.numberColumn = pbr.cursor.getColumnIndex(Phones.NUMBER);
-            pbr.typeColumn = pbr.cursor.getColumnIndex(Phones.TYPE);
-            pbr.nameColumn = pbr.cursor.getColumnIndex(Phones.NAME);
+                    Phone.CONTENT_URI, PHONES_PROJECTION, where, null,
+                    Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
+            pbr.numberColumn = pbr.cursor.getColumnIndex(Phone.NUMBER);
+            pbr.typeColumn = pbr.cursor.getColumnIndex(Phone.TYPE);
+            pbr.nameColumn = pbr.cursor.getColumnIndex(Phone.DISPLAY_NAME);
         }
         Log.i(TAG, "Refreshed phonebook " + pb + " with " + pbr.cursor.getCount() + " results");
         return true;
     }
 
+    private synchronized int getMaxPhoneBookSize(int currSize) {
+        // some car kits ignore the current size and request max phone book
+        // size entries. Thus, it takes a long time to transfer all the
+        // entries. Use a heuristic to calculate the max phone book size
+        // considering future expansion.
+        // maxSize = currSize + currSize / 2 rounded up to nearest power of 2
+        // If currSize < 100, use 100 as the currSize
+
+        int maxSize = (currSize < 100) ? 100 : currSize;
+        maxSize += maxSize / 2;
+        return roundUpToPowerOfTwo(maxSize);
+    }
+
+    private int roundUpToPowerOfTwo(int x) {
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        return x + 1;
+    }
+
     private static String getPhoneType(int type) {
         switch (type) {
-            case PhonesColumns.TYPE_HOME:
+            case Phone.TYPE_HOME:
                 return "H";
-            case PhonesColumns.TYPE_MOBILE:
+            case Phone.TYPE_MOBILE:
                 return "M";
-            case PhonesColumns.TYPE_WORK:
+            case Phone.TYPE_WORK:
                 return "W";
-            case PhonesColumns.TYPE_FAX_HOME:
-            case PhonesColumns.TYPE_FAX_WORK:
+            case Phone.TYPE_FAX_HOME:
+            case Phone.TYPE_FAX_WORK:
                 return "F";
-            case PhonesColumns.TYPE_OTHER:
-            case PhonesColumns.TYPE_CUSTOM:
+            case Phone.TYPE_OTHER:
+            case Phone.TYPE_CUSTOM:
             default:
                 return "O";
         }

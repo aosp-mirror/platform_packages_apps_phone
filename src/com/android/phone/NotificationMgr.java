@@ -21,59 +21,42 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.StatusBarManager;
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.SystemClock;
+import android.os.SystemProperties;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.provider.CallLog.Calls;
-import android.provider.Contacts.Phones;
+import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.android.internal.R.drawable;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneBase;
 
 
 /**
  * NotificationManager-related utility code for the Phone app.
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
-    private static final boolean DBG = false;
-    private static final int EVENT_ENHANCED_VP_ON  = 1;
-    private static final int EVENT_ENHANCED_VP_OFF = 2;
-
-    // **Callback for enhanced voice privacy return value
-    private Handler mEnhancedVPHandler = new Handler() {
-        boolean enhancedVoicePrivacy = false;
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-            case EVENT_ENHANCED_VP_ON:
-                enhancedVoicePrivacy = true;
-                break;
-            case EVENT_ENHANCED_VP_OFF:
-                enhancedVoicePrivacy = false;
-                break;
-            default:
-                // We should never reach this
-            }
-            updateInCallNotification(enhancedVoicePrivacy);
-        }
-    };
+    private static final String LOG_TAG = "NotificationMgr";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -91,7 +74,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     static final int VOICEMAIL_NOTIFICATION = 5;
     static final int CALL_FORWARD_NOTIFICATION = 6;
     static final int DATA_DISCONNECTED_ROAMING_NOTIFICATION = 7;
-    static final int ECBM_NOTIFICATION = 8;
+    static final int SELECTED_OPERATOR_FAIL_NOTIFICATION = 8;
 
     private static NotificationMgr sMe = null;
     private Phone mPhone;
@@ -110,6 +93,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     // Currently-displayed resource IDs for some status bar icons (or zero
     // if no notification is active):
     private int mInCallResId;
+
+    // used to track the notification of selected network unavailable
+    private boolean mSelectedUnavailableNotify = false;
 
     // Retry params for the getVoiceMailNumber() call; see updateMwi().
     private static final int MAX_VM_NUMBER_RETRIES = 5;
@@ -130,8 +116,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         PhoneApp app = PhoneApp.getInstance();
         mPhone = app.phone;
-        mPhone.registerForInCallVoicePrivacyOn(mEnhancedVPHandler,  EVENT_ENHANCED_VP_ON,  null);
-        mPhone.registerForInCallVoicePrivacyOff(mEnhancedVPHandler, EVENT_ENHANCED_VP_OFF, null);
     }
 
     static void init(Context context) {
@@ -256,8 +240,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     /** The projection to use when querying the phones table */
     static final String[] PHONES_PROJECTION = new String[] {
-            Phones.NUMBER,
-            Phones.NAME
+        PhoneLookup.NUMBER,
+        PhoneLookup.DISPLAY_NAME
     };
 
     /**
@@ -317,8 +301,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                             if (DBG) log("query contacts for number: " + n.number);
 
                             mQueryHandler.startQuery(CONTACT_TOKEN, n,
-                                    Uri.withAppendedPath(Phones.CONTENT_FILTER_URL, n.number),
-                                    PHONES_PROJECTION, null, null, Phones.DEFAULT_SORT_ORDER);
+                                    Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, n.number),
+                                    PHONES_PROJECTION, null, null, PhoneLookup.NUMBER);
                         }
 
                         if (DBG) log("closing call log cursor.");
@@ -335,7 +319,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                         if (cursor.moveToFirst()) {
                             // we have contacts data, get the name.
                             if (DBG) log("contact :" + n.name + " found for phone: " + n.number);
-                            n.name = cursor.getString(cursor.getColumnIndexOrThrow(Phones.NAME));
+                            n.name = cursor.getString(
+                                    cursor.getColumnIndexOrThrow(PhoneLookup.DISPLAY_NAME));
                         }
 
                         // send the notification
@@ -439,49 +424,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         mNotificationMgr.cancel(MISSED_CALL_NOTIFICATION);
     }
 
-    /**
-     * Displays a notification for Emergency Callback Mode.
-     *
-     * @param nameOrNumber either the contact name, or the phone number if no contact
-     * @param label the label of the number if nameOrNumber is a name, null if it is a number
-     */
-    void notifyECBM() {
-        // The details of our message
-        CharSequence message = "Emergency Callback Mode is active";
-
-        // look up the notification manager service
-        mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // The PendingIntent to launch our activity if the user selects this notification
-        Intent EmcbAlarm = new Intent(Intent.ACTION_MAIN, null);
-        EmcbAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        EmcbAlarm.setClassName("com.android.phone", EmergencyCallbackMode.class.getName());
-
-        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
-                EmcbAlarm, 0);
-
-        // The ticker text, this uses a formatted string so our message could be localized
-        String tickerText = mContext.getString(R.string.ecbm_mode_text, message);
-
-        // construct the Notification object.
-         Notification ecbmNotif = new Notification(com.android.internal.R.drawable.stat_ecb_mode,
-                 tickerText, System.currentTimeMillis());
-
-        // Set the info for the views that show in the notification panel.
-        ecbmNotif.setLatestEventInfo(mContext, null, message, contentIntent);
-
-        // Note that we use R.layout.incoming_message_panel as the ID for
-        // the notification.  It could be any integer you want, but we use
-        // the convention of using a resource id for a string related to
-        // the notification.  It will always be a unique number within your
-        // application.
-        mNotificationMgr.notify(ECBM_NOTIFICATION, ecbmNotif);
-    }
-
-    void cancelEcbmNotification() {
-        mNotificationMgr.cancel(ECBM_NOTIFICATION);
-    }
-
     void notifySpeakerphone() {
         if (mSpeakerphoneIcon == null) {
             mSpeakerphoneIcon = mStatusBar.addIcon("speakerphone",
@@ -540,10 +482,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     void updateInCallNotification() {
-        updateInCallNotification(false);
-    }
-
-    private void updateInCallNotification(boolean enhancedVoicePrivacy) {
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
@@ -557,6 +495,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Display the appropriate "in-call" icon in the status bar,
         // which depends on the current phone and/or bluetooth state.
 
+
+        boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getCdmaVoicePrivacyState();
+        if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
 
         if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
@@ -800,7 +741,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 }
             }
 
-            if (mPhone.getPhoneName().equals("CDMA")) {
+            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
                 int vmCount = mPhone.getVoiceMessageCount();
                 String titleFormat = mContext.getString(R.string.notification_voicemail_title_count);
                 notificationTitle = String.format(titleFormat, vmCount);
@@ -937,6 +878,83 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         mNotificationMgr.cancel(DATA_DISCONNECTED_ROAMING_NOTIFICATION);
     }
 
+    /**
+     * Display the network selection "no service" notification
+     * @param operator is the numeric operator number
+     */
+    private void showNetworkSelection(String operator) {
+        if (DBG) log("showNetworkSelection(" + operator + ")...");
+
+        String titleText = mContext.getString(
+                R.string.notification_network_selection_title);
+        String expandedText = mContext.getString(
+                R.string.notification_network_selection_text, operator);
+
+        Notification notification = new Notification();
+        notification.icon = com.android.internal.R.drawable.stat_sys_warning;
+        notification.when = 0;
+        notification.flags = Notification.FLAG_ONGOING_EVENT;
+        notification.tickerText = null;
+
+        // create the target network operators settings intent
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        // Use NetworkSetting to handle the selection intent
+        intent.setComponent(new ComponentName("com.android.phone",
+                "com.android.phone.NetworkSetting"));
+        PendingIntent pi = PendingIntent.getActivity(mContext, 0, intent, 0);
+
+        notification.setLatestEventInfo(mContext, titleText, expandedText, pi);
+
+        mNotificationMgr.notify(SELECTED_OPERATOR_FAIL_NOTIFICATION, notification);
+    }
+
+    /**
+     * Turn off the network selection "no service" notification
+     */
+    private void cancelNetworkSelection() {
+        if (DBG) log("cancelNetworkSelection()...");
+        mNotificationMgr.cancel(SELECTED_OPERATOR_FAIL_NOTIFICATION);
+    }
+
+    /**
+     * Update notification about no service of user selected operator
+     *
+     * @param serviceState Phone service state
+     */
+    void updateNetworkSelection(int serviceState) {
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
+            // get the shared preference of network_selection.
+            // empty is auto mode, otherwise it is the operator alpha name
+            // in case there is no operator name, check the operator numeric
+            SharedPreferences sp =
+                    PreferenceManager.getDefaultSharedPreferences(mContext);
+            String networkSelection =
+                    sp.getString(PhoneBase.NETWORK_SELECTION_NAME_KEY, "");
+            if (TextUtils.isEmpty(networkSelection)) {
+                networkSelection =
+                        sp.getString(PhoneBase.NETWORK_SELECTION_KEY, "");
+            }
+
+            if (DBG) log("updateNetworkSelection()..." + "state = " +
+                    serviceState + " new network " + networkSelection);
+
+            if (serviceState == ServiceState.STATE_OUT_OF_SERVICE
+                    && !TextUtils.isEmpty(networkSelection)) {
+                if (!mSelectedUnavailableNotify) {
+                    showNetworkSelection(networkSelection);
+                    mSelectedUnavailableNotify = true;
+                }
+            } else {
+                if (mSelectedUnavailableNotify) {
+                    cancelNetworkSelection();
+                    mSelectedUnavailableNotify = false;
+                }
+            }
+        }
+    }
+
     /* package */ void postTransientNotification(int notifyId, CharSequence msg) {
         if (mToast != null) {
             mToast.cancel();
@@ -947,6 +965,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     private void log(String msg) {
-        Log.d(LOG_TAG, "[NotificationMgr] " + msg);
+        Log.d(LOG_TAG, msg);
     }
 }
