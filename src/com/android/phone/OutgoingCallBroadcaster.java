@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemProperties;
@@ -162,7 +163,38 @@ public class OutgoingCallBroadcaster extends Activity {
         super.onCreate(icicle);
 
         Intent intent = getIntent();
-        if (DBG) Log.v(TAG, "onCreate: getIntent() = " + intent);
+        final Configuration configuration = getResources().getConfiguration();
+
+        if (DBG) Log.v(TAG, "onCreate: this = " + this + ", icicle = " + icicle);
+        if (DBG) Log.v(TAG, " - getIntent() = " + intent);
+        if (DBG) Log.v(TAG, " - configuration = " + configuration);
+
+        if (icicle != null) {
+            // A non-null icicle means that this activity is being
+            // re-initialized after previously being shut down.
+            //
+            // In practice this happens very rarely (because the lifetime
+            // of this activity is so short!), but it *can* happen if the
+            // framework detects a configuration change at exactly the
+            // right moment; see bug 2202413.
+            //
+            // In this case, do nothing.  Our onCreate() method has already
+            // run once (with icicle==null the first time), which means
+            // that the NEW_OUTGOING_CALL broadcast for this new call has
+            // already been sent.
+            Log.i(TAG, "onCreate: non-null icicle!  "
+                  + "Bailing out, not sending NEW_OUTGOING_CALL broadcast...");
+
+            // No need to finish() here, since the OutgoingCallReceiver from
+            // our original instance will do that.  (It'll actually call
+            // finish() on our original instance, which apparently works fine
+            // even though the ActivityManager has already shut that instance
+            // down.  And note that if we *do* call finish() here, that just
+            // results in an "ActivityManager: Duplicate finish request"
+            // warning when the OutgoingCallReceiver runs.)
+
+            return;
+        }
 
         String action = intent.getAction();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, this);
@@ -253,10 +285,12 @@ public class OutgoingCallBroadcaster extends Activity {
          * number, so there's no point in allowing apps to modify the number. */
         if (number == null || TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
+                Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
                 PhoneUtils.sendEmptyFlash(PhoneApp.getInstance().phone);
                 finish();
                 return;
             } else {
+                Log.i(TAG, "onCreate: null or empty number, setting callNow=true...");
                 callNow = true;
             }
         }
@@ -279,5 +313,14 @@ public class OutgoingCallBroadcaster extends Activity {
         sendOrderedBroadcast(broadcastIntent, PERMISSION,
                 new OutgoingCallReceiver(), null, Activity.RESULT_OK, number, null);
         // The receiver will finish our activity when it finally runs.
+    }
+
+    // Implement onConfigurationChanged() purely for debugging purposes,
+    // to make sure that the android:configChanges element in our manifest
+    // is working properly.
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (DBG) Log.v(TAG, "onConfigurationChanged: newConfig = " + newConfig);
     }
 }

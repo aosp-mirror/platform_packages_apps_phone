@@ -111,7 +111,8 @@
 
         <activity android:name="OutgoingCallBroadcaster"
                 android:permission="android.permission.CALL_PHONE"
-                android:theme="@android:style/Theme.NoDisplay">
+                android:theme="@android:style/Theme.NoDisplay"
+                android:configChanges="orientation|keyboardHidden">
             <!-- CALL action intent filters, for the various ways
                  of initiating an outgoing call. -->
             <intent-filter>
