@@ -70,8 +70,8 @@
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Parkera pågående samtal "\n" och svara"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Avsluta pågående samtal"\n" och svara"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Tryck på Meny om du vill visa samtalsalternativ."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryck på Meny om du vill visa samtalsalternativ  •   Använd tangentbordet om du vill ringa"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Tryck på Menu om du vill visa samtalsalternativ."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryck på Menu om du vill visa samtalsalternativ • Använd tangentbordet om du vill ringa"</string>
     <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorera"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?"\n</string>
@@ -144,8 +144,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Felaktiga samtalsinställningar"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Läser inställningar…"</string>
     <string name="updating_settings" msgid="8171225533884883252">"Uppdaterar inställningar…"</string>
-    <!-- no translation found for reverting_settings (4752151682666912828) -->
-    <skip />
+    <string name="reverting_settings" msgid="4752151682666912828">"Återställer inställningarna…"</string>
     <string name="response_error" msgid="6674110501330139405">"Oväntat svar från nätverket."</string>
     <string name="exception_error" msgid="7027667130619518211">"Nätverks- eller SIM-kortsfel."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Sätt på radion innan du visar inställningarna."</string>
@@ -160,10 +159,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Spara nummer till röstbrevlåda"</string>
     <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
-    <!-- no translation found for vm_change_failed (6912718596496220653) -->
-    <skip />
-    <!-- no translation found for fw_change_failed (4437005899675054038) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"Det gick inte att ändra numret till röstbrevlådan."\n"Kontakta operatören om problemet kvarstår."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Det gick inte att ändra numret för vidarebefordran."\n"Kontakta operatören om problemet kvarstår."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Det gick inte att hämta och spara det aktuella numret för vidarebefordran. "\n"Vill du byta till den nya leverantören i alla fall?"</string>
     <string name="no_change" msgid="3186040086622435212">"Du har inte gjort några ändringar."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Välj tjänst för röstbrevlådan"</string>
@@ -566,20 +563,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Övriga samtalsinställningar"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ringer via ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for slide_to_answer (255903188611244476) -->
-    <skip />
-    <!-- no translation found for slide_to_silence (2224982696981131553) -->
-    <skip />
-    <!-- no translation found for slide_to_decline (7342094219435077069) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
-    <skip />
-    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Tryck och dra till höger om du vill svara"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Tryck och dra till vänster för tyst signal"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Tryck och dra till vänster om du vill avvisa"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Tryck och dra till höger om du vill svara och"\n"parkera det aktiva samtalet"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Tryck och dra till höger om du vill svara och"\n"avsluta det aktiva samtalet"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Tryck och dra till höger om du vill svara och"\n"avsluta det parkerade samtalet"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Svara"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Avvisa"</string>
 </resources>

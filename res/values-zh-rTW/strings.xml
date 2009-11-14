@@ -562,7 +562,7 @@
     <string name="voicemail_settings" msgid="2288633492587133022">"語音信箱設定"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;未設定&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"語音信箱服務"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 的設定"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>的設定"</string>
     <string name="other_settings" msgid="3672912580359716394">"其他通話設定"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"撥號"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"正在透過 ^1 去電"\n<b>"^2"</b></string>
