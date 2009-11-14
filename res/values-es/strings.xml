@@ -47,7 +47,7 @@
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: orden de reintento"</string>
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: error de acceso"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: reemplazada"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Sólo es posible realizar llamadas de emergencia."</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Solo es posible realizar llamadas de emergencia."</string>
     <string name="confCall" msgid="1904840547188336828">"Conferencia telefónica"</string>
     <string name="call_lost" msgid="317670617901479594">"La llamada se ha perdido."</string>
     <string name="retry" msgid="8462986804300767852">"Reintentar"</string>
@@ -110,9 +110,9 @@
     <string name="networks" msgid="8873030692174541976">"Operadores de red"</string>
     <string name="call_settings" msgid="6112441768261754562">"Ajustes de llamadas"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Configuración adicional"</string>
-    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Configuración adicional de llamadas sólo GSM"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Configuración adicional de llamadas solo GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Configuración adicional de llamadas CDMA"</string>
-    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configuración adicional de llamadas sólo CDMA"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configuración adicional de llamadas solo CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Configuración del servicio de red"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"ID de emisor"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número oculto en llamadas salientes"</string>
@@ -144,8 +144,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Error de configuración de llamada"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Leyendo configuración..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Actualizando configuración..."</string>
-    <!-- no translation found for reverting_settings (4752151682666912828) -->
-    <skip />
+    <string name="reverting_settings" msgid="4752151682666912828">"Restableciendo configuración…"</string>
     <string name="response_error" msgid="6674110501330139405">"Respuesta inesperada de la red"</string>
     <string name="exception_error" msgid="7027667130619518211">"Error en la tarjeta SIM o en la red."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Activar la señal móvil antes de ver esta configuración"</string>
@@ -160,10 +159,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar número de buzón de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"El número del buzón de voz se ha cambiado."</string>
-    <!-- no translation found for vm_change_failed (6912718596496220653) -->
-    <skip />
-    <!-- no translation found for fw_change_failed (4437005899675054038) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"El cambio de número de buzón de voz no se ha realizado correctamente."\n"Si el problema persiste, ponte en contacto con tu operador."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"El cambio de número de desvío no se ha realizado correctamente."\n"Si el problema persiste, ponte en contacto con tu operador."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Se ha producido un error al recuperar y guardar la configuración actual del número de desvío."\n"¿Quieres realizar el cambio al nuevo operador de todas formas?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se ha realizado ningún cambio."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Seleccionar servicio de buzón de voz"</string>
@@ -187,12 +184,12 @@
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Preferencia de modo de red"</string>
   <string-array name="preferred_network_mode_choices">
     <item msgid="2987674222882365152">"Global"</item>
-    <item msgid="3273348576277144124">"Sólo EvDo"</item>
+    <item msgid="3273348576277144124">"Solo EvDo"</item>
     <item msgid="454610224530856274">"CDMA sin EvDo"</item>
     <item msgid="8928247118825616081">"Modo automático de CDMA/EvDo"</item>
     <item msgid="8595462903294812666">"Modo automático de GSM/WCDMA"</item>
-    <item msgid="5189164180446264504">"Sólo WCDMA"</item>
-    <item msgid="5714714953966979187">"Sólo GSM"</item>
+    <item msgid="5189164180446264504">"Solo WCDMA"</item>
+    <item msgid="5714714953966979187">"Solo GSM"</item>
     <item msgid="4775796025725908913">"Preferencia de GSM/WCDMA"</item>
   </string-array>
   <string-array name="preferred_network_mode_values">
@@ -306,7 +303,7 @@
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (modo automático)"</item>
     <item msgid="8912042051809329533">"Sólo WCDMA"</item>
-    <item msgid="8776934131146642662">"Sólo GSM"</item>
+    <item msgid="8776934131146642662">"Solo GSM"</item>
     <item msgid="4684679567848300935">"GSM/WCDA (preferencia de WCDMA)"</item>
   </string-array>
   <string-array name="gsm_umts_network_preferences_values">
@@ -316,19 +313,19 @@
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Utilizar sólo redes 2G"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorra batería"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorrar batería"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Selección de sistema"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Cambiar modo de itinerancia CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Selección de sistema"</string>
   <string-array name="cdma_system_select_choices">
-    <item msgid="176474317493999285">"Sólo sistema doméstico"</item>
+    <item msgid="176474317493999285">"Solo sistema doméstico"</item>
     <item msgid="1205664026446156265">"Automático"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modo de itinerancia CDMA"</string>
     <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Cambiar modo de itinerancia CDMA"</string>
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"modo de itinerancia CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
-    <item msgid="6024072766548865002">"Sólo redes domésticas"</item>
+    <item msgid="6024072766548865002">"Solo redes domésticas"</item>
     <item msgid="8174642753290624634">"Redes afiliadas"</item>
     <item msgid="2241951431403168661">"Cualquier red"</item>
   </string-array>
@@ -343,7 +340,7 @@
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Sólo CDMA"</item>
-    <item msgid="2683555124647197574">"Sólo EvDo"</item>
+    <item msgid="2683555124647197574">"Solo EvDo"</item>
   </string-array>
   <string-array name="cdma_network_preferences_values">
     <item msgid="5584048199290030331">"0"</item>
@@ -566,20 +563,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Otras opciones de llamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Llamar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Llamando a través de ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for slide_to_answer (255903188611244476) -->
-    <skip />
-    <!-- no translation found for slide_to_silence (2224982696981131553) -->
-    <skip />
-    <!-- no translation found for slide_to_decline (7342094219435077069) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
-    <skip />
-    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Arrastrar a la derecha para responder"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Arrastrar a la izquierda para silenciar el timbre"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Arrastrar a la izquierda para rechazar"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Arrastrar a la derecha para responder y"\n"retener una llamada activa"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Arrastrar a la derecha para responder y"\n"finalizar una llamada activa"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Arrastrar a la derecha para responder y"\n"finalizar una llamada en espera"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Responder"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Rechazar"</string>
 </resources>

@@ -144,8 +144,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Erro nas definições de chamada"</string>
     <string name="reading_settings" msgid="1920291699287055284">"A ler as definições..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"A actualizar as definições..."</string>
-    <!-- no translation found for reverting_settings (4752151682666912828) -->
-    <skip />
+    <string name="reverting_settings" msgid="4752151682666912828">"A reverter as definições…"</string>
     <string name="response_error" msgid="6674110501330139405">"Resposta inesperada da rede."</string>
     <string name="exception_error" msgid="7027667130619518211">"Erro do cartão SIM ou da rede."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Active o rádio antes de visualizar estas definições."</string>
@@ -160,10 +159,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar o número do correio de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"O número do correio de voz foi alterado."</string>
-    <!-- no translation found for vm_change_failed (6912718596496220653) -->
-    <skip />
-    <!-- no translation found for fw_change_failed (4437005899675054038) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"A alteração do número de correio de voz falhou."\n"Contacte o seu operador se este problema persistir."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"A alteração do número de reencaminhamento falhou."\n"Contacte o seu operador se este problema persistir."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Falha ao obter e guardar as definições do número de encaminhamento actual."\n"Pretende mudar para o novo fornecedor mesmo assim?"</string>
     <string name="no_change" msgid="3186040086622435212">"Não foram efectuadas alterações."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Escolha o serviço de correio de voz"</string>
@@ -566,20 +563,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Outras definições de chamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Marcar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"A ligar através de ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for slide_to_answer (255903188611244476) -->
-    <skip />
-    <!-- no translation found for slide_to_silence (2224982696981131553) -->
-    <skip />
-    <!-- no translation found for slide_to_decline (7342094219435077069) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
-    <skip />
-    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Arraste para a direita para atender"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Arraste para a esquerda para silenciar a campainha"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Arraste para a esquerda para recusar"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Arraste para a direita para atender e"\n"colocar a chamada activa em espera"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Arraste para a direita para atender e"\n"terminar a chamada activa"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Arraste para a direita para atender e"\n"terminar a chamada em espera"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Atender"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Recusar"</string>
 </resources>
