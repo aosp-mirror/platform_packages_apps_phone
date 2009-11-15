@@ -19,7 +19,7 @@
     <string name="contactsFavoritesLabel" msgid="5360050972935451505">"收藏"</string>
     <string name="dialerIconLabel" msgid="1761864493312440268">"拨号器"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"紧急拨号器"</string>
-    <string name="phoneIconLabel" msgid="2331230813161304895">"手机"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"电话"</string>
     <string name="recentCallsIconLabel" msgid="8717350893637245164">"通话记录"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"固定拨号列表"</string>
     <string name="unknown" msgid="6878797917991465859">"未知"</string>
@@ -34,8 +34,8 @@
     <string name="callFailed_powerOff" msgid="2766035859391549713">"已关闭天线"</string>
     <string name="callFailed_simError" msgid="5652345589458834655">"无 SIM 或 SIM 错误"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"不在服务区"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"外拨电话受固定拨号限制。"</string>
-    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"在开启通话限制的情况下无法向外拨打电话。"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"拨出电话受固定拨号限制。"</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"通话限制启用时，无法拨出电话。"</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"所有通话都受访问控制限制。"</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"紧急电话受访问控制限制。"</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"正常通话受访问控制限制。"</string>
@@ -114,19 +114,19 @@
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"其他 CDMA 通话设置"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"仅适用于 CDMA 的其他通话设置"</string>
     <string name="labelNwService" msgid="4699970172021870983">"网络服务设置"</string>
-    <string name="labelCallerId" msgid="3888899447379069198">"来电者信息"</string>
-    <string name="sum_hide_caller_id" msgid="1071407020290873782">"在外拨电话中隐藏号码"</string>
-    <string name="sum_show_caller_id" msgid="6768534125447290401">"在外拨电话中显示号码"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"使用默认运营商设置，在外拨电话中显示我的号码"</string>
-    <string name="labelCW" msgid="6120513814915920200">"呼叫等待"</string>
+    <string name="labelCallerId" msgid="3888899447379069198">"本机号码"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"拨出电话时隐藏本机号码"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"拨出电话时显示本机号码"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"使用默认运营商设置，在拨出电话时显示本机号码"</string>
+    <string name="labelCW" msgid="6120513814915920200">"来电等待"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"在通话期间，通知我有其他来电"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"在通话期间，通知我有其他来电"</string>
-    <string name="call_forwarding_settings" msgid="3378927671091537173">"呼叫转接设置"</string>
-    <string name="labelCF" msgid="2574386948026924737">"呼叫转接"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"来电转接设置"</string>
+    <string name="labelCF" msgid="2574386948026924737">"来电转接"</string>
     <string name="labelCFU" msgid="8147177368148660600">"始终转接"</string>
     <string name="messageCFU" msgid="3560082430662923687">"始终使用此号码"</string>
-    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"转接所有呼叫"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"将所有呼叫转接至 {0}"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"转接所有来电"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"将所有来电转接至 {0}"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"已停用"</string>
     <string name="labelCFB" msgid="218938523102207587">"占线时转接"</string>
     <string name="messageCFB" msgid="3711089705936187129">"占线时的转接号码"</string>
@@ -144,8 +144,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"通话设置错误"</string>
     <string name="reading_settings" msgid="1920291699287055284">"正在读取设置..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"正在更新设置..."</string>
-    <!-- no translation found for reverting_settings (4752151682666912828) -->
-    <skip />
+    <string name="reverting_settings" msgid="4752151682666912828">"正在恢复设置..."</string>
     <string name="response_error" msgid="6674110501330139405">"网络响应异常。"</string>
     <string name="exception_error" msgid="7027667130619518211">"网络或 SIM 卡错误。"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"请在查看这些设置之前先打开天线。"</string>
@@ -160,12 +159,10 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"保存语音信箱号码"</string>
     <string name="vm_changed" msgid="380744030726254139">"语音信箱号码已更改。"</string>
-    <!-- no translation found for vm_change_failed (6912718596496220653) -->
-    <skip />
-    <!-- no translation found for fw_change_failed (4437005899675054038) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"语音信箱号码更改失败。"\n"如果问题依然存在，请与您的运营商联系。"</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"转接号码更改失败。"\n"如果问题依然存在，请与您的运营商联系。"</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"检索和保存当前转接号码设置失败。"\n"您仍然想要切换到新的服务提供商吗？"</string>
-    <string name="no_change" msgid="3186040086622435212">"未做过更改。"</string>
+    <string name="no_change" msgid="3186040086622435212">"未做任何更改。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"选择语音信箱服务"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"我的运营商"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"移动网络设置"</string>
@@ -447,7 +444,7 @@
     <string name="card_title_in_progress" msgid="8603765629781648862">"当前通话"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"电话会议"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"来电"</string>
-    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"CDMA 呼叫等待"</string>
+    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"CDMA 来电等待"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"通话结束"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"保持"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"正在挂断"</string>
@@ -465,9 +462,9 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"无服务"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"所选网络（<xliff:g id="OPERATOR_NAME">%s</xliff:g>）不可用"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"要进行呼叫，请先关闭飞行模式。"</string>
-    <string name="incall_error_emergency_only" msgid="4678640422710818317">"未在网络上注册。"</string>
-    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"无法发送呼叫，因为输入的号码无效。"</string>
-    <string name="incall_error_call_failed" msgid="4313552620858880999">"无法发送呼叫。"</string>
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"尚未注册网络。"</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"拨号未送出，因为输入的号码无效。"</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"拨号未送出。"</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"正在启动 MMI 序列..."</string>
     <string name="incall_status_dialed_fc" msgid="1632879988662225263">"正在启动功能代码序列..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"不支持此服务。"</string>
@@ -480,8 +477,8 @@
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"紧急电话"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"正在打开天线..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"不在服务区，正在重试..."</string>
-    <string name="dial_emergency_error" msgid="8362624131726575194">"无法发送呼叫，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是一个紧急号码！"</string>
-    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"无法发送呼叫，请拨打紧急电话！"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"拨号未送出，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急号码！"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"拨号未送出，请拨打紧急电话！"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"使用键盘拨号"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"按键式数字键盘"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"拨号键盘"</string>
@@ -563,24 +560,16 @@
     <string name="voicemail_settings" msgid="2288633492587133022">"语音信箱设置"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;未设置&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"语音信箱服务"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 的设置"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>的设置"</string>
     <string name="other_settings" msgid="3672912580359716394">"其他通话设置"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"拨打"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"通过 ^1"\n<b>"^2"</b>" 呼叫"</string>
-    <!-- no translation found for slide_to_answer (255903188611244476) -->
-    <skip />
-    <!-- no translation found for slide_to_silence (2224982696981131553) -->
-    <skip />
-    <!-- no translation found for slide_to_decline (7342094219435077069) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
-    <skip />
-    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"向右拖动以接听"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"向左拖动以使振铃器静音"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"向左拖动以拒绝"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"向右拖动以接听并"\n"保持当前通话"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"向右拖动以接听并"\n"结束当前通话"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"向右拖动以接听并"\n"结束保持的通话"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"接听"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"拒绝"</string>
 </resources>
