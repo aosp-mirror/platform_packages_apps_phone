@@ -16,38 +16,62 @@
 
 <!-- XML resource file for the "person info" area of the main
      CallCard of the in-call UI, which includes the photo and
-     name/number TextViews.
-     This is the PORTRAIT mode version of this layout. -->
+     name/number TextViews. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/callCardPersonInfo"
               android:orientation="vertical"
               android:gravity="center_horizontal"
-              android:layout_width="wrap_content"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               >
 
-    <!-- Photo, or else a generic placeholder image. -->
-    <!-- Contact photos are generally 96x96 (but may be smaller.)
-         The layout size of this ImageView is larger than that, though,
-         to account for the incall_photo_border background, which
-         adds a white border around the image (and a shadow around
-         the white border.) -->
-    <!-- TODO: Right now, for contact photos *smaller* than the standard
-         size, we still draw the picture frame at its normal size, so
-         you see the white border *and* lots of gray space around the
-         photo...  Need to confirm this is OK. -->
-    <ImageView android:id="@+id/photo"
-               android:layout_width="116px"
-               android:layout_height="116px"
-               android:scaleType="center"
-               android:background="@drawable/incall_photo_border"
-               />
-
-    <!-- Placeholder to add some space between the photo and name/number
-         if there's enough room. -->
-    <View
+    <!-- Photo, with elapsed time widget off to the side. -->
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_weight="1" />
+        android:layout_height="172dp"
+        >
+        <!-- Photo, or else a generic placeholder image. -->
+        <!-- Contact photos are generally 96x96 (but may be smaller.)
+             The layout size of this ImageView is larger than that, though,
+             to account for the incall_photo_border background, which
+             adds a white border around the image (and a shadow around
+             the white border.) -->
+        <ImageView android:id="@+id/photo"
+                   android:layout_width="172dp"
+                   android:layout_height="166dp"
+                   android:layout_centerHorizontal="true"
+                   android:background="@drawable/incall_photo_border_lg"
+                   />
+
+        <!-- The big "Manage conference" button that we show in place of
+             the contact photo during a conference call (but only on
+             devices where the in-call touch UI is enabled.)  The photo is
+             invisible if this button is visible, and vice-versa. -->
+        <Button android:id="@+id/manageConferencePhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/onscreenManageConferenceText"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@drawable/manage_conference_photo_button"
+                android:layout_marginTop="16dip"
+            />
+
+        <!-- Elapsed time indication for a call in progress. -->
+        <TextView android:id="@+id/elapsedTime"
+                  android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textSize="15sp"
+                  android:textStyle="bold"
+                  android:singleLine="true"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toRightOf="@id/photo"
+                  android:layout_alignParentBottom="true"
+                  android:layout_marginBottom="19dip"
+                  android:layout_marginLeft="-14dip"
+                  />
+    </RelativeLayout>
 
     <!-- Name (or the phone number, if we don't have a name to display). -->
     <TextView android:id="@+id/name"
@@ -57,7 +81,7 @@
               android:singleLine="true"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginBottom="6dip"
+              android:layout_marginTop="-22dip"
               android:paddingLeft="4dip"
               android:paddingRight="4dip"
               />
@@ -67,7 +91,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal"
-                  android:layout_marginTop="-4dip">
+                  android:layout_marginTop="-6dip">
         <TextView android:id="@+id/label"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:textSize="18sp"
@@ -86,5 +110,18 @@
                   android:layout_height="wrap_content"
                   />
     </LinearLayout>
+
+    <!-- Social status -->
+    <TextView android:id="@+id/socialStatus"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textSize="16sp"
+              android:textColor="?android:attr/textColorSecondary"
+              android:maxLines="2"
+              android:ellipsize="end"
+              android:paddingLeft="10dip"
+              android:paddingRight="10dip"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
 
 </LinearLayout>

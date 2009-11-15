@@ -30,4 +30,23 @@
             <enum name="activation" value="1" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CallForwardEditPreference">
+        <attr name="serviceClass">
+            <!-- voice -->
+            <enum name="voice" value="1" />
+            <!-- data -->
+            <enum name="data" value="2" />
+        </attr>
+        <attr name="reason">
+            <!-- unconditional  -->
+            <enum name="unconditional" value="0" />
+            <!-- busy -->
+            <enum name="busy" value="1" />
+            <!-- no_reply -->
+            <enum name="no_reply" value="2" />
+            <!-- not_reachable -->
+            <enum name="not_reachable" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>

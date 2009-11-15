@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.app.Dialog;
 import android.app.KeyguardManager;
+import android.app.StatusBarManager;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -32,6 +33,7 @@ public class IccPanel extends Dialog {
     protected static final String TAG = PhoneApp.LOG_TAG;
 
     private KeyguardManager.KeyguardLock mKeyguardLock;
+    private StatusBarManager mStatusBarManager;
 
     public IccPanel(Context context) {
         super(context, R.style.IccPanel);
@@ -49,6 +51,7 @@ public class IccPanel extends Dialog {
         PhoneApp app = PhoneApp.getInstance();
         KeyguardManager km = (KeyguardManager) app.getSystemService(Context.KEYGUARD_SERVICE);
         mKeyguardLock = km.newKeyguardLock(TAG);
+        mStatusBarManager = (StatusBarManager) app.getSystemService(Context.STATUS_BAR_SERVICE);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
@@ -71,8 +74,10 @@ public class IccPanel extends Dialog {
     private void disableKeyguard(boolean disable) {
         if (disable) {
             mKeyguardLock.disableKeyguard();
+            mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
         } else {
             mKeyguardLock.reenableKeyguard();
+            mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
         }
     }
 

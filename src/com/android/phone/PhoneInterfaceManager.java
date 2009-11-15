@@ -27,6 +27,7 @@ import android.os.Message;
 import android.os.ServiceManager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.ServiceState;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -34,9 +35,6 @@ import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.Phone;
-
-import static com.android.internal.telephony.RILConstants.GSM_PHONE;
-import static com.android.internal.telephony.RILConstants.CDMA_PHONE;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -133,6 +131,28 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
                 case CMD_SILENCE_RINGER:
                     silenceRingerInternal();
+                    break;
+
+                case CMD_END_CALL:
+                    request = (MainThreadRequest) msg.obj;
+                    boolean hungUp = false;
+                    int phoneType = mPhone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                        // CDMA: If the user presses the Power button we treat it as
+                        // ending the complete call session
+                        hungUp = PhoneUtils.hangupRingingAndActive(mPhone);
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                        // GSM: End the call as per the Phone state
+                        hungUp = PhoneUtils.hangup(mPhone);
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
+                    }
+                    if (DBG) log("CMD_END_CALL: " + (hungUp ? "hung up!" : "no call to hang up"));
+                    request.result = hungUp;
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
                     break;
 
                 default:
@@ -268,16 +288,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return showCallScreenInternal(true, showDialpad);
     }
 
-    // TODO: Watch out: it's dangerous to call into the telephony code
-    // directly from here (we're running in a random binder thread, but
-    // the telephony code expects to always be called from the phone app
-    // main thread.)  We should instead wrap this in a sendRequest() call
-    // (just like with answerRingingCall() / answerRingingCallInternal()).
+    /**
+     * End a call based on call state
+     * @return true is a call was ended
+     */
     public boolean endCall() {
         enforceCallPermission();
-        boolean hungUp = PhoneUtils.hangup(mPhone);
-        if (DBG) log("endCall: " + (hungUp ? "hung up!" : "no call to hang up"));
-        return hungUp;
+        return (Boolean) sendRequest(CMD_END_CALL, null);
     }
 
     public void answerRingingCall() {
@@ -452,7 +469,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         // No permission check needed here: this call is harmless, and it's
         // needed for the ServiceState.requestStateUpdate() call (which is
         // already intentionally exposed to 3rd parties.)
-        mPhone.updateServiceLocation(null);
+        mPhone.updateServiceLocation();
     }
 
     public boolean isRadioOn() {
@@ -565,6 +582,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             cells = (ArrayList<NeighboringCellInfo>) sendRequest(
                     CMD_HANDLE_NEIGHBORING_CELL, null);
         } catch (RuntimeException e) {
+            Log.e(LOG_TAG, "getNeighboringCellInfo " + e);
         }
 
         return (List <NeighboringCellInfo>) cells;
@@ -618,11 +636,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public int getActivePhoneType() {
-        if(mPhone.getPhoneName().equals("CDMA")) {
-            return CDMA_PHONE;
-        } else {
-            return GSM_PHONE;
-        }
+        return mPhone.getPhoneType();
     }
 
     /**
@@ -649,10 +663,67 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     /**
+     * Returns true if CDMA provisioning needs to run.
+     */
+    public boolean getCdmaNeedsProvisioning() {
+        if (getActivePhoneType() == Phone.PHONE_TYPE_GSM) {
+            return false;
+        }
+
+        boolean needsProvisioning = false;
+        String cdmaMin = mPhone.getCdmaMin();
+        try {
+            needsProvisioning = OtaUtils.needsActivation(cdmaMin);
+        } catch (IllegalArgumentException e) {
+            // shouldn't get here unless hardware is misconfigured
+            Log.e(LOG_TAG, "CDMA MIN string " + ((cdmaMin == null) ? "was null" : "was too short"));
+        }
+        return needsProvisioning;
+    }
+
+    /**
      * Returns the unread count of voicemails
      */
     public int getVoiceMessageCount() {
         return mPhone.getVoiceMessageCount();
     }
 
+    /**
+     * Returns the network type
+     */
+    public int getNetworkType() {
+        int radiotech = mPhone.getServiceState().getRadioTechnology();
+        switch(radiotech) {
+            case ServiceState.RADIO_TECHNOLOGY_GPRS:
+                return TelephonyManager.NETWORK_TYPE_GPRS;
+            case ServiceState.RADIO_TECHNOLOGY_EDGE:
+                return TelephonyManager.NETWORK_TYPE_EDGE;
+            case ServiceState.RADIO_TECHNOLOGY_UMTS:
+                return TelephonyManager.NETWORK_TYPE_UMTS;
+            case ServiceState.RADIO_TECHNOLOGY_HSDPA:
+                return TelephonyManager.NETWORK_TYPE_HSDPA;
+            case ServiceState.RADIO_TECHNOLOGY_HSUPA:
+                return TelephonyManager.NETWORK_TYPE_HSUPA;
+            case ServiceState.RADIO_TECHNOLOGY_HSPA:
+                return TelephonyManager.NETWORK_TYPE_HSPA;
+            case ServiceState.RADIO_TECHNOLOGY_IS95A:
+            case ServiceState.RADIO_TECHNOLOGY_IS95B:
+                return TelephonyManager.NETWORK_TYPE_CDMA;
+            case ServiceState.RADIO_TECHNOLOGY_1xRTT:
+                return TelephonyManager.NETWORK_TYPE_1xRTT;
+            case ServiceState.RADIO_TECHNOLOGY_EVDO_0:
+                return TelephonyManager.NETWORK_TYPE_EVDO_0;
+            case ServiceState.RADIO_TECHNOLOGY_EVDO_A:
+                return TelephonyManager.NETWORK_TYPE_EVDO_A;
+            default:
+                return TelephonyManager.NETWORK_TYPE_UNKNOWN;
+        }
+    }
+
+    /**
+     * @return true if a ICC card is present
+     */
+    public boolean hasIccCard() {
+        return mPhone.getIccCard().hasIccCard();
+    }
 }

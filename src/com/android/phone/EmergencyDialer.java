@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -45,50 +46,68 @@ import android.widget.EditText;
 
 /**
  * EmergencyDialer is a special dialer that is used ONLY for dialing emergency calls.
- * It is a special case of the TwelveKeyDialer that:
- *   1. allows ONLY emergency calls to be dialed
- *   2. disallows voicemail functionality
- *   3. handles keyguard access correctly
  *
- * NOTE: TwelveKeyDialer has been moved into the Contacts App, so the "useful"
- * portions of the TwelveKeyDialer have been moved into this class, as part of some
- * code cleanup.
+ * It's a simplified version of the regular dialer (i.e. the TwelveKeyDialer
+ * activity from apps/Contacts) that:
+ *   1. Allows ONLY emergency calls to be dialed
+ *   2. Disallows voicemail functionality
+ *   3. Handles manually enabling/disabling the keyguard (since we get
+ *      launched directly from the lock screen).
+ *
+ * TODO: Even though this is an ultra-simplified version of the normal
+ * dialer, there's still lots of code duplication between this class and
+ * the TwelveKeyDialer class from apps/Contacts.  Could the common code be
+ * moved into a shared base class that would live in the framework?
+ * Or could we figure out some way to move *this* class into apps/Contacts
+ * also?
  */
-public class EmergencyDialer extends Activity implements View.OnClickListener,
-View.OnLongClickListener, View.OnKeyListener, TextWatcher {
-
+public class EmergencyDialer extends Activity
+        implements View.OnClickListener, View.OnLongClickListener,
+        View.OnKeyListener, TextWatcher {
+    // Keys used with onSaveInstanceState().
     private static final String LAST_NUMBER = "lastNumber";
 
-    // intent action for this activity.
+    // Intent action for this activity.
     public static final String ACTION_DIAL = "com.android.phone.EmergencyDialer.DIAL";
 
-    // debug constants
+    // Debug constants.
     private static final boolean DBG = false;
-    private static final String LOG_TAG = "emergency_dialer";
-
-    private static final int STOP_TONE = 1;
+    private static final String LOG_TAG = "EmergencyDialer";
 
     /** The length of DTMF tones in milliseconds */
     private static final int TONE_LENGTH_MS = 150;
 
     /** The DTMF tone volume relative to other sounds in the stream */
-    private static final int TONE_RELATIVE_VOLUME = 50;
+    private static final int TONE_RELATIVE_VOLUME = 80;
+
+    /** Stream type used to play the DTMF tones off call, and mapped to the volume control keys */
+    private static final int DIAL_TONE_STREAM_TYPE = AudioManager.STREAM_MUSIC;
 
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
+    /** Play the vibrate pattern only once. */
+    private static final int VIBRATE_NO_REPEAT = -1;
+
     EditText mDigits;
+    // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
+    private View mVoicemailDialAndDeleteRow;
+    private View mDialButton;
     private View mDelete;
+
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
 
     // new UI background assets
     private Drawable mDigitsBackground;
     private Drawable mDigitsEmptyBackground;
-    private Drawable mDeleteBackground;
-    private Drawable mDeleteEmptyBackground;
 
     // determines if we want to playback local DTMF tones.
     private boolean mDTMFToneEnabled;
+
+    // Vibration (haptic feedback) for dialer key presses.
+    private Vibrator mVibrator;
+    private boolean mVibrateOn;
+    private long[] mVibratePattern;
 
     // close activity when screen turns off
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -113,20 +132,17 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     public void afterTextChanged(Editable input) {
         if (SpecialCharSequenceMgr.handleChars(this, input.toString(), this)) {
             // A special sequence was entered, clear the digits
-            mDigits.getText().delete(0, mDigits.getText().length());
+            mDigits.getText().clear();
         }
 
-        // Set the proper background for the dial input area
-        if (mDigits.length() != 0) {
-            mDelete.setBackgroundDrawable(mDeleteBackground);
+        final boolean notEmpty = mDigits.length() != 0;
+        if (notEmpty) {
             mDigits.setBackgroundDrawable(mDigitsBackground);
-            mDigits.setCompoundDrawablesWithIntrinsicBounds(
-                    getResources().getDrawable(R.drawable.ic_dial_number), null, null, null);
         } else {
-            mDelete.setBackgroundDrawable(mDeleteEmptyBackground);
             mDigits.setBackgroundDrawable(mDigitsEmptyBackground);
-            mDigits.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
+
+        updateDialAndDeleteButtonStateEnabledAttr();
     }
 
     @Override
@@ -140,8 +156,6 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         Resources r = getResources();
         mDigitsBackground = r.getDrawable(R.drawable.btn_dial_textfield_active);
         mDigitsEmptyBackground = r.getDrawable(R.drawable.btn_dial_textfield);
-        mDeleteBackground = r.getDrawable(R.drawable.btn_dial_delete_active);
-        mDeleteEmptyBackground = r.getDrawable(R.drawable.btn_dial_delete);
 
         mDigits = (EditText) findViewById(R.id.digits);
         mDigits.setKeyListener(DialerKeyListener.getInstance());
@@ -156,9 +170,28 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             setupKeypad();
         }
 
-        mDelete = findViewById(R.id.backspace);
-        mDelete.setOnClickListener(this);
-        mDelete.setOnLongClickListener(this);
+        mVoicemailDialAndDeleteRow = findViewById(R.id.voicemailAndDialAndDelete);
+
+        // Check whether we should show the onscreen "Dial" button and co.
+        if (r.getBoolean(R.bool.config_show_onscreen_dial_button)) {
+
+            // The voicemail button is not active. Even if we marked
+            // it as disabled in the layout, we have to manually clear
+            // that state as well (b/2134374)
+            // TODO: Check with UI designer if we should not show that button at all. (b/2134854)
+            mVoicemailDialAndDeleteRow.findViewById(R.id.voicemailButton).setEnabled(false);
+
+            mDialButton = mVoicemailDialAndDeleteRow.findViewById(R.id.dialButton);
+            mDialButton.setOnClickListener(this);
+
+            mDelete = mVoicemailDialAndDeleteRow.findViewById(R.id.deleteButton);
+            mDelete.setOnClickListener(this);
+            mDelete.setOnLongClickListener(this);
+        } else {
+            mVoicemailDialAndDeleteRow.setVisibility(View.GONE); // It's VISIBLE by default
+            mVoicemailDialAndDeleteRow = null;
+        }
+
 
         if (icicle != null) {
             super.onRestoreInstanceState(icicle);
@@ -169,8 +202,11 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator == null) {
                 try {
-                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_RING,
-                            TONE_RELATIVE_VOLUME);
+                    // we want the user to be able to control the volume of the dial tones
+                    // outside of a call, so we use the stream type that is also mapped to the
+                    // volume control keys for this activity
+                    mToneGenerator = new ToneGenerator(DIAL_TONE_STREAM_TYPE, TONE_RELATIVE_VOLUME);
+                    setVolumeControlStream(DIAL_TONE_STREAM_TYPE);
                 } catch (RuntimeException e) {
                     Log.w(LOG_TAG, "Exception caught while creating local tone generator: " + e);
                     mToneGenerator = null;
@@ -181,6 +217,12 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mBroadcastReceiver, intentFilter);
+
+        // Initialize vibration parameters.
+        // TODO: We might eventually need to make mVibrateOn come from a
+        // user preference rather than a per-platform resource, in which
+        // case we would need to update it in onResume() rather than here.
+        initVibrationPattern(r);
     }
 
     @Override
@@ -188,7 +230,6 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         super.onDestroy();
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator != null) {
-                mToneStopper.removeMessages(STOP_TONE);
                 mToneGenerator.release();
                 mToneGenerator = null;
             }
@@ -200,7 +241,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     protected void onRestoreInstanceState(Bundle icicle) {
         mLastNumber = icicle.getString(LAST_NUMBER);
     }
-    
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -269,6 +310,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     }
 
     private void keyPressed(int keyCode) {
+        vibrate();
         KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
         mDigits.onKeyDown(keyCode, event);
     }
@@ -347,11 +389,13 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
                 keyPressed(KeyEvent.KEYCODE_STAR);
                 return;
             }
+            case R.id.dialButton:
             case R.id.digits: {
+                vibrate();  // Vibrate here too, just like we do for the regular keys
                 placeCall();
                 return;
             }
-            case R.id.backspace: {
+            case R.id.deleteButton: {
                 keyPressed(KeyEvent.KEYCODE_DEL);
                 return;
             }
@@ -364,8 +408,12 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
     public boolean onLongClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.backspace: {
-                mDigits.getText().delete(0, mDigits.getText().length());
+            case R.id.deleteButton: {
+                mDigits.getText().clear();
+                // TODO: The framework forgets to clear the pressed
+                // status of disabled button. Until this is fixed,
+                // clear manually the pressed status. b/2133127
+                mDelete.setPressed(false);
                 return true;
             }
             case R.id.zero: {
@@ -392,7 +440,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator == null) {
                 try {
-                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_RING,
+                    mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF,
                             TONE_RELATIVE_VOLUME);
                 } catch (RuntimeException e) {
                     Log.w(LOG_TAG, "Exception caught while creating local tone generator: " + e);
@@ -406,7 +454,10 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         if (DBG) Log.d(LOG_TAG, "turning keyguard off, set to long timeout");
         PhoneApp app = (PhoneApp) getApplication();
         app.disableKeyguard();
+        app.disableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
+
+        updateDialAndDeleteButtonStateEnabledAttr();
     }
 
     /**
@@ -419,13 +470,13 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         if (DBG) Log.d(LOG_TAG, "turning keyguard back on and closing the dialer");
         PhoneApp app = (PhoneApp) getApplication();
         app.reenableKeyguard();
+        app.reenableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
 
         super.onPause();
 
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator != null) {
-                mToneStopper.removeMessages(STOP_TONE);
                 mToneGenerator.release();
                 mToneGenerator = null;
             }
@@ -460,25 +511,13 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         }
     }
 
-    Handler mToneStopper = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case STOP_TONE:
-                    synchronized (mToneGeneratorLock) {
-                        if (mToneGenerator == null) {
-                            Log.w(LOG_TAG, "mToneStopper: mToneGenerator == null");
-                        } else {
-                            mToneGenerator.stopTone();
-                        }
-                    }
-                    break;
-            }
-        }
-    };
 
     /**
-     * Play a tone for TONE_LENGTH_MS milliseconds.
+     * Plays the specified tone for TONE_LENGTH_MS milliseconds.
+     *
+     * The tone is played locally, using the audio stream for phone calls.
+     * Tones are played only if the "Audible touch tones" user preference
+     * is checked, and are NOT played if the device is in silent mode.
      *
      * @param tone a tone code from {@link ToneGenerator}
      */
@@ -488,18 +527,26 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             return;
         }
 
+        // Also do nothing if the phone is in silent mode.
+        // We need to re-check the ringer mode for *every* playTone()
+        // call, rather than keeping a local flag that's updated in
+        // onResume(), since it's possible to toggle silent mode without
+        // leaving the current activity (via the ENDCALL-longpress menu.)
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int ringerMode = audioManager.getRingerMode();
+        if ((ringerMode == AudioManager.RINGER_MODE_SILENT)
+            || (ringerMode == AudioManager.RINGER_MODE_VIBRATE)) {
+            return;
+        }
+
         synchronized (mToneGeneratorLock) {
             if (mToneGenerator == null) {
                 Log.w(LOG_TAG, "playTone: mToneGenerator == null, tone: " + tone);
                 return;
             }
 
-            // Remove pending STOP_TONE messages
-            mToneStopper.removeMessages(STOP_TONE);
-
             // Start the new tone (will stop any playing tone)
-            mToneGenerator.startTone(tone);
-            mToneStopper.sendEmptyMessageDelayed(STOP_TONE, TONE_LENGTH_MS);
+            mToneGenerator.startTone(tone, TONE_LENGTH_MS);
         }
     }
 
@@ -510,7 +557,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             return getText(R.string.dial_emergency_empty_error).toString();
         }
     }
-    
+
     @Override
     protected Dialog onCreateDialog(int id) {
         AlertDialog dialog = null;
@@ -527,7 +574,7 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
         }
         return dialog;
     }
-    
+
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         super.onPrepareDialog(id, dialog);
@@ -536,4 +583,59 @@ View.OnLongClickListener, View.OnKeyListener, TextWatcher {
             alert.setMessage(createErrorMessage(mLastNumber));
         }
     }
+
+    /**
+     * Triggers haptic feedback (if enabled) for dialer key presses.
+     */
+    private synchronized void vibrate() {
+        if (!mVibrateOn) {
+            return;
+        }
+        if (mVibrator == null) {
+            mVibrator = new Vibrator();
+        }
+        mVibrator.vibrate(mVibratePattern, VIBRATE_NO_REPEAT);
+    }
+
+    /**
+     * Update the enabledness of the "Dial" and "Backspace" buttons if applicable.
+     */
+    private void updateDialAndDeleteButtonStateEnabledAttr() {
+        if (null != mVoicemailDialAndDeleteRow) {
+            final boolean notEmpty = mDigits.length() != 0;
+
+            mDialButton.setEnabled(notEmpty);
+            mDelete.setEnabled(notEmpty);
+        }
+    }
+
+    /**
+     * Initialize the vibration parameters.
+     * @param r The Resources with the vibration parameters.
+     */
+    private void initVibrationPattern(Resources r) {
+        int[] pattern = null;
+        try {
+            mVibrateOn = r.getBoolean(R.bool.config_enable_dialer_key_vibration);
+            pattern = r.getIntArray(com.android.internal.R.array.config_virtualKeyVibePattern);
+            if (null == pattern) {
+                Log.e(LOG_TAG, "Vibrate pattern is null.");
+                mVibrateOn = false;
+            }
+        } catch (Resources.NotFoundException nfe) {
+            Log.e(LOG_TAG, "Vibrate control bool or pattern missing.", nfe);
+            mVibrateOn = false;
+        }
+
+        if (!mVibrateOn) {
+            return;
+        }
+
+        // int[] to long[] conversion.
+        mVibratePattern = new long[pattern.length];
+        for (int i = 0; i < pattern.length; i++) {
+            mVibratePattern[i] = pattern[i];
+        }
+    }
+
 }
