@@ -89,6 +89,7 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
 
             if (action == CommandsInterface.CF_ACTION_REGISTRATION
                     && callForwardInfo != null
+                    && callForwardInfo.status == 1
                     && number.equals(callForwardInfo.number)) {
                 // no change, do nothing
                 if (DBG) Log.d(LOG_TAG, "no change, do nothing");
