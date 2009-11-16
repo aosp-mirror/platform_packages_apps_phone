@@ -895,36 +895,38 @@ public class PhoneApp extends Application {
      */
     /* package */ void requestWakeState(WakeState ws) {
         if (VDBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
-        if (mWakeState != ws) {
-            switch (ws) {
-                case PARTIAL:
-                    // acquire the processor wake lock, and release the FULL
-                    // lock if it is being held.
-                    mPartialWakeLock.acquire();
-                    if (mWakeLock.isHeld()) {
-                        mWakeLock.release();
-                    }
-                    break;
-                case FULL:
-                    // acquire the full wake lock, and release the PARTIAL
-                    // lock if it is being held.
-                    mWakeLock.acquire();
-                    if (mPartialWakeLock.isHeld()) {
-                        mPartialWakeLock.release();
-                    }
-                    break;
-                case SLEEP:
-                default:
-                    // release both the PARTIAL and FULL locks.
-                    if (mWakeLock.isHeld()) {
-                        mWakeLock.release();
-                    }
-                    if (mPartialWakeLock.isHeld()) {
-                        mPartialWakeLock.release();
-                    }
-                    break;
+        synchronized (this) {
+            if (mWakeState != ws) {
+                switch (ws) {
+                    case PARTIAL:
+                        // acquire the processor wake lock, and release the FULL
+                        // lock if it is being held.
+                        mPartialWakeLock.acquire();
+                        if (mWakeLock.isHeld()) {
+                            mWakeLock.release();
+                        }
+                        break;
+                    case FULL:
+                        // acquire the full wake lock, and release the PARTIAL
+                        // lock if it is being held.
+                        mWakeLock.acquire();
+                        if (mPartialWakeLock.isHeld()) {
+                            mPartialWakeLock.release();
+                        }
+                        break;
+                    case SLEEP:
+                    default:
+                        // release both the PARTIAL and FULL locks.
+                        if (mWakeLock.isHeld()) {
+                            mWakeLock.release();
+                        }
+                        if (mPartialWakeLock.isHeld()) {
+                            mPartialWakeLock.release();
+                        }
+                        break;
+                }
+                mWakeState = ws;
             }
-            mWakeState = ws;
         }
     }
 
@@ -933,12 +935,14 @@ public class PhoneApp extends Application {
      * manager to wake up the screen for the user activity timeout duration.
      */
     /* package */ void wakeUpScreen() {
-        if (mWakeState == WakeState.SLEEP) {
-            if (DBG) Log.d(LOG_TAG, "pulse screen lock");
-            try {
-                mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
-            } catch (RemoteException ex) {
-                // Ignore -- the system process is dead.
+        synchronized (this) {
+            if (mWakeState == WakeState.SLEEP) {
+                if (DBG) Log.d(LOG_TAG, "pulse screen lock");
+                try {
+                    mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
+                } catch (RemoteException ex) {
+                    // Ignore -- the system process is dead.
+                }
             }
         }
     }
