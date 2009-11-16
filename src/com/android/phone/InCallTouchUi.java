@@ -23,6 +23,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -42,6 +45,7 @@ import com.android.internal.widget.SlidingTab;
  */
 public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, SlidingTab.OnTriggerListener {
+    private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -502,8 +506,8 @@ public class InCallTouchUi extends FrameLayout
             case SlidingTab.OnTriggerListener.LEFT_HANDLE:
                 if (DBG) log("LEFT_HANDLE: answer!");
 
-                // Immediately hide the incoming call UI.
-                mIncomingCallWidget.setVisibility(View.GONE);
+                hideIncomingCallWidget();
+
                 // ...and also prevent it from reappearing right away.
                 // (This covers up a slow response from the radio; see updateState().)
                 mLastIncomingCallActionTime = SystemClock.uptimeMillis();
@@ -520,8 +524,8 @@ public class InCallTouchUi extends FrameLayout
             case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
                 if (DBG) log("RIGHT_HANDLE: reject!");
 
-                // Immediately hide the incoming call UI.
-                mIncomingCallWidget.setVisibility(View.GONE);
+                hideIncomingCallWidget();
+
                 // ...and also prevent it from reappearing right away.
                 // (This covers up a slow response from the radio; see updateState().)
                 mLastIncomingCallActionTime = SystemClock.uptimeMillis();
@@ -543,6 +547,40 @@ public class InCallTouchUi extends FrameLayout
         // Regardless of what action the user did, be sure to clear out
         // the hint text we were displaying while the user was dragging.
         mInCallScreen.updateSlidingTabHint(0, 0);
+    }
+
+    /**
+     * Apply an animation to hide the incoming call widget.
+     *
+     * NOTE: in addition to this fadeout animation, the {@link #mIncomingCallWidget}
+     * will get hidden by the updateState() method if a phone state change event comes
+     * in and the phone isn't in the RINGING state any more. So there's basically a race
+     * condition between this animation, and the telephony layer actually answering
+     * the incoming call.
+     *
+     * In practice, 250ms should be short enough to avoid this condition, but this should
+     * probably be cleaned up post-eclair.
+     */
+    private void hideIncomingCallWidget() {
+        // Transition from the incoming call UI
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setDuration(IN_CALL_WIDGET_TRANSITION_TIME);
+        anim.setAnimationListener(new AnimationListener() {
+
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            public void onAnimationEnd(Animation animation) {
+                // hide the incoming call UI.
+                mIncomingCallWidget.setVisibility(View.GONE);
+            }
+        });
+        mIncomingCallWidget.startAnimation(anim);
     }
 
     /**
