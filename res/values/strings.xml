@@ -271,6 +271,8 @@
     <string name="sum_cfu_enabled_indicator">Forwarding all calls</string>
     <!-- Call forwarding settings screen, setting summary text the Always forward is set -->
     <string name="sum_cfu_enabled">Forwarding all calls to {0}</string>
+    <!-- Call forwarding settings screen, Always forward is enabled but the number is unavailable -->
+    <string name="sum_cfu_enabled_no_number">Number is unavailable</string>
     <!-- Call forwarding settings screen, setting summary text when Always forward is disabled -->
     <string name="sum_cfu_disabled">Disabled</string>
 
