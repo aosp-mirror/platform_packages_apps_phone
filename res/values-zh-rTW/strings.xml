@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"永遠使用此號碼"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"轉接所有來電"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"轉接所有來電到 {0}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"停用"</string>
     <string name="labelCFB" msgid="218938523102207587">"忙線時轉接"</string>
     <string name="messageCFB" msgid="3711089705936187129">"忙線時轉接號碼"</string>
