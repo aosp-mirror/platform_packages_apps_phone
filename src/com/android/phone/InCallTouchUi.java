@@ -272,7 +272,13 @@ public class InCallTouchUi extends FrameLayout
             throw new IllegalStateException(
                 "'Incoming' and 'in-call' touch controls visible at the same time!");
         }
-        mIncomingCallWidget.setVisibility(showIncomingCallControls ? View.VISIBLE : View.GONE);
+
+        if (showIncomingCallControls) {
+            showIncomingCallWidget();
+        } else {
+            hideIncomingCallWidget();
+        }
+
         mInCallControls.setVisibility(showInCallControls ? View.VISIBLE : View.GONE);
 
         // TODO: As an optimization, also consider setting the visibility
@@ -551,18 +557,14 @@ public class InCallTouchUi extends FrameLayout
 
     /**
      * Apply an animation to hide the incoming call widget.
-     *
-     * NOTE: in addition to this fadeout animation, the {@link #mIncomingCallWidget}
-     * will get hidden by the updateState() method if a phone state change event comes
-     * in and the phone isn't in the RINGING state any more. So there's basically a race
-     * condition between this animation, and the telephony layer actually answering
-     * the incoming call.
-     *
-     * In practice, 250ms should be short enough to avoid this condition, but this should
-     * probably be cleaned up post-eclair.
      */
     private void hideIncomingCallWidget() {
-        // Transition from the incoming call UI
+        if (mIncomingCallWidget.getVisibility() != View.VISIBLE
+                || mIncomingCallWidget.getAnimation() != null) {
+            // Widget is already hidden or in the process of being hidden
+            return;
+        }
+        // Hide the incoming call screen with a transition
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setDuration(IN_CALL_WIDGET_TRANSITION_TIME);
         anim.setAnimationListener(new AnimationListener() {
@@ -577,10 +579,23 @@ public class InCallTouchUi extends FrameLayout
 
             public void onAnimationEnd(Animation animation) {
                 // hide the incoming call UI.
+                mIncomingCallWidget.clearAnimation();
                 mIncomingCallWidget.setVisibility(View.GONE);
             }
         });
         mIncomingCallWidget.startAnimation(anim);
+    }
+
+    /**
+     * Shows the incoming call widget and cancels any animation that may be fading it out.
+     */
+    private void showIncomingCallWidget() {
+        Animation anim = mIncomingCallWidget.getAnimation();
+        if (anim != null) {
+            anim.reset();
+            mIncomingCallWidget.clearAnimation();
+        }
+        mIncomingCallWidget.setVisibility(View.VISIBLE);
     }
 
     /**
