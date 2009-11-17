@@ -289,7 +289,9 @@ public class SimContacts extends ADNList {
                 mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                         getString(R.string.cancel), thread);
                 mProgressDialog.setProgress(0);
-                mProgressDialog.setMax(mCursor.getCount());
+                if (mCursor != null) {
+                    mProgressDialog.setMax(mCursor.getCount());
+                }
                 mProgressDialog.show();
 
                 thread.start();
