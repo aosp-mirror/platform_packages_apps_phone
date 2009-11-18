@@ -1136,11 +1136,14 @@ public class PhoneApp extends Application {
 
         if (proximitySensorModeEnabled()) {
             synchronized (mProximityWakeLock) {
-                if (((state == Phone.State.OFFHOOK) || mBeginningCall)
-                        && !(isHeadsetPlugged()
-                        || PhoneUtils.isSpeakerOn(this)
-                        || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                        || mIsHardKeyboardOpen)) {
+                // turn proximity sensor off and turn screen on immediately if
+                // we are using a headset or the keyboard is open.
+                boolean screenOnImmediately = (isHeadsetPlugged()
+                            || PhoneUtils.isSpeakerOn(this)
+                            || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                            || mIsHardKeyboardOpen);
+
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall)&& !screenOnImmediately) {
                     // Phone is in use!  Arrange for the screen to turn off
                     // automatically when the sensor detects a close object.
                     if (!mProximityWakeLock.isHeld()) {
@@ -1156,7 +1159,12 @@ public class PhoneApp extends Application {
                     // special proximity sensor behavior in either case.
                     if (mProximityWakeLock.isHeld()) {
                         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
-                        mProximityWakeLock.release();
+                        // Wait until user has moved the phone away from his head if we are
+                        // releasing due to the phone call ending.
+                        // Qtherwise, turn screen on immediately
+                        int flags =
+                            (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
+                        mProximityWakeLock.release(flags);
                         reenableKeyguard();
                     } else {
                         if (VDBG) {
