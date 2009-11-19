@@ -663,7 +663,7 @@ public class BluetoothHandsfree {
                 break;
             case DIALING:
                 callsetup = 2;
-                mAudioPossible = false;
+                mAudioPossible = true;
                 // We also need to send a Call started indication
                 // for cases where the 2nd MO was initiated was
                 // from a *BT hands free* and is waiting for a
