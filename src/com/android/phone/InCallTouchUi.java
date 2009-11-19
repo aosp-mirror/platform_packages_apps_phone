@@ -474,6 +474,7 @@ public class InCallTouchUi extends FrameLayout
         if (inCallControlState.dialpadVisible) {
             mHoldButtonContainer.setVisibility(View.GONE);
             mSwapButtonContainer.setVisibility(View.GONE);
+            mCdmaMergeButtonContainer.setVisibility(View.GONE);
         }
     }
 
