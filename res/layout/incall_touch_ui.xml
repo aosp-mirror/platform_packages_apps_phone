@@ -70,6 +70,7 @@
         </LinearLayout>
 
         <!-- "Swap" (upper left) -->
+        <!-- This button's label changes to "Manage calls" in some CDMA states. -->
         <LinearLayout android:id="@+id/swapButtonContainer"
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
@@ -82,7 +83,10 @@
                 style="@style/InCallRoundButtonLabel" />
         </LinearLayout>
 
-        <!-- "Merge" (upper left) CDMA specific -->
+        <!-- CDMA-specific "Merge" (upper left) -->
+        <!-- This button is used only on CDMA devices, where we can't use
+             the Merge button in the main cluster (because the "Add Call"
+             button might need to be enabled at the same time.) -->
         <LinearLayout android:id="@+id/cdmaMergeButtonContainer"
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
@@ -148,7 +152,10 @@
                             android:text="@string/onscreenAddCallText"
                             android:drawableTop="@drawable/ic_in_call_touch_add_call"
                             />
-                    <!-- "Merge calls". GSM specific -->
+                    <!-- "Merge calls" -->
+                    <!-- This button is used only on GSM devices, where we know
+                         that "Add" and "Merge" are never available at the same time.
+                         The "Merge" button for CDMA devices is "cdmaMergeButton" above. -->
                     <Button android:id="@+id/mergeButton"
                             style="@style/InCallTouchButton"
                             android:layout_width="fill_parent"
