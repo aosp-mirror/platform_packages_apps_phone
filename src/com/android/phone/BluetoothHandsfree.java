@@ -340,6 +340,7 @@ public class BluetoothHandsfree {
         private String mRingingNumber;  // Context for in-progress RING's
         private int    mRingingType;
         private boolean mIgnoreRing = false;
+        private boolean mStopRing = false;
 
         private static final int SERVICE_STATE_CHANGED = 1;
         private static final int PRECISE_CALL_STATE_CHANGED = 2;
@@ -420,6 +421,10 @@ public class BluetoothHandsfree {
 
         private boolean sendClipUpdate() {
             return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip;
+        }
+
+        private void stopRing() {
+            mStopRing = true;
         }
 
         /* convert [0,31] ASU signal strength to the [0,5] expected by
@@ -828,6 +833,7 @@ public class BluetoothHandsfree {
                     mRingingNumber = number;
                     mRingingType = type;
                     mIgnoreRing = false;
+                    mStopRing = false;
 
                     // Ideally, we would like to set up the SCO channel
                     // before sending the ring() so that we don't miss any
@@ -866,7 +872,7 @@ public class BluetoothHandsfree {
 
 
         private AtCommandResult ring() {
-            if (!mIgnoreRing && mRingingCall.isRinging()) {
+            if (!mIgnoreRing && !mStopRing && mRingingCall.isRinging()) {
                 AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
                 result.addResponse("RING");
                 if (sendClipUpdate()) {
@@ -1448,9 +1454,12 @@ public class BluetoothHandsfree {
             private AtCommandResult headsetButtonPress() {
                 if (mRingingCall.isRinging()) {
                     // Answer the call
+                    mBluetoothPhoneState.stopRing();
+                    sendURC("OK");
                     PhoneUtils.answerCall(mPhone);
                     // SCO might already be up, but just make sure
                     audioOn();
+                    return new AtCommandResult(AtCommandResult.UNSOLICITED);
                 } else if (mForegroundCall.getState().isAlive()) {
                     if (!isAudioOn()) {
                         // Transfer audio from AG to HS
@@ -1468,11 +1477,11 @@ public class BluetoothHandsfree {
                             PhoneUtils.hangup(mPhone);
                         }
                     }
+                    return new AtCommandResult(AtCommandResult.OK);
                 } else {
                     // No current call - redial last number
                     return redial();
                 }
-                return new AtCommandResult(AtCommandResult.OK);
             }
             @Override
             public AtCommandResult handleActionCommand() {
@@ -1496,8 +1505,10 @@ public class BluetoothHandsfree {
         parser.register('A', new AtCommandHandler() {
             @Override
             public AtCommandResult handleBasicCommand(String args) {
+                sendURC("OK");
+                mBluetoothPhoneState.stopRing();
                 PhoneUtils.answerCall(mPhone);
-                return new AtCommandResult(AtCommandResult.OK);
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
         parser.register('D', new AtCommandHandler() {
