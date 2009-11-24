@@ -122,10 +122,6 @@ public class CallNotifier extends Handler
     private static final int EMERGENCY_TONE_ALERT = 1;
     private static final int EMERGENCY_TONE_VIBRATE = 2;
 
-    // Ringback tone state
-    private static final int RINGBACK_TONE_ON = 1;
-    private static final int RINGBACK_TONE_OFF = 2;
-
     private PhoneApp mApplication;
     private Phone mPhone;
     private Ringer mRinger;
@@ -148,14 +144,21 @@ public class CallNotifier extends Handler
     private EmergencyTonePlayerVibrator mEmergencyTonePlayerVibrator;
 
     // Ringback tone player
-    private int mCurrentRingbackToneState = RINGBACK_TONE_OFF;
-    private InCallRingbackTonePlayer mInCallRingbackTonePlayer;
+    private InCallTonePlayer mInCallRingbackTonePlayer;
+
+    // Call waiting tone player
+    private InCallTonePlayer mCallWaitingTonePlayer;
+
+    // Cached AudioManager
+    private AudioManager mAudioManager;
 
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
                         BluetoothHandsfree btMgr) {
         mApplication = app;
 
         mPhone = phone;
+
+        mAudioManager = (AudioManager) mPhone.getContext().getSystemService(Context.AUDIO_SERVICE);
 
         mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
@@ -420,15 +423,10 @@ public class CallNotifier extends Handler
                 startIncomingCallQuery(c);
             } else {
                 if (VDBG) log("- starting call waiting tone...");
-                new InCallTonePlayer(InCallTonePlayer.TONE_CALL_WAITING).start();
-                // The InCallTonePlayer will automatically stop playing (and
-                // clean itself up) after playing the tone.
-
-                // TODO: alternatively, consider starting an
-                // InCallTonePlayer with an "unlimited" tone length, and
-                // manually stop it later when the ringing call either (a)
-                // gets answered, or (b) gets disconnected.
-
+                if (mCallWaitingTonePlayer == null) {
+                    mCallWaitingTonePlayer = new InCallTonePlayer(InCallTonePlayer.TONE_CALL_WAITING);
+                    mCallWaitingTonePlayer.start();
+                }
                 // in this case, just fall through like before, and call
                 // PhoneUtils.showIncomingCallUi
                 PhoneUtils.showIncomingCallUi();
@@ -606,6 +604,12 @@ public class CallNotifier extends Handler
         mApplication.updatePhoneState(state);
 
         if (state == Phone.State.OFFHOOK) {
+            // stop call waiting tone if needed when answering
+            if (mCallWaitingTonePlayer != null) {
+                mCallWaitingTonePlayer.stopTone();
+                mCallWaitingTonePlayer = null;
+            }
+
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
             if (VDBG) log("onPhoneStateChanged: OFF HOOK");
             // If Audio Mode is not In Call, then set the Audio Mode.  This
@@ -614,9 +618,7 @@ public class CallNotifier extends Handler
             // since calling does not go through DIALING state, it skips the steps
             // of setting the Audio Mode
             if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-                AudioManager audioManager =
-                        (AudioManager) mPhone.getContext().getSystemService(Context.AUDIO_SERVICE);
-                if (audioManager.getMode() != AudioManager.MODE_IN_CALL) {
+                if (mAudioManager.getMode() != AudioManager.MODE_IN_CALL) {
                     PhoneUtils.setAudioMode(mPhone.getContext(), AudioManager.MODE_IN_CALL);
                 }
             }
@@ -675,9 +677,9 @@ public class CallNotifier extends Handler
             if (!callState.isDialing()) {
                 // If call get activated or disconnected before the ringback
                 // tone stops, we have to stop it to prevent disturbing.
-                if (mInCallRingbackTonePlayer != null &&
-                        mCurrentRingbackToneState == RINGBACK_TONE_ON) {
-                    mInCallRingbackTonePlayer.stop();
+                if (mInCallRingbackTonePlayer != null) {
+                    mInCallRingbackTonePlayer.stopTone();
+                    mInCallRingbackTonePlayer = null;
                 }
             }
         }
@@ -704,6 +706,9 @@ public class CallNotifier extends Handler
 
         // Clear ringback tone player
         mInCallRingbackTonePlayer = null;
+
+        // Clear call waiting tone player
+        mCallWaitingTonePlayer = null;
 
         mPhone.unregisterForInCallVoicePrivacyOn(this);
         mPhone.unregisterForInCallVoicePrivacyOff(this);
@@ -846,6 +851,12 @@ public class CallNotifier extends Handler
         } else { // GSM
             if (DBG) log("stopRing()... (onDisconnect)");
             mRinger.stopRing();
+        }
+
+        // stop call waiting tone if needed when disconnecting
+        if (mCallWaitingTonePlayer != null) {
+            mCallWaitingTonePlayer.stopTone();
+            mCallWaitingTonePlayer = null;
         }
 
         // Check for the various tones we might need to play (thru the
@@ -1149,7 +1160,7 @@ public class CallNotifier extends Handler
      */
     private class InCallTonePlayer extends Thread {
         private int mToneId;
-
+        private int mState;
         // The possible tones we can play.
         public static final int TONE_NONE = 0;
         public static final int TONE_CALL_WAITING = 1;
@@ -1164,6 +1175,7 @@ public class CallNotifier extends Handler
         public static final int TONE_OUT_OF_SERVICE = 10;
         public static final int TONE_REDIAL = 11;
         public static final int TONE_OTA_CALL_END = 12;
+        public static final int TONE_RING_BACK = 13;
 
         // The tone volume relative to other sounds in the stream
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
@@ -1174,9 +1186,15 @@ public class CallNotifier extends Handler
         // exact duration of the tone itself.
         private static final int TONE_TIMEOUT_BUFFER = 20;
 
+        // The tone state
+        private static final int TONE_OFF = 0;
+        private static final int TONE_ON = 1;
+        private static final int TONE_STOPPED = 2;
+
         InCallTonePlayer(int toneId) {
             super();
             mToneId = toneId;
+            mState = TONE_OFF;
         }
 
         @Override
@@ -1187,13 +1205,12 @@ public class CallNotifier extends Handler
             int toneVolume;  // passed to the ToneGenerator constructor
             int toneLengthMillis;
 
-            AudioManager audioManager = (AudioManager) mPhone.getContext()
-                    .getSystemService(Context.AUDIO_SERVICE);
             switch (mToneId) {
                 case TONE_CALL_WAITING:
                     toneType = ToneGenerator.TONE_SUP_CALL_WAITING;
                     toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                    toneLengthMillis = 5000;
+                    // Call waiting tone is stopped by stopTone() method
+                    toneLengthMillis = Integer.MAX_VALUE - TONE_TIMEOUT_BUFFER;
                     break;
                 case TONE_BUSY:
                     int phoneType = mPhone.getPhoneType();
@@ -1266,6 +1283,12 @@ public class CallNotifier extends Handler
                     toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
                     toneLengthMillis = 5000;
                     break;
+                case TONE_RING_BACK:
+                    toneType = ToneGenerator.TONE_SUP_RINGTONE;
+                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
+                    // Call ring back tone is stopped by stopTone() method
+                    toneLengthMillis = Integer.MAX_VALUE - TONE_TIMEOUT_BUFFER;
+                    break;
                 default:
                     throw new IllegalArgumentException("Bad toneId: " + mToneId);
             }
@@ -1308,7 +1331,7 @@ public class CallNotifier extends Handler
 
             if (toneGenerator != null) {
                 int phoneType = mPhone.getPhoneType();
-                int ringerMode = audioManager.getRingerMode();
+                int ringerMode = mAudioManager.getRingerMode();
                 if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     if (toneType == ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD) {
                         if ((ringerMode != AudioManager.RINGER_MODE_SILENT) &&
@@ -1341,15 +1364,24 @@ public class CallNotifier extends Handler
                     okToPlayTone = true;
                 }
 
-                if (okToPlayTone) {
-                    toneGenerator.startTone(toneType);
-                    SystemClock.sleep(toneLengthMillis + TONE_TIMEOUT_BUFFER);
-                    if (needToStopTone) {
-                        toneGenerator.stopTone();
+                synchronized (this) {
+                    if (okToPlayTone && mState != TONE_STOPPED) {
+                        mState = TONE_ON;
+                        toneGenerator.startTone(toneType);
+                        try {
+                            wait(toneLengthMillis + TONE_TIMEOUT_BUFFER);
+                        } catch  (InterruptedException e) {
+                            Log.w(LOG_TAG,
+                                  "InCallTonePlayer stopped: " + e);
+                        }
+                        if (needToStopTone) {
+                            toneGenerator.stopTone();
+                        }
                     }
+                    // if (DBG) log("- InCallTonePlayer: done playing.");
+                    toneGenerator.release();
+                    mState = TONE_OFF;
                 }
-                // if (DBG) log("- InCallTonePlayer: done playing.");
-                toneGenerator.release();
             }
 
             // Finally, do the same cleanup we otherwise would have done
@@ -1367,6 +1399,15 @@ public class CallNotifier extends Handler
             // till the tone finishes playing.)
             if (mPhone.getState() == Phone.State.IDLE) {
                 resetAudioStateAfterDisconnect();
+            }
+        }
+
+        public void stopTone() {
+            synchronized (this) {
+                if (mState == TONE_ON) {
+                    notify();
+                }
+                mState = TONE_STOPPED;
             }
         }
     }
@@ -1645,15 +1686,12 @@ public class CallNotifier extends Handler
                 new long[] { EMG_VIBRATE_LENGTH, EMG_VIBRATE_PAUSE };
 
         private ToneGenerator mToneGenerator;
-        private AudioManager mAudioManager;
         private Vibrator mEmgVibrator;
 
         /**
          * constructor
          */
         public EmergencyTonePlayerVibrator() {
-            Context context = mApplication.getApplicationContext();
-            mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         }
 
         /**
@@ -1704,87 +1742,20 @@ public class CallNotifier extends Handler
         boolean playTone = (Boolean)(r.result);
 
         if (playTone == true) {
-            if (mInCallRingbackTonePlayer == null) {
-                mInCallRingbackTonePlayer = new InCallRingbackTonePlayer();
-            }
-
             // Only play when foreground call is in DIALING or ALERTING.
-            // to prevent a late coming palytone after ALERTING.
+            // to prevent a late coming playtone after ALERTING.
             // Don't play ringback tone if it is in play, otherwise it will cut
             // the current tone and replay it
-            if (mInCallRingbackTonePlayer != null
-                    && mPhone.getForegroundCall().getState().isDialing()
-                    && mCurrentRingbackToneState == RINGBACK_TONE_OFF) {
+            if (mPhone.getForegroundCall().getState().isDialing() &&
+                mInCallRingbackTonePlayer == null) {
+                mInCallRingbackTonePlayer = new InCallTonePlayer(InCallTonePlayer.TONE_RING_BACK);
                 mInCallRingbackTonePlayer.start();
             }
         } else {
-            if (mInCallRingbackTonePlayer != null &&
-                    mCurrentRingbackToneState == RINGBACK_TONE_ON) {
-                mInCallRingbackTonePlayer.stop();
+            if (mInCallRingbackTonePlayer != null) {
+                mInCallRingbackTonePlayer.stopTone();
+                mInCallRingbackTonePlayer = null;
             }
-        }
-    }
-
-    /**
-     * Inner class to handle in call ringback tone
-     *
-     */
-    private class InCallRingbackTonePlayer {
-        private ToneGenerator mToneGenerator;
-
-        /**
-         * constructor
-         */
-        InCallRingbackTonePlayer() {
-            mToneGenerator = null;
-        }
-
-        /**
-         * start the ringback tone
-         */
-        private void start() {
-            if (VDBG) log("InCallRingbackTonePlayer.start()");
-
-            AudioManager audioManager = (AudioManager) mPhone.getContext()
-                    .getSystemService(Context.AUDIO_SERVICE);
-
-            try {
-                int stream;
-                if (mBluetoothHandsfree != null) {
-                    stream = mBluetoothHandsfree.isAudioOn() ? AudioManager.STREAM_BLUETOOTH_SCO:
-                        AudioManager.STREAM_VOICE_CALL;
-                } else {
-                    stream = AudioManager.STREAM_VOICE_CALL;
-                }
-                mToneGenerator = new ToneGenerator(stream,
-                        InCallTonePlayer.TONE_RELATIVE_VOLUME_HIPRI);
-            } catch (RuntimeException e) {
-                // If mToneGenerator creation fails, just continue without it.
-                // It is a local audio signal, and is not as important.
-                Log.w(LOG_TAG,
-                      "InCallRingbackTonePlayer: Exception caught while creating ToneGenerator: " + e);
-                mToneGenerator = null;
-            }
-
-            if (mToneGenerator != null) {
-                mToneGenerator.startTone(ToneGenerator.TONE_SUP_RINGTONE);
-                mCurrentRingbackToneState = RINGBACK_TONE_ON;
-            }
-        }
-
-        /**
-         * If the ringback tone is playing, stop it and release toneGenerator.
-         */
-        private void stop() {
-            if (VDBG) log("InCallRingbackTonePlayer.stop()");
-
-            if (mToneGenerator != null) {
-                mToneGenerator.stopTone();
-                mToneGenerator.release();
-                mToneGenerator = null;
-            }
-
-            mCurrentRingbackToneState = RINGBACK_TONE_OFF;
         }
     }
 
