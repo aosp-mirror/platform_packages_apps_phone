@@ -7,7 +7,9 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS := user
 
-LOCAL_SRC_FILES := src/com/android/phone/ButtonGridLayout.java
+LOCAL_SRC_FILES := \
+	src/com/android/phone/ButtonGridLayout.java \
+	src/com/android/phone/HapticFeedback.java
 
 LOCAL_MODULE := com.android.phone.common
 include $(BUILD_STATIC_JAVA_LIBRARY)
