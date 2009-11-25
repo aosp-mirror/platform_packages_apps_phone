@@ -373,16 +373,7 @@ public class InCallScreen extends Activity
                     // is still pretty cheap, so let's keep this simple
                     // for now.)
                     if (!isBluetoothAudioConnected()) {
-                        if (msg.arg1 != 1){
-                            // If the state is "not connected", restore the speaker state.
-                            // We ONLY want to do this on the wired headset connect /
-                            // disconnect events for now though, so we're only triggering
-                            // on EVENT_HEADSET_PLUG_STATE_CHANGED.
-                            PhoneUtils.restoreSpeakerMode(InCallScreen.this);
-                        } else {
-                            // If the state is "connected", force the speaker off without
-                            // storing the state.
-                            PhoneUtils.turnOnSpeaker(InCallScreen.this, false, false);
+                        if (msg.arg1 == 1) {
                             // If the dialpad is open, we need to start the timer that will
                             // eventually bring up the "touch lock" overlay.
                             if (mDialer.isOpened() && !isTouchLocked()) {
