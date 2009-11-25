@@ -22,7 +22,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.IHardwareService;
+import android.os.IPowerManager;
 import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
@@ -52,7 +52,7 @@ public class Ringer {
 
     Ringtone mRingtone;
     Vibrator mVibrator = new Vibrator();
-    IHardwareService mHardwareService;
+    IPowerManager mPowerManager;
     volatile boolean mContinueVibrating;
     VibratorThread mVibratorThread;
     Context mContext;
@@ -64,7 +64,7 @@ public class Ringer {
 
     Ringer(Phone phone) {
         mContext = phone.getContext();
-        mHardwareService = IHardwareService.Stub.asInterface(ServiceManager.getService("hardware"));
+        mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
     }
 
     /**
@@ -127,9 +127,9 @@ public class Ringer {
         synchronized (this) {
             try {
                 if (PhoneApp.getInstance().showBluetoothIndication()) {
-                    mHardwareService.setAttentionLight(true, 0x000000ff);
+                    mPowerManager.setAttentionLight(true, 0x000000ff);
 		} else {
-                    mHardwareService.setAttentionLight(true, 0x00ffffff);
+                    mPowerManager.setAttentionLight(true, 0x00ffffff);
 		}
             } catch (RemoteException ex) {
                 // the other end of this binder call is in the system process.
@@ -196,7 +196,7 @@ public class Ringer {
             if (DBG) log("stopRing()...");
 
             try {
-                mHardwareService.setAttentionLight(false, 0x00000000);
+                mPowerManager.setAttentionLight(false, 0x00000000);
             } catch (RemoteException ex) {
                 // the other end of this binder call is in the system process.
             }
