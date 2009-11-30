@@ -34,10 +34,10 @@
     <string name="callFailed_powerOff" msgid="2766035859391549713">"已关闭天线"</string>
     <string name="callFailed_simError" msgid="5652345589458834655">"无 SIM 或 SIM 错误"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"不在服务区"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"拨出电话受固定拨号限制。"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"外拨电话受固定拨号限制。"</string>
     <string name="callFailed_cb_enabled" msgid="3057131228725500761">"通话限制启用时，无法拨出电话。"</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"所有通话都受访问控制限制。"</string>
-    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"紧急电话受访问控制限制。"</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"急救或报警电话受访问控制限制。"</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"正常通话受访问控制限制。"</string>
     <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"手机在重启之前处于锁定状态。"</string>
     <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA：通话已取消。"</string>
@@ -47,7 +47,7 @@
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA：重拨顺序。"</string>
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA：无法接入。"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA：优先抢占。"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"只能拨打紧急电话。"</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"只能拨打急救或报警电话。"</string>
     <string name="confCall" msgid="1904840547188336828">"电话会议"</string>
     <string name="call_lost" msgid="317670617901479594">"通话已中断。"</string>
     <string name="retry" msgid="8462986804300767852">"重拨"</string>
@@ -115,9 +115,9 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"仅适用于 CDMA 的其他通话设置"</string>
     <string name="labelNwService" msgid="4699970172021870983">"网络服务设置"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"本机号码"</string>
-    <string name="sum_hide_caller_id" msgid="1071407020290873782">"拨出电话时隐藏本机号码"</string>
-    <string name="sum_show_caller_id" msgid="6768534125447290401">"拨出电话时显示本机号码"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"使用默认运营商设置，在拨出电话时显示本机号码"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"外拨电话时隐藏本机号码"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"外拨电话时显示本机号码"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"外拨电话时按照运营商的默认设置来显示本机号码"</string>
     <string name="labelCW" msgid="6120513814915920200">"来电等待"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"在通话期间，通知我有其他来电"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"在通话期间，通知我有其他来电"</string>
@@ -476,11 +476,11 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"无法进行电话会议。"</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"无法拒绝呼叫。"</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"无法挂断。"</string>
-    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"紧急电话"</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"紧急呼叫"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"正在打开天线..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"不在服务区，正在重试..."</string>
-    <string name="dial_emergency_error" msgid="8362624131726575194">"拨号未送出，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急号码！"</string>
-    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"拨号未送出，请拨打紧急电话！"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"拨号未送出，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急呼叫号码！"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"拨号未送出，请拨打紧急呼叫电话！"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"使用键盘拨号"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"按键式数字键盘"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"拨号键盘"</string>
@@ -488,7 +488,7 @@
     <string name="onscreenAnswerText" msgid="3000799558804019765">"点按两次"\n"可接听"</string>
     <string name="onscreenRejectText" msgid="1456649473993020449">"点按两次"\n"可拒绝"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"等待"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"挂断"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"恢复"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"挂断"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"拨号键盘"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"隐藏"</string>

@@ -21,7 +21,7 @@
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Номера экстренных вызовов"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Телефон"</string>
     <string name="recentCallsIconLabel" msgid="8717350893637245164">"Список вызовов"</string>
-    <string name="fdnListLabel" msgid="8630418672279521003">"Номера ограниченного набора"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"Разрешенные номера"</string>
     <string name="unknown" msgid="6878797917991465859">"Неизвестный абонент"</string>
     <string name="private_num" msgid="6713286113000232309">"Скрытый номер"</string>
     <string name="payphone" msgid="1931775086311769314">"Телефон-автомат"</string>
@@ -34,7 +34,7 @@
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Радио выключено"</string>
     <string name="callFailed_simError" msgid="5652345589458834655">"SIM-карта не установлена или ошибка SIM-карты"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Вне зоны действия сети"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Разрешены только исходящие вызовы из списка ограниченного набора."</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Вы можете позвонить только на телефоны из списка разрешенных номеров."</string>
     <string name="callFailed_cb_enabled" msgid="3057131228725500761">"Если включена функция запрета вызовов, невозможно осуществлять исходящие вызовы."</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Все вызовы запрещены настройками доступа."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Экстренные вызовы запрещены настройками доступа."</string>
@@ -65,8 +65,8 @@
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Объединить вызовы"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Добавить вызов"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Управление конференц-связью"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Показать номеронабиратель"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Скрыть номеронабиратель"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"Показать панель набора номера"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Скрыть панель набора номера"</string>
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Поставить текущий вызов на удержание"\n"и ответить"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Завершить текущий вызов "\n"и ответить"</string>
     <string name="ok" msgid="3811371167865772377">"ОК"</string>
@@ -108,7 +108,7 @@
     <string name="voicemail" msgid="8693759337917898954">"Голосовая почта"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"ГП:"</string>
     <string name="networks" msgid="8873030692174541976">"Операторы связи"</string>
-    <string name="call_settings" msgid="6112441768261754562">"Настройки вызовов"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Вызовы"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Дополнительные настройки"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Дополнительные настройки только для вызовов GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Дополнительные настройки вызовов CDMA"</string>
@@ -123,20 +123,22 @@
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Извещать меня о входящих вызовах во время разговора"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Настройки переадресации вызова"</string>
     <string name="labelCF" msgid="2574386948026924737">"Переадресация вызова"</string>
-    <string name="labelCFU" msgid="8147177368148660600">"Переадресовать всегда"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Всегда"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Всегда использовать этот номер"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Переадресация всех вызовов"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Переадресация всех вызовов на номер \\\\{0\\\\}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Отключено"</string>
-    <string name="labelCFB" msgid="218938523102207587">"Переадресовать вызов, если абонент занят"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Если аб. занят"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Номер, использующийся, когда линия занята"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Отключено"</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"Переадресовать, если абонент не отвечает"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"Если аб. не отвечает"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Номер для переадресации при отсутствии ответа"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Отключено"</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Переадресовать, если абонент недоступен"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Если аб. недоступен"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Номер для случаев, если абонент недоступен"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Отключено"</string>
@@ -358,18 +360,18 @@
     <item msgid="4377788417250295786">"0"</item>
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
-    <string name="fdn" msgid="7878832555095183202">"Ограниченный набор"</string>
-    <string name="manage_fdn_list" msgid="8777755791892122369">"Номера ограниченного набора"</string>
-    <string name="fdn_activation" msgid="2156479741307463576">"Активация ограниченного набора"</string>
-    <string name="fdn_enabled" msgid="5238109009915521240">"Ограниченный набор включен"</string>
-    <string name="fdn_disabled" msgid="4700049736675368279">"Ограниченный набор отключен"</string>
-    <string name="enable_fdn" msgid="3740191529180493851">"Включить ограниченный набор"</string>
-    <string name="disable_fdn" msgid="7944020890722540616">"Отключить ограниченный набор"</string>
+    <string name="fdn" msgid="7878832555095183202">"Разрешенные номера"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Разрешенные номера"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"Активация разреш. номеров"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Разрешенные номера включены"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Разрешенные номера отключены"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Вкл. разреш. номера"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Откл. разреш. номера"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Изменить PIN2"</string>
-    <string name="enable_fdn_ok" msgid="7215588870329688132">"Отключить ограниченный набор"</string>
-    <string name="disable_fdn_ok" msgid="5727046928930740173">"Включить ограниченный набор"</string>
-    <string name="sum_fdn" msgid="1959399454900272878">"Управление номерами ограниченного набора"</string>
-    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Изменить PIN для доступа к ограниченному набору"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Откл. разреш. номера"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"Вкл. разреш. номера"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Управление фиксированным набором номеров"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Изменить PIN для доступа к списку разрешенных номеров"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Управление списком телефонных номеров"</string>
     <string name="voice_privacy" msgid="7803023024169078619">"Конфиденциальность разговоров"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Включить усиленный режим конфиденциальности"</string>
@@ -386,15 +388,15 @@
     <string name="name" msgid="7329028332786872378">"Имя"</string>
     <string name="number" msgid="7905950798349903858">"Номер"</string>
     <string name="save" msgid="4094274636321939086">"Сохранить"</string>
-    <string name="add_fdn_contact" msgid="5412242719704146070">"Добавить контакт ограниченного набора"</string>
-    <string name="adding_fdn_contact" msgid="1008984230265031168">"Добавление контакта для ограниченного набора..."</string>
-    <string name="fdn_contact_added" msgid="3283284983265410270">"Контакт для ограниченного набора добавлен."</string>
-    <string name="edit_fdn_contact" msgid="3440054765948798731">"Изменить контакт ограниченного набора"</string>
-    <string name="updating_fdn_contact" msgid="5918299270800552372">"Обновление контакта для ограниченного набора..."</string>
-    <string name="fdn_contact_updated" msgid="510187720367785051">"Контакт для ограниченного набора обновлен."</string>
-    <string name="delete_fdn_contact" msgid="2237838617123538040">"Удалить контакт ограниченного набора"</string>
-    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Удаление контакта для ограниченного набора..."</string>
-    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Контакт для ограниченного набора удален."</string>
+    <string name="add_fdn_contact" msgid="5412242719704146070">"Добавить контакт в разрешенные"</string>
+    <string name="adding_fdn_contact" msgid="1008984230265031168">"Добавление контакта в разрешенные..."</string>
+    <string name="fdn_contact_added" msgid="3283284983265410270">"Контакт добавлен в разрешенные."</string>
+    <string name="edit_fdn_contact" msgid="3440054765948798731">"Изменить разрешенный контакт"</string>
+    <string name="updating_fdn_contact" msgid="5918299270800552372">"Обновление данных разрешенного контакта..."</string>
+    <string name="fdn_contact_updated" msgid="510187720367785051">"Разрешенный контакт обновлен."</string>
+    <string name="delete_fdn_contact" msgid="2237838617123538040">"Удалить контакт из разрешенных"</string>
+    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Удаление контакта из разрешенных..."</string>
+    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Контакт удален из разрешенных."</string>
     <string name="pin2_invalid" msgid="6408721267712649637">"Недействительный PIN2"</string>
     <string name="fdn_invalid_number" msgid="1484959418054136856">"Длина номера не может превышать 20 знаков."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Считывание с SIM-карты…"</string>
@@ -481,14 +483,14 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Вызов не осуществлен, наберите номер экстренного вызова!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Используйте клавиатуру для набора номера"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Тональная клавиатура"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Номеронабиратель"</string>
+    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Панель набора номера"</string>
     <string name="touchLockText" msgid="566824588267376287">"Нажмите дважды"\n"для разблокировки"</string>
     <string name="onscreenAnswerText" msgid="3000799558804019765">"Нажмите дважды,"\n"чтобы ответить."</string>
     <string name="onscreenRejectText" msgid="1456649473993020449">"Нажмите дважды,"\n"чтобы отклонить."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Удерживать"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Снять удержание"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Завершить"</string>
-    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Номеронабиратель"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Панель набора номера"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Скрыть"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Динамик"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Откл. звук"</string>

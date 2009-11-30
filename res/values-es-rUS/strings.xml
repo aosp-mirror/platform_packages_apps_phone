@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"Usar este teléfono siempre"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Reenviar todas las llamadas"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Reenviar todas las llamadas a \\\\{0\\\\}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Desactivado"</string>
     <string name="labelCFB" msgid="218938523102207587">"Reenviar si está ocup."</string>
     <string name="messageCFB" msgid="3711089705936187129">"Número cuando está ocupado"</string>

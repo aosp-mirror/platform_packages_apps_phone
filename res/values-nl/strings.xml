@@ -70,8 +70,8 @@
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Hdg. opr. in wacht"\n"en opnemen"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Hdg. opr. beëindigen"\n"en opnemen"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Druk op \'Menu\' voor oproepopties."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Druk op \'Menu\' voor oproepopties • Toetsen gebruiken om te bellen"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Druk op \'Menu\' voor oproep-opties."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Druk op \'Menu\' voor oproep-opties • Toetsen gebruiken om te bellen"</string>
     <string name="menu_answer" msgid="116686205042231098">"Antwoord"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Negeren"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"De volgende tonen verzenden?"\n</string>
@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"Altijd dit nummer gebruiken"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Alle oproepen doorschakelen"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Alle oproepen doorschakelen naar {0}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Uitgeschakeld"</string>
     <string name="labelCFB" msgid="218938523102207587">"Doorschakelen indien in gesprek"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Nummer indien in gesprek"</string>
