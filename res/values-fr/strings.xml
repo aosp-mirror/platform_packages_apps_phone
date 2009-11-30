@@ -109,7 +109,7 @@
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"MV :"</string>
     <string name="networks" msgid="8873030692174541976">"Opérateur de réseau"</string>
     <string name="call_settings" msgid="6112441768261754562">"Paramètres d\'appel"</string>
-    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Paramètres supplémentaires"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Autres paramètres"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Autres paramètres d\'appel \"GSM uniquement\""</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Autres paramètres d\'appel CDMA"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Autres paramètres d\'appel \"CDMA uniquement\""</string>
@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"Toujours utiliser ce numéro"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Transfert de tous les appels"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Transfert de tous les appels à {0}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Désactivé"</string>
     <string name="labelCFB" msgid="218938523102207587">"Transférer si ligne occupée"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numéro de renvoi lorsque la ligne est occupée"</string>
@@ -556,11 +558,11 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Oui"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Non"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorer"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres de la messagerie vocale"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non défini&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie vocale"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Paramètres pour <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="other_settings" msgid="3672912580359716394">"Paramètres d\'appel supplémentaires"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Autres paramètres d\'appel"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Composer"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Appel via ^1"\n<b>"^2"</b></string>
     <string name="slide_to_answer" msgid="255903188611244476">"Déplacer vers la droite pour répondre"</string>

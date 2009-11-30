@@ -18,7 +18,7 @@
     <string name="contactsIconLabel" msgid="9129800048701196916">"주소록"</string>
     <string name="contactsFavoritesLabel" msgid="5360050972935451505">"즐겨찾기"</string>
     <string name="dialerIconLabel" msgid="1761864493312440268">"다이얼러"</string>
-    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"비상 전화걸기"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"긴급 통화"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"휴대전화"</string>
     <string name="recentCallsIconLabel" msgid="8717350893637245164">"통화기록"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"FDN 목록"</string>
@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"항상 이 번호 사용"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"모든 통화 착신전환"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"모든 통화를 \\\\{0\\\\}(으)로 착신전환"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"사용 중지됨"</string>
     <string name="labelCFB" msgid="218938523102207587">"통화 중일 때 착신전환"</string>
     <string name="messageCFB" msgid="3711089705936187129">"통화 중인 경우 착신전환할 번호"</string>
