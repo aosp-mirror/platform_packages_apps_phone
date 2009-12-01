@@ -51,8 +51,8 @@ import android.widget.EditText;
  * activity from apps/Contacts) that:
  *   1. Allows ONLY emergency calls to be dialed
  *   2. Disallows voicemail functionality
- *   3. Handles manually enabling/disabling the keyguard (since we get
- *      launched directly from the lock screen).
+ *   3. Uses the FLAG_SHOW_WHEN_LOCKED flag to allow this activity to stay
+ *      in front of the keyguard.
  *
  * TODO: Even though this is an ultra-simplified version of the normal
  * dialer, there's still lots of code duplication between this class and
@@ -148,6 +148,9 @@ public class EmergencyDialer extends Activity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        // set this flag so this activity will stay in front of the keyguard
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         // Set the content view
         setContentView(R.layout.emergency_dialer);
@@ -424,9 +427,6 @@ public class EmergencyDialer extends Activity
         return false;
     }
 
-    /**
-     * turn off keyguard on start.
-     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -449,27 +449,22 @@ public class EmergencyDialer extends Activity
             }
         }
 
-        // Turn keyguard off and set the poke lock timeout to medium.  There is
-        // no need to do anything with the wake lock.
-        if (DBG) Log.d(LOG_TAG, "turning keyguard off, set to long timeout");
+        // Disable the status bar and set the poke lock timeout to medium.
+        // There is no need to do anything with the wake lock.
+        if (DBG) Log.d(LOG_TAG, "disabling status bar, set to long timeout");
         PhoneApp app = (PhoneApp) getApplication();
-        app.disableKeyguard();
         app.disableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
 
         updateDialAndDeleteButtonStateEnabledAttr();
     }
 
-    /**
-     * turn on keyguard on pause.
-     */
     @Override
     public void onPause() {
-        // Turn keyguard back on and set the poke lock timeout to default.  There
-        // is no need to do anything with the wake lock.
-        if (DBG) Log.d(LOG_TAG, "turning keyguard back on and closing the dialer");
+        // Reenable the status bar and set the poke lock timeout to default.
+        // There is no need to do anything with the wake lock.
+        if (DBG) Log.d(LOG_TAG, "reenabling status bar and closing the dialer");
         PhoneApp app = (PhoneApp) getApplication();
-        app.reenableKeyguard();
         app.reenableStatusBar();
         app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
 

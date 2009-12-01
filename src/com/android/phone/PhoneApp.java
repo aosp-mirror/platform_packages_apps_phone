@@ -184,8 +184,6 @@ public class PhoneApp extends Application {
     private PowerManager.WakeLock mPartialWakeLock;
     private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
-    private KeyguardManager.KeyguardLock mKeyguardLock;
-    private int mKeyguardDisableCount;
     private StatusBarManager mStatusBarManager;
     private int mStatusBarDisableCount;
 
@@ -396,7 +394,6 @@ public class PhoneApp extends Application {
             if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
 
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
             mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
             // get a handle to the service so that we can use it later when we
@@ -721,45 +718,6 @@ public class PhoneApp extends Application {
 
     ProgressDialog getPUKEntryProgressDialog() {
         return mPUKEntryProgressDialog;
-    }
-
-    /**
-     * Disables the keyguard.  This is used by the phone app to allow
-     * interaction with the Phone UI when the keyguard would otherwise be
-     * active (like receiving an incoming call while the device is
-     * locked.)
-     *
-     * Any call to this method MUST be followed (eventually)
-     * by a corresponding reenableKeyguard() call.
-     */
-    /* package */ void disableKeyguard() {
-        if (DBG) Log.d(LOG_TAG, "disable keyguard");
-        // if (DBG) Log.d(LOG_TAG, "disableKeyguard()...", new Throwable("stack dump"));
-        synchronized (mKeyguardLock) {
-            if (mKeyguardDisableCount++ == 0) {
-                mKeyguardLock.disableKeyguard();
-            }
-        }
-    }
-
-    /**
-     * Re-enables the keyguard after a previous disableKeyguard() call.
-     *
-     * Any call to this method MUST correspond to (i.e. be balanced with)
-     * a previous disableKeyguard() call.
-     */
-    /* package */ void reenableKeyguard() {
-        if (DBG) Log.d(LOG_TAG, "re-enable keyguard");
-        // if (DBG) Log.d(LOG_TAG, "reenableKeyguard()...", new Throwable("stack dump"));
-        synchronized (mKeyguardLock) {
-            if (mKeyguardDisableCount > 0) {
-                if (--mKeyguardDisableCount == 0) {
-                    mKeyguardLock.reenableKeyguard();
-                }
-            } else {
-                Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
-            }
-        }
     }
 
     /**
@@ -1153,8 +1111,6 @@ public class PhoneApp extends Application {
                     if (!mProximityWakeLock.isHeld()) {
                         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                         mProximityWakeLock.acquire();
-                        // disable keyguard while we are using the proximity sensor
-                        disableKeyguard();
                     } else {
                         if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                     }
@@ -1169,7 +1125,6 @@ public class PhoneApp extends Application {
                         int flags =
                             (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
                         mProximityWakeLock.release(flags);
-                        reenableKeyguard();
                     } else {
                         if (VDBG) {
                             Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
