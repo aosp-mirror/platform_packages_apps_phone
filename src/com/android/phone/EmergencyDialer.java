@@ -85,9 +85,6 @@ public class EmergencyDialer extends Activity
 
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
-    /** Play the vibrate pattern only once. */
-    private static final int VIBRATE_NO_REPEAT = -1;
-
     EditText mDigits;
     // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
     private View mVoicemailDialAndDeleteRow;
@@ -104,10 +101,8 @@ public class EmergencyDialer extends Activity
     // determines if we want to playback local DTMF tones.
     private boolean mDTMFToneEnabled;
 
-    // Vibration (haptic feedback) for dialer key presses.
-    private Vibrator mVibrator;
-    private boolean mVibrateOn;
-    private long[] mVibratePattern;
+    // Haptic feedback (vibration) for dialer key presses.
+    private HapticFeedback mHaptic = new HapticFeedback();
 
     // close activity when screen turns off
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -213,11 +208,11 @@ public class EmergencyDialer extends Activity
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mBroadcastReceiver, intentFilter);
 
-        // Initialize vibration parameters.
-        // TODO: We might eventually need to make mVibrateOn come from a
-        // user preference rather than a per-platform resource, in which
-        // case we would need to update it in onResume() rather than here.
-        initVibrationPattern(r);
+        try {
+            mHaptic.init(this, r.getBoolean(R.bool.config_enable_dialer_key_vibration));
+        } catch (Resources.NotFoundException nfe) {
+             Log.e(LOG_TAG, "Vibrate control bool missing.", nfe);
+        }
     }
 
     @Override
@@ -305,7 +300,7 @@ public class EmergencyDialer extends Activity
     }
 
     private void keyPressed(int keyCode) {
-        vibrate();
+        mHaptic.vibrate();
         KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, keyCode);
         mDigits.onKeyDown(keyCode, event);
     }
@@ -389,7 +384,7 @@ public class EmergencyDialer extends Activity
                 return;
             }
             case R.id.dialButton: {
-                vibrate();  // Vibrate here too, just like we do for the regular keys
+                mHaptic.vibrate();  // Vibrate here too, just like we do for the regular keys
                 placeCall();
                 return;
             }
@@ -434,6 +429,9 @@ public class EmergencyDialer extends Activity
         // retrieve the DTMF tone play back setting.
         mDTMFToneEnabled = Settings.System.getInt(getContentResolver(),
                 Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
+
+        // Retrieve the haptic feedback setting.
+        mHaptic.checkSystemSetting();
 
         // if the mToneGenerator creation fails, just continue without it.  It is
         // a local audio signal, and is not as important as the dtmf tone itself.
@@ -585,19 +583,6 @@ public class EmergencyDialer extends Activity
     }
 
     /**
-     * Triggers haptic feedback (if enabled) for dialer key presses.
-     */
-    private synchronized void vibrate() {
-        if (!mVibrateOn) {
-            return;
-        }
-        if (mVibrator == null) {
-            mVibrator = new Vibrator();
-        }
-        mVibrator.vibrate(mVibratePattern, VIBRATE_NO_REPEAT);
-    }
-
-    /**
      * Update the enabledness of the "Dial" and "Backspace" buttons if applicable.
      */
     private void updateDialAndDeleteButtonStateEnabledAttr() {
@@ -608,34 +593,4 @@ public class EmergencyDialer extends Activity
             mDelete.setEnabled(notEmpty);
         }
     }
-
-    /**
-     * Initialize the vibration parameters.
-     * @param r The Resources with the vibration parameters.
-     */
-    private void initVibrationPattern(Resources r) {
-        int[] pattern = null;
-        try {
-            mVibrateOn = r.getBoolean(R.bool.config_enable_dialer_key_vibration);
-            pattern = r.getIntArray(com.android.internal.R.array.config_virtualKeyVibePattern);
-            if (null == pattern) {
-                Log.e(LOG_TAG, "Vibrate pattern is null.");
-                mVibrateOn = false;
-            }
-        } catch (Resources.NotFoundException nfe) {
-            Log.e(LOG_TAG, "Vibrate control bool or pattern missing.", nfe);
-            mVibrateOn = false;
-        }
-
-        if (!mVibrateOn) {
-            return;
-        }
-
-        // int[] to long[] conversion.
-        mVibratePattern = new long[pattern.length];
-        for (int i = 0; i < pattern.length; i++) {
-            mVibratePattern[i] = pattern[i];
-        }
-    }
-
 }
