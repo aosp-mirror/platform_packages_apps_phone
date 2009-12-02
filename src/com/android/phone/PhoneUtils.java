@@ -19,7 +19,6 @@ package com.android.phone;
 import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -1570,21 +1569,6 @@ public class PhoneUtils {
      * This is just a wrapper around the ACTION_DIAL intent.
      */
     static void startNewCall(final Phone phone) {
-        final KeyguardManager keyguardManager = PhoneApp.getInstance().getKeyguardManager();
-        if (!keyguardManager.inKeyguardRestrictedInputMode()) {
-            internalStartNewCall(phone);
-        } else {
-            keyguardManager.exitKeyguardSecurely(new KeyguardManager.OnKeyguardExitResult() {
-                public void onKeyguardExitResult(boolean success) {
-                    if (success) {
-                        internalStartNewCall(phone);
-                    }
-                }
-            });
-        }
-    }
-
-    private static void internalStartNewCall(Phone phone) {
         // Sanity-check that this is OK given the current state of the phone.
         if (!okToAddCall(phone)) {
             Log.w(LOG_TAG, "startNewCall: can't add a new call in the current state");
