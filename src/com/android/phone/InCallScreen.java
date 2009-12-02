@@ -549,6 +549,9 @@ public class InCallScreen extends Activity
 
         super.onCreate(icicle);
 
+        // set this flag so this activity will stay in front of the keyguard
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
         final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(this);
 
@@ -669,13 +672,6 @@ public class InCallScreen extends Activity
 
         final PhoneApp app = PhoneApp.getInstance();
 
-        // Disable the keyguard the entire time the InCallScreen is
-        // active.  (This is necessary only for the case of receiving an
-        // incoming call while the device is locked; we need to disable
-        // the keyguard so you can answer the call and use the in-call UI,
-        // but we always re-enable the keyguard as soon as you leave this
-        // screen (see onPause().))
-        app.disableKeyguard();
         app.disableStatusBar();
 
         // Touch events are never considered "user activity" while the
@@ -919,9 +915,6 @@ public class InCallScreen extends Activity
                 }
             }, 500);
 
-        // The keyguard was disabled the entire time the InCallScreen was
-        // active (see onResume()).  Re-enable it now.
-        app.reenableKeyguard();
         app.reenableStatusBar();
 
         // Make sure we revert the poke lock and wake lock when we move to
@@ -2784,9 +2777,6 @@ public class InCallScreen extends Activity
             // Phone is idle!  We should exit this screen now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
 
-            // No need to re-enable keyguard or screen wake state here;
-            // that happens in onPause() when we actually exit.
-
             // And (finally!) exit from the in-call screen
             // (but not if we're already in the process of pausing...)
             if (mIsForegroundActivity) {
@@ -2813,8 +2803,6 @@ public class InCallScreen extends Activity
             // we don't need to keep the screen on.
             if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
             if (DBG) PhoneUtils.dumpCallState(mPhone);
-            // No need to re-enable keyguard or screen wake state here;
-            // should be taken care of in onPhoneStateChanged();
         }
     }
 
