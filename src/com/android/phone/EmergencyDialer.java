@@ -51,8 +51,8 @@ import android.widget.EditText;
  * activity from apps/Contacts) that:
  *   1. Allows ONLY emergency calls to be dialed
  *   2. Disallows voicemail functionality
- *   3. Uses the FLAG_SHOW_WHEN_LOCKED flag to allow this activity to stay
- *      in front of the keyguard.
+ *   3. Uses the FLAG_SHOW_WHEN_LOCKED and FLAG_DISMISS_KEYGUARD window manager flags
+ *      to allow this activity to stay in front of the keyguard.
  *
  * TODO: Even though this is an ultra-simplified version of the normal
  * dialer, there's still lots of code duplication between this class and
@@ -150,7 +150,8 @@ public class EmergencyDialer extends Activity
         super.onCreate(icicle);
 
         // set this flag so this activity will stay in front of the keyguard
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                            | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         // Set the content view
         setContentView(R.layout.emergency_dialer);
