@@ -550,7 +550,8 @@ public class InCallScreen extends Activity
         super.onCreate(icicle);
 
         // set this flag so this activity will stay in front of the keyguard
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                            | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(this);
