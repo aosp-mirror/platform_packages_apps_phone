@@ -165,8 +165,8 @@ public class BluetoothHeadsetService extends Service {
             switch (mState) {
             case BluetoothHeadset.STATE_DISCONNECTED:
                 // headset connecting us, lets join
-                setState(BluetoothHeadset.STATE_CONNECTING);
                 mRemoteDevice = info.mRemoteDevice;
+                setState(BluetoothHeadset.STATE_CONNECTING);
                 headset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice, info.mSocketFd,
                         info.mRfcommChan, mConnectedStatusHandler);
                 mHeadsetType = type;
