@@ -280,6 +280,9 @@ public class PhoneUtils {
                     setMute(phone, false);
                 }
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+
+                // Check is phone in any dock, and turn on speaker accordingly
+                activateSpeakerIfDocked(phone);
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
 
@@ -553,6 +556,9 @@ public class PhoneUtils {
                     }
                 }
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+
+                // Check is phone in any dock, and turn on speaker accordingly
+                activateSpeakerIfDocked(phone);
             }
         } catch (CallStateException ex) {
             Log.w(LOG_TAG, "Exception from phone.dial()", ex);
@@ -2254,6 +2260,27 @@ public class PhoneUtils {
         }
         number = PhoneNumberUtils.extractNetworkPortion(number);
         return PhoneNumberUtils.isGlobalPhoneNumber(number);
+    }
+
+   /**
+    * This function is called when phone answers or places a call.
+    * Check if the phone is in a car dock or desk dock.
+    * If yes, turn on the speaker, when no wired or BT headsets are connected.
+    * Otherwise do nothing.
+    */
+    private static void activateSpeakerIfDocked(Phone phone) {
+        if (DBG) log("activateSpeakerIfDocked()...");
+
+        if (PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_DESK ||
+                PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_CAR) {
+            if (DBG) log("activateSpeakerIfDocked(): Phone in a dock -> may need to turn on speaker.");
+            PhoneApp app = PhoneApp.getInstance();
+            BluetoothHandsfree bthf = app.getBluetoothHandsfree();
+
+            if (!app.isHeadsetPlugged() && !(bthf != null && bthf.isAudioOn())) {
+                turnOnSpeaker(phone.getContext(), true, true);
+            }
+        }
     }
 
     //

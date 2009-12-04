@@ -96,6 +96,7 @@ public class PhoneApp extends Application {
     private static final int EVENT_DATA_ROAMING_DISCONNECTED = 10;
     private static final int EVENT_DATA_ROAMING_OK = 11;
     private static final int EVENT_UNSOL_CDMA_INFO_RECORD = 12;
+    private static final int EVENT_DOCK_STATE_CHANGED = 13;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -142,6 +143,7 @@ public class PhoneApp extends Application {
     int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
     boolean mShowBluetoothIndication = false;
+    static int mDockState =  Intent.EXTRA_DOCK_STATE_UNDOCKED;
 
     // Internal PhoneApp Call state tracker
     CdmaPhoneCallState cdmaPhoneCallState;
@@ -227,6 +229,7 @@ public class PhoneApp extends Application {
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Phone.State phoneState;
             switch (msg.what) {
                 case EVENT_SIM_LOCKED:
 //                    mIsSimPinEnabled = true;
@@ -292,7 +295,7 @@ public class PhoneApp extends Application {
                     // this on the wired headset connect / disconnect events for now
                     // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
 
-                    Phone.State phoneState = phone.getState();
+                    phoneState = phone.getState();
                     // Do not change speaker state if phone is not off hook
                     if (phoneState == Phone.State.OFFHOOK) {
                         if (mBtHandsfree == null || !mBtHandsfree.isAudioOn()) {
@@ -331,6 +334,29 @@ public class PhoneApp extends Application {
 
                 case EVENT_UNSOL_CDMA_INFO_RECORD:
                     //TODO: handle message here;
+                    break;
+
+                case EVENT_DOCK_STATE_CHANGED:
+                    // If the phone is docked/undocked during a call, and no wired or BT headset
+                    // is connected: turn on/off the speaker accordingly.
+                    boolean inDockMode = false;
+                    if (mDockState == Intent.EXTRA_DOCK_STATE_DESK ||
+                            mDockState == Intent.EXTRA_DOCK_STATE_CAR) {
+                        inDockMode = true;
+                    }
+                    if (VDBG) Log.d(LOG_TAG, "received EVENT_DOCK_STATE_CHANGED. Phone inDock = "
+                            + inDockMode);
+
+                    phoneState = phone.getState();
+                    if (phoneState == Phone.State.OFFHOOK &&
+                            !isHeadsetPlugged() &&
+                            !(mBtHandsfree != null && mBtHandsfree.isAudioOn())) {
+                        PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
+
+                        if (mInCallScreen != null) {
+                            mInCallScreen.requestUpdateTouchUi();
+                        }
+                    }
                     break;
             }
         }
@@ -425,6 +451,7 @@ public class PhoneApp extends Application {
             intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+            intentFilter.addAction(Intent.ACTION_DOCK_EVENT);
             intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
@@ -1381,6 +1408,11 @@ public class PhoneApp extends Application {
                     Log.e(LOG_TAG, "Error! Emergency Callback Mode not supported for " +
                             phone.getPhoneName() + " phones");
                 }
+            } else if (action.equals(Intent.ACTION_DOCK_EVENT)) {
+                mDockState = intent.getIntExtra(Intent.EXTRA_DOCK_STATE,
+                        Intent.EXTRA_DOCK_STATE_UNDOCKED);
+                if (VDBG) Log.d(LOG_TAG, "ACTION_DOCK_EVENT -> mDockState = " + mDockState);
+                mHandler.sendMessage(mHandler.obtainMessage(EVENT_DOCK_STATE_CHANGED, 0));
             }
         }
     }
