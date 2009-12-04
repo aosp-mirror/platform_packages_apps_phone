@@ -545,7 +545,15 @@ public class CallCard extends FrameLayout
             // If the object is a textview instead, we update it as we need to.
             if (DBG) log("callerinfo query complete, updating ui from displayMainCallStatus()");
             Call call = (Call) cookie;
-            Connection conn = call.getEarliestConnection();
+            Connection conn = null;
+            int phoneType = mApplication.phone.getPhoneType();
+            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                conn = call.getLatestConnection();
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                conn = call.getEarliestConnection();
+            } else {
+                throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            }
             PhoneUtils.CallerInfoToken cit =
                    PhoneUtils.startGetCallerInfo(getContext(), conn, this, null);
 
