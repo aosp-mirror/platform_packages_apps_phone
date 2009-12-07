@@ -22,6 +22,7 @@ import android.bluetooth.AtParser;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.CallLog.Calls;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -356,8 +357,13 @@ public class BluetoothAtPhonebook {
             pbr.typeColumn = -1;
             pbr.nameColumn = -1;
         } else {
-            pbr.cursor = mContext.getContentResolver().query(
-                    Phone.CONTENT_URI, PHONES_PROJECTION, where, null,
+            // Pass in the package name of the Bluetooth PBAB support so that this
+            // AT phonebook support uses the same access rights as the PBAB code.
+            Uri uri = Phone.CONTENT_URI.buildUpon()
+                    .appendQueryParameter(ContactsContract.REQUESTING_PACKAGE_PARAM_KEY,
+                            "com.android.bluetooth")
+                    .build();
+            pbr.cursor = mContext.getContentResolver().query(uri, PHONES_PROJECTION, where, null,
                     Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
             pbr.numberColumn = pbr.cursor.getColumnIndex(Phone.NUMBER);
             pbr.typeColumn = pbr.cursor.getColumnIndex(Phone.TYPE);
