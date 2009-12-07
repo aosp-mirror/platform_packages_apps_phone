@@ -90,6 +90,7 @@ public class BluetoothHandsfree {
     private boolean mPendingSco;  // waiting for a2dp sink to suspend before establishing SCO
     private boolean mA2dpSuspended;
     private boolean mUserWantsAudio;
+    private boolean mAttemptDelayedScoConnection;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
 
@@ -355,6 +356,16 @@ public class BluetoothHandsfree {
                     AtCommandResult result = ring();
                     if (result != null) {
                         sendURC(result.toString());
+                    }
+                    // Ideally, we would like to set up the SCO channel
+                    // before sending the ring() so that we don't miss any
+                    // incall audio. However, some headsets don't play the
+                    // ringtone in such scenarios. So send the 2 ring()s first
+                    // and then setup SCO after a delay of 2 seconds.
+                    if (mAttemptDelayedScoConnection) {
+                        mAttemptDelayedScoConnection = false;
+                        Message scoMsg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
+                        mHandler.sendMessageDelayed(scoMsg, 2000);
                     }
                     break;
                 case SERVICE_STATE_CHANGED:
@@ -835,16 +846,8 @@ public class BluetoothHandsfree {
                     mIgnoreRing = false;
                     mStopRing = false;
 
-                    // Ideally, we would like to set up the SCO channel
-                    // before sending the ring() so that we don't miss any
-                    // incall audio. However, some headsets don't play the
-                    // ringtone in such scenarios. So send the ring() first
-                    // and then setup SCO after a delay of 1 second.
+                    mAttemptDelayedScoConnection = true;
                     result.addResult(ring());
-
-                    Message msg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
-                    mHandler.sendMessageDelayed(msg, 1000);
-
                 }
             }
             sendURC(result.toString());
