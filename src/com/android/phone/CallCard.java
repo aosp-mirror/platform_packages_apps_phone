@@ -27,7 +27,6 @@ import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -593,6 +592,10 @@ public class CallCard extends FrameLayout
      * Updates the "card title" (and also elapsed time widget) based on
      * the current state of the call.
      */
+    // TODO: it's confusing for updateCardTitleWidgets() and
+    // getTitleForCallCard() to be separate methods, since they both
+    // just list out the exact same "phone state" cases.
+    // Let's merge the getTitleForCallCard() logic into here.
     private void updateCardTitleWidgets(Phone phone, Call call) {
         if (DBG) log("updateCardTitleWidgets(call " + call + ")...");
         Call.State state = call.getState();
@@ -638,8 +641,21 @@ public class CallCard extends FrameLayout
                         clearUpperTitle();
                     }
                 } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                    // Normal "ongoing call" state; don't use any "title" at all.
-                    clearUpperTitle();
+                    // While in the DISCONNECTING state we display a
+                    // "Hanging up" message in order to make the UI feel more
+                    // responsive.  (In GSM it's normal to see a delay of a
+                    // couple of seconds while negotiating the disconnect with
+                    // the network, so the "Hanging up" state at least lets
+                    // the user know that we're doing something.)
+                    // TODO: consider displaying the "Hanging up" state for
+                    // CDMA also if the latency there ever gets high enough.
+                    if (state == Call.State.DISCONNECTING) {
+                        // Display the brief "Hanging up" indication.
+                        setUpperTitle(cardTitle, mTextColorDefaultPrimary, state);
+                    } else {  // state == Call.State.ACTIVE
+                        // Normal "ongoing call" state; don't use any "title" at all.
+                        clearUpperTitle();
+                    }
                 }
 
                 // Use the elapsed time widget to show the current call duration.
