@@ -552,9 +552,18 @@ public class BluetoothHandsfree {
                             BluetoothA2dp.STATE_DISCONNECTED);
                     BluetoothDevice device =
                             intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                    // We are only concerned about Connected sinks to suspend and resume
+                    // them. We can safely ignore SINK_STATE_CHANGE for other devices.
+                    if (mA2dpDevice != null && !device.equals(mA2dpDevice)) return;
+
                     synchronized (BluetoothHandsfree.this) {
                         mA2dpState = state;
-                        mA2dpDevice = device;
+                        if (state == BluetoothA2dp.STATE_DISCONNECTED) {
+                            mA2dpDevice = null;
+                        } else {
+                            mA2dpDevice = device;
+                        }
                         if (oldState == BluetoothA2dp.STATE_PLAYING &&
                             mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
                             if (mA2dpSuspended) {
