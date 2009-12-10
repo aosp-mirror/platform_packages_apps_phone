@@ -24,7 +24,7 @@
     <string name="fdnListLabel" msgid="8630418672279521003">"固定拨号列表"</string>
     <string name="unknown" msgid="6878797917991465859">"未知"</string>
     <string name="private_num" msgid="6713286113000232309">"私人号码"</string>
-    <string name="payphone" msgid="1931775086311769314">"投币式公用电话"</string>
+    <string name="payphone" msgid="1931775086311769314">"公用电话"</string>
     <string name="onHold" msgid="9035493194749959955">"保持"</string>
     <string name="ongoing" msgid="8300874342848721367">"当前通话"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"线路忙"</string>
@@ -47,7 +47,7 @@
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA：重拨顺序。"</string>
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA：无法接入。"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA：优先抢占。"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"只能拨打急救或报警电话。"</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"只能拨打紧急呼救电话。"</string>
     <string name="confCall" msgid="1904840547188336828">"电话会议"</string>
     <string name="call_lost" msgid="317670617901479594">"通话已中断。"</string>
     <string name="retry" msgid="8462986804300767852">"重拨"</string>
@@ -99,14 +99,14 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"正在请求网络解锁..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"网络解锁请求失败。"</string>
     <string name="unlock_success" msgid="6770085622238180152">"网络解锁成功。"</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
+    <string name="imei" msgid="8552502717594321281">"移动通信国际识别码"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM 通话设置"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA 通话设置"</string>
     <string name="apn_settings" msgid="9043423184895642077">"接入点名称"</string>
     <string name="settings_label" msgid="3876743539816984008">"网络设置"</string>
     <string name="voicemail" msgid="8693759337917898954">"语音信箱"</string>
-    <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM："</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"语音信箱："</string>
     <string name="networks" msgid="8873030692174541976">"网络运营商"</string>
     <string name="call_settings" msgid="6112441768261754562">"通话设置"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"其他设置"</string>
@@ -127,8 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"始终使用此号码"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"转接所有来电"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"将所有来电转接至 {0}"</string>
-    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
-    <skip />
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"未提供电话号码"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"已停用"</string>
     <string name="labelCFB" msgid="218938523102207587">"占线时转接"</string>
     <string name="messageCFB" msgid="3711089705936187129">"占线时的转接号码"</string>
@@ -149,7 +148,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"正在恢复设置..."</string>
     <string name="response_error" msgid="6674110501330139405">"网络响应异常。"</string>
     <string name="exception_error" msgid="7027667130619518211">"网络或 SIM 卡错误。"</string>
-    <string name="radio_off_error" msgid="6717116288405111269">"请在查看这些设置之前先打开天线。"</string>
+    <string name="radio_off_error" msgid="6717116288405111269">"请先开启无线通信，然后再查看这些设置。"</string>
     <string name="close_dialog" msgid="2365884406356986917">"确定"</string>
     <string name="enable" msgid="1059008390636773574">"启用"</string>
     <string name="disable" msgid="7274240979164762320">"禁用"</string>
@@ -476,13 +475,13 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"无法进行电话会议。"</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"无法拒绝呼叫。"</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"无法挂断。"</string>
-    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"紧急呼叫"</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"紧急呼救"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"正在打开天线..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"不在服务区，正在重试..."</string>
-    <string name="dial_emergency_error" msgid="8362624131726575194">"拨号未送出，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急呼叫号码！"</string>
-    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"拨号未送出，请拨打紧急呼叫电话！"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"电话未拨出，因为 <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是紧急呼救号码！"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"电话未拨出，请拨打紧急呼救电话！"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"使用键盘拨号"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"按键式数字键盘"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"按键式键盘"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"拨号键盘"</string>
     <string name="touchLockText" msgid="566824588267376287">"轻击两下"\n"解锁"</string>
     <string name="onscreenAnswerText" msgid="3000799558804019765">"点按两次"\n"可接听"</string>
@@ -553,7 +552,7 @@
     <item quantity="one" msgid="8939225905428421722">"无法在紧急回拨模式下执行所选操作。手机会在此模式下持续 <xliff:g id="COUNT">%s</xliff:g> 分钟。要立即退出吗？"</item>
     <item quantity="other" msgid="3489076611710869904">"无法在紧急回拨模式下执行所选操作。手机会在此模式下持续 <xliff:g id="COUNT">%s</xliff:g> 分钟。要立即退出吗？"</item>
   </plurals>
-    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"紧急呼叫时，所选的操作不可用"</string>
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"紧急呼救时您所选的操作无法执行"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"正在退出紧急回拨模式"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"是"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"否"</string>

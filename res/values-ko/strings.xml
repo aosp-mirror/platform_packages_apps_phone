@@ -127,8 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"항상 이 번호 사용"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"모든 통화 착신전환"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"모든 통화를 \\\\{0\\\\}(으)로 착신전환"</string>
-    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
-    <skip />
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"없는 전화번호입니다."</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"사용 중지됨"</string>
     <string name="labelCFB" msgid="218938523102207587">"통화 중일 때 착신전환"</string>
     <string name="messageCFB" msgid="3711089705936187129">"통화 중인 경우 착신전환할 번호"</string>
