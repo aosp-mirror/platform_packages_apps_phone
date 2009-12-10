@@ -127,8 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"Diese Nummer immer verwenden"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Alle Anrufe weiterleiten"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Alle Anrufe weiterleiten an {0}"</string>
-    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
-    <skip />
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Nummer nicht verfügbar"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Deaktiviert"</string>
     <string name="labelCFB" msgid="218938523102207587">"Weiterleiten falls besetzt"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Nummer falls besetzt"</string>
@@ -492,8 +491,8 @@
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Ende"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Wähltasten"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Ausblenden"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Lautsprecher"</string>
-    <string name="onscreenMuteText" msgid="5011369181754261374">"Stummschalten"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Lautspr."</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Ton aus"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Anruf hinzufügen"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Anrufe verbinden"</string>
@@ -527,7 +526,7 @@
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problem mit der Aktivierung"</string>
     <string name="ota_listen" msgid="3656020498420727053">"Befolgen Sie die Anweisungen zur Aktivierung Ihres Telefons. Bleiben Sie in der Leitung, bis Sie eine Bestätigung erhalten, dass Ihr Telefon aktiviert ist."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastatur"</string>
-    <string name="ota_speaker" msgid="6904589278542719647">"Lautsprecher"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Lautspr."</string>
     <string name="ota_progress" msgid="4644512049143969504">"Bitte warten Sie, während Ihr Telefon programmiert wird."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Programmierung nicht erfolgreich"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Ihr Telefon ist jetzt aktiviert. Es kann bis zu 15 Minuten dauern, bis der Dienst gestartet wird."</string>
