@@ -77,6 +77,10 @@ public class InCallControlState {
     /** True if the call is currently on hold */
     public boolean onHold;
     /** True if the "Hold" or "Unhold" function should be available right now */
+    // TODO: this name is misleading.  Let's break this apart into
+    // separate canHold and canUnhold flags, and have the caller look at
+    // "canHold || canUnhold" to decide whether the hold/unhold UI element
+    // should be visible.
     public boolean canHold;
 
 
@@ -94,7 +98,7 @@ public class InCallControlState {
         final boolean hasRingingCall = !mPhone.getRingingCall().isIdle();
         final Call fgCall = mPhone.getForegroundCall();
         final Call.State fgCallState = fgCall.getState();
-        final boolean hasActiveCall = !fgCall.isIdle();
+        final boolean hasActiveForegroundCall = (fgCallState == Call.State.ACTIVE);
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
 
         // Manage conference:
@@ -147,11 +151,11 @@ public class InCallControlState {
                 canMute = false;
                 muteIndicatorOn = false;
             } else {
-                canMute = (fgCallState == Call.State.ACTIVE);
+                canMute = hasActiveForegroundCall;
                 muteIndicatorOn = PhoneUtils.getMute(mPhone);
             }
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-            canMute = (fgCallState == Call.State.ACTIVE);
+            canMute = hasActiveForegroundCall;
             muteIndicatorOn = PhoneUtils.getMute(mPhone);
         }
 
@@ -165,15 +169,17 @@ public class InCallControlState {
 
         // "Hold:
         if (phoneType == Phone.PHONE_TYPE_GSM) {
+            // GSM phones have the concept of "Hold" and "Unhold".
+            supportsHold = true;
             // "On hold" means that there's a holding call and
             // *no* foreground call.  (If there *is* a foreground call,
-            // that's "two lines in use".)  "Hold" is disabled if both
-            // lines are in use, or if the foreground call is non-idle and
-            // in any state other than ACTIVE.
-            supportsHold = true;
-            onHold = hasHoldingCall && !hasActiveCall;
-            canHold = !((hasActiveCall && hasHoldingCall)
-                        || (hasActiveCall && (fgCallState != Call.State.ACTIVE)));
+            // that's "two lines in use".)
+            onHold = hasHoldingCall && (fgCallState == Call.State.IDLE);
+            // The "Hold" control is disabled entirely if there's
+            // no way to either hold or unhold in the current state.
+            boolean okToHold = hasActiveForegroundCall && !hasHoldingCall;
+            boolean okToUnhold = onHold;
+            canHold = okToHold || okToUnhold;
         } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA has no concept of "putting a call on hold."
             supportsHold = false;
