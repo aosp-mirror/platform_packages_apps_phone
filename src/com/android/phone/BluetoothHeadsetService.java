@@ -302,10 +302,12 @@ public class BluetoothHeadsetService extends Service {
                                                    BluetoothDevice.ERROR);
                 switch(bondState) {
                 case BluetoothDevice.BOND_BONDED:
-                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_ON);
+                    if (mHeadsetPriority.get(device) == BluetoothHeadset.PRIORITY_UNDEFINED) {
+                        mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_ON);
+                    }
                     break;
                 case BluetoothDevice.BOND_NONE:
-                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_OFF);
+                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_UNDEFINED);
                     break;
                 }
             } else if (action.equals(AudioManager.VOLUME_CHANGED_ACTION)) {
