@@ -1170,7 +1170,19 @@ public class PhoneApp extends Application {
             updateProximitySensorMode(state);
             // clear our beginning call flag
             mBeginningCall = false;
+            // While we are in call, the in-call screen should dismiss the keyguard.
+            // This allows the user to press Home to go directly home without going through
+            // an insecure lock screen.
+            // But we do not want to do this if there is no active call so we do not
+            // bypass the keyguard if the call is not answered or declined.
+            if (mInCallScreen != null) {
+                mInCallScreen.updateKeyguardPolicy(state == Phone.State.OFFHOOK);
+            }
         }
+    }
+
+    /* package */ Phone.State getPhoneState() {
+        return mLastPhoneState;
     }
 
     /**
