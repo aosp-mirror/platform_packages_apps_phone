@@ -558,11 +558,20 @@ public class InCallScreen extends Activity
 
         super.onCreate(icicle);
 
-        // set this flag so this activity will stay in front of the keyguard
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-
         final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(this);
+
+        // set this flag so this activity will stay in front of the keyguard
+        int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+        if (app.getPhoneState() == Phone.State.OFFHOOK) {
+            // While we are in call, the in-call screen should dismiss the keyguard.
+            // This allows the user to press Home to go directly home without going through
+            // an insecure lock screen.
+            // But we do not want to do this if there is no active call so we do not
+            // bypass the keyguard if the call is not answered or declined.
+            flags |= WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+        }
+        getWindow().addFlags(flags);
 
         setPhone(app.phone);  // Sets mPhone and mForegroundCall/mBackgroundCall/mRingingCall
 
@@ -929,6 +938,10 @@ public class InCallScreen extends Activity
         // Make sure we revert the poke lock and wake lock when we move to
         // the background.
         app.updateWakeState();
+
+        // clear the dismiss keyguard flag so we are back to the default state
+        // when we next resume
+        updateKeyguardPolicy(false);
     }
 
     @Override
@@ -1043,6 +1056,14 @@ public class InCallScreen extends Activity
 
     /* package */ boolean isForegroundActivity() {
         return mIsForegroundActivity;
+    }
+
+    /* package */ void updateKeyguardPolicy(boolean dismissKeyguard) {
+        if (dismissKeyguard) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
     }
 
     private void registerForPhoneStates() {
