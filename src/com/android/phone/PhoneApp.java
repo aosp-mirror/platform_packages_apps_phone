@@ -63,7 +63,7 @@ import com.android.phone.OtaUtils.CdmaOtaScreenState;
 /**
  * Top-level Application class for the Phone app.
  */
-public class PhoneApp extends Application {
+public class PhoneApp extends Application implements AccelerometerListener.OrientationListener {
     /* package */ static final String LOG_TAG = "PhoneApp";
 
     /**
@@ -143,7 +143,7 @@ public class PhoneApp extends Application {
     int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
     boolean mShowBluetoothIndication = false;
-    static int mDockState =  Intent.EXTRA_DOCK_STATE_UNDOCKED;
+    static int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
 
     // Internal PhoneApp Call state tracker
     CdmaPhoneCallState cdmaPhoneCallState;
@@ -188,6 +188,8 @@ public class PhoneApp extends Application {
     private KeyguardManager mKeyguardManager;
     private StatusBarManager mStatusBarManager;
     private int mStatusBarDisableCount;
+    private AccelerometerListener mAccelerometerListener;
+    private int mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -416,6 +418,11 @@ public class PhoneApp extends Application {
                         pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
             }
             if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
+
+            // create mAccelerometerListener only if we are using the proximity sensor
+            if (proximitySensorModeEnabled()) {
+                mAccelerometerListener = new AccelerometerListener(this, this);
+            }
 
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
@@ -1124,13 +1131,15 @@ public class PhoneApp extends Application {
         if (proximitySensorModeEnabled()) {
             synchronized (mProximityWakeLock) {
                 // turn proximity sensor off and turn screen on immediately if
-                // we are using a headset or the keyboard is open.
+                // we are using a headset, the keyboard is open, or the device
+                // is being held in a horizontal position.
                 boolean screenOnImmediately = (isHeadsetPlugged()
                             || PhoneUtils.isSpeakerOn(this)
                             || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                            || mIsHardKeyboardOpen);
+                            || mIsHardKeyboardOpen
+                            || mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
 
-                if (((state == Phone.State.OFFHOOK) || mBeginningCall)&& !screenOnImmediately) {
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall) && !screenOnImmediately) {
                     // Phone is in use!  Arrange for the screen to turn off
                     // automatically when the sensor detects a close object.
                     if (!mProximityWakeLock.isHeld()) {
@@ -1160,6 +1169,11 @@ public class PhoneApp extends Application {
         }
     }
 
+    public void orientationChanged(int orientation) {
+        mOrientation = orientation;
+        updateProximitySensorMode(phone.getState());
+    }
+
     /**
      * Notifies the phone app when the phone state changes.
      * Currently used only for proximity sensor support.
@@ -1168,6 +1182,11 @@ public class PhoneApp extends Application {
         if (state != mLastPhoneState) {
             mLastPhoneState = state;
             updateProximitySensorMode(state);
+            if (mAccelerometerListener != null) {
+                // use accelerometer to augment proximity sensor when in call
+                mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
+                mAccelerometerListener.enable(state == Phone.State.OFFHOOK);
+            }
             // clear our beginning call flag
             mBeginningCall = false;
             // While we are in call, the in-call screen should dismiss the keyguard.
