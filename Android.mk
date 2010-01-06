@@ -18,7 +18,7 @@ include $(BUILD_STATIC_JAVA_LIBRARY)
 # for the 'other' dialer.
 include $(CLEAR_VARS)
 
-LOCAL_MODULE_TAGS := user
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 LOCAL_SRC_FILES += \
