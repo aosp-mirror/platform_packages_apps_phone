@@ -127,23 +127,31 @@
     <string name="messageCFU" msgid="3560082430662923687">"Να γίνεται πάντα χρήση αυτού του αριθμού"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Προώθηση όλων των κλήσεων"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Προώθηση όλων των κλήσεων προς \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Ο αριθμός δεν είναι διαθέσιμος"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Απενεργοποιημένη"</string>
     <string name="labelCFB" msgid="218938523102207587">"Προώθηση όταν είμαι απασχολημένος/η"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Αριθμός όταν είμαι απασχολημένος/ή"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"Προώθηση προς \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Απενεργοποιημένη"</string>
+    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
+    <skip />
     <string name="labelCFNRy" msgid="3646316323834351390">"Προώθηση όταν δεν απαντάω"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Αριθμός όταν δεν απαντάω"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Προώθηση προς \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Απενεργοποιημένη"</string>
+    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
+    <skip />
     <string name="labelCFNRc" msgid="47183615370850000">"Προώθηση όταν δεν είμαι διαθέσιμος/η"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Αριθμός όταν δεν είμαι διαθέσιμος/η"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Προώθηση προς \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Απενεργοποιημένη"</string>
+    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
+    <skip />
     <string name="updating_title" msgid="6146755386174019046">"Ρυθμίσεις κλήσης"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Σφάλμα ρυθμίσεων κλήσης"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Ανάγνωση ρυθμίσεων…"</string>
     <string name="updating_settings" msgid="8171225533884883252">"Ενημέρωση ρυθμίσεων..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Επαναφορά ρυθμίσεων…"</string>
     <string name="response_error" msgid="6674110501330139405">"Μη αναμενόμενη απάντηση από το δίκτυο."</string>
     <string name="exception_error" msgid="7027667130619518211">"Σφάλμα δικτύου ή κάρτας SIM."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Πριν προβάλετε αυτές τις ρυθμίσεις, ενεργοποιήστε τον πομπό."</string>
@@ -158,11 +166,9 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Αποθήκευση αριθμού αυτόματου τηλεφωνητή"</string>
     <string name="vm_changed" msgid="380744030726254139">"Ο αριθμός αυτόματου τηλεφωνητή άλλαξε."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Η αλλαγή ονόματος του αυτόματου τηλεφωνητή απέτυχε."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"Μη επιτυχής αλλαγή αριθμού αυτόματου τηλεφωνητή."\n"Επικοινωνήστε με την εταιρεία σας παροχής υπηρεσιών εάν δεν επιλυθεί το πρόβλημα."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Μη επιτυχής αλλαγή αριθμού προώθησης κλήσης."\n"Επικοινωνήστε με την εταιρεία σας παροχής υπηρεσιών εάν δεν επιλυθεί το πρόβλημα."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Αποτυχία ανάκτησης και αποθήκευσης των τρεχουσών ρυθμίσεων αριθμού προώθησης."\n"Θέλετε να πραγματοποιήσετε οπωσδήποτε μετάβαση στο νέο πάροχο υπηρεσιών;"</string>
     <string name="no_change" msgid="3186040086622435212">"Δεν έγιναν αλλαγές."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Επιλογή υπηρεσίας αυτόματου τηλεφωνητή"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Η εταιρεία μου"</string>
@@ -460,10 +466,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Νέο μήνυμα στον αυτόματο τηλεφωνητή (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Καλέστε <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Ο αριθμός αυτόματου τηλεφωνητή είναι άγνωστος"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Δίκτυο μη διαθέσιμο"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Επιλεγμένο δίκτυο (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) μη διαθέσιμο"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Για να πραγματοποιήσετε μια κλήση, απενεργοποιήστε πρώτα τη λειτουργία πτήσης."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Δεν έχετε εγγραφεί στο δίκτυο."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Η κλήση δεν πραγματοποιήθηκε, δεν έγινε εισαγωγή έγκυρου αριθμού."</string>
@@ -486,10 +490,8 @@
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Αγγίξτε το πληκτρολόγιο τόνων"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Πληκτρολόγιο κλήσης"</string>
     <string name="touchLockText" msgid="566824588267376287">"Για ξεκλείδωμα"\n"πατήστε δύο φορές"</string>
-    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
-    <skip />
-    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
-    <skip />
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Διπλό άγγιγμα"\n"για απάντηση"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Διπλό άγγιγμα"\n"για απόρριψη"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Αναμονή"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Διακοπή αναμονής"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Τέλος"</string>
@@ -501,6 +503,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Προσθήκη κλήσης"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Συγχώνευση κλήσεων"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Ανταλλαγή"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Διαχείριση κλήσεων"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Διαχείριση"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Εισαγωγή"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Εισαγωγή όλων"</string>
@@ -534,7 +537,7 @@
     <string name="ota_failure" msgid="8600027551822478181">"Μη επιτυχής προγραμματισμός"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Το τηλέφωνό σας ενεργοποιήθηκε. Ενδέχεται να χρειαστούν έως και 15 λεπτά για την έναρξη της υπηρεσίας."</string>
     <string name="ota_unsuccessful" msgid="623361244652068739">"Το τηλέφωνό σας δεν ενεργοποιήθηκε. "\n"Ίσως χρειάζεται να βρείτε μια περιοχή με καλύτερη κάλυψη (κοντά σε ένα παράθυρο ή σε εξωτερικό χώρο). "\n\n"Δοκιμάστε ξανά ή καλέστε την υπηρεσία εξυπηρέτησης πελατών για περισσότερες επιλογές."</string>
-    <string name="ota_spc_failure" msgid="3909983542575030796">"ΚΑΤΑΧΡΗΣΗ ΑΠΟΤΥΧΙΑΣ SPC"</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"EXCESS SPC FAILURES"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Πίσω"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Προσπαθήστε ξανά"</string>
     <string name="ota_next" msgid="3904945374358235910">"Επόμενο"</string>
@@ -542,8 +545,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"Παράθυρο διαλόγου εξόδου από λειτουργία κλήσης έκτακτης ανάγκης"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Είσοδος σε λειτουργία επιστροφής κλήσης έκτακτης ανάγκης"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Λειτουργία επιστροφής κλήσης έκτακτης ανάγκης"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Απενεργοποιήθηκε η σύνδεση δεδομένων"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Δεν θα υπάρχει σύνδεση δεδομένων για <xliff:g id="COUNT">%s</xliff:g> λεπτό"</item>
     <item quantity="other" msgid="3122217344579273583">"Δεν θα υπάρχει σύνδεση δεδομένων για <xliff:g id="COUNT">%s</xliff:g> λεπτά"</item>
@@ -556,13 +558,11 @@
     <item quantity="one" msgid="8939225905428421722">"Η επιλεγμένη ενέργεια δεν είναι διαθέσιμη κατά τη λειτουργία επιστροφής κλήσης έκτακτης ανάγκης. Το τηλέφωνο θα παραμείνει σε αυτήν τη λειτουργία για <xliff:g id="COUNT">%s</xliff:g> λεπτό. Θέλετε να πραγματοποιήσετε έξοδο τώρα;"</item>
     <item quantity="other" msgid="3489076611710869904">"Η επιλεγμένη ενέργεια δεν είναι διαθέσιμη κατά τη λειτουργία επιστροφής κλήσης έκτακτης ανάγκης. Το τηλέφωνο θα παραμείνει σε αυτήν τη λειτουργία για <xliff:g id="COUNT">%s</xliff:g> λεπτά. Θέλετε να πραγματοποιήσετε έξοδο τώρα;"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"Η επιλεγμένη ενέργεια δεν είναι διαθέσιμη κατά τη διάρκεια κλήσης επείγουσας ανάγκης"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Έξοδος από τη λειτουργία επιστροφής κλήσης έκτακτης ανάγκης"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ναι"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Όχι"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Απόρριψη"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Ρυθμίσεις αυτόματου τηλεφωνητή"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;δεν έχει οριστεί&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Υπηρεσία αυτόματου τηλεφωνητή"</string>
@@ -570,16 +570,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Άλλες ρυθμίσεις κλήσης"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Κλήση"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Κλήση μέσω ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Μεταφορά δεξιά για απάντηση"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Μεταφορά αριστερά για σίγαση ειδοποίησης ήχου"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Μεταφορά αριστερά για απόρριψη"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Μεταφορά δεξιά για απάντηση και"\n"θέση ενεργής κλήσης σε αναμονή"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Μεταφορά δεξιά για απάντηση και"\n"τερματισμό ενεργής κλήσης"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Μεταφορά δεξιά για απάντηση και"\n"τερματισμό κλήσης σε αναμονή"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Απάντηση"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Απόρριψη"</string>
 </resources>

@@ -56,7 +56,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Codice MMI annullato"</string>
     <string name="cancel" msgid="5044513931633602634">"Annulla"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Altoparlante"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Altoprlnte."</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"No audio"</string>
     <string name="menu_hold" msgid="6970441130344786273">"In attesa"</string>
@@ -127,23 +127,31 @@
     <string name="messageCFU" msgid="3560082430662923687">"Usa sempre questo numero"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Deviazione di tutte le chiamate"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Deviazione di tutte le chiamate al numero {0}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numero non disponibile"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Disattivato"</string>
     <string name="labelCFB" msgid="218938523102207587">"Devia se occupato"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numero se occupato"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"Deviazione al numero {0}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Disattivato"</string>
+    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
+    <skip />
     <string name="labelCFNRy" msgid="3646316323834351390">"Devia se non si risponde"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Numero se non si risponde"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Deviazione al numero {0}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Disattivato"</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Devia se non raggiungibile"</string>
+    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
+    <skip />
+    <string name="labelCFNRc" msgid="47183615370850000">"Devia se non raggiungib."</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Numero se non raggiungibile"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Deviazione al numero {0}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Disattivato"</string>
+    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
+    <skip />
     <string name="updating_title" msgid="6146755386174019046">"Impostazioni chiamate"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Errore durante aggiornam. impostaz. chiamate"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Lettura impostazioni..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Aggiornamento impostazioni..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Annullamento impostazioni..."</string>
     <string name="response_error" msgid="6674110501330139405">"Risposta imprevista dalla rete."</string>
     <string name="exception_error" msgid="7027667130619518211">"Errore di rete o della SIM."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Attiva il segnale cellulare per visualizzare queste impostazioni."</string>
@@ -158,15 +166,13 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Salva numero segreteria"</string>
     <string name="vm_changed" msgid="380744030726254139">"Numero segreteria modificato."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Modifica del numero della segreteria non riuscita."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"Modifica del numero di segreteria non riuscita."\n"Se il problema persiste, contattare l\'operatore di telefonia."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Modifica del numero di inoltro non riuscita."\n"Se il problema persiste, contattare l\'operatore di telefonia."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Recupero e salvataggio impostazioni numero di deviazione attuale non riusciti."\n"Passare comunque al nuovo provider?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nessuna modifica effettuata."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Scegli il servizio di segreteria"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Il mio gestore"</string>
-    <string name="mobile_networks" msgid="5540397602919106177">"Impostazioni rete cellulare"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Impostazioni reti mobili"</string>
     <string name="label_available" msgid="1181658289009300430">"Reti disponibili"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Ricerca..."</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Nessuna rete trovata."</string>
@@ -359,7 +365,7 @@
     <item msgid="4377788417250295786">"0"</item>
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
-    <string name="fdn" msgid="7878832555095183202">"Numeri selezione fissa"</string>
+    <string name="fdn" msgid="7878832555095183202">"Numeri selezione fissa (FDN)"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Elenco FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Attivazione FDN"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Numeri di selezione fissa attivi"</string>
@@ -460,10 +466,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nuovo msg vocale (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Componi <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Numero segreteria sconosciuto"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Nessun servizio"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Rete selezionata (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) non disponibile"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Per fare una telefonata, disattiva la modalità Aereo."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Non registrato sulla rete."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chiamata non inviata. Nessun numero valido inserito."</string>
@@ -486,21 +490,20 @@
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Selezione a toni"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Tastierino"</string>
     <string name="touchLockText" msgid="566824588267376287">"Tocca due volte"\n"per sbloccare"</string>
-    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
-    <skip />
-    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
-    <skip />
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Tocca due volte"\n"per rispondere"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Tocca due volte"\n"per rifiutare"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"In attesa"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Riprendi"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tastierino"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Nascondi"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoparlante"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoprlnte."</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"No audio"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Aggiungi"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Unisci"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Scambia"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gestisci chiamate"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gestisci"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importa"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importa tutti"</string>
@@ -523,14 +526,14 @@
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Messaggio di rete"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Attiva il telefono"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. "\n\n"Dopo avere premuto “Attiva”, ascolta le istruzioni fornite per attivare il telefono."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. "\n\n"Dopo avere premuto \"Attiva\", ascolta le istruzioni fornite per attivare il telefono."</string>
     <string name="ota_activate" msgid="1368528132525626264">"Attiva"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Il telefono è attivo."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con l\'attivazione"</string>
     <string name="ota_listen" msgid="3656020498420727053">"Ascolta le istruzioni fornite per attivare il telefono. Rimani in linea fino alla conferma dell\'attivazione del telefono."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastierino"</string>
-    <string name="ota_speaker" msgid="6904589278542719647">"Altoparlante"</string>
-    <string name="ota_progress" msgid="4644512049143969504">"Attendere la programmazione del telefono."</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Altoprlnte."</string>
+    <string name="ota_progress" msgid="4644512049143969504">"Attendi la programmazione del telefono."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Programmazione non riuscita"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Il telefono è attivo. L\'avvio del servizio potrebbe richiedere fino a 15 minuti."</string>
     <string name="ota_unsuccessful" msgid="623361244652068739">"Il telefono non è stato attivato. "\n"Potrebbe essere necessario trovare una zona con copertura migliore (vicino a una finestra o all\'esterno). "\n\n"Riprova o contatta l\'assistenza tecnica per conoscere altre soluzioni."</string>
@@ -542,8 +545,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Modalità di richiamata di emergenza attivata"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modalità di richiamata di emergenza"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Connessione dati disabilitata"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Nessuna connessione dati per <xliff:g id="COUNT">%s</xliff:g> minuto"</item>
     <item quantity="other" msgid="3122217344579273583">"Nessuna connessione dati per <xliff:g id="COUNT">%s</xliff:g> minuti"</item>
@@ -556,13 +558,11 @@
     <item quantity="one" msgid="8939225905428421722">"L\'azione selezionata non è disponibile in modalità di richiamata di emergenza. Il telefono sarà in questa modalità per <xliff:g id="COUNT">%s</xliff:g> minuto. Uscire ora?"</item>
     <item quantity="other" msgid="3489076611710869904">"L\'azione selezionata non è disponibile in modalità di richiamata di emergenza. Il telefono sarà in questa modalità per <xliff:g id="COUNT">%s</xliff:g> minuti. Uscire ora?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"L\'azione selezionata non è disponibile in modalità di chiamata di emergenza"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Uscita dalla modalità di richiamata di emergenza in corso"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sì"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignora"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Impostazioni segreteria"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non impostato&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Servizio di segreteria"</string>
@@ -570,16 +570,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Altre impostazioni chiamate"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Componi"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Chiamata in corso tramite ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Trascina a destra per rispondere"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Trascina a sinistra per disattivare la suoneria"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Trascina a sinistra per rifiutare"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Trascina a destra per rispondere e"\n"mettere in attesa la chiamata attiva"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Trascina a destra per rispondere e"\n"terminare la chiamata attiva"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Trascina a destra per rispondere e"\n"terminare la chiamata in attesa"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Risposta"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Rifiuta"</string>
 </resources>

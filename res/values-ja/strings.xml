@@ -127,23 +127,31 @@
     <string name="messageCFU" msgid="3560082430662923687">"常にこの番号を使用"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"電話をすべて転送する"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"電話をすべて{0}に転送する"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"番号が利用できません"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"無効"</string>
     <string name="labelCFB" msgid="218938523102207587">"通話中の着信時に転送"</string>
     <string name="messageCFB" msgid="3711089705936187129">"通話中着信の転送番号"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"\\\\{0\\\\}に転送する"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"無効"</string>
+    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
+    <skip />
     <string name="labelCFNRy" msgid="3646316323834351390">"不在着信時に転送"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"不在着信時の転送番号"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"\\\\{0\\\\}に転送する"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"無効"</string>
+    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
+    <skip />
     <string name="labelCFNRc" msgid="47183615370850000">"着信不能時に転送"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"着信不能時の転送番号"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"\\\\{0\\\\}に転送する"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"無効"</string>
+    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
+    <skip />
     <string name="updating_title" msgid="6146755386174019046">"通話設定"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"通話設定エラー"</string>
     <string name="reading_settings" msgid="1920291699287055284">"設定を読み取り中..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"設定を更新中..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"設定を元に戻しています..."</string>
     <string name="response_error" msgid="6674110501330139405">"ネットワークから予期しない応答が返されました。"</string>
     <string name="exception_error" msgid="7027667130619518211">"ネットワークまたはSIMカードのエラーです。"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"無線通信をオンにしてから設定を表示してください。"</string>
@@ -158,11 +166,9 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"ボイスメールの番号の保存"</string>
     <string name="vm_changed" msgid="380744030726254139">"ボイスメールの番号が変更されました。"</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"ボイスメールの番号を変更できませんでした。"</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"ボイスメールの番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"転送先番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"現在の転送先番号設定の取得と保存ができませんでした。"\n"別の通信事業者に切り替えますか？"</string>
     <string name="no_change" msgid="3186040086622435212">"変更されていません。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"ボイスメールサービスを選択"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"携帯通信会社"</string>
@@ -460,10 +466,8 @@
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"新しいボイスメール（<xliff:g id="COUNT">%d</xliff:g>）"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>にダイヤル"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"ボイスメールの番号が不明です"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"通信サービスなし"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"選択したネットワーク（<xliff:g id="OPERATOR_NAME">%s</xliff:g>）が利用できません"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"機内モードをOFFにしてから発信してください。"</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"ご加入の通信サービスがありません"</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"発信できません。有効な番号が入力されていません。"</string>
@@ -486,21 +490,20 @@
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"タッチトーンキー"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"ダイヤルキー"</string>
     <string name="touchLockText" msgid="566824588267376287">"ロックを解除するには"\n"ここをダブルタップ"</string>
-    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
-    <skip />
-    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
-    <skip />
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"ダブルタップで電話に"\n"出ることができます"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"ダブルタップで"\n"拒否できます"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"保留"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"保留解除"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"終了"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"ダイヤルキー"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"隠す"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"非表示"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"スピーカー"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"ミュート"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"通話を追加"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"グループ通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切り替え"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"通話の管理"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"管理"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"インポート"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"すべてインポート"</string>
@@ -523,46 +526,43 @@
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"ネットワークメッセージ"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"携帯電話を有効にする"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"通話サービスを有効にするには特別な通話が必要です。"\n\n"[有効にする]を押してから、聞こえてくる指示に沿って電話を有効にしてください。"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"通話サービスを有効にするには特別な通話が必要です。"\n\n"[有効にする]を押してから、流れてくる音声に従って電話を有効にしてください。"</string>
     <string name="ota_activate" msgid="1368528132525626264">"有効にする"</string>
-    <string name="ota_title_activate_success" msgid="3344632328991980578">"電話が有効になりました。"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"携帯が有効に設定されました。"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"有効にする際のエラー"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"聞こえてくる指示に沿って電話を有効にし、電話が有効になったという確認が聞こえるまで通話状態にします。"</string>
+    <string name="ota_listen" msgid="3656020498420727053">"流れてくる音声に従って携帯を有効にします。完了したという確認が流れるまで通話を切らずにお待ちください。"</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"キーパッド"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"スピーカー"</string>
     <string name="ota_progress" msgid="4644512049143969504">"プログラムが設定されるまでお待ちください。"</string>
     <string name="ota_failure" msgid="8600027551822478181">"プログラムの設定に失敗しました"</string>
-    <string name="ota_successful" msgid="1880780692887077407">"電話が有効になりました。サービスを開始するまで最大で15分ほどかかることがあります。"</string>
-    <string name="ota_unsuccessful" msgid="623361244652068739">"電話を有効にできませんでした。"\n"通信状態の良い場所（窓のそばや戸外）に移動することをおすすめします。"\n\n"もう一度やり直すかカスタマーサービスに問い合わせてください。"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"携帯が有効に設定されました。サービスが開始されるまで最大で15分ほどかかることがあります。"</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"携帯を有効に設定できませんでした。"\n"通信状態の良い場所（窓のそばや戸外）に移動することをおすすめします。"\n\n"もう一度やり直すかカスタマーサービスに問い合わせてください。"</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"超過SPCによる失敗"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"戻る"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"再試行"</string>
     <string name="ota_next" msgid="3904945374358235910">"次へ"</string>
     <string name="ota_back" msgid="2190038043403850052">"戻る"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
-    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"緊急コールバックモードになりました"</string>
-    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"緊急コールバックモード"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"緊急通報待機モードになりました"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"緊急通報待機モード"</string>
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"データ接続が無効です"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"<xliff:g id="COUNT">%s</xliff:g>分間データ接続できません"</item>
     <item quantity="other" msgid="3122217344579273583">"<xliff:g id="COUNT">%s</xliff:g>分間データ接続できません"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"<xliff:g id="COUNT">%s</xliff:g>分間緊急コールバックモードになります。このモード中はデータ接続が必要なアプリケーションは利用できません。今すぐ終了しますか？"</item>
-    <item quantity="other" msgid="3231879566243957821">"<xliff:g id="COUNT">%s</xliff:g>分間緊急コールバックモードになります。このモード中はデータ接続が必要なアプリケーションは利用できません。今すぐ終了しますか？"</item>
+    <item quantity="one" msgid="2181569650640386253">"<xliff:g id="COUNT">%s</xliff:g>分間緊急通報待機モードになります。このモード中はデータ接続が必要なアプリケーションは利用できません。今すぐ終了しますか？"</item>
+    <item quantity="other" msgid="3231879566243957821">"<xliff:g id="COUNT">%s</xliff:g>分間緊急通報待機モードになります。このモード中はデータ接続が必要なアプリケーションは利用できません。今すぐ終了しますか？"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="8939225905428421722">"緊急コールバックモード中のため選択した操作は利用できません。あと<xliff:g id="COUNT">%s</xliff:g>分間このモードが続きます。今すぐ終了しますか？"</item>
-    <item quantity="other" msgid="3489076611710869904">"緊急コールバック中なので、選択した操作は利用できません。あと<xliff:g id="COUNT">%s</xliff:g>分間このモードです。今すぐ終了しますか？"</item>
+    <item quantity="one" msgid="8939225905428421722">"緊急通報待機モード中のため選択した操作は利用できません。このモードはあと<xliff:g id="COUNT">%s</xliff:g>分間続行します。今すぐ終了しますか？"</item>
+    <item quantity="other" msgid="3489076611710869904">"緊急通報待機中なので、選択した操作は利用できません。あと<xliff:g id="COUNT">%s</xliff:g>分間このモードです。今すぐ終了しますか？"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
-    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"緊急コールバックモードを終了中"</string>
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"選択した操作は緊急通報待機時には実行できません"</string>
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"緊急通報待機モードを終了中"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"はい"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"いいえ"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"解除"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"ボイスメールの設定"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;未設定&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"ボイスメールサービス"</string>
@@ -570,16 +570,12 @@
     <string name="other_settings" msgid="3672912580359716394">"その他の通話設定"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"発信"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"^1で発信中:"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"右にドラッグして応答"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"左にドラッグして着信音を消音"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"左にドラッグして応答を拒否"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"右にドラッグして応答し"\n"現在の通話を保留"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"右にドラッグして応答し"\n"現在の通話を終了"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"右にドラッグして応答し"\n"保留中の通話を終了"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"電話に出る"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"拒否"</string>
 </resources>
