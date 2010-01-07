@@ -4470,12 +4470,12 @@ public class InCallScreen extends Activity
             // POKE_LOCK_SHORT_TIMEOUT flag (i.e. the fastest possible
             // screen timeout behavior.)
 
-            // Do a fresh lookup each time, since Gservices values can
-            // change on the fly.  (The Settings.Gservices helper class
+            // Do a fresh lookup each time, since settings values can
+            // change on the fly.  (The Settings.Secure helper class
             // caches these values so this call is usually cheap.)
-            int touchLockDelay = Settings.Gservices.getInt(
+            int touchLockDelay = Settings.Secure.getInt(
                     getContentResolver(),
-                    Settings.Gservices.SHORT_KEYLIGHT_DELAY_MS,
+                    Settings.Secure.SHORT_KEYLIGHT_DELAY_MS,
                     TOUCH_LOCK_DELAY_DEFAULT);
             mHandler.sendEmptyMessageDelayed(TOUCH_LOCK_TIMER, touchLockDelay);
         }
