@@ -44,8 +44,8 @@ public class IccPanel extends Dialog {
         super.onCreate(savedInstanceState);
         Window winP = getWindow();
         winP.setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
-        winP.setLayout(WindowManager.LayoutParams.FILL_PARENT,
-                WindowManager.LayoutParams.FILL_PARENT);
+        winP.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
         winP.setGravity(Gravity.CENTER);
 
         PhoneApp app = PhoneApp.getInstance();

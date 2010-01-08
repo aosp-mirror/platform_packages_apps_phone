@@ -151,9 +151,9 @@ class InCallMenuView extends ViewGroup {
         // onCreatePanelView(), a layout width of WRAP_CONTENT indicates
         // that you want the smaller-sized "More" menu frame.  We want the
         // full-screen-width menu frame instead, though, so we need to
-        // give ourselves a LayoutParams with width==FILL_PARENT.
+        // give ourselves a LayoutParams with width==MATCH_PARENT.
         ViewGroup.LayoutParams lp =
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                            ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(lp);
     }
@@ -191,7 +191,7 @@ class InCallMenuView extends ViewGroup {
 
         if (lp == null) {
             // Default layout parameters
-            lp = new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, android.view.ViewGroup.LayoutParams.FILL_PARENT);
+            lp = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
         }
 
         // Apply the background to the item view

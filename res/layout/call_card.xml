@@ -20,8 +20,8 @@
      we inflate this file and add it as a child.)
      TODO: consider just <include>ing this directly from incall_screen.xml? -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     >
 
     <!-- Info about the "secondary" call, displayed at the upper right of
@@ -71,7 +71,7 @@
         android:id="@+id/primaryCallInfo"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="18dip"

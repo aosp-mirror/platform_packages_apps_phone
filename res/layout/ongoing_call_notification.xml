@@ -20,7 +20,7 @@
     android:orientation="horizontal"
     android:baselineAligned="false"
     android:gravity="center_vertical"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="65sp"
     android:background="@android:drawable/status_bar_item_background"
     >

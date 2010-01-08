@@ -16,15 +16,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/top"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
 >
 
     <!-- Text field above the keypad where the digits are displayed -->
     <!-- TODO: Use a textAppearance to control the display of the number -->
     <EditText android:id="@+id/digits"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="66dip"
         android:layout_marginBottom="69dip"
         android:layout_marginTop="1dip"

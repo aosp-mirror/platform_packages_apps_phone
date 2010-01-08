@@ -27,8 +27,8 @@
 <SlidingDrawer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialer_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:topOffset="5dp"
     android:bottomOffset="7dp"
     android:handle="@+id/dialer_tab"
@@ -41,7 +41,7 @@
     <LinearLayout
         android:id="@id/dialer_tab"
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:focusable="true"
@@ -80,15 +80,15 @@
     <com.android.phone.DTMFTwelveKeyDialerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/dtmf_dialer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="1dip"
         android:background="@color/dtmf_dialer_background">
 
         <!-- Number Display Field, padded for correct text alignment -->
         <EditText android:id="@+id/dtmfDialerField"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="66dp"
             android:layout_marginTop="14dp"
             android:layout_marginBottom="6dp"
@@ -110,7 +110,7 @@
 
         <!-- Dummy element to pad below the dialpad -->
         <View android:layout_height="1dp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_weight="1"/>
 
     </com.android.phone.DTMFTwelveKeyDialerView>

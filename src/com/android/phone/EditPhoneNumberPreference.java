@@ -239,7 +239,7 @@ public class EditPhoneNumberPreference extends EditTextPreference {
 
         // add the edittext to the container.
         if (container != null) {
-            container.addView(editText, ViewGroup.LayoutParams.FILL_PARENT,
+            container.addView(editText, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }

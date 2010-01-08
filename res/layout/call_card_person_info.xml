@@ -21,13 +21,13 @@
               android:id="@+id/callCardPersonInfo"
               android:orientation="vertical"
               android:gravity="center_horizontal"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               >
 
     <!-- Photo, with elapsed time widget off to the side. -->
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="172dp"
         >
         <!-- Photo, or else a generic placeholder image. -->

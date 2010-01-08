@@ -15,12 +15,12 @@
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scroll"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <LinearLayout
                 style="@style/info_layout"
@@ -32,7 +32,7 @@
 
             <EditText android:id="@+id/old_pin"
                     android:maxLines="1"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollHorizontally="true"
                     android:autoText="false"
@@ -44,7 +44,7 @@
                     android:textColor="#FF888888"
                     android:visibility="gone"
                     android:text="@string/badPin"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dip"
                     android:paddingTop="1dip"
@@ -57,7 +57,7 @@
 
             <EditText android:id="@+id/new_pin1"
                     android:maxLines="1"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollHorizontally="true"
                     android:autoText="false"
@@ -70,7 +70,7 @@
 
             <EditText android:id="@+id/new_pin2"
                     android:maxLines="1"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollHorizontally="true"
                     android:autoText="false"
@@ -82,7 +82,7 @@
                     android:textColor="#FF888888"
                     android:visibility="gone"
                     android:text="@string/mismatchPin"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dip"
                     android:paddingTop="1dip"
@@ -110,7 +110,7 @@
 
         <EditText android:id="@+id/puk_code"
                 android:maxLines="1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollHorizontally="true"
                 android:autoText="false"

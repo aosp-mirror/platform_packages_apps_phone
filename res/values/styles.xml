@@ -47,8 +47,8 @@
         <item name="android:paddingTop">10dip</item>
         <item name="android:paddingRight">10dip</item>
         <item name="android:paddingBottom">10dip</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="entry_layout">
@@ -69,7 +69,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">0sp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:padding">0dip</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textColor">#000</item>
@@ -127,7 +127,7 @@
     <style name="ccOtaButtonBar">
         <!-- TODO: change height to 'wrap_content' when layout bug is fixed -->
         <item name="android:layout_height">60dip</item> 
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
