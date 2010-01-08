@@ -21,7 +21,7 @@
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Nødopkald"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
     <string name="recentCallsIconLabel" msgid="8717350893637245164">"Opk.liste"</string>
-    <string name="fdnListLabel" msgid="8630418672279521003">"FDN-liste"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"Liste over faste opkald"</string>
     <string name="unknown" msgid="6878797917991465859">"Ukendt"</string>
     <string name="private_num" msgid="6713286113000232309">"Privat nummer"</string>
     <string name="payphone" msgid="1931775086311769314">"Betalingstelefon"</string>
@@ -33,8 +33,8 @@
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-grænsen er overskredet"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Slå radio fra"</string>
     <string name="callFailed_simError" msgid="5652345589458834655">"Der er intet SIM-kort, eller der er SIM-kortfejl"</string>
-    <string name="callFailed_outOfService" msgid="4825791466557236225">"Området er ude af drift"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Udgående opkald er begrænset af FDN."</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"Området er uden for netværksdækning"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Udgående opkald er begrænset af faste opkaldsnumre."</string>
     <string name="callFailed_cb_enabled" msgid="3057131228725500761">"Du kan ikke foretage udgående opkald, mens opkaldsspærring er slået til."</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Alle opkald er begrænset af adgangskontrol."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nødopkald er begrænset af adgangskontrol."</string>
@@ -71,7 +71,7 @@
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Afslut aktuelt opkald,"\n"og besvar"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="menuButtonHint" msgid="4853215496220101699">"Tryk på Menu for at få opkaldsvalgmuligheder."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryk på menu for opkaldsvalgmuligheder  •  Brug tastatur til at ringe op"</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryk på Menu for indstillinger for opkald • Brug tastaturet til at ringe op"</string>
     <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorer"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Send følgende toner?"\n</string>
@@ -101,49 +101,57 @@
     <string name="unlock_success" msgid="6770085622238180152">"Netværket blev låst op."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI-nummer"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"GSM-opkaldsindstillinger"</string>
-    <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA-opkaldsindstillinger"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Indstillinger for GSM-opkald"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Indstillinger for CDMA-opkald"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Navne på adgangspkt."</string>
-    <string name="settings_label" msgid="3876743539816984008">"Netværksindstillinger"</string>
+    <string name="settings_label" msgid="3876743539816984008">"Indstillinger for netværk"</string>
     <string name="voicemail" msgid="8693759337917898954">"Voicemail"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"Netværksudbydere"</string>
-    <string name="call_settings" msgid="6112441768261754562">"Opkaldsindstillinger"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Indstillinger for opkald"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Yderligere indstillinger"</string>
-    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Yderligere opkaldsindstillinger for kun GSM"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Yderligere indstillinger for opkald er for kun GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Yderligere CDMA-opkaldsindstillinger"</string>
-    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Yderligere opkaldsindstillinger for kun CDMA"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Yderligere indstillinger for opkald er for kun CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Indstillinger for netværkstjeneste"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Opkalds-id"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Nummer skjules i udgående opkald"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Nummer vises i udgående opkald"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"Brug standardindstillinger fra udbyder til at vise mine numre i udgående opkald"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Brug udbyderens standardindstillinger til at vise mine numre i udgående opkald"</string>
     <string name="labelCW" msgid="6120513814915920200">"Ventende opkald"</string>
-    <string name="sum_cw_enabled" msgid="8083061901633671397">"Underret mig om indgående opkald under et opkald"</string>
-    <string name="sum_cw_disabled" msgid="3648693907300104575">"Underret mig om indgående opkald under et opkald"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Fortæl mig om indgående opkald under et opkald"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Fortæl mig om indgående opkald under et opkald"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Indstillinger for viderestilling af opkald"</string>
     <string name="labelCF" msgid="2574386948026924737">"Viderestilling af opkald"</string>
-    <string name="labelCFU" msgid="8147177368148660600">"Videresend altid"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Viderestil altid"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Brug altid dette nummer"</string>
-    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Videresender alle opkald"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Videresender alle opkald til \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Viderestiller alle opkald"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Viderestiller alle opkald til \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Nummeret er ikke tilgængeligt"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Deaktiveret"</string>
-    <string name="labelCFB" msgid="218938523102207587">"Videresend ved optaget"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Viderestil ved optaget"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Nummer ved optaget"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Videresender til \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Viderestiller til \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Deaktiveret"</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"Videresend ved ubesvaret"</string>
+    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
+    <skip />
+    <string name="labelCFNRy" msgid="3646316323834351390">"Viderestil ved ubesvaret"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Nummer ved ubesvaret"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Videresender til \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Viderestiller til \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Deaktiveret"</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Videresend ved utilgængelig"</string>
+    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
+    <skip />
+    <string name="labelCFNRc" msgid="47183615370850000">"Viderestil ved utilgængelig"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Nummer ved utilgængelig"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Videresender til \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Viderestiller til \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Deaktiveret"</string>
-    <string name="updating_title" msgid="6146755386174019046">"Opkaldsindstillinger"</string>
-    <string name="error_updating_title" msgid="7970259216988931777">"Fejl med opkaldsindstillinger"</string>
+    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
+    <skip />
+    <string name="updating_title" msgid="6146755386174019046">"Indstillinger for opkald"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Fejl i indstillinger for opkald"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Læser indstillinger ..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Opdaterer indstillinger ..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Tilbagefører indstillinger …"</string>
     <string name="response_error" msgid="6674110501330139405">"Uventet svar fra netværk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netværks- eller SIM-kortfejl"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Slå radioen til, inden du viser disse indstillinger."</string>
@@ -158,11 +166,9 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Gem voicemailnummer"</string>
     <string name="vm_changed" msgid="380744030726254139">"Voicemailnummeret blev ændret."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Ændring af voicemailnummer mislykkedes."</string>
-    <!-- no translation found for fw_change_failed (3124377684971600400) -->
-    <skip />
-    <!-- no translation found for fw_get_in_vm_failed (6776365552098929353) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"Nummeret til voicemail blev ikke ændret."\n"Kontakt din udbyder, hvis problemet fortsætter."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Nummeret til viderestilling blev ikke ændret."\n"Kontakt din udbyder, hvis problemet fortsætter."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Aktuelle indstillinger for viderestillingsnummer kunne ikke hentes og gemmes."\n"Ønsker du at skifte til den nye udbyder alligevel?"</string>
     <string name="no_change" msgid="3186040086622435212">"Der blev ikke foretaget nogen ændringer."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Vælg voicemail-tjeneste"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min udbyder"</string>
@@ -174,7 +180,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Der opstod en fejl, mens der blev søgt efter netværk."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Registrerer på <xliff:g id="NETWORK">%s</xliff:g> ..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"Dit SIM-kort tillader ikke en forbindelse til dette netværk."</string>
-    <string name="registration_done" msgid="495135664535876612">"Registreret på netværk."</string>
+    <string name="registration_done" msgid="495135664535876612">"Registreret på netværket."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Vælg en netværksudbyder"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Søg efter alle tilgængelige netværk"</string>
     <string name="select_automatically" msgid="8615980695510888796">"Vælg automatisk"</string>
@@ -191,7 +197,7 @@
     <item msgid="8595462903294812666">"Automatisk GSM/WCDMA"</item>
     <item msgid="5189164180446264504">"Kun WCDMA"</item>
     <item msgid="5714714953966979187">"Kun GSM"</item>
-    <item msgid="4775796025725908913">"GSM/WCDMA foretrukket"</item>
+    <item msgid="4775796025725908913">"GSM/WCDMA foretrækkes"</item>
   </string-array>
   <string-array name="preferred_network_mode_values">
     <item msgid="7164534877603905916">"7"</item>
@@ -206,43 +212,43 @@
     <string name="roaming" msgid="8871412572928323707">"Dataroaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Opret forbindelse til datatjenester under roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Opret forbindelse til datatjenester under roaming"</string>
-    <string name="roaming_reenable_message" msgid="6973894869473170666">"Du har mistet dataforbindelsen, fordi du har forladt dit hjemmenetværk med dataroaming slået fra."</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"Tillad dataroaming? Du kan komme ud for væsentlige gebyrer for roaming."</string>
-    <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS-valgmuligheder"</string>
-    <string name="cdma_options" msgid="4016822858172249884">"CDMA-valgmuligheder"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"Du har mistet dataforbindelsen, fordi du har forladt dit hjemmenetværk, og dataroaming er slået fra."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Tillad dataroaming? Der kan være væsentlige gebyrer for dataroaming."</string>
+    <string name="gsm_umts_options" msgid="6538311689850981686">"Indstillinger for GSM/UMTS"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"Indstillinger for CDMA"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Celletransmissions-sms"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Celletransmissions-sms"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Celletransmissions-sms"</string>
-    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Celletransmissions-sms aktiveret"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Celletransmissions-sms er aktiveret"</string>
     <string name="cell_bc_sms_disable" msgid="3398365088309408749">"Celletransmissions-sms deaktiveret"</string>
     <string name="cb_sms_settings" msgid="651715019785107312">"Indstillinger for celletransmissions-sms"</string>
     <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"Nødtransmission"</string>
-    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Nødtransmission aktiveret"</string>
-    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Nødtransmission deaktiveret"</string>
+    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Nødtransmission er aktiveret"</string>
+    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Nødtransmission er deaktiveret"</string>
     <string name="enable_disable_administrative" msgid="6501582322182059412">"Administration"</string>
-    <string name="administrative_enable" msgid="1750086122962032235">"Administration aktiveret"</string>
-    <string name="administrative_disable" msgid="8433273857248698539">"Administration deaktiveret"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"Administration er aktiveret"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"Administration er deaktiveret"</string>
     <string name="enable_disable_maintenance" msgid="1819693083025106678">"Vedligeholdelse"</string>
-    <string name="maintenance_enable" msgid="8566636458770971189">"Vedligeholdelse aktiveret"</string>
-    <string name="maintenance_disable" msgid="7340189100885066077">"Vedligeholdelse deaktiveret"</string>
+    <string name="maintenance_enable" msgid="8566636458770971189">"Vedligeholdelse er aktiveret"</string>
+    <string name="maintenance_disable" msgid="7340189100885066077">"Vedligeholdelse er deaktiveret"</string>
     <string name="general_news_settings" msgid="4968779723948432978">"Generelle nyheder"</string>
     <string name="bf_news_settings" msgid="3935593091894685267">"Erhvervs- og økonomiske nyheder"</string>
     <string name="sports_news_settings" msgid="7649399631270052835">"Sportsnyheder"</string>
     <string name="entertainment_news_settings" msgid="5051153952959405035">"Underholdningsnyheder"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"Lokal"</string>
-    <string name="local_enable" msgid="6370463247609136359">"Lokale nyheder aktiveret"</string>
-    <string name="local_disable" msgid="4405691986943795798">"Lokale nyheder deaktiveret"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Lokale nyheder er aktiveret"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Lokale nyheder er deaktiveret"</string>
     <string name="enable_disable_regional" msgid="4905652414535565872">"Regional"</string>
-    <string name="regional_enable" msgid="4434680415437834759">"Regionale nyheder aktiveret"</string>
-    <string name="regional_disable" msgid="5359325527213850077">"Regionale nyheder deaktiveret"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Regionale nyheder er aktiveret"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Regionale nyheder er deaktiveret"</string>
     <string name="enable_disable_national" msgid="236278090206880734">"National"</string>
-    <string name="national_enable" msgid="1172443648912246952">"Nationale nyheder aktiveret"</string>
-    <string name="national_disable" msgid="326018148178601166">"Nationale nyheder deaktiveret"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Nationale nyheder er aktiveret"</string>
+    <string name="national_disable" msgid="326018148178601166">"Nationale nyheder er deaktiveret"</string>
     <string name="enable_disable_international" msgid="7535348799604565592">"International"</string>
-    <string name="international_enable" msgid="5855356769925044927">"Internationale nyheder aktiveret"</string>
-    <string name="international_disable" msgid="2850648591041088931">"Internationale nyheder deaktiveret"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Internationale nyheder er aktiveret"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Internationale nyheder er deaktiveret"</string>
     <string name="list_language_title" msgid="2841683501919760043">"Sprog"</string>
-    <string name="list_language_summary" msgid="8109546531071241601">"Vælg nyhedssproget"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"Vælg nyhedssprog"</string>
   <string-array name="list_language_entries">
     <item msgid="6137851079727305485">"Engelsk"</item>
     <item msgid="1151988412809572526">"Fransk"</item>
@@ -263,41 +269,41 @@
   </string-array>
     <string name="list_language_dtitle" msgid="5442908726538951934">"Sprog"</string>
     <string name="enable_disable_local_weather" msgid="986967454867219114">"Lokalt vejr"</string>
-    <string name="local_weather_enable" msgid="6199315114382448922">"Lokalt vejr aktiveret"</string>
-    <string name="local_weather_disable" msgid="2510158089142626480">"Lokalt vejr deaktiveret"</string>
+    <string name="local_weather_enable" msgid="6199315114382448922">"Lokalt vejr er aktiveret"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"Lokalt vejr er deaktiveret"</string>
     <string name="enable_disable_atr" msgid="8339572391278872343">"Trafikmeldinger i området"</string>
-    <string name="atr_enable" msgid="5541757457789181799">"Trafikmeldinger i området aktiveret"</string>
-    <string name="atr_disable" msgid="7085558154727596455">"Trafikmeldinger i området deaktiveret"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"Trafikmeldinger i området er aktiveret"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"Trafikmeldinger i området er deaktiveret"</string>
     <string name="enable_disable_lafs" msgid="668189073721277199">"Flyafgange for lokal lufthavn"</string>
-    <string name="lafs_enable" msgid="2791978667205137052">"Flyafgange for lokal lufthavn aktiveret"</string>
-    <string name="lafs_disable" msgid="2391212397725495350">"Flyafgange for lokal lufthavn deaktiveret"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"Flyafgange for lokal lufthavn er aktiveret"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"Flyafgange for lokal lufthavn er deaktiveret"</string>
     <string name="enable_disable_restaurants" msgid="6240381945336814024">"Restauranter"</string>
-    <string name="restaurants_enable" msgid="5137657479469118847">"Restauranter aktiveret"</string>
-    <string name="restaurants_disable" msgid="3678480270938424092">"Restauranter deaktiveret"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"Restauranter er aktiveret"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"Restauranter er deaktiveret"</string>
     <string name="enable_disable_lodgings" msgid="1822029172658551202">"Logi"</string>
-    <string name="lodgings_enable" msgid="3230042508992850322">"Logi aktiveret"</string>
-    <string name="lodgings_disable" msgid="3387879742320682391">"Logi deaktiveret"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"Logi er aktiveret"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"Logi er deaktiveret"</string>
     <string name="enable_disable_retail_directory" msgid="1357809784475660303">"Detailindeks"</string>
-    <string name="retail_directory_enable" msgid="3280626290436111496">"Detailindeks aktiveret"</string>
-    <string name="retail_directory_disable" msgid="6479739816662879027">"Detailindeks deaktiveret"</string>
+    <string name="retail_directory_enable" msgid="3280626290436111496">"Detailindeks er aktiveret"</string>
+    <string name="retail_directory_disable" msgid="6479739816662879027">"Detailindeks er deaktiveret"</string>
     <string name="enable_disable_advertisements" msgid="5999495926176182128">"Annoncer"</string>
-    <string name="advertisements_enable" msgid="2050305021264683786">"Annoncer aktiveret"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"Annoncer er aktiveret"</string>
     <string name="advertisements_disable" msgid="8350985908788707935">"Annoncer deaktiveret"</string>
     <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Aktiekurser"</string>
-    <string name="stock_quotes_enable" msgid="4384802470887170543">"Aktiekurser aktiveret"</string>
-    <string name="stock_quotes_disable" msgid="4781450084565594998">"Aktiekurser deaktiveret"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"Aktiekurser er aktiveret"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Aktiekurser er deaktiveret"</string>
     <string name="enable_disable_eo" msgid="4863043263443942494">"Jobmuligheder"</string>
-    <string name="eo_enable" msgid="8623559062015685813">"Jobmuligheder aktiveret"</string>
-    <string name="eo_disable" msgid="3863812478090907609">"Jobmuligheder deaktiveret"</string>
-    <string name="enable_disable_mhh" msgid="5698783743098373681">"Læger, helbred og hospital"</string>
-    <string name="mhh_enable" msgid="3949276822735205799">"Læger, helbred og hospital aktiveret"</string>
-    <string name="mhh_disable" msgid="4834280270664925123">"Læger, helbred og hospital deaktiveret"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"Jobmuligheder er aktiveret"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Jobmuligheder er deaktiveret"</string>
+    <string name="enable_disable_mhh" msgid="5698783743098373681">"Læger, sundhed og hospital"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"Læger, sundhed og hospital er aktiveret"</string>
+    <string name="mhh_disable" msgid="4834280270664925123">"Læger, sundhed og hospital er deaktiveret"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Teknologinyheder"</string>
-    <string name="technology_news_enable" msgid="7995209394210455181">"Teknologinyheder deaktiveret"</string>
-    <string name="technology_news_disable" msgid="5483490380561851946">"Teknologinyheder deaktiveret"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Teknologinyheder er deaktiveret"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Teknologinyheder er deaktiveret"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Flere kategorier"</string>
-    <string name="multi_category_enable" msgid="1179299804641721768">"Flere kategorier aktiveret"</string>
-    <string name="multi_category_disable" msgid="880104702904139505">"Flere kategorier deaktiveret"</string>
+    <string name="multi_category_enable" msgid="1179299804641721768">"Flere kategorier er aktiveret"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"Flere kategorier er deaktiveret"</string>
     <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"GSM-/UMTS-netværkspræferencer"</string>
     <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Ikke implementeret endnu!"</string>
     <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"GSM-/UMTS-netværkspræferencer"</string>
@@ -314,7 +320,7 @@
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Brug kun 2G-netværk"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Sparer på batteriet"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Spar på batteriet"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Vælg system"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Skift cdma-roamingtilstand"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Vælg system"</string>
@@ -327,7 +333,7 @@
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-roamingtilstand"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="6024072766548865002">"Kun hjemmenetværk"</item>
-    <item msgid="8174642753290624634">"Tilknyttede netværker"</item>
+    <item msgid="8174642753290624634">"Tilknyttede netværk"</item>
     <item msgid="2241951431403168661">"Alle netværk"</item>
   </string-array>
   <string-array name="cdma_roaming_mode_values">
@@ -360,24 +366,24 @@
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
     <string name="fdn" msgid="7878832555095183202">"Faste opkaldsnumre"</string>
-    <string name="manage_fdn_list" msgid="8777755791892122369">"FDN-liste"</string>
-    <string name="fdn_activation" msgid="2156479741307463576">"FDN-aktivering"</string>
-    <string name="fdn_enabled" msgid="5238109009915521240">"Numre til fast opkald er aktiveret"</string>
-    <string name="fdn_disabled" msgid="4700049736675368279">"Numre til fast opkald er deaktiveret"</string>
-    <string name="enable_fdn" msgid="3740191529180493851">"Aktiver FDN"</string>
-    <string name="disable_fdn" msgid="7944020890722540616">"Deaktiver FDN"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Liste over faste opkald"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"Aktivering af faste opkald"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Faste opkaldsnumre er aktiveret"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Faste opkaldsnumre er deaktiveret"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Aktiver faste opkald"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Deaktiver faste opkald"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Skift PIN2-kode"</string>
-    <string name="enable_fdn_ok" msgid="7215588870329688132">"Deaktiver FDN"</string>
-    <string name="disable_fdn_ok" msgid="5727046928930740173">"Aktiver FDN"</string>
-    <string name="sum_fdn" msgid="1959399454900272878">"Administrer numre til fast opkald"</string>
-    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Skift PIN-kode for at få FDN-adgang"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Deaktiver faste opkald"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"Aktiver faste opkald"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Administrer faste opkaldsnumre"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Skift PIN-kode for at få adgang til faste opkald."</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Administrer telefonnummerliste"</string>
     <string name="voice_privacy" msgid="7803023024169078619">"Stemme Fortrolighed"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Aktiver øget fortrolighedstilstand"</string>
     <string name="tty_mode_title" msgid="3171521903490559138">"TTY-tilstand"</string>
     <string name="tty_mode_summary" msgid="5057244302665817977">"Aktiver TTY-tilstand"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-tilstand"</string>
-    <string name="tty_mode_option_summary" msgid="1073835131534808732">"Indstil TTY-tilstand"</string>
+    <string name="tty_mode_option_summary" msgid="1073835131534808732">"Angiv TTY-tilstand"</string>
     <string name="auto_retry_mode_title" msgid="1478311108889330757">"Prøv automatisk igen"</string>
     <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Aktiver automatisk gentagelsestilstand"</string>
     <string name="menu_add" msgid="1882023737425114762">"Tilføj kontakt"</string>
@@ -388,7 +394,7 @@
     <string name="number" msgid="7905950798349903858">"Nummer"</string>
     <string name="save" msgid="4094274636321939086">"Gem"</string>
     <string name="add_fdn_contact" msgid="5412242719704146070">"Tilføj kontakt til fast opkald"</string>
-    <string name="adding_fdn_contact" msgid="1008984230265031168">"Tilføjer kontakt til fast opkald ..."</string>
+    <string name="adding_fdn_contact" msgid="1008984230265031168">"Føjer kontakt til fast opkald"</string>
     <string name="fdn_contact_added" msgid="3283284983265410270">"Kontakt til fast opkald blev tilføjet."</string>
     <string name="edit_fdn_contact" msgid="3440054765948798731">"Rediger kontakt til fast opkald"</string>
     <string name="updating_fdn_contact" msgid="5918299270800552372">"Opdaterer kontakt til fast opkald ..."</string>
@@ -396,7 +402,7 @@
     <string name="delete_fdn_contact" msgid="2237838617123538040">"Slet kontakt til fast opkald"</string>
     <string name="deleting_fdn_contact" msgid="6162824054507660151">"Sletter kontakt til fast opkald ..."</string>
     <string name="fdn_contact_deleted" msgid="5596742031140651283">"Kontakt til fast opkald blev slettet."</string>
-    <string name="pin2_invalid" msgid="6408721267712649637">"Ugyldig PIN2-kode"</string>
+    <string name="pin2_invalid" msgid="6408721267712649637">"PIN2-koden er ugyldig!"</string>
     <string name="fdn_invalid_number" msgid="1484959418054136856">"Nummeret må ikke overstige 20 cifre."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Læser fra SIM-kort ..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Der er ingen kontakter på dit SIM-kort."</string>
@@ -404,7 +410,7 @@
     <string name="enable_pin" msgid="5422767284133234860">"Aktiver/deaktiver PIN-kode til SIM-kort"</string>
     <string name="change_pin" msgid="9174186126330785343">"Skift PIN-kode til SIM-kort"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN-kode til SIM-kort:"</string>
-    <string name="oldPinLabel" msgid="5287773661246368314">"Gammel PIN-kode"</string>
+    <string name="oldPinLabel" msgid="5287773661246368314">"Nuværende PIN-kode"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Ny PIN-kode"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"Bekræft ny PIN-kode"</string>
     <string name="badPin" msgid="4154316827946559447">"Den gamle PIN-kode, du indtastede, er forkert. Prøv igen."</string>
@@ -413,13 +419,13 @@
     <string name="disable_sim_pin" msgid="3992926931620188855">"Deaktiver PIN-kode til SIM-kort"</string>
     <string name="enable_sim_pin" msgid="5803702443844458831">"Aktiver PIN-kode til SIM-kort"</string>
     <string name="enable_in_progress" msgid="3695303775100109650">"Vent ..."</string>
-    <string name="enable_pin_ok" msgid="8077439615296694284">"PIN-kode til SIM-kortet blev aktiveret"</string>
-    <string name="disable_pin_ok" msgid="8552428316206928913">"PIN-kode til SIM-kortet er deaktiveret"</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"PIN-koden til SIM-kortet blev aktiveret"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"PIN-koden til SIM-kortet er deaktiveret"</string>
     <string name="pin_failed" msgid="6597695909685242127">"Den indtastede PIN-kode er forkert"</string>
     <string name="pin_changed" msgid="9000716792724195093">"PIN-kode til SIM-kort blev ændret."</string>
     <string name="puk_requested" msgid="3898394204193202803">"Adgangskoden er forkert. SIM-kortet er låst. PUK2-kode er påkrævet."</string>
     <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2-kode"</string>
-    <string name="oldPin2Label" msgid="8559146795026261502">"Gammel PIN2-kode"</string>
+    <string name="oldPin2Label" msgid="8559146795026261502">"Nuværende PIN2-kode"</string>
     <string name="newPin2Label" msgid="4573956902204349054">"Ny PIN2-kode"</string>
     <string name="confirmPin2Label" msgid="8100319484454787708">"Bekræft ny PIN2-kode"</string>
     <string name="badPuk2" msgid="4072035207011308856">"Den indtastede PUK2-kode er forkert. Prøv igen."</string>
@@ -431,7 +437,7 @@
     <string name="label_puk2_code" msgid="302845876240219560">"Indtast PUK2-kode"</string>
     <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Forkert adgangskode. Skift PIN2-kode, og prøv igen."</string>
     <string name="puk2_requested" msgid="5863580927788820813">"Adgangskoden er forkert. SIM-kortet er låst. PUK2 er påkrævet."</string>
-    <string name="doneButton" msgid="2859593360997984240">"Færdig"</string>
+    <string name="doneButton" msgid="2859593360997984240">"Udfør"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Telefonmøde <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Tilbage til opkald"</string>
     <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Fortsæt uden SIM-kort"</string>
@@ -446,7 +452,7 @@
     <string name="card_title_conf_call" msgid="1162980346189744501">"Telefonmøde"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Indgående opkald"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Cdma opkaldventer"</string>
-    <string name="card_title_call_ended" msgid="5544730338889702298">"Opkald afsluttet"</string>
+    <string name="card_title_call_ended" msgid="5544730338889702298">"Opkaldet er afsluttet"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Ventende"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Lægger på"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Opkald i gang"</string>
@@ -459,20 +465,18 @@
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Ny voicemail"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Ny voicemail (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Ring til <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Voicemailnummer ukendt"</string>
-    <!-- no translation found for notification_network_selection_title (4224455487793492772) -->
-    <skip />
-    <!-- no translation found for notification_network_selection_text (2607085729661923269) -->
-    <skip />
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Voicemailnummeret er ukendt"</string>
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"Ingen dækning"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"Det valgte netværk (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) er ikke tilgængeligt"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Slå Flytilstand fra først for at foretage et opkald."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ikke registreret på netværk."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Opkaldet blev ikke sendt. Der blev ikke indtastet et gyldigt nummer."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Opkaldet blev ikke sendt."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Starter MMI-sekvens ..."</string>
     <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Starter funktionskodesekvens ..."</string>
-    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Tjenesten er ikke understøttet."</string>
-    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Der kunne ikke skiftes opkald."</string>
-    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Opkald kunne ikke separeres."</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Tjenesten understøttes ikke."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Der kan ikke skiftes mellem opkald."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Opkaldet kunne ikke separeres."</string>
     <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Opkaldet kunne ikke overføres."</string>
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Der kunne ikke oprettes mødeopkald."</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Opkaldet kunne ikke afvises."</string>
@@ -486,10 +490,8 @@
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Touch-tone-tastatur"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Nummerblok"</string>
     <string name="touchLockText" msgid="566824588267376287">"Tryk to gange"\n"for at låse op"</string>
-    <!-- no translation found for onscreenAnswerText (3000799558804019765) -->
-    <skip />
-    <!-- no translation found for onscreenRejectText (1456649473993020449) -->
-    <skip />
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"Tryk to gange"\n"for at svare"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"Tryk to gange"\n"for at afvise"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Hold"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Hold fra"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Afslut"</string>
@@ -501,6 +503,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Tilføj opkald"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Slå opkald sammen"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Skift"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Administrer opkald"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Administrer"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importer alle"</string>
@@ -516,14 +519,14 @@
   </string-array>
     <string name="eri_text_label" msgid="4326942349915331461">"ERI-tekst"</string>
     <string name="dtmf_tones_title" msgid="3866923093113274152">"DTMF-toner"</string>
-    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Indstil længden på DTMF-toner"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Angiv længden på DTMF-toner"</string>
   <string-array name="dtmf_tone_entries">
     <item msgid="899650777817315681">"Normal"</item>
     <item msgid="2883365539347850535">"Lang"</item>
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Netværksbesked"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktiver din telefon"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Der skal foretages et særligt opkald for at aktivere din telefontjeneste. "\n\n" Lyt til instruktionerne, når du har trykket på “Aktivér” for at aktivere din telefon."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Der skal foretages et særligt opkald for at aktivere din telefontjeneste. "\n\n" Lyt til instruktionerne, når du har trykket på “Aktiver” for at aktivere din telefon."</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktiver"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefonen er aktiveret!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Der opstod et problem med aktiveringen"</string>
@@ -540,10 +543,9 @@
     <string name="ota_next" msgid="3904945374358235910">"Næste"</string>
     <string name="ota_back" msgid="2190038043403850052">"Tilbage"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"NttAfslutDialog"</string>
-    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Indtastede nødtilbagekaldstilstand"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Gik i nødtilbagekaldstilstand"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Nødtilbagekaldstilstand"</string>
-    <!-- no translation found for phone_in_ecm_call_notification_text (4611608947314729773) -->
-    <skip />
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Dataforbindelsen er deaktiveret"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Ingen dataforbindelse i <xliff:g id="COUNT">%s</xliff:g> minut"</item>
     <item quantity="other" msgid="3122217344579273583">"Ingen dataforbindelse i <xliff:g id="COUNT">%s</xliff:g> minutter"</item>
@@ -556,30 +558,24 @@
     <item quantity="one" msgid="8939225905428421722">"Den valgte handling er ikke tilgængelig, når telefonen er i nødtilbagekaldstilstand. Telefonen vil være i denne tilstand i <xliff:g id="COUNT">%s</xliff:g> minut. Ønsker du at afslutte?"</item>
     <item quantity="other" msgid="3489076611710869904">"Den valgte handling er ikke tilgængelig, når telefonen er i nødtilbagekaldstilstand. Telefonen vil være i denne tilstand i <xliff:g id="COUNT">%s</xliff:g> minutter. Ønsker du at afslutte?"</item>
   </plurals>
-    <!-- no translation found for alert_dialog_in_ecm_call (2334477874583086142) -->
-    <skip />
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"Den valgte handling er ikke tilgængelig ved nødopkald"</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Eksisterende nødtilbagekaldstilstand"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ja"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Nej"</string>
-    <!-- no translation found for alert_dialog_dismiss (2491494287075907171) -->
-    <skip />
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Annuller"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Indstillinger for voicemail"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;ikke indstillet&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Voicemail-tjeneste"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Indstillinger for <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="other_settings" msgid="3672912580359716394">"Andre opkaldsindstillinger"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Andre indstillinger for opkald"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring til"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Ringer op via ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for rotate_to_answer (250167639217498442) -->
-    <skip />
-    <!-- no translation found for rotate_to_silence (7975072229114030369) -->
-    <skip />
-    <!-- no translation found for rotate_to_decline (4027883214757161197) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_hold (7257444600554427946) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_active (4024248025970399906) -->
-    <skip />
-    <!-- no translation found for rotate_to_answer_and_end_onhold (3046912205240632885) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Træk til højre for at besvare"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Træk til venstre for at sætte ringetonen på lydløs"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Træk til venstre for at afvise"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Træk til højre for at besvare og"\n"stille aktivt opkald på hold"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Træk til højre for at besvare og"\n"afslutte aktivt opkald"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Træk til højre for at besvare og"\n"afslutte ventende opkald"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Svar"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Afvis"</string>
 </resources>
