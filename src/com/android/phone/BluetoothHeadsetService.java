@@ -699,7 +699,7 @@ public class BluetoothHeadsetService extends Service {
         private synchronized int load(BluetoothDevice device) {
             int priority = Settings.Secure.getInt(getContentResolver(),
                     Settings.Secure.getBluetoothHeadsetPriorityKey(device.getAddress()),
-                    BluetoothHeadset.PRIORITY_OFF);
+                    BluetoothHeadset.PRIORITY_UNDEFINED);
             mPriority.put(device, new Integer(priority));
             if (DBG) log("Loaded priority " + device + " = " + priority);
             return priority;
