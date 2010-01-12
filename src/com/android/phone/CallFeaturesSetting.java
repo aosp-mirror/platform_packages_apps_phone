@@ -328,10 +328,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     boolean mVMChangeCompletedSuccesfully = false;
 
     /**
-     * True if we are in the process of vm & fwd number change and fwd# has already been changed.
-     * This is used to decide what to do in case of rollback.
+     * True if we had full or partial failure setting forwarding numbers and so need to roll them
+     * back.
      */
-    boolean mFwdChangeCompletedSuccesfully = false;
+    boolean mFwdChangesRequireRollback = false;
 
     /**
      * Id of error msg to display to user once we are done reverting the VM provider to the previous
@@ -437,12 +437,14 @@ public class CallFeaturesSetting extends PreferenceActivity
             // Otherwise we will bring up provider's configuration UI.
 
             if (newProviderSettings == null) {
+                // Force the user into a configuration of the chosen provider
                 if (DBG) log("Saved preferences not found - invoking config");
                 mVMProviderSettingsForced = true;
-                // Force the user into a configuration of the chosen provider
                 simulatePreferenceClick(mVoicemailSettings);
             } else {
                 if (DBG) log("Saved preferences found - switching to them");
+                // Set this flag so if we get a failure we revert to previous provider
+                mChangingVMorFwdDueToProviderChange = true;
                 saveVoiceMailAndForwardingNumber(newProviderKey, newProviderSettings);
             }
         }
@@ -509,7 +511,8 @@ public class CallFeaturesSetting extends PreferenceActivity
     private void switchToPreviousVoicemailProvider() {
         if (DBG) log("switchToPreviousVoicemailProvider " + mPreviousVMProviderKey);
         if (mPreviousVMProviderKey != null) {
-            if (mVMChangeCompletedSuccesfully || mFwdChangeCompletedSuccesfully) { // we have to revert with carrier
+            if (mVMChangeCompletedSuccesfully || mFwdChangesRequireRollback) {
+                // we have to revert with carrier
                 showDialog(VOICEMAIL_REVERTING_DIALOG);
                 VoiceMailProviderSettings prevSettings =
                     loadSettingsForVoiceMailProvider(mPreviousVMProviderKey);
@@ -521,7 +524,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                             mNewVMNumber,
                             Message.obtain(mRevertOptionComplete, EVENT_VOICEMAIL_CHANGED));
                 }
-                if (mFwdChangeCompletedSuccesfully) {
+                if (mFwdChangesRequireRollback) {
                     if (DBG) log("have to revert fwd");
                     final CallForwardInfo[] prevFwdSettings = prevSettings.forwardingSettings;
                     if (prevFwdSettings != null) {
@@ -689,7 +692,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         maybeSaveSettingsForVoicemailProvider(key, newSettings);
         mVMChangeCompletedSuccesfully = false;
-        mFwdChangeCompletedSuccesfully = false;
+        mFwdChangesRequireRollback = false;
         mVMOrFwdSetError = 0;
         // If we are switching to a non default provider - save previous forwarding
         // settings
@@ -833,47 +836,48 @@ public class CallFeaturesSetting extends PreferenceActivity
         @Override
         public void handleMessage(Message msg) {
             AsyncResult result = (AsyncResult) msg.obj;
+            boolean done = false;
             switch (msg.what) {
                 case EVENT_VOICEMAIL_CHANGED:
                     mVoicemailChangeResult = result;
                     mVMChangeCompletedSuccesfully = checkVMChangeSuccess() == null;
                     if (DBG) log("VM change complete msg, VM change done = " +
                             String.valueOf(mVMChangeCompletedSuccesfully));
+                    done = true;
                     break;
                 case EVENT_FORWARDING_CHANGED:
                     mForwardingChangeResults[msg.arg1] = result;
+                    if (result.exception != null) {
+                        if (DBG) log("Error in setting fwd# " + msg.arg1 + ": " +
+                                result.exception.getMessage());
+                    } else {
+                        if (DBG) log("Success in setting fwd# " + msg.arg1);
+                    }
                     final boolean completed = checkForwardingCompleted();
                     if (completed) {
-                        mFwdChangeCompletedSuccesfully = checkFwdChangeSuccess() == null;
-                    }
-                    if (DBG) log("FWD change complete msg " + msg.arg1 + ", completed=" +
-                            String.valueOf(completed) + ", succesfully=" +
-                            String.valueOf(mFwdChangeCompletedSuccesfully));
-                    if (mFwdChangeCompletedSuccesfully) {
-                        setVMNumberWithCarrier();
+                        if (checkFwdChangeSuccess() == null) {
+                            if (DBG) log("Overall fwd changes completed ok, starting vm change");
+                            setVMNumberWithCarrier();
+                        } else {
+                            if (DBG) log("Overall fwd changes completed, failure");
+                            mFwdChangesRequireRollback = false;
+                            for (int i = 0; i < mForwardingChangeResults.length; i++) {
+                                if (mForwardingChangeResults[i].exception == null) {
+                                    // If at least one succeeded we have to revert
+                                    if (DBG) log("Rollback will be required");
+                                    mFwdChangesRequireRollback =true;
+                                    break;
+                                }
+                            }
+                            done = true;
+                        }
                     }
                     break;
                 default:
                     // TODO: should never reach this, may want to throw exception
             }
-            // Check if we are done - either we are only setting vm and that is done
-            // or we are setting both vm and fwd and both are done.
-            final boolean vmCompleted = mVoicemailChangeResult != null;
-
-            boolean done = false;
-            if (mForwardingChangeResults != null) {
-                if (checkForwardingCompleted()) {
-                    if (!mFwdChangeCompletedSuccesfully) {
-                        done = true;
-                    } else {
-                        done = vmCompleted;
-                    }
-                }
-            } else {
-                done = vmCompleted;
-            }
             if (done) {
-                if (DBG) log("All VM related changes done");
+                if (DBG) log("All VM provider related changes done");
                 if (mForwardingChangeResults != null) {
                     dismissDialog(VOICEMAIL_FWD_SAVING_DIALOG);
                 }
@@ -896,6 +900,12 @@ public class CallFeaturesSetting extends PreferenceActivity
                     break;
                 case EVENT_FORWARDING_CHANGED:
                     mForwardingChangeResults[msg.arg1] = result;
+                    if (result.exception != null) {
+                        if (DBG) log("Error in reverting fwd# " + msg.arg1 + ": " +
+                                result.exception.getMessage());
+                    } else {
+                        if (DBG) log("Success in reverting fwd# " + msg.arg1);
+                    }
                     if (DBG) log("FWD revert complete msg ");
                     break;
                 default:
@@ -903,7 +913,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             }
             final boolean done =
                 (!mVMChangeCompletedSuccesfully || mVoicemailChangeResult != null) &&
-                (!mFwdChangeCompletedSuccesfully || checkForwardingCompleted());
+                (!mFwdChangesRequireRollback || checkForwardingCompleted());
             if (done) {
                 if (DBG) log("All VM reverts done");
                 dismissDialog(VOICEMAIL_REVERTING_DIALOG);

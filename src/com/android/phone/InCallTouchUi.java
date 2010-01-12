@@ -19,11 +19,13 @@ package com.android.phone;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.os.SystemProperties;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -32,7 +34,7 @@ import android.widget.ToggleButton;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
-import com.android.internal.widget.RotarySelector;
+import com.android.internal.widget.SlidingTab;
 
 
 /**
@@ -42,7 +44,8 @@ import com.android.internal.widget.RotarySelector;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, RotarySelector.OnDialTriggerListener {
+        implements View.OnClickListener, SlidingTab.OnTriggerListener {
+    private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -57,7 +60,7 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApplication;
 
     // UI containers / elements
-    private RotarySelector mIncomingCallWidget;  // UI used for an incoming call
+    private SlidingTab mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mAddButton;
@@ -129,10 +132,25 @@ public class InCallTouchUi extends FrameLayout
         // Look up the various UI elements.
 
         // "Dial-to-answer" widget for incoming calls.
-        mIncomingCallWidget = (RotarySelector) findViewById(R.id.incomingCallWidget);
-        mIncomingCallWidget.setLeftHandleResource(R.drawable.ic_jog_dial_answer);
-        mIncomingCallWidget.setRightHandleResource(R.drawable.ic_jog_dial_decline);
-        mIncomingCallWidget.setOnDialTriggerListener(this);
+        mIncomingCallWidget = (SlidingTab) findViewById(R.id.incomingCallWidget);
+        mIncomingCallWidget.setLeftTabResources(
+                R.drawable.ic_jog_dial_answer,
+                com.android.internal.R.drawable.jog_tab_target_green,
+                com.android.internal.R.drawable.jog_tab_bar_left_answer,
+                com.android.internal.R.drawable.jog_tab_left_answer
+                );
+        mIncomingCallWidget.setRightTabResources(
+                R.drawable.ic_jog_dial_decline,
+                com.android.internal.R.drawable.jog_tab_target_red,
+                com.android.internal.R.drawable.jog_tab_bar_right_decline,
+                com.android.internal.R.drawable.jog_tab_right_decline
+                );
+
+        // For now, we only need to show two states: answer and decline. 
+        mIncomingCallWidget.setLeftHintText(R.string.slide_to_answer_hint);
+        mIncomingCallWidget.setRightHintText(R.string.slide_to_decline_hint);
+
+        mIncomingCallWidget.setOnTriggerListener(this);
 
         // Container for the UI elements shown while on a regular call.
         mInCallControls = findViewById(R.id.inCallControls);
@@ -254,7 +272,13 @@ public class InCallTouchUi extends FrameLayout
             throw new IllegalStateException(
                 "'Incoming' and 'in-call' touch controls visible at the same time!");
         }
-        mIncomingCallWidget.setVisibility(showIncomingCallControls ? View.VISIBLE : View.GONE);
+
+        if (showIncomingCallControls) {
+            showIncomingCallWidget();
+        } else {
+            hideIncomingCallWidget();
+        }
+
         mInCallControls.setVisibility(showInCallControls ? View.VISIBLE : View.GONE);
 
         // TODO: As an optimization, also consider setting the visibility
@@ -466,12 +490,12 @@ public class InCallTouchUi extends FrameLayout
     }
 
     //
-    // RotarySelector.OnDialTriggerListener implementation
+    // SlidingTab.OnTriggerListener implementation
     //
 
     /**
      * Handles "Answer" and "Reject" actions for an incoming call.
-     * We get this callback from the RotarySelector
+     * We get this callback from the SlidingTab
      * when the user triggers an action.
      *
      * To answer or reject the incoming call, we call
@@ -481,15 +505,15 @@ public class InCallTouchUi extends FrameLayout
      * or
      *   - R.id.rejectButton to reject the call.
      */
-    public void onDialTrigger(View v, int whichHandle) {
+    public void onTrigger(View v, int whichHandle) {
         log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
-            case RotarySelector.OnDialTriggerListener.LEFT_HANDLE:
+            case SlidingTab.OnTriggerListener.LEFT_HANDLE:
                 if (DBG) log("LEFT_HANDLE: answer!");
 
-                // Immediately hide the incoming call UI.
-                mIncomingCallWidget.setVisibility(View.GONE);
+                hideIncomingCallWidget();
+
                 // ...and also prevent it from reappearing right away.
                 // (This covers up a slow response from the radio; see updateState().)
                 mLastIncomingCallActionTime = SystemClock.uptimeMillis();
@@ -503,11 +527,11 @@ public class InCallTouchUi extends FrameLayout
                 }
                 break;
 
-            case RotarySelector.OnDialTriggerListener.RIGHT_HANDLE:
+            case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
                 if (DBG) log("RIGHT_HANDLE: reject!");
 
-                // Immediately hide the incoming call UI.
-                mIncomingCallWidget.setVisibility(View.GONE);
+                hideIncomingCallWidget();
+
                 // ...and also prevent it from reappearing right away.
                 // (This covers up a slow response from the radio; see updateState().)
                 mLastIncomingCallActionTime = SystemClock.uptimeMillis();
@@ -528,11 +552,54 @@ public class InCallTouchUi extends FrameLayout
 
         // Regardless of what action the user did, be sure to clear out
         // the hint text we were displaying while the user was dragging.
-        mInCallScreen.updateRotarySelectorHint(0, 0);
+        mInCallScreen.updateSlidingTabHint(0, 0);
     }
 
     /**
-     * Handles state changes of the RotarySelector widget.  While the user
+     * Apply an animation to hide the incoming call widget.
+     */
+    private void hideIncomingCallWidget() {
+        if (mIncomingCallWidget.getVisibility() != View.VISIBLE
+                || mIncomingCallWidget.getAnimation() != null) {
+            // Widget is already hidden or in the process of being hidden
+            return;
+        }
+        // Hide the incoming call screen with a transition
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setDuration(IN_CALL_WIDGET_TRANSITION_TIME);
+        anim.setAnimationListener(new AnimationListener() {
+
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            public void onAnimationEnd(Animation animation) {
+                // hide the incoming call UI.
+                mIncomingCallWidget.clearAnimation();
+                mIncomingCallWidget.setVisibility(View.GONE);
+            }
+        });
+        mIncomingCallWidget.startAnimation(anim);
+    }
+
+    /**
+     * Shows the incoming call widget and cancels any animation that may be fading it out.
+     */
+    private void showIncomingCallWidget() {
+        Animation anim = mIncomingCallWidget.getAnimation();
+        if (anim != null) {
+            anim.reset();
+            mIncomingCallWidget.clearAnimation();
+        }
+        mIncomingCallWidget.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Handles state changes of the SlidingTabSelector widget.  While the user
      * is dragging one of the handles, we display an onscreen hint; see
      * CallCard.getRotateWidgetHint().
      */
@@ -544,21 +611,21 @@ public class InCallTouchUi extends FrameLayout
             // handle means "Answer" and the right handle means "Decline".)
             int hintTextResId, hintColorResId;
             switch (grabbedState) {
-                case RotarySelector.NOTHING_GRABBED:
+                case SlidingTab.OnTriggerListener.NO_HANDLE:
                     hintTextResId = 0;
                     hintColorResId = 0;
                     break;
-                case RotarySelector.LEFT_HANDLE_GRABBED:
-                    // TODO: Use different variants of "Rotate to answer" in some cases
-                    // depending on the phone state, like rotate_to_answer_and_hold
-                    // for a call waiting call, or rotate_to_answer_and_end_active or
-                    // rotate_to_answer_and_end_onhold for the 2-lines-in-use case.
+                case SlidingTab.OnTriggerListener.LEFT_HANDLE:
+                    // TODO: Use different variants of "Slide to answer" in some cases
+                    // depending on the phone state, like slide_to_answer_and_hold
+                    // for a call waiting call, or slide_to_answer_and_end_active or
+                    // slide_to_answer_and_end_onhold for the 2-lines-in-use case.
                     // (Note these are GSM-only cases, though.)
-                    hintTextResId = R.string.rotate_to_answer;
+                    hintTextResId = R.string.slide_to_answer;
                     hintColorResId = R.color.incall_textConnected;  // green
                     break;
-                case RotarySelector.RIGHT_HANDLE_GRABBED:
-                    hintTextResId = R.string.rotate_to_decline;
+                case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
+                    hintTextResId = R.string.slide_to_decline;
                     hintColorResId = R.color.incall_textEnded;  // red
                     break;
                 default:
@@ -570,7 +637,7 @@ public class InCallTouchUi extends FrameLayout
 
             // Tell the InCallScreen to update the CallCard and force the
             // screen to redraw.
-            mInCallScreen.updateRotarySelectorHint(hintTextResId, hintColorResId);
+            mInCallScreen.updateSlidingTabHint(hintTextResId, hintColorResId);
         }
     }
 

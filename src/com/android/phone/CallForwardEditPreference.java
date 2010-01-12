@@ -83,12 +83,13 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                     CommandsInterface.CF_ACTION_REGISTRATION :
                     CommandsInterface.CF_ACTION_DISABLE;
             int time = (reason != CommandsInterface.CF_REASON_NO_REPLY) ? 0 : 20;
-            String number = PhoneNumberUtils.stripSeparators(getPhoneNumber());
+            final String number = getPhoneNumber();
 
             if (DBG) Log.d(LOG_TAG, "callForwardInfo=" + callForwardInfo);
 
             if (action == CommandsInterface.CF_ACTION_REGISTRATION
                     && callForwardInfo != null
+                    && callForwardInfo.status == 1
                     && number.equals(callForwardInfo.number)) {
                 // no change, do nothing
                 if (DBG) Log.d(LOG_TAG, "no change, do nothing");
@@ -96,7 +97,11 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                 // set to network
                 if (DBG) Log.d(LOG_TAG, "reason=" + reason + ", action=" + action
                         + ", number=" + number);
+
+                // Display no forwarding number while we're waiting for
+                // confirmation
                 setSummaryOn("");
+
                 // the interface of Phone.setCallForwardingOption has error:
                 // should be action, reason...
                 phone.setCallForwardingOption(action,
@@ -116,18 +121,23 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
         callForwardInfo = cf;
         if (DBG) Log.d(LOG_TAG, "handleGetCFResponse done, callForwardInfo=" + callForwardInfo);
 
-        CharSequence summaryOn = "";
-        boolean active = (callForwardInfo.status == 1);
-        if (active) {
-            if (callForwardInfo.number != null) {
-                String values[] = {callForwardInfo.number};
+        setToggled(callForwardInfo.status == 1);
+        setPhoneNumber(callForwardInfo.number);
+    }
+
+    private void updateSummaryText() {
+        if (isToggled()) {
+            CharSequence summaryOn;
+            final String number = getRawPhoneNumber();
+            if (number != null && number.length() > 0) {
+                String values[] = { number };
                 summaryOn = TextUtils.replace(mSummaryOnTemplate, SRC_TAGS, values);
+            } else {
+                summaryOn = getContext().getString(R.string.sum_cfu_enabled_no_number);
             }
             setSummaryOn(summaryOn);
         }
 
-        setToggled(active);
-        setPhoneNumber(callForwardInfo.number);
     }
 
     private class MyHandler extends Handler {
@@ -182,6 +192,11 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
                     }
                 }
             }
+
+            // Now whether or not we got a new number, reset our enabled
+            // summary text since it may have been replaced by an empty
+            // placeholder.
+            updateSummaryText();
         }
 
         private void handleSetCFResponse(Message msg) {

@@ -167,19 +167,6 @@
         <item name="android:textSize">17sp</item>
     </style>
 
-    <!-- The double-tap "incoming call" buttons in the in-call onscreen touch UI. -->
-    <!-- TODO: this is just a placeholder for now.  Real layout+assets coming soon. -->
-    <style name="IncomingCallTouchButton">
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/incall_button</item>
-        <item name="android:layout_marginTop">8dip</item>
-        <item name="android:layout_marginBottom">8dip</item>
-        <item name="android:layout_marginLeft">8dip</item>
-        <item name="android:layout_marginRight">8dip</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
     <!-- Regular (non-toggle) buttons in the in-call onscreen touch UI. -->
     <style name="InCallTouchButton">
         <item name="android:gravity">center</item>
@@ -190,6 +177,8 @@
         <item name="android:layout_marginRight">8dip</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
     </style>
 
     <!-- Toggle buttons in the in-call onscreen touch UI. -->
@@ -202,6 +191,8 @@
         <item name="android:layout_marginRight">8dip</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
     </style>
 
     <!-- Small round ImageButtons at the upper corners of the in-call onscreen touch UI. -->

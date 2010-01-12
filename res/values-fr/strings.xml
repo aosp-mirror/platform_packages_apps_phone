@@ -109,7 +109,7 @@
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"MV :"</string>
     <string name="networks" msgid="8873030692174541976">"Opérateur de réseau"</string>
     <string name="call_settings" msgid="6112441768261754562">"Paramètres d\'appel"</string>
-    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Paramètres supplémentaires"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Autres paramètres"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Autres paramètres d\'appel \"GSM uniquement\""</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Autres paramètres d\'appel CDMA"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Autres paramètres d\'appel \"CDMA uniquement\""</string>
@@ -127,6 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"Toujours utiliser ce numéro"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Transfert de tous les appels"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Transfert de tous les appels à {0}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numéro indisponible"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Désactivé"</string>
     <string name="labelCFB" msgid="218938523102207587">"Transférer si ligne occupée"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numéro de renvoi lorsque la ligne est occupée"</string>
@@ -144,6 +145,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Erreur des paramètres d\'appel"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Lecture des paramètres..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Mise à jour des paramètres..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Rétablissement des paramètres…"</string>
     <string name="response_error" msgid="6674110501330139405">"Réponse inattendue du réseau"</string>
     <string name="exception_error" msgid="7027667130619518211">"Erreur de réseau ou de carte SIM."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Veuillez allumer le signal radio avant d\'afficher ces paramètres."</string>
@@ -158,8 +160,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Enregistrer le numéro de messagerie vocale"</string>
     <string name="vm_changed" msgid="380744030726254139">"Le numéro de messagerie vocale a été modifié."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Échec de la modification du numéro de messagerie vocale."</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"Échec de la modification du numéro de transfert."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"Échec de la modification du numéro de messagerie vocale."\n"Si le problème persiste, veuillez contacter votre opérateur."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Échec de la modification du numéro de transfert."\n"Si le problème persiste, veuillez contacter votre opérateur."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Échec de la récupération et de l\'enregistrement des paramètres actuels du numéro de transfert."\n"Voulez-vous tout de même changer d\'opérateur ?"</string>
     <string name="no_change" msgid="3186040086622435212">"Aucune modification n\'a été apportée."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Choisissez un service de messagerie vocale."</string>
@@ -495,6 +497,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Ajouter un appel"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Fusionner les appels"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Permuter"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gérer les appels"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gérer"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Tout importer"</string>
@@ -554,17 +557,19 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Oui"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Non"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorer"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres de la messagerie vocale"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non défini&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie vocale"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Paramètres pour <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="other_settings" msgid="3672912580359716394">"Paramètres d\'appel supplémentaires"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Autres paramètres d\'appel"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Composer"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Appel via ^1"\n<b>"^2"</b></string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"Tourner pour répondre"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"Tourner pour passer en mode silencieux"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"Tourner pour refuser l\'appel"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Tourner pour répondre et"\n"mettre l\'appel en cours en attente"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Tourner pour répondre et"\n"terminer l\'appel en cours"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Tourner pour répondre et"\n"terminer l\'appel en attente"</string>
+    <string name="slide_to_answer" msgid="255903188611244476">"Déplacer vers la droite pour répondre"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Déplacer vers la gauche pour passer en mode silencieux"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Déplacer vers la gauche pour refuser"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Déplacer vers la droite pour répondre et"\n"mettre l\'appel en cours en attente"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Déplacer vers la droite pour répondre et"\n"terminer l\'appel en cours"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Déplacer vers la droite pour répondre et"\n"terminer l\'appel en attente"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Répondre"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Refuser"</string>
 </resources>

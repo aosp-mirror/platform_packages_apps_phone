@@ -127,6 +127,8 @@
     <string name="messageCFU" msgid="3560082430662923687">"Utilizar sempre este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"A reencaminhar todas as chamadas"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"A reencaminhar todas as chamadas para \\\\{0\\\\}"</string>
+    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
+    <skip />
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Desactivado"</string>
     <string name="labelCFB" msgid="218938523102207587">"Reencaminhar quando ocupado"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Número no caso de estar ocupado"</string>
@@ -144,6 +146,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Erro nas definições de chamada"</string>
     <string name="reading_settings" msgid="1920291699287055284">"A ler as definições..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"A actualizar as definições..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"A reverter as definições…"</string>
     <string name="response_error" msgid="6674110501330139405">"Resposta inesperada da rede."</string>
     <string name="exception_error" msgid="7027667130619518211">"Erro do cartão SIM ou da rede."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Active o rádio antes de visualizar estas definições."</string>
@@ -158,8 +161,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Guardar o número do correio de voz"</string>
     <string name="vm_changed" msgid="380744030726254139">"O número do correio de voz foi alterado."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"A alteração do número do correio de voz falhou."</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"A alteração do número de encaminhamento falhou."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"A alteração do número de correio de voz falhou."\n"Contacte o seu operador se este problema persistir."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"A alteração do número de reencaminhamento falhou."\n"Contacte o seu operador se este problema persistir."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Falha ao obter e guardar as definições do número de encaminhamento actual."\n"Pretende mudar para o novo fornecedor mesmo assim?"</string>
     <string name="no_change" msgid="3186040086622435212">"Não foram efectuadas alterações."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Escolha o serviço de correio de voz"</string>
@@ -495,6 +498,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Adicionar chamada"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Intercalar chamadas"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Trocar"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gerir chamadas"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Gerir"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar todos"</string>
@@ -561,10 +565,12 @@
     <string name="other_settings" msgid="3672912580359716394">"Outras definições de chamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Marcar"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"A ligar através de ^1"\n<b>"^2"</b></string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"Rodar para responder"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"Rodar para silenciar toque"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"Rodar para recusar a chamada"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Rodar para responder e"\n"manter a chamada activa em espera"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Rodar para responder e"\n"terminar a chamada activa"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Rodar para responder e"\n"terminar a chamada em espera"</string>
+    <string name="slide_to_answer" msgid="255903188611244476">"Arraste para a direita para atender"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Arraste para a esquerda para silenciar a campainha"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Arraste para a esquerda para recusar"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Arraste para a direita para atender e"\n"colocar a chamada activa em espera"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Arraste para a direita para atender e"\n"terminar a chamada activa"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Arraste para a direita para atender e"\n"terminar a chamada em espera"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Atender"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Recusar"</string>
 </resources>

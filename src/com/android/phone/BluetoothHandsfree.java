@@ -90,6 +90,7 @@ public class BluetoothHandsfree {
     private boolean mPendingSco;  // waiting for a2dp sink to suspend before establishing SCO
     private boolean mA2dpSuspended;
     private boolean mUserWantsAudio;
+    private boolean mAttemptDelayedScoConnection;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
 
@@ -340,6 +341,7 @@ public class BluetoothHandsfree {
         private String mRingingNumber;  // Context for in-progress RING's
         private int    mRingingType;
         private boolean mIgnoreRing = false;
+        private boolean mStopRing = false;
 
         private static final int SERVICE_STATE_CHANGED = 1;
         private static final int PRECISE_CALL_STATE_CHANGED = 2;
@@ -354,6 +356,16 @@ public class BluetoothHandsfree {
                     AtCommandResult result = ring();
                     if (result != null) {
                         sendURC(result.toString());
+                    }
+                    // Ideally, we would like to set up the SCO channel
+                    // before sending the ring() so that we don't miss any
+                    // incall audio. However, some headsets don't play the
+                    // ringtone in such scenarios. So send the 2 ring()s first
+                    // and then setup SCO after a delay of 2 seconds.
+                    if (mAttemptDelayedScoConnection) {
+                        mAttemptDelayedScoConnection = false;
+                        Message scoMsg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
+                        mHandler.sendMessageDelayed(scoMsg, 2000);
                     }
                     break;
                 case SERVICE_STATE_CHANGED:
@@ -420,6 +432,10 @@ public class BluetoothHandsfree {
 
         private boolean sendClipUpdate() {
             return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip;
+        }
+
+        private void stopRing() {
+            mStopRing = true;
         }
 
         /* convert [0,31] ASU signal strength to the [0,5] expected by
@@ -536,9 +552,18 @@ public class BluetoothHandsfree {
                             BluetoothA2dp.STATE_DISCONNECTED);
                     BluetoothDevice device =
                             intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                    // We are only concerned about Connected sinks to suspend and resume
+                    // them. We can safely ignore SINK_STATE_CHANGE for other devices.
+                    if (mA2dpDevice != null && !device.equals(mA2dpDevice)) return;
+
                     synchronized (BluetoothHandsfree.this) {
                         mA2dpState = state;
-                        mA2dpDevice = device;
+                        if (state == BluetoothA2dp.STATE_DISCONNECTED) {
+                            mA2dpDevice = null;
+                        } else {
+                            mA2dpDevice = device;
+                        }
                         if (oldState == BluetoothA2dp.STATE_PLAYING &&
                             mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
                             if (mA2dpSuspended) {
@@ -663,7 +688,7 @@ public class BluetoothHandsfree {
                 break;
             case DIALING:
                 callsetup = 2;
-                mAudioPossible = false;
+                mAudioPossible = true;
                 // We also need to send a Call started indication
                 // for cases where the 2nd MO was initiated was
                 // from a *BT hands free* and is waiting for a
@@ -828,17 +853,10 @@ public class BluetoothHandsfree {
                     mRingingNumber = number;
                     mRingingType = type;
                     mIgnoreRing = false;
+                    mStopRing = false;
 
-                    // Ideally, we would like to set up the SCO channel
-                    // before sending the ring() so that we don't miss any
-                    // incall audio. However, some headsets don't play the
-                    // ringtone in such scenarios. So send the ring() first
-                    // and then setup SCO after a delay of 1 second.
+                    mAttemptDelayedScoConnection = true;
                     result.addResult(ring());
-
-                    Message msg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
-                    mHandler.sendMessageDelayed(msg, 1000);
-
                 }
             }
             sendURC(result.toString());
@@ -866,7 +884,7 @@ public class BluetoothHandsfree {
 
 
         private AtCommandResult ring() {
-            if (!mIgnoreRing && mRingingCall.isRinging()) {
+            if (!mIgnoreRing && !mStopRing && mRingingCall.isRinging()) {
                 AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
                 result.addResponse("RING");
                 if (sendClipUpdate()) {
@@ -1448,9 +1466,12 @@ public class BluetoothHandsfree {
             private AtCommandResult headsetButtonPress() {
                 if (mRingingCall.isRinging()) {
                     // Answer the call
+                    mBluetoothPhoneState.stopRing();
+                    sendURC("OK");
                     PhoneUtils.answerCall(mPhone);
                     // SCO might already be up, but just make sure
                     audioOn();
+                    return new AtCommandResult(AtCommandResult.UNSOLICITED);
                 } else if (mForegroundCall.getState().isAlive()) {
                     if (!isAudioOn()) {
                         // Transfer audio from AG to HS
@@ -1468,11 +1489,11 @@ public class BluetoothHandsfree {
                             PhoneUtils.hangup(mPhone);
                         }
                     }
+                    return new AtCommandResult(AtCommandResult.OK);
                 } else {
                     // No current call - redial last number
                     return redial();
                 }
-                return new AtCommandResult(AtCommandResult.OK);
             }
             @Override
             public AtCommandResult handleActionCommand() {
@@ -1496,8 +1517,10 @@ public class BluetoothHandsfree {
         parser.register('A', new AtCommandHandler() {
             @Override
             public AtCommandResult handleBasicCommand(String args) {
+                sendURC("OK");
+                mBluetoothPhoneState.stopRing();
                 PhoneUtils.answerCall(mPhone);
-                return new AtCommandResult(AtCommandResult.OK);
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
         parser.register('D', new AtCommandHandler() {

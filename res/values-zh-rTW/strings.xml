@@ -127,6 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"永遠使用此號碼"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"轉接所有來電"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"轉接所有來電到 {0}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"號碼無法使用"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"停用"</string>
     <string name="labelCFB" msgid="218938523102207587">"忙線時轉接"</string>
     <string name="messageCFB" msgid="3711089705936187129">"忙線時轉接號碼"</string>
@@ -144,6 +145,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"通話設定錯誤"</string>
     <string name="reading_settings" msgid="1920291699287055284">"讀取設定中..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"更新設定中..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"正在還原設定..."</string>
     <string name="response_error" msgid="6674110501330139405">"網路傳回非預期回應。"</string>
     <string name="exception_error" msgid="7027667130619518211">"網路或 SIM 卡錯誤。"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"檢視設定前，請先開啟無線通訊。"</string>
@@ -158,8 +160,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"儲存語音信箱號碼"</string>
     <string name="vm_changed" msgid="380744030726254139">"語音信箱號碼已變更。"</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"語音信箱號碼變更失敗。"</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"轉接號碼變更失敗。"</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"語音信箱號碼變更失敗。"\n"如果問題持續發生，請與您的行動通訊業者聯絡。"</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"轉接號碼變更失敗。"\n"如果問題持續發生，請與您的行動通訊業者聯絡。"</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"無法擷取與儲存目前的轉接號碼設定。"\n"您仍要轉換至新的供應商嗎？"</string>
     <string name="no_change" msgid="3186040086622435212">"未變更設定。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"選擇語音信箱服務"</string>
@@ -495,6 +497,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"新增通話"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"合併通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切換"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"管理通話"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"管理"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"匯入"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"全部匯入"</string>
@@ -557,14 +560,16 @@
     <string name="voicemail_settings" msgid="2288633492587133022">"語音信箱設定"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;未設定&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"語音信箱服務"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 的設定"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>的設定"</string>
     <string name="other_settings" msgid="3672912580359716394">"其他通話設定"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"撥號"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"正在透過 ^1 去電"\n<b>"^2"</b></string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"轉動撥號盤以接聽來電"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"轉動撥號盤以關閉鈴聲"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"轉動撥號盤以拒絕通話"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"轉動撥號盤以接聽來電並保留"\n"目前的通話"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"轉動撥號盤以接聽來電並結束"\n"目前的通話"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"轉動撥號盤以接聽來電並結束"\n"目前的通話"</string>
+    <string name="slide_to_answer" msgid="255903188611244476">"向右拖曳以接聽來電"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"向左拖曳以關閉鈴聲"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"向左拖曳以拒絕通話"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"向右拖曳以接聽來電並保留"\n"目前的通話"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"向右拖曳以接聽來電並結束"\n"目前的通話"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"向右拖曳以接聽來電並結束"\n"目前保留的通話"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"接聽"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"拒絕"</string>
 </resources>

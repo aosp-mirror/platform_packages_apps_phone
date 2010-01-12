@@ -184,8 +184,6 @@ public class PhoneApp extends Application {
     private PowerManager.WakeLock mPartialWakeLock;
     private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
-    private KeyguardManager.KeyguardLock mKeyguardLock;
-    private int mKeyguardDisableCount;
     private StatusBarManager mStatusBarManager;
     private int mStatusBarDisableCount;
 
@@ -396,7 +394,6 @@ public class PhoneApp extends Application {
             if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
 
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            mKeyguardLock = mKeyguardManager.newKeyguardLock(LOG_TAG);
             mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
             // get a handle to the service so that we can use it later when we
@@ -724,45 +721,6 @@ public class PhoneApp extends Application {
     }
 
     /**
-     * Disables the keyguard.  This is used by the phone app to allow
-     * interaction with the Phone UI when the keyguard would otherwise be
-     * active (like receiving an incoming call while the device is
-     * locked.)
-     *
-     * Any call to this method MUST be followed (eventually)
-     * by a corresponding reenableKeyguard() call.
-     */
-    /* package */ void disableKeyguard() {
-        if (DBG) Log.d(LOG_TAG, "disable keyguard");
-        // if (DBG) Log.d(LOG_TAG, "disableKeyguard()...", new Throwable("stack dump"));
-        synchronized (mKeyguardLock) {
-            if (mKeyguardDisableCount++ == 0) {
-                mKeyguardLock.disableKeyguard();
-            }
-        }
-    }
-
-    /**
-     * Re-enables the keyguard after a previous disableKeyguard() call.
-     *
-     * Any call to this method MUST correspond to (i.e. be balanced with)
-     * a previous disableKeyguard() call.
-     */
-    /* package */ void reenableKeyguard() {
-        if (DBG) Log.d(LOG_TAG, "re-enable keyguard");
-        // if (DBG) Log.d(LOG_TAG, "reenableKeyguard()...", new Throwable("stack dump"));
-        synchronized (mKeyguardLock) {
-            if (mKeyguardDisableCount > 0) {
-                if (--mKeyguardDisableCount == 0) {
-                    mKeyguardLock.reenableKeyguard();
-                }
-            } else {
-                Log.e(LOG_TAG, "mKeyguardDisableCount is already zero");
-            }
-        }
-    }
-
-    /**
      * Disables the status bar.  This is used by the phone app when in-call UI is active.
      *
      * Any call to this method MUST be followed (eventually)
@@ -895,36 +853,38 @@ public class PhoneApp extends Application {
      */
     /* package */ void requestWakeState(WakeState ws) {
         if (VDBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
-        if (mWakeState != ws) {
-            switch (ws) {
-                case PARTIAL:
-                    // acquire the processor wake lock, and release the FULL
-                    // lock if it is being held.
-                    mPartialWakeLock.acquire();
-                    if (mWakeLock.isHeld()) {
-                        mWakeLock.release();
-                    }
-                    break;
-                case FULL:
-                    // acquire the full wake lock, and release the PARTIAL
-                    // lock if it is being held.
-                    mWakeLock.acquire();
-                    if (mPartialWakeLock.isHeld()) {
-                        mPartialWakeLock.release();
-                    }
-                    break;
-                case SLEEP:
-                default:
-                    // release both the PARTIAL and FULL locks.
-                    if (mWakeLock.isHeld()) {
-                        mWakeLock.release();
-                    }
-                    if (mPartialWakeLock.isHeld()) {
-                        mPartialWakeLock.release();
-                    }
-                    break;
+        synchronized (this) {
+            if (mWakeState != ws) {
+                switch (ws) {
+                    case PARTIAL:
+                        // acquire the processor wake lock, and release the FULL
+                        // lock if it is being held.
+                        mPartialWakeLock.acquire();
+                        if (mWakeLock.isHeld()) {
+                            mWakeLock.release();
+                        }
+                        break;
+                    case FULL:
+                        // acquire the full wake lock, and release the PARTIAL
+                        // lock if it is being held.
+                        mWakeLock.acquire();
+                        if (mPartialWakeLock.isHeld()) {
+                            mPartialWakeLock.release();
+                        }
+                        break;
+                    case SLEEP:
+                    default:
+                        // release both the PARTIAL and FULL locks.
+                        if (mWakeLock.isHeld()) {
+                            mWakeLock.release();
+                        }
+                        if (mPartialWakeLock.isHeld()) {
+                            mPartialWakeLock.release();
+                        }
+                        break;
+                }
+                mWakeState = ws;
             }
-            mWakeState = ws;
         }
     }
 
@@ -933,12 +893,14 @@ public class PhoneApp extends Application {
      * manager to wake up the screen for the user activity timeout duration.
      */
     /* package */ void wakeUpScreen() {
-        if (mWakeState == WakeState.SLEEP) {
-            if (DBG) Log.d(LOG_TAG, "pulse screen lock");
-            try {
-                mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
-            } catch (RemoteException ex) {
-                // Ignore -- the system process is dead.
+        synchronized (this) {
+            if (mWakeState == WakeState.SLEEP) {
+                if (DBG) Log.d(LOG_TAG, "pulse screen lock");
+                try {
+                    mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
+                } catch (RemoteException ex) {
+                    // Ignore -- the system process is dead.
+                }
             }
         }
     }
@@ -1136,18 +1098,19 @@ public class PhoneApp extends Application {
 
         if (proximitySensorModeEnabled()) {
             synchronized (mProximityWakeLock) {
-                if (((state == Phone.State.OFFHOOK) || mBeginningCall)
-                        && !(isHeadsetPlugged()
-                        || PhoneUtils.isSpeakerOn(this)
-                        || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                        || mIsHardKeyboardOpen)) {
+                // turn proximity sensor off and turn screen on immediately if
+                // we are using a headset or the keyboard is open.
+                boolean screenOnImmediately = (isHeadsetPlugged()
+                            || PhoneUtils.isSpeakerOn(this)
+                            || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                            || mIsHardKeyboardOpen);
+
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall)&& !screenOnImmediately) {
                     // Phone is in use!  Arrange for the screen to turn off
                     // automatically when the sensor detects a close object.
                     if (!mProximityWakeLock.isHeld()) {
                         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
                         mProximityWakeLock.acquire();
-                        // disable keyguard while we are using the proximity sensor
-                        disableKeyguard();
                     } else {
                         if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
                     }
@@ -1156,8 +1119,12 @@ public class PhoneApp extends Application {
                     // special proximity sensor behavior in either case.
                     if (mProximityWakeLock.isHeld()) {
                         if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
-                        mProximityWakeLock.release();
-                        reenableKeyguard();
+                        // Wait until user has moved the phone away from his head if we are
+                        // releasing due to the phone call ending.
+                        // Qtherwise, turn screen on immediately
+                        int flags =
+                            (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
+                        mProximityWakeLock.release(flags);
                     } else {
                         if (VDBG) {
                             Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
@@ -1178,7 +1145,19 @@ public class PhoneApp extends Application {
             updateProximitySensorMode(state);
             // clear our beginning call flag
             mBeginningCall = false;
+            // While we are in call, the in-call screen should dismiss the keyguard.
+            // This allows the user to press Home to go directly home without going through
+            // an insecure lock screen.
+            // But we do not want to do this if there is no active call so we do not
+            // bypass the keyguard if the call is not answered or declined.
+            if (mInCallScreen != null) {
+                mInCallScreen.updateKeyguardPolicy(state == Phone.State.OFFHOOK);
+            }
         }
+    }
+
+    /* package */ Phone.State getPhoneState() {
+        return mLastPhoneState;
     }
 
     /**

@@ -127,6 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"常にこの番号を使用"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"電話をすべて転送する"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"電話をすべて{0}に転送する"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"番号が利用できません"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"無効"</string>
     <string name="labelCFB" msgid="218938523102207587">"通話中の着信時に転送"</string>
     <string name="messageCFB" msgid="3711089705936187129">"通話中着信の転送番号"</string>
@@ -144,6 +145,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"通話設定エラー"</string>
     <string name="reading_settings" msgid="1920291699287055284">"設定を読み取り中..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"設定を更新中..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"設定を元に戻しています..."</string>
     <string name="response_error" msgid="6674110501330139405">"ネットワークから予期しない応答が返されました。"</string>
     <string name="exception_error" msgid="7027667130619518211">"ネットワークまたはSIMカードのエラーです。"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"無線通信をオンにしてから設定を表示してください。"</string>
@@ -158,8 +160,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"ボイスメールの番号の保存"</string>
     <string name="vm_changed" msgid="380744030726254139">"ボイスメールの番号が変更されました。"</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"ボイスメールの番号を変更できませんでした。"</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"転送先番号を変更できませんでした。"</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"ボイスメールの番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"転送先番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"現在の転送先番号設定の取得と保存ができませんでした。"\n"別の通信事業者に切り替えますか？"</string>
     <string name="no_change" msgid="3186040086622435212">"変更されていません。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"ボイスメールサービスを選択"</string>
@@ -495,6 +497,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"通話を追加"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"グループ通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切り替え"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"通話の管理"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"管理"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"インポート"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"すべてインポート"</string>
@@ -561,10 +564,12 @@
     <string name="other_settings" msgid="3672912580359716394">"その他の通話設定"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"発信"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"^1で発信中:"\n<b>"^2"</b></string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"ダイヤルを回して応答"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"ダイヤルを回して着信音を消音"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"ダイヤルを回して応答を拒否"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"ダイヤルを回して応答し"\n"現在の通話を保留"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"ダイヤルを回して応答し"\n"現在の通話を終了"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"ダイヤルを回して応答し"\n"保留中の通話を終了"</string>
+    <string name="slide_to_answer" msgid="255903188611244476">"右にドラッグして応答"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"左にドラッグして着信音を消音"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"左にドラッグして応答を拒否"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"右にドラッグして応答し"\n"現在の通話を保留"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"右にドラッグして応答し"\n"現在の通話を終了"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"右にドラッグして応答し"\n"保留中の通話を終了"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"電話に出る"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"拒否"</string>
 </resources>

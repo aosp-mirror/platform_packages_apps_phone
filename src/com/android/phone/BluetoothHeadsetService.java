@@ -165,8 +165,8 @@ public class BluetoothHeadsetService extends Service {
             switch (mState) {
             case BluetoothHeadset.STATE_DISCONNECTED:
                 // headset connecting us, lets join
-                setState(BluetoothHeadset.STATE_CONNECTING);
                 mRemoteDevice = info.mRemoteDevice;
+                setState(BluetoothHeadset.STATE_CONNECTING);
                 headset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice, info.mSocketFd,
                         info.mRfcommChan, mConnectedStatusHandler);
                 mHeadsetType = type;
@@ -302,7 +302,7 @@ public class BluetoothHeadsetService extends Service {
                                                    BluetoothDevice.ERROR);
                 switch(bondState) {
                 case BluetoothDevice.BOND_BONDED:
-                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_AUTO);
+                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_ON);
                     break;
                 case BluetoothDevice.BOND_NONE:
                     mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_OFF);
@@ -358,7 +358,6 @@ public class BluetoothHeadsetService extends Service {
         private int channel;
         private int type;
 
-        private static final int ECONNREFUSED = -111; // Socket error code - Connection refused
         private static final int EINTERRUPT = -1000;
 
         public RfcommConnectThread(BluetoothDevice device, int channel, int type) {
@@ -391,7 +390,7 @@ public class BluetoothHeadsetService extends Service {
 
             int result = waitForConnect(headset);
 
-            if (result == ECONNREFUSED) {
+            if (result != EINTERRUPT && result != 1) {
                 Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
                 try {
                     sleep(1000);  // 1 second
@@ -489,6 +488,9 @@ public class BluetoothHeadsetService extends Service {
                 if (mAutoConnectQueue != null) {
                     doNextAutoConnect();
                 }
+            } else if (mState == BluetoothHeadset.STATE_CONNECTING) {
+                // Set the priority to AUTO_CONNECT
+                mHeadsetPriority.set(mRemoteDevice, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
             } else if (mState == BluetoothHeadset.STATE_CONNECTED) {
                 mAutoConnectQueue = null;  // cancel further auto-connection
                 mHeadsetPriority.bump(mRemoteDevice);
@@ -724,7 +726,7 @@ public class BluetoothHeadsetService extends Service {
         /** Mark this headset as highest priority */
         public synchronized void bump(BluetoothDevice device) {
             int oldPriority = get(device);
-            int maxPriority = BluetoothHeadset.PRIORITY_OFF;
+            int maxPriority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
 
             // Find max, not including given address
             for (BluetoothDevice d : mPriority.keySet()) {
@@ -744,13 +746,13 @@ public class BluetoothHeadsetService extends Service {
         }
 
         /** shifts all non-zero priorities to be monotonically increasing from
-         * PRIORITY_AUTO */
+         * PRIORITY_AUTO_CONNECT */
         private synchronized void rebalance() {
             LinkedList<BluetoothDevice> sorted = getSorted();
             if (DBG) log("Rebalancing " + sorted.size() + " headset priorities");
 
             ListIterator<BluetoothDevice> li = sorted.listIterator(sorted.size());
-            int priority = BluetoothHeadset.PRIORITY_AUTO;
+            int priority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
             while (li.hasPrevious()) {
                 BluetoothDevice device = li.previous();
                 set(device, priority);
@@ -759,7 +761,7 @@ public class BluetoothHeadsetService extends Service {
         }
 
         /** Get list of headsets sorted by decreasing priority.
-         * Headsets with priority equal to PRIORITY_OFF are not included */
+         * Headsets with priority less than AUTO_CONNECT are not included */
         public synchronized LinkedList<BluetoothDevice> getSorted() {
             LinkedList<BluetoothDevice> sorted = new LinkedList<BluetoothDevice>();
             HashMap<BluetoothDevice, Integer> toSort =
@@ -768,10 +770,10 @@ public class BluetoothHeadsetService extends Service {
             // add in sorted order. this could be more efficient.
             while (true) {
                 BluetoothDevice maxDevice = null;
-                int maxPriority = BluetoothHeadset.PRIORITY_OFF;
+                int maxPriority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
                 for (BluetoothDevice device : toSort.keySet()) {
                     int priority = toSort.get(device).intValue();
-                    if (priority > maxPriority) {
+                    if (priority >= maxPriority) {
                         maxDevice = device;
                         maxPriority = priority;
                     }

@@ -51,7 +51,7 @@
     <string name="confCall" msgid="1904840547188336828">"Konferans görüşmesi"</string>
     <string name="call_lost" msgid="317670617901479594">"Çağrı istemeden sonlandırıldı."</string>
     <string name="retry" msgid="8462986804300767852">"Tekrar Dene"</string>
-    <string name="call_lost_title" msgid="6696949678847938515">"Arama İstemeden Sonlandırıldı"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"Çağrı İstemeden Sonlandırıldı"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI kodu başlatıldı"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD kodu çalışıyor…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI kodu iptal edildi"</string>
@@ -101,8 +101,8 @@
     <string name="unlock_success" msgid="6770085622238180152">"Ağ kilidi açılamadı."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"GSM arama ayarları"</string>
-    <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA arama ayarları"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"GSM çağrı ayarları"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA çağrı ayarları"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Erişim Noktası Adları"</string>
     <string name="settings_label" msgid="3876743539816984008">"Ağ ayarları"</string>
     <string name="voicemail" msgid="8693759337917898954">"Sesli mesaj"</string>
@@ -110,9 +110,9 @@
     <string name="networks" msgid="8873030692174541976">"Ağ operatörleri"</string>
     <string name="call_settings" msgid="6112441768261754562">"Çağrı ayarları"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Ek ayarlar"</string>
-    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Ek yalnızca GSM çağrı ayarları"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Yalnızca GSM çağrısı ek ayarları"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Ek CDMA çağrı ayarları"</string>
-    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Ek yalnızca CDMA çağrısı ayarları"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Yalnızca CDMA çağrısı ek ayarları"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Ağ hizmeti ayarları"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Arayan Kimliği"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Giden çağrılarda numara gizli"</string>
@@ -127,6 +127,7 @@
     <string name="messageCFU" msgid="3560082430662923687">"Daima bu numarayı kullan"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Tüm çağrılar yönlendiriliyor"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Tüm çağrılar şuraya yönlendiriliyor: \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numara kullanılamıyor"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Devre dışı"</string>
     <string name="labelCFB" msgid="218938523102207587">"Meşgul olduğunda yönlendir"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Meşgulken kullanılacak numara"</string>
@@ -144,6 +145,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Çağrı ayarları hatası"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Ayarlar okunuyor..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Ayarlar güncelleniyor..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Ayarlar geri alınıyor..."</string>
     <string name="response_error" msgid="6674110501330139405">"Ağdan beklenmeyen yanıt."</string>
     <string name="exception_error" msgid="7027667130619518211">"Ağ veya SIM kart hatası."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Bu ayarları görüntülemeden önce lütfen radyoyu açın."</string>
@@ -158,8 +160,8 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Sesli mesaj numarasını kaydet"</string>
     <string name="vm_changed" msgid="380744030726254139">"Sesli mesaj numarası değiştirildi."</string>
-    <string name="vm_change_failed" msgid="8484504256705014152">"Sesli mesaj numarası değiştirilemedi."</string>
-    <string name="fw_change_failed" msgid="3124377684971600400">"Yönlendirme numarası değişikliği başarısız oldu."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"Sesli mesaj numarası değiştirilemedi."\n"Sorun devam ederse lütfen operatörünüze başvurun."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Yönlendirme numarası değiştirilemedi."\n"Bu sorun devam ederse lütfen operatörünüze başvurun."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Geçerli yönlendirme numarası ayarları alınamadı ve kaydedilemedi."\n"Yine de yeni sağlayıcıya geçiş yapmak istiyor musunuz?"</string>
     <string name="no_change" msgid="3186040086622435212">"Hiçbir değişiklik yapılmadı."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Sesli mesaj hizmetini seç"</string>
@@ -462,7 +464,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Seçili ağ (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) kullanılamıyor"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Bir çağrı yapmak için öncelikle Uçak modunu kapatın."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ağda kayıtlı değil."</string>
-    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Çağrı gönderilmedi, geçerli numara girilmedi."</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Çağrı gönderilmedi. Geçerli numara girilmedi."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Çağrı gönderilmedi."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"MMI dizisi başlatılıyor..."</string>
     <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Özellik kodu dizisi başlatılıyor..."</string>
@@ -476,8 +478,8 @@
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Acil durum çağrısı"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Radyo açılıyor..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Hizmet alanı dışında, tekrar deneniyor..."</string>
-    <string name="dial_emergency_error" msgid="8362624131726575194">"Çağrı gönderilmedi, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> bir acil durum numarası değil!"</string>
-    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Çağrı gönderilmedi, lütfen bir acil durum numarası çevirin!"</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"Çağrı gönderilmedi. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> bir acil durum numarası değil!"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Çağrı gönderilmedi. Lütfen bir acil durum numarası çevirin!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Çevirmek için klavyeyi kullan"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Telefon tuş takımı"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Tuş takımı"</string>
@@ -495,6 +497,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Çağrı ekle"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Çağrıları birleştir"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Değiştir"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Aramaları yönet"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Yönet"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"İçe aktar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Tümünü içe aktar"</string>
@@ -517,7 +520,7 @@
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Ağ İletisi"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Telefonunuzu aktive edin"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Telefon hizmetinizin aktive edilmesi için özel bir arama yapılması gerekiyor. "\n\n"“Aktive Et”e bastıktan sonra, telefonunuzun aktive edilmesi için sağlanan talimatları dinleyin."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Telefon hizmetinizin aktive edilmesi için özel bir çağrı yapılması gerekiyor. "\n\n"“Aktive Et”e bastıktan sonra, telefonunuzun aktive edilmesi için sağlanan talimatları dinleyin."</string>
     <string name="ota_activate" msgid="1368528132525626264">"Etkinleştir"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefon aktive edildi!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Aktivasyon sorunu"</string>
@@ -558,13 +561,15 @@
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;ayarlanmadı&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Sesli mesaj hizmeti"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> için ayarlar"</string>
-    <string name="other_settings" msgid="3672912580359716394">"Diğer arama ayarları"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Diğer çağrı ayarları"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Çevir"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"^1"\n<b>"^2"</b>" aracılığıyla aranıyor"</string>
-    <string name="rotate_to_answer" msgid="250167639217498442">"Yanıtlamak için döndürün"</string>
-    <string name="rotate_to_silence" msgid="7975072229114030369">"Zil programını sessiz moda almak için döndürün"</string>
-    <string name="rotate_to_decline" msgid="4027883214757161197">"Çağrıyı reddetmek için döndürün"</string>
-    <string name="rotate_to_answer_and_hold" msgid="7257444600554427946">"Yanıtlamak ve"\n"etkin çağrıyı beklemeye almak için döndürün"</string>
-    <string name="rotate_to_answer_and_end_active" msgid="4024248025970399906">"Yanıtlamak ve"\n"etkin çağrıyı sonlandırmak için döndürün"</string>
-    <string name="rotate_to_answer_and_end_onhold" msgid="3046912205240632885">"Yanıtlamak ve"\n"beklemedeki çağrıyı sonlandırmak için döndürün"</string>
+    <string name="slide_to_answer" msgid="255903188611244476">"Yanıtlamak için sağa sürükleyin"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Zil programını susturmak için sola sürükleyin"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Reddetmek için sola sürükleyin"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Yanıtlamak ve"\n"etkin çağrıyı beklemeye almak için sağa sürükleyin"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Yanıtlamak ve"\n"etkin çağrıyı sonlandırmak için sağa sürükleyin"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Yanıtlamak ve"\n"beklemedeki çağrıyı sonlandırmak için sağa sürükleyin"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Yanıtla"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Reddet"</string>
 </resources>
