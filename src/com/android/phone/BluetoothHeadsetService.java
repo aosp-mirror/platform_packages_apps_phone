@@ -532,11 +532,29 @@ public class BluetoothHeadsetService extends Service {
             return false;
         }
         mRemoteDevice = mAutoConnectQueue.removeFirst();
+        // Don't auto connect with docks if we are docked with the dock.
+        if (isPhoneDocked(mRemoteDevice)) return doNextAutoConnect();
+
         if (DBG) log("pulled " + mRemoteDevice + " off auto-connect queue");
         setState(BluetoothHeadset.STATE_CONNECTING);
         getSdpRecordsAndConnect();
 
         return true;
+    }
+
+    private boolean isPhoneDocked(BluetoothDevice autoConnectDevice) {
+        // This works only because these broadcast intents are "sticky"
+        Intent i = registerReceiver(null, new IntentFilter(Intent.ACTION_DOCK_EVENT));
+        if (i != null) {
+            int state = i.getIntExtra(Intent.EXTRA_DOCK_STATE, Intent.EXTRA_DOCK_STATE_UNDOCKED);
+            if (state != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
+                BluetoothDevice device = i.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (device != null && autoConnectDevice.equals(device)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
