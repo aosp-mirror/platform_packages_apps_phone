@@ -126,6 +126,7 @@ public class CallNotifier extends Handler
     private Phone mPhone;
     private Ringer mRinger;
     private BluetoothHandsfree mBluetoothHandsfree;
+    private CallLogAsync mCallLog;
     private boolean mSilentRingerRequested;
 
     // ToneGenerator instance for playing SignalInfo tones
@@ -153,10 +154,10 @@ public class CallNotifier extends Handler
     private AudioManager mAudioManager;
 
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
-                        BluetoothHandsfree btMgr) {
+                        BluetoothHandsfree btMgr, CallLogAsync callLog) {
         mApplication = app;
-
         mPhone = phone;
+        mCallLog = callLog;
 
         mAudioManager = (AudioManager) mPhone.getContext().getSystemService(Context.AUDIO_SERVICE);
 
@@ -944,10 +945,9 @@ public class CallNotifier extends Handler
             final int callLogType;
             if (c.isIncoming()) {
                 callLogType = (cause == Connection.DisconnectCause.INCOMING_MISSED ?
-                               CallLog.Calls.MISSED_TYPE :
-                               CallLog.Calls.INCOMING_TYPE);
+                               Calls.MISSED_TYPE : Calls.INCOMING_TYPE);
             } else {
-                callLogType = CallLog.Calls.OUTGOING_TYPE;
+                callLogType = Calls.OUTGOING_TYPE;
             }
             if (VDBG) log("- callLogType: " + callLogType + ", UserData: " + c.getUserData());
 
@@ -989,20 +989,16 @@ public class CallNotifier extends Handler
 
                 // Don't put OTA or CDMA Emergency calls into call log
                 if (!(isOtaNumber || isEmergencyNumber && shouldNotlogEmergencyNumber)) {
-                    // Watch out: Calls.addCall() hits the Contacts database,
-                    // so we shouldn't call it from the main thread.
-                    Thread t = new Thread() {
-                            public void run() {
-                                Calls.addCall(ci, mApplication, logNumber, presentation,
-                                              callLogType, date, (int) duration / 1000);
-                                // if (DBG) log("onDisconnect helper thread: Calls.addCall() done.");
-                            }
-                        };
-                    t.start();
+                    CallLogAsync.AddCallArgs args =
+                            new CallLogAsync.AddCallArgs(
+                                mPhone.getContext(), ci, logNumber, presentation,
+                                callLogType, date, duration);
+
+                    mCallLog.addCall(args);
                 }
             }
 
-            if (callLogType == CallLog.Calls.MISSED_TYPE) {
+            if (callLogType == Calls.MISSED_TYPE) {
                 // Show the "Missed call" notification.
                 // (Note we *don't* do this if this was an incoming call that
                 // the user deliberately rejected.)
@@ -1570,7 +1566,7 @@ public class CallNotifier extends Handler
                 final long date = c.getCreateTime();
                 final long duration = c.getDurationMillis();
                 final int callLogType = mCallWaitingTimeOut ?
-                        CallLog.Calls.MISSED_TYPE  : CallLog.Calls.INCOMING_TYPE;
+                        Calls.MISSED_TYPE : Calls.INCOMING_TYPE;
 
                 // get the callerinfo object and then log the call with it.
                 Object o = c.getUserData();
@@ -1589,18 +1585,14 @@ public class CallNotifier extends Handler
                 if (DBG) log("- onCdmaCallWaitingReject(): logNumber set to: " + logNumber
                         + ", newPresentation value is: " + newPresentation);
 
-                // Watch out: Calls.addCall() hits the Contacts database,
-                // so we shouldn't call it from the main thread.
-                Thread t = new Thread() {
-                    public void run() {
-                        Calls.addCall(ci, mApplication, logNumber, newPresentation,
-                                callLogType, date, (int) duration / 1000);
-                        if (DBG) log("onCdmaCallWaitingReject helper thread: Calls.addCall() done.");
-                    }
-                };
-                t.start();
+                CallLogAsync.AddCallArgs args =
+                        new CallLogAsync.AddCallArgs(
+                            mPhone.getContext(), ci, logNumber, presentation,
+                            callLogType, date, duration);
 
-                if (callLogType == CallLog.Calls.MISSED_TYPE) {
+                mCallLog.addCall(args);
+
+                if (callLogType == Calls.MISSED_TYPE) {
                     // Add missed call notification
                     showMissedCallNotification(c, date);
                 } else {

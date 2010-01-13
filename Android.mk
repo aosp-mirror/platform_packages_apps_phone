@@ -9,6 +9,7 @@ LOCAL_MODULE_TAGS := user
 
 LOCAL_SRC_FILES := \
 	src/com/android/phone/ButtonGridLayout.java \
+	src/com/android/phone/CallLogAsync.java \
 	src/com/android/phone/HapticFeedback.java
 
 LOCAL_MODULE := com.android.phone.common
