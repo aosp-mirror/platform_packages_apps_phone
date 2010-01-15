@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -1431,6 +1432,35 @@ public class CallCard extends FrameLayout
             default:
                 Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
                 break;
+        }
+    }
+
+    // Accessibility event support.
+    // Since none of the CallCard elements are focusable, we need to manually
+    // fill in the AccessibilityEvent here (so that the name / number / etc will
+    // get pronounced by a screen reader, for example.)
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        dispatchPopulateAccessibilityEvent(event, mUpperTitle);
+        dispatchPopulateAccessibilityEvent(event, mPhoto);
+        dispatchPopulateAccessibilityEvent(event, mManageConferencePhotoButton);
+        dispatchPopulateAccessibilityEvent(event, mName);
+        dispatchPopulateAccessibilityEvent(event, mPhoneNumber);
+        dispatchPopulateAccessibilityEvent(event, mLabel);
+        dispatchPopulateAccessibilityEvent(event, mSocialStatus);
+        dispatchPopulateAccessibilityEvent(event, mSecondaryCallName);
+        dispatchPopulateAccessibilityEvent(event, mSecondaryCallStatus);
+        dispatchPopulateAccessibilityEvent(event, mSecondaryCallPhoto);
+        return true;
+    }
+
+    private void dispatchPopulateAccessibilityEvent(AccessibilityEvent event, View view) {
+        List<CharSequence> eventText = event.getText();
+        int size = eventText.size();
+        view.dispatchPopulateAccessibilityEvent(event);
+        // if no text added write null to keep relative position
+        if (size == eventText.size()) {
+            eventText.add(null);
         }
     }
 
