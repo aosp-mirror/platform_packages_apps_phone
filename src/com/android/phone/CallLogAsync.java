@@ -32,24 +32,31 @@ import com.android.internal.telephony.CallerInfo;
  * ==============
  *
  *  // From an activity...
+ *  String mLastNumber = "";
+ *
  *  CallLogAsync log = new CallLogAsync();
  *
- *  CallLogAsync.AddCallArgs args = new CallLogAsync.AddCallArgs(
+ *  CallLogAsync.AddCallArgs addCallArgs = new CallLogAsync.AddCallArgs(
  *      this, ci, number, presentation, type, timestamp, duration);
  *
- *  // Does not block.
- *  log.addCall(args);
+ *  log.addCall(addCallArgs);
+ *
+ *  CallLogAsync.GetLastOutgoingCallArgs lastCallArgs = new CallLogAsync.GetLastOutgoingCallArgs(
+ *      this, new CallLogAsync.OnLastOutgoingCallComplete() {
+ *               public void lastOutgoingCall(String number) { mLastNumber = number; }
+ *            });
+ *  log.getLastOutgoingCall(lastCallArgs);
  * </pre>
  *
  */
 
-/* package */ class CallLogAsync {
+public class CallLogAsync {
     private static final String TAG = "CallLogAsync";
 
     /**
      * Parameter object to hold the args to add a call in the call log DB.
      */
-    /* package */ static class AddCallArgs {
+    public static class AddCallArgs {
         /**
          * @param ci               CallerInfo.
          * @param number           To be logged.
@@ -59,13 +66,13 @@ import com.android.internal.telephony.CallerInfo;
          * @param timestamp        Of the call (millisecond since epoch).
          * @param durationInMillis Of the call (millisecond).
          */
-        AddCallArgs(Context context,
-                    CallerInfo ci,
-                    String number,
-                    int presentation,
-                    int callType,
-                    long timestamp,
-                    long durationInMillis) {
+        public AddCallArgs(Context context,
+                           CallerInfo ci,
+                           String number,
+                           int presentation,
+                           int callType,
+                           long timestamp,
+                           long durationInMillis) {
             // Note that the context is passed each time. We could
             // have stored it in a member but we've run into a bunch
             // of memory leaks in the past that resulted from storing
@@ -103,10 +110,35 @@ import com.android.internal.telephony.CallerInfo;
     }
 
     /**
+     * Parameter object to hold the args to get the last outgoing call from the call log DB.
+     */
+    public static class GetLastOutgoingCallArgs {
+        public GetLastOutgoingCallArgs(Context context, OnLastOutgoingCallComplete callback) {
+            this.context = context;
+            this.callback = callback;
+        }
+        public final Context context;
+        public final OnLastOutgoingCallComplete callback;
+    }
+
+    /**
      * Non blocking version of CallLog.addCall(...)
      */
-    /* package */ void addCall(AddCallArgs args) {
+    public void addCall(AddCallArgs args) {
         new AddCallTask().execute(args);
+    }
+
+    /** Interface to retrieve the last dialed number asynchronously. */
+    public interface OnLastOutgoingCallComplete {
+        /** @param number The last dialed number or an empty string if none exists yet. */
+        void lastOutgoingCall(String number);
+    }
+
+    /**
+     * CallLog.addCall(...)
+     */
+    public void getLastOutgoingCall(GetLastOutgoingCallArgs args) {
+        new GetLastOutgoingCallTask().execute(args);
     }
 
 
@@ -136,6 +168,20 @@ import com.android.internal.telephony.CallerInfo;
                     Log.e(TAG, "Failed to write call to the log.");
                 }
             }
+        }
+    }
+
+    /**
+     * AsyncTask to get the last outgoing call from the DB.
+     */
+    private class GetLastOutgoingCallTask extends AsyncTask<GetLastOutgoingCallArgs, Void, Void> {
+        protected Void doInBackground(GetLastOutgoingCallArgs... list) {
+            int count = list.length;
+            for (GetLastOutgoingCallArgs args : list) {
+                final String number = Calls.getLastOutgoingCall(args.context);  // May block.
+                args.callback.lastOutgoingCall(number);
+            }
+            return null;
         }
     }
 }
