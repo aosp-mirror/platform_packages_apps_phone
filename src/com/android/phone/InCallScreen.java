@@ -53,6 +53,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -4896,6 +4897,13 @@ public class InCallScreen extends Activity
             // widget, since the widget itself probably wants to keep the colored
             // arrow visible for some extra time also...)
         }
+    }
+
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        super.dispatchPopulateAccessibilityEvent(event);
+        mCallCard.dispatchPopulateAccessibilityEvent(event);
+        return true;
     }
 
     private void log(String msg) {
