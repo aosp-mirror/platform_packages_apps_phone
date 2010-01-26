@@ -90,7 +90,6 @@ public class BluetoothHandsfree {
     private boolean mPendingSco;  // waiting for a2dp sink to suspend before establishing SCO
     private boolean mA2dpSuspended;
     private boolean mUserWantsAudio;
-    private boolean mAttemptDelayedScoConnection;
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
     private WakeLock mStartVoiceRecognitionWakeLock;  // held while waiting for voice recognition
 
@@ -356,16 +355,6 @@ public class BluetoothHandsfree {
                     AtCommandResult result = ring();
                     if (result != null) {
                         sendURC(result.toString());
-                    }
-                    // Ideally, we would like to set up the SCO channel
-                    // before sending the ring() so that we don't miss any
-                    // incall audio. However, some headsets don't play the
-                    // ringtone in such scenarios. So send the 2 ring()s first
-                    // and then setup SCO after a delay of 2 seconds.
-                    if (mAttemptDelayedScoConnection) {
-                        mAttemptDelayedScoConnection = false;
-                        Message scoMsg = mHandler.obtainMessage(DELAYED_SCO_FOR_RINGTONE);
-                        mHandler.sendMessageDelayed(scoMsg, 2000);
                     }
                     break;
                 case SERVICE_STATE_CHANGED:
@@ -855,7 +844,9 @@ public class BluetoothHandsfree {
                     mIgnoreRing = false;
                     mStopRing = false;
 
-                    mAttemptDelayedScoConnection = true;
+                    if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) != 0x0) {
+                        audioOn();
+                    }
                     result.addResult(ring());
                 }
             }
@@ -940,7 +931,6 @@ public class BluetoothHandsfree {
     private static final int CHECK_CALL_STARTED = 4;
     private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
     private static final int MESSAGE_CHECK_PENDING_SCO = 6;
-    private static final int DELAYED_SCO_FOR_RINGTONE = 7;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -1017,11 +1007,6 @@ public class BluetoothHandsfree {
                             mOutgoingSco = null;
                         }
                         mPendingSco = false;
-                    }
-                    break;
-                case DELAYED_SCO_FOR_RINGTONE:
-                    if (!mForegroundCall.isIdle() || !mRingingCall.isIdle()) {
-                        audioOn();
                     }
                     break;
                 }
@@ -1469,7 +1454,8 @@ public class BluetoothHandsfree {
                     mBluetoothPhoneState.stopRing();
                     sendURC("OK");
                     PhoneUtils.answerCall(mPhone);
-                    // SCO might already be up, but just make sure
+                    // If in-band ring tone is supported, SCO connection will already
+                    // be up and the following call will just return.
                     audioOn();
                     return new AtCommandResult(AtCommandResult.UNSOLICITED);
                 } else if (mForegroundCall.getState().isAlive()) {
