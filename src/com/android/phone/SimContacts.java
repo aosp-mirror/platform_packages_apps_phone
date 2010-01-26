@@ -274,6 +274,15 @@ public class SimContacts extends ADNList {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(MENU_IMPORT_ALL);
+        if (item != null) {
+            item.setVisible(mCursor != null && mCursor.getCount() > 0);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_IMPORT_ALL:
