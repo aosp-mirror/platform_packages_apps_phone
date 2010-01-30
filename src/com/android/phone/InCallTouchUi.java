@@ -146,7 +146,7 @@ public class InCallTouchUi extends FrameLayout
                 com.android.internal.R.drawable.jog_tab_right_decline
                 );
 
-        // For now, we only need to show two states: answer and decline. 
+        // For now, we only need to show two states: answer and decline.
         mIncomingCallWidget.setLeftHintText(R.string.slide_to_answer_hint);
         mIncomingCallWidget.setRightHintText(R.string.slide_to_decline_hint);
 
@@ -596,6 +596,7 @@ public class InCallTouchUi extends FrameLayout
             anim.reset();
             mIncomingCallWidget.clearAnimation();
         }
+        mIncomingCallWidget.reset(false);
         mIncomingCallWidget.setVisibility(View.VISIBLE);
     }
 
