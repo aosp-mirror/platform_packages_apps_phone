@@ -116,6 +116,7 @@ public class CallNotifier extends Handler
     private static final int EVENT_OTA_PROVISION_CHANGE = 16;
 
     private static final int PHONE_RINGBACK_TONE = 17;
+    private static final int PHONE_RESEND_MUTE = 18;
 
     // Emergency call related defines:
     private static final int EMERGENCY_TONE_OFF = 0;
@@ -189,6 +190,7 @@ public class CallNotifier extends Handler
 
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
             mPhone.registerForRingbackTone(this, PHONE_RINGBACK_TONE, null);
+            mPhone.registerForResendIncallMute(this, PHONE_RESEND_MUTE, null);
         }
 
         mRinger = ringer;
@@ -321,6 +323,10 @@ public class CallNotifier extends Handler
 
             case PHONE_RINGBACK_TONE:
                 onRingbackTone((AsyncResult) msg.obj);
+                break;
+
+            case PHONE_RESEND_MUTE:
+                onResendMute();
                 break;
 
             default:
@@ -696,6 +702,7 @@ public class CallNotifier extends Handler
         mPhone.unregisterForSignalInfo(this);
         mPhone.unregisterForCdmaOtaStatusChange(this);
         mPhone.unregisterForRingbackTone(this);
+        mPhone.unregisterForResendIncallMute(this);
 
         // Release the ToneGenerator used for playing SignalInfo and CallWaiting
         if (mSignalInfoToneGenerator != null) {
@@ -737,6 +744,7 @@ public class CallNotifier extends Handler
 
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
             mPhone.registerForRingbackTone(this, PHONE_RINGBACK_TONE, null);
+            mPhone.registerForResendIncallMute(this, PHONE_RESEND_MUTE, null);
         }
     }
 
@@ -1723,6 +1731,15 @@ public class CallNotifier extends Handler
                 mInCallRingbackTonePlayer.stop();
             }
         }
+    }
+
+    /**
+     * Toggle mute and unmute requests while keeping the same mute state
+     */
+    private void onResendMute() {
+        boolean muteState = PhoneUtils.getMute(mPhone);
+        PhoneUtils.setMuteInternal(mPhone, !muteState);
+        PhoneUtils.setMuteInternal(mPhone, muteState);
     }
 
     /**
