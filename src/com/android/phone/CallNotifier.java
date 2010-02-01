@@ -179,7 +179,7 @@ public class CallNotifier extends Handler
             mPhone.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
 
             // Instantiate the ToneGenerator for SignalInfo and CallWaiting
-            // TODO(Moto): We probably dont need the mSignalInfoToneGenerator instance
+            // TODO: We probably don't need the mSignalInfoToneGenerator instance
             // around forever. Need to change it so as to create a ToneGenerator instance only
             // when a tone is being played and releases it after its done playing.
             try {

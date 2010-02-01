@@ -521,8 +521,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // start with the default value to set the mute state.
         mShouldRestoreMuteOnInCallResume = false;
 
-        // Register for Cdma Information Records
-        // TODO(Moto): Merge
+        // TODO: Register for Cdma Information Records
         // phone.registerCdmaInformationRecord(mHandler, EVENT_UNSOL_CDMA_INFO_RECORD, null);
 
         // Read TTY settings and store it into BP NV.
@@ -682,9 +681,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     || ((cdmaOtaScreenState != null)
                     && (cdmaOtaScreenState.otaScreenState
                             != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED))) {
-                // TODO(Moto): During OTA Call, display should not become dark to
-                // allow user to see OTA UI update. Phone app needs to hold a SCREEN_DIM_WAKE_LOCK
-                // wake lock during the entire OTA call.
+                // TODO: During OTA Call, display should not become dark to
+                // allow user to see OTA UI update. Phone app needs to hold
+                // a SCREEN_DIM_WAKE_LOCK wake lock during the entire OTA call.
                 wakeUpScreen();
                 // If InCallScreen is not in foreground we resume it to show the OTA call end screen
                 // Fire off the InCallScreen intent

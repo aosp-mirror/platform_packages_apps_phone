@@ -20,7 +20,7 @@ package com.android.phone;
  * Class to internally keep track of Call states to maintain
  * information for Call Waiting and 3Way for CDMA instance of Phone App.
  *
- * Explaination for PhoneApp's Call states and why it is required:
+ * Explanation for PhoneApp's Call states and why it is required:
  * IDLE - When no call is going on. This is just required as default state to reset the PhoneApp
  *        call state to when the complete call gets disconnected
  * SINGLE_ACTIVE - When only single call is active.
@@ -40,7 +40,7 @@ package com.android.phone;
  *        This is required cause even though a call might be generic but that does not mean it is
  *        in conference. We can take the same example mention in the SINGLE_ACTIVE state.
  *
- * TODO(Moto): Eventually this state information should be maintained by Telephony FW.
+ * TODO: Eventually this state information should be maintained by Telephony FW.
  */
    public class CdmaPhoneCallState {
 

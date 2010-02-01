@@ -738,7 +738,7 @@ public class PhoneUtils {
             if (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                 // Send flash cmd
-                // TODO(Moto): Need to change the call from switchHoldingAndActive to
+                // TODO: Need to change the call from switchHoldingAndActive to
                 // something meaningful as we are not actually trying to swap calls but
                 // instead are merging two calls by sending a Flash command.
                 switchHoldingAndActive(phone);
