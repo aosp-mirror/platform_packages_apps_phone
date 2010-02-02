@@ -18,6 +18,7 @@ package com.android.phone;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.provider.CallLog.Calls;
 import android.util.Log;
 import com.android.internal.telephony.CallerInfo;
@@ -110,10 +111,12 @@ public class CallLogAsync {
     }
 
     /**
-     * Parameter object to hold the args to get the last outgoing call from the call log DB.
+     * Parameter object to hold the args to get the last outgoing call
+     * from the call log DB.
      */
     public static class GetLastOutgoingCallArgs {
-        public GetLastOutgoingCallArgs(Context context, OnLastOutgoingCallComplete callback) {
+        public GetLastOutgoingCallArgs(Context context,
+                                       OnLastOutgoingCallComplete callback) {
             this.context = context;
             this.callback = callback;
         }
@@ -124,28 +127,31 @@ public class CallLogAsync {
     /**
      * Non blocking version of CallLog.addCall(...)
      */
-    public void addCall(AddCallArgs args) {
-        new AddCallTask().execute(args);
+    public AsyncTask addCall(AddCallArgs args) {
+        assertUiThread();
+        return new AddCallTask().execute(args);
     }
 
     /** Interface to retrieve the last dialed number asynchronously. */
     public interface OnLastOutgoingCallComplete {
-        /** @param number The last dialed number or an empty string if none exists yet. */
+        /** @param number The last dialed number or an empty string if
+         *                none exists yet. */
         void lastOutgoingCall(String number);
     }
 
     /**
-     * CallLog.addCall(...)
+     * CallLog.getLastOutgoingCall(...)
      */
-    public void getLastOutgoingCall(GetLastOutgoingCallArgs args) {
-        new GetLastOutgoingCallTask().execute(args);
+    public AsyncTask getLastOutgoingCall(GetLastOutgoingCallArgs args) {
+        assertUiThread();
+        return new GetLastOutgoingCallTask(args.callback).execute(args);
     }
-
 
     /**
      * AsyncTask to save calls in the DB.
      */
     private class AddCallTask extends AsyncTask<AddCallArgs, Void, Uri[]> {
+        @Override
         protected Uri[] doInBackground(AddCallArgs... callList) {
             int count = callList.length;
             Uri[] result = new Uri[count];
@@ -153,8 +159,9 @@ public class CallLogAsync {
                 AddCallArgs c = callList[i];
 
                 // May block.
-                result[i] = Calls.addCall(c.ci, c.context, c.number, c.presentation,
-                                          c.callType, c.timestamp, c.durationInSec);
+                result[i] = Calls.addCall(
+                    c.ci, c.context, c.number, c.presentation,
+                    c.callType, c.timestamp, c.durationInSec);
             }
             return result;
         }
@@ -162,6 +169,7 @@ public class CallLogAsync {
         // Perform a simple sanity check to make sure the call was
         // written in the database. Typically there is only one result
         // per call so it is easy to identify which one failed.
+        @Override
         protected void onPostExecute(Uri[] result) {
             for (Uri uri : result) {
                 if (uri == null) {
@@ -174,14 +182,40 @@ public class CallLogAsync {
     /**
      * AsyncTask to get the last outgoing call from the DB.
      */
-    private class GetLastOutgoingCallTask extends AsyncTask<GetLastOutgoingCallArgs, Void, Void> {
-        protected Void doInBackground(GetLastOutgoingCallArgs... list) {
+    private class GetLastOutgoingCallTask extends AsyncTask<GetLastOutgoingCallArgs, Void, String> {
+        private final OnLastOutgoingCallComplete mCallback;
+        private String mNumber;
+        public GetLastOutgoingCallTask(OnLastOutgoingCallComplete callback) {
+            mCallback = callback;
+        }
+
+        // Happens on a background thread. We cannot run the callback
+        // here because only the UI thread can modify the view
+        // hierarchy (e.g enable/disable the dial button). The
+        // callback is ran rom the post execute method.
+        @Override
+        protected String doInBackground(GetLastOutgoingCallArgs... list) {
             int count = list.length;
+            String number = "";
             for (GetLastOutgoingCallArgs args : list) {
-                final String number = Calls.getLastOutgoingCall(args.context);  // May block.
-                args.callback.lastOutgoingCall(number);
+                // May block. Select only the last one.
+                number = Calls.getLastOutgoingCall(args.context);
             }
-            return null;
+            return number;  // passed to the onPostExecute method.
+        }
+
+        // Happens on the UI thread, it is safe to run the callback
+        // that may do some work on the views.
+        @Override
+        protected void onPostExecute(String number) {
+            assertUiThread();
+            mCallback.lastOutgoingCall(number);
+        }
+    }
+
+    private void assertUiThread() {
+        if (!Looper.getMainLooper().equals(Looper.myLooper())) {
+            throw new RuntimeException("Not on the UI thread!");
         }
     }
 }
