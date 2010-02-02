@@ -225,16 +225,37 @@ public class OtaUtils {
         int OtaStatus[] = (int[]) r.result;
         if (DBG) log("onOtaProvisionStatusChanged(): OtaStatus[0]" + OtaStatus[0]);
 
-        otaShowInProgressScreen();
         switch(OtaStatus[0]) {
             case Phone.CDMA_OTA_PROVISION_STATUS_SPC_RETRIES_EXCEEDED:
+                otaShowInProgressScreen();
                 mApplication.cdmaOtaProvisionData.otaSpcUptime = SystemClock.elapsedRealtime();
                 otaShowSpcErrorNotice(OTA_SPC_TIMEOUT);
+                if (DBG) log("onOtaProvisionStatusChanged(): RETRIES EXCEEDED");
                 // Power.shutdown();
                 break;
+
             case Phone.CDMA_OTA_PROVISION_STATUS_COMMITTED:
+                otaShowInProgressScreen();
                 mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
-                if (DBG) log("onOtaProvisionStatusChanged(): isOtaCallCommitted set to true");
+                if (DBG) log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
+                break;
+
+            case Phone.CDMA_OTA_PROVISION_STATUS_SPL_UNLOCKED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_A_KEY_EXCHANGED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_SSD_UPDATED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_NAM_DOWNLOADED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_MDN_DOWNLOADED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_IMSI_DOWNLOADED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_PRL_DOWNLOADED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STARTED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STOPPED:
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_ABORTED:
+                if (DBG) log("onOtaProvisionStatusChanged(): change to ProgressScreen");
+                otaShowInProgressScreen();
+                break;
+
+            default:
+                if (DBG) log("onOtaProvisionStatusChanged(): Ignoring OtaStatus " + OtaStatus[0]);
                 break;
         }
     }
