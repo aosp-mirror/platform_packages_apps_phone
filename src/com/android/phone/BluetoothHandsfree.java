@@ -1133,15 +1133,14 @@ public class BluetoothHandsfree {
         mPendingSco = false;
 
         if (mConnectedSco != null) {
-            mAudioManager.setBluetoothScoOn(false);
             BluetoothDevice device = null;
             if (mHeadset != null) {
                 device = mHeadset.getRemoteDevice();
             }
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, device);
             mConnectedSco.close();
             mConnectedSco = null;
-
+            mAudioManager.setBluetoothScoOn(false);
+            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, device);
         }
         if (mOutgoingSco != null) {
             mOutgoingSco.close();
