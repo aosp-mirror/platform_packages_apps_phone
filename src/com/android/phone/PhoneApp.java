@@ -497,12 +497,23 @@ public class PhoneApp extends Application {
         // AP owns (i.e. stores) the TTY setting in AP settings database and pushes the setting
         // to BP at power up (BP does not need to make the TTY setting persistent storage).
         // This way, there is a single owner (i.e AP) for the TTY setting in the phone.
+        // Read HAC settings and configure audio hardware
         if (phoneIsCdma) {
             int settingsTtyMode = android.provider.Settings.Secure.getInt(
                     phone.getContext().getContentResolver(),
                     android.provider.Settings.Secure.PREFERRED_TTY_MODE,
                     Phone.TTY_MODE_OFF);
             phone.setTTYMode(settingsTtyMode, null);
+            // TODO: use a completion handler for setTTYMode and update status bar with
+            // actual TTY mode (See CallFeaturesSetting).
+
+            int hac = android.provider.Settings.System.getInt(phone.getContext().getContentResolver(),
+                                                              android.provider.Settings.System.HEARING_AID,
+                                                              0);
+            AudioManager audioManager = (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
+                                      CallFeaturesSetting.HAC_VAL_ON :
+                                      CallFeaturesSetting.HAC_VAL_OFF);
         }
    }
 
