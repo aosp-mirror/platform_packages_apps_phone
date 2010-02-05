@@ -1500,27 +1500,26 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (VDBG) Log.d(LOG_TAG,
                            "MediaButtonBroadcastReceiver.onReceive()...  event = " + event);
             if ((event != null)
-                && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)
-                && (event.getAction() == KeyEvent.ACTION_DOWN)) {
-
-                if (event.getRepeatCount() == 0) {
-                    // Mute ONLY on the initial keypress.
-                    if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK down!");
-                    boolean consumed = PhoneUtils.handleHeadsetHook(phone);
-                    if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
-                    if (consumed) {
-                        // If a headset is attached and the press is consumed, also update
-                        // any UI items (such as an InCallScreen mute button) that may need to
-                        // be updated if their state changed.
-                        if (isShowingCallScreen()) {
-                            updateInCallScreenTouchUi();
-                        }
-                        abortBroadcast();
+                && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)) {
+                if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK");
+                boolean consumed = PhoneUtils.handleHeadsetHook(phone, event);
+                if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
+                if (consumed) {
+                    // If a headset is attached and the press is consumed, also update
+                    // any UI items (such as an InCallScreen mute button) that may need to
+                    // be updated if their state changed.
+                    if (isShowingCallScreen()) {
+                        updateInCallScreenTouchUi();
                     }
-                } else if (phone.getState() != Phone.State.IDLE) {
-                    // As for any DOWN events other than the initial press, we consume
-                    // (and ignore) those too if the phone is in use.  (Otherwise the
-                    // music player will handle them, which would be confusing.)
+                    abortBroadcast();
+                }
+            } else {
+                if (phone.getState() != Phone.State.IDLE) {
+                    // If the phone is anything other than completely idle,
+                    // then we consume and ignore any media key events,
+                    // Otherwise it is too easy to accidentally start
+                    // playing music while a phone call is in progress.
+                    if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: consumed");
                     abortBroadcast();
                 }
             }
