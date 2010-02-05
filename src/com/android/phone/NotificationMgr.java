@@ -122,7 +122,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         sMe = new NotificationMgr(context);
 
         // update the notifications that need to be touched at startup.
-        sMe.updateNotifications();
+        sMe.updateNotificationsAtStartup();
     }
 
     static NotificationMgr getDefault() {
@@ -207,10 +207,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     /**
-     * Makes sure notifications are up to date.
+     * Makes sure phone-related notifications are up to date on a
+     * freshly-booted device.
      */
-    void updateNotifications() {
-        if (DBG) log("begin querying call log");
+    private void updateNotificationsAtStartup() {
+        if (DBG) log("updateNotificationsAtStartup()...");
 
         // instantiate query handler
         mQueryHandler = new QueryHandler(mContext.getContentResolver());

@@ -87,8 +87,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // Message codes; see mHandler below.
-    private static final int EVENT_SIM_ABSENT = 1;
-    private static final int EVENT_SIM_LOCKED = 2;
     private static final int EVENT_SIM_NETWORK_LOCKED = 3;
     private static final int EVENT_WIRED_HEADSET_PLUG = 7;
     private static final int EVENT_SIM_STATE_CHANGED = 8;
@@ -233,23 +231,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         public void handleMessage(Message msg) {
             Phone.State phoneState;
             switch (msg.what) {
-                case EVENT_SIM_LOCKED:
-//                    mIsSimPinEnabled = true;
-//
-//                    if (Config.LOGV) Log.v(LOG_TAG, "show sim unlock panel");
-//                    SimPinUnlockPanel pinUnlockPanel = new SimPinUnlockPanel(
-//                            PhoneApp.getInstance());
-//                    pinUnlockPanel.show();
-                    break;
 
-                case EVENT_SIM_ABSENT:
-// Don't need this now that the lock screen handles this case
-//                    if (Config.LOGV) Log.v(LOG_TAG, "show sim missing panel");
-//                    SimMissingPanel missingPanel = new SimMissingPanel(
-//                            PhoneApp.getInstance());
-//                    missingPanel.show();
-                    break;
-
+                // TODO: This event should be handled by the lock screen, just
+                // like the "SIM missing" and "Sim locked" cases (bug 1804111).
                 case EVENT_SIM_NETWORK_LOCKED:
                     if (getResources().getBoolean(R.bool.ignore_sim_network_locked_events)) {
                         // Some products don't have the concept of a "SIM network lock"
@@ -370,7 +354,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     @Override
     public void onCreate() {
-        if (Config.LOGV) Log.v(LOG_TAG, "onCreate()...");
+        if (VDBG) Log.v(LOG_TAG, "onCreate()...");
 
         ContentResolver resolver = getContentResolver();
 
@@ -417,7 +401,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 mProximityWakeLock =
                         pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
             }
-            if (DBG) Log.d(LOG_TAG, "mProximityWakeLock: " + mProximityWakeLock);
+            if (DBG) Log.d(LOG_TAG, "onCreate: mProximityWakeLock: " + mProximityWakeLock);
 
             // create mAccelerometerListener only if we are using the proximity sensor
             if (proximitySensorModeEnabled()) {
@@ -437,9 +421,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // register for ICC status
             IccCard sim = phone.getIccCard();
             if (sim != null) {
-                if (Config.LOGV) Log.v(LOG_TAG, "register for ICC status");
-                sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
-                sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
+                if (VDBG) Log.v(LOG_TAG, "register for ICC status");
                 sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
             }
 
@@ -1259,8 +1241,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
 
             //Register all events new to the new active phone
-            sim.registerForAbsent(mHandler, EVENT_SIM_ABSENT, null);
-            sim.registerForLocked(mHandler, EVENT_SIM_LOCKED, null);
             sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
         }
     }
