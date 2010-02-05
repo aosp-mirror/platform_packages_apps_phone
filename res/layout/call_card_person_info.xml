@@ -84,6 +84,7 @@
               android:layout_marginTop="-22dip"
               android:paddingLeft="4dip"
               android:paddingRight="4dip"
+              android:paddingBottom="4dip"
               />
 
     <!-- Label (like "Mobile" or "Work", if present) and phone number, side by side -->
