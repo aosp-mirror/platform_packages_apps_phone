@@ -146,9 +146,9 @@ public class CallFeaturesSetting extends PreferenceActivity
     static final int DTMF_TONE_TYPE_NORMAL = 0;
     static final int DTMF_TONE_TYPE_LONG   = 1;
 
-    private static final String HAC_KEY = "HACSetting";
-    private static final String HAC_VAL_ON = "ON";
-    private static final String HAC_VAL_OFF = "OFF";
+    public static final String HAC_KEY = "HACSetting";
+    public static final String HAC_VAL_ON = "ON";
+    public static final String HAC_VAL_OFF = "OFF";
 
     /** Handle to voicemail pref */
     private static final int VOICEMAIL_PREF_ID = 1;
