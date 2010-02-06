@@ -1026,7 +1026,7 @@
     <!-- Title text shown on screen where activation fails -->
     <string name="ota_title_problem_with_activation">Problem with activation</string>
     <!-- Message displayed on the OTA listen screen. This message should be short to ensure the dialer fits. -->
-    <string name="ota_listen">Listen to the instructions to activate your phone.</string>
+    <string name="ota_listen">Listen to the instructions to activate your phone. Stay on the line until you hear confirmation that your phone is activated.</string>
     <!-- Button label within the OTA listen screen -->
     <string name="ota_dialpad">Keypad</string>
     <!-- Button label within the OTA listen screen -->
