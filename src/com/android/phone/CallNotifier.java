@@ -1125,13 +1125,8 @@ public class CallNotifier extends Handler
     private void onBatteryLow() {
         if (DBG) log("onBatteryLow()...");
 
-        // Play the "low battery" warning tone, only if the user is
-        // in-call.  (The test here is exactly the opposite of the test in
-        // StatusBarPolicy.updateBattery(), where we bring up the "low
-        // battery warning" dialog only if the user is NOT in-call.)
-        if (mPhone.getState() != Phone.State.IDLE) {
-            new InCallTonePlayer(InCallTonePlayer.TONE_BATTERY_LOW).start();
-        }
+        // A "low battery" warning tone is now played by
+        // StatusBarPolicy.updateBattery().
     }
 
 
