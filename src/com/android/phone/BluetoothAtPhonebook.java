@@ -254,6 +254,7 @@ public class BluetoothAtPhonebook {
                         name = name + "/" + getPhoneType(type);
                     }
 
+                    if (number == null) number = "";
                     int regionType = PhoneNumberUtils.toaFromString(number);
 
                     number = number.trim();
