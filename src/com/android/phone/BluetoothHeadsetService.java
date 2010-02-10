@@ -67,6 +67,7 @@ public class BluetoothHeadsetService extends Service {
 
     private static boolean sHasStarted = false;
 
+    private BluetoothDevice mDeviceSdpQuery;
     private BluetoothAdapter mAdapter;
     private PowerManager mPowerManager;
     private BluetoothAudioGateway mAg;
@@ -105,6 +106,7 @@ public class BluetoothHeadsetService extends Service {
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
+        filter.addAction(BluetoothDevice.ACTION_UUID);
         registerReceiver(mBluetoothReceiver, filter);
 
         mPhone.registerForPreciseCallStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
@@ -269,6 +271,7 @@ public class BluetoothHeadsetService extends Service {
     }
 
     private final BroadcastReceiver mBluetoothReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -317,6 +320,11 @@ public class BluetoothHeadsetService extends Service {
                             AudioManager.EXTRA_VOLUME_STREAM_VALUE, 0));
                 }
 
+            } else if (action.equals(BluetoothDevice.ACTION_UUID)) {
+                if (device.equals(mDeviceSdpQuery)) {
+                    // We have got SDP records for the device we are interested in.
+                    getSdpRecordsAndConnect();
+                }
             }
         }
     };
@@ -361,6 +369,7 @@ public class BluetoothHeadsetService extends Service {
         private int type;
 
         private static final int EINTERRUPT = -1000;
+        private static final int ECONNREFUSED = -111;
 
         public RfcommConnectThread(BluetoothDevice device, int channel, int type) {
             super();
@@ -393,14 +402,23 @@ public class BluetoothHeadsetService extends Service {
             int result = waitForConnect(headset);
 
             if (result != EINTERRUPT && result != 1) {
-                Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
-                try {
-                    sleep(1000);  // 1 second
-                } catch (InterruptedException e) {}
-
+                if (result == ECONNREFUSED && mDeviceSdpQuery == null) {
+                    // The rfcomm channel number might have changed, do SDP
+                    // query and try to connect again.
+                    mDeviceSdpQuery = mRemoteDevice;
+                    device.fetchUuidsWithSdp();
+                    mConnectThread = null;
+                    return;
+                } else {
+                    Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
+                    try {
+                      sleep(1000);  // 1 second
+                    } catch (InterruptedException e) {}
+                }
                 result = waitForConnect(headset);
             }
 
+            mDeviceSdpQuery = null;
             if (result == EINTERRUPT) return;
 
             if (DBG) log("RFCOMM connection attempt took " +
