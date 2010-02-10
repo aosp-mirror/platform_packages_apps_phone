@@ -370,8 +370,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private CallForwardInfo[] mNewFwdSettings;
     String mNewVMNumber;
 
-    TTYHandler ttyHandler;
-
     /**
      * We have to pull current settings from the network for all kinds of
      * voicemail providers so we can tell whether we have to update them,
@@ -1327,7 +1325,6 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         if (getResources().getBoolean(R.bool.tty_enabled)) {
             mButtonTTY.setOnPreferenceChangeListener(this);
-            ttyHandler = new TTYHandler();
         } else {
             prefSet.removePreference(mButtonTTY);
             mButtonTTY = null;
@@ -1394,7 +1391,11 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         if (mButtonTTY != null) {
-            mPhone.queryTTYMode(ttyHandler.obtainMessage(TTYHandler.EVENT_TTY_MODE_GET));
+            int settingsTtyMode = Settings.Secure.getInt(getContentResolver(),
+                    Settings.Secure.PREFERRED_TTY_MODE,
+                    Phone.TTY_MODE_OFF);
+            mButtonTTY.setValue(Integer.toString(settingsTtyMode));
+            updatePreferredTtyModeSummary(settingsTtyMode);
         }
     }
 
@@ -1413,79 +1414,34 @@ public class CallFeaturesSetting extends PreferenceActivity
             case Phone.TTY_MODE_FULL:
             case Phone.TTY_MODE_HCO:
             case Phone.TTY_MODE_VCO:
-                mPhone.setTTYMode(buttonTtyMode,
-                        ttyHandler.obtainMessage(TTYHandler.EVENT_TTY_MODE_SET));
+                android.provider.Settings.Secure.putInt(getContentResolver(),
+                        android.provider.Settings.Secure.PREFERRED_TTY_MODE, buttonTtyMode);
                 break;
             default:
-                mPhone.setTTYMode(Phone.TTY_MODE_OFF,
-                        ttyHandler.obtainMessage(TTYHandler.EVENT_TTY_MODE_SET));
+                buttonTtyMode = Phone.TTY_MODE_OFF;
             }
+
+            mButtonTTY.setValue(Integer.toString(buttonTtyMode));
+            updatePreferredTtyModeSummary(buttonTtyMode);
+            Intent ttyModeChanged = new Intent(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION);
+            ttyModeChanged.putExtra(TtyIntent.TTY_PREFFERED_MODE, buttonTtyMode);
+            sendBroadcast(ttyModeChanged);
         }
     }
 
-    class TTYHandler extends Handler {
-        /** Event for TTY mode change */
-        private static final int EVENT_TTY_MODE_GET = 700;
-        private static final int EVENT_TTY_MODE_SET = 800;
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case EVENT_TTY_MODE_GET:
-                    handleQueryTTYModeResponse(msg);
-                    break;
-                case EVENT_TTY_MODE_SET:
-                    handleSetTTYModeResponse(msg);
-                    break;
-            }
-        }
-
-        private void updatePreferredTtyModeSummary(int TtyMode) {
-            String [] txts = getResources().getStringArray(R.array.tty_mode_entries);
-            switch(TtyMode) {
-                case Phone.TTY_MODE_OFF:
-                case Phone.TTY_MODE_HCO:
-                case Phone.TTY_MODE_VCO:
-                case Phone.TTY_MODE_FULL:
-                    mButtonTTY.setSummary(txts[TtyMode]);
-                    break;
-                default:
-                    mButtonTTY.setEnabled(false);
-                    mButtonTTY.setSummary(txts[Phone.TTY_MODE_OFF]);
-            }
-        }
-
-        private void handleQueryTTYModeResponse(Message msg) {
-            AsyncResult ar = (AsyncResult) msg.obj;
-            if (ar.exception != null) {
-                if (DBG) log("handleQueryTTYModeResponse: Error getting TTY state.");
+    private void updatePreferredTtyModeSummary(int TtyMode) {
+        String [] txts = getResources().getStringArray(R.array.tty_mode_entries);
+        switch(TtyMode) {
+            case Phone.TTY_MODE_OFF:
+            case Phone.TTY_MODE_HCO:
+            case Phone.TTY_MODE_VCO:
+            case Phone.TTY_MODE_FULL:
+                mButtonTTY.setSummary(txts[TtyMode]);
+                break;
+            default:
                 mButtonTTY.setEnabled(false);
-            } else {
-                if (DBG) log("handleQueryTTYModeResponse: TTY enable state successfully queried.");
-
-                int ttymode = ((int[]) ar.result)[0];
-                if (DBG) log("handleQueryTTYModeResponse:ttymode=" + ttymode);
-
-                Intent ttyModeChanged = new Intent(TtyIntent.TTY_ENABLED_CHANGE_ACTION);
-                ttyModeChanged.putExtra("ttyEnabled", ttymode != Phone.TTY_MODE_OFF);
-                sendBroadcast(ttyModeChanged);
-                android.provider.Settings.Secure.putInt(getContentResolver(),
-                        android.provider.Settings.Secure.PREFERRED_TTY_MODE, ttymode );
-                mButtonTTY.setValue(Integer.toString(ttymode));
-                updatePreferredTtyModeSummary(ttymode);
-            }
+                mButtonTTY.setSummary(txts[Phone.TTY_MODE_OFF]);
         }
-
-        private void handleSetTTYModeResponse(Message msg) {
-            AsyncResult ar = (AsyncResult) msg.obj;
-
-            if (ar.exception != null) {
-                if (DBG) log("handleSetTTYModeResponse: Error setting TTY mode, ar.exception"
-                        + ar.exception);
-            }
-            mPhone.queryTTYMode(ttyHandler.obtainMessage(TTYHandler.EVENT_TTY_MODE_GET));
-        }
-
     }
 
     private static void log(String msg) {
