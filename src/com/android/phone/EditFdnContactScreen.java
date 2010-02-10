@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (C) 2010 Sony Ericsson Mobile Communications AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -205,9 +206,7 @@ public class EditFdnContactScreen extends Activity {
         mName =  intent.getStringExtra(INTENT_EXTRA_NAME);
         mNumber =  intent.getStringExtra(INTENT_EXTRA_NUMBER);
 
-        if (TextUtils.isEmpty(mName)) {
-            mAddContact = true;
-        }
+        mAddContact = TextUtils.isEmpty(mNumber);
     }
 
     /**

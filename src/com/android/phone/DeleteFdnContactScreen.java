@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (C) 2010 Sony Ericsson Mobile Communications AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,16 +94,20 @@ public class DeleteFdnContactScreen extends Activity {
         mName =  intent.getStringExtra(INTENT_EXTRA_NAME);
         mNumber =  intent.getStringExtra(INTENT_EXTRA_NUMBER);
 
-        if (TextUtils.isEmpty(mName)) {
+        if (TextUtils.isEmpty(mNumber)) {
             finish();
         }
     }
 
     private void deleteContact() {
         StringBuilder buf = new StringBuilder();
-        buf.append("tag='");
-        buf.append(mName);
-        buf.append("' AND number='");
+        if (TextUtils.isEmpty(mNumber)) {
+            buf.append("number='");
+        } else {
+            buf.append("tag='");
+            buf.append(mName);
+            buf.append("' AND number='");
+        }
         buf.append(mNumber);
         buf.append("' AND pin2='");
         buf.append(mPin2);
