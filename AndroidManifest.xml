@@ -20,6 +20,8 @@
         android:sharedUserLabel="@string/dialerIconLabel"
 >
 
+    <original-package android:name="com.android.phone" />
+
     <protected-broadcast android:name="android.intent.action.SERVICE_STATE" />
     <protected-broadcast android:name="android.intent.action.RADIO_TECHNOLOGY" />
     <protected-broadcast android:name="android.intent.action.EMERGENCY_CALLBACK_MODE_CHANGED" />
