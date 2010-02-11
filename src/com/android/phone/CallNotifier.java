@@ -38,12 +38,12 @@ import android.os.SystemProperties;
 import android.os.Vibrator;
 import android.provider.CallLog;
 import android.provider.CallLog.Calls;
-import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.EventLog;
 import android.util.Log;
 
 
@@ -59,12 +59,6 @@ public class CallNotifier extends Handler
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
-
-    // Strings used with Checkin.logEvent().
-    private static final String PHONE_UI_EVENT_RINGER_QUERY_ELAPSED =
-        "using default incoming call behavior";
-    private static final String PHONE_UI_EVENT_MULTIPLE_QUERY =
-        "multiple incoming call queries attempted";
 
     // Maximum time we allow the CallerInfo query to run,
     // before giving up and falling back to the default ringtone.
@@ -489,9 +483,7 @@ public class CallNotifier extends Handler
             // This should never happen; its the case where an incoming call
             // arrives at the same time that the query is still being run,
             // and before the timeout window has closed.
-            Checkin.logEvent(mPhone.getContext().getContentResolver(),
-                    Checkin.Events.Tag.PHONE_UI,
-                    PHONE_UI_EVENT_MULTIPLE_QUERY);
+            EventLog.writeEvent(EventLogTags.PHONE_UI_MULTIPLE_QUERY);
 
             // In this case, just log the request and ring.
             if (VDBG) log("RINGING... (request to ring arrived while query is running)");
@@ -533,9 +525,7 @@ public class CallNotifier extends Handler
             // There may be a problem with the query here, since the
             // default ringtone is playing instead of the custom one.
             Log.w(LOG_TAG, "CallerInfo query took too long; falling back to default ringtone");
-            Checkin.logEvent(mPhone.getContext().getContentResolver(),
-                    Checkin.Events.Tag.PHONE_UI,
-                    PHONE_UI_EVENT_RINGER_QUERY_ELAPSED);
+            EventLog.writeEvent(EventLogTags.PHONE_UI_RINGER_QUERY_ELAPSED);
         }
 
         // Make sure we still have an incoming call!

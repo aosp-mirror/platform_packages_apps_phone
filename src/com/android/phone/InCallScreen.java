@@ -38,12 +38,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
-import android.provider.Checkin;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.text.method.DialerKeyListener;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -82,15 +82,6 @@ public class InCallScreen extends Activity
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
 
-    // Enable detailed logs of user actions while on the in-call screen.
-    // TODO: For now this is totally disabled.  But for future user
-    // research, we should change the PHONE_UI_EVENT_* events to use
-    // android.util.EventLog rather than Checkin.logEvent, so that we can
-    // select which of those events to upload on a tag-by-tag basis
-    // (which means that we could actually ship devices with this logging
-    // enabled.)
-    /* package */ static final boolean ENABLE_PHONE_UI_EVENT_LOGGING = false;
-
     /**
      * Intent extra used to specify whether the DTMF dialpad should be
      * initially visible when bringing up the InCallScreen.  (If this
@@ -122,14 +113,6 @@ public class InCallScreen extends Activity
     // MMI code '#' don't get confused as URI fragments.
     /* package */ static final String EXTRA_GATEWAY_URI =
             "com.android.phone.extra.GATEWAY_URI";
-
-    // Event values used with Checkin.Events.Tag.PHONE_UI events:
-    /** The in-call UI became active */
-    static final String PHONE_UI_EVENT_ENTER = "enter";
-    /** User exited the in-call UI */
-    static final String PHONE_UI_EVENT_EXIT = "exit";
-    /** User clicked one of the touchable in-call buttons */
-    static final String PHONE_UI_EVENT_BUTTON_CLICK = "button_click";
 
     // Amount of time (in msec) that we display the "Call ended" state.
     // The "short" value is for calls ended by the local user, and the
@@ -761,12 +744,8 @@ public class InCallScreen extends Activity
             }
         }
 
-        if (ENABLE_PHONE_UI_EVENT_LOGGING) {
-            // InCallScreen is now active.
-            Checkin.logEvent(getContentResolver(),
-                             Checkin.Events.Tag.PHONE_UI,
-                             PHONE_UI_EVENT_ENTER);
-        }
+        // InCallScreen is now active.
+        EventLog.writeEvent(EventLogTags.PHONE_UI_ENTER);
 
         // Update the poke lock and wake lock when we move to
         // the foreground.
@@ -888,12 +867,7 @@ public class InCallScreen extends Activity
             endInCallScreenSession();
         }
 
-        if (ENABLE_PHONE_UI_EVENT_LOGGING) {
-            // InCallScreen is no longer active.
-            Checkin.logEvent(getContentResolver(),
-                             Checkin.Events.Tag.PHONE_UI,
-                             PHONE_UI_EVENT_EXIT);
-        }
+        EventLog.writeEvent(EventLogTags.PHONE_UI_EXIT);
 
         // Clean up the menu, in case we get paused while the menu is up
         // for some reason.
@@ -2942,15 +2916,8 @@ public class InCallScreen extends Activity
                 break;
         }
 
-        if (ENABLE_PHONE_UI_EVENT_LOGGING) {
-            // TODO: For now we care only about whether the user uses the
-            // in-call buttons at all.  But in the future we may want to
-            // log exactly which buttons are being clicked.  (Maybe just
-            // call view.getText() here, and append that to the event value?)
-            Checkin.logEvent(getContentResolver(),
-                             Checkin.Events.Tag.PHONE_UI,
-                             PHONE_UI_EVENT_BUTTON_CLICK);
-        }
+        EventLog.writeEvent(EventLogTags.PHONE_UI_BUTTON_CLICK,
+                (view instanceof TextView) ? ((TextView) view).getText() : "");
 
         // If the user just clicked a "stateful" menu item (i.e. one of
         // the toggle buttons), we keep the menu onscreen briefly to
