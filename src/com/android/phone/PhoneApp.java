@@ -59,6 +59,7 @@ import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.cdma.EriInfo;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
+import com.android.internal.telephony.cdma.TtyIntent;
 
 /**
  * Top-level Application class for the Phone app.
@@ -95,6 +96,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final int EVENT_DATA_ROAMING_OK = 11;
     private static final int EVENT_UNSOL_CDMA_INFO_RECORD = 12;
     private static final int EVENT_DOCK_STATE_CHANGED = 13;
+    private static final int EVENT_TTY_PREFERRED_MODE_CHANGED = 14;
+    private static final int EVENT_TTY_MODE_GET = 15;
+    private static final int EVENT_TTY_MODE_SET = 16;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -209,6 +213,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     public OtaUtils.CdmaOtaScreenState cdmaOtaScreenState;
     public OtaUtils.CdmaOtaInCallScreenUiState cdmaOtaInCallScreenUiState;
 
+    // TTY feature enabled on this platform
+    private boolean mTtyEnabled;
+    // Current TTY operating mode selected by user
+    private int mPreferredTtyMode = Phone.TTY_MODE_OFF;
+
     /**
      * Set the restore mute state flag. Used when we are setting the mute state
      * OUTSIDE of user interaction {@link PhoneUtils#startNewCall(Phone)}
@@ -297,6 +306,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     }
                     // Update the Proximity sensor based on headset state
                     updateProximitySensorMode(phoneState);
+
+                    // Force TTY state update according to new headset state
+                    if (mTtyEnabled) {
+                        sendMessage(obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
+                    }
                     break;
 
                 case EVENT_SIM_STATE_CHANGED:
@@ -343,6 +357,24 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                             mInCallScreen.requestUpdateTouchUi();
                         }
                     }
+
+                case EVENT_TTY_PREFERRED_MODE_CHANGED:
+                    // TTY mode is only applied if a headset is connected
+                    int ttyMode;
+                    if (isHeadsetPlugged()) {
+                        ttyMode = mPreferredTtyMode;
+                    } else {
+                        ttyMode = Phone.TTY_MODE_OFF;
+                    }
+                    phone.setTTYMode(ttyMode, mHandler.obtainMessage(EVENT_TTY_MODE_SET));
+                    break;
+
+                case EVENT_TTY_MODE_GET:
+                    handleQueryTTYModeResponse(msg);
+                    break;
+
+                case EVENT_TTY_MODE_SET:
+                    handleSetTTYModeResponse(msg);
                     break;
             }
         }
@@ -433,6 +465,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // register connection tracking to PhoneUtils
             PhoneUtils.initializeConnectionHandler(phone);
 
+            // Read platform settings for TTY feature
+            mTtyEnabled = getResources().getBoolean(R.bool.tty_enabled);
+
             // Register for misc other intent broadcasts.
             IntentFilter intentFilter =
                     new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
@@ -446,6 +481,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED);
+            if (mTtyEnabled) {
+                intentFilter.addAction(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION);
+            }
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -510,20 +548,19 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // AP owns (i.e. stores) the TTY setting in AP settings database and pushes the setting
         // to BP at power up (BP does not need to make the TTY setting persistent storage).
         // This way, there is a single owner (i.e AP) for the TTY setting in the phone.
-        // Read HAC settings and configure audio hardware
-        if (phoneIsCdma) {
-            int settingsTtyMode = android.provider.Settings.Secure.getInt(
+        if (mTtyEnabled) {
+            mPreferredTtyMode = android.provider.Settings.Secure.getInt(
                     phone.getContext().getContentResolver(),
                     android.provider.Settings.Secure.PREFERRED_TTY_MODE,
                     Phone.TTY_MODE_OFF);
-            phone.setTTYMode(settingsTtyMode, null);
-            // TODO: use a completion handler for setTTYMode and update status bar with
-            // actual TTY mode (See CallFeaturesSetting).
-
+            mHandler.sendMessage(mHandler.obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
+        }
+        // Read HAC settings and configure audio hardware
+        if (getResources().getBoolean(R.bool.hac_enabled)) {
             int hac = android.provider.Settings.System.getInt(phone.getContext().getContentResolver(),
                                                               android.provider.Settings.System.HEARING_AID,
                                                               0);
-            AudioManager audioManager = (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
@@ -1437,6 +1474,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                         Intent.EXTRA_DOCK_STATE_UNDOCKED);
                 if (VDBG) Log.d(LOG_TAG, "ACTION_DOCK_EVENT -> mDockState = " + mDockState);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_DOCK_STATE_CHANGED, 0));
+            } else if (action.equals(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION)) {
+                mPreferredTtyMode = intent.getIntExtra(TtyIntent.TTY_PREFFERED_MODE,
+                                                       Phone.TTY_MODE_OFF);
+                if (VDBG) Log.d(LOG_TAG, "mReceiver: TTY_PREFERRED_MODE_CHANGE_ACTION");
+                if (VDBG) Log.d(LOG_TAG, "    mode: " + mPreferredTtyMode);
+                mHandler.sendMessage(mHandler.obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
             }
         }
     }
@@ -1565,5 +1608,52 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         if (mInCallScreen != null) {
             mInCallScreen.requestUpdateTouchUi();
         }
+    }
+
+    private void handleQueryTTYModeResponse(Message msg) {
+        AsyncResult ar = (AsyncResult) msg.obj;
+        if (ar.exception != null) {
+            if (DBG) Log.d(LOG_TAG, "handleQueryTTYModeResponse: Error getting TTY state.");
+        } else {
+            if (DBG) Log.d(LOG_TAG,
+                           "handleQueryTTYModeResponse: TTY enable state successfully queried.");
+
+            int ttymode = ((int[]) ar.result)[0];
+            if (DBG) Log.d(LOG_TAG, "handleQueryTTYModeResponse:ttymode=" + ttymode);
+
+            Intent ttyModeChanged = new Intent(TtyIntent.TTY_ENABLED_CHANGE_ACTION);
+            ttyModeChanged.putExtra("ttyEnabled", ttymode != Phone.TTY_MODE_OFF);
+            sendBroadcast(ttyModeChanged);
+
+            String audioTtyMode;
+            switch (ttymode) {
+            case Phone.TTY_MODE_FULL:
+                audioTtyMode = "tty_full";
+                break;
+            case Phone.TTY_MODE_VCO:
+                audioTtyMode = "tty_vco";
+                break;
+            case Phone.TTY_MODE_HCO:
+                audioTtyMode = "tty_hco";
+                break;
+            case Phone.TTY_MODE_OFF:
+            default:
+                audioTtyMode = "tty_off";
+                break;
+            }
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setParameters("tty_mode="+audioTtyMode);
+        }
+    }
+
+    private void handleSetTTYModeResponse(Message msg) {
+        AsyncResult ar = (AsyncResult) msg.obj;
+
+        if (ar.exception != null) {
+            if (DBG) Log.d (LOG_TAG,
+                    "handleSetTTYModeResponse: Error setting TTY mode, ar.exception"
+                    + ar.exception);
+        }
+        phone.queryTTYMode(mHandler.obtainMessage(EVENT_TTY_MODE_GET));
     }
 }
