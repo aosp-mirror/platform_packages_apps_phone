@@ -194,6 +194,7 @@ public class BluetoothHeadsetService extends Service {
                             ". Cancel outgoing connection.");
                 if (mConnectThread != null) {
                     mConnectThread.interrupt();
+                    mConnectThread = null;
                 }
 
                 // Now continue with new connection, including calling callback
@@ -204,19 +205,7 @@ public class BluetoothHeadsetService extends Service {
                 setState(BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
                 mBtHandsfree.connectHeadset(mHeadset, mHeadsetType);
 
-                // Make sure that old outgoing connect thread is dead.
-                if (mConnectThread != null) {
-                    try {
-                        // TODO: Don't block in the main thread
-                        Log.w(TAG, "Block in main thread to join stale outgoing connection thread");
-                        mConnectThread.join();
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, "Connection cancelled twice eh?", e);
-                    }
-                    mConnectThread = null;
-                }
-                if (DBG) log("Successfully used incoming connection, and cancelled outgoing " +
-                      " connection");
+                if (DBG) log("Successfully used incoming connection");
                 break;
             case BluetoothHeadset.STATE_CONNECTED:
                 Log.i(TAG, "Already connected to " + mRemoteDevice + ", disconnecting " +
