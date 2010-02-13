@@ -378,6 +378,14 @@ public class CallFeaturesSetting extends PreferenceActivity
      */
     private boolean mReadingSettingsForDefaultProvider = false;
 
+    private boolean mForeground;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mForeground = false;
+    }
+
     /*
      * Click Listeners, handle click based on objects attached to UI.
      */
@@ -690,6 +698,22 @@ public class CallFeaturesSetting extends PreferenceActivity
                         FWD_SETTINGS_DONT_TOUCH));
     }
 
+    private void showDialogIfForeground(int id) {
+        if (mForeground) {
+            showDialog(id);
+        }
+    }
+
+    private void dismissDialogSafely(int id) {
+        try {
+            dismissDialog(id);
+        } catch (IllegalArgumentException e) {
+            // This is expected in the case where we were in the background
+            // at the time we would normally have shown the dialog, so we didn't
+            // show it.
+        }
+    }
+
     private void saveVoiceMailAndForwardingNumber(String key,
             VoiceMailProviderSettings newSettings) {
         if (DBG) log("saveVoiceMailAndForwardingNumber: " + newSettings.toString());
@@ -730,7 +754,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 mPhone.getCallForwardingOption(FORWARDING_SETTINGS_REASONS[i],
                         mGetOptionComplete.obtainMessage(EVENT_FORWARDING_GET_COMPLETED, i, 0));
             }
-            showDialog(VOICEMAIL_FWD_READING_DIALOG);
+            showDialogIfForeground(VOICEMAIL_FWD_READING_DIALOG);
         } else {
             saveVoiceMailAndForwardingNumberStage2();
         }
@@ -772,7 +796,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (error != null) {
             if (DBG) Log.d(LOG_TAG, "Error discovered for fwd read : " + idx);
             mForwardingReadResults = null;
-            dismissDialog(VOICEMAIL_FWD_READING_DIALOG);
+            dismissDialogSafely(VOICEMAIL_FWD_READING_DIALOG);
             showVMDialog(MSG_FW_GET_EXCEPTION);
             return;
         }
@@ -810,7 +834,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         if (done) {
             if (DBG) Log.d(LOG_TAG, "Done receiving fwd info");
-            dismissDialog(VOICEMAIL_FWD_READING_DIALOG);
+            dismissDialogSafely(VOICEMAIL_FWD_READING_DIALOG);
             if (mReadingSettingsForDefaultProvider) {
                 maybeSaveSettingsForVoicemailProvider(DEFAULT_VM_PROVIDER_KEY,
                         new VoiceMailProviderSettings(this.mOldVmNumber,
@@ -882,7 +906,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                                     EVENT_FORWARDING_CHANGED, fi.reason, 0));
                 }
              }
-             showDialog(VOICEMAIL_FWD_SAVING_DIALOG);
+             showDialogIfForeground(VOICEMAIL_FWD_SAVING_DIALOG);
         } else {
             if (DBG) log("Not touching fwd #");
             setVMNumberWithCarrier();
@@ -950,7 +974,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (done) {
                 if (DBG) log("All VM provider related changes done");
                 if (mForwardingChangeResults != null) {
-                    dismissDialog(VOICEMAIL_FWD_SAVING_DIALOG);
+                    dismissDialogSafely(VOICEMAIL_FWD_SAVING_DIALOG);
                 }
                 handleSetVMOrFwdMessage();
             }
@@ -1121,17 +1145,22 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     /*
      * Helper Methods for Activity class.
-     * The inital query commands are split into two pieces now
+     * The initial query commands are split into two pieces now
      * for individual expansion.  This combined with the ability
      * to cancel queries allows for a much better user experience,
      * and also ensures that the user only waits to update the
      * data that is relevant.
      */
 
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+        mCurrentDialogId = id;
+    }
+
     // dialog creation method, called by showDialog()
     @Override
     protected Dialog onCreateDialog(int id) {
-        mCurrentDialogId = id;
         if ((id == VM_RESPONSE_ERROR) || (id == VM_NOCHANGE_ERROR) ||
             (id == FW_SET_RESPONSE_ERROR) || (id == FW_GET_RESPONSE_ERROR) ||
                 (id == VOICEMAIL_DIALOG_CONFIRM)) {
@@ -1247,20 +1276,22 @@ public class CallFeaturesSetting extends PreferenceActivity
     // set the app state with optional status.
     private void showVMDialog(int msgStatus) {
         switch (msgStatus) {
+            // It's a bit worrisome to punt in the error cases here when we're
+            // not in the foreground; maybe toast instead?
             case MSG_VM_EXCEPTION:
-                showDialog(VM_RESPONSE_ERROR);
+                showDialogIfForeground(VM_RESPONSE_ERROR);
                 break;
             case MSG_FW_SET_EXCEPTION:
-                showDialog(FW_SET_RESPONSE_ERROR);
+                showDialogIfForeground(FW_SET_RESPONSE_ERROR);
                 break;
             case MSG_FW_GET_EXCEPTION:
-                showDialog(FW_GET_RESPONSE_ERROR);
+                showDialogIfForeground(FW_GET_RESPONSE_ERROR);
                 break;
             case MSG_VM_NOCHANGE:
-                showDialog(VM_NOCHANGE_ERROR);
+                showDialogIfForeground(VM_NOCHANGE_ERROR);
                 break;
             case MSG_VM_OK:
-                showDialog(VOICEMAIL_DIALOG_CONFIRM);
+                showDialogIfForeground(VOICEMAIL_DIALOG_CONFIRM);
                 break;
             case MSG_OK:
             default:
@@ -1372,6 +1403,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mForeground = true;
 
         if (mButtonDTMF != null) {
             int dtmf = Settings.System.getInt(getContentResolver(),
