@@ -1871,8 +1871,8 @@ public class PhoneUtils {
      *
      * @return true if we consumed the event.
      */
-    /* package */ static boolean handleHeadsetHook(Phone phone) {
-        if (DBG) log("handleHeadsetHook()...");
+    /* package */ static boolean handleHeadsetHook(Phone phone, KeyEvent event) {
+        if (DBG) log("handleHeadsetHook()..." + event.getAction() + " " + event.getRepeatCount());
 
         // If the phone is totally idle, we ignore HEADSETHOOK events
         // (and instead let them fall through to the media player.)
@@ -1892,7 +1892,9 @@ public class PhoneUtils {
         final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
-        if (hasRingingCall) {
+        if (hasRingingCall &&
+            event.getRepeatCount() == 0 &&
+            event.getAction() == KeyEvent.ACTION_UP) {
             // If an incoming call is ringing, answer it (just like with the
             // CALL button):
             int phoneType = phone.getPhoneType();
@@ -1912,15 +1914,22 @@ public class PhoneUtils {
             }
         } else {
             // No incoming ringing call.
-            // If it is NOT an emg #, toggle the mute state. Otherwise, ignore the hook.
-            Connection c = phone.getForegroundCall().getLatestConnection();
-            if (c != null && !PhoneNumberUtils.isEmergencyNumber(c.getAddress())) {
-                if (getMute(phone)) {
-                    if (DBG) log("handleHeadsetHook: UNmuting...");
-                    setMute(phone, false);
-                } else {
-                    if (DBG) log("handleHeadsetHook: muting...");
-                    setMute(phone, true);
+            if (event.isLongPress()) {
+                if (DBG) log("handleHeadsetHook: longpress -> hangup");
+                hangup(phone);
+            }
+            else if (event.getAction() == KeyEvent.ACTION_UP &&
+                     event.getRepeatCount() == 0) {
+                Connection c = phone.getForegroundCall().getLatestConnection();
+                // If it is NOT an emg #, toggle the mute state. Otherwise, ignore the hook.
+                if (c != null && !PhoneNumberUtils.isEmergencyNumber(c.getAddress())) {
+                    if (getMute(phone)) {
+                        if (DBG) log("handleHeadsetHook: UNmuting...");
+                        setMute(phone, false);
+                    } else {
+                        if (DBG) log("handleHeadsetHook: muting...");
+                        setMute(phone, true);
+                    }
                 }
             }
         }
