@@ -77,7 +77,18 @@ public class OtaUtils {
     private OtaWidgetData mOtaWidgetData;
     private ViewGroup mInCallPanel;
     private CallCard mCallCard;
+
+    // The DTMFTwelveKeyDialer instance owned by the InCallScreen, which
+    // the InCallScreen passes in to our constructor.
     private DTMFTwelveKeyDialer mDialer;
+    //
+    // The DTMFTwelveKeyDialer instance that we create ourselves in
+    // initOtaInCallScreen(), and attach to the DTMFTwelveKeyDialerView
+    // ("otaDtmfDialerView") that comes from otacall_card.xml.
+    private DTMFTwelveKeyDialer mOtaCallCardDtmfDialer;
+    // TODO: we ought to share a single DTMFTwelveKeyDialer instance for
+    // both these uses, but see bug 2432289 for related issues.
+
     private static boolean mIsWizardMode = true;
 
     /**
@@ -789,10 +800,23 @@ public class OtaUtils {
         if (mOtaWidgetData.otaDtmfDialerView == null) {
             Log.e(LOG_TAG, "onCreate: couldn't find otaDtmfDialer", new IllegalStateException());
         }
-        DTMFTwelveKeyDialer dialer = new DTMFTwelveKeyDialer(mInCallScreen,
-                                                             mOtaWidgetData.otaDtmfDialerView,
-                                                             null /* no SlidingDrawer used here */);
-        mOtaWidgetData.otaDtmfDialerView.setDialer(dialer);
+
+
+        // Create a new DTMFTwelveKeyDialer instance purely for use by the
+        // DTMFTwelveKeyDialerView ("otaDtmfDialerView") that comes from
+        // otacall_card.xml.
+        // (But note that mDialer is a separate DTMFTwelveKeyDialer
+        // instance, that belongs to the InCallScreen.  This is confusing;
+        // see the TODO comment above.)
+        mOtaCallCardDtmfDialer = new DTMFTwelveKeyDialer(mInCallScreen,
+                                                         mOtaWidgetData.otaDtmfDialerView,
+                                                         null /* no SlidingDrawer used here */);
+
+        // Initialize the new DTMFTwelveKeyDialer instance.  This is
+        // needed to play local DTMF tones.
+        mOtaCallCardDtmfDialer.startDialerSession();
+
+        mOtaWidgetData.otaDtmfDialerView.setDialer(mOtaCallCardDtmfDialer);
     }
 
     /**
@@ -815,6 +839,12 @@ public class OtaUtils {
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
         mDialer.setHandleVisible(true);
+
+        // Free resources from the DTMFTwelveKeyDialer instance we created
+        // in initOtaInCallScreen().
+        if (mOtaCallCardDtmfDialer != null) {
+            mOtaCallCardDtmfDialer.stopDialerSession();
+        }
 
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
         mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
