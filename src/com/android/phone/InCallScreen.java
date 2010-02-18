@@ -710,12 +710,11 @@ public class InCallScreen extends Activity
 
         boolean phoneIsCdma = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
 
+        boolean inOtaCall = false;
         if (phoneIsCdma) {
-            initOtaState();
+            inOtaCall = initOtaState();
         }
-
-        if ((mInCallScreenMode != InCallScreenMode.OTA_NORMAL) &&
-                (mInCallScreenMode != InCallScreenMode.OTA_ENDED)) {
+        if (!inOtaCall) {
             // Always start off in NORMAL mode
             setInCallScreenMode(InCallScreenMode.NORMAL);
         }
@@ -4701,17 +4700,22 @@ public class InCallScreen extends Activity
      * OtaUtil object provides utility apis that InCallScreen calls for OTA Call UI
      * rendering, handling of touck/key events on OTA Screens and handling of
      * Framework events that result in OTA State change
+     *
+     * @return: true if we are in an OtaCall
      */
-    private void initOtaState() {
+    private boolean initOtaState() {
+        boolean inOtaCall = false;
+
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             final PhoneApp app = PhoneApp.getInstance();
 
             if ((app.cdmaOtaScreenState == null) || (app.cdmaOtaProvisionData == null)) {
                 if (DBG) log("initOtaState func - All CdmaOTA utility classes not initialized");
-                return;
+                return false;
             }
 
-            if (checkIsOtaCall(getIntent())) {
+            inOtaCall = checkIsOtaCall(getIntent());
+            if (inOtaCall) {
                 OtaUtils.CdmaOtaInCallScreenUiState.State cdmaOtaInCallScreenState =
                         otaUtils.getCdmaOtaInCallScreenUiState();
                 if (cdmaOtaInCallScreenState == OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL) {
@@ -4735,6 +4739,7 @@ public class InCallScreen extends Activity
                 }
             }
         }
+        return inOtaCall;
     }
 
     public void updateMenuItems() {
