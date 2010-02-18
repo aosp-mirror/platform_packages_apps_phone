@@ -402,7 +402,7 @@ public class DTMFTwelveKeyDialer implements
     public DTMFTwelveKeyDialer(InCallScreen parent,
                                DTMFTwelveKeyDialerView dialerView,
                                SlidingDrawer dialerDrawer) {
-        if (DBG) log("DTMFTwelveKeyDialer constructor...");
+        if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
         mPhone = PhoneApp.getInstance().phone;
@@ -509,6 +509,8 @@ public class DTMFTwelveKeyDialer implements
      * resources.
      */
     public void startDialerSession() {
+        if (DBG) log("startDialerSession()... this = " + this);
+
         // see if we need to play local tones.
         if (mPhone.getContext().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
             mDTMFToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
@@ -516,6 +518,7 @@ public class DTMFTwelveKeyDialer implements
         } else {
             mDTMFToneEnabled = false;
         }
+        if (DBG) log("- startDialerSession: mDTMFToneEnabled = " + mDTMFToneEnabled);
 
         // create the tone generator
         // if the mToneGenerator creation fails, just continue without it.  It is
@@ -961,6 +964,8 @@ public class DTMFTwelveKeyDialer implements
      * Plays tone when the DTMF setting is normal(Short).
      */
     void startToneCdma(char tone) {
+        if (DBG) log("startToneCdma('" + tone + "')...");
+
         // Read the settings as it may be changed by the user during the call
         mDTMFToneType = Settings.System.getInt(mInCallScreen.getContentResolver(),
                 Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
@@ -981,6 +986,9 @@ public class DTMFTwelveKeyDialer implements
      * Plays local tone for CDMA.
      */
     void startLocalToneCdma(char tone) {
+        if (DBG) log("startLocalToneCdma('" + tone + "')..."
+                     + " mDTMFToneEnabled = " + mDTMFToneEnabled + " this = " + this);
+
         // if local tone playback is enabled, start it.
         if (mDTMFToneEnabled) {
             synchronized (mToneGeneratorLock) {
