@@ -66,27 +66,32 @@ public class CdmaRoamingListPreference extends ListPreference {
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
 
-        int buttonCdmaRoamingMode = Integer.valueOf(getValue()).intValue();
-        int settingsCdmaRoamingMode =
-                Secure.getInt(mPhone.getContext().getContentResolver(),
-                Secure.CDMA_ROAMING_MODE, Phone.CDMA_RM_HOME);
-        if (buttonCdmaRoamingMode != settingsCdmaRoamingMode) {
-            int statusCdmaRoamingMode;
-            switch(buttonCdmaRoamingMode) {
-                case Phone.CDMA_RM_ANY:
-                    statusCdmaRoamingMode = Phone.CDMA_RM_ANY;
-                    break;
-                case Phone.CDMA_RM_HOME:
-                default:
-                    statusCdmaRoamingMode = Phone.CDMA_RM_HOME;
+        if (positiveResult && (getValue() != null)) {
+            int buttonCdmaRoamingMode = Integer.valueOf(getValue()).intValue();
+            int settingsCdmaRoamingMode =
+                    Secure.getInt(mPhone.getContext().getContentResolver(),
+                    Secure.CDMA_ROAMING_MODE, Phone.CDMA_RM_HOME);
+            if (buttonCdmaRoamingMode != settingsCdmaRoamingMode) {
+                int statusCdmaRoamingMode;
+                switch(buttonCdmaRoamingMode) {
+                    case Phone.CDMA_RM_ANY:
+                        statusCdmaRoamingMode = Phone.CDMA_RM_ANY;
+                        break;
+                    case Phone.CDMA_RM_HOME:
+                    default:
+                        statusCdmaRoamingMode = Phone.CDMA_RM_HOME;
+                }
+                //Set the Settings.Secure network mode
+                Secure.putInt(mPhone.getContext().getContentResolver(),
+                        Secure.CDMA_ROAMING_MODE,
+                        buttonCdmaRoamingMode );
+                //Set the roaming preference mode
+                mPhone.setCdmaRoamingPreference(statusCdmaRoamingMode, mHandler
+                        .obtainMessage(MyHandler.MESSAGE_SET_ROAMING_PREFERENCE));
             }
-            //Set the Settings.Secure network mode
-            Secure.putInt(mPhone.getContext().getContentResolver(),
-                    Secure.CDMA_ROAMING_MODE,
-                    buttonCdmaRoamingMode );
-            //Set the roaming preference mode
-            mPhone.setCdmaRoamingPreference(statusCdmaRoamingMode, mHandler
-                    .obtainMessage(MyHandler.MESSAGE_SET_ROAMING_PREFERENCE));
+        } else {
+            Log.d(LOG_TAG, String.format("onDialogClosed: positiveResult=%b value=%s -- do nothing",
+                    positiveResult, getValue()));
         }
     }
 
@@ -141,7 +146,7 @@ public class CdmaRoamingListPreference extends ListPreference {
         private void handleSetCdmaRoamingPreference(Message msg) {
             AsyncResult ar = (AsyncResult) msg.obj;
 
-            if (ar.exception == null) {
+            if ((ar.exception == null) && (getValue() != null)) {
                 int cdmaRoamingMode = Integer.valueOf(getValue()).intValue();
                 Secure.putInt(mPhone.getContext().getContentResolver(),
                         Secure.CDMA_ROAMING_MODE,
