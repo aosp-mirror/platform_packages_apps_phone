@@ -108,9 +108,7 @@ public class BluetoothHeadsetService extends Service {
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         filter.addAction(BluetoothDevice.ACTION_UUID);
         registerReceiver(mBluetoothReceiver, filter);
-
-        mPhone.registerForPreciseCallStateChanged(mStateChangeHandler, PHONE_STATE_CHANGED, null);
-    }
+   }
 
     @Override
     public void onStart(Intent intent, int startId) {
@@ -215,35 +213,6 @@ public class BluetoothHeadsetService extends Service {
                         info.mSocketFd, info.mRfcommChan, null);
                 headset.disconnect();
                 break;
-            }
-        }
-    };
-
-    private final Handler mStateChangeHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch(msg.what) {
-            case PHONE_STATE_CHANGED:
-                switch(mForegroundCall.getState()) {
-                case DIALING:
-                case ALERTING:
-                    synchronized(this) {
-                        if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
-                            autoConnectHeadset();
-                        }
-                    }
-                }
-
-                switch(mRingingCall.getState()) {
-                case INCOMING:
-                case WAITING:
-                    synchronized(this) {
-                        if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
-                            autoConnectHeadset();
-                        }
-                    }
-                break;
-                }
             }
         }
     };
