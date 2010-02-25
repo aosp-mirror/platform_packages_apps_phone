@@ -17,8 +17,10 @@
 package com.android.phone;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +50,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     public static final int REQUEST_CODE_EXIT_ECM         = 17;
 
     //String keys for preference lookup
+    private static final String BUTTON_DATA_ENABLED_KEY = "button_data_enabled_key";
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
     private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
@@ -60,6 +63,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
     private CheckBoxPreference mButtonDataRoam;
+    private CheckBoxPreference mButtonDataEnabled;
     private CdmaRoamingListPreference mButtonCdmaRoam;
 
     private Phone mPhone;
@@ -138,8 +142,14 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mPhone.setDataRoamingEnabled(false);
             }
             return true;
-        }
-        else {
+        } else if (preference == mButtonDataEnabled) {
+            if (DBG) log("onPreferenceTreeClick: preference == mButtonDataEnabled.");
+            ConnectivityManager cm =
+                    (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            cm.setMobileDataEnabled(mButtonDataEnabled.isChecked());
+            return true;
+        } else {
             // if the button is anything but the simple toggle preference,
             // we'll need to disable all preferences to reject all click
             // events until the sub-activity's UI comes up.
@@ -161,6 +171,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         //get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
 
+        mButtonDataEnabled = (CheckBoxPreference) prefSet.findPreference(BUTTON_DATA_ENABLED_KEY);
         mButtonDataRoam = (CheckBoxPreference) prefSet.findPreference(BUTTON_ROAMING_KEY);
         mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_NETWORK_MODE);
@@ -204,6 +215,10 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         // upon resumption from the sub-activity, make sure we re-enable the
         // preferences.
         getPreferenceScreen().setEnabled(true);
+
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        mButtonDataEnabled.setChecked(cm.getMobileDataEnabled());
 
         // Set UI state in onResume because a user could go home, launch some
         // app to change this setting's backend, and re-launch this settings app

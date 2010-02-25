@@ -422,6 +422,10 @@
         <item>"1"</item>
         <item>"0"</item>
     </string-array>
+    <!-- Mobile network settings screen, data enabling checkbox name -->
+    <string name="data_enabled">Data enabled</string>
+    <!-- Mobile network settings screen, setting summary text when check box is not selected (explains what selecting it would do) -->
+    <string name="data_enable_summary">Enable data access over Mobile network</string>
     <!-- Mobile network settings screen, setting check box name -->
     <string name="roaming">Data roaming</string>
     <!-- Mobile network settings screen, setting summary text when check box is selected -->

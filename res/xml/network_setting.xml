@@ -18,6 +18,12 @@
         android:title="@string/mobile_networks">
 
     <CheckBoxPreference
+        android:key="button_data_enabled_key"
+        android:title="@string/data_enabled"
+        android:persistent="false"
+        android:summary="@string/data_enable_summary"/>
+
+    <CheckBoxPreference
         android:key="button_roaming_key"
         android:title="@string/roaming"
         android:persistent="false"
