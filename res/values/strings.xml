@@ -694,27 +694,27 @@
     <!-- "Edit FDN Contact" screen: Button label for "save" action -->
     <string name="save">Save</string>
     <!-- Title of "Edit FDN Contact" screen for a new contact -->
-    <string name="add_fdn_contact">Add fixed dialing contact</string>
+    <string name="add_fdn_contact">Add fixed dialing number</string>
     <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="adding_fdn_contact">Adding fixed dialing contact\u2026</string>
+    <string name="adding_fdn_contact">Adding fixed dialing number\u2026</string>
     <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="fdn_contact_added">Fixed dialing contact added.</string>
+    <string name="fdn_contact_added">Fixed dialing number added.</string>
     <!-- Title of "Edit FDN Contact" screen when editing an already-existing contact -->
-    <string name="edit_fdn_contact">Edit fixed dialing contact</string>
+    <string name="edit_fdn_contact">Edit fixed dialing number</string>
     <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="updating_fdn_contact">Updating fixed dialing contact\u2026</string>
+    <string name="updating_fdn_contact">Updating fixed dialing number\u2026</string>
     <!-- "Edit FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="fdn_contact_updated">Fixed dialing contact updated.</string>
+    <string name="fdn_contact_updated">Fixed dialing number updated.</string>
     <!-- Title of "Delete FDN Contact" screen -->
-    <string name="delete_fdn_contact">Delete fixed dialing contact</string>
+    <string name="delete_fdn_contact">Delete fixed dialing number</string>
     <!-- "Delete FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="deleting_fdn_contact">Deleting fixed dialing contact\u2026</string>
+    <string name="deleting_fdn_contact">Deleting fixed dialing number\u2026</string>
     <!-- "Delete FDN Contact" screen: status message displayed in a popup (toast) -->
-    <string name="fdn_contact_deleted">Fixed dialing contact deleted.</string>
+    <string name="fdn_contact_deleted">Fixed dialing number deleted.</string>
     <!-- FDN settings: error message displayed in a popup (toast) -->
-    <string name="pin2_invalid">PIN2 invalid!</string>
+    <string name="pin2_invalid">FDN not updated: you entered an incorrect PIN.</string>
     <!-- FDN settings: error message displayed in a popup (toast) -->
-    <string name="fdn_invalid_number">Number cannot exceed 20 digits.</string>
+    <string name="fdn_invalid_number">FDN not updated: number cannot exceed 20 digits.</string>
 
     <!-- ADN related strings -->
     <!-- Placeholder text displayed while loading the list of SIM contacts -->
