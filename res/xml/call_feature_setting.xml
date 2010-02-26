@@ -37,6 +37,7 @@
           android:key="button_voicemail_provider_key"
           android:title="@string/voicemail_provider"
           android:summary="@string/sum_voicemail_choose_provider"
+          android:defaultValue=""
           android:persistent="true"
       />
       <PreferenceScreen android:key="button_voicemail_setting_key"
