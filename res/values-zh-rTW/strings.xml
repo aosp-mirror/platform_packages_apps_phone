@@ -209,6 +209,10 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
+    <!-- no translation found for data_enabled (5972538663568715366) -->
+    <skip />
+    <!-- no translation found for data_enable_summary (5022018967714633874) -->
+    <skip />
     <string name="roaming" msgid="8871412572928323707">"資料漫遊"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫遊時連線到資料傳輸服務"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"漫遊時連線到資料傳輸服務"</string>
@@ -393,17 +397,28 @@
     <string name="name" msgid="7329028332786872378">"名稱"</string>
     <string name="number" msgid="7905950798349903858">"號碼"</string>
     <string name="save" msgid="4094274636321939086">"儲存"</string>
-    <string name="add_fdn_contact" msgid="5412242719704146070">"新增固定撥號聯絡人"</string>
-    <string name="adding_fdn_contact" msgid="1008984230265031168">"正在新增固定撥號聯絡人..."</string>
-    <string name="fdn_contact_added" msgid="3283284983265410270">"已新增固定撥號聯絡人。"</string>
-    <string name="edit_fdn_contact" msgid="3440054765948798731">"編輯固定撥號聯絡人"</string>
-    <string name="updating_fdn_contact" msgid="5918299270800552372">"正在更新固定撥號聯絡人..."</string>
-    <string name="fdn_contact_updated" msgid="510187720367785051">"固定撥號清單已更新。"</string>
-    <string name="delete_fdn_contact" msgid="2237838617123538040">"刪除固定撥號聯絡人"</string>
-    <string name="deleting_fdn_contact" msgid="6162824054507660151">"正在刪除固定撥號聯絡人..."</string>
-    <string name="fdn_contact_deleted" msgid="5596742031140651283">"已刪除固定撥號聯絡人。"</string>
-    <string name="pin2_invalid" msgid="6408721267712649637">"PIN2 錯誤！"</string>
-    <string name="fdn_invalid_number" msgid="1484959418054136856">"號碼不能超過 20 位數。"</string>
+    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
+    <skip />
+    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
+    <skip />
+    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
+    <skip />
+    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
+    <skip />
+    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
+    <skip />
+    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
+    <skip />
+    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
+    <skip />
+    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
+    <skip />
+    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
+    <skip />
+    <!-- no translation found for pin2_invalid (7176360264228076810) -->
+    <skip />
+    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
+    <skip />
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"從 SIM 卡讀取中..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"您的 SIM 卡上沒有聯絡人。"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"選取要匯入的聯絡人"</string>

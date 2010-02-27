@@ -133,20 +133,17 @@
     <string name="messageCFB" msgid="3711089705936187129">"Номер, использующийся, когда линия занята"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Отключено"</string>
-    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
-    <skip />
+    <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Ваш оператор не поддерживает отключение переадресации звонков, если телефон занят."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Если аб. не отвечает"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Номер для переадресации при отсутствии ответа"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Отключено"</string>
-    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
-    <skip />
+    <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Ваш оператор не поддерживает отключение переадресации звонков, если нет ответа."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Если аб. недоступен"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Номер для случаев, если абонент недоступен"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Переадресация на номер \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Отключено"</string>
-    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
-    <skip />
+    <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Ваш оператор не поддерживает отключение переадресации звонков, если телефон находится вне зоны доступа."</string>
     <string name="updating_title" msgid="6146755386174019046">"Настройки вызовов"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Ошибка настройки вызовов"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Чтение настроек…"</string>
@@ -209,6 +206,10 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
+    <!-- no translation found for data_enabled (5972538663568715366) -->
+    <skip />
+    <!-- no translation found for data_enable_summary (5022018967714633874) -->
+    <skip />
     <string name="roaming" msgid="8871412572928323707">"Интернет-роуминг"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Подключаться к службам передачи данных в роуминге"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Подключаться к службам передачи данных в роуминге"</string>
@@ -393,17 +394,28 @@
     <string name="name" msgid="7329028332786872378">"Имя"</string>
     <string name="number" msgid="7905950798349903858">"Номер"</string>
     <string name="save" msgid="4094274636321939086">"Сохранить"</string>
-    <string name="add_fdn_contact" msgid="5412242719704146070">"Добавить контакт в разрешенные"</string>
-    <string name="adding_fdn_contact" msgid="1008984230265031168">"Добавление контакта в разрешенные..."</string>
-    <string name="fdn_contact_added" msgid="3283284983265410270">"Контакт добавлен в разрешенные."</string>
-    <string name="edit_fdn_contact" msgid="3440054765948798731">"Изменить разрешенный контакт"</string>
-    <string name="updating_fdn_contact" msgid="5918299270800552372">"Обновление данных разрешенного контакта..."</string>
-    <string name="fdn_contact_updated" msgid="510187720367785051">"Разрешенный контакт обновлен."</string>
-    <string name="delete_fdn_contact" msgid="2237838617123538040">"Удалить контакт из разрешенных"</string>
-    <string name="deleting_fdn_contact" msgid="6162824054507660151">"Удаление контакта из разрешенных..."</string>
-    <string name="fdn_contact_deleted" msgid="5596742031140651283">"Контакт удален из разрешенных."</string>
-    <string name="pin2_invalid" msgid="6408721267712649637">"Недействительный PIN2"</string>
-    <string name="fdn_invalid_number" msgid="1484959418054136856">"Длина номера не может превышать 20 знаков."</string>
+    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
+    <skip />
+    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
+    <skip />
+    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
+    <skip />
+    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
+    <skip />
+    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
+    <skip />
+    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
+    <skip />
+    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
+    <skip />
+    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
+    <skip />
+    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
+    <skip />
+    <!-- no translation found for pin2_invalid (7176360264228076810) -->
+    <skip />
+    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
+    <skip />
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Считывание с SIM-карты…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"На SIM-карте нет контактов."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Выберите контакты для импорта"</string>
