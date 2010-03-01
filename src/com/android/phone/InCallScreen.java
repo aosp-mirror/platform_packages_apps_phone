@@ -221,6 +221,7 @@ public class InCallScreen extends Activity
         VOICEMAIL_NUMBER_MISSING,
         POWER_OFF,
         EMERGENCY_ONLY,
+        OUT_OF_SERVICE,
         PHONE_NOT_IN_USE,
         NO_PHONE_NUMBER_SUPPLIED,
         DIALED_MMI,
@@ -2653,16 +2654,25 @@ public class InCallScreen extends Activity
                 // Normal operation.  It's OK to make outgoing calls.
                 return InCallInitStatus.SUCCESS;
 
-
             case ServiceState.STATE_POWER_OFF:
                 // Radio is explictly powered off.
                 return InCallInitStatus.POWER_OFF;
 
-            case ServiceState.STATE_OUT_OF_SERVICE:
             case ServiceState.STATE_EMERGENCY_ONLY:
                 // The phone is registered, but locked. Only emergency
                 // numbers are allowed.
+                // Note that as of Android 2.0 at least, the telephony layer
+                // does not actually use ServiceState.STATE_EMERGENCY_ONLY,
+                // mainly since there's no guarantee that the radio/RIL can
+                // make this distinction.  So in practice the
+                // InCallInitStatus.EMERGENCY_ONLY state and the string
+                // "incall_error_emergency_only" are totally unused.
                 return InCallInitStatus.EMERGENCY_ONLY;
+
+            case ServiceState.STATE_OUT_OF_SERVICE:
+                // No network connection.
+                return InCallInitStatus.OUT_OF_SERVICE;
+
             default:
                 throw new IllegalStateException("Unexpected ServiceState: " + state);
         }
@@ -3239,7 +3249,7 @@ public class InCallScreen extends Activity
         //   Dialog handles both OK *and* cancel by calling endInCallScreenSession.
         //   Activity.  (See showGenericErrorDialog() for an example.)
 
-        switch(status) {
+        switch (status) {
 
             case VOICEMAIL_NUMBER_MISSING:
                 // Bring up the "Missing Voicemail Number" dialog, which
@@ -3262,7 +3272,13 @@ public class InCallScreen extends Activity
             case EMERGENCY_ONLY:
                 // Only emergency numbers are allowed, but we tried to dial
                 // a non-emergency number.
+                // (This state is currently unused; see comments above.)
                 showGenericErrorDialog(R.string.incall_error_emergency_only, true);
+                break;
+
+            case OUT_OF_SERVICE:
+                // No network connection.
+                showGenericErrorDialog(R.string.incall_error_out_of_service, true);
                 break;
 
             case PHONE_NOT_IN_USE:
