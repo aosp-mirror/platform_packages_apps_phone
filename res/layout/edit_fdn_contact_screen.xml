@@ -43,6 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dip"
+                android:inputType="textPersonName"
+                android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:scrollHorizontally="true"
                 android:autoText="false"
@@ -68,10 +70,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dip"
+                android:inputType="phone"
+                android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:scrollHorizontally="true"
                 android:autoText="false"
                 android:capitalize="none" />
+
         </LinearLayout>
 
         <Button android:id="@+id/button"
