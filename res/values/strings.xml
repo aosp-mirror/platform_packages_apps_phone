@@ -874,8 +874,11 @@
 
     <!-- In-call screen: call failure message displayed in an error dialog -->
     <string name="incall_error_power_off">To place a call, first turn off Airplane mode.</string>
-    <!-- In-call screen: Error message displayed in a  dialog when trying to dial without a SIM card. -->
+    <!-- In-call screen: call failure message displayed in an error dialog.
+         This string is currently unused (see comments in InCallScreen.java.) -->
     <string name="incall_error_emergency_only">Not registered on network.</string>
+    <!-- In-call screen: call failure message displayed in an error dialog -->
+    <string name="incall_error_out_of_service">Not registered on network.</string>
     <!-- In-call screen: call failure message displayed in an error dialog -->
     <string name="incall_error_no_phone_number_supplied">Call not sent, no valid number entered.</string>
     <!-- In-call screen: call failure message displayed in an error dialog -->
