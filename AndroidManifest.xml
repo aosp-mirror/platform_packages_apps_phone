@@ -307,10 +307,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="GetPin2Screen" android:label="@string/get_pin2">
+        <activity android:name="GetPin2Screen" android:label="@string/get_pin2"
+                  android:windowSoftInputMode="stateVisible">
         </activity>
 
-        <activity android:name="EditFdnContactScreen">
+        <activity android:name="EditFdnContactScreen"
+                  android:windowSoftInputMode="stateVisible">
         </activity>
 
         <activity android:name="DeleteFdnContactScreen"
