@@ -878,7 +878,7 @@
          This string is currently unused (see comments in InCallScreen.java.) -->
     <string name="incall_error_emergency_only">Not registered on network.</string>
     <!-- In-call screen: call failure message displayed in an error dialog -->
-    <string name="incall_error_out_of_service">Not registered on network.</string>
+    <string name="incall_error_out_of_service">Mobile network not available.</string>
     <!-- In-call screen: call failure message displayed in an error dialog -->
     <string name="incall_error_no_phone_number_supplied">Call not sent, no valid number entered.</string>
     <!-- In-call screen: call failure message displayed in an error dialog -->
