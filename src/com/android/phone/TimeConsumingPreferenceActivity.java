@@ -30,7 +30,9 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
     static final int RESPONSE_ERROR = 400;
     static final int RADIO_OFF_ERROR = 500;
 
-    private ArrayList<String> mBusyList=new ArrayList<String> ();
+    private final ArrayList<String> mBusyList=new ArrayList<String> ();
+
+    protected boolean mIsForeground = false;
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -93,6 +95,18 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         return null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsForeground = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsForeground = false;
+    }
+
     public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
     }
@@ -103,11 +117,14 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
                 + ", reading=" + reading);
         mBusyList.add(preference.getKey());
 
-        if (reading) {
-            showDialog(BUSY_READING_DIALOG);
-        } else {
-            showDialog(BUSY_SAVING_DIALOG);
+        if (mIsForeground) {
+              if (reading) {
+                  showDialog(BUSY_READING_DIALOG);
+              } else {
+                  showDialog(BUSY_SAVING_DIALOG);
+              }
         }
+
     }
 
     public void onFinished(Preference preference, boolean reading) {
@@ -116,7 +133,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
                 + ", reading=" + reading);
         mBusyList.remove(preference.getKey());
 
-        if (mBusyList.isEmpty()) {
+        if (mBusyList.isEmpty() && mIsForeground) {
             if (reading) {
                 dismissDialog(BUSY_READING_DIALOG);
             } else {
@@ -128,7 +145,10 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
     public void onError(Preference preference, int error) {
         if (DBG) dumpState();
         if (DBG) Log.d(LOG_TAG, "onError, preference=" + preference.getKey() + ", error=" + error);
-        showDialog(error);
+
+        if (mIsForeground) {
+            showDialog(error);
+        }
     }
 
     public void onCancel(DialogInterface dialog) {
