@@ -16,9 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.gsm.NetworkInfo;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -37,6 +34,9 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.gsm.NetworkInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +68,7 @@ public class NetworkSetting extends PreferenceActivity
     private HashMap<Preference, NetworkInfo> mNetworkMap;
 
     Phone mPhone;
+    protected boolean mIsForeground = false;
 
     /** message for network selection */
     String mNetworkSelectMsg;
@@ -77,7 +78,7 @@ public class NetworkSetting extends PreferenceActivity
     private Preference mSearchButton;
     private Preference mAutoSelect;
 
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             AsyncResult ar;
@@ -102,7 +103,10 @@ public class NetworkSetting extends PreferenceActivity
                     break;
                 case EVENT_AUTO_SELECT_DONE:
                     if (DBG) log("hideProgressPanel");
-                    dismissDialog(DIALOG_NETWORK_AUTO_SELECT);
+
+                    if (mIsForeground) {
+                        dismissDialog(DIALOG_NETWORK_AUTO_SELECT);
+                    }
                     getPreferenceScreen().setEnabled(true);
 
                     ar = (AsyncResult) msg.obj;
@@ -130,7 +134,7 @@ public class NetworkSetting extends PreferenceActivity
     private INetworkQueryService mNetworkQueryService = null;
 
     /** Service connection */
-    private ServiceConnection mNetworkQueryServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mNetworkQueryServiceConnection = new ServiceConnection() {
 
         /** Handle the task of binding the local object to the service */
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -151,7 +155,7 @@ public class NetworkSetting extends PreferenceActivity
      * This implementation of INetworkQueryServiceCallback is used to receive
      * callback notifications from the network query service.
      */
-    private INetworkQueryServiceCallback mCallback = new INetworkQueryServiceCallback.Stub() {
+    private final INetworkQueryServiceCallback mCallback = new INetworkQueryServiceCallback.Stub() {
 
         /** place the message on the looper queue upon query completion. */
         public void onQueryComplete(List<NetworkInfo> networkInfoArray, int status) {
@@ -231,6 +235,18 @@ public class NetworkSetting extends PreferenceActivity
                 Context.BIND_AUTO_CREATE);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsForeground = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsForeground = false;
+    }
+
     /**
      * Override onDestroy() to unbind the query service, avoiding service
      * leak exceptions.
@@ -296,7 +312,9 @@ public class NetworkSetting extends PreferenceActivity
         // TODO: use notification manager?
         mNetworkSelectMsg = getResources().getString(R.string.register_on_network, networkStr);
 
-        showDialog(DIALOG_NETWORK_SELECTION);
+        if (mIsForeground) {
+            showDialog(DIALOG_NETWORK_SELECTION);
+        }
     }
 
     private void displayNetworkQueryFailed(int error) {
@@ -328,7 +346,10 @@ public class NetworkSetting extends PreferenceActivity
 
     private void loadNetworksList() {
         if (DBG) log("load networks list...");
-        showDialog(DIALOG_NETWORK_LIST_LOAD);
+
+        if (mIsForeground) {
+            showDialog(DIALOG_NETWORK_LIST_LOAD);
+        }
 
         // delegate query request to the service.
         try {
@@ -351,7 +372,11 @@ public class NetworkSetting extends PreferenceActivity
 
         // update the state of the preferences.
         if (DBG) log("hideProgressPanel");
-        dismissDialog(DIALOG_NETWORK_LIST_LOAD);
+
+        if (mIsForeground) {
+            dismissDialog(DIALOG_NETWORK_LIST_LOAD);
+        }
+
         getPreferenceScreen().setEnabled(true);
         clearList();
 
@@ -391,7 +416,9 @@ public class NetworkSetting extends PreferenceActivity
 
     private void selectNetworkAutomatic() {
         if (DBG) log("select network automatically...");
-        showDialog(DIALOG_NETWORK_AUTO_SELECT);
+        if (mIsForeground) {
+            showDialog(DIALOG_NETWORK_AUTO_SELECT);
+        }
 
         Message msg = mHandler.obtainMessage(EVENT_AUTO_SELECT_DONE);
         mPhone.setNetworkSelectionModeAutomatic(msg);
