@@ -1023,9 +1023,21 @@
     <!-- OTA-specific strings -->
     <!-- Title shown on OTA screen -->
     <string name="ota_title_activate">Activate your phone</string>
-    <!-- Message displayed on the OTA activation screen -->
+    <!-- Message displayed on the OTA activation screen. -->
     <string name="ota_touch_activate">A special call needs to be made to activate your phone service.
     \n\nAfter pressing \u201CActivate\u201D, listen to the instructions provided to activate your phone.</string>
+
+    <!-- Message displayed on the OTA activation screen -->
+    <string name="ota_touch_activate_new">Touch \u201CActivate\u201D to place a special call that activates your phone on your carrier\'s mobile network, so you can place calls and connect to mobile data networks.</string>
+    <!-- Title of skip activation dialog -->
+    <string name="ota_skip_activation_dialog_title">Skip activation\?</string>
+    <!-- Message displayed in skip activation dialog  -->
+    <string name="ota_skip_activation_dialog_message">If you skip activation, you can\'t place calls or connect to mobile data networks (though you can connect to Wi-Fi networks). Until you activate your phone, you are asked to activate it each time you turn it on.</string>
+    <!-- Label shown on dialog button that allows the user to skip activation -->
+    <string name="ota_skip_activation_dialog_skip_label">Skip</string>
+    <!-- Label shown on dialog button that continues with activation -->
+    <string name="ota_skip_activation_dialog_continue_label">Activate</string>
+
     <!-- Button label within the OTA activation screen -->
     <string name="ota_activate">Activate</string>
     <!-- Title text shown when phone activation is successful -->
@@ -1033,7 +1045,8 @@
     <!-- Title text shown on screen where activation fails -->
     <string name="ota_title_problem_with_activation">Problem with activation</string>
     <!-- Message displayed on the OTA listen screen. This message should be short to ensure the dialer fits. -->
-    <string name="ota_listen">Listen to the instructions to activate your phone. Stay on the line until you hear confirmation that your phone is activated.</string>
+    <string name="ota_listen">Follow the spoken instructions until you hear that activation is complete.</string>
+
     <!-- Button label within the OTA listen screen -->
     <string name="ota_dialpad">Keypad</string>
     <!-- Button label within the OTA listen screen -->
