@@ -23,6 +23,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * This class is used to listen to the accelerometer to monitor the
@@ -30,6 +31,9 @@ import android.os.Message;
  * the orientation changes between horizontal and vertical.
  */
 public final class AccelerometerListener {
+    private static final String TAG = "AccelerometerListener";
+    private static final boolean DEBUG = false;
+
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private int mOrientation;
@@ -45,7 +49,7 @@ public final class AccelerometerListener {
 
     private static final int VERTICAL_DEBOUNCE = 100;
     private static final int HORIZONTAL_DEBOUNCE = 500;
-    private static final double VERTICAL_ANGLE = 60.0;
+    private static final double VERTICAL_ANGLE = 50.0;
 
     public interface OrientationListener {
         public void orientationChanged(int orientation);
@@ -58,6 +62,7 @@ public final class AccelerometerListener {
     }
 
     public void enable(boolean enable) {
+        if (DEBUG) Log.d(TAG, "enable(" + enable + "(");
         synchronized (this) {
             if (enable) {
                 mOrientation = ORIENTATION_UNKNOWN;
@@ -88,6 +93,12 @@ public final class AccelerometerListener {
     }
 
     private void onSensorEvent(double x, double y, double z) {
+        if (DEBUG) Log.d(TAG, "onSensorEvent(" + x + ", " + y + ", " + z + ")");
+
+        // If some values are exactly zero, then likely the sensor is not powered up yet.
+        // ignore these events to avoid false horizontal positives.
+        if (x == 0.0 || y == 0.0 || z == 0.0) return;
+
         // magnitude of the acceleration vector projected onto XY plane
         double xy = Math.sqrt(x*x + y*y);
         // compute the vertical angle
@@ -95,6 +106,7 @@ public final class AccelerometerListener {
         // convert to degrees
         angle = angle * 180.0 / Math.PI;
         int orientation = (angle >  VERTICAL_ANGLE ? ORIENTATION_VERTICAL : ORIENTATION_HORIZONTAL);
+        if (DEBUG) Log.d(TAG, "angle: " + angle + " orientation: " + orientation);
         setOrientation(orientation);
     }
 
