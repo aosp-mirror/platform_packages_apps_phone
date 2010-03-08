@@ -1231,12 +1231,7 @@ public class CallCard extends FrameLayout
                 break;
 
             case ALERTING:
-                photoImageResource = R.drawable.picture_dialing;
-                break;
-
             case DIALING:
-                // CallerInfo lookups do not pull the photo from the
-                // DB if available, it is done below.
             default:
                 // Leave the photo alone in all other states.
                 // If this call is an individual call, and the image is currently
