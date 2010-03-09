@@ -2047,20 +2047,20 @@ public class InCallScreen extends Activity
                     break;
 
                 case WAIT:
-                    //if (DBG) log("show wait prompt...");
+                    if (DBG) log("handlePostOnDialChars: show WAIT prompt...");
                     String postDialStr = c.getRemainingPostDialString();
                     if (phoneType == Phone.PHONE_TYPE_CDMA) {
                         mDialer.stopLocalToneCdma();
                         showWaitPromptDialogCDMA(c, postDialStr);
                     } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                        showWaitPromptDialog(c, postDialStr);
+                        showWaitPromptDialogGSM(c, postDialStr);
                     } else {
                         throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
                     break;
 
                 case WILD:
-                    //if (DBG) log("prompt user to replace WILD char");
+                    if (DBG) log("handlePostOnDialChars: show WILD prompt");
                     showWildPromptDialog(c);
                     break;
 
@@ -2084,14 +2084,17 @@ public class InCallScreen extends Activity
         }
     }
 
-    private void showWaitPromptDialog(final Connection c, String postDialStr) {
+    private void showWaitPromptDialogGSM(final Connection c, String postDialStr) {
+        if (DBG) log("showWaitPromptDialogGSM: '" + postDialStr + "'...");
+
         Resources r = getResources();
         StringBuilder buf = new StringBuilder();
         buf.append(r.getText(R.string.wait_prompt_str));
         buf.append(postDialStr);
 
+        // if (DBG) log("- mWaitPromptDialog = " + mWaitPromptDialog);
         if (mWaitPromptDialog != null) {
-            if (VDBG) log("- DISMISSING mWaitPromptDialog.");
+            if (DBG) log("- DISMISSING mWaitPromptDialog.");
             mWaitPromptDialog.dismiss();  // safe even if already dismissed
             mWaitPromptDialog = null;
         }
@@ -2100,14 +2103,14 @@ public class InCallScreen extends Activity
                 .setMessage(buf.toString())
                 .setPositiveButton(R.string.send_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (VDBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
+                            if (DBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
                             c.proceedAfterWaitChar();
                             PhoneApp.getInstance().pokeUserActivity();
                         }
                     })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                         public void onCancel(DialogInterface dialog) {
-                            if (VDBG) log("handle POST_DIAL_CANCELED!");
+                            if (DBG) log("handle POST_DIAL_CANCELED!");
                             c.cancelPostDial();
                             PhoneApp.getInstance().pokeUserActivity();
                         }
@@ -2126,11 +2129,14 @@ public class InCallScreen extends Activity
      * Accept or Reject the WAIT inserted as part of the Dial string.
      */
     private void showWaitPromptDialogCDMA(final Connection c, String postDialStr) {
+        if (DBG) log("showWaitPromptDialogCDMA: '" + postDialStr + "'...");
+
         Resources r = getResources();
         StringBuilder buf = new StringBuilder();
         buf.append(r.getText(R.string.wait_prompt_str));
         buf.append(postDialStr);
 
+        // if (DBG) log("- mWaitPromptDialog = " + mWaitPromptDialog);
         if (mWaitPromptDialog != null) {
             if (DBG) log("- DISMISSING mWaitPromptDialog.");
             mWaitPromptDialog.dismiss();  // safe even if already dismissed
@@ -2372,7 +2378,7 @@ public class InCallScreen extends Activity
                 for (Connection cn : fgConnections) {
                     if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
                         postDialStr = cn.getRemainingPostDialString();
-                        showWaitPromptDialog(cn, postDialStr);
+                        showWaitPromptDialogGSM(cn, postDialStr);
                     }
                 }
             } else {
