@@ -16,16 +16,6 @@
 
 package com.android.phone;
 
-import static com.android.phone.TimeConsumingPreferenceActivity.EXCEPTION_ERROR;
-import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
-
-import com.android.internal.telephony.CallForwardInfo;
-import com.android.internal.telephony.CommandsInterface;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.cdma.TtyIntent;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -48,14 +38,19 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.Settings;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ListAdapter;
+
+import com.android.internal.telephony.CallForwardInfo;
+import com.android.internal.telephony.CommandsInterface;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.cdma.TtyIntent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -358,7 +353,7 @@ public class CallFeaturesSetting extends PreferenceActivity
      * string and intent value of null.
      * @see #initVoiceMailProviders.
      */
-    private Map<String, VoiceMailProvider> mVMProvidersData =
+    private final Map<String, VoiceMailProvider> mVMProvidersData =
         new HashMap<String, VoiceMailProvider>();
 
     /** string to hold old voicemail number as it is being updated. */
@@ -454,8 +449,6 @@ public class CallFeaturesSetting extends PreferenceActivity
             updateVMPreferenceWidgets(newProviderKey);
 
             mPreviousVMProviderKey = currentProviderKey;
-
-            updateVMPreferenceWidgets(newProviderKey);
 
             final VoiceMailProviderSettings newProviderSettings =
                     loadSettingsForVoiceMailProvider(newProviderKey);
@@ -765,7 +758,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
     }
 
-    private Handler mGetOptionComplete = new Handler() {
+    private final Handler mGetOptionComplete = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             AsyncResult result = (AsyncResult) msg.obj;
@@ -825,6 +818,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             fi.reason = FORWARDING_SETTINGS_REASONS[idx];
             fi.serviceClass = CommandsInterface.SERVICE_CLASS_VOICE;
         } else {
+            // if there is not a forwarding number, ensure the entry is set to "not active."
+            if (fi.number == null || fi.number.length() == 0) {
+                fi.status = 0;
+            }
+
             if (DBG) Log.d(LOG_TAG, "Got  " + fi.toString() + " for " + idx);
         }
         mForwardingReadResults[idx] = fi;
@@ -929,7 +927,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     /**
      * Callback to handle option update completions
      */
-    private Handler mSetOptionComplete = new Handler() {
+    private final Handler mSetOptionComplete = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             AsyncResult result = (AsyncResult) msg.obj;
@@ -989,7 +987,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     /**
      * Callback to handle option revert completions
      */
-    private Handler mRevertOptionComplete = new Handler() {
+    private final Handler mRevertOptionComplete = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             AsyncResult result = (AsyncResult) msg.obj;
@@ -1016,7 +1014,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 (!mFwdChangesRequireRollback || checkForwardingCompleted());
             if (done) {
                 if (DBG) log("All VM reverts done");
-                dismissDialog(VOICEMAIL_REVERTING_DIALOG);
+                dismissDialogSafely(VOICEMAIL_REVERTING_DIALOG);
                 onRevertDone();
             }
         }
