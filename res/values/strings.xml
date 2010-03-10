@@ -617,7 +617,7 @@
         <item>"1"</item>
         <item>"2"</item>
     </string-array>
-    <string name="subscription_title">CDMA Subscription TEST</string>
+    <string name="subscription_title">CDMA Subscription</string>
     <string name="subscription_summary">Change between RUIM/SIM and NV</string>
     <string name="subscription_dialogtitle">subscription</string>
     <string-array name="subscription_choices">
