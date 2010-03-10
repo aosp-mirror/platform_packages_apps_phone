@@ -30,8 +30,10 @@ import com.android.internal.telephony.PhoneFactory;
 public class CdmaOptions extends PreferenceActivity {
 
     private CdmaRoamingListPreference mButtonCdmaRoam;
+    private CdmaSubscriptionListPreference mButtonCdmaSubscription;
 
     private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
+    private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "subscription_key";
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -40,11 +42,23 @@ public class CdmaOptions extends PreferenceActivity {
         addPreferencesFromResource(R.xml.cdma_options);
 
         PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonCdmaRoam =
-                (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
+        mButtonCdmaRoam = (CdmaRoamingListPreference)prefSet
+                .findPreference(BUTTON_CDMA_ROAMING_KEY);
+
+        mButtonCdmaSubscription = (CdmaSubscriptionListPreference)prefSet
+                .findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY);
+    }
+
+    @Override
+    protected void onResume() {
         if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
             mButtonCdmaRoam.setEnabled(false);
+            mButtonCdmaSubscription.setEnabled(false);
+        } else {
+            mButtonCdmaRoam.setEnabled(true);
+            mButtonCdmaSubscription.setEnabled(true);
         }
+        super.onResume();
     }
 
     @Override
