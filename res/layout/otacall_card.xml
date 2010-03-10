@@ -117,10 +117,10 @@
                 android:text="@string/ota_activate"
                 style="@style/ccOtaNextButton" />
 
-        <!-- "Cancel" button -->
-        <Button android:id="@+id/otaCancelButton"
-                android:text="@string/ota_back"
-                style="@style/ccOtaBackButton" />
+        <!-- "Skip" button -->   <!--  TODO: borrowing another button's label for now because I missed the localization deadline for adding a @string/ota_skip -->
+        <Button android:id="@+id/otaSkipButton"
+                android:text="@string/ota_skip_activation_dialog_skip_label"
+                style="@style/ccOtaSkipButton" />
 
     </RelativeLayout>
 
@@ -132,7 +132,7 @@
         <!-- "End" button -->
         <Button android:id="@+id/otaEndButton"
                 android:text="@string/ota_call_end"
-                style="@style/ccOtaBackButton" />
+                style="@style/ccOtaSkipButton" />
     </RelativeLayout>
 
     <!-- (4) OTA Success/Failure button -->
@@ -148,6 +148,6 @@
         <!-- "Try Again" button -->
         <Button android:id="@+id/otaTryAgainButton"
                 android:text="@string/ota_try_again"
-                style="@style/ccOtaBackButton" />
+                style="@style/ccOtaSkipButton" />
     </RelativeLayout>
 </LinearLayout>

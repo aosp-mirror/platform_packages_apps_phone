@@ -20,6 +20,9 @@ import com.android.internal.telephony.Phone;
 import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -97,7 +100,7 @@ public class OtaUtils {
     private class OtaWidgetData {
         public Button otaEndButton;
         public Button otaActivateButton;
-        public Button otaCancelButton;
+        public Button otaSkipButton;
         public Button otaNextButton;
         public ToggleButton otaSpeakerButton;
         public View otaCallCardBase;
@@ -110,6 +113,7 @@ public class OtaUtils {
         public TextView otaTextListenProgress;
         public AlertDialog spcErrorDialog;
         public AlertDialog otaFailureDialog;
+        public AlertDialog otaSkipConfirmationDialog;
         public TextView otaTitle;
         public DTMFTwelveKeyDialerView otaDtmfDialerView;
         public Button otaTryAgainButton;
@@ -164,6 +168,7 @@ public class OtaUtils {
      * @return true if we were able to launch Ota activity or it's not required; false otherwise
      */
     public static boolean maybeDoOtaCall(Context context, Handler handler, int request) {
+
         PhoneApp app = PhoneApp.getInstance();
         Phone phone = app.phone;
 
@@ -283,11 +288,39 @@ public class OtaUtils {
         return;
     }
 
+    private void otaSkipActivation() {
+        if (DBG) log("otaSkipActivation()...");
+
+        PhoneApp app = PhoneApp.getInstance();
+        if (app != null && app.cdmaOtaInCallScreenUiState.reportSkipPendingIntent != null) {
+            try {
+                app.cdmaOtaInCallScreenUiState.reportSkipPendingIntent.send();
+            } catch (CanceledException e) {
+                // should never happen because no code cancels the pending intent right now,
+                // but if it does, the user will simply be returned to the initial setup screen
+            }
+        }
+
+        mInCallScreen.finish();
+        return;
+    }
+
+    private void otaPerformActivation() {
+        if (DBG) log("otaPerformActivation()...");
+        if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
+            Intent newIntent = new Intent(Intent.ACTION_CALL);
+            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, InCallScreen.OTA_NUMBER);
+            mInCallScreen.internalResolveIntent(newIntent);
+            otaShowListeningScreen();
+        }
+        return;
+    }
+
     /**
      * Show Activation Screen when phone powers up and OTA provision is
      * required. Also shown when activation fails and user needs
-     * to re-attempt it. Contains ACTIVE and CANCEL buttons
-     * which allow user to start OTA activation or cancel the activation process.
+     * to re-attempt it. Contains ACTIVATE and SKIP buttons
+     * which allow user to start OTA activation or skip the activation process.
      */
     public void otaShowActivateScreen() {
         if (DBG) log("OtaShowActivationScreen()...");
@@ -296,7 +329,7 @@ public class OtaUtils {
             if (DBG) log("OtaShowActivationScreen(): show activation screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
-                mOtaWidgetData.otaCancelButton.setVisibility(mIsWizardMode ?
+                mOtaWidgetData.otaSkipButton.setVisibility(mIsWizardMode ?
                         View.VISIBLE : View.INVISIBLE);
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
@@ -552,7 +585,7 @@ public class OtaUtils {
         mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
         mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
         mOtaWidgetData.otaCallCardBase.setVisibility(View.VISIBLE);
-        mOtaWidgetData.otaCancelButton.setVisibility(View.VISIBLE);
+        mOtaWidgetData.otaSkipButton.setVisibility(View.VISIBLE);
     }
 
     public void hideOtaScreen() {
@@ -650,8 +683,8 @@ public class OtaUtils {
                 onClickOtaActivateButton();
                 break;
 
-            case R.id.otaCancelButton:
-                onClickOtaActivateCancelButton();
+            case R.id.otaSkipButton:
+                onClickOtaActivateSkipButton();
                 break;
 
             case R.id.otaNextButton:
@@ -698,19 +731,39 @@ public class OtaUtils {
 
     private void onClickOtaActivateButton() {
         if (DBG) log("Call Activation Clicked!");
-        if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
-            Intent newIntent = new Intent(Intent.ACTION_CALL);
-            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, InCallScreen.OTA_NUMBER);
-            mInCallScreen.internalResolveIntent(newIntent);
-            otaShowListeningScreen();
-        }
+        otaPerformActivation();
     }
 
-    private void onClickOtaActivateCancelButton() {
-        if (DBG) log("Activation Cancel Clicked!");
-        if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
-            otaShowHome();
-        }
+    private void onClickOtaActivateSkipButton() {
+        if (DBG) log("Activation Skip Clicked!");
+        DialogInterface.OnKeyListener keyListener;
+        keyListener = new DialogInterface.OnKeyListener() {
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                    KeyEvent event) {
+                if (DBG) log("Ignoring key events...");
+                return true;
+            }
+        };
+        mOtaWidgetData.otaSkipConfirmationDialog = new AlertDialog.Builder(mInCallScreen)
+                .setTitle(R.string.ota_skip_activation_dialog_title)
+                .setMessage(R.string.ota_skip_activation_dialog_message)
+                .setPositiveButton(
+                    R.string.ota_skip_activation_dialog_skip_label,
+                    new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            otaSkipActivation();
+                        }
+                    })
+                .setNegativeButton(
+                    R.string.ota_skip_activation_dialog_continue_label,
+                    new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            otaPerformActivation();
+                        }
+                    })
+                .setOnKeyListener(keyListener)
+                .create();
+        mOtaWidgetData.otaSkipConfirmationDialog.show();
     }
 
     private void onClickOtaActivateNextButton() {
@@ -786,8 +839,8 @@ public class OtaUtils {
         mOtaWidgetData.otaActivateButton =
                 (Button) mInCallScreen.findViewById(R.id.otaActivateButton);
         mOtaWidgetData.otaActivateButton.setOnClickListener(mInCallScreen);
-        mOtaWidgetData.otaCancelButton = (Button) mInCallScreen.findViewById(R.id.otaCancelButton);
-        mOtaWidgetData.otaCancelButton.setOnClickListener(mInCallScreen);
+        mOtaWidgetData.otaSkipButton = (Button) mInCallScreen.findViewById(R.id.otaSkipButton);
+        mOtaWidgetData.otaSkipButton.setOnClickListener(mInCallScreen);
         mOtaWidgetData.otaNextButton = (Button) mInCallScreen.findViewById(R.id.otaNextButton);
         mOtaWidgetData.otaNextButton.setOnClickListener(mInCallScreen);
         mOtaWidgetData.otaTryAgainButton =
@@ -912,6 +965,9 @@ public class OtaUtils {
             if (DBG) log("CdmaOtaInCallScreenState: constructor init to UNDEFINED");
             state = CdmaOtaInCallScreenUiState.State.UNDEFINED;
         }
+
+        // the pending intent used to report when the user skips ota provisioning
+        public PendingIntent reportSkipPendingIntent;
     }
 
     /**
