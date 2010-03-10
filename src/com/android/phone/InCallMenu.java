@@ -275,7 +275,8 @@ class InCallMenu {
         final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
 
         // For OTA call, only show dialpad, endcall, speaker, and mute menu items
-        if (hasActiveCall && (PhoneApp.getInstance().isOtaCallInActiveState())) {
+        if (hasActiveCall && (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) &&
+                (PhoneApp.getInstance().isOtaCallInActiveState())) {
             mAnswerAndHold.setVisible(false);
             mAnswerAndHold.setEnabled(false);
             mAnswerAndEnd.setVisible(false);
