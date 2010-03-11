@@ -124,6 +124,20 @@ public class EmergencyDialer extends Activity
 
 
     public void afterTextChanged(Editable input) {
+        // Check for special sequences, in particular the "**04" or "**05"
+        // sequences that allow you to enter PIN or PUK-related codes.
+        //
+        // But note we *don't* allow most other special sequences here,
+        // like "secret codes" (*#*#<code>#*#*) or IMEI display ("*#06#"),
+        // since those shouldn't be available if the device is locked.
+        //
+        // So we call SpecialCharSequenceMgr.handleCharsForLockedDevice()
+        // here, not the regular handleChars() method.
+        if (SpecialCharSequenceMgr.handleCharsForLockedDevice(this, input.toString(), this)) {
+            // A special sequence was entered, clear the digits
+            mDigits.getText().clear();
+        }
+
         final boolean notEmpty = mDigits.length() != 0;
         if (notEmpty) {
             mDigits.setBackgroundDrawable(mDigitsBackground);

@@ -31,6 +31,10 @@ import android.view.WindowManager;
 /**
  * Helper class to listen for some magic character sequences
  * that are handled specially by the Phone app.
+ *
+ * TODO: there's lots of duplicated code between this class and the
+ * corresponding class under apps/Contacts.  Let's figure out a way to
+ * unify these two classes (in the framework? in a common shared library?)
  */
 public class SpecialCharSequenceMgr {
     private static final String TAG = PhoneApp.LOG_TAG;
@@ -85,6 +89,33 @@ public class SpecialCharSequenceMgr {
             || handlePinEntry(context, dialString, pukInputActivity)
             || handleAdnEntry(context, dialString)
             || handleSecretCode(context, dialString)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Variant of handleChars() that looks for the subset of "special
+     * sequences" that are available even if the device is locked.
+     *
+     * (Specifically, these are the sequences that you're allowed to type
+     * in the Emergency Dialer, which is accessible *without* unlocking
+     * the device.)
+     */
+    static boolean handleCharsForLockedDevice(Context context,
+                                              String input,
+                                              Activity pukInputActivity) {
+        // Get rid of the separators so that the string gets parsed correctly
+        String dialString = PhoneNumberUtils.stripSeparators(input);
+
+        // The only sequences available on a locked device are the "**04"
+        // or "**05" sequences that allow you to enter PIN or PUK-related
+        // codes.  (e.g. for the case where you're currently locked out of
+        // your phone, and need to change the PIN!  The only way to do
+        // that is via the Emergency Dialer.)
+
+        if (handlePinEntry(context, dialString, pukInputActivity)) {
             return true;
         }
 
