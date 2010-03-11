@@ -42,6 +42,7 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.ToggleButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -111,6 +112,7 @@ public class OtaUtils {
         public View callCardOtaButtonsListenProgress;
         public TextView otaTextActivate;
         public TextView otaTextListenProgress;
+        public ScrollView otaTextListenProgressContainer;
         public AlertDialog spcErrorDialog;
         public AlertDialog otaFailureDialog;
         public AlertDialog otaSkipConfirmationDialog;
@@ -356,7 +358,7 @@ public class OtaUtils {
             if (DBG) log("OtaShowListeningScreen(): show listening screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
-                mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
+                mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
                 mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_listen);
                 mOtaWidgetData.otaDtmfDialerView.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
@@ -385,7 +387,7 @@ public class OtaUtils {
         if (DBG) log("OtaShowInProgressScreen()...");
         if (!isDialerOpened()) {
             otaScreenInitialize();
-            mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
+            mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
             mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_progress);
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.VISIBLE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
@@ -574,7 +576,7 @@ public class OtaUtils {
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
+        mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
         mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
         mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
@@ -815,6 +817,8 @@ public class OtaUtils {
         mOtaWidgetData.otaTitle = (TextView) mInCallScreen.findViewById(R.id.otaTitle);
         mOtaWidgetData.otaTextActivate = (TextView) mInCallScreen.findViewById(R.id.otaActivate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
+        mOtaWidgetData.otaTextListenProgressContainer =
+                (ScrollView) mInCallScreen.findViewById(R.id.otaListenProgressContainer);
         mOtaWidgetData.otaTextListenProgress =
                 (TextView) mInCallScreen.findViewById(R.id.otaListenProgress);
         mOtaWidgetData.otaTextProgressBar =
@@ -900,7 +904,7 @@ public class OtaUtils {
         }
 
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
+        mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
         mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
         mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);

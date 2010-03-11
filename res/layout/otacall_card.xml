@@ -46,13 +46,17 @@
                       android:text="@string/ota_touch_activate"
                       />
 
-            <TextView android:id="@+id/otaListenProgress"
-                      android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
+            <ScrollView android:id="@+id/otaListenProgressContainer"
+                android:layout_marginTop="@dimen/otalistenprogress_layout_marginTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView android:id="@+id/otaListenProgress"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:textAppearance="@style/ccOtaTextPrimary"
-                      android:visibility="gone"
-                      />
+                 />
+            </ScrollView>
 
             <ProgressBar android:id="@+android:id/progress_large"
                          style="?android:attr/progressBarStyleHorizontal"
@@ -76,7 +80,7 @@
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/otaDtmfDialer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="1dip"
                     android:visibility="gone" >
