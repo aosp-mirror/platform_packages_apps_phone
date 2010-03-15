@@ -32,7 +32,8 @@ import android.util.Log;
  */
 public final class AccelerometerListener {
     private static final String TAG = "AccelerometerListener";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
+    private static final boolean VDEBUG = false;
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -62,7 +63,7 @@ public final class AccelerometerListener {
     }
 
     public void enable(boolean enable) {
-        if (DEBUG) Log.d(TAG, "enable(" + enable + "(");
+        if (DEBUG) Log.d(TAG, "enable(" + enable + ")");
         synchronized (this) {
             if (enable) {
                 mOrientation = ORIENTATION_UNKNOWN;
@@ -93,7 +94,7 @@ public final class AccelerometerListener {
     }
 
     private void onSensorEvent(double x, double y, double z) {
-        if (DEBUG) Log.d(TAG, "onSensorEvent(" + x + ", " + y + ", " + z + ")");
+        if (VDEBUG) Log.d(TAG, "onSensorEvent(" + x + ", " + y + ", " + z + ")");
 
         // If some values are exactly zero, then likely the sensor is not powered up yet.
         // ignore these events to avoid false horizontal positives.
@@ -106,7 +107,7 @@ public final class AccelerometerListener {
         // convert to degrees
         angle = angle * 180.0 / Math.PI;
         int orientation = (angle >  VERTICAL_ANGLE ? ORIENTATION_VERTICAL : ORIENTATION_HORIZONTAL);
-        if (DEBUG) Log.d(TAG, "angle: " + angle + " orientation: " + orientation);
+        if (VDEBUG) Log.d(TAG, "angle: " + angle + " orientation: " + orientation);
         setOrientation(orientation);
     }
 
@@ -126,6 +127,12 @@ public final class AccelerometerListener {
             case ORIENTATION_CHANGED:
                 synchronized (this) {
                     mOrientation = mPendingOrientation;
+                    if (DEBUG) {
+                        Log.d(TAG, "orientation: " +
+                            (mOrientation == ORIENTATION_HORIZONTAL ? "horizontal"
+                                : (mOrientation == ORIENTATION_VERTICAL ? "vertical"
+                                    : "unknown")));
+                    }
                     mListener.orientationChanged(mOrientation);
                 }
                 break;
