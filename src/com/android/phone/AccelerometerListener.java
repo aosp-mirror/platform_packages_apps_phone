@@ -37,8 +37,15 @@ public final class AccelerometerListener {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
+
+    // mOrientation is the orientation value most recently reported to the client.
     private int mOrientation;
+
+    // mPendingOrientation is the latest orientation computed based on the sensor value.
+    // This is sent to the client after a rebounce delay, at which point it is copied to
+    // mOrientation.
     private int mPendingOrientation;
+
     private OrientationListener mListener;
 
     // Device orientation
@@ -79,16 +86,28 @@ public final class AccelerometerListener {
 
     private void setOrientation(int orientation) {
         synchronized (this) {
-            if (mOrientation == orientation && mPendingOrientation != ORIENTATION_UNKNOWN) {
-                mHandler.removeMessages(ORIENTATION_CHANGED);
-                mPendingOrientation = ORIENTATION_UNKNOWN;
-            } else if (mOrientation != orientation && mPendingOrientation == ORIENTATION_UNKNOWN) {
+            if (mPendingOrientation == orientation) {
+                // Pending orientation has not changed, so do nothing.
+                return;
+            }
+
+            // Cancel any pending messages.
+            // We will either start a new timer or cancel alltogether
+            // if the orientation has not changed.
+            mHandler.removeMessages(ORIENTATION_CHANGED);
+
+            if (mOrientation != orientation) {
+                // Set timer to send an event if the orientation has changed since its
+                // previously reported value.
                 mPendingOrientation = orientation;
                 Message m = mHandler.obtainMessage(ORIENTATION_CHANGED);
                 // set delay to our debounce timeout
                 int delay = (orientation == ORIENTATION_VERTICAL ? VERTICAL_DEBOUNCE
                                                                  : HORIZONTAL_DEBOUNCE);
                 mHandler.sendMessageDelayed(m, delay);
+            } else {
+                // no message is pending
+                mPendingOrientation = ORIENTATION_UNKNOWN;
             }
         }
     }
