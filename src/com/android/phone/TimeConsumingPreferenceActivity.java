@@ -135,9 +135,9 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
 
         if (mBusyList.isEmpty() && mIsForeground) {
             if (reading) {
-                dismissDialog(BUSY_READING_DIALOG);
+                dismissDialogSafely(BUSY_READING_DIALOG);
             } else {
-                dismissDialog(BUSY_SAVING_DIALOG);
+                dismissDialogSafely(BUSY_SAVING_DIALOG);
             }
         }
     }
@@ -154,6 +154,16 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
     public void onCancel(DialogInterface dialog) {
         if (DBG) dumpState();
         finish();
+    }
+
+    private void dismissDialogSafely(int id) {
+        try {
+            dismissDialog(id);
+        } catch (IllegalArgumentException e) {
+            // This is expected in the case where we were in the background
+            // at the time we would normally have shown the dialog, so we didn't
+            // show it.
+        }
     }
 
     void dumpState() {
