@@ -2518,12 +2518,20 @@ public class InCallScreen extends Activity
             return InCallInitStatus.CALL_FAILED;
         }
 
-        // need to make sure that the state is adjusted if we are ONLY
-        // allowed to dial emergency numbers AND we encounter an
-        // emergency number request.
-        if (isEmergencyNumber && okToCallStatus == InCallInitStatus.EMERGENCY_ONLY) {
+        // If we're trying to call an emergency number, then it's OK to
+        // proceed in certain states where we'd usually just bring up
+        // an error dialog:
+        // - If we're in EMERGENCY_ONLY mode, then (obviously) you're allowed
+        //   to dial emergency numbers.
+        // - If we're OUT_OF_SERVICE, we still attempt to make a call,
+        //   since the radio will register to any available network.
+
+        if (isEmergencyNumber
+            && ((okToCallStatus == InCallInitStatus.EMERGENCY_ONLY)
+                || (okToCallStatus == InCallInitStatus.OUT_OF_SERVICE))) {
+            if (DBG) log("placeCall: Emergency number detected with status = " + okToCallStatus);
             okToCallStatus = InCallInitStatus.SUCCESS;
-            if (DBG) log("Emergency number detected, changing state to: " + okToCallStatus);
+            if (DBG) log("==> UPDATING status to: " + okToCallStatus);
         }
 
         if (okToCallStatus != InCallInitStatus.SUCCESS) {
