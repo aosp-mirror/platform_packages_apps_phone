@@ -2,10 +2,6 @@ package com.android.phone;
 
 import static com.android.phone.TimeConsumingPreferenceActivity.EXCEPTION_ERROR;
 import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
-
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-
 import android.content.Context;
 import android.os.AsyncResult;
 import android.os.Handler;
@@ -14,11 +10,14 @@ import android.preference.CheckBoxPreference;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+
 public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
     private static final String LOG_TAG = "CallWaitingCheckBoxPreference";
     private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
-    private MyHandler mHandler = new MyHandler();
+    private final MyHandler mHandler = new MyHandler();
     Phone phone;
     TimeConsumingPreferenceListener tcpListener;
 
@@ -77,18 +76,20 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
         private void handleGetCallWaitingResponse(Message msg) {
             AsyncResult ar = (AsyncResult) msg.obj;
 
-            if (msg.arg2 == MESSAGE_SET_CALL_WAITING) {
-                tcpListener.onFinished(CallWaitingCheckBoxPreference.this, false);
-            } else {
-                tcpListener.onFinished(CallWaitingCheckBoxPreference.this, true);
+            if (tcpListener != null) {
+                if (msg.arg2 == MESSAGE_SET_CALL_WAITING) {
+                    tcpListener.onFinished(CallWaitingCheckBoxPreference.this, false);
+                } else {
+                    tcpListener.onFinished(CallWaitingCheckBoxPreference.this, true);
+                }
             }
 
             if (ar.exception != null) {
                 if (DBG) Log.d(LOG_TAG, "handleGetCallWaitingResponse: ar.exception=" + ar.exception);
                 setEnabled(false);
-                tcpListener.onError(CallWaitingCheckBoxPreference.this, EXCEPTION_ERROR);
+                if (tcpListener != null) tcpListener.onError(CallWaitingCheckBoxPreference.this, EXCEPTION_ERROR);
             } else if (ar.userObj instanceof Throwable) {
-                tcpListener.onError(CallWaitingCheckBoxPreference.this, RESPONSE_ERROR);
+                if (tcpListener != null) tcpListener.onError(CallWaitingCheckBoxPreference.this, RESPONSE_ERROR);
             } else {
                 if (DBG) Log.d(LOG_TAG, "handleGetCallWaitingResponse: CW state successfully queried.");
                 setChecked(((int[]) ar.result)[0] == 1);
