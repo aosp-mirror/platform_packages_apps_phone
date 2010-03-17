@@ -195,7 +195,7 @@ public class BluetoothHandsfree {
             sVoiceCommandIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         if (mContext.getPackageManager().resolveActivity(sVoiceCommandIntent, 0) != null &&
-                !BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
+                BluetoothHeadset.isBluetoothVoiceDialingEnabled(mContext)) {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
 
@@ -2036,7 +2036,7 @@ public class BluetoothHandsfree {
         parser.register("+BVRA", new AtCommandHandler() {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
-                if (BluetoothHeadset.DISABLE_BT_VOICE_DIALING) {
+                if (!BluetoothHeadset.isBluetoothVoiceDialingEnabled(mContext)) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
                 if (args.length >= 1 && args[0].equals(1)) {
