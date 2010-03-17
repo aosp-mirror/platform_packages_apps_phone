@@ -1,17 +1,17 @@
 package com.android.phone;
 
-import java.util.ArrayList;
-
-import com.android.internal.telephony.CommandsInterface;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import com.android.internal.telephony.CallForwardInfo;
 import android.util.Log;
+
+import com.android.internal.telephony.CallForwardInfo;
+import com.android.internal.telephony.CommandsInterface;
+
+import java.util.ArrayList;
 
 
 public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
@@ -34,9 +34,13 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
     private CallForwardEditPreference mButtonCFNRy;
     private CallForwardEditPreference mButtonCFNRc;
 
-    private ArrayList<CallForwardEditPreference> mPreferences =
+    private final ArrayList<CallForwardEditPreference> mPreferences =
             new ArrayList<CallForwardEditPreference> ();
     private int mInitIndex= 0;
+
+    private boolean mFirstResume;
+    private Bundle mIcicle;
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -59,21 +63,37 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
         mPreferences.add(mButtonCFNRy);
         mPreferences.add(mButtonCFNRc);
 
-        if (icicle == null) {
-            if (DBG) Log.d(LOG_TAG, "start to init ");
-            mPreferences.get(mInitIndex).init(this, false);
-        } else {
-            mInitIndex = mPreferences.size();
+        // we wait to do the initialization until onResume so that the
+        // TimeConsumingPreferenceActivity dialog can display as it
+        // relies on onResume / onPause to maintain its foreground state.
 
-            for (CallForwardEditPreference pref : mPreferences) {
-                Bundle bundle = icicle.getParcelable(pref.getKey());
-                pref.setToggled(bundle.getBoolean(KEY_TOGGLE));
-                CallForwardInfo cf = new CallForwardInfo();
-                cf.number = bundle.getString(KEY_NUMBER);
-                cf.status = bundle.getInt(KEY_STATUS);
-                pref.handleCallForwardResult(cf);
-                pref.init(this, true);
+        mFirstResume = true;
+        mIcicle = icicle;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mFirstResume) {
+            if (mIcicle == null) {
+                if (DBG) Log.d(LOG_TAG, "start to init ");
+                mPreferences.get(mInitIndex).init(this, false);
+            } else {
+                mInitIndex = mPreferences.size();
+
+                for (CallForwardEditPreference pref : mPreferences) {
+                    Bundle bundle = mIcicle.getParcelable(pref.getKey());
+                    pref.setToggled(bundle.getBoolean(KEY_TOGGLE));
+                    CallForwardInfo cf = new CallForwardInfo();
+                    cf.number = bundle.getString(KEY_NUMBER);
+                    cf.status = bundle.getInt(KEY_STATUS);
+                    pref.handleCallForwardResult(cf);
+                    pref.init(this, true);
+                }
             }
+            mFirstResume = false;
+            mIcicle=null;
         }
     }
 
