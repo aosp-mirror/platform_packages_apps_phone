@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Contatos"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Dados ativados"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Ativar acesso de dados na rede móvel"</string>
     <string name="roaming" msgid="8871412572928323707">"Roaming de dados"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Conectar aos serviços de dados quando estiver em roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Conectar aos serviços de dados quando estiver em roaming"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Nome"</string>
     <string name="number" msgid="7905950798349903858">"Número"</string>
     <string name="save" msgid="4094274636321939086">"Salvar"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Adicionar número de chamadas fixas"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Adicionando número de chamadas fixas…"</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Número de chamadas fixas adicionado."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Editar o número de chamadas fixas"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Atualizando o número de chamadas fixas…"</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Número de chamadas fixas atualizado."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Excluir número de chamadas fixas"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Excluindo número de chamadas fixas…"</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Número de chamadas fixas excluído."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"FDN não atualizado: você digitou um PIN incorreto."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN não atualizado: o número não pode exceder 20 dígitos."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Lendo a partir do cartão SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Não há contatos no seu cartão SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Selecione os contatos a serem importados"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"A rede selecionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) não está disponível"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para fazer uma chamada, primeiro desative o modo avião."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Não registrado na rede."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Rede móvel não disponível."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chamada não enviada, nenhum número válido foi inserido."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Chamada não enviada."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Iniciando sequência MMI…"</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Mensagem de rede"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Ativar o seu telefone"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Uma chamada especial precisa ser feita para ativar o serviço do seu telefone. "\n\n"Depois de pressionar “Ativar”, ouça as instruções fornecidas para ativar o seu telefone."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Toque em “Ativar” para fazer uma chamada especial que ativa o seu telefone na rede celular da sua operadora, para que você possa fazer chamadas e se conectar a redes móveis de dados."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ignorar ativação?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Se você ignorar a ativação, não poderá fazer chamadas ou se conectar a redes móveis de dados (embora possa se conectar a redes Wi-Fi). Até que o seu telefone seja ativado, você receberá solicitações de ativação sempre que o ligar."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ignorar"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Ativar"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Ativar"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"O telefone está ativado!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema com a ativação"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Ouça as instruções para ativar o seu telefone. Fique na linha até ouvir a confirmação de que o seu telefone está ativado."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Siga as instruções faladas até ouvir que a ativação está concluída."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Teclado"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Alto-falante"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Aguarde enquanto o seu telefone está sendo programado."</string>

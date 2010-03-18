@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"주소록"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"데이터 사용"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"모바일 네트워크에서 데이터 액세스 사용"</string>
     <string name="roaming" msgid="8871412572928323707">"데이터 로밍"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"로밍 시 데이터 서비스에 연결"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"로밍 시 데이터 서비스에 연결"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"이름"</string>
     <string name="number" msgid="7905950798349903858">"번호"</string>
     <string name="save" msgid="4094274636321939086">"저장"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"발신 허용 번호 추가"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"발신 허용 번호를 추가하는 중..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"발신 허용 번호가 추가되었습니다."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"발신 허용 번호 편집"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"발신 허용 번호 업데이트 중..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"발신 허용 번호가 업데이트되었습니다."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"발신 허용 번호 삭제"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"발신 허용 번호를 삭제하는 중..."</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"발신 허용 번호가 삭제되었습니다."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"FDN 업데이트 안됨: 잘못된 PIN을 입력했습니다."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN 업데이트 안됨: 번호는 20자리를 초과할 수 없습니다."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIM 카드에서 읽는 중..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIM 카드에 주소록이 없습니다."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"가져올 주소록 선택"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"선택한 네트워크(<xliff:g id="OPERATOR_NAME">%s</xliff:g>)를 사용할 수 없음"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"전화를 걸려면 먼저 비행 모드를 사용 중지하세요."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"네트워크에서 등록되지 않았습니다."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"모바일 네트워크를 사용할 수 없습니다."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"잘못된 번호를 입력했으므로 전화를 걸지 못했습니다."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"전화를 걸지 못했습니다."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"MMI 시퀀스 시작 중..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"네트워크 메시지"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"전화 활성화"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"전화 서비스를 활성화하려면 특수 통화를 해야 합니다. "\n\n"\'활성화\'를 누른 다음 지시사항을 듣고 전화를 활성화하세요."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"\'활성화\'를 터치하면 이동통신사의 모바일 네트워크에서 휴대전화를 활성화하는 특수 통화가 걸리며 모바일 데이터 네트워크에 연결할 수 있습니다."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"활성화를 건너뛰시겠습니까?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"활성화를 건너뛰면 Wi-Fi 네트워크에는 연결할 수 있지만 전화를 걸거나 모바일 데이터 네트워크에 연결할 수 없습니다. 휴대전화를 활성화할 때까지 휴대전화를 켤 때마다 활성화하라는 메시지가 표시됩니다."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"건너뛰기"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"활성화"</string>
     <string name="ota_activate" msgid="1368528132525626264">"활성화"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"전화가 활성화되었습니다."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"활성화 문제"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"지시사항을 듣고 전화를 활성화합니다. 전화가 활성화되었다는 확인 메시지가 들릴 때까지 전화를 끊지 마세요."</string>
+    <string name="ota_listen" msgid="162923839877584937">"활성화가 완료되었다는 메시지를 들을 때까지 음성 안내를 따르세요."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"키패드"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"스피커"</string>
     <string name="ota_progress" msgid="4644512049143969504">"전화가 프로그래밍되는 동안 기다려 주세요."</string>

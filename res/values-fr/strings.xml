@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Contacts"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Données activées"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Activer l\'accès aux données sur le réseau mobile"</string>
     <string name="roaming" msgid="8871412572928323707">"Itinérance des données"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Se connecter aux services de données lors de l\'itinérance"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Se connecter aux services de données lors de l\'itinérance"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Nom"</string>
     <string name="number" msgid="7905950798349903858">"Numéro"</string>
     <string name="save" msgid="4094274636321939086">"Enregistrer"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Ajouter un numéro autorisé"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Ajout du numéro autorisé..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Numéro autorisé ajouté"</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Modifier le numéro autorisé"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Mise à jour du numéro autorisé…"</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Mise à jour du numéro autorisé effectuée"</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Supprimer un numéro autorisé"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Suppression du numéro autorisé…"</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Numéro autorisé supprimé"</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"Impossible de mettre à jour le numéro autorisé : le code PIN que vous avez saisi est incorrect."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"Impossible de mettre à jour le numéro autorisé : ce type de numéro ne peut pas comporter plus de 20 chiffres."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Lecture de la carte SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Aucun contact n\'a été trouvé sur votre carte SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Sélection des contacts à importer"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Réseau sélectionné (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) non disponible"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Veuillez d\'abord désactiver le mode Avion, afin d\'effectuer un appel."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Non enregistré sur le réseau."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Réseau mobile non disponible"</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"L\'appel n\'a pas été effectué. Le numéro composé n\'est pas valide."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"L\'appel n\'a pas été effectué."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Lancement de la séquence IHM..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Message réseau"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Activer votre téléphone"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Vous devez passer un appel spécial pour activer le service de téléphonie. "\n\n"Après avoir appuyé sur \"Activer\", écoutez les instructions qui vous permettront d\'activer votre téléphone."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Touchez Activer pour passer un appel spécial qui activera votre téléphone sur le réseau mobile de votre opérateur. Vous pourrez ensuite téléphoner et vous connecter à des réseaux de données mobiles."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ignorer l\'activation ?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Si vous poursuivez sans activer votre mobile, vous ne pourrez ni téléphoner, ni vous connecter à des réseaux de données mobiles. La connexion à un réseau Wi-Fi reste possible. Vous serez invité à effectuer l\'activation à chaque démarrage du téléphone."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ignorer"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Activer"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Activer"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Votre téléphone est activé !"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problème lors de l\'activation"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Écoutez les instructions vous indiquant comment activer votre téléphone. Restez en ligne jusqu\'à entendre la confirmation de l\'activation du téléphone."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Suivez les instructions orales jusqu\'au bout de la procédure d\'activation."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Clavier"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Ht. parleur"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Veuillez patienter pendant la programmation de votre téléphone."</string>
