@@ -37,6 +37,7 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
 
     void init(TimeConsumingPreferenceListener listener, boolean skipReading) {
         tcpListener = listener;
+
         if (!skipReading) {
             phone.getCallWaiting(mHandler.obtainMessage(MyHandler.MESSAGE_GET_CALL_WAITING,
                     MyHandler.MESSAGE_GET_CALL_WAITING, MyHandler.MESSAGE_GET_CALL_WAITING));
