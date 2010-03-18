@@ -561,7 +561,8 @@ public class BluetoothHandsfree {
                                     if (DBG) log("A2DP suspended, completing SCO");
                                     mOutgoingSco = createScoSocket();
                                     if (!mOutgoingSco.connect(
-                                            mHeadset.getRemoteDevice().getAddress())) {
+                                            mHeadset.getRemoteDevice().getAddress(),
+                                            mHeadset.getRemoteDevice().getName())) {
                                         mOutgoingSco = null;
                                     }
                                     mPendingSco = false;
@@ -1003,7 +1004,8 @@ public class BluetoothHandsfree {
                         Log.w(TAG, "Timeout suspending A2DP for SCO (mA2dpState = " +
                                 mA2dpState + "). Starting SCO anyway");
                         mOutgoingSco = createScoSocket();
-                        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
+                        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress(),
+                                 mHeadset.getRemoteDevice().getName())) {
                             mOutgoingSco = null;
                         }
                         mPendingSco = false;
@@ -1089,7 +1091,8 @@ public class BluetoothHandsfree {
 
         if (!mPendingSco) {
             mOutgoingSco = createScoSocket();
-            if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress())) {
+            if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress(),
+                    mHeadset.getRemoteDevice().getName())) {
                 mOutgoingSco = null;
             }
         }
