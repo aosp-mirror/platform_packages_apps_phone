@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Επαφές"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Ενεργοποίηση δεδομένων"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Ενεργοποίηση της πρόσβασης δεδομένων μέσω του δικτύου κινητής τηλεφωνίας"</string>
     <string name="roaming" msgid="8871412572928323707">"Περιαγωγή δεδομένων"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Σύνδεση στις υπηρεσίες δεδομένων κατά την περιαγωγή"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Σύνδεση στις υπηρεσίες δεδομένων κατά την περιαγωγή"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Όνομα"</string>
     <string name="number" msgid="7905950798349903858">"Αριθμός"</string>
     <string name="save" msgid="4094274636321939086">"Αποθ/ση"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Προσθήκη καθορισμένου αριθμού κλήσης"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Προσθήκη καθορισμένου αριθμού κλήσης…"</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Ο καθορισμένος αριθμός κλήσης προστέθηκε."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Επεξεργασία καθορισμένου αριθμού κλήσης"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Ενημέρωση καθορισμένου αριθμού κλήσης…"</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Ο καθορισμένος αριθμός κλήσης ενημερώθηκε."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Διαγραφή καθορισμένου αριθμού κλήσης"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Διαγραφή καθορισμένου αριθμού κλήσης…"</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Ο καθορισμένος αριθμός κλήσης διαγράφηκε."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"Το FDN δεν ενημερώθηκε: εισαγάγατε εσφαλμένο PIN."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"Το FDN δεν ενημερώθηκε: ο αριθμός δεν μπορεί να περιέχει περισσότερα από 20 ψηφία."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Ανάγνωση από κάρτα SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Δεν υπάρχουν επαφές στην κάρτα SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Επιλέξτε επαφές για εισαγωγή"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Επιλεγμένο δίκτυο (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) μη διαθέσιμο"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Για να πραγματοποιήσετε μια κλήση, απενεργοποιήστε πρώτα τη λειτουργία πτήσης."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Δεν έχετε εγγραφεί στο δίκτυο."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Το δίκτυο κινητής τηλεφωνίας δεν είναι διαθέσιμο."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Η κλήση δεν πραγματοποιήθηκε, δεν έγινε εισαγωγή έγκυρου αριθμού."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"H κλήση δεν πραγματοποιήθηκε."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Έναρξη ακολουθίας MMI..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Μήνυμα δικτύου"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Ενεργοποίηση του τηλεφώνου σας"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Πρέπει να γίνει ειδική κλήση για την ενεργοποίηση της υπηρεσίας του τηλεφώνου που διαθέτετε. "\n\n"Αφού πατήσετε την \"Ενεργοποίηση\", ακούστε τις οδηγίες που παρέχονται για να ενεργοποιήσετε το τηλέφωνό σας."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Αγγίξτε την ένδειξη “Ενεργοποίηση” για να πραγματοποιήσετε μια ειδική κλήση που ενεργοποιεί το τηλέφωνό σας στο δίκτυο της εταιρείας κινητής τηλεφωνίας που χρησιμοποιείτε ώστε να μπορείτε να πραγματοποιείτε κλήσεις και να συνδέεστε σε δίκτυα δεδομένων κινητής τηλεφωνίας."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Παράβλεψη ενεργοποίησης;"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Εάν παραλείψετε την ενεργοποίηση, δεν θα μπορείτε να πραγματοποιήσετε κλήσεις ή να συνδεθείτε σε δίκτυα δεδομένων κινητής τηλεφωνίας (αν και θα μπορείτε να συνδεθείτε σε δίκτυα Wi-Fi). Μέχρι να ενεργοποιήσετε το τηλέφωνό σας, θα σας ζητείται να το ενεργοποιήσετε κάθε φορά που θα το θέτετε σε λειτουργία."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Παράβλεψη"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Ενεργοποίηση"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Ενεργοποίηση"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Το τηλέφωνο ενεργοποιήθηκε!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Πρόβλημα κατά την ενεργοποίηση"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Ακούστε τις οδηγίες για να ενεργοποιήσετε το τηλέφωνό σας. Μην κλείσετε τη γραμμή μέχρι να ακούσετε την επιβεβαίωση ότι το τηλέφωνό σας ενεργοποιήθηκε."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Ακολουθήστε τις φωνητικές οδηγίες μέχρι να ακούσετε ότι η ενεργοποίηση ολοκληρώθηκε."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Πληκτρολόγιο"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Ηχείο"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Περιμένετε μέχρι να ολοκληρωθεί ο προγραμματισμός του τηλεφώνου σας."</string>

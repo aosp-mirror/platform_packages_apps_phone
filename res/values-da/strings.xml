@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Kontakter"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Data aktiveret"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Aktiver dataadgang via mobilnetværk"</string>
     <string name="roaming" msgid="8871412572928323707">"Dataroaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Opret forbindelse til datatjenester under roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Opret forbindelse til datatjenester under roaming"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Navn"</string>
     <string name="number" msgid="7905950798349903858">"Nummer"</string>
     <string name="save" msgid="4094274636321939086">"Gem"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Tilføj fast opkaldsnummer"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Tilføjer fast opkaldsnummer..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Fast opkaldsnummer blev tilføjet."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Rediger fast opkaldsnummer"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Opdaterer fast opkaldsnummer..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Fast opkaldsnummer blev opdateret."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Slet fast opkaldsnummer"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Sletter fast opkaldsnummer..."</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Det faste opkaldsnummer blev slettet."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"Fast opkaldsnummer er ikke opdateret: Du har indtastet en forkert PIN-kode."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"Fast opkaldsnumner er ikke opdateret: Nummer kan højst indeholde 20 tal."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Læser fra SIM-kort ..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Der er ingen kontakter på dit SIM-kort."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Vælg kontakter, der skal importeres"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Det valgte netværk (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) er ikke tilgængeligt"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Slå Flytilstand fra først for at foretage et opkald."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ikke registreret på netværk."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilnetværket er ikke tilgængeligt."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Opkaldet blev ikke sendt. Der blev ikke indtastet et gyldigt nummer."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Opkaldet blev ikke sendt."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Starter MMI-sekvens ..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Netværksbesked"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktiver din telefon"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Der skal foretages et særligt opkald for at aktivere din telefontjeneste. "\n\n" Lyt til instruktionerne, når du har trykket på “Aktiver” for at aktivere din telefon."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Tryk på “Aktiver” for at foretage et særligt opkald, der aktiverer din telefon på dit telefonselskabs mobilnetværk, så du kan foretage opkald og oprette forbindelse til mobile datanetværk."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Spring aktivering over?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Hvis du springer aktiveringen over, kan du ikke foretage opkald eller oprette forbindelse til mobile datanetværk (du kan dog godt oprette forbindelse til Wi-Fi-netværk). Du vil blive bedt om at aktivere din telefon, hver gang du tænder den, indtil du gør det."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Spring over"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktiver"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktiver"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefonen er aktiveret!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Der opstod et problem med aktiveringen"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Lyt til instruktionerne for at aktivere din telefon. Bliv på linjen, indtil du hører en bekræftelse på, at din telefon er aktiveret."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Følg talevejledningen, indtil du hører, at aktiveringen er gennemført."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastatur"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Højttaler"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Vent, mens din telefon bliver programmeret."</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Kontakty"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Datové přenosy aktivovány"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Aktivuje datový přístup prostřednictvím mobilní sítě"</string>
     <string name="roaming" msgid="8871412572928323707">"Datové služby při roamingu"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Datové služby se mohou připojovat při roamingu"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Datové služby se mohou připojovat při roamingu"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Jméno"</string>
     <string name="number" msgid="7905950798349903858">"Číslo"</string>
     <string name="save" msgid="4094274636321939086">"Uložit"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Přidat povolené telefonní číslo"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Přidávání povoleného telefonního čísla..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Povolené telefonní číslo bylo přidáno."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Upravit povolené telefonní číslo"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Probíhá aktualizace povoleného telefonního čísla..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Povolené telefonní číslo bylo aktualizováno."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Smazat povolené telefonní číslo"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Mazání povoleného telefonního čísla..."</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Povolené telefonní číslo bylo smazáno."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"Povolené telefonní číslo nebylo aktualizováno: Zadali jste nesprávný kód PIN."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"Povolené telefonní číslo nebylo aktualizováno: Délka čísla nemůže přesahovat 20 číslic."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Čtení z karty SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Na kartě SIM nejsou žádné kontakty."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Vybrat kontakty pro import"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Vybraná síť (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) není k dispozici"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Chcete-li telefonovat, vypněte nejprve režim V letadle."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Přihlášení k síti nebylo úspěšné."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilní síť je nedostupná."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Hovor nelze spojit, nebylo zadáno platné číslo."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Hovor nebyl spojen."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Spouštění sekvence MMI..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Zpráva sítě"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivujte svůj telefon"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"K aktivaci telefonní služby je potřeba uskutečnit speciální hovor. "\n\n"Stiskněte tlačítko Aktivovat a aktivujte telefon podle pokynů, které vám budou sděleny."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Dotkněte se tlačítka Aktivovat. Uskutečníte tak zvláštní hovor, kterým telefon aktivujete v mobilní síti svého operátora, abyste mohli volat a připojovat se k mobilním datovým sítím."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Přeskočit aktivaci?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Pokud přeskočíte aktivaci, nemůžete volat ani se připojovat k mobilním datovým sítím (můžete se ale připojit k sítím WiFi). Dokud svůj telefon neaktivujete, bude se zobrazovat výzva k aktivaci při každém zapnutí."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Přeskočit"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktivovat"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivovat"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefon je aktivován."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problém s aktivací"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Aktivujte svůj telefon podle poskytnutých pokynů. Nezavěšujte, dokud neuslyšíte potvrzení, že byl telefon aktivován."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Postupujte podle hlasových pokynů, dokud nebudete informováni o dokončení aktivace."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Klávesnice"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Hlasitě"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Počkejte prosím, než bude telefon naprogramován."</string>

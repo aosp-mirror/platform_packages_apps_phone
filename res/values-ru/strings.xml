@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!--  Copyright (C) 2007 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
+ -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="contactsIconLabel" msgid="9129800048701196916">"Контакты"</string>
@@ -206,10 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Передача данных включена"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Предоставить доступ к данным по мобильной сети"</string>
     <string name="roaming" msgid="8871412572928323707">"Интернет-роуминг"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Подключаться к службам передачи данных в роуминге"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Подключаться к службам передачи данных в роуминге"</string>
@@ -394,28 +393,17 @@
     <string name="name" msgid="7329028332786872378">"Имя"</string>
     <string name="number" msgid="7905950798349903858">"Номер"</string>
     <string name="save" msgid="4094274636321939086">"Сохранить"</string>
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Добавить номер ограниченного набора"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Выполняется добавление номера ограниченного набора..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Номер ограниченного набора добавлен."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Изменить номер ограниченного набора"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Выполняется обновление номера ограниченного набора..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Номер ограниченного набора обновлен."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Удалить номер ограниченного набора"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Выполняется удаление номера ограниченного набора…"</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Номер ограниченного набора удален."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"Номер ограниченного набора не обновлен: вы ввели неверный PIN-код."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"Номер ограниченного набора не обновлен: он не должен содержать больше 20 цифр."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Считывание с SIM-карты…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"На SIM-карте нет контактов."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Выберите контакты для импорта"</string>
@@ -482,6 +470,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Выбранная сеть (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) недоступна."</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Перед тем как звонить, отключите режим полета."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Нет регистрации в сети."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Мобильная сеть недоступна."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Вызов не осуществляется, действительный номер телефона не указан."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Вызов не осуществляется."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Запуск последовательности MMI..."</string>
@@ -539,10 +528,15 @@
     <string name="network_message" msgid="5673682885938122239">"Сообщение сети"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Активировать телефон"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Необходим специальный звонок для активации службы телефона. "\n\n"После нажатия кнопки \"Активировать\" прослушайте инструкции по активации телефона."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Нажмите “Активировать”, чтобы позвонить на специальный номер для активации телефона в сети оператора мобильной связи. После этого вы сможете совершать вызовы и подключаться к мобильным сетям передачи данных."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Пропустить активацию?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Если вы пропустите активацию, вы не сможете совершать вызовы и подключаться к мобильным сетям передачи данных (хотя вы сможете подключаться к сетям Wi-Fi). Пока вы не активируете свой телефон, запрос активации будет отображаться при каждом его включении."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Пропустить"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Активировать"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Активировать"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Телефон активирован!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Неполадки при активации"</string>
-    <string name="ota_listen" msgid="3656020498420727053">"Прослушайте инструкции по активации телефона. Оставайтесь на связи, чтобы услышать подтверждение об активации телефона."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Следуйте голосовым инструкциям, пока вам не сообщат, что активация завершена."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Клавиатура"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Динамик"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Дождитесь завершения программирования телефона."</string>
