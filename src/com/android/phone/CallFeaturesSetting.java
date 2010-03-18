@@ -1336,32 +1336,42 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             initVoiceMailProviders();
         }
-        if (getResources().getBoolean(R.bool.dtmf_type_enabled)) {
-            mButtonDTMF.setOnPreferenceChangeListener(this);
-        } else {
-            prefSet.removePreference(mButtonDTMF);
-            mButtonDTMF = null;
+
+        if (mButtonDTMF != null) {
+            if (getResources().getBoolean(R.bool.dtmf_type_enabled)) {
+                mButtonDTMF.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mButtonDTMF);
+                mButtonDTMF = null;
+            }
         }
 
-        if (getResources().getBoolean(R.bool.auto_retry_enabled)) {
-            mButtonAutoRetry.setOnPreferenceChangeListener(this);
-        } else {
-            prefSet.removePreference(mButtonAutoRetry);
-            mButtonAutoRetry = null;
+        if (mButtonAutoRetry != null) {
+            if (getResources().getBoolean(R.bool.auto_retry_enabled)) {
+                mButtonAutoRetry.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mButtonAutoRetry);
+                mButtonAutoRetry = null;
+            }
         }
 
-        if (getResources().getBoolean(R.bool.hac_enabled)) {
-            mButtonHAC.setOnPreferenceChangeListener(this);
-        } else {
-            prefSet.removePreference(mButtonHAC);
-            mButtonHAC = null;
+        if (mButtonHAC != null) {
+            if (getResources().getBoolean(R.bool.hac_enabled)) {
+
+                mButtonHAC.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mButtonHAC);
+                mButtonHAC = null;
+            }
         }
 
-        if (getResources().getBoolean(R.bool.tty_enabled)) {
-            mButtonTTY.setOnPreferenceChangeListener(this);
-        } else {
-            prefSet.removePreference(mButtonTTY);
-            mButtonTTY = null;
+        if (mButtonTTY != null) {
+            if (getResources().getBoolean(R.bool.tty_enabled)) {
+                mButtonTTY.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mButtonTTY);
+                mButtonTTY = null;
+            }
         }
 
         if (!getResources().getBoolean(R.bool.world_phone)) {
