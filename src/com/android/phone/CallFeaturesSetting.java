@@ -1375,12 +1375,18 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         if (!getResources().getBoolean(R.bool.world_phone)) {
-            prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
-            prefSet.removePreference(prefSet.findPreference(BUTTON_GSM_UMTS_OPTIONS));
+            Preference options = prefSet.findPreference(BUTTON_CDMA_OPTIONS);
+            if (options != null)
+                prefSet.removePreference(options);
+            options = prefSet.findPreference(BUTTON_GSM_UMTS_OPTIONS);
+            if (options != null)
+                prefSet.removePreference(options);
 
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                prefSet.removePreference(prefSet.findPreference(BUTTON_FDN_KEY));
+                Preference fdnButton = prefSet.findPreference(BUTTON_FDN_KEY);
+                if (fdnButton != null)
+                    prefSet.removePreference(fdnButton);
                 addPreferencesFromResource(R.xml.cdma_call_options);
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 addPreferencesFromResource(R.xml.gsm_umts_call_options);
