@@ -4653,14 +4653,20 @@ public class InCallScreen extends Activity
     }
 
    /**
-    * This function returns true if the current call is OTA Call.
-    * It uses intent action and OTA Screen state information to determine
-    * if current call is OTA call or not
+    * Checks to see if the current call is a CDMA OTA Call, based on the
+    * action of the specified intent and OTA Screen state information.
+    *
+    * The OTA call is a CDMA-specific concept, so this method will
+    * always return false on a GSM phone.
     */
     private boolean checkIsOtaCall(Intent intent) {
-        if (DBG) log("checkIsOtaCall entering");
+        if (VDBG) log("checkIsOtaCall...");
 
         if (intent == null || intent.getAction() == null) {
+            return false;
+        }
+
+        if (mPhone.getPhoneType() != Phone.PHONE_TYPE_CDMA) {
             return false;
         }
 
@@ -4668,7 +4674,7 @@ public class InCallScreen extends Activity
 
         if ((app.cdmaOtaScreenState == null)
                 || (app.cdmaOtaProvisionData == null)) {
-            if (DBG) log("checkIsOtaCall OtaUtils.CdmaOtaScreenState not initialized");
+            if (DBG) log("checkIsOtaCall: OtaUtils.CdmaOtaScreenState not initialized");
             return false;
         }
 
@@ -4717,11 +4723,12 @@ public class InCallScreen extends Activity
                 }
             }
         }
-        if (DBG) log("checkIsOtaCall valid =" + isOtaCall);
+
+        if (DBG) log("checkIsOtaCall: isOtaCall =" + isOtaCall);
         if (isOtaCall && (otaUtils == null)) {
-            if (DBG) log("checkIsOtaCall create OtaUtils");
+            if (DBG) log("checkIsOtaCall: creating OtaUtils...");
             otaUtils = new OtaUtils(getApplicationContext(),
-                                        this, mInCallPanel, mCallCard, mDialer);
+                                    this, mInCallPanel, mCallCard, mDialer);
         }
         return isOtaCall;
     }
