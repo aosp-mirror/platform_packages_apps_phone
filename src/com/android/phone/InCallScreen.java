@@ -2552,7 +2552,7 @@ public class InCallScreen extends Activity
 
         final PhoneApp app = PhoneApp.getInstance();
 
-        if ((mPhone.isOtaSpNumber(number)) && (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
+        if ((mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) && (mPhone.isOtaSpNumber(number))) {
             if (DBG) log("placeCall: isOtaSpNumber() returns true");
             setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
             if (app.cdmaOtaProvisionData != null) {
