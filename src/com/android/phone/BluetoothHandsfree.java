@@ -269,7 +269,9 @@ public class BluetoothHandsfree {
         return (state == Call.State.ACTIVE || state == Call.State.ALERTING);
     }
 
-    /* package */ void disconnectHeadset() {
+    /* package */ synchronized void disconnectHeadset() {
+        // Close off the SCO sockets
+        audioOff();
         mHeadset = null;
         stopDebug();
         resetAtState();
@@ -972,14 +974,14 @@ public class BluetoothHandsfree {
                     break;
                 case SCO_CLOSED:
                     if (mConnectedSco == (ScoSocket)msg.obj) {
+                        mConnectedSco.close();
                         mConnectedSco = null;
                         mAudioManager.setBluetoothScoOn(false);
                         broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED,
-                                mHeadset.getRemoteDevice());
+                               mHeadset.getRemoteDevice());
                     } else if (mOutgoingSco == (ScoSocket)msg.obj) {
+                        mOutgoingSco.close();
                         mOutgoingSco = null;
-                    } else if (mIncomingSco == (ScoSocket)msg.obj) {
-                        mIncomingSco = null;
                     }
                     break;
                 case CHECK_CALL_STARTED:
@@ -1004,8 +1006,9 @@ public class BluetoothHandsfree {
                         Log.w(TAG, "Timeout suspending A2DP for SCO (mA2dpState = " +
                                 mA2dpState + "). Starting SCO anyway");
                         mOutgoingSco = createScoSocket();
-                        if (!mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress(),
-                                 mHeadset.getRemoteDevice().getName())) {
+                        if (!(isHeadsetConnected() &&
+                                mOutgoingSco.connect(mHeadset.getRemoteDevice().getAddress(),
+                                 mHeadset.getRemoteDevice().getName()))) {
                             mOutgoingSco = null;
                         }
                         mPendingSco = false;
@@ -1121,9 +1124,12 @@ public class BluetoothHandsfree {
      * headset/handsfree, if one is connected. Does not block.
      */
     /* package */ synchronized void audioOff() {
-        if (VDBG) log("audioOff(): mPendingSco: "+mPendingSco+", mConnectedSco: "+
-                mConnectedSco+", mOutgoingSco: "+mOutgoingSco+", mA2dpState: "+mA2dpState+
-                ", mA2dpSuspended: "+mA2dpSuspended);
+        if (VDBG) log("audioOff(): mPendingSco: " + mPendingSco +
+                ", mConnectedSco: " + mConnectedSco +
+                ", mOutgoingSco: " + mOutgoingSco  +
+                ", mA2dpState: " + mA2dpState +
+                ", mA2dpSuspended: " + mA2dpSuspended +
+                ", mIncomingSco:" + mIncomingSco);
 
         if (mA2dpSuspended) {
             if (isA2dpMultiProfile()) {
@@ -1149,6 +1155,7 @@ public class BluetoothHandsfree {
             mOutgoingSco.close();
             mOutgoingSco = null;
         }
+
     }
 
     /* package */ boolean isAudioOn() {
