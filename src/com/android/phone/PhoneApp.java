@@ -484,6 +484,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (mTtyEnabled) {
                 intentFilter.addAction(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION);
             }
+            intentFilter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
             registerReceiver(mReceiver, intentFilter);
 
             // Use a separate receiver for ACTION_MEDIA_BUTTON broadcasts,
@@ -1480,6 +1481,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: TTY_PREFERRED_MODE_CHANGE_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "    mode: " + mPreferredTtyMode);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
+            } else if (action.equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
+                int ringerMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE,
+                        AudioManager.RINGER_MODE_NORMAL);
+                if(ringerMode == AudioManager.RINGER_MODE_SILENT) {
+                    notifier.silenceRinger();
+                }
             }
         }
     }
