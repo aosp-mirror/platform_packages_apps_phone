@@ -63,6 +63,7 @@
                 android:layout_marginLeft="10dip"
                 android:visibility="gone">
             <ImageButton android:id="@+id/holdButton"
+            android:contentDescription="@+id/holdButton"
                     style="@style/InCallRoundTouchButton"
                     android:src="@drawable/ic_in_call_touch_round_hold" />
             <TextView android:id="@+id/holdButtonLabel"
