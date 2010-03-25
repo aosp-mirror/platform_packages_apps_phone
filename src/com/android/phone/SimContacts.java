@@ -133,7 +133,7 @@ public class SimContacts extends ADNList {
     // From HardCodedSources.java in Contacts app.
     // TODO: fix this.
     private static final String ACCOUNT_TYPE_GOOGLE = "com.google";
-    private static final String GOOGLE_MY_CONTACTS_GROUP = "System Group: My Contacts";
+    private static final String GOOGLE_MY_CONTACTS_GROUP = "My Contacts";
 
     private static void actuallyImportOneSimContact(
             final Cursor cursor, final ContentResolver resolver, Account account) {
