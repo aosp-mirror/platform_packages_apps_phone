@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwH///sA\u003d",
+        "filename": "src/com/android/phone/CdmaSubscriptionListPreference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-03-26T23:28:43Z",
+      "side": 1,
+      "message": "Done. Will create a new method for that.",
+      "parentUuid": "AAAAwH///sU\u003d",
+      "revId": "aa927dc74ba19bd7aab541d900d05a0a4d332b48",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwH///sQ\u003d",
         "filename": "src/com/android/phone/CdmaSubscriptionListPreference.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-03-26T22:39:49Z",
       "side": 1,
       "message": "I don\u0027t quite understand this comment, maybe if I read the spec it would make more sense.",
+      "revId": "aa927dc74ba19bd7aab541d900d05a0a4d332b48",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///r8\u003d",
+        "filename": "src/com/android/phone/CdmaSubscriptionListPreference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-03-26T23:28:43Z",
+      "side": 1,
+      "message": "What we mean here is persistent storage. Here we are trying to set the value in the modem. We can update the persistent storage (android DB) only after getting a positive response from the modem.\n\nWill change the comment to say persistent storage instead of secure storage.",
+      "parentUuid": "AAAAwH///sQ\u003d",
       "revId": "aa927dc74ba19bd7aab541d900d05a0a4d332b48",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
