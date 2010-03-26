@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwH///sU\u003d",
+        "filename": "src/com/android/phone/CdmaSubscriptionListPreference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-03-26T22:39:49Z",
+      "side": 1,
+      "message": "Maybe make this a subroutine called something like setCurrentValue?",
+      "revId": "aa927dc74ba19bd7aab541d900d05a0a4d332b48",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///sQ\u003d",
+        "filename": "src/com/android/phone/CdmaSubscriptionListPreference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-03-26T22:39:49Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this comment, maybe if I read the spec it would make more sense.",
+      "revId": "aa927dc74ba19bd7aab541d900d05a0a4d332b48",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
