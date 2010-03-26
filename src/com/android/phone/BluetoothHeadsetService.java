@@ -450,8 +450,6 @@ public class BluetoothHeadsetService extends Service {
             if (DBG) log("Headset state " + mState + " -> " + state + ", result = " + result);
             if (mState == BluetoothHeadset.STATE_CONNECTED) {
                 mBtHandsfree.disconnectHeadset();
-                // no longer connected - make sure BT audio is taken down
-                mBtHandsfree.audioOff();
             }
             Intent intent = new Intent(BluetoothHeadset.ACTION_STATE_CHANGED);
             intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, mState);
