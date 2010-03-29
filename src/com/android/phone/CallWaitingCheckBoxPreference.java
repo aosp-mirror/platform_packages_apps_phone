@@ -1,8 +1,7 @@
 package com.android.phone;
 
-import static com.android.phone.TimeConsumingPreferenceActivity.EXCEPTION_ERROR;
 import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
-
+import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
@@ -84,9 +83,10 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
             }
 
             if (ar.exception != null) {
-                if (DBG) Log.d(LOG_TAG, "handleGetCallWaitingResponse: ar.exception=" + ar.exception);
-                setEnabled(false);
-                tcpListener.onError(CallWaitingCheckBoxPreference.this, EXCEPTION_ERROR);
+                if (DBG)
+                    Log.d(LOG_TAG, "handleGetCallWaitingResponse: ar.exception=" + ar.exception);
+                tcpListener.onException(CallWaitingCheckBoxPreference.this,
+                        (CommandException)ar.exception);
             } else if (ar.userObj instanceof Throwable) {
                 tcpListener.onError(CallWaitingCheckBoxPreference.this, RESPONSE_ERROR);
             } else {
