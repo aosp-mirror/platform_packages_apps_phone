@@ -365,7 +365,7 @@
     <item msgid="4377788417250295786">"0"</item>
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
-    <string name="fdn" msgid="7878832555095183202">"Números de marcac. fija"</string>
+    <string name="fdn" msgid="7878832555095183202">"Números de marc. fijos"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Lista de NMF"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activación de NMF"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Los números de marcación fija están activados"</string>
@@ -569,7 +569,7 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sí"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Descartar"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Config. De correo de voz"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Config. de correo de voz"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;no establecido&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Serv. de correo de voz"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Configuraciones para <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>

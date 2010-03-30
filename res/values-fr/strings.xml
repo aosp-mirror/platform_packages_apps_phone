@@ -369,7 +369,7 @@
     <string name="manage_fdn_list" msgid="8777755791892122369">"Liste numéros autorisés"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activation des numéros autorisés"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"La liste de numéros autorisés est activée."</string>
-    <string name="fdn_disabled" msgid="4700049736675368279">"La liste de numéros autorisés est désactivée."</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Liste de numéros autorisés désactivée"</string>
     <string name="enable_fdn" msgid="3740191529180493851">"Activer numéros autorisés"</string>
     <string name="disable_fdn" msgid="7944020890722540616">"Désactiver numéros autorisés"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Modifier le code PIN2"</string>
@@ -569,7 +569,7 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Oui"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Non"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorer"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Paramètres de la messagerie vocale"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;non défini&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Service de messagerie"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Paramètres pour <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>

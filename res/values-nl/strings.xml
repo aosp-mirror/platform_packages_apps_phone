@@ -179,7 +179,7 @@
     <string name="register_on_network" msgid="9055203954040805084">"Registreren op <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed" msgid="3540496123717833833">"Uw SIM-kaart staat geen verbinding met dit netwerk toe."</string>
     <string name="registration_done" msgid="495135664535876612">"Geregistreerd op netwerk."</string>
-    <string name="sum_carrier_select" msgid="6526225502314751575">"Een netwerkoperator selecteren"</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"Een mobiele provider selecteren"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Alle beschikbare netwerken zoeken"</string>
     <string name="select_automatically" msgid="8615980695510888796">"Automatisch selecteren"</string>
     <string name="sum_select_automatically" msgid="8460954604521755275">"Voorkeursnetwerk automatisch selecteren"</string>
@@ -207,7 +207,7 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Gegevens ingeschakeld"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Gegevenstoegang ingeschakeld"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Gegevenstoegang via mobiel netwerk inschakelen"</string>
     <string name="roaming" msgid="8871412572928323707">"Gegevensroaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Verbinding maken met gegevensservices tijdens roaming"</string>
