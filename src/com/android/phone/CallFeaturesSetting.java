@@ -408,15 +408,9 @@ public class CallFeaturesSetting extends PreferenceActivity
             // Update HAC Value in AudioManager
             mAudioManager.setParameter(HAC_KEY, hac != 0 ? HAC_VAL_ON : HAC_VAL_OFF);
             return true;
-        } else if (preference == mVoicemailSettings) {
-            if (preference.getIntent() != null) {
-                if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
-                this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
-            } else {
-                if (DBG) log("Opening VM number cfg dialog");
-                updateVoiceNumberField();
-                mSubMenuVoicemailSettings.showPhoneNumberDialog();
-            }
+        } else if (preference == mVoicemailSettings && preference.getIntent() != null) {
+            if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
+            this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
             return true;
         }
         return false;
