@@ -81,8 +81,8 @@
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Sim"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Não"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Substitua o caractere curinga por"</string>
-    <string name="no_vm_number" msgid="4164780423805688336">"Número de correio de voz ausente"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"Não há um número de correio de voz armazenado no cartão SIM."</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"Número correio de voz ausente"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Não há um número correio de voz armazenado no cartão SIM."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Adicionar número"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Carregando..."</string>
     <string name="enterPin" msgid="4753300834213388397">"Digite o código PIN para desbloquear o cartão SIM."</string>
@@ -162,9 +162,9 @@
     <item msgid="7876195870037833661">"Ocultar número"</item>
     <item msgid="1108394741608734023">"Mostrar número"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Salvar o número do correio de voz"</string>
-    <string name="vm_changed" msgid="380744030726254139">"Número do correio de voz alterado."</string>
-    <string name="vm_change_failed" msgid="6912718596496220653">"Falha na alteração do número do correio de voz."\n"Entre em contato com a sua operadora se este problema continuar."</string>
+    <string name="vm_save_number" msgid="4579969432544566719">"Salvar número correio de voz"</string>
+    <string name="vm_changed" msgid="380744030726254139">"Número correio de voz alterado."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"Falha na alteração do número correio de voz."\n"Entre em contato com a sua operadora se este problema continuar."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Falha na alteração do número de encaminhamento."\n"Entre em contato com a sua operadora se este problema continuar."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Falha ao recuperar e salvar as configurações atuais de números de encaminhamento."\n"Deseja mudar para a nova operadora mesmo assim?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nenhuma alteração foi feita."</string>
@@ -208,7 +208,7 @@
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Dados ativados"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Ativar acesso de dados na rede móvel"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Ativar acesso a dados pela rede móvel"</string>
     <string name="roaming" msgid="8871412572928323707">"Roaming de dados"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Conectar aos serviços de dados quando estiver em roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Conectar aos serviços de dados quando estiver em roaming"</string>
@@ -319,7 +319,7 @@
     <item msgid="1268081943590316978">"2"</item>
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
-    <string name="prefer_2g" msgid="8442550937280449639">"Use apenas redes de 2 G"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Usar apenas redes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Economiza bateria"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Seleção de sistema"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Alterar o modo de roaming CDMA"</string>
@@ -445,7 +445,7 @@
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Dispensar"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Desbloquear"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autenticando o PIN…"</string>
-    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Número do correio de voz"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Número correio de voz"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Discando"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Tentando novamente"</string>
     <string name="card_title_in_progress" msgid="8603765629781648862">"Chamada atual"</string>
@@ -465,7 +465,7 @@
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Novo correio de voz"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Novo correio de voz (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Discar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número do correio de voz desconhecido"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número correio de voz desconhecido"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Sem serviço"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"A rede selecionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) não está disponível"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para fazer uma chamada, primeiro desative o modo avião."</string>

@@ -109,7 +109,7 @@
     <string name="voicemail" msgid="8693759337917898954">"Buzón de voz"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"Buzón de voz:"</string>
     <string name="networks" msgid="8873030692174541976">"Operadores de red"</string>
-    <string name="call_settings" msgid="6112441768261754562">"Ajustes de llamadas"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Configuración de llamada"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Configuración adicional"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Configuración adicional de llamadas solo GSM"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Configuración adicional de llamadas CDMA"</string>
@@ -145,7 +145,7 @@
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Desviando a {0}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Inhabilitado"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Tu operador no permite inhabilitar el desvío de llamadas cuando el teléfono no puede establecer la llamada."</string>
-    <string name="updating_title" msgid="6146755386174019046">"Ajustes de llamadas"</string>
+    <string name="updating_title" msgid="6146755386174019046">"Configuración de llamada"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Error de configuración de llamada"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Leyendo configuración..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Actualizando configuración..."</string>
