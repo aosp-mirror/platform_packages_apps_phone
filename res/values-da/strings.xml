@@ -151,7 +151,7 @@
     <string name="updating_settings" msgid="8171225533884883252">"Opdaterer indstillinger ..."</string>
     <string name="reverting_settings" msgid="4752151682666912828">"Tilbagefører indstillinger …"</string>
     <string name="response_error" msgid="6674110501330139405">"Uventet svar fra netværk."</string>
-    <string name="exception_error" msgid="7027667130619518211">"Netværks- eller SIM-kortfejl"</string>
+    <string name="exception_error" msgid="7027667130619518211">"Fejl på netværk eller SIM-kort."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Slå radioen til, inden du viser disse indstillinger."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktiver"</string>
