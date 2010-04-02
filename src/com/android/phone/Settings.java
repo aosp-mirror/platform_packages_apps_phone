@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.ThrottleManager;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,6 +52,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
     //String keys for preference lookup
     private static final String BUTTON_DATA_ENABLED_KEY = "button_data_enabled_key";
+    private static final String BUTTON_DATA_USAGE_KEY = "button_data_usage_key";
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
     private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
@@ -65,6 +67,11 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private CheckBoxPreference mButtonDataRoam;
     private CheckBoxPreference mButtonDataEnabled;
     private CdmaRoamingListPreference mButtonCdmaRoam;
+
+    private Preference mButtonDataUsage;
+    private static boolean mDataUsageEnabled;
+    private DataUsageListener mDataUsageListener;
+    private static final String iface = "rmnet0"; //TODO: this will go away
 
     private Phone mPhone;
     private MyHandler mHandler;
@@ -175,6 +182,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         mButtonDataRoam = (CheckBoxPreference) prefSet.findPreference(BUTTON_ROAMING_KEY);
         mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_NETWORK_MODE);
+        mButtonDataUsage = prefSet.findPreference(BUTTON_DATA_USAGE_KEY);
 
         if (getResources().getBoolean(R.bool.world_phone) == true) {
             // set the listener for the mButtonPreferredNetworkMode list preference so we can issue
@@ -206,6 +214,15 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
+        ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
+        /* Remove the UI element if throttling is disabled */
+        if (tm.getCliffThreshold(iface, 0) == 0) {
+            getPreferenceScreen().removePreference(mButtonDataUsage);
+            mDataUsageEnabled = false;
+        } else {
+            mDataUsageEnabled = true;
+            mDataUsageListener = new DataUsageListener(this, mButtonDataUsage);
+        }
     }
 
     @Override
@@ -228,6 +245,17 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         if (getPreferenceScreen().findPreference(BUTTON_PREFERED_NETWORK_MODE) != null)  {
             mPhone.getPreferredNetworkType(mHandler.obtainMessage(
                     MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));
+        }
+        if (mDataUsageEnabled) {
+            mDataUsageListener.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mDataUsageEnabled) {
+            mDataUsageListener.pause();
         }
     }
 

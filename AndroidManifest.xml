@@ -333,6 +333,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Data usage and throttling setting -->
+        <activity android:name="DataUsage"
+            android:label="@string/throttle_data_usage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <!-- data roaming setting -->
         <activity android:name="RoamingSetting" android:label="@string/roaming">
             <intent-filter>
