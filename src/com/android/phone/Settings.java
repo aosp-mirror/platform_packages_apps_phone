@@ -69,7 +69,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private CdmaRoamingListPreference mButtonCdmaRoam;
 
     private Preference mButtonDataUsage;
-    private static boolean mDataUsageEnabled;
     private DataUsageListener mDataUsageListener;
     private static final String iface = "rmnet0"; //TODO: this will go away
 
@@ -215,14 +214,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             }
         }
         ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
-        /* Remove the UI element if throttling is disabled */
-        if (tm.getCliffThreshold(iface, 0) == 0) {
-            getPreferenceScreen().removePreference(mButtonDataUsage);
-            mDataUsageEnabled = false;
-        } else {
-            mDataUsageEnabled = true;
-            mDataUsageListener = new DataUsageListener(this, mButtonDataUsage);
-        }
+        mDataUsageListener = new DataUsageListener(this, mButtonDataUsage, prefSet);
     }
 
     @Override
@@ -246,17 +238,13 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             mPhone.getPreferredNetworkType(mHandler.obtainMessage(
                     MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));
         }
-        if (mDataUsageEnabled) {
-            mDataUsageListener.resume();
-        }
+        mDataUsageListener.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mDataUsageEnabled) {
-            mDataUsageListener.pause();
-        }
+        mDataUsageListener.pause();
     }
 
     /**
