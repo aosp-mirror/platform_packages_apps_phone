@@ -255,7 +255,8 @@ public class BluetoothHeadsetService extends Service {
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     mBtHandsfree.onBluetoothDisabled();
                     mAg.stop();
-                    setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
+                    setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
+                             BluetoothHeadset.LOCAL_DISCONNECT);
                     break;
                 }
             } else if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -413,7 +414,8 @@ public class BluetoothHeadsetService extends Service {
             case RFCOMM_ERROR:
                 if (DBG) log("Rfcomm error");
                 mConnectThread = null;
-                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
+                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
+                         BluetoothHeadset.LOCAL_DISCONNECT);
                 break;
             case RFCOMM_CONNECTED:
                 if (DBG) log("Rfcomm connected");
@@ -435,7 +437,8 @@ public class BluetoothHeadsetService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case HeadsetBase.RFCOMM_DISCONNECTED:
-                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE);
+                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
+                         BluetoothHeadset.REMOTE_DISCONNECT);
                 break;
             }
         }
@@ -445,7 +448,11 @@ public class BluetoothHeadsetService extends Service {
         setState(state, BluetoothHeadset.RESULT_SUCCESS);
     }
 
-    private synchronized void setState(int state, int result) {
+    private void setState(int state, int result) {
+        setState(state, result, -1);
+    }
+
+    private synchronized void setState(int state, int result, int initiator) {
         if (state != mState) {
             if (DBG) log("Headset state " + mState + " -> " + state + ", result = " + result);
             if (mState == BluetoothHeadset.STATE_CONNECTED) {
@@ -456,6 +463,15 @@ public class BluetoothHeadsetService extends Service {
             mState = state;
             intent.putExtra(BluetoothHeadset.EXTRA_STATE, mState);
             intent.putExtra(BluetoothDevice.EXTRA_DEVICE, mRemoteDevice);
+            // Add Extra EXTRA_DISCONNECT_INITIATOR for DISCONNECTED state
+            if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
+                if (initiator == -1) {
+                    log("Headset Disconnected Intent without Disconnect Initiator extra");
+                } else {
+                    intent.putExtra(BluetoothHeadset.EXTRA_DISCONNECT_INITIATOR,
+                                    initiator);
+                }
+            }
             sendBroadcast(intent, BLUETOOTH_PERM);
             if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
                 mHeadset = null;
@@ -496,7 +512,7 @@ public class BluetoothHeadsetService extends Service {
         log("SDP UUID: TYPE_UNKNOWN");
         mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
         setState(BluetoothHeadset.STATE_DISCONNECTED,
-                BluetoothHeadset.RESULT_FAILURE);
+                BluetoothHeadset.RESULT_FAILURE, BluetoothHeadset.LOCAL_DISCONNECT);
         return;
     }
 
@@ -598,7 +614,8 @@ public class BluetoothHeadsetService extends Service {
                         mHeadset = null;
                     }
                     setState(BluetoothHeadset.STATE_DISCONNECTED,
-                             BluetoothHeadset.RESULT_CANCELED);
+                             BluetoothHeadset.RESULT_CANCELED,
+                             BluetoothHeadset.LOCAL_DISCONNECT);
                     break;
                 case BluetoothHeadset.STATE_CONNECTED:
                     // Send a dummy battery level message to force headset
@@ -617,7 +634,8 @@ public class BluetoothHeadsetService extends Service {
                         mHeadset = null;
                     }
                     setState(BluetoothHeadset.STATE_DISCONNECTED,
-                             BluetoothHeadset.RESULT_CANCELED);
+                             BluetoothHeadset.RESULT_CANCELED,
+                             BluetoothHeadset.LOCAL_DISCONNECT);
                     break;
                 }
             }
@@ -669,7 +687,9 @@ public class BluetoothHeadsetService extends Service {
         mBtHandsfree.onBluetoothDisabled();
         mAg.stop();
         sHasStarted = false;
-        setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_CANCELED);
+        setState(BluetoothHeadset.STATE_DISCONNECTED,
+                 BluetoothHeadset.RESULT_CANCELED,
+                 BluetoothHeadset.LOCAL_DISCONNECT);
         mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
     }
 
