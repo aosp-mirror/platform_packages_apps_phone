@@ -3238,6 +3238,14 @@ public class InCallScreen extends Activity
             hintVisible = false;
         }
 
+        // Also, if an incoming call is ringing, hide the hint if the
+        // "incoming call" touch UI is present (since the SlidingTab
+        // widget takes up a lot of space and the hint would collide with
+        // it.)
+        if (hasRingingCall && isIncomingCallTouchUiEnabled()) {
+            hintVisible = false;
+        }
+
         int hintVisibility = (hintVisible) ? View.VISIBLE : View.GONE;
         mCallCard.getMenuButtonHint().setVisibility(hintVisibility);
 
@@ -4002,6 +4010,14 @@ public class InCallScreen extends Activity
      */
     public boolean isTouchUiEnabled() {
         return (mInCallTouchUi != null) && mInCallTouchUi.isTouchUiEnabled();
+    }
+
+    /**
+     * @return true if the onscreen touch UI is enabled for
+     * the "incoming call" state on the current device.
+     */
+    public boolean isIncomingCallTouchUiEnabled() {
+        return (mInCallTouchUi != null) && mInCallTouchUi.isIncomingCallTouchUiEnabled();
     }
 
     /**

@@ -510,6 +510,14 @@ public class InCallTouchUi extends FrameLayout
         return mAllowInCallTouchUi;
     }
 
+    /**
+     * @return true if the onscreen touch UI is enabled for
+     * the "incoming call" state on the current device.
+     */
+    /* package */ boolean isIncomingCallTouchUiEnabled() {
+        return mAllowIncomingCallTouchUi;
+    }
+
     //
     // SlidingTab.OnTriggerListener implementation
     //
