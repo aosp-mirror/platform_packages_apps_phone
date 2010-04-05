@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///r8\u003d",
+        "filename": "res/layout/incall_touch_ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2010-04-05T23:16:04Z",
+      "side": 1,
+      "message": "Hmmm, isn\u0027t android:contentDescription supposed to be a string, not an id?\n(Does this change actually work for you?)",
+      "revId": "60c50de580d61aedd9d42f39192cbb349d50ca57",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
