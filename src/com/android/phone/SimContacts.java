@@ -291,6 +291,11 @@ public class SimContacts extends ADNList {
 
                 ImportAllSimContactsThread thread = new ImportAllSimContactsThread();
 
+                // TODO: need to show some error dialog.
+                if (mCursor == null) {
+                    Log.e(LOG_TAG, "cursor is null. Ignore silently.");
+                    break;
+                }
                 mProgressDialog = new ProgressDialog(this);
                 mProgressDialog.setTitle(title);
                 mProgressDialog.setMessage(message);
@@ -298,9 +303,7 @@ public class SimContacts extends ADNList {
                 mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                         getString(R.string.cancel), thread);
                 mProgressDialog.setProgress(0);
-                if (mCursor != null) {
-                    mProgressDialog.setMax(mCursor.getCount());
-                }
+                mProgressDialog.setMax(mCursor.getCount());
                 mProgressDialog.show();
 
                 thread.start();
