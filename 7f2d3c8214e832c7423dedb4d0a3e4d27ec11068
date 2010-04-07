@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///j8\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2010-04-07T22:32:54Z",
+      "side": 1,
+      "message": "You mean \"since calls cannot be transferred\" here, right?\n\n(In other words, we know that the phone is totally idle right after a radio technology change, so we should totally reset the in-call UI state.)",
+      "revId": "7f2d3c8214e832c7423dedb4d0a3e4d27ec11068",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
