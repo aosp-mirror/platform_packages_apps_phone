@@ -707,11 +707,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     void dismissCallScreen() {
         if (mInCallScreen != null) {
-            if (mInCallScreen.isOtaCallInActiveState()
+            if ((phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) &&
+                    (mInCallScreen.isOtaCallInActiveState()
                     || mInCallScreen.isOtaCallInEndState()
                     || ((cdmaOtaScreenState != null)
                     && (cdmaOtaScreenState.otaScreenState
-                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED))) {
+                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED)))) {
                 // TODO: During OTA Call, display should not become dark to
                 // allow user to see OTA UI update. Phone app needs to hold
                 // a SCREEN_DIM_WAKE_LOCK wake lock during the entire OTA call.
@@ -1273,6 +1274,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (cdmaOtaInCallScreenUiState == null) {
                 cdmaOtaInCallScreenUiState = new OtaUtils.CdmaOtaInCallScreenUiState();
             }
+        } else {
+            //Clean up OTA data in GSM/UMTS. It is valid only for CDMA
+            clearOtaState();
         }
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
