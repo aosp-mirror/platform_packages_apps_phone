@@ -441,6 +441,29 @@
     <string name="gsm_umts_options">GSM/UMTS Options</string>
     <string name="cdma_options">CDMA Options</string>
 
+    <!-- Screen option on the mobile network settings to go into data usage settings -->
+    <string name="throttle_data_usage">Data usage</string>
+    <!-- Title for the data usage settings screen -->
+    <string name="throttle_settings_title">Mobile data policy</string>
+    <!-- Data usage settings screen option for checking the current usage -->
+    <string name="throttle_current_usage">Current data usage</string>
+    <!-- Data usage settings screen option for time frame-->
+    <string name="throttle_time_frame">Time frame</string>
+    <!-- Data usage settings screen option for throttling rate-->
+    <string name="throttle_rate">Data rate policy</string>
+    <!-- Data usage settings screen option for accessing the carrier website-->
+    <string name="throttle_help">Learn more</string>
+
+    <string name="throttle_status_subtext"><xliff:g id="used">%1$s</xliff:g> (<xliff:g id="used">%2$d</xliff:g>\u066A) of <xliff:g id="used">%3$s</xliff:g> period maximum\nNext period starts in <xliff:g id="used">%4$d</xliff:g> days (<xliff:g id="used">%5$s</xliff:g>)</string>
+
+    <string name="throttle_data_usage_subtext"><xliff:g id="used">%1$s</xliff:g> (<xliff:g id="used">%2$d</xliff:g>\u066A) of <xliff:g id="used">%3$s</xliff:g> period maximum</string>
+
+    <string name="throttle_time_frame_subtext"><xliff:g id="used">%1$d</xliff:g>\u066A of cycle elapsed\nNext period starts in <xliff:g id="used">%2$d</xliff:g> days (<xliff:g id="used">%3$s</xliff:g>)</string>
+
+    <string name="throttle_rate_subtext">Data rate limited to <xliff:g id="used">%1$d</xliff:g> Kbps if data use limit is exceeded</string>
+
+    <string name="throttle_help_subtext">Learn more about your carrier\&apos;s mobile network data use policy</string>
+
     <!-- Cell broadcast SMS strings -->
     <string name="cdma_cell_broadcast_sms">Cell Broadcast SMS</string>
 
