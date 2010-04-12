@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///Ro\u003d",
+        "filename": "src/com/android/phone/CdmaOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-04-12T22:08:30Z",
+      "side": 1,
+      "message": "This needs to be conditional. This should only be enabled on devices with both NV and RUIM. Otherwise the system should just default to the appropriate type.",
+      "revId": "0129a8f8e6a61b57c619f2520356e6c170159159",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
