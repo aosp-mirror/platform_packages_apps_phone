@@ -130,11 +130,6 @@ public class SimContacts extends ADNList {
         }
     }
 
-    // From HardCodedSources.java in Contacts app.
-    // TODO: fix this.
-    private static final String ACCOUNT_TYPE_GOOGLE = "com.google";
-    private static final String GOOGLE_MY_CONTACTS_GROUP = "System Group: My Contacts";
-
     private static void actuallyImportOneSimContact(
             final Cursor cursor, final ContentResolver resolver, Account account) {
         final NamePhoneTypePair namePhoneTypePair =
@@ -158,23 +153,6 @@ public class SimContacts extends ADNList {
         if (account != null) {
             builder.withValue(RawContacts.ACCOUNT_NAME, account.name);
             builder.withValue(RawContacts.ACCOUNT_TYPE, account.type);
-
-            // TODO: temporal fix for "My Groups" issue. Need to be refactored.
-            if (ACCOUNT_TYPE_GOOGLE.equals(account.type)) {
-                final Cursor tmpCursor = resolver.query(Groups.CONTENT_URI, new String[] {
-                        Groups.SOURCE_ID },
-                        Groups.TITLE + "=?", new String[] {
-                        GOOGLE_MY_CONTACTS_GROUP }, null);
-                try {
-                    if (tmpCursor != null && tmpCursor.moveToFirst()) {
-                        myGroupsId = tmpCursor.getString(0);
-                    }
-                } finally {
-                    if (tmpCursor != null) {
-                        tmpCursor.close();
-                    }
-                }
-            }
         } else {
             builder.withValues(sEmptyContentValues);
         }
