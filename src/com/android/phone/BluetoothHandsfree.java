@@ -277,7 +277,7 @@ public class BluetoothHandsfree {
         resetAtState();
     }
 
-    private void resetAtState() {
+    /* package */ synchronized void resetAtState() {
         mClip = false;
         mIndicatorsEnabled = false;
         mServiceConnectionEstablished = false;
