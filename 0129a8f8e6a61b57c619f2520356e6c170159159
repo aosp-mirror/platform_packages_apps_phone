@@ -16,6 +16,24 @@
       "revId": "0129a8f8e6a61b57c619f2520356e6c170159159",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///84\u003d",
+        "filename": "src/com/android/phone/CdmaOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T21:54:30Z",
+      "side": 1,
+      "message": "Shall I use a property to identify devices that support both NV and RUIM?\n\nIf device supports only one of them, then the property will be set to false and this button will be disabled.",
+      "parentUuid": "AAAAwX///Ro\u003d",
+      "revId": "0129a8f8e6a61b57c619f2520356e6c170159159",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
