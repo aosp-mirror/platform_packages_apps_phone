@@ -437,6 +437,7 @@ public class BluetoothHeadsetService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case HeadsetBase.RFCOMM_DISCONNECTED:
+                mBtHandsfree.resetAtState();
                 setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
                          BluetoothHeadset.REMOTE_DISCONNECT);
                 break;
