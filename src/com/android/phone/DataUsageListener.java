@@ -44,6 +44,8 @@ public class DataUsageListener {
     private Preference mTimeFramePref = null;
     private Preference mThrottleRatePref = null;
     private Preference mSummaryPref = null;
+    private PreferenceScreen mPrefScreen = null;
+    private boolean mSummaryPrefEnabled = false;
 
     private final Context mContext;
     private IntentFilter mFilter;
@@ -51,14 +53,18 @@ public class DataUsageListener {
 
     private final String iface = "rmnet0"; //TODO: this will go away
 
-    private int mThrottleRate;  //in kbps
+    private int mPolicyThrottleValue;  //in kbps
+    private long mPolicyThreshold;
+    private int mCurrentThrottleRate;
     private long mDataUsed;
     private Calendar mStart;
     private Calendar mEnd;
 
-    public DataUsageListener(Context context, Preference summary) {
+    public DataUsageListener(Context context, Preference summary, PreferenceScreen prefScreen) {
         mContext = context;
         mSummaryPref = summary;
+        mPrefScreen = prefScreen;
+        mSummaryPrefEnabled = true;
         initialize();
     }
 
@@ -81,6 +87,7 @@ public class DataUsageListener {
         mFilter = new IntentFilter();
         mFilter.addAction(ThrottleManager.THROTTLE_POLL_ACTION);
         mFilter.addAction(ThrottleManager.THROTTLE_ACTION);
+        mFilter.addAction(ThrottleManager.POLICY_CHANGED_ACTION);
 
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -91,6 +98,8 @@ public class DataUsageListener {
                         intent.getLongExtra(ThrottleManager.EXTRA_CYCLE_WRITE, 0),
                         intent.getLongExtra(ThrottleManager.EXTRA_CYCLE_START, 0),
                         intent.getLongExtra(ThrottleManager.EXTRA_CYCLE_END, 0));
+                } else if (ThrottleManager.POLICY_CHANGED_ACTION.equals(action)) {
+                    updatePolicy();
                 } else if (ThrottleManager.THROTTLE_ACTION.equals(action)) {
                     updateThrottleRate(intent.getIntExtra(ThrottleManager.EXTRA_THROTTLE_LEVEL, -1));
                 }
@@ -100,31 +109,54 @@ public class DataUsageListener {
 
     void resume() {
         mContext.registerReceiver(mReceiver, mFilter);
-        updateStatus();
+        updatePolicy();
     }
 
     void pause() {
         mContext.unregisterReceiver(mReceiver);
     }
 
+    private void updatePolicy() {
+        mPolicyThrottleValue = mThrottleManager.getCliffLevel(iface, 1);
+        mPolicyThreshold = mThrottleManager.getCliffThreshold(iface, 1);
+
+        if (mSummaryPref != null) { /* Settings preference */
+            /**
+             * Remove data usage preference in settings
+             * if policy change disables throttling
+             */
+            if (mPolicyThreshold == 0) {
+                if (mSummaryPrefEnabled) {
+                    mPrefScreen.removePreference(mSummaryPref);
+                    mSummaryPrefEnabled = false;
+                }
+            } else {
+                if (!mSummaryPrefEnabled) {
+                    mSummaryPrefEnabled = true;
+                    mPrefScreen.addPreference(mSummaryPref);
+                }
+            }
+        }
+        updateUI();
+    }
+
+    private void updateThrottleRate(int throttleRate) {
+        mCurrentThrottleRate = throttleRate;
+        updateUI();
+    }
+
     private void updateUsageStats(long readByteCount, long writeByteCount,
             long startTime, long endTime) {
-
         mDataUsed = readByteCount + writeByteCount;
         mStart.setTimeInMillis(startTime);
         mEnd.setTimeInMillis(endTime);
-        updateStatus();
+        updateUI();
     }
 
-
-    private void updateThrottleRate(int throttleRate) {
-        mThrottleRate = throttleRate;
-        updateStatus();
-    }
-
-    private void updateStatus() {
-        long dataLimit = mThrottleManager.getCliffThreshold(iface, 0);
-        int dataUsedPercent = (dataLimit == 0) ? 0 : (int) ((mDataUsed * 100) / dataLimit);
+    private void updateUI() {
+        if (mPolicyThreshold == 0)
+            return;
+        int dataUsedPercent = (int) ((mDataUsed * 100) / mPolicyThreshold);
 
         long cycleTime = mEnd.getTimeInMillis() - mStart.getTimeInMillis();
         long currentTime = GregorianCalendar.getInstance().getTimeInMillis()
@@ -137,8 +169,17 @@ public class DataUsageListener {
         int daysLeft = cal.get(Calendar.DAY_OF_YEAR);
 
         if (mCurrentUsagePref != null) {
-            mCurrentUsagePref.setSummary(mContext.getString(R.string.throttle_data_usage_subtext,
-                        toReadable(mDataUsed), dataUsedPercent, toReadable(dataLimit)));
+            /* Update the UI based on whether we are in a throttled state */
+            if (mCurrentThrottleRate > 0) {
+                mCurrentUsagePref.setSummary(mContext.getString(
+                        R.string.throttle_data_rate_reduced_subtext,
+                        toReadable(mPolicyThreshold),
+                        mCurrentThrottleRate));
+            } else {
+                mCurrentUsagePref.setSummary(mContext.getString(
+                        R.string.throttle_data_usage_subtext,
+                        toReadable(mDataUsed), dataUsedPercent, toReadable(mPolicyThreshold)));
+            }
         }
         if (mTimeFramePref != null) {
             mTimeFramePref.setSummary(mContext.getString(R.string.throttle_time_frame_subtext,
@@ -147,15 +188,24 @@ public class DataUsageListener {
         }
         if (mThrottleRatePref != null) {
             mThrottleRatePref.setSummary(mContext.getString(R.string.throttle_rate_subtext,
-                    mThrottleRate));
+                    mPolicyThrottleValue));
         }
-        if (mSummaryPref != null) {
-            mSummaryPref.setSummary(mContext.getString(R.string.throttle_status_subtext,
-                    toReadable(mDataUsed),
-                    dataUsedPercent,
-                    toReadable(dataLimit),
-                    daysLeft,
-                    DateFormat.getDateInstance(DateFormat.SHORT).format(mEnd.getTime())));
+        if (mSummaryPref != null && mSummaryPrefEnabled) {
+
+            /* Update the UI based on whether we are in a throttled state */
+            if (mCurrentThrottleRate > 0) {
+                mSummaryPref.setSummary(mContext.getString(
+                        R.string.throttle_data_rate_reduced_subtext,
+                        toReadable(mPolicyThreshold),
+                        mCurrentThrottleRate));
+            } else {
+                mSummaryPref.setSummary(mContext.getString(R.string.throttle_status_subtext,
+                            toReadable(mDataUsed),
+                            dataUsedPercent,
+                            toReadable(mPolicyThreshold),
+                            daysLeft,
+                            DateFormat.getDateInstance(DateFormat.SHORT).format(mEnd.getTime())));
+            }
         }
     }
 
