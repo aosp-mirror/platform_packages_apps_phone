@@ -51,8 +51,6 @@ public class DataUsageListener {
     private IntentFilter mFilter;
     private BroadcastReceiver mReceiver;
 
-    private final String iface = "rmnet0"; //TODO: this will go away
-
     private int mPolicyThrottleValue;  //in kbps
     private long mPolicyThreshold;
     private int mCurrentThrottleRate;
@@ -117,8 +115,9 @@ public class DataUsageListener {
     }
 
     private void updatePolicy() {
-        mPolicyThrottleValue = mThrottleManager.getCliffLevel(iface, 1);
-        mPolicyThreshold = mThrottleManager.getCliffThreshold(iface, 1);
+        /* Fetch values for default interface */
+        mPolicyThrottleValue = mThrottleManager.getCliffLevel(null, 1);
+        mPolicyThreshold = mThrottleManager.getCliffThreshold(null, 1);
 
         if (mSummaryPref != null) { /* Settings preference */
             /**
