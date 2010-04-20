@@ -551,7 +551,9 @@ public class DTMFTwelveKeyDialer implements
         mPhone.unregisterForDisconnect(mHandler);
 
         // Give the InCallScreen a chance to do any necessary UI updates.
-        mInCallScreen.onDialerClose();
+        if (mInCallScreen != null) {
+            mInCallScreen.onDialerClose();
+        }
     }
 
     /**
