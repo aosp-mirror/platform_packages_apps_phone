@@ -35,6 +35,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
+import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.gsm.NetworkInfo;
 
@@ -325,7 +326,16 @@ public class NetworkSetting extends PreferenceActivity
     }
 
     private void displayNetworkSelectionFailed(Throwable ex) {
-        String status = getResources().getString(R.string.not_allowed);
+        String status;
+
+        if ((ex != null && ex instanceof CommandException) &&
+                ((CommandException)ex).getCommandError()
+                  == CommandException.Error.ILLEGAL_SIM_OR_ME)
+        {
+            status = getResources().getString(R.string.not_allowed);
+        } else {
+            status = getResources().getString(R.string.connect_later);
+        }
 
         NotificationMgr.getDefault().postTransientNotification(
                         NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
