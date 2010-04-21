@@ -19,16 +19,19 @@
 
     <Preference
             android:key="throttle_current_usage"
+            style="?android:preferenceInformationStyle"
             android:title="@string/throttle_current_usage"
             android:persistent="false" />
 
     <Preference
             android:key="throttle_time_frame"
+            style="?android:preferenceInformationStyle"
             android:title="@string/throttle_time_frame"
             android:persistent="false" />
 
     <Preference
             android:key="throttle_rate"
+            style="?android:preferenceInformationStyle"
             android:title="@string/throttle_rate"
             android:persistent="false" />
 
