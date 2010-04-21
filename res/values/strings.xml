@@ -388,6 +388,8 @@
     <string name="register_on_network">Registering on <xliff:g id="network">%s</xliff:g>\u2026</string>
     <!-- Available networks screen, toast when SIM card isn't allowed on a network -->
     <string name="not_allowed">Your SIM card does not allow a connection to this network.</string>
+    <!-- Available networks screen, toast when unable to connect to a network temporarily -->
+    <string name="connect_later">Unable to connect to this network at this time. Please try again later.</string>
     <!-- Available networks screen, toast when registered on a specific network -->
     <string name="registration_done">Registered on network.</string>
     <!-- Mobile network settings screen setting option summary text -->
