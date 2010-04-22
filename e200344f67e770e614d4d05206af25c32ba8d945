@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAw3///7A\u003d",
+        "filename": "src/com/android/phone/CdmaOptions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-04-22T19:09:58Z",
+      "side": 1,
+      "message": "Renamed mButtonCdmaRoam to mButtonCdmaSystemSelect as per Robert Greenwalt suggestion",
+      "revId": "e200344f67e770e614d4d05206af25c32ba8d945",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
