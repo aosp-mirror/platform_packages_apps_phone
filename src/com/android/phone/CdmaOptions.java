@@ -16,10 +16,11 @@
 
 package com.android.phone;
 
-import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.text.TextUtils;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
@@ -27,31 +28,88 @@ import com.android.internal.telephony.PhoneFactory;
 /**
  * List of Phone-specific settings screens.
  */
-public class CdmaOptions extends PreferenceActivity {
+public class CdmaOptions {
+    private static final String LOG_TAG = "CdmaOptions";
 
-    private CdmaRoamingListPreference mButtonCdmaRoam;
+    private CdmaSystemSelectListPreference mButtonCdmaRoam;
+    private CdmaSubscriptionListPreference mButtonCdmaSubscription;
 
-    private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
+    private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
+    private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "cdma_subscription_key";
 
-    @Override
-    protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    private PreferenceActivity mPrefActivity;
+    private PreferenceScreen mPrefScreen;
 
-        addPreferencesFromResource(R.xml.cdma_options);
+    public CdmaOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen) {
+        mPrefActivity = prefActivity;
+        mPrefScreen = prefScreen;
+    }
 
-        PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonCdmaRoam =
-                (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
+    protected void create() {
+        mPrefActivity.addPreferencesFromResource(R.xml.cdma_options);
+
+        mButtonCdmaRoam = (CdmaSystemSelectListPreference)mPrefScreen
+                .findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY);
+
+        mButtonCdmaSubscription = (CdmaSubscriptionListPreference)mPrefScreen
+                .findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY);
+
         if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
-            mButtonCdmaRoam.setEnabled(false);
+            log("Not a CDMA Phone");
+            mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY));
+            mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY));
+        } else {
+            mButtonCdmaRoam.setEnabled(true);
+            if(deviceSupportsNvAndRuim()) {
+                log("Both NV and Ruim supported, ENABLE subscription type selection");
+                mButtonCdmaSubscription.setEnabled(true);
+            } else {
+                log("Both NV and Ruim NOT supported, REMOVE subscription type selection");
+                mPrefScreen.removePreference(mPrefScreen
+                                .findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY));
+            }
         }
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference.getKey().equals(BUTTON_CDMA_ROAMING_KEY)) {
+    private boolean deviceSupportsNvAndRuim() {
+        // retrieve the list of subscription types supported by device.
+        String subscriptionsSupported = SystemProperties.get("ril.subscription.types");
+        boolean nvSupported = false;
+        boolean ruimSupported = false;
+
+        log("deviceSupportsnvAnRum: prop=" + subscriptionsSupported);
+        if (!TextUtils.isEmpty(subscriptionsSupported)) {
+            // Searches through the comma-separated list for a match for "NV"
+            // and "RUIM" to update nvSupported and ruimSupported.
+            for (String subscriptionType : subscriptionsSupported.split(",")) {
+                subscriptionType = subscriptionType.trim();
+                if (subscriptionType.equalsIgnoreCase("NV")) {
+                    nvSupported = true;
+                }
+                if (subscriptionType.equalsIgnoreCase("RUIM")) {
+                    ruimSupported = true;
+                }
+            }
+        }
+
+        log("deviceSupportsnvAnRum: nvSupported=" + nvSupported +
+                " ruimSupported=" + ruimSupported);
+        return (nvSupported && ruimSupported);
+    }
+
+    public boolean preferenceTreeClick(Preference preference) {
+        if (preference.getKey().equals(BUTTON_CDMA_SYSTEM_SELECT_KEY)) {
+            log("preferenceTreeClick: return BUTTON_CDMA_ROAMING_KEY true");
+            return true;
+        }
+        if (preference.getKey().equals(BUTTON_CDMA_SUBSCRIPTION_KEY)) {
+            log("preferenceTreeClick: return CDMA_SUBSCRIPTION_KEY true");
             return true;
         }
         return false;
+    }
+
+    protected void log(String s) {
+        android.util.Log.d(LOG_TAG, s);
     }
 }
