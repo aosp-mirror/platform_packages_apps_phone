@@ -684,6 +684,7 @@ public class InCallScreen extends Activity
 
         // Check for any failures that happened during onCreate() or onNewIntent().
         if (DBG) log("- onResume: initial status = " + mInCallInitialStatus);
+        boolean handledStartupError = false;
         if (mInCallInitialStatus != InCallInitStatus.SUCCESS) {
             if (DBG) log("- onResume: failure during startup: " + mInCallInitialStatus);
 
@@ -691,6 +692,7 @@ public class InCallScreen extends Activity
             // something more specific to let the user deal with the
             // problem.
             handleStartupError(mInCallInitialStatus);
+            handledStartupError = true;
 
             // But it *is* OK to continue with the rest of onResume(),
             // since any further setup steps (like updateScreen() and the
@@ -729,12 +731,37 @@ public class InCallScreen extends Activity
 
         InCallInitStatus status = syncWithPhoneState();
         if (status != InCallInitStatus.SUCCESS) {
-            if (DBG) log("- syncWithPhoneState failed! status = " + status);
+            if (DBG) log("- onResume: syncWithPhoneState failed! status = " + status);
             // Couldn't update the UI, presumably because the phone is totally
-            // idle.  But don't endInCallScreenSession immediately, since we might still
-            // have an error dialog up that the user needs to see.
-            // (And in that case, the error dialog is responsible for calling
-            // endInCallScreenSession when the user dismisses it.)
+            // idle.
+
+            if (handledStartupError) {
+                // Do NOT bail out of the in-call UI, since there's
+                // presumably a dialog visible right now (see the call to
+                // handleStartupError() above.)
+                //
+                // In this case, stay here for now, and we'll eventually
+                // leave the InCallScreen when the user presses the
+                // dialog's OK button (see bailOutAfterErrorDialog()).
+                if (DBG) log("  ==> syncWithPhoneState failed, but staying here anyway.");
+            } else {
+                // The phone is idle, and we did NOT handle a
+                // startup error during this pass thru onResume.
+                //
+                // This basically means that we're being resumed because of
+                // some action *other* than a new intent.  (For example,
+                // the user pressing POWER to wake up the device, causing
+                // the InCallScreen to come back to the foreground.)
+                //
+                // In this scenario we do NOT want to stay here on the
+                // InCallScreen: we're not showing any useful info to the
+                // user (like a dialog), and the in-call UI itself is
+                // useless if there's no active call.  So bail out.
+                if (DBG) log("  ==> syncWithPhoneState failed; bailing out!");
+                dismissAllDialogs();
+                endInCallScreenSession();
+                return;
+            }
         } else if (phoneIsCdma) {
             if (mInCallScreenMode == InCallScreenMode.OTA_NORMAL ||
                     mInCallScreenMode == InCallScreenMode.OTA_ENDED) {
