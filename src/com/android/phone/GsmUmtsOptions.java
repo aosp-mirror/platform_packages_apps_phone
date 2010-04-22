@@ -16,7 +16,6 @@
 
 package com.android.phone;
 
-import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -28,7 +27,8 @@ import com.android.internal.telephony.PhoneFactory;
 /**
  * List of Network-specific settings screens.
  */
-public class GsmUmtsOptions extends PreferenceActivity {
+public class GsmUmtsOptions {
+    private static final String LOG_TAG = "GsmUmtsOptions";
 
     private PreferenceScreen mButtonAPNExpand;
     private PreferenceScreen mButtonOperatorSelectionExpand;
@@ -38,29 +38,39 @@ public class GsmUmtsOptions extends PreferenceActivity {
     private static final String BUTTON_OPERATOR_SELECTION_EXPAND_KEY = "button_carrier_sel_key";
     private static final String BUTTON_PREFER_2G_KEY = "button_prefer_2g_key";
 
+    private PreferenceActivity mPrefActivity;
+    private PreferenceScreen mPrefScreen;
 
-    @Override
-    protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public GsmUmtsOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen) {
+        mPrefActivity = prefActivity;
+        mPrefScreen = prefScreen;
+        create();
+    }
 
-        addPreferencesFromResource(R.xml.gsm_umts_options);
-        PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonAPNExpand = (PreferenceScreen) prefSet.findPreference(BUTTON_APN_EXPAND_KEY);
+    protected void create() {
+        mPrefActivity.addPreferencesFromResource(R.xml.gsm_umts_options);
+        mButtonAPNExpand = (PreferenceScreen) mPrefScreen.findPreference(BUTTON_APN_EXPAND_KEY);
         mButtonOperatorSelectionExpand =
-                (PreferenceScreen) prefSet.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
-        mButtonPrefer2g = (CheckBoxPreference) prefSet.findPreference(BUTTON_PREFER_2G_KEY);
+                (PreferenceScreen) mPrefScreen.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
+        mButtonPrefer2g = (CheckBoxPreference) mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY);
         if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
+            log("Not a GSM phone");
             mButtonAPNExpand.setEnabled(false);
             mButtonOperatorSelectionExpand.setEnabled(false);
             mButtonPrefer2g.setEnabled(false);
         }
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+    public boolean preferenceTreeClick(Preference preference) {
         if (preference.getKey().equals(BUTTON_PREFER_2G_KEY)) {
+            log("preferenceTreeClick: return true");
             return true;
         }
+        log("preferenceTreeClick: return false");
         return false;
+    }
+
+    protected void log(String s) {
+        android.util.Log.d(LOG_TAG, s);
     }
 }
