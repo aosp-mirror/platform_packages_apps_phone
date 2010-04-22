@@ -50,7 +50,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //String keys for preference lookup
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
-    private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
+    private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
 
     private static final String BUTTON_GSM_UMTS_OPTIONS = "gsm_umts_options_key";
     private static final String BUTTON_CDMA_OPTIONS = "cdma_options_key";
@@ -60,15 +60,15 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
     private CheckBoxPreference mButtonDataRoam;
-    private CdmaRoamingListPreference mButtonCdmaRoam;
+    private CdmaSystemSelectListPreference mButtonCdmaSystemSelect;
 
     private Phone mPhone;
     private MyHandler mHandler;
     private boolean mOkClicked;
 
     //GsmUmts options and Cdma options
-    GsmUmtsOptions gsmumtsOptions;
-    CdmaOptions cdmaOptions;
+    GsmUmtsOptions mGsmUmtsOptions;
+    CdmaOptions mCdmaOptions;
 
 
     //This is a method implemented for DialogInterface.OnClickListener.
@@ -97,11 +97,12 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
      */
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (gsmumtsOptions != null &&
-                gsmumtsOptions.onPreferenceTreeClick(preferenceScreen, preference) == true) {
+        /** TODO: Refactor and get rid of the if's using subclasses */
+        if (mGsmUmtsOptions != null &&
+                mGsmUmtsOptions.preferenceTreeClick(preference) == true) {
             return true;
-        } else if (cdmaOptions != null &&
-                   cdmaOptions.onPreferenceTreeClick(preferenceScreen, preference) == true) {
+        } else if (mCdmaOptions != null &&
+                   mCdmaOptions.preferenceTreeClick(preference) == true) {
             if (Boolean.parseBoolean(
                     SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE))) {
                 // In ECM mode launch ECM app dialog
@@ -184,13 +185,14 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             prefSet.removePreference(prefSet.findPreference(BUTTON_CDMA_OPTIONS));
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                addPreferencesFromResource(R.xml.cdma_options);
-                mButtonCdmaRoam =
-                    (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
-                cdmaOptions = new CdmaOptions();
+                mButtonCdmaSystemSelect = (CdmaSystemSelectListPreference) prefSet
+                    .findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY);
+                mCdmaOptions = new CdmaOptions(this, prefSet);
+                mCdmaOptions.create();
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                addPreferencesFromResource(R.xml.gsm_umts_options);
-                gsmumtsOptions = new GsmUmtsOptions();
+                //addPreferencesFromResource(R.xml.gsm_umts_options);
+                mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
+                mGsmUmtsOptions.create();
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
@@ -427,7 +429,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 data.getBooleanExtra(EmergencyCallbackModeExitDialog.EXTRA_EXIT_ECM_RESULT, false);
             if (isChoiceYes) {
                 // If the phone exits from ECM mode, show the system selection Options
-                mButtonCdmaRoam.showDialog(null);
+                mButtonCdmaSystemSelect.showDialog(null);
             } else {
                 // do nothing
             }
