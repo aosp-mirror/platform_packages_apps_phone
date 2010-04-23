@@ -16,6 +16,40 @@
       "revId": "e200344f67e770e614d4d05206af25c32ba8d945",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///3I\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-23T16:56:44Z",
+      "side": 1,
+      "message": "else if may not work if world_phone is set to true. In world_phone both CDMA and GSM options may exist.",
+      "revId": "e200344f67e770e614d4d05206af25c32ba8d945",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///3M\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-23T16:56:44Z",
+      "side": 1,
+      "message": "We need the following lines in here so that these menu options exist when world_phone is set to true.\n\n    mCdmaOptions \u003d new CdmaOptions(this, prefSet);\n    mCdmaOptions.create();\n    mGsmUmtsOptions \u003d new GsmUmtsOptions(this, prefSet);\n    mGsmUmtsOptions.create();",
+      "revId": "e200344f67e770e614d4d05206af25c32ba8d945",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
