@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -54,6 +55,7 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyProperties;
 import com.android.internal.telephony.cdma.CdmaConnection;
 
 import java.util.Hashtable;
@@ -2291,6 +2293,25 @@ public class PhoneUtils {
             }
         }
     }
+
+
+    /**
+     * Returns whether the phone is in ECM ("Emergency Callback Mode") or not.
+     * (For non-CDMA phones, this will always return false.
+     * For CDMA Phones, return true iff PROPERTY_INECM_MODE == "true".)
+     */
+    /* package */ static boolean isPhoneInEcm(Phone phone) {
+        boolean phoneInEcm = false;
+        if ((phone != null) && (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
+            String ecmMode =
+                    SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE);
+            if (ecmMode != null) {
+                phoneInEcm = ecmMode.equals("true");
+            }
+        }
+        return phoneInEcm;
+    }
+
 
     //
     // General phone and call state debugging/testing code
