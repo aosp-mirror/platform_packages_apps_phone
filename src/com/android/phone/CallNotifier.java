@@ -351,8 +351,8 @@ public class CallNotifier extends Handler
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned = Settings.Secure.getInt(mPhone.getContext().getContentResolver(),
             Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
-        if (!provisioned) {
-            Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: device isn't provisioned");
+        if (!provisioned && !PhoneUtils.isPhoneInEcm(mPhone)) {
+            Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: not provisioned / ECM");
             // Send the caller straight to voicemail, just like
             // "rejecting" an incoming call.
             PhoneUtils.hangupRingingCall(mPhone);
