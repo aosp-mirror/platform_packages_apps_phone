@@ -166,6 +166,8 @@ public class DataUsageListener {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(cycleTime - currentTime);
         int daysLeft = cal.get(Calendar.DAY_OF_YEAR);
+        //cal.get() returns 365 for less than a day
+        if (daysLeft >= 365) daysLeft = 0;
 
         if (mCurrentUsagePref != null) {
             /* Update the UI based on whether we are in a throttled state */
