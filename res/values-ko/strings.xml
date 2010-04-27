@@ -38,7 +38,7 @@
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"발신전화가 FDN으로 제한됩니다."</string>
     <string name="callFailed_cb_enabled" msgid="3057131228725500761">"착발신 제한이 설정되어 있는 동안에는 전화를 걸 수 없습니다."</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"모든 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
-    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"비상 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"긴급 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"일반 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
     <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: 전원을 껐다 켤 때까지 휴대전화가 잠깁니다."</string>
     <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: 전화가 끊겼습니다."</string>
@@ -62,8 +62,8 @@
     <string name="menu_mute" msgid="4399723633363773145">"음소거"</string>
     <string name="menu_hold" msgid="6970441130344786273">"보류"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"통화 종료"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"통화 교환"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"통화 병합"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"통화 전환"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"통화 합치기"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"통화 추가"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"다자간 통화 관리"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"다이얼패드 표시"</string>
@@ -81,8 +81,8 @@
     <string name="pause_prompt_yes" msgid="3564467212025151797">"예"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"아니요"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"와일드 문자를 다음으로 바꾸기"</string>
-    <string name="no_vm_number" msgid="4164780423805688336">"음성메일 번호 없음"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"SIM 카드에 저장된 음성메일 번호가 없습니다."</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"음성사서함 번호 없음"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"SIM 카드에 저장된 음성사서함 번호가 없습니다."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"번호 추가"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"로드 중..."</string>
     <string name="enterPin" msgid="4753300834213388397">"SIM 카드의 잠금을 해제하려면 PIN 코드를 입력하세요."</string>
@@ -104,9 +104,9 @@
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM 통화 설정"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA 통화 설정"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"액세스 포인트 이름"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"APN"</string>
     <string name="settings_label" msgid="3876743539816984008">"네트워크 설정"</string>
-    <string name="voicemail" msgid="8693759337917898954">"음성메일"</string>
+    <string name="voicemail" msgid="8693759337917898954">"음성사서함"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"네트워크 운영자"</string>
     <string name="call_settings" msgid="6112441768261754562">"통화 설정"</string>
@@ -130,17 +130,17 @@
     <string name="sum_cfu_enabled" msgid="956178654350554451">"모든 통화를 \\\\{0\\\\}(으)로 착신전환"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"없는 전화번호입니다."</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"사용 중지됨"</string>
-    <string name="labelCFB" msgid="218938523102207587">"통화 중일 때 착신전환"</string>
+    <string name="labelCFB" msgid="218938523102207587">"통화 중일 경우"</string>
     <string name="messageCFB" msgid="3711089705936187129">"통화 중인 경우 착신전환할 번호"</string>
     <string name="sum_cfb_enabled" msgid="2501948432392255856">"\\\\{0\\\\}(으)로 착신전환"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"사용 중지됨"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"이동통신사에서 휴대전화가 사용 중일 때 착신전환 사용 중지를 지원하지 않습니다."</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"전화를 받지 않은 경우 착신전환"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"받지 않은 경우"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"전화를 받지 않은 경우 착신전환할 번호"</string>
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"\\\\{0\\\\}(으)로 착신전환"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"사용 중지됨"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"이동통신사에서 휴대전화가 응답하지 않을 때 착신전환 사용 중지를 지원하지 않습니다."</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"전화를 받을 수 없는 경우 착신전환"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"받을 수 없는 경우"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"전화를 받을 수 없는 경우 착신전환할 번호"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"\\\\{0\\\\}(으)로 착신전환"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"사용 중지됨"</string>
@@ -162,13 +162,13 @@
     <item msgid="7876195870037833661">"발신자 표시 제한"</item>
     <item msgid="1108394741608734023">"발신자 표시"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"음성메일 번호 저장"</string>
-    <string name="vm_changed" msgid="380744030726254139">"음성메일 번호가 변경되었습니다."</string>
-    <string name="vm_change_failed" msgid="6912718596496220653">"음성메일 번호를 변경하지 못했습니다."\n"문제가 계속되면 이동통신사에 문의하세요."</string>
+    <string name="vm_save_number" msgid="4579969432544566719">"음성사서함 번호 저장"</string>
+    <string name="vm_changed" msgid="380744030726254139">"음성사서함 번호가 변경되었습니다."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"음성사서함 번호를 변경하지 못했습니다."\n"문제가 계속되면 이동통신사에 문의하세요."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"착신전환할 번호를 변경하지 못했습니다."\n"문제가 계속되면 이동통신사에 문의하세요."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"현재 착신전환할 번호를 검색하고 저장하는 데 실패했습니다."\n"새로운 통신사로 전환하시겠습니까?"</string>
     <string name="no_change" msgid="3186040086622435212">"변경사항이 없습니다."</string>
-    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"음성메일 서비스 선택"</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"음성사서함 서비스 선택"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"내 이동통신사"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"모바일 네트워크 설정"</string>
     <string name="label_available" msgid="1181658289009300430">"사용 가능한 네트워크"</string>
@@ -234,7 +234,7 @@
     <string name="general_news_settings" msgid="4968779723948432978">"일반 뉴스"</string>
     <string name="bf_news_settings" msgid="3935593091894685267">"경제 뉴스"</string>
     <string name="sports_news_settings" msgid="7649399631270052835">"스포츠 뉴스"</string>
-    <string name="entertainment_news_settings" msgid="5051153952959405035">"엔터테인먼트 뉴스"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"연예 뉴스"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"지역"</string>
     <string name="local_enable" msgid="6370463247609136359">"지역 뉴스 사용"</string>
     <string name="local_disable" msgid="4405691986943795798">"지역 뉴스 사용 중지"</string>
@@ -271,9 +271,9 @@
     <string name="enable_disable_local_weather" msgid="986967454867219114">"지역 날씨 정보"</string>
     <string name="local_weather_enable" msgid="6199315114382448922">"지역 날씨 정보 사용"</string>
     <string name="local_weather_disable" msgid="2510158089142626480">"지역 날씨 정보 사용 중지"</string>
-    <string name="enable_disable_atr" msgid="8339572391278872343">"지역 교통정보 보고"</string>
-    <string name="atr_enable" msgid="5541757457789181799">"지역 교통정보 보고 사용"</string>
-    <string name="atr_disable" msgid="7085558154727596455">"지역 교통정보 보고 사용 중지"</string>
+    <string name="enable_disable_atr" msgid="8339572391278872343">"지역 교통정보"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"지역 교통정보 사용"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"지역 교통정보 사용 중지"</string>
     <string name="enable_disable_lafs" msgid="668189073721277199">"현지 항공기 일정"</string>
     <string name="lafs_enable" msgid="2791978667205137052">"현지 항공기 일정 사용"</string>
     <string name="lafs_disable" msgid="2391212397725495350">"현지 항공기 일정 사용 중지"</string>
@@ -445,7 +445,7 @@
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"취소"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"잠금해제"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"PIN을 인증하는 중..."</string>
-    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"음성메일 번호"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"음성사서함 번호"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"전화 거는 중"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"다시 시도 중"</string>
     <string name="card_title_in_progress" msgid="8603765629781648862">"현재 통화"</string>
@@ -462,13 +462,13 @@
     <string name="notification_missedCallTicker" msgid="504686252427747209">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>의 부재중 전화"</string>
     <string name="notification_ongoing_call_format" msgid="227216462548540316">"현재 통화(<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"대기 중"</string>
-    <string name="notification_voicemail_title" msgid="8933468752045550523">"새 음성메일"</string>
-    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"새 음성메일(<xliff:g id="COUNT">%d</xliff:g>개)"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"새 음성사서함"</string>
+    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"새 음성사서함(<xliff:g id="COUNT">%d</xliff:g>개)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>(으)로 전화걸기"</string>
-    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"알 수 없는 음성메일 번호"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"알 수 없는 음성사서함 번호"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"서비스 불가"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"선택한 네트워크(<xliff:g id="OPERATOR_NAME">%s</xliff:g>)를 사용할 수 없음"</string>
-    <string name="incall_error_power_off" msgid="6550191216405193368">"전화를 걸려면 먼저 비행 모드를 사용 중지하세요."</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"전화를 걸려면 먼저 비행기 모드를 해제하세요."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"네트워크에서 등록되지 않았습니다."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"모바일 네트워크를 사용할 수 없습니다."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"잘못된 번호를 입력했으므로 전화를 걸지 못했습니다."</string>
@@ -482,19 +482,19 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"다자간 통화를 할 수 없습니다."</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"통화를 거부할 수 없습니다."</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"통화를 끊을 수 없습니다."</string>
-    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"비상 전화"</string>
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"긴급 전화"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"무선을 켜는 중..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"서비스 지역을 벗어났습니다. 다시 시도하는 중..."</string>
     <string name="dial_emergency_error" msgid="8362624131726575194">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>은(는) 비상 번호가 아니므로 전화를 걸지 못했습니다."</string>
-    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"전화를 걸지 못했습니다. 비상 전화번호로 전화를 걸어 보세요."</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"전화를 걸지 못했습니다. 긴급 전화번호로 전화를 걸어 보세요."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"터치톤 키패드"</string>
     <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"다이얼패드"</string>
     <string name="touchLockText" msgid="566824588267376287">"잠금해제하려면"\n"두 번 누르세요."</string>
     <string name="onscreenAnswerText" msgid="3000799558804019765">"전화를 받으려면"\n"두 번 누르기"</string>
     <string name="onscreenRejectText" msgid="1456649473993020449">"거부하려면"\n"두 번 누르기"</string>
-    <string name="onscreenHoldText" msgid="2285258239691145872">"길게 누르기"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"놓기"</string>
+    <string name="onscreenHoldText" msgid="2285258239691145872">"대기"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"대기 해제"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"종료"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"다이얼패드"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"숨기기"</string>
@@ -503,7 +503,7 @@
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"통화 추가"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"통화 병합"</string>
-    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"교환"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"전환"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"통화 관리"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"관리"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"가져오기"</string>
@@ -569,9 +569,9 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"예"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"아니요"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"해제"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"음성메일 설정"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"음성사서함 설정"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;설정 안함&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"음성메일 서비스"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"음성사서함 서비스"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 설정"</string>
     <string name="other_settings" msgid="3672912580359716394">"기타 통화 설정"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"전화걸기"</string>

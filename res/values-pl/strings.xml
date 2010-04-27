@@ -207,8 +207,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Dostęp do danych włączony"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Włącz dostęp do danych przez sieć komórkową"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Włącz przesył danych"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Włącz przesył danych przez sieć komórkową"</string>
     <string name="roaming" msgid="8871412572928323707">"Dane w roamingu"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Połącz z usługami przesyłu danych podczas roamingu"</string>
@@ -408,7 +408,7 @@
     <string name="simContacts_empty" msgid="5270660846489561932">"Brak kontaktów na karcie SIM"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Wybierz kontakty do importowania"</string>
     <string name="enable_pin" msgid="5422767284133234860">"Włącz/wyłącz kod PIN do karty SIM"</string>
-    <string name="change_pin" msgid="9174186126330785343">"Zmień kod PIN do karty SIM"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Zmień PIN do karty SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"Kod PIN do karty SIM:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"Stary kod PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Nowy kod PIN"</string>
