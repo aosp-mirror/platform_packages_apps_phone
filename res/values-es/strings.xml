@@ -437,7 +437,7 @@
     <string name="label_puk2_code" msgid="302845876240219560">"Introducir código PUK2"</string>
     <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Contraseña incorrecta; cambia el PIN2 e inténtalo de nuevo."</string>
     <string name="puk2_requested" msgid="5863580927788820813">"Contraseña incorrecta; la tarjeta SIM está bloqueada. Se ha solicitado el código PUK2."</string>
-    <string name="doneButton" msgid="2859593360997984240">"Hecho"</string>
+    <string name="doneButton" msgid="2859593360997984240">"Listo"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Conferencia telefónica<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Volver a la llamada"</string>
     <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Continuar sin tarjeta SIM"</string>
