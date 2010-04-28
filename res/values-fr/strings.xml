@@ -59,7 +59,7 @@
     <string name="cancel" msgid="5044513931633602634">"Annuler"</string>
     <string name="menu_speaker" msgid="6069700688651964705">"Ht. parleur"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"Muet"</string>
+    <string name="menu_mute" msgid="4399723633363773145">"Silencieux"</string>
     <string name="menu_hold" msgid="6970441130344786273">"En attente"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"Fin d\'appel"</string>
     <string name="menu_swapCalls" msgid="1548647524816600795">"Permuter"</string>
@@ -499,7 +499,7 @@
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Clavier"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Masquer"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Ht. parleur"</string>
-    <string name="onscreenMuteText" msgid="5011369181754261374">"Muet"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Silencieux"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Ajouter un appel"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Fusionner les appels"</string>
