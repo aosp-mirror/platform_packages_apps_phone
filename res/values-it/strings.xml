@@ -468,7 +468,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Numero segreteria sconosciuto"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nessun servizio"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Rete selezionata (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) non disponibile"</string>
-    <string name="incall_error_power_off" msgid="6550191216405193368">"Per fare una telefonata, disattiva la modalità Aereo."</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"Per fare una telefonata, disattiva la modalità aereo."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Non registrato sulla rete."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Rete cellulare non disponibile."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Chiamata non inviata. Nessun numero valido inserito."</string>
