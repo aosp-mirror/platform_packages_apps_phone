@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"搜尋網路時發生錯誤。"</string>
     <string name="register_on_network" msgid="9055203954040805084">"正在註冊 <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"您的 SIM 卡不允許連接此網路。"</string>
+    <string name="connect_later" msgid="500090982903469816">"目前無法連線到這個網路，請稍候再試。"</string>
     <string name="registration_done" msgid="495135664535876612">"註冊網路成功。"</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"選取電信業者"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"搜尋所有可用網路"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"要允許資料漫遊嗎？您可能會需要支付龐大漫遊費用！"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 選項"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 選項"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"資料用量"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"行動業者資料傳輸政策"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"目前週期已使用的資料量"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"資料使用量週期"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"資料傳輸速率政策"</string>
+    <string name="throttle_help" msgid="243651091785169900">"瞭解更多資訊"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> ％)，週期上限為 <xliff:g id="USED_2">%3$s</xliff:g>"\n"下一週期會在 <xliff:g id="USED_3">%4$d</xliff:g> 天內開始 (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> %)，週期上限為 <xliff:g id="USED_2">%3$s</xliff:g>"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"已達 <xliff:g id="USED_0">%1$s</xliff:g> 上限"\n"資料速率降低至 <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"已經過 <xliff:g id="USED_0">%1$d</xliff:g> % 的循環週期"\n"下一週期會在 <xliff:g id="USED_1">%2$d</xliff:g> 天內開始 (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"若已達資料用量上限，資料傳輸速率會降低至 <xliff:g id="USED">%1$d</xliff:g> Kb/秒"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"更多有關行動業者行動網路資料使用政策的資訊"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"區域廣播簡訊"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"區域廣播簡訊"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"區域廣播簡訊"</string>

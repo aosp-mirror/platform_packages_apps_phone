@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Erro ao procurar redes."</string>
     <string name="register_on_network" msgid="9055203954040805084">"A registar em <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"O cartão SIM não permite uma ligação a esta rede."</string>
+    <string name="connect_later" msgid="500090982903469816">"Não foi possível ligar a esta rede neste momento. Tente novamente mais tarde."</string>
     <string name="registration_done" msgid="495135664535876612">"Registado na rede."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Seleccione um operador de rede"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Procurar todas as redes disponíveis"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Permitir roaming de dados? Os encargos de roaming podem ser significativos!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opções GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opções CDMA"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Utilização de dados"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Política de dados do operador"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"Dados utilizados no período actual"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Período de utilização de dados"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Política de classificação de dados"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Saiba mais"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) do <xliff:g id="USED_2">%3$s</xliff:g> período máximo"\n"O período seguinte tem início dentro de <xliff:g id="USED_3">%4$d</xliff:g> dias (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) do <xliff:g id="USED_2">%3$s</xliff:g> período máximo"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> máximo excedido"\n"Velocidade de transmissão de dados reduzida para <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ do ciclo decorrido"\n"O período seguinte tem início dentro de <xliff:g id="USED_1">%2$d</xliff:g> dias (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"Velocidade de transmissão de dados reduzida para <xliff:g id="USED">%1$d</xliff:g> Kb/s se o limite de utilização de dados for excedido"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Mais informações sobre a política de utilização de dados da rede móvel do seu operador."</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Transmissão Celular SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Transmissão Celular SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Transmissão Celular SMS"</string>
