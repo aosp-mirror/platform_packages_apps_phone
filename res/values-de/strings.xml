@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Fehler bei der Netzwerksuche"</string>
     <string name="register_on_network" msgid="9055203954040805084">"Registrierung in <xliff:g id="NETWORK">%s</xliff:g> läuft..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"Ihre SIM-Karte unterstützt keine Verbindung mit diesem Netzwerk."</string>
+    <string name="connect_later" msgid="500090982903469816">"Es kann derzeit keine Verbindung zu diesem Netzwerk hergestellt werden. Versuchen Sie es später erneut."</string>
     <string name="registration_done" msgid="495135664535876612">"In Netzwerk registriert."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Netzbetreiber auswählen"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Nach allen verfügbaren Netzwerken suchen"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM-/UMTS-Optionen"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-Optionen"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Datennutzung"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Datenrichtlinien des Mobilfunkanbieters"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"Im aktuellen Zeitraum verwendete Daten"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum der Datennutzung"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Richtlinien zur Datenrate"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Weitere Informationen"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>."\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_3">%4$d</xliff:g> Tagen (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Maximum von <xliff:g id="USED_0">%1$s</xliff:g> wurde überschritten."\n"Datenrate wurde auf <xliff:g id="USED_1">%2$d</xliff:g> kbit/s reduziert."</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> Prozent des Zyklus sind verstrichen. "\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_1">%2$d</xliff:g> Tagen (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datenrate wird auf <xliff:g id="USED">%1$d</xliff:g> kbit/s reduziert, wenn Datennutzungslimit überschritten wird."</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien zum Umgang mit mobilen Netzwerkdaten Ihres Mobilfunkanbieters"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast SMS"</string>
@@ -366,7 +379,7 @@
     <item msgid="1193066664940329729">"1"</item>
   </string-array>
     <string name="fdn" msgid="7878832555095183202">"Anrufbegrenzung"</string>
-    <string name="manage_fdn_list" msgid="8777755791892122369">"Begrenzte Rufnummern"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"Zugelassene Rufnummern"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Aktivierung der Anrufbegrenzung"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Anrufbegrenzung ist aktiviert"</string>
     <string name="fdn_disabled" msgid="4700049736675368279">"Anrufbegrenzung ist deaktiviert"</string>
@@ -375,7 +388,7 @@
     <string name="change_pin2" msgid="2153563695382176676">"PIN2 ändern"</string>
     <string name="enable_fdn_ok" msgid="7215588870329688132">"Anrufbegrenzung deaktivieren"</string>
     <string name="disable_fdn_ok" msgid="5727046928930740173">"Begrenzung aktivieren"</string>
-    <string name="sum_fdn" msgid="1959399454900272878">"Begrenzte Rufnummern verwalten"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"Zugelassene Rufnummern verwalten"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Telefonnummernliste verwalten"</string>
     <string name="voice_privacy" msgid="7803023024169078619">"Datenschutz von Sprachnotizen"</string>
@@ -393,15 +406,15 @@
     <string name="name" msgid="7329028332786872378">"Name"</string>
     <string name="number" msgid="7905950798349903858">"Nummer"</string>
     <string name="save" msgid="4094274636321939086">"Speichern"</string>
-    <string name="add_fdn_contact" msgid="2481915899633353976">"Begrenzte Rufnummer hinzufügen"</string>
-    <string name="adding_fdn_contact" msgid="7627379633721940991">"Begrenzte Rufnummer wird hinzugefügt..."</string>
-    <string name="fdn_contact_added" msgid="7458335758501736665">"Begrenzte Rufnummer hinzugefügt"</string>
-    <string name="edit_fdn_contact" msgid="7976936035587081480">"Begrenzte Rufnummer bearbeiten"</string>
-    <string name="updating_fdn_contact" msgid="8370929876849803600">"Begrenzte Rufnummer wird aktualisiert..."</string>
-    <string name="fdn_contact_updated" msgid="5497828782609005017">"Begrenzte Rufnummer aktualisiert"</string>
-    <string name="delete_fdn_contact" msgid="6668958073074151717">"Begrenzte Rufnummer löschen"</string>
-    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Begrenzte Rufnummer wird gelöscht..."</string>
-    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Begrenzte Rufnummer gelöscht"</string>
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Zugelassene Rufnummer hinzufügen"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Zugelassene Rufnummer wird hinzugefügt..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Zugelassene Rufnummer hinzugefügt"</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Zugelassene Rufnummer bearbeiten"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Zugelassene Rufnummer wird aktualisiert..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Zugelassene Rufnummer aktualisiert"</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Zugelassene Rufnummer löschen"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Zugelassene Rufnummer wird gelöscht..."</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Zugelassene Rufnummer gelöscht"</string>
     <string name="pin2_invalid" msgid="7176360264228076810">"FDN nicht aktualisiert: Falsche PIN eingegeben"</string>
     <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN nicht aktualisiert: Nummer darf maximal 20 Ziffern lang sein."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIM-Karte wird ausgelesen..."</string>
