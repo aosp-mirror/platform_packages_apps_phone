@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"네트워크를 검색하는 동안 오류가 발생했습니다."</string>
     <string name="register_on_network" msgid="9055203954040805084">"<xliff:g id="NETWORK">%s</xliff:g>에 등록 중..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"SIM 카드에서 이 네트워크에 연결할 수 없습니다."</string>
+    <string name="connect_later" msgid="500090982903469816">"현재 네트워크에 연결할 수 없습니다. 나중에 다시 시도해 주세요."</string>
     <string name="registration_done" msgid="495135664535876612">"네트워크에 등록되었습니다."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"네트워크 운영자 선택"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"사용 가능한 모든 네트워크 검색"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"데이터 로밍을 허용하시겠습니까? 높은 로밍 요금이 부과될 수 있습니다."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 옵션"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 옵션"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"데이터 사용"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"이동통신사 데이터 정책"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"현재 데이터 사용량"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"데이터 사용 기간"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"데이터 속도 정책"</string>
+    <string name="throttle_help" msgid="243651091785169900">"자세히 알아보기"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"최대 기간 <xliff:g id="USED_2">%3$s</xliff:g> 중 <xliff:g id="USED_0">%1$s</xliff:g>(<xliff:g id="USED_1">%2$d</xliff:g>٪)"\n"다음 기간은 <xliff:g id="USED_3">%4$d</xliff:g>일 후에 시작(<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"최대 기간 <xliff:g id="USED_2">%3$s</xliff:g> 중 <xliff:g id="USED_0">%1$s</xliff:g>(<xliff:g id="USED_1">%2$d</xliff:g>٪)"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"최대치 <xliff:g id="USED_0">%1$s</xliff:g> 초과"\n"데이터 속도가 <xliff:g id="USED_1">%2$d</xliff:g>Kb/s로 감소"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"주기의 <xliff:g id="USED_0">%1$d</xliff:g>٪ 경과"\n"다음 기간은 <xliff:g id="USED_1">%2$d</xliff:g>일 후에 시작(<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"데이터 사용량 제한을 초과하면 데이터 속도는 <xliff:g id="USED">%1$d</xliff:g>Kb/s로 줄어듭니다."</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"이동통신사의 모바일 네트워크 데이터 사용 정책에 대한 자세한 정보"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"셀 브로드캐스트 SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"셀 브로드캐스트 SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"셀 브로드캐스트 SMS"</string>
