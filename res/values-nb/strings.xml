@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Det oppsto en feil under søking etter nettverk."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Kobler til <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed" msgid="3540496123717833833">"SIM-kortet tillater ikke tilkobling til dette nettverket."</string>
+    <string name="connect_later" msgid="500090982903469816">"Kan ikke koble til nettverket. Prøv på nytt senere."</string>
     <string name="registration_done" msgid="495135664535876612">"Registrert i nettverket."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Velg en nettoperatør"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Søk etter alle tilgjengelige nettverk"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Tillat dataroaming? Dette kan koste mye penger!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS-innstillinger"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-innstillinger"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Databruk"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Retningslinjer for mobildata"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"Data som er brukt i inneværende periode"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Databrukperiode"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Retningslinjer for datahastighet"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Les mer"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> %) av maksimum <xliff:g id="USED_2">%3$s</xliff:g> for perioden"\n"Neste periode starter om <xliff:g id="USED_3">%4$d</xliff:g> dager (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> %) av maksimum <xliff:g id="USED_2">%3$s</xliff:g> for perioden"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> har overskredet maksimumsgrensen"\n"Datahastigheten er redusert til <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> % av syklusen er fullført"\n"Neste periode starter om <xliff:g id="USED_1">%2$d</xliff:g> dager (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datahastigheten reduseres til <xliff:g id="USED">%1$d</xliff:g> Kb/s hvis databruken overskrider grenseverdien"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Les mer om mobiloperatørens retningslinjer for bruk av nettverksdata"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Kringkastings-SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Kringkastings-SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Kringkastings-SMS"</string>

@@ -178,6 +178,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Ошибка поиска сетей."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Регистрация в сети <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed" msgid="3540496123717833833">"Установленная SIM-карта не может подключиться к этой сети."</string>
+    <string name="connect_later" msgid="500090982903469816">"Не удается подключиться к этой сети. Повторите попытку позже."</string>
     <string name="registration_done" msgid="495135664535876612">"Регистрация в сети завершена."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Выберите оператора связи"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Поиск всех доступных сетей"</string>
@@ -216,6 +217,18 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Разрешить интернет-роуминг? Возможны высокие расходы за использование роуминга."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Параметры GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Параметры CDMA"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Передача данных"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Политика передачи данных оператора связи"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"Передача данных в текущем периоде"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Время передачи данных"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Скорость передачи данных"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Подробнее"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) из <xliff:g id="USED_2">%3$s</xliff:g> (максимум)"\n"Следующий период начнется в течение <xliff:g id="USED_3">%4$d</xliff:g> дн. (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) из <xliff:g id="USED_2">%3$s</xliff:g> (максимум)"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Превышен лимит в <xliff:g id="USED_0">%1$s</xliff:g>."\n"Скорость передачи данных снижена до <xliff:g id="USED_1">%2$d</xliff:g> кбит/с."</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"Пройдено <xliff:g id="USED_0">%1$d</xliff:g>% цикла."\n"Следующий период начнется в течение <xliff:g id="USED_1">%2$d</xliff:g> дн. (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"Превышение лимита снижает скорость передачи данных до <xliff:g id="USED">%1$d</xliff:g> кбит/с"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Подробнее о политике передачи данных вашего оператора мобильной связи..."</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Широковещательные SMS-службы"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Широковещательные SMS-службы"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Широковещательные SMS-службы"</string>
