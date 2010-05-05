@@ -1132,4 +1132,11 @@
     <!-- Incoming call hint shown on tab (must be kept very short): decline incoming call -->
     <string name="slide_to_decline_hint">Decline</string>
 
+    <!-- Use the following to provide extra descriptions on content for screen readers through accessibility. -->
+    <!-- Use this as a default to describe the contact photo.  -->
+    <string name="contactPhoto">contact photo</string>
+    <!--  Use this to describe the separate conference call button. -->
+    <string name="goPrivate">go private</string>
+    <!--  Use this to describe the select contact button in EditPhoneNumberPreference. -->
+    <string name="selectContact">select contact</string>
 </resources>
