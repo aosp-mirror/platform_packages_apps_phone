@@ -36,7 +36,8 @@
             android:layout_height="46dp"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="6dp"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            android:contentDescription="@string/onscreenEndCallText" />
 
         <!-- Caller information -->
         <LinearLayout
@@ -97,7 +98,8 @@
             android:layout_height="46dp"
             android:layout_marginTop="2dp"
             android:layout_marginRight="6dp"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            android:contentDescription="@string/goPrivate"/>
 
     </LinearLayout>  <!-- End of single list element -->
 

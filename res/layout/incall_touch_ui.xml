@@ -64,7 +64,8 @@
                 android:visibility="gone">
             <ImageButton android:id="@+id/holdButton"
                     style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_hold" />
+                    android:src="@drawable/ic_in_call_touch_round_hold"
+                    android:contentDescription="@string/onscreenHoldText" />
             <TextView android:id="@+id/holdButtonLabel"
                     style="@style/InCallRoundButtonLabel" />
         </LinearLayout>
@@ -77,7 +78,8 @@
                 android:visibility="gone">
             <ImageButton android:id="@+id/swapButton"
                     style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_swap" />
+                    android:src="@drawable/ic_in_call_touch_round_swap"
+                    android:contentDescription="@string/onscreenSwapCallsText"/>
             <TextView android:id="@+id/swapButtonLabel"
                 style="@style/InCallRoundButtonLabel" />
         </LinearLayout>
@@ -90,7 +92,8 @@
                 android:visibility="gone">
             <ImageButton android:id="@+id/cdmaMergeButton"
                     style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_merge_call" />
+                    android:src="@drawable/ic_in_call_touch_round_merge_call"
+                    android:contentDescription="@string/onscreenMergeCallsText" />
             <TextView
                 style="@style/InCallRoundButtonLabel"
                 android:text="@string/onscreenMergeCallsText" />
