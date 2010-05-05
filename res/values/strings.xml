@@ -1132,4 +1132,10 @@
     <!-- Incoming call hint shown on tab (must be kept very short): decline incoming call -->
     <string name="slide_to_decline_hint">Decline</string>
 
+    <!-- Contact photo content description -->
+    <string name="contactPhoto">contact photo</string>
+    <!--  go private content description -->
+    <string name="goPrivate">go private</string>
+    <!--  select contact content description -->
+    <string name="selectContact">select contact</string>
 </resources>

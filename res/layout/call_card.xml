@@ -63,6 +63,7 @@
             android:layout_height="101dp"
             android:layout_marginTop="-6dip"
             android:background="@drawable/incall_photo_border_med"
+            android:contentDescription="@string/onHold"
             />
     </LinearLayout>
 

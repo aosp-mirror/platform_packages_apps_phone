@@ -52,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dip"
-            android:src="@drawable/ic_button_contacts" />
+            android:src="@drawable/ic_button_contacts"
+            android:contentDescription="@string/selectContact" />
     </LinearLayout>
     
 </LinearLayout>
