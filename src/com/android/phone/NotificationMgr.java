@@ -84,8 +84,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private StatusBarManager mStatusBar;
     private StatusBarMgr mStatusBarMgr;
     private Toast mToast;
-    private IBinder mSpeakerphoneIcon;
-    private IBinder mMuteIcon;
+    private boolean mShowingSpeakerphoneIcon;
+    private boolean mShowingMuteIcon;
 
     // used to track the missed call counter, default to 0.
     private int mNumberMissedCalls = 0;
@@ -433,16 +433,16 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     void notifySpeakerphone() {
-        if (mSpeakerphoneIcon == null) {
-            mSpeakerphoneIcon = mStatusBar.addIcon("speakerphone",
-                    android.R.drawable.stat_sys_speakerphone, 0);
+        if (!mShowingSpeakerphoneIcon) {
+            mStatusBar.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0);
+            mShowingSpeakerphoneIcon = true;
         }
     }
 
     void cancelSpeakerphone() {
-        if (mSpeakerphoneIcon != null) {
-            mStatusBar.removeIcon(mSpeakerphoneIcon);
-            mSpeakerphoneIcon = null;
+        if (mShowingSpeakerphoneIcon) {
+            mStatusBar.removeIcon("speakerphone");
+            mShowingSpeakerphoneIcon = false;
         }
     }
 
@@ -463,15 +463,16 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     void notifyMute() {
-        if (mMuteIcon == null) {
-            mMuteIcon = mStatusBar.addIcon("mute", android.R.drawable.stat_notify_call_mute, 0);
+        if (mShowingMuteIcon) {
+            mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0);
+            mShowingMuteIcon = true;
         }
     }
 
     void cancelMute() {
-        if (mMuteIcon != null) {
-            mStatusBar.removeIcon(mMuteIcon);
-            mMuteIcon = null;
+        if (mShowingMuteIcon) {
+            mStatusBar.removeIcon("mute");
+            mShowingMuteIcon = false;
         }
     }
 
