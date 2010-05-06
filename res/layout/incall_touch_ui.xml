@@ -102,9 +102,11 @@
 
         <!-- DTMF dialpad shown in the upper part of the screen
              (above the main cluster of buttons.) -->
-        <!-- TODO: this should be a ViewStub, and should only get inflated
-             when first needed. -->
-        <include layout="@layout/non_drawer_dialpad"/>
+        <ViewStub android:id="@+id/non_drawer_dialpad_stub"
+                  android:layout="@layout/non_drawer_dialpad"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  />
 
         <!-- Main cluster of onscreen buttons on the lower part of the screen. -->
         <LinearLayout android:id="@+id/bottomButtons"

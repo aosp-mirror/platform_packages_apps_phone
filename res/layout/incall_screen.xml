@@ -68,9 +68,11 @@
          widget needs to be be a direct child of a FrameLayout anyway.)
          This is used only on devices that do *not* have an onscreen
          InCallTouchUi widget.-->
-    <!-- TODO: this should be a ViewStub, and should only get inflated
-         on platforms that need it. -->
-    <include layout="@layout/dtmf_twelve_key_dialer"/>
+    <ViewStub android:id="@+id/dtmf_dialer_stub"
+              android:layout="@layout/dtmf_twelve_key_dialer"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              />
 
     <!-- Finally, the "touch lock" overlay, drawn on top of the DTMF
          dialpad (after some delay) to prevent false touches from
