@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyX///tg\u003d",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-07T17:26:08Z",
+      "side": 1,
+      "message": "Please wrap to 100 columns.",
+      "revId": "32230d54254a673bdfc05388d89521bf9e61727f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
