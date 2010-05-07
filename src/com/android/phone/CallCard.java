@@ -1224,7 +1224,7 @@ public class CallCard extends FrameLayout
 
             case DIALING:
             case ALERTING:
-                photoImageResource = R.drawable.picture_dialing;
+                //photoImageResource = R.drawable.picture_dialing; //Commented to fetch contact image insted of default image while dialing/alerting.
                 break;
 
             default:
