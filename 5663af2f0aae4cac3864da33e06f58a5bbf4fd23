@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyX///jU\u003d",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-10T17:21:36Z",
+      "side": 1,
+      "message": "100 columns",
+      "revId": "5663af2f0aae4cac3864da33e06f58a5bbf4fd23",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///jQ\u003d",
+        "filename": "src/com/android/phone/CallWaitingCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-05-10T17:21:36Z",
+      "side": 1,
+      "message": "Please use curly braces for the multi-line conditional",
+      "revId": "5663af2f0aae4cac3864da33e06f58a5bbf4fd23",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
