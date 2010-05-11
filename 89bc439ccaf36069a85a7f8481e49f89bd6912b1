@@ -16,6 +16,24 @@
       "revId": "89bc439ccaf36069a85a7f8481e49f89bd6912b1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyn///rY\u003d",
+        "filename": "src/com/android/phone/DeleteFdnContactScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003544
+      },
+      "writtenOn": "2010-05-11T23:35:46Z",
+      "side": 1,
+      "message": "Yes, the check should be for empty mName, not mNumber.",
+      "parentUuid": "AAAAyn///tA\u003d",
+      "revId": "89bc439ccaf36069a85a7f8481e49f89bd6912b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
