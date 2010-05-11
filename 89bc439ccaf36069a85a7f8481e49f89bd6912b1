@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyn///tA\u003d",
+        "filename": "src/com/android/phone/DeleteFdnContactScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-05-11T22:51:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this check be\n\nif(TextUtils.isEmpty(mName))",
+      "revId": "89bc439ccaf36069a85a7f8481e49f89bd6912b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
