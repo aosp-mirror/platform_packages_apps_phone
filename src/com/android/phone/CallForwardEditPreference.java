@@ -1,6 +1,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.CallForwardInfo;
+import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
@@ -16,7 +17,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import static com.android.phone.TimeConsumingPreferenceActivity.EXCEPTION_ERROR;
 import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
 
 public class CallForwardEditPreference extends EditPhoneNumberPreference {
@@ -178,8 +178,8 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
             callForwardInfo = null;
             if (ar.exception != null) {
                 if (DBG) Log.d(LOG_TAG, "handleGetCFResponse: ar.exception=" + ar.exception);
-                setEnabled(false);
-                tcpListener.onError(CallForwardEditPreference.this, EXCEPTION_ERROR);
+                tcpListener.onException(CallForwardEditPreference.this,
+                        (CommandException) ar.exception);
             } else {
                 if (ar.userObj instanceof Throwable) {
                     tcpListener.onError(CallForwardEditPreference.this, RESPONSE_ERROR);
