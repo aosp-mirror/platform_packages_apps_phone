@@ -1,5 +1,7 @@
 package com.android.phone;
 
+import com.android.internal.telephony.CommandException;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -15,6 +17,7 @@ interface  TimeConsumingPreferenceListener {
     public void onStarted(Preference preference, boolean reading);
     public void onFinished(Preference preference, boolean reading);
     public void onError(Preference preference, int error);
+    public void onException(Preference preference, CommandException exception);
 }
 
 public class TimeConsumingPreferenceActivity extends PreferenceActivity
@@ -29,6 +32,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
     static final int EXCEPTION_ERROR = 300;
     static final int RESPONSE_ERROR = 400;
     static final int RADIO_OFF_ERROR = 500;
+    static final int FDN_CHECK_FAILURE = 600;
 
     private final ArrayList<String> mBusyList=new ArrayList<String> ();
 
@@ -55,7 +59,8 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
             return null;
         }
 
-        if (id == RESPONSE_ERROR || id == RADIO_OFF_ERROR || id == EXCEPTION_ERROR) {
+        if (id == RESPONSE_ERROR || id == RADIO_OFF_ERROR || id == EXCEPTION_ERROR
+                || id == FDN_CHECK_FAILURE) {
             AlertDialog.Builder b = new AlertDialog.Builder(this);
 
             int msgId;
@@ -72,6 +77,11 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
                     msgId = R.string.radio_off_error;
                     // Set Button 3
                     b.setNeutralButton(R.string.close_dialog, this);
+                    break;
+                case FDN_CHECK_FAILURE:
+                    msgId = R.string.fdn_only_error;
+                    // Set Button 2
+                    b.setNegativeButton(R.string.close_dialog, this);
                     break;
                 case EXCEPTION_ERROR:
                 default:
@@ -151,6 +161,14 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         }
     }
 
+    public void onException(Preference preference, CommandException exception) {
+        if (exception.getCommandError() == CommandException.Error.FDN_CHECK_FAILURE) {
+            onError(preference, FDN_CHECK_FAILURE);
+        } else {
+            preference.setEnabled(false);
+            onError(preference, EXCEPTION_ERROR);
+        }
+    }
     public void onCancel(DialogInterface dialog) {
         if (DBG) dumpState();
         finish();
