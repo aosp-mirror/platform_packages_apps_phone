@@ -83,10 +83,13 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
             }
 
             if (ar.exception != null) {
-                if (DBG)
+                if (DBG) {
                     Log.d(LOG_TAG, "handleGetCallWaitingResponse: ar.exception=" + ar.exception);
-                tcpListener.onException(CallWaitingCheckBoxPreference.this,
-                        (CommandException)ar.exception);
+                }
+                if (tcpListener != null) {
+                    tcpListener.onException(CallWaitingCheckBoxPreference.this,
+                            (CommandException)ar.exception);
+                }
             } else if (ar.userObj instanceof Throwable) {
                 tcpListener.onError(CallWaitingCheckBoxPreference.this, RESPONSE_ERROR);
             } else {

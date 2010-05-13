@@ -1175,7 +1175,7 @@ public class CallNotifier extends Handler
         public static final int TONE_OUT_OF_SERVICE = 10;
         public static final int TONE_REDIAL = 11;
         public static final int TONE_OTA_CALL_END = 12;
-        public static final int TONE_UNOBTAINABLE_NUMBER = 13;
+        public static final int TONE_UNOBTAINABLE_NUMBER = 14;
 
         // The tone volume relative to other sounds in the stream
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
