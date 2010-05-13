@@ -85,6 +85,8 @@
     <string name="callFailed_cdma_preempted">CDMA: Preempted.</string>
     <!-- In-call screen: call failure reason (Only Emergency calls are possible)-->
     <string name="callFailed_cdma_notEmergency">Only Emergency calls are possible.</string>
+    <!-- In-call screen: call failure reason (Dialed number doesn't exist) -->
+    <string name="callFailed_unobtainable_number">Invalid Number</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="confCall">Conference call</string>
     <!-- In-call screen: call lost dialog text -->
