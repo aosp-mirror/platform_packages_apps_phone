@@ -73,7 +73,31 @@ public class CallNotifier extends Handler
     // Time to display the  DisplayInfo Record sent by CDMA network
     private static final int DISPLAYINFO_NOTIFICATION_TIME = 2000; // msec
 
-    // Boolean to store information if a Call Waiting timed out
+    // Boolean to keep track of whether or not a CDMA Call Waiting call timed out.
+    //
+    // This is CDMA-specific, because with CDMA we *don't* get explicit
+    // notification from the telephony layer that a call-waiting call has
+    // stopped ringing.  Instead, when a call-waiting call first comes in we
+    // start a 20-second timer (see CALLWAITING_CALLERINFO_DISPLAY_DONE), and
+    // if the timer expires we clean up the call and treat it as a missed call.
+    //
+    // If this field is true, that means that the current Call Waiting call
+    // "timed out" and should be logged in Call Log as a missed call.  If it's
+    // false when we reach onCdmaCallWaitingReject(), we can assume the user
+    // explicitly rejected this call-waiting call.
+    //
+    // This field is reset to false any time a call-waiting call first comes
+    // in, and after cleaning up a missed call-waiting call.  It's only ever
+    // set to true when the CALLWAITING_CALLERINFO_DISPLAY_DONE timer fires.
+    //
+    // TODO: do we really need a member variable for this?  Don't we always
+    // know at the moment we call onCdmaCallWaitingReject() whether this is an
+    // explicit rejection or not?
+    // (Specifically: when we call onCdmaCallWaitingReject() from
+    // PhoneUtils.hangupRingingCall() that means the user deliberately rejected
+    // the call, and if we call onCdmaCallWaitingReject() because of a
+    // CALLWAITING_CALLERINFO_DISPLAY_DONE event that means that it timed
+    // out...)
     private boolean mCallWaitingTimeOut = false;
 
     // values used to track the query state
@@ -100,17 +124,17 @@ public class CallNotifier extends Handler
     private static final int PHONE_CDMA_CALL_WAITING = 8;
     private static final int PHONE_ENHANCED_VP_ON = 9;
     private static final int PHONE_ENHANCED_VP_OFF = 10;
+    private static final int PHONE_RINGBACK_TONE = 11;
+    private static final int PHONE_RESEND_MUTE = 12;
 
     // Events generated internally:
-    private static final int PHONE_MWI_CHANGED = 11;
-    private static final int PHONE_BATTERY_LOW = 12;
-    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 13;
-    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 14;
-    private static final int DISPLAYINFO_NOTIFICATION_DONE = 15;
-    private static final int EVENT_OTA_PROVISION_CHANGE = 16;
-
-    private static final int PHONE_RINGBACK_TONE = 17;
-    private static final int PHONE_RESEND_MUTE = 18;
+    private static final int PHONE_MWI_CHANGED = 21;
+    private static final int PHONE_BATTERY_LOW = 22;
+    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 23;
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 24;
+    private static final int DISPLAYINFO_NOTIFICATION_DONE = 25;
+    private static final int EVENT_OTA_PROVISION_CHANGE = 26;
+    private static final int CDMA_CALL_WAITING_REJECT = 27;
 
     // Emergency call related defines:
     private static final int EMERGENCY_TONE_OFF = 0;
@@ -265,8 +289,13 @@ public class CallNotifier extends Handler
                 onCdmaCallWaiting((AsyncResult) msg.obj);
                 break;
 
+            case CDMA_CALL_WAITING_REJECT:
+                Log.i(LOG_TAG, "Received CDMA_CALL_WAITING_REJECT event");
+                onCdmaCallWaitingReject();
+                break;
+
             case CALLWAITING_CALLERINFO_DISPLAY_DONE:
-                if (DBG) log("Received CALLWAITING_CALLERINFO_DISPLAY_DONE event ...");
+                Log.i(LOG_TAG, "Received CALLWAITING_CALLERINFO_DISPLAY_DONE event");
                 mCallWaitingTimeOut = true;
                 onCdmaCallWaitingReject();
                 break;
@@ -1542,10 +1571,24 @@ public class CallNotifier extends Handler
     }
 
     /**
+     * Posts a event causing us to clean up after rejecting (or timing-out) a
+     * CDMA call-waiting call.
+     *
+     * This method is safe to call from any thread.
+     * @see onCdmaCallWaitingReject()
+     */
+    /* package */ void sendCdmaCallWaitingReject() {
+        sendEmptyMessage(CDMA_CALL_WAITING_REJECT);
+    }
+
+    /**
      * Performs Call logging based on Timeout or Ignore Call Waiting Call for CDMA,
      * and finally calls Hangup on the Call Waiting connection.
+     *
+     * This method should be called only from the UI thread.
+     * @see sendCdmaCallWaitingReject()
      */
-    /* package */ void onCdmaCallWaitingReject() {
+    private void onCdmaCallWaitingReject() {
         final Call ringingCall = mPhone.getRingingCall();
 
         // Call waiting timeout scenario
