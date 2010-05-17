@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/onscreenEndCallText"
                         android:drawableTop="@drawable/ic_in_call_touch_end"
-                        android:textColor="@color/incall_endButtonLabel"
+                        android:textColor="@color/end_call_button_text"
                         />
 
                 <!-- "Dialpad" -->
