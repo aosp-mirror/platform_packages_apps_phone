@@ -226,7 +226,7 @@
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> sur <xliff:g id="USED_2">%3$s</xliff:g> - (<xliff:g id="USED_1">%2$d</xliff:g> ٪) du maximum par période"\n"La prochaine période démarre dans <xliff:g id="USED_3">%4$d</xliff:g> jours (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> sur <xliff:g id="USED_2">%3$s</xliff:g> - (<xliff:g id="USED_1">%2$d</xliff:g> ٪) du maximum par période"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> maximum dépassé"\n"Taux de transfert des données réduit à <xliff:g id="USED_1">%2$d</xliff:g> Ko/s"</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ du cycle écoulé"\n"La prochaine période démarre dans <xliff:g id="USED_1">%2$d</xliff:g> jours (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> ٪ du cycle écoulé"\n"La prochaine période démarre dans <xliff:g id="USED_1">%2$d</xliff:g> jours (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Taux de transfert des données réduit à <xliff:g id="USED">%1$d</xliff:g> Ko/s si le plafond d\'utilisation est dépassé"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Plus d\'informations sur les règles de votre opérateur mobile concernant l\'utilisation des données sur son réseau"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Diffusion cellulaire par SMS"</string>
@@ -458,7 +458,7 @@
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Rejeter"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Débloquer"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Authentification du code PIN..."</string>
-    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numéro de la messagerie vocale"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"N° messagerie vocale"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Appel en cours…"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Nouvelle tentative"</string>
     <string name="card_title_in_progress" msgid="8603765629781648862">"Appel en cours"</string>
@@ -514,7 +514,7 @@
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Ht. parleur"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Silencieux"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
-    <string name="onscreenAddCallText" msgid="5140385634712287403">"Ajouter un appel"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"Autre appel"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Fusionner les appels"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Permuter"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gérer les appels"</string>
