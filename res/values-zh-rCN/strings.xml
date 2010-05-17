@@ -218,7 +218,7 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 选项"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 选项"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"数据使用情况"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"运营商数据政策"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"运营商流量政策"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"当前时段使用的数据"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"数据使用时段"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"数据传输速率政策"</string>
@@ -226,8 +226,8 @@
     <string name="throttle_status_subtext" msgid="1657318943142085170">"时段上限为 <xliff:g id="USED_2">%3$s</xliff:g>，当前值为 <xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪)"\n"下一个时段从 <xliff:g id="USED_3">%4$d</xliff:g> 天后 (<xliff:g id="USED_4">%5$s</xliff:g>) 开始"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"时段上限为 <xliff:g id="USED_2">%3$s</xliff:g>，当前值为 <xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪)"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"已超过<xliff:g id="USED_0">%1$s</xliff:g>速率上限"\n"数据传输速率已降至 <xliff:g id="USED_1">%2$d</xliff:g> Kb/s。"</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ 的周期已过去"\n"下一个时段从 <xliff:g id="USED_1">%2$d</xliff:g> 天后 (<xliff:g id="USED_2">%3$s</xliff:g>) 开始"</string>
-    <string name="throttle_rate_subtext" msgid="2149102656120726855">"如果超过了数据使用上限，则数据传输速率会降至 <xliff:g id="USED">%1$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"此周期已过去 <xliff:g id="USED_0">%1$d</xliff:g>٪"\n"下一个时段将从 <xliff:g id="USED_1">%2$d</xliff:g> 天后 (<xliff:g id="USED_2">%3$s</xliff:g>) 开始"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"如果超过了流量上限，则数据传输速率会降至 <xliff:g id="USED">%1$d</xliff:g> Kb/s"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"有关您运营商的移动网络数据使用政策的详情"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"小区广播短信"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"小区广播短信"</string>

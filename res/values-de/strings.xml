@@ -66,8 +66,8 @@
     <string name="menu_mergeCalls" msgid="6414754941392181303">"Konferenz"</string>
     <string name="menu_addCall" msgid="7829255032442131930">"Hinzufügen"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Telefonkonferenz verwalten"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Telefontasten zeigen"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Telefontasten verbergen"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"Wähltasten zeigen"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Wähltasten ausblenden"</string>
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Aktuellen Anruf halten"\n"und annehmen"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Aktuellen Anruf beenden"\n"und annehmen"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
@@ -140,7 +140,7 @@
     <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Weiterleitung an {0}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Deaktiviert"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Ihr Netzbetreiber unterstützt die Deaktivierung der Anrufweiterleitung bei Nichtbeantwortung nicht."</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Weiterl. wenn n. erreichb."</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Weiterl. falls n. erreichb."</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Nummer falls nicht erreichbar"</string>
     <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Weiterleitung an {0}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Deaktiviert"</string>
@@ -228,7 +228,7 @@
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Maximum von <xliff:g id="USED_0">%1$s</xliff:g> wurde überschritten."\n"Datenrate wurde auf <xliff:g id="USED_1">%2$d</xliff:g> kbit/s reduziert."</string>
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> Prozent des Zyklus sind verstrichen. "\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_1">%2$d</xliff:g> Tagen (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datenrate wird auf <xliff:g id="USED">%1$d</xliff:g> kbit/s reduziert, wenn Datennutzungslimit überschritten wird."</string>
-    <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien zum Umgang mit mobilen Netzwerkdaten Ihres Mobilfunkanbieters"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien Ihres Mobilfunkanbieters zur Nutzung mobiler Netzwerkdaten"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast SMS"</string>
@@ -389,7 +389,7 @@
     <string name="enable_fdn_ok" msgid="7215588870329688132">"Anrufbegrenzung deaktivieren"</string>
     <string name="disable_fdn_ok" msgid="5727046928930740173">"Begrenzung aktivieren"</string>
     <string name="sum_fdn" msgid="1959399454900272878">"Zugelassene Rufnummern verwalten"</string>
-    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"PIN für Zugang zu eingeschränkten Nummern ändern"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Anrufbegrenzungs-PIN ändern"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Telefonnummernliste verwalten"</string>
     <string name="voice_privacy" msgid="7803023024169078619">"Datenschutz von Sprachnotizen"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Erweiterten Datenschutzmodus aktivieren"</string>
@@ -421,7 +421,7 @@
     <string name="simContacts_empty" msgid="5270660846489561932">"Keine Kontakte auf Ihrer SIM-Karte"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Kontakte für Import auswählen"</string>
     <string name="enable_pin" msgid="5422767284133234860">"PIN-Abfrage für SIM-Karte aktivieren/deaktivieren"</string>
-    <string name="change_pin" msgid="9174186126330785343">"PIN der SIM-Karte ändern"</string>
+    <string name="change_pin" msgid="9174186126330785343">"PIN ändern"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN der SIM-Karte:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"Alte PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Neue PIN"</string>

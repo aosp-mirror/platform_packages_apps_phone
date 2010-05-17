@@ -208,7 +208,7 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"データが有効になりました"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"データ通信を有効にする"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"モバイルネットワーク経由のデータアクセスを有効にする"</string>
     <string name="roaming" msgid="8871412572928323707">"データローミング"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"ローミング時にデータサービスに接続する"</string>
