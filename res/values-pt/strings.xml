@@ -127,7 +127,7 @@
     <string name="labelCFU" msgid="8147177368148660600">"Sempre encaminhar"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Sempre usar este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Encaminhando todas as chamadas"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Encaminhando todas as chamadas para \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Encaminhando todas as chamadas para {0}"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Número indisponível"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Desativado"</string>
     <string name="labelCFB" msgid="218938523102207587">"Enc. quando ocupado"</string>

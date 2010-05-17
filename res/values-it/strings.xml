@@ -57,7 +57,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Codice MMI annullato"</string>
     <string name="cancel" msgid="5044513931633602634">"Annulla"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Altoprlnte."</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Altoparlante"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"No audio"</string>
     <string name="menu_hold" msgid="6970441130344786273">"In attesa"</string>
@@ -218,17 +218,17 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opzioni GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opzioni CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Utilizzo dati"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Norma dati gestore"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Norme dati gestore"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Dati utilizzati nel periodo corrente"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Periodo utilizzo dati"</string>
-    <string name="throttle_rate" msgid="4710388992676803508">"Norma velocità dati"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Norme velocità dati"</string>
     <string name="throttle_help" msgid="243651091785169900">"Ulteriori informazioni"</string>
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>%) del <xliff:g id="USED_2">%3$s</xliff:g> max periodo"\n"Il periodo succ. inizia tra <xliff:g id="USED_3">%4$d</xliff:g> gg (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>%) del <xliff:g id="USED_2">%3$s</xliff:g> max periodo"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> max superato"\n"Velocità dati ridotta a <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% del ciclo trascorso"\n"Il periodo succ. inizia tra <xliff:g id="USED_1">%2$d</xliff:g> gg (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Velocità dati ridotta a <xliff:g id="USED">%1$d</xliff:g> Kb/s se limite utilizzo dati superato"</string>
-    <string name="throttle_help_subtext" msgid="5217706521499010816">"Informazioni sulla norma di utilizzo dati della rete cellulare del gestore"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Informazioni sulla norme di utilizzo dati della rete cellulare del gestore"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"SMS cell broadcast"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS cell broadcast"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS cell broadcast"</string>
@@ -511,7 +511,7 @@
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tastierino"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Nascondi"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoprlnte."</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoparlante"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"No audio"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Aggiungi"</string>
@@ -551,7 +551,7 @@
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con l\'attivazione"</string>
     <string name="ota_listen" msgid="162923839877584937">"Segui le istruzioni vocali fino al segnale di attivazione completata."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastierino"</string>
-    <string name="ota_speaker" msgid="6904589278542719647">"Altoprlnte."</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Altoparlante"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Attendi la programmazione del telefono."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Programmazione non riuscita"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Il telefono è attivo. L\'avvio del servizio potrebbe richiedere fino a 15 minuti."</string>
