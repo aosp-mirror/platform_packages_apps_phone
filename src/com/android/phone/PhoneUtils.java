@@ -351,7 +351,7 @@ public class PhoneUtils {
             } else if (state == Call.State.WAITING) {
                 if (DBG) log("hangup Call waiting call");
                 final CallNotifier notifier = PhoneApp.getInstance().notifier;
-                notifier.onCdmaCallWaitingReject();
+                notifier.sendCdmaCallWaitingReject();
                 return true;
             } else {
                 // This should never happen cause hangupRingingCall should always be called
