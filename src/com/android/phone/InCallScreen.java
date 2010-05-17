@@ -60,6 +60,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -3223,8 +3224,10 @@ public class InCallScreen extends Activity
                                                          mProviderAddress);
 
             TextView message = (TextView) findViewById(R.id.callingVia);
-            message.setCompoundDrawablesWithIntrinsicBounds(mProviderIcon, null, null, null);
             message.setText(text);
+
+            ImageView image = (ImageView) findViewById(R.id.callingViaIcon);
+            image.setImageDrawable(mProviderIcon);
 
             overlay.setVisibility(View.VISIBLE);
 
