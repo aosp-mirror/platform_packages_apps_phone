@@ -133,6 +133,7 @@
         <TextView android:id="@+id/callingVia"
             android:text="@string/calling_via_template"
             android:layout_weight="1"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:gravity="center"
