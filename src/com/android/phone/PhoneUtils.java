@@ -1025,10 +1025,10 @@ public class PhoneUtils {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             switch (whichButton) {
-                                case DialogInterface.BUTTON1:
+                                case DialogInterface.BUTTON_POSITIVE:
                                     phone.sendUssdResponse(inputText.getText().toString());
                                     break;
-                                case DialogInterface.BUTTON2:
+                                case DialogInterface.BUTTON_NEGATIVE:
                                     if (mmiCode.isCancelable()) {
                                         mmiCode.cancel();
                                     }

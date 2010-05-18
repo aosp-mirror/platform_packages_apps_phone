@@ -187,7 +187,7 @@ public class EditPhoneNumberPreference extends EditTextPreference {
     @Override
     protected void onBindDialogView(View view) {
         // default the button clicked to be the cancel button.
-        mButtonClicked = DialogInterface.BUTTON2;
+        mButtonClicked = DialogInterface.BUTTON_NEGATIVE;
 
         super.onBindDialogView(view);
 
@@ -307,7 +307,7 @@ public class EditPhoneNumberPreference extends EditTextPreference {
     @Override
     public void onClick(DialogInterface dialog, int which) {
         // The neutral button (button3) is always the toggle.
-        if ((mConfirmationMode == CM_ACTIVATION) && (which == DialogInterface.BUTTON3)) {
+        if ((mConfirmationMode == CM_ACTIVATION) && (which == DialogInterface.BUTTON_NEUTRAL)) {
             //flip the toggle if we are in the correct mode.
             setToggled(!isToggled());
         }
@@ -321,8 +321,8 @@ public class EditPhoneNumberPreference extends EditTextPreference {
     // phone numbers and calling the close action listener.
     protected void onDialogClosed(boolean positiveResult) {
         // A positive result is technically either button1 or button3.
-        if ((mButtonClicked == DialogInterface.BUTTON1) ||
-                (mButtonClicked == DialogInterface.BUTTON3)){
+        if ((mButtonClicked == DialogInterface.BUTTON_POSITIVE) ||
+                (mButtonClicked == DialogInterface.BUTTON_NEUTRAL)){
             setPhoneNumber(getEditText().getText().toString());
             super.onDialogClosed(positiveResult);
             setText(getStringValue());
