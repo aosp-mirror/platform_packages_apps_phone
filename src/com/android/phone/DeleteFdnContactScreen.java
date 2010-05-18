@@ -93,16 +93,20 @@ public class DeleteFdnContactScreen extends Activity {
         mName =  intent.getStringExtra(INTENT_EXTRA_NAME);
         mNumber =  intent.getStringExtra(INTENT_EXTRA_NUMBER);
 
-        if (TextUtils.isEmpty(mName)) {
+        if (TextUtils.isEmpty(mNumber)) {
             finish();
         }
     }
 
     private void deleteContact() {
         StringBuilder buf = new StringBuilder();
-        buf.append("tag='");
-        buf.append(mName);
-        buf.append("' AND number='");
+        if (TextUtils.isEmpty(mName)) {
+            buf.append("number='");
+        } else {
+            buf.append("tag='");
+            buf.append(mName);
+            buf.append("' AND number='");
+        }
         buf.append(mNumber);
         buf.append("' AND pin2='");
         buf.append(mPin2);
