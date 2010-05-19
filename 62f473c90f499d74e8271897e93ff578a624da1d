@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///QM\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-05-19T22:01:30Z",
+      "side": 1,
+      "message": "Removed, BUTTON_GSM_UMTS_OPTIONS no longer defined.",
+      "revId": "62f473c90f499d74e8271897e93ff578a624da1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///QI\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-05-19T22:01:30Z",
+      "side": 1,
+      "message": "Removed, BUTTON_CDMA_OPTIONS no longer defined.",
+      "revId": "62f473c90f499d74e8271897e93ff578a624da1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///P8\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-05-19T22:01:30Z",
+      "side": 1,
+      "message": "Added missing declaration:\n\nprivate CdmaSystemSelectListPreference mButtonCdmaSystemSelect;",
+      "revId": "62f473c90f499d74e8271897e93ff578a624da1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///QQ\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-05-19T22:01:30Z",
+      "side": 1,
+      "message": "Added missing declaration:\n\nprivate static final String BUTTON_CDMA_SYSTEM_SELECT_KEY \u003d \"button_cdma_system_select_key\";",
+      "revId": "62f473c90f499d74e8271897e93ff578a624da1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
