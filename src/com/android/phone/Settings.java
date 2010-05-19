@@ -84,7 +84,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     //This is a method implemented for DialogInterface.OnClickListener.
     //  Used to dismiss the dialogs when they come up.
     public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON1) {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
             mPhone.setDataRoamingEnabled(true);
             mOkClicked = true;
         } else {
