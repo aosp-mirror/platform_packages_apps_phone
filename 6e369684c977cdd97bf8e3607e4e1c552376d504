@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///Mc\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-05-20T06:06:52Z",
+      "side": 1,
+      "message": "The mButtonCdmaSystemSelect is not used in this file. Suggest we remove this line and the newly added declarations for this variable.\n\nThis button is defined in CdmaOptions.java. So it will be handled there.",
+      "revId": "6e369684c977cdd97bf8e3607e4e1c552376d504",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
