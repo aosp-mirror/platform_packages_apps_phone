@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///L0\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-05-20T17:24:24Z",
+      "side": 1,
+      "message": "Can we remove this variable as well?",
+      "revId": "181afad237a392dd4d179a6b82b4836a5537294c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
