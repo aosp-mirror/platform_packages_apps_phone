@@ -25,16 +25,19 @@ import com.android.internal.telephony.Phone;
  * functions that depend upon the type of phone or the carrier.  Ultimately
  * these sorts of questions should be answered by the telephony layer.
  */
-
 public class TelephonyCapabilities {
 
-    public static boolean useShortDtmfTones(Phone phone, Context context) {
-        /**
-         * On GSM devices, we never use short tones.
-         * On CDMA devices, it depends upon the settings.
-         * TODO: I don't think this has anything to do with GSM versus CDMA,
-         * should we be looking only at the setting?
-         */
+    /** This class is never instantiated. */
+    private TelephonyCapabilities() {
+    }
+
+    /**
+     * On GSM devices, we never use short tones.
+     * On CDMA devices, it depends upon the settings.
+     * TODO: I don't think this has anything to do with GSM versus CDMA,
+     * should we be looking only at the setting?
+     */
+    /* package */ static boolean useShortDtmfTones(Phone phone, Context context) {
         int phoneType = phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_GSM) {
             return false;
@@ -51,5 +54,54 @@ public class TelephonyCapabilities {
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
+    }
+
+    /**
+     * Return true if the current phone supports ECM ("Emergency Callback
+     * Mode"), which is a feature where the device goes into a special
+     * state for a short period of time after making an outgoing emergency
+     * call.
+     *
+     * (On current devices, that state lasts 5 minutes.  It prevents data
+     * usage by other apps, to avoid conflicts with any possible incoming
+     * calls.  It also puts up a notification in the status bar, showing a
+     * countdown while ECM is active, and allowing the user to exit ECM.)
+     *
+     * Currently this is assumed to be true for CDMA phones, and false
+     * otherwise.
+     *
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     * (Or, is this actually carrier-specific?  Is it VZW-only?)
+     */
+    /* package */ static boolean supportsECM(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+    }
+
+    /**
+     * Return true if the current phone supports OTA ("over the air")
+     * provisioning.
+     *
+     * Currently this is assumed to be true for CDMA phones, and false
+     * otherwise.
+     *
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     *
+     * TODO: Watch out: this is also highly carrier-specific, since the
+     * OTA procedure is different from one carrier to the next, *and* the
+     * different carriers may want very different onscreen UI as well.
+     * The procedure may even be different for different devices with the
+     * same carrier.
+     *
+     * So we eventually will need a much more flexible, pluggable design.
+     * This method here is just a placeholder to reduce hardcoded
+     * "if (CDMA)" checks sprinkled throughout the rest of the phone app.
+     *
+     * TODO: consider using the term "OTAP" rather "OTA" everywhere in the
+     * phone app, since OTA can also mean over-the-air software updates.
+     */
+    /* package */ static boolean supportsOTAProvisioning(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 }
