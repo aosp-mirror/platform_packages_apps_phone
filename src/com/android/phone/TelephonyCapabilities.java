@@ -79,8 +79,8 @@ public class TelephonyCapabilities {
     }
 
     /**
-     * Return true if the current phone supports OTA ("over the air")
-     * provisioning.
+     * Return true if the current phone supports Over The Air Service
+     * Provisioning (OTASP)
      *
      * Currently this is assumed to be true for CDMA phones, and false
      * otherwise.
@@ -98,10 +98,10 @@ public class TelephonyCapabilities {
      * This method here is just a placeholder to reduce hardcoded
      * "if (CDMA)" checks sprinkled throughout the rest of the phone app.
      *
-     * TODO: consider using the term "OTAP" rather "OTA" everywhere in the
+     * TODO: consider using the term "OTASP" rather "OTA" everywhere in the
      * phone app, since OTA can also mean over-the-air software updates.
      */
-    /* package */ static boolean supportsOTAProvisioning(Phone phone) {
+    /* package */ static boolean supportsOtasp(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 }

@@ -53,13 +53,13 @@ public class OtaStartupReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         mContext = context;
 
-        if (!OtaUtils.isCdmaPhone()) {
-            if (DBG) Log.d(TAG, "Not a CDMA phone, no need to process OTA");
+        if (!TelephonyCapabilities.supportsOtasp(PhoneApp.getPhone())) {
+            if (DBG) Log.d(TAG, "OTASP not supported, nothing to do.");
             return;
         }
 
         if (shouldPostpone(context)) {
-            if (DBG) Log.d(TAG, "Postponing CDMA provisioning until wizard runs");
+            if (DBG) Log.d(TAG, "Postponing OTASP until wizard runs");
             return;
         }
 
