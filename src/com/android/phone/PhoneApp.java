@@ -588,6 +588,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         return sMe;
     }
 
+    /**
+     * Returns the Phone associated with this instance
+     */
+    static Phone getPhone() {
+        return getInstance().phone;
+    }
+
     Ringer getRinger() {
         return ringer;
     }

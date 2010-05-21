@@ -48,6 +48,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
+ * TODO: This is Over The Air Service Provisioning (OTASP)
+ *       A better name would be OtaspUtils.java.
+ *
+ * TODO: OTASP could UI may be substantially different on
+ *       future devices, and may not necessarily be built-in
+ *       to the InCallScreen.
+ *
  * Handles all OTA Call related logic and UI functionality.
  * The InCallScreen interacts with this class to perform an OTA Call.
  *
@@ -1013,7 +1020,7 @@ public class OtaUtils {
         Log.d(LOG_TAG, msg);
     }
 
-    public static boolean isCdmaPhone() {
-        return (PhoneApp.getInstance().phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+    private static boolean isCdmaPhone() {
+        return (PhoneApp.getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 }
