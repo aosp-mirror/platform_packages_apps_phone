@@ -199,7 +199,7 @@ public class SpecialCharSequenceMgr {
     static private boolean handleIMEIDisplay(Context context,
                                              String input) {
         if (input.equals(MMI_IMEI_DISPLAY)) {
-            int phoneType = PhoneApp.getInstance().phone.getPhoneType();
+            int phoneType = PhoneApp.getPhone().getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 showMEIDPanel(context);
                 return true;

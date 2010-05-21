@@ -404,7 +404,7 @@ public class DTMFTwelveKeyDialer implements
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
-        mPhone = PhoneApp.getInstance().phone;
+        mPhone = PhoneApp.getPhone();
 
         // The passed-in DTMFTwelveKeyDialerView *should* always be
         // non-null, now that the in-call UI uses only portrait mode.

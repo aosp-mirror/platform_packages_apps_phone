@@ -286,7 +286,7 @@ public class OutgoingCallBroadcaster extends Activity {
         if (number == null || TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
-                PhoneUtils.sendEmptyFlash(PhoneApp.getInstance().phone);
+                PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
                 finish();
                 return;
             } else {

@@ -4795,7 +4795,7 @@ public class InCallScreen extends Activity
 
     public void updateMenuItems() {
         if (mInCallMenu != null) {
-            boolean okToShowMenu =  mInCallMenu.updateItems(PhoneApp.getInstance().phone);
+            boolean okToShowMenu =  mInCallMenu.updateItems(PhoneApp.getPhone());
             if (!okToShowMenu) {
                 dismissMenu(true);
             }
