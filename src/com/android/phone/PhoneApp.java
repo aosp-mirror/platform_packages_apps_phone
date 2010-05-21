@@ -1470,7 +1470,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             } else if (action.equals(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED)) {
                 handleServiceStateChanged(intent);
             } else if (action.equals(TelephonyIntents.ACTION_EMERGENCY_CALLBACK_MODE_CHANGED)) {
-                if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                if (TelephonyCapabilities.supportsEcm(phone)) {
                     Log.d(LOG_TAG, "Emergency Callback Mode arrived in PhoneApp.");
                     // Start Emergency Callback Mode service
                     if (intent.getBooleanExtra("phoneinECMState", false)) {
@@ -1478,8 +1478,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                                 EmergencyCallbackModeService.class));
                     }
                 } else {
-                    Log.e(LOG_TAG, "Error! Emergency Callback Mode not supported for " +
-                            phone.getPhoneName() + " phones");
+                    // It doesn't make sense to get ACTION_EMERGENCY_CALLBACK_MODE_CHANGED
+                    // on a device that doesn't support ECM in the first place.
+                    Log.e(LOG_TAG, "Got ACTION_EMERGENCY_CALLBACK_MODE_CHANGED, "
+                          + "but ECM isn't supported for phone: " + phone.getPhoneName());
                 }
             } else if (action.equals(Intent.ACTION_DOCK_EVENT)) {
                 mDockState = intent.getIntExtra(Intent.EXTRA_DOCK_STATE,

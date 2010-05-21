@@ -74,7 +74,7 @@ public class TelephonyCapabilities {
      * layer, since it depends on the underlying telephony technology.
      * (Or, is this actually carrier-specific?  Is it VZW-only?)
      */
-    /* package */ static boolean supportsECM(Phone phone) {
+    /* package */ static boolean supportsEcm(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 

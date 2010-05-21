@@ -2297,19 +2297,21 @@ public class PhoneUtils {
 
     /**
      * Returns whether the phone is in ECM ("Emergency Callback Mode") or not.
-     * (For non-CDMA phones, this will always return false.
-     * For CDMA Phones, return true iff PROPERTY_INECM_MODE == "true".)
      */
     /* package */ static boolean isPhoneInEcm(Phone phone) {
-        boolean phoneInEcm = false;
-        if ((phone != null) && (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
+        if ((phone != null) && TelephonyCapabilities.supportsEcm(phone)) {
+            // For phones that support ECM, return true iff PROPERTY_INECM_MODE == "true".
+            // TODO: There ought to be a better API for this than just
+            // exposing a system property all the way up to the app layer,
+            // probably a method like "inEcm()" provided by the telephony
+            // layer.
             String ecmMode =
                     SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE);
             if (ecmMode != null) {
-                phoneInEcm = ecmMode.equals("true");
+                return ecmMode.equals("true");
             }
         }
-        return phoneInEcm;
+        return false;
     }
 
 
