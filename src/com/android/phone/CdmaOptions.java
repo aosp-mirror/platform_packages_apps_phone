@@ -25,26 +25,23 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
 /**
- * List of Phone-specific settings screens.
+ * List of CDMA Phone-specific network settings screens.
+ *
+ * This class should only be created for CDMA Phone
  */
 public class CdmaOptions extends PreferenceActivity {
-
-    private CdmaRoamingListPreference mButtonCdmaRoam;
 
     private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
 
     @Override
     protected void onCreate(Bundle icicle) {
+        if (PhoneApp.getPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
+            throw new RuntimeException("This should be called only for CDMA phone");
+        }
+
         super.onCreate(icicle);
 
         addPreferencesFromResource(R.xml.cdma_options);
-
-        PreferenceScreen prefSet = getPreferenceScreen();
-        mButtonCdmaRoam =
-                (CdmaRoamingListPreference) prefSet.findPreference(BUTTON_CDMA_ROAMING_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
-            mButtonCdmaRoam.setEnabled(false);
-        }
     }
 
     @Override
