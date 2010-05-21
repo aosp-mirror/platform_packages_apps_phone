@@ -183,7 +183,7 @@ public class InCallTouchUi extends FrameLayout
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
         mSwapButtonLabel = (TextView) mInCallControls.findViewById(R.id.swapButtonLabel);
-        if (PhoneApp.getInstance().phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if (PhoneApp.getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             // In CDMA we use a generalized text - "Manage call", as behavior on selecting
             // this option depends entirely on what the current call state is.
             mSwapButtonLabel.setText(R.string.onscreenManageCallsText);
