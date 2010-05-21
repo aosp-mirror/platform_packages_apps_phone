@@ -104,4 +104,29 @@ public class TelephonyCapabilities {
     /* package */ static boolean supportsOtasp(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
+
+    /**
+     * Return true if the current phone can retrieve the voice message count
+     *
+     * Currently this is assumed to be true on CDMA phones and false otherwise.
+     *
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     */
+    public static boolean supportsVoiceMessageCount(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+    }
+
+    /**
+     * Return true if this phone allows the user to select which
+     * network to use.
+     *
+     * Currently this is assumed to be true only on GSM phones.
+     *
+     * TODO: Should CDMA phones allow this as well?
+     */
+    public static boolean supportsNetworkSelection(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+    }
+
 }

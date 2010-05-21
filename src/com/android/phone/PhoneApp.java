@@ -1557,21 +1557,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // If service just returned, start sending out the queued messages
         ServiceState ss = ServiceState.newFromBundle(intent.getExtras());
 
-        boolean hasService = true;
-        boolean isCdma = false;
-        String eriText = "";
-
         if (ss != null) {
             int state = ss.getState();
             NotificationMgr.getDefault().updateNetworkSelection(state);
-            switch (state) {
-                case ServiceState.STATE_OUT_OF_SERVICE:
-                case ServiceState.STATE_POWER_OFF:
-                    hasService = false;
-                    break;
-            }
-        } else {
-            hasService = false;
         }
     }
 
