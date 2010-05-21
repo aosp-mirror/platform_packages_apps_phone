@@ -374,6 +374,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="ShowMissedCallNotification"
+                  android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.ShowMissedCallNotification" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
 

@@ -416,6 +416,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     expandedText,  // expandedText
                     intent // contentIntent
                     ));
+        Intent intent_show =  new Intent("android.intent.action.ShowMissedCallNotification");
+        intent_show.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent_show.putExtra("key_number", mNumberMissedCalls);
+        mContext.startActivity(intent_show);
     }
 
     void cancelMissedCallNotification() {
