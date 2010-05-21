@@ -4,7 +4,6 @@ import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 
 import android.content.Context;
 import android.os.AsyncResult;
@@ -28,7 +27,7 @@ public class CLIRListPreference extends ListPreference {
     public CLIRListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        phone = PhoneFactory.getDefaultPhone();
+        phone = PhoneApp.getPhone();
     }
 
     public CLIRListPreference(Context context) {

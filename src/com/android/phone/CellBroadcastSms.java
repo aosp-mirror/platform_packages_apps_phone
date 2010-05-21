@@ -24,7 +24,6 @@ import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.preference.PreferenceActivity;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.RILConstants;
 
 import android.os.AsyncResult;
@@ -338,7 +337,7 @@ public class CellBroadcastSms extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.cell_broadcast_sms);
 
-        mPhone = PhoneFactory.getDefaultPhone();
+        mPhone = PhoneApp.getPhone();
         mHandler = new MyHandler();
 
         PreferenceScreen prefSet = getPreferenceScreen();

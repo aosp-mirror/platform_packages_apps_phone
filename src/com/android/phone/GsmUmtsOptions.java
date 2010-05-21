@@ -23,7 +23,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 
 /**
  * List of GSM/UMTS-specific network settings screens.
@@ -39,7 +38,7 @@ public class GsmUmtsOptions extends PreferenceActivity {
     protected void onCreate(Bundle icicle) {
 
         // This class should only be created for GSM/UMTS Phone
-        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
+        if (PhoneApp.getPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
             throw new RuntimeException("This should be called only for GSM/UMTS phone");
         }
 

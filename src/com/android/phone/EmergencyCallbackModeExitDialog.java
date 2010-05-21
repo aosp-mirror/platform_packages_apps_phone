@@ -40,7 +40,6 @@ import android.os.SystemProperties;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 
@@ -92,7 +91,7 @@ public class EmergencyCallbackModeExitDialog extends Activity implements OnDismi
         waitForConnectionCompleteThread.start();
 
         // Register ECM timer reset notfication
-        mPhone = PhoneFactory.getDefaultPhone();
+        mPhone = PhoneApp.getPhone();
         mPhone.registerForEcmTimerReset(mTimerResetHandler, ECM_TIMER_RESET, null);
 
         // Register receiver for intent closing the dialog

@@ -23,7 +23,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 
 public class GsmUmtsCallOptions extends PreferenceActivity {
     private static final String LOG_TAG = "GsmUmtsCallOptions";
@@ -35,7 +34,7 @@ public class GsmUmtsCallOptions extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.gsm_umts_call_options);
 
-        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
+        if (PhoneApp.getPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
             //disable the entire screen
             getPreferenceScreen().setEnabled(false);
         }

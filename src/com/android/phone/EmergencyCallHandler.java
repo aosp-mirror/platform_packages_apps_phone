@@ -26,7 +26,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import android.telephony.ServiceState;
 import android.view.WindowManager;
 
@@ -107,7 +106,7 @@ public class EmergencyCallHandler extends Activity {
         super.onCreate(icicle);
         
         // setup the phone and get the retry count embedded in the intent.
-        Phone phone = PhoneFactory.getDefaultPhone();
+        Phone phone = PhoneApp.getPhone();
         int retryCount = getIntent().getIntExtra(EMERGENCY_CALL_RETRY_KEY, INITIAL_ATTEMPT);
         
         // create a new message object.

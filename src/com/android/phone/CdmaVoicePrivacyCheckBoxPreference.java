@@ -1,7 +1,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
+
 import android.content.Context;
 import android.os.AsyncResult;
 import android.os.Handler;
@@ -20,7 +20,7 @@ public class CdmaVoicePrivacyCheckBoxPreference extends CheckBoxPreference {
     public CdmaVoicePrivacyCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        phone = PhoneFactory.getDefaultPhone();
+        phone = PhoneApp.getPhone();
         phone.getEnhancedVoicePrivacy(mHandler.obtainMessage(MyHandler.MESSAGE_GET_VP));
     }
 

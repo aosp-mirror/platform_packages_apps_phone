@@ -35,7 +35,6 @@ import android.preference.PreferenceScreen;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 
@@ -171,7 +170,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         addPreferencesFromResource(R.xml.network_setting);
 
-        mPhone = PhoneFactory.getDefaultPhone();
+        mPhone = PhoneApp.getPhone();
         mHandler = new MyHandler();
 
         //get UI object references
