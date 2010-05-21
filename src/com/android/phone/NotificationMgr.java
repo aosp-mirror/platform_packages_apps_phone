@@ -502,7 +502,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // Display the appropriate "in-call" icon in the status bar,
         // which depends on the current phone and/or bluetooth state.
-        boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getCdmaVoicePrivacyState();
+        boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getVoicePrivacyState();
         if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
 
         if (!hasActiveCall && hasHoldingCall) {
