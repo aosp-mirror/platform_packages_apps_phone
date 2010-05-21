@@ -199,43 +199,23 @@ public class SpecialCharSequenceMgr {
     static private boolean handleIMEIDisplay(Context context,
                                              String input) {
         if (input.equals(MMI_IMEI_DISPLAY)) {
-            int phoneType = PhoneApp.getPhone().getPhoneType();
-            if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                showMEIDPanel(context);
-                return true;
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                showIMEIPanel(context);
-                return true;
-            }
+            showDeviceIdPanel(context);
+            return true;
         }
 
         return false;
     }
 
-    // TODO: showIMEIPanel and showMEIDPanel are almost cut and paste
-    // clones. Refactor.
-    static private void showIMEIPanel(Context context) {
-        if (DBG) log("showIMEIPanel");
+    static private void showDeviceIdPanel(Context context) {
+        if (DBG) log("showDeviceIdPanel()...");
 
-        String imeiStr = PhoneFactory.getDefaultPhone().getDeviceId();
-
-        AlertDialog alert = new AlertDialog.Builder(context)
-                .setTitle(R.string.imei)
-                .setMessage(imeiStr)
-                .setPositiveButton(R.string.ok, null)
-                .setCancelable(false)
-                .show();
-        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
-    }
-
-    static private void showMEIDPanel(Context context) {
-        if (DBG) log("showMEIDPanel");
-
-        String meidStr = PhoneFactory.getDefaultPhone().getDeviceId();
+        Phone phone = PhoneApp.getPhone();
+        int labelId = TelephonyCapabilities.getDeviceIdLabel(phone);
+        String deviceId = phone.getDeviceId();
 
         AlertDialog alert = new AlertDialog.Builder(context)
-                .setTitle(R.string.meid)
-                .setMessage(meidStr)
+                .setTitle(labelId)
+                .setMessage(deviceId)
                 .setPositiveButton(R.string.ok, null)
                 .setCancelable(false)
                 .show();

@@ -18,6 +18,8 @@ package com.android.phone;
 
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
+
 import com.android.internal.telephony.Phone;
 
 /**
@@ -26,6 +28,7 @@ import com.android.internal.telephony.Phone;
  * these sorts of questions should be answered by the telephony layer.
  */
 public class TelephonyCapabilities {
+    private static final String LOG_TAG = "TelephonyCapabilities";
 
     /** This class is never instantiated. */
     private TelephonyCapabilities() {
@@ -113,7 +116,7 @@ public class TelephonyCapabilities {
      * TODO: This capability should really be exposed by the telephony
      * layer, since it depends on the underlying telephony technology.
      */
-    public static boolean supportsVoiceMessageCount(Phone phone) {
+    /* package */ static boolean supportsVoiceMessageCount(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 
@@ -125,8 +128,29 @@ public class TelephonyCapabilities {
      *
      * TODO: Should CDMA phones allow this as well?
      */
-    public static boolean supportsNetworkSelection(Phone phone) {
+    /* package */ static boolean supportsNetworkSelection(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
     }
 
+    /**
+     * Returns a resource ID for a label to use when displaying the
+     * "device id" of the current device.  (This is currently used as the
+     * title of the "device id" dialog.)
+     *
+     * This is specific to the device's telephony technology: the device
+     * id is called "IMEI" on GSM phones and "MEID" on CDMA phones.
+     * TODO: ultimately this name should come directly from the
+     * telephony layer.
+     */
+    /* package */ static int getDeviceIdLabel(Phone phone) {
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
+            return R.string.imei;
+        } else if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            return R.string.meid;
+        } else {
+            Log.w(LOG_TAG, "getDeviceIdLabel: no known label for phone "
+                  + phone.getPhoneName());
+            return 0;
+        }
+    }
 }
