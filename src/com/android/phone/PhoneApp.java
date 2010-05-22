@@ -458,9 +458,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
 
             // register for MMI/USSD
-            if (phoneType == Phone.PHONE_TYPE_GSM) {
-                phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
-            }
+            phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
 
             // register connection tracking to PhoneUtils
             PhoneUtils.initializeConnectionHandler(phone);
@@ -527,9 +525,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
         }
 
-        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
-
-        if (phoneIsCdma) {
+        if (TelephonyCapabilities.supportsOtasp(phone)) {
             cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
             cdmaOtaConfigData = new OtaUtils.CdmaOtaConfigData();
             cdmaOtaScreenState = new OtaUtils.CdmaOtaScreenState();
@@ -714,7 +710,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     void dismissCallScreen() {
         if (mInCallScreen != null) {
-            if ((phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) &&
+            if ((TelephonyCapabilities.supportsOtasp(phone)) &&
                     (mInCallScreen.isOtaCallInActiveState()
                     || mInCallScreen.isOtaCallInEndState()
                     || ((cdmaOtaScreenState != null)
@@ -1263,11 +1259,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private void initForNewRadioTechnology() {
         if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
-        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+         if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             // Create an instance of CdmaPhoneCallState and initialize it to IDLE
             cdmaPhoneCallState = new CdmaPhoneCallState();
             cdmaPhoneCallState.CdmaPhoneCallStateInit();
-
+        }
+        if (TelephonyCapabilities.supportsOtasp(phone)) {
             //create instances of CDMA OTA data classes
             if (cdmaOtaProvisionData == null) {
                 cdmaOtaProvisionData = new OtaUtils.CdmaOtaProvisionData();
