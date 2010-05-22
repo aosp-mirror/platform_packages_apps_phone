@@ -119,4 +119,8 @@
     <!-- Determines if device implements a noise suppression device for in call audio-->
     <bool name="has_in_call_noise_suppression">false</bool>
 
+    <!-- Determines if the current device should allow emergency numbers
+         to be logged in the Call Log. -->
+    <bool name="allow_emergency_numbers_in_call_log">true</bool>
+
 </resources>

@@ -972,26 +972,30 @@ public class CallNotifier extends Handler
                     }
                 }
 
-                // To prevent accidental redial of emergency numbers
-                // (carrier requirement) the quickest solution is to
-                // not log the emergency number. We gate on CDMA
-                // (ugly) when we actually mean carrier X.
-                // TODO: Clean this up and come up with a unified strategy.
-                final boolean shouldNotlogEmergencyNumber =
-                        (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+                // On some devices, to avoid accidental redialing of
+                // emergency numbers, we *never* log emergency calls to
+                // the Call Log.  (This behavior is set on a per-product
+                // basis, based on carrier requirements.)
+                final boolean okToLogEmergencyNumber =
+                        mApplication.getResources().getBoolean(
+                                R.bool.allow_emergency_numbers_in_call_log);
 
-                // Don't call isOtaSpNumber on GSM phones.
-                final boolean isOtaNumber = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA)
+                // Don't call isOtaSpNumber() on phones that don't support OTASP.
+                final boolean isOtaspNumber = TelephonyCapabilities.supportsOtasp(mPhone)
                         && mPhone.isOtaSpNumber(number);
                 final boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
 
-                // Don't put OTA or CDMA Emergency calls into call log
-                if (!(isOtaNumber || isEmergencyNumber && shouldNotlogEmergencyNumber)) {
+                // Don't log emergency numbers if the device doesn't allow it,
+                // and never log OTASP calls.
+                final boolean okToLogThisCall =
+                        (!isEmergencyNumber || okToLogEmergencyNumber)
+                        && !isOtaspNumber;
+
+                if (okToLogThisCall) {
                     CallLogAsync.AddCallArgs args =
                             new CallLogAsync.AddCallArgs(
                                 mPhone.getContext(), ci, logNumber, presentation,
                                 callLogType, date, duration);
-
                     mCallLog.addCall(args);
                 }
             }
