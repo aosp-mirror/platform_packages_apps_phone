@@ -492,58 +492,39 @@ public class PhoneUtils {
     /**
      * Dial the number using the phone passed in.
      *
-     * @param phone the Phone object.
-     * @param number to be dialed as requested by the user.
-     * @param contactRef that triggered the call. Either a 'tel:' or a
-     * 'content://contacts' uri depending on how the call was
-     * initiated (dialpad vs contact).
-     * @return either CALL_STATUS_DIALED, CALL_STATUS_DIALED_MMI, or CALL_STATUS_FAILED
-     */
-    public static int placeCall(Phone phone, String number, Uri contactRef) {
-        if (DBG) log("placeCall: '" + number + "'...");
-        return placeCallInternal(phone.getContext(), phone, number, contactRef, null);
-    }
-
-    /**
-     * Dial the number using a 3rd party provider gateway.  Should
-     * *NOT* be called if the number is either:
-     * . An emergency one
-     * . A GSM MMI code
-     * . A CDMA feature code
-     * None of the above is  checked in this method, it's the caller's
-     * responsability to make sure the number is 'valid'.
-     *
      * If the connection is establised, this method issues a sync call
      * that may block to query the caller info.
      * TODO: Change the logic to use the async query.
      *
-     * @param phone the Phone object.
      * @param context To perform the CallerInfo query.
+     * @param phone the Phone object.
      * @param number to be dialed as requested by the user. This is
      * NOT the phone number to connect to. It is used only to build the
      * call card and to update the call log. See above for restrictions.
      * @param contactRef that triggered the call. Typically a 'tel:'
      * uri but can also be a 'content://contacts' one.
-     * @param gatewayUri Is the address used to setup the connection.
+     * @param isEmergencyCall indicates that whether or not this is an
+     * emergency call
+     * @param gatewayUri Is the address used to setup the connection, null
+     * if not using a gateway
+     *
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
-    static int placeCallVia(Context context, Phone phone,
-                            String number, Uri contactRef, Uri gatewayUri) {
-        if (DBG) log("placeCallVia: '" + number + "' GW:'" + gatewayUri + "'");
-        return placeCallInternal(context, phone, number, contactRef, gatewayUri);
-    }
-
-    /**
-     * implementation for placeCall() and placeCallVia();
-     */
-    private static int placeCallInternal(Context context, Phone phone,
-                             String number, Uri contactRef, Uri gatewayUri) {
-        if (DBG) log("placeCallInternal '" + number + "' GW:'" + gatewayUri + "'");
+    public static int placeCall(Context context, Phone phone,
+            String number, Uri contactRef, boolean isEmergencyCall, 
+            Uri gatewayUri) {
+        if (DBG) log("placeCall '" + number + "' GW:'" + gatewayUri + "'");
+        boolean useGateway = false;
+        if (null != gatewayUri &&
+            !isEmergencyCall &&
+            PhoneUtils.isRoutableViaGateway(number)) {  // Filter out MMI, OTA and other codes.
+            useGateway = true;
+        }
 
         int status = CALL_STATUS_DIALED;
         Connection connection;
         String numberToDial;
-        if (null != gatewayUri) {
+        if (useGateway) {
             // TODO: 'tel' should be a constant defined in framework base
             // somewhere (it is in webkit.)
             if (null == gatewayUri || !"tel".equals(gatewayUri.getScheme())) {
