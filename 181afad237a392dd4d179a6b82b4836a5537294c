@@ -16,6 +16,24 @@
       "revId": "181afad237a392dd4d179a6b82b4836a5537294c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH//++o\u003d",
+        "filename": "src/com/android/phone/Settings.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-05-25T20:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAzH///L0\u003d",
+      "revId": "181afad237a392dd4d179a6b82b4836a5537294c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
