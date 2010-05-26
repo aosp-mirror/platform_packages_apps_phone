@@ -491,7 +491,8 @@ public class BluetoothHeadsetService extends Service {
         }
     }
 
-    private void getSdpRecordsAndConnect() {
+    private synchronized void getSdpRecordsAndConnect() {
+        if (mRemoteDevice == null) return;
         ParcelUuid[] uuids = mRemoteDevice.getUuids();
         if (uuids != null) {
             if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree)) {
