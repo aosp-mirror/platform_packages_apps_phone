@@ -109,7 +109,7 @@ public class TelephonyCapabilities {
     }
 
     /**
-     * Return true if the current phone can retrieve the voice message count
+     * Return true if the current phone can retrieve the voice message count.
      *
      * Currently this is assumed to be true on CDMA phones and false otherwise.
      *
@@ -152,5 +152,36 @@ public class TelephonyCapabilities {
                   + phone.getPhoneName());
             return 0;
         }
+    }
+
+    /**
+     * Return true if the current phone supports the ability to explicitly
+     * manage the state of a conference call (i.e. view the participants,
+     * and hangup or separate individual callers.)
+     *
+     * The in-call screen's "Manage conference" UI is available only on
+     * devices that support this feature.
+     *
+     * Currently this is assumed to be true on GSM phones and false otherwise.
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     */
+    /* package */ static boolean supportsConferenceCallManagement(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+    }
+
+    /**
+     * Return true if the current phone supports explicit "Hold" and
+     * "Unhold" actions for an active call.  (If so, the in-call UI will
+     * provide onscreen "Hold" / "Unhold" buttons.)
+     *
+     * Currently this is assumed to be true on GSM phones and false
+     * otherwise.  (In particular, CDMA has no concept of "putting a call
+     * on hold.")
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     */
+    /* package */ static boolean supportsHoldAndUnhold(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
     }
 }

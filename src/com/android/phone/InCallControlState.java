@@ -102,20 +102,17 @@ public class InCallControlState {
         final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
 
         // Manage conference:
-        int phoneType = mPhone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
+        if (TelephonyCapabilities.supportsConferenceCallManagement(mPhone)) {
             // This item is visible only if the foreground call is a
             // conference call, and it's enabled unless the "Manage
             // conference" UI is already up.
             manageConferenceVisible = PhoneUtils.isConferenceCall(fgCall);
             manageConferenceEnabled =
                     manageConferenceVisible && !mInCallScreen.isManageConferenceMode();
-        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            // CDMA has no concept of managing a conference call.
+        } else {
+            // This device has no concept of managing a conference call.
             manageConferenceVisible = false;
             manageConferenceEnabled = false;
-        } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
 
         // "Add call":
@@ -141,20 +138,14 @@ public class InCallControlState {
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
-        // Also disabled (on CDMA devices) during emergency calls.
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            Connection c = fgCall.getLatestConnection();
-            boolean isEmergencyCall = false;
-            if (c != null) isEmergencyCall = PhoneNumberUtils.isEmergencyNumber(c.getAddress());
-
-            if (isEmergencyCall) { // disable "Mute" item
-                canMute = false;
-                muteIndicatorOn = false;
-            } else {
-                canMute = hasActiveForegroundCall;
-                muteIndicatorOn = PhoneUtils.getMute(mPhone);
-            }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        // It's also explicitly disabled during emergency calls.
+        Connection c = fgCall.getLatestConnection();
+        boolean isEmergencyCall = false;
+        if (c != null) isEmergencyCall = PhoneNumberUtils.isEmergencyNumber(c.getAddress());
+        if (isEmergencyCall) { // disable "Mute" item
+            canMute = false;
+            muteIndicatorOn = false;
+        } else {
             canMute = hasActiveForegroundCall;
             muteIndicatorOn = PhoneUtils.getMute(mPhone);
         }
@@ -168,8 +159,8 @@ public class InCallControlState {
         dialpadVisible = mInCallScreen.isDialerOpened();
 
         // "Hold:
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
-            // GSM phones have the concept of "Hold" and "Unhold".
+        if (TelephonyCapabilities.supportsHoldAndUnhold(mPhone)) {
+            // This phone has the concept of explicit "Hold" and "Unhold" actions.
             supportsHold = true;
             // "On hold" means that there's a holding call and
             // *no* foreground call.  (If there *is* a foreground call,
@@ -180,8 +171,8 @@ public class InCallControlState {
             boolean okToHold = hasActiveForegroundCall && !hasHoldingCall;
             boolean okToUnhold = onHold;
             canHold = okToHold || okToUnhold;
-        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            // CDMA has no concept of "putting a call on hold."
+        } else {
+            // This device has no concept of "putting a call on hold."
             supportsHold = false;
             onHold = false;
             canHold = false;
