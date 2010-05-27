@@ -276,11 +276,10 @@ public class PhoneUtils {
                 //if (DBG) log("sPhone.acceptCall");
                 phone.acceptCall();
                 answered = true;
-                if (phoneIsCdma) {
-                    // automatically reset mute state to unmuted for CDMA
-                    // TODO: Would GSM want this also?
-                    setMute(phone, false);
-                }
+
+                // Always reset to "unmuted" for a freshly-answered call
+                setMute(phone, false);
+
                 setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
 
                 // Check is phone in any dock, and turn on speaker accordingly
@@ -336,37 +335,43 @@ public class PhoneUtils {
     }
 
     static boolean hangupRingingCall(Phone phone) {
-        if (DBG) log("hangup ringing call");
+        if (DBG) log("hangupRingingCall()...");
         Call ringing = phone.getRingingCall();
-        int phoneType = phone.getPhoneType();
+        Call.State state = ringing.getState();
 
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            // CDMA: Ringing call and Call waiting hangup is handled differently.
-            // For Call waiting we DO NOT call the conventional hangup(call) function
-            // as in CDMA we just want to hungup the Call waiting connection.
-            Call.State state = ringing.getState();
-            if (state == Call.State.INCOMING) {
-                if (DBG) log("hangup ringing call");
-                return hangup(ringing);
-            } else if (state == Call.State.WAITING) {
-                if (DBG) log("hangup Call waiting call");
+        if (state == Call.State.INCOMING) {
+            // Regular incoming call (with no other active calls)
+            if (DBG) log("- regular incoming call: hangup()");
+            return hangup(ringing);
+        } else if (state == Call.State.WAITING) {
+            // Call-waiting: there's an incoming call, but another call is
+            // already active.
+            // TODO: It would be better for the telephony layer to provide
+            // a "hangupWaitingCall()" API that works on all devices,
+            // rather than us having to check the phone type here and do
+            // the notifier.sendCdmaCallWaitingReject() hack for CDMA phones.
+            if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                // CDMA: Ringing call and Call waiting hangup is handled differently.
+                // For Call waiting we DO NOT call the conventional hangup(call) function
+                // as in CDMA we just want to hangup the Call waiting connection.
+                if (DBG) log("- CDMA-specific call-waiting hangup");
                 final CallNotifier notifier = PhoneApp.getInstance().notifier;
                 notifier.sendCdmaCallWaitingReject();
                 return true;
             } else {
-                // This should never happen cause hangupRingingCall should always be called
-                // if the call.isRinging() returns TRUE, which basically means that the call
-                // should either be in INCOMING or WAITING state
-                if (DBG) log("No Ringing call to hangup");
-                return false;
+                // Otherwise, the regular hangup() API works for
+                // call-waiting calls too.
+                if (DBG) log("- call-waiting call: hangup()");
+                return hangup(ringing);
             }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-            // GSM:  Ringing Call and Call waiting, both are hungup by calling
-            // hangup(call) function.
-            if (DBG) log("hangup ringing call");
-            return hangup(ringing);
         } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            // Unexpected state: the ringing call isn't INCOMING or
+            // WAITING, so there's no reason to have called
+            // hangupRingingCall() in the first place.
+            // (Presumably the incoming call went away at the exact moment
+            // we got here, so just do nothing.)
+            Log.w(LOG_TAG, "hangupRingingCall: no INCOMING or WAITING call");
+            return false;
         }
     }
 

@@ -707,7 +707,7 @@ public class InCallScreen extends Activity
                 // In this case, stay here for now, and we'll eventually
                 // leave the InCallScreen when the user presses the
                 // dialog's OK button (see bailOutAfterErrorDialog()).
-                if (DBG) log("  ==> syncWithPhoneState failed, but staying here anyway.");
+                Log.i(LOG_TAG, "  ==> syncWithPhoneState failed, but staying here anyway.");
             } else {
                 // The phone is idle, and we did NOT handle a
                 // startup error during this pass thru onResume.
@@ -721,7 +721,7 @@ public class InCallScreen extends Activity
                 // InCallScreen: we're not showing any useful info to the
                 // user (like a dialog), and the in-call UI itself is
                 // useless if there's no active call.  So bail out.
-                if (DBG) log("  ==> syncWithPhoneState failed; bailing out!");
+                Log.i(LOG_TAG, "  ==> syncWithPhoneState failed; bailing out!");
                 dismissAllDialogs();
                 endInCallScreenSession();
                 return;
@@ -2393,20 +2393,24 @@ public class InCallScreen extends Activity
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
         // this screen in the first place.)
 
-        int phoneType = mPhone.getPhoneType();
-
-        if ((phoneType == Phone.PHONE_TYPE_CDMA)
+        // An active or just-ended OTA call counts as "in use".
+        if (TelephonyCapabilities.supportsOtasp(mPhone)
                 && ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
-                || (mInCallScreenMode == InCallScreenMode.OTA_ENDED))) {
+                    || (mInCallScreenMode == InCallScreenMode.OTA_ENDED))) {
             // Even when OTA Call ends, need to show OTA End UI,
             // so return Success to allow UI update.
             return InCallInitStatus.SUCCESS;
         }
 
-        // Need to treat running MMI codes as a connection as well.
-        // Do not check for getPendingMmiCodes when phone is a CDMA phone
+        // If an MMI code is running that also counts as "in use".
+        //
+        // TODO: We currently only call getPendingMmiCodes() for GSM
+        //   phones.  (The code's been that way all along.)  But CDMAPhone
+        //   does in fact implement getPendingMmiCodes(), so should we
+        //   check that here regardless of the phone type?
         boolean hasPendingMmiCodes =
-                (phoneType == Phone.PHONE_TYPE_GSM) && !mPhone.getPendingMmiCodes().isEmpty();
+                (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM)
+                && !mPhone.getPendingMmiCodes().isEmpty();
 
         if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
                 || hasPendingMmiCodes) {
@@ -2415,7 +2419,7 @@ public class InCallScreen extends Activity
             return InCallInitStatus.SUCCESS;
         }
 
-        if (DBG) log("syncWithPhoneState: phone is idle; we shouldn't be here!");
+        Log.i(LOG_TAG, "syncWithPhoneState: phone is idle (shouldn't be here)");
         return InCallInitStatus.PHONE_NOT_IN_USE;
     }
 

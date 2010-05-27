@@ -184,4 +184,25 @@ public class TelephonyCapabilities {
     /* package */ static boolean supportsHoldAndUnhold(Phone phone) {
         return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
     }
+
+    /**
+     * Return true if the current phone supports distinct "Answer & Hold"
+     * and "Answer & End" behaviors in the call-waiting scenario.  If so,
+     * the in-call UI may provide separate buttons or menu items for these
+     * two actions.
+     *
+     * Currently this is assumed to be true on GSM phones and false
+     * otherwise.  (In particular, CDMA has no concept of explicitly
+     * managing the background call, or "putting a call on hold.")
+     *
+     * TODO: This capability should really be exposed by the telephony
+     * layer, since it depends on the underlying telephony technology.
+     *
+     * TODO: It might be better to expose this capability in a more
+     * generic form, like maybe "supportsExplicitMultipleLineManagement()"
+     * rather than focusing specifically on call-waiting behavior.
+     */
+    /* package */ static boolean supportsAnswerAndHold(Phone phone) {
+        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+    }
 }

@@ -95,8 +95,8 @@ public class OutgoingCallBroadcaster extends Activity {
 
             number = getResultData();
             final PhoneApp app = PhoneApp.getInstance();
-            int phoneType = app.phone.getPhoneType();
-            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+
+            if (TelephonyCapabilities.supportsOtasp(app.phone)) {
                 boolean activateState = (app.cdmaOtaScreenState.otaScreenState
                         == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
                 boolean dialogState = (app.cdmaOtaScreenState.otaScreenState
@@ -124,9 +124,9 @@ public class OutgoingCallBroadcaster extends Activity {
             if (number == null) {
                 if (DBG) Log.v(TAG, "CALL cancelled (null number), returning...");
                 return;
-            } else if ((phoneType == Phone.PHONE_TYPE_CDMA)
-                    && ((app.phone.getState() != Phone.State.IDLE)
-                    && (app.phone.isOtaSpNumber(number)))) {
+            } else if (TelephonyCapabilities.supportsOtasp(app.phone)
+                    && (app.phone.getState() != Phone.State.IDLE)
+                    && (app.phone.isOtaSpNumber(number))) {
                 if (DBG) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
                 return;
             } else if (PhoneNumberUtils.isEmergencyNumber(number)) {

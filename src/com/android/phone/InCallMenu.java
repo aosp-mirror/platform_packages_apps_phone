@@ -210,12 +210,11 @@ class InCallMenu {
         //
 
         // Row 0:
-        // This usually has "Show/Hide dialpad", but that gets replaced by
-        // "Manage conference" if a conference call is active.
+        // This usually has "Show/Hide dialpad", but that might be replaced by
+        // "Manage conference" if a conference call is active (but only
+        // on phones that support "Manage conference" in the first place.)
         PhoneApp app = PhoneApp.getInstance();
-        // As managing conference is only valid for GSM and not for CDMA
-        int phoneType = app.phone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
+        if (TelephonyCapabilities.supportsConferenceCallManagement(app.phone)) {
             mInCallMenuView.addItemView(mManageConference, 0);
         }
         mInCallMenuView.addItemView(mShowDialpad, 0);
@@ -229,16 +228,19 @@ class InCallMenu {
         // Row 2:
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
-        // For CDMA only Answer or Ignore option is valid for a Call Waiting scenario
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            mInCallMenuView.addItemView(mAnswer, 2);
-            mInCallMenuView.addItemView(mIgnore, 2);
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        if (TelephonyCapabilities.supportsHoldAndUnhold(app.phone)) {
             mInCallMenuView.addItemView(mHold, 2);
+        }
+        // For phones that allow explicit "Answer & Hold" and "Answer &
+        // End" actions for a call-waiting call, provide menu items for
+        // those.  Otherwise, just provide basic "Answer" and "Ignore"
+        // items.
+        if (TelephonyCapabilities.supportsAnswerAndHold(app.phone)) {
             mInCallMenuView.addItemView(mAnswerAndHold, 2);
             mInCallMenuView.addItemView(mAnswerAndEnd, 2);
         } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            mInCallMenuView.addItemView(mAnswer, 2);
+            mInCallMenuView.addItemView(mIgnore, 2);
         }
         mInCallMenuView.addItemView(mMute, 2);
         mInCallMenuView.addItemView(mSpeaker, 2);
@@ -317,37 +319,35 @@ class InCallMenu {
 
         // Special cases when an incoming call is ringing.
         if (hasRingingCall) {
-            // In the "call waiting" state, show ONLY the "answer & end"
-            // and "answer & hold" buttons, and nothing else.
-            // TODO: be sure to test this for "only one line in use and it's
-            // active" AND for "only one line in use and it's on hold".
             if (hasActiveCall && !hasHoldingCall) {
-                int phoneType = phone.getPhoneType();
-                // For CDMA only make "Answer" and "Ignore" visible
-                if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                    mAnswer.setVisible(true);
-                    mAnswer.setEnabled(true);
-                    mIgnore.setVisible(true);
-                    mIgnore.setEnabled(true);
-
-                    // Explicitly remove GSM menu items
-                    mAnswerAndHold.setVisible(false);
-                    mAnswerAndEnd.setVisible(false);
-                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                // In the "call waiting" state, some devices allow separate
+                // "Answer & End" and "Answer & Hold" actions, and other
+                // devices just get basic "Answer" and "Ignore" actions.
+                if (TelephonyCapabilities.supportsAnswerAndHold(phone)) {
                     mAnswerAndHold.setVisible(true);
                     mAnswerAndHold.setEnabled(true);
                     mAnswerAndEnd.setVisible(true);
                     mAnswerAndEnd.setEnabled(true);
 
-                    // Explicitly remove CDMA menu items
+                    // Explicitly remove unused items
                     mAnswer.setVisible(false);
                     mIgnore.setVisible(false);
-
-                    mManageConference.setVisible(false);
                 } else {
-                    throw new IllegalStateException("Unexpected phone type: " + phoneType);
+                    // Just make the basic "Answer" and "Ignore" visible
+                    mAnswer.setVisible(true);
+                    mAnswer.setEnabled(true);
+                    mIgnore.setVisible(true);
+                    mIgnore.setEnabled(true);
+
+                    // Explicitly remove unused items
+                    mAnswerAndHold.setVisible(false);
+                    mAnswerAndEnd.setVisible(false);
                 }
 
+                // And regardless of the "Answer & Hold" capability of the
+                // current phone, disable everything else that's irrelevant to
+                // the call-waiting state.
+                mManageConference.setVisible(false);
                 mShowDialpad.setVisible(false);
                 mEndCall.setVisible(false);
                 mAddCall.setVisible(false);
