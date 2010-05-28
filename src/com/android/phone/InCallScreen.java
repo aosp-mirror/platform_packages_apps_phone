@@ -2393,8 +2393,6 @@ public class InCallScreen extends Activity
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
         // this screen in the first place.)
 
-        // Need to treat running MMI codes as a connection as well.
-        // Do not check for getPendingMmiCodes when phone is a CDMA phone
         int phoneType = mPhone.getPhoneType();
 
         if ((phoneType == Phone.PHONE_TYPE_CDMA)
@@ -2405,9 +2403,13 @@ public class InCallScreen extends Activity
             return InCallInitStatus.SUCCESS;
         }
 
-        if ((phoneType == Phone.PHONE_TYPE_CDMA)
-                || !mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
-                || !mPhone.getPendingMmiCodes().isEmpty()) {
+        // Need to treat running MMI codes as a connection as well.
+        // Do not check for getPendingMmiCodes when phone is a CDMA phone
+        boolean hasPendingMmiCodes =
+                (phoneType == Phone.PHONE_TYPE_GSM) && !mPhone.getPendingMmiCodes().isEmpty();
+
+        if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
+                || hasPendingMmiCodes) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return InCallInitStatus.SUCCESS;
