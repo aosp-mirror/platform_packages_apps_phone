@@ -4244,8 +4244,9 @@ public class InCallScreen extends Activity
         // Check if there's a connected headset, using the BluetoothHeadset API.
         boolean isConnected = false;
         if (mBluetoothHeadset != null) {
-            if (VDBG) log("  - headset state = " + mBluetoothHeadset.getState());
             BluetoothDevice headset = mBluetoothHeadset.getCurrentHeadset();
+            if (VDBG) log("  - headset state = " +
+                          mBluetoothHeadset.getState(headset));
             if (VDBG) log("  - headset address: " + headset);
             if (headset != null) {
                 isConnected = mBluetoothHeadset.isConnected(headset);

@@ -17,14 +17,15 @@
 package com.android.phone;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAudioGateway;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothAudioGateway;
+import android.bluetooth.BluetoothAudioGateway.IncomingConnectionInfo;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothUuid;
 import android.bluetooth.HeadsetBase;
+import android.bluetooth.IBluetooth;
 import android.bluetooth.IBluetoothHeadset;
-import android.os.ParcelUuid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,9 +34,10 @@ import android.media.AudioManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.ParcelUuid;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.os.SystemProperties;
+import android.os.ServiceManager;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -44,9 +46,6 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Set;
 
 /**
  * Provides Bluetooth Headset and Handsfree profile, as a service in
@@ -69,24 +68,14 @@ public class BluetoothHeadsetService extends Service {
 
     private BluetoothDevice mDeviceSdpQuery;
     private BluetoothAdapter mAdapter;
+    private IBluetooth mBluetoothService;
     private PowerManager mPowerManager;
     private BluetoothAudioGateway mAg;
-    private HeadsetBase mHeadset;
-    private int mState;
-    private int mHeadsetType;
     private BluetoothHandsfree mBtHandsfree;
-    private BluetoothDevice mRemoteDevice;
-    private LinkedList<BluetoothDevice> mAutoConnectQueue;
     private Call mForegroundCall;
     private Call mRingingCall;
     private Phone mPhone;
-
-    private final HeadsetPriority mHeadsetPriority = new HeadsetPriority();
-
-    public BluetoothHeadsetService() {
-        mState = BluetoothHeadset.STATE_DISCONNECTED;
-        mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
-    }
+    private HashMap<BluetoothDevice, BluetoothRemoteHeadset> mRemoteHeadsets;
 
     @Override
     public void onCreate() {
@@ -98,9 +87,7 @@ public class BluetoothHeadsetService extends Service {
         mPhone = PhoneFactory.getDefaultPhone();
         mRingingCall = mPhone.getRingingCall();
         mForegroundCall = mPhone.getForegroundCall();
-        if (mAdapter.isEnabled()) {
-            mHeadsetPriority.load();
-        }
+        adjustPriorities();
         IntentFilter filter = new IntentFilter(
                 BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -108,6 +95,45 @@ public class BluetoothHeadsetService extends Service {
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         filter.addAction(BluetoothDevice.ACTION_UUID);
         registerReceiver(mBluetoothReceiver, filter);
+
+        IBinder b = ServiceManager.getService(BluetoothAdapter.BLUETOOTH_SERVICE);
+        if (b == null) {
+            throw new RuntimeException("Bluetooth service not available");
+        }
+        mBluetoothService = IBluetooth.Stub.asInterface(b);
+        mRemoteHeadsets = new HashMap<BluetoothDevice, BluetoothRemoteHeadset>();
+   }
+
+   private class BluetoothRemoteHeadset {
+       private int mState;
+       private int mHeadsetType;
+       private HeadsetBase mHeadset;
+       private IncomingConnectionInfo mIncomingInfo;
+
+       BluetoothRemoteHeadset() {
+           mState = BluetoothHeadset.STATE_DISCONNECTED;
+           mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
+           mHeadset = null;
+           mIncomingInfo = null;
+       }
+
+       BluetoothRemoteHeadset(int headsetType, IncomingConnectionInfo incomingInfo) {
+           mState = BluetoothHeadset.STATE_DISCONNECTED;
+           mHeadsetType = headsetType;
+           mHeadset = null;
+           mIncomingInfo = incomingInfo;
+       }
+   }
+
+   synchronized private BluetoothDevice getCurrentDevice() {
+       for (BluetoothDevice device : mRemoteHeadsets.keySet()) {
+           int state = mRemoteHeadsets.get(device).mState;
+           if (state == BluetoothHeadset.STATE_CONNECTING ||
+               state == BluetoothHeadset.STATE_CONNECTED) {
+               return device;
+           }
+       }
+       return null;
    }
 
     @Override
@@ -121,10 +147,6 @@ public class BluetoothHeadsetService extends Service {
                 if (mAdapter.isEnabled()) {
                     mAg.start(mIncomingConnectionHandler);
                     mBtHandsfree.onBluetoothEnabled();
-                    // BT might have only just started, wait 6 seconds until
-                    // SDP records are registered before reconnecting headset
-                    mHandler.sendMessageDelayed(mHandler.obtainMessage(RECONNECT_LAST_HEADSET),
-                            6000);
                 }
                 sHasStarted = true;
             }
@@ -134,99 +156,92 @@ public class BluetoothHeadsetService extends Service {
     private final Handler mIncomingConnectionHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            BluetoothAudioGateway.IncomingConnectionInfo info =
-                    (BluetoothAudioGateway.IncomingConnectionInfo)msg.obj;
-            int type = BluetoothHandsfree.TYPE_UNKNOWN;
-            switch(msg.what) {
-            case BluetoothAudioGateway.MSG_INCOMING_HEADSET_CONNECTION:
-                type = BluetoothHandsfree.TYPE_HEADSET;
-                break;
-            case BluetoothAudioGateway.MSG_INCOMING_HANDSFREE_CONNECTION:
-                type = BluetoothHandsfree.TYPE_HANDSFREE;
-                break;
-            }
+            synchronized(BluetoothHeadsetService.this) {
+                IncomingConnectionInfo info = (IncomingConnectionInfo)msg.obj;
+                int type = BluetoothHandsfree.TYPE_UNKNOWN;
+                switch(msg.what) {
+                case BluetoothAudioGateway.MSG_INCOMING_HEADSET_CONNECTION:
+                    type = BluetoothHandsfree.TYPE_HEADSET;
+                    break;
+                case BluetoothAudioGateway.MSG_INCOMING_HANDSFREE_CONNECTION:
+                    type = BluetoothHandsfree.TYPE_HANDSFREE;
+                    break;
+                }
 
-            Log.i(TAG, "Incoming rfcomm (" + BluetoothHandsfree.typeToString(type) +
-                  ") connection from " + info.mRemoteDevice + "on channel " + info.mRfcommChan);
+                Log.i(TAG, "Incoming rfcomm (" + BluetoothHandsfree.typeToString(type) +
+                      ") connection from " + info.mRemoteDevice + "on channel " +
+                      info.mRfcommChan);
 
-            int priority = BluetoothHeadset.PRIORITY_OFF;
-            HeadsetBase headset;
-            try {
-                priority = mBinder.getPriority(info.mRemoteDevice);
-            } catch (RemoteException e) {}
-            if (priority <= BluetoothHeadset.PRIORITY_OFF) {
-                Log.i(TAG, "Rejecting incoming connection because priority = " + priority);
-
-                headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
-                        info.mSocketFd, info.mRfcommChan, null);
-                headset.disconnect();
-                return;
-            }
-            switch (mState) {
-            case BluetoothHeadset.STATE_DISCONNECTED:
-                // headset connecting us, lets join
-                mRemoteDevice = info.mRemoteDevice;
-                setState(BluetoothHeadset.STATE_CONNECTING);
-                headset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice, info.mSocketFd,
-                        info.mRfcommChan, mConnectedStatusHandler);
-                mHeadsetType = type;
-
-                mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
-
-                break;
-            case BluetoothHeadset.STATE_CONNECTING:
-                if (!info.mRemoteDevice.equals(mRemoteDevice)) {
-                    // different headset, ignoring
-                    Log.i(TAG, "Already attempting connect to " + mRemoteDevice +
-                          ", disconnecting " + info.mRemoteDevice);
+                int priority = BluetoothHeadset.PRIORITY_OFF;
+                HeadsetBase headset;
+                priority = getPriority(info.mRemoteDevice);
+                if (priority <= BluetoothHeadset.PRIORITY_OFF) {
+                    Log.i(TAG, "Rejecting incoming connection because priority = " + priority);
 
                     headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
                             info.mSocketFd, info.mRfcommChan, null);
                     headset.disconnect();
-                }
-                // If we are here, we are in danger of a race condition
-                // incoming rfcomm connection, but we are also attempting an
-                // outgoing connection. Lets try and interrupt the outgoing
-                // connection.
-                Log.i(TAG, "Incoming and outgoing connections to " + info.mRemoteDevice +
-                            ". Cancel outgoing connection.");
-                if (mConnectThread != null) {
-                    mConnectThread.interrupt();
-                    mConnectThread = null;
+                    return;
                 }
 
-                // Now continue with new connection, including calling callback
-                mHeadset = new HeadsetBase(mPowerManager, mAdapter, mRemoteDevice,
-                        info.mSocketFd, info.mRfcommChan, mConnectedStatusHandler);
-                mHeadsetType = type;
+                BluetoothRemoteHeadset remoteHeadset;
+                BluetoothDevice device = getCurrentDevice();
 
-                setState(BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
-                mBtHandsfree.connectHeadset(mHeadset, mHeadsetType);
+                int state = BluetoothHeadset.STATE_DISCONNECTED;
+                if (device != null) {
+                    state = mRemoteHeadsets.get(device).mState;
+                }
 
-                if (DBG) log("Successfully used incoming connection");
-                break;
-            case BluetoothHeadset.STATE_CONNECTED:
-                Log.i(TAG, "Already connected to " + mRemoteDevice + ", disconnecting " +
-                      info.mRemoteDevice);
+                switch (state) {
+                case BluetoothHeadset.STATE_DISCONNECTED:
+                    // headset connecting us, lets join
+                    remoteHeadset = new BluetoothRemoteHeadset(type, info);
+                    mRemoteHeadsets.put(info.mRemoteDevice, remoteHeadset);
 
-                headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
-                        info.mSocketFd, info.mRfcommChan, null);
-                headset.disconnect();
-                break;
+                    try {
+                        mBluetoothService.notifyIncomingConnection(
+                            info.mRemoteDevice.getAddress());
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "notifyIncomingConnection");
+                    }
+                    break;
+                case BluetoothHeadset.STATE_CONNECTING:
+                    if (!info.mRemoteDevice.equals(device)) {
+                        // different headset, ignoring
+                        Log.i(TAG, "Already attempting connect to " + device +
+                              ", disconnecting " + info.mRemoteDevice);
+
+                        headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
+                                info.mSocketFd, info.mRfcommChan, null);
+                        headset.disconnect();
+                        break;
+                    }
+
+                    // Incoming and Outgoing connections to the same headset.
+                    // The state machine manager will cancel outgoing and accept the incoming one.
+                    // Update the state
+                    mRemoteHeadsets.get(info.mRemoteDevice).mHeadsetType = type;
+                    mRemoteHeadsets.get(info.mRemoteDevice).mIncomingInfo = info;
+
+                    try {
+                        mBluetoothService.notifyIncomingConnection(
+                            info.mRemoteDevice.getAddress());
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "notifyIncomingConnection");
+                    }
+                    break;
+                case BluetoothHeadset.STATE_CONNECTED:
+                    Log.i(TAG, "Already connected to " + device + ", disconnecting " +
+                            info.mRemoteDevice);
+
+                    headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
+                              info.mSocketFd, info.mRfcommChan, null);
+                    headset.disconnect();
+                    break;
+                }
             }
         }
     };
-
-    private synchronized void autoConnectHeadset() {
-        if (DBG && debugDontReconnect()) {
-            return;
-        }
-        if (mAdapter.isEnabled()) {
-            try {
-                mBinder.connectHeadset(null);
-            } catch (RemoteException e) {}
-        }
-    }
 
     private final BroadcastReceiver mBluetoothReceiver = new BroadcastReceiver() {
 
@@ -236,27 +251,34 @@ public class BluetoothHeadsetService extends Service {
             BluetoothDevice device =
                     intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-            if ((mState == BluetoothHeadset.STATE_CONNECTED ||
-                    mState == BluetoothHeadset.STATE_CONNECTING) &&
+            BluetoothDevice currDevice = getCurrentDevice();
+            int state = BluetoothHeadset.STATE_DISCONNECTED;
+            if (currDevice != null) {
+                state = mRemoteHeadsets.get(currDevice).mState;
+            }
+
+            if ((state == BluetoothHeadset.STATE_CONNECTED ||
+                    state == BluetoothHeadset.STATE_CONNECTING) &&
                     action.equals(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED) &&
-                    device.equals(mRemoteDevice)) {
+                    device.equals(currDevice)) {
                 try {
-                    mBinder.disconnectHeadset();
+                    mBinder.disconnectHeadset(currDevice);
                 } catch (RemoteException e) {}
             } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
                                            BluetoothAdapter.ERROR)) {
                 case BluetoothAdapter.STATE_ON:
-                    mHeadsetPriority.load();
-                    mHandler.sendMessageDelayed(mHandler.obtainMessage(RECONNECT_LAST_HEADSET), 8000);
                     mAg.start(mIncomingConnectionHandler);
                     mBtHandsfree.onBluetoothEnabled();
                     break;
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     mBtHandsfree.onBluetoothDisabled();
                     mAg.stop();
-                    setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
-                             BluetoothHeadset.LOCAL_DISCONNECT);
+                    if (currDevice != null) {
+                        setState(currDevice, BluetoothHeadset.STATE_DISCONNECTED,
+                                BluetoothHeadset.RESULT_FAILURE,
+                                BluetoothHeadset.LOCAL_DISCONNECT);
+                    }
                     break;
                 }
             } else if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -264,12 +286,12 @@ public class BluetoothHeadsetService extends Service {
                                                    BluetoothDevice.ERROR);
                 switch(bondState) {
                 case BluetoothDevice.BOND_BONDED:
-                    if (mHeadsetPriority.get(device) == BluetoothHeadset.PRIORITY_UNDEFINED) {
-                        mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_ON);
+                    if (getPriority(device) == BluetoothHeadset.PRIORITY_UNDEFINED) {
+                        setPriority(device, BluetoothHeadset.PRIORITY_ON);
                     }
                     break;
                 case BluetoothDevice.BOND_NONE:
-                    mHeadsetPriority.set(device, BluetoothHeadset.PRIORITY_UNDEFINED);
+                    setPriority(device, BluetoothHeadset.PRIORITY_UNDEFINED);
                     break;
                 }
             } else if (action.equals(AudioManager.VOLUME_CHANGED_ACTION)) {
@@ -280,26 +302,23 @@ public class BluetoothHeadsetService extends Service {
                 }
 
             } else if (action.equals(BluetoothDevice.ACTION_UUID)) {
-                if (device.equals(mDeviceSdpQuery)) {
+                if (device.equals(mDeviceSdpQuery) && device.equals(currDevice)) {
                     // We have got SDP records for the device we are interested in.
-                    getSdpRecordsAndConnect();
+                    getSdpRecordsAndConnect(device);
                 }
             }
         }
     };
 
-    private static final int RECONNECT_LAST_HEADSET = 1;
-    private static final int CONNECT_HEADSET_DELAYED = 2;
+    private static final int CONNECT_HEADSET_DELAYED = 1;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case RECONNECT_LAST_HEADSET:
-                autoConnectHeadset();
-                break;
-            case CONNECT_HEADSET_DELAYED:
-                getSdpRecordsAndConnect();
-                break;
+                case CONNECT_HEADSET_DELAYED:
+                    BluetoothDevice device = (BluetoothDevice) msg.obj;
+                    getSdpRecordsAndConnect(device);
+                    break;
             }
         }
     };
@@ -364,7 +383,7 @@ public class BluetoothHeadsetService extends Service {
                 if (result == ECONNREFUSED && mDeviceSdpQuery == null) {
                     // The rfcomm channel number might have changed, do SDP
                     // query and try to connect again.
-                    mDeviceSdpQuery = mRemoteDevice;
+                    mDeviceSdpQuery = getCurrentDevice();
                     device.fetchUuidsWithSdp();
                     mConnectThread = null;
                     return;
@@ -376,7 +395,6 @@ public class BluetoothHeadsetService extends Service {
                 }
                 result = waitForConnect(headset);
             }
-
             mDeviceSdpQuery = null;
             if (result == EINTERRUPT) return;
 
@@ -406,7 +424,9 @@ public class BluetoothHeadsetService extends Service {
     private final Handler mConnectingStatusHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (mState != BluetoothHeadset.STATE_CONNECTING) {
+            BluetoothDevice device = getCurrentDevice();
+            if (device == null ||
+                mRemoteHeadsets.get(device).mState != BluetoothHeadset.STATE_CONNECTING) {
                 return;  // stale events
             }
 
@@ -414,16 +434,19 @@ public class BluetoothHeadsetService extends Service {
             case RFCOMM_ERROR:
                 if (DBG) log("Rfcomm error");
                 mConnectThread = null;
-                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
+                setState(device,
+                         BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
                          BluetoothHeadset.LOCAL_DISCONNECT);
                 break;
             case RFCOMM_CONNECTED:
                 if (DBG) log("Rfcomm connected");
                 mConnectThread = null;
-                mHeadset = (HeadsetBase)msg.obj;
-                setState(BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
+                HeadsetBase headset = (HeadsetBase)msg.obj;
+                setState(device,
+                        BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
 
-                mBtHandsfree.connectHeadset(mHeadset, mHeadsetType);
+                mRemoteHeadsets.get(device).mHeadset = headset;
+                mBtHandsfree.connectHeadset(headset, mRemoteHeadsets.get(device).mHeadsetType);
                 break;
             }
         }
@@ -438,214 +461,182 @@ public class BluetoothHeadsetService extends Service {
             switch (msg.what) {
             case HeadsetBase.RFCOMM_DISCONNECTED:
                 mBtHandsfree.resetAtState();
-                setState(BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
-                         BluetoothHeadset.REMOTE_DISCONNECT);
+                BluetoothDevice device = getCurrentDevice();
+                if (device != null) {
+                    setState(device,
+                        BluetoothHeadset.STATE_DISCONNECTED, BluetoothHeadset.RESULT_FAILURE,
+                        BluetoothHeadset.REMOTE_DISCONNECT);
+                }
                 break;
             }
         }
     };
 
-    private void setState(int state) {
-        setState(state, BluetoothHeadset.RESULT_SUCCESS);
+    private void setState(BluetoothDevice device, int state) {
+        setState(device, state, BluetoothHeadset.RESULT_SUCCESS);
     }
 
-    private void setState(int state, int result) {
-        setState(state, result, -1);
+    private void setState(BluetoothDevice device, int state, int result) {
+        setState(device, state, result, -1);
     }
 
-    private synchronized void setState(int state, int result, int initiator) {
-        if (state != mState) {
-            if (DBG) log("Headset state " + mState + " -> " + state + ", result = " + result);
-            if (mState == BluetoothHeadset.STATE_CONNECTED) {
+    private synchronized void setState(BluetoothDevice device,
+        int state, int result, int initiator) {
+        int prevState = mRemoteHeadsets.get(device).mState;
+        if (state != prevState) {
+            if (DBG) log("Device: " + device +
+                " Headset  state" + prevState + " -> " + state + ", result = " + result);
+            if (prevState == BluetoothHeadset.STATE_CONNECTED) {
                 mBtHandsfree.disconnectHeadset();
             }
             Intent intent = new Intent(BluetoothHeadset.ACTION_STATE_CHANGED);
-            intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, mState);
-            mState = state;
-            intent.putExtra(BluetoothHeadset.EXTRA_STATE, mState);
-            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, mRemoteDevice);
+            intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, prevState);
+            intent.putExtra(BluetoothHeadset.EXTRA_STATE, state);
+            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
             // Add Extra EXTRA_DISCONNECT_INITIATOR for DISCONNECTED state
-            if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
+            if (state == BluetoothHeadset.STATE_DISCONNECTED) {
                 if (initiator == -1) {
                     log("Headset Disconnected Intent without Disconnect Initiator extra");
                 } else {
                     intent.putExtra(BluetoothHeadset.EXTRA_DISCONNECT_INITIATOR,
                                     initiator);
                 }
+                mRemoteHeadsets.get(device).mHeadset = null;
+                mRemoteHeadsets.get(device).mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
             }
+
+            mRemoteHeadsets.get(device).mState = state;
+
             sendBroadcast(intent, BLUETOOTH_PERM);
-            if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
-                mHeadset = null;
-                mRemoteDevice = null;
-                mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
-                if (mAutoConnectQueue != null) {
-                    doNextAutoConnect();
-                }
-            } else if (mState == BluetoothHeadset.STATE_CONNECTING) {
+            if (state == BluetoothHeadset.STATE_CONNECTING) {
                 // Set the priority to AUTO_CONNECT
-                mHeadsetPriority.set(mRemoteDevice, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
-            } else if (mState == BluetoothHeadset.STATE_CONNECTED) {
-                mAutoConnectQueue = null;  // cancel further auto-connection
-                mHeadsetPriority.bump(mRemoteDevice);
+                setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
             }
+       }
+    }
+
+    private void setPriority(BluetoothDevice device, int priority) {
+        try {
+            mBinder.setPriority(device, priority);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Error while setting priority for: " + device);
         }
     }
 
-    private synchronized void getSdpRecordsAndConnect() {
-        if (mRemoteDevice == null) return;
-        ParcelUuid[] uuids = mRemoteDevice.getUuids();
+    private int getPriority(BluetoothDevice device) {
+        try {
+            return mBinder.getPriority(device);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Error while getting priority for: " + device);
+        }
+        return BluetoothHeadset.PRIORITY_UNDEFINED;
+    }
+
+    private void adjustPriorities() {
+        // This is to ensure backward compatibility.
+        // Only 1 device is set to AUTO_CONNECT
+        BluetoothDevice savedDevice = null;
+        int max_priority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
+        for (BluetoothDevice device : mAdapter.getBondedDevices()) {
+            int priority = getPriority(device);
+            if (priority >= BluetoothHeadset.PRIORITY_AUTO_CONNECT) {
+                setPriority(device, BluetoothHeadset.PRIORITY_ON);
+            }
+            if (priority >= max_priority) {
+                max_priority = priority;
+                savedDevice = device;
+            }
+        }
+        if (savedDevice != null) {
+            setPriority(savedDevice, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
+        }
+    }
+
+    private synchronized void getSdpRecordsAndConnect(BluetoothDevice device) {
+        if (!device.equals(getCurrentDevice())) {
+            // stale
+            return;
+        }
+        ParcelUuid[] uuids = device.getUuids();
+        int type = BluetoothHandsfree.TYPE_UNKNOWN;
         if (uuids != null) {
             if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree)) {
                 log("SDP UUID: TYPE_HANDSFREE");
-                mHeadsetType = BluetoothHandsfree.TYPE_HANDSFREE;
-                int channel = mRemoteDevice.getServiceChannel(BluetoothUuid.Handsfree);
-                mConnectThread = new RfcommConnectThread(mRemoteDevice, channel, mHeadsetType);
+                type = BluetoothHandsfree.TYPE_HANDSFREE;
+                mRemoteHeadsets.get(device).mHeadsetType = type;
+                int channel = device.getServiceChannel(BluetoothUuid.Handsfree);
+                mConnectThread = new RfcommConnectThread(device, channel, type);
                 mConnectThread.start();
                 return;
             } else if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.HSP)) {
                 log("SDP UUID: TYPE_HEADSET");
-                mHeadsetType = BluetoothHandsfree.TYPE_HEADSET;
-                int channel = mRemoteDevice.getServiceChannel(BluetoothUuid.HSP);
-                mConnectThread = new RfcommConnectThread(mRemoteDevice, channel, mHeadsetType);
+                type = BluetoothHandsfree.TYPE_HEADSET;
+                mRemoteHeadsets.get(device).mHeadsetType = type;
+                int channel = device.getServiceChannel(BluetoothUuid.HSP);
+                mConnectThread = new RfcommConnectThread(device, channel, type);
                 mConnectThread.start();
                 return;
             }
         }
         log("SDP UUID: TYPE_UNKNOWN");
-        mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
-        setState(BluetoothHeadset.STATE_DISCONNECTED,
+        mRemoteHeadsets.get(device).mHeadsetType = type;
+        setState(device, BluetoothHeadset.STATE_DISCONNECTED,
                 BluetoothHeadset.RESULT_FAILURE, BluetoothHeadset.LOCAL_DISCONNECT);
         return;
-    }
-
-    private synchronized boolean doNextAutoConnect() {
-        if (mAutoConnectQueue == null || mAutoConnectQueue.size() == 0) {
-            mAutoConnectQueue = null;
-            return false;
-        }
-        mRemoteDevice = mAutoConnectQueue.removeFirst();
-        // Don't auto connect with docks if we are docked with the dock.
-        if (isPhoneDocked(mRemoteDevice)) return doNextAutoConnect();
-
-        if (DBG) log("pulled " + mRemoteDevice + " off auto-connect queue");
-        setState(BluetoothHeadset.STATE_CONNECTING);
-        getSdpRecordsAndConnect();
-
-        return true;
-    }
-
-    private boolean isPhoneDocked(BluetoothDevice autoConnectDevice) {
-        // This works only because these broadcast intents are "sticky"
-        Intent i = registerReceiver(null, new IntentFilter(Intent.ACTION_DOCK_EVENT));
-        if (i != null) {
-            int state = i.getIntExtra(Intent.EXTRA_DOCK_STATE, Intent.EXTRA_DOCK_STATE_UNDOCKED);
-            if (state != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
-                BluetoothDevice device = i.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (device != null && autoConnectDevice.equals(device)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
      * Handlers for incoming service calls
      */
     private final IBluetoothHeadset.Stub mBinder = new IBluetoothHeadset.Stub() {
-        public int getState() {
+        public int getState(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-            return mState;
+            BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
+            if (headset == null) {
+                return BluetoothHeadset.STATE_DISCONNECTED;
+            }
+            return headset.mState;
         }
         public BluetoothDevice getCurrentHeadset() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-            if (mState == BluetoothHeadset.STATE_DISCONNECTED) {
-                return null;
-            }
-            return mRemoteDevice;
+            return getCurrentDevice();
         }
         public boolean connectHeadset(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
                                            "Need BLUETOOTH_ADMIN permission");
             synchronized (BluetoothHeadsetService.this) {
-                if (mState == BluetoothHeadset.STATE_CONNECTED ||
-                    mState == BluetoothHeadset.STATE_CONNECTING) {
-                    Log.w(TAG, "connectHeadset(" + device + "): failed: already in state " +
-                          mState + " with headset " + mRemoteDevice);
+                try {
+                    return mBluetoothService.connectHeadset(device.getAddress());
+                } catch (RemoteException e) {
+                    Log.e(TAG, "connectHeadset");
                     return false;
                 }
-                if (device == null) {
-                    mAutoConnectQueue = mHeadsetPriority.getSorted();
-                    return doNextAutoConnect();
-                }
-                mRemoteDevice = device;
-                setState(BluetoothHeadset.STATE_CONNECTING);
-                if (mRemoteDevice.getUuids() == null) {
-                    // We might not have got the UUID change notification from
-                    // Bluez yet, if we have just paired. Try after 1.5 secs.
-                    mHandler.sendMessageDelayed(
-                            mHandler.obtainMessage(CONNECT_HEADSET_DELAYED), 1500);
-                } else {
-                    getSdpRecordsAndConnect();
-                }
             }
-            return true;
         }
-        public boolean isConnected(BluetoothDevice device) {
-            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-            return mState == BluetoothHeadset.STATE_CONNECTED && mRemoteDevice.equals(device);
-        }
-        public void disconnectHeadset() {
+        public void disconnectHeadset(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
                                            "Need BLUETOOTH_ADMIN permission");
             synchronized (BluetoothHeadsetService.this) {
-                switch (mState) {
-                case BluetoothHeadset.STATE_CONNECTING:
-                    if (mConnectThread != null) {
-                        // cancel the connection thread
-                        mConnectThread.interrupt();
-                        try {
-                            mConnectThread.join();
-                        } catch (InterruptedException e) {
-                            Log.e(TAG, "Connection cancelled twice?", e);
-                        }
-                        mConnectThread = null;
-                    }
-                    if (mHeadset != null) {
-                        mHeadset.disconnect();
-                        mHeadset = null;
-                    }
-                    setState(BluetoothHeadset.STATE_DISCONNECTED,
-                             BluetoothHeadset.RESULT_CANCELED,
-                             BluetoothHeadset.LOCAL_DISCONNECT);
-                    break;
-                case BluetoothHeadset.STATE_CONNECTED:
-                    // Send a dummy battery level message to force headset
-                    // out of sniff mode so that it will immediately notice
-                    // the disconnection. We are currently sending it for
-                    // handsfree only.
-                    // TODO: Call hci_conn_enter_active_mode() from
-                    // rfcomm_send_disc() in the kernel instead.
-                    // See http://b/1716887
-                    if (mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
-                        mHeadset.sendURC("+CIEV: 7,3");
-                    }
-
-                    if (mHeadset != null) {
-                        mHeadset.disconnect();
-                        mHeadset = null;
-                    }
-                    setState(BluetoothHeadset.STATE_DISCONNECTED,
-                             BluetoothHeadset.RESULT_CANCELED,
-                             BluetoothHeadset.LOCAL_DISCONNECT);
-                    break;
+                try {
+                    mBluetoothService.disconnectHeadset(device.getAddress());
+                } catch (RemoteException e) {
+                    Log.e(TAG, "disconnectHeadset");
                 }
             }
+        }
+        public boolean isConnected(BluetoothDevice device) {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+
+            BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
+            return headset != null && headset.mState == BluetoothHeadset.STATE_CONNECTED;
         }
         public boolean startVoiceRecognition() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
-                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+                BluetoothDevice device = getCurrentDevice();
+
+                if (device == null ||
+                    mRemoteHeadsets.get(device).mState != BluetoothHeadset.STATE_CONNECTED) {
                     return false;
                 }
                 return mBtHandsfree.startVoiceRecognition();
@@ -654,30 +645,167 @@ public class BluetoothHeadsetService extends Service {
         public boolean stopVoiceRecognition() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
-                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+                BluetoothDevice device = getCurrentDevice();
+
+                if (device == null ||
+                    mRemoteHeadsets.get(device).mState != BluetoothHeadset.STATE_CONNECTED) {
                     return false;
                 }
+
                 return mBtHandsfree.stopVoiceRecognition();
             }
-        }
-        public boolean setPriority(BluetoothDevice device, int priority) {
-            enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
-                                           "Need BLUETOOTH_ADMIN permission");
-            if (priority < BluetoothHeadset.PRIORITY_OFF) {
-                return false;
-            }
-            mHeadsetPriority.set(device, priority);
-            return true;
-        }
-        public int getPriority(BluetoothDevice device) {
-            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-
-            return mHeadsetPriority.get(device);
         }
         public int getBatteryUsageHint() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
 
             return HeadsetBase.getAtInputCount();
+        }
+        public int getPriority(BluetoothDevice device) {
+            enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
+                "Need BLUETOOTH_ADMIN permission");
+            synchronized (BluetoothHeadsetService.this) {
+                int priority = Settings.Secure.getInt(getContentResolver(),
+                        Settings.Secure.getBluetoothHeadsetPriorityKey(device.getAddress()),
+                        BluetoothHeadset.PRIORITY_UNDEFINED);
+                return priority;
+            }
+        }
+
+        public boolean setPriority(BluetoothDevice device, int priority) {
+            enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
+                "Need BLUETOOTH_ADMIN permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (!BluetoothAdapter.checkBluetoothAddress(device.getAddress())) {
+                        return false;
+                }
+                if (priority < BluetoothHeadset.PRIORITY_OFF) {
+                    return false;
+                }
+                Settings.Secure.putInt(getContentResolver(),
+                        Settings.Secure.getBluetoothHeadsetPriorityKey(device.getAddress()),
+                        priority);
+                if (DBG) log("Saved priority " + device + " = " + priority);
+                return true;
+            }
+        }
+        public boolean createIncomingConnect(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                HeadsetBase headset;
+                setState(device, BluetoothHeadset.STATE_CONNECTING);
+
+                IncomingConnectionInfo info = mRemoteHeadsets.get(device).mIncomingInfo;
+                headset = new HeadsetBase(mPowerManager, mAdapter, device,
+                        info.mSocketFd, info.mRfcommChan,
+                        mConnectedStatusHandler);
+
+                mRemoteHeadsets.get(device).mHeadset = headset;
+
+                mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
+                return true;
+          }
+      }
+        public boolean acceptIncomingConnect(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                HeadsetBase headset;
+                BluetoothRemoteHeadset cachedHeadset = mRemoteHeadsets.get(device);
+                if (cachedHeadset == null) {
+                    Log.e(TAG, "Cached Headset is Null in acceptIncomingConnect");
+                    return false;
+                }
+                IncomingConnectionInfo info = cachedHeadset.mIncomingInfo;
+                headset = new HeadsetBase(mPowerManager, mAdapter, device,
+                        info.mSocketFd, info.mRfcommChan, mConnectedStatusHandler);
+
+                setState(device, BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
+
+                cachedHeadset.mHeadset = headset;
+                mBtHandsfree.connectHeadset(headset, cachedHeadset.mHeadsetType);
+
+                if (DBG) log("Successfully used incoming connection");
+                return true;
+            }
+        }
+
+        public  boolean cancelConnectThread() {
+            synchronized (BluetoothHeadsetService.this) {
+                if (mConnectThread != null) {
+                    // cancel the connection thread
+                    mConnectThread.interrupt();
+                    try {
+                        mConnectThread.join();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, "Connection cancelled twice?", e);
+                    }
+                    mConnectThread = null;
+                }
+                return true;
+            }
+        }
+
+        public boolean connectHeadsetInternal(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                BluetoothDevice currDevice = getCurrentDevice();
+                if (currDevice == null) {
+                    BluetoothRemoteHeadset headset = new BluetoothRemoteHeadset();
+                    mRemoteHeadsets.put(device, headset);
+
+                    setState(device, BluetoothHeadset.STATE_CONNECTING);
+                    if (device.getUuids() == null) {
+                        // We might not have got the UUID change notification from
+                        // Bluez yet, if we have just paired. Try after 1.5 secs.
+                        Message msg = new Message();
+                        msg.what = CONNECT_HEADSET_DELAYED;
+                        msg.obj = device;
+                        mHandler.sendMessageDelayed(msg, 1500);
+                    } else {
+                        getSdpRecordsAndConnect(device);
+                    }
+                    return true;
+                } else {
+                      Log.w(TAG, "connectHeadset(" + device + "): failed: already in state " +
+                            mRemoteHeadsets.get(currDevice).mState +
+                            " with headset " + currDevice);
+                }
+                return false;
+            }
+        }
+
+        public boolean disconnectHeadsetInternal(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                BluetoothRemoteHeadset remoteHeadset = mRemoteHeadsets.get(device);
+                if (remoteHeadset == null) return false;
+
+                if (remoteHeadset.mState == BluetoothHeadset.STATE_CONNECTED) {
+                    // Send a dummy battery level message to force headset
+                    // out of sniff mode so that it will immediately notice
+                    // the disconnection. We are currently sending it for
+                    // handsfree only.
+                    // TODO: Call hci_conn_enter_active_mode() from
+                    // rfcomm_send_disc() in the kernel instead.
+                    // See http://b/1716887
+                    HeadsetBase headset = remoteHeadset.mHeadset;
+                    if (remoteHeadset.mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
+                        headset.sendURC("+CIEV: 7,3");
+                    }
+
+                    if (headset != null) {
+                        headset.disconnect();
+                        headset = null;
+                    }
+                    setState(device, BluetoothHeadset.STATE_DISCONNECTED,
+                             BluetoothHeadset.RESULT_CANCELED,
+                             BluetoothHeadset.LOCAL_DISCONNECT);
+                    return true;
+                } else if (remoteHeadset.mState == BluetoothHeadset.STATE_CONNECTING) {
+                    // The state machine would have canceled the connect thread.
+                    // Just set the state here.
+                    setState(device, BluetoothHeadset.STATE_DISCONNECTED,
+                              BluetoothHeadset.RESULT_CANCELED,
+                              BluetoothHeadset.LOCAL_DISCONNECT);
+                    return true;
+                }
+                return false;
+            }
         }
     };
 
@@ -689,127 +817,14 @@ public class BluetoothHeadsetService extends Service {
         mBtHandsfree.onBluetoothDisabled();
         mAg.stop();
         sHasStarted = false;
-        setState(BluetoothHeadset.STATE_DISCONNECTED,
+        if (getCurrentDevice() != null) {
+            setState(getCurrentDevice(), BluetoothHeadset.STATE_DISCONNECTED,
                  BluetoothHeadset.RESULT_CANCELED,
                  BluetoothHeadset.LOCAL_DISCONNECT);
-        mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
-    }
-
-    private class HeadsetPriority {
-        private HashMap<BluetoothDevice, Integer> mPriority =
-                new HashMap<BluetoothDevice, Integer>();
-
-        public synchronized boolean load() {
-            Set<BluetoothDevice> devices = mAdapter.getBondedDevices();
-            if (devices == null) {
-                return false;  // for example, bluetooth is off
-            }
-            for (BluetoothDevice device : devices) {
-                load(device);
-            }
-            return true;
-        }
-
-        private synchronized int load(BluetoothDevice device) {
-            int priority = Settings.Secure.getInt(getContentResolver(),
-                    Settings.Secure.getBluetoothHeadsetPriorityKey(device.getAddress()),
-                    BluetoothHeadset.PRIORITY_UNDEFINED);
-            mPriority.put(device, new Integer(priority));
-            if (DBG) log("Loaded priority " + device + " = " + priority);
-            return priority;
-        }
-
-        public synchronized int get(BluetoothDevice device) {
-            Integer priority = mPriority.get(device);
-            if (priority == null) {
-                return load(device);
-            }
-            return priority.intValue();
-        }
-
-        public synchronized void set(BluetoothDevice device, int priority) {
-            int oldPriority = get(device);
-            if (oldPriority == priority) {
-                return;
-            }
-            mPriority.put(device, new Integer(priority));
-            Settings.Secure.putInt(getContentResolver(),
-                    Settings.Secure.getBluetoothHeadsetPriorityKey(device.getAddress()),
-                    priority);
-            if (DBG) log("Saved priority " + device + " = " + priority);
-        }
-
-        /** Mark this headset as highest priority */
-        public synchronized void bump(BluetoothDevice device) {
-            int oldPriority = get(device);
-            int maxPriority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
-
-            // Find max, not including given address
-            for (BluetoothDevice d : mPriority.keySet()) {
-                if (device.equals(d)) continue;
-                int p = mPriority.get(d).intValue();
-                if (p > maxPriority) {
-                    maxPriority = p;
-                }
-            }
-            if (maxPriority >= oldPriority) {
-                int p = maxPriority + 1;
-                set(device, p);
-                if (p >= Integer.MAX_VALUE) {
-                    rebalance();
-                }
-            }
-        }
-
-        /** shifts all non-zero priorities to be monotonically increasing from
-         * PRIORITY_AUTO_CONNECT */
-        private synchronized void rebalance() {
-            LinkedList<BluetoothDevice> sorted = getSorted();
-            if (DBG) log("Rebalancing " + sorted.size() + " headset priorities");
-
-            ListIterator<BluetoothDevice> li = sorted.listIterator(sorted.size());
-            int priority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
-            while (li.hasPrevious()) {
-                BluetoothDevice device = li.previous();
-                set(device, priority);
-                priority++;
-            }
-        }
-
-        /** Get list of headsets sorted by decreasing priority.
-         * Headsets with priority less than AUTO_CONNECT are not included */
-        public synchronized LinkedList<BluetoothDevice> getSorted() {
-            LinkedList<BluetoothDevice> sorted = new LinkedList<BluetoothDevice>();
-            HashMap<BluetoothDevice, Integer> toSort =
-                    new HashMap<BluetoothDevice, Integer>(mPriority);
-
-            // add in sorted order. this could be more efficient.
-            while (true) {
-                BluetoothDevice maxDevice = null;
-                int maxPriority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
-                for (BluetoothDevice device : toSort.keySet()) {
-                    int priority = toSort.get(device).intValue();
-                    if (priority >= maxPriority) {
-                        maxDevice = device;
-                        maxPriority = priority;
-                    }
-                }
-                if (maxDevice == null) {
-                    break;
-                }
-                sorted.addLast(maxDevice);
-                toSort.remove(maxDevice);
-            }
-            return sorted;
         }
     }
 
-    /** If this property is false, then don't auto-reconnect BT headset */
-    private static final String DEBUG_AUTO_RECONNECT = "debug.bt.hshfp.auto_reconnect";
 
-    private boolean debugDontReconnect() {
-        return (!SystemProperties.getBoolean(DEBUG_AUTO_RECONNECT, true));
-    }
 
     private static void log(String msg) {
         Log.d(TAG, msg);
