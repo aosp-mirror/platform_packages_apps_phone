@@ -48,26 +48,4 @@
         android:entryValues="@array/preferred_network_mode_values"
         android:dialogTitle="@string/preferred_network_mode_dialogtitle" />
 
-    <PreferenceScreen
-        android:key="gsm_umts_options_key"
-        android:title="@string/gsm_umts_options"
-        android:persistent="false">
-
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.GsmUmtsOptions" />
-
-    </PreferenceScreen>
-
-    <PreferenceScreen
-        android:key="cdma_options_key"
-        android:title="@string/cdma_options"
-        android:persistent="false">
-
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.CdmaOptions" />
-
-    </PreferenceScreen>
-
 </PreferenceScreen>
