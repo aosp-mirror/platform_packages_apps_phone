@@ -17,7 +17,6 @@
 package com.android.phone;
 
 import android.app.Dialog;
-import android.app.KeyguardManager;
 import android.app.StatusBarManager;
 import android.content.Context;
 import android.view.Gravity;
@@ -32,7 +31,6 @@ import android.os.Bundle;
 public class IccPanel extends Dialog {
     protected static final String TAG = PhoneApp.LOG_TAG;
 
-    private KeyguardManager.KeyguardLock mKeyguardLock;
     private StatusBarManager mStatusBarManager;
 
     public IccPanel(Context context) {
@@ -48,9 +46,26 @@ public class IccPanel extends Dialog {
                 WindowManager.LayoutParams.MATCH_PARENT);
         winP.setGravity(Gravity.CENTER);
 
+        // TODO: Ideally, we'd like this dialog to be visible in front of the
+        // keyguard, so the user will see it immediately after boot (without
+        // needing to enter the lock pattern or dismiss the keyguard first.)
+        //
+        // However that's not easy to do.  It's not just a matter of setting
+        // the FLAG_SHOW_WHEN_LOCKED and FLAG_DISMISS_KEYGUARD flags on our
+        // window, since we're a Dialog (not an Activity), and the framework
+        // won't ever let a dialog hide the keyguard (because there could
+        // possibly be stuff behind it that shouldn't be seen.)
+        //
+        // So for now, we'll live with the fact that the user has to enter the
+        // lock pattern (or dismiss the keyguard) *before* being able to type
+        // a SIM network unlock PIN.  That's not ideal, but still OK.
+        // (And eventually this will be a moot point once this UI moves
+        // from the phone app to the framework; see bug 1804111).
+
+        // TODO: we shouldn't need the mStatusBarManager calls here either,
+        // once this dialog gets moved into the framework and becomes a truly
+        // full-screen UI.
         PhoneApp app = PhoneApp.getInstance();
-        KeyguardManager km = (KeyguardManager) app.getSystemService(Context.KEYGUARD_SERVICE);
-        mKeyguardLock = km.newKeyguardLock(TAG);
         mStatusBarManager = (StatusBarManager) app.getSystemService(Context.STATUS_BAR_SERVICE);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,26 +74,13 @@ public class IccPanel extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
-        disableKeyguard(true);
+        mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        disableKeyguard(false);
-    }
-
-    /**
-     * Acquires a wake lock and prevents keyguard from enabling.
-     */
-    private void disableKeyguard(boolean disable) {
-        if (disable) {
-            mKeyguardLock.disableKeyguard();
-            mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
-        } else {
-            mKeyguardLock.reenableKeyguard();
-            mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
-        }
+        mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
