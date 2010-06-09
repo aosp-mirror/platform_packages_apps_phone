@@ -886,6 +886,8 @@
     <string name="notification_ongoing_call_format">Current call (<xliff:g id="duration">%s</xliff:g>)</string>
     <!-- The "label" of the in-call Notification for a call that's on hold -->
     <string name="notification_on_hold">On hold</string>
+    <!-- The "label" of the in-call Notification for an incoming ringing call -->
+    <string name="notification_incoming_call">Incoming call</string>
     <!-- Label for the "Voicemail" notification item, when expanded. -->
     <string name="notification_voicemail_title">New voicemail</string>
     <!-- Label for the expanded "Voicemail" notification item,
