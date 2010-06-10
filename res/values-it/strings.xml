@@ -57,7 +57,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Esecuzione codice USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Codice MMI annullato"</string>
     <string name="cancel" msgid="5044513931633602634">"Annulla"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Altoparlante"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"Vivavoce"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"No audio"</string>
     <string name="menu_hold" msgid="6970441130344786273">"In attesa"</string>
@@ -511,7 +511,7 @@
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tastierino"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Nascondi"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altoparlante"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Vivavoce"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"No audio"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Aggiungi"</string>
@@ -551,7 +551,7 @@
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con l\'attivazione"</string>
     <string name="ota_listen" msgid="162923839877584937">"Segui le istruzioni vocali fino al segnale di attivazione completata."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastierino"</string>
-    <string name="ota_speaker" msgid="6904589278542719647">"Altoparlante"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"Vivavoce"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Attendi la programmazione del telefono."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Programmazione non riuscita"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Il telefono è attivo. L\'avvio del servizio potrebbe richiedere fino a 15 minuti."</string>
