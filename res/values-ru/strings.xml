@@ -63,8 +63,8 @@
     <string name="menu_hold" msgid="6970441130344786273">"Удержание"</string>
     <string name="menu_endCall" msgid="2142958047156634241">"Завершить вызов"</string>
     <string name="menu_swapCalls" msgid="1548647524816600795">"Другой вызов"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Объединить вызовы"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Добавить вызов"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"Соединить"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"+ вызов"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Управление конференц-связью"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Показать кнопки"</string>
     <string name="menu_hideDialpad" msgid="2733813546746296771">"Скрыть кнопки"</string>
@@ -118,31 +118,31 @@
     <string name="labelCallerId" msgid="3888899447379069198">"АОН"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Скрывать номер при исходящих вызовах"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Номер, отображающийся при исходящих вызовах"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"При исходящих вызовах использовать для отображения моего номера настройки, предоставляемые оператором по умолчанию"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"При исходящих вызовах использовать для отображения моего номера настройки, предоставляемые оператором"</string>
     <string name="labelCW" msgid="6120513814915920200">"Параллельный вызов"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Извещать меня о входящих вызовах во время разговора"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Извещать меня о входящих вызовах во время разговора"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Настройки переадресации вызова"</string>
     <string name="labelCF" msgid="2574386948026924737">"Переадресация вызова"</string>
-    <string name="labelCFU" msgid="8147177368148660600">"Всегда"</string>
-    <string name="messageCFU" msgid="3560082430662923687">"Всегда использовать этот номер"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"Всегда на номер"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"Всегда переадресовывать вызов на этот номер"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Переадресация всех вызовов"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Переадресация всех вызовов на номер \\\\{0\\\\}"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"Переадресация всех вызовов на номер {0}"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Номер не указан"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Отключено"</string>
-    <string name="labelCFB" msgid="218938523102207587">"Если аб. занят"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Если занято"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Номер, использующийся, когда линия занята"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Переадресация на номер \\\\{0\\\\}"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Переадресация на номер {0}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Отключено"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Ваш оператор не поддерживает отключение переадресации звонков, если телефон занят."</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"Если аб. не отвечает"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"При отсутствии ответа"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Номер для переадресации при отсутствии ответа"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Переадресация на номер \\\\{0\\\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Переадресация на номер {0}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Отключено"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Ваш оператор не поддерживает отключение переадресации звонков, если нет ответа."</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Если аб. недоступен"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Если недоступен"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Номер для переадресации, если абонент недоступен"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Переадресация на номер \\\\{0\\\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Переадресация на номер {0}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Отключено"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Ваш оператор не поддерживает отключение переадресации звонков, если телефон находится вне зоны доступа."</string>
     <string name="updating_title" msgid="6146755386174019046">"Настройки вызовов"</string>
@@ -514,8 +514,8 @@
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Динамик"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Откл. звук"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
-    <string name="onscreenAddCallText" msgid="5140385634712287403">"Добавить вызов"</string>
-    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Объединить вызовы"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"+ вызов"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Соединить"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Перевод звонка"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Управление вызовами"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Управлять"</string>
