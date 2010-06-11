@@ -1543,10 +1543,10 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleActionCommand() {
                 sendURC("OK");
-                if (!mRingingCall.isIdle()) {
-                    PhoneUtils.hangupRingingCall(mPhone);
-                } else if (!mForegroundCall.isIdle()) {
+                if (!mForegroundCall.isIdle()) {
                     PhoneUtils.hangupActiveCall(mPhone);
+                } else if (!mRingingCall.isIdle()) {
+                    PhoneUtils.hangupRingingCall(mPhone);
                 } else if (!mBackgroundCall.isIdle()) {
                     PhoneUtils.hangupHoldingCall(mPhone);
                 }
