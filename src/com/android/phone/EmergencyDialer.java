@@ -195,9 +195,17 @@ public class EmergencyDialer extends Activity
             mVoicemailDialAndDeleteRow = null;
         }
 
-
         if (icicle != null) {
             super.onRestoreInstanceState(icicle);
+        }
+
+        // Extract phone number from intent
+        Uri data = getIntent().getData();
+        if (data != null && ("tel".equals(data.getScheme()))) {
+            String number = PhoneNumberUtils.getNumberFromIntent(getIntent(), this);
+            if (number != null) {
+                mDigits.setText(number);
+            }
         }
 
         // if the mToneGenerator creation fails, just continue without it.  It is
