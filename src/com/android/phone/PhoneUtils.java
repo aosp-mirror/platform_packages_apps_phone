@@ -528,7 +528,14 @@ public class PhoneUtils {
                 }
             } else {
                 PhoneApp app = PhoneApp.getInstance();
+                BluetoothHandsfree bthf = null;
 
+                bthf = app.getBluetoothHandsfree();
+                if (bthf != null) {
+                    // This would be needed if the user initiates an outgoing cellular
+                    // call from the phone while in a virtual voice call
+                    bthf.terminateVirtualVoiceCall();
+                }
                 if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     updateCdmaCallStateOnNewOutgoingCall(app);
                 }
