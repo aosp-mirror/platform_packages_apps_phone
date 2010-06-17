@@ -677,6 +677,24 @@ public class BluetoothHeadsetService extends Service {
 
             return HeadsetBase.getAtInputCount();
         }
+        public boolean startVirtualVoiceCall() {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+                    return false;
+                }
+                return mBtHandsfree.initiateVirtualVoiceCall();
+            }
+        }
+        public boolean stopVirtualVoiceCall() {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (mState != BluetoothHeadset.STATE_CONNECTED) {
+                    return false;
+                }
+                return mBtHandsfree.terminateVirtualVoiceCall();
+            }
+        }
     };
 
     @Override
