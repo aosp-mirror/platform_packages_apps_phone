@@ -1170,10 +1170,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 boolean screenOnImmediately = (isHeadsetPlugged()
                             || PhoneUtils.isSpeakerOn(this)
                             || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                            || mIsHardKeyboardOpen
-                            || mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
+                            || mIsHardKeyboardOpen);
+                // We do not keep the screen off when we are horizontal, but we do not force it
+                // on when we become horizontal until the proximity sensor goes negative.
+                boolean horizontal = (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
 
-                if (((state == Phone.State.OFFHOOK) || mBeginningCall) && !screenOnImmediately) {
+                if (((state == Phone.State.OFFHOOK) || mBeginningCall) &&
+                        !screenOnImmediately && !horizontal) {
                     // Phone is in use!  Arrange for the screen to turn off
                     // automatically when the sensor detects a close object.
                     if (!mProximityWakeLock.isHeld()) {
