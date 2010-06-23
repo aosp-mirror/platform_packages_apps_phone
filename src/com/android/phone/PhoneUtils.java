@@ -67,7 +67,7 @@ import java.util.List;
  */
 public class PhoneUtils {
     private static final String LOG_TAG = "PhoneUtils";
-    private static final boolean DBG = true; //(PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     /** Control stack trace for Audio Mode settings */
     private static final boolean DBG_SETAUDIOMODE_STACK = false;
