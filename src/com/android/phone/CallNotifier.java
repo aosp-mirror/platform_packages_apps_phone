@@ -441,6 +441,19 @@ public class CallNotifier extends Handler
             }
         }
 
+        // Update the status bar notification while there's a ringing
+        // call, just like we do while the phone is offhook (see the
+        // Phone.State.OFFHOOK case in onPhoneStateChanged().
+        //
+        // Note: in most cases, we bring up the incoming-call UI as soon as
+        // the phone starts ringing, so it's superfluous to also put up a
+        // notification here.  But it *is* necessary if there's an
+        // "immersive" activity in the foreground, in which case this
+        // notification will provide an alternate UI that lets you know
+        // there's an incoming call *without* interrupting the current
+        // activity.
+        NotificationMgr.getDefault().updateInCallNotification();
+
         if (VDBG) log("- onNewRingingConnection() done.");
     }
 
@@ -754,7 +767,8 @@ public class CallNotifier extends Handler
             NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
                     ci.phoneLabel, ((Long) cookie).longValue());
         } else if (cookie instanceof CallNotifier) {
-            if (VDBG) log("CallerInfo query complete, updating data");
+            if (VDBG) log("CallerInfo query complete (for CallNotifier), "
+                          + "updating state for incoming call..");
 
             // get rid of the timeout messages
             removeMessages(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT);
