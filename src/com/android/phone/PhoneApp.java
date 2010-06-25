@@ -635,33 +635,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /**
      * Starts the InCallScreen Activity.
      */
-    void displayCallScreen() {
+    private void displayCallScreen() {
         if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
         startActivity(createInCallIntent());
         Profiler.callScreenRequested();
-    }
-
-    /**
-     * Helper function to check for one special feature of the CALL key:
-     * Normally, when the phone is idle, CALL takes you to the call log
-     * (see the handler for KEYCODE_CALL in PhoneWindow.onKeyUp().)
-     * But if the phone is in use (either off-hook or ringing) we instead
-     * handle the CALL button by taking you to the in-call UI.
-     *
-     * @return true if we intercepted the CALL keypress (i.e. the phone
-     *              was in use)
-     *
-     * @see DialerActivity#onCreate
-     */
-    boolean handleInCallOrRinging() {
-        if (phone.getState() != Phone.State.IDLE) {
-            // Phone is OFFHOOK or RINGING.
-            if (DBG) Log.v(LOG_TAG,
-                           "handleInCallOrRinging: show call screen");
-            displayCallScreen();
-            return true;
-        }
-        return false;
     }
 
     boolean isSimPinEnabled() {
