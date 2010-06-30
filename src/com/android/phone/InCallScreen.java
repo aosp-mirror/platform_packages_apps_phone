@@ -748,7 +748,7 @@ public class InCallScreen extends Activity
             // If the phone is ringing, we *should* already be holding a
             // full wake lock (which we would have acquired before
             // firing off the intent that brought us here; see
-            // PhoneUtils.showIncomingCallUi().)
+            // CallNotifier.showIncomingCall().)
             //
             // We also called preventScreenOn(true) at that point, to
             // avoid cosmetic glitches while we were being launched.

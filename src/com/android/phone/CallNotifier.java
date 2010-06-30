@@ -27,12 +27,14 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
 
+import android.app.ActivityManagerNative;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
@@ -420,7 +422,7 @@ public class CallNotifier extends Handler
             // Obtain a partial wake lock to make sure the CPU doesn't go to
             // sleep before we finish bringing up the InCallScreen.
             // (This will be upgraded soon to a full wake lock; see
-            // PhoneUtils.showIncomingCallUi().)
+            // showIncomingCall().)
             if (VDBG) log("Holding wake lock on new incoming connection.");
             mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
 
@@ -436,8 +438,8 @@ public class CallNotifier extends Handler
                     mCallWaitingTonePlayer.start();
                 }
                 // in this case, just fall through like before, and call
-                // PhoneUtils.showIncomingCallUi
-                PhoneUtils.showIncomingCallUi();
+                // showIncomingCall().
+                showIncomingCall();
             }
         }
 
@@ -497,8 +499,8 @@ public class CallNotifier extends Handler
                 sendEmptyMessageDelayed(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT,
                         RINGTONE_QUERY_WAIT_TIME);
             }
-            // calls to PhoneUtils.showIncomingCallUi will come after the
-            // queries are complete (or timeout).
+            // The call to showIncomingCall() will happen after the
+            // queries are complete (or time out).
         } else {
             // This should never happen; its the case where an incoming call
             // arrives at the same time that the query is still being run,
@@ -510,15 +512,14 @@ public class CallNotifier extends Handler
             mRinger.ring();
 
             // in this case, just fall through like before, and call
-            // PhoneUtils.showIncomingCallUi
-            PhoneUtils.showIncomingCallUi();
+            // showIncomingCall().
+            showIncomingCall();
         }
     }
 
     /**
      * Performs the final steps of the onNewRingingConnection sequence:
-     * starts the ringer, and launches the InCallScreen to show the
-     * "incoming call" UI.
+     * starts the ringer, and brings up the "incoming call" UI.
      *
      * Normally, this is called when the CallerInfo query completes (see
      * onQueryComplete()).  In this case, onQueryComplete() has already
@@ -571,20 +572,96 @@ public class CallNotifier extends Handler
         if (VDBG) log("RINGING... (onCustomRingQueryComplete)");
         mRinger.ring();
 
-        // ...and show the InCallScreen.
-        PhoneUtils.showIncomingCallUi();
+        // ...and display the incoming call to the user:
+        showIncomingCall();
     }
 
     private void onUnknownConnectionAppeared(AsyncResult r) {
         Phone.State state = mPhone.getState();
 
         if (state == Phone.State.OFFHOOK) {
-            // basically do onPhoneStateChanged + displayCallScreen
+            // basically do onPhoneStateChanged + display the incoming call UI
             onPhoneStateChanged(r);
-            PhoneUtils.showIncomingCallUi();
+            showIncomingCall();
         }
     }
 
+    /**
+     * Informs the user about a new incoming call.
+     *
+     * In most cases this means "bring up the full-screen incoming call
+     * UI".  However, if an immersive activity is running, the system
+     * NotificationManager will instead pop up a small notification window
+     * on top of the activity.
+     *
+     * Watch out: be sure to call this method only once per incoming call,
+     * or otherwise we may end up launching the InCallScreen multiple
+     * times (which can lead to slow responsiveness and/or visible
+     * glitches.)
+     *
+     * Note this method handles only the onscreen UI for incoming calls;
+     * the ringer and/or vibrator are started separately (see the various
+     * calls to Ringer.ring() in this class.)
+     *
+     * @see NotificationMgr.updateInCallNotification()
+     */
+    private void showIncomingCall() {
+        if (DBG) log("showIncomingCall()...");
+
+        // Before bringing up the "incoming call" UI, force any system
+        // dialogs (like "recent tasks" or the power dialog) to close first.
+        try {
+            ActivityManagerNative.getDefault().closeSystemDialogs("call");
+        } catch (RemoteException e) {
+        }
+
+        // Go directly to the in-call screen.
+        // (No need to do anything special if we're already on the in-call
+        // screen; it'll notice the phone state change and update itself.)
+
+        // But first, grab a full wake lock.  We do this here, before we
+        // even fire off the InCallScreen intent, to make sure the
+        // ActivityManager doesn't try to pause the InCallScreen as soon
+        // as it comes up.  (See bug 1648751.)
+        //
+        // And since the InCallScreen isn't visible yet (we haven't even
+        // fired off the intent yet), we DON'T want the screen to actually
+        // come on right now.  So *before* acquiring the wake lock we need
+        // to call preventScreenOn(), which tells the PowerManager that
+        // the screen should stay off even if someone's holding a full
+        // wake lock.  (This prevents any flicker during the "incoming
+        // call" sequence.  The corresponding preventScreenOn(false) call
+        // will come from the InCallScreen when it's finally ready to be
+        // displayed.)
+        //
+        // TODO: this is all a temporary workaround.  The real fix is to add
+        // an Activity attribute saying "this Activity wants to wake up the
+        // phone when it's displayed"; that way the ActivityManager could
+        // manage the wake locks *and* arrange for the screen to come on at
+        // the exact moment that the InCallScreen is ready to be displayed.
+        // (See bug 1648751.)
+        //
+        // TODO: also, we should probably *not* do any of this if the
+        // screen is already on(!)
+
+        mApplication.preventScreenOn(true);
+        mApplication.requestWakeState(PhoneApp.WakeState.FULL);
+
+        // Post the "incoming call" notification.  This will usually take
+        // us straight to the incoming call screen (thanks to the
+        // notification's "fullScreenIntent" field), but if an immersive
+        // activity is running it'll just appear as a notification.
+        NotificationMgr.getDefault().updateInCallNotification();
+    }
+
+    /**
+     * Updates the phone UI in response to phone state changes.
+     *
+     * Watch out: certain state changes are actually handled by their own
+     * specific methods:
+     *   - see onNewRingingConnection() for new incoming calls
+     *   - see onDisconnect() for calls being hung up or disconnected
+     */
     private void onPhoneStateChanged(AsyncResult r) {
         Phone.State state = mPhone.getState();
         if (VDBG) log("onPhoneStateChanged: state = " + state);
@@ -1529,9 +1606,10 @@ public class CallNotifier extends Handler
         mApplication.cdmaPhoneCallState.setCurrentCallState(
                 CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE);
 
-        // Start the InCallScreen Activity if its not on foreground
+        // Display the incoming call to the user if the InCallScreen isn't
+        // already in the foreground.
         if (!mApplication.isShowingCallScreen()) {
-            PhoneUtils.showIncomingCallUi();
+            showIncomingCall();
         }
 
         // Start timer for CW display

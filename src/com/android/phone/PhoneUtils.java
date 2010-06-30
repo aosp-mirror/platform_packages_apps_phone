@@ -16,7 +16,6 @@
 
 package com.android.phone;
 
-import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -481,7 +480,7 @@ public class PhoneUtils {
      * </pre>
      * @param app The phone instance.
      */
-    static private void updateCdmaCallStateOnNewOutgoingCall(PhoneApp app) {
+    private static void updateCdmaCallStateOnNewOutgoingCall(PhoneApp app) {
         if (app.cdmaPhoneCallState.getCurrentCallState() ==
             CdmaPhoneCallState.PhoneCallState.IDLE) {
             // This is the first outgoing call. Set the Phone Call State to ACTIVE
@@ -1588,58 +1587,6 @@ public class PhoneUtils {
         PhoneApp.getInstance().startActivity(intent);
     }
 
-    /**
-     * Brings up the UI used to handle an incoming call.
-     *
-     * Originally, this brought up an IncomingCallPanel instance
-     * (which was a subclass of Dialog) on top of whatever app
-     * was currently running.  Now, we take you directly to the
-     * in-call screen, whose CallCard automatically does the right
-     * thing if there's a Call that's currently ringing.
-     */
-    static void showIncomingCallUi() {
-        if (DBG) log("showIncomingCallUi()...");
-        PhoneApp app = PhoneApp.getInstance();
-
-        // Before bringing up the "incoming call" UI, force any system
-        // dialogs (like "recent tasks" or the power dialog) to close first.
-        try {
-            ActivityManagerNative.getDefault().closeSystemDialogs("call");
-        } catch (RemoteException e) {
-        }
-
-        // Go directly to the in-call screen.
-        // (No need to do anything special if we're already on the in-call
-        // screen; it'll notice the phone state change and update itself.)
-
-        // But first, grab a full wake lock.  We do this here, before we
-        // even fire off the InCallScreen intent, to make sure the
-        // ActivityManager doesn't try to pause the InCallScreen as soon
-        // as it comes up.  (See bug 1648751.)
-        //
-        // And since the InCallScreen isn't visible yet (we haven't even
-        // fired off the intent yet), we DON'T want the screen to actually
-        // come on right now.  So *before* acquiring the wake lock we need
-        // to call preventScreenOn(), which tells the PowerManager that
-        // the screen should stay off even if someone's holding a full
-        // wake lock.  (This prevents any flicker during the "incoming
-        // call" sequence.  The corresponding preventScreenOn(false) call
-        // will come from the InCallScreen when it's finally ready to be
-        // displayed.)
-        //
-        // TODO: this is all a temporary workaround.  The real fix is to add
-        // an Activity attribute saying "this Activity wants to wake up the
-        // phone when it's displayed"; that way the ActivityManager could
-        // manage the wake locks *and* arrange for the screen to come on at
-        // the exact moment that the InCallScreen is ready to be displayed.
-        // (See bug 1648751.)
-        app.preventScreenOn(true);
-        app.requestWakeState(PhoneApp.WakeState.FULL);
-
-        // Fire off the InCallScreen intent.
-        app.displayCallScreen();
-    }
-
     static void turnOnSpeaker(Context context, boolean flag, boolean store) {
         if (DBG) log("turnOnSpeaker(flag=" + flag + ", store=" + store + ")...");
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -2265,7 +2212,7 @@ public class PhoneUtils {
 
         if (PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_DESK ||
                 PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_CAR) {
-            if (DBG) log("activateSpeakerIfDocked(): Phone in a dock -> may need to turn on speaker.");
+            if (DBG) log("activateSpeakerIfDocked(): In a dock -> may need to turn on speaker.");
             PhoneApp app = PhoneApp.getInstance();
             BluetoothHandsfree bthf = app.getBluetoothHandsfree();
 
