@@ -511,9 +511,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         if (hasRingingCall) {
             // There's an incoming ringing call.
-            // TODO: still need artwork for a "ringing" variant of stat_sys_phone_call.
-            // For now, just use the standard green "in call" icon.
-            resId = android.R.drawable.stat_sys_phone_call;
+            resId = com.android.internal.R.drawable.stat_sys_phone_call_ringing;
         } else if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {
@@ -666,6 +664,25 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // (ie. make sure the caller info here corresponds to the active
         // line), and maybe even when the user swaps calls (ie. if we only
         // show info here for the "current active call".)
+
+        // Activate a couple of special Notification features if an
+        // incoming call is ringing:
+        if (hasRingingCall) {
+            if (DBG) log("- Using hi-pri notification for ringing call!");
+
+            // This is a high-priority event that should be shown even if
+            // the status bar is hidden.
+            notification.flags |= Notification.FLAG_HIGH_PRIORITY;
+
+            // In most cases, we actually want to launch the incoming call
+            // UI at this point (rather than just posting a notification
+            // to the status bar).  Setting fullScreenIntent will cause
+            // the InCallScreen to be launched immediately *unless* the
+            // current foreground activity is marked as "immersive".
+            notification.fullScreenIntent =
+                    PendingIntent.getActivity(mContext, 0,
+                                              PhoneApp.createInCallIntent(), 0);
+        }
 
         if (DBG) log("Notifying IN_CALL_NOTIFICATION: " + notification);
         mNotificationMgr.notify(IN_CALL_NOTIFICATION,
