@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///H8\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "This should use spaces instead of a tab.",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///H4\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "Please wrap code to 100 columns",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///H0\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Hw\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Hs\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Ho\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Hk\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "100 columns",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Hg\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "100 columns",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///Hc\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2392,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "A few more issues with tabs, trailing spaces and 100 columns in this entire block",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///HY\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "Please leave unchanged",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///HU\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2010-07-01T16:19:54Z",
+      "side": 1,
+      "message": "100 columns",
+      "revId": "c5fe04677bcf0c856fead53953abc5d78d85569d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
