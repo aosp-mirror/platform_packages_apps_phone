@@ -29,13 +29,12 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.provider.CallLog.Calls;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
@@ -56,7 +55,8 @@ import com.android.internal.telephony.PhoneBase;
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = "NotificationMgr";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -543,17 +543,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (DBG) log("- Updating status bar icon: resId = " + resId);
         mInCallResId = resId;
 
-        // Even if both lines are in use, we only show a single item in
-        // the expanded Notifications UI.  It's labeled "Ongoing call"
-        // (or "On hold" if there's only one call, and it's on hold.)
-
         // The icon in the expanded view is the same as in the status bar.
         int expandedViewIcon = mInCallResId;
 
+        // Even if both lines are in use, we only show a single item in
+        // the expanded Notifications UI.  It's labeled "Ongoing call"
+        // (or "On hold" if there's only one call, and it's on hold.)
         // Also, we don't have room to display caller-id info from two
         // different calls.  So if both lines are in use, display info
         // from the foreground call.  And if there's a ringing call,
         // display that regardless of the state of the other calls.
+
         Call currentCall;
         if (hasRingingCall) {
             currentCall = mPhone.getRingingCall();
@@ -564,16 +564,23 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
         Connection currentConn = currentCall.getEarliestConnection();
 
+        Notification notification = new Notification();
+        notification.icon = mInCallResId;
+        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+
+        // PendingIntent that can be used to launch the InCallScreen.  The
+        // system fires off this intent if the user pulls down the windowshade
+        // and clicks the notification's expanded view.  It's also used to
+        // launch the InCallScreen immediately when when there's an incoming
+        // call (see the "fullScreenIntent" field below).
+        PendingIntent inCallPendingIntent =
+                PendingIntent.getActivity(mContext, 0,
+                                          PhoneApp.createInCallIntent(), 0);
+        notification.contentIntent = inCallPendingIntent;
+
         // When expanded, the "Ongoing call" notification is (visually)
         // different from most other Notifications, so we need to use a
         // custom view hierarchy.
-
-        Notification notification = new Notification();
-        notification.icon = mInCallResId;
-        notification.contentIntent = PendingIntent.getActivity(mContext, 0,
-                PhoneApp.createInCallIntent(), 0);
-        notification.flags |= Notification.FLAG_ONGOING_EVENT;
-
         // Our custom view, which includes an icon (either "ongoing call" or
         // "on hold") and 2 lines of text: (1) the label (either "ongoing
         // call" with time counter, or "on hold), and (2) the compact name of
@@ -670,18 +677,24 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (hasRingingCall) {
             if (DBG) log("- Using hi-pri notification for ringing call!");
 
-            // This is a high-priority event that should be shown even if
-            // the status bar is hidden.
+            // This is a high-priority event that should be shown even if the
+            // status bar is hidden or if an immersive activity is running.
             notification.flags |= Notification.FLAG_HIGH_PRIORITY;
+
+            // If an immersive activity is running, we have room for a single
+            // line of text in the small notification popup window.
+            // We use expandedViewLine2 for this (i.e. the name or number of
+            // the incoming caller), since that's more relevant than
+            // expandedViewLine1 (which is something generic like "Incoming
+            // call".)
+            notification.tickerText = expandedViewLine2;
 
             // In most cases, we actually want to launch the incoming call
             // UI at this point (rather than just posting a notification
             // to the status bar).  Setting fullScreenIntent will cause
             // the InCallScreen to be launched immediately *unless* the
             // current foreground activity is marked as "immersive".
-            notification.fullScreenIntent =
-                    PendingIntent.getActivity(mContext, 0,
-                                              PhoneApp.createInCallIntent(), 0);
+            notification.fullScreenIntent = inCallPendingIntent;
         }
 
         if (DBG) log("Notifying IN_CALL_NOTIFICATION: " + notification);
