@@ -227,6 +227,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 where.toString(), null, Calls.DEFAULT_SORT_ORDER);
 
         // Update (or cancel) the in-call notification
+        if (DBG) log("- updating in-call notification at startup...");
         updateInCallNotification();
 
         // Depend on android.app.StatusBarManager to be set to
@@ -729,6 +730,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             // Now that our CallerInfo object has been fully filled-in,
             // refresh the in-call notification.
+            if (DBG) log("- updating notification after query complete...");
             updateInCallNotification();
         } else {
             Log.w(LOG_TAG, "onQueryComplete: caller-id query from unknown source! "
