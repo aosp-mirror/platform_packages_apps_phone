@@ -335,6 +335,7 @@ public class CallNotifier extends Handler
                     new InCallTonePlayer(toneToPlay).start();
                     mCdmaVoicePrivacyState = true;
                     // Update the VP icon:
+                    if (DBG) log("- updating notification for VP state...");
                     NotificationMgr.getDefault().updateInCallNotification();
                 }
                 break;
@@ -346,6 +347,7 @@ public class CallNotifier extends Handler
                     new InCallTonePlayer(toneToPlay).start();
                     mCdmaVoicePrivacyState = false;
                     // Update the VP icon:
+                    if (DBG) log("- updating notification for VP state...");
                     NotificationMgr.getDefault().updateInCallNotification();
                 }
                 break;
@@ -409,74 +411,86 @@ public class CallNotifier extends Handler
             }
         }
 
-        if (c != null && c.isRinging()) {
-            // Stop any signalInfo tone being played on receiving a Call
-            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-                stopSignalInfoTone();
-            }
-
-            Call.State state = c.getState();
-            // State will be either INCOMING or WAITING.
-            if (VDBG) log("- connection is ringing!  state = " + state);
-            // if (DBG) PhoneUtils.dumpCallState(mPhone);
-
-            // No need to do any service state checks here (like for
-            // "emergency mode"), since in those states the SIM won't let
-            // us get incoming connections in the first place.
-
-            // TODO: Consider sending out a serialized broadcast Intent here
-            // (maybe "ACTION_NEW_INCOMING_CALL"), *before* starting the
-            // ringer and going to the in-call UI.  The intent should contain
-            // the caller-id info for the current connection, and say whether
-            // it would be a "call waiting" call or a regular ringing call.
-            // If anybody consumed the broadcast, we'd bail out without
-            // ringing or bringing up the in-call UI.
-            //
-            // This would give 3rd party apps a chance to listen for (and
-            // intercept) new ringing connections.  An app could reject the
-            // incoming call by consuming the broadcast and doing nothing, or
-            // it could "pick up" the call (without any action by the user!)
-            // by firing off an ACTION_ANSWER intent.
-            //
-            // We'd need to protect this with a new "intercept incoming calls"
-            // system permission.
-
-            // Obtain a partial wake lock to make sure the CPU doesn't go to
-            // sleep before we finish bringing up the InCallScreen.
-            // (This will be upgraded soon to a full wake lock; see
-            // showIncomingCall().)
-            if (VDBG) log("Holding wake lock on new incoming connection.");
-            mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
-
-            // - don't ring for call waiting connections
-            // - do this before showing the incoming call panel
-            if (state == Call.State.INCOMING) {
-                PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
-                startIncomingCallQuery(c);
-            } else {
-                if (VDBG) log("- starting call waiting tone...");
-                if (mCallWaitingTonePlayer == null) {
-                    mCallWaitingTonePlayer = new InCallTonePlayer(InCallTonePlayer.TONE_CALL_WAITING);
-                    mCallWaitingTonePlayer.start();
-                }
-                // in this case, just fall through like before, and call
-                // showIncomingCall().
-                showIncomingCall();
-            }
+        if (c == null) {
+            Log.w(LOG_TAG, "CallNotifier.onNewRingingConnection(): null connection!");
+            // Should never happen, but if it does just bail out and do nothing.
+            return;
         }
 
-        // Update the status bar notification while there's a ringing
-        // call, just like we do while the phone is offhook (see the
-        // Phone.State.OFFHOOK case in onPhoneStateChanged().
+        if (!c.isRinging()) {
+            Log.i(LOG_TAG, "CallNotifier.onNewRingingConnection(): connection not ringing!");
+            // This is a very strange case: an incoming call that stopped
+            // ringing almost instantly after the onNewRingingConnection()
+            // event.  There's nothing we can do here, so just bail out
+            // without doing anything.  (But presumably we'll log it in
+            // the call log when the disconnect event comes in...)
+            return;
+        }
+
+        // Stop any signalInfo tone being played on receiving a Call
+        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            stopSignalInfoTone();
+        }
+
+        Call.State state = c.getState();
+        // State will be either INCOMING or WAITING.
+        if (VDBG) log("- connection is ringing!  state = " + state);
+        // if (DBG) PhoneUtils.dumpCallState(mPhone);
+
+        // No need to do any service state checks here (like for
+        // "emergency mode"), since in those states the SIM won't let
+        // us get incoming connections in the first place.
+
+        // TODO: Consider sending out a serialized broadcast Intent here
+        // (maybe "ACTION_NEW_INCOMING_CALL"), *before* starting the
+        // ringer and going to the in-call UI.  The intent should contain
+        // the caller-id info for the current connection, and say whether
+        // it would be a "call waiting" call or a regular ringing call.
+        // If anybody consumed the broadcast, we'd bail out without
+        // ringing or bringing up the in-call UI.
         //
-        // Note: in most cases, we bring up the incoming-call UI as soon as
-        // the phone starts ringing, so it's superfluous to also put up a
-        // notification here.  But it *is* necessary if there's an
-        // "immersive" activity in the foreground, in which case this
-        // notification will provide an alternate UI that lets you know
-        // there's an incoming call *without* interrupting the current
-        // activity.
-        NotificationMgr.getDefault().updateInCallNotification();
+        // This would give 3rd party apps a chance to listen for (and
+        // intercept) new ringing connections.  An app could reject the
+        // incoming call by consuming the broadcast and doing nothing, or
+        // it could "pick up" the call (without any action by the user!)
+        // by firing off an ACTION_ANSWER intent.
+        //
+        // We'd need to protect this with a new "intercept incoming calls"
+        // system permission.
+
+        // Obtain a partial wake lock to make sure the CPU doesn't go to
+        // sleep before we finish bringing up the InCallScreen.
+        // (This will be upgraded soon to a full wake lock; see
+        // showIncomingCall().)
+        if (VDBG) log("Holding wake lock on new incoming connection.");
+        mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
+
+        // - don't ring for call waiting connections
+        // - do this before showing the incoming call panel
+        if (state == Call.State.INCOMING) {
+            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
+            startIncomingCallQuery(c);
+        } else {
+            if (VDBG) log("- starting call waiting tone...");
+            if (mCallWaitingTonePlayer == null) {
+                mCallWaitingTonePlayer = new InCallTonePlayer(InCallTonePlayer.TONE_CALL_WAITING);
+                mCallWaitingTonePlayer.start();
+            }
+            // in this case, just fall through like before, and call
+            // showIncomingCall().
+            if (DBG) log("- showing incoming call (this is a WAITING call)...");
+            showIncomingCall();
+        }
+
+        // Note we *don't* post a status bar notification here, since
+        // we're not necessarily ready to actually show the incoming call
+        // to the user.  (For calls in the INCOMING state, at least, we
+        // still need to run a caller-id query, and we may not even ring
+        // at all if the "send directly to voicemail" flag is set.)
+        //
+        // Instead, we update the notification (and potentially launch the
+        // InCallScreen) from the showIncomingCall() method, which runs
+        // when the caller-id query completes or times out.
 
         if (VDBG) log("- onNewRingingConnection() done.");
     }
@@ -535,6 +549,7 @@ public class CallNotifier extends Handler
 
             // in this case, just fall through like before, and call
             // showIncomingCall().
+            if (DBG) log("- showing incoming call (couldn't start query)...");
             showIncomingCall();
         }
     }
@@ -595,6 +610,7 @@ public class CallNotifier extends Handler
         mRinger.ring();
 
         // ...and display the incoming call to the user:
+        if (DBG) log("- showing incoming call (custom ring query complete)...");
         showIncomingCall();
     }
 
@@ -604,6 +620,7 @@ public class CallNotifier extends Handler
         if (state == Phone.State.OFFHOOK) {
             // basically do onPhoneStateChanged + display the incoming call UI
             onPhoneStateChanged(r);
+            if (DBG) log("- showing incoming call (unknown connection appeared)...");
             showIncomingCall();
         }
     }
@@ -673,6 +690,7 @@ public class CallNotifier extends Handler
         // us straight to the incoming call screen (thanks to the
         // notification's "fullScreenIntent" field), but if an immersive
         // activity is running it'll just appear as a notification.
+        if (DBG) log("- updating notification from showIncomingCall()...");
         NotificationMgr.getDefault().updateInCallNotification();
     }
 
@@ -756,6 +774,7 @@ public class CallNotifier extends Handler
             mRinger.stopRing();
 
             // put a icon in the status bar
+            if (DBG) log("- updating notification for phone state change...");
             NotificationMgr.getDefault().updateInCallNotification();
         }
 
@@ -1637,6 +1656,7 @@ public class CallNotifier extends Handler
         // Display the incoming call to the user if the InCallScreen isn't
         // already in the foreground.
         if (!mApplication.isShowingCallScreen()) {
+            if (DBG) log("- showing incoming call (CDMA call waiting)...");
             showIncomingCall();
         }
 

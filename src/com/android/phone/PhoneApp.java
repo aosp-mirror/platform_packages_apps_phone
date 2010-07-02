@@ -265,6 +265,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     // Currently, this is triggered by a bluetooth headset
                     // state change (since the status bar icon needs to
                     // turn blue when bluetooth is active.)
+                    if (DBG) Log.d (LOG_TAG, "- updating in-call notification from handler...");
                     NotificationMgr.getDefault().updateInCallNotification();
                     break;
 
@@ -1321,6 +1322,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
             if (isShowingCallScreen()) mInCallScreen.requestUpdateBluetoothIndication();
+            if (DBG) Log.d (LOG_TAG, "- updating in-call notification for BT state change...");
             mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
         }
 
