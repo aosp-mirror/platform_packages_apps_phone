@@ -512,26 +512,26 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         if (hasRingingCall) {
             // There's an incoming ringing call.
-            resId = com.android.internal.R.drawable.stat_sys_phone_call_ringing;
+            resId = R.drawable.stat_sys_phone_call_ringing;
         } else if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {
-                resId = android.R.drawable.stat_sys_vp_phone_call_on_hold;
+                resId = R.drawable.stat_sys_vp_phone_call_on_hold;
             } else {
-                resId = android.R.drawable.stat_sys_phone_call_on_hold;
+                resId = R.drawable.stat_sys_phone_call_on_hold;
             }
         } else if (PhoneApp.getInstance().showBluetoothIndication()) {
             // Bluetooth is active.
             if (enhancedVoicePrivacy) {
-                resId = com.android.internal.R.drawable.stat_sys_vp_phone_call_bluetooth;
+                resId = R.drawable.stat_sys_vp_phone_call_bluetooth;
             } else {
-                resId = com.android.internal.R.drawable.stat_sys_phone_call_bluetooth;
+                resId = R.drawable.stat_sys_phone_call_bluetooth;
             }
         } else {
             if (enhancedVoicePrivacy) {
-                resId = android.R.drawable.stat_sys_vp_phone_call;
+                resId = R.drawable.stat_sys_vp_phone_call;
             } else {
-                resId = android.R.drawable.stat_sys_phone_call;
+                resId = R.drawable.stat_sys_phone_call;
             }
         }
 
@@ -893,7 +893,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
                 notification = new Notification(
                         mContext,  // context
-                        android.R.drawable.stat_sys_phone_call_forward,  // icon
+                        R.drawable.stat_sys_phone_call_forward,  // icon
                         null, // tickerText
                         0,  // The "timestamp" of this notification is meaningless;
                             // we only care about whether CFI is currently on or not.
@@ -904,7 +904,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             } else {
                 notification = new Notification(
-                        android.R.drawable.stat_sys_phone_call_forward,  // icon
+                        R.drawable.stat_sys_phone_call_forward,  // icon
                         null,  // tickerText
                         System.currentTimeMillis()  // when
                         );
@@ -966,7 +966,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 R.string.notification_network_selection_text, operator);
 
         Notification notification = new Notification();
-        notification.icon = com.android.internal.R.drawable.stat_sys_warning;
+        notification.icon = android.R.drawable.stat_sys_warning;
         notification.when = 0;
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.tickerText = null;
