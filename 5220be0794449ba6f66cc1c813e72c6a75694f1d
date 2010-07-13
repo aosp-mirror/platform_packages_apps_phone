@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//9/8\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:30:59Z",
+      "side": 1,
+      "message": "System property is not the right way to do this. Since it controls more system wide properties like whether the phone is a cdma phone or not.\n\nAlso I don\u0027t know why we need a property ? We should just have the API always. Applications can decide whether they want to use it or not and give the choice if needed to the users via some Settings UI\n\nOur APIs shouldn\u0027t be based on some setting to enable or disable them.",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/0\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:30:59Z",
+      "side": 1,
+      "message": "Do we need so many states ? We just need to distinguish if a SCO or a Virtual Voice Call is active, right ?",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/4\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1676,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:30:59Z",
+      "side": 1,
+      "message": "Thanks the change below is already made in the latest master and in the internal tree I believe.",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+AA\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:30:59Z",
+      "side": 1,
+      "message": "We should move this to BluetoothHandsfree.jave when we know that a new call is being placed (updatePhoneState). That won\u0027t be better since that would be a catch all. But we need to make sure that it doesn\u0027t cause problems with the headset state.",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
