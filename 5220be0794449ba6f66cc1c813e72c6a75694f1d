@@ -36,6 +36,108 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n//9/k\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "ins\u0027t a simple check enough here - SCO call or a Virtual Call ?",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/g\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/c\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "How can this be null ? In SCO_CLOSED, the sco object is passed",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/Y\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "Same as above two, infact we can now move this logic to a function",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/U\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "How will the user be able to do this ? userWantsAudioOff() is to transfer audio from handsfree to the phone from the phone. Is that possible for a Virtual Voice Call ?",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//9/Q\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-13T03:47:07Z",
+      "side": 1,
+      "message": "I think we will get a headset disconnected event when this happens so may be this is not needed.",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/4\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
