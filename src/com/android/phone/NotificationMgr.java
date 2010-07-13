@@ -49,7 +49,6 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
 
-
 /**
  * NotificationManager-related utility code for the Phone app.
  */
@@ -410,14 +409,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         final Intent intent = PhoneApp.createCallLogIntent();
 
         // make the notification
-        Notification note = new Notification(mContext, // context
+        Notification note = new Notification(
                 android.R.drawable.stat_notify_missed_call, // icon
                 mContext.getString(R.string.notification_missedCallTicker, callName), // tickerText
-                date, // when
-                mContext.getText(titleResId), // expandedTitle
-                expandedText, // expandedText
-                intent // contentIntent
+                date // when
                 );
+        note.setLatestEventInfo(mContext, mContext.getText(titleResId), expandedText,
+                PendingIntent.getActivity(mContext, 0, intent, 0));
+
         configureLedNotification(note);
         mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
     }
@@ -891,17 +890,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 intent.setClassName("com.android.phone",
                         "com.android.phone.CallFeaturesSetting");
 
+
                 notification = new Notification(
-                        mContext,  // context
                         R.drawable.stat_sys_phone_call_forward,  // icon
                         null, // tickerText
-                        0,  // The "timestamp" of this notification is meaningless;
+                        0); // The "timestamp" of this notification is meaningless;
                             // we only care about whether CFI is currently on or not.
+                notification.setLatestEventInfo(
+                        mContext, // context
                         mContext.getString(R.string.labelCF), // expandedTitle
-                        mContext.getString(R.string.sum_cfu_enabled_indicator),  // expandedText
-                        intent // contentIntent
-                        );
-
+                        mContext.getString(R.string.sum_cfu_enabled_indicator), // expandedText
+                        PendingIntent.getActivity(mContext, 0, intent, 0)); // contentIntent
             } else {
                 notification = new Notification(
                         R.drawable.stat_sys_phone_call_forward,  // icon
@@ -932,14 +931,15 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                                    Settings.class);  // "Mobile network settings" screen
 
         Notification notification = new Notification(
-                mContext,  // context
-                android.R.drawable.stat_sys_warning,  // icon
+                android.R.drawable.stat_sys_warning, // icon
                 null, // tickerText
-                System.currentTimeMillis(),
+                System.currentTimeMillis());
+        notification.setLatestEventInfo(
+                mContext, // Context
                 mContext.getString(R.string.roaming), // expandedTitle
-                mContext.getString(R.string.roaming_reenable_message),  // expandedText
-                intent // contentIntent
-                );
+                mContext.getString(R.string.roaming_reenable_message), // expandedText
+                PendingIntent.getActivity(mContext, 0, intent, 0)); // contentIntent
+
         mNotificationMgr.notify(
                 DATA_DISCONNECTED_ROAMING_NOTIFICATION,
                 notification);
