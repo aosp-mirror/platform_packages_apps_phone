@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///wQ\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-14T17:45:45Z",
+      "side": 1,
+      "message": "For the first case:\nThere is mForground / mBackground / mRinging call - that we can use to check if there is a call already in progress. I think there is some utility function in PhoneUtils too.\n\nFor the second case:\n   mConnectedSco - will tell us if there is SCO connection present or not.\n\nI agree there are race conditions, but I believe we can solve all of them without adding new states. Think about it, else we can have a call to discuss this.",
+      "parentUuid": "AAAA1H///zQ\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/k\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -177,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///wA\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-14T17:45:45Z",
+      "side": 1,
+      "message": "Can you reproduce this crash ? SCO_CLOSED should be sending the SCO object from the native code.",
+      "parentUuid": "AAAA1H///yw\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/Y\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -247,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///v8\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-14T17:45:45Z",
+      "side": 1,
+      "message": "Lets take it out for now, and put a comment if needed.\n\nThe lesser code the better. If needed, we can always add later.",
+      "parentUuid": "AAAA1H///zE\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/Q\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -276,6 +330,24 @@
       "side": 1,
       "message": "Headset disconnect event is not handled within BluetoothHandsfree.java, isn\u0027t it? \n\nThis would be exercised only if the call was transferred to the phone and then while the call was in progress, the handsfree device powered off.",
       "parentUuid": "AAAA0n//9/Q\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///v0\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-14T17:45:45Z",
+      "side": 1,
+      "message": "SCO_CLOSED should handle this case",
+      "parentUuid": "AAAA1H///zA\u003d",
       "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -346,6 +418,24 @@
       "side": 1,
       "message": "I did consider handling this in updatePhoneState, but as you mentioned it would be too late as the outgoing call would have been initiated and the audio routing would have been set up before invoking updatePhoneState. This could render the BluetoothHandsfree SCO state handling in a bad state. Therefore, the need to do this here. Please note that the terminateVirtualVoiceCall shall be a NOP if there is no active virtual-call and is hence harmless.",
       "parentUuid": "AAAA0n//+AA\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///vU\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-14T17:45:45Z",
+      "side": 1,
+      "message": "I think u can move this to audioOn() ?\n\nThis is not safe, because a call could be initiated by the Phone app at various points. Putting an extra dependency on the phone app makes the code fragile. A developer adding a new entry point in the Phone app will not remember to do this.",
+      "parentUuid": "AAAA1H///zY\u003d",
       "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
