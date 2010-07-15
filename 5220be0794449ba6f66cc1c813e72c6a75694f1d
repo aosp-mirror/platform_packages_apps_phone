@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///jw\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-07-15T11:33:00Z",
+      "side": 1,
+      "message": "mConnectedSco is common to both cellular-call and virtual-call and hence cannot be used to differentiate, same issue with mOutgoingSco.\n\nThese states are not adding any complexity, but only guide the appropriate action. As per your suggestion, once we move the state checks into a function I think it should be fine. \n\nDo you have any specific concerns with these states?",
+      "parentUuid": "AAAA1H///wQ\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/k\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -213,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///js\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-07-15T11:33:00Z",
+      "side": 1,
+      "message": "I will try.",
+      "parentUuid": "AAAA1H///wA\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/Y\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -301,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///jo\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-07-15T11:33:00Z",
+      "side": 1,
+      "message": "OK. I will add a comment instead.",
+      "parentUuid": "AAAA1H///v8\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/Q\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
@@ -348,6 +402,24 @@
       "side": 1,
       "message": "SCO_CLOSED should handle this case",
       "parentUuid": "AAAA1H///zA\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///jk\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-07-15T11:33:00Z",
+      "side": 1,
+      "message": "No, SCO_CLOSED would not be received as we are in the call_transferred i.e. SCO is already closed. Please see my earlier comment.",
+      "parentUuid": "AAAA1H///v0\u003d",
       "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -436,6 +508,24 @@
       "side": 1,
       "message": "I think u can move this to audioOn() ?\n\nThis is not safe, because a call could be initiated by the Phone app at various points. Putting an extra dependency on the phone app makes the code fragile. A developer adding a new entry point in the Phone app will not remember to do this.",
       "parentUuid": "AAAA1H///zY\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///jY\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-07-15T11:33:00Z",
+      "side": 1,
+      "message": "audioOn is invoked as part of the handlePreciseCallStateChange and hence would be too late.\n\nPlease note that this is needed for the outgoing call initiated from the phone\u0027s keypad. Other scenarios: Incoming call, outgoing call from HF do not use this. \n\nI understand your concern, but placeCall is the single entry point for all outgoing calls initiated on the phone. The requirement is to terminate the virtual-call if any before dialing out. Please let me know if there is a more appropriate location to call this.",
+      "parentUuid": "AAAA1H///vU\u003d",
       "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
