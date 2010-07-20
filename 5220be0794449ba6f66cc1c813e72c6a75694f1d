@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA23////A\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-20T02:29:05Z",
+      "side": 1,
+      "message": "The reason I am against these states - \n\na)  I don\u0027t see any need for having so many states. This class is not designed as a state machine class and hence it just complicates the code and any developer will be scared to touch this code in 6 months time.\n\nb) All you need to know is whether its a virtual call or a phone a call. That is known from mForeground / mBackground call.\n\nmConnectedSco will tell u whether the audio has been transfered or not. It will be null when the SCO channel is not there.\n\nHave two utility functions which tell you this and it should serve all scenarios and make the code simpler",
+      "parentUuid": "AAAA1H///jw\u003d",
+      "revId": "5220be0794449ba6f66cc1c813e72c6a75694f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n//9/k\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 3
