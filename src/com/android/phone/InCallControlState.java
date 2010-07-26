@@ -22,6 +22,7 @@ import android.util.Log;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.CallManager;
 
 
 /**
@@ -46,6 +47,7 @@ public class InCallControlState {
 
     private InCallScreen mInCallScreen;
     private Phone mPhone;
+    private CallManager mCM;
 
     //
     // Our "public API": Boolean flags to indicate the state and/or
@@ -88,6 +90,7 @@ public class InCallControlState {
         if (DBG) log("InCallControlState constructor...");
         mInCallScreen = inCallScreen;
         mPhone = phone;
+        mCM = PhoneApp.getInstance().mCM;
     }
 
     /**
@@ -95,11 +98,10 @@ public class InCallControlState {
      * the Phone.
      */
     public void update() {
-        final boolean hasRingingCall = !mPhone.getRingingCall().isIdle();
-        final Call fgCall = mPhone.getForegroundCall();
+        final Call fgCall = mCM.getActiveFgCall();
         final Call.State fgCallState = fgCall.getState();
         final boolean hasActiveForegroundCall = (fgCallState == Call.State.ACTIVE);
-        final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
         // Manage conference:
         if (TelephonyCapabilities.supportsConferenceCallManagement(mPhone)) {

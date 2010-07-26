@@ -400,12 +400,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Get the default phone
             phone = PhoneFactory.getDefaultPhone();
 
+            mCM = CallManager.getInstance();
+            mCM.registerPhone(phone);
+
+
             NotificationMgr.init(this);
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
 
-            mCM = CallManager.getInstance();
-            mCM.registerPhone(phone);
 
             int phoneType = phone.getPhoneType();
 
