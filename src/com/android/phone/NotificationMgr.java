@@ -48,6 +48,7 @@ import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
+import com.android.internal.telephony.CallManager;
 
 
 /**
@@ -78,6 +79,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     private static NotificationMgr sMe = null;
     private Phone mPhone;
+    private CallManager mCM;
 
     private Context mContext;
     private NotificationManager mNotificationMgr;
@@ -116,6 +118,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         PhoneApp app = PhoneApp.getInstance();
         mPhone = app.phone;
+        mCM = app.mCM;
     }
 
     static void init(Context context) {
@@ -500,9 +503,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
-        final boolean hasRingingCall = !mPhone.getRingingCall().isIdle();
-        final boolean hasActiveCall = !mPhone.getForegroundCall().isIdle();
-        final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
         // Display the appropriate icon in the status bar,
         // based on the current phone and/or bluetooth state.
@@ -557,11 +560,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         Call currentCall;
         if (hasRingingCall) {
-            currentCall = mPhone.getRingingCall();
+            currentCall = mCM.getFirstActiveRingingCall();
         } else if (hasActiveCall) {
-            currentCall = mPhone.getForegroundCall();
+            currentCall = mCM.getActiveFgCall();
         } else {
-            currentCall = mPhone.getBackgroundCall();
+            currentCall = mCM.getFirstActiveBgCall();
         }
         Connection currentConn = currentCall.getEarliestConnection();
 
