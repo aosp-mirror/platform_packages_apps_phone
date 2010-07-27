@@ -1049,6 +1049,9 @@ public class CallNotifier extends Handler
             if (!mApplication.isShowingCallScreen()) {
                 if (VDBG) log("onDisconnect: force InCallScreen to finish()");
                 mApplication.dismissCallScreen();
+            } else {
+                if (VDBG) log("onDisconnect: In call screen. Set short timeout.");
+                mApplication.clearUserActivityTimeout();
             }
         }
 
