@@ -423,8 +423,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // before registering for phone state changes
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                    | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    LOG_TAG);
             // lock used to keep the processor awake, when we don't care for the display.
             mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
@@ -1647,5 +1647,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     + ar.exception);
         }
         phone.queryTTYMode(mHandler.obtainMessage(EVENT_TTY_MODE_GET));
+    }
+
+    /* package */ void clearUserActivityTimeout() {
+        try {
+            mPowerManagerService.clearUserActivityTimeout(SystemClock.uptimeMillis(),
+                    10*1000 /* 10 sec */);
+        } catch (RemoteException ex) {
+            // System process is dead.
+        }
     }
 }
