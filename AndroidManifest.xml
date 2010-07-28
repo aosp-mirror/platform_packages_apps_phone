@@ -73,6 +73,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SHUTDOWN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.PERFORM_CDMA_PROVISIONING" />
 
     <!-- This tells the activity manager to not delay any of our activity
          start requests, even if they happen immediately after the user
@@ -202,6 +203,10 @@
             </intent-filter>
         </receiver>
 
+        <!-- Main in-call UI activity.  This is never launched directly
+             from outside the phone app; instead, it's either launched by
+             the OutgoingCallBroadcaster (for outgoing calls), or as the
+             fullScreenIntent of a notification (for incoming calls.) -->
         <activity android:name="InCallScreen"
             android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/phoneIconLabel"
@@ -212,12 +217,13 @@
             android:exported="false">
         </activity>
 
+        <!-- Trampoline activity that handles the PERFORM_CDMA_PROVISIONING intent. -->
         <activity android:name="InCallScreenShowActivation"
             android:permission="android.permission.PERFORM_CDMA_PROVISIONING"
             android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true">
             <intent-filter>
-                <action android:name="com.android.phone.InCallScreen.SHOW_ACTIVATION" />
+                <action android:name="com.android.phone.PERFORM_CDMA_PROVISIONING" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -423,6 +429,20 @@
                 android:configChanges="orientation|keyboardHidden">
         </activity>
 
+        <!-- Test activity mimicking the PERFORM_CDMA_PROVISIONING behavior of
+             SetupWizard, useful for testing "non-interactive" OTASP.
+             STOPSHIP: During initial Stingray OTASP testing, this is
+             exposed in the LAUNCHER category.  It should ultimately move
+             into the "tests" manifest, though, at which point we can
+             remove it *and* the PERFORM_CDMA_PROVISIONING permission from here. -->
+        <activity android:name="OtaspTestActivity"
+                  android:label="OtaspTest">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
-

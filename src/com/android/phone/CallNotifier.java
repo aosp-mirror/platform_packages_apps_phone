@@ -975,6 +975,15 @@ public class CallNotifier extends Handler
             mCallWaitingTonePlayer = null;
         }
 
+        // If this is the end of an OTASP call, pass it on to the PhoneApp.
+        if (c != null && TelephonyCapabilities.supportsOtasp(mPhone)) {
+            final String number = c.getAddress();
+            if (mPhone.isOtaSpNumber(number)) {
+                if (DBG) log("onDisconnect: this was an OTASP call!");
+                mApplication.handleOtaspDisconnect();
+            }
+        }
+
         // Check for the various tones we might need to play (thru the
         // earpiece) after a call disconnects.
         int toneToPlay = InCallTonePlayer.TONE_NONE;

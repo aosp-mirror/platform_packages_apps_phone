@@ -19,42 +19,29 @@ package com.android.phone;
 import com.android.internal.telephony.Phone;
 import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.os.AsyncResult;
 import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
-import android.os.SystemProperties;
-import android.provider.Settings;
-
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.WindowManager;
-
 import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.ToggleButton;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 /**
- * TODO: This is Over The Air Service Provisioning (OTASP)
- *       A better name would be OtaspUtils.java.
- *
- * TODO: OTASP could UI may be substantially different on
- *       future devices, and may not necessarily be built-in
- *       to the InCallScreen.
- *
  * Handles all OTA Call related logic and UI functionality.
  * The InCallScreen interacts with this class to perform an OTA Call.
  *
@@ -62,6 +49,9 @@ import android.widget.TextView;
  *   OTA or OTASP == Over The Air service provisioning
  *   SPC == Service Programming Code
  *   TODO: Include pointer to more detailed documentation.
+ *
+ * TODO: This is Over The Air Service Provisioning (OTASP)
+ *       A better name would be OtaspUtils.java.
  */
 public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
@@ -79,6 +69,44 @@ public class OtaUtils {
     // SPC Timeout is 60 seconds
     public final int OTA_SPC_TIMEOUT = 60;
     public final int OTA_FAILURE_DIALOG_TIMEOUT = 2;
+
+    // Constants for OTASP-related Intents and intent extras.
+    // Watch out: these must agree with the corresponding constants in
+    // apps/SetupWizard!
+
+    // Intent action to launch an OTASP call.
+    public static final String ACTION_PERFORM_CDMA_PROVISIONING =
+           "com.android.phone.PERFORM_CDMA_PROVISIONING";
+
+    // Activity result codes for the ACTION_PERFORM_CDMA_PROVISIONING intent
+    // (see the InCallScreenShowActivation activity.)
+    public static final int RESULT_INTERACTIVE_OTASP_STARTED = Activity.RESULT_FIRST_USER;
+    public static final int RESULT_NONINTERACTIVE_OTASP_STARTED = Activity.RESULT_FIRST_USER + 1;
+    public static final int RESULT_NONINTERACTIVE_OTASP_FAILED = Activity.RESULT_FIRST_USER + 2;
+
+    // Testing: Extra for the ACTION_PERFORM_CDMA_PROVISIONING intent that
+    // allows the caller to manually enable/disable "interactive mode" for
+    // the OTASP call.
+    public static final String EXTRA_OVERRIDE_INTERACTIVE_MODE =
+            "ota_override_interactive_mode";
+
+    // Extra for the ACTION_PERFORM_CDMA_PROVISIONING intent, holding a
+    // PendingIntent which the phone app can use to send a result code
+    // back to the caller.
+    public static final String EXTRA_OTASP_RESULT_CODE_PENDING_INTENT =
+            "otasp_result_code_pending_intent";
+
+    // Extra attached to the above PendingIntent that indicates
+    // success or failure.
+    public static final String EXTRA_OTASP_RESULT_CODE =
+            "otasp_result_code";
+    public static final int OTASP_UNKNOWN = 0;
+    public static final int OTASP_USER_SKIPPED = 1;  // Only meaningful with interactive OTASP
+    public static final int OTASP_SUCCESS = 2;
+    public static final int OTASP_FAILURE = 3;
+
+    private static final String OTASP_NUMBER = "*228";
+    private static final String OTASP_NUMBER_NON_INTERACTIVE = "*22899";
 
     private InCallScreen mInCallScreen;
     private Context mContext;
@@ -99,6 +127,14 @@ public class OtaUtils {
     // both these uses, but see bug 2432289 for related issues.
 
     private static boolean mIsWizardMode = true;
+
+    // In "interactive mode", the OtaUtils object is tied to an
+    // InCallScreen instance, where we display a bunch of UI specific to
+    // the OTASP call.  But on devices that are not "voice capable", the
+    // OTASP call runs in a non-interactive mode, and we don't have
+    // an InCallScreen or CallCard or any OTASP UI elements at all.
+    private boolean mInteractive = true;
+
 
     /**
      * OtaWidgetData class represent all OTA UI elements
@@ -142,11 +178,16 @@ public class OtaUtils {
         mApplication = PhoneApp.getInstance();
         mOtaWidgetData = new OtaWidgetData();
 
-        // inflate OTA Call card and footers
-        ViewStub otaCallCardStub = (ViewStub) mInCallScreen.findViewById(R.id.otaCallCardStub);
-        otaCallCardStub.inflate();
-        readXmlSettings();
-        initOtaInCallScreen();
+        // If no InCallScreen was passed in, assume non-interactive mode.
+        mInteractive = (mInCallScreen != null);
+
+        if (mInteractive) {
+            // inflate OTA Call card and footers
+            ViewStub otaCallCardStub = (ViewStub) mInCallScreen.findViewById(R.id.otaCallCardStub);
+            otaCallCardStub.inflate();
+            readXmlSettings();
+            initOtaInCallScreen();
+        }
     }
 
     /**
@@ -164,7 +205,7 @@ public class OtaUtils {
         Phone phone = app.phone;
 
         if (!isCdmaPhone()) {
-            if (DBG) Log.v("OtaUtils", "Can't run provisioning on a non-CDMA phone");
+            if (DBG) log("Can't run provisioning on a non-CDMA phone");
             return true; // sanity check - a non-cdma phone doesn't need to run this
         }
 
@@ -183,22 +224,119 @@ public class OtaUtils {
 
         if (DBG) log("otaShowActivationScreen: " + otaShowActivationScreen);
 
-        if (phoneNeedsActivation && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
-            app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
-            Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
-            newIntent.setClass(context, InCallScreen.class);
-            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mIsWizardMode = false;
-            context.startActivity(newIntent);
-            if (DBG) log("activation intent sent.");
+        // Run the OTASP call in "interactive" mode only if
+        // this is a "voice capable" device.
+        // TODO: this resource needs to be used from apps/Contacts also,
+        // so we'll probably move it into the framework at some point...
+        boolean voiceCapable = context.getResources().getBoolean(R.bool.voice_capable);
+
+        if (voiceCapable) {
+            if (phoneNeedsActivation
+                    && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
+                app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
+                Intent newIntent = new Intent(ACTION_PERFORM_CDMA_PROVISIONING);
+                newIntent.setClass(context, InCallScreen.class);
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mIsWizardMode = false;
+                context.startActivity(newIntent);
+                if (DBG) log("maybeDoOtaCall: voice capable; activation intent sent.");
+            } else {
+                if (DBG) log("maybeDoOtaCall: voice capable; activation intent NOT sent.");
+            }
         } else {
-            if (DBG) log("activation intent NOT sent.");
+            if (phoneNeedsActivation) {
+                if (DBG) log("maybeDoOtaCall: non-interactive; need to start OTASP call...");
+
+                // TODO: Do nothing for now, since phone.needsOtaServiceProvisioning()
+                // is unreliable on Stingray right now.
+
+                // But eventually we'll need to fire off a non-interactive
+                // OTASP call (see startNonInteractiveOtasp()) *and* jump
+                // to some activity in the SetupWizard to show a progress
+                // UI to the user.
+
+            } else {
+                if (DBG) log("maybeDoOtaCall: non-interactive, no need for OTASP.");
+            }
         }
         return true;
     }
 
+    /**
+     * Starts the OTASP call *without* involving the InCallScreen or
+     * displaying any UI.
+     *
+     * This is used on data-only devices, which don't support any kind of
+     * in-call phone UI.
+     *
+     * @return PhoneUtils.CALL_STATUS_DIALED if we successfully
+     *         dialed the OTASP number, or one of the other
+     *         CALL_STATUS_* constants if there was a failure.
+     */
+    public static int startNonInteractiveOtasp(Context context) {
+        if (DBG) log("startNonInteractiveOtasp()...");
+        PhoneApp app = PhoneApp.getInstance();
+
+        if (app.otaUtils != null) {
+            // An OtaUtils instance already exists.
+            // TODO: Is this actually an error condition?
+            Log.w(LOG_TAG, "startNonInteractiveOtasp: "
+                  + "OtaUtils already exists; nuking the old one and starting again...");
+        }
+
+        // Create the OtaUtils instance, and indicate we're in
+        // "non-interactive mode" by passing in null for
+        // inCallScreen / callCard / dialer / etc.
+        app.otaUtils = new OtaUtils(context,
+                                    null, null, null, null);
+        if (DBG) log("- created OtaUtils: " + app.otaUtils);
+
+        // ... and kick off the OTASP call.
+        Phone phone = PhoneApp.getPhone();
+        String number = OTASP_NUMBER_NON_INTERACTIVE;
+        if (DBG) log("- placing call to '" + number + "'...");
+        int callStatus = PhoneUtils.placeCall(context,
+                                              phone,
+                                              number,
+                                              null,  // contactRef
+                                              false,  //isEmergencyCall
+                                              null);  // gatewayUri
+
+        if (callStatus == PhoneUtils.CALL_STATUS_DIALED) {
+            if (DBG) log("  ==> successful return from placeCall(): callStatus = " + callStatus);
+        } else {
+            Log.w(LOG_TAG, "Failure from placeCall() for OTA number '"
+                  + number + "': code " + callStatus);
+            return callStatus;
+        }
+
+        // TODO: temp hack while testing; this makes the OTA call easier to
+        //       hear on Sholes, and has no effect on Stingray.
+        // STOPSHIP: remove before release
+        PhoneUtils.turnOnSpeaker(context, true, true);
+
+        // TODO: Any other special work to do here?
+        // Such as:
+        //
+        // - manually kick off progress updates, either using TelephonyRegistry
+        //   or else by sending PendingIntents directly to our caller?
+        //
+        // - manually silence the in-call audio?  (Probably unnecessary
+        //   if Stingray truly has no audio path from phone baseband
+        //   to the device's speakers.)
+        //
+
+        return callStatus;
+    }
+
     private void setSpeaker(boolean state) {
         if (DBG) log("setSpeaker : " + state );
+
+        if (!mInteractive) {
+            if (DBG) log("non-interactive mode, ignoring setSpeaker.");
+            return;
+        }
+
         if (state == PhoneUtils.isSpeakerOn(mContext)) {
             if (DBG) log("no change. returning");
             return;
@@ -219,21 +357,28 @@ public class OtaUtils {
      */
     public void onOtaProvisionStatusChanged(AsyncResult r) {
         int OtaStatus[] = (int[]) r.result;
-        if (DBG) log("onOtaProvisionStatusChanged(): OtaStatus[0]" + OtaStatus[0]);
+        if (DBG) log("Provision status event!");
+        if (DBG) log("onOtaProvisionStatusChanged(): status = "
+                     + OtaStatus[0] + " ==> " + otaProvisionStatusToString(OtaStatus[0]));
+
+        // In practice, in a normal successful OTASP call, events come in as follows:
+        //   - SPL_UNLOCKED within a couple of seconds after the call starts
+        //   - then a delay of around 45 seconds
+        //   - then PRL_DOWNLOADED and MDN_DOWNLOADED and COMMITTED within a span of 2 seconds
 
         switch(OtaStatus[0]) {
             case Phone.CDMA_OTA_PROVISION_STATUS_SPC_RETRIES_EXCEEDED:
-                otaShowInProgressScreen();
+                if (DBG) log("onOtaProvisionStatusChanged(): RETRIES EXCEEDED");
+                updateOtaspProgress();
                 mApplication.cdmaOtaProvisionData.otaSpcUptime = SystemClock.elapsedRealtime();
                 otaShowSpcErrorNotice(OTA_SPC_TIMEOUT);
-                if (DBG) log("onOtaProvisionStatusChanged(): RETRIES EXCEEDED");
                 // Power.shutdown();
                 break;
 
             case Phone.CDMA_OTA_PROVISION_STATUS_COMMITTED:
-                otaShowInProgressScreen();
-                mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
                 if (DBG) log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
+                updateOtaspProgress();
+                mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
                 break;
 
             case Phone.CDMA_OTA_PROVISION_STATUS_SPL_UNLOCKED:
@@ -247,12 +392,26 @@ public class OtaUtils {
             case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STOPPED:
             case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_ABORTED:
                 if (DBG) log("onOtaProvisionStatusChanged(): change to ProgressScreen");
-                otaShowInProgressScreen();
+                updateOtaspProgress();
                 break;
 
             default:
                 if (DBG) log("onOtaProvisionStatusChanged(): Ignoring OtaStatus " + OtaStatus[0]);
                 break;
+        }
+    }
+
+    /**
+     * Handle a disconnect event from the OTASP call.
+     */
+    public void onOtaspDisconnect() {
+        if (DBG) log("onOtaspDisconnect()...");
+        // We only handle this event explicitly in non-interactive mode.
+        // (In interactive mode, the InCallScreen does any post-disconnect
+        // cleanup.)
+        if (!mInteractive) {
+            // Send a success or failure indication back to our caller.
+            updateNonInteractiveOtaSuccessFailure();
         }
     }
 
@@ -271,25 +430,27 @@ public class OtaUtils {
     private void otaSkipActivation() {
         if (DBG) log("otaSkipActivation()...");
 
-        PhoneApp app = PhoneApp.getInstance();
-        if (app != null && app.cdmaOtaInCallScreenUiState.reportSkipPendingIntent != null) {
-            try {
-                app.cdmaOtaInCallScreenUiState.reportSkipPendingIntent.send();
-            } catch (CanceledException e) {
-                // should never happen because no code cancels the pending intent right now,
-                // but if it does, the user will simply be returned to the initial setup screen
-            }
-        }
+        sendOtaspResult(OTASP_USER_SKIPPED);
 
-        mInCallScreen.finish();
+        if (mInteractive) mInCallScreen.finish();
         return;
     }
 
+    /**
+     * Actually initiate the OTASP call.  This method is triggered by the
+     * onscreen "Activate" button, and is only used in interactive mode.
+     */
     private void otaPerformActivation() {
         if (DBG) log("otaPerformActivation()...");
+        if (!mInteractive) {
+            // We shouldn't ever get here in non-interactive mode!
+            Log.w(LOG_TAG, "otaPerformActivation: not interactive!");
+            return;
+        }
+
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
             Intent newIntent = new Intent(Intent.ACTION_CALL);
-            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, InCallScreen.OTA_NUMBER);
+            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, OTASP_NUMBER);
             mInCallScreen.internalResolveIntent(newIntent);
             otaShowListeningScreen();
         }
@@ -330,7 +491,13 @@ public class OtaUtils {
      * appropriate DTMF digits to proceed to the "Programming in Progress" phase.
      */
     private void otaShowListeningScreen() {
-        if (DBG) log("OtaShowListeningScreen()...");
+        if (DBG) log("otaShowListeningScreen()...");
+        if (!mInteractive) {
+            // We shouldn't ever get here in non-interactive mode!
+            Log.w(LOG_TAG, "otaShowListeningScreen: not interactive!");
+            return;
+        }
+
         if (mApplication.cdmaOtaConfigData.otaShowListeningScreen
                 == OTA_SHOW_LISTENING_SCREEN_ON) {
             if (DBG) log("OtaShowListeningScreen(): show listening screen");
@@ -358,11 +525,113 @@ public class OtaUtils {
     }
 
     /**
+     * Do any necessary updates (of onscreen UI, for example)
+     * based on the latest status of the OTASP call.
+     */
+    private void updateOtaspProgress() {
+        if (DBG) log("updateOtaspProgress()...  mInteractive = " + mInteractive);
+        if (mInteractive) {
+            // On regular phones we just call through to
+            // otaShowInProgressScreen(), which updates the
+            // InCallScreen's onscreen UI.
+            otaShowInProgressScreen();
+        } else {
+            // We're not using the InCallScreen to show OTA progress.
+
+            // For now, at least, there's nothing to do here.
+            // The overall "success" or "failure" indication we send back
+            // (to our caller) is triggered by the DISCONNECT event;
+            // see updateNonInteractiveOtaSuccessFailure().
+
+            // But if we ever need to send *intermediate* progress updates back
+            // to our caller, we'd do that here, possbily using the same
+            // PendingIntent that we already use to indicate success or failure.
+        }
+    }
+
+    /**
+     * When a non-interactive OTASP call completes, send a success or
+     * failure indication back to our caller.
+     *
+     * This is basically the non-interactive equivalent of
+     * otaShowSuccessFailure().
+     */
+    private void updateNonInteractiveOtaSuccessFailure() {
+        // This is basically the same logic as otaShowSuccessFailure(): we
+        // check the isOtaCallCommitted bit, and if that's true it means
+        // that activation was successful.
+
+        if (DBG) log("updateNonInteractiveOtaSuccessFailure(): isOtaCallCommitted = "
+                     + mApplication.cdmaOtaProvisionData.isOtaCallCommitted);
+        int resultCode =
+                mApplication.cdmaOtaProvisionData.isOtaCallCommitted
+                ? OTASP_SUCCESS : OTASP_FAILURE;
+        sendOtaspResult(resultCode);
+    }
+
+    /**
+     * Sends the specified OTASP result code back to our caller (presumably
+     * SetupWizard) via the PendingIntent that they originally sent along with
+     * the ACTION_PERFORM_CDMA_PROVISIONING intent.
+     */
+    private void sendOtaspResult(int resultCode) {
+        if (DBG) log("sendOtaspResult: resultCode = " + resultCode);
+
+        // Pass the success or failure indication back to our caller by
+        // adding an additional extra to the PendingIntent we already
+        // have.
+        // (NB: there's a PendingIntent send() method that takes a resultCode
+        // directly, but we can't use that here since that call is only
+        // meaningful for pending intents that are actually used as activity
+        // results.)
+
+        Intent extraStuff = new Intent();
+        extraStuff.putExtra(EXTRA_OTASP_RESULT_CODE, resultCode);
+        // When we call PendingIntent.send() below, the extras from this
+        // intent will get merged with any extras already present in
+        // cdmaOtaScreenState.otaspResultCodePendingIntent.
+
+        if (mApplication.cdmaOtaScreenState == null) {
+            Log.e(LOG_TAG, "updateNonInteractiveOtaSuccessFailure: no cdmaOtaScreenState object!");
+            return;
+        }
+        if (mApplication.cdmaOtaScreenState.otaspResultCodePendingIntent == null) {
+            Log.w(LOG_TAG, "updateNonInteractiveOtaSuccessFailure: "
+                  + "null otaspResultCodePendingIntent!");
+            // This *should* never happen, since SetupWizard always passes this
+            // PendingIntent along with the ACTION_PERFORM_CDMA_PROVISIONING
+            // intent.
+            // (But if this happens it's not a fatal error, it just means that
+            // our original caller has no way of finding out whether the OTASP
+            // call ultimately failed or succeeded...)
+            return;
+        }
+
+        try {
+            if (DBG) log("- sendOtaspResult:  SENDING PENDING INTENT: " +
+                         mApplication.cdmaOtaScreenState.otaspResultCodePendingIntent);
+            mApplication.cdmaOtaScreenState.otaspResultCodePendingIntent.send(
+                    mContext,
+                    0, /* resultCode (unused) */
+                    extraStuff);
+        } catch (CanceledException e) {
+            // should never happen because no code cancels the pending intent right now,
+            Log.e(LOG_TAG, "PendingIntent send() failed: " + e);
+        }
+    }
+
+    /**
      * Show "Programming In Progress" screen during OTA call. Shown when OTA
      * provisioning is in progress after user has selected an option.
      */
     private void otaShowInProgressScreen() {
-        if (DBG) log("OtaShowInProgressScreen()...");
+        if (DBG) log("otaShowInProgressScreen()...");
+        if (!mInteractive) {
+            // We shouldn't ever get here in non-interactive mode!
+            Log.w(LOG_TAG, "otaShowInProgressScreen: not interactive!");
+            return;
+        }
+
         if (!isDialerOpened()) {
             otaScreenInitialize();
             mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
@@ -411,7 +680,13 @@ public class OtaUtils {
      * for more details.
      */
     public void otaShowSuccessFailure() {
-        if (DBG) log("OtaShowSuccessFailure()...");
+        if (DBG) log("otaShowSuccessFailure()...");
+        if (!mInteractive) {
+            // We shouldn't ever get here in non-interactive mode!
+            Log.w(LOG_TAG, "otaShowSuccessFailure: not interactive!");
+            return;
+        }
+
         otaScreenInitialize();
         if (DBG) log("OtaShowSuccessFailure(): isOtaCallCommitted"
                 + mApplication.cdmaOtaProvisionData.isOtaCallCommitted);
@@ -546,7 +821,14 @@ public class OtaUtils {
      * gets drawn.
      */
     private void otaScreenInitialize() {
-        if (DBG) log("OtaScreenInitialize()...");
+        if (DBG) log("otaScreenInitialize()...");
+
+        if (!mInteractive) {
+            // We should never be doing anything with UI elements in
+            // non-interactive mode.
+            Log.w(LOG_TAG, "otaScreenInitialize: not interactive!");
+            return;
+        }
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
@@ -583,10 +865,18 @@ public class OtaUtils {
 
     /**
      * Show the appropriate OTA screen based on the current state of OTA call.
-     * Shown whenever calling screen is resumed.
+     *
+     * This is called from the InCallScreen when the screen needs to be
+     * refreshed (and thus is only ever used in interactive mode.)
      */
     public void otaShowProperScreen() {
         if (DBG) log("otaShowProperScreen()...");
+        if (!mInteractive) {
+            // We shouldn't ever get here in non-interactive mode!
+            Log.w(LOG_TAG, "otaShowProperScreen: not interactive!");
+            return;
+        }
+
         if (mInCallScreen.isForegroundActivity()) {
             if (DBG) log("otaShowProperScreen(), OTA is foreground activity, currentstate ="
                     + mApplication.cdmaOtaScreenState.otaScreenState);
@@ -871,27 +1161,29 @@ public class OtaUtils {
         mApplication.cdmaOtaProvisionData.otaSpcUptime = 0;
         mApplication.cdmaOtaInCallScreenUiState.state = State.UNDEFINED;
 
-        if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
-        if (mCallCard != null) mCallCard.hideCallCardElements();
-        mDialer.setHandleVisible(true);
+        if (mInteractive) {
+            if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
+            if (mCallCard != null) mCallCard.hideCallCardElements();
+            mDialer.setHandleVisible(true);
 
-        // Free resources from the DTMFTwelveKeyDialer instance we created
-        // in initOtaInCallScreen().
-        if (mOtaCallCardDtmfDialer != null) {
-            mOtaCallCardDtmfDialer.stopDialerSession();
+            // Free resources from the DTMFTwelveKeyDialer instance we created
+            // in initOtaInCallScreen().
+            if (mOtaCallCardDtmfDialer != null) {
+                mOtaCallCardDtmfDialer.stopDialerSession();
+            }
+
+            mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
+            mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
+            mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
+            mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
+            mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
+            mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.GONE);
+            mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.GONE);
+            mOtaWidgetData.otaCallCardBase.setVisibility(View.GONE);
+            mOtaWidgetData.otaDtmfDialerView.setVisibility(View.GONE);
+            mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
+            mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
         }
-
-        mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
-        mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
-        mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.GONE);
-        mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.GONE);
-        mOtaWidgetData.otaCallCardBase.setVisibility(View.GONE);
-        mOtaWidgetData.otaDtmfDialerView.setVisibility(View.GONE);
-        mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
-        mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
 
         // turn off the speaker in case it was turned on
         // but the OTA call could not be completed
@@ -947,9 +1239,6 @@ public class OtaUtils {
             if (DBG) log("CdmaOtaInCallScreenState: constructor init to UNDEFINED");
             state = CdmaOtaInCallScreenUiState.State.UNDEFINED;
         }
-
-        // the pending intent used to report when the user skips ota provisioning
-        public PendingIntent reportSkipPendingIntent;
     }
 
     /**
@@ -964,7 +1253,8 @@ public class OtaUtils {
      * Get the Ota InCallScreen UI state
      */
     public CdmaOtaInCallScreenUiState.State getCdmaOtaInCallScreenUiState() {
-        if (DBG) log("getCdmaOtaInCallScreenState: " + mApplication.cdmaOtaInCallScreenUiState.state);
+        if (DBG) log("getCdmaOtaInCallScreenState: "
+                     + mApplication.cdmaOtaInCallScreenUiState.state);
         return mApplication.cdmaOtaInCallScreenUiState.state;
     }
 
@@ -984,6 +1274,50 @@ public class OtaUtils {
 
         public CdmaOtaScreenState() {
             otaScreenState = OtaScreenState.OTA_STATUS_UNDEFINED;
+        }
+
+        // PendingIntent used to report an OTASP result status code back
+        // to our caller.
+        //
+        // Our caller (presumably SetupWizard) creates this PendingIntent,
+        // pointing back at itself, and passes it along as an extra with the
+        // ACTION_PERFORM_CDMA_PROVISIONING intent.  Then, when there's an
+        // OTASP result to report, we send that PendingIntent back, adding an
+        // extra called EXTRA_OTASP_RESULT_CODE to indicate the result.
+        //
+        // Possible result values are the OTASP_RESULT_* constants.
+        public PendingIntent otaspResultCodePendingIntent;
+    }
+
+    /** @see com.android.internal.telephony.Phone */
+    private static String otaProvisionStatusToString(int status) {
+        switch (status) {
+            case Phone.CDMA_OTA_PROVISION_STATUS_SPL_UNLOCKED:
+                return "SPL_UNLOCKED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_SPC_RETRIES_EXCEEDED:
+                return "SPC_RETRIES_EXCEEDED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_A_KEY_EXCHANGED:
+                return "A_KEY_EXCHANGED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_SSD_UPDATED:
+                return "SSD_UPDATED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_NAM_DOWNLOADED:
+                return "NAM_DOWNLOADED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_MDN_DOWNLOADED:
+                return "MDN_DOWNLOADED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_IMSI_DOWNLOADED:
+                return "IMSI_DOWNLOADED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_PRL_DOWNLOADED:
+                return "PRL_DOWNLOADED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_COMMITTED:
+                return "COMMITTED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STARTED:
+                return "OTAPA_STARTED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STOPPED:
+                return "OTAPA_STOPPED";
+            case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_ABORTED:
+                return "OTAPA_ABORTED";
+            default:
+                return "<unknown status" + status + ">";
         }
     }
 

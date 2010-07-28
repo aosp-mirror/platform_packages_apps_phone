@@ -205,6 +205,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /** boolean indicating restoring mute state on InCallScreen.onResume() */
     private boolean mShouldRestoreMuteOnInCallResume;
 
+    /**
+     * The singleton OtaUtils instance used for OTASP calls.
+     */
+    public OtaUtils otaUtils;
+
     // Following are the CDMA OTA information Objects used during OTA Call.
     // cdmaOtaProvisionData object store static OTA information that needs
     // to be maintained even during Slider open/close scenarios.
@@ -719,21 +724,49 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     }
 
     /**
-     * Handle OTA events
+     * Handle OTASP events
      *
-     * When OTA call is active and display becomes dark, then CallNotifier will
-     * handle OTA Events by calling this api which then calls OtaUtil function.
+     * While an OTASP call is active, the CallNotifier forwards
+     * OTASP-related telephony events to this method.
+     *
+     * If the InCallScreen is in the foreground, it handles these events
+     * itself so we don't need to do anything here.  But if the screen
+     * goes off during the OTASP call, or if we're on a data-only device
+     * with no in-call UI at all, we handle these events here by
+     * forwarding them to the OtaUtils singleton.
      */
     void handleOtaEvents(Message msg) {
+        if (DBG) Log.d(LOG_TAG, "handleOtaEvents(message " + msg + ")...");
 
-        if (DBG) Log.d(LOG_TAG, "Enter handleOtaEvents");
-        if ((mInCallScreen != null) && (!isShowingCallScreen())) {
-            if (mInCallScreen.otaUtils != null) {
-                mInCallScreen.otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
-            }
+        if (otaUtils == null) {
+            // We shouldn't be getting OTASP events without ever
+            // having started the OTASP call in the first place!
+            Log.w(LOG_TAG, "handleOtaEvents: got an event but otaUtils is null! "
+                  + "message = " + msg);
+            return;
+        }
+
+        if (!isShowingCallScreen()) {
+            otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
         }
     }
 
+    /**
+     * Similarly, handle the disconnect event of an OTASP call
+     * by forwarding it to the OtaUtils instance.
+     */
+    /* package */ void handleOtaspDisconnect() {
+        if (DBG) Log.d(LOG_TAG, "handleOtaspDisconnect()...");
+
+        if (otaUtils == null) {
+            // We shouldn't be getting OTASP events without ever
+            // having started the OTASP call in the first place!
+            Log.w(LOG_TAG, "handleOtaspDisconnect: otaUtils is null!");
+            return;
+        }
+
+        otaUtils.onOtaspDisconnect();
+    }
 
     /**
      * Sets the activity responsible for un-PUK-blocking the device
@@ -1572,8 +1605,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     public void clearOtaState() {
         if (DBG) Log.d(LOG_TAG, "- clearOtaState ...");
         if ((mInCallScreen != null)
-                && (mInCallScreen.otaUtils != null)) {
-            mInCallScreen.otaUtils.cleanOtaScreen(true);
+                && (otaUtils != null)) {
+            otaUtils.cleanOtaScreen(true);
             if (DBG) Log.d(LOG_TAG, "  - clearOtaState clears OTA screen");
         }
     }
@@ -1582,8 +1615,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     public void dismissOtaDialogs() {
         if (DBG) Log.d(LOG_TAG, "- dismissOtaDialogs ...");
         if ((mInCallScreen != null)
-                && (mInCallScreen.otaUtils != null)) {
-            mInCallScreen.otaUtils.dismissAllOtaDialogs();
+                && (otaUtils != null)) {
+            otaUtils.dismissAllOtaDialogs();
             if (DBG) Log.d(LOG_TAG, "  - dismissOtaDialogs clears OTA dialogs");
         }
     }
