@@ -101,7 +101,11 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
                 if (tcpListener != null) tcpListener.onError(CallWaitingCheckBoxPreference.this, RESPONSE_ERROR);
             } else {
                 if (DBG) Log.d(LOG_TAG, "handleGetCallWaitingResponse: CW state successfully queried.");
-                setChecked(((int[]) ar.result)[0] == 1);
+                int[] cwArray = (int[])ar.result;
+                // If cwArray[0] is = 1, then cwArray[1] must follow,
+                // with the TS 27.007 service class bit vector of services
+                // for which call waiting is enabled.
+                setChecked(((cwArray[0] == 1) && ((cwArray[1] & 0x01) == 0x01)));
             }
         }
 
