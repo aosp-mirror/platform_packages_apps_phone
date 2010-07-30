@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///yQ\u003d",
+        "filename": "src/com/android/phone/CallWaitingCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-07-30T23:52:09Z",
+      "side": 1,
+      "message": "I suggest we validate that cwArray is the correct length and do nothing if it isn\u0027t in the two different cases.",
+      "revId": "0ad752a2cafe0b9fe585c7ccf0fceaeaa5d328c1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
