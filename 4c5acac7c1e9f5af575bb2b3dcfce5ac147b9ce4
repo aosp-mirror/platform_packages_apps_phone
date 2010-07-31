@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///t4\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T01:11:26Z",
+      "side": 1,
+      "message": "When a device is turned off or a virtual voice call is ended, can you check if we get the CHUP before the SCO is closed ? Because we broadcast the state as Transferred here.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///ug\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
