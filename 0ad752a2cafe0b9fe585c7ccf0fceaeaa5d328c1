@@ -34,6 +34,24 @@
       "revId": "0ad752a2cafe0b9fe585c7ccf0fceaeaa5d328c1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///sw\u003d",
+        "filename": "src/com/android/phone/CallWaitingCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2010-07-31T15:47:05Z",
+      "side": 1,
+      "message": "I was referring to testing length \u003e\u003d 1 for the cwArray[0] access as I assume length \u003d\u003d 1 if cwArray[0]\u003d\u003d0 is valid. Actually what about just wrapping in a try catch:\n\ntry {\n  setChecked(...)\n} catch (ArrayOutOfBoundsException e) {\n  Log.e(LOG_TAG, \"handleGetCallWaitingResponse: improper result: err\u003d\" + e.message());\n}\n\nOr some such.",
+      "parentUuid": "AAAA33///tc\u003d",
+      "revId": "0ad752a2cafe0b9fe585c7ccf0fceaeaa5d328c1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
