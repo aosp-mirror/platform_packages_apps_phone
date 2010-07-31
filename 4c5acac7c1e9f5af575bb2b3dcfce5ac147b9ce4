@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///uw\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "Remove this comment. This will happen for incoming SCO too.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///uk\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "if / else section is repeated 4 times - move to a function.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///us\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "line length of 100 characters",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///uo\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "mHeadset.getRemoteDevice() will be valid here too. So we can send this parameter.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///ug\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed. The state is the same as the normal voice call. \nIf during a normal voice call - headsets powers down - we get SCO_CLOSED. The same thing will happen here to",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///uc\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1849,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be voice mail number ? TelephonyManager has an API to get the voice mail number.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///uQ\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2342,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "Replace tabs with spaces",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///uM\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-07-31T00:57:44Z",
+      "side": 1,
+      "message": "Can you check if we can get rid of this by testing ?\n\nI am not comfortable with this change, as we are complicating the phone app.\n\nI believe listening to the Dialing state should be enough, but I want to see if we can uncover any race condition.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
