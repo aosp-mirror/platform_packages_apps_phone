@@ -16,6 +16,24 @@
       "revId": "0ad752a2cafe0b9fe585c7ccf0fceaeaa5d328c1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///tc\u003d",
+        "filename": "src/com/android/phone/CallWaitingCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-07-31T01:39:31Z",
+      "side": 1,
+      "message": "Which two different cases are you referring to?\n\nDo you mean to say that I do this:\nif (cwArray.length \u003e\u003d 2) {\n    setChecked(((cwArray[0] \u003d\u003d 1) \u0026\u0026 ((cwArray[1] \u0026 0x01) \u003d\u003d 0x01)));\n}",
+      "parentUuid": "AAAA33///yQ\u003d",
+      "revId": "0ad752a2cafe0b9fe585c7ccf0fceaeaa5d328c1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
