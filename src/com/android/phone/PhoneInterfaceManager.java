@@ -16,6 +16,7 @@
 
 package com.android.phone;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncResult;
@@ -272,7 +273,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             } else {
                 intent = PhoneApp.createInCallIntent();
             }
-            mApp.startActivity(intent);
+                    try {
+                        mApp.startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        // It's possible that the in-call UI might not exist
+                        // (like on non-voice-capable devices), although we
+                        // shouldn't be trying to bring up the InCallScreen on
+                        // devices like that in the first place!
+                        Log.w(LOG_TAG, "showCallScreenInternal: "
+                              + "transition to InCallScreen failed; intent = " + intent);
+                    }
         } finally {
             Binder.restoreCallingIdentity(callingId);
         }

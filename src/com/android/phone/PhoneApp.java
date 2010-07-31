@@ -24,6 +24,7 @@ import android.app.StatusBarManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -608,6 +609,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         return mBtHandsfree;
     }
 
+    /**
+     * Returns an Intent that can be used to go to the "Call log"
+     * UI (aka RecentCallsListActivity) in the Contacts app.
+     *
+     * Watch out: there's no guarantee that the system has any activity to
+     * handle this intent.  (In particular there may be no "Call log" at
+     * all on on non-voice-capable devices.)
+     */
     static Intent createCallLogIntent() {
         Intent  intent = new Intent(Intent.ACTION_VIEW, null);
         intent.setType("vnd.android.cursor.dir/calls");
@@ -649,7 +658,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     private void displayCallScreen() {
         if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
-        startActivity(createInCallIntent());
+        try {
+            startActivity(createInCallIntent());
+        } catch (ActivityNotFoundException e) {
+            // It's possible that the in-call UI might not exist (like on
+            // non-voice-capable devices), so don't crash if someone
+            // accidentally tries to bring it up...
+            Log.w(LOG_TAG, "displayCallScreen: transition to InCallScreen failed: " + e);
+        }
         Profiler.callScreenRequested();
     }
 

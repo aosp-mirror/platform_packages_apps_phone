@@ -26,6 +26,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -49,6 +51,8 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
 import com.android.internal.telephony.CallManager;
+
+import java.util.List;
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -377,6 +381,21 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * @param label the label of the number if nameOrNumber is a name, null if it is a number
      */
     void notifyMissedCall(String name, String number, String label, long date) {
+        // When the user clicks this notification, we go to the call log.
+        final Intent callLogIntent = PhoneApp.createCallLogIntent();
+
+        // ...but if there's no "Call log" at all on this device (e.g. for
+        // non-voice-capable devices), don't bother posting the missed
+        // call notification at all.
+        final PackageManager packageManager = mContext.getPackageManager();
+        final List<ResolveInfo> receiverList =
+                packageManager.queryIntentActivities(callLogIntent,
+                                                     PackageManager.MATCH_DEFAULT_ONLY);
+        if (receiverList.size() == 0) {
+            if (DBG) log("notifyMissedCall: not posting notification (no call log)");
+            return;
+        }
+
         // title resource id
         int titleResId;
         // the text in the notification's line 1 and 2.
@@ -408,9 +427,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     mNumberMissedCalls);
         }
 
-        // create the target call log intent
-        final Intent intent = PhoneApp.createCallLogIntent();
-
         // make the notification
         Notification note = new Notification(
                 android.R.drawable.stat_notify_missed_call, // icon
@@ -418,7 +434,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 date // when
                 );
         note.setLatestEventInfo(mContext, mContext.getText(titleResId), expandedText,
-                PendingIntent.getActivity(mContext, 0, intent, 0));
+                PendingIntent.getActivity(mContext, 0, callLogIntent, 0));
 
         configureLedNotification(note);
         mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
