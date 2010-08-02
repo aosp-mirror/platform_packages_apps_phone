@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///qk\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Agreed. Earlier, it made sense when there was a state variable.",
+      "parentUuid": "AAAA33///uw\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///uk\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-31T00:57:44Z",
       "side": 1,
       "message": "if / else section is repeated 4 times - move to a function.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///qI\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Thought about this earlier, but didn\u0027t make the change for this reason: Even if we moved this to a function we would still be performing the virtual-call/cellular-call check here to pass on the appropriate state. So we won\u0027t gain much.",
+      "parentUuid": "AAAA33///uk\u003d",
       "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///qU\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA33///us\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///uo\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2010-07-31T00:57:44Z",
       "side": 1,
       "message": "mHeadset.getRemoteDevice() will be valid here too. So we can send this parameter.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///qQ\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA33///uo\u003d",
       "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///qg\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Whenever the call is ended, the AT+CHUP shall be received.\n\nWhen the headsets are powered off during a call, they do not send AT+CHUP. In this scenario, we shall only receive the SCO_CLOSED which will be treated as STATE_TRANSFERRED and subsequently after a ACL disconnect, we shall receive a terminateVirtualVoiceCall which shall trigger a STATE_DISCONNECTED intent.\n\nSo it is valid to send STATE_TRANSFERRED on SCO_CLOSED as we shall have no additional knowledge of the ACL state at this time.",
+      "parentUuid": "AAAA33///t4\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///ug\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2010-07-31T00:57:44Z",
       "side": 1,
       "message": "I don\u0027t think this is needed. The state is the same as the normal voice call. \nIf during a normal voice call - headsets powers down - we get SCO_CLOSED. The same thing will happen here to",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///qc\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "This is a scenario where the call has already been transferred to the phone i.e. we got a SCO_CLOSED earlier. Now while the virtual-call is active on the phone and the headset powers off, then this code communicates the disconnect to the application that uses the Virtual-Call API. I hope this clarifies. \n\nThe reason this is different from cellular call is because BluetoothHeadsetService invokes audioOff directly on ACL disconnection. So I needed to handle this specially for VirtualCall and was done during my unit-tests.",
+      "parentUuid": "AAAA33///ug\u003d",
       "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///pw\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1849,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "We have learnt during testing that some carriers use a different number for voice mail (and users could configure a special VoiceMail number while roaming). So getVoiceMailNumber may not be reliable, but getLine1Number is guaranteed to provide the phone\u0027s number.",
+      "parentUuid": "AAAA33///uc\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///uQ\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///qY\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2342,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA33///uQ\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///uM\u003d",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 4
@@ -149,6 +293,24 @@
       "writtenOn": "2010-07-31T00:57:44Z",
       "side": 1,
       "message": "Can you check if we can get rid of this by testing ?\n\nI am not comfortable with this change, as we are complicating the phone app.\n\nI believe listening to the Dialing state should be enough, but I want to see if we can uncover any race condition.",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///qM\u003d",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-02T08:29:05Z",
+      "side": 1,
+      "message": "No, we need this change. I added this post my unit-testing. The handlePhoneStateChange(DIALING) is too late as the PhoneApp would have already dialled out the number and the AudioManager mode would have been set. \n\nWe need to keep this change. This is similar to the other location in this file where bthf.cdmaSetSecondCallState is called, where the second call was accepted on the Phone instead of the headset.",
+      "parentUuid": "AAAA33///uM\u003d",
       "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
