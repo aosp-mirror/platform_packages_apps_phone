@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///nA\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-02T16:26:32Z",
+      "side": 1,
+      "message": "No I want is this if .. else if block is repeated in all cases like SCO_ACCEPTED, SCO_CLOSED etc. and thus we can move it to a function to reduce code size",
+      "parentUuid": "AAAA33///qI\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///us\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 4
@@ -206,6 +224,24 @@
       "side": 1,
       "message": "This is a scenario where the call has already been transferred to the phone i.e. we got a SCO_CLOSED earlier. Now while the virtual-call is active on the phone and the headset powers off, then this code communicates the disconnect to the application that uses the Virtual-Call API. I hope this clarifies. \n\nThe reason this is different from cellular call is because BluetoothHeadsetService invokes audioOff directly on ACL disconnection. So I needed to handle this specially for VirtualCall and was done during my unit-tests.",
       "parentUuid": "AAAA33///ug\u003d",
+      "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///m4\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-02T16:26:32Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "AAAA33///qc\u003d",
       "revId": "4c5acac7c1e9f5af575bb2b3dcfce5ac147b9ce4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
