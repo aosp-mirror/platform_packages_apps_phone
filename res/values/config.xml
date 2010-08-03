@@ -123,4 +123,16 @@
          to be logged in the Call Log. -->
     <bool name="allow_emergency_numbers_in_call_log">true</bool>
 
+    <!-- Flag indicating whether the current device is "voice capable".
+         This means that the device supports circuit-switched (i.e. voice)
+         phone calls over the telephony network, and is allowed to display
+         the in-call UI while a cellular voice call is active.  This can
+         be overridden to false for "data only" devices which can't make
+         voice calls and don't support any in-call UI.
+         Note: the meaning of this flag is subtly different from the
+         PackageManager.FEATURE_TELEPHONY system feature, which is
+         available on any device with a telephony radio, even if the
+         device is data-only. -->
+    <bool name="voice_capable">true</bool>
+
 </resources>
