@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///Zs\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-04T03:07:08Z",
+      "side": 1,
+      "message": "Replace the following with the function call",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///Zw\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-04T03:07:08Z",
+      "side": 1,
+      "message": "call the function, pass the device also into the function",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
