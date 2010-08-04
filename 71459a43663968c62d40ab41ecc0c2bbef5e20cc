@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///Y4\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-04T09:00:04Z",
+      "side": 1,
+      "message": "This cannot be moved to the function call, because we send VIRTUAL_CALL_STATE_DISCONNECTED whenever the headset is powered off. Inside the function, we set VIRTUAL_CALL_STATE_TRANSFERRED whenever the SCO is closed.\n\nWe need to leave this as-is.",
+      "parentUuid": "AAAA33///Zs\u003d",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///Zw\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-04T03:07:08Z",
       "side": 1,
       "message": "call the function, pass the device also into the function",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///Y0\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-04T09:00:04Z",
+      "side": 1,
+      "message": "See comment above",
+      "parentUuid": "AAAA33///Zw\u003d",
       "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
