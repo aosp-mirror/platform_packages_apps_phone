@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA4H///9Y\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-05T02:16:26Z",
+      "side": 1,
+      "message": "Sending the Audio state would need us to first check the nature of the call (virtual vs cellular call) before calling the function. Then we would do the check for the nature of the call once again inside the function to call the appropriate broadcast API.",
+      "parentUuid": "AAAA4H///9g\u003d",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///Zw\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 5
