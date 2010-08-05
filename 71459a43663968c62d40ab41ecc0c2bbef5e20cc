@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA4H///9g\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-05T02:03:25Z",
+      "side": 1,
+      "message": "Can\u0027t u send the audio state to the function too instead of the sco_state.\n\ni.e VIRTUAL_CALL_STATE_DISCONNECTED or AUDIO_STATE_DISCONNECTED ? Then all broadcasts can happen at one place",
+      "parentUuid": "AAAA33///Y4\u003d",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA33///Zw\u003d",
         "filename": "src/com/android/phone/BluetoothHandsfree.java",
         "patchSetId": 5
