@@ -41,6 +41,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.RadioTechnology;
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
 import android.util.Log;
@@ -478,8 +479,7 @@ public class BluetoothHandsfree {
             cdmaIconLevel = (levelDbm < levelEcio) ? levelDbm : levelEcio;
 
             if (mServiceState != null &&
-                  (mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_0 ||
-                   mServiceState.getRadioTechnology() == ServiceState.RADIO_TECHNOLOGY_EVDO_A)) {
+                  RadioTechnology.isEvdo(mServiceState.getRadioTechnology())) {
                   int evdoEcio = signalStrength.getEvdoEcio();
                   int evdoSnr = signalStrength.getEvdoSnr();
                   int levelEvdoEcio = 0;
