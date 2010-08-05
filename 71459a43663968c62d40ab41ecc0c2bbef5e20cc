@@ -69,6 +69,23 @@
       "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H///98\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2344,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-05T01:47:03Z",
+      "side": 1,
+      "message": "Sorry to bring this up again.  Can you elaborate on how this intent will be used by the app ?\n\nCan it be combined with the AudioStateIntent ? \n\nThe only difference I see is  VIRTUAL_CALL_STATE_TRANSFERRED. How is this information going to be used by the app ?",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
