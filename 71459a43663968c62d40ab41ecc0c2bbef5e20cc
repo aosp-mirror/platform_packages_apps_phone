@@ -86,6 +86,24 @@
       "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H///9o\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2344,
+      "author": {
+        "id": 1004035
+      },
+      "writtenOn": "2010-08-05T01:57:34Z",
+      "side": 1,
+      "message": "I deliberately kept this separate from AudioStateIntent for the following reasons:\n\na.) Applications that need VirtualCall API may need to perform actions related to the data source (music file etc) like setAudioStreamType which need not be done for a regular call as the PhoneApp would do it. \n\nb.) AudioState intent is already used by several applications, so overloading this with Virtual Call and sending the same intents especially when switching between cellular-call and virtual-call would create confusion.\n\nI hope this clarifies",
+      "parentUuid": "AAAA4H///98\u003d",
+      "revId": "71459a43663968c62d40ab41ecc0c2bbef5e20cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
