@@ -222,10 +222,8 @@ public class CallCard extends FrameLayout
             // The most common reason for this is if a call just
             // ended: the phone will be idle, but we *will* still
             // have a call in the DISCONNECTED state:
-            Call fgCall = phone.getForegroundCall();
-            Call bgCall = phone.getBackgroundCall();
-            if ((fgCall.getState() == Call.State.DISCONNECTED)
-                || (bgCall.getState() == Call.State.DISCONNECTED)) {
+            if (mApplication.mCM.hasDisconnectedFgCall()
+                || mApplication.mCM.hasDisconnectedBgCall()) {
                 // In this case, we want the main CallCard to display
                 // the "Call ended" state.  The normal "foreground call"
                 // code path handles that.
@@ -257,8 +255,8 @@ public class CallCard extends FrameLayout
     private void updateForegroundCall(Phone phone) {
         if (DBG) log("updateForegroundCall()...");
 
-        Call fgCall = phone.getForegroundCall();
-        Call bgCall = phone.getBackgroundCall();
+        Call fgCall = mApplication.mCM.getActiveFgCall();
+        Call bgCall = mApplication.mCM.getFirstActiveBgCall();
 
         if (fgCall.isIdle() && !fgCall.hasConnections()) {
             if (DBG) log("updateForegroundCall: no active call, show holding call");
@@ -299,9 +297,7 @@ public class CallCard extends FrameLayout
     private void updateRingingCall(Phone phone) {
         if (DBG) log("updateRingingCall()...");
 
-        Call ringingCall = phone.getRingingCall();
-        Call fgCall = phone.getForegroundCall();
-        Call bgCall = phone.getBackgroundCall();
+        Call ringingCall = mApplication.mCM.getFirstActiveRingingCall();
 
         // Display caller-id info and photo from the incoming call:
         displayMainCallStatus(phone, ringingCall);

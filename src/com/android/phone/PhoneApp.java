@@ -52,6 +52,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
@@ -142,6 +143,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     Ringer ringer;
     BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
+    CallManager mCM;
     int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
     boolean mShowBluetoothIndication = false;
@@ -401,6 +403,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             NotificationMgr.init(this);
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
+
+            mCM = CallManager.getInstance();
+            mCM.registerPhone(phone);
 
             int phoneType = phone.getPhoneType();
 

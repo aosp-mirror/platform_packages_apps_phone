@@ -64,6 +64,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
@@ -233,10 +234,9 @@ public class InCallScreen extends Activity
     private boolean mRegisteredForPhoneStates;
     private boolean mNeedShowCallLostDialog;
 
+    private CallManager mCM;
+
     private Phone mPhone;
-    private Call mForegroundCall;
-    private Call mBackgroundCall;
-    private Call mRingingCall;
 
     private BluetoothHandsfree mBluetoothHandsfree;
     private BluetoothHeadset mBluetoothHeadset;
@@ -443,7 +443,7 @@ public class InCallScreen extends Activity
 
                 case PHONE_CDMA_CALL_WAITING:
                     if (DBG) log("Received PHONE_CDMA_CALL_WAITING event ...");
-                    Connection cn = mRingingCall.getLatestConnection();
+                    Connection cn = mCM.getFirstActiveRingingCall().getLatestConnection();
 
                     // Only proceed if we get a valid connection object
                     if (cn != null) {
@@ -547,7 +547,9 @@ public class InCallScreen extends Activity
         }
         getWindow().addFlags(flags);
 
-        setPhone(app.phone);  // Sets mPhone and mForegroundCall/mBackgroundCall/mRingingCall
+        setPhone(app.phone);  // Sets mPhone
+
+        mCM =  PhoneApp.getInstance().mCM;
 
         mBluetoothHandsfree = app.getBluetoothHandsfree();
         if (VDBG) log("- mBluetoothHandsfree: " + mBluetoothHandsfree);
@@ -648,11 +650,6 @@ public class InCallScreen extends Activity
      */
     /* package */ void setPhone(Phone phone) {
         mPhone = phone;
-        // Hang onto the three Call objects too; they're singletons that
-        // are constant (and never null) for the life of the Phone.
-        mForegroundCall = mPhone.getForegroundCall();
-        mBackgroundCall = mPhone.getBackgroundCall();
-        mRingingCall = mPhone.getRingingCall();
     }
 
     @Override
@@ -1311,7 +1308,7 @@ public class InCallScreen extends Activity
         // get the default implementation (which simply finishes the
         // current activity.)
 
-        if (!mRingingCall.isIdle()) {
+        if (mCM.hasActiveRingingCall()) {
             // While an incoming call is ringing, BACK behaves just like
             // ENDCALL: it stops the ringing and rejects the current call.
             // (This is only enabled on some platforms, though.)
@@ -1364,9 +1361,9 @@ public class InCallScreen extends Activity
         // "Swap calls", or can be a no-op, depending on the current state
         // of the Phone.
 
-        final boolean hasRingingCall = !mRingingCall.isIdle();
-        final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
         int phoneType = mPhone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
@@ -1920,15 +1917,14 @@ public class InCallScreen extends Activity
             // Display the special "Call ended" state when the phone is idle
             // but there's still a call in the DISCONNECTED state:
             if (currentlyIdle
-                && ((mForegroundCall.getState() == Call.State.DISCONNECTED)
-                    || (mBackgroundCall.getState() == Call.State.DISCONNECTED))) {
+                && (mCM.hasDisconnectedFgCall() || mCM.hasDisconnectedBgCall())) {
                 if (VDBG) log("- onDisconnect: switching to 'Call ended' state...");
                 setInCallScreenMode(InCallScreenMode.CALL_ENDED);
             }
 
             // Some other misc cleanup that we do if the call that just
             // disconnected was the foreground call.
-            final boolean hasActiveCall = !mForegroundCall.isIdle();
+            final boolean hasActiveCall = mCM.hasActiveFgCall();
             if (!hasActiveCall) {
                 if (VDBG) log("- onDisconnect: cleaning up after FG call disconnect...");
 
@@ -2387,17 +2383,17 @@ public class InCallScreen extends Activity
         updateInCallBackground();
 
         // Forcibly take down all dialog if an incoming call is ringing.
-        if (!mRingingCall.isIdle()) {
+        if (mCM.hasActiveRingingCall()) {
             dismissAllDialogs();
         } else {
             // Wait prompt dialog is not currently up.  But it *should* be
             // up if the FG call has a connection in the WAIT state and
             // the phone isn't ringing.
             String postDialStr = null;
-            List<Connection> fgConnections = mForegroundCall.getConnections();
+            List<Connection> fgConnections = mCM.getFgCallConnections();
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                Connection fgLatestConnection = mForegroundCall.getLatestConnection();
+                Connection fgLatestConnection = mCM.getFgCallLatestConnection();
                 if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState() ==
                         CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                     for (Connection cn : fgConnections) {
@@ -2460,7 +2456,7 @@ public class InCallScreen extends Activity
         boolean hasPendingMmiCodes =
                 (phoneType == Phone.PHONE_TYPE_GSM) && !mPhone.getPendingMmiCodes().isEmpty();
 
-        if (!mForegroundCall.isIdle() || !mBackgroundCall.isIdle() || !mRingingCall.isIdle()
+        if (mCM.hasActiveFgCall() || mCM.hasActiveBgCall() || mCM.hasActiveRingingCall()
                 || hasPendingMmiCodes) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
@@ -3029,8 +3025,8 @@ public class InCallScreen extends Activity
     private void onHoldClick() {
         if (VDBG) log("onHoldClick()...");
 
-        final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
         if (VDBG) log("- hasActiveCall = " + hasActiveCall
                       + ", hasHoldingCall = " + hasHoldingCall);
         boolean newHoldState;
@@ -3247,9 +3243,9 @@ public class InCallScreen extends Activity
         if (VDBG) log("updateMenuButtonHint()...");
         boolean hintVisible = true;
 
-        final boolean hasRingingCall = !mRingingCall.isIdle();
-        final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
         // The hint is hidden only when there's no menu at all,
         // which only happens in a few specific cases:
@@ -3540,7 +3536,7 @@ public class InCallScreen extends Activity
         // if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
-        final boolean hasRingingCall = !mRingingCall.isIdle();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
 
         if (hasRingingCall) {
             int phoneType = mPhone.getPhoneType();
@@ -3554,8 +3550,8 @@ public class InCallScreen extends Activity
                 // PhoneUtils.answerCall(), *but* we also need to do
                 // something special for the "both lines in use" case.
 
-                final boolean hasActiveCall = !mForegroundCall.isIdle();
-                final boolean hasHoldingCall = !mBackgroundCall.isIdle();
+                final boolean hasActiveCall = mCM.hasActiveFgCall();
+                final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
                 if (hasActiveCall && hasHoldingCall) {
                     if (DBG) log("internalAnswerCall: answering (both lines in use!)...");
@@ -3648,13 +3644,13 @@ public class InCallScreen extends Activity
         mInCallScreenMode = newMode;
         switch (mInCallScreenMode) {
             case MANAGE_CONFERENCE:
-                if (!PhoneUtils.isConferenceCall(mForegroundCall)) {
+                if (!PhoneUtils.isConferenceCall(mCM.getActiveFgCall())) {
                     Log.w(LOG_TAG, "MANAGE_CONFERENCE: no active conference call!");
                     // Hide the Manage Conference panel, return to NORMAL mode.
                     setInCallScreenMode(InCallScreenMode.NORMAL);
                     return;
                 }
-                List<Connection> connections = mForegroundCall.getConnections();
+                List<Connection> connections = mCM.getFgCallConnections();
                 // There almost certainly will be > 1 connection,
                 // since isConferenceCall() just returned true.
                 if ((connections == null) || (connections.size() <= 1)) {
@@ -3684,7 +3680,9 @@ public class InCallScreen extends Activity
                 // and stopConferenceTime(); the ManageConferenceUtils
                 // class ought to manage the conferenceTime widget itself
                 // based on setPanelVisible() calls.
-                long callDuration = mForegroundCall.getEarliestConnection().getDurationMillis();
+
+                // Note: there is active Fg call since we are in conference call
+                long callDuration = mCM.getActiveFgCall().getEarliestConnection().getDurationMillis();
                 mManageConferenceUtils.startConferenceTime(
                         SystemClock.elapsedRealtime() - callDuration);
 
@@ -3791,9 +3789,9 @@ public class InCallScreen extends Activity
      * return to InCallScreenMode.NORMAL mode.
      */
     private void updateManageConferencePanelIfNecessary() {
-        if (VDBG) log("updateManageConferencePanelIfNecessary: " + mForegroundCall + "...");
+        if (VDBG) log("updateManageConferencePanelIfNecessary: " + mCM.getActiveFgCall() + "...");
 
-        List<Connection> connections = mForegroundCall.getConnections();
+        List<Connection> connections = mCM.getFgCallConnections();
         if (connections == null) {
             if (VDBG) log("==> no connections on foreground call!");
             // Hide the Manage Conference panel, return to NORMAL mode.
@@ -3978,8 +3976,8 @@ public class InCallScreen extends Activity
      * Determines when we can dial DTMF tones.
      */
     private boolean okToDialDTMFTones() {
-        final boolean hasRingingCall = !mRingingCall.isIdle();
-        final Call.State fgCallState = mForegroundCall.getState();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
+        final Call.State fgCallState = mCM.getActiveFgCallState();
 
         // We're allowed to send DTMF tones when there's an ACTIVE
         // foreground call, and not when an incoming call is ringing
@@ -4755,7 +4753,7 @@ public class InCallScreen extends Activity
             }
         } else if (action.equals(intent.ACTION_MAIN)) {
             if (DBG) log("checkIsOtaCall action ACTION_MAIN");
-            boolean isRingingCall = !mRingingCall.isIdle();
+            boolean isRingingCall = mCM.hasActiveRingingCall();
             if (isRingingCall) {
                 if (DBG) log("checkIsOtaCall isRingingCall: " + isRingingCall);
                 return false;
@@ -4858,9 +4856,9 @@ public class InCallScreen extends Activity
      * the current call(s).
      */
     private void updateInCallBackground() {
-        final boolean hasRingingCall = !mRingingCall.isIdle();
-        final boolean hasActiveCall = !mForegroundCall.isIdle();
-        final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+        final boolean hasRingingCall = mCM.hasActiveRingingCall();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
         final PhoneApp app = PhoneApp.getInstance();
         final boolean bluetoothActive = app.showBluetoothIndication();
 
@@ -4886,7 +4884,7 @@ public class InCallScreen extends Activity
         } else {
             // In all cases other than "ringing" and "on hold", the state
             // of the foreground call determines the background.
-            final Call.State fgState = mForegroundCall.getState();
+            final Call.State fgState = mCM.getActiveFgCallState();
             switch (fgState) {
                 case ACTIVE:
                 case DISCONNECTING:  // Call will disconnect soon, but keep showing
