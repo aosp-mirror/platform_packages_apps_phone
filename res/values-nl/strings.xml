@@ -49,6 +49,7 @@
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: toegangsfout."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: preëmptief gemaakt."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Alleen noodoproepen zijn mogelijk."</string>
+    <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Ongeldig nummer"</string>
     <string name="confCall" msgid="1904840547188336828">"Telefonische vergadering"</string>
     <string name="call_lost" msgid="317670617901479594">"De verbinding is verbroken."</string>
     <string name="retry" msgid="8462986804300767852">"Opnieuw proberen"</string>
@@ -152,6 +153,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Instellingen terugzetten..."</string>
     <string name="response_error" msgid="6674110501330139405">"Onverwachte reactie van netwerk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netwerk- of SIM-kaartfout."</string>
+    <string name="fdn_only_error" msgid="7079583506377602000">"Bewerkingen zijn alleen toegestaan voor vaste nummers."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Schakel de radio in voordat u deze instellingen bekijkt."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Inschakelen"</string>
@@ -367,16 +369,16 @@
     <item msgid="5741268642513143762">"1"</item>
     <item msgid="419525200910932450">"2"</item>
   </string-array>
-    <string name="subscription_title" msgid="5813493350326486">"TEST CDMA-abonnement"</string>
-    <string name="subscription_summary" msgid="8435941016743418124">"Schakelen tussen RUIM/SIM en NV"</string>
-    <string name="subscription_dialogtitle" msgid="531571450448009255">"abonnement"</string>
-  <string-array name="subscription_choices">
-    <item msgid="6540107472553796600">"RUIM/SIM"</item>
-    <item msgid="1433427108940308332">"NV"</item>
+    <string name="cdma_subscription_title" msgid="445607520753045412">"CDMA-abonnement"</string>
+    <string name="cdma_subscription_summary" msgid="2530890766115781140">"Schakelen tussen RUIM/SIM en NV"</string>
+    <string name="cdma_subscription_dialogtitle" msgid="2699527950523333110">"abonnement"</string>
+  <string-array name="cdma_subscription_choices">
+    <item msgid="2258014151300708431">"RUIM/SIM"</item>
+    <item msgid="5127722015571873880">"NV"</item>
   </string-array>
-  <string-array name="subscription_values">
-    <item msgid="4377788417250295786">"0"</item>
-    <item msgid="1193066664940329729">"1"</item>
+  <string-array name="cdma_subscription_values">
+    <item msgid="7494167883478914080">"0"</item>
+    <item msgid="6043847456049107742">"1"</item>
   </string-array>
     <string name="fdn" msgid="7878832555095183202">"Vaste nummers"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"FDN-lijst"</string>
@@ -475,6 +477,7 @@
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Gemiste oproep van <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
     <string name="notification_ongoing_call_format" msgid="227216462548540316">"Huidige oproep (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"In de wacht"</string>
+    <string name="notification_incoming_call" msgid="2820429205043529642">"Inkomende oproep"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Nieuwe voicemail"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nieuwe voicemail (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"<xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g> bellen"</string>
@@ -597,4 +600,7 @@
     <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Sleep naar rechts om op te nemen en"\n"oproep in de wacht te beëindigen"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Beantw."</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Weigeren"</string>
+    <string name="contactPhoto" msgid="4713193418046639466">"contactfoto"</string>
+    <string name="goPrivate" msgid="865837794424530980">"privé"</string>
+    <string name="selectContact" msgid="781975788478987237">"contact selecteren"</string>
 </resources>
