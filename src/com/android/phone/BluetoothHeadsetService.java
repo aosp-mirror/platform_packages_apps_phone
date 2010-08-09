@@ -160,7 +160,7 @@ public class BluetoothHeadsetService extends Service {
                 headset = new HeadsetBase(mPowerManager, mAdapter,
                                           info.mRemoteDevice,
                                           info.mSocketFd, info.mRfcommChan,
-                                          null, BluetoothHeadsetService.this);
+                                          null);
                 headset.disconnect();
                 return;
             }
@@ -172,8 +172,7 @@ public class BluetoothHeadsetService extends Service {
                 headset = new HeadsetBase(mPowerManager, mAdapter,
                                           mRemoteDevice, info.mSocketFd,
                                           info.mRfcommChan,
-                                          mConnectedStatusHandler,
-                                          BluetoothHeadsetService.this);
+                                          mConnectedStatusHandler);
                 mHeadsetType = type;
 
                 mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
@@ -188,8 +187,7 @@ public class BluetoothHeadsetService extends Service {
                     headset = new HeadsetBase(mPowerManager, mAdapter,
                                               info.mRemoteDevice,
                                               info.mSocketFd, info.mRfcommChan,
-                                              null, 
-                                              BluetoothHeadsetService.this);
+                                              null);
                     headset.disconnect();
                 }
                 // If we are here, we are in danger of a race condition
@@ -207,8 +205,7 @@ public class BluetoothHeadsetService extends Service {
                 mHeadset = new HeadsetBase(mPowerManager, mAdapter,
                                            mRemoteDevice,
                                            info.mSocketFd, info.mRfcommChan,
-                                           mConnectedStatusHandler,
-                                           BluetoothHeadsetService.this);
+                                           mConnectedStatusHandler);
                 mHeadsetType = type;
 
                 setState(BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
@@ -223,7 +220,7 @@ public class BluetoothHeadsetService extends Service {
                 headset = new HeadsetBase(mPowerManager, mAdapter,
                                           info.mRemoteDevice,
                                           info.mSocketFd, info.mRfcommChan,
-                                          null,  BluetoothHeadsetService.this);
+                                          null);
                 headset.disconnect();
                 break;
             }
@@ -370,8 +367,7 @@ public class BluetoothHeadsetService extends Service {
 
             timestamp = System.currentTimeMillis();
             HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter,
-                                                  device, channel,
-                                                  BluetoothHeadsetService.this);
+                                                  device, channel);
 
             int result = waitForConnect(headset);
 
