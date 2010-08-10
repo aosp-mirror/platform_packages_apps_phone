@@ -20,6 +20,7 @@ import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
 import android.bluetooth.BluetoothA2dp;
+import android.bluetooth.BluetoothAssignedNumbers;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
@@ -249,6 +250,10 @@ public class BluetoothHandsfree {
         } else {
             initializeHandsfreeAtParser();
         }
+
+        // Headset vendor-specific commands
+        registerAllVendorSpecificCommands();
+
         headset.startEventThread();
         configAudioParameters();
 
@@ -1031,8 +1036,28 @@ public class BluetoothHandsfree {
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
+    /*
+     * Put the AT command, company ID, arguments, and device in an Intent and broadcast it.
+     */
+    private void broadcastVendorSpecificEventIntent(String command,
+                                                    int companyId,
+                                                    Object[] arguments,
+                                                    BluetoothDevice device) {
+        if (VDBG) log("broadcastVendorSpecificEventIntent(" + command + ")");
+        Intent intent =
+                new Intent(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT);
+        intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD, command);
+        intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID,
+                        companyId);
+
+        // assert: all elements of args are Serializable
+        intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_ARGS, arguments);
+        intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+        mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
+    }
+
     void updateBtHandsfreeAfterRadioTechnologyChange() {
-        if(VDBG) Log.d(TAG, "updateBtHandsfreeAfterRadioTechnologyChange...");
+        if (VDBG) Log.d(TAG, "updateBtHandsfreeAfterRadioTechnologyChange...");
 
         //Get the Call references from the new active phone again
         mRingingCall = mPhone.getRingingCall();
@@ -1448,13 +1473,40 @@ public class BluetoothHandsfree {
         return result;
     }
 
+    /*
+     * Register a vendor-specific command.
+     * @param commandName the name of the command.  For example, if the expected
+     * incoming command is <code>AT+FOO=bar,baz</code>, the value of this should be
+     * <code>"+FOO"</code>.
+     * @param companyId the Bluetooth SIG Company Identifier
+     * @param parser the AtParser on which to register the command
+     */
+    private void registerVendorSpecificCommand(String commandName,
+                                               int companyId,
+                                               AtParser parser) {
+        parser.register(commandName,
+                        new VendorSpecificCommandHandler(commandName, companyId));
+    }
+
+    /*
+     * Register all vendor-specific commands here.
+     */
+    private void registerAllVendorSpecificCommands() {
+        AtParser parser = mHeadset.getAtParser();
+
+        // Plantronics-specific headset events go here
+        registerVendorSpecificCommand("+XEVENT",
+                                      BluetoothAssignedNumbers.PLANTRONICS,
+                                      parser);
+    }
+
     /**
      * Register AT Command handlers to implement the Headset profile
      */
     private void initializeHeadsetAtParser() {
         if (VDBG) log("Registering Headset AT commands");
         AtParser parser = mHeadset.getAtParser();
-        // Headset's usually only have one button, which is meant to cause the
+        // Headsets usually only have one button, which is meant to cause the
         // HS to send us AT+CKPD=200 or AT+CKPD.
         parser.register("+CKPD", new AtCommandHandler() {
             private AtCommandResult headsetButtonPress() {
@@ -2131,6 +2183,7 @@ public class BluetoothHandsfree {
                 return new AtCommandResult("+CPAS: " + status);
             }
         });
+
         mPhonebook.register(parser);
     }
 
@@ -2203,6 +2256,30 @@ public class BluetoothHandsfree {
         sendURC("+BVRA: 0");
         audioOff();
         return true;
+    }
+
+    /*
+     * This class broadcasts vendor-specific commands + arguments to interested receivers.
+     */
+    private class VendorSpecificCommandHandler extends AtCommandHandler {
+
+        private String mCommandName;
+
+        private int mCompanyId;
+
+        private VendorSpecificCommandHandler(String commandName, int companyId) {
+            mCommandName = commandName;
+            mCompanyId = companyId;
+        }
+
+        @Override
+        public AtCommandResult handleSetCommand(Object[] arguments) {
+            broadcastVendorSpecificEventIntent(mCommandName,
+                                               mCompanyId,
+                                               arguments,
+                                               mHeadset.getRemoteDevice());
+            return new AtCommandResult(AtCommandResult.OK);
+        }
     }
 
     private boolean inDebug() {
