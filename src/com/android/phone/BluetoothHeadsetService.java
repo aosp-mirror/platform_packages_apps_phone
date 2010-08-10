@@ -268,6 +268,7 @@ public class BluetoothHeadsetService extends Service {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
                                            BluetoothAdapter.ERROR)) {
                 case BluetoothAdapter.STATE_ON:
+                    adjustPriorities();
                     mAg.start(mIncomingConnectionHandler);
                     mBtHandsfree.onBluetoothEnabled();
                     break;
