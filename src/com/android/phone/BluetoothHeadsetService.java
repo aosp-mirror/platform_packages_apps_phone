@@ -537,18 +537,20 @@ public class BluetoothHeadsetService extends Service {
         // Only 1 device is set to AUTO_CONNECT
         BluetoothDevice savedDevice = null;
         int max_priority = BluetoothHeadset.PRIORITY_AUTO_CONNECT;
-        for (BluetoothDevice device : mAdapter.getBondedDevices()) {
-            int priority = getPriority(device);
-            if (priority >= BluetoothHeadset.PRIORITY_AUTO_CONNECT) {
-                setPriority(device, BluetoothHeadset.PRIORITY_ON);
+        if (mAdapter.getBondedDevices() != null) {
+            for (BluetoothDevice device : mAdapter.getBondedDevices()) {
+                int priority = getPriority(device);
+                if (priority >= BluetoothHeadset.PRIORITY_AUTO_CONNECT) {
+                    setPriority(device, BluetoothHeadset.PRIORITY_ON);
+                }
+                if (priority >= max_priority) {
+                    max_priority = priority;
+                    savedDevice = device;
+                }
             }
-            if (priority >= max_priority) {
-                max_priority = priority;
-                savedDevice = device;
+            if (savedDevice != null) {
+                setPriority(savedDevice, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
             }
-        }
-        if (savedDevice != null) {
-            setPriority(savedDevice, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
         }
     }
 
