@@ -697,6 +697,13 @@ public class BluetoothHandsfree {
                 audioOn();
                 mAudioPossible = true;
                 break;
+            case DISCONNECTING:
+                // This is a transient state, we don't want to send
+                // any AT commands during this state.
+                call = mCall;
+                callsetup = mCallsetup;
+                callheld = mCallheld;
+                break;
             default:
                 mAudioPossible = false;
             }
@@ -705,6 +712,13 @@ public class BluetoothHandsfree {
             case INCOMING:
             case WAITING:
                 callsetup = 1;
+                break;
+            case DISCONNECTING:
+                // This is a transient state, we don't want to send
+                // any AT commands during this state.
+                call = mCall;
+                callsetup = mCallsetup;
+                callheld = mCallheld;
                 break;
             }
 
@@ -716,6 +730,13 @@ public class BluetoothHandsfree {
                     call = 1;
                     callheld = 2;
                 }
+                break;
+            case DISCONNECTING:
+                // This is a transient state, we don't want to send
+                // any AT commands during this state.
+                call = mCall;
+                callsetup = mCallsetup;
+                callheld = mCallheld;
                 break;
             }
 
