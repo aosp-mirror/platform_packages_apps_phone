@@ -601,6 +601,6 @@
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Risposta"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Rifiuta"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto contatto"</string>
-    <string name="goPrivate" msgid="865837794424530980">"Converti in privata"</string>
+    <string name="goPrivate" msgid="865837794424530980">"Privato"</string>
     <string name="selectContact" msgid="781975788478987237">"seleziona contatto"</string>
 </resources>

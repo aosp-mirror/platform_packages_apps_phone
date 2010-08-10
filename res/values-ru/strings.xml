@@ -369,7 +369,7 @@
     <item msgid="5741268642513143762">"1"</item>
     <item msgid="419525200910932450">"2"</item>
   </string-array>
-    <string name="cdma_subscription_title" msgid="445607520753045412">"Подключение CDMA"</string>
+    <string name="cdma_subscription_title" msgid="445607520753045412">"CDMA-подключение"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Переключение между RUIM/SIM и NV"</string>
     <string name="cdma_subscription_dialogtitle" msgid="2699527950523333110">"подписка"</string>
   <string-array name="cdma_subscription_choices">
