@@ -36,6 +36,7 @@ import android.widget.ToggleButton;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.SlidingTab;
+import com.android.internal.telephony.CallManager;
 
 
 /**
@@ -183,7 +184,7 @@ public class InCallTouchUi extends FrameLayout
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
         mSwapButtonLabel = (TextView) mInCallControls.findViewById(R.id.swapButtonLabel);
-        if (PhoneApp.getInstance().phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if (PhoneApp.getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             // In CDMA we use a generalized text - "Manage call", as behavior on selecting
             // this option depends entirely on what the current call state is.
             mSwapButtonLabel.setText(R.string.onscreenManageCallsText);
@@ -226,16 +227,16 @@ public class InCallTouchUi extends FrameLayout
      * Updates the visibility and/or state of our UI elements, based on
      * the current state of the phone.
      */
-    void updateState(Phone phone) {
-        if (DBG) log("updateState(" + phone + ")...");
+    void updateState(CallManager cm) {
+        if (DBG) log("updateState( CallManager" + cm + ")...");
 
         if (mInCallScreen == null) {
             log("- updateState: mInCallScreen has been destroyed; bailing out...");
             return;
         }
 
-        Phone.State state = phone.getState();  // IDLE, RINGING, or OFFHOOK
-        if (DBG) log("- updateState: phone state is " + state);
+        Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
+        if (DBG) log("- updateState: CallManager state is " + state);
 
         boolean showIncomingCallControls = false;
         boolean showInCallControls = false;
@@ -248,7 +249,7 @@ public class InCallTouchUi extends FrameLayout
                 // state.  (This typically happens immediately after the user
                 // rejects an incoming call, and in that case we *don't* show
                 // the incoming call controls.)
-                final Call ringingCall = phone.getRingingCall();
+                final Call ringingCall = cm.getFirstActiveRingingCall();
                 if (ringingCall.getState().isAlive()) {
                     if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
                     showIncomingCallControls = true;
@@ -285,7 +286,8 @@ public class InCallTouchUi extends FrameLayout
         }
 
         if (showInCallControls) {
-            updateInCallControls(phone);
+            // TODO change the phone to CallManager
+            updateInCallControls(cm.getActiveFgCall().getPhone());
         }
 
         if (showIncomingCallControls && showInCallControls) {

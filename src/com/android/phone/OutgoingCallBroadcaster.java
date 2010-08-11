@@ -95,8 +95,8 @@ public class OutgoingCallBroadcaster extends Activity {
 
             number = getResultData();
             final PhoneApp app = PhoneApp.getInstance();
-            int phoneType = app.phone.getPhoneType();
-            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+
+            if (TelephonyCapabilities.supportsOtasp(app.phone)) {
                 boolean activateState = (app.cdmaOtaScreenState.otaScreenState
                         == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
                 boolean dialogState = (app.cdmaOtaScreenState.otaScreenState
@@ -124,9 +124,9 @@ public class OutgoingCallBroadcaster extends Activity {
             if (number == null) {
                 if (DBG) Log.v(TAG, "CALL cancelled (null number), returning...");
                 return;
-            } else if ((phoneType == Phone.PHONE_TYPE_CDMA)
-                    && ((app.phone.getState() != Phone.State.IDLE)
-                    && (app.phone.isOtaSpNumber(number)))) {
+            } else if (TelephonyCapabilities.supportsOtasp(app.phone)
+                    && (app.phone.getState() != Phone.State.IDLE)
+                    && (app.phone.isOtaSpNumber(number))) {
                 if (DBG) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
                 return;
             } else if (PhoneNumberUtils.isEmergencyNumber(number)) {
@@ -198,9 +198,13 @@ public class OutgoingCallBroadcaster extends Activity {
 
         String action = intent.getAction();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, this);
+        // Check the number, don't convert for sip uri
+        // TODO put uriNumber under PhoneNumberUtils
         if (number != null) {
-            number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
-            number = PhoneNumberUtils.stripSeparators(number);
+            if (!PhoneNumberUtils.isUriNumber(number)) {
+                number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
+                number = PhoneNumberUtils.stripSeparators(number);
+            }
         }
         final boolean emergencyNumber =
                 (number != null) && PhoneNumberUtils.isEmergencyNumber(number);
@@ -286,7 +290,7 @@ public class OutgoingCallBroadcaster extends Activity {
         if (number == null || TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
-                PhoneUtils.sendEmptyFlash(PhoneApp.getInstance().phone);
+                PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
                 finish();
                 return;
             } else {

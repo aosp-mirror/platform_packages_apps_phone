@@ -190,39 +190,19 @@ public class CallNotifier extends Handler
 
         mAudioManager = (AudioManager) mPhoneContext.getSystemService(Context.AUDIO_SERVICE);
 
-        mPhone.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
-        mPhone.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
-        mPhone.registerForDisconnect(this, PHONE_DISCONNECT, null);
-        mPhone.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
-        mPhone.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
+        registerForNotifications();
 
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            mPhone.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
-
-            if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
-            mPhone.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
-            mPhone.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
-            mPhone.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
-            mPhone.registerForInCallVoicePrivacyOn(this, PHONE_ENHANCED_VP_ON, null);
-            mPhone.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
-
-            // Instantiate the ToneGenerator for SignalInfo and CallWaiting
-            // TODO: We probably don't need the mSignalInfoToneGenerator instance
-            // around forever. Need to change it so as to create a ToneGenerator instance only
-            // when a tone is being played and releases it after its done playing.
-            try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
-                        TONE_RELATIVE_VOLUME_SIGNALINFO);
-            } catch (RuntimeException e) {
-                Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
-                        "mSignalInfoToneGenerator: " + e);
-                mSignalInfoToneGenerator = null;
-            }
-        }
-
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
-            mPhone.registerForRingbackTone(this, PHONE_RINGBACK_TONE, null);
-            mPhone.registerForResendIncallMute(this, PHONE_RESEND_MUTE, null);
+        // Instantiate the ToneGenerator for SignalInfo and CallWaiting
+        // TODO: We probably don't need the mSignalInfoToneGenerator instance
+        // around forever. Need to change it so as to create a ToneGenerator instance only
+        // when a tone is being played and releases it after its done playing.
+        try {
+            mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
+                    TONE_RELATIVE_VOLUME_SIGNALINFO);
+        } catch (RuntimeException e) {
+            Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
+                    "mSignalInfoToneGenerator: " + e);
+            mSignalInfoToneGenerator = null;
         }
 
         mRinger = ringer;
@@ -388,7 +368,8 @@ public class CallNotifier extends Handler
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
         if (DBG) log("onNewRingingConnection(): " + c);
-        Phone phone = c.getCall().getPhone();
+        Call ringing = c.getCall();
+        Phone phone = ringing.getPhone();
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned = Settings.Secure.getInt(mPhoneContext.getContentResolver(),
@@ -397,7 +378,7 @@ public class CallNotifier extends Handler
             Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: not provisioned / ECM");
             // Send the caller straight to voicemail, just like
             // "rejecting" an incoming call.
-            PhoneUtils.hangupRingingCall(phone);
+            PhoneUtils.hangupRingingCall(ringing);
             return;
         }
 
@@ -411,7 +392,7 @@ public class CallNotifier extends Handler
 
             if (spcState) {
                 Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: OTA call is active");
-                PhoneUtils.hangupRingingCall(phone);
+                PhoneUtils.hangupRingingCall(ringing);
                 return;
             } else if (activateState || dialogState) {
                 if (dialogState) mApplication.dismissOtaDialogs();
@@ -476,7 +457,7 @@ public class CallNotifier extends Handler
 
         // - don't ring for call waiting connections
         // - do this before showing the incoming call panel
-        if (state == Call.State.INCOMING) {
+        if (PhoneUtils.isRealIncomingCall(state)) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
             startIncomingCallQuery(c);
         } else {
@@ -858,38 +839,8 @@ public class CallNotifier extends Handler
         mCM.unregisterForInCallVoicePrivacyOn(this);
         mCM.unregisterForInCallVoicePrivacyOff(this);
 
-        // Register all events to the new active phone
-        mCM.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
-        mCM.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
-        mCM.registerForDisconnect(this, PHONE_DISCONNECT, null);
-        mCM.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
-        mCM.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            if (DBG) log("Registering for Call Waiting, Signal and Display Info.");
-            mCM.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
-            mCM.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
-            mCM.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
-            mCM.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
-
-            // Instantiate the ToneGenerator for SignalInfo
-            try {
-                mSignalInfoToneGenerator = new ToneGenerator(AudioManager.STREAM_VOICE_CALL,
-                        TONE_RELATIVE_VOLUME_SIGNALINFO);
-            } catch (RuntimeException e) {
-                Log.w(LOG_TAG, "CallNotifier: Exception caught while creating " +
-                        "mSignalInfoToneGenerator: " + e);
-                mSignalInfoToneGenerator = null;
-            }
-
-            mCM.registerForInCallVoicePrivacyOn(this, PHONE_ENHANCED_VP_ON, null);
-            mCM.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
-        }
-
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
-            mCM.registerForRingbackTone(this, PHONE_RINGBACK_TONE, null);
-            mCM.registerForResendIncallMute(this, PHONE_RESEND_MUTE, null);
-        }
+        // Register all events new to the new active phone
+        registerForNotifications();
     }
 
     private void registerForNotifications() {
@@ -943,7 +894,7 @@ public class CallNotifier extends Handler
                 // send directly to voicemail.
                 if (ci.shouldSendToVoicemail) {
                     if (DBG) log("send to voicemail flag detected. hanging up.");
-                    PhoneUtils.hangupRingingCall(mPhone);
+                    PhoneUtils.hangupRingingCall(mPhone.getRingingCall());
                     return;
                 }
 
@@ -1006,7 +957,7 @@ public class CallNotifier extends Handler
         // call connection hence we should *not* be stopping the ringer being played for
         // the Incoming Call
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            if (mPhone.getRingingCall().getState() == Call.State.INCOMING) {
+            if (PhoneUtils.isRealIncomingCall(mPhone.getRingingCall().getState())) {
                 // Also we need to take off the "In Call" icon from the Notification
                 // area as the Out going Call never got connected
                 if (DBG) log("cancelCallInProgressNotification()... (onDisconnect)");
@@ -1632,7 +1583,7 @@ public class CallNotifier extends Handler
      * Plays a tone when the phone receives a SignalInfo record.
      */
     private void onSignalInfo(AsyncResult r) {
-        if (mCM.getFirstActiveRingingCall().getState() == Call.State.INCOMING) {
+        if (PhoneUtils.isRealIncomingCall(mCM.getFirstActiveRingingCall().getState())) {
             // Do not start any new SignalInfo tone when Call state is INCOMING
             // and stop any previous SignalInfo tone which is being played
             stopSignalInfoTone();
@@ -1995,7 +1946,9 @@ public class CallNotifier extends Handler
             // Do final CNAP modifications.
             number = PhoneUtils.modifyForSpecialCnapCases(mPhoneContext, callerInfo,
                                                           number, presentation);
-            number = PhoneNumberUtils.stripSeparators(number);
+            if (!PhoneNumberUtils.isUriNumber(number)) {
+                number = PhoneNumberUtils.stripSeparators(number);
+            }
             if (VDBG) log("getLogNumber: " + number);
             return number;
         }
