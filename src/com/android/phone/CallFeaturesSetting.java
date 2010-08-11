@@ -1410,6 +1410,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         updateVoiceNumberField();
         mVMProviderSettingsForced = false;
+        addPreferencesFromResource(R.xml.sip_settings_category);
     }
 
     @Override

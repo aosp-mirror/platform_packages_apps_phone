@@ -1201,4 +1201,83 @@
     <string name="goPrivate">go private</string>
     <!--  Use this to describe the select contact button in EditPhoneNumberPreference; currently for screen readers through accessibility. -->
     <string name="selectContact">select contact</string>
+
+
+    <!-- Start of SIP related strings defined from here. -->
+
+    <!-- Title displayed SIP settings coming after other call settings in the call features screen. [CHAR LIMIT=NONE] -->
+    <string name="sip_settings">SIP call settings</string>
+    <!-- Title displayed SIP account settings in the sip settings category. [CHAR LIMIT=NONE] -->
+    <string name="sip_accounts">Sip Account Settings</string>
+    <!-- The Sip Account Settings's summary. [CHAR LIMIT=NONE] -->
+    <string name="sip_accounts_summary">Manage SIP accounts and status</string>
+
+    <!-- Title for enabling the auto registration for all sip accounts. [CHAR LIMIT=NONE] -->
+    <string name="auto_reg">Auto Registration</string>
+    <!-- Title for enabling the routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
+    <string name="call_priority">Outgoing Call via SIP</string>
+    <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
+    <string name="add_sip_account">Add SIP account</string>
+    <!-- Title for the button to remove a sip account. [CHAR LIMIT=NONE] -->
+    <string name="remove_sip_account">Remove SIP account</string>
+    <!-- String of the category which lists all sip accounts. [CHAR LIMIT=NONE] -->
+    <string name="sip_account_list">SIP accounts</string>
+
+    <!-- Menu item when the menu button is pressed in the sip account editor. [CHAR LIMIT=NONE] -->
+    <string name="sip_menu_save">Save</string>
+    <!-- Menu item when the menu button is pressed in the sip account editor. [CHAR LIMIT=NONE] -->
+    <string name="sip_menu_discard">Discard</string>
+
+    <!-- Title of the button to show in a alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="alert_dialog_ok">OK</string>
+
+
+    <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
+    <string name="sip_edit_title">Edit your SIP account</string>
+
+    <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
+    <string name="initial_preference_summary">&lt;Not set&gt;</string>
+    <!-- Text of the sip profile name preference. [CHAR LIMIT=NONE] -->
+    <string name="profile_name_title">Name</string>
+    <!-- Text of the domain address preference. [CHAR LIMIT=NONE] -->
+    <string name="domain_address_title">Domain</string>
+    <!-- Text of the username preference. [CHAR LIMIT=NONE] -->
+    <string name="username_title">Username</string>
+    <!-- Text of the password preference. [CHAR LIMIT=NONE] -->
+    <string name="password_title">Password</string>
+    <!-- Text of the display name preference. [CHAR LIMIT=NONE] -->
+    <string name="display_name_title">Display name</string>
+    <!-- Text of the outbound proxy address preference. [CHAR LIMIT=NONE] -->
+    <string name="proxy_address_title">Outbound Proxy address</string>
+    <!-- Text of the sip server/proxy port number. [CHAR LIMIT=NONE] -->
+    <string name="port_title">Port Number</string>
+    <!-- Text of the default sip server/proxy port number. [CHAR LIMIT=NONE] -->
+    <string name="port_summary">5060</string>
+    <!-- Text of the transport type preference. [CHAR LIMIT=NONE] -->
+    <string name="transport_title">Transport Type</string>
+    <!-- Text of the keepalive preference. [CHAR LIMIT=NONE] -->
+    <string name="send_keepalive_title">Send keep-alive</string>
+    <!-- Text of the keepalive preference summary. [CHAR LIMIT=NONE] -->
+    <string name="send_keepalive_summary">Send SIP keep-alive messages</string>
+    <!-- Text of the auto registration preference. [CHAR LIMIT=NONE] -->
+    <string name="auto_registration_title">Auto. Registration</string>
+    <!-- Text of the auto registration preference summary. [CHAR LIMIT=NONE] -->
+    <string name="auto_registration_summary">Register the profile automatically</string>
+
+    <!-- String to be appended to indicate some preference field can not be empty in the alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="empty_alert"> cannot be empty</string>
+
+    <!-- Do not translate the following strings. Used for the preference keys -->
+    <string translatable="false" name="profile_name">ProfileName</string>
+    <string translatable="false" name="domain_address">SipDomain</string>
+    <string translatable="false" name="username">UserName</string>
+    <string translatable="false" name="password">Password</string>
+    <string translatable="false" name="display_name">DisplayName</string>
+    <string translatable="false" name="proxy_address">ProxyAddress</string>
+    <string translatable="false" name="port">Port</string>
+    <string translatable="false" name="transport">Protocol</string>
+    <string translatable="false" name="send_keepalive">SendKeepAlive</string>
+    <string translatable="false" name="auto_registration">AutoRegistration</string>
+    <!-- End of SIP settings related strings -->
+
 </resources>
