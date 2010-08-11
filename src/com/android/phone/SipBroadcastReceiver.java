@@ -18,7 +18,6 @@ package com.android.phone;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.telephony.sip.SipPhoneProxy;
 import com.android.internal.telephony.sip.SipPhone;
 
 import android.content.BroadcastReceiver;
