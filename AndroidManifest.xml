@@ -396,12 +396,12 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name="SipBroadcastReceiver">
+        <receiver android:name="SipBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.android.phone.SIP_INCOMING_CALL" />
                 <action android:name="com.android.phone.SIP_ADD_PHONE" />
                 <action android:name="com.android.phone.SIP_REMOVE_PHONE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
