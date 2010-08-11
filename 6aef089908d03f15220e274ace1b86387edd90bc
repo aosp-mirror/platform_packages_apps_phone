@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///r0\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-11T02:38:37Z",
+      "side": 1,
+      "message": "U can add the vendor specific parser here instead of in both places.",
+      "revId": "6aef089908d03f15220e274ace1b86387edd90bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
