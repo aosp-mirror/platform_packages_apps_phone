@@ -111,7 +111,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                     try {
                         if (!profile.getAutoRegistration()) continue;
                         sipManager.open(profile,
-                                SipManager.INCOMING_CALL_ACTION, null);
+                                SipManager.SIP_INCOMING_CALL_ACTION, null);
                     } catch (SipException e) {
                         Log.e(TAG, "failed" + profile.getProfileName(), e);
                     }
