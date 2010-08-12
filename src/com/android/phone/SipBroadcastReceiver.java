@@ -19,14 +19,18 @@ package com.android.phone;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.sip.SipPhone;
+import com.android.phone.sip.SipSettings;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipManager;
+import android.net.sip.SipProfile;
 import android.util.Log;
 
+import java.util.List;
 import javax.sip.SipException;
 
 /**
@@ -52,6 +56,9 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
             String localSipUri = intent.getStringExtra(SipManager.LOCAL_URI_KEY);
             Log.v(TAG, "removed profile: " + localSipUri);
             removeSipPhone(localSipUri);
+        } else if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            Log.v(TAG, "start auto registration");
+            registerAllProfiles();
         } else {
             Log.v(TAG, "action not processed: " + action);
             return;
@@ -85,5 +92,31 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         } catch (SipException e) {
             Log.e(TAG, "process incoming SIP call", e);
         }
+    }
+
+    private void registerAllProfiles() {
+        final Context context = PhoneApp.getInstance();
+        SharedPreferences settings = context.getSharedPreferences(
+                SipSettings.SIP_SHARED_PREFERENCES,
+                Context.MODE_WORLD_READABLE);
+        if (!settings.getBoolean(SipSettings.AUTOREG_FLAG, false)) return;
+        new Thread(new Runnable() {
+            public void run() {
+                SipManager sipManager = SipManager.getInstance(context);
+                List<SipProfile> sipProfileList =
+                        SipSettings.retrieveSipListFromDirectory(
+                        context.getFilesDir().getAbsolutePath()
+                        + SipSettings.PROFILES_DIR);
+                for (SipProfile profile : sipProfileList) {
+                    try {
+                        if (!profile.getAutoRegistration()) continue;
+                        sipManager.open(profile,
+                                SipManager.INCOMING_CALL_ACTION, null);
+                    } catch (SipException e) {
+                        Log.e(TAG, "failed" + profile.getProfileName(), e);
+                    }
+                }
+            }}
+        ).start();
     }
 }

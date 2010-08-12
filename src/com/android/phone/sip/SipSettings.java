@@ -18,7 +18,6 @@ package com.android.phone.sip;
 
 import com.android.phone.R;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -60,9 +59,13 @@ import javax.sip.SipException;
  * The PreferenceActivity class for managing sip profile preferences.
  */
 public class SipSettings extends PreferenceActivity {
+    public static final String SIP_SHARED_PREFERENCES = "SIP_PREFERENCES";
+    public static final String AUTOREG_FLAG = "AUTOREG";
+    public static final String SIP_CALL_FIRST_FLAG = "SIPFIRST";
+    public static final String PROFILES_DIR = "/profiles/";
+
     static final String KEY_SIP_PROFILE = "sip_profile";
     static final String PROFILE_OBJ_FILE = ".pobj";
-    static final String PROFILES_DIR = "/profiles/";
 
     private static final String PREF_AUTO_REG = "auto_reg";
     private static final String PREF_SIP_CALL_FIRST = "sip_call_first";
@@ -70,9 +73,6 @@ public class SipSettings extends PreferenceActivity {
     private static final String TAG = "SipSettings";
     private static final String REGISTERED = "REGISTERED";
     private static final String UNREGISTERED = "NOT REGISTERED";
-
-    public static final String INCOMING_CALL_ACTION =
-            "com.android.phone.SIP_INCOMING_CALL";
 
     private static final int REQUEST_ADD_OR_EDIT_SIP_PROFILE = 1;
 
@@ -152,14 +152,11 @@ public class SipSettings extends PreferenceActivity {
 
     private void registerForGlobalSettingsListener() {
         mSettingsEditor = getSharedPreferences(
-                SipAutoRegistration.SIP_SHARED_PREFERENCES,
-                Context.MODE_WORLD_READABLE).edit();
+                SIP_SHARED_PREFERENCES, Context.MODE_WORLD_READABLE).edit();
         setCheckBoxClickEventListener(PREF_AUTO_REG,
-                SipAutoRegistration.AUTOREG_FLAG,
-                new AutoRegistrationClickHandler());
+                AUTOREG_FLAG, new AutoRegistrationClickHandler());
         setCheckBoxClickEventListener(PREF_SIP_CALL_FIRST,
-                SipAutoRegistration.SIP_CALL_FIRST_FLAG,
-                null);
+                SIP_CALL_FIRST_FLAG, null);
     }
 
     private void setCheckBoxClickEventListener(String preference,
@@ -191,7 +188,7 @@ public class SipSettings extends PreferenceActivity {
         }).start();
     }
 
-    static List<SipProfile> retrieveSipListFromDirectory(
+    public static List<SipProfile> retrieveSipListFromDirectory(
             String directory) {
         List<SipProfile> sipProfileList = Collections.synchronizedList(
                 new ArrayList<SipProfile>());
@@ -300,7 +297,7 @@ public class SipSettings extends PreferenceActivity {
     private void registerProfile(SipProfile profile) {
         if (profile != null) {
             try {
-                mSipManager.open(profile, INCOMING_CALL_ACTION,
+                mSipManager.open(profile, SipManager.INCOMING_CALL_ACTION,
                         createRegistrationListener());
             } catch (Exception e) {
                 Log.e(TAG, "register failed", e);
