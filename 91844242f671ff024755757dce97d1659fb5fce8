@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///Xo\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-13T18:32:40Z",
+      "side": 1,
+      "message": "companyId",
+      "revId": "91844242f671ff024755757dce97d1659fb5fce8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///Xs\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1495,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-13T18:32:40Z",
+      "side": 1,
+      "message": "Can we create a new file called BluetoothAssignedNumbers or something like that.\n\nThis way apps can use it to check for company id i.e\nif companyId \u003d\u003d BluetoothAssingedNumbers.PLANTRONICS_ID",
+      "revId": "91844242f671ff024755757dce97d1659fb5fce8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
