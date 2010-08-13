@@ -497,7 +497,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
-        if (mPhone.getState() == Phone.State.IDLE) {
+        if (mCM.getState() == Phone.State.IDLE) {
             cancelInCall();
             return;
         }

@@ -1625,7 +1625,7 @@ public class BluetoothHandsfree {
                     // Answer the call
                     mBluetoothPhoneState.stopRing();
                     sendURC("OK");
-                    PhoneUtils.answerCall(mPhone);
+                    PhoneUtils.answerCall(mPhone.getRingingCall());
                     // If in-band ring tone is supported, SCO connection will already
                     // be up and the following call will just return.
                     audioOn();
@@ -1644,7 +1644,7 @@ public class BluetoothHandsfree {
                         } else {
                             // Hang up the call
                             audioOff();
-                            PhoneUtils.hangup(mPhone);
+                            PhoneUtils.hangup(PhoneApp.getInstance().mCM);
                         }
                     }
                     return new AtCommandResult(AtCommandResult.OK);
@@ -1677,7 +1677,7 @@ public class BluetoothHandsfree {
             public AtCommandResult handleBasicCommand(String args) {
                 sendURC("OK");
                 mBluetoothPhoneState.stopRing();
-                PhoneUtils.answerCall(mPhone);
+                PhoneUtils.answerCall(mPhone.getRingingCall());
                 return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
         });
@@ -1716,11 +1716,11 @@ public class BluetoothHandsfree {
             public AtCommandResult handleActionCommand() {
                 sendURC("OK");
                 if (!mForegroundCall.isIdle()) {
-                    PhoneUtils.hangupActiveCall(mPhone);
+                    PhoneUtils.hangupActiveCall(mPhone.getForegroundCall());
                 } else if (!mRingingCall.isIdle()) {
-                    PhoneUtils.hangupRingingCall(mPhone);
+                    PhoneUtils.hangupRingingCall(mPhone.getRingingCall());
                 } else if (!mBackgroundCall.isIdle()) {
-                    PhoneUtils.hangupHoldingCall(mPhone);
+                    PhoneUtils.hangupHoldingCall(mPhone.getBackgroundCall());
                 }
                 return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
@@ -1955,9 +1955,9 @@ public class BluetoothHandsfree {
                     if (args[0].equals(0)) {
                         boolean result;
                         if (mRingingCall.isRinging()) {
-                            result = PhoneUtils.hangupRingingCall(mPhone);
+                            result = PhoneUtils.hangupRingingCall(mPhone.getRingingCall());
                         } else {
-                            result = PhoneUtils.hangupHoldingCall(mPhone);
+                            result = PhoneUtils.hangupHoldingCall(mPhone.getBackgroundCall());
                         }
                         if (result) {
                             return new AtCommandResult(AtCommandResult.OK);
@@ -1970,7 +1970,7 @@ public class BluetoothHandsfree {
                                 // If there is Call waiting then answer the call and
                                 // put the first call on hold.
                                 if (VDBG) log("CHLD:1 Callwaiting Answer call");
-                                PhoneUtils.answerCall(mPhone);
+                                PhoneUtils.answerCall(mPhone.getRingingCall());
                                 PhoneUtils.setMute(mPhone, false);
                                 // Setting the second callers state flag to TRUE (i.e. active)
                                 cdmaSetSecondCallState(true);
@@ -1979,12 +1979,13 @@ public class BluetoothHandsfree {
                                 // the active call. In CDMA this mean that the complete
                                 // call session would be ended
                                 if (VDBG) log("CHLD:1 Hangup Call");
-                                PhoneUtils.hangup(mPhone);
+                                PhoneUtils.hangup(PhoneApp.getInstance().mCM);
                             }
                             return new AtCommandResult(AtCommandResult.OK);
                         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                             // Hangup active call, answer held call
-                            if (PhoneUtils.answerAndEndActive(mPhone)) {
+                            if (PhoneUtils.answerAndEndActive(
+                                    PhoneApp.getInstance().mCM, mPhone.getRingingCall())) {
                                 return new AtCommandResult(AtCommandResult.OK);
                             } else {
                                 return new AtCommandResult(AtCommandResult.ERROR);
@@ -2001,7 +2002,7 @@ public class BluetoothHandsfree {
                             // a flash cmd by calling switchHoldingAndActive()
                             if (mRingingCall.isRinging()) {
                                 if (VDBG) log("CHLD:2 Callwaiting Answer call");
-                                PhoneUtils.answerCall(mPhone);
+                                PhoneUtils.answerCall(mPhone.getRingingCall());
                                 PhoneUtils.setMute(mPhone, false);
                                 // Setting the second callers state flag to TRUE (i.e. active)
                                 cdmaSetSecondCallState(true);
@@ -2009,12 +2010,12 @@ public class BluetoothHandsfree {
                                     .getCurrentCallState()
                                     == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                                 if (VDBG) log("CHLD:2 Swap Calls");
-                                PhoneUtils.switchHoldingAndActive(mPhone);
+                                PhoneUtils.switchHoldingAndActive(mPhone.getBackgroundCall());
                                 // Toggle the second callers active state flag
                                 cdmaSwapSecondCallState();
                             }
                         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                            PhoneUtils.switchHoldingAndActive(mPhone);
+                            PhoneUtils.switchHoldingAndActive(mPhone.getBackgroundCall());
                         } else {
                             throw new IllegalStateException("Unexpected phone type: " + phoneType);
                         }

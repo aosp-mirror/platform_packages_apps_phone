@@ -198,9 +198,13 @@ public class OutgoingCallBroadcaster extends Activity {
 
         String action = intent.getAction();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, this);
+        // Check the number, don't convert for sip uri
+        // TODO put uriNumber under PhoneNumberUtils
         if (number != null) {
-            number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
-            number = PhoneNumberUtils.stripSeparators(number);
+            if (!PhoneNumberUtils.isUriNumber(number)) {
+                number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
+                number = PhoneNumberUtils.stripSeparators(number);
+            }
         }
         final boolean emergencyNumber =
                 (number != null) && PhoneNumberUtils.isEmergencyNumber(number);

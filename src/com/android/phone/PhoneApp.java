@@ -61,6 +61,7 @@ import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.cdma.EriInfo;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 import com.android.internal.telephony.cdma.TtyIntent;
+import com.android.internal.telephony.sip.SipPhoneFactory;
 
 /**
  * Top-level Application class for the Phone app.
@@ -293,7 +294,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     // this on the wired headset connect / disconnect events for now
                     // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
 
-                    phoneState = phone.getState();
+                    phoneState = mCM.getState();
                     // Do not change speaker state if phone is not off hook
                     if (phoneState == Phone.State.OFFHOOK) {
                         if (mBtHandsfree == null || !mBtHandsfree.isAudioOn()) {
@@ -350,7 +351,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     if (VDBG) Log.d(LOG_TAG, "received EVENT_DOCK_STATE_CHANGED. Phone inDock = "
                             + inDockMode);
 
-                    phoneState = phone.getState();
+                    phoneState = mCM.getState();
                     if (phoneState == Phone.State.OFFHOOK &&
                             !isHeadsetPlugged() &&
                             !(mBtHandsfree != null && mBtHandsfree.isAudioOn())) {
@@ -469,7 +470,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
 
             // register connection tracking to PhoneUtils
-            PhoneUtils.initializeConnectionHandler(phone);
+            PhoneUtils.initializeConnectionHandler(mCM);
 
             // Read platform settings for TTY feature
             mTtyEnabled = getResources().getBoolean(R.bool.tty_enabled);
@@ -514,7 +515,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Make sure the audio mode (along with some
             // audio-mode-related state of our own) is initialized
             // correctly, given the current state of the phone.
-            switch (phone.getState()) {
+            switch (mCM.getState()) {
                 case IDLE:
                     if (DBG) Log.d(LOG_TAG, "Resetting audio state/mode: IDLE");
                     PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
@@ -581,7 +582,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
 
         // Update the Proximity sensor based on keyboard state
-        updateProximitySensorMode(phone.getState());
+        updateProximitySensorMode(mCM.getState());
         super.onConfigurationChanged(newConfig);
     }
 
@@ -968,7 +969,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * Phone UI (e.g. whether or not the InCallScreen is active.)
      */
     /* package */ void updateWakeState() {
-        Phone.State state = phone.getState();
+        Phone.State state = mCM.getState();
 
         // True if the in-call UI is the foreground activity.
         // (Note this will be false if the screen is currently off,
@@ -1113,7 +1114,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // Note that we are beginning a new call, for proximity sensor support
         mBeginningCall = beginning;
         // Update the Proximity sensor based on mBeginningCall state
-        updateProximitySensorMode(phone.getState());
+        updateProximitySensorMode(mCM.getState());
     }
 
     /**
@@ -1193,7 +1194,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     public void orientationChanged(int orientation) {
         mOrientation = orientation;
-        updateProximitySensorMode(phone.getState());
+        updateProximitySensorMode(mCM.getState());
     }
 
     /**
@@ -1338,7 +1339,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
 
         // Update the Proximity sensor based on Bluetooth audio state
-        updateProximitySensorMode(phone.getState());
+        updateProximitySensorMode(mCM.getState());
     }
 
     /**
@@ -1520,7 +1521,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     abortBroadcast();
                 }
             } else {
-                if (phone.getState() != Phone.State.IDLE) {
+                if (mCM.getState() != Phone.State.IDLE) {
                     // If the phone is anything other than completely idle,
                     // then we consume and ignore any media key events,
                     // Otherwise it is too easy to accidentally start

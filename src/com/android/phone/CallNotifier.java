@@ -368,7 +368,8 @@ public class CallNotifier extends Handler
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
         if (DBG) log("onNewRingingConnection(): " + c);
-        Phone phone = c.getCall().getPhone();
+        Call ringing = c.getCall();
+        Phone phone = ringing.getPhone();
 
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned = Settings.Secure.getInt(mPhoneContext.getContentResolver(),
@@ -377,7 +378,7 @@ public class CallNotifier extends Handler
             Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: not provisioned / ECM");
             // Send the caller straight to voicemail, just like
             // "rejecting" an incoming call.
-            PhoneUtils.hangupRingingCall(phone);
+            PhoneUtils.hangupRingingCall(ringing);
             return;
         }
 
@@ -391,7 +392,7 @@ public class CallNotifier extends Handler
 
             if (spcState) {
                 Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: OTA call is active");
-                PhoneUtils.hangupRingingCall(phone);
+                PhoneUtils.hangupRingingCall(ringing);
                 return;
             } else if (activateState || dialogState) {
                 if (dialogState) mApplication.dismissOtaDialogs();
@@ -454,7 +455,7 @@ public class CallNotifier extends Handler
 
         // - don't ring for call waiting connections
         // - do this before showing the incoming call panel
-        if (state == Call.State.INCOMING) {
+        if (PhoneUtils.isRealIncomingCall(state)) {
             PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
             startIncomingCallQuery(c);
         } else {
@@ -891,7 +892,7 @@ public class CallNotifier extends Handler
                 // send directly to voicemail.
                 if (ci.shouldSendToVoicemail) {
                     if (DBG) log("send to voicemail flag detected. hanging up.");
-                    PhoneUtils.hangupRingingCall(mPhone);
+                    PhoneUtils.hangupRingingCall(mPhone.getRingingCall());
                     return;
                 }
 
@@ -954,7 +955,7 @@ public class CallNotifier extends Handler
         // call connection hence we should *not* be stopping the ringer being played for
         // the Incoming Call
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            if (mPhone.getRingingCall().getState() == Call.State.INCOMING) {
+            if (PhoneUtils.isRealIncomingCall(mPhone.getRingingCall().getState())) {
                 // Also we need to take off the "In Call" icon from the Notification
                 // area as the Out going Call never got connected
                 if (DBG) log("cancelCallInProgressNotification()... (onDisconnect)");
@@ -1584,7 +1585,7 @@ public class CallNotifier extends Handler
      * Plays a tone when the phone receives a SignalInfo record.
      */
     private void onSignalInfo(AsyncResult r) {
-        if (mCM.getFirstActiveRingingCall().getState() == Call.State.INCOMING) {
+        if (PhoneUtils.isRealIncomingCall(mCM.getFirstActiveRingingCall().getState())) {
             // Do not start any new SignalInfo tone when Call state is INCOMING
             // and stop any previous SignalInfo tone which is being played
             stopSignalInfoTone();
@@ -1947,7 +1948,9 @@ public class CallNotifier extends Handler
             // Do final CNAP modifications.
             number = PhoneUtils.modifyForSpecialCnapCases(mPhoneContext, callerInfo,
                                                           number, presentation);
-            number = PhoneNumberUtils.stripSeparators(number);
+            if (!PhoneNumberUtils.isUriNumber(number)) {
+                number = PhoneNumberUtils.stripSeparators(number);
+            }
             if (VDBG) log("getLogNumber: " + number);
             return number;
         }

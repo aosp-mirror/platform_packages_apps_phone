@@ -46,7 +46,6 @@ public class InCallControlState {
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     private InCallScreen mInCallScreen;
-    private Phone mPhone;
     private CallManager mCM;
 
     //
@@ -86,11 +85,10 @@ public class InCallControlState {
     public boolean canHold;
 
 
-    public InCallControlState(InCallScreen inCallScreen, Phone phone) {
+    public InCallControlState(InCallScreen inCallScreen, CallManager cm) {
         if (DBG) log("InCallControlState constructor...");
         mInCallScreen = inCallScreen;
-        mPhone = phone;
-        mCM = PhoneApp.getInstance().mCM;
+        mCM = cm;
     }
 
     /**
@@ -104,7 +102,7 @@ public class InCallControlState {
         final boolean hasHoldingCall = mCM.hasActiveBgCall();
 
         // Manage conference:
-        if (TelephonyCapabilities.supportsConferenceCallManagement(mPhone)) {
+        if (TelephonyCapabilities.supportsConferenceCallManagement(fgCall.getPhone())) {
             // This item is visible only if the foreground call is a
             // conference call, and it's enabled unless the "Manage
             // conference" UI is already up.
@@ -118,11 +116,11 @@ public class InCallControlState {
         }
 
         // "Add call":
-        canAddCall = PhoneUtils.okToAddCall(mPhone);
+        canAddCall = PhoneUtils.okToAddCall(mCM);
 
         // Swap / merge calls
-        canSwap = PhoneUtils.okToSwapCalls(mPhone);
-        canMerge = PhoneUtils.okToMergeCalls(mPhone);
+        canSwap = PhoneUtils.okToSwapCalls(mCM);
+        canMerge = PhoneUtils.okToMergeCalls(mCM);
 
         // "Bluetooth":
         if (mInCallScreen.isBluetoothAvailable()) {
@@ -149,7 +147,7 @@ public class InCallControlState {
             muteIndicatorOn = false;
         } else {
             canMute = hasActiveForegroundCall;
-            muteIndicatorOn = PhoneUtils.getMute(mPhone);
+            muteIndicatorOn = PhoneUtils.getMute(fgCall.getPhone());
         }
 
         // "Dialpad": Enabled only when it's OK to use the dialpad in the
@@ -161,7 +159,7 @@ public class InCallControlState {
         dialpadVisible = mInCallScreen.isDialerOpened();
 
         // "Hold:
-        if (TelephonyCapabilities.supportsHoldAndUnhold(mPhone)) {
+        if (TelephonyCapabilities.supportsHoldAndUnhold(fgCall.getPhone())) {
             // This phone has the concept of explicit "Hold" and "Unhold" actions.
             supportsHold = true;
             // "On hold" means that there's a holding call and

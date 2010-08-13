@@ -35,6 +35,7 @@ import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.CallManager;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     PhoneApp mApp;
     Phone mPhone;
+    CallManager mCM;
     MainThreadHandler mMainThreadHandler;
 
     /**
@@ -135,7 +137,18 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
                 case CMD_END_CALL:
                     request = (MainThreadRequest) msg.obj;
-                    boolean hungUp = PhoneUtils.hangup(mPhone);
+                    boolean hungUp = false;
+                    int phoneType = mPhone.getPhoneType();
+                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                        // CDMA: If the user presses the Power button we treat it as
+                        // ending the complete call session
+                        hungUp = PhoneUtils.hangupRingingAndActive(mPhone);
+                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                        // GSM: End the call as per the Phone state
+                        hungUp = PhoneUtils.hangup(mCM);
+                    } else {
+                        throw new IllegalStateException("Unexpected phone type: " + phoneType);
+                    }
                     if (DBG) log("CMD_END_CALL: " + (hungUp ? "hung up!" : "no call to hang up"));
                     request.result = hungUp;
                     // Wake up the requesting thread
@@ -191,6 +204,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public PhoneInterfaceManager(PhoneApp app, Phone phone) {
         mApp = app;
         mPhone = phone;
+        mCM = PhoneApp.getInstance().mCM;
         mMainThreadHandler = new MainThreadHandler();
         publish();
     }
@@ -319,12 +333,12 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 // policy to use if both lines are in use.  (The current
                 // behavior is hardwired to "answer incoming, end ongoing",
                 // which is how the CALL button is specced to behave.)
-                PhoneUtils.answerAndEndActive(mPhone);
+                PhoneUtils.answerAndEndActive(mCM, mCM.getFirstActiveRingingCall());
                 return;
             } else {
                 // answerCall() will automatically hold the current active
                 // call, if there is one.
-                PhoneUtils.answerCall(mPhone);
+                PhoneUtils.answerCall(mCM.getFirstActiveRingingCall());
                 return;
             }
         } else {
