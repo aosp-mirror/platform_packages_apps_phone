@@ -497,7 +497,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
-        if (mPhone.getState() == Phone.State.IDLE) {
+        if (mCM.getState() == Phone.State.IDLE) {
             cancelInCall();
             return;
         }
@@ -824,7 +824,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 }
             }
 
-            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            if (TelephonyCapabilities.supportsVoiceMessageCount(mPhone)) {
                 int vmCount = mPhone.getVoiceMessageCount();
                 String titleFormat = mContext.getString(R.string.notification_voicemail_title_count);
                 notificationTitle = String.format(titleFormat, vmCount);
@@ -1002,7 +1002,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * @param serviceState Phone service state
      */
     void updateNetworkSelection(int serviceState) {
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM) {
+        if (TelephonyCapabilities.supportsNetworkSelection(mPhone)) {
             // get the shared preference of network_selection.
             // empty is auto mode, otherwise it is the operator alpha name
             // in case there is no operator name, check the operator numeric

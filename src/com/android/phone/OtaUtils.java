@@ -713,7 +713,7 @@ public class OtaUtils {
     private void onClickOtaEndButton() {
         if (DBG) log("Activation End Call Button Clicked!");
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
-            if (PhoneUtils.hangup(mApplication.phone) == false) {
+            if (PhoneUtils.hangup(mApplication.mCM) == false) {
                 // If something went wrong when placing the OTA call,
                 // the screen is not updated by the call disconnect
                 // handler and we have to do it here

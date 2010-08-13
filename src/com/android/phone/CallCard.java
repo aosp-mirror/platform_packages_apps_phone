@@ -40,6 +40,7 @@ import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.CallManager;
 
 import java.util.List;
 
@@ -197,8 +198,8 @@ public class CallCard extends FrameLayout
      * Updates the state of all UI elements on the CallCard, based on the
      * current state of the phone.
      */
-    void updateState(Phone phone) {
-        if (DBG) log("updateState(" + phone + ")...");
+    void updateState(CallManager cm) {
+        if (DBG) log("updateState(" + cm + ")...");
 
         // Update some internal state based on the current state of the phone.
 
@@ -207,15 +208,15 @@ public class CallCard extends FrameLayout
         // type of the CallCard, load up the main caller info area, and
         // load up and show or hide the "other call" area if necessary.
 
-        Phone.State state = phone.getState();  // IDLE, RINGING, or OFFHOOK
+        Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
         if (state == Phone.State.RINGING) {
             // A phone call is ringing *or* call waiting
             // (ie. another call may also be active as well.)
-            updateRingingCall(phone);
+            updateRingingCall(cm);
         } else if (state == Phone.State.OFFHOOK) {
             // The phone is off hook. At least one call exists that is
             // dialing, active, or holding, and no calls are ringing or waiting.
-            updateForegroundCall(phone);
+            updateForegroundCall(cm);
         } else {
             // The phone state is IDLE!
             //
@@ -227,7 +228,7 @@ public class CallCard extends FrameLayout
                 // In this case, we want the main CallCard to display
                 // the "Call ended" state.  The normal "foreground call"
                 // code path handles that.
-                updateForegroundCall(phone);
+                updateForegroundCall(cm);
             } else {
                 // We don't have any DISCONNECTED calls, which means
                 // that the phone is *truly* idle.
@@ -244,7 +245,7 @@ public class CallCard extends FrameLayout
                 //   the InCallScreen so that the dialog will be visible.
                 //
                 // In these cases, put the callcard into a sane but "blank" state:
-                updateNoCall(phone);
+                updateNoCall(cm);
             }
         }
     }
@@ -252,11 +253,14 @@ public class CallCard extends FrameLayout
     /**
      * Updates the UI for the state where the phone is in use, but not ringing.
      */
-    private void updateForegroundCall(Phone phone) {
+    private void updateForegroundCall(CallManager cm) {
         if (DBG) log("updateForegroundCall()...");
+        if (DBG) PhoneUtils.dumpCallManager();
 
-        Call fgCall = mApplication.mCM.getActiveFgCall();
-        Call bgCall = mApplication.mCM.getFirstActiveBgCall();
+        Call fgCall = cm.getActiveFgCall();
+        Call bgCall = cm.getFirstActiveBgCall();
+
+
 
         if (fgCall.isIdle() && !fgCall.hasConnections()) {
             if (DBG) log("updateForegroundCall: no active call, show holding call");
@@ -272,21 +276,23 @@ public class CallCard extends FrameLayout
             bgCall = null;
         }
 
-        displayMainCallStatus(phone, fgCall);
+        displayMainCallStatus(cm, fgCall);
+
+        Phone phone = fgCall.getPhone();
 
         int phoneType = phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if ((mApplication.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
                     && mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
-                displayOnHoldCallStatus(phone, fgCall);
+                displayOnHoldCallStatus(cm, fgCall);
             } else {
                 //This is required so that even if a background call is not present
                 // we need to clean up the background call area.
-                displayOnHoldCallStatus(phone, bgCall);
+                displayOnHoldCallStatus(cm, bgCall);
             }
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-            displayOnHoldCallStatus(phone, bgCall);
+            displayOnHoldCallStatus(cm, bgCall);
         }
     }
 
@@ -294,19 +300,19 @@ public class CallCard extends FrameLayout
      * Updates the UI for the state where an incoming call is ringing (or
      * call waiting), regardless of whether the phone's already offhook.
      */
-    private void updateRingingCall(Phone phone) {
+    private void updateRingingCall(CallManager cm) {
         if (DBG) log("updateRingingCall()...");
 
-        Call ringingCall = mApplication.mCM.getFirstActiveRingingCall();
+        Call ringingCall = cm.getFirstActiveRingingCall();
 
         // Display caller-id info and photo from the incoming call:
-        displayMainCallStatus(phone, ringingCall);
+        displayMainCallStatus(cm, ringingCall);
 
         // And even in the Call Waiting case, *don't* show any info about
         // the current ongoing call and/or the current call on hold.
         // (Since the caller-id info for the incoming call totally trumps
         // any info about the current call(s) in progress.)
-        displayOnHoldCallStatus(phone, null);
+        displayOnHoldCallStatus(cm, null);
     }
 
     /**
@@ -317,19 +323,19 @@ public class CallCard extends FrameLayout
      *
      * This puts the callcard into a sane but "blank" state.
      */
-    private void updateNoCall(Phone phone) {
+    private void updateNoCall(CallManager cm) {
         if (DBG) log("updateNoCall()...");
 
-        displayMainCallStatus(phone, null);
-        displayOnHoldCallStatus(phone, null);
+        displayMainCallStatus(cm, null);
+        displayOnHoldCallStatus(cm, null);
     }
 
     /**
      * Updates the main block of caller info on the CallCard
      * (ie. the stuff in the primaryCallInfo block) based on the specified Call.
      */
-    private void displayMainCallStatus(Phone phone, Call call) {
-        if (DBG) log("displayMainCallStatus(phone " + phone
+    private void displayMainCallStatus(CallManager cm, Call call) {
+        if (DBG) log("displayMainCallStatus(phone " + cm
                      + ", call " + call + ")...");
 
         if (call == null) {
@@ -399,7 +405,7 @@ public class CallCard extends FrameLayout
                 break;
         }
 
-        updateCardTitleWidgets(phone, call);
+        updateCardTitleWidgets(call.getPhone(), call);
 
         if (PhoneUtils.isConferenceCall(call)) {
             // Update onscreen info for a conference call.
@@ -408,7 +414,7 @@ public class CallCard extends FrameLayout
             // Update onscreen info for a regular call (which presumably
             // has only one connection.)
             Connection conn = null;
-            int phoneType = phone.getPhoneType();
+            int phoneType = call.getPhone().getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 conn = call.getLatestConnection();
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
@@ -793,7 +799,7 @@ public class CallCard extends FrameLayout
      * Or, clear out the "on hold" box if the specified call
      * is null or idle.
      */
-    private void displayOnHoldCallStatus(Phone phone, Call call) {
+    private void displayOnHoldCallStatus(CallManager cm, Call call) {
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
 
         if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {

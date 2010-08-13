@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.CallManager;
 
 /**
  * Helper class to manage the options menu for the InCallScreen.
@@ -258,24 +259,24 @@ class InCallMenu {
      *         to go ahead and show the menu, or false if
      *         we shouldn't show the menu at all.
      */
-    /* package */ boolean updateItems(Phone phone) {
+    /* package */ boolean updateItems(CallManager cm) {
         if (DBG) log("updateItems()...");
         // if (DBG) PhoneUtils.dumpCallState(phone);
 
         // If the phone is totally idle (like in the "call ended" state)
         // there's no menu at all.
-        if (phone.getState() == Phone.State.IDLE) {
+        if (cm.getState() == Phone.State.IDLE) {
             if (DBG) log("- Phone is idle!  Don't show the menu...");
             return false;
         }
 
-        final boolean hasRingingCall = !phone.getRingingCall().isIdle();
-        final boolean hasActiveCall = !phone.getForegroundCall().isIdle();
-        final Call.State fgCallState = phone.getForegroundCall().getState();
-        final boolean hasHoldingCall = !phone.getBackgroundCall().isIdle();
+        final boolean hasRingingCall = cm.hasActiveRingingCall();
+        final boolean hasActiveCall = cm.hasActiveFgCall();
+        final Call.State fgCallState = cm.getActiveFgCallState();
+        final boolean hasHoldingCall = cm.hasActiveBgCall();
 
         // For OTA call, only show dialpad, endcall, speaker, and mute menu items
-        if (hasActiveCall && (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) &&
+        if (hasActiveCall && TelephonyCapabilities.supportsOtasp(cm.getFgPhone()) &&
                 (PhoneApp.getInstance().isOtaCallInActiveState())) {
             mAnswerAndHold.setVisible(false);
             mAnswerAndHold.setEnabled(false);
@@ -293,7 +294,7 @@ class InCallMenu {
             mIgnore.setVisible(false);
 
             boolean inConferenceCall =
-                    PhoneUtils.isConferenceCall(phone.getForegroundCall());
+                    PhoneUtils.isConferenceCall(cm.getActiveFgCall());
             boolean showShowDialpad = !inConferenceCall;
             boolean enableShowDialpad = showShowDialpad && mInCallScreen.okToShowDialpad();
             mShowDialpad.setVisible(showShowDialpad);
@@ -322,7 +323,7 @@ class InCallMenu {
             // TODO: be sure to test this for "only one line in use and it's
             // active" AND for "only one line in use and it's on hold".
             if (hasActiveCall && !hasHoldingCall) {
-                int phoneType = phone.getPhoneType();
+                int phoneType = cm.getRingingPhone().getPhoneType();
                 // For CDMA only make "Answer" and "Ignore" visible
                 if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     mAnswer.setVisible(true);
