@@ -603,4 +603,58 @@
     <string name="contactPhoto" msgid="4713193418046639466">"연락처 사진"</string>
     <string name="goPrivate" msgid="865837794424530980">"비공개로 실행"</string>
     <string name="selectContact" msgid="781975788478987237">"연락처 선택"</string>
+    <!-- no translation found for sip_settings (2633467432134302450) -->
+    <skip />
+    <!-- no translation found for sip_accounts (6326310200299646149) -->
+    <skip />
+    <!-- no translation found for sip_accounts_summary (3642905600751185685) -->
+    <skip />
+    <!-- no translation found for auto_reg (9010426641641090284) -->
+    <skip />
+    <!-- no translation found for call_priority (9150161835243082714) -->
+    <skip />
+    <!-- no translation found for add_sip_account (5814944381529304294) -->
+    <skip />
+    <!-- no translation found for remove_sip_account (5617223124643879337) -->
+    <skip />
+    <!-- no translation found for sip_account_list (5480058210652194306) -->
+    <skip />
+    <!-- no translation found for sip_menu_save (5842531129356014943) -->
+    <skip />
+    <!-- no translation found for sip_menu_discard (524075892158789701) -->
+    <skip />
+    <!-- no translation found for alert_dialog_ok (3580379406983564080) -->
+    <skip />
+    <!-- no translation found for sip_edit_title (5721647253413919727) -->
+    <skip />
+    <!-- no translation found for initial_preference_summary (6556199575922319926) -->
+    <skip />
+    <!-- no translation found for profile_name_title (8182443585131416570) -->
+    <skip />
+    <!-- no translation found for domain_address_title (6628028903715208419) -->
+    <skip />
+    <!-- no translation found for username_title (2479375923477682328) -->
+    <skip />
+    <!-- no translation found for password_title (3323555249068171531) -->
+    <skip />
+    <!-- no translation found for display_name_title (2459768196312249937) -->
+    <skip />
+    <!-- no translation found for proxy_address_title (4425801526470783622) -->
+    <skip />
+    <!-- no translation found for port_title (8014162755749862704) -->
+    <skip />
+    <!-- no translation found for port_summary (338051406829529586) -->
+    <skip />
+    <!-- no translation found for transport_title (706735901627434385) -->
+    <skip />
+    <!-- no translation found for send_keepalive_title (7533342573918645113) -->
+    <skip />
+    <!-- no translation found for send_keepalive_summary (9038969409950960640) -->
+    <skip />
+    <!-- no translation found for auto_registration_title (5156483863963866266) -->
+    <skip />
+    <!-- no translation found for auto_registration_summary (2522794041206619280) -->
+    <skip />
+    <!-- no translation found for empty_alert (8431886113287411185) -->
+    <skip />
 </resources>
