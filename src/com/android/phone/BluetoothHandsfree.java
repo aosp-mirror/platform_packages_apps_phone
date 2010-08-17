@@ -1884,12 +1884,12 @@ public class BluetoothHandsfree {
                             if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
                                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                                 if (VDBG) log("CHLD:3 Merge Calls");
-                                PhoneUtils.mergeCalls(mPhone);
+                                PhoneUtils.mergeCalls();
                             }
                         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                             if (mForegroundCall.getState().isAlive() &&
                                     mBackgroundCall.getState().isAlive()) {
-                                PhoneUtils.mergeCalls(mPhone);
+                                PhoneUtils.mergeCalls();
                             }
                         } else {
                             throw new IllegalStateException("Unexpected phone type: " + phoneType);
