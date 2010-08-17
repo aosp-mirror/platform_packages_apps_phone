@@ -458,7 +458,6 @@ public class CallNotifier extends Handler
         // - don't ring for call waiting connections
         // - do this before showing the incoming call panel
         if (PhoneUtils.isRealIncomingCall(state)) {
-            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
             startIncomingCallQuery(c);
         } else {
             if (VDBG) log("- starting call waiting tone...");
@@ -734,18 +733,9 @@ public class CallNotifier extends Handler
                 mCallWaitingTonePlayer = null;
             }
 
-            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
             if (VDBG) log("onPhoneStateChanged: OFF HOOK");
-            // If Audio Mode is not In Call, then set the Audio Mode.  This
-            // changes is needed because for one of the carrier specific test case,
-            // call is originated from the lower layer without using the UI, and
-            // since calling does not go through DIALING state, it skips the steps
-            // of setting the Audio Mode
-            if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-                if (mAudioManager.getMode() != AudioManager.MODE_IN_CALL) {
-                    PhoneUtils.setAudioMode(mPhoneContext, AudioManager.MODE_IN_CALL);
-                }
-            }
+            // make sure audio is in in-call mode now
+            PhoneUtils.setAudioMode(mCM);
 
             // if the call screen is showing, let it handle the event,
             // otherwise handle it here.
@@ -918,10 +908,6 @@ public class CallNotifier extends Handler
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             autoretrySetting = android.provider.Settings.System.getInt(mPhoneContext.
                     getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
-        }
-
-        if (mCM.getState() == Phone.State.IDLE) {
-            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
         }
 
         if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
@@ -1199,7 +1185,7 @@ public class CallNotifier extends Handler
         // is already off to reset user requested speaker state.
         PhoneUtils.turnOnSpeaker(mPhoneContext, false, true);
 
-        PhoneUtils.setAudioMode(mPhoneContext, AudioManager.MODE_NORMAL);
+        PhoneUtils.setAudioMode(mCM);
     }
 
     private void onMwiChanged(boolean visible) {

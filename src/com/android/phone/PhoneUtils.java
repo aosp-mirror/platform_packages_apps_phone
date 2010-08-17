@@ -88,7 +88,6 @@ public class PhoneUtils {
     static final int AUDIO_IDLE = 0;  /** audio behaviour at phone idle */
     static final int AUDIO_RINGING = 1;  /** audio behaviour while ringing */
     static final int AUDIO_OFFHOOK = 2;  /** audio behaviour while in call. */
-    private static int sAudioBehaviourState = AUDIO_IDLE;
 
     /** Speaker state, persisting between wired headset connection events */
     private static boolean sIsSpeakerEnabled = false;
@@ -218,11 +217,6 @@ public class PhoneUtils {
     private PhoneUtils() {
     }
 
-    //static method to set the audio control state.
-    static void setAudioControlState(int newState) {
-        sAudioBehaviourState = newState;
-    }
-
     /**
      * Answer the currently-ringing call.
      *
@@ -238,8 +232,6 @@ public class PhoneUtils {
         // If the ringer is currently ringing and/or vibrating, stop it
         // right now (before actually answering the call.)
         PhoneApp.getInstance().getRinger().stopRing();
-
-        PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
         boolean answered = false;
         PhoneApp app = PhoneApp.getInstance();
@@ -292,7 +284,7 @@ public class PhoneUtils {
                 // Always reset to "unmuted" for a freshly-answered call
                 setMute(phone, false);
 
-                setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+                setAudioMode();
 
                 // Check is phone in any dock, and turn on speaker accordingly
                 activateSpeakerIfDocked(phone);
@@ -548,8 +540,6 @@ public class PhoneUtils {
                     updateCdmaCallStateOnNewOutgoingCall(app);
                 }
 
-                PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
-
                 // phone.dial() succeeded: we're now in a normal phone call.
                 // attach the URI to the CallerInfo Object if it is there,
                 // otherwise just attach the Uri Reference.
@@ -572,7 +562,7 @@ public class PhoneUtils {
                         }
                     }
                 }
-                setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+                setAudioMode();
 
                 // Check is phone in any dock, and turn on speaker accordingly
                 activateSpeakerIfDocked(phone);
@@ -644,7 +634,6 @@ public class PhoneUtils {
         if (phoneIsCdma) {
             updateCdmaCallStateOnNewOutgoingCall(app);
         }
-        PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
 
         // Clean up the number to be displayed.
         if (phoneIsCdma) {
@@ -672,7 +661,7 @@ public class PhoneUtils {
         info.phoneNumber = number;
         connection.setUserData(info);
 
-        setAudioMode(phone.getContext(), AudioManager.MODE_IN_CALL);
+        setAudioMode();
         return CALL_STATUS_DIALED;
     }
 
@@ -706,6 +695,7 @@ public class PhoneUtils {
                 // has particular heldCall, so to switch
                 cm.switchHoldingAndActive(heldCall);
             }
+            setAudioMode(cm);
         } catch (CallStateException ex) {
             Log.w(LOG_TAG, "switchHoldingAndActive: caught " + ex, ex);
         }
@@ -1786,43 +1776,29 @@ public class PhoneUtils {
         }
     }
 
+    /* package */ static void setAudioMode() {
+        setAudioMode(PhoneApp.getInstance().mCM);
+    }
+
     /**
-     * A really simple wrapper around AudioManager.setMode(),
-     * with a bit of extra logging to help debug the exact
-     * timing (and call stacks) for all our setMode() calls.
-     *
-     * Also, add additional state monitoring to determine
-     * whether or not certain calls to change the audio mode
-     * are ignored.
+     * Sets the audio mode per current phone state.
      */
-    /* package */ static void setAudioMode(Context context, int mode) {
-        if (DBG) Log.d(LOG_TAG, "setAudioMode(" + audioModeToString(mode) + ")...");
+    /* package */ static void setAudioMode(CallManager cm) {
+        if (DBG) Log.d(LOG_TAG, "setAudioMode()..." + cm.getState());
 
-        //decide whether or not to ignore the audio setting
-        boolean ignore = false;
+        Context context = PhoneApp.getInstance();
+        AudioManager audioManager = (AudioManager)
+                context.getSystemService(Context.AUDIO_SERVICE);
+        int modeBefore = audioManager.getMode();
+        cm.setAudioMode();
+        int modeAfter = audioManager.getMode();
 
-        switch (sAudioBehaviourState) {
-            case AUDIO_RINGING:
-                ignore = ((mode == AudioManager.MODE_NORMAL) || (mode == AudioManager.MODE_IN_CALL));
-                break;
-            case AUDIO_OFFHOOK:
-                ignore = ((mode == AudioManager.MODE_NORMAL) || (mode == AudioManager.MODE_RINGTONE));
-                break;
-            case AUDIO_IDLE:
-            default:
-                ignore = (mode == AudioManager.MODE_IN_CALL);
-                break;
-        }
-
-        if (!ignore) {
-            AudioManager audioManager =
-                    (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (modeBefore != modeAfter) {
             // Enable stack dump only when actively debugging ("new Throwable()" is expensive!)
             if (DBG_SETAUDIOMODE_STACK) Log.d(LOG_TAG, "Stack:", new Throwable("stack dump"));
-            audioManager.setMode(mode);
         } else {
-            if (DBG) Log.d(LOG_TAG, "setAudioMode(), state is " + sAudioBehaviourState +
-                    " ignoring " + audioModeToString(mode) + " request");
+            if (DBG) Log.d(LOG_TAG, "setAudioMode() no change: "
+                    + audioModeToString(modeBefore));
         }
     }
     private static String audioModeToString(int mode) {
