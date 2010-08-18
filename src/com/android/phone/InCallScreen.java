@@ -1605,7 +1605,7 @@ public class InCallScreen extends Activity
             case KeyEvent.KEYCODE_EQUALS:
                 if (VDBG) {
                     log("----------- InCallScreen call state dump --------------");
-                    PhoneUtils.dumpCallState(mPhone);
+                    PhoneUtils.dumpCallState();
                     PhoneUtils.dumpCallManager();
                     return true;
                 }
@@ -1970,7 +1970,7 @@ public class InCallScreen extends Activity
                     // The phone is still in use.  Stay here in this activity.
                     // But we don't need to keep the screen on.
                     if (DBG) log("onDisconnect: Call Collision case - staying on InCallScreen.");
-                    if (DBG) PhoneUtils.dumpCallState(mPhone);
+                    if (DBG) PhoneUtils.dumpCallState();
                     return;
                 }
             }
@@ -2439,7 +2439,7 @@ public class InCallScreen extends Activity
     private InCallInitStatus syncWithPhoneState() {
         boolean updateSuccessful = false;
         if (DBG) log("syncWithPhoneState()...");
-        if (DBG) PhoneUtils.dumpCallState(mPhone);
+        if (DBG) PhoneUtils.dumpCallState();
         if (VDBG) dumpBluetoothState();
 
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
@@ -2870,7 +2870,7 @@ public class InCallScreen extends Activity
             // The phone is still in use.  Stay here in this activity, but
             // we don't need to keep the screen on.
             if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
-            if (DBG) PhoneUtils.dumpCallState(mPhone);
+            if (DBG) PhoneUtils.dumpCallState();
         }
     }
 
@@ -3550,7 +3550,7 @@ public class InCallScreen extends Activity
      */
     /* package */ void internalAnswerCall() {
         // if (DBG) log("internalAnswerCall()...");
-        // if (DBG) PhoneUtils.dumpCallState(mPhone);
+        // if (DBG) PhoneUtils.dumpCallState();
 
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
 

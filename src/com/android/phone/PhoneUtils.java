@@ -2295,6 +2295,57 @@ public class PhoneUtils {
     // General phone and call state debugging/testing code
     //
 
+    private static void dumpStateForCall(Call call, String prefix) {
+        StringBuilder b = new StringBuilder(128);
+        b.append(prefix).append(call.getState());
+        b.append(" ").append(call.getPhone().getPhoneName());
+        b.append(" isAlive ").append(call.getState().isAlive());
+        b.append(" isRinging ").append(call.getState().isRinging());
+        b.append(" isDialing ").append(call.getState().isDialing());
+        b.append(" isIdle ").append(call.isIdle());
+        b.append(" hasConnections ").append(call.hasConnections());
+        Log.d(LOG_TAG, b.toString());
+    }
+
+    /* package */ static void dumpCallState() {
+        PhoneApp app = PhoneApp.getInstance();
+        CallManager cm = app.mCM;
+        Log.d(LOG_TAG, "dumpCallState():");
+        Log.d(LOG_TAG, "- Call state = " + cm.getState());
+
+        dumpStateForCall(cm.getActiveFgCall(), "  - FG call: ");
+        dumpStateForCall(cm.getFirstActiveBgCall(), "  - BG call: ");
+        dumpStateForCall(cm.getFirstActiveRingingCall(), "  - RINGING call: ");
+
+        final boolean hasRingingCall = cm.hasActiveRingingCall();
+        final boolean hasActiveCall = cm.hasActiveFgCall();
+        final boolean hasHoldingCall = cm.hasActiveBgCall();
+        final boolean allLinesTaken = hasActiveCall && hasHoldingCall;
+        StringBuilder b = new StringBuilder(128);
+        b.append("  - hasRingingCall ").append(hasRingingCall);
+        b.append(" hasActiveCall ").append(hasActiveCall);
+        b.append(" hasHoldingCall ").append(hasHoldingCall);
+        b.append(" allLinesTaken ").append(allLinesTaken);
+        Log.d(LOG_TAG, b.toString());
+
+        Phone phone = cm.getDefaultPhone();
+        // On CDMA phones, dump out the CdmaPhoneCallState too:
+        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+            if (app.cdmaPhoneCallState != null) {
+                Log.d(LOG_TAG, "  - CDMA call state: "
+                      + app.cdmaPhoneCallState.getCurrentCallState());
+            } else {
+                Log.d(LOG_TAG, "  - CDMA device, but null cdmaPhoneCallState!");
+            }
+        }
+
+        // Watch out: the isRinging() call below does NOT tell us anything
+        // about the state of the telephony layer; it merely tells us whether
+        // the Ringer manager is currently playing the ringtone.
+        boolean ringing = app.getRinger().isRinging();
+        Log.d(LOG_TAG, "  - Ringer state: " + ringing);
+    }
+
     /* package */ static void dumpCallState(Phone phone) {
         PhoneApp app = PhoneApp.getInstance();
         Log.d(LOG_TAG, "dumpCallState():");

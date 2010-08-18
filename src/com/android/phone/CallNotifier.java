@@ -425,7 +425,7 @@ public class CallNotifier extends Handler
         Call.State state = c.getState();
         // State will be either INCOMING or WAITING.
         if (VDBG) log("- connection is ringing!  state = " + state);
-        // if (DBG) PhoneUtils.dumpCallState(mPhone);
+        // if (DBG) PhoneUtils.dumpCallState();
 
         // No need to do any service state checks here (like for
         // "emergency mode"), since in those states the SIM won't let
