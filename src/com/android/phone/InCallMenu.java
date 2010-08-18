@@ -261,7 +261,7 @@ class InCallMenu {
      */
     /* package */ boolean updateItems(CallManager cm) {
         if (DBG) log("updateItems()...");
-        // if (DBG) PhoneUtils.dumpCallState(phone);
+        // if (DBG) PhoneUtils.dumpCallState();
 
         // If the phone is totally idle (like in the "call ended" state)
         // there's no menu at all.
