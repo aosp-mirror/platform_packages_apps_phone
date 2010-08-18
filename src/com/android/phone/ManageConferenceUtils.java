@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 
@@ -45,7 +46,7 @@ public class ManageConferenceUtils
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     private InCallScreen mInCallScreen;
-    private Phone mPhone;
+    private CallManager mCM;
 
     // "Manage conference" UI elements and state
     private ViewGroup mManageConferencePanel;
@@ -57,10 +58,10 @@ public class ManageConferenceUtils
     // See CallTracker.MAX_CONNECTIONS_PER_CALL
     private static final int MAX_CALLERS_IN_CONFERENCE = 5;
 
-    public ManageConferenceUtils(InCallScreen inCallScreen, Phone phone) {
+    public ManageConferenceUtils(InCallScreen inCallScreen, CallManager cm) {
         if (DBG) log("ManageConferenceUtils constructor...");
         mInCallScreen = inCallScreen;
-        mPhone = phone;
+        mCM = cm;
     }
 
     public void initManageConferencePanel() {
@@ -145,8 +146,8 @@ public class ManageConferenceUtils
 
         // Can we give the user the option to separate out ("go private with") a single
         // caller from this conference?
-        final boolean hasActiveCall = !mPhone.getForegroundCall().isIdle();
-        final boolean hasHoldingCall = !mPhone.getBackgroundCall().isIdle();
+        final boolean hasActiveCall = mCM.hasActiveFgCall();
+        final boolean hasHoldingCall = mCM.hasActiveBgCall();
         boolean canSeparate = !(hasActiveCall && hasHoldingCall);
 
         for (int i = 0; i < MAX_CALLERS_IN_CONFERENCE; i++) {

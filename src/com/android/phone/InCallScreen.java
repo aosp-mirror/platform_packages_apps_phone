@@ -1231,7 +1231,7 @@ public class InCallScreen extends Activity
         mInCallControlState = new InCallControlState(this, mCM);
 
         // Helper class to run the "Manage conference" UI
-        mManageConferenceUtils = new ManageConferenceUtils(this, mPhone);
+        mManageConferenceUtils = new ManageConferenceUtils(this, mCM);
 
         // Create the dtmf dialer.  The dialer view we use depends on the
         // current platform:
@@ -1384,7 +1384,7 @@ public class InCallScreen extends Activity
                 //Scenario 2: Merging 3Way calls
                 if (DBG) log("answerCall: Merge 3-way call scenario");
                 // Merge calls
-                PhoneUtils.mergeCalls(mPhone);
+                PhoneUtils.mergeCalls(mCM);
             } else if (currCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                 //Scenario 3: Switching between two Call waiting calls or drop the latest
                 // connection if in a 3Way merge scenario
@@ -2874,7 +2874,7 @@ public class InCallScreen extends Activity
 
             case R.id.menuMergeCalls:
                 if (VDBG) log("onClick: MergeCalls...");
-                PhoneUtils.mergeCalls(mPhone);
+                PhoneUtils.mergeCalls(mCM);
                 break;
 
             case R.id.menuManageConference:
@@ -3142,7 +3142,7 @@ public class InCallScreen extends Activity
                 break;
             case R.id.mergeButton:
             case R.id.cdmaMergeButton:
-                PhoneUtils.mergeCalls(mPhone);
+                PhoneUtils.mergeCalls(mCM);
                 break;
             case R.id.manageConferencePhotoButton:
                 // Show the Manage Conference panel.
