@@ -750,16 +750,13 @@ public class PhoneUtils {
         return Boolean.valueOf(getMute (phone));
     }
 
-    static void mergeCalls(Phone phone) {
-        int phoneType = phone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
-            try {
-                if (DBG) log("mergeCalls");
-                phone.conference();
-            } catch (CallStateException ex) {
-                Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
-            }
-        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
+    static void mergeCalls() {
+        mergeCalls(PhoneApp.getInstance().mCM);
+    }
+
+    static void mergeCalls(CallManager cm) {
+        int phoneType = cm.getFgPhone().getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (DBG) log("mergeCalls");
             PhoneApp app = PhoneApp.getInstance();
             if (app.cdmaPhoneCallState.getCurrentCallState()
@@ -772,10 +769,15 @@ public class PhoneUtils {
                 // TODO: Need to change the call from switchHoldingAndActive to
                 // something meaningful as we are not actually trying to swap calls but
                 // instead are merging two calls by sending a Flash command.
-                switchHoldingAndActive(phone.getBackgroundCall());
+                switchHoldingAndActive(cm.getFirstActiveBgCall());
             }
         } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            try {
+                if (DBG) log("mergeCalls");
+                cm.conference(cm.getFirstActiveBgCall());
+            } catch (CallStateException ex) {
+                Log.w(LOG_TAG, "mergeCalls: caught " + ex, ex);
+            }
         }
     }
 
@@ -1563,7 +1565,7 @@ public class PhoneUtils {
         // state of the UI.)  So as far as the in-call UI is concerned,
         // Conference corresponds to generic display.
         PhoneApp app = PhoneApp.getInstance();
-        int phoneType = app.phone.getPhoneType();
+        int phoneType = call.getPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             CdmaPhoneCallState.PhoneCallState state = app.cdmaPhoneCallState.getCurrentCallState();
             if ((state == CdmaPhoneCallState.PhoneCallState.CONF_CALL)
@@ -1571,13 +1573,11 @@ public class PhoneUtils {
                     && !app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing())) {
                 return true;
             }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else {
             List<Connection> connections = call.getConnections();
             if (connections != null && connections.size() > 1) {
                 return true;
             }
-        } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
         return false;
 
@@ -1999,16 +1999,14 @@ public class PhoneUtils {
             return ((app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
                     && !app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing());
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else {
             // GSM: "Merge" is available if both lines are in use and there's no
             // incoming call, *and* the current conference isn't already
             // "full".
             // TODO: shall move all okToMerge logic to CallManager
-            return !cm.hasActiveRingingCall() &&
-            cm.hasActiveFgCall() && cm.hasActiveBgCall() &&
-            cm.canConference(cm.getFirstActiveBgCall());
-        } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            return !cm.hasActiveRingingCall() && cm.hasActiveFgCall()
+                    && cm.hasActiveBgCall()
+                    && cm.canConference(cm.getFirstActiveBgCall());
         }
     }
 
