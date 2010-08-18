@@ -80,6 +80,11 @@ public class OtaUtils {
 
     // Activity result codes for the ACTION_PERFORM_CDMA_PROVISIONING intent
     // (see the InCallScreenShowActivation activity.)
+    //
+    // Note: currently, our caller won't ever actually receive the
+    // RESULT_INTERACTIVE_OTASP_STARTED result code; see comments in
+    // InCallScreenShowActivation.onCreate() for details.
+
     public static final int RESULT_INTERACTIVE_OTASP_STARTED = Activity.RESULT_FIRST_USER;
     public static final int RESULT_NONINTERACTIVE_OTASP_STARTED = Activity.RESULT_FIRST_USER + 1;
     public static final int RESULT_NONINTERACTIVE_OTASP_FAILED = Activity.RESULT_FIRST_USER + 2;
@@ -104,6 +109,10 @@ public class OtaUtils {
     public static final int OTASP_USER_SKIPPED = 1;  // Only meaningful with interactive OTASP
     public static final int OTASP_SUCCESS = 2;
     public static final int OTASP_FAILURE = 3;
+    // TODO: Distinguish between interactive and non-interactive success
+    // and failure.  Then, have the PendingIntent be sent after
+    // interactive OTASP as well (so the caller can find out definitively
+    // when interactive OTASP completes.)
 
     private static final String OTASP_NUMBER = "*228";
     private static final String OTASP_NUMBER_NON_INTERACTIVE = "*22899";
@@ -226,9 +235,8 @@ public class OtaUtils {
 
         // Run the OTASP call in "interactive" mode only if
         // this is a "voice capable" device.
-        // TODO: this resource needs to be used from apps/Contacts also,
-        // so we'll probably move it into the framework at some point...
-        boolean voiceCapable = context.getResources().getBoolean(R.bool.voice_capable);
+        boolean voiceCapable = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
 
         if (voiceCapable) {
             if (phoneNeedsActivation

@@ -69,14 +69,11 @@ public class InCallScreenShowActivation extends Activity {
             // On voice-capable devices, we perform CDMA provisioning in
             // "interactive" mode by directly launching the InCallScreen.
 
-            // The voice_capable flag currently comes from a resource,
-            // which is overrideable on a per-product basis.
-            // TODO: this resource needs to be used from apps/Contacts
-            // also, so we'll probably move it into the framework at some
-            // point...
-            boolean interactiveMode = getResources().getBoolean(R.bool.voice_capable);
-
-            // TODO: Or, this may eventually become a PackageManager "system
+            // The config_voice_capable flag currently comes from a resource
+            // (which is overrideable on a per-product basis.)
+            boolean interactiveMode =
+                    getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+            // TODO: Or, this might eventually become a PackageManager "system
             // feature", in which case we'd do something like this instead:
             // boolean interactiveMode =
             //   getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY_VOICE_CALLS);
