@@ -178,8 +178,10 @@ public class BluetoothHeadsetService extends Service {
                 if (priority <= BluetoothHeadset.PRIORITY_OFF) {
                     Log.i(TAG, "Rejecting incoming connection because priority = " + priority);
 
-                    headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
-                            info.mSocketFd, info.mRfcommChan, null);
+                    headset = new HeadsetBase(mPowerManager, mAdapter,
+                                              info.mRemoteDevice,
+                                              info.mSocketFd, info.mRfcommChan,
+                                              null);
                     headset.disconnect();
                     return;
                 }
@@ -211,8 +213,10 @@ public class BluetoothHeadsetService extends Service {
                         Log.i(TAG, "Already attempting connect to " + device +
                               ", disconnecting " + info.mRemoteDevice);
 
-                        headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
-                                info.mSocketFd, info.mRfcommChan, null);
+                        headset = new HeadsetBase(mPowerManager, mAdapter,
+                                                  info.mRemoteDevice,
+                                                  info.mSocketFd, info.mRfcommChan,
+                                                  null);
                         headset.disconnect();
                         break;
                     }
@@ -234,8 +238,10 @@ public class BluetoothHeadsetService extends Service {
                     Log.i(TAG, "Already connected to " + device + ", disconnecting " +
                             info.mRemoteDevice);
 
-                    headset = new HeadsetBase(mPowerManager, mAdapter, info.mRemoteDevice,
-                              info.mSocketFd, info.mRfcommChan, null);
+                    headset = new HeadsetBase(mPowerManager, mAdapter,
+                                              info.mRemoteDevice,
+                                              info.mSocketFd, info.mRfcommChan,
+                                              null);
                     headset.disconnect();
                     break;
                 }
@@ -376,7 +382,8 @@ public class BluetoothHeadsetService extends Service {
             long timestamp;
 
             timestamp = System.currentTimeMillis();
-            HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter, device, channel);
+            HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter,
+                                                  device, channel);
 
             int result = waitForConnect(headset);
 
@@ -697,9 +704,10 @@ public class BluetoothHeadsetService extends Service {
                 setState(device, BluetoothHeadset.STATE_CONNECTING);
 
                 IncomingConnectionInfo info = mRemoteHeadsets.get(device).mIncomingInfo;
-                headset = new HeadsetBase(mPowerManager, mAdapter, device,
-                        info.mSocketFd, info.mRfcommChan,
-                        mConnectedStatusHandler);
+                headset = new HeadsetBase(mPowerManager, mAdapter,
+                                          device,
+                                          info.mSocketFd, info.mRfcommChan,
+                                          mConnectedStatusHandler);
 
                 mRemoteHeadsets.get(device).mHeadset = headset;
 
@@ -716,8 +724,10 @@ public class BluetoothHeadsetService extends Service {
                     return false;
                 }
                 IncomingConnectionInfo info = cachedHeadset.mIncomingInfo;
-                headset = new HeadsetBase(mPowerManager, mAdapter, device,
-                        info.mSocketFd, info.mRfcommChan, mConnectedStatusHandler);
+                headset = new HeadsetBase(mPowerManager, mAdapter,
+                                          device,
+                                          info.mSocketFd, info.mRfcommChan,
+                                          mConnectedStatusHandler);
 
                 setState(device, BluetoothHeadset.STATE_CONNECTED, BluetoothHeadset.RESULT_SUCCESS);
 
