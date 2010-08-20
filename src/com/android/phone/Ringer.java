@@ -61,8 +61,8 @@ public class Ringer {
     private long mFirstRingEventTime = -1;
     private long mFirstRingStartTime = -1;
 
-    Ringer(Phone phone) {
-        mContext = phone.getContext();
+    Ringer(Context context) {
+        mContext = context;
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
     }
 
@@ -198,7 +198,7 @@ public class Ringer {
                 Message msg = mRingHandler.obtainMessage(STOP_RING);
                 msg.obj = mRingtone;
                 mRingHandler.sendMessage(msg);
-                PhoneUtils.setAudioMode(mContext, AudioManager.MODE_NORMAL);
+                PhoneUtils.setAudioMode();
                 mRingThread = null;
                 mRingHandler = null;
                 mRingtone = null;
@@ -294,7 +294,7 @@ public class Ringer {
                             }
                             r = mRingtone;
                             if (r != null && !hasMessages(STOP_RING) && !r.isPlaying()) {
-                                PhoneUtils.setAudioMode(mContext, AudioManager.MODE_RINGTONE);
+                                PhoneUtils.setAudioMode();
                                 r.play();
                                 synchronized (Ringer.this) {
                                     if (mFirstRingStartTime < 0) {

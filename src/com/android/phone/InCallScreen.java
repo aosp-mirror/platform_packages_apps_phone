@@ -1554,7 +1554,6 @@ public class InCallScreen extends Activity
                     final CallNotifier notifier = PhoneApp.getInstance().notifier;
                     if (notifier.isRinging()) {
                         // ringer is actually playing, so silence it.
-                        PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
                         if (DBG) log("VOLUME key: silence ringer");
                         notifier.silenceRinger();
                     }

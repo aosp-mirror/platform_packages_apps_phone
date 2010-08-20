@@ -366,7 +366,6 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             && mApp.notifier.isRinging()) {
             // Ringer is actually playing, so silence it.
             if (DBG) log("silenceRingerInternal: silencing...");
-            PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
             mApp.notifier.silenceRinger();
         }
     }

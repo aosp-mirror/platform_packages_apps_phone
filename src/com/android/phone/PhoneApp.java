@@ -431,7 +431,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 mBtHandsfree = null;
             }
 
-            ringer = new Ringer(phone);
+            ringer = new Ringer(this);
 
             // before registering for phone state changes
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -520,23 +520,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Make sure the audio mode (along with some
             // audio-mode-related state of our own) is initialized
             // correctly, given the current state of the phone.
-            switch (mCM.getState()) {
-                case IDLE:
-                    if (DBG) Log.d(LOG_TAG, "Resetting audio state/mode: IDLE");
-                    PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_IDLE);
-                    PhoneUtils.setAudioMode(this, AudioManager.MODE_NORMAL);
-                    break;
-                case RINGING:
-                    if (DBG) Log.d(LOG_TAG, "Resetting audio state/mode: RINGING");
-                    PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_RINGING);
-                    PhoneUtils.setAudioMode(this, AudioManager.MODE_RINGTONE);
-                    break;
-                case OFFHOOK:
-                    if (DBG) Log.d(LOG_TAG, "Resetting audio state/mode: OFFHOOK");
-                    PhoneUtils.setAudioControlState(PhoneUtils.AUDIO_OFFHOOK);
-                    PhoneUtils.setAudioMode(this, AudioManager.MODE_IN_CALL);
-                    break;
-            }
+            PhoneUtils.setAudioMode(mCM);
         }
 
         if (TelephonyCapabilities.supportsOtasp(phone)) {
