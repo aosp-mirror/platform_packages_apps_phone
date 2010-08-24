@@ -119,4 +119,8 @@
     <!-- Determines if device implements a noise suppression device for in call audio-->
     <bool name="has_in_call_noise_suppression">false</bool>
 
+    <!-- Flag indicating whether the EF_CSP data is to be used to control operator
+         selection  -->
+    <bool name="csp_enabled">false</bool>
+
 </resources>
