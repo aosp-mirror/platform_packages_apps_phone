@@ -419,7 +419,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
 
             if (BluetoothAdapter.getDefaultAdapter() != null) {
-                mBtHandsfree = new BluetoothHandsfree(this, phone);
+                mBtHandsfree = new BluetoothHandsfree(this, mCM);
                 startService(new Intent(this, BluetoothHeadsetService.class));
             } else {
                 // Device is not bluetooth capable
@@ -1316,7 +1316,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /* package */ void updateBluetoothIndication(boolean forceUiUpdate) {
         mShowBluetoothIndication = shouldShowBluetoothIndication(mBluetoothHeadsetState,
                                                                  mBluetoothHeadsetAudioState,
-                                                                 phone);
+                                                                 mCM);
         if (forceUiUpdate) {
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
@@ -1340,7 +1340,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     private static boolean shouldShowBluetoothIndication(int bluetoothState,
                                                          int bluetoothAudioState,
-                                                         Phone phone) {
+                                                         CallManager cm) {
         // We want the UI to indicate that "bluetooth is in use" in two
         // slightly different cases:
         //
@@ -1351,7 +1351,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         //     and we expect that audio *will* be routed to a bluetooth
         //     headset once the call is answered.
 
-        switch (phone.getState()) {
+        switch (cm.getState()) {
             case OFFHOOK:
                 // This covers normal active calls, and also the case if
                 // the foreground call is DIALING or ALERTING.  In this
