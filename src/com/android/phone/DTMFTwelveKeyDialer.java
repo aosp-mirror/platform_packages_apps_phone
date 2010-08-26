@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
 
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class DTMFTwelveKeyDialer implements
     private static final int PHONE_DISCONNECT = 100;
     private static final int DTMF_SEND_CNF = 101;
 
-    private Phone mPhone;
+    private CallManager mCM;
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
 
@@ -377,7 +378,7 @@ public class DTMFTwelveKeyDialer implements
                 case PHONE_DISCONNECT:
                     if (DBG) log("disconnect message recieved, shutting down.");
                     // unregister since we are closing.
-                    mPhone.unregisterForDisconnect(this);
+                    mCM.unregisterForDisconnect(this);
                     closeDialer(false);
                     break;
                 case DTMF_SEND_CNF:
@@ -405,7 +406,7 @@ public class DTMFTwelveKeyDialer implements
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
-        mPhone = PhoneApp.getInstance().phone;
+        mCM = PhoneApp.getInstance().mCM;
 
         // The passed-in DTMFTwelveKeyDialerView *should* always be
         // non-null, now that the in-call UI uses only portrait mode.
@@ -467,7 +468,7 @@ public class DTMFTwelveKeyDialer implements
             mDialerDrawer.setOnDrawerOpenListener(null);
             mDialerDrawer.setOnDrawerCloseListener(null);
         }
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if (mCM.getFgPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             mHandler.removeMessages(DTMF_SEND_CNF);
             synchronized (mDTMFQueue) {
                 mDTMFBurstCnfPending = false;
@@ -486,7 +487,7 @@ public class DTMFTwelveKeyDialer implements
 
         // Any time the dialer is open, listen for "disconnect" events (so
         // we can close ourself.)
-        mPhone.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
+        mCM.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
 
         // On some devices the screen timeout is set to a special value
         // while the dialpad is up.
@@ -512,7 +513,7 @@ public class DTMFTwelveKeyDialer implements
         if (DBG) log("startDialerSession()... this = " + this);
 
         // see if we need to play local tones.
-        if (mPhone.getContext().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
+        if (PhoneApp.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
             mDTMFToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
                     Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
         } else {
@@ -548,7 +549,7 @@ public class DTMFTwelveKeyDialer implements
         PhoneApp app = PhoneApp.getInstance();
         app.updateWakeState();
 
-        mPhone.unregisterForDisconnect(mHandler);
+        mCM.unregisterForDisconnect(mHandler);
 
         // Give the InCallScreen a chance to do any necessary UI updates.
         if (mInCallScreen != null) {
@@ -873,7 +874,7 @@ public class DTMFTwelveKeyDialer implements
      */
     /* package */ void startDtmfTone(char tone) {
         if (DBG) log("startDtmfTone()...");
-        mPhone.startDtmf(tone);
+        mCM.startDtmf(tone);
 
         // if local tone playback is enabled, start it.
         if (mDTMFToneEnabled) {
@@ -901,7 +902,7 @@ public class DTMFTwelveKeyDialer implements
      */
     /* package */ void stopDtmfTone() {
         if (DBG) log("stopDtmfTone()...");
-        mPhone.stopDtmf();
+        mCM.stopDtmf();
 
         // if local tone playback is enabled, stop it.
         if (DBG) log("trying to stop local tone...");
@@ -935,13 +936,12 @@ public class DTMFTwelveKeyDialer implements
      * Plays the local tone based the phone type.
      */
     private void startTone(char c) {
-        int phoneType = mPhone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
-            startDtmfTone(c);
-        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
+        // TODO: move the logic to CallManager
+        int phoneType = mCM.getFgPhone().getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             startToneCdma(c);
         } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            startDtmfTone(c);
         }
     }
 
@@ -949,16 +949,15 @@ public class DTMFTwelveKeyDialer implements
      * Stops the local tone based on the phone type.
      */
     private void stopTone() {
-        int phoneType = mPhone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
-            stopDtmfTone();
-        } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
+        // TODO: move the logic to CallManager
+        int phoneType = mCM.getFgPhone().getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // Cdma case we do stopTone only for Long DTMF Setting
             if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
                 stopToneCdma();
             }
         } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            stopDtmfTone();
         }
     }
 
@@ -978,7 +977,7 @@ public class DTMFTwelveKeyDialer implements
         } else {
             // Pass as a char to be sent to network
             Log.i(LOG_TAG, "send long dtmf for " + tone);
-            mPhone.startDtmf(tone);
+            mCM.startDtmf(tone);
         }
 
         startLocalToneCdma(tone);
@@ -1023,7 +1022,7 @@ public class DTMFTwelveKeyDialer implements
             } else {
                 String dtmfStr = Character.toString(dtmfDigit);
                 Log.i(LOG_TAG, "dtmfsent = " + dtmfStr);
-                mPhone.sendBurstDtmf(dtmfStr, 0, 0, mHandler.obtainMessage(DTMF_SEND_CNF));
+                mCM.sendBurstDtmf(dtmfStr, 0, 0, mHandler.obtainMessage(DTMF_SEND_CNF));
                 // Set flag to indicate wait for Telephony confirmation.
                 mDTMFBurstCnfPending = true;
             }
@@ -1037,7 +1036,7 @@ public class DTMFTwelveKeyDialer implements
     private void stopToneCdma() {
         if (DBG) log("stopping remote tone.");
 
-        mPhone.stopDtmf();
+        mCM.stopDtmf();
         stopLocalToneCdma();
     }
 
