@@ -168,7 +168,7 @@ public class SipSettings extends PreferenceActivity {
                         boolean enabled =
                                 ((CheckBoxPreference) preference).isChecked();
                         mSettingsEditor.putBoolean(flag, enabled);
-                        mSettingsEditor.commit();
+                        mSettingsEditor.startCommit();
                         if (clickEvent != null) clickEvent.handle(enabled);
                         return true;
                     }
