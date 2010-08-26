@@ -72,9 +72,6 @@ public class BluetoothHeadsetService extends Service {
     private PowerManager mPowerManager;
     private BluetoothAudioGateway mAg;
     private BluetoothHandsfree mBtHandsfree;
-    private Call mForegroundCall;
-    private Call mRingingCall;
-    private Phone mPhone;
     private HashMap<BluetoothDevice, BluetoothRemoteHeadset> mRemoteHeadsets;
 
     @Override
@@ -84,9 +81,6 @@ public class BluetoothHeadsetService extends Service {
         mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mBtHandsfree = PhoneApp.getInstance().getBluetoothHandsfree();
         mAg = new BluetoothAudioGateway(mAdapter);
-        mPhone = PhoneFactory.getDefaultPhone();
-        mRingingCall = mPhone.getRingingCall();
-        mForegroundCall = mPhone.getForegroundCall();
         adjustPriorities();
         IntentFilter filter = new IntentFilter(
                 BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
