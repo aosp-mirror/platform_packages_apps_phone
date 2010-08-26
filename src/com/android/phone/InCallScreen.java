@@ -299,16 +299,6 @@ public class InCallScreen extends Activity
     private String mPostDialStrAfterPause;
     private boolean mPauseInProgress = false;
 
-    // Flag indicating whether or not we should bring up the Call Log when
-    // exiting the in-call UI due to the Phone becoming idle.  (This is
-    // true if the most recently disconnected Call was initiated by the
-    // user, or false if it was an incoming call.)
-    // This flag is used by delayedCleanupAfterDisconnect(), and is set by
-    // onDisconnect() (which is the only place that either posts a
-    // DELAYED_CLEANUP_AFTER_DISCONNECT event *or* calls
-    // delayedCleanupAfterDisconnect() directly.)
-    private boolean mShowCallLogAfterDisconnect;
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -1875,10 +1865,6 @@ public class InCallScreen extends Activity
         // that might be triggered by a disconnect event, like playing the
         // busy/congestion tone.
 
-        // Keep track of whether this call was user-initiated or not.
-        // (This affects where we take the user next; see delayedCleanupAfterDisconnect().)
-        mShowCallLogAfterDisconnect = !c.isIncoming();
-
         // We bail out immediately (and *don't* display the "call ended"
         // state at all) in a couple of cases, including those where we
         // are waiting for the radio to finish powering up for an
@@ -2802,12 +2788,12 @@ public class InCallScreen extends Activity
             if (mIsForegroundActivity) {
                 if (DBG) log("- delayedCleanupAfterDisconnect: finishing InCallScreen...");
 
-                // If this is a call that was initiated by the user, and
-                // we're *not* in emergency mode, finish the call by
-                // taking the user to the Call Log.
-                // Otherwise we simply call endInCallScreenSession, which will take us
-                // back to wherever we came from.
-                if (mShowCallLogAfterDisconnect && !isPhoneStateRestricted()) {
+                // If we're not in emergency mode, i.e. if the screen isn't
+                // locked, finish the call by taking the user to the Call Log.
+                // (UI note: Up till eclair, we did this only for outgoing
+                // calls initiated on the device, but we now do it
+                // unconditionally.)
+                if (!isPhoneStateRestricted()) {
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
