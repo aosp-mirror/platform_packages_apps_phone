@@ -1136,6 +1136,9 @@ public class PhoneUtils {
      * if <code>context</code> is <code>null</code>, the function will return
      * <code>null</code> for person/phone URIs.</p>
      *
+     * <p>If the intent contains a <code>sip:</code> URI, the returned
+     * "number" is actually the SIP address.
+     *
      * @param context a context to use (or
      * @param phone the phone on which the number would be called
      * @param intent the intent
@@ -1144,16 +1147,28 @@ public class PhoneUtils {
      *         a <code>voicemail:</code> URI, but <code>phone</code> does not
      *         have a voicemail number set.
      *
-     * @return the phone number that would be called by the intent,
+     * @return the phone number (or SIP address) that would be called by the intent,
      *         or <code>null</code> if the number cannot be found.
      */
     static String getNumberFromIntent(Context context, Phone phone, Intent intent)
             throws VoiceMailNumberMissingException {
+        Uri uri = intent.getData();
+        String scheme = uri.getScheme();
+
+        // The sip: scheme is simple: just treat the rest of the URI as a
+        // SIP address.
+        if (scheme.equals("sip")) {
+            return uri.getSchemeSpecificPart();
+        }
+
+        // Otherwise, let PhoneNumberUtils.getNumberFromIntent() handle
+        // the other cases (i.e. tel: and voicemail: and contact: URIs.)
+
         final String number = PhoneNumberUtils.getNumberFromIntent(intent, context);
 
-        // Check for a voicemail-dailing request.  If the voicemail number is
+        // Check for a voicemail-dialing request.  If the voicemail number is
         // empty, throw a VoiceMailNumberMissingException.
-        if (intent.getData().getScheme().equals("voicemail") &&
+        if (scheme.equals("voicemail") &&
                 (number == null || TextUtils.isEmpty(number)))
             throw new VoiceMailNumberMissingException();
 
@@ -2251,19 +2266,57 @@ public class PhoneUtils {
         return false;
     }
 
-    public static Phone pickPhoneBasedOnNumber(CallManager cm, String number) {
-
-        if (DBG) log("pickPhone based on '" + number);
+    /**
+     * Returns the most appropriate Phone object to handle a call
+     * to the specified number.
+     *
+     * @param cm the CallManager.
+     * @param scheme the scheme from the data URI that the number originally came from.
+     * @param number the phone number, or SIP address.
+     */
+    public static Phone pickPhoneBasedOnNumber(CallManager cm, String scheme, String number) {
+        if (DBG) log("pickPhoneBasedOnNumber: scheme " + scheme + ", number " + number);
 
         Phone phone  = cm.getDefaultPhone();
 
-        if (PhoneNumberUtils.isUriNumber(number)) {
+        // If we're trying to make a SIP call, return a SipPhone if one is
+        // available.
+        //
+        // - If it's a sip: URI, this is definitely a SIP call, regardless
+        //   of whether the data is a SIP address or a regular phone
+        //   number.
+        //
+        // - If this is a tel: URI but the data contains an "@" character
+        //   (see PhoneNumberUtils.isUriNumber()) we consider that to be a
+        //   SIP number too.
+        //
+        // TODO: Eventually we may want to disallow that latter case
+        //       (e.g. "tel:foo@example.com").
+        //
+        // TODO: We should also consider moving this logic into the
+        //       CallManager, where it could be made more generic.
+        //       (For example, each "telephony provider" could be allowed
+        //       to register the URI scheme(s) that it can handle, and the
+        //       CallManager would then find the best match for every
+        //       outgoing call.)
+
+        if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
+            // Try to find a SipPhone instance:
             for (Object obj : cm.getAllPhones()) {
                 if (obj instanceof SipPhone) {
+                    if (DBG) log("- pickPhoneBasedOnNumber: found SipPhone! obj = "
+                                 + obj + ", " + obj.getClass());
                     phone = (Phone) obj;
                     break;
                 }
             }
+            Log.w(LOG_TAG, "pickPhoneBasedOnNumber: got SIP number, but couldn't find a SipPhone!");
+            // TODO: Consider returning some error condition back to the
+            // phone UI, to indicate that we couldn't find the "best" type
+            // of Phone to handle the specified URI.  That way the phone
+            // can display a helpful message rather than (for example)
+            // trying to dial "foo@example.com" using a regular GsmPhone,
+            // which is obviously going to fail.
         }
 
         return phone;

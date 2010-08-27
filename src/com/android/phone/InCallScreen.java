@@ -2420,6 +2420,9 @@ public class InCallScreen extends Activity
      * Given the Intent we were initially launched with,
      * figure out the actual phone number we should dial.
      *
+     * Note that the returned "number" may actually be a SIP address,
+     * if the specified intent contains a sip: URI.
+     *
      * @return the phone number corresponding to the
      *   specified Intent, or null if the Intent is not
      *   an ACTION_CALL intent or if the intent's data is
@@ -2466,14 +2469,18 @@ public class InCallScreen extends Activity
 
         try {
             number = getInitialNumber(intent);
+
             // find the phone first
             // TODO Need a way to determine which phone to place the call
             // It could be determined by SIP setting, i.e. always,
             // or by number, i.e. for international,
             // or by user selection, i.e., dialog query,
             // or any of combinations
-            phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, number);
-            if (VDBG) log("set phone to " + phone);
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, scheme, number);
+            if (VDBG) log("- got Phone instance: " + phone + ", class = " + phone.getClass());
+
             // update okToCallStatus based on new phone
             okToCallStatus = checkIfOkToInitiateOutgoingCall(
                     phone.getServiceState().getState());
