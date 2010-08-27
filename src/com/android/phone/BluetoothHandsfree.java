@@ -702,6 +702,10 @@ public class BluetoothHandsfree {
                 audioOn();
                 mAudioPossible = true;
                 break;
+            case DISCONNECTING:
+                 // Skip the last time count on BT headset when a
+                 // phone call gets disconnected
+                return;
             default:
                 mAudioPossible = false;
             }
