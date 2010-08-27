@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///bc\u003d",
+        "filename": "res/values/config.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2010-08-27T18:59:05Z",
+      "side": 1,
+      "message": "More verbose comment please.\n\"If this is true, the SIM card will be able it prevent manual operator selection.  If false, this SIM setting will be ignored and manual operator selection will always be available.\"\nSomething like that.  People making these choices may not know what EF_CSP is (thought the name and maybe even the spec reference should also be here as a \"for more info\" reference).",
+      "revId": "71f1d52a47e276f57b78d8e53852e7625ed1a18c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
