@@ -1206,16 +1206,25 @@
     <!-- Start of SIP related strings defined from here. -->
 
     <!-- Title displayed SIP settings coming after other call settings in the call features screen. [CHAR LIMIT=NONE] -->
-    <string name="sip_settings">SIP call settings</string>
+    <string name="sip_settings">Internet call settings</string>
     <!-- Title displayed SIP account settings in the sip settings category. [CHAR LIMIT=NONE] -->
-    <string name="sip_accounts">Sip Account Settings</string>
+    <string name="sip_accounts">Manage Accounts</string>
     <!-- The Sip Account Settings's summary. [CHAR LIMIT=NONE] -->
     <string name="sip_accounts_summary">Manage SIP accounts and status</string>
+    <!-- Title displayed for the button of receiving incoming SIP calls flag. Enabled for receiving calls. [CHAR LIMIT=NONE] -->
+    <string name="sip_receive_calls">Receive incoming calls</string>
+    <!-- Help user to understand that it will require more battery usage if the 'receiving incoming call' is enabled. [CHAR LIMIT=NONE] -->
+    <string name="sip_receive_calls_summary">Requires more battery usage</string>
+    <!-- Title for the button of configuring the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options">Configure call options</string>
+    <!-- Title for the dialog of selecting the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_title">SIP calling options</string>
 
-    <!-- Title for enabling the auto registration for all sip accounts. [CHAR LIMIT=NONE] -->
+    <!-- Title for enabling the auto registration for all sip accounts.  [CHAR LIMIT=NONE] -->
     <string name="auto_reg">Auto Registration</string>
     <!-- Title for enabling the routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
     <string name="call_priority">Outgoing Call via SIP</string>
+
     <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
     <string name="add_sip_account">Add SIP account</string>
     <!-- Title for the button to remove a sip account. [CHAR LIMIT=NONE] -->
@@ -1230,6 +1239,21 @@
 
     <!-- Title of the button to show in a alert dialog. [CHAR LIMIT=NONE] -->
     <string name="alert_dialog_ok">OK</string>
+
+    <!-- Text of the account type. 'Primary' means the account is the one for sending all outgoing calls through. [CHAR LIMIT=NONE] -->
+    <string name="primary_account">Primary</string>
+    <!-- Title of the account type checkbox. Once the box is checked, the account will be the only 'primary' one among the accounts. [CHAR LIMIT=NONE] -->
+    <string name="primary_account_title">Make this my primary account</string>
+    <!-- Summary text of the account type checkbox. [CHAR LIMIT=NONE] -->
+    <string name="primary_account_summary">Used for outbound calls.</string>
+    <!-- Text of the account status. 'Active' means the account is managed by SIP service. [CHAR LIMIT=NONE] -->
+    <string name="active_account">Active</string>
+    <!-- Text of the account status. 'Inactive' means the account is not managed by SIP service. [CHAR LIMIT=NONE] -->
+    <string name="inactive_account">Inactive</string>
+    <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
+    <string name="advanced_settings_title">Advanced settings</string>
+    <!-- Text for describing the account's owner. For example, 'in use by' Google Talk, it means that the account managed by SIP service was registered by the application 'Google Talk'. [CHAR LIMIT=NONE] -->
+    <string name="in_use_by">in use by </string>
 
 
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
