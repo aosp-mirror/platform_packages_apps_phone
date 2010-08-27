@@ -1252,8 +1252,8 @@
     <string name="inactive_account">Inactive</string>
     <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_title">Advanced settings</string>
-    <!-- Text for describing the account's owner. For example, 'in use by' Google Talk, it means that the account managed by SIP service was registered by the application 'Google Talk'. [CHAR LIMIT=NONE] -->
-    <string name="in_use_by">in use by </string>
+    <!-- Text for describing the account's owner and status. For example, 'Active, in use by Google Talk', it means that the account managed by SIP service was registered by the application 'Google Talk' and the status is active. [CHAR LIMIT=NONE] -->
+    <string name="account_summary"><xliff:g id="account_status" example="Active">%1$s</xliff:g>, in use by <xliff:g id="account_owner" example="Google Talk">%2$s</xliff:g></string>
 
 
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
