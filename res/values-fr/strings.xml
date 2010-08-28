@@ -603,4 +603,55 @@
     <string name="contactPhoto" msgid="4713193418046639466">"photo du contact"</string>
     <string name="goPrivate" msgid="865837794424530980">"mode privé"</string>
     <string name="selectContact" msgid="781975788478987237">"sélectionner un contact"</string>
+    <!-- no translation found for sip_settings (6699045718560859691) -->
+    <skip />
+    <!-- no translation found for sip_accounts (1155104888417065951) -->
+    <skip />
+    <string name="sip_accounts_summary" msgid="3642905600751185685">"Gérez vos comptes SIP et leur état."</string>
+    <!-- no translation found for sip_receive_calls (5635685570889971559) -->
+    <skip />
+    <!-- no translation found for sip_receive_calls_summary (8185472827397188433) -->
+    <skip />
+    <!-- no translation found for sip_call_options (7128315120104066133) -->
+    <skip />
+    <!-- no translation found for sip_call_options_title (6580077718129226015) -->
+    <skip />
+    <string name="auto_reg" msgid="9010426641641090284">"Enregistrement auto"</string>
+    <string name="call_priority" msgid="9150161835243082714">"Appel sortant via SIP"</string>
+    <string name="add_sip_account" msgid="5814944381529304294">"Ajouter un compte SIP"</string>
+    <string name="remove_sip_account" msgid="5617223124643879337">"Supprimer le compte SIP"</string>
+    <string name="sip_account_list" msgid="5480058210652194306">"Comptes SIP"</string>
+    <string name="sip_menu_save" msgid="5842531129356014943">"Enregistrer"</string>
+    <string name="sip_menu_discard" msgid="524075892158789701">"Supprimer"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
+    <!-- no translation found for primary_account (2229538308291934245) -->
+    <skip />
+    <!-- no translation found for primary_account_title (5694267218020951531) -->
+    <skip />
+    <!-- no translation found for primary_account_summary (1261271657165698218) -->
+    <skip />
+    <!-- no translation found for active_account (6627976433655306616) -->
+    <skip />
+    <!-- no translation found for inactive_account (592242147279000650) -->
+    <skip />
+    <!-- no translation found for advanced_settings_title (8846648727128452293) -->
+    <skip />
+    <!-- no translation found for account_summary (679469515982296058) -->
+    <skip />
+    <string name="sip_edit_title" msgid="5721647253413919727">"Modifier votre compte SIP"</string>
+    <string name="initial_preference_summary" msgid="6556199575922319926">"&lt;Non défini&gt;"</string>
+    <string name="profile_name_title" msgid="8182443585131416570">"Nom"</string>
+    <string name="domain_address_title" msgid="6628028903715208419">"Domaine"</string>
+    <string name="username_title" msgid="2479375923477682328">"Nom d\'utilisateur"</string>
+    <string name="password_title" msgid="3323555249068171531">"Mot de passe"</string>
+    <string name="display_name_title" msgid="2459768196312249937">"Nom affiché"</string>
+    <string name="proxy_address_title" msgid="4425801526470783622">"Adresse de proxy sortant"</string>
+    <string name="port_title" msgid="8014162755749862704">"N° de port"</string>
+    <string name="port_summary" msgid="338051406829529586">"5060"</string>
+    <string name="transport_title" msgid="706735901627434385">"Type de transport"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Envoyer un keep-alive"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"Envoyer des messages keep-alive SIP"</string>
+    <string name="auto_registration_title" msgid="5156483863963866266">"Enregistrement auto"</string>
+    <string name="auto_registration_summary" msgid="2522794041206619280">"Enregistrer le profil automatiquement"</string>
+    <string name="empty_alert" msgid="8431886113287411185">"champ obligatoire"</string>
 </resources>
