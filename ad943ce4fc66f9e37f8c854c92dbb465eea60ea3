@@ -16,6 +16,24 @@
       "revId": "ad943ce4fc66f9e37f8c854c92dbb465eea60ea3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///OE\u003d",
+        "filename": "src/com/android/phone/GsmUmtsOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004300
+      },
+      "writtenOn": "2010-08-28T15:12:21Z",
+      "side": 1,
+      "message": "Hi David,\nEvery time we enter Mobile Networks menu, this Network Operator Selection will either be displayed/not displayed. If the EF_CSP data changes over the air, it be reflected when we enter this menu next time. Every time we enter this menu it is decided whether to display or not.\nPlease let me know if i answered your question",
+      "parentUuid": "AAAA6X///OM\u003d",
+      "revId": "ad943ce4fc66f9e37f8c854c92dbb465eea60ea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
