@@ -678,25 +678,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Activate a couple of special Notification features if an
         // incoming call is ringing:
         if (hasRingingCall) {
-            if (DBG) log("- Using hi-pri notification for ringing call!");
-
-            // This is a high-priority event that should be shown even if the
-            // status bar is hidden or if an immersive activity is running.
-            notification.flags |= Notification.FLAG_HIGH_PRIORITY;
-
-            // If an immersive activity is running, we have room for a single
-            // line of text in the small notification popup window.
-            // We use expandedViewLine2 for this (i.e. the name or number of
-            // the incoming caller), since that's more relevant than
-            // expandedViewLine1 (which is something generic like "Incoming
-            // call".)
-            notification.tickerText = expandedViewLine2;
-
-            // In most cases, we actually want to launch the incoming call
-            // UI at this point (rather than just posting a notification
-            // to the status bar).  Setting fullScreenIntent will cause
-            // the InCallScreen to be launched immediately *unless* the
-            // current foreground activity is marked as "immersive".
+            // We actually want to launch the incoming call UI at this point
+            // (rather than just posting a notification to the status bar).
+            // Setting fullScreenIntent will cause the InCallScreen to be
+            // launched immediately.
             notification.fullScreenIntent = inCallPendingIntent;
         }
 
