@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///OM\u003d",
+        "filename": "src/com/android/phone/GsmUmtsOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003245
+      },
+      "writtenOn": "2010-08-28T14:51:41Z",
+      "side": 1,
+      "message": "Is there any scenario where the preference would have to be added back to the screen after being removed? If so, please consider adding it here!",
+      "revId": "ad943ce4fc66f9e37f8c854c92dbb465eea60ea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
