@@ -34,6 +34,24 @@
       "revId": "ad943ce4fc66f9e37f8c854c92dbb465eea60ea3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6n////s\u003d",
+        "filename": "src/com/android/phone/GsmUmtsOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003245
+      },
+      "writtenOn": "2010-08-29T01:22:36Z",
+      "side": 1,
+      "message": "Got that! Thanks for the clarifications.",
+      "parentUuid": "AAAA6X///OE\u003d",
+      "revId": "ad943ce4fc66f9e37f8c854c92dbb465eea60ea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
