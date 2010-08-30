@@ -603,58 +603,55 @@
     <string name="contactPhoto" msgid="4713193418046639466">"連絡先の写真"</string>
     <string name="goPrivate" msgid="865837794424530980">"個別通話に切り替え"</string>
     <string name="selectContact" msgid="781975788478987237">"連絡先を選択"</string>
-    <!-- no translation found for sip_settings (2633467432134302450) -->
+    <!-- no translation found for sip_settings (6699045718560859691) -->
     <skip />
-    <!-- no translation found for sip_accounts (6326310200299646149) -->
+    <!-- no translation found for sip_accounts (1155104888417065951) -->
     <skip />
-    <!-- no translation found for sip_accounts_summary (3642905600751185685) -->
+    <string name="sip_accounts_summary" msgid="3642905600751185685">"SIPアカウントとステータスの管理"</string>
+    <!-- no translation found for sip_receive_calls (5635685570889971559) -->
     <skip />
-    <!-- no translation found for auto_reg (9010426641641090284) -->
+    <!-- no translation found for sip_receive_calls_summary (8185472827397188433) -->
     <skip />
-    <!-- no translation found for call_priority (9150161835243082714) -->
+    <!-- no translation found for sip_call_options (7128315120104066133) -->
     <skip />
-    <!-- no translation found for add_sip_account (5814944381529304294) -->
+    <!-- no translation found for sip_call_options_title (6580077718129226015) -->
     <skip />
-    <!-- no translation found for remove_sip_account (5617223124643879337) -->
+    <string name="auto_reg" msgid="9010426641641090284">"自動登録"</string>
+    <string name="call_priority" msgid="9150161835243082714">"SIPで発信"</string>
+    <string name="add_sip_account" msgid="5814944381529304294">"SIPアカウントを追加"</string>
+    <string name="remove_sip_account" msgid="5617223124643879337">"SIPアカウントを削除"</string>
+    <string name="sip_account_list" msgid="5480058210652194306">"SIPアカウント"</string>
+    <string name="sip_menu_save" msgid="5842531129356014943">"保存"</string>
+    <string name="sip_menu_discard" msgid="524075892158789701">"破棄"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
+    <!-- no translation found for primary_account (2229538308291934245) -->
     <skip />
-    <!-- no translation found for sip_account_list (5480058210652194306) -->
+    <!-- no translation found for primary_account_title (5694267218020951531) -->
     <skip />
-    <!-- no translation found for sip_menu_save (5842531129356014943) -->
+    <!-- no translation found for primary_account_summary (1261271657165698218) -->
     <skip />
-    <!-- no translation found for sip_menu_discard (524075892158789701) -->
+    <!-- no translation found for active_account (6627976433655306616) -->
     <skip />
-    <!-- no translation found for alert_dialog_ok (3580379406983564080) -->
+    <!-- no translation found for inactive_account (592242147279000650) -->
     <skip />
-    <!-- no translation found for sip_edit_title (5721647253413919727) -->
+    <!-- no translation found for advanced_settings_title (8846648727128452293) -->
     <skip />
-    <!-- no translation found for initial_preference_summary (6556199575922319926) -->
+    <!-- no translation found for account_summary (679469515982296058) -->
     <skip />
-    <!-- no translation found for profile_name_title (8182443585131416570) -->
-    <skip />
-    <!-- no translation found for domain_address_title (6628028903715208419) -->
-    <skip />
-    <!-- no translation found for username_title (2479375923477682328) -->
-    <skip />
-    <!-- no translation found for password_title (3323555249068171531) -->
-    <skip />
-    <!-- no translation found for display_name_title (2459768196312249937) -->
-    <skip />
-    <!-- no translation found for proxy_address_title (4425801526470783622) -->
-    <skip />
-    <!-- no translation found for port_title (8014162755749862704) -->
-    <skip />
-    <!-- no translation found for port_summary (338051406829529586) -->
-    <skip />
-    <!-- no translation found for transport_title (706735901627434385) -->
-    <skip />
-    <!-- no translation found for send_keepalive_title (7533342573918645113) -->
-    <skip />
-    <!-- no translation found for send_keepalive_summary (9038969409950960640) -->
-    <skip />
-    <!-- no translation found for auto_registration_title (5156483863963866266) -->
-    <skip />
-    <!-- no translation found for auto_registration_summary (2522794041206619280) -->
-    <skip />
-    <!-- no translation found for empty_alert (8431886113287411185) -->
-    <skip />
+    <string name="sip_edit_title" msgid="5721647253413919727">"SIPアカウントの編集"</string>
+    <string name="initial_preference_summary" msgid="6556199575922319926">"&lt;未設定&gt;"</string>
+    <string name="profile_name_title" msgid="8182443585131416570">"名前"</string>
+    <string name="domain_address_title" msgid="6628028903715208419">"ドメイン"</string>
+    <string name="username_title" msgid="2479375923477682328">"ユーザー名"</string>
+    <string name="password_title" msgid="3323555249068171531">"パスワード"</string>
+    <string name="display_name_title" msgid="2459768196312249937">"表示名"</string>
+    <string name="proxy_address_title" msgid="4425801526470783622">"発信プロキシアドレス"</string>
+    <string name="port_title" msgid="8014162755749862704">"ポート番号"</string>
+    <string name="port_summary" msgid="338051406829529586">"5060"</string>
+    <string name="transport_title" msgid="706735901627434385">"伝送方式"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"キープアライブを送信する"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"SIPキープアライブメッセージを送信します"</string>
+    <string name="auto_registration_title" msgid="5156483863963866266">"自動登録"</string>
+    <string name="auto_registration_summary" msgid="2522794041206619280">"プロフィールを自動的に登録します"</string>
+    <string name="empty_alert" msgid="8431886113287411185">"は必須です"</string>
 </resources>
