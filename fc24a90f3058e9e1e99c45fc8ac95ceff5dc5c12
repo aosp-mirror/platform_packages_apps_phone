@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6n///8o\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2010-08-30T16:28:48Z",
+      "side": 1,
+      "message": "I don\u0027t get this. Updating the \"time count\" happens in the rest of the phone app code. Nothing related to time happens in this part of the code.",
+      "revId": "fc24a90f3058e9e1e99c45fc8ac95ceff5dc5c12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
