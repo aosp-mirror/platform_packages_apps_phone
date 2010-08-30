@@ -123,4 +123,10 @@
          to be logged in the Call Log. -->
     <bool name="allow_emergency_numbers_in_call_log">true</bool>
 
+    <!-- If this is true, the SIM card (through Customer Service Profile EF file) will be
+         able to prevent manual operator selection. If false, this SIM setting will be
+         ignored and manual operator selection will always be available. See
+         CPHS4_2.WW6, CPHS B.4.7.1 for more information -->
+    <bool name="csp_enabled">false</bool>
+
 </resources>
