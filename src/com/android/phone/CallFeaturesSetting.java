@@ -1665,7 +1665,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else {
             editor.putInt(fwdKey + FWD_SETTINGS_LENGTH_TAG, 0);
         }
-        editor.startCommit();
+        editor.apply();
     }
 
     /**
