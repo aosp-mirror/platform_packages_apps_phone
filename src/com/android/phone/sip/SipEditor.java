@@ -207,13 +207,13 @@ public class SipEditor extends PreferenceActivity
             setResult(RESULT_OK, intent);
             return true;
         } catch (Exception e) {
+            Log.e(TAG, "Can not create new SipProfile : " + e.getMessage());
             showAlert(e.getMessage());
             return false;
         }
     }
 
-    private SipProfile createSipProfile() {
-        try {
+    private SipProfile createSipProfile() throws Exception {
             return new SipProfile.Builder(
                     getValue(PreferenceKey.Username),
                     getValue(PreferenceKey.DomainAddress))
@@ -227,10 +227,6 @@ public class SipEditor extends PreferenceActivity
                     .setAutoRegistration(
                             isChecked(PreferenceKey.AutoRegistration))
                     .build();
-        } catch (Exception e) {
-            Log.e(TAG, "Can not create new SipProfile : " + e.getMessage());
-            return null;
-        }
     }
 
     public boolean onPreferenceChange(Preference pref, Object newValue) {

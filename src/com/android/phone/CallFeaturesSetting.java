@@ -129,6 +129,11 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private static final String VM_NUMBERS_SHARED_PREFERENCES_NAME = "vm_numbers";
 
+    private static final String BUTTON_SIP_RECEIVE_CALLS =
+            "sip_receive_calls_key";
+    private static final String BUTTON_SIP_CALL_OPTIONS =
+            "sip_call_options_key";
+
     private Intent mContactListIntent;
 
     /** Event for Async voicemail change call */
@@ -182,8 +187,10 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private CheckBoxPreference mButtonAutoRetry;
     private CheckBoxPreference mButtonHAC;
+    private CheckBoxPreference mButtonSipReceiveCalls;
     private ListPreference mButtonDTMF;
     private ListPreference mButtonTTY;
+    private ListPreference mButtonSipCallOptions;
     private ListPreference mVoicemailProviders;
     private PreferenceScreen mVoicemailSettings;
 
@@ -412,6 +419,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
             this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
             return true;
+        } else if (preference == mButtonSipReceiveCalls) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.SIP_RECEIVE_CALLS,
+                    (mButtonSipReceiveCalls.isChecked() ? 1 : 0));
+            return true;
         }
         return false;
     }
@@ -464,6 +476,8 @@ public class CallFeaturesSetting extends PreferenceActivity
                 mChangingVMorFwdDueToProviderChange = true;
                 saveVoiceMailAndForwardingNumber(newProviderKey, newProviderSettings);
             }
+        } else if (preference == mButtonSipCallOptions) {
+            handleSipCallOptionsChange(objValue);
         }
         // always let the preference setting proceed.
         return true;
@@ -1411,7 +1425,15 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         updateVoiceNumberField();
         mVMProviderSettingsForced = false;
+
+        // Add Internet call settings.
         addPreferencesFromResource(R.xml.sip_settings_category);
+        mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
+                (BUTTON_SIP_RECEIVE_CALLS);
+        mButtonSipCallOptions = (ListPreference) findPreference
+                (BUTTON_SIP_CALL_OPTIONS);
+        mButtonSipCallOptions.setOnPreferenceChangeListener(this);
+        mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
     }
 
     @Override
@@ -1473,6 +1495,14 @@ public class CallFeaturesSetting extends PreferenceActivity
             ttyModeChanged.putExtra(TtyIntent.TTY_PREFFERED_MODE, buttonTtyMode);
             sendBroadcast(ttyModeChanged);
         }
+    }
+
+    private void handleSipCallOptionsChange(Object objValue) {
+        Settings.System.putString(getContentResolver(),
+                Settings.System.SIP_CALL_OPTIONS, objValue.toString());
+        mButtonSipCallOptions.setValueIndex(
+                mButtonSipCallOptions.findIndexOfValue(objValue.toString()));
+        mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
     }
 
     private void updatePreferredTtyModeSummary(int TtyMode) {
