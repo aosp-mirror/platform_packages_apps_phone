@@ -1157,7 +1157,6 @@ public class PhoneUtils {
      * "number" is actually the SIP address.
      *
      * @param context a context to use (or
-     * @param phone the phone on which the number would be called
      * @param intent the intent
      *
      * @throws VoiceMailNumberMissingException if <code>intent</code> contains
@@ -1167,7 +1166,7 @@ public class PhoneUtils {
      * @return the phone number (or SIP address) that would be called by the intent,
      *         or <code>null</code> if the number cannot be found.
      */
-    static String getNumberFromIntent(Context context, Phone phone, Intent intent)
+    static String getNumberFromIntent(Context context, Intent intent)
             throws VoiceMailNumberMissingException {
         Uri uri = intent.getData();
         String scheme = uri.getScheme();
