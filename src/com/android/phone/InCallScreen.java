@@ -2445,7 +2445,7 @@ public class InCallScreen extends Activity
             return intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
         }
 
-        return PhoneUtils.getNumberFromIntent(this, mPhone, intent);
+        return PhoneUtils.getNumberFromIntent(this, intent);
     }
 
     /**
