@@ -14,8 +14,9 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:title="@string/sip_settings">
+        android:key="sip_account_list"
+        android:title="@string/sip_accounts">
 
-    <PreferenceCategory android:key="sip_account_list" android:title="@string/sip_account_list">
+    <PreferenceCategory android:key="sip_account_list">
     </PreferenceCategory>
 </PreferenceScreen>
