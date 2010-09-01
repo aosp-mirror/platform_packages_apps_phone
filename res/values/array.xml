@@ -30,9 +30,9 @@
     </string-array>
 
     <string-array translatable="false" name="sip_call_options_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item>@string/sip_always</item>
+        <item>@string/sip_address_only</item>
+        <item>@string/sip_ask_me_each_time</item>
     </string-array>
 
 </resources>

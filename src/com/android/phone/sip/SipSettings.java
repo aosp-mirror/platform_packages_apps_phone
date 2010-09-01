@@ -153,10 +153,6 @@ public class SipSettings extends PreferenceActivity {
     private void registerForGlobalSettingsListener() {
         mSettingsEditor = getSharedPreferences(
                 SIP_SHARED_PREFERENCES, Context.MODE_WORLD_READABLE).edit();
-        setCheckBoxClickEventListener(PREF_AUTO_REG,
-                AUTOREG_FLAG, new AutoRegistrationClickHandler());
-        setCheckBoxClickEventListener(PREF_SIP_CALL_FIRST,
-                SIP_CALL_FIRST_FLAG, null);
     }
 
     private void setCheckBoxClickEventListener(String preference,

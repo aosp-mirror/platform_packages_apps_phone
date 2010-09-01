@@ -1291,6 +1291,11 @@
     <!-- String to be appended to indicate some preference field can not be empty in the alert dialog. [CHAR LIMIT=NONE] -->
     <string name="empty_alert"> cannot be empty</string>
 
+    <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
+    <string translatable="false" name="sip_always">SIP_ALWAYS</string>
+    <string translatable="false" name="sip_address_only">SIP_ADDRESS_ONLY</string>
+    <string translatable="false" name="sip_ask_me_each_time">SIP_ASK_ME_EACH_TIME</string>
+
     <!-- Do not translate the following strings. Used for the preference keys -->
     <string translatable="false" name="profile_name">ProfileName</string>
     <string translatable="false" name="domain_address">SipDomain</string>

@@ -30,5 +30,18 @@
                 android:targetPackage="com.android.phone"
                 android:targetClass="com.android.phone.sip.SipSettings" />
         </PreferenceScreen>
+        <CheckBoxPreference
+            android:key="sip_receive_calls_key"
+            android:title="@string/sip_receive_calls"
+            android:summary="@string/sip_receive_calls_summary"
+            android:defaultValue="true"
+            android:persistent="true"/>
+        <ListPreference
+            android:key="sip_call_options_key"
+            android:title="@string/sip_call_options_title"
+            android:persistent="true"
+            android:entries="@array/sip_call_options_entries"
+            android:entryValues="@array/sip_call_options_values"
+            android:defaultValue="@string/sip_address_only"/>
   </PreferenceCategory>
 </PreferenceScreen>

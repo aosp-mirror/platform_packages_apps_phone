@@ -16,15 +16,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         android:title="@string/sip_settings">
 
-    <CheckBoxPreference android:key="sip_call_first"
-        android:title="@string/call_priority">
-    </CheckBoxPreference>
-
-    <CheckBoxPreference android:key="auto_reg"
-        android:title="@string/auto_reg"
-        android:summary="@string/auto_registration_summary">
-    </CheckBoxPreference>
-
     <PreferenceCategory android:key="sip_account_list" android:title="@string/sip_account_list">
     </PreferenceCategory>
 </PreferenceScreen>
