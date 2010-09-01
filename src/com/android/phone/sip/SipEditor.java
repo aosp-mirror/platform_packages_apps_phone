@@ -21,6 +21,7 @@ import com.android.phone.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -42,6 +43,8 @@ import android.widget.Button;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The activity class for editing a new or existing SIP profile.
@@ -55,42 +58,40 @@ public class SipEditor extends PreferenceActivity
     private static final String KEY_PROFILE = "profile";
     private static final String SCRAMBLED = "****";
     private static final String EMPTY = "";
+    private static final String LEAVE_AS_IS = null;
     private static final String DEFAULT_SIP_PORT = "5060";
     private static final String DEFAULT_PROTOCOL = "UDP";
     private static final String GET_METHOD_PREFIX = "get";
 
-    private boolean mAddingProfile;
+    private PrimaryAccountSelector mPrimaryAccountSelector;
+    private AdvancedSettings mAdvancedSettings;
+    private SipSharedPreferences mSharedPreferences =
+            new SipSharedPreferences(this);
 
     enum PreferenceKey {
-        ProfileName(R.string.profile_name, 0, EMPTY),
-        DomainAddress(R.string.domain_address, 1, EMPTY),
-        Username(R.string.username, 2, EMPTY),
-        Password(R.string.password, 3, EMPTY),
-        DisplayName(R.string.display_name, 4, EMPTY),
-        ProxyAddress(R.string.proxy_address, 5, EMPTY),
-        Port(R.string.port, 6, DEFAULT_SIP_PORT),
-        Transport(R.string.transport, 7, DEFAULT_PROTOCOL),
-        SendKeepAlive(R.string.send_keepalive, 8, EMPTY),
-        AutoRegistration(R.string.auto_registration, 9, EMPTY);
+        ProfileName(R.string.profile_name, EMPTY),
+        DomainAddress(R.string.domain_address, EMPTY),
+        Username(R.string.username, EMPTY),
+        Password(R.string.password, EMPTY),
+        DisplayName(R.string.display_name, EMPTY),
+        ProxyAddress(R.string.proxy_address, EMPTY),
+        Port(R.string.port, DEFAULT_SIP_PORT),
+        Transport(R.string.transport, DEFAULT_PROTOCOL),
+        SendKeepAlive(R.string.send_keepalive, LEAVE_AS_IS);
 
         /**
          * @param key The key name of the preference.
-         * @param index The index of the preference in the view.
          * @param defaultValue The default value of the preference.
          */
-        PreferenceKey(int text, int index, String defaultValue) {
+        PreferenceKey(int text, String defaultValue) {
             this.text = text;
-            this.index = index;
             this.defaultValue = defaultValue;
         }
 
-        public final int text;
-        public final int index;
-        public final String defaultValue;
+        final int text;
+        final String defaultValue;
+        Preference preference;
     }
-
-    private Preference[] mPreferences =
-            new Preference[PreferenceKey.values().length];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,16 +100,20 @@ public class SipEditor extends PreferenceActivity
 
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_edit);
+
         final SipProfile p = (SipProfile) ((savedInstanceState == null)
                 ? getIntent().getParcelableExtra(SipSettings.KEY_SIP_PROFILE)
                 : savedInstanceState.getParcelable(KEY_PROFILE));
 
-        for (PreferenceKey key : PreferenceKey.values()) {
-            mPreferences[key.index] = setupPreference(getString(key.text));
+        PreferenceGroup screen = (PreferenceGroup) getPreferenceScreen();
+        for (int i = 0, n = screen.getPreferenceCount(); i < n; i++) {
+            setupPreference(screen.getPreference(i));
         }
+
         if (p == null) {
             findViewById(R.id.add_remove_account_bar)
                     .setVisibility(View.GONE);
+            screen.setTitle(R.string.sip_edit_new_title);
         } else {
             Button removeButton =
                     (Button)findViewById(R.id.add_remove_account_button);
@@ -120,6 +125,9 @@ public class SipEditor extends PreferenceActivity
                         }
                     });
         }
+        mAdvancedSettings = new AdvancedSettings();
+        mPrimaryAccountSelector = new PrimaryAccountSelector(p);
+
         loadPreferencesFromProfile(p);
     }
 
@@ -184,7 +192,8 @@ public class SipEditor extends PreferenceActivity
     }
 
     private boolean validateAndSetResult() {
-        for(Preference pref : mPreferences)  {
+        for (PreferenceKey key : PreferenceKey.values()) {
+            Preference pref = key.preference;
             String value = EMPTY;
             if (pref instanceof ListPreference) {
                 value = ((ListPreference)pref).getValue();
@@ -194,7 +203,7 @@ public class SipEditor extends PreferenceActivity
                 continue;
             }
             if (TextUtils.isEmpty(value) &&
-                    (pref != mPreferences[PreferenceKey.ProxyAddress.index])) {
+                    (key != PreferenceKey.ProxyAddress)) {
                 showAlert(pref.getTitle() + " "
                         + getString(R.string.empty_alert));
                 return false;
@@ -225,7 +234,7 @@ public class SipEditor extends PreferenceActivity
                     .setPort(Integer.parseInt(getValue(PreferenceKey.Port)))
                     .setSendKeepAlive(isChecked(PreferenceKey.SendKeepAlive))
                     .setAutoRegistration(
-                            isChecked(PreferenceKey.AutoRegistration))
+                            mSharedPreferences.isReceivingCallsEnabled())
                     .build();
     }
 
@@ -233,10 +242,10 @@ public class SipEditor extends PreferenceActivity
         if (pref instanceof CheckBoxPreference) return true;
         String value = (String) newValue;
         if (value == null) value = EMPTY;
-        if (pref != mPreferences[PreferenceKey.Password.index]) {
-            pref.setSummary(value);
-        } else {
+        if (pref == PreferenceKey.Password.preference) {
             pref.setSummary(SCRAMBLED);
+        } else {
+            pref.setSummary(value);
         }
         return true;
     }
@@ -247,15 +256,17 @@ public class SipEditor extends PreferenceActivity
             try {
                 Class profileClass = SipProfile.class;
                 for (PreferenceKey key : PreferenceKey.values()) {
-                    Method meth = profileClass.getMethod(GET_METHOD_PREFIX +
-                            getString(key.text), (Class[])null);
+                    Method meth = profileClass.getMethod(GET_METHOD_PREFIX
+                            + getString(key.text), (Class[])null);
                     if (key == PreferenceKey.Port) {
                         setValue(key,
                                 String.valueOf(meth.invoke(p, (Object[])null)));
-                    } else if (key == PreferenceKey.SendKeepAlive
-                            || key == PreferenceKey.AutoRegistration) {
-                        setCheckBox(key, ((Boolean)
-                                meth.invoke(p, (Object[])null)).booleanValue());
+                    } else if (key == PreferenceKey.SendKeepAlive) {
+                        boolean value = ((Boolean)
+                                meth.invoke(p, (Object[]) null)).booleanValue();
+                        setValue(key, getString(value
+                                ? R.string.sip_always_send_keepalive
+                                : R.string.sip_system_decide));
                     } else {
                         setValue(key, (String) meth.invoke(p, (Object[])null));
                     }
@@ -266,28 +277,32 @@ public class SipEditor extends PreferenceActivity
         } else {
             Log.v(TAG, "Edit a new profile");
             for (PreferenceKey key : PreferenceKey.values()) {
-                Preference pref = mPreferences[key.index];
+                if (key.defaultValue == LEAVE_AS_IS) continue;
+                Preference pref = key.preference;
                 pref.setOnPreferenceChangeListener(this);
                 if (pref instanceof EditTextPreference) {
-                    ((EditTextPreference)pref).setText(key.defaultValue);
+                    ((EditTextPreference) pref).setText(key.defaultValue);
                 } else if (pref instanceof ListPreference) {
-                    ((ListPreference)pref).setValue(key.defaultValue);
+                    ((ListPreference) pref).setValue(key.defaultValue);
                 } else {
                     continue;
                 }
-                pref.setSummary(EMPTY.equals(key.defaultValue)
-                        ? getString(R.string.initial_preference_summary) : key.defaultValue);
+                pref.setSummary((EMPTY == key.defaultValue)
+                        ? getString(R.string.initial_preference_summary)
+                        : key.defaultValue);
             }
         }
     }
 
     private boolean isChecked(PreferenceKey key) {
-        CheckBoxPreference pref = (CheckBoxPreference)mPreferences[key.index];
-        return pref.isChecked();
+        // must be PreferenceKey.SendKeepAlive
+        ListPreference pref = (ListPreference) key.preference;
+        return getString(R.string.sip_always_send_keepalive).equals(
+                pref.getValue());
     }
 
     private String getValue(PreferenceKey key) {
-        Preference pref = mPreferences[key.index];
+        Preference pref = key.preference;
         if (pref instanceof EditTextPreference) {
             return ((EditTextPreference)pref).getText();
         } else if (pref instanceof ListPreference) {
@@ -297,12 +312,12 @@ public class SipEditor extends PreferenceActivity
     }
 
     private void setCheckBox(PreferenceKey key, boolean checked) {
-        CheckBoxPreference pref = (CheckBoxPreference) mPreferences[key.index];
+        CheckBoxPreference pref = (CheckBoxPreference) key.preference;
         pref.setChecked(checked);
     }
 
     private void setValue(PreferenceKey key, String value) {
-        Preference pref = mPreferences[key.index];
+        Preference pref = key.preference;
         if (pref instanceof EditTextPreference) {
             ((EditTextPreference)pref).setText(value);
         } else if (pref instanceof ListPreference) {
@@ -317,9 +332,98 @@ public class SipEditor extends PreferenceActivity
         pref.setSummary(value);
     }
 
-    private Preference setupPreference(String key) {
-        Preference pref = getPreferenceScreen().findPreference(key);
+    private void setupPreference(Preference pref) {
         pref.setOnPreferenceChangeListener(this);
-        return pref;
+        for (PreferenceKey key : PreferenceKey.values()) {
+            String name = getString(key.text);
+            if (name.equals(pref.getKey())) {
+                key.preference = pref;
+                return;
+            }
+        }
+    }
+
+    private class PrimaryAccountSelector {
+        private CheckBoxPreference mCheckbox;
+
+        // @param profile profile to be edited; null if adding new profile
+        PrimaryAccountSelector(SipProfile profile) {
+            mCheckbox = (CheckBoxPreference) getPreferenceScreen()
+                    .findPreference(getString(R.string.set_primary));
+            String primaryAccountUri = mSharedPreferences.getPrimaryAccount();
+            boolean noPrimaryAccountSet = TextUtils.isEmpty(primaryAccountUri);
+
+            // make the first added account primary
+            mCheckbox.setChecked(noPrimaryAccountSet || ((profile != null)
+                    && profile.getUriString().equals(primaryAccountUri)));
+        }
+
+        void commit(SipProfile profile) {
+            if (mCheckbox.isChecked()) {
+                mSharedPreferences.setPrimaryAccount(profile.getUriString());
+            }
+        }
+    }
+
+    private class AdvancedSettings
+            implements Preference.OnPreferenceClickListener {
+        private Preference mAdvancedSettingsTrigger;
+        private Preference[] mPreferences;
+        private boolean mShowing = false;
+
+        AdvancedSettings() {
+            mAdvancedSettingsTrigger = getPreferenceScreen().findPreference(
+                    getString(R.string.advanced_settings));
+            mAdvancedSettingsTrigger.setOnPreferenceClickListener(this);
+
+            loadAdvancedPreferences();
+        }
+
+        private void loadAdvancedPreferences() {
+            PreferenceGroup screen = (PreferenceGroup) getPreferenceScreen();
+
+            addPreferencesFromResource(R.xml.sip_advanced_edit);
+            PreferenceGroup group = (PreferenceGroup) screen.findPreference(
+                    getString(R.string.advanced_settings_container));
+            screen.removePreference(group);
+
+            mPreferences = new Preference[group.getPreferenceCount()];
+            int order = screen.getPreferenceCount();
+            for (int i = 0, n = mPreferences.length; i < n; i++) {
+                Preference pref = group.getPreference(i);
+                pref.setOrder(order++);
+                setupPreference(pref);
+                mPreferences[i] = pref;
+            }
+        }
+
+        private void show() {
+            mShowing = true;
+            mAdvancedSettingsTrigger.setSummary(R.string.advanced_settings_hide);
+            PreferenceGroup screen = (PreferenceGroup) getPreferenceScreen();
+            for (Preference pref : mPreferences) {
+                screen.addPreference(pref);
+                Log.v(TAG, "add pref " + pref.getKey() + ": order=" + pref.getOrder());
+            }
+        }
+
+        private void hide() {
+            mShowing = false;
+            mAdvancedSettingsTrigger.setSummary(R.string.advanced_settings_show);
+            PreferenceGroup screen = (PreferenceGroup) getPreferenceScreen();
+            for (Preference pref : mPreferences) {
+                screen.removePreference(pref);
+            }
+        }
+
+        public boolean onPreferenceClick(Preference preference) {
+            Log.v(TAG, "optional settings clicked");
+            if (!mShowing) {
+                show();
+            } else {
+                hide();
+            }
+            return true;
+        }
     }
 }
