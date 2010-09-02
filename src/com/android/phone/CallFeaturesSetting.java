@@ -29,6 +29,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.media.AudioManager;
+import android.net.sip.SipManager;
+import android.net.sip.SipProfile;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,6 +53,8 @@ import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.cdma.TtyIntent;
+import com.android.phone.sip.SipSettings;
+import com.android.phone.sip.SipSharedPreferences;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -160,6 +164,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private Phone mPhone;
 
     private AudioManager mAudioManager;
+    private SipManager mSipManager;
 
     private static final int VM_NOCHANGE_ERROR = 400;
     private static final int VM_RESPONSE_ERROR = 500;
@@ -193,6 +198,8 @@ public class CallFeaturesSetting extends PreferenceActivity
     private ListPreference mButtonSipCallOptions;
     private ListPreference mVoicemailProviders;
     private PreferenceScreen mVoicemailSettings;
+    private SipSharedPreferences mSipSharedPreferences;
+    private String mSipProfilesDir;
 
     private class VoiceMailProvider {
         public VoiceMailProvider(String name, Intent intent) {
@@ -420,12 +427,54 @@ public class CallFeaturesSetting extends PreferenceActivity
             this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
             return true;
         } else if (preference == mButtonSipReceiveCalls) {
-            Settings.System.putInt(getContentResolver(),
-                    Settings.System.SIP_RECEIVE_CALLS,
-                    (mButtonSipReceiveCalls.isChecked() ? 1 : 0));
+            final boolean enabled = mButtonSipReceiveCalls.isChecked();
+            mSipSharedPreferences.setReceivingCallsEnabled(enabled);
+            new Thread(new Runnable() {
+                public void run() {
+                    handleSipReceiveCallsOption(enabled);
+                }
+            }).start();
             return true;
         }
         return false;
+    }
+
+    private void handleSipReceiveCallsOption(boolean enabled) {
+        List<SipProfile> sipProfileList =
+                SipSettings.retrieveSipListFromDirectory(mSipProfilesDir);
+        for (SipProfile p : sipProfileList) {
+            String sipUri = p.getUriString();
+            boolean openFlag = enabled;
+            // open the profile if it is primary or the receive calls option
+            // is enabled.
+            if (!enabled && sipUri.equals(
+                    mSipSharedPreferences.getPrimaryAccount())) {
+                openFlag = true;
+            }
+            p = updateAutoRegistrationFlag(p, enabled);
+            try {
+                mSipManager.close(sipUri);
+                if (openFlag) {
+                    mSipManager.open(p);
+                }
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "register failed", e);
+            }
+        }
+    }
+
+    private SipProfile updateAutoRegistrationFlag(
+            SipProfile p, boolean enabled) {
+        SipProfile newProfile = new SipProfile.Builder(p)
+                .setAutoRegistration(enabled)
+                .build();
+        try {
+            SipSettings.deleteProfile(mSipProfilesDir + p.getProfileName());
+            SipSettings.saveProfile(mSipProfilesDir, newProfile);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "updateAutoRegistrationFlag error", e);
+        }
+        return newProfile;
     }
 
     /**
@@ -1427,13 +1476,19 @@ public class CallFeaturesSetting extends PreferenceActivity
         mVMProviderSettingsForced = false;
 
         // Add Internet call settings.
-        addPreferencesFromResource(R.xml.sip_settings_category);
-        mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
-                (BUTTON_SIP_RECEIVE_CALLS);
-        mButtonSipCallOptions = (ListPreference) findPreference
-                (BUTTON_SIP_CALL_OPTIONS);
-        mButtonSipCallOptions.setOnPreferenceChangeListener(this);
-        mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
+        if (SipManager.isVoipSupported(this)) {
+            mSipManager = SipManager.getInstance(this);
+            mSipProfilesDir = mPhone.getContext().getFilesDir()
+                    .getAbsolutePath() + SipSettings.PROFILES_DIR;
+            mSipSharedPreferences = new SipSharedPreferences(this);
+            addPreferencesFromResource(R.xml.sip_settings_category);
+            mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
+                    (BUTTON_SIP_RECEIVE_CALLS);
+            mButtonSipCallOptions = (ListPreference) findPreference
+                    (BUTTON_SIP_CALL_OPTIONS);
+            mButtonSipCallOptions.setOnPreferenceChangeListener(this);
+            mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
+        }
     }
 
     @Override
