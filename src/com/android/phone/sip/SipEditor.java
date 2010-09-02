@@ -66,6 +66,7 @@ public class SipEditor extends PreferenceActivity
     private PrimaryAccountSelector mPrimaryAccountSelector;
     private AdvancedSettings mAdvancedSettings;
     private SipSharedPreferences mSharedPreferences;
+    private boolean mDisplayNameSet;
 
     enum PreferenceKey {
         ProfileName(R.string.profile_name, EMPTY),
@@ -249,6 +250,16 @@ public class SipEditor extends PreferenceActivity
         } else {
             pref.setSummary(value);
         }
+
+        if (pref instanceof EditTextPreference) {
+            ((EditTextPreference) pref).setText(value);
+        }
+
+        if (pref == PreferenceKey.DisplayName.preference) {
+            checkIfDisplayNameSet();
+        } else if (!mDisplayNameSet) {
+            setDisplayName();
+        }
         return true;
     }
 
@@ -294,6 +305,7 @@ public class SipEditor extends PreferenceActivity
                         : key.defaultValue);
             }
         }
+        checkIfDisplayNameSet();
     }
 
     private boolean isChecked(PreferenceKey key) {
@@ -343,6 +355,22 @@ public class SipEditor extends PreferenceActivity
                 return;
             }
         }
+    }
+
+    private void checkIfDisplayNameSet() {
+        String displayName = getValue(PreferenceKey.DisplayName);
+        mDisplayNameSet = !TextUtils.isEmpty(displayName)
+                && !displayName.equals(getDefaultDisplayName());
+    }
+
+    private void setDisplayName() {
+        setValue(PreferenceKey.DisplayName, getDefaultDisplayName());
+    }
+
+    private String getDefaultDisplayName() {
+        String username = getValue(PreferenceKey.Username);
+        String domain = getValue(PreferenceKey.DomainAddress);
+        return username + "@" + domain;
     }
 
     private class PrimaryAccountSelector {
