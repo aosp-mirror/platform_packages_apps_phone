@@ -42,7 +42,9 @@ public class SipSharedPreferences {
     }
 
     public void setPrimaryAccount(String accountUri) {
-        mPreferences.edit().putString(KEY_PRIMARY_ACCOUNT, accountUri);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(KEY_PRIMARY_ACCOUNT, accountUri);
+        editor.apply();
     }
 
     /** Returns the primary account URI or null if it does not exist. */
