@@ -355,11 +355,13 @@ public class SipSettings extends PreferenceActivity {
                 if (resultCode == RESULT_OK) {
                     Log.v(TAG, "New Profile Name:" + profile.getProfileName());
                     saveProfileToStorage(profile);
+                    /*
                     if (((CheckBoxPreference) findPreference
                             (PREF_AUTO_REG)).isChecked() &&
                             profile.getAutoRegistration() == true) {
                         registerProfile(profile);
                     }
+                    */
                 } else {
                     Log.v(TAG, "Removed Profile Name:" + profile.getProfileName());
                     deleteProfile(profile);
