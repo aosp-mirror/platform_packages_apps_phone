@@ -23,11 +23,12 @@ import com.android.phone.sip.SipSettings;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.Intent;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
 import java.util.List;
@@ -96,10 +97,15 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
 
     private void registerAllProfiles() {
         final Context context = PhoneApp.getInstance();
-        SharedPreferences settings = context.getSharedPreferences(
-                SipSettings.SIP_SHARED_PREFERENCES,
-                Context.MODE_WORLD_READABLE);
-        if (!settings.getBoolean(SipSettings.AUTOREG_FLAG, false)) return;
+        try {
+            if (Settings.System.getInt(context.getContentResolver(),
+                    Settings.System.SIP_RECEIVE_CALLS) == 0) {
+                return;
+            }
+        } catch (SettingNotFoundException e) {
+            Log.e(TAG, "receive_incoming_call option is not set", e);
+        }
+
         new Thread(new Runnable() {
             public void run() {
                 SipManager sipManager = SipManager.getInstance(context);
@@ -109,6 +115,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                         + SipSettings.PROFILES_DIR);
                 for (SipProfile profile : sipProfileList) {
                     try {
+                        // TODO: change it to check primary account
                         if (!profile.getAutoRegistration()) continue;
                         sipManager.open(profile,
                                 SipManager.SIP_INCOMING_CALL_ACTION, null);

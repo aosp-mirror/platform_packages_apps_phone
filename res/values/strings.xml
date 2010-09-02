@@ -1237,8 +1237,12 @@
     <!-- Menu item when the menu button is pressed in the sip account editor. [CHAR LIMIT=NONE] -->
     <string name="sip_menu_discard">Discard</string>
 
+    <!-- Title of the alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="alert_dialog_close">Close the profile</string>
     <!-- Title of the button to show in a alert dialog. [CHAR LIMIT=NONE] -->
     <string name="alert_dialog_ok">OK</string>
+    <!-- Title of the button to show in a alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="close_profile">Close</string>
 
     <!-- Text of the account type. 'Primary' means the account is the one for sending all outgoing calls through. [CHAR LIMIT=NONE] -->
     <string name="primary_account">Primary</string>
@@ -1247,9 +1251,9 @@
     <!-- Summary text of the account type checkbox. [CHAR LIMIT=NONE] -->
     <string name="primary_account_summary">Used for outbound calls.</string>
     <!-- Text of the account status. 'Active' means the account is managed by SIP service. [CHAR LIMIT=NONE] -->
-    <string name="active_account">Active</string>
+    <string name="active_account">Receiving calls</string>
     <!-- Text of the account status. 'Inactive' means the account is not managed by SIP service. [CHAR LIMIT=NONE] -->
-    <string name="inactive_account">Inactive</string>
+    <string name="inactive_account">Not receiving calls</string>
     <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_title">Advanced settings</string>
     <!-- Text for describing the account's owner and status. For example, 'Active, in use by Google Talk', it means that the account managed by SIP service was registered by the application 'Google Talk' and the status is active. [CHAR LIMIT=NONE] -->
