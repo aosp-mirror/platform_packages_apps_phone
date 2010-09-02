@@ -35,5 +35,9 @@
         <item>@string/sip_ask_me_each_time</item>
     </string-array>
 
+    <string-array translatable="true" name="sip_send_keepalive_options">
+        <item>@string/sip_system_decide</item>
+        <item>@string/sip_always_send_keepalive</item>
+    </string-array>
 </resources>
 
