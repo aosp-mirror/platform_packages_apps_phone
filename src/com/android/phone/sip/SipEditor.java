@@ -210,9 +210,11 @@ public class SipEditor extends PreferenceActivity
             }
         }
         try {
+            SipProfile profile = createSipProfile();
+            mPrimaryAccountSelector.commit(profile);
+
             Intent intent = new Intent(this, SipSettings.class);
-            intent.putExtra(SipSettings.KEY_SIP_PROFILE,
-                    (Parcelable) createSipProfile());
+            intent.putExtra(SipSettings.KEY_SIP_PROFILE, (Parcelable) profile);
             setResult(RESULT_OK, intent);
             return true;
         } catch (Exception e) {
