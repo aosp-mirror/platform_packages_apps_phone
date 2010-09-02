@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.sip.SipProfile;
@@ -86,7 +85,7 @@ public class SipSettings extends PreferenceActivity {
     private PreferenceGroup mSipListContainer;
     private Map<String, SipPreference> mSipPreferenceMap;
     private List<SipProfile> mSipProfileList;
-    private SharedPreferences.Editor   mSettingsEditor;
+    private SipSharedPreferences mSipSharedPreferences;
     private int mUid = Process.myUid();
 
 
@@ -109,11 +108,19 @@ public class SipSettings extends PreferenceActivity {
 
         void updateSummary() {
             int profileUid = mProfile.getCallingUid();
-            Log.v(TAG, "profile uid is " + profileUid);
-            setSummary((profileUid == 0) ?
+            boolean isPrimary = mProfile.getUriString().equals(
+                    mSipSharedPreferences.getPrimaryAccount());
+            Log.v(TAG, "profile uid is " + profileUid +
+                    " isPrimary:" + isPrimary + " Primary:" +
+                    mSipSharedPreferences.getPrimaryAccount());
+            String summary = (profileUid == 0) ?
                     mInactiveString : ((profileUid == mUid) ?
                     mActiveString : getString(R.string.account_summary,
-                    mActiveString, getPackageNameFromUid(profileUid))));
+                    mActiveString, getPackageNameFromUid(profileUid)));
+            if (isPrimary) {
+                summary += " (Primary) ";
+            }
+            setSummary(summary);
         }
         void updateSummary(String msg) {
             updateSummary();
@@ -138,6 +145,7 @@ public class SipSettings extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 
         mSipManager = SipManager.getInstance(SipSettings.this);
+        mSipSharedPreferences = new SipSharedPreferences(this);
         mPackageManager = getPackageManager();
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_setting);
@@ -339,11 +347,11 @@ public class SipSettings extends PreferenceActivity {
     }
 
     // TODO: Use the Util class in settings.vpn instead
-    private void deleteProfile(String name) {
+    public static void deleteProfile(String name) {
         deleteProfile(new File(name));
     }
 
-    private void deleteProfile(File file) {
+    private static void deleteProfile(File file) {
         if (file.isDirectory()) {
             for (File child : file.listFiles()) deleteProfile(child);
         }
@@ -358,14 +366,19 @@ public class SipSettings extends PreferenceActivity {
         unRegisterProfile(p);
     }
 
-    private void saveProfileToStorage(SipProfile p) throws IOException {
-        if (mProfile != null) deleteProfile(mProfile);
-        File f = new File(mProfilesDirectory + p.getProfileName());
+    public static void saveProfile(String profilesDir, SipProfile p)
+            throws IOException {
+        File f = new File(profilesDir + p.getProfileName());
         if (!f.exists()) f.mkdirs();
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
                 new File(f, PROFILE_OBJ_FILE)));
         oos.writeObject(p);
         oos.close();
+    }
+
+    private void saveProfileToStorage(SipProfile p) throws IOException {
+        if (mProfile != null) deleteProfile(mProfile);
+        saveProfile(mProfilesDirectory, p);
         mSipProfileList.add(p);
         addPreferenceFor(p);
     }

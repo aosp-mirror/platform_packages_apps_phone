@@ -20,6 +20,7 @@ import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.sip.SipPhone;
 import com.android.phone.sip.SipSettings;
+import com.android.phone.sip.SipSharedPreferences;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,6 +40,7 @@ import javax.sip.SipException;
  */
 public class SipBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = SipBroadcastReceiver.class.getSimpleName();
+    private SipSharedPreferences mSipSharedPreferences;
 
     @Override
     public void onReceive(Context context, final Intent intent) {
@@ -48,6 +50,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
             Log.v(TAG, "SIP VOIP not supported: " + action);
             return;
         }
+        mSipSharedPreferences = new SipSharedPreferences(context);
 
         if (action.equals(SipManager.SIP_INCOMING_CALL_ACTION)) {
             takeCall(intent);
@@ -102,15 +105,6 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
 
     private void registerAllProfiles() {
         final Context context = PhoneApp.getInstance();
-        try {
-            if (Settings.System.getInt(context.getContentResolver(),
-                    Settings.System.SIP_RECEIVE_CALLS) == 0) {
-                return;
-            }
-        } catch (SettingNotFoundException e) {
-            Log.e(TAG, "receive_incoming_call option is not set", e);
-        }
-
         new Thread(new Runnable() {
             public void run() {
                 SipManager sipManager = SipManager.getInstance(context);
@@ -120,8 +114,11 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                         + SipSettings.PROFILES_DIR);
                 for (SipProfile profile : sipProfileList) {
                     try {
-                        // TODO: change it to check primary account
-                        if (!profile.getAutoRegistration()) continue;
+                        if (!profile.getAutoRegistration() &&
+                                !profile.getUriString().equals(
+                                mSipSharedPreferences.getPrimaryAccount())) {
+                            continue;
+                        }
                         sipManager.open(profile,
                                 SipManager.SIP_INCOMING_CALL_ACTION, null);
                     } catch (SipException e) {
