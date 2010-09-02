@@ -65,8 +65,7 @@ public class SipEditor extends PreferenceActivity
 
     private PrimaryAccountSelector mPrimaryAccountSelector;
     private AdvancedSettings mAdvancedSettings;
-    private SipSharedPreferences mSharedPreferences =
-            new SipSharedPreferences(this);
+    private SipSharedPreferences mSharedPreferences;
 
     enum PreferenceKey {
         ProfileName(R.string.profile_name, EMPTY),
@@ -98,6 +97,7 @@ public class SipEditor extends PreferenceActivity
         Log.v(TAG, "start profile editor");
         super.onCreate(savedInstanceState);
 
+        mSharedPreferences = new SipSharedPreferences(this);
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_edit);
 
