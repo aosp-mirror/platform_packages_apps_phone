@@ -1226,9 +1226,9 @@
     <string name="call_priority">Outgoing Call via SIP</string>
 
     <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
-    <string name="add_sip_account">Add SIP account</string>
+    <string name="add_sip_account">Add account</string>
     <!-- Title for the button to remove a sip account. [CHAR LIMIT=NONE] -->
-    <string name="remove_sip_account">Remove SIP account</string>
+    <string name="remove_sip_account">Remove account</string>
     <!-- String of the category which lists all sip accounts. [CHAR LIMIT=NONE] -->
     <string name="sip_account_list">SIP accounts</string>
 
@@ -1262,6 +1262,8 @@
 
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
     <string name="sip_edit_title">Edit your SIP account</string>
+    <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
+    <string name="sip_edit_new_title">Edit new SIP account</string>
 
     <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
     <string name="initial_preference_summary">&lt;Not set&gt;</string>
@@ -1291,6 +1293,17 @@
     <string name="auto_registration_title">Auto. Registration</string>
     <!-- Text of the auto registration preference summary. [CHAR LIMIT=NONE] -->
     <string name="auto_registration_summary">Register the profile automatically</string>
+    <!-- Text of the set-primary preference. Simplified from "Make this my primary account". [CHAR LIMIT=NONE] -->
+    <string name="set_primary_title">Make this primary</string>
+    <!-- Text of the set-primary preference summary. [CHAR LIMIT=NONE] -->
+    <string name="set_primary_summary">Used for outbound calls</string>
+    <!-- Text of the advanced settings section. [CHAR LIMIT=NONE] -->
+    <string name="advanced_settings">Optional settings</string>
+
+    <!-- Hint to show the advanced settings section. [CHAR LIMIT=NONE] -->
+    <string name="advanced_settings_show">▷ Select to show all</string>
+    <!-- Hint to hide the advanced settings section. [CHAR LIMIT=NONE] -->
+    <string name="advanced_settings_hide">▽ Select to hide all</string>
 
     <!-- String to be appended to indicate some preference field can not be empty in the alert dialog. [CHAR LIMIT=NONE] -->
     <string name="empty_alert"> cannot be empty</string>
@@ -1299,6 +1312,10 @@
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
     <string translatable="false" name="sip_address_only">SIP_ADDRESS_ONLY</string>
     <string translatable="false" name="sip_ask_me_each_time">SIP_ASK_ME_EACH_TIME</string>
+
+    <!-- Do not translate the following strings. Used for SIP send-keepalive option values -->
+    <string translatable="false" name="sip_system_decide">Let system decide</string>
+    <string translatable="false" name="sip_always_send_keepalive">Always send</string>
 
     <!-- Do not translate the following strings. Used for the preference keys -->
     <string translatable="false" name="profile_name">ProfileName</string>
@@ -1311,6 +1328,7 @@
     <string translatable="false" name="transport">Protocol</string>
     <string translatable="false" name="send_keepalive">SendKeepAlive</string>
     <string translatable="false" name="auto_registration">AutoRegistration</string>
+    <string translatable="false" name="set_primary">SetPrimary</string>
+    <string translatable="false" name="advanced_settings_container">advanced settings container</string>
     <!-- End of SIP settings related strings -->
-
 </resources>

@@ -22,18 +22,21 @@
         android:key="@string/profile_name"
         android:title="@string/profile_name_title"
         android:dialogTitle="@string/profile_name_title"
-        android:singleLine="true"/>
-
-    <EditTextPreference
-        android:key="@string/domain_address"
-        android:title="@string/domain_address_title"
-        android:dialogTitle="@string/domain_address_title"
+        android:persistent="false"
         android:singleLine="true"/>
 
     <EditTextPreference
         android:key="@string/username"
         android:title="@string/username_title"
         android:dialogTitle="@string/username_title"
+        android:persistent="false"
+        android:singleLine="true"/>
+
+    <EditTextPreference
+        android:key="@string/domain_address"
+        android:title="@string/domain_address_title"
+        android:dialogTitle="@string/domain_address_title"
+        android:persistent="false"
         android:singleLine="true"/>
 
     <EditTextPreference
@@ -41,47 +44,19 @@
         android:title="@string/password_title"
         android:dialogTitle="@string/password_title"
         android:password="true"
-        android:singleLine="true"/>
-
-    <EditTextPreference
-        android:key="@string/display_name"
-        android:title="@string/display_name_title"
-        android:dialogTitle="@string/display_name_title"
-        android:singleLine="true"/>
-
-    <EditTextPreference
-        android:key="@string/proxy_address"
-        android:title="@string/proxy_address_title"
-        android:dialogTitle="@string/proxy_address_title"
-        android:singleLine="true"/>
-
-    <EditTextPreference
-        android:key="@string/port"
-        android:title="@string/port_title"
-        android:defaultValue="@string/port_summary"
-        android:summary="@string/port_summary"
-        android:dialogTitle="@string/port_title"
-        android:singleLine="true"/>
-
-    <ListPreference
-        android:key="@string/transport"
-        android:title="@string/transport_title"
-        android:entries="@array/transport_types"
-        android:entryValues="@array/transport_types"
         android:persistent="false"
-        android:dialogTitle="@string/transport_title"/>
+        android:singleLine="true"/>
 
     <CheckBoxPreference
-        android:key="@string/send_keepalive"
-        android:title="@string/send_keepalive_title"
+        android:key="@string/set_primary"
+        android:title="@string/set_primary_title"
         android:defaultValue="false"
-        android:summary="@string/send_keepalive_summary"
-        android:dialogTitle="@string/send_keepalive_title"/>
+        android:persistent="false"
+        android:summary="@string/set_primary_summary"/>
 
-    <CheckBoxPreference
-        android:key="@string/auto_registration"
-        android:title="@string/auto_registration_title"
-        android:defaultValue="true"
-        android:summary="@string/auto_registration_summary"
-        android:dialogTitle="@string/auto_registration_title"/>
+    <PreferenceScreen
+        android:key="@string/advanced_settings"
+        android:title="@string/advanced_settings"
+        android:summary="@string/advanced_settings_show"
+        android:persistent="false"/>
 </PreferenceScreen>
