@@ -110,7 +110,7 @@ public class SipSettings extends PreferenceActivity {
         void updateSummary() {
             int profileUid = mProfile.getCallingUid();
             Log.v(TAG, "profile uid is " + profileUid);
-            setSummary((profileUid == -1) ?
+            setSummary((profileUid == 0) ?
                     mInactiveString : ((profileUid == mUid) ?
                     mActiveString : getString(R.string.account_summary,
                     mActiveString, getPackageNameFromUid(profileUid))));
@@ -300,7 +300,7 @@ public class SipSettings extends PreferenceActivity {
 
     private void handleProfileClick(final SipProfile profile) {
         int uid = profile.getCallingUid();
-        if (uid == mUid || uid == -1) {
+        if (uid == mUid || uid == 0) {
             startSipEditor(profile);
             return;
         }
