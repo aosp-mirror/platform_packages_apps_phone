@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -47,9 +48,23 @@ public class SipSharedPreferences {
         editor.apply();
     }
 
+    public void unsetPrimaryAccount() {
+        setPrimaryAccount(null);
+    }
+
     /** Returns the primary account URI or null if it does not exist. */
     public String getPrimaryAccount() {
         return mPreferences.getString(KEY_PRIMARY_ACCOUNT, null);
+    }
+
+    public boolean isPrimaryAccount(String accountUri) {
+        return accountUri.equals(
+                mPreferences.getString(KEY_PRIMARY_ACCOUNT, null));
+    }
+
+    public boolean hasPrimaryAccount() {
+        return !TextUtils.isEmpty(
+                mPreferences.getString(KEY_PRIMARY_ACCOUNT, null));
     }
 
     public void setSipCallOption(String option) {
