@@ -44,6 +44,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,12 +57,12 @@ public class SipEditor extends PreferenceActivity
 
     private static final String TAG = SipEditor.class.getSimpleName();
     private static final String KEY_PROFILE = "profile";
-    private static final String SCRAMBLED = "****";
     private static final String EMPTY = "";
     private static final String LEAVE_AS_IS = null;
     private static final String DEFAULT_SIP_PORT = "5060";
     private static final String DEFAULT_PROTOCOL = "UDP";
     private static final String GET_METHOD_PREFIX = "get";
+    private static final char SCRAMBLED = '*';
 
     private PrimaryAccountSelector mPrimaryAccountSelector;
     private AdvancedSettings mAdvancedSettings;
@@ -73,7 +74,7 @@ public class SipEditor extends PreferenceActivity
         DomainAddress(R.string.domain_address, EMPTY),
         Username(R.string.username, EMPTY),
         Password(R.string.password, EMPTY),
-        DisplayName(R.string.display_name, EMPTY),
+        DisplayName(R.string.display_name, LEAVE_AS_IS),
         ProxyAddress(R.string.proxy_address, EMPTY),
         Port(R.string.port, DEFAULT_SIP_PORT),
         Transport(R.string.transport, DEFAULT_PROTOCOL),
@@ -170,6 +171,7 @@ public class SipEditor extends PreferenceActivity
 
     private void setRemovedProfileAndFinish(SipProfile p) {
         try {
+            mPrimaryAccountSelector.commit(null);
             Intent intent = new Intent(this, SipSettings.class);
             intent.putExtra(SipSettings.KEY_SIP_PROFILE, (Parcelable) p);
             setResult(RESULT_FIRST_USER, intent);
@@ -199,6 +201,8 @@ public class SipEditor extends PreferenceActivity
             if (pref instanceof ListPreference) {
                 value = ((ListPreference)pref).getValue();
             } else if (pref instanceof EditTextPreference) {
+                // use default value if display name is empty
+                if (pref == PreferenceKey.DisplayName.preference) continue;
                 value = ((EditTextPreference)pref).getText();
             } else if (pref instanceof CheckBoxPreference) {
                 continue;
@@ -233,7 +237,9 @@ public class SipEditor extends PreferenceActivity
                     .setPassword(getValue(PreferenceKey.Password))
                     .setOutboundProxy(getValue(PreferenceKey.ProxyAddress))
                     .setProtocol(getValue(PreferenceKey.Transport))
-                    .setDisplayName(getValue(PreferenceKey.DisplayName))
+                    .setDisplayName(mDisplayNameSet
+                            ? getValue(PreferenceKey.DisplayName)
+                            : getDefaultDisplayName())
                     .setPort(Integer.parseInt(getValue(PreferenceKey.Port)))
                     .setSendKeepAlive(isChecked(PreferenceKey.SendKeepAlive))
                     .setAutoRegistration(
@@ -246,7 +252,7 @@ public class SipEditor extends PreferenceActivity
         String value = (String) newValue;
         if (value == null) value = EMPTY;
         if (pref == PreferenceKey.Password.preference) {
-            pref.setSummary(SCRAMBLED);
+            pref.setSummary(scramble(newValue.toString()));
         } else {
             pref.setSummary(value);
         }
@@ -257,8 +263,6 @@ public class SipEditor extends PreferenceActivity
 
         if (pref == PreferenceKey.DisplayName.preference) {
             checkIfDisplayNameSet();
-        } else if (!mDisplayNameSet) {
-            setDisplayName();
         }
         return true;
     }
@@ -284,6 +288,7 @@ public class SipEditor extends PreferenceActivity
                         setValue(key, (String) meth.invoke(p, (Object[])null));
                     }
                 }
+                checkIfDisplayNameSet();
             } catch (Exception e) {
                 Log.e(TAG, "Can not load pref from profile:" + e.getMessage());
             }
@@ -304,8 +309,8 @@ public class SipEditor extends PreferenceActivity
                         ? getString(R.string.initial_preference_summary)
                         : key.defaultValue);
             }
+            mDisplayNameSet = false;
         }
-        checkIfDisplayNameSet();
     }
 
     private boolean isChecked(PreferenceKey key) {
@@ -339,11 +344,12 @@ public class SipEditor extends PreferenceActivity
         }
 
         if (TextUtils.isEmpty(value)) {
-            value = getString(R.string.initial_preference_summary);
+            pref.setSummary(getString(R.string.initial_preference_summary));
+        } else if (key == PreferenceKey.Password) {
+            pref.setSummary(scramble(value));
         } else {
-            if (key == PreferenceKey.Password) value = SCRAMBLED;
+            pref.setSummary(value);
         }
-        pref.setSummary(value);
     }
 
     private void setupPreference(Preference pref) {
@@ -361,37 +367,58 @@ public class SipEditor extends PreferenceActivity
         String displayName = getValue(PreferenceKey.DisplayName);
         mDisplayNameSet = !TextUtils.isEmpty(displayName)
                 && !displayName.equals(getDefaultDisplayName());
-    }
-
-    private void setDisplayName() {
-        setValue(PreferenceKey.DisplayName, getDefaultDisplayName());
+        Log.d(TAG, "displayName set? " + mDisplayNameSet);
+        if (mDisplayNameSet) {
+            PreferenceKey.DisplayName.preference.setSummary(displayName);
+        } else {
+            setValue(PreferenceKey.DisplayName, "");
+            PreferenceKey.DisplayName.preference.setSummary(
+                    getString(R.string.display_name_summary));
+        }
     }
 
     private String getDefaultDisplayName() {
-        String username = getValue(PreferenceKey.Username);
-        String domain = getValue(PreferenceKey.DomainAddress);
-        return username + "@" + domain;
+        return getValue(PreferenceKey.Username);
+    }
+
+    private String scramble(String s) {
+        char[] cc = new char[s.length()];
+        Arrays.fill(cc, SCRAMBLED);
+        return new String(cc);
     }
 
     private class PrimaryAccountSelector {
         private CheckBoxPreference mCheckbox;
+        private final boolean mWasPrimaryAccount;
 
         // @param profile profile to be edited; null if adding new profile
         PrimaryAccountSelector(SipProfile profile) {
             mCheckbox = (CheckBoxPreference) getPreferenceScreen()
                     .findPreference(getString(R.string.set_primary));
-            String primaryAccountUri = mSharedPreferences.getPrimaryAccount();
-            boolean noPrimaryAccountSet = TextUtils.isEmpty(primaryAccountUri);
+            boolean noPrimaryAccountSet =
+                    !mSharedPreferences.hasPrimaryAccount();
+            boolean editNewProfile = (profile == null);
+            mWasPrimaryAccount = !editNewProfile
+                    && mSharedPreferences.isPrimaryAccount(
+                            profile.getUriString());
 
-            // make the first added account primary
-            mCheckbox.setChecked(noPrimaryAccountSet || ((profile != null)
-                    && profile.getUriString().equals(primaryAccountUri)));
+            Log.d(TAG, " noPrimaryAccountSet: " + noPrimaryAccountSet);
+            Log.d(TAG, " editNewProfile: " + editNewProfile);
+            Log.d(TAG, " mWasPrimaryAccount: " + mWasPrimaryAccount);
+
+            mCheckbox.setChecked(mWasPrimaryAccount
+                    || (editNewProfile && noPrimaryAccountSet));
         }
 
+        // profile is null if the user removes it
         void commit(SipProfile profile) {
-            if (mCheckbox.isChecked()) {
+            if ((profile != null) && mCheckbox.isChecked()) {
                 mSharedPreferences.setPrimaryAccount(profile.getUriString());
+            } else if (mWasPrimaryAccount) {
+                mSharedPreferences.unsetPrimaryAccount();
             }
+            Log.d(TAG, " primary account changed to : "
+                    + mSharedPreferences.getPrimaryAccount());
         }
     }
 
