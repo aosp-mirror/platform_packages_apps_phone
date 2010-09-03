@@ -1277,6 +1277,8 @@
     <string name="password_title">Password</string>
     <!-- Text of the display name preference. [CHAR LIMIT=NONE] -->
     <string name="display_name_title">Display name</string>
+    <!-- Text of the default display name preference summary. [CHAR LIMIT=NONE] -->
+    <string name="display_name_summary">&lt;Same as username&gt;</string>
     <!-- Text of the outbound proxy address preference. [CHAR LIMIT=NONE] -->
     <string name="proxy_address_title">Outbound Proxy address</string>
     <!-- Text of the sip server/proxy port number. [CHAR LIMIT=NONE] -->
