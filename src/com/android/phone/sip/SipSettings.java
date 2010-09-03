@@ -185,8 +185,9 @@ public class SipSettings extends PreferenceActivity {
                     }
                 } else {
                     Log.v(TAG, "Removed Profile Name:" + profile.getProfileName());
-                    deleteProfile(profile);
+                    deleteProfile(profile, true);
                 }
+                updateProfilesStatus();
             } catch (IOException e) {
                 Log.v(TAG, "Can not handle the profile : " + e.getMessage());
             }
@@ -318,7 +319,7 @@ public class SipSettings extends PreferenceActivity {
                 .setPositiveButton(R.string.close_profile,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int w) {
-                                unRegisterProfile(profile);
+                                deleteProfile(profile, false);
                             }
                         })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -358,11 +359,13 @@ public class SipSettings extends PreferenceActivity {
         file.delete();
     }
 
-    void deleteProfile(SipProfile p) {
+    void deleteProfile(SipProfile p, boolean removeProfile) {
         mSipProfileList.remove(p);
         SipPreference pref = mSipPreferenceMap.remove(p.getUriString());
         mSipListContainer.removePreference(pref);
-        deleteProfile(mProfilesDirectory + p.getProfileName());
+        if (removeProfile) {
+            deleteProfile(mProfilesDirectory + p.getProfileName());
+        }
         unRegisterProfile(p);
     }
 
@@ -377,7 +380,7 @@ public class SipSettings extends PreferenceActivity {
     }
 
     private void saveProfileToStorage(SipProfile p) throws IOException {
-        if (mProfile != null) deleteProfile(mProfile);
+        if (mProfile != null) deleteProfile(mProfile, true);
         saveProfile(mProfilesDirectory, p);
         mSipProfileList.add(p);
         addPreferenceFor(p);
