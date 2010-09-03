@@ -147,7 +147,7 @@ public class InCallControlState {
             muteIndicatorOn = false;
         } else {
             canMute = hasActiveForegroundCall;
-            muteIndicatorOn = PhoneUtils.getMute(fgCall.getPhone());
+            muteIndicatorOn = PhoneUtils.getMute();
         }
 
         // "Dialpad": Enabled only when it's OK to use the dialpad in the

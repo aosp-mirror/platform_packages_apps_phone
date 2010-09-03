@@ -460,14 +460,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
-    void notifyMute() {
+    private void notifyMute() {
         if (mShowingMuteIcon) {
             mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0);
             mShowingMuteIcon = true;
         }
     }
 
-    void cancelMute() {
+    private void cancelMute() {
         if (mShowingMuteIcon) {
             mStatusBar.removeIcon("mute");
             mShowingMuteIcon = false;
@@ -479,7 +479,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * the actual current mute state of the Phone.
      */
     void updateMuteNotification() {
-        if ((mPhone.getState() == Phone.State.OFFHOOK) && mPhone.getMute()) {
+        if ((mCM.getState() == Phone.State.OFFHOOK) && PhoneUtils.getMute()) {
             if (DBG) log("updateMuteNotification: MUTED");
             notifyMute();
         } else {

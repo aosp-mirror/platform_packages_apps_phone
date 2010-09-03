@@ -1245,7 +1245,7 @@ public class BluetoothHandsfree {
         Connection[] clccConnections = new Connection[GSM_MAX_CONNECTIONS];  // indexed by CLCC index
         LinkedList<Connection> newConnections = new LinkedList<Connection>();
         LinkedList<Connection> connections = new LinkedList<Connection>();
-        
+
         Call foregroundCall = mCM.getActiveFgCall();
         Call backgroundCall = mCM.getFirstActiveBgCall();
         Call ringingCall = mCM.getFirstActiveRingingCall();
@@ -1883,7 +1883,7 @@ public class BluetoothHandsfree {
                                 // put the first call on hold.
                                 if (VDBG) log("CHLD:1 Callwaiting Answer call");
                                 PhoneUtils.answerCall(ringingCall);
-                                PhoneUtils.setMute(phone, false);
+                                PhoneUtils.setMute(false);
                                 // Setting the second callers state flag to TRUE (i.e. active)
                                 cdmaSetSecondCallState(true);
                             } else {
@@ -1915,7 +1915,7 @@ public class BluetoothHandsfree {
                             if (ringingCall.isRinging()) {
                                 if (VDBG) log("CHLD:2 Callwaiting Answer call");
                                 PhoneUtils.answerCall(ringingCall);
-                                PhoneUtils.setMute(phone, false);
+                                PhoneUtils.setMute(false);
                                 // Setting the second callers state flag to TRUE (i.e. active)
                                 cdmaSetSecondCallState(true);
                             } else if (PhoneApp.getInstance().cdmaPhoneCallState
