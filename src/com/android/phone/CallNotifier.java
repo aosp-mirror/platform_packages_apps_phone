@@ -1892,9 +1892,9 @@ public class CallNotifier extends Handler
      * Toggle mute and unmute requests while keeping the same mute state
      */
     private void onResendMute() {
-        boolean muteState = PhoneUtils.getMute(mPhone);
-        PhoneUtils.setMuteInternal(mPhone, !muteState);
-        PhoneUtils.setMuteInternal(mPhone, muteState);
+        boolean muteState = PhoneUtils.getMute();
+        PhoneUtils.setMute(!muteState);
+        PhoneUtils.setMute(muteState);
     }
 
     /**

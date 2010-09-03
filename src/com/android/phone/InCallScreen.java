@@ -768,7 +768,7 @@ public class InCallScreen extends Activity
         // done by the user.
         if (app.getRestoreMuteOnInCallResume()) {
             // Mute state is based on the foreground call
-            PhoneUtils.restoreMuteState(mCM.getFgPhone());
+            PhoneUtils.restoreMuteState();
             app.setRestoreMuteOnInCallResume(false);
         }
 
@@ -1576,8 +1576,7 @@ public class InCallScreen extends Activity
                 break;
 
             case KeyEvent.KEYCODE_MUTE:
-                Phone phone = mCM.getFgPhone();
-                PhoneUtils.setMute(phone, !PhoneUtils.getMute(phone));
+                onMuteClick();
                 return true;
 
             // Various testing/debugging features, enabled ONLY when VDBG == true.
@@ -2605,7 +2604,7 @@ public class InCallScreen extends Activity
                     if (app.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                         //Unmute for the second MO call
-                        PhoneUtils.setMuteInternal(phone, false);
+                        PhoneUtils.setMute(false);
 
                         //Start the timer for displaying "Dialing" for second call
                         Message msg = Message.obtain(mHandler, THREEWAY_CALLERINFO_DISPLAY_DONE);
@@ -3044,10 +3043,13 @@ public class InCallScreen extends Activity
         }
     }
 
+    /*
+     * onMuteClick is called only when there is a foreground call
+     */
     private void onMuteClick() {
         if (VDBG) log("onMuteClick()...");
-        boolean newMuteState = !PhoneUtils.getMute(mCM.getFgPhone());
-        PhoneUtils.setMute(mCM.getFgPhone(), newMuteState);
+        boolean newMuteState = !PhoneUtils.getMute();
+        PhoneUtils.setMute(newMuteState);
     }
 
     private void onBluetoothClick() {
