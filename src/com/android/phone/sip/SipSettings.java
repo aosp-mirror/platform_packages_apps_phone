@@ -180,7 +180,9 @@ public class SipSettings extends PreferenceActivity {
                 if (resultCode == RESULT_OK) {
                     Log.v(TAG, "New Profile Name:" + profile.getProfileName());
                     saveProfileToStorage(profile);
-                    if (profile.getAutoRegistration() == true) {
+                    if (profile.getAutoRegistration()
+                            || mSipSharedPreferences.isPrimaryAccount(
+                                    profile.getUriString())) {
                         registerProfile(profile);
                     }
                 } else {
