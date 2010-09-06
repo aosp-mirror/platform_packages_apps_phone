@@ -53,6 +53,8 @@ public class OutgoingCallBroadcaster extends Activity {
 
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
+    public static final String EXTRA_NEW_CALL_INTENT = "android.phone.extra.NEW_CALL_INTENT";
+    public static final String EXTRA_SIP_PHONE_URI = "android.phone.extra.SIP_PHONE_URI";
 
     /**
      * Identifier for intent extra for sending an empty Flash message for
@@ -147,14 +149,23 @@ public class OutgoingCallBroadcaster extends Activity {
 
             Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
             newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+            if (DBG) Log.v(TAG, "Primary SIP URI is " +
+                    intent.getStringExtra(EXTRA_SIP_PHONE_URI));
+            newIntent.putExtra(EXTRA_SIP_PHONE_URI,
+                    intent.getStringExtra(EXTRA_SIP_PHONE_URI));
 
             PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
             newIntent.setClass(context, InCallScreen.class);
             newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            if (DBG) Log.v(TAG, "doReceive(): calling startActivity: " + newIntent);
-            context.startActivity(newIntent);
+            Intent selectPhoneIntent = new Intent(EXTRA_NEW_CALL_INTENT, uri);
+            selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
+            selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
+            selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            if (DBG) Log.v(TAG, "doReceive(): calling startActivity: " + selectPhoneIntent);
+            context.startActivity(selectPhoneIntent);
         }
     }
 
@@ -313,10 +324,9 @@ public class OutgoingCallBroadcaster extends Activity {
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
 
-        if (DBG) Log.v(TAG, "Broadcasting intent " + broadcastIntent + ".");
-        sendOrderedBroadcast(broadcastIntent, PERMISSION,
-                new OutgoingCallReceiver(), null, Activity.RESULT_OK, number, null);
-        // The receiver will finish our activity when it finally runs.
+        if (DBG) Log.v(TAG, "Broadcasting intent " + intent + ".");
+        sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
+                null, Activity.RESULT_OK, number, null);
     }
 
     // Implement onConfigurationChanged() purely for debugging purposes,

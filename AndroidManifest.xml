@@ -438,6 +438,9 @@
         <activity android:name=".sip.SipEditor"
                 android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name=".SipCallOptionHandler"
+                android:configChanges="orientation|keyboardHidden">
+        </activity>
 
     </application>
 </manifest>
