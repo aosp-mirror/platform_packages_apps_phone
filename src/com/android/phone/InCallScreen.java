@@ -2477,7 +2477,9 @@ public class InCallScreen extends Activity
             // or any of combinations
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
-            phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, scheme, number);
+            String sipPhoneUri = intent.getStringExtra(
+                    OutgoingCallBroadcaster.EXTRA_SIP_PHONE_URI);
+            phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, scheme, number, sipPhoneUri);
             if (VDBG) log("- got Phone instance: " + phone + ", class = " + phone.getClass());
 
             // update okToCallStatus based on new phone

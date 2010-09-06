@@ -2291,54 +2291,32 @@ public class PhoneUtils {
      * @param scheme the scheme from the data URI that the number originally came from.
      * @param number the phone number, or SIP address.
      */
-    public static Phone pickPhoneBasedOnNumber(CallManager cm, String scheme, String number) {
-        if (DBG) log("pickPhoneBasedOnNumber: scheme " + scheme + ", number " + number);
+    public static Phone pickPhoneBasedOnNumber(CallManager cm,
+            String scheme, String number, String primarySipUri) {
+        if (DBG) log("pickPhoneBasedOnNumber: scheme " + scheme
+                + ", number " + number + ", sipUri " + primarySipUri);
 
-        Phone phone  = cm.getDefaultPhone();
-
-        // If we're trying to make a SIP call, return a SipPhone if one is
-        // available.
-        //
-        // - If it's a sip: URI, this is definitely a SIP call, regardless
-        //   of whether the data is a SIP address or a regular phone
-        //   number.
-        //
-        // - If this is a tel: URI but the data contains an "@" character
-        //   (see PhoneNumberUtils.isUriNumber()) we consider that to be a
-        //   SIP number too.
-        //
-        // TODO: Eventually we may want to disallow that latter case
-        //       (e.g. "tel:foo@example.com").
-        //
-        // TODO: We should also consider moving this logic into the
-        //       CallManager, where it could be made more generic.
-        //       (For example, each "telephony provider" could be allowed
-        //       to register the URI scheme(s) that it can handle, and the
-        //       CallManager would then find the best match for every
-        //       outgoing call.)
-
-        if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
-            // Try to find a SipPhone instance:
-            for (Object obj : cm.getAllPhones()) {
-                if (obj instanceof SipPhone) {
-                    if (DBG) log("- pickPhoneBasedOnNumber: found SipPhone! obj = "
-                                 + obj + ", " + obj.getClass());
-                    phone = (Phone) obj;
-                    break;
-                }
-            }
-            Log.w(LOG_TAG, "pickPhoneBasedOnNumber: got SIP number, but couldn't find a SipPhone!");
-            // TODO: Consider returning some error condition back to the
-            // phone UI, to indicate that we couldn't find the "best" type
-            // of Phone to handle the specified URI.  That way the phone
-            // can display a helpful message rather than (for example)
-            // trying to dial "foo@example.com" using a regular GsmPhone,
-            // which is obviously going to fail.
+        if (primarySipUri != null) {
+            Phone phone = getSipPhoneFromUri(cm, primarySipUri);
+            if (phone != null) return phone;
         }
-
-        return phone;
+        return cm.getDefaultPhone();
     }
 
+    public static Phone getSipPhoneFromUri(CallManager cm, String target) {
+        for (Object obj : cm.getAllPhones()) {
+            if (obj instanceof SipPhone) {
+                String sipUri = ((SipPhone)obj).getSipUri();
+                if (target.equals(sipUri)) {
+                    if (DBG) log("- pickPhoneBasedOnNumber:" +
+                            "found SipPhone! obj = " + obj + ", "
+                            + obj.getClass());
+                    return (Phone)obj;
+                }
+            }
+        }
+        return null;
+    }
     public static boolean isRealIncomingCall(Call.State state) {
         return (state == Call.State.INCOMING && !PhoneApp.getInstance().mCM.hasActiveFgCall());
 

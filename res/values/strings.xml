@@ -1225,6 +1225,21 @@
     <!-- Title for enabling the routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
     <string name="call_priority">Outgoing Call via SIP</string>
 
+    <!-- Title of the dialog to select the phone type for the outgoing call. [CHAR LIMIT=NONE] -->
+    <string name ="pick_outgoing_call_phone_type">Select a phone to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
+
+    <!-- Title of the dialog to select the phone among the list of phones for the outgoing call. [CHAR LIMIT=NONE] -->
+    <string name ="pick_outgoing_sip_phone">"Select a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
+
+    <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
+    <string name ="pstn_phone">Regular PSTN</string>
+
+    <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
+    <string name ="internet_phone">Internet Phone</string>
+
+    <!-- Title of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
+    <string name ="no_sip_account_found">No SIP account found in settings. Create a sip account now?</string>
+
     <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
     <string name="add_sip_account">Add account</string>
     <!-- Title for the button to remove a sip account. [CHAR LIMIT=NONE] -->
