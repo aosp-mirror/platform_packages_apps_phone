@@ -44,8 +44,8 @@ import javax.sip.SipException;
 /**
  * SipCallOptionHandler select the sip phone based on the call option.
 */
-public class SipCallOptionHandler extends Activity
-        implements DialogInterface.OnClickListener {
+public class SipCallOptionHandler extends Activity implements
+        DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
     static final String TAG = "SipCallOptionHandler";
     static final int DIALOG_SELECT_PHONE_TYPE = 0;
@@ -115,7 +115,7 @@ public class SipCallOptionHandler extends Activity
         if (mUseSipPhone) {
             startGetPrimarySipPhoneThread();
         } else {
-            finish();
+            setResultAndFinish();
         }
     }
 
@@ -135,24 +135,27 @@ public class SipCallOptionHandler extends Activity
             dialog = new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.pick_outgoing_call_phone_type,
                             mNumber))
-                    .setCancelable(false)
                     .setSingleChoiceItems(R.array.phone_type_values, -1, this)
+                    .setOnCancelListener(this)
                     .create();
             break;
         case DIALOG_SELECT_OUTGOING_SIP_PHONE:
             dialog = new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.pick_outgoing_sip_phone,
                             mNumber))
-                    .setCancelable(false)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .setSingleChoiceItems(getProfileNameArray(), -1, this)
+                    .setOnCancelListener(this)
                     .create();
             break;
         case DIALOG_START_SIP_SETTINGS:
             dialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.no_sip_account_found)
-                    .setCancelable(false)
+                    .setTitle(R.string.no_sip_account_found_title)
+                    .setMessage(getString(R.string.no_sip_account_found, mNumber))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, this)
                     .setNegativeButton(android.R.string.cancel, this)
+                    .setOnCancelListener(this)
                     .create();
             break;
         default:
@@ -196,6 +199,10 @@ public class SipCallOptionHandler extends Activity
             return;
         }
         setResultAndFinish();
+    }
+
+    public void onCancel(DialogInterface dialog) {
+        finish();
     }
 
     private void createSipPhoneIfNeeded(SipProfile p) {
