@@ -25,6 +25,7 @@
             android:key="@string/display_name"
             android:title="@string/display_name_title"
             android:dialogTitle="@string/display_name_title"
+            android:summary="@string/display_name_summary"
             android:persistent="false"
             android:singleLine="true"/>
 
@@ -32,14 +33,16 @@
             android:key="@string/proxy_address"
             android:title="@string/proxy_address_title"
             android:dialogTitle="@string/proxy_address_title"
+            android:summary="@string/optional_summary"
+            android:defaultValue=""
             android:persistent="false"
             android:singleLine="true"/>
 
         <EditTextPreference
             android:key="@string/port"
             android:title="@string/port_title"
-            android:defaultValue="@string/port_summary"
-            android:summary="@string/port_summary"
+            android:defaultValue="@string/default_port"
+            android:summary="@string/default_port"
             android:dialogTitle="@string/port_title"
             android:persistent="false"
             android:singleLine="true"/>
@@ -49,6 +52,7 @@
             android:title="@string/transport_title"
             android:entries="@array/transport_types"
             android:entryValues="@array/transport_types"
+            android:summary="@string/default_transport"
             android:persistent="false"
             android:dialogTitle="@string/transport_title"/>
 

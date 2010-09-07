@@ -1280,8 +1280,6 @@
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
     <string name="sip_edit_new_title">Edit new SIP account</string>
 
-    <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
-    <string name="initial_preference_summary">&lt;Not set&gt;</string>
     <!-- Text of the sip profile name preference. [CHAR LIMIT=NONE] -->
     <string name="profile_name_title">Name</string>
     <!-- Text of the domain address preference. [CHAR LIMIT=NONE] -->
@@ -1292,16 +1290,12 @@
     <string name="password_title">Password</string>
     <!-- Text of the display name preference. [CHAR LIMIT=NONE] -->
     <string name="display_name_title">Display name</string>
-    <!-- Text of the default display name preference summary. [CHAR LIMIT=NONE] -->
-    <string name="display_name_summary">&lt;Same as username&gt;</string>
     <!-- Text of the outbound proxy address preference. [CHAR LIMIT=NONE] -->
-    <string name="proxy_address_title">Outbound Proxy address</string>
+    <string name="proxy_address_title">Outbound proxy address</string>
     <!-- Text of the sip server/proxy port number. [CHAR LIMIT=NONE] -->
-    <string name="port_title">Port Number</string>
-    <!-- Text of the default sip server/proxy port number. [CHAR LIMIT=NONE] -->
-    <string name="port_summary">5060</string>
+    <string name="port_title">Port number</string>
     <!-- Text of the transport type preference. [CHAR LIMIT=NONE] -->
-    <string name="transport_title">Transport Type</string>
+    <string name="transport_title">Transport type</string>
     <!-- Text of the keepalive preference. [CHAR LIMIT=NONE] -->
     <string name="send_keepalive_title">Send keep-alive</string>
     <!-- Text of the keepalive preference summary. [CHAR LIMIT=NONE] -->
@@ -1316,6 +1310,17 @@
     <string name="set_primary_summary">Used for outbound calls</string>
     <!-- Text of the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings">Optional settings</string>
+
+    <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
+    <string name="default_preference_summary">&lt;Not set&gt;</string>
+    <!-- Default value for the display-name preference summary. [CHAR LIMIT=NONE] -->
+    <string name="display_name_summary">&lt;Same as username&gt;</string>
+    <!-- Default value for the outbound-proxy-address preference summary. [CHAR LIMIT=NONE] -->
+    <string name="optional_summary">&lt;Optional&gt;</string>
+    <!-- Default sip server/proxy port number. [CHAR LIMIT=NONE] -->
+    <string name="default_port">5060</string>
+    <!-- Default sip server/proxy transport protocol. [CHAR LIMIT=NONE] -->
+    <string name="default_transport">UDP</string>
 
     <!-- Hint to show the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_show">▷ Select to show all</string>

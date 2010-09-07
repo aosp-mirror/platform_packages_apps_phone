@@ -57,12 +57,9 @@ public class SipEditor extends PreferenceActivity
 
     private static final String TAG = SipEditor.class.getSimpleName();
     private static final String KEY_PROFILE = "profile";
-    private static final String EMPTY = "";
-    private static final String LEAVE_AS_IS = null;
-    private static final String DEFAULT_SIP_PORT = "5060";
-    private static final String DEFAULT_PROTOCOL = "UDP";
     private static final String GET_METHOD_PREFIX = "get";
     private static final char SCRAMBLED = '*';
+    private static final int NA = 0;
 
     private PrimaryAccountSelector mPrimaryAccountSelector;
     private AdvancedSettings mAdvancedSettings;
@@ -70,27 +67,27 @@ public class SipEditor extends PreferenceActivity
     private boolean mDisplayNameSet;
 
     enum PreferenceKey {
-        ProfileName(R.string.profile_name, EMPTY),
-        DomainAddress(R.string.domain_address, EMPTY),
-        Username(R.string.username, EMPTY),
-        Password(R.string.password, EMPTY),
-        DisplayName(R.string.display_name, LEAVE_AS_IS),
-        ProxyAddress(R.string.proxy_address, EMPTY),
-        Port(R.string.port, DEFAULT_SIP_PORT),
-        Transport(R.string.transport, DEFAULT_PROTOCOL),
-        SendKeepAlive(R.string.send_keepalive, LEAVE_AS_IS);
+        ProfileName(R.string.profile_name, R.string.default_preference_summary),
+        DomainAddress(R.string.domain_address, R.string.default_preference_summary),
+        Username(R.string.username, R.string.default_preference_summary),
+        Password(R.string.password, R.string.default_preference_summary),
+        DisplayName(R.string.display_name, R.string.display_name_summary),
+        ProxyAddress(R.string.proxy_address, R.string.optional_summary),
+        Port(R.string.port, NA),
+        Transport(R.string.transport, NA),
+        SendKeepAlive(R.string.send_keepalive, NA);
 
         /**
          * @param key The key name of the preference.
          * @param defaultValue The default value of the preference.
          */
-        PreferenceKey(int text, String defaultValue) {
+        PreferenceKey(int text, int defaultValue) {
             this.text = text;
             this.defaultValue = defaultValue;
         }
 
         final int text;
-        final String defaultValue;
+        final int defaultValue;
         Preference preference;
     }
 
@@ -197,21 +194,17 @@ public class SipEditor extends PreferenceActivity
     private boolean validateAndSetResult() {
         for (PreferenceKey key : PreferenceKey.values()) {
             Preference pref = key.preference;
-            String value = EMPTY;
-            if (pref instanceof ListPreference) {
-                value = ((ListPreference)pref).getValue();
-            } else if (pref instanceof EditTextPreference) {
+            if (pref instanceof EditTextPreference) {
                 // use default value if display name is empty
                 if (pref == PreferenceKey.DisplayName.preference) continue;
-                value = ((EditTextPreference)pref).getText();
-            } else if (pref instanceof CheckBoxPreference) {
-                continue;
-            }
-            if (TextUtils.isEmpty(value) &&
-                    (key != PreferenceKey.ProxyAddress)) {
-                showAlert(pref.getTitle() + " "
-                        + getString(R.string.empty_alert));
-                return false;
+                if (pref == PreferenceKey.ProxyAddress.preference) continue;
+
+                String value = ((EditTextPreference) pref).getText();
+                if (TextUtils.isEmpty(value)) {
+                    showAlert(pref.getTitle() + " "
+                            + getString(R.string.empty_alert));
+                    return false;
+                }
             }
         }
         try {
@@ -241,7 +234,7 @@ public class SipEditor extends PreferenceActivity
                             ? getValue(PreferenceKey.DisplayName)
                             : getDefaultDisplayName())
                     .setPort(Integer.parseInt(getValue(PreferenceKey.Port)))
-                    .setSendKeepAlive(isChecked(PreferenceKey.SendKeepAlive))
+                    .setSendKeepAlive(isAlwaysSendKeepAlive())
                     .setAutoRegistration(
                             mSharedPreferences.isReceivingCallsEnabled())
                     .build();
@@ -249,22 +242,27 @@ public class SipEditor extends PreferenceActivity
 
     public boolean onPreferenceChange(Preference pref, Object newValue) {
         if (pref instanceof CheckBoxPreference) return true;
-        String value = (String) newValue;
-        if (value == null) value = EMPTY;
-        if (pref == PreferenceKey.Password.preference) {
-            pref.setSummary(scramble(newValue.toString()));
+        String value = (newValue == null) ? "" : newValue.toString();
+        if (TextUtils.isEmpty(value)) {
+            pref.setSummary(getPreferenceKey(pref).defaultValue);
+        } else if (pref == PreferenceKey.Password.preference) {
+            pref.setSummary(scramble(value));
         } else {
             pref.setSummary(value);
         }
 
-        if (pref instanceof EditTextPreference) {
-            ((EditTextPreference) pref).setText(value);
-        }
-
         if (pref == PreferenceKey.DisplayName.preference) {
+            ((EditTextPreference) pref).setText(value);
             checkIfDisplayNameSet();
         }
         return true;
+    }
+
+    private PreferenceKey getPreferenceKey(Preference pref) {
+        for (PreferenceKey key : PreferenceKey.values()) {
+            if (key.preference == pref) return key;
+        }
+        throw new RuntimeException("not possible to reach here");
     }
 
     private void loadPreferencesFromProfile(SipProfile p) {
@@ -275,17 +273,15 @@ public class SipEditor extends PreferenceActivity
                 for (PreferenceKey key : PreferenceKey.values()) {
                     Method meth = profileClass.getMethod(GET_METHOD_PREFIX
                             + getString(key.text), (Class[])null);
-                    if (key == PreferenceKey.Port) {
-                        setValue(key,
-                                String.valueOf(meth.invoke(p, (Object[])null)));
-                    } else if (key == PreferenceKey.SendKeepAlive) {
+                    if (key == PreferenceKey.SendKeepAlive) {
                         boolean value = ((Boolean)
                                 meth.invoke(p, (Object[]) null)).booleanValue();
                         setValue(key, getString(value
                                 ? R.string.sip_always_send_keepalive
                                 : R.string.sip_system_decide));
                     } else {
-                        setValue(key, (String) meth.invoke(p, (Object[])null));
+                        setValue(key,
+                                String.valueOf(meth.invoke(p, (Object[])null)));
                     }
                 }
                 checkIfDisplayNameSet();
@@ -295,27 +291,16 @@ public class SipEditor extends PreferenceActivity
         } else {
             Log.v(TAG, "Edit a new profile");
             for (PreferenceKey key : PreferenceKey.values()) {
-                if (key.defaultValue == LEAVE_AS_IS) continue;
                 Preference pref = key.preference;
                 pref.setOnPreferenceChangeListener(this);
-                if (pref instanceof EditTextPreference) {
-                    ((EditTextPreference) pref).setText(key.defaultValue);
-                } else if (pref instanceof ListPreference) {
-                    ((ListPreference) pref).setValue(key.defaultValue);
-                } else {
-                    continue;
-                }
-                pref.setSummary((EMPTY == key.defaultValue)
-                        ? getString(R.string.initial_preference_summary)
-                        : key.defaultValue);
             }
             mDisplayNameSet = false;
         }
     }
 
-    private boolean isChecked(PreferenceKey key) {
-        // must be PreferenceKey.SendKeepAlive
-        ListPreference pref = (ListPreference) key.preference;
+    private boolean isAlwaysSendKeepAlive() {
+        ListPreference pref = (ListPreference)
+                PreferenceKey.SendKeepAlive.preference;
         return getString(R.string.sip_always_send_keepalive).equals(
                 pref.getValue());
     }
@@ -344,9 +329,12 @@ public class SipEditor extends PreferenceActivity
         }
 
         if (TextUtils.isEmpty(value)) {
-            pref.setSummary(getString(R.string.initial_preference_summary));
+            pref.setSummary(getString(key.defaultValue));
         } else if (key == PreferenceKey.Password) {
             pref.setSummary(scramble(value));
+        } else if ((key == PreferenceKey.DisplayName)
+                && value.equals(getDefaultDisplayName())) {
+            pref.setSummary(getString(key.defaultValue));
         } else {
             pref.setSummary(value);
         }
@@ -372,8 +360,6 @@ public class SipEditor extends PreferenceActivity
             PreferenceKey.DisplayName.preference.setSummary(displayName);
         } else {
             setValue(PreferenceKey.DisplayName, "");
-            PreferenceKey.DisplayName.preference.setSummary(
-                    getString(R.string.display_name_summary));
         }
     }
 
