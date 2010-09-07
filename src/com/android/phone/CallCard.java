@@ -81,6 +81,7 @@ public class CallCard extends FrameLayout
     private int mTextColorConnectedBluetooth;
     private int mTextColorEnded;
     private int mTextColorOnHold;
+    private int mTextColorCallTypeSip;
 
     // The main block of info about the "primary" or "active" call,
     // including photo / name / phone number / etc.
@@ -89,6 +90,7 @@ public class CallCard extends FrameLayout
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
+    private TextView mCallTypeLabel;
     private TextView mSocialStatus;
 
     // Info about the "secondary" call, which is the "call on hold" when
@@ -175,6 +177,7 @@ public class CallCard extends FrameLayout
                 getResources().getColor(R.color.incall_textConnectedBluetooth);
         mTextColorEnded = getResources().getColor(R.color.incall_textEnded);
         mTextColorOnHold = getResources().getColor(R.color.incall_textOnHold);
+        mTextColorCallTypeSip = getResources().getColor(R.color.incall_callTypeSip);
 
         // "Caller info" area, including photo / name / phone numbers / etc
         mPhoto = (ImageView) findViewById(R.id.photo);
@@ -183,6 +186,7 @@ public class CallCard extends FrameLayout
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
+        mCallTypeLabel = (TextView) findViewById(R.id.callTypeLabel);
         mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
         // "Other call" info area
@@ -1121,18 +1125,9 @@ public class CallCard extends FrameLayout
             mLabel.setVisibility(View.GONE);
         }
 
-        // "Social status": currently unused.
-        // Note socialStatus is *only* visible while an incoming
-        // call is ringing, never in any other call state.
-        if ((socialStatusText != null) && call.isRinging() && !call.isGeneric()) {
-            mSocialStatus.setVisibility(View.VISIBLE);
-            mSocialStatus.setText(socialStatusText);
-            mSocialStatus.setCompoundDrawablesWithIntrinsicBounds(
-                    socialStatusBadge, null, null, null);
-            mSocialStatus.setCompoundDrawablePadding((int) (mDensity * 6));
-        } else {
-            mSocialStatus.setVisibility(View.GONE);
-        }
+        // Other text fields:
+        updateCallTypeLabel(call);
+        updateSocialStatus(socialStatusText, socialStatusBadge, call);  // Currently unused
     }
 
     private String getPresentationString(int presentation) {
@@ -1191,8 +1186,9 @@ public class CallCard extends FrameLayout
         mPhoneNumber.setVisibility(View.GONE);
         mLabel.setVisibility(View.GONE);
 
-        // socialStatus is never visible in this state.
-        mSocialStatus.setVisibility(View.GONE);
+        // Other text fields:
+        updateCallTypeLabel(call);
+        updateSocialStatus(null, null, null);  // socialStatus is never visible in this state
 
         // TODO: for a GSM conference call, since we do actually know who
         // you're talking to, consider also showing names / numbers /
@@ -1407,6 +1403,54 @@ public class CallCard extends FrameLayout
      */
     private void clearUpperTitle() {
         setUpperTitle("", 0, Call.State.IDLE);  // Use dummy values for "color" and "state"
+    }
+
+    /**
+     * Updates the "Call type" label, based on the current foreground call.
+     * This is a special label and/or branding we display for certain
+     * kinds of calls.
+     *
+     * (So far, this is used only for SIP calls, which get an
+     * "Internet call" label.  TODO: But eventually, the telephony
+     * layer might allow each pluggable "provider" to specify a string
+     * and/or icon to be displayed here.)
+     */
+    private void updateCallTypeLabel(Call call) {
+        int phoneType = (call != null) ? call.getPhone().getPhoneType() : Phone.PHONE_TYPE_NONE;
+        if (phoneType == Phone.PHONE_TYPE_SIP) {
+            mCallTypeLabel.setVisibility(View.VISIBLE);
+            mCallTypeLabel.setText(R.string.incall_call_type_label_sip);
+            mCallTypeLabel.setTextColor(mTextColorCallTypeSip);
+            // If desired, we could also display a "badge" next to the label, as follows:
+            //   mCallTypeLabel.setCompoundDrawablesWithIntrinsicBounds(
+            //           callTypeSpecificBadge, null, null, null);
+            //   mCallTypeLabel.setCompoundDrawablePadding((int) (mDensity * 6));
+        } else {
+            mCallTypeLabel.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Updates the "social status" label with the specified text and
+     * (optional) badge.
+     */
+    private void updateSocialStatus(String socialStatusText,
+                                    Drawable socialStatusBadge,
+                                    Call call) {
+        // The socialStatus field is *only* visible while an incoming call
+        // is ringing, never in any other call state.
+        if ((socialStatusText != null)
+                && (call != null)
+                && call.isRinging()
+                && !call.isGeneric()) {
+            mSocialStatus.setVisibility(View.VISIBLE);
+            mSocialStatus.setText(socialStatusText);
+            mSocialStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    socialStatusBadge, null, null, null);
+            mSocialStatus.setCompoundDrawablePadding((int) (mDensity * 6));
+        } else {
+            mSocialStatus.setVisibility(View.GONE);
+        }
     }
 
     /**
