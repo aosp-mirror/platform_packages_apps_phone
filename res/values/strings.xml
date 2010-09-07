@@ -1238,7 +1238,9 @@
     <string name ="internet_phone">Internet Phone</string>
 
     <!-- Title of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
-    <string name ="no_sip_account_found">No SIP account found in settings. Create a sip account now?</string>
+    <string name ="no_sip_account_found_title">No SIP account found</string>
+    <!-- Message of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
+    <string name ="no_sip_account_found">Need a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g>. Create one now?</string>
 
     <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
     <string name="add_sip_account">Add account</string>
