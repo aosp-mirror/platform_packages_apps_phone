@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.sip.SipPhone;
 import com.android.phone.sip.SipSettings;
@@ -75,9 +76,9 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void removeSipPhone(String sipUri) {
-        for (Object phone : CallManager.getInstance().getAllPhones()) {
-            if (phone instanceof SipPhone) {
-                if (((SipPhone)phone).getSipUri().equals(sipUri)) {
+        for (Phone phone : CallManager.getInstance().getAllPhones()) {
+            if (phone.getPhoneType() == Phone.PHONE_TYPE_SIP) {
+                if (((SipPhone) phone).getSipUri().equals(sipUri)) {
                     CallManager.getInstance().unregisterPhone((SipPhone)phone);
                     return;
                 }
@@ -91,8 +92,8 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         try {
             SipAudioCall sipAudioCall = SipManager.getInstance(phoneContext)
                     .takeAudioCall(phoneContext, intent, null, false);
-            for (Object phone : CallManager.getInstance().getAllPhones()) {
-                if (phone instanceof SipPhone) {
+            for (Phone phone : CallManager.getInstance().getAllPhones()) {
+                if (phone.getPhoneType() == Phone.PHONE_TYPE_SIP) {
                    if (((SipPhone) phone).canTake(sipAudioCall)) return;
                 }
             }

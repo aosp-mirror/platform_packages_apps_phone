@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.net.sip.SipManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import com.android.internal.telephony.Call;
@@ -214,9 +215,11 @@ class InCallMenu {
         // This usually has "Show/Hide dialpad", but that gets replaced by
         // "Manage conference" if a conference call is active.
         PhoneApp app = PhoneApp.getInstance();
-        // As managing conference is only valid for GSM and not for CDMA
+        // As managing conference is valid for SIP, we always include it
+        // when SIP VOIP feature is present.
         int phoneType = app.phone.getPhoneType();
-        if (phoneType == Phone.PHONE_TYPE_GSM) {
+        if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || SipManager.isVoipSupported(app)) {
             mInCallMenuView.addItemView(mManageConference, 0);
         }
         mInCallMenuView.addItemView(mShowDialpad, 0);
@@ -234,12 +237,12 @@ class InCallMenu {
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             mInCallMenuView.addItemView(mAnswer, 2);
             mInCallMenuView.addItemView(mIgnore, 2);
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        }
+        if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || SipManager.isVoipSupported(app)) {
             mInCallMenuView.addItemView(mHold, 2);
             mInCallMenuView.addItemView(mAnswerAndHold, 2);
             mInCallMenuView.addItemView(mAnswerAndEnd, 2);
-        } else {
-            throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
         mInCallMenuView.addItemView(mMute, 2);
         mInCallMenuView.addItemView(mSpeaker, 2);
@@ -334,7 +337,8 @@ class InCallMenu {
                     // Explicitly remove GSM menu items
                     mAnswerAndHold.setVisible(false);
                     mAnswerAndEnd.setVisible(false);
-                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                        || (phoneType == Phone.PHONE_TYPE_SIP)) {
                     mAnswerAndHold.setVisible(true);
                     mAnswerAndHold.setEnabled(true);
                     mAnswerAndEnd.setVisible(true);

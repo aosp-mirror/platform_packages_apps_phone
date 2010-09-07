@@ -370,7 +370,8 @@ public class PhoneUtils {
                 if (DBG) log("No Ringing call to hangup");
                 return false;
             }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             // GSM:  Ringing Call and Call waiting, both are hungup by calling
             // hangup(call) function.
             if (DBG) log("hangup ringing call");
@@ -734,7 +735,8 @@ public class PhoneUtils {
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 shouldMute = sConnectionMuteTable.get(
                         phone.getForegroundCall().getLatestConnection());
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 shouldMute = sConnectionMuteTable.get(c);
             }
             if (shouldMute == null) {
@@ -1276,10 +1278,11 @@ public class PhoneUtils {
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
         PhoneApp app = PhoneApp.getInstance();
         Connection conn = null;
-        int phoneType = app.phone.getPhoneType();
+        int phoneType = call.getPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             conn = call.getLatestConnection();
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             conn = call.getEarliestConnection();
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
@@ -1883,7 +1886,8 @@ public class PhoneUtils {
             int phoneType = phone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 answerCall(phone.getRingingCall());
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 if (hasActiveCall && hasHoldingCall) {
                     if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
                     answerAndEndActive(PhoneApp.getInstance().mCM, phone.getRingingCall());
@@ -1980,8 +1984,8 @@ public class PhoneUtils {
             PhoneApp app = PhoneApp.getInstance();
             return (app.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.CONF_CALL);
-        } else if (phoneType == Phone.PHONE_TYPE_GSM ||
-                phoneType == Phone.PHONE_TYPE_SIP) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             // GSM: "Swap" is available if both lines are in use and there's no
             // incoming call.  (Actually we need to verify that the active
             // call really is in the ACTIVE state and the holding call really
@@ -2034,8 +2038,8 @@ public class PhoneUtils {
             PhoneApp app = PhoneApp.getInstance();
             return ((fgCallState == Call.State.ACTIVE)
                     && (app.cdmaPhoneCallState.getAddCallMenuStateAfterCallWaiting()));
-        } else if (phoneType == Phone.PHONE_TYPE_GSM
-                || phoneType == Phone.PHONE_TYPE_SIP) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             // GSM: "Add call" is available only if ALL of the following are true:
             // - There's no incoming ringing call
             // - There's < 2 lines in use
@@ -2321,14 +2325,14 @@ public class PhoneUtils {
     }
 
     public static Phone getSipPhoneFromUri(CallManager cm, String target) {
-        for (Object obj : cm.getAllPhones()) {
-            if (obj instanceof SipPhone) {
-                String sipUri = ((SipPhone)obj).getSipUri();
+        for (Phone phone : cm.getAllPhones()) {
+            if (phone.getPhoneType() == Phone.PHONE_TYPE_SIP) {
+                String sipUri = ((SipPhone) phone).getSipUri();
                 if (target.equals(sipUri)) {
                     if (DBG) log("- pickPhoneBasedOnNumber:" +
-                            "found SipPhone! obj = " + obj + ", "
-                            + obj.getClass());
-                    return (Phone)obj;
+                            "found SipPhone! obj = " + phone + ", "
+                            + phone.getClass());
+                    return phone;
                 }
             }
         }

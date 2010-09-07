@@ -1382,7 +1382,8 @@ public class InCallScreen extends Activity
                 if (DBG) log("answerCall: Switch btwn 2 calls scenario");
                 internalSwapCalls();
             }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             if (hasRingingCall) {
                 // If an incoming call is ringing, the CALL button is actually
                 // handled by the PhoneWindowManager.  (We do this to make
@@ -2076,6 +2077,8 @@ public class InCallScreen extends Activity
                         showWaitPromptDialogCDMA(c, postDialStr);
                     } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                         showWaitPromptDialogGSM(c, postDialStr);
+                    } else if (phoneType == Phone.PHONE_TYPE_SIP) {
+                        Log.w(LOG_TAG, "SipPhone doesn't support post dial yet");
                     } else {
                         throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
@@ -2397,7 +2400,8 @@ public class InCallScreen extends Activity
                     postDialStr = fgLatestConnection.getRemainingPostDialString();
                     showWaitPromptDialogCDMA(fgLatestConnection, postDialStr);
                 }
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 for (Connection cn : fgConnections) {
                     if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
                         postDialStr = cn.getRemainingPostDialString();
@@ -2430,7 +2434,7 @@ public class InCallScreen extends Activity
         // Make sure the Phone is "in use".  (If not, we shouldn't be on
         // this screen in the first place.)
 
-        int phoneType = mPhone.getPhoneType();
+        int phoneType = mCM.getFgPhone().getPhoneType();
 
         if ((phoneType == Phone.PHONE_TYPE_CDMA)
                 && ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
@@ -3560,7 +3564,8 @@ public class InCallScreen extends Activity
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(ringing);  // Automatically holds the current active call,
                                                 // if there is one
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
                 // something special for the "both lines in use" case.
