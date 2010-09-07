@@ -19,18 +19,21 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
@@ -43,9 +46,10 @@ import javax.sip.SipException;
 
 /**
  * SipCallOptionHandler select the sip phone based on the call option.
-*/
+ */
 public class SipCallOptionHandler extends Activity implements
-        DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
+        DialogInterface.OnClickListener, DialogInterface.OnCancelListener,
+        CompoundButton.OnCheckedChangeListener {
 
     static final String TAG = "SipCallOptionHandler";
     static final int DIALOG_SELECT_PHONE_TYPE = 0;
@@ -59,8 +63,10 @@ public class SipCallOptionHandler extends Activity implements
     private String mNumber;
     private SipSharedPreferences mSipSharedPreferences;
     private Dialog[] mDialogs = new Dialog[DIALOG_SIZE];
-    private SipProfile mPrimarySipProfile;
+    private SipProfile mOutgoingSipProfile;
+    private TextView mUnsetPriamryHint;
     private boolean mUseSipPhone = false;
+    private boolean mMakePrimary = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,6 +128,7 @@ public class SipCallOptionHandler extends Activity implements
     @Override
     public void onPause() {
         super.onPause();
+        if (isFinishing()) return;
         for (Dialog dialog : mDialogs) {
             if (dialog != null) dialog.dismiss();
         }
@@ -147,6 +154,7 @@ public class SipCallOptionHandler extends Activity implements
                     .setSingleChoiceItems(getProfileNameArray(), -1, this)
                     .setOnCancelListener(this)
                     .create();
+            addMakeDefaultCheckBox(dialog);
             break;
         case DIALOG_START_SIP_SETTINGS:
             dialog = new AlertDialog.Builder(this)
@@ -165,6 +173,22 @@ public class SipCallOptionHandler extends Activity implements
             mDialogs[id] = dialog;
         }
         return dialog;
+    }
+
+    private void addMakeDefaultCheckBox(Dialog dialog) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(
+                com.android.internal.R.layout.always_use_checkbox, null);
+        CheckBox makePrimaryCheckBox =
+                (CheckBox)view.findViewById(com.android.internal.R.id.alwaysUse);
+        makePrimaryCheckBox.setText(R.string.remember_my_choice);
+        makePrimaryCheckBox.setOnCheckedChangeListener(this);
+        mUnsetPriamryHint = (TextView)view.findViewById(
+                com.android.internal.R.id.clearDefaultHint);
+        mUnsetPriamryHint.setText(R.string.reset_my_choice_hint);
+        mUnsetPriamryHint.setVisibility(View.GONE);
+        ((AlertDialog)dialog).setView(view);
     }
 
     private CharSequence[] getProfileNameArray() {
@@ -187,7 +211,7 @@ public class SipCallOptionHandler extends Activity implements
                 return;
             }
         } else if (dialog == mDialogs[DIALOG_SELECT_OUTGOING_SIP_PHONE]) {
-            mPrimarySipProfile = mProfileList.get(id);
+            mOutgoingSipProfile = mProfileList.get(id);
         } else {
             if (id == DialogInterface.BUTTON_POSITIVE) {
                 // Redirect to sip settings and drop the call.
@@ -203,6 +227,15 @@ public class SipCallOptionHandler extends Activity implements
 
     public void onCancel(DialogInterface dialog) {
         finish();
+    }
+
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mMakePrimary = isChecked;
+        if (isChecked) {
+            mUnsetPriamryHint.setVisibility(View.VISIBLE);
+        } else {
+            mUnsetPriamryHint.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void createSipPhoneIfNeeded(SipProfile p) {
@@ -226,14 +259,18 @@ public class SipCallOptionHandler extends Activity implements
     private void setResultAndFinish() {
         runOnUiThread(new Runnable() {
             public void run() {
-                if (mPrimarySipProfile != null) {
+                if (mOutgoingSipProfile != null) {
                     Log.v(TAG, "primary SIP URI is " +
-                            mPrimarySipProfile.getUriString());
-                    createSipPhoneIfNeeded(mPrimarySipProfile);
+                            mOutgoingSipProfile.getUriString());
+                    createSipPhoneIfNeeded(mOutgoingSipProfile);
                     mIntent.putExtra(OutgoingCallBroadcaster.EXTRA_SIP_PHONE_URI,
-                            mPrimarySipProfile.getUriString());
+                            mOutgoingSipProfile.getUriString());
+                    if (mMakePrimary) {
+                        mSipSharedPreferences.setPrimaryAccount(
+                                mOutgoingSipProfile.getUriString());
+                    }
                 }
-                if (mUseSipPhone && mPrimarySipProfile == null) {
+                if (mUseSipPhone && mOutgoingSipProfile == null) {
                     showDialog(DIALOG_START_SIP_SETTINGS);
                     return;
                 } else {
@@ -255,8 +292,8 @@ public class SipCallOptionHandler extends Activity implements
     private void getPrimarySipPhone() {
         String primarySipUri = mSipSharedPreferences.getPrimaryAccount();
 
-        mPrimarySipProfile = getPrimaryFromExistingProfiles(primarySipUri);
-        if (mPrimarySipProfile == null) {
+        mOutgoingSipProfile = getPrimaryFromExistingProfiles(primarySipUri);
+        if (mOutgoingSipProfile == null) {
             if ((mProfileList != null) && (mProfileList.size() > 0)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
