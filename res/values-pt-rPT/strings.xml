@@ -603,10 +603,8 @@
     <string name="contactPhoto" msgid="4713193418046639466">"fotografia do contacto"</string>
     <string name="goPrivate" msgid="865837794424530980">"tornar privado"</string>
     <string name="selectContact" msgid="781975788478987237">"seleccionar contacto"</string>
-    <!-- no translation found for sip_settings (6699045718560859691) -->
-    <skip />
-    <!-- no translation found for sip_accounts (1155104888417065951) -->
-    <skip />
+    <!-- outdated translation 2633467432134302450 -->     <string name="sip_settings" msgid="6699045718560859691">"Definições das chamadas SIP"</string>
+    <!-- outdated translation 6326310200299646149 -->     <string name="sip_accounts" msgid="1155104888417065951">"Definições da conta SIP"</string>
     <string name="sip_accounts_summary" msgid="3642905600751185685">"Gerir as contas SIP e respectivo estado"</string>
     <!-- no translation found for sip_receive_calls (5635685570889971559) -->
     <skip />
