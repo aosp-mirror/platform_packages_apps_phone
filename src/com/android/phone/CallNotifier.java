@@ -913,7 +913,7 @@ public class CallNotifier extends Handler
         // Stop any signalInfo tone being played when a call gets ended
         stopSignalInfoTone();
 
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if ((c != null) && (c.getCall().getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA)) {                                                                
             // Resetting the CdmaPhoneCallState members
             mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
 
@@ -958,9 +958,9 @@ public class CallNotifier extends Handler
         }
 
         // If this is the end of an OTASP call, pass it on to the PhoneApp.
-        if (c != null && TelephonyCapabilities.supportsOtasp(mPhone)) {
+        if (c != null && TelephonyCapabilities.supportsOtasp(c.getCall().getPhone())) {
             final String number = c.getAddress();
-            if (mPhone.isOtaSpNumber(number)) {
+            if (c.getCall().getPhone().isOtaSpNumber(number)) {
                 if (DBG) log("onDisconnect: this was an OTASP call!");
                 mApplication.handleOtaspDisconnect();
             }
