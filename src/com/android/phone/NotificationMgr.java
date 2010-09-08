@@ -461,7 +461,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     private void notifyMute() {
-        if (mShowingMuteIcon) {
+        if (!mShowingMuteIcon) {
             mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0);
             mShowingMuteIcon = true;
         }
