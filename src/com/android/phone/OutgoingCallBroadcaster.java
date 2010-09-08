@@ -149,10 +149,6 @@ public class OutgoingCallBroadcaster extends Activity {
 
             Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
             newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
-            if (DBG) Log.v(TAG, "Primary SIP URI is " +
-                    intent.getStringExtra(EXTRA_SIP_PHONE_URI));
-            newIntent.putExtra(EXTRA_SIP_PHONE_URI,
-                    intent.getStringExtra(EXTRA_SIP_PHONE_URI));
 
             PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
