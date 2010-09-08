@@ -54,6 +54,9 @@ public class TelephonyCapabilities {
             } else {
                 return false;
             }
+        } else if (phoneType == Phone.PHONE_TYPE_SIP) {
+            // TODO: confirm SipPhone supports this
+            return true;
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
@@ -167,7 +170,8 @@ public class TelephonyCapabilities {
      * layer, since it depends on the underlying telephony technology.
      */
     /* package */ static boolean supportsConferenceCallManagement(Phone phone) {
-        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+        return ((phone.getPhoneType() == Phone.PHONE_TYPE_GSM)
+                || (phone.getPhoneType() == Phone.PHONE_TYPE_SIP));
     }
 
     /**
@@ -182,7 +186,8 @@ public class TelephonyCapabilities {
      * layer, since it depends on the underlying telephony technology.
      */
     /* package */ static boolean supportsHoldAndUnhold(Phone phone) {
-        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+        return ((phone.getPhoneType() == Phone.PHONE_TYPE_GSM)
+                || (phone.getPhoneType() == Phone.PHONE_TYPE_SIP));
     }
 
     /**
@@ -203,6 +208,7 @@ public class TelephonyCapabilities {
      * rather than focusing specifically on call-waiting behavior.
      */
     /* package */ static boolean supportsAnswerAndHold(Phone phone) {
-        return (phone.getPhoneType() == Phone.PHONE_TYPE_GSM);
+        return ((phone.getPhoneType() == Phone.PHONE_TYPE_GSM)
+                || (phone.getPhoneType() == Phone.PHONE_TYPE_SIP));
     }
 }

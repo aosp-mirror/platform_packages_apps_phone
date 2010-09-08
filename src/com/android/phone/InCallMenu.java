@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.net.sip.SipManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import com.android.internal.telephony.Call;
@@ -215,7 +216,8 @@ class InCallMenu {
         // "Manage conference" if a conference call is active (but only
         // on phones that support "Manage conference" in the first place.)
         PhoneApp app = PhoneApp.getInstance();
-        if (TelephonyCapabilities.supportsConferenceCallManagement(app.phone)) {
+        if (TelephonyCapabilities.supportsConferenceCallManagement(app.phone)
+                || SipManager.isVoipSupported(app)) {
             mInCallMenuView.addItemView(mManageConference, 0);
         }
         mInCallMenuView.addItemView(mShowDialpad, 0);
@@ -229,17 +231,23 @@ class InCallMenu {
         // Row 2:
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
-        if (TelephonyCapabilities.supportsHoldAndUnhold(app.phone)) {
+        if (TelephonyCapabilities.supportsHoldAndUnhold(app.phone)
+                || SipManager.isVoipSupported(app)) {
             mInCallMenuView.addItemView(mHold, 2);
         }
+
         // For phones that allow explicit "Answer & Hold" and "Answer &
         // End" actions for a call-waiting call, provide menu items for
         // those.  Otherwise, just provide basic "Answer" and "Ignore"
         // items.
-        if (TelephonyCapabilities.supportsAnswerAndHold(app.phone)) {
+        // If default phone does not support answer & hold but SIP VOIP is
+        // supported, we still need to show the buttons.
+        if (TelephonyCapabilities.supportsAnswerAndHold(app.phone)
+                || SipManager.isVoipSupported(app)) {
             mInCallMenuView.addItemView(mAnswerAndHold, 2);
             mInCallMenuView.addItemView(mAnswerAndEnd, 2);
-        } else {
+        }
+        if (!TelephonyCapabilities.supportsAnswerAndHold(app.phone)) {
             mInCallMenuView.addItemView(mAnswer, 2);
             mInCallMenuView.addItemView(mIgnore, 2);
         }

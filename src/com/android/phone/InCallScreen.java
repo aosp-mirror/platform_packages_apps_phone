@@ -1381,7 +1381,8 @@ public class InCallScreen extends Activity
                 if (DBG) log("answerCall: Switch btwn 2 calls scenario");
                 internalSwapCalls();
             }
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                || (phoneType == Phone.PHONE_TYPE_SIP)) {
             if (hasRingingCall) {
                 // If an incoming call is ringing, the CALL button is actually
                 // handled by the PhoneWindowManager.  (We do this to make
@@ -2352,7 +2353,8 @@ public class InCallScreen extends Activity
                     postDialStr = fgLatestConnection.getRemainingPostDialString();
                     showWaitPromptDialog(fgLatestConnection, postDialStr);
                 }
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 for (Connection cn : fgConnections) {
                     if ((cn != null) && (cn.getPostDialState() == Connection.PostDialState.WAIT)) {
                         postDialStr = cn.getRemainingPostDialString();
@@ -2386,7 +2388,7 @@ public class InCallScreen extends Activity
         // this screen in the first place.)
 
         // An active or just-ended OTA call counts as "in use".
-        if (TelephonyCapabilities.supportsOtasp(mPhone)
+        if (TelephonyCapabilities.supportsOtasp(mCM.getFgPhone())
                 && ((mInCallScreenMode == InCallScreenMode.OTA_NORMAL)
                     || (mInCallScreenMode == InCallScreenMode.OTA_ENDED))) {
             // Even when OTA Call ends, need to show OTA End UI,
@@ -3516,7 +3518,8 @@ public class InCallScreen extends Activity
                 // In CDMA this is simply a wrapper around PhoneUtils.answerCall().
                 PhoneUtils.answerCall(ringing);  // Automatically holds the current active call,
                                                 // if there is one
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
+                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
                 // something special for the "both lines in use" case.
