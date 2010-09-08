@@ -1234,6 +1234,12 @@
     <!-- Title of the dialog to select the phone among the list of phones for the outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="pick_outgoing_sip_phone">"Select a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
 
+    <!-- Text of checkbox to remember the sip phone for all outbound calls. [CHAR LIMIT=NONE] -->
+    <string name ="remember_my_choice">"Use by default for all outbound internet calls"</string>
+
+    <!-- Help text of checkbox to unset the default sip phone for all outbound calls. [CHAR LIMIT=NONE] -->
+    <string name ="reset_my_choice_hint">Clean default(primary) in Home Settings > Call settings > Manage accounts</string>
+
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="pstn_phone">Regular PSTN</string>
 
