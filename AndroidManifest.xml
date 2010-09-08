@@ -136,7 +136,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="tel" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:icon="@drawable/ic_launcher_sip_call">
                 <action android:name="android.intent.action.CALL" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="sip" />
@@ -164,7 +164,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="tel" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:icon="@drawable/ic_launcher_sip_call">
                 <action android:name="android.intent.action.CALL_EMERGENCY" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="sip" />
@@ -191,7 +191,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="tel" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:icon="@drawable/ic_launcher_sip_call">
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="sip" />
