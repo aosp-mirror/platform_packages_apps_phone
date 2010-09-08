@@ -113,6 +113,20 @@
                   />
     </LinearLayout>
 
+    <!-- Call type indication: a special label and/or branding
+         for certain kinds of calls -->
+    <TextView android:id="@+id/callTypeLabel"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textSize="16sp"
+              android:textColor="?android:attr/textColorSecondary"
+              android:maxLines="1"
+              android:ellipsize="end"
+              android:paddingLeft="10dip"
+              android:paddingRight="10dip"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
+
     <!-- Social status -->
     <TextView android:id="@+id/socialStatus"
               android:textAppearance="?android:attr/textAppearanceSmall"
