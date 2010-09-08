@@ -52,6 +52,7 @@
             android:title="@string/transport_title"
             android:entries="@array/transport_types"
             android:entryValues="@array/transport_types"
+            android:defaultValue="@string/default_transport"
             android:summary="@string/default_transport"
             android:persistent="false"
             android:dialogTitle="@string/transport_title"/>

@@ -280,8 +280,8 @@ public class SipEditor extends PreferenceActivity
                                 ? R.string.sip_always_send_keepalive
                                 : R.string.sip_system_decide));
                     } else {
-                        setValue(key,
-                                String.valueOf(meth.invoke(p, (Object[])null)));
+                        Object value = meth.invoke(p, (Object[])null);
+                        setValue(key, (value == null ? "" : value.toString()));
                     }
                 }
                 checkIfDisplayNameSet();
