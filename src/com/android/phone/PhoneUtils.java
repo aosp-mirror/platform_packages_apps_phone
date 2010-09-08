@@ -427,7 +427,14 @@ public class PhoneUtils {
      */
     static boolean hangup(Call call) {
         try {
-            call.hangup();
+            CallManager cm = PhoneApp.getInstance().mCM;
+
+            if (call.getState() == Call.State.ACTIVE && cm.hasActiveBgCall()) {
+                // handle foreground call hangup while there is background call
+                cm.hangupForegroundResumeBackground(cm.getFirstActiveBgCall());
+            } else {
+                call.hangup();
+            }
             return true;
         } catch (CallStateException ex) {
             Log.e(LOG_TAG, "Call hangup: caught " + ex, ex);
@@ -2338,6 +2345,7 @@ public class PhoneUtils {
         }
         return null;
     }
+
     public static boolean isRealIncomingCall(Call.State state) {
         return (state == Call.State.INCOMING && !PhoneApp.getInstance().mCM.hasActiveFgCall());
 
