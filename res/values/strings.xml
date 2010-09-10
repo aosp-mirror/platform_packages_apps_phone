@@ -1328,18 +1328,20 @@
     <string name="display_name_summary">&lt;Same as username&gt;</string>
     <!-- Default value for the outbound-proxy-address preference summary. [CHAR LIMIT=NONE] -->
     <string name="optional_summary">&lt;Optional&gt;</string>
-    <!-- Default sip server/proxy port number. [CHAR LIMIT=NONE] -->
-    <string name="default_port">5060</string>
-    <!-- Default sip server/proxy transport protocol. [CHAR LIMIT=NONE] -->
-    <string name="default_transport">UDP</string>
+
+    <!-- Default sip server/proxy port number. -->
+    <string translatable="false" name="default_port">5060</string>
+    <!-- Default sip server/proxy transport protocol. -->
+    <string translatable="false" name="default_transport">UDP</string>
+
 
     <!-- Hint to show the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_show">▷ Select to show all</string>
     <!-- Hint to hide the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_hide">▽ Select to hide all</string>
 
-    <!-- String to be appended to indicate some preference field can not be empty in the alert dialog. [CHAR LIMIT=NONE] -->
-    <string name="empty_alert"> cannot be empty</string>
+    <!-- Showing that some preference field can not be empty in an alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="empty_alert">%s cannot be empty</string>
 
     <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
