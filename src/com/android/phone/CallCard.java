@@ -996,6 +996,7 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_outOfService;
                     break;
 
+                case INVALID_NUMBER:
                 case UNOBTAINABLE_NUMBER:
                     resID = R.string.callFailed_unobtainable_number;
                     break;

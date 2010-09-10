@@ -110,13 +110,17 @@ public class SipSettings extends PreferenceActivity {
             int profileUid = mProfile.getCallingUid();
             boolean isPrimary = mProfile.getUriString().equals(
                     mSipSharedPreferences.getPrimaryAccount());
-            Log.v(TAG, "profile uid is " + profileUid +
-                    " isPrimary:" + isPrimary + " Primary:" +
-                    mSipSharedPreferences.getPrimaryAccount());
-            String summary = (profileUid == 0) ?
-                    mInactiveString : ((profileUid == mUid) ?
-                    mActiveString : getString(R.string.account_summary,
-                    mActiveString, getPackageNameFromUid(profileUid)));
+            boolean isReceivingCall = (profileUid > 0) && ((profileUid != mUid)
+                    || mSipSharedPreferences.isReceivingCallsEnabled());
+            Log.v(TAG, "profile uid is " + profileUid + " receivingCall:"
+                    + isReceivingCall + " isPrimary:" + isPrimary + " Primary:"
+                    + mSipSharedPreferences.getPrimaryAccount());
+            String summary = !isReceivingCall
+                    ? mInactiveString
+                    : ((profileUid == mUid)
+                            ? mActiveString
+                            : getString(R.string.account_summary, mActiveString,
+                                    getPackageNameFromUid(profileUid)));
             if (isPrimary) {
                 summary += " (Primary) ";
             }
@@ -124,7 +128,7 @@ public class SipSettings extends PreferenceActivity {
         }
         void updateSummary(String msg) {
             updateSummary();
-            setSummary(getSummary() + "[" + msg + "]");
+            setSummary(getSummary() + " [" + msg + "]");
         }
     }
 
