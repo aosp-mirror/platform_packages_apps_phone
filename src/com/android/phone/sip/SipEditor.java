@@ -201,8 +201,7 @@ public class SipEditor extends PreferenceActivity
 
                 String value = ((EditTextPreference) pref).getText();
                 if (TextUtils.isEmpty(value)) {
-                    showAlert(pref.getTitle() + " "
-                            + getString(R.string.empty_alert));
+                    showAlert(getString(R.string.empty_alert, pref.getTitle()));
                     return false;
                 }
             }
