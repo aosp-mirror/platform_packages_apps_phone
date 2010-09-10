@@ -498,6 +498,8 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"No se ha podido realizar la conferencia telefónica."</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"No se ha podido rechazar la llamada."</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"No es posible finalizar las llamadas activas."</string>
+    <!-- no translation found for incall_call_type_label_sip (2310958283037924371) -->
+    <skip />
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Llamada de emergencia"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Activando señal móvil…"</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Área fuera de servicio; reintentando..."</string>
@@ -616,40 +618,76 @@
     <skip />
     <string name="auto_reg" msgid="9010426641641090284">"Registro automático"</string>
     <string name="call_priority" msgid="9150161835243082714">"Llamada saliente a través de SIP"</string>
-    <string name="add_sip_account" msgid="5814944381529304294">"Añadir cuenta SIP"</string>
-    <string name="remove_sip_account" msgid="5617223124643879337">"Eliminar cuenta SIP"</string>
+    <!-- no translation found for pick_outgoing_call_phone_type (9066327379410188131) -->
+    <skip />
+    <!-- no translation found for pick_outgoing_sip_phone (2427128382623820893) -->
+    <skip />
+    <!-- no translation found for remember_my_choice (3299610197572755389) -->
+    <skip />
+    <!-- no translation found for reset_my_choice_hint (7703146334529199325) -->
+    <skip />
+    <!-- no translation found for pstn_phone (421416659339448131) -->
+    <skip />
+    <!-- no translation found for internet_phone (5197954280353814985) -->
+    <skip />
+    <!-- no translation found for no_sip_account_found_title (5393053332131310356) -->
+    <skip />
+    <!-- no translation found for no_sip_account_found (8008170873826467400) -->
+    <skip />
+    <!-- outdated translation 5814944381529304294 -->     <string name="add_sip_account" msgid="5904858426290097611">"Añadir cuenta SIP"</string>
+    <!-- outdated translation 5617223124643879337 -->     <string name="remove_sip_account" msgid="7645900420385682570">"Eliminar cuenta SIP"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"Cuentas SIP"</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Guardar"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Descartar"</string>
+    <!-- no translation found for alert_dialog_close (7759635137627626235) -->
+    <skip />
     <string name="alert_dialog_ok" msgid="3580379406983564080">"Aceptar"</string>
+    <!-- no translation found for close_profile (6886968271423155284) -->
+    <skip />
     <!-- no translation found for primary_account (2229538308291934245) -->
     <skip />
     <!-- no translation found for primary_account_title (5694267218020951531) -->
     <skip />
     <!-- no translation found for primary_account_summary (1261271657165698218) -->
     <skip />
-    <!-- no translation found for active_account (6627976433655306616) -->
+    <!-- no translation found for active_account (6372704650128152632) -->
     <skip />
-    <!-- no translation found for inactive_account (592242147279000650) -->
+    <!-- no translation found for inactive_account (7217481036068467568) -->
     <skip />
     <!-- no translation found for advanced_settings_title (8846648727128452293) -->
     <skip />
     <!-- no translation found for account_summary (679469515982296058) -->
     <skip />
     <string name="sip_edit_title" msgid="5721647253413919727">"Editar la cuenta SIP"</string>
-    <string name="initial_preference_summary" msgid="6556199575922319926">"&lt;Sin definir&gt;"</string>
+    <!-- no translation found for sip_edit_new_title (5604066137558229333) -->
+    <skip />
     <string name="profile_name_title" msgid="8182443585131416570">"Nombre"</string>
     <string name="domain_address_title" msgid="6628028903715208419">"Dominio"</string>
     <string name="username_title" msgid="2479375923477682328">"Nombre de usuario"</string>
     <string name="password_title" msgid="3323555249068171531">"Contraseña"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Mostrar nombre"</string>
-    <string name="proxy_address_title" msgid="4425801526470783622">"Dirección de servidor proxy saliente"</string>
-    <string name="port_title" msgid="8014162755749862704">"Número de puerto"</string>
-    <string name="port_summary" msgid="338051406829529586">"5060"</string>
-    <string name="transport_title" msgid="706735901627434385">"Tipo de transporte"</string>
+    <!-- outdated translation 4425801526470783622 -->     <string name="proxy_address_title" msgid="4828301345351614273">"Dirección de servidor proxy saliente"</string>
+    <!-- outdated translation 8014162755749862704 -->     <string name="port_title" msgid="5952939408078626657">"Número de puerto"</string>
+    <!-- outdated translation 706735901627434385 -->     <string name="transport_title" msgid="8253139511847746640">"Tipo de transporte"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Enviar mensajes de mantenimiento de la conexión"</string>
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Enviar mensajes SIP de mantenimiento de la conexión"</string>
     <string name="auto_registration_title" msgid="5156483863963866266">"Registro automático"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Registrar el perfil automáticamente"</string>
-    <string name="empty_alert" msgid="8431886113287411185">"no puede estar vacío."</string>
+    <!-- no translation found for set_primary_title (4925496287926649150) -->
+    <skip />
+    <!-- no translation found for set_primary_summary (2219064654523258577) -->
+    <skip />
+    <!-- no translation found for advanced_settings (8350631795335495338) -->
+    <skip />
+    <!-- no translation found for default_preference_summary (868766740121667450) -->
+    <skip />
+    <!-- no translation found for display_name_summary (8636377460518225523) -->
+    <skip />
+    <!-- no translation found for optional_summary (1464058793789832411) -->
+    <skip />
+    <!-- no translation found for advanced_settings_show (6516120139480282187) -->
+    <skip />
+    <!-- no translation found for advanced_settings_hide (6017519341687079724) -->
+    <skip />
+    <!-- outdated translation 8431886113287411185 -->     <string name="empty_alert" msgid="1356011655537013510">"no puede estar vacío."</string>
 </resources>
