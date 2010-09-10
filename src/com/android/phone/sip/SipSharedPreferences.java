@@ -89,11 +89,10 @@ public class SipSharedPreferences {
             return (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SIP_RECEIVE_CALLS) != 0);
         } catch (SettingNotFoundException e) {
-            Log.e("SIP", "receive_incoming_call option is not set", e);
+            Log.d("SIP", "receive_incoming_call option is not set", e);
             return false;
         }
     }
 
     // TODO: back up to Android Backup
-    // TODO: add System settings here
 }
