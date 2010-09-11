@@ -67,7 +67,6 @@ public class SipEditor extends PreferenceActivity
     private boolean mDisplayNameSet;
 
     enum PreferenceKey {
-        ProfileName(R.string.profile_name, R.string.default_preference_summary),
         DomainAddress(R.string.domain_address, R.string.default_preference_summary),
         Username(R.string.username, R.string.default_preference_summary),
         Password(R.string.password, R.string.default_preference_summary),
@@ -221,11 +220,16 @@ public class SipEditor extends PreferenceActivity
         }
     }
 
+    private String getProfileName() {
+        return getValue(PreferenceKey.Username) + "@"
+                + getValue(PreferenceKey.DomainAddress);
+    }
+
     private SipProfile createSipProfile() throws Exception {
             return new SipProfile.Builder(
                     getValue(PreferenceKey.Username),
                     getValue(PreferenceKey.DomainAddress))
-                    .setProfileName(getValue(PreferenceKey.ProfileName))
+                    .setProfileName(getProfileName())
                     .setPassword(getValue(PreferenceKey.Password))
                     .setOutboundProxy(getValue(PreferenceKey.ProxyAddress))
                     .setProtocol(getValue(PreferenceKey.Transport))
