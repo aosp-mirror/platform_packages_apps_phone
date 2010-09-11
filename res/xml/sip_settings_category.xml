@@ -14,8 +14,7 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
-        android:title="@string/sip_settings">
+    xmlns:phone="http://schemas.android.com/apk/res/com.android.phone">
     <PreferenceCategory
             android:key="sip_settings_category_key"
             android:title="@string/sip_settings"
