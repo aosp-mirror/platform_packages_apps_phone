@@ -975,6 +975,10 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_congestion;
                     break;
 
+                case TIMED_OUT:
+                    resID = R.string.callFailed_timedOut;
+                    break;
+
                 case LOST_SIGNAL:
                 case CDMA_DROP:
                     resID = R.string.callFailed_noSignal;
