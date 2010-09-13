@@ -136,6 +136,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             "sip_receive_calls_key";
     private static final String BUTTON_SIP_CALL_OPTIONS =
             "sip_call_options_key";
+    private static final String SIP_SETTINGS_CATEGORY_KEY =
+            "sip_settings_category_key";
 
     private Intent mContactListIntent;
 
@@ -1473,7 +1475,10 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         updateVoiceNumberField();
         mVMProviderSettingsForced = false;
+        createSipCallSettings();
+    }
 
+    private void createSipCallSettings() {
         // Add Internet call settings.
         if (SipManager.isVoipSupported(this)) {
             mSipManager = SipManager.getInstance(this);
@@ -1500,6 +1505,17 @@ public class CallFeaturesSetting extends PreferenceActivity
         super.onResume();
         mForeground = true;
 
+        if (isAirplaneModeOn()) {
+            Preference sipSettings = findPreference(SIP_SETTINGS_CATEGORY_KEY);
+            PreferenceScreen screen = getPreferenceScreen();
+            int count = screen.getPreferenceCount();
+            for (int i = 0 ; i < count ; ++i) {
+                Preference pref = screen.getPreference(i);
+                if (pref != sipSettings) pref.setEnabled(false);
+            }
+            return;
+        }
+
         if (mButtonDTMF != null) {
             int dtmf = Settings.System.getInt(getContentResolver(),
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, DTMF_TONE_TYPE_NORMAL);
@@ -1524,6 +1540,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             mButtonTTY.setValue(Integer.toString(settingsTtyMode));
             updatePreferredTtyModeSummary(settingsTtyMode);
         }
+    }
+
+    private boolean isAirplaneModeOn() {
+        return Settings.System.getInt(getContentResolver(),
+                Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     private void handleTTYChange(Preference preference, Object objValue) {

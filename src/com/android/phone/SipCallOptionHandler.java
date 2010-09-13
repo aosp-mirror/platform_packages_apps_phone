@@ -22,6 +22,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.Uri;
@@ -55,7 +57,8 @@ public class SipCallOptionHandler extends Activity implements
     static final int DIALOG_SELECT_PHONE_TYPE = 0;
     static final int DIALOG_SELECT_OUTGOING_SIP_PHONE = 1;
     static final int DIALOG_START_SIP_SETTINGS = 2;
-    static final int DIALOG_SIZE = 3;
+    static final int DIALOG_NO_INTERNET_ERROR = 3;
+    static final int DIALOG_SIZE = 4;
 
     private Intent mIntent;
     private List<SipProfile> mProfileList;
@@ -166,6 +169,13 @@ public class SipCallOptionHandler extends Activity implements
                     .setOnCancelListener(this)
                     .create();
             break;
+        case DIALOG_NO_INTERNET_ERROR:
+            dialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.no_internet_available)
+                    .setPositiveButton(android.R.string.ok, this)
+                    .setOnCancelListener(this)
+                    .create();
+            break;
         default:
             dialog = null;
         }
@@ -212,6 +222,9 @@ public class SipCallOptionHandler extends Activity implements
             }
         } else if (dialog == mDialogs[DIALOG_SELECT_OUTGOING_SIP_PHONE]) {
             mOutgoingSipProfile = mProfileList.get(id);
+        } else if (dialog == mDialogs[DIALOG_NO_INTERNET_ERROR]) {
+            finish();
+            return;
         } else {
             if (id == DialogInterface.BUTTON_POSITIVE) {
                 // Redirect to sip settings and drop the call.
@@ -260,6 +273,10 @@ public class SipCallOptionHandler extends Activity implements
         runOnUiThread(new Runnable() {
             public void run() {
                 if (mOutgoingSipProfile != null) {
+                    if (!isNetworkConnected()) {
+                        showDialog(DIALOG_NO_INTERNET_ERROR);
+                        return;
+                    }
                     Log.v(TAG, "primary SIP URI is " +
                             mOutgoingSipProfile.getUriString());
                     createSipPhoneIfNeeded(mOutgoingSipProfile);
@@ -279,6 +296,16 @@ public class SipCallOptionHandler extends Activity implements
                 finish();
             }
         });
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            return (ni != null && ni.isConnected());
+        }
+        return false;
     }
 
     private void startGetPrimarySipPhoneThread() {
