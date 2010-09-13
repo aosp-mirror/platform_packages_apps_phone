@@ -14,34 +14,35 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
-     android:title="@string/sip_settings">
-  <PreferenceCategory
-        android:key="sip_settings_category_key"
-        android:title="@string/sip_settings"
-        android:persistent="false">
-        <PreferenceScreen
-            android:key="sip_account_settings_key"
-            android:title="@string/sip_accounts"
-            android:summary="@string/sip_accounts_summary"
+        xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
+        android:title="@string/sip_settings">
+    <PreferenceCategory
+            android:key="sip_settings_category_key"
+            android:title="@string/sip_settings"
             android:persistent="false">
 
+        <PreferenceScreen
+                android:key="sip_account_settings_key"
+                android:title="@string/sip_accounts"
+                android:summary="@string/sip_accounts_summary"
+                android:persistent="false">
+
             <intent android:action="android.intent.action.MAIN"
-                android:targetPackage="com.android.phone"
-                android:targetClass="com.android.phone.sip.SipSettings" />
+                    android:targetPackage="com.android.phone"
+                    android:targetClass="com.android.phone.sip.SipSettings" />
         </PreferenceScreen>
+
         <CheckBoxPreference
-            android:key="sip_receive_calls_key"
-            android:title="@string/sip_receive_calls"
-            android:summary="@string/sip_receive_calls_summary"
-            android:defaultValue="true"
-            android:persistent="true"/>
+                android:key="sip_receive_calls_key"
+                android:title="@string/sip_receive_calls"
+                android:summary="@string/sip_receive_calls_summary"
+                android:persistent="true"/>
+
         <ListPreference
-            android:key="sip_call_options_key"
-            android:title="@string/sip_call_options_title"
-            android:persistent="true"
-            android:entries="@array/sip_call_options_entries"
-            android:entryValues="@array/sip_call_options_values"
-            android:defaultValue="@string/sip_address_only"/>
-  </PreferenceCategory>
+                android:key="sip_call_options_key"
+                android:title="@string/sip_call_options_title"
+                android:persistent="true"
+                android:entries="@array/sip_call_options_entries"
+                android:entryValues="@array/sip_call_options_values"/>
+    </PreferenceCategory>
 </PreferenceScreen>

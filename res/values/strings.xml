@@ -1291,8 +1291,6 @@
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
     <string name="sip_edit_new_title">Edit new SIP account</string>
 
-    <!-- Text of the sip profile name preference. [CHAR LIMIT=NONE] -->
-    <string name="profile_name_title">Name</string>
     <!-- Text of the domain address preference. [CHAR LIMIT=NONE] -->
     <string name="domain_address_title">Domain</string>
     <!-- Text of the username preference. [CHAR LIMIT=NONE] -->
@@ -1353,7 +1351,6 @@
     <string translatable="false" name="sip_always_send_keepalive">Always send</string>
 
     <!-- Do not translate the following strings. Used for the preference keys -->
-    <string translatable="false" name="profile_name">ProfileName</string>
     <string translatable="false" name="domain_address">SipDomain</string>
     <string translatable="false" name="username">UserName</string>
     <string translatable="false" name="password">Password</string>
