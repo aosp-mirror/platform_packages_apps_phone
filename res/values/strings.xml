@@ -1341,6 +1341,9 @@
     <!-- Showing that some preference field can not be empty in an alert dialog. [CHAR LIMIT=NONE] -->
     <string name="empty_alert">%s cannot be empty</string>
 
+    <!-- Title of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=NONE] -->
+    <string name="no_internet_available">To place an Internet call, check Internet connectiviy first</string>
+
     <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
     <string translatable="false" name="sip_address_only">SIP_ADDRESS_ONLY</string>
