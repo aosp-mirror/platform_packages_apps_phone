@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.sip.SipException;
+import android.net.sip.SipErrorCode;
 import android.net.sip.SipProfile;
 import android.net.sip.SipManager;
 import android.net.sip.SipRegistrationListener;
@@ -77,8 +78,6 @@ public class SipSettings extends PreferenceActivity {
     private SipManager mSipManager;
 
     private String mProfilesDirectory;
-    private String mActiveString;
-    private String mInactiveString;
 
     private SipProfile mProfile;
 
@@ -103,32 +102,31 @@ public class SipSettings extends PreferenceActivity {
         void setProfile(SipProfile p) {
             mProfile = p;
             setTitle(p.getProfileName());
-            updateSummary();
+            updateSummary(mSipSharedPreferences.isReceivingCallsEnabled()
+                    ? getString(R.string.registration_status_checking_status)
+                    : getString(R.string.registration_status_not_receiving));
         }
 
-        void updateSummary() {
+        void updateSummary(String registrationStatus) {
             int profileUid = mProfile.getCallingUid();
             boolean isPrimary = mProfile.getUriString().equals(
                     mSipSharedPreferences.getPrimaryAccount());
-            boolean isReceivingCall = (profileUid > 0) && ((profileUid != mUid)
-                    || mSipSharedPreferences.isReceivingCallsEnabled());
-            Log.v(TAG, "profile uid is " + profileUid + " receivingCall:"
-                    + isReceivingCall + " isPrimary:" + isPrimary + " Primary:"
-                    + mSipSharedPreferences.getPrimaryAccount());
-            String summary = !isReceivingCall
-                    ? mInactiveString
-                    : ((profileUid == mUid)
-                            ? mActiveString
-                            : getString(R.string.account_summary, mActiveString,
-                                    getPackageNameFromUid(profileUid)));
-            if (isPrimary) {
-                summary += " (Primary) ";
+            Log.v(TAG, "profile uid is " + profileUid + " isPrimary:"
+                    + isPrimary + " registration:" + registrationStatus
+                    + " Primary:" + mSipSharedPreferences.getPrimaryAccount()
+                    + " status:" + registrationStatus);
+            String summary = "";
+            if ((profileUid > 0) && (profileUid != mUid)) {
+                // from third party apps
+                summary = getString(R.string.third_party_account_summary,
+                        getPackageNameFromUid(profileUid));
+            } else if (isPrimary) {
+                summary = getString(R.string.primary_account_summary_with,
+                        registrationStatus);
+            } else {
+                summary = registrationStatus;
             }
             setSummary(summary);
-        }
-        void updateSummary(String msg) {
-            updateSummary();
-            setSummary(getSummary() + " [" + msg + "]");
         }
     }
 
@@ -155,8 +153,6 @@ public class SipSettings extends PreferenceActivity {
         addPreferencesFromResource(R.xml.sip_setting);
         mProfilesDirectory = getFilesDir().getAbsolutePath() + PROFILES_DIR;
         mSipListContainer = getPreferenceScreen();
-        mActiveString = getString(R.string.active_account);
-        mInactiveString = getString(R.string.inactive_account);
         registerForAddSipListener();
 
         updateProfilesStatus();
@@ -263,27 +259,25 @@ public class SipSettings extends PreferenceActivity {
         mSipListContainer.removeAll();
         for (SipProfile p : mSipProfileList) {
             addPreferenceFor(p);
+            if (mUid == p.getCallingUid()) {
+                try {
+                    mSipManager.setRegistrationListener(
+                            p.getUriString(), createRegistrationListener());
+                } catch (SipException e) {
+                    Log.e(TAG, "cannot set registration listener", e);
+                }
+            }
         }
     }
 
     private void processActiveProfilesFromSipService() {
         SipProfile[] activeList = mSipManager.getListOfProfiles();
         for (SipProfile activeProfile : activeList) {
-            int uid = activeProfile.getCallingUid();
-            if (uid == mUid) {
-                try {
-                    mSipManager.setRegistrationListener(
-                            activeProfile.getUriString(),
-                            createRegistrationListener());
-                } catch (SipException e) {
-                    Log.e(TAG, "cannot set registration listener", e);
-                }
-            }
             SipProfile profile = getProfileFromList(activeProfile);
             if (profile == null) {
                 mSipProfileList.add(activeProfile);
             } else {
-                profile.setCallingUid(uid);
+                profile.setCallingUid(activeProfile.getCallingUid());
             }
         }
     }
@@ -412,17 +406,13 @@ public class SipSettings extends PreferenceActivity {
         startActivityForResult(intent, REQUEST_ADD_OR_EDIT_SIP_PROFILE);
     }
 
-    private void showRegistrationError(final String profileUri,
+    private void showRegistrationMessage(final String profileUri,
             final String message) {
         runOnUiThread(new Runnable() {
             public void run() {
-                try {
-                    SipPreference pref = mSipPreferenceMap.get(profileUri);
-                    if (pref != null) {
-                        pref.updateSummary(message);
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "showRegistrationError failed:" + e);
+                SipPreference pref = mSipPreferenceMap.get(profileUri);
+                if (pref != null) {
+                    pref.updateSummary(message);
                 }
             }
         });
@@ -431,14 +421,31 @@ public class SipSettings extends PreferenceActivity {
     private SipRegistrationListener createRegistrationListener() {
         return new SipRegistrationListener() {
             public void onRegistrationDone(String profileUri, long expiryTime) {
+                showRegistrationMessage(profileUri, getString(
+                        R.string.registration_status_done));
             }
 
             public void onRegistering(String profileUri) {
+                showRegistrationMessage(profileUri, getString(
+                        R.string.registration_status_registering));
             }
 
             public void onRegistrationFailed(String profileUri,
-                    String className, String message) {
-                showRegistrationError(profileUri, message);
+                    String errorCodeString, String message) {
+                switch (Enum.valueOf(SipErrorCode.class, errorCodeString)) {
+                    case IN_PROGRESS:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_still_trying));
+                        break;
+                    case INVALID_CREDENTIALS:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_failed, message));
+                        break;
+                    default:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_failed_try_later,
+                                message));
+                }
             }
         };
     }
