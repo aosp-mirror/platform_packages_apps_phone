@@ -1483,9 +1483,14 @@ public class CallFeaturesSetting extends PreferenceActivity
             addPreferencesFromResource(R.xml.sip_settings_category);
             mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
                     (BUTTON_SIP_RECEIVE_CALLS);
+            mButtonSipReceiveCalls.setChecked(
+                    mSipSharedPreferences.isReceivingCallsEnabled());
             mButtonSipCallOptions = (ListPreference) findPreference
                     (BUTTON_SIP_CALL_OPTIONS);
             mButtonSipCallOptions.setOnPreferenceChangeListener(this);
+            mButtonSipCallOptions.setValueIndex(
+                    mButtonSipCallOptions.findIndexOfValue(
+                            mSipSharedPreferences.getSipCallOption()));
             mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
         }
     }
@@ -1552,10 +1557,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     }
 
     private void handleSipCallOptionsChange(Object objValue) {
-        Settings.System.putString(getContentResolver(),
-                Settings.System.SIP_CALL_OPTIONS, objValue.toString());
+        String option = objValue.toString();
+        mSipSharedPreferences.setSipCallOption(option);
         mButtonSipCallOptions.setValueIndex(
-                mButtonSipCallOptions.findIndexOfValue(objValue.toString()));
+                mButtonSipCallOptions.findIndexOfValue(option));
         mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
     }
 

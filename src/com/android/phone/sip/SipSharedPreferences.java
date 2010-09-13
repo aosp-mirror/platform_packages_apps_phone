@@ -89,8 +89,8 @@ public class SipSharedPreferences {
             return (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SIP_RECEIVE_CALLS) != 0);
         } catch (SettingNotFoundException e) {
-            Log.d("SIP", "receive_incoming_call option is not set", e);
-            return false;
+            Log.d("SIP", "ReceiveCall option is not set; use default value", e);
+            return true;
         }
     }
 
