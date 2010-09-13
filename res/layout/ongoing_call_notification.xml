@@ -36,20 +36,17 @@
        android:layout_height="wrap_content"
        android:orientation="vertical"
        >
-       <!-- The appearance of these 2 lines of text matches the other
-             kinds of notifications (see status_bar_latest_event.xml).
-             TODO: There should probably be common styles for these, though. -->
        <Chronometer android:id="@+id/text1"
+           style="@android:style/TextAppearance.StatusBar.EventContent.Title"
            android:textStyle="bold"
            android:textSize="18sp"
-           android:textColor="#ff000000"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:singleLine="true"
            />
        <TextView android:id="@+id/text2"
+           style="@android:style/TextAppearance.StatusBar.EventContent"
            android:textSize="14sp"
-           android:textColor="#ff000000"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:singleLine="true"
