@@ -27,6 +27,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.sip.SipAudioCall;
+import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.provider.Settings;
@@ -34,7 +35,6 @@ import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
 import java.util.List;
-import javax.sip.SipException;
 
 /**
  * Broadcast receiver that handles SIP-related intents.
