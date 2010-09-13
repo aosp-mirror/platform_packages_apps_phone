@@ -16,6 +16,12 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+import com.android.phone.sip.SipSettings;
+import com.android.phone.sip.SipSharedPreferences;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.Uri;
@@ -37,14 +44,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.android.internal.telephony.CallManager;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-import com.android.phone.sip.SipSettings;
-import com.android.phone.sip.SipSharedPreferences;
-
 import java.util.List;
-import javax.sip.SipException;
 
 /**
  * SipCallOptionHandler select the sip phone based on the call option.

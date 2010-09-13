@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.sip.SipException;
 import android.net.sip.SipProfile;
 import android.net.sip.SipManager;
 import android.net.sip.SipRegistrationListener;
@@ -56,7 +57,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.sip.SipException;
 
 /**
  * The PreferenceActivity class for managing sip profile preferences.
