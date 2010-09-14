@@ -22,7 +22,6 @@
         android:key="@string/username"
         android:title="@string/username_title"
         android:dialogTitle="@string/username_title"
-        android:defaultValue=""
         android:summary="@string/default_preference_summary"
         android:persistent="false"
         android:singleLine="true"/>
@@ -32,7 +31,6 @@
         android:title="@string/password_title"
         android:dialogTitle="@string/password_title"
         android:password="true"
-        android:defaultValue=""
         android:summary="@string/default_preference_summary"
         android:persistent="false"
         android:singleLine="true"/>
@@ -41,7 +39,6 @@
         android:key="@string/domain_address"
         android:title="@string/domain_address_title"
         android:dialogTitle="@string/domain_address_title"
-        android:defaultValue=""
         android:summary="@string/default_preference_summary"
         android:persistent="false"
         android:singleLine="true"/>
@@ -49,7 +46,6 @@
     <CheckBoxPreference
         android:key="@string/set_primary"
         android:title="@string/set_primary_title"
-        android:defaultValue="false"
         android:persistent="false"
         android:summary="@string/set_primary_summary"/>
 

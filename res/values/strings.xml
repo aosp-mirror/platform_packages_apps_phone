@@ -1353,7 +1353,9 @@
     <string name="advanced_settings_hide">▽ Select to hide all</string>
 
     <!-- Showing that some preference field can not be empty in an alert dialog. [CHAR LIMIT=NONE] -->
-    <string name="empty_alert">%s cannot be empty</string>
+    <string name="empty_alert">%s cannot be empty.</string>
+    <!-- Showing that port number is out of range in an alert dialog. [CHAR LIMIT=NONE] -->
+    <string name="not_a_valid_port">Port number should be within 1000 and 65534.</string>
 
     <!-- Title of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=NONE] -->
     <string name="no_internet_available">To place an Internet call, check Internet connectiviy first</string>
