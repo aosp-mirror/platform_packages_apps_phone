@@ -431,8 +431,8 @@ public class SipSettings extends PreferenceActivity {
             }
 
             public void onRegistrationFailed(String profileUri,
-                    String errorCodeString, String message) {
-                switch (Enum.valueOf(SipErrorCode.class, errorCodeString)) {
+                    SipErrorCode errorCode, String message) {
+                switch (errorCode) {
                     case IN_PROGRESS:
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_still_trying));
