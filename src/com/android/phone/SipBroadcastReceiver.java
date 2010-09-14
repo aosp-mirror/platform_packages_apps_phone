@@ -57,15 +57,17 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
             takeCall(intent);
         } else if (action.equals(SipManager.SIP_ADD_PHONE_ACTION)) {
             String localSipUri = intent.getStringExtra(SipManager.LOCAL_URI_KEY);
-            Log.v(TAG, "new profile: " + localSipUri);
             SipPhone phone = PhoneFactory.makeSipPhone(localSipUri);
             if (phone != null) {
                 CallManager.getInstance().registerPhone(phone);
             }
+            Log.d(TAG, "new phone: " + localSipUri + " #phones="
+                    + CallManager.getInstance().getAllPhones().size());
         } else if (action.equals(SipManager.SIP_REMOVE_PHONE_ACTION)) {
             String localSipUri = intent.getStringExtra(SipManager.LOCAL_URI_KEY);
-            Log.v(TAG, "removed profile: " + localSipUri);
             removeSipPhone(localSipUri);
+            Log.d(TAG, "removed phone: " + localSipUri + " #phones="
+                    + CallManager.getInstance().getAllPhones().size());
         } else if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             Log.v(TAG, "start auto registration");
             registerAllProfiles();
