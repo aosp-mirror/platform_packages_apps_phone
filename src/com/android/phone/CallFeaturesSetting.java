@@ -440,7 +440,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         return false;
     }
 
-    private void handleSipReceiveCallsOption(boolean enabled) {
+    private synchronized void handleSipReceiveCallsOption(boolean enabled) {
         List<SipProfile> sipProfileList =
                 SipSettings.retrieveSipListFromDirectory(mSipProfilesDir);
         for (SipProfile p : sipProfileList) {
@@ -448,8 +448,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             boolean openFlag = enabled;
             // open the profile if it is primary or the receive calls option
             // is enabled.
-            if (!enabled && sipUri.equals(
-                    mSipSharedPreferences.getPrimaryAccount())) {
+            if (!enabled && mSipSharedPreferences.isPrimaryAccount(sipUri)) {
                 openFlag = true;
             }
             p = updateAutoRegistrationFlag(p, enabled);
