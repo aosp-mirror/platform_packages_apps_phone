@@ -49,6 +49,8 @@
     <string name="callFailed_congestion">Network busy</string>
     <!-- In-call screen: call failure reason (client timed out) -->
     <string name="callFailed_timedOut">No response, timed out</string>
+    <!-- In-call screen: call failure reason (peer unreachable) -->
+    <string name="callFailed_unreachable">Number unreachable</string>
     <!-- In-call screen: call failure reason (no signal) -->
     <string name="callFailed_noSignal">No signal</string>
     <!-- In-call screen: call failure reason (GSM ACM limit exceeded) -->
