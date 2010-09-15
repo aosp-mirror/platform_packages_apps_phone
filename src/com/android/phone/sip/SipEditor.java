@@ -67,27 +67,61 @@ public class SipEditor extends PreferenceActivity
     private boolean mDisplayNameSet;
 
     enum PreferenceKey {
-        DomainAddress(R.string.domain_address, R.string.default_preference_summary),
-        Username(R.string.username, R.string.default_preference_summary),
-        Password(R.string.password, R.string.default_preference_summary),
-        DisplayName(R.string.display_name, R.string.display_name_summary),
-        ProxyAddress(R.string.proxy_address, R.string.optional_summary),
-        Port(R.string.port, NA),
-        Transport(R.string.transport, NA),
-        SendKeepAlive(R.string.send_keepalive, NA);
+        Username(R.string.username, 0, R.string.default_preference_summary),
+        Password(R.string.password, 0, R.string.default_preference_summary),
+        DomainAddress(R.string.domain_address, 0, R.string.default_preference_summary),
+        DisplayName(R.string.display_name, 0, R.string.display_name_summary),
+        ProxyAddress(R.string.proxy_address, 0, R.string.optional_summary),
+        Port(R.string.port, R.string.default_port, R.string.default_port),
+        Transport(R.string.transport, R.string.default_transport, NA),
+        SendKeepAlive(R.string.send_keepalive, R.string.sip_system_decide, NA);
+
+        final int text;
+        final int initValue;
+        final int defaultSummary;
+        Preference preference;
 
         /**
          * @param key The key name of the preference.
-         * @param defaultValue The default value of the preference.
+         * @param initValue The initial value of the preference.
+         * @param defaultSummary The default summary value of the preference
+         *        when the preference value is empty.
          */
-        PreferenceKey(int text, int defaultValue) {
+        PreferenceKey(int text, int initValue, int defaultSummary) {
             this.text = text;
-            this.defaultValue = defaultValue;
+            this.initValue = initValue;
+            this.defaultSummary = defaultSummary;
         }
 
-        final int text;
-        final int defaultValue;
-        Preference preference;
+        String getValue() {
+            if (preference instanceof EditTextPreference) {
+                return ((EditTextPreference) preference).getText();
+            } else if (preference instanceof ListPreference) {
+                return ((ListPreference) preference).getValue();
+            }
+            throw new RuntimeException("getValue() for the preference " + this);
+        }
+
+        void setValue(String value) {
+            if (preference instanceof EditTextPreference) {
+                String oldValue = getValue();
+                ((EditTextPreference) preference).setText(value);
+                Log.v(TAG, this + ": setValue() " + value + ": " + oldValue + " --> " + getValue());
+            } else if (preference instanceof ListPreference) {
+                ((ListPreference) preference).setValue(value);
+            }
+
+            if (TextUtils.isEmpty(value)) {
+                preference.setSummary(defaultSummary);
+            } else if (this == Password) {
+                preference.setSummary(scramble(value));
+            } else if ((this == DisplayName)
+                    && value.equals(getDefaultDisplayName())) {
+                preference.setSummary(defaultSummary);
+            } else {
+                preference.setSummary(value);
+            }
+        }
     }
 
     @Override
@@ -190,21 +224,56 @@ public class SipEditor extends PreferenceActivity
                 .show();
     }
 
-    private boolean validateAndSetResult() {
-        for (PreferenceKey key : PreferenceKey.values()) {
-            Preference pref = key.preference;
-            if (pref instanceof EditTextPreference) {
-                // use default value if display name is empty
-                if (pref == PreferenceKey.DisplayName.preference) continue;
-                if (pref == PreferenceKey.ProxyAddress.preference) continue;
+    private boolean isEditTextEmpty(PreferenceKey key) {
+        EditTextPreference pref = (EditTextPreference) key.preference;
+        return TextUtils.isEmpty(pref.getText())
+                || pref.getSummary().equals(getString(key.defaultSummary));
+    }
 
-                String value = ((EditTextPreference) pref).getText();
-                if (TextUtils.isEmpty(value)) {
-                    showAlert(getString(R.string.empty_alert, pref.getTitle()));
-                    return false;
+    private boolean validateAndSetResult() {
+        boolean allEmpty = true;
+        CharSequence firstEmptyFieldTitle = null;
+        for (PreferenceKey key : PreferenceKey.values()) {
+            Preference p = key.preference;
+            if (p instanceof EditTextPreference) {
+                EditTextPreference pref = (EditTextPreference) p;
+                boolean fieldEmpty = isEditTextEmpty(key);
+                if (allEmpty && !fieldEmpty) allEmpty = false;
+
+                // use default value if display name is empty
+                if (fieldEmpty) {
+                    switch (key) {
+                        case DisplayName:
+                            pref.setText(getDefaultDisplayName());
+                            break;
+                        case ProxyAddress:
+                            // optional; do nothing
+                            break;
+                        case Port:
+                            pref.setText(getString(R.string.default_port));
+                            break;
+                        default:
+                            if (firstEmptyFieldTitle == null) {
+                                firstEmptyFieldTitle = pref.getTitle();
+                            }
+                    }
+                } else if (key == PreferenceKey.Port) {
+                    int port = Integer.parseInt(PreferenceKey.Port.getValue());
+                    if ((port < 1000) || (port > 65534)) {
+                        showAlert(getString(R.string.not_a_valid_port));
+                        return false;
+                    }
                 }
             }
         }
+
+        if (allEmpty) {
+            return true;
+        } else if (firstEmptyFieldTitle != null) {
+            showAlert(getString(R.string.empty_alert, firstEmptyFieldTitle));
+            return false;
+        }
+
         try {
             SipProfile profile = createSipProfile();
             mPrimaryAccountSelector.commit(profile);
@@ -214,29 +283,27 @@ public class SipEditor extends PreferenceActivity
             setResult(RESULT_OK, intent);
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "Can not create new SipProfile : " + e.getMessage());
+            Log.w(TAG, "Can not create new SipProfile", e);
             showAlert(e.getMessage());
             return false;
         }
     }
 
     private String getProfileName() {
-        return getValue(PreferenceKey.Username) + "@"
-                + getValue(PreferenceKey.DomainAddress);
+        return PreferenceKey.Username.getValue() + "@"
+                + PreferenceKey.DomainAddress.getValue();
     }
 
     private SipProfile createSipProfile() throws Exception {
             return new SipProfile.Builder(
-                    getValue(PreferenceKey.Username),
-                    getValue(PreferenceKey.DomainAddress))
+                    PreferenceKey.Username.getValue(),
+                    PreferenceKey.DomainAddress.getValue())
                     .setProfileName(getProfileName())
-                    .setPassword(getValue(PreferenceKey.Password))
-                    .setOutboundProxy(getValue(PreferenceKey.ProxyAddress))
-                    .setProtocol(getValue(PreferenceKey.Transport))
-                    .setDisplayName(mDisplayNameSet
-                            ? getValue(PreferenceKey.DisplayName)
-                            : getDefaultDisplayName())
-                    .setPort(Integer.parseInt(getValue(PreferenceKey.Port)))
+                    .setPassword(PreferenceKey.Password.getValue())
+                    .setOutboundProxy(PreferenceKey.ProxyAddress.getValue())
+                    .setProtocol(PreferenceKey.Transport.getValue())
+                    .setDisplayName(PreferenceKey.DisplayName.getValue())
+                    .setPort(Integer.parseInt(PreferenceKey.Port.getValue()))
                     .setSendKeepAlive(isAlwaysSendKeepAlive())
                     .setAutoRegistration(
                             mSharedPreferences.isReceivingCallsEnabled())
@@ -247,7 +314,7 @@ public class SipEditor extends PreferenceActivity
         if (pref instanceof CheckBoxPreference) return true;
         String value = (newValue == null) ? "" : newValue.toString();
         if (TextUtils.isEmpty(value)) {
-            pref.setSummary(getPreferenceKey(pref).defaultValue);
+            pref.setSummary(getPreferenceKey(pref).defaultSummary);
         } else if (pref == PreferenceKey.Password.preference) {
             pref.setSummary(scramble(value));
         } else {
@@ -279,12 +346,12 @@ public class SipEditor extends PreferenceActivity
                     if (key == PreferenceKey.SendKeepAlive) {
                         boolean value = ((Boolean)
                                 meth.invoke(p, (Object[]) null)).booleanValue();
-                        setValue(key, getString(value
+                        key.setValue(getString(value
                                 ? R.string.sip_always_send_keepalive
                                 : R.string.sip_system_decide));
                     } else {
                         Object value = meth.invoke(p, (Object[])null);
-                        setValue(key, (value == null ? "" : value.toString()));
+                        key.setValue((value == null) ? "" : value.toString());
                     }
                 }
                 checkIfDisplayNameSet();
@@ -294,8 +361,16 @@ public class SipEditor extends PreferenceActivity
         } else {
             Log.v(TAG, "Edit a new profile");
             for (PreferenceKey key : PreferenceKey.values()) {
-                Preference pref = key.preference;
-                pref.setOnPreferenceChangeListener(this);
+                key.preference.setOnPreferenceChangeListener(this);
+
+                // FIXME: android:defaultValue in preference xml file doesn't
+                // work. Even if we setValue() for each preference in the case
+                // of (p != null), the dialog still shows android:defaultValue,
+                // not the value set by setValue(). This happens if
+                // android:defaultValue is not empty. Is it a bug?
+                if (key.initValue != 0) {
+                    key.setValue(getString(key.initValue));
+                }
             }
             mDisplayNameSet = false;
         }
@@ -308,39 +383,9 @@ public class SipEditor extends PreferenceActivity
                 pref.getValue());
     }
 
-    private String getValue(PreferenceKey key) {
-        Preference pref = key.preference;
-        if (pref instanceof EditTextPreference) {
-            return ((EditTextPreference)pref).getText();
-        } else if (pref instanceof ListPreference) {
-            return ((ListPreference)pref).getValue();
-        }
-        throw new RuntimeException("getValue() for the preference " + key.text);
-    }
-
     private void setCheckBox(PreferenceKey key, boolean checked) {
         CheckBoxPreference pref = (CheckBoxPreference) key.preference;
         pref.setChecked(checked);
-    }
-
-    private void setValue(PreferenceKey key, String value) {
-        Preference pref = key.preference;
-        if (pref instanceof EditTextPreference) {
-            ((EditTextPreference)pref).setText(value);
-        } else if (pref instanceof ListPreference) {
-            ((ListPreference)pref).setValue(value);
-        }
-
-        if (TextUtils.isEmpty(value)) {
-            pref.setSummary(getString(key.defaultValue));
-        } else if (key == PreferenceKey.Password) {
-            pref.setSummary(scramble(value));
-        } else if ((key == PreferenceKey.DisplayName)
-                && value.equals(getDefaultDisplayName())) {
-            pref.setSummary(getString(key.defaultValue));
-        } else {
-            pref.setSummary(value);
-        }
     }
 
     private void setupPreference(Preference pref) {
@@ -355,22 +400,22 @@ public class SipEditor extends PreferenceActivity
     }
 
     private void checkIfDisplayNameSet() {
-        String displayName = getValue(PreferenceKey.DisplayName);
+        String displayName = PreferenceKey.DisplayName.getValue();
         mDisplayNameSet = !TextUtils.isEmpty(displayName)
                 && !displayName.equals(getDefaultDisplayName());
         Log.d(TAG, "displayName set? " + mDisplayNameSet);
         if (mDisplayNameSet) {
             PreferenceKey.DisplayName.preference.setSummary(displayName);
         } else {
-            setValue(PreferenceKey.DisplayName, "");
+            PreferenceKey.DisplayName.setValue("");
         }
     }
 
-    private String getDefaultDisplayName() {
-        return getValue(PreferenceKey.Username);
+    private static String getDefaultDisplayName() {
+        return PreferenceKey.Username.getValue();
     }
 
-    private String scramble(String s) {
+    private static String scramble(String s) {
         char[] cc = new char[s.length()];
         Arrays.fill(cc, SCRAMBLED);
         return new String(cc);
