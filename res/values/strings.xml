@@ -1281,23 +1281,23 @@
     <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_title">Advanced settings</string>
     <!-- Text of a primary account summary with registration status [CHAR LIMIT=NONE] -->
-    <string name="primary_account_summary_with">primary account, %s</string>
-    <!-- Text of registration status, checking status [CHAR LIMIT=NONE] -->
-    <string name="registration_status_checking_status">checking status...</string>
-    <!-- Text of registration status, registering [CHAR LIMIT=NONE] -->
-    <string name="registration_status_registering">registering...</string>
-    <!-- Text of registration status, still trying [CHAR LIMIT=NONE] -->
-    <string name="registration_status_still_trying">still trying...</string>
-    <!-- Text of registration status, not receiving calls [CHAR LIMIT=NONE] -->
-    <string name="registration_status_not_receiving">not receiving calls</string>
-    <!-- Text of registration status, receiving calls [CHAR LIMIT=NONE] -->
-    <string name="registration_status_done">receiving calls</string>
-    <!-- Text of registration status, failed with a reason [CHAR LIMIT=NONE] -->
-    <string name="registration_status_failed_try_later">registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>); will try later</string>
-    <!-- Text of registration status, failed with a reason [CHAR LIMIT=NONE] -->
-    <string name="registration_status_failed">registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>)</string>
+    <string name="primary_account_summary_with">Primary account. %s</string>
+    <!-- Text of Internet-call registration status, checking current registration status with SIP service [CHAR LIMIT=NONE] -->
+    <string name="registration_status_checking_status">Checking status...</string>
+    <!-- Text of Internet-call registration status, registering with SIP server in order to receive calls on this account [CHAR LIMIT=NONE] -->
+    <string name="registration_status_registering">Registering...</string>
+    <!-- Text of Internet-call registration status, still trying to register with SIP server [CHAR LIMIT=NONE] -->
+    <string name="registration_status_still_trying">Still trying...</string>
+    <!-- Text of Internet-call registration status, currently not receiving calls on this account [CHAR LIMIT=NONE] -->
+    <string name="registration_status_not_receiving">Not receiving calls</string>
+    <!-- Text of Internet-call registration status, currently we can receive calls on this account [CHAR LIMIT=NONE] -->
+    <string name="registration_status_done">Receiving calls</string>
+    <!-- Text of Internet-call registration status, registration failed with a reason; will try again later [CHAR LIMIT=NONE] -->
+    <string name="registration_status_failed_try_later">Registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>); will try later</string>
+    <!-- Text of Internet-call registration status, registration failed with a reason [CHAR LIMIT=NONE] -->
+    <string name="registration_status_failed">Registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>)</string>
     <!-- Text for describing the account's owner and status. For example, 'Active, in use by Google Talk', it means that the account managed by SIP service was registered by the application 'Google Talk' and the status is active. [CHAR LIMIT=NONE] -->
-    <string name="third_party_account_summary">active, in use by <xliff:g id="account_owner" example="Google Talk">%s</xliff:g></string>
+    <string name="third_party_account_summary">Active, in use by <xliff:g id="account_owner" example="Google Talk">%s</xliff:g></string>
 
 
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
