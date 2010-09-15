@@ -832,10 +832,7 @@ public class CallNotifier extends Handler
         mCM.registerForDisconnect(this, PHONE_DISCONNECT, null);
         mCM.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
         mCM.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-
-        if (TelephonyCapabilities.supportsOtasp(mApplication.phone)) {
-            mCM.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
-        }
+        mCM.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
         mCM.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
         mCM.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
         mCM.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);

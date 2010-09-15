@@ -1005,27 +1005,17 @@ public class InCallScreen extends Activity
 
             mCM.registerForPreciseCallStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mCM.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-            mPhone.setOnPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
+            mCM.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
+            // register for the MMI complete message.  Upon completion,
+            // PhoneUtils will bring up a system dialog instead of the
+            // message display class in PhoneUtils.displayMMIComplete().
+            // We'll listen for that message too, so that we can finish
+            // the activity at the same time.
+            mCM.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+            mCM.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
+            mCM.registerForPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mCM.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
-    
-            int phoneType = mPhone.getPhoneType();
-            if (phoneType == Phone.PHONE_TYPE_GSM) {
-                mCM.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
-
-                // register for the MMI complete message.  Upon completion,
-                // PhoneUtils will bring up a system dialog instead of the
-                // message display class in PhoneUtils.displayMMIComplete().
-                // We'll listen for that message too, so that we can finish
-                // the activity at the same time.
-                mCM.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
-            } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                if (DBG) log("Registering for Call Waiting.");
-                mCM.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
-                mCM.registerForCdmaOtaStatusChange(mHandler, EVENT_OTA_PROVISION_CHANGE, null);
-            } else {
-                throw new IllegalStateException("Unexpected phone type: " + phoneType);
-            }
-
+            mCM.registerForCdmaOtaStatusChange(mHandler, EVENT_OTA_PROVISION_CHANGE, null);
             mRegisteredForPhoneStates = true;
         }
     }
@@ -1034,9 +1024,10 @@ public class InCallScreen extends Activity
         mCM.unregisterForPreciseCallStateChanged(mHandler);
         mCM.unregisterForDisconnect(mHandler);
         mCM.unregisterForMmiInitiate(mHandler);
+        mCM.unregisterForMmiComplete(mHandler);
         mCM.unregisterForCallWaiting(mHandler);
         mCM.unregisterForSuppServiceFailed(mHandler);
-        mPhone.setOnPostDialCharacter(null, POST_ON_DIAL_CHARS, null);
+        mCM.unregisterForPostDialCharacter(mHandler);
         mCM.unregisterForCdmaOtaStatusChange(mHandler);
         mRegisteredForPhoneStates = false;
     }

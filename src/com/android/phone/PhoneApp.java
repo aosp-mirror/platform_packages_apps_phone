@@ -472,7 +472,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
 
             // register for MMI/USSD
-            phone.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
+            mCM.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
 
             // register connection tracking to PhoneUtils
             PhoneUtils.initializeConnectionHandler(mCM);
