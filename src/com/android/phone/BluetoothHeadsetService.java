@@ -81,7 +81,6 @@ public class BluetoothHeadsetService extends Service {
         mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mBtHandsfree = PhoneApp.getInstance().getBluetoothHandsfree();
         mAg = new BluetoothAudioGateway(mAdapter);
-        adjustPriorities();
         IntentFilter filter = new IntentFilter(
                 BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
