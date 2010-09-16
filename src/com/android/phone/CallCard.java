@@ -217,6 +217,10 @@ public class CallCard extends FrameLayout
             // A phone call is ringing *or* call waiting
             // (ie. another call may also be active as well.)
             updateRingingCall(cm);
+        } else if (state == Phone.State.ANSWERING) {
+            // The phone is off hook and waiting for the media connection to be
+            // established. We will show the caller info in this state also.
+            updateAnsweringCall(cm);
         } else if (state == Phone.State.OFFHOOK) {
             // The phone is off hook. At least one call exists that is
             // dialing, active, or holding, and no calls are ringing or waiting.
@@ -299,6 +303,19 @@ public class CallCard extends FrameLayout
                 || (phoneType == Phone.PHONE_TYPE_SIP)) {
             displayOnHoldCallStatus(cm, bgCall);
         }
+    }
+
+    /**
+     * Updates the UI for the state where an incoming call is answering.
+     */
+    private void updateAnsweringCall(CallManager cm) {
+        if (DBG) log("updateAnsweringCall()...");
+
+        Call answeringCall = cm.getFirstAnsweringCall();
+
+        // Display caller-id info and photo from the answering call:
+        displayMainCallStatus(cm, answeringCall);
+        displayOnHoldCallStatus(cm, null);
     }
 
     /**
