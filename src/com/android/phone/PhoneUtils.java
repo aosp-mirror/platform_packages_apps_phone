@@ -1678,7 +1678,7 @@ public class PhoneUtils {
         app.updateWakeState();
 
         // Update the Proximity sensor based on speaker state
-        app.updateProximitySensorMode(app.phone.getState());
+        app.updateProximitySensorMode(app.mCM.getState());
     }
 
     /**
