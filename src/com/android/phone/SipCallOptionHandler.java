@@ -145,6 +145,7 @@ public class SipCallOptionHandler extends Activity implements
             dialog = new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.pick_outgoing_call_phone_type,
                             mNumber))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .setSingleChoiceItems(R.array.phone_type_values, -1, this)
                     .setOnCancelListener(this)
                     .create();
@@ -170,8 +171,13 @@ public class SipCallOptionHandler extends Activity implements
                     .create();
             break;
         case DIALOG_NO_INTERNET_ERROR:
+            boolean wifiOnly = SipManager.isSipWifiOnly(this);
             dialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.no_internet_available)
+                    .setTitle(wifiOnly ? R.string.no_wifi_available_title
+                                       : R.string.no_internet_available_title)
+                    .setMessage(wifiOnly ? R.string.no_wifi_available
+                                         : R.string.no_internet_available)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok, this)
                     .setOnCancelListener(this)
                     .create();
@@ -303,7 +309,10 @@ public class SipCallOptionHandler extends Activity implements
                 Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo ni = cm.getActiveNetworkInfo();
-            return (ni != null && ni.isConnected());
+            if ((ni == null) || !ni.isConnected()) return false;
+
+            return ((ni.getType() == ConnectivityManager.TYPE_WIFI)
+                    || !SipManager.isSipWifiOnly(this));
         }
         return false;
     }
