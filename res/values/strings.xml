@@ -1359,8 +1359,14 @@
     <!-- Showing that port number is out of range in an alert dialog. [CHAR LIMIT=NONE] -->
     <string name="not_a_valid_port">Port number should be within 1000 and 65534.</string>
 
-    <!-- Title of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=NONE] -->
-    <string name="no_internet_available">To place an Internet call, check Internet connectiviy first</string>
+    <!-- Title of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=40] -->
+    <string name="no_internet_available_title">No Internet connectiviy</string>
+    <!-- Title of the alert dialog to notify user that there is no WIFI connectivity. [CHAR LIMIT=40] -->
+    <string name="no_wifi_available_title">No WIFI connectiviy</string>
+    <!-- Message of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=NONE] -->
+    <string name="no_internet_available">To place an Internet call, check your Internet connectiviy first.</string>
+    <!-- Message of the alert dialog to notify user that there is no WIFI connectivity. [CHAR LIMIT=NONE] -->
+    <string name="no_wifi_available">Internet call is only available on WIFI. Enable your WIFI connectiviy in Settings > Wireless &amp; network settings.</string>
 
     <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
