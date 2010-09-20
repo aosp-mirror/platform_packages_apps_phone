@@ -480,12 +480,21 @@ public class PhoneUtils {
         // first place.
 
         // hanging up the active call also accepts the waiting call
+        // while active call and waiting call are from the same phone
+        // i.e. both from GSM phone
         if ( !hangupActiveCall(cm.getActiveFgCall())) {
             Log.w(LOG_TAG, "end active call failed!");
             return false;
         }
 
-        return answerCall(ringing);
+        // since hangupActiveCall() also accepts the ringing call
+        // check if the ringing call was already answered or not
+        // only answer it when the call still is ringing
+        if (ringing.isRinging()) {
+            return answerCall(ringing);
+        }
+
+        return true;
     }
 
     /**
