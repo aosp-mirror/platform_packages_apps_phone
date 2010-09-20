@@ -430,14 +430,14 @@ public class SipSettings extends PreferenceActivity {
                         R.string.registration_status_registering));
             }
 
-            public void onRegistrationFailed(String profileUri,
-                    SipErrorCode errorCode, String message) {
+            public void onRegistrationFailed(String profileUri, int errorCode,
+                    String message) {
                 switch (errorCode) {
-                    case IN_PROGRESS:
+                    case SipErrorCode.IN_PROGRESS:
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_still_trying));
                         break;
-                    case INVALID_CREDENTIALS:
+                    case SipErrorCode.INVALID_CREDENTIALS:
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_failed, message));
                         break;
