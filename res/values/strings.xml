@@ -1283,7 +1283,7 @@
     <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_title">Advanced settings</string>
     <!-- Summary of a SIP account in the list of SIP accounts, consists of primary account status and registration status. This string indicates that this SIP account is a primary account and the string placeholder is the registration status, which will be one of the strings with name starting with "registration_status_" below. [CHAR LIMIT=NONE] -->
-    <string name="primary_account_summary_with">Primary account. %s</string>
+    <string name="primary_account_summary_with">Primary account. <xliff:g id="registration_status" example="Registering...">%s</xliff:g></string>
     <!-- Text of Internet-call registration status, checking current registration status with SIP service [CHAR LIMIT=NONE] -->
     <string name="registration_status_checking_status">Checking status...</string>
     <!-- Text of Internet-call registration status, registering with SIP server in order to receive calls on this account [CHAR LIMIT=NONE] -->
@@ -1354,8 +1354,8 @@
     <!-- Hint to hide the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings_hide">▽ Select to hide all</string>
 
-    <!-- Text in an alert dialog telling the user that some input field is required and can not be left blank. [CHAR LIMIT=NONE] -->
-    <string name="empty_alert">%s is required, cannot be left blank.</string>
+    <!-- Text in an alert dialog telling the user that some input field (name of which is also part of the strings being translated above) is required and can not be left blank. [CHAR LIMIT=NONE] -->
+    <string name="empty_alert"><xliff:g id="input_field_name" example="Username, Password...">%s</xliff:g> is required, cannot be left blank.</string>
     <!-- Showing that port number is out of range in an alert dialog. [CHAR LIMIT=NONE] -->
     <string name="not_a_valid_port">Port number should be within 1000 and 65534.</string>
 
