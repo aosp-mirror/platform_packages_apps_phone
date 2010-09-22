@@ -95,6 +95,8 @@ public class BluetoothAtPhonebook {
         Cursor cursor = mContext.getContentResolver().query(Calls.CONTENT_URI, projection,
                 Calls.TYPE + "=" + Calls.OUTGOING_TYPE, null, Calls.DEFAULT_SORT_ORDER +
                 " LIMIT 1");
+        if (cursor == null) return null;
+
         if (cursor.getCount() < 1) {
             cursor.close();
             return null;
