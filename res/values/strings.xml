@@ -1199,4 +1199,30 @@
     <string name="goPrivate">go private</string>
     <!--  Use this to describe the select contact button in EditPhoneNumberPreference; currently for screen readers through accessibility. -->
     <string name="selectContact">select contact</string>
+
+    <!-- Can not select network -->
+    <string name="clh_settings_forbidden_network_selected_txt">Network unavailable. Select another one?</string>
+
+    <!-- Heading text for the settings Select automatic and Select manually -->
+    <string name="clh_settings_search_mode">Search mode</string>
+
+    <!-- Summary text for the setting Select automatic under Network operators -->
+    <string name="clh_settings_sum_select_automatically">Automatic selection of network</string>
+
+    <!--  Manual selection setting -->
+    <string name="clh_settings_manual_selection">Select manually</string>
+
+    <!-- Network search mode -->
+    <string name="clh_network_search_mode_automatic_value_txt">1</string>
+    <string name="clh_network_search_mode_manual_value_txt">0</string>
+
+    <!-- Positive button label ("Yes") used in several dialogs in the phone UI -->
+    <string name="gui_yes_txt">Yes</string>
+
+    <!-- Negative button label ("No") used in several dialogs in the phone UI -->
+    <string name="gui_no_txt">No</string>
+
+    <!-- Settings for the Network operators. If the user selects a forbidden (unavailable) network this question pops up in a Yes/No dialog to let the user select another one -->
+    <string name="clh_settings_unavailable_network_selected_txt">Network unavailable. Do you want to select it anyway?</string>
+
 </resources>

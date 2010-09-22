@@ -234,8 +234,7 @@
         <!-- service to handle network query requests sent to RIL -->
         <service android:name="NetworkQueryService" />
 
-        <activity android:name="NetworkSetting"
-            android:label="@string/networks"
+        <activity android:name="NetworkSetting" android:label="@string/networks"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

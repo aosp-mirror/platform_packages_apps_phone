@@ -13,17 +13,26 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:key="list_networks_key" 
-        android:title="@string/label_available">
-    <Preference 
-        android:key="button_srch_netwrks_key" 
+        android:key="list_networks_key"
+        android:title="@string/networks">
+
+    <ListPreference
+        android:key="button_network_search_mode_key"
+        android:title="@string/clh_settings_search_mode"
+        android:summary="@string/clh_settings_sum_select_automatically"
+        android:dialogTitle="@string/clh_settings_search_mode" />
+
+    <Preference
+        android:key="button_network_search_key"
         android:title="@string/search_networks"
-        android:summary="@string/sum_search_networks"
         android:persistent="false"/>
-    <Preference 
-        android:key="button_auto_select_key" 
-        android:title="@string/select_automatically"
-        android:summary="@string/sum_select_automatically"
+
+    <com.android.phone.ProgressCategory
+        android:title="@string/empty_networks_list"
+        android:key="network_list"
         android:persistent="false"/>
+
 </PreferenceScreen>
+

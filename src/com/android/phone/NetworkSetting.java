@@ -16,6 +16,11 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.gsm.NetworkInfo;
+import com.android.internal.telephony.gsm.NetworkInfo.RAT;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -23,16 +28,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.SystemProperties;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.telephony.ServiceState;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.android.internal.telephony.CommandException;
@@ -41,12 +51,14 @@ import com.android.internal.telephony.gsm.NetworkInfo;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * "Networks" settings UI for the Phone app.
  */
 public class NetworkSetting extends PreferenceActivity
-        implements DialogInterface.OnCancelListener {
+        implements DialogInterface.OnCancelListener,
+        Preference.OnPreferenceChangeListener {
 
     private static final String LOG_TAG = "phone";
     private static final boolean DBG = false;
@@ -54,16 +66,23 @@ public class NetworkSetting extends PreferenceActivity
     private static final int EVENT_NETWORK_SCAN_COMPLETED = 100;
     private static final int EVENT_NETWORK_SELECTION_DONE = 200;
     private static final int EVENT_AUTO_SELECT_DONE = 300;
+    private static final int EVENT_SERVICE_STATE_CHANGED = 400;
 
     //dialog ids
     private static final int DIALOG_NETWORK_SELECTION = 100;
     private static final int DIALOG_NETWORK_LIST_LOAD = 200;
     private static final int DIALOG_NETWORK_AUTO_SELECT = 300;
+    private static final int DIALOG_NETWORK_FORBIDDEN = 400;
 
     //String keys for preference lookup
-    private static final String LIST_NETWORKS_KEY = "list_networks_key";
-    private static final String BUTTON_SRCH_NETWRKS_KEY = "button_srch_netwrks_key";
-    private static final String BUTTON_AUTO_SELECT_KEY = "button_auto_select_key";
+    private static final String LIST_NETWORKS_KEY = "network_list";
+    private static final String BUTTON_NETWORK_SEARCH_MODE_KEY = "button_network_search_mode_key";
+    private static final String BUTTON_NETWORK_SEARCH_KEY = "button_network_search_key";
+
+    private static final int AUTOMATIC = 1;
+    private static final int MANUAL = 0;
+    private int mMode = -1;
+    private boolean mSkipNextAutoReselect = true;
 
     //map of network controls to the network data.
     private HashMap<Preference, NetworkInfo> mNetworkMap;
@@ -74,10 +93,15 @@ public class NetworkSetting extends PreferenceActivity
     /** message for network selection */
     String mNetworkSelectMsg;
 
+    // flag to check if the activity is onPause.
+    private boolean mOnPause = false;
+
     //preference objects
-    private PreferenceGroup mNetworkList;
-    private Preference mSearchButton;
-    private Preference mAutoSelect;
+    private ProgressCategory mNetworkList;
+    private ListPreference mButtonNetworkSearchMode;
+    private Preference mButtonNetworkSearch;
+    private Preference selectedCarrier = null;
+    private Preference currentNetwork = null;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -88,42 +112,62 @@ public class NetworkSetting extends PreferenceActivity
                     networksListLoaded ((List<NetworkInfo>) msg.obj, msg.arg1);
                     break;
 
+                case EVENT_AUTO_SELECT_DONE:
                 case EVENT_NETWORK_SELECTION_DONE:
-                    if (DBG) log("hideProgressPanel");
                     removeDialog(DIALOG_NETWORK_SELECTION);
-                    getPreferenceScreen().setEnabled(true);
+                    removeDialog(DIALOG_NETWORK_AUTO_SELECT);
 
                     ar = (AsyncResult) msg.obj;
+
+                    // Check network selection status
                     if (ar.exception != null) {
-                        if (DBG) log("manual network selection: failed!");
+                        if (DBG) log("---> network selection failed !");
                         displayNetworkSelectionFailed(ar.exception);
+
+                        // Unselect current network
+                        if (currentNetwork != null) {
+                            ((NetworkPreference)currentNetwork).unsetCurrentNetwork();
+                            currentNetwork = null;
+                        }
+                        selectedCarrier = null;
                     } else {
-                        if (DBG) log("manual network selection: succeeded!");
-                        displayNetworkSelectionSucceeded();
+                        if (DBG) log("---> network selection succeeded !");
+
+                        // Update selected network
+                        if (selectedCarrier != null) {
+                            NetworkInfo ni = mNetworkMap.get(selectedCarrier);
+                            if (updateCurrentNetwork(ni)) {
+                                displayNetworkSelectionSucceeded();
+                            }
+                        }
                     }
                     break;
-                case EVENT_AUTO_SELECT_DONE:
-                    if (DBG) log("hideProgressPanel");
 
-                    if (mIsForeground) {
-                        dismissDialog(DIALOG_NETWORK_AUTO_SELECT);
-                    }
-                    getPreferenceScreen().setEnabled(true);
+                case EVENT_SERVICE_STATE_CHANGED:
+                    if (DBG) log("---> network reselected automatically !");
+                    ServiceState ss = (ServiceState) ((AsyncResult) msg.obj).result;
+                    updateNetworkFromServiceState(ss);
+                    break;
 
-                    ar = (AsyncResult) msg.obj;
-                    if (ar.exception != null) {
-                        if (DBG) log("automatic network selection: failed!");
-                        displayNetworkSelectionFailed(ar.exception);
-                    } else {
-                        if (DBG) log("automatic network selection: succeeded!");
-                        displayNetworkSelectionSucceeded();
-                    }
+                default:
+                    if (DBG) log("unknown event: "+msg.what);
                     break;
             }
-
             return;
         }
     };
+
+    @Override
+    protected void onPause() {
+        mOnPause = true;
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mOnPause = false;
+        super.onResume();
+    }
 
     /**
      * Service connection code for the NetworkQueryService.
@@ -171,27 +215,88 @@ public class NetworkSetting extends PreferenceActivity
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         boolean handled = false;
 
-        if (preference == mSearchButton) {
+        if (preference == mButtonNetworkSearchMode) {
+            mButtonNetworkSearchMode.setValue(Integer.toString(mMode));
+            handled = true;
+        } else if (preference == mButtonNetworkSearch) {
             loadNetworksList();
             handled = true;
-        } else if (preference == mAutoSelect) {
-            selectNetworkAutomatic();
-            handled = true;
-        } else {
-            Preference selectedCarrier = preference;
+        }  else {
+            if (DBG) log("Selected carrier: " + preference.getTitle());
+            selectedCarrier = preference;
+            NetworkInfo ni = mNetworkMap.get(selectedCarrier);
 
-            String networkStr = selectedCarrier.getTitle().toString();
-            if (DBG) log("selected network: " + networkStr);
+            // Check network state before selecting it
+            if (isNetworkForbidden(ni)) {
+                showDialog(DIALOG_NETWORK_FORBIDDEN);
+            } else {
+                handled = selectNetworkCarrier(selectedCarrier);
+            }
+        }
+        return handled;
+    }
 
-            Message msg = mHandler.obtainMessage(EVENT_NETWORK_SELECTION_DONE);
-            mPhone.selectNetworkManually(mNetworkMap.get(selectedCarrier), msg);
+    /**
+     * Listens to preference changes
+     */
+    public boolean onPreferenceChange(Preference preference, Object objValue) {
 
-            displayNetworkSeletionInProgress(networkStr);
+        if (preference == mButtonNetworkSearchMode) {
+            int selectedSearchMode = Integer.valueOf((String) objValue).intValue();
 
-            handled = true;
+            // Check if the network search mode has changed
+            if (selectedSearchMode != mMode) {
+                setMode(selectedSearchMode);
+
+                // Reselect network with the new mode
+                if (selectedSearchMode == MANUAL) {
+                    if (DBG) log("Manual search");
+                    Settings.System.putString(getContentResolver(),
+                            Settings.System.NETWORK_SELECTION_MODE, "Manual");
+
+                    if (currentNetwork != null) {
+                        selectNetworkCarrier(currentNetwork);
+                    }
+                } else if (selectedSearchMode == AUTOMATIC) {
+                    if (DBG) log("Automatic search");
+                    Settings.System.putString(getContentResolver(),
+                            Settings.System.NETWORK_SELECTION_MODE, "Automatic");
+
+                    // Network will be selected automatically
+                    // after the network search has completed
+                    loadNetworksList();
+                }
+            }
         }
 
-        return handled;
+        // always let the preference setting proceed.
+        return true;
+    }
+
+    private boolean selectNetworkCarrier(Preference carrier) {
+        NetworkInfo info = mNetworkMap.get(carrier);
+
+        if (info != null) {
+            // Check network selection mode
+            NetworkInfo.SelectionMode mode = (mMode == AUTOMATIC ?
+                    NetworkInfo.SelectionMode.AUTOMATIC :
+                        NetworkInfo.SelectionMode.MANUAL);
+
+            int event = (mMode == AUTOMATIC ? EVENT_AUTO_SELECT_DONE :
+                EVENT_NETWORK_SELECTION_DONE);
+
+            String networkStr = carrier.getTitle().toString();
+            if (DBG) log("selected network: " + networkStr + " mode: "+mode +"(event: "+event+")");
+
+            // Send network attach request
+            Message msg = mHandler.obtainMessage(event);
+            mPhone.setNetworkSelection(mode, info, msg);
+
+            // Display progress message
+            displayNetworkSeletionInProgress(networkStr);
+        }
+
+        return true;
     }
 
     //implemented for DialogInterface.OnCancelListener
@@ -216,36 +321,65 @@ public class NetworkSetting extends PreferenceActivity
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        // Extract UI layout
         addPreferencesFromResource(R.xml.carrier_select);
-
         mPhone = PhoneApp.getInstance().phone;
-
-        mNetworkList = (PreferenceGroup) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
         mNetworkMap = new HashMap<Preference, NetworkInfo>();
 
-        mSearchButton = getPreferenceScreen().findPreference(BUTTON_SRCH_NETWRKS_KEY);
-        mAutoSelect = getPreferenceScreen().findPreference(BUTTON_AUTO_SELECT_KEY);
+        // Get UI object references
+        PreferenceScreen prefSet = getPreferenceScreen();
+
+        mButtonNetworkSearchMode = (ListPreference)
+                prefSet.findPreference(BUTTON_NETWORK_SEARCH_MODE_KEY);
+        mButtonNetworkSearch = (Preference) prefSet.findPreference(BUTTON_NETWORK_SEARCH_KEY);
+        mNetworkList = (ProgressCategory) prefSet.findPreference(LIST_NETWORKS_KEY);
+
+        // Get operator customization
+        if (SystemProperties.getBoolean("ro.network.auto_selection_only", false)) {
+            // Remove search mode button
+            prefSet.removePreference(mButtonNetworkSearchMode);
+
+            // Use automatic search mode only
+            Settings.System.putString(getContentResolver(),
+                    Settings.System.NETWORK_SELECTION_MODE, "Automatic");
+        } else {
+            // Add buttons
+            CharSequence[] entries = {
+                    (CharSequence)getResources().getString(R.string.select_automatically),
+                    (CharSequence)getResources().getString(R.string.clh_settings_manual_selection)};
+            mButtonNetworkSearchMode.setEntries(entries);
+
+            CharSequence[] entryValues = {
+                    (CharSequence)getResources().getString(
+                    R.string.clh_network_search_mode_automatic_value_txt),
+                    (CharSequence)getResources().getString(
+                    R.string.clh_network_search_mode_manual_value_txt)};
+            mButtonNetworkSearchMode.setEntryValues(entryValues);
+            mButtonNetworkSearchMode.setOnPreferenceChangeListener(this);
+        }
+
+        // Get the network selection mode from system settings
+        String selectionMode = Settings.System.getString(getContentResolver(),
+                Settings.System.NETWORK_SELECTION_MODE);
+
+        // Set network search mode
+        if (selectionMode == null || selectionMode.equals("Automatic") ) {
+            setMode(AUTOMATIC);
+        } else if (selectionMode.equals("Manual")) {
+            setMode(MANUAL);
+        }
+
+        // Subscribe to service state changes so we can track current operators
+        mPhone.registerForServiceStateChanged(mHandler, EVENT_SERVICE_STATE_CHANGED, null);
 
         // Start the Network Query service, and bind it.
         // The OS knows to start he service only once and keep the instance around (so
         // long as startService is called) until a stopservice request is made.  Since
         // we want this service to just stay in the background until it is killed, we
         // don't bother stopping it from our end.
-        startService (new Intent(this, NetworkQueryService.class));
-        bindService (new Intent(this, NetworkQueryService.class), mNetworkQueryServiceConnection,
+        startService(new Intent(this, NetworkQueryService.class));
+        bindService(new Intent(this, NetworkQueryService.class), mNetworkQueryServiceConnection,
                 Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mIsForeground = true;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mIsForeground = false;
     }
 
     /**
@@ -254,9 +388,17 @@ public class NetworkSetting extends PreferenceActivity
      */
     @Override
     protected void onDestroy() {
+        // Unregister the callback
+        if (mNetworkQueryService != null) {
+            try {
+                mNetworkQueryService.stopNetworkQuery(mCallback);
+            } catch (RemoteException e) {
+                Log.v(LOG_TAG, "Failed to stop network query in NetworkSettings on onDestroy.");
+            }
+        }
+
         // unbind the service.
         unbindService(mNetworkQueryServiceConnection);
-
         super.onDestroy();
     }
 
@@ -274,39 +416,55 @@ public class NetworkSetting extends PreferenceActivity
                     // message is rendered only 2 times in the ProgressDialog -
                     // after show() and before onCreate.
                     dialog.setMessage(mNetworkSelectMsg);
-                    dialog.setCancelable(false);
+                    dialog.setCancelable(true);
+                    dialog.setOnCancelListener(this);
                     dialog.setIndeterminate(true);
                     break;
                 case DIALOG_NETWORK_AUTO_SELECT:
                     dialog.setMessage(getResources().getString(R.string.register_automatically));
-                    dialog.setCancelable(false);
+                    dialog.setCancelable(true);
+                    dialog.setOnCancelListener(this);
                     dialog.setIndeterminate(true);
                     break;
                 case DIALOG_NETWORK_LIST_LOAD:
                 default:
-                    // reinstate the cancelablity of the dialog.
+                    // Reinstate the cancelablity of the dialog.
                     dialog.setMessage(getResources().getString(R.string.load_networks_progress));
                     dialog.setCancelable(true);
                     dialog.setOnCancelListener(this);
                     break;
             }
             return dialog;
+        } else {
+            Dialog dialog = null;
+            switch (id) {
+                case DIALOG_NETWORK_FORBIDDEN:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setPositiveButton(R.string.gui_yes_txt,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    selectNetworkCarrier(selectedCarrier);
+                                }
+                            });
+                    builder.setNegativeButton(R.string.gui_no_txt,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    //go back to the list
+                                }
+                            });
+                    builder.setMessage(R.string.clh_settings_unavailable_network_selected_txt);
+                    dialog = builder.create();
+                    break;
+                default:
+                    break;
+            }
+            return dialog;
         }
-        return null;
     }
 
-    @Override
-    protected void onPrepareDialog(int id, Dialog dialog) {
-        if ((id == DIALOG_NETWORK_SELECTION) || (id == DIALOG_NETWORK_LIST_LOAD) ||
-                (id == DIALOG_NETWORK_AUTO_SELECT)) {
-            // when the dialogs come up, we'll need to indicate that
-            // we're in a busy state to dissallow further input.
-            getPreferenceScreen().setEnabled(false);
-        }
-    }
-
-    private void displayEmptyNetworkList(boolean flag) {
-        mNetworkList.setTitle(flag ? R.string.empty_networks_list : R.string.label_available);
+    private void displayEmptyNetworkList(boolean isEmpty) {
+        mNetworkList.setTitle(isEmpty ? getResources().getString(R.string.empty_networks_list) :
+                                        getResources().getString(R.string.label_available));
     }
 
     private void displayNetworkSeletionInProgress(String networkStr) {
@@ -347,27 +505,22 @@ public class NetworkSetting extends PreferenceActivity
         NotificationMgr.getDefault().postTransientNotification(
                         NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
 
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                finish();
-            }
-        }, 3000);
     }
 
     private void loadNetworksList() {
         if (DBG) log("load networks list...");
 
-        if (mIsForeground) {
+        clearList();
+        currentNetwork = null;
+
+        if (!mOnPause) {
             showDialog(DIALOG_NETWORK_LIST_LOAD);
         }
 
-        // delegate query request to the service.
         try {
             mNetworkQueryService.startNetworkQuery(mCallback);
         } catch (RemoteException e) {
         }
-
-        displayEmptyNetworkList(false);
     }
 
     /**
@@ -380,41 +533,69 @@ public class NetworkSetting extends PreferenceActivity
     private void networksListLoaded(List<NetworkInfo> result, int status) {
         if (DBG) log("networks list loaded");
 
-        // update the state of the preferences.
-        if (DBG) log("hideProgressPanel");
-
-        if (mIsForeground) {
-            dismissDialog(DIALOG_NETWORK_LIST_LOAD);
-        }
-
-        getPreferenceScreen().setEnabled(true);
         clearList();
 
         if (status != NetworkQueryService.QUERY_OK) {
-            if (DBG) log("error while querying available networks");
+            if (DBG) log("error while querying available networks, status="+status);
             displayNetworkQueryFailed(status);
             displayEmptyNetworkList(true);
         } else {
             if (result != null){
-                displayEmptyNetworkList(false);
+                if (DBG) log("number of networks found: " + result.size());
 
-                // create a preference for each item in the list.
-                // just use the operator name instead of the mildly
-                // confusing mcc/mnc.
-                for (NetworkInfo ni : result) {
-                    Preference carrier = new Preference(this, null);
-                    carrier.setTitle(ni.getOperatorAlphaLong());
-                    carrier.setPersistent(false);
-                    mNetworkList.addPreference(carrier);
-                    mNetworkMap.put(carrier, ni);
+                if (result.isEmpty()) {
+                    displayEmptyNetworkList(true);
+                } else {
+                    displayEmptyNetworkList(false);
 
-                    if (DBG) log("  " + ni);
+                    // Go through all networks
+                    for (NetworkInfo ni : result) {
+                        if (DBG) log("  " + ni);
+
+                        // Add network name
+                        NetworkPreference carrier = new NetworkPreference(this, null);
+                        carrier.setTitle(ni.getOperatorAlphaLong());
+                        carrier.setPersistent(false);
+
+                        // Add network icon
+                        if (isNetworkForbidden(ni)) {
+                            carrier.setNetworkNotAvailable();
+                        } else {
+                            if (isHomeNetwork(ni)) {
+                                carrier.setHomeNetwork();
+                            }
+                            if (isNetworkCurrent(ni)) {
+                                carrier.setCurrentNetwork();
+                                currentNetwork = carrier;
+                            }
+                        }
+
+                        if (isNetwork3G(ni)) {
+                            carrier.setNetwork3G();
+                        }
+
+                        mNetworkList.addPreference(carrier);
+                        mNetworkMap.put(carrier, ni);
+                    }
+
+                    // Reselect network in automatic mode
+                    // except for the first time
+                    if (mMode == AUTOMATIC && !mSkipNextAutoReselect) {
+                        selectNetworkAutomatic();
+                    }
                 }
-
             } else {
                 displayEmptyNetworkList(true);
             }
         }
+
+        // Stop rotating icon
+        removeDialog(DIALOG_NETWORK_LIST_LOAD);
+        mSkipNextAutoReselect = false;
+    }
+
+    private String createNameWithPLMN(NetworkInfo ni){
+        return ni.getOperatorAlphaLong() + " (" + ni.getOperatorNumeric() + ")";
     }
 
     private void clearList() {
@@ -422,6 +603,140 @@ public class NetworkSetting extends PreferenceActivity
             mNetworkList.removePreference(p);
         }
         mNetworkMap.clear();
+    }
+
+    private boolean isNetworkCurrent(NetworkInfo ni){
+        return ni.getState().equals(NetworkInfo.State.CURRENT);
+    }
+
+    private boolean isNetworkForbidden(NetworkInfo ni){
+        return ni.getState().equals(NetworkInfo.State.FORBIDDEN);
+    }
+
+    private boolean isNetwork3G(NetworkInfo ni){
+        return ni.getRAT().equals(NetworkInfo.RAT.WCDMA);
+    }
+
+    private boolean isHomeNetwork(NetworkInfo ni){
+        boolean isHomePlmn = false;
+        String operator = ni.getOperatorNumeric();
+        String imsi =  TelephonyManager.getDefault().getSubscriberId();
+
+        // Check if the first IMSI digits read from SIM match operator's numerical value
+        if (operator != null && imsi != null && imsi.length() >= operator.length()) {
+            isHomePlmn = imsi.regionMatches(0, operator, 0, operator.length());
+        }
+
+        return isHomePlmn;
+    }
+
+    /*
+     * Updates current network by reading network id and technology from ServiceState event.
+     */
+    private void updateNetworkFromServiceState(ServiceState ss) {
+        String id = ss.getOperatorNumeric();
+
+        if (id != null && id.length() > 0) {
+            String niRAT;
+
+            // Read and convert network access technology
+            int ssRAT = ss.getRadioTechnology();
+            switch (ssRAT) {
+                case ServiceState.RADIO_TECHNOLOGY_GPRS:
+                case ServiceState.RADIO_TECHNOLOGY_EDGE:
+                    niRAT = "gsm";
+                    break;
+
+                case ServiceState.RADIO_TECHNOLOGY_UMTS:
+                    niRAT = "wcdma";
+                    break;
+
+                case ServiceState.RADIO_TECHNOLOGY_UNKNOWN:
+                default:
+                    niRAT = "undefined";
+                    break;
+            }
+
+            if (DBG) log("selected network : "+id+" ("+niRAT+")");
+
+            // Update selected network
+            updateCurrentNetwork(
+                new NetworkInfo(
+                  "Fake", "Fake",
+                  id, "unknown",
+                  niRAT));
+        } else {
+            if (DBG) log("can't find network id");
+        }
+    }
+
+    /*
+     * Finds a network with same plmn and sets the found network as Current.
+     */
+    private boolean updateCurrentNetwork(NetworkInfo ni){
+        boolean success = false;
+
+        // Check parameters
+        if (ni != null) {
+            int i = 0;
+            int nbrOfCarrieres = mNetworkList.getPreferenceCount();
+
+            if (DBG) log("Update current network : "+ni);
+
+            // Go through all networks
+            while (nbrOfCarrieres > i) {
+                NetworkPreference carrier = (NetworkPreference)mNetworkList.getPreference(i);
+                NetworkInfo niOld = mNetworkMap.get(carrier);
+                if (DBG) log("check network : " + niOld);
+
+                // Check if network ID and RAT match the current one
+                if (niOld.getOperatorNumeric().equals(ni.getOperatorNumeric()) &&
+                    (ni.getRAT().equals(NetworkInfo.RAT.UNDEFINED_OR_NO_CHANGE) ||
+                     niOld.getRAT().equals(ni.getRAT()))) {
+
+                    // Update selected icon
+                    if (currentNetwork != null) {
+                        ((NetworkPreference)currentNetwork).unsetCurrentNetwork();
+                    }
+
+                    if (DBG) log("Set network as current: " + carrier.getTitle());
+                    carrier.setCurrentNetwork();
+                    currentNetwork = carrier;
+                    success = true;
+                    break;
+                }
+                i++;
+            }
+        }
+
+        return success;
+    }
+
+    /**
+     *  Set the selection mode, updates the buttons and network list accordingly.
+     *
+     *  @param mode The mode
+     */
+    private void setMode(int mode){
+        mMode = mode;
+        updateNetworkSearchModeButton();
+    }
+
+    /**
+     * Updates the network search mode radio buttons.
+     */
+    private void updateNetworkSearchModeButton(){
+        if (mMode == AUTOMATIC) {
+            mButtonNetworkSearchMode.setValue(
+                    getResources().getString(R.string.clh_network_search_mode_automatic_value_txt));
+            mButtonNetworkSearchMode.setSummary(
+                    getResources().getString(R.string.select_automatically));
+        } else if (mMode == MANUAL) {
+            mButtonNetworkSearchMode.setValue(
+                    getResources().getString(R.string.clh_network_search_mode_manual_value_txt));
+            mButtonNetworkSearchMode.setSummary(
+                    getResources().getString(R.string.clh_settings_manual_selection));
+        }
     }
 
     private void selectNetworkAutomatic() {
@@ -438,4 +753,3 @@ public class NetworkSetting extends PreferenceActivity
         Log.d(LOG_TAG, "[NetworksList] " + msg);
     }
 }
-
