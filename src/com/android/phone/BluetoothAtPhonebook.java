@@ -323,10 +323,6 @@ public class BluetoothAtPhonebook {
             }
         }
 
-        if (pbr.cursor == null) {
-            return null;
-        }
-
         return pbr;
     }
 
@@ -356,6 +352,8 @@ public class BluetoothAtPhonebook {
             pbr.cursor = mContext.getContentResolver().query(
                     Calls.CONTENT_URI, CALLS_PROJECTION, where, null,
                     Calls.DEFAULT_SORT_ORDER + " LIMIT " + MAX_PHONEBOOK_SIZE);
+            if (pbr.cursor == null) return false;
+
             pbr.numberColumn = pbr.cursor.getColumnIndexOrThrow(Calls.NUMBER);
             pbr.typeColumn = -1;
             pbr.nameColumn = -1;
@@ -368,6 +366,8 @@ public class BluetoothAtPhonebook {
                     .build();
             pbr.cursor = mContext.getContentResolver().query(uri, PHONES_PROJECTION, where, null,
                     Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
+            if (pbr.cursor == null) return false;
+
             pbr.numberColumn = pbr.cursor.getColumnIndex(Phone.NUMBER);
             pbr.typeColumn = pbr.cursor.getColumnIndex(Phone.TYPE);
             pbr.nameColumn = pbr.cursor.getColumnIndex(Phone.DISPLAY_NAME);
