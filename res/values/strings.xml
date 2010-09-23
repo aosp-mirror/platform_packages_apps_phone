@@ -1233,7 +1233,7 @@
     <string name="call_priority">Outgoing Call via SIP</string>
 
     <!-- Title of the dialog to select the phone type for the outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pick_outgoing_call_phone_type">Select a phone to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
+    <string name ="pick_outgoing_call_phone_type">Call out via</string>
 
     <!-- Title of the dialog to select the phone among the list of phones for the outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="pick_outgoing_sip_phone">"Select a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
@@ -1245,10 +1245,10 @@
     <string name ="reset_my_choice_hint">Clean default(primary) in Home Settings > Call settings > Manage accounts</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pstn_phone">Regular PSTN</string>
+    <string name ="pstn_phone">Regular phone</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="internet_phone">Internet Phone</string>
+    <string name ="internet_phone">Internet phone</string>
 
     <!-- Title of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
     <string name ="no_sip_account_found_title">No SIP account found</string>

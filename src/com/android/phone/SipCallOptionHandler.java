@@ -143,8 +143,7 @@ public class SipCallOptionHandler extends Activity implements
         switch(id) {
         case DIALOG_SELECT_PHONE_TYPE:
             dialog = new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.pick_outgoing_call_phone_type,
-                            mNumber))
+                    .setTitle(R.string.pick_outgoing_call_phone_type)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setSingleChoiceItems(R.array.phone_type_values, -1, this)
                     .setOnCancelListener(this)
