@@ -53,18 +53,18 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         }
         mSipSharedPreferences = new SipSharedPreferences(context);
 
-        if (action.equals(SipManager.SIP_INCOMING_CALL_ACTION)) {
+        if (action.equals(SipManager.ACTION_SIP_INCOMING_CALL)) {
             takeCall(intent);
-        } else if (action.equals(SipManager.SIP_ADD_PHONE_ACTION)) {
-            String localSipUri = intent.getStringExtra(SipManager.LOCAL_URI_KEY);
+        } else if (action.equals(SipManager.ACTION_SIP_ADD_PHONE)) {
+            String localSipUri = intent.getStringExtra(SipManager.EXTRA_LOCAL_URI);
             SipPhone phone = PhoneFactory.makeSipPhone(localSipUri);
             if (phone != null) {
                 CallManager.getInstance().registerPhone(phone);
             }
             Log.d(TAG, "new phone: " + localSipUri + " #phones="
                     + CallManager.getInstance().getAllPhones().size());
-        } else if (action.equals(SipManager.SIP_REMOVE_PHONE_ACTION)) {
-            String localSipUri = intent.getStringExtra(SipManager.LOCAL_URI_KEY);
+        } else if (action.equals(SipManager.ACTION_SIP_REMOVE_PHONE)) {
+            String localSipUri = intent.getStringExtra(SipManager.EXTRA_LOCAL_URI);
             removeSipPhone(localSipUri);
             Log.d(TAG, "removed phone: " + localSipUri + " #phones="
                     + CallManager.getInstance().getAllPhones().size());
@@ -92,8 +92,8 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
     private void takeCall(Intent intent) {
         Context phoneContext = PhoneApp.getInstance();
         try {
-            SipAudioCall sipAudioCall = SipManager.getInstance(phoneContext)
-                    .takeAudioCall(phoneContext, intent, null, false);
+            SipAudioCall sipAudioCall = SipManager.newInstance(phoneContext)
+                    .takeAudioCall(intent, null, false);
             for (Phone phone : CallManager.getInstance().getAllPhones()) {
                 if (phone.getPhoneType() == Phone.PHONE_TYPE_SIP) {
                    if (((SipPhone) phone).canTake(sipAudioCall)) return;
@@ -110,7 +110,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         final Context context = PhoneApp.getInstance();
         new Thread(new Runnable() {
             public void run() {
-                SipManager sipManager = SipManager.getInstance(context);
+                SipManager sipManager = SipManager.newInstance(context);
                 List<SipProfile> sipProfileList =
                         SipSettings.retrieveSipListFromDirectory(
                         context.getFilesDir().getAbsolutePath()
@@ -123,7 +123,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                             continue;
                         }
                         sipManager.open(profile,
-                                SipManager.SIP_INCOMING_CALL_ACTION, null);
+                                SipManager.ACTION_SIP_INCOMING_CALL, null);
                     } catch (SipException e) {
                         Log.e(TAG, "failed" + profile.getProfileName(), e);
                     }

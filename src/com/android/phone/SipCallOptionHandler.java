@@ -277,7 +277,7 @@ public class SipCallOptionHandler extends Activity implements
 
         // Create the phone since we can not find it in CallManager
         try {
-            SipManager.getInstance(this).open(p);
+            SipManager.newInstance(this).open(p);
             Phone phone = PhoneFactory.makeSipPhone(p.getUriString());
             if (phone != null) {
                 cm.registerPhone(phone);
