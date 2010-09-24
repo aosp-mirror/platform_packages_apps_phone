@@ -219,7 +219,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|keyboardHidden|uiMode"
             android:exported="false">
         </activity>
 
