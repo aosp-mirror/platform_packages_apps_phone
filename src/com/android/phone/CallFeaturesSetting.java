@@ -1481,7 +1481,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private void createSipCallSettings() {
         // Add Internet call settings.
         if (SipManager.isVoipSupported(this)) {
-            mSipManager = SipManager.getInstance(this);
+            mSipManager = SipManager.newInstance(this);
             mSipProfilesDir = mPhone.getContext().getFilesDir()
                     .getAbsolutePath() + SipSettings.PROFILES_DIR;
             mSipSharedPreferences = new SipSharedPreferences(this);

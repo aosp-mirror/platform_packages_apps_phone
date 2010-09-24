@@ -146,7 +146,7 @@ public class SipSettings extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSipManager = SipManager.getInstance(SipSettings.this);
+        mSipManager = SipManager.newInstance(SipSettings.this);
         mSipSharedPreferences = new SipSharedPreferences(this);
         mPackageManager = getPackageManager();
         setContentView(R.layout.sip_settings_ui);
@@ -329,7 +329,7 @@ public class SipSettings extends PreferenceActivity {
     private void registerProfile(SipProfile profile) {
         if (profile != null) {
             try {
-                mSipManager.open(profile, SipManager.SIP_INCOMING_CALL_ACTION,
+                mSipManager.open(profile, SipManager.ACTION_SIP_INCOMING_CALL,
                         createRegistrationListener());
             } catch (Exception e) {
                 Log.e(TAG, "register failed", e);
