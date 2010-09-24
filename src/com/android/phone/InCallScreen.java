@@ -27,6 +27,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
@@ -4951,6 +4952,46 @@ public class InCallScreen extends Activity
         mCallCard.dispatchPopulateAccessibilityEvent(event);
         return true;
     }
+
+    /**
+     * Manually handle configuration changes.
+     *
+     * We specify android:configChanges="orientation|keyboardHidden|uiMode" in
+     * our manifest to make sure the system doesn't destroy and re-create us
+     * due to the above config changes.  Instead, this method will be called,
+     * and should manually rebuild the onscreen UI to keep it in sync with the
+     * current configuration.
+     *
+     */
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (DBG) log("onConfigurationChanged: newConfig = " + newConfig);
+
+        // Note: At the time this function is called, our Resources object
+        // will have already been updated to return resource values matching
+        // the new configuration.
+
+        // Watch out: we *can* still get destroyed and recreated if a
+        // configuration change occurs that is *not* listed in the
+        // android:configChanges attribute.  TODO: Any others we need to list?
+
+        super.onConfigurationChanged(newConfig);
+
+        // Nothing else to do here, since (currently) the InCallScreen looks
+        // exactly the same regardless of configuration.
+        // (Specifically, we'll never be in landscape mode because we set
+        // android:screenOrientation="portrait" in our manifest, and we don't
+        // change our UI at all based on newConfig.keyboardHidden or
+        // newConfig.uiMode.)
+
+        // TODO: we do eventually want to handle at least some config changes, such as:
+        boolean isKeyboardOpen = (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO);
+        if (DBG) log("  - isKeyboardOpen = " + isKeyboardOpen);
+        boolean isLandscape = (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE);
+        if (DBG) log("  - isLandscape = " + isLandscape);
+        if (DBG) log("  - uiMode = " + newConfig.uiMode);
+        // See bug 2089513.
+    }
+
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
