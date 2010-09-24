@@ -58,7 +58,8 @@ public class SipCallOptionHandler extends Activity implements
     static final int DIALOG_SELECT_OUTGOING_SIP_PHONE = 1;
     static final int DIALOG_START_SIP_SETTINGS = 2;
     static final int DIALOG_NO_INTERNET_ERROR = 3;
-    static final int DIALOG_SIZE = 4;
+    static final int DIALOG_NO_VOIP = 4;
+    static final int DIALOG_SIZE = 5;
 
     private Intent mIntent;
     private List<SipProfile> mProfileList;
@@ -103,6 +104,7 @@ public class SipCallOptionHandler extends Activity implements
         //       CallManager would then find the best match for every
         //       outgoing call.)
 
+        boolean voipSupported = SipManager.isVoipSupported(this);
         mSipSharedPreferences = new SipSharedPreferences(this);
         mCallOption = mSipSharedPreferences.getSipCallOption();
         Log.v(TAG, "Call option is " + mCallOption);
@@ -113,8 +115,8 @@ public class SipCallOptionHandler extends Activity implements
             mUseSipPhone = true;
         }
 
-        if (!mUseSipPhone &&
-                mCallOption.equals(Settings.System.SIP_ASK_ME_EACH_TIME)) {
+        if (!mUseSipPhone && voipSupported
+                && mCallOption.equals(Settings.System.SIP_ASK_ME_EACH_TIME)) {
             showDialog(DIALOG_SELECT_PHONE_TYPE);
             return;
         }
@@ -122,7 +124,11 @@ public class SipCallOptionHandler extends Activity implements
             mUseSipPhone = true;
         }
         if (mUseSipPhone) {
-            startGetPrimarySipPhoneThread();
+            if (voipSupported) {
+                startGetPrimarySipPhoneThread();
+            } else {
+                showDialog(DIALOG_NO_VOIP);
+            }
         } else {
             setResultAndFinish();
         }
@@ -181,6 +187,14 @@ public class SipCallOptionHandler extends Activity implements
                     .setOnCancelListener(this)
                     .create();
             break;
+        case DIALOG_NO_VOIP:
+            dialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.no_voip)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.ok, this)
+                    .setOnCancelListener(this)
+                    .create();
+            break;
         default:
             dialog = null;
         }
@@ -227,7 +241,8 @@ public class SipCallOptionHandler extends Activity implements
             }
         } else if (dialog == mDialogs[DIALOG_SELECT_OUTGOING_SIP_PHONE]) {
             mOutgoingSipProfile = mProfileList.get(id);
-        } else if (dialog == mDialogs[DIALOG_NO_INTERNET_ERROR]) {
+        } else if ((dialog == mDialogs[DIALOG_NO_INTERNET_ERROR])
+                || (dialog == mDialogs[DIALOG_NO_VOIP])) {
             finish();
             return;
         } else {
