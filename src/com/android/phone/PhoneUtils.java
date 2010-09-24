@@ -1901,7 +1901,7 @@ public class PhoneUtils {
             // No incoming ringing call.
             if (event.isLongPress()) {
                 if (DBG) log("handleHeadsetHook: longpress -> hangup");
-                hangup(phone.getRingingCall());
+                hangup(PhoneApp.getInstance().mCM);
             }
             else if (event.getAction() == KeyEvent.ACTION_UP &&
                      event.getRepeatCount() == 0) {
