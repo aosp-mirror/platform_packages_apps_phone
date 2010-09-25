@@ -592,6 +592,10 @@ public class BluetoothHandsfree {
         private synchronized void updateSignalState(Intent intent) {
             // NOTE this function is called by the BroadcastReceiver mStateReceiver after intent
             // ACTION_SIGNAL_STRENGTH_CHANGED and by the DebugThread mDebugThread
+            if (mHeadset == null) {
+                return;
+            }
+
             SignalStrength signalStrength = SignalStrength.newFromBundle(intent.getExtras());
             int signal;
 
@@ -920,6 +924,8 @@ public class BluetoothHandsfree {
 
         private synchronized AtCommandResult toCindResult() {
             AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
+            mSignal = asuToSignal(mCM.getDefaultPhone().getSignalStrength());
+
             String status = "+CIND: " + mService + "," + mCall + "," + mCallsetup + "," +
                             mCallheld + "," + mSignal + "," + mRoam + "," + mBattchg;
             result.addResponse(status);
