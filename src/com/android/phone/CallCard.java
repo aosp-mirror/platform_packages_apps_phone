@@ -983,6 +983,14 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_unreachable;
                     break;
 
+                case INVALID_CREDENTIALS:
+                    resID = R.string.callFailed_invalid_credentials;
+                    break;
+
+                case OUT_OF_NETWORK:
+                    resID = R.string.callFailed_out_of_network;
+                    break;
+
                 case LOST_SIGNAL:
                 case CDMA_DROP:
                     resID = R.string.callFailed_noSignal;
