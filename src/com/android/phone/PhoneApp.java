@@ -23,6 +23,7 @@ import android.app.ProgressDialog;
 import android.app.StatusBarManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -146,8 +147,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
-    int mBluetoothHeadsetState = BluetoothHeadset.STATE_ERROR;
-    int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_ERROR;
+    int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
+    int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
     boolean mShowBluetoothIndication = false;
     static int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
 
@@ -491,7 +492,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Register for misc other intent broadcasts.
             IntentFilter intentFilter =
                     new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intentFilter.addAction(BluetoothHeadset.ACTION_STATE_CHANGED);
+            intentFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -1396,7 +1397,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // case, bluetooth is considered "active" if a headset
                 // is connected *and* audio is being routed to it.
                 return ((bluetoothState == BluetoothHeadset.STATE_CONNECTED)
-                        && (bluetoothAudioState == BluetoothHeadset.AUDIO_STATE_CONNECTED));
+                        && (bluetoothAudioState == BluetoothHeadset.STATE_AUDIO_CONNECTED));
 
             case RINGING:
                 // If an incoming call is ringing, we're *not* yet routing
@@ -1423,16 +1424,16 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 boolean enabled = System.getInt(getContentResolver(),
                         System.AIRPLANE_MODE_ON, 0) == 0;
                 phone.setRadioPower(enabled);
-            } else if (action.equals(BluetoothHeadset.ACTION_STATE_CHANGED)) {
+            } else if (action.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
                 mBluetoothHeadsetState = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
-                                                            BluetoothHeadset.STATE_ERROR);
+                                                          BluetoothHeadset.STATE_DISCONNECTED);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)) {
                 mBluetoothHeadsetAudioState =
-                        intent.getIntExtra(BluetoothHeadset.EXTRA_AUDIO_STATE,
-                                           BluetoothHeadset.STATE_ERROR);
+                        intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
+                                           BluetoothHeadset.STATE_AUDIO_DISCONNECTED);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary

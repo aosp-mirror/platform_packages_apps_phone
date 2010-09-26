@@ -24,6 +24,7 @@ import android.bluetooth.BluetoothAssignedNumbers;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.bluetooth.HeadsetBase;
@@ -61,7 +62,7 @@ import java.util.LinkedList;
  * @hide
  */
 public class BluetoothHandsfree {
-    private static final String TAG = "BT HS/HF";
+    private static final String TAG = "Bluetooth HS/HF";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1)
             && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);  // even more logging
@@ -73,13 +74,16 @@ public class BluetoothHandsfree {
     private final Context mContext;
     private final BluetoothAdapter mAdapter;
     private final CallManager mCM;
-    private final BluetoothA2dp mA2dp;
+    private BluetoothA2dp mA2dp;
 
     private BluetoothDevice mA2dpDevice;
     private int mA2dpState;
+    private boolean mPendingAudioState;
+    private int mAudioState;
 
     private ServiceState mServiceState;
     private HeadsetBase mHeadset;  // null when not connected
+    private BluetoothHeadset mBluetoothHeadset;
     private int mHeadsetType;
     private boolean mAudioPossible;
     private BluetoothSocket mConnectedSco;
@@ -176,7 +180,10 @@ public class BluetoothHandsfree {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         boolean bluetoothCapable = (mAdapter != null);
         mHeadset = null;  // nothing connected yet
-        mA2dp = new BluetoothA2dp(mContext);
+        if (bluetoothCapable) {
+            mAdapter.getProfileProxy(mContext, mProfileListener,
+                                     BluetoothProfile.A2DP);
+        }
         mA2dpState = BluetoothA2dp.STATE_DISCONNECTED;
         mA2dpDevice = null;
         mA2dpSuspended = false;
@@ -251,8 +258,8 @@ public class BluetoothHandsfree {
                         Log.i(TAG, "Routing audio for incoming SCO connection");
                         mConnectedSco = mIncomingSco;
                         mAudioManager.setBluetoothScoOn(true);
-                        broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED,
-                                mHeadset.getRemoteDevice());
+                        setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
+                            mHeadset.getRemoteDevice());
 
                         if (mSignalScoCloseThread == null) {
                             mSignalScoCloseThread = new SignalScoCloseThread();
@@ -312,8 +319,10 @@ public class BluetoothHandsfree {
                 if (VDBG) log("Routing audio for outgoing SCO conection");
                 mConnectedSco = mOutgoingSco;
                 mAudioManager.setBluetoothScoOn(true);
-                broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_CONNECTED,
-                        mHeadset.getRemoteDevice());
+
+                setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
+                  mHeadset.getRemoteDevice());
+
                 if (mSignalScoCloseThread == null) {
                     mSignalScoCloseThread = new SignalScoCloseThread();
                     mSignalScoCloseThread.setName("SignalScoCloseThread");
@@ -399,7 +408,7 @@ public class BluetoothHandsfree {
                 device = mHeadset.getRemoteDevice();
             }
             mAudioManager.setBluetoothScoOn(false);
-            broadcastAudioStateIntent(BluetoothHeadset.AUDIO_STATE_DISCONNECTED, device);
+            setAudioState(BluetoothHeadset.STATE_AUDIO_DISCONNECTED, device);
 
             mConnectedSco = null;
         }
@@ -600,7 +609,7 @@ public class BluetoothHandsfree {
 
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
-            filter.addAction(BluetoothA2dp.ACTION_SINK_STATE_CHANGED);
+            filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
             mContext.registerReceiver(mStateReceiver, filter);
         }
 
@@ -740,13 +749,15 @@ public class BluetoothHandsfree {
                 } else if (intent.getAction().equals(
                             TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED)) {
                     updateSignalState(intent);
-                } else if (intent.getAction().equals(BluetoothA2dp.ACTION_SINK_STATE_CHANGED)) {
-                    int state = intent.getIntExtra(BluetoothA2dp.EXTRA_SINK_STATE,
-                            BluetoothA2dp.STATE_DISCONNECTED);
-                    int oldState = intent.getIntExtra(BluetoothA2dp.EXTRA_PREVIOUS_SINK_STATE,
-                            BluetoothA2dp.STATE_DISCONNECTED);
+                } else if (intent.getAction().equals(
+                    BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)) {
+                    int state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE,
+                        BluetoothProfile.STATE_DISCONNECTED);
+                    int oldState = intent.getIntExtra(BluetoothProfile.EXTRA_PREVIOUS_STATE,
+                        BluetoothProfile.STATE_DISCONNECTED);
                     BluetoothDevice device =
                             intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
 
                     // We are only concerned about Connected sinks to suspend and resume
                     // them. We can safely ignore SINK_STATE_CHANGE for other devices.
@@ -754,13 +765,13 @@ public class BluetoothHandsfree {
 
                     synchronized (BluetoothHandsfree.this) {
                         mA2dpState = state;
-                        if (state == BluetoothA2dp.STATE_DISCONNECTED) {
+                        if (state == BluetoothProfile.STATE_DISCONNECTED) {
                             mA2dpDevice = null;
                         } else {
                             mA2dpDevice = device;
                         }
                         if (oldState == BluetoothA2dp.STATE_PLAYING &&
-                            mA2dpState == BluetoothA2dp.STATE_CONNECTED) {
+                            mA2dpState == BluetoothProfile.STATE_CONNECTED) {
                             if (mA2dpSuspended) {
                                 if (mPendingSco) {
                                     mHandler.removeMessages(MESSAGE_CHECK_PENDING_SCO);
@@ -1200,13 +1211,41 @@ public class BluetoothHandsfree {
         }
     };
 
-    private void broadcastAudioStateIntent(int state, BluetoothDevice device) {
-        if (VDBG) log("broadcastAudioStateIntent(" + state + ")");
-        Intent intent = new Intent(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
-        intent.putExtra(BluetoothHeadset.EXTRA_AUDIO_STATE, state);
-        intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-        mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
+
+    private synchronized void setAudioState(int state, BluetoothDevice device) {
+        if (VDBG) log("setAudioState(" + state + ")");
+        if (mBluetoothHeadset == null) {
+            mAdapter.getProfileProxy(mContext, mProfileListener, BluetoothProfile.HEADSET);
+            mPendingAudioState = true;
+            mAudioState = state;
+            return;
+        }
+        mBluetoothHeadset.setAudioState(device, state);
     }
+
+    private BluetoothProfile.ServiceListener mProfileListener =
+            new BluetoothProfile.ServiceListener() {
+        public void onServiceConnected(int profile, BluetoothProfile proxy) {
+            if (profile == BluetoothProfile.HEADSET) {
+                mBluetoothHeadset = (BluetoothHeadset) proxy;
+                synchronized(BluetoothHandsfree.this) {
+                    if (mPendingAudioState) {
+                        mBluetoothHeadset.setAudioState(mHeadset.getRemoteDevice(), mAudioState);
+                        mPendingAudioState = false;
+                    }
+                }
+            } else if (profile == BluetoothProfile.A2DP) {
+                mA2dp = (BluetoothA2dp) proxy;
+            }
+        }
+        public void onServiceDisconnected(int profile) {
+            if (profile == BluetoothProfile.HEADSET) {
+                mBluetoothHeadset = null;
+            } else if (profile == BluetoothProfile.A2DP) {
+                mA2dp = null;
+            }
+        }
+    };
 
     /*
      * Put the AT command, company ID, arguments, and device in an Intent and broadcast it.

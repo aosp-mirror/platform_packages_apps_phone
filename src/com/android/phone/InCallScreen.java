@@ -19,8 +19,10 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
@@ -75,6 +77,7 @@ import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Phone app "in call" screen.
@@ -237,6 +240,7 @@ public class InCallScreen extends Activity
 
     private BluetoothHandsfree mBluetoothHandsfree;
     private BluetoothHeadset mBluetoothHeadset;
+    private BluetoothAdapter mAdapter;
     private boolean mBluetoothConnectionPending;
     private long mBluetoothConnectionRequestTime;
 
@@ -542,8 +546,10 @@ public class InCallScreen extends Activity
             // The PhoneApp only creates a BluetoothHandsfree instance in the
             // first place if BluetoothAdapter.getDefaultAdapter()
             // succeeds.  So at this point we know the device is BT-capable.
-            mBluetoothHeadset = new BluetoothHeadset(this, null);
-            if (VDBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
+            mAdapter = BluetoothAdapter.getDefaultAdapter();
+            mAdapter.getProfileProxy(getApplicationContext(), mBluetoothProfileServiceListener,
+                                    BluetoothProfile.HEADSET);
+
         }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -587,6 +593,18 @@ public class InCallScreen extends Activity
         Profiler.callScreenCreated();
         if (DBG) log("onCreate(): exit");
     }
+
+     private BluetoothProfile.ServiceListener mBluetoothProfileServiceListener =
+        new BluetoothProfile.ServiceListener() {
+        public void onServiceConnected(int profile, BluetoothProfile proxy) {
+            mBluetoothHeadset = (BluetoothHeadset) proxy;
+            if (VDBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
+        }
+
+        public void onServiceDisconnected(int profile) {
+            mBluetoothHeadset = null;
+        }
+    };
 
     /**
      * Sets the Phone object used internally by the InCallScreen.
@@ -943,7 +961,7 @@ public class InCallScreen extends Activity
         // are moving out of the foreground.
 
         if (mBluetoothHeadset != null) {
-            mBluetoothHeadset.close();
+            mAdapter.closeProfileProxy(BluetoothProfile.HEADSET, mBluetoothHeadset);
             mBluetoothHeadset = null;
         }
 
@@ -4220,12 +4238,16 @@ public class InCallScreen extends Activity
         // Check if there's a connected headset, using the BluetoothHeadset API.
         boolean isConnected = false;
         if (mBluetoothHeadset != null) {
-            BluetoothDevice headset = mBluetoothHeadset.getCurrentHeadset();
-            if (VDBG) log("  - headset state = " +
-                          mBluetoothHeadset.getState(headset));
-            if (VDBG) log("  - headset address: " + headset);
-            if (headset != null) {
-                isConnected = mBluetoothHeadset.isConnected(headset);
+            Set<BluetoothDevice> deviceSet = mBluetoothHeadset.getConnectedDevices();
+            BluetoothDevice[] devices =
+                deviceSet.toArray(new BluetoothDevice[deviceSet.size()]);
+
+            if (devices.length > 0) {
+                isConnected = true;
+
+                if (VDBG) log("  - headset state = " +
+                              mBluetoothHeadset.getConnectionState(devices[0]));
+                if (VDBG) log("  - headset address: " + devices[0]);
                 if (VDBG) log("  - isConnected: " + isConnected);
             }
         }
@@ -4310,11 +4332,13 @@ public class InCallScreen extends Activity
         if (mBluetoothHandsfree != null) {
             log("= BluetoothHandsfree.isAudioOn: " + mBluetoothHandsfree.isAudioOn());
             if (mBluetoothHeadset != null) {
-                BluetoothDevice headset = mBluetoothHeadset.getCurrentHeadset();
-                log("= BluetoothHeadset.getCurrentHeadset: " + headset);
-                if (headset != null) {
-                    log("= BluetoothHeadset.isConnected: "
-                        + mBluetoothHeadset.isConnected(headset));
+                Set<BluetoothDevice> deviceSet = mBluetoothHeadset.getConnectedDevices();
+                BluetoothDevice[] devices = deviceSet.toArray(new BluetoothDevice[deviceSet.size()]);
+
+                if (devices.length > 0) {
+                    log("= BluetoothHeadset.getCurrentDevice: " + devices[0]);
+                    log("= BluetoothHeadset.State: "
+                        + mBluetoothHeadset.getConnectionState(devices[0]));
                 }
             } else {
                 log("= mBluetoothHeadset is null");
