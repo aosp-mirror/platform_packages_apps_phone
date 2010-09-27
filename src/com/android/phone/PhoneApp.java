@@ -59,9 +59,10 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.cdma.EriInfo;
-import com.android.phone.OtaUtils.CdmaOtaScreenState;
 import com.android.internal.telephony.cdma.TtyIntent;
 import com.android.internal.telephony.sip.SipPhoneFactory;
+import com.android.phone.OtaUtils.CdmaOtaScreenState;
+import com.android.server.sip.SipService;
 
 /**
  * Top-level Application class for the Phone app.
@@ -408,6 +409,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             NotificationMgr.init(this);
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
+
+            // Starts the SIP service. It's a no-op if SIP API is not supported
+            // on the deivce.
+            // TODO: Having the phone process host the SIP service is only
+            // temporary. Will move it to a persistent communication process
+            // later.
+            SipService.start(this);
 
 
             int phoneType = phone.getPhoneType();
