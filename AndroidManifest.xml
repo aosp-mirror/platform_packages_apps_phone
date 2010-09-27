@@ -87,6 +87,11 @@
                       android:multiprocess="true"
                       android:readPermission="android.permission.READ_CONTACTS"
                       android:writePermission="android.permission.WRITE_CONTACTS" />
+            <provider android:name="com.android.internal.telephony.IccCustProvider"
+                      android:authorities="icc-cust"
+                      android:multiprocess="false"
+                      android:readPermission="android.permission.READ_CONTACTS"
+                      android:writePermission="android.permission.WRITE_CONTACTS" />
 
         <!-- Dialer UI that only allows emergency calls -->
         <activity android:name="EmergencyDialer"
