@@ -223,7 +223,7 @@
     <string name="roaming_warning" msgid="7820963598559553967">"¿Deseas permitir el roaming de datos? Ten en cuenta que podrás incurrir en gastos significativos."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opciones de GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opciones de CDMA"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"Utilización de datos "</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Utilización de datos"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"Política de velocidad de la transferencia de datos"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Datos utilizados en el período actual"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Período de utilización de datos"</string>
@@ -610,7 +610,7 @@
     <string name="goPrivate" msgid="865837794424530980">"pasar a modo privado"</string>
     <string name="selectContact" msgid="781975788478987237">"seleccionar contacto"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Configuraciones de llamada de Internet"</string>
-    <string name="sip_accounts" msgid="1155104888417065951">"Administrar cuentas "</string>
+    <string name="sip_accounts" msgid="1155104888417065951">"Administrar cuentas"</string>
     <string name="sip_accounts_summary" msgid="3642905600751185685">"Administrar cuentas SIP y estado"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Recibir llamadas entrantes"</string>
     <string name="sip_receive_calls_summary" msgid="8185472827397188433">"Requiere mayor uso de batería"</string>
@@ -692,5 +692,7 @@
     <!-- no translation found for no_internet_available (4720161089584871708) -->
     <skip />
     <!-- no translation found for no_wifi_available (5953006971954904993) -->
+    <skip />
+    <!-- no translation found for no_voip (714656054577477393) -->
     <skip />
 </resources>
