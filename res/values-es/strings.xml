@@ -315,7 +315,7 @@
     <string name="eo_enable" msgid="8623559062015685813">"Oportunidades de empleo habilitadas"</string>
     <string name="eo_disable" msgid="3863812478090907609">"Oportunidades de empleo inhabilitadas"</string>
     <string name="enable_disable_mhh" msgid="5698783743098373681">"Servicios médicos, sanitarios y hospitalarios"</string>
-    <string name="mhh_enable" msgid="3949276822735205799">"Servicios médicos, sanitarios y hospitalarios\nhabilitados"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"Servicios médicos, sanitarios y hospitalarios habilitados"</string>
     <string name="mhh_disable" msgid="4834280270664925123">"Servicios médicos, sanitarios y hospitalarios inhabilitados"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Noticias tecnológicas"</string>
     <string name="technology_news_enable" msgid="7995209394210455181">"Noticias tecnológicas habilitadas"</string>
@@ -692,5 +692,7 @@
     <!-- no translation found for no_internet_available (4720161089584871708) -->
     <skip />
     <!-- no translation found for no_wifi_available (5953006971954904993) -->
+    <skip />
+    <!-- no translation found for no_voip (714656054577477393) -->
     <skip />
 </resources>
