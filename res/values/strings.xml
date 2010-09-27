@@ -51,6 +51,10 @@
     <string name="callFailed_timedOut">No response, timed out</string>
     <!-- In-call screen: call failure reason (peer unreachable) -->
     <string name="callFailed_unreachable">Number unreachable</string>
+    <!-- In-call screen: call failure reason (incorrect username or password) -->
+    <string name="callFailed_invalid_credentials">Incorrect username or password</string>
+    <!-- In-call screen: call failure reason (calling from out of network is not allowed) -->
+    <string name="callFailed_out_of_network">Called from out of network</string>
     <!-- In-call screen: call failure reason (no signal) -->
     <string name="callFailed_noSignal">No signal</string>
     <!-- In-call screen: call failure reason (GSM ACM limit exceeded) -->
