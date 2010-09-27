@@ -157,7 +157,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"A reverter as definições…"</string>
     <string name="response_error" msgid="6674110501330139405">"Resposta inesperada da rede."</string>
     <string name="exception_error" msgid="7027667130619518211">"Erro do cartão SIM ou da rede."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Apenas são autorizadas operações para números fixos autorizados "</string>
+    <string name="fdn_only_error" msgid="7079583506377602000">"Apenas são autorizadas operações para números fixos autorizados"</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Active o rádio antes de visualizar estas definições."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Activar"</string>
@@ -692,5 +692,7 @@
     <!-- no translation found for no_internet_available (4720161089584871708) -->
     <skip />
     <!-- no translation found for no_wifi_available (5953006971954904993) -->
+    <skip />
+    <!-- no translation found for no_voip (714656054577477393) -->
     <skip />
 </resources>

@@ -633,7 +633,7 @@
     <string name="no_sip_account_found" msgid="8008170873826467400">"Для вызова номера <xliff:g id="CALL_NUMBER">%1$s</xliff:g> требуется SIP-аккаунт. Создать его?"</string>
     <string name="add_sip_account" msgid="5904858426290097611">"Добавить аккаунт"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"Удалить аккаунт"</string>
-    <string name="sip_account_list" msgid="5480058210652194306">"SIP-аккаунты "</string>
+    <string name="sip_account_list" msgid="5480058210652194306">"SIP-аккаунты"</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Сохранить"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Отменить"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Закройте профиль"</string>
@@ -661,7 +661,7 @@
     <skip />
     <!-- no translation found for third_party_account_summary (6735236674436964489) -->
     <skip />
-    <string name="sip_edit_title" msgid="5721647253413919727">"Изменение SIP-аккаунта "</string>
+    <string name="sip_edit_title" msgid="5721647253413919727">"Изменение SIP-аккаунта"</string>
     <string name="sip_edit_new_title" msgid="5604066137558229333">"Настройки нового SIP-аккаунта"</string>
     <string name="domain_address_title" msgid="6628028903715208419">"Домен"</string>
     <string name="username_title" msgid="2479375923477682328">"Имя пользователя"</string>
@@ -692,5 +692,7 @@
     <!-- no translation found for no_internet_available (4720161089584871708) -->
     <skip />
     <!-- no translation found for no_wifi_available (5953006971954904993) -->
+    <skip />
+    <!-- no translation found for no_voip (714656054577477393) -->
     <skip />
 </resources>

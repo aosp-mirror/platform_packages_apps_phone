@@ -412,7 +412,7 @@
     <string name="name" msgid="7329028332786872378">"Namn"</string>
     <string name="number" msgid="7905950798349903858">"Nummer"</string>
     <string name="save" msgid="4094274636321939086">"Spara"</string>
-    <string name="add_fdn_contact" msgid="2481915899633353976">"Lägg fast nummer "</string>
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Lägg fast nummer"</string>
     <string name="adding_fdn_contact" msgid="7627379633721940991">"Lägger till fast nummer…"</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"Ett fast nummer har lagts till."</string>
     <string name="edit_fdn_contact" msgid="7976936035587081480">"Redigera fast nummer"</string>
@@ -692,5 +692,7 @@
     <!-- no translation found for no_internet_available (4720161089584871708) -->
     <skip />
     <!-- no translation found for no_wifi_available (5953006971954904993) -->
+    <skip />
+    <!-- no translation found for no_voip (714656054577477393) -->
     <skip />
 </resources>
