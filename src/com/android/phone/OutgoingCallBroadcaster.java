@@ -239,6 +239,7 @@ public class OutgoingCallBroadcaster extends Activity {
             action = emergencyNumber
                     ? Intent.ACTION_CALL_EMERGENCY
                     : Intent.ACTION_CALL;
+            if (DBG) Log.v(TAG, "- updating action from CALL_PRIVILEGED to " + action);
             intent.setAction(action);
         }
 
@@ -343,7 +344,7 @@ public class OutgoingCallBroadcaster extends Activity {
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, uri.toString());
 
-        if (DBG) Log.v(TAG, "Broadcasting intent " + intent + ".");
+        if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                 null, Activity.RESULT_OK, number, null);
     }
