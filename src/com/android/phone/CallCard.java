@@ -987,6 +987,10 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_invalid_credentials;
                     break;
 
+                case SERVER_ERROR:
+                    resID = R.string.callFailed_server_error;
+                    break;
+
                 case OUT_OF_NETWORK:
                     resID = R.string.callFailed_out_of_network;
                     break;
