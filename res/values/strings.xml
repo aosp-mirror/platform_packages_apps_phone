@@ -1221,17 +1221,17 @@
     <!-- Title displayed SIP settings coming after other call settings in the call features screen. [CHAR LIMIT=NONE] -->
     <string name="sip_settings">Internet call settings</string>
     <!-- Title displayed SIP account settings in the sip settings category. [CHAR LIMIT=NONE] -->
-    <string name="sip_accounts">Manage Accounts</string>
+    <string name="sip_accounts">Manage SIP Accounts</string>
     <!-- The Sip Account Settings's summary. [CHAR LIMIT=NONE] -->
     <string name="sip_accounts_summary">Manage SIP accounts and status</string>
     <!-- Title displayed for the button of receiving incoming SIP calls flag. Enabled for receiving calls. [CHAR LIMIT=NONE] -->
     <string name="sip_receive_calls">Receive incoming calls</string>
     <!-- Help user to understand that it will require more battery usage if the 'receiving incoming call' is enabled. [CHAR LIMIT=NONE] -->
-    <string name="sip_receive_calls_summary">Requires more battery usage</string>
+    <string name="sip_receive_calls_summary">Higher battery usage</string>
     <!-- Title for the button of configuring the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
     <string name="sip_call_options">Configure call options</string>
     <!-- Title for the dialog of selecting the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
-    <string name="sip_call_options_title">SIP calling options</string>
+    <string name="sip_call_options_title">Outgoing call options</string>
 
     <!-- Title for enabling the auto registration for all sip accounts.  [CHAR LIMIT=NONE] -->
     <string name="auto_reg">Auto Registration</string>
@@ -1239,32 +1239,34 @@
     <string name="call_priority">Outgoing Call via SIP</string>
 
     <!-- Title of the dialog to select the phone type for the outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pick_outgoing_call_phone_type">Call out via</string>
+    <string name ="pick_outgoing_call_phone_type">Call via:</string>
 
     <!-- Title of the dialog to select the phone among the list of phones for the outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pick_outgoing_sip_phone">"Select a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g></string>
+    <string name ="pick_outgoing_sip_phone">"Select a SIP account:"</string>
 
     <!-- Text of checkbox to remember the sip phone for all outbound calls. [CHAR LIMIT=NONE] -->
-    <string name ="remember_my_choice">"Use by default for all outbound internet calls"</string>
+    <string name ="remember_my_choice">"Use by default for all outbound Internet calls"</string>
 
     <!-- Help text of checkbox to unset the default sip phone for all outbound calls. [CHAR LIMIT=NONE] -->
     <string name ="reset_my_choice_hint">Clean default(primary) in Home Settings > Call settings > Manage accounts</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pstn_phone">Regular phone</string>
+    <string name ="pstn_phone">Cellular phone</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="internet_phone">Internet phone</string>
 
     <!-- Title of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
-    <string name ="no_sip_account_found_title">No SIP account found</string>
+    <string name ="no_sip_account_found_title">No SIP account</string>
     <!-- Message of the dialog to redirect the user to SIP settings. [CHAR LIMIT=NONE] -->
-    <string name ="no_sip_account_found">Need a SIP account to dial <xliff:g id="call_number" example="1-800-4664-411">%1$s</xliff:g>. Create one now?</string>
+    <string name ="no_sip_account_found">You do not have a SIP account.  Do you want to add one now?</string>
+    <!-- Menu item for no sip account found dialog -->
+    <string name="sip_menu_add">Add</string>
 
     <!-- Title for the button to add a new sip account. [CHAR LIMIT=NONE] -->
-    <string name="add_sip_account">Add account</string>
+    <string name="add_sip_account">Add SIP account</string>
     <!-- Title for the button to remove a sip account. [CHAR LIMIT=NONE] -->
-    <string name="remove_sip_account">Remove account</string>
+    <string name="remove_sip_account">Remove SIP account</string>
     <!-- String of the category which lists all sip accounts. [CHAR LIMIT=NONE] -->
     <string name="sip_account_list">SIP accounts</string>
 
@@ -1314,7 +1316,7 @@
     <string name="sip_edit_new_title">Edit new SIP account</string>
 
     <!-- Text of the domain address preference. [CHAR LIMIT=NONE] -->
-    <string name="domain_address_title">Domain</string>
+    <string name="domain_address_title">Server</string>
     <!-- Text of the username preference. [CHAR LIMIT=NONE] -->
     <string name="username_title">Username</string>
     <!-- Text of the password preference. [CHAR LIMIT=NONE] -->
@@ -1322,7 +1324,7 @@
     <!-- Text of the display name preference. [CHAR LIMIT=NONE] -->
     <string name="display_name_title">Display name</string>
     <!-- Text of the outbound proxy address preference. [CHAR LIMIT=NONE] -->
-    <string name="proxy_address_title">Outbound proxy address</string>
+    <string name="proxy_address_title">Domain</string>
     <!-- Text of the sip server/proxy port number. [CHAR LIMIT=NONE] -->
     <string name="port_title">Port number</string>
     <!-- Text of the transport type preference. [CHAR LIMIT=NONE] -->
@@ -1336,7 +1338,7 @@
     <!-- Text of the auto registration preference summary. [CHAR LIMIT=NONE] -->
     <string name="auto_registration_summary">Register the profile automatically</string>
     <!-- Text of the set-primary preference. Simplified from "Make this my primary account". [CHAR LIMIT=NONE] -->
-    <string name="set_primary_title">Make this primary</string>
+    <string name="set_primary_title">Set as primary account</string>
     <!-- Text of the set-primary preference summary. [CHAR LIMIT=NONE] -->
     <string name="set_primary_summary">Used for outbound calls</string>
     <!-- Text of the advanced settings section. [CHAR LIMIT=NONE] -->

@@ -152,15 +152,16 @@ public class SipCallOptionHandler extends Activity implements
                     .setTitle(R.string.pick_outgoing_call_phone_type)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setSingleChoiceItems(R.array.phone_type_values, -1, this)
+                    .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
                     .create();
             break;
         case DIALOG_SELECT_OUTGOING_SIP_PHONE:
             dialog = new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.pick_outgoing_sip_phone,
-                            mNumber))
+                    .setTitle(R.string.pick_outgoing_sip_phone)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setSingleChoiceItems(getProfileNameArray(), -1, this)
+                    .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
                     .create();
             addMakeDefaultCheckBox(dialog);
@@ -168,9 +169,9 @@ public class SipCallOptionHandler extends Activity implements
         case DIALOG_START_SIP_SETTINGS:
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.no_sip_account_found_title)
-                    .setMessage(getString(R.string.no_sip_account_found, mNumber))
+                    .setMessage(R.string.no_sip_account_found)
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(android.R.string.yes, this)
+                    .setPositiveButton(R.string.sip_menu_add, this)
                     .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
                     .create();
@@ -230,7 +231,11 @@ public class SipCallOptionHandler extends Activity implements
     }
 
     public void onClick(DialogInterface dialog, int id) {
-        if (dialog == mDialogs[DIALOG_SELECT_PHONE_TYPE]) {
+        if (id == DialogInterface.BUTTON_NEGATIVE) {
+            // button negative is cancel
+            finish();
+            return;
+        } else if(dialog == mDialogs[DIALOG_SELECT_PHONE_TYPE]) {
             String selection = getResources().getStringArray(
                     R.array.phone_type_values)[id];
             Log.v(TAG, "User pick phone " + selection);
