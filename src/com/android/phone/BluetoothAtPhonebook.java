@@ -29,6 +29,8 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.GsmAlphabet;
+
 import java.util.HashMap;
 
 /**
@@ -74,6 +76,7 @@ public class BluetoothAtPhonebook {
     private final BluetoothHandsfree mHandsfree;
 
     private String mCurrentPhonebook;
+    private String mCharacterSet = "UTF-8";
 
     private final HashMap<String, PhonebookResult> mPhonebooks =
             new HashMap<String, PhonebookResult>(4);
@@ -110,21 +113,22 @@ public class BluetoothAtPhonebook {
 
     public void register(AtParser parser) {
         // Select Character Set
-        // Always send UTF-8, but pretend to support IRA and GSM for compatability
-        // TODO: Implement IRA and GSM encoding instead of faking it
         parser.register("+CSCS", new AtCommandHandler() {
             @Override
             public AtCommandResult handleReadCommand() {
-                return new AtCommandResult("+CSCS: \"UTF-8\"");
+                String result = "+CSCS: \"" + mCharacterSet + "\"";
+                return new AtCommandResult(result);
             }
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
                 if (args.length < 1) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
-                if (((String)args[0]).equals("\"GSM\"") || ((String)args[0]).equals("\"IRA\"") ||
-                        ((String)args[0]).equals("\"UTF-8\"") ||
-                        ((String)args[0]).equals("\"UTF8\"") ) {
+                String characterSet = (String)args[0];
+                characterSet = characterSet.replace("\"", "");
+                if (characterSet.equals("GSM") || characterSet.equals("IRA") ||
+                    characterSet.equals("UTF-8") || characterSet.equals("UTF8")) {
+                    mCharacterSet = characterSet;
                     return new AtCommandResult(AtCommandResult.OK);
                 } else {
                     return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_SUPPORTED);
@@ -265,7 +269,18 @@ public class BluetoothAtPhonebook {
                     if (number.equals("-1")) {
                         // unknown numbers are stored as -1 in our database
                         number = "";
-                        name = "unknown";
+                        name = mContext.getString(R.string.unknown);
+                    }
+
+                    // TODO(): Handle IRA commands. It's basically
+                    // a 7 bit ASCII character set.
+                    if (!name.equals("") && mCharacterSet.equals("GSM")) {
+                        byte[] nameByte = GsmAlphabet.stringToGsm8BitPacked(name);
+                        if (nameByte == null) {
+                            name = mContext.getString(R.string.unknown);
+                        } else {
+                            name = new String(nameByte);
+                        }
                     }
 
                     result.addResponse("+CPBR: " + index + ",\"" + number + "\"," +
@@ -374,6 +389,10 @@ public class BluetoothAtPhonebook {
         }
         Log.i(TAG, "Refreshed phonebook " + pb + " with " + pbr.cursor.getCount() + " results");
         return true;
+    }
+
+    synchronized void resetAtState() {
+        mCharacterSet = "UTF-8";
     }
 
     private synchronized int getMaxPhoneBookSize(int currSize) {
