@@ -14,9 +14,13 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:key="sip_account_list"
         android:title="@string/sip_accounts">
 
-    <PreferenceCategory android:key="sip_account_list">
-    </PreferenceCategory>
+    <CheckBoxPreference
+            android:key="sip_receive_calls_key"
+            android:title="@string/sip_receive_calls"
+            android:summary="@string/sip_receive_calls_summary"
+            android:persistent="true"/>
+
+    <PreferenceCategory android:key="sip_account_list" android:title="@string/sip_account_list"/>
 </PreferenceScreen>
