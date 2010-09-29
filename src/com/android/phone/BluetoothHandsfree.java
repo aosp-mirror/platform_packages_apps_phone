@@ -203,15 +203,16 @@ public class BluetoothHandsfree {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
 
-        if (bluetoothCapable) {
-            resetAtState();
-        }
-
         mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         cdmaSetSecondCallState(false);
+
+        if (bluetoothCapable) {
+            resetAtState();
+        }
+
     }
 
     /**
@@ -491,6 +492,7 @@ public class BluetoothHandsfree {
             mClccUsed[i] = false;
         }
         mRemoteBrsf = 0;
+        mPhonebook.resetAtState();
     }
 
     private void configAudioParameters() {
