@@ -19,7 +19,7 @@
   <string-array name="sip_call_options_entries">
     <item msgid="428491763058375479">"SIP immer mit Netzwerkzugriff verwenden"</item>
     <item msgid="8035737244627355521">"Nur wenn Ziel eine SIP-Adresse ist"</item>
-    <item msgid="3096549744441251066">"Mich jedes Mal fragen"</item>
+    <item msgid="3096549744441251066">"Jedes Mal fragen"</item>
   </string-array>
     <!-- no translation found for sip_send_keepalive_options:0 (3548645277646701316) -->
     <!-- no translation found for sip_send_keepalive_options:1 (8682084017829340336) -->
