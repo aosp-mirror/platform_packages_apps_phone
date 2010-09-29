@@ -133,8 +133,6 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private static final String VM_NUMBERS_SHARED_PREFERENCES_NAME = "vm_numbers";
 
-    private static final String BUTTON_SIP_RECEIVE_CALLS =
-            "sip_receive_calls_key";
     private static final String BUTTON_SIP_CALL_OPTIONS =
             "sip_call_options_key";
     private static final String SIP_SETTINGS_CATEGORY_KEY =
@@ -194,14 +192,12 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private CheckBoxPreference mButtonAutoRetry;
     private CheckBoxPreference mButtonHAC;
-    private CheckBoxPreference mButtonSipReceiveCalls;
     private ListPreference mButtonDTMF;
     private ListPreference mButtonTTY;
     private ListPreference mButtonSipCallOptions;
     private ListPreference mVoicemailProviders;
     private PreferenceScreen mVoicemailSettings;
     private SipSharedPreferences mSipSharedPreferences;
-    private String mSipProfilesDir;
 
     private class VoiceMailProvider {
         public VoiceMailProvider(String name, Intent intent) {
@@ -428,54 +424,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
             this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
             return true;
-        } else if (preference == mButtonSipReceiveCalls) {
-            final boolean enabled = mButtonSipReceiveCalls.isChecked();
-            mSipSharedPreferences.setReceivingCallsEnabled(enabled);
-            new Thread(new Runnable() {
-                public void run() {
-                    handleSipReceiveCallsOption(enabled);
-                }
-            }).start();
-            return true;
         }
         return false;
-    }
-
-    private synchronized void handleSipReceiveCallsOption(boolean enabled) {
-        List<SipProfile> sipProfileList =
-                SipSettings.retrieveSipListFromDirectory(mSipProfilesDir);
-        for (SipProfile p : sipProfileList) {
-            String sipUri = p.getUriString();
-            boolean openFlag = enabled;
-            // open the profile if it is primary or the receive calls option
-            // is enabled.
-            if (!enabled && mSipSharedPreferences.isPrimaryAccount(sipUri)) {
-                openFlag = true;
-            }
-            p = updateAutoRegistrationFlag(p, enabled);
-            try {
-                mSipManager.close(sipUri);
-                if (openFlag) {
-                    mSipManager.open(p);
-                }
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "register failed", e);
-            }
-        }
-    }
-
-    private SipProfile updateAutoRegistrationFlag(
-            SipProfile p, boolean enabled) {
-        SipProfile newProfile = new SipProfile.Builder(p)
-                .setAutoRegistration(enabled)
-                .build();
-        try {
-            SipSettings.deleteProfile(mSipProfilesDir + p.getProfileName());
-            SipSettings.saveProfile(mSipProfilesDir, newProfile);
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "updateAutoRegistrationFlag error", e);
-        }
-        return newProfile;
     }
 
     /**
@@ -1482,14 +1432,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         // Add Internet call settings.
         if (SipManager.isVoipSupported(this)) {
             mSipManager = SipManager.newInstance(this);
-            mSipProfilesDir = mPhone.getContext().getFilesDir()
-                    .getAbsolutePath() + SipSettings.PROFILES_DIR;
             mSipSharedPreferences = new SipSharedPreferences(this);
             addPreferencesFromResource(R.xml.sip_settings_category);
-            mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
-                    (BUTTON_SIP_RECEIVE_CALLS);
-            mButtonSipReceiveCalls.setChecked(
-                    mSipSharedPreferences.isReceivingCallsEnabled());
             mButtonSipCallOptions = (ListPreference) findPreference
                     (BUTTON_SIP_CALL_OPTIONS);
             mButtonSipCallOptions.setOnPreferenceChangeListener(this);
