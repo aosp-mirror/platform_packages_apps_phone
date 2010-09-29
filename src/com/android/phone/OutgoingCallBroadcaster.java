@@ -147,22 +147,27 @@ public class OutgoingCallBroadcaster extends Activity {
 
             if (DBG) Log.v(TAG, "CALL to " + number + " proceeding.");
 
-            Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
-            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
-
-            PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
-
-            newIntent.setClass(context, InCallScreen.class);
-            newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            Intent selectPhoneIntent = new Intent(EXTRA_NEW_CALL_INTENT, uri);
-            selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
-            selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
-            selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            if (DBG) Log.v(TAG, "doReceive(): calling startActivity: " + selectPhoneIntent);
-            context.startActivity(selectPhoneIntent);
+            startSipCallOptionsHandler(context, intent, uri, number);
         }
+    }
+
+    private void startSipCallOptionsHandler(Context context, Intent intent,
+            Uri uri, String number) {
+        Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
+        newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+
+        PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
+
+        newIntent.setClass(context, InCallScreen.class);
+        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Intent selectPhoneIntent = new Intent(EXTRA_NEW_CALL_INTENT, uri);
+        selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
+        selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
+        selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (DBG) Log.v(TAG, "startSipCallOptionsHandler(): " +
+                "calling startActivity: " + selectPhoneIntent);
+        context.startActivity(selectPhoneIntent);
     }
 
     @Override
@@ -312,13 +317,31 @@ public class OutgoingCallBroadcaster extends Activity {
             startActivity(intent);
         }
 
+        // For now, SIP calls will be processed directly without a
+        // NEW_OUTGOING_CALL broadcast.
+        //
+        // TODO: In the future, though, 3rd party apps *should* be allowed to
+        // intercept outgoing calls to SIP addresses as well.  To do this, we should
+        // (1) update the NEW_OUTGOING_CALL intent documentation to explain this
+        // case, and (2) pass the outgoing SIP address by *not* overloading the
+        // EXTRA_PHONE_NUMBER extra, but instead using a new separate extra to hold
+        // the outgoing SIP address.  (Be sure to document whether it's a URI or just
+        // a plain address, whether it could be a tel: URI, etc.)
+        Uri uri = intent.getData();
+        String scheme = uri.getScheme();
+        if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
+            startSipCallOptionsHandler(this, intent, uri, number);
+            finish();
+            return;
+        }
+
         Intent broadcastIntent = new Intent(Intent.ACTION_NEW_OUTGOING_CALL);
         if (number != null) {
             broadcastIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
         }
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
-        broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, intent.getData().toString());
+        broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, uri.toString());
 
         if (DBG) Log.v(TAG, "Broadcasting intent " + intent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
