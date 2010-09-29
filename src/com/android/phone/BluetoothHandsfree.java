@@ -382,7 +382,10 @@ public class BluetoothHandsfree {
             mSignal = asuToSignal(mCM.getDefaultPhone().getSignalStrength());
 
             // register for updates
-            mCM.registerForServiceStateChanged(mStateChangeHandler,
+            // Use the service state of default phone as BT service state to
+            // avoid situation such as no cell or wifi connection but still
+            // reporting in service (since SipPhone always reports in service).
+            mCM.getDefaultPhone().registerForServiceStateChanged(mStateChangeHandler,
                                                   SERVICE_STATE_CHANGED, null);
             mCM.registerForPreciseCallStateChanged(mStateChangeHandler,
                     PRECISE_CALL_STATE_CHANGED, null);
@@ -399,12 +402,12 @@ public class BluetoothHandsfree {
             if(VDBG) Log.d(TAG, "updateBtPhoneStateAfterRadioTechnologyChange...");
 
             //Unregister all events from the old obsolete phone
-            mCM.unregisterForServiceStateChanged(mStateChangeHandler);
+            mCM.getDefaultPhone().unregisterForServiceStateChanged(mStateChangeHandler);
             mCM.unregisterForPreciseCallStateChanged(mStateChangeHandler);
             mCM.unregisterForCallWaiting(mStateChangeHandler);
 
             //Register all events new to the new active phone
-            mCM.registerForServiceStateChanged(mStateChangeHandler,
+            mCM.getDefaultPhone().registerForServiceStateChanged(mStateChangeHandler,
                                                   SERVICE_STATE_CHANGED, null);
             mCM.registerForPreciseCallStateChanged(mStateChangeHandler,
                     PRECISE_CALL_STATE_CHANGED, null);
