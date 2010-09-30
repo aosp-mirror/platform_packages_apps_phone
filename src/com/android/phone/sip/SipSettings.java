@@ -506,7 +506,7 @@ public class SipSettings extends PreferenceActivity {
                         break;
                     case SipErrorCode.INVALID_CREDENTIALS:
                         showRegistrationMessage(profileUri, getString(
-                                R.string.registration_status_failed, message));
+                                R.string.registration_status_invalid_credentials));
                         break;
                     case SipErrorCode.DATA_CONNECTION_LOST:
                         showRegistrationMessage(profileUri, getString(

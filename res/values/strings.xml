@@ -1308,8 +1308,8 @@
     <string name="registration_status_done">Receiving calls.</string>
     <!-- Text of Internet-call registration status, registration failed with a reason; will try again later [CHAR LIMIT=NONE] -->
     <string name="registration_status_failed_try_later">Registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>); will try later.</string>
-    <!-- Text of Internet-call registration status, registration failed with a reason [CHAR LIMIT=NONE] -->
-    <string name="registration_status_failed">Registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>).</string>
+    <!-- Text of Internet-call registration status, registration failed due to invalid credentials [CHAR LIMIT=NONE] -->
+    <string name="registration_status_invalid_credentials">Registration failed (incorrect username or password).</string>
     <!-- Text for describing the account's owner and status. For example, 'Active, in use by Google Talk', it means that the account managed by SIP service was registered by the application 'Google Talk' and the status is active. [CHAR LIMIT=NONE] -->
     <string name="third_party_account_summary">Active, in use by <xliff:g id="account_owner" example="Google Talk">%s</xliff:g>.</string>
 
