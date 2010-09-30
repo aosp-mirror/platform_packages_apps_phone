@@ -322,6 +322,10 @@ public class SipSettings extends PreferenceActivity {
         mSipListContainer.removeAll();
         for (SipProfile p : mSipProfileList) {
             addPreferenceFor(p);
+        }
+
+        if (!mSipSharedPreferences.isReceivingCallsEnabled()) return;
+        for (SipProfile p : mSipProfileList) {
             if (mUid == p.getCallingUid()) {
                 try {
                     mSipManager.setRegistrationListener(
@@ -503,6 +507,14 @@ public class SipSettings extends PreferenceActivity {
                     case SipErrorCode.INVALID_CREDENTIALS:
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_failed, message));
+                        break;
+                    case SipErrorCode.DATA_CONNECTION_LOST:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_no_data));
+                        break;
+                    case SipErrorCode.CLIENT_ERROR:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_not_running));
                         break;
                     default:
                         showRegistrationMessage(profileUri, getString(
