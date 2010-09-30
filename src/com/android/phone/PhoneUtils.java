@@ -1352,6 +1352,22 @@ public class PhoneUtils {
             // querying a new CallerInfo using the connection's phone number.
             String number = c.getAddress();
 
+            if (DBG) {
+                log("###### PhoneUtils.startGetCallerInfo: new query for phone number #####");
+                log("- number (address): " + number);
+                log("- c: " + c);
+                log("- phone: " + c.getCall().getPhone());
+                int phoneType = c.getCall().getPhone().getPhoneType();
+                log("- phoneType: " + phoneType);
+                switch (phoneType) {
+                    case Phone.PHONE_TYPE_NONE: log("  ==> PHONE_TYPE_NONE"); break;
+                    case Phone.PHONE_TYPE_GSM: log("  ==> PHONE_TYPE_GSM"); break;
+                    case Phone.PHONE_TYPE_CDMA: log("  ==> PHONE_TYPE_CDMA"); break;
+                    case Phone.PHONE_TYPE_SIP: log("  ==> PHONE_TYPE_SIP"); break;
+                    default: log("  ==> Unknown phone type"); break;
+                }
+            }
+
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
 
@@ -1384,6 +1400,7 @@ public class PhoneUtils {
                 if (cit.currentInfo.numberPresentation != Connection.PRESENTATION_ALLOWED) {
                     cit.isFinal = true;
                 } else {
+                    if (DBG) log("==> Actually starting CallerInfoAsyncQuery.startQuery()...");
                     cit.asyncQuery = CallerInfoAsyncQuery.startQuery(QUERY_TOKEN, context,
                             number, sCallerInfoQueryListener, c);
                     cit.asyncQuery.addQueryListener(QUERY_TOKEN, listener, cookie);
