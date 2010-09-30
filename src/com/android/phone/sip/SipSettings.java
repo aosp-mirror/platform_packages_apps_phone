@@ -36,7 +36,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceGroup;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.MenuItem;
@@ -69,6 +69,8 @@ public class SipSettings extends PreferenceActivity {
     static final String KEY_SIP_PROFILE = "sip_profile";
     static final String PROFILE_OBJ_FILE = ".pobj";
 
+    private static final String BUTTON_SIP_RECEIVE_CALLS =
+            "sip_receive_calls_key";
     private static final String PREF_SIP_LIST = "sip_account_list";
     private static final String TAG = "SipSettings";
 
@@ -81,7 +83,8 @@ public class SipSettings extends PreferenceActivity {
 
     private SipProfile mProfile;
 
-    private PreferenceGroup mSipListContainer;
+    private CheckBoxPreference mButtonSipReceiveCalls;
+    private PreferenceCategory mSipListContainer;
     private Map<String, SipPreference> mSipPreferenceMap;
     private List<SipProfile> mSipProfileList;
     private SipSharedPreferences mSipSharedPreferences;
@@ -152,8 +155,9 @@ public class SipSettings extends PreferenceActivity {
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_setting);
         mProfilesDirectory = getFilesDir().getAbsolutePath() + PROFILES_DIR;
-        mSipListContainer = getPreferenceScreen();
+        mSipListContainer = (PreferenceCategory) findPreference(PREF_SIP_LIST);
         registerForAddSipListener();
+        registerForReceiveCallsCheckBox();
 
         updateProfilesStatus();
     }
@@ -203,6 +207,65 @@ public class SipSettings extends PreferenceActivity {
                         startSipEditor(null);
                     }
                 });
+    }
+
+    private void registerForReceiveCallsCheckBox() {
+        mButtonSipReceiveCalls = (CheckBoxPreference) findPreference
+                (BUTTON_SIP_RECEIVE_CALLS);
+        mButtonSipReceiveCalls.setChecked(
+                mSipSharedPreferences.isReceivingCallsEnabled());
+        mButtonSipReceiveCalls.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        final boolean enabled =
+                                ((CheckBoxPreference) preference).isChecked();
+                        new Thread(new Runnable() {
+                                public void run() {
+                                    handleSipReceiveCallsOption(enabled);
+                                }
+                        }).start();
+                        return true;
+                    }
+                });
+    }
+
+    private synchronized void handleSipReceiveCallsOption(boolean enabled) {
+        mSipSharedPreferences.setReceivingCallsEnabled(enabled);
+        List<SipProfile> sipProfileList =
+                retrieveSipListFromDirectory(mProfilesDirectory);
+        for (SipProfile p : sipProfileList) {
+            String sipUri = p.getUriString();
+            boolean openFlag = enabled;
+            // open the profile if it is primary or the receive calls option
+            // is enabled.
+            if (!enabled && mSipSharedPreferences.isPrimaryAccount(sipUri)) {
+                openFlag = true;
+            }
+            p = updateAutoRegistrationFlag(p, enabled);
+            try {
+                mSipManager.close(sipUri);
+                if (openFlag) {
+                    mSipManager.open(p);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "register failed", e);
+            }
+        }
+        updateProfilesStatus();
+    }
+
+    private SipProfile updateAutoRegistrationFlag(
+            SipProfile p, boolean enabled) {
+        SipProfile newProfile = new SipProfile.Builder(p)
+                .setAutoRegistration(enabled)
+                .build();
+        try {
+            deleteProfile(mProfilesDirectory + p.getProfileName());
+            saveProfile(mProfilesDirectory, newProfile);
+        } catch (Exception e) {
+            Log.e(TAG, "updateAutoRegistrationFlag error", e);
+        }
+        return newProfile;
     }
 
     private void updateProfilesStatus() {
