@@ -30,9 +30,14 @@
     <string name="ongoing" msgid="8300874342848721367">"Huidige oproep"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Lijn is bezet"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Netwerk bezet"</string>
-    <!-- no translation found for callFailed_timedOut (7590961703135543346) -->
-    <skip />
+    <string name="callFailed_timedOut" msgid="7590961703135543346">"Geen reactie, time-out"</string>
     <!-- no translation found for callFailed_unreachable (4776610666049887434) -->
+    <skip />
+    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
+    <skip />
+    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
+    <skip />
+    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
     <skip />
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Geen kiestoon"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-limiet overschreden"</string>
@@ -502,8 +507,7 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Telefonische vergaderingen niet mogelijk."</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Kan oproep niet weigeren."</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"Kan oproepen niet vrijgeven."</string>
-    <!-- no translation found for incall_call_type_label_sip (2310958283037924371) -->
-    <skip />
+    <string name="incall_call_type_label_sip" msgid="2310958283037924371">"Internetoproep"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Noodoproep"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Radio aanzetten..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Buiten servicegebied, nieuwe poging..."</string>
@@ -615,16 +619,14 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"Inkomende gesprekken ontvangen"</string>
     <string name="sip_receive_calls_summary" msgid="8185472827397188433">"Deze instelling verbruikt meer stroom"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Oproepopties configureren"</string>
-    <string name="sip_call_options_title" msgid="6580077718129226015">"SIP-oproepopties"</string>
+    <string name="sip_call_options_title" msgid="6580077718129226015">"Opties SIP-oproep"</string>
     <string name="auto_reg" msgid="9010426641641090284">"Automatische registratie"</string>
     <string name="call_priority" msgid="9150161835243082714">"Uitgaande oproep via SIP"</string>
     <!-- no translation found for pick_outgoing_call_phone_type (7519038914758176995) -->
     <skip />
     <string name="pick_outgoing_sip_phone" msgid="2427128382623820893">"Selecteer een SIP-account om <xliff:g id="CALL_NUMBER">%1$s</xliff:g> te kiezen"</string>
-    <!-- no translation found for remember_my_choice (3299610197572755389) -->
-    <skip />
-    <!-- no translation found for reset_my_choice_hint (7703146334529199325) -->
-    <skip />
+    <string name="remember_my_choice" msgid="3299610197572755389">"Standaard gebruiken voor alle uitgaande internetoproepen"</string>
+    <string name="reset_my_choice_hint" msgid="7703146334529199325">"Standaardinstelling bij \'Startpagina\' &gt; \'Instellingen\' &gt; \'Oproepinstellingen\' &gt; \'Accounts beheren\' wissen"</string>
     <!-- no translation found for pstn_phone (2533919295566975830) -->
     <skip />
     <!-- no translation found for internet_phone (6131382887074765702) -->
@@ -683,8 +685,7 @@
     <string name="advanced_settings_show" msgid="6516120139480282187">"▷ Selecteren om alles weer te geven"</string>
     <string name="advanced_settings_hide" msgid="6017519341687079724">"▽ Selecteren om alles te verbergen"</string>
     <!-- outdated translation 8431886113287411185 -->     <string name="empty_alert" msgid="282547928275577715">"mag niet leeg zijn"</string>
-    <!-- no translation found for not_a_valid_port (4796149266434630292) -->
-    <skip />
+    <string name="not_a_valid_port" msgid="4796149266434630292">"Het poortnummer moet tussen 1000 en 65534 liggen."</string>
     <!-- no translation found for no_internet_available_title (3901900296890580684) -->
     <skip />
     <!-- no translation found for no_wifi_available_title (1922972000345806601) -->
