@@ -22,9 +22,9 @@
 
     <string-array translatable="true" name="sip_call_options_entries">
         <!-- Item for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
-        <item>Always use when connected to a data network</item>
+        <item>For all calls when data network available</item>
         <!-- Item for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
-        <item>Only use for Internet Call (SIP) addresses</item>
+        <item>Only for Internet numbers</item>
         <!-- Item for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
         <item>Ask every time I make a call</item>
     </string-array>
