@@ -213,44 +213,42 @@ public class CallCard extends FrameLayout
         // load up and show or hide the "other call" area if necessary.
 
         Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
-        if (state == Phone.State.RINGING) {
-            // A phone call is ringing *or* call waiting
+        Call ringingCall = cm.getFirstActiveRingingCall();
+        Call fgCall = cm.getActiveFgCall();
+        Call bgCall = cm.getFirstActiveBgCall();
+
+        if (ringingCall.getState() != Call.State.IDLE) {
+            // A phone call is ringing, call waiting *or* being rejected
             // (ie. another call may also be active as well.)
             updateRingingCall(cm);
-        } else if (state == Phone.State.OFFHOOK) {
-            // The phone is off hook. At least one call exists that is
-            // dialing, active, or holding, and no calls are ringing or waiting.
+        } else if ((fgCall.getState() != Call.State.IDLE)
+                || (bgCall.getState() != Call.State.IDLE)) {
+            // We are here because either:
+            // (1) the phone is off hook. At least one call exists that is
+            // dialing, active, or holding, and no calls are ringing or waiting,
+            // or:
+            // (2) the phone is IDLE but a call just ended and it's still in
+            // the DISCONNECTING or DISCONNECTED state. In this case, we want
+            // the main CallCard to display "Hanging up" or "Call ended".
+            // The normal "foreground call" code path handles both cases.
             updateForegroundCall(cm);
         } else {
-            // The phone state is IDLE!
+            // We don't have any DISCONNECTED calls, which means
+            // that the phone is *truly* idle.
             //
-            // The most common reason for this is if a call just
-            // ended: the phone will be idle, but we *will* still
-            // have a call in the DISCONNECTED state:
-            if (mApplication.mCM.hasDisconnectedFgCall()
-                || mApplication.mCM.hasDisconnectedBgCall()) {
-                // In this case, we want the main CallCard to display
-                // the "Call ended" state.  The normal "foreground call"
-                // code path handles that.
-                updateForegroundCall(cm);
-            } else {
-                // We don't have any DISCONNECTED calls, which means
-                // that the phone is *truly* idle.
-                //
-                // It's very rare to be on the InCallScreen at all in this
-                // state, but it can happen in some cases:
-                // - A stray onPhoneStateChanged() event came in to the
-                //   InCallScreen *after* it was dismissed.
-                // - We're allowed to be on the InCallScreen because
-                //   an MMI or USSD is running, but there's no actual "call"
-                //   to display.
-                // - We're displaying an error dialog to the user
-                //   (explaining why the call failed), so we need to stay on
-                //   the InCallScreen so that the dialog will be visible.
-                //
-                // In these cases, put the callcard into a sane but "blank" state:
-                updateNoCall(cm);
-            }
+            // It's very rare to be on the InCallScreen at all in this
+            // state, but it can happen in some cases:
+            // - A stray onPhoneStateChanged() event came in to the
+            //   InCallScreen *after* it was dismissed.
+            // - We're allowed to be on the InCallScreen because
+            //   an MMI or USSD is running, but there's no actual "call"
+            //   to display.
+            // - We're displaying an error dialog to the user
+            //   (explaining why the call failed), so we need to stay on
+            //   the InCallScreen so that the dialog will be visible.
+            //
+            // In these cases, put the callcard into a sane but "blank" state:
+            updateNoCall(cm);
         }
     }
 
@@ -264,9 +262,7 @@ public class CallCard extends FrameLayout
         Call fgCall = cm.getActiveFgCall();
         Call bgCall = cm.getFirstActiveBgCall();
 
-
-
-        if (fgCall.isIdle() && !fgCall.hasConnections()) {
+        if (fgCall.getState() == Call.State.IDLE) {
             if (DBG) log("updateForegroundCall: no active call, show holding call");
             // TODO: make sure this case agrees with the latest UI spec.
 
