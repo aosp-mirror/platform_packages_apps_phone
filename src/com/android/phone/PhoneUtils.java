@@ -1705,6 +1705,8 @@ public class PhoneUtils {
 
         // Update the Proximity sensor based on speaker state
         app.updateProximitySensorMode(app.mCM.getState());
+
+        app.mCM.setEchoSuppressionEnabled(flag);
     }
 
     /**
