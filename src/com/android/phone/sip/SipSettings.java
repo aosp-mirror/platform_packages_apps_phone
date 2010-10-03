@@ -46,13 +46,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -64,10 +58,8 @@ import java.util.Map;
  */
 public class SipSettings extends PreferenceActivity {
     public static final String SIP_SHARED_PREFERENCES = "SIP_PREFERENCES";
-    public static final String PROFILES_DIR = "/profiles/";
 
     static final String KEY_SIP_PROFILE = "sip_profile";
-    static final String PROFILE_OBJ_FILE = ".pobj";
 
     private static final String BUTTON_SIP_RECEIVE_CALLS =
             "sip_receive_calls_key";
@@ -78,10 +70,9 @@ public class SipSettings extends PreferenceActivity {
 
     private PackageManager mPackageManager;
     private SipManager mSipManager;
+    private SipProfileDb mProfileDb;
 
-    private String mProfilesDirectory;
-
-    private SipProfile mProfile;
+    private SipProfile mProfile; // profile that's being edited
 
     private CheckBoxPreference mButtonSipReceiveCalls;
     private PreferenceCategory mSipListContainer;
@@ -151,10 +142,10 @@ public class SipSettings extends PreferenceActivity {
 
         mSipManager = SipManager.newInstance(SipSettings.this);
         mSipSharedPreferences = new SipSharedPreferences(this);
+        mProfileDb = new SipProfileDb(this);
         mPackageManager = getPackageManager();
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_setting);
-        mProfilesDirectory = getFilesDir().getAbsolutePath() + PROFILES_DIR;
         mSipListContainer = (PreferenceCategory) findPreference(PREF_SIP_LIST);
         registerForAddSipListener();
         registerForReceiveCallsCheckBox();
@@ -183,7 +174,7 @@ public class SipSettings extends PreferenceActivity {
                 SipProfile profile = intent.getParcelableExtra(KEY_SIP_PROFILE);
                 if (resultCode == RESULT_OK) {
                     Log.v(TAG, "New Profile Name:" + profile.getProfileName());
-                    saveProfileToStorage(profile);
+                    addProfile(profile);
                     if (profile.getAutoRegistration()
                             || mSipSharedPreferences.isPrimaryAccount(
                                     profile.getUriString())) {
@@ -231,8 +222,7 @@ public class SipSettings extends PreferenceActivity {
 
     private synchronized void handleSipReceiveCallsOption(boolean enabled) {
         mSipSharedPreferences.setReceivingCallsEnabled(enabled);
-        List<SipProfile> sipProfileList =
-                retrieveSipListFromDirectory(mProfilesDirectory);
+        List<SipProfile> sipProfileList = mProfileDb.retrieveSipProfileList();
         for (SipProfile p : sipProfileList) {
             String sipUri = p.getUriString();
             boolean openFlag = enabled;
@@ -260,8 +250,8 @@ public class SipSettings extends PreferenceActivity {
                 .setAutoRegistration(enabled)
                 .build();
         try {
-            deleteProfile(mProfilesDirectory + p.getProfileName());
-            saveProfile(mProfilesDirectory, newProfile);
+            mProfileDb.deleteProfile(p);
+            mProfileDb.saveProfile(newProfile);
         } catch (Exception e) {
             Log.e(TAG, "updateAutoRegistrationFlag error", e);
         }
@@ -280,34 +270,9 @@ public class SipSettings extends PreferenceActivity {
         }).start();
     }
 
-    public static List<SipProfile> retrieveSipListFromDirectory(
-            String directory) {
-        List<SipProfile> sipProfileList = Collections.synchronizedList(
-                new ArrayList<SipProfile>());
-
-        File root = new File(directory);
-        String[] dirs = root.list();
-        if (dirs == null) return sipProfileList;
-        for (String dir : dirs) {
-            File f = new File(
-                    new File(root, dir), SipSettings.PROFILE_OBJ_FILE);
-            if (!f.exists()) continue;
-            try {
-                SipProfile p = SipSettings.deserialize(f);
-                if (p == null) continue;
-                if (!dir.equals(p.getProfileName())) continue;
-
-                sipProfileList.add(p);
-            } catch (IOException e) {
-                Log.e(TAG, "retrieveProfileListFromStorage()", e);
-            }
-        }
-        return sipProfileList;
-    }
-
     private void retrieveSipLists() {
         mSipPreferenceMap = new LinkedHashMap<String, SipPreference>();
-        mSipProfileList = retrieveSipListFromDirectory(mProfilesDirectory);
+        mSipProfileList = mProfileDb.retrieveSipProfileList();
         processActiveProfilesFromSipService();
         Collections.sort(mSipProfileList, new Comparator<SipProfile>() {
             public int compare(SipProfile p1, SipProfile p2) {
@@ -414,56 +379,19 @@ public class SipSettings extends PreferenceActivity {
         }
     }
 
-    // TODO: Use the Util class in settings.vpn instead
-    public static void deleteProfile(String name) {
-        deleteProfile(new File(name));
-    }
-
-    private static void deleteProfile(File file) {
-        if (file.isDirectory()) {
-            for (File child : file.listFiles()) deleteProfile(child);
-        }
-        file.delete();
-    }
-
     void deleteProfile(SipProfile p, boolean removeProfile) {
         mSipProfileList.remove(p);
         SipPreference pref = mSipPreferenceMap.remove(p.getUriString());
         mSipListContainer.removePreference(pref);
-        if (removeProfile) {
-            deleteProfile(mProfilesDirectory + p.getProfileName());
-        }
+        if (removeProfile) mProfileDb.deleteProfile(p);
         unRegisterProfile(p);
     }
 
-    public static void saveProfile(String profilesDir, SipProfile p)
-            throws IOException {
-        File f = new File(profilesDir + p.getProfileName());
-        if (!f.exists()) f.mkdirs();
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
-                new File(f, PROFILE_OBJ_FILE)));
-        oos.writeObject(p);
-        oos.close();
-    }
-
-    private void saveProfileToStorage(SipProfile p) throws IOException {
+    private void addProfile(SipProfile p) throws IOException {
         if (mProfile != null) deleteProfile(mProfile, true);
-        saveProfile(mProfilesDirectory, p);
+        mProfileDb.saveProfile(p);
         mSipProfileList.add(p);
         addPreferenceFor(p);
-    }
-
-    static SipProfile deserialize(File profileObjectFile) throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-                    profileObjectFile));
-            SipProfile p = (SipProfile) ois.readObject();
-            ois.close();
-            return p;
-        } catch (ClassNotFoundException e) {
-            Log.d(TAG, "deserialize a profile", e);
-            return null;
-        }
     }
 
     private void startSipEditor(final SipProfile profile) {

@@ -53,7 +53,6 @@ import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.cdma.TtyIntent;
-import com.android.phone.sip.SipSettings;
 import com.android.phone.sip.SipSharedPreferences;
 
 import java.util.Collection;
