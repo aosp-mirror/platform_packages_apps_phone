@@ -1253,7 +1253,7 @@
     <string name ="reset_my_choice_hint">Clean default(primary) in Home Settings > Call settings > Manage accounts</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
-    <string name ="pstn_phone">Call phone call</string>
+    <string name ="pstn_phone">Cell phone call</string>
 
     <!-- Item of the dialog to select the phone type for outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="internet_phone">Internet call</string>
@@ -1271,6 +1271,10 @@
     <string name="remove_sip_account">Remove account</string>
     <!-- String of the category which lists all sip accounts. [CHAR LIMIT=NONE] -->
     <string name="sip_account_list">SIP accounts</string>
+    <!-- Toast message to indicate that the system is saving the account. [CHAR LIMIT=NONE] -->
+    <string name="saving_account">Saving the account...</string>
+    <!-- Toast message to indicate that the system is removing the account. [CHAR LIMIT=NONE] -->
+    <string name="removing_account">Removing the account...</string>
 
     <!-- Menu item when the menu button is pressed in the sip account editor. [CHAR LIMIT=NONE] -->
     <string name="sip_menu_save">Save</string>
