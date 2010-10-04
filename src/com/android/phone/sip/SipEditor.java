@@ -22,9 +22,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -39,9 +39,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +65,11 @@ public class SipEditor extends PreferenceActivity
     private AdvancedSettings mAdvancedSettings;
     private SipSharedPreferences mSharedPreferences;
     private boolean mDisplayNameSet;
+    private boolean mHomeButtonClicked = false;
+
+    private SipManager mSipManager;
+    private SipProfileDb mProfileDb;
+    private SipProfile mOldProfile;
 
     enum PreferenceKey {
         Username(R.string.username, 0, R.string.default_preference_summary),
@@ -132,11 +137,14 @@ public class SipEditor extends PreferenceActivity
         Log.v(TAG, "start profile editor");
         super.onCreate(savedInstanceState);
 
+        mSipManager = SipManager.newInstance(this);
         mSharedPreferences = new SipSharedPreferences(this);
+        mProfileDb = new SipProfileDb(this);
+
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_edit);
 
-        final SipProfile p = (SipProfile) ((savedInstanceState == null)
+        SipProfile p = mOldProfile = (SipProfile) ((savedInstanceState == null)
                 ? getIntent().getParcelableExtra(SipSettings.KEY_SIP_PROFILE)
                 : savedInstanceState.getParcelable(KEY_PROFILE));
 
@@ -156,7 +164,7 @@ public class SipEditor extends PreferenceActivity
             removeButton.setOnClickListener(
                     new android.view.View.OnClickListener() {
                         public void onClick(View v) {
-                            setRemovedProfileAndFinish(p);
+                            setRemovedProfileAndFinish();
                         }
                     });
         }
@@ -164,6 +172,16 @@ public class SipEditor extends PreferenceActivity
         mPrimaryAccountSelector = new PrimaryAccountSelector(p);
 
         loadPreferencesFromProfile(p);
+    }
+
+    @Override
+    public void onPause() {
+        Log.v(TAG, "SipEditor onPause(): finishing? " + isFinishing());
+        if (!isFinishing()) {
+            mHomeButtonClicked = true;
+            validateAndSetResult();
+        }
+        super.onPause();
     }
 
     @Override
@@ -180,9 +198,7 @@ public class SipEditor extends PreferenceActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_SAVE:
-                if (validateAndSetResult()) {
-                    finish();
-                }
+                validateAndSetResult();
                 return true;
 
             case MENU_DISCARD:
@@ -196,35 +212,69 @@ public class SipEditor extends PreferenceActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                if (validateAndSetResult()) finish();
+                validateAndSetResult();
                 return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void setRemovedProfileAndFinish(SipProfile p) {
-        try {
-            mPrimaryAccountSelector.commit(null);
-            Intent intent = new Intent(this, SipSettings.class);
-            intent.putExtra(SipSettings.KEY_SIP_PROFILE, (Parcelable) p);
-            setResult(RESULT_FIRST_USER, intent);
-            finish();
-        } catch (Exception e) {
-            showAlert(e.getMessage());
+    private void saveAndRegisterProfile(SipProfile p) throws IOException {
+        if (p == null) return;
+        mProfileDb.saveProfile(p);
+        if (p.getAutoRegistration()
+                || mSharedPreferences.isPrimaryAccount(p.getUriString())) {
+            try {
+                mSipManager.open(p, SipManager.ACTION_SIP_INCOMING_CALL, null);
+            } catch (Exception e) {
+                Log.e(TAG, "register failed: " + p.getUriString(), e);
+            }
         }
     }
 
-    private void showAlert(String message) {
-        new AlertDialog.Builder(this)
-                .setTitle(android.R.string.dialog_alert_title)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage(message)
-                .setPositiveButton(R.string.alert_dialog_ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int w) {
-                            }
-                        })
+    private void deleteAndUnregisterProfile(SipProfile p) {
+        if (p == null) return;
+        mProfileDb.deleteProfile(p);
+        unregisterProfile(p.getUriString());
+    }
+
+    private void unregisterProfile(String uri) {
+        try {
+            mSipManager.close(uri);
+        } catch (Exception e) {
+            Log.e(TAG, "unregister failed: " + uri, e);
+        }
+    }
+
+    private void setRemovedProfileAndFinish() {
+        Intent intent = new Intent(this, SipSettings.class);
+        setResult(RESULT_FIRST_USER, intent);
+        Toast.makeText(this, R.string.removing_account, Toast.LENGTH_SHORT)
                 .show();
+        replaceProfile(mOldProfile, null);
+        // do finish() in replaceProfile() in a background thread
+    }
+
+    private void showAlert(Throwable e) {
+        String msg = e.getMessage();
+        if (TextUtils.isEmpty(msg)) msg = e.toString();
+        showAlert(msg);
+    }
+
+    private void showAlert(final String message) {
+        if (mHomeButtonClicked) {
+            Log.v(TAG, "Home button clicked, don't show dialog: " + message);
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            public void run() {
+                new AlertDialog.Builder(SipEditor.this)
+                        .setTitle(android.R.string.dialog_alert_title)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.alert_dialog_ok, null)
+                        .show();
+            }
+        });
     }
 
     private boolean isEditTextEmpty(PreferenceKey key) {
@@ -233,7 +283,7 @@ public class SipEditor extends PreferenceActivity
                 || pref.getSummary().equals(getString(key.defaultSummary));
     }
 
-    private boolean validateAndSetResult() {
+    private void validateAndSetResult() {
         boolean allEmpty = true;
         CharSequence firstEmptyFieldTitle = null;
         for (PreferenceKey key : PreferenceKey.values()) {
@@ -264,32 +314,64 @@ public class SipEditor extends PreferenceActivity
                     int port = Integer.parseInt(PreferenceKey.Port.getValue());
                     if ((port < 1000) || (port > 65534)) {
                         showAlert(getString(R.string.not_a_valid_port));
-                        return false;
+                        return;
                     }
                 }
             }
         }
 
         if (allEmpty) {
-            return true;
+            finish();
+            return;
         } else if (firstEmptyFieldTitle != null) {
             showAlert(getString(R.string.empty_alert, firstEmptyFieldTitle));
-            return false;
+            return;
         }
 
         try {
             SipProfile profile = createSipProfile();
-            mPrimaryAccountSelector.commit(profile);
-
             Intent intent = new Intent(this, SipSettings.class);
             intent.putExtra(SipSettings.KEY_SIP_PROFILE, (Parcelable) profile);
             setResult(RESULT_OK, intent);
-            return true;
+            Toast.makeText(this, R.string.saving_account, Toast.LENGTH_SHORT)
+                    .show();
+
+            replaceProfile(mOldProfile, profile);
+            // do finish() in replaceProfile() in a background thread
         } catch (Exception e) {
             Log.w(TAG, "Can not create new SipProfile", e);
-            showAlert(e.getMessage());
-            return false;
+            showAlert(e);
         }
+    }
+
+    private void unregisterOldPrimaryAccount() {
+        String primaryAccountUri = mSharedPreferences.getPrimaryAccount();
+        Log.v(TAG, "old primary: " + primaryAccountUri);
+        if ((primaryAccountUri != null)
+                && !mSharedPreferences.isReceivingCallsEnabled()) {
+            Log.v(TAG, "unregister old primary: " + primaryAccountUri);
+            unregisterProfile(primaryAccountUri);
+        }
+    }
+
+    private void replaceProfile(final SipProfile oldProfile,
+            final SipProfile newProfile) {
+        // replace profile in a background thread as it takes time to access the
+        // storage; do finish() once everything goes fine.
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    unregisterOldPrimaryAccount();
+                    mPrimaryAccountSelector.commit(newProfile);
+                    deleteAndUnregisterProfile(oldProfile);
+                    saveAndRegisterProfile(newProfile);
+                    finish();
+                } catch (Exception e) {
+                    Log.e(TAG, "Can not save/register new SipProfile", e);
+                    showAlert(e);
+                }
+            }
+        }, "SipEditor").start();
     }
 
     private String getProfileName() {
@@ -424,6 +506,7 @@ public class SipEditor extends PreferenceActivity
         return new String(cc);
     }
 
+    // only takes care of the primary account setting in SipSharedSettings
     private class PrimaryAccountSelector {
         private CheckBoxPreference mCheckbox;
         private final boolean mWasPrimaryAccount;

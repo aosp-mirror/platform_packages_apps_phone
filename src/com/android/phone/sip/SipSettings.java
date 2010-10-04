@@ -140,9 +140,10 @@ public class SipSettings extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSipManager = SipManager.newInstance(SipSettings.this);
+        mSipManager = SipManager.newInstance(this);
         mSipSharedPreferences = new SipSharedPreferences(this);
         mProfileDb = new SipProfileDb(this);
+
         mPackageManager = getPackageManager();
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_setting);
@@ -171,18 +172,15 @@ public class SipSettings extends PreferenceActivity {
         new Thread() {
             public void run() {
             try {
+                if (mProfile != null) {
+                    Log.v(TAG, "Removed Profile:" + mProfile.getProfileName());
+                    deleteProfile(mProfile);
+                }
+
                 SipProfile profile = intent.getParcelableExtra(KEY_SIP_PROFILE);
                 if (resultCode == RESULT_OK) {
                     Log.v(TAG, "New Profile Name:" + profile.getProfileName());
                     addProfile(profile);
-                    if (profile.getAutoRegistration()
-                            || mSipSharedPreferences.isPrimaryAccount(
-                                    profile.getUriString())) {
-                        registerProfile(profile);
-                    }
-                } else {
-                    Log.v(TAG, "Removed Profile Name:" + profile.getProfileName());
-                    deleteProfile(profile, true);
                 }
                 updateProfilesStatus();
             } catch (IOException e) {
@@ -351,45 +349,26 @@ public class SipSettings extends PreferenceActivity {
                 .setPositiveButton(R.string.close_profile,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int w) {
-                                deleteProfile(profile, false);
+                                deleteProfile(profile);
                             }
                         })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
-    private void registerProfile(SipProfile profile) {
-        if (profile != null) {
-            try {
-                mSipManager.open(profile, SipManager.ACTION_SIP_INCOMING_CALL,
-                        createRegistrationListener());
-            } catch (Exception e) {
-                Log.e(TAG, "register failed", e);
-            }
-        }
-    }
-
-    private void unRegisterProfile(SipProfile profile) {
-        if (profile != null) {
-            try {
-                mSipManager.close(profile.getUriString());
-            } catch (Exception e) {
-                Log.e(TAG, "unregister failed:" + profile.getUriString(), e);
-            }
-        }
-    }
-
-    void deleteProfile(SipProfile p, boolean removeProfile) {
+    void deleteProfile(SipProfile p) {
         mSipProfileList.remove(p);
         SipPreference pref = mSipPreferenceMap.remove(p.getUriString());
         mSipListContainer.removePreference(pref);
-        if (removeProfile) mProfileDb.deleteProfile(p);
-        unRegisterProfile(p);
     }
 
     private void addProfile(SipProfile p) throws IOException {
-        if (mProfile != null) deleteProfile(mProfile, true);
-        mProfileDb.saveProfile(p);
+        try {
+            mSipManager.setRegistrationListener(p.getUriString(),
+                    createRegistrationListener());
+        } catch (Exception e) {
+            Log.e(TAG, "cannot set registration listener", e);
+        }
         mSipProfileList.add(p);
         addPreferenceFor(p);
     }
