@@ -20,7 +20,7 @@ import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.sip.SipPhone;
-import com.android.phone.sip.SipSettings;
+import com.android.phone.sip.SipProfileDb;
 import com.android.phone.sip.SipSharedPreferences;
 
 import android.content.BroadcastReceiver;
@@ -111,10 +111,9 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         new Thread(new Runnable() {
             public void run() {
                 SipManager sipManager = SipManager.newInstance(context);
+                SipProfileDb profileDb = new SipProfileDb(context);
                 List<SipProfile> sipProfileList =
-                        SipSettings.retrieveSipListFromDirectory(
-                        context.getFilesDir().getAbsolutePath()
-                        + SipSettings.PROFILES_DIR);
+                        profileDb.retrieveSipProfileList();
                 for (SipProfile profile : sipProfileList) {
                     try {
                         if (!profile.getAutoRegistration() &&

@@ -19,6 +19,7 @@ package com.android.phone;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.phone.sip.SipProfileDb;
 import com.android.phone.sip.SipSettings;
 import com.android.phone.sip.SipSharedPreferences;
 
@@ -362,9 +363,8 @@ public class SipCallOptionHandler extends Activity implements
     }
 
     private SipProfile getPrimaryFromExistingProfiles(String primarySipUri) {
-        mProfileList = SipSettings.retrieveSipListFromDirectory(
-                getFilesDir().getAbsolutePath() +
-                SipSettings.PROFILES_DIR);
+        SipProfileDb profileDb = new SipProfileDb(this);
+        mProfileList = profileDb.retrieveSipProfileList();
         if (mProfileList == null) return null;
         for (SipProfile p : mProfileList) {
             if (p.getUriString().equals(primarySipUri)) return p;
