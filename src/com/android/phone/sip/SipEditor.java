@@ -106,7 +106,10 @@ public class SipEditor extends PreferenceActivity
             if (preference instanceof EditTextPreference) {
                 String oldValue = getValue();
                 ((EditTextPreference) preference).setText(value);
-                Log.v(TAG, this + ": setValue() " + value + ": " + oldValue + " --> " + getValue());
+                if (this != Password) {
+                    Log.v(TAG, this + ": setValue() " + value + ": " + oldValue
+                            + " --> " + getValue());
+                }
             } else if (preference instanceof ListPreference) {
                 ((ListPreference) preference).setValue(value);
             }
@@ -356,7 +359,7 @@ public class SipEditor extends PreferenceActivity
                 }
                 checkIfDisplayNameSet();
             } catch (Exception e) {
-                Log.e(TAG, "Can not load pref from profile:" + e.getMessage());
+                Log.e(TAG, "Can not load pref from profile", e);
             }
         } else {
             Log.v(TAG, "Edit a new profile");
@@ -436,9 +439,9 @@ public class SipEditor extends PreferenceActivity
                     && mSharedPreferences.isPrimaryAccount(
                             profile.getUriString());
 
-            Log.d(TAG, " noPrimaryAccountSet: " + noPrimaryAccountSet);
-            Log.d(TAG, " editNewProfile: " + editNewProfile);
-            Log.d(TAG, " mWasPrimaryAccount: " + mWasPrimaryAccount);
+            Log.v(TAG, " noPrimaryAccountSet: " + noPrimaryAccountSet);
+            Log.v(TAG, " editNewProfile: " + editNewProfile);
+            Log.v(TAG, " mWasPrimaryAccount: " + mWasPrimaryAccount);
 
             mCheckbox.setChecked(mWasPrimaryAccount
                     || (editNewProfile && noPrimaryAccountSet));
