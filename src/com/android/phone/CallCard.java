@@ -979,8 +979,12 @@ public class CallCard extends FrameLayout
                     resID = R.string.callFailed_timedOut;
                     break;
 
+                case SERVER_UNREACHABLE:
+                    resID = R.string.callFailed_server_unreachable;
+                    break;
+
                 case NUMBER_UNREACHABLE:
-                    resID = R.string.callFailed_unreachable;
+                    resID = R.string.callFailed_number_unreachable;
                     break;
 
                 case INVALID_CREDENTIALS:

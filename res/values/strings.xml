@@ -49,8 +49,10 @@
     <string name="callFailed_congestion">Network busy</string>
     <!-- In-call screen: call failure reason (client timed out) -->
     <string name="callFailed_timedOut">No response, timed out</string>
+    <!-- In-call screen: call failure reason (server unreachable) -->
+    <string name="callFailed_server_unreachable">Server unreachable</string>
     <!-- In-call screen: call failure reason (peer unreachable) -->
-    <string name="callFailed_unreachable">Number unreachable</string>
+    <string name="callFailed_number_unreachable">Number unreachable</string>
     <!-- In-call screen: call failure reason (incorrect username or password) -->
     <string name="callFailed_invalid_credentials">Incorrect username or password</string>
     <!-- In-call screen: call failure reason (calling from out of network is not allowed) -->
@@ -1307,17 +1309,19 @@
     <!-- Text of Internet-call registration status, currently not receiving calls on this account [CHAR LIMIT=NONE] -->
     <string name="registration_status_not_receiving">Not receiving calls.</string>
     <!-- Text of Internet-call registration status, no data connection [CHAR LIMIT=NONE] -->
-    <string name="registration_status_no_data">Registration stopped because there is no Internet connection.</string>
+    <string name="registration_status_no_data">Account registration stopped because there is no Internet connection.</string>
     <!-- Text of Internet-call registration status, registration process is not running due to some error [CHAR LIMIT=NONE] -->
-    <string name="registration_status_not_running">Registration stopped due to error(s).</string>
+    <string name="registration_status_not_running">Account registration failed.</string>
     <!-- Text of Internet-call registration status, currently we can receive calls on this account [CHAR LIMIT=NONE] -->
     <string name="registration_status_done">Receiving calls.</string>
     <!-- Text of Internet-call registration status, registration failed with a reason; will try again later [CHAR LIMIT=NONE] -->
-    <string name="registration_status_failed_try_later">Registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>); will try later.</string>
+    <string name="registration_status_failed_try_later">Account registration failed (<xliff:g id="registration_error_message" example="timed out">%s</xliff:g>); will try later.</string>
     <!-- Text of Internet-call registration status, registration failed due to invalid credentials [CHAR LIMIT=NONE] -->
-    <string name="registration_status_invalid_credentials">Registration failed (incorrect username or password).</string>
+    <string name="registration_status_invalid_credentials">Account registration failed (incorrect username or password).</string>
+    <!-- Text of Internet-call registration status, registration failed due to unknown host exception [CHAR LIMIT=NONE] -->
+    <string name="registration_status_server_unreachable">Account registration failed. Please check your server name.</string>
     <!-- Text for describing the account's owner and status. For example, 'Active, in use by Google Talk', it means that the account managed by SIP service was registered by the application 'Google Talk' and the status is active. [CHAR LIMIT=NONE] -->
-    <string name="third_party_account_summary">This account is currently in use by <xliff:g id="account_owner" example="Google Talk">%s</xliff:g>.</string>
+    <string name="third_party_account_summary">This account is currently in use by the <xliff:g id="account_owner" example="Google Talk">%s</xliff:g> application.</string>
 
 
     <!-- Title of the sip editor screen. [CHAR LIMIT=NONE] -->
