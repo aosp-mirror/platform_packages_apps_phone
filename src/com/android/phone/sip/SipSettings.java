@@ -415,6 +415,10 @@ public class SipSettings extends PreferenceActivity {
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_invalid_credentials));
                         break;
+                    case SipErrorCode.SERVER_UNREACHABLE:
+                        showRegistrationMessage(profileUri, getString(
+                                R.string.registration_status_server_unreachable));
+                        break;
                     case SipErrorCode.DATA_CONNECTION_LOST:
                         showRegistrationMessage(profileUri, getString(
                                 R.string.registration_status_no_data));
