@@ -17,6 +17,7 @@
 package com.android.phone.sip;
 
 import com.android.phone.R;
+import com.android.phone.SipUtil;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -80,7 +81,6 @@ public class SipSettings extends PreferenceActivity {
     private List<SipProfile> mSipProfileList;
     private SipSharedPreferences mSipSharedPreferences;
     private int mUid = Process.myUid();
-
 
     private class SipPreference extends Preference {
         SipProfile mProfile;
@@ -223,17 +223,17 @@ public class SipSettings extends PreferenceActivity {
         List<SipProfile> sipProfileList = mProfileDb.retrieveSipProfileList();
         for (SipProfile p : sipProfileList) {
             String sipUri = p.getUriString();
-            boolean openFlag = enabled;
-            // open the profile if it is primary or the receive calls option
-            // is enabled.
-            if (!enabled && mSipSharedPreferences.isPrimaryAccount(sipUri)) {
-                openFlag = true;
-            }
             p = updateAutoRegistrationFlag(p, enabled);
             try {
-                mSipManager.close(sipUri);
-                if (openFlag) {
-                    mSipManager.open(p);
+                if (enabled) {
+                    mSipManager.open(p,
+                            SipUtil.createIncomingCallPendingIntent(), null);
+                } else {
+                    mSipManager.close(sipUri);
+                    if (mSipSharedPreferences.isPrimaryAccount(sipUri)) {
+                        // re-open in order to make calls
+                        mSipManager.open(p);
+                    }
                 }
             } catch (Exception e) {
                 Log.e(TAG, "register failed", e);
