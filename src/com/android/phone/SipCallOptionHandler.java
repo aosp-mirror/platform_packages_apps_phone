@@ -67,6 +67,7 @@ public class SipCallOptionHandler extends Activity implements
     private String mCallOption;
     private String mNumber;
     private SipSharedPreferences mSipSharedPreferences;
+    private SipProfileDb mSipProfileDb;
     private Dialog[] mDialogs = new Dialog[DIALOG_SIZE];
     private SipProfile mOutgoingSipProfile;
     private TextView mUnsetPriamryHint;
@@ -106,6 +107,7 @@ public class SipCallOptionHandler extends Activity implements
         //       outgoing call.)
 
         boolean voipSupported = SipManager.isVoipSupported(this);
+        mSipProfileDb = new SipProfileDb(this);
         mSipSharedPreferences = new SipSharedPreferences(this);
         mCallOption = mSipSharedPreferences.getSipCallOption();
         Log.v(TAG, "Call option is " + mCallOption);
@@ -114,6 +116,15 @@ public class SipCallOptionHandler extends Activity implements
         mNumber = PhoneNumberUtils.getNumberFromIntent(mIntent, this);
         if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(mNumber)) {
             mUseSipPhone = true;
+        } else if ("tel".equals(scheme) && (
+                (mSipProfileDb.getProfilesCount() == 0)
+                || !uri.toString().contains(mNumber))) {
+            // Since we are not sure if anyone has touched the number in the
+            // NEW_OUTGOING_CALL receiver, we just checked if the original uri
+            // contains the number string. If not, it means someone has changed
+            // the destination number. We then make the call via regular pstn
+            // network.
+            setResultAndFinish();
         }
 
         if (!mUseSipPhone && voipSupported
@@ -363,8 +374,7 @@ public class SipCallOptionHandler extends Activity implements
     }
 
     private SipProfile getPrimaryFromExistingProfiles(String primarySipUri) {
-        SipProfileDb profileDb = new SipProfileDb(this);
-        mProfileList = profileDb.retrieveSipProfileList();
+        mProfileList = mSipProfileDb.retrieveSipProfileList();
         if (mProfileList == null) return null;
         for (SipProfile p : mProfileList) {
             if (p.getUriString().equals(primarySipUri)) return p;

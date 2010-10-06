@@ -32,6 +32,7 @@ import android.util.Log;
 public class SipSharedPreferences {
     private static final String SIP_SHARED_PREFERENCES = "SIP_PREFERENCES";
     private static final String KEY_PRIMARY_ACCOUNT = "primary";
+    private static final String KEY_NUMBER_OF_PROFILES = "profiles";
 
     private SharedPreferences mPreferences;
     private Context mContext;
@@ -65,6 +66,16 @@ public class SipSharedPreferences {
     public boolean hasPrimaryAccount() {
         return !TextUtils.isEmpty(
                 mPreferences.getString(KEY_PRIMARY_ACCOUNT, null));
+    }
+
+    public void setProfilesCount(int number) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(KEY_NUMBER_OF_PROFILES, number);
+        editor.apply();
+    }
+
+    public int getProfilesCount() {
+        return mPreferences.getInt(KEY_NUMBER_OF_PROFILES, 0);
     }
 
     public void setSipCallOption(String option) {
