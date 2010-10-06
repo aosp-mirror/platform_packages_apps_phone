@@ -40,15 +40,20 @@ public class SipProfileDb {
     private static final String PROFILE_OBJ_FILE = ".pobj";
 
     private String mProfilesDirectory;
+    private SipSharedPreferences mSipSharedPreferences;
+    private int mProfilesCount = -1;
 
     public SipProfileDb(Context context) {
         mProfilesDirectory = context.getFilesDir().getAbsolutePath()
                 + PROFILES_DIR;
+        mSipSharedPreferences = new SipSharedPreferences(context);
     }
 
     public void deleteProfile(SipProfile p) {
         synchronized(SipProfileDb.class) {
             deleteProfile(new File(mProfilesDirectory + p.getProfileName()));
+            if (mProfilesCount < 0) retrieveSipProfileListInternal();
+            mSipSharedPreferences.setProfilesCount(--mProfilesCount);
         }
     }
 
@@ -67,7 +72,14 @@ public class SipProfileDb {
                     new FileOutputStream(new File(f, PROFILE_OBJ_FILE)));
             oos.writeObject(p);
             oos.close();
+            if (mProfilesCount < 0) retrieveSipProfileListInternal();
+            mSipSharedPreferences.setProfilesCount(++mProfilesCount);
         }
+    }
+
+    public int getProfilesCount() {
+        return (mProfilesCount < 0) ?
+                mSipSharedPreferences.getProfilesCount() : mProfilesCount;
     }
 
     public List<SipProfile> retrieveSipProfileList() {
@@ -96,6 +108,8 @@ public class SipProfileDb {
                 Log.e(TAG, "retrieveProfileListFromStorage()", e);
             }
         }
+        mProfilesCount = sipProfileList.size();
+        mSipSharedPreferences.setProfilesCount(mProfilesCount);
         return sipProfileList;
     }
 
