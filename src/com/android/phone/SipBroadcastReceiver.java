@@ -122,7 +122,8 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                             continue;
                         }
                         sipManager.open(profile,
-                                SipManager.ACTION_SIP_INCOMING_CALL, null);
+                                SipUtil.createIncomingCallPendingIntent(),
+                                null);
                     } catch (SipException e) {
                         Log.e(TAG, "failed" + profile.getProfileName(), e);
                     }

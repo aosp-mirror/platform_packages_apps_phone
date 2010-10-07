@@ -17,6 +17,7 @@
 package com.android.phone.sip;
 
 import com.android.phone.R;
+import com.android.phone.SipUtil;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -224,7 +225,8 @@ public class SipEditor extends PreferenceActivity
         if (p.getAutoRegistration()
                 || mSharedPreferences.isPrimaryAccount(p.getUriString())) {
             try {
-                mSipManager.open(p, SipManager.ACTION_SIP_INCOMING_CALL, null);
+                mSipManager.open(p, SipUtil.createIncomingCallPendingIntent(),
+                        null);
             } catch (Exception e) {
                 Log.e(TAG, "register failed: " + p.getUriString(), e);
             }
