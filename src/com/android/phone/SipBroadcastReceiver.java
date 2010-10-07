@@ -68,7 +68,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
             removeSipPhone(localSipUri);
             Log.d(TAG, "removed phone: " + localSipUri + " #phones="
                     + CallManager.getInstance().getAllPhones().size());
-        } else if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+        } else if (action.equals(SipManager.ACTION_SIP_SERVICE_UP)) {
             Log.v(TAG, "start auto registration");
             registerAllProfiles();
         } else {
