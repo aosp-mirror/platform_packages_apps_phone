@@ -131,7 +131,7 @@ public class SipCallOptionHandler extends Activity implements
             // way to handle the results from other providers, we should have
             // a better revision here.
             setResultAndFinish();
-            retrun;
+            return;
         }
 
         if (!mUseSipPhone && voipSupported
