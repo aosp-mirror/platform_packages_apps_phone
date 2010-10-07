@@ -31,7 +31,9 @@
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Linea occupata"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Rete occupata"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Nessuna risposta, timeout"</string>
-    <!-- no translation found for callFailed_unreachable (4776610666049887434) -->
+    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
+    <skip />
+    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
     <skip />
     <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
     <skip />
@@ -614,28 +616,43 @@
     <string name="goPrivate" msgid="865837794424530980">"Privato"</string>
     <string name="selectContact" msgid="781975788478987237">"seleziona contatto"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Impostazioni chiamate Internet"</string>
-    <string name="sip_accounts" msgid="1155104888417065951">"Gestisci account"</string>
-    <string name="sip_accounts_summary" msgid="3642905600751185685">"Gestisci gli account SIP e lo stato"</string>
+    <!-- outdated translation 1155104888417065951 -->     <string name="sip_accounts" msgid="2097054001288457163">"Gestisci account"</string>
+    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
+    <skip />
+    <!-- outdated translation 3642905600751185685 -->     <string name="sip_accounts_summary" msgid="6812629993146552527">"Gestisci gli account SIP e lo stato"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Ricevi chiamate in arrivo"</string>
-    <string name="sip_receive_calls_summary" msgid="8185472827397188433">"Richiede maggiore utilizzo della batteria"</string>
+    <!-- outdated translation 8185472827397188433 -->     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Richiede maggiore utilizzo della batteria"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configura opzioni di chiamata"</string>
-    <string name="sip_call_options_title" msgid="6580077718129226015">"Opzioni di chiamata SIP"</string>
-    <string name="auto_reg" msgid="9010426641641090284">"Registrazione automatica"</string>
-    <string name="call_priority" msgid="9150161835243082714">"Chiamata in uscita tramite SIP"</string>
-    <!-- no translation found for pick_outgoing_call_phone_type (7519038914758176995) -->
+    <!-- outdated translation 6580077718129226015 -->     <string name="sip_call_options_title" msgid="27433718808839672">"Opzioni di chiamata SIP"</string>
+    <!-- outdated translation 9010426641641090284 -->     <string name="auto_reg" msgid="8150163311655081599">"Registrazione automatica"</string>
+    <!-- outdated translation 9150161835243082714 -->     <string name="call_priority" msgid="8374917577270504387">"Chiamata in uscita tramite SIP"</string>
+    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_call_phone_type -->
     <skip />
-    <string name="pick_outgoing_sip_phone" msgid="2427128382623820893">"Seleziona un account SIP per comporre <xliff:g id="CALL_NUMBER">%1$s</xliff:g>"</string>
-    <string name="remember_my_choice" msgid="3299610197572755389">"Utilizza per impostazione predefinita per tutte le chiamate Internet in uscita"</string>
-    <string name="reset_my_choice_hint" msgid="7703146334529199325">"Cancella il valore predefinito (principale) in Home &gt; Impostazioni chiamate &gt; Gestisci account"</string>
-    <!-- no translation found for pstn_phone (2533919295566975830) -->
+    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
     <skip />
-    <!-- no translation found for internet_phone (6131382887074765702) -->
+    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_sip_phone -->
     <skip />
-    <string name="no_sip_account_found_title" msgid="5393053332131310356">"Nessun account SIP trovato"</string>
-    <string name="no_sip_account_found" msgid="8008170873826467400">"Per comporre <xliff:g id="CALL_NUMBER">%1$s</xliff:g> è necessario un account SIP. Crearne uno adesso?"</string>
+    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
+    <skip />
+    <!-- outdated translation 3299610197572755389 -->     <string name="remember_my_choice" msgid="7058059586169290705">"Utilizza per impostazione predefinita per tutte le chiamate Internet in uscita"</string>
+    <!-- unknown quoting pattern: original -1, translation 1 -->
+    <!-- outdated translation 7703146334529199325 -->     <string name="reset_my_choice_hint" msgid="8522825056755061594">"Cancella il valore predefinito (principale) in Home &amp;gt; Impostazioni chiamate &amp;gt; Gestisci account"</string>
+    <!-- outdated translation 421416659339448131 -->     <string name="pstn_phone" msgid="8782554491484326429">"PSTN normale"</string>
+    <!-- outdated translation 5197954280353814985 -->     <string name="internet_phone" msgid="1147922660195095810">"Telefono Internet"</string>
+    <!-- outdated translation 5393053332131310356 -->     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Nessun account SIP trovato"</string>
+    <!-- unknown placeholder CALL_NUMBER in no_sip_account_found -->
+    <skip />
+    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
+    <skip />
+    <!-- no translation found for sip_menu_add (8757508498518881500) -->
+    <skip />
     <string name="add_sip_account" msgid="5904858426290097611">"Aggiungi account"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"Rimuovi account"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"Account SIP"</string>
+    <!-- no translation found for saving_account (7468818916695729968) -->
+    <skip />
+    <!-- no translation found for removing_account (5569334415898924904) -->
+    <skip />
     <string name="sip_menu_save" msgid="5842531129356014943">"Salva"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Ignora"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Chiudi il profilo"</string>
@@ -643,29 +660,27 @@
     <string name="close_profile" msgid="6886968271423155284">"Chiudi"</string>
     <string name="primary_account" msgid="2229538308291934245">"Principale"</string>
     <string name="primary_account_title" msgid="5694267218020951531">"Imposta come account principale"</string>
-    <string name="primary_account_summary" msgid="1261271657165698218">"Utilizzato per le chiamate in uscita."</string>
+    <!-- outdated translation 1261271657165698218 -->     <string name="primary_account_summary" msgid="7339564526372623187">"Utilizzato per le chiamate in uscita."</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Impostazioni avanzate"</string>
-    <!-- no translation found for primary_account_summary_with (1633960536212343187) -->
+    <string name="primary_account_summary_with" msgid="1633960536212343187">"Account principale. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
+    <string name="registration_status_checking_status" msgid="3381868307694056727">"Controllo stato in corso..."</string>
+    <string name="registration_status_registering" msgid="7115694971025999516">"Registrazione in corso..."</string>
+    <string name="registration_status_still_trying" msgid="1471733478935862864">"Tentativo ancora in corso..."</string>
+    <string name="registration_status_not_receiving" msgid="5011399017106466965">"Ricezione chiamate non attiva"</string>
+    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
     <skip />
-    <!-- no translation found for registration_status_checking_status (3381868307694056727) -->
+    <!-- no translation found for registration_status_not_running (272678962440371182) -->
     <skip />
-    <!-- no translation found for registration_status_registering (7115694971025999516) -->
+    <string name="registration_status_done" msgid="6434927607037752239">"Ricezione chiamate attiva"</string>
+    <!-- outdated translation 7057002088421460771 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Registrazione non riuscita (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); nuovo tentativo più tardi"</string>
+    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
     <skip />
-    <!-- no translation found for registration_status_still_trying (1471733478935862864) -->
+    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
     <skip />
-    <!-- no translation found for registration_status_not_receiving (5011399017106466965) -->
-    <skip />
-    <!-- no translation found for registration_status_done (6434927607037752239) -->
-    <skip />
-    <!-- no translation found for registration_status_failed_try_later (7057002088421460771) -->
-    <skip />
-    <!-- no translation found for registration_status_failed (6985534736805343765) -->
-    <skip />
-    <!-- no translation found for third_party_account_summary (6735236674436964489) -->
-    <skip />
-    <string name="sip_edit_title" msgid="5721647253413919727">"Modifica il tuo account SIP"</string>
-    <string name="sip_edit_new_title" msgid="5604066137558229333">"Modifica il nuovo account SIP"</string>
-    <string name="domain_address_title" msgid="6628028903715208419">"Dominio"</string>
+    <!-- outdated translation 6735236674436964489 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Attivo, in uso da <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <!-- outdated translation 5721647253413919727 -->     <string name="sip_edit_title" msgid="489288416435014385">"Modifica il tuo account SIP"</string>
+    <!-- outdated translation 5604066137558229333 -->     <string name="sip_edit_new_title" msgid="3659149255856520385">"Modifica il nuovo account SIP"</string>
+    <!-- outdated translation 6628028903715208419 -->     <string name="domain_address_title" msgid="9071787581316160480">"Dominio"</string>
     <string name="username_title" msgid="2479375923477682328">"Nome utente"</string>
     <string name="password_title" msgid="3323555249068171531">"Password"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Nome visualizzato"</string>
@@ -674,26 +689,22 @@
     <string name="transport_title" msgid="8253139511847746640">"Tipo trasporto"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Invia keep-alive"</string>
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Invia messaggi keep-alive SIP"</string>
-    <string name="auto_registration_title" msgid="5156483863963866266">"Registrazione automatica"</string>
+    <!-- outdated translation 5156483863963866266 -->     <string name="auto_registration_title" msgid="3586777375420122154">"Registrazione automatica"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Registra automaticamente il profilo"</string>
-    <string name="set_primary_title" msgid="4925496287926649150">"Imposta come principale"</string>
+    <!-- outdated translation 4925496287926649150 -->     <string name="set_primary_title" msgid="5351892327447571451">"Imposta come principale"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Utilizzato per chiamate in uscita"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Impostazioni facoltative"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Non impostato&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Uguale al nome utente&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Facoltativo&gt;"</string>
-    <string name="advanced_settings_show" msgid="6516120139480282187">"▷ Seleziona per mostrare tutto"</string>
-    <string name="advanced_settings_hide" msgid="6017519341687079724">"▽ Seleziona per nascondere tutto"</string>
-    <!-- outdated translation 8431886113287411185 -->     <string name="empty_alert" msgid="282547928275577715">"non può essere vuoto"</string>
-    <string name="not_a_valid_port" msgid="4796149266434630292">"Il numero della porta deve essere compreso tra 1000 e 65534."</string>
-    <!-- no translation found for no_internet_available_title (3901900296890580684) -->
-    <skip />
-    <!-- no translation found for no_wifi_available_title (1922972000345806601) -->
-    <skip />
-    <!-- no translation found for no_internet_available (4720161089584871708) -->
-    <skip />
-    <!-- no translation found for no_wifi_available (5953006971954904993) -->
-    <skip />
-    <!-- no translation found for no_voip (714656054577477393) -->
+    <!-- outdated translation 6516120139480282187 -->     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Seleziona per mostrare tutto"</string>
+    <!-- outdated translation 6017519341687079724 -->     <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Seleziona per nascondere tutto"</string>
+    <!-- outdated translation 282547928275577715 -->     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> è obbligatorio e non può essere lasciato vuoto."</string>
+    <!-- outdated translation 4796149266434630292 -->     <string name="not_a_valid_port" msgid="5750410768271782606">"Il numero della porta deve essere compreso tra 1000 e 65534."</string>
+    <!-- outdated translation 3901900296890580684 -->     <string name="no_internet_available_title" msgid="3327109242858406165">"Nessuna connettività Internet"</string>
+    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="6360004347044169827">"Nessuna connettività WiFi"</string>
+    <!-- outdated translation 4720161089584871708 -->     <string name="no_internet_available" msgid="1100564991026313234">"Prima di effettuare una chiamata via Internet controlla la tua connettività Internet."</string>
+    <!-- outdated translation 5953006971954904993 -->     <string name="no_wifi_available" msgid="3389743006886634541">"Le chiamate via Internet sono disponibili soltanto su WiFi. Attiva la connettività WiFi in Impostazioni &gt; Impostazioni wireless e reti."</string>
+    <!-- no translation found for no_voip (8901474054537199865) -->
     <skip />
 </resources>
