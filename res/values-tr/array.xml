@@ -17,9 +17,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="sip_call_options_entries">
-    <item msgid="428491763058375479">"Ağ erişimiyle her zaman SIP kullan"</item>
-    <item msgid="8035737244627355521">"Yalnızca, hedef bir SIP adresiyse"</item>
-    <item msgid="3096549744441251066">"Her zaman önce bana sor"</item>
+    <!-- outdated translation 428491763058375479 -->     <item msgid="7574112411455442147">"Ağ erişimiyle her zaman SIP kullan"</item>
+    <!-- outdated translation 8035737244627355521 -->     <item msgid="1733232004879887685">"Yalnızca, hedef bir SIP adresiyse"</item>
+    <!-- outdated translation 3096549744441251066 -->     <item msgid="94383390305603721">"Her zaman önce bana sor"</item>
   </string-array>
     <!-- no translation found for sip_send_keepalive_options:0 (3548645277646701316) -->
     <!-- no translation found for sip_send_keepalive_options:1 (8682084017829340336) -->
