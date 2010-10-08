@@ -241,7 +241,8 @@ public class InCallTouchUi extends FrameLayout
         boolean showIncomingCallControls = false;
         boolean showInCallControls = false;
 
-        if (state == Phone.State.RINGING) {
+        final Call ringingCall = cm.getFirstActiveRingingCall();
+        if (ringingCall.getState() != Call.State.IDLE) {
             // A phone call is ringing *or* call waiting.
             if (mAllowIncomingCallTouchUi) {
                 // Watch out: even if the phone state is RINGING, it's
@@ -249,7 +250,6 @@ public class InCallTouchUi extends FrameLayout
                 // state.  (This typically happens immediately after the user
                 // rejects an incoming call, and in that case we *don't* show
                 // the incoming call controls.)
-                final Call ringingCall = cm.getFirstActiveRingingCall();
                 if (ringingCall.getState().isAlive()) {
                     if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
                     showIncomingCallControls = true;
