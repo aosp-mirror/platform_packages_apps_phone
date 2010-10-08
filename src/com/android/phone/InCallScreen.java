@@ -2512,7 +2512,7 @@ public class InCallScreen extends Activity
             // or by user selection, i.e., dialog query,
             // or any of combinations
             Uri uri = intent.getData();
-            String scheme = uri.getScheme();
+            String scheme = (uri != null) ? uri.getScheme() : null;
             String sipPhoneUri = intent.getStringExtra(
                     OutgoingCallBroadcaster.EXTRA_SIP_PHONE_URI);
             phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, scheme, number, sipPhoneUri);
