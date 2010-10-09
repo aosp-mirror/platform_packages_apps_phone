@@ -118,13 +118,20 @@ public class SipCallOptionHandler extends Activity implements
             mUseSipPhone = true;
         } else if ("tel".equals(scheme) && (
                 (mSipProfileDb.getProfilesCount() == 0)
-                || !uri.toString().contains(mNumber))) {
-            // Since we are not sure if anyone has touched the number in the
-            // NEW_OUTGOING_CALL receiver, we just checked if the original uri
-            // contains the number string. If not, it means someone has changed
-            // the destination number. We then make the call via regular pstn
-            // network.
+                || PhoneUtils.hasPhoneProviderExtras(mIntent))) {
+            // Since we are not sure if anyone has touched the number during
+            // the NEW_OUTGOING_CALL broadcast, we just check if the provider
+            // put their gateway information in the intent. If so, it means
+            // someone has changed the destination number. We then make the
+            // call via the default pstn network. However, if one just alters
+            // the destination directly, then we still let it go through the
+            // Internet call option process.
+            //
+            // TODO: This is just a temporary check, if there is an official
+            // way to handle the results from other providers, we should have
+            // a better revision here.
             setResultAndFinish();
+            retrun;
         }
 
         if (!mUseSipPhone && voipSupported
