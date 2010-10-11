@@ -1047,7 +1047,8 @@ public class CallCard extends FrameLayout
         mPhotoTracker.setPhotoRequest(info);
         mPhotoTracker.setPhotoState(ContactsAsyncHelper.ImageTracker.DISPLAY_IMAGE);
 
-        String name;
+        // The actual strings we're going to display onscreen:
+        String displayName;
         String displayNumber = null;
         String label = null;
         Uri personUri = null;
@@ -1068,42 +1069,62 @@ public class CallCard extends FrameLayout
             // .getCallerInfo() that relied on a NULL CallerInfo to indicate
             // an unknown contact.
 
+            // Currently, info.phoneNumber may actually be a SIP address, and
+            // if so, it might sometimes include the "sip:" prefix.  That
+            // prefix isn't really useful to the user, though, so strip it off
+            // if present.  (For any other URI scheme, though, leave the
+            // prefix alone.)
+            // TODO: It would be cleaner for CallerInfo to explicitly support
+            // SIP addresses instead of overloading the "phoneNumber" field.
+            // Then we could remove this hack, and instead ask the CallerInfo
+            // for a "user visible" form of the SIP address.
+            String number = info.phoneNumber;
+            if (number.startsWith("sip:")) {
+                number = number.substring(4);
+            }
+
             if (TextUtils.isEmpty(info.name)) {
-                if (TextUtils.isEmpty(info.phoneNumber)) {
-                    name =  getPresentationString(presentation);
+                // No valid "name" in the CallerInfo, so fall back to
+                // something else.
+                // (Typically, we promote the phone number up to the "name"
+                // slot onscreen, and leave the "number" slot empty.)
+                if (TextUtils.isEmpty(number)) {
+                    displayName =  getPresentationString(presentation);
                 } else if (presentation != Connection.PRESENTATION_ALLOWED) {
                     // This case should never happen since the network should never send a phone #
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
-                    name = getPresentationString(presentation);
+                    displayName = getPresentationString(presentation);
                 } else if (!TextUtils.isEmpty(info.cnapName)) {
-                    name = info.cnapName;
+                    displayName = info.cnapName;
                     info.name = info.cnapName;
-                    displayNumber = info.phoneNumber;
+                    displayNumber = number;
                 } else {
-                    name = info.phoneNumber;
+                    displayName = number;
                 }
             } else {
+                // We do have a valid "name" in the CallerInfo.  Display that
+                // in the "name" slot, and the phone number in the "number" slot.
                 if (presentation != Connection.PRESENTATION_ALLOWED) {
                     // This case should never happen since the network should never send a name
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
-                    name = getPresentationString(presentation);
+                    displayName = getPresentationString(presentation);
                 } else {
-                    name = info.name;
-                    displayNumber = info.phoneNumber;
+                    displayName = info.name;
+                    displayNumber = number;
                     label = info.phoneLabel;
                 }
             }
             personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, info.person_id);
         } else {
-            name =  getPresentationString(presentation);
+            displayName =  getPresentationString(presentation);
         }
 
         if (call.isGeneric()) {
             mName.setText(R.string.card_title_in_call);
         } else {
-            mName.setText(name);
+            mName.setText(displayName);
         }
         mName.setVisibility(View.VISIBLE);
 
