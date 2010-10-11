@@ -1079,7 +1079,7 @@ public class CallCard extends FrameLayout
             // Then we could remove this hack, and instead ask the CallerInfo
             // for a "user visible" form of the SIP address.
             String number = info.phoneNumber;
-            if (number.startsWith("sip:")) {
+            if ((number != null) && number.startsWith("sip:")) {
                 number = number.substring(4);
             }
 
