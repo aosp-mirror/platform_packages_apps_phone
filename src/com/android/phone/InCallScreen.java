@@ -307,6 +307,13 @@ public class InCallScreen extends Activity
     private String mPostDialStrAfterPause;
     private boolean mPauseInProgress = false;
 
+    // Info about the most-recently-disconnected Connection, which is used
+    // to determine what should happen when exiting the InCallScreen after a
+    // call.  (This info is set by onDisconnect(), and used by
+    // delayedCleanupAfterDisconnect().)
+    private Connection.DisconnectCause mLastDisconnectCause;
+
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -1857,6 +1864,16 @@ public class InCallScreen extends Activity
         // that might be triggered by a disconnect event, like playing the
         // busy/congestion tone.
 
+        // Stash away some info about the call that just disconnected.
+        // (This might affect what happens after we exit the InCallScreen; see
+        // delayedCleanupAfterDisconnect().)
+        // TODO: rather than stashing this away now and then reading it in
+        // delayedCleanupAfterDisconnect(), it would be cleaner to just pass
+        // this as an argument to delayedCleanupAfterDisconnect() (if we call
+        // it directly) or else pass it as a Message argument when we post the
+        // DELAYED_CLEANUP_AFTER_DISCONNECT message.
+        mLastDisconnectCause = cause;
+
         // We bail out immediately (and *don't* display the "call ended"
         // state at all) in a couple of cases, including those where we
         // are waiting for the radio to finish powering up for an
@@ -2839,12 +2856,38 @@ public class InCallScreen extends Activity
             if (mIsForegroundActivity) {
                 if (DBG) log("- delayedCleanupAfterDisconnect: finishing InCallScreen...");
 
-                // If we're not in emergency mode, i.e. if the screen isn't
-                // locked, finish the call by taking the user to the Call Log.
-                // (UI note: Up till eclair, we did this only for outgoing
-                // calls initiated on the device, but we now do it
-                // unconditionally.)
-                if (!isPhoneStateRestricted()) {
+                // In some cases we finish the call by taking the user to the
+                // Call Log.  Otherwise, we simply call endInCallScreenSession,
+                // which will take us back to wherever we came from.
+                //
+                // UI note: In eclair and earlier, we went to the Call Log
+                // after outgoing calls initiated on the device, but never for
+                // incoming calls.  Now we do it for incoming calls too, as
+                // long as the call was answered by the user.  (We always go
+                // back where you came from after a rejected or missed incoming
+                // call.)
+                //
+                // And in any case, *never* go to the call log if we're in
+                // emergency mode (i.e. if the screen is locked and a lock
+                // pattern or PIN/password is set.)
+
+                if (VDBG) log("- Post-call behavior:");
+                if (VDBG) log("  - mLastDisconnectCause = " + mLastDisconnectCause);
+                if (VDBG) log("  - isPhoneStateRestricted() = " + isPhoneStateRestricted());
+
+                // DisconnectCause values in the most common scenarios:
+                // - INCOMING_MISSED: incoming ringing call times out, or the
+                //                    other end hangs up while still ringing
+                // - INCOMING_REJECTED: user rejects the call while ringing
+                // - LOCAL: user hung up while a call was active (after
+                //          answering an incoming call, or after making an
+                //          outgoing call)
+                // - NORMAL: the other end hung up (after answering an incoming
+                //           call, or after making an outgoing call)
+
+                if ((mLastDisconnectCause != Connection.DisconnectCause.INCOMING_MISSED)
+                        && (mLastDisconnectCause != Connection.DisconnectCause.INCOMING_REJECTED)
+                        && !isPhoneStateRestricted()) {
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
