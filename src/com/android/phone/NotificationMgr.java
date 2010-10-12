@@ -628,7 +628,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 expandedViewLine1 = mContext.getString(R.string.notification_ongoing_call_format);
             }
 
-            if (DBG) log("- Updating expanded view: line 1 '" + expandedViewLine1 + "'");
+            if (DBG) log("- Updating expanded view: line 1 '" + /*expandedViewLine1*/ "xxxxxxx" + "'");
 
             // Text line #1 is actually a Chronometer, not a plain TextView.
             // We format the elapsed time of the current call into a line like
@@ -666,7 +666,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // completes (see onQueryComplete() below.)
         }
 
-        if (DBG) log("- Updating expanded view: line 2 '" + expandedViewLine2 + "'");
+        if (DBG) log("- Updating expanded view: line 2 '" + /*expandedViewLine2*/ "xxxxxxx" + "'");
         contentView.setTextViewText(R.id.text2, expandedViewLine2);
         notification.contentView = contentView;
 
