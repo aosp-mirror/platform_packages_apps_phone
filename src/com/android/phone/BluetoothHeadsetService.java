@@ -509,10 +509,20 @@ public class BluetoothHeadsetService extends Service {
             mRemoteHeadsets.get(device).mState = state;
 
             sendBroadcast(intent, BLUETOOTH_PERM);
-            if (state == BluetoothHeadset.STATE_CONNECTING) {
+            if (state == BluetoothHeadset.STATE_CONNECTED) {
                 // Set the priority to AUTO_CONNECT
                 setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
+                adjustOtherHeadsetPriorities(device);
             }
+       }
+    }
+
+    private void adjustOtherHeadsetPriorities(BluetoothDevice connectedDevice) {
+       for (BluetoothDevice device : mAdapter.getBondedDevices()) {
+          if (getPriority(device) >= BluetoothHeadset.PRIORITY_AUTO_CONNECT &&
+              !device.equals(connectedDevice)) {
+              setPriority(device, BluetoothHeadset.PRIORITY_ON);
+          }
        }
     }
 
@@ -570,6 +580,9 @@ public class BluetoothHeadsetService extends Service {
                 int channel = device.getServiceChannel(BluetoothUuid.Handsfree);
                 mConnectThread = new RfcommConnectThread(device, channel, type);
                 mConnectThread.start();
+                if (getPriority(device) < BluetoothHeadset.PRIORITY_AUTO_CONNECT) {
+                    setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
+                }
                 return;
             } else if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.HSP)) {
                 log("SDP UUID: TYPE_HEADSET");
@@ -578,6 +591,9 @@ public class BluetoothHeadsetService extends Service {
                 int channel = device.getServiceChannel(BluetoothUuid.HSP);
                 mConnectThread = new RfcommConnectThread(device, channel, type);
                 mConnectThread.start();
+                if (getPriority(device) < BluetoothHeadset.PRIORITY_AUTO_CONNECT) {
+                    setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
+                }
                 return;
             }
         }
