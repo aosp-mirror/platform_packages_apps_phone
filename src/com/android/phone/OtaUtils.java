@@ -78,6 +78,10 @@ public class OtaUtils {
     public static final String ACTION_PERFORM_CDMA_PROVISIONING =
            "com.android.phone.PERFORM_CDMA_PROVISIONING";
 
+    // Intent action to launch activation on a non-voice capable device
+    public static final String ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING =
+            "com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING";
+
     // Activity result codes for the ACTION_PERFORM_CDMA_PROVISIONING intent
     // (see the InCallScreenShowActivation activity.)
     //
@@ -253,16 +257,11 @@ public class OtaUtils {
             }
         } else {
             if (phoneNeedsActivation) {
-                if (DBG) log("maybeDoOtaCall: non-interactive; need to start OTASP call...");
-
-                // TODO: Do nothing for now, since phone.needsOtaServiceProvisioning()
-                // is unreliable on Stingray right now.
-
-                // But eventually we'll need to fire off a non-interactive
-                // OTASP call (see startNonInteractiveOtasp()) *and* jump
-                // to some activity in the SetupWizard to show a progress
-                // UI to the user.
-
+                app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
+                Intent newIntent = new Intent(ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(newIntent);
+                if (DBG) log("maybeDoOtaCall: non-interactive; activation intent sent.");
             } else {
                 if (DBG) log("maybeDoOtaCall: non-interactive, no need for OTASP.");
             }
