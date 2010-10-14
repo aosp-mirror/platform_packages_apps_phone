@@ -22,11 +22,20 @@
 
     <string-array translatable="true" name="sip_call_options_entries">
         <!-- Item for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
-        <item>For all calls when data network available</item>
+        <item>For all calls when data network is available</item>
         <!-- Item for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
-        <item>Only for Internet numbers</item>
+        <item>Only for Internet calls</item>
         <!-- Item for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
-        <item>Ask every time I make a call</item>
+        <item>Ask for each call</item>
+    </string-array>
+
+    <string-array translatable="true" name="sip_call_options_wifi_only_entries">
+        <!-- Item for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
+        <item>For all calls</item>
+        <!-- Item for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
+        <item>Only for Internet calls</item>
+        <!-- Item for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
+        <item>Ask for each call</item>
     </string-array>
 
     <string-array translatable="false" name="sip_call_options_values">

@@ -36,5 +36,13 @@
                 android:persistent="true"
                 android:entries="@array/sip_call_options_entries"
                 android:entryValues="@array/sip_call_options_values"/>
+
+        <ListPreference
+                android:key="sip_call_options_wifi_only_key"
+                android:title="@string/sip_call_options_title"
+                android:dialogTitle="@string/sip_call_options_wifi_only_title"
+                android:persistent="true"
+                android:entries="@array/sip_call_options_wifi_only_entries"
+                android:entryValues="@array/sip_call_options_values"/>
     </PreferenceCategory>
 </PreferenceScreen>
