@@ -26,6 +26,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
@@ -38,6 +39,7 @@ import com.android.internal.telephony.PhoneFactory;
 public class FdnSetting extends PreferenceActivity
         implements EditPinPreference.OnPinEnteredListener, DialogInterface.OnCancelListener {
 
+    private static final String LOG_TAG = "FdnSetting";
     private Phone mPhone;
 
     /**
@@ -245,7 +247,15 @@ public class FdnSetting extends PreferenceActivity
                             } else {
                                 // set the correct error message depending upon the state.
                                 if (mPinChangeState == PIN_CHANGE_PUK) {
-                                    displayMessage(R.string.badPuk2);
+                                    if (mPhone.getIccCard().isPin2PermBlocked()) {
+                                        Log.d(LOG_TAG,"PIN2 got permanently blocked while trying to change it." +
+                                                " Disabling Enable FDN and Change PIN2 buttons");
+                                        displayMessage(R.string.pin2_perm_blocked);
+                                        mButtonEnableFDN.setEnabled(false);
+                                        mButtonChangePin2.setEnabled(false);
+                                    } else {
+                                        displayMessage(R.string.badPuk2);
+                                    }
                                 } else {
                                     displayMessage(R.string.badPin2);
                                 }
@@ -275,6 +285,7 @@ public class FdnSetting extends PreferenceActivity
     public void onCancel(DialogInterface dialog) {
         // set the state of the preference and then display the dialog.
         mPinChangeState = PIN_CHANGE_PUK;
+        mSkipOldPin = true;
         displayPinChangeDialog(0, true);
     }
 
@@ -415,6 +426,7 @@ public class FdnSetting extends PreferenceActivity
         super.onResume();
         mPhone = PhoneFactory.getDefaultPhone();
         updateEnableFDN();
+        checkPin2StatusAndUpdateFdnScreen();
     }
 
     /**
@@ -429,6 +441,21 @@ public class FdnSetting extends PreferenceActivity
         out.putString(NEW_PIN_KEY, mNewPin);
         out.putString(DIALOG_MESSAGE_KEY, mButtonChangePin2.getDialogMessage().toString());
         out.putString(DIALOG_PIN_ENTRY_KEY, mButtonChangePin2.getText());
+    }
+
+    private void checkPin2StatusAndUpdateFdnScreen() {
+        if (mPhone.getIccCard().isPin2PermBlocked()) {
+            Log.d(LOG_TAG,"PIN2 is permanently blocked. Disabling Enable FDN and Change PIN2 buttons");
+            displayMessage(R.string.pin2_perm_blocked);
+            mButtonEnableFDN.setEnabled(false);
+            mButtonChangePin2.setEnabled(false);
+        } else if (mPhone.getIccCard().isPin2Blocked()) {
+            Log.d(LOG_TAG,"PIN2 is blocked");
+            resetPinChangeStateForPUK2();
+        } else {
+            Log.d(LOG_TAG,"PIN2 is not Blocked");
+            resetPinChangeState();
+        }
     }
 }
 
