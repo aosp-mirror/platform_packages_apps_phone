@@ -818,6 +818,8 @@
     <string name="fdn_enable_puk2_requested">Password incorrect, please change PIN2 and retry!</string>
     <!-- SIM PIN2 screen: error message displayed in a dialog -->
     <string name="puk2_requested">Password incorrect, SIM is locked! PUK2 requested.</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="pin2_perm_blocked">PIN2 is permanently blocked.</string>
 
     <!-- SIM PIN screen: button label -->
     <string name="doneButton">Done</string>
