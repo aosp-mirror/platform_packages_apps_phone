@@ -145,7 +145,7 @@ public class OutgoingCallBroadcaster extends Activity {
 
             Uri uri = Uri.parse(originalUri);
 
-            if (DBG) Log.v(TAG, "CALL to " + number + " proceeding.");
+            if (DBG) Log.v(TAG, "CALL to " + /*number*/ "xxxxxxx" + " proceeding.");
 
             startSipCallOptionsHandler(context, intent, uri, number);
         }

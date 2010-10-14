@@ -1066,7 +1066,7 @@ public class CallNotifier extends Handler
                 final CallerInfo ci = getCallerInfoFromConnection(c);  // May be null.
                 final String logNumber = getLogNumber(c, ci);
 
-                if (DBG) log("- onDisconnect(): logNumber set to: " + logNumber);
+                if (DBG) log("- onDisconnect(): logNumber set to: " + /*logNumber*/ "xxxxxxx");
 
                 // TODO: In getLogNumber we use the presentation from
                 // the connection for the CNAP. Should we use the one
