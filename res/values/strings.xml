@@ -1239,6 +1239,15 @@
     <!-- Title for the dialog of selecting the way we handle an outgoing call (Wi-Fi only). [CHAR LIMIT=NONE] -->
     <string name="sip_call_options_wifi_only_title">Use Internet calling (Wi-Fi only)</string>
 
+    <!-- Item of the Internet call option dialog: for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_entry_1">For all calls when data network is available</string>
+    <!-- Item of the Internet call option dialog: for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_entry_2">Only for Internet calls</string>
+    <!-- Item of the Internet call option dialog: for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_entry_3">Ask for each call</string>
+    <!-- Item of the Internet call (Wi-Fi only) option dialog: for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_wifi_only_entry_1">For all calls</string>
+
     <!-- Title for enabling the auto registration for all sip accounts.  [CHAR LIMIT=NONE] -->
     <string name="auto_reg">Auto-registration</string>
     <!-- Title for enabling the routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->

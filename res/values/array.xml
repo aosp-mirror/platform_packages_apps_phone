@@ -21,21 +21,15 @@
     </string-array>
 
     <string-array translatable="true" name="sip_call_options_entries">
-        <!-- Item for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
-        <item>For all calls when data network is available</item>
-        <!-- Item for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
-        <item>Only for Internet calls</item>
-        <!-- Item for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
-        <item>Ask for each call</item>
+        <item>@string/sip_call_options_entry_1</item>
+        <item>@string/sip_call_options_entry_2</item>
+        <item>@string/sip_call_options_entry_3</item>
     </string-array>
 
     <string-array translatable="true" name="sip_call_options_wifi_only_entries">
-        <!-- Item for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
-        <item>For all calls</item>
-        <!-- Item for routing a outgoing call via SIP if the destination is a SIP URI. [CHAR LIMIT=NONE] -->
-        <item>Only for Internet calls</item>
-        <!-- Item for asking user to select the way for each outgoing call. [CHAR LIMIT=NONE] -->
-        <item>Ask for each call</item>
+        <item>@string/sip_call_options_wifi_only_entry_1</item>
+        <item>@string/sip_call_options_entry_2</item>
+        <item>@string/sip_call_options_entry_3</item>
     </string-array>
 
     <string-array translatable="false" name="sip_call_options_values">
