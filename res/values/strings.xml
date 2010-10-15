@@ -1394,11 +1394,11 @@
 
     <!-- Title of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=40] -->
     <string name="no_internet_available_title">No Internet connection</string>
-    <!-- Title of the alert dialog to notify user that there is no WIFI connectivity. [CHAR LIMIT=40] -->
-    <string name="no_wifi_available_title">No WIFI connection</string>
+    <!-- Title of the alert dialog to notify user that there is no Wi-Fi connectivity. [CHAR LIMIT=40] -->
+    <string name="no_wifi_available_title">No Wi-Fi connection</string>
     <!-- Message of the alert dialog to notify user that there is no Internet connectivity. [CHAR LIMIT=NONE] -->
     <string name="no_internet_available">To place an Internet call, check your Internet connection first</string>
-    <!-- Message of the alert dialog to notify user that there is no WIFI connectivity. [CHAR LIMIT=NONE] -->
+    <!-- Message of the alert dialog to notify user that there is no Wi-Fi connectivity. [CHAR LIMIT=NONE] -->
     <string name="no_wifi_available">You must be connected to a Wi-Fi network for Internet calls (use the Wireless &amp; Network settings)</string>
     <!-- Title of the alert dialog to notify user that Internet call is not supported. [CHAR LIMIT=40] -->
     <string name="no_voip">Internet calling not supported</string>
