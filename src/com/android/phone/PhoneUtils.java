@@ -406,6 +406,17 @@ public class PhoneUtils {
         return hungUpRingingCall || hungUpFgCall;
     }
 
+    static boolean hangupAllCalls(Phone phone) {
+        Call call = phone.getForegroundCall();
+        try {
+            call.hangupAllCalls();
+            return true;
+        } catch (CallStateException ex) {
+            Log.e(LOG_TAG, "hangup all calls: caught " + ex, ex);
+        }
+        return false;
+    }
+
     /**
      * Trivial wrapper around Call.hangup(), except that we return a
      * boolean success code rather than throwing CallStateException on

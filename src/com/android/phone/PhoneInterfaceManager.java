@@ -142,8 +142,8 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         // ending the complete call session
                         hungUp = PhoneUtils.hangupRingingAndActive(mPhone);
                     } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                        // GSM: End the call as per the Phone state
-                        hungUp = PhoneUtils.hangup(mPhone);
+                        // GSM: End all calls except waiting
+                        hungUp = PhoneUtils.hangupAllCalls(mPhone);
                     } else {
                         throw new IllegalStateException("Unexpected phone type: " + phoneType);
                     }
