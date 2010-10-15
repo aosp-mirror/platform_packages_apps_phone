@@ -1236,6 +1236,8 @@
     <string name="sip_call_options">Configure call options</string>
     <!-- Title for the dialog of selecting the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
     <string name="sip_call_options_title">Use Internet calling</string>
+    <!-- Title for the dialog of selecting the way we handle an outgoing call (Wi-Fi only). [CHAR LIMIT=NONE] -->
+    <string name="sip_call_options_wifi_only_title">Use Internet calling (Wi-Fi only)</string>
 
     <!-- Title for enabling the auto registration for all sip accounts.  [CHAR LIMIT=NONE] -->
     <string name="auto_reg">Auto-registration</string>

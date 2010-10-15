@@ -39,6 +39,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.ContactsContract.CommonDataKinds;
@@ -133,6 +134,8 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     private static final String BUTTON_SIP_CALL_OPTIONS =
             "sip_call_options_key";
+    private static final String BUTTON_SIP_CALL_OPTIONS_WIFI_ONLY =
+            "sip_call_options_wifi_only_key";
     private static final String SIP_SETTINGS_CATEGORY_KEY =
             "sip_settings_category_key";
 
@@ -1432,13 +1435,30 @@ public class CallFeaturesSetting extends PreferenceActivity
             mSipManager = SipManager.newInstance(this);
             mSipSharedPreferences = new SipSharedPreferences(this);
             addPreferencesFromResource(R.xml.sip_settings_category);
-            mButtonSipCallOptions = (ListPreference) findPreference
-                    (BUTTON_SIP_CALL_OPTIONS);
+            mButtonSipCallOptions = getSipCallOptionPreference();
             mButtonSipCallOptions.setOnPreferenceChangeListener(this);
             mButtonSipCallOptions.setValueIndex(
                     mButtonSipCallOptions.findIndexOfValue(
                             mSipSharedPreferences.getSipCallOption()));
             mButtonSipCallOptions.setSummary(mButtonSipCallOptions.getEntry());
+        }
+    }
+
+    // Gets the call options for SIP depending on whether SIP is allowed only
+    // on Wi-Fi only; also make the other options preference invisible.
+    private ListPreference getSipCallOptionPreference() {
+        ListPreference wifiAnd3G = (ListPreference)
+                findPreference(BUTTON_SIP_CALL_OPTIONS);
+        ListPreference wifiOnly = (ListPreference)
+                findPreference(BUTTON_SIP_CALL_OPTIONS_WIFI_ONLY);
+        PreferenceGroup sipSettings = (PreferenceGroup)
+                findPreference(SIP_SETTINGS_CATEGORY_KEY);
+        if (SipManager.isSipWifiOnly(this)) {
+            sipSettings.removePreference(wifiAnd3G);
+            return wifiOnly;
+        } else {
+            sipSettings.removePreference(wifiOnly);
+            return wifiAnd3G;
         }
     }
 
