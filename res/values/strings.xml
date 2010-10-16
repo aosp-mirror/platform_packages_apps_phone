@@ -1321,6 +1321,8 @@
     <string name="registration_status_not_receiving">Not receiving calls</string>
     <!-- Text of Internet-call registration status, no data connection [CHAR LIMIT=NONE] -->
     <string name="registration_status_no_data">Account registration stopped because there is no Internet connection</string>
+    <!-- Text of Internet-call registration status, no Wi-Fi connection [CHAR LIMIT=NONE] -->
+    <string name="registration_status_no_wifi_data">Account registration stopped because there is no Wi-Fi connection</string>
     <!-- Text of Internet-call registration status, registration process is not running due to some error [CHAR LIMIT=NONE] -->
     <string name="registration_status_not_running">Account registration failed</string>
     <!-- Text of Internet-call registration status, currently we can receive calls on this account [CHAR LIMIT=NONE] -->
