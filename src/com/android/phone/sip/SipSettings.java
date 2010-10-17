@@ -420,8 +420,13 @@ public class SipSettings extends PreferenceActivity {
                                 R.string.registration_status_server_unreachable));
                         break;
                     case SipErrorCode.DATA_CONNECTION_LOST:
-                        showRegistrationMessage(profileUri, getString(
-                                R.string.registration_status_no_data));
+                        if (SipManager.isSipWifiOnly(getApplicationContext())){
+                            showRegistrationMessage(profileUri, getString(
+                                    R.string.registration_status_no_wifi_data));
+                        } else {
+                            showRegistrationMessage(profileUri, getString(
+                                    R.string.registration_status_no_data));
+                        }
                         break;
                     case SipErrorCode.CLIENT_ERROR:
                         showRegistrationMessage(profileUri, getString(
