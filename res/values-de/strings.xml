@@ -31,16 +31,11 @@
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Leitung besetzt"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Netzwerk ausgelastet"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Keine Antwort, Timeout"</string>
-    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
-    <skip />
-    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
-    <skip />
-    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
-    <skip />
-    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
-    <skip />
-    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
-    <skip />
+    <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Server nicht erreichbar"</string>
+    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Nummer nicht erreichbar"</string>
+    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Ungültiger Nutzername oder ungültiges Passwort"</string>
+    <string name="callFailed_out_of_network" msgid="6485167392133436262">"Anruf außerhalb des Netzwerks"</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Serverfehler. Bitte versuchen Sie es später erneut."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Kein Signal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-Grenzwert überschritten"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Mobilfunkverbindung aus"</string>
@@ -183,7 +178,7 @@
     <string name="no_change" msgid="3186040086622435212">"Es wurden keine Änderungen vorgenommen."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Mailbox-Dienst auswählen"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mein Netzbetreiber"</string>
-    <string name="mobile_networks" msgid="5540397602919106177">"Mobile Netzwerkeinstellungen"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Einstellungen für Mobilfunknetz"</string>
     <string name="label_available" msgid="1181658289009300430">"Verfügbare Netzwerke"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Suchvorgang läuft...."</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Keine Netzwerke gefunden"</string>
@@ -222,7 +217,7 @@
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Daten aktiviert"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über mobile Netzwerke aktivieren"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetze aktivieren"</string>
     <string name="roaming" msgid="8871412572928323707">"Daten-Roaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Bei Roaming mit Datendienst verbinden"</string>
@@ -241,7 +236,7 @@
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Maximum von <xliff:g id="USED_0">%1$s</xliff:g> wurde überschritten."\n"Datenrate wurde auf <xliff:g id="USED_1">%2$d</xliff:g> kbit/s reduziert."</string>
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> Prozent des Zyklus sind verstrichen. "\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_1">%2$d</xliff:g> Tagen (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datenrate wird auf <xliff:g id="USED">%1$d</xliff:g> kbit/s reduziert, wenn Datennutzungslimit überschritten wird."</string>
-    <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien Ihres Mobilfunkanbieters zur Nutzung mobiler Netzwerkdaten"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien Ihres Mobilfunkanbieters zur Nutzung der Mobilfunknetzdaten"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast SMS"</string>
@@ -497,7 +492,7 @@
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Ausgewähltes Netzwerk (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) nicht verfügbar"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Deaktivieren Sie zunächst den Flugmodus, um einen Anruf zu tätigen."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Nicht in Netzwerk registriert."</string>
-    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobiles Netzwerk ist nicht verfügbar."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilfunknetz ist nicht verfügbar."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Anruf nicht verbunden; keine gültige Nummer."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Anruf nicht verbunden."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"MMI-Sequenz wird gestartet..."</string>
@@ -556,7 +551,7 @@
     <string name="network_message" msgid="5673682885938122239">"Netzwerknachricht"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Ihr Telefon aktivieren"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Zur Aktivierung Ihres Telefondienstes muss ein spezieller Anruf getätigt werden. "\n\n"Wählen Sie \"Aktivieren\" und befolgen Sie die Anweisungen zur Aktivierung Ihres Telefons."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Wählen Sie \"Aktivieren\", um über einen speziellen Anruf Ihr Telefon beim mobilen Netzwerk Ihres Anbieters zu aktivieren. Anschließend können Sie Anrufe tätigen und sich mit mobilen Datennetzwerken verbinden."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Wählen Sie \"Aktivieren\", um über einen speziellen Anruf Ihr Telefon beim Mobilfunknetz Ihres Anbieters zu aktivieren. Anschließend können Sie Anrufe tätigen und sich mit mobilen Datennetzwerken verbinden."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Aktivierung überspringen?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Wenn Sie die Aktivierung überspringen, können Sie keine Anrufe tätigen oder sich mit mobilen Datennetzwerken verbinden (Sie können sich allerdings mit WLAN-Netzwerken verbinden). Bis Sie Ihr Telefon aktivieren, werden Sie bei jedem Einschalten zur Aktivierung aufgefordert."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Überspringen"</string>
@@ -606,7 +601,7 @@
     <string name="calling_via_template" msgid="7374498518104190489">"Anruf über ^1"\n<b>"^2"</b></string>
     <string name="slide_to_answer" msgid="255903188611244476">"Zum Annehmen nach rechts ziehen"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Zum Stummschalten des Klingeltons nach links ziehen"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Zum Ablehnen nach links ziehen"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Zum Abweisen nach links ziehen"</string>
     <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Zum Annehmen nach rechts ziehen und"\n"aktiven Anruf halten"</string>
     <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Zum Annehmen nach rechts ziehen und"\n"aktiven Anruf beenden"</string>
     <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Zum Annehmen nach rechts ziehen und"\n"gehaltenen Anruf beenden"</string>
@@ -616,43 +611,40 @@
     <string name="goPrivate" msgid="865837794424530980">"privat sprechen"</string>
     <string name="selectContact" msgid="781975788478987237">"Kontakt wählen"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Einstellungen für Internetanrufe"</string>
-    <!-- outdated translation 1155104888417065951 -->     <string name="sip_accounts" msgid="2097054001288457163">"Konten verwalten"</string>
-    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
-    <skip />
+    <!-- outdated translation 4100030796339210942 -->     <string name="sip_accounts" msgid="2097054001288457163">"Konten für Internetanrufe (SIP)"</string>
+    <string name="sip_accounts_title" msgid="1212889069281054570">"Konten"</string>
     <!-- outdated translation 3642905600751185685 -->     <string name="sip_accounts_summary" msgid="6812629993146552527">"SIP-Konten und Status verwalten"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"Eingehende Anrufe annehmen"</string>
-    <!-- outdated translation 8185472827397188433 -->     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Höhere Akkuleistung erforderlich"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Eingeh. Anrufe annehmen"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Verkürzt Akkulaufzeit"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Anrufoptionen konfigurieren"</string>
-    <!-- outdated translation 6580077718129226015 -->     <string name="sip_call_options_title" msgid="27433718808839672">"SIP-Anrufoptionen"</string>
+    <!-- outdated translation 6645807704059589936 -->     <string name="sip_call_options_title" msgid="27433718808839672">"Internetanruf verwenden:"</string>
+    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
+    <skip />
+    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
+    <skip />
     <!-- outdated translation 9010426641641090284 -->     <string name="auto_reg" msgid="8150163311655081599">"Automatische Registrierung"</string>
     <!-- outdated translation 9150161835243082714 -->     <string name="call_priority" msgid="8374917577270504387">"Ausgehender Anruf über SIP"</string>
-    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_call_phone_type -->
-    <skip />
-    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
-    <skip />
-    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_sip_phone -->
-    <skip />
-    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
-    <skip />
-    <!-- outdated translation 3299610197572755389 -->     <string name="remember_my_choice" msgid="7058059586169290705">"Standard für alle ausgehenden Internetanrufe verwenden"</string>
+    <!-- outdated translation 7367292809995876872 -->     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Anruf tätigen:"</string>
+    <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Konto für Internetanrufe verwenden:"</string>
+    <string name="remember_my_choice" msgid="7058059586169290705">"Immer für Internetanrufe verwenden"</string>
     <!-- unknown quoting pattern: original -1, translation 1 -->
     <!-- outdated translation 7703146334529199325 -->     <string name="reset_my_choice_hint" msgid="8522825056755061594">"Standard auf Startbildschirm löschen &amp;gt; Anrufeinstellungen &amp;gt; Konten verwalten"</string>
-    <!-- outdated translation 421416659339448131 -->     <string name="pstn_phone" msgid="8782554491484326429">"Festnetz"</string>
-    <!-- outdated translation 5197954280353814985 -->     <string name="internet_phone" msgid="1147922660195095810">"Internettelefon"</string>
-    <!-- outdated translation 5393053332131310356 -->     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Kein SIP-Konto gefunden"</string>
-    <!-- unknown placeholder CALL_NUMBER in no_sip_account_found -->
-    <skip />
-    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
-    <skip />
-    <!-- no translation found for sip_menu_add (8757508498518881500) -->
-    <skip />
+    <string name="pstn_phone" msgid="8782554491484326429">"Handytelefonat"</string>
+    <string name="internet_phone" msgid="1147922660195095810">"Internetanruf"</string>
+    <string name="no_sip_account_found_title" msgid="6266249392379373628">"Kein Konto für Internetanrufe"</string>
+    <!-- outdated translation 6116315062467898703 -->     <string name="no_sip_account_found" msgid="8777818244108212791">"Auf diesem Telefon befinden sich keine Konten für Internetanrufe. Jetzt ein Konto hinzufügen?"</string>
+    <string name="sip_menu_add" msgid="8757508498518881500">"Hinzufügen"</string>
     <string name="add_sip_account" msgid="5904858426290097611">"Konto hinzufügen"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"Konto entfernen"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"SIP-Konten"</string>
-    <!-- no translation found for saving_account (7468818916695729968) -->
-    <skip />
-    <!-- no translation found for removing_account (5569334415898924904) -->
-    <skip />
+    <string name="saving_account" msgid="7468818916695729968">"Konto wird gespeichert..."</string>
+    <string name="removing_account" msgid="5569334415898924904">"Konto wird entfernt..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Speichern"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Verwerfen"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Profil schließen"</string>
@@ -665,22 +657,20 @@
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Primäres Konto. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Status wird überprüft..."</string>
     <string name="registration_status_registering" msgid="7115694971025999516">"Registrierung läuft..."</string>
-    <string name="registration_status_still_trying" msgid="1471733478935862864">"Wird versucht..."</string>
+    <string name="registration_status_still_trying" msgid="1471733478935862864">"Wird weiter versucht..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Eingehende Anrufe deaktiviert"</string>
-    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
+    <!-- outdated translation 4901476962360656611 -->     <string name="registration_status_no_data" msgid="8279587001454092132">"Kontoregistrierung aufgrund fehlender Internetverbindung gestoppt"</string>
+    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
     <skip />
-    <!-- no translation found for registration_status_not_running (272678962440371182) -->
-    <skip />
+    <!-- outdated translation 7010695922644928173 -->     <string name="registration_status_not_running" msgid="272678962440371182">"Kontoregistrierung fehlgeschlagen"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Eingehende Anrufe aktiviert"</string>
-    <!-- outdated translation 7057002088421460771 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Registrierung fehlgeschlagen (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); wird später erneut versucht"</string>
-    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
-    <skip />
-    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
-    <skip />
-    <!-- outdated translation 6735236674436964489 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Aktiv, wird von <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> verwendet"</string>
+    <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Kontoregistrierung fehlgeschlagen (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>), erneuter Versuch zu einem späteren Zeitpunkt"</string>
+    <!-- outdated translation 8477992041553076396 -->     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Kontoregistrierung fehlgeschlagen (Nutzername oder Passwort falsch)"</string>
+    <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Kontoregistrierung fehlgeschlagen. Überprüfen Sie Ihren Servernamen."</string>
+    <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Dieses Konto wird derzeit von der <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>-Anwendung verwendet."</string>
     <!-- outdated translation 5721647253413919727 -->     <string name="sip_edit_title" msgid="489288416435014385">"SIP-Konto bearbeiten"</string>
     <!-- outdated translation 5604066137558229333 -->     <string name="sip_edit_new_title" msgid="3659149255856520385">"Neues SIP-Konto bearbeiten"</string>
-    <!-- outdated translation 6628028903715208419 -->     <string name="domain_address_title" msgid="9071787581316160480">"Domain"</string>
+    <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>
     <string name="username_title" msgid="2479375923477682328">"Nutzername"</string>
     <string name="password_title" msgid="3323555249068171531">"Passwort"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Anzeigename"</string>
@@ -691,7 +681,7 @@
     <string name="send_keepalive_summary" msgid="9038969409950960640">"SIP-Keep-Alive-Nachrichten senden"</string>
     <!-- outdated translation 5156483863963866266 -->     <string name="auto_registration_title" msgid="3586777375420122154">"Automatische Registrierung"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Profil automatisch registrieren"</string>
-    <!-- outdated translation 4925496287926649150 -->     <string name="set_primary_title" msgid="5351892327447571451">"Als Hauptkonto festlegen"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Als primäres Konto festlegen"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Für ausgehende Anrufe verwendet"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Optionale Einstellungen"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nicht festgelegt&gt;"</string>
@@ -702,9 +692,8 @@
     <!-- outdated translation 282547928275577715 -->     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> ist erforderlich, darf nicht leer sein."</string>
     <!-- outdated translation 4796149266434630292 -->     <string name="not_a_valid_port" msgid="5750410768271782606">"Portnummer muss zwischen 1000 und 65534 liegen."</string>
     <!-- outdated translation 3901900296890580684 -->     <string name="no_internet_available_title" msgid="3327109242858406165">"Keine Internetverbindung"</string>
-    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="6360004347044169827">"Keine WLAN-Verbindung"</string>
+    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="747881033089378758">"Keine WLAN-Verbindung"</string>
     <!-- outdated translation 4720161089584871708 -->     <string name="no_internet_available" msgid="1100564991026313234">"Überprüfen Sie zunächst Ihre Internetverbindung, bevor Sie einen Internetanruf machen."</string>
     <!-- outdated translation 5953006971954904993 -->     <string name="no_wifi_available" msgid="3389743006886634541">"Internetanrufe sind nur über WLAN möglich. Aktivieren Sie Ihre WLAN-Verbindung unter \"Einstellungen &gt; Drahtlos &amp; Netzwerke\"."</string>
-    <!-- no translation found for no_voip (8901474054537199865) -->
-    <skip />
+    <!-- outdated translation 714656054577477393 -->     <string name="no_voip" msgid="8901474054537199865">"Internettelefonie wird auf diesem Gerät nicht unterstützt."</string>
 </resources>

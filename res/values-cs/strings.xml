@@ -31,16 +31,11 @@
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Linka je obsazená."</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Síť je zaneprázdněna."</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Bez odezvy, vypršel časový limit"</string>
-    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
-    <skip />
-    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
-    <skip />
-    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
-    <skip />
-    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
-    <skip />
-    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
-    <skip />
+    <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Server je nedostupný"</string>
+    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Volané číslo je nedostupné"</string>
+    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Nesprávné uživatelské jméno nebo heslo"</string>
+    <string name="callFailed_out_of_network" msgid="6485167392133436262">"Volání z vně sítě"</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Chyba serveru: Zkuste to znovu později."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Není signál."</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Byl dosažen limit ACM."</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Rádio je vypnuto"</string>
@@ -616,43 +611,40 @@
     <string name="goPrivate" msgid="865837794424530980">"přepnout na soukromé"</string>
     <string name="selectContact" msgid="781975788478987237">"vybrat kontakt"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Nastavení internetových hovorů"</string>
-    <!-- outdated translation 1155104888417065951 -->     <string name="sip_accounts" msgid="2097054001288457163">"Správa účtů"</string>
-    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
-    <skip />
+    <!-- outdated translation 4100030796339210942 -->     <string name="sip_accounts" msgid="2097054001288457163">"Účty pro internetové hovory (SIP)"</string>
+    <string name="sip_accounts_title" msgid="1212889069281054570">"Účty"</string>
     <!-- outdated translation 3642905600751185685 -->     <string name="sip_accounts_summary" msgid="6812629993146552527">"Správa účtů SIP a stavu"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Přijímat příchozí hovory"</string>
-    <!-- outdated translation 8185472827397188433 -->     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Zvyšuje spotřebu energie"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Snižuje výdrž baterie"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Konfigurace možností hovorů"</string>
-    <!-- outdated translation 6580077718129226015 -->     <string name="sip_call_options_title" msgid="27433718808839672">"Možnosti volání prostřednictvím protokolu SIP"</string>
+    <!-- outdated translation 6645807704059589936 -->     <string name="sip_call_options_title" msgid="27433718808839672">"Použít internetový hovor:"</string>
+    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
+    <skip />
+    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
+    <skip />
     <!-- outdated translation 9010426641641090284 -->     <string name="auto_reg" msgid="8150163311655081599">"Automatická registrace"</string>
     <!-- outdated translation 9150161835243082714 -->     <string name="call_priority" msgid="8374917577270504387">"Odchozí hovory pomocí SIP"</string>
-    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_call_phone_type -->
-    <skip />
-    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
-    <skip />
-    <!-- unknown placeholder CALL_NUMBER in pick_outgoing_sip_phone -->
-    <skip />
-    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
-    <skip />
-    <!-- outdated translation 3299610197572755389 -->     <string name="remember_my_choice" msgid="7058059586169290705">"Použít ve výchozím nastavení pro všechny odchozí internetové hovory"</string>
+    <!-- outdated translation 7367292809995876872 -->     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Uskutečnit hovor:"</string>
+    <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Použít účet pro internetové hovory:"</string>
+    <string name="remember_my_choice" msgid="7058059586169290705">"Vždy používat pro internetové hovory"</string>
     <!-- unknown quoting pattern: original -1, translation 1 -->
     <!-- outdated translation 7703146334529199325 -->     <string name="reset_my_choice_hint" msgid="8522825056755061594">"Plocha – Nastavení &amp;gt; Nastavení hovorů &amp;gt; Správa účtů a zrušte výchozí (primární) možnost"</string>
-    <!-- outdated translation 421416659339448131 -->     <string name="pstn_phone" msgid="8782554491484326429">"Normální PSTN"</string>
-    <!-- outdated translation 5197954280353814985 -->     <string name="internet_phone" msgid="1147922660195095810">"Internetový telefon"</string>
-    <!-- outdated translation 5393053332131310356 -->     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Nebyl nalezen žádný účet SIP."</string>
-    <!-- unknown placeholder CALL_NUMBER in no_sip_account_found -->
-    <skip />
-    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
-    <skip />
-    <!-- no translation found for sip_menu_add (8757508498518881500) -->
-    <skip />
+    <string name="pstn_phone" msgid="8782554491484326429">"Hovor z mobilního telefonu"</string>
+    <string name="internet_phone" msgid="1147922660195095810">"Internetový hovor"</string>
+    <string name="no_sip_account_found_title" msgid="6266249392379373628">"Žádný účet pro internetové hovory:"</string>
+    <!-- outdated translation 6116315062467898703 -->     <string name="no_sip_account_found" msgid="8777818244108212791">"V tomto telefonu nejsou žádné účty pro internetové hovory. Chcete účet přidat?"</string>
+    <string name="sip_menu_add" msgid="8757508498518881500">"Přidat"</string>
     <string name="add_sip_account" msgid="5904858426290097611">"Přidat účet"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"Odebrat účet"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"Účty SIP"</string>
-    <!-- no translation found for saving_account (7468818916695729968) -->
-    <skip />
-    <!-- no translation found for removing_account (5569334415898924904) -->
-    <skip />
+    <string name="saving_account" msgid="7468818916695729968">"Ukládání účtu..."</string>
+    <string name="removing_account" msgid="5569334415898924904">"Odebírání účtu..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Uložit"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Zrušit"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Zavřít profil"</string>
@@ -667,20 +659,18 @@
     <string name="registration_status_registering" msgid="7115694971025999516">"Probíhá registrace..."</string>
     <string name="registration_status_still_trying" msgid="1471733478935862864">"Probíhají další pokusy..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Hovory nejsou přijímány"</string>
-    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
+    <!-- outdated translation 4901476962360656611 -->     <string name="registration_status_no_data" msgid="8279587001454092132">"Registrace účtu byla zastavena, protože není k dispozici připojení k internetu."</string>
+    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
     <skip />
-    <!-- no translation found for registration_status_not_running (272678962440371182) -->
-    <skip />
+    <!-- outdated translation 7010695922644928173 -->     <string name="registration_status_not_running" msgid="272678962440371182">"Registrace účtu se nezdařila."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Příjem hovorů"</string>
-    <!-- outdated translation 7057002088421460771 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Registrace se nezdařila (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Pokus bude opakován později."</string>
-    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
-    <skip />
-    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
-    <skip />
-    <!-- outdated translation 6735236674436964489 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Aktivní, používán uživatelem <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Registrace účtu se nezdařila (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Pokus bude opakován později."</string>
+    <!-- outdated translation 8477992041553076396 -->     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Registrace účtu se nezdařila (nesprávné uživatelské jméno nebo heslo)."</string>
+    <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Registrace účtu se nezdařila. Zkontrolujte název serveru."</string>
+    <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Tento účet aktuálně používá aplikace <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <!-- outdated translation 5721647253413919727 -->     <string name="sip_edit_title" msgid="489288416435014385">"Upravit účet SIP"</string>
     <!-- outdated translation 5604066137558229333 -->     <string name="sip_edit_new_title" msgid="3659149255856520385">"Upravit nový účet SIP"</string>
-    <!-- outdated translation 6628028903715208419 -->     <string name="domain_address_title" msgid="9071787581316160480">"Doména"</string>
+    <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>
     <string name="username_title" msgid="2479375923477682328">"Uživatelské jméno"</string>
     <string name="password_title" msgid="3323555249068171531">"Heslo"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Zobrazované jméno"</string>
@@ -691,7 +681,7 @@
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Odesílat zprávy protokolu SIP pro zachování připojení"</string>
     <!-- outdated translation 5156483863963866266 -->     <string name="auto_registration_title" msgid="3586777375420122154">"Automatická registrace"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Automaticky zaregistrovat profil"</string>
-    <!-- outdated translation 4925496287926649150 -->     <string name="set_primary_title" msgid="5351892327447571451">"Tento účet jako primární"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Nastavit jako primární účet"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Použito pro odchozí hovory"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Nepovinná nastavení"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nenastaveno&gt;"</string>
@@ -702,9 +692,8 @@
     <!-- outdated translation 282547928275577715 -->     <string name="empty_alert" msgid="8177828109581557940">"Pole <xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> je vyžadováno. Nelze je ponechat prázdné."</string>
     <!-- outdated translation 4796149266434630292 -->     <string name="not_a_valid_port" msgid="5750410768271782606">"Číslo portu by mělo být od 1000 do 65534."</string>
     <!-- outdated translation 3901900296890580684 -->     <string name="no_internet_available_title" msgid="3327109242858406165">"Připojení k internetu není dostupné"</string>
-    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="6360004347044169827">"Připojení WiFi není dostupné"</string>
+    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="747881033089378758">"Připojení WiFi není dostupné"</string>
     <!-- outdated translation 4720161089584871708 -->     <string name="no_internet_available" msgid="1100564991026313234">"Chcete-li uskutečnit internetový hovor, zkontrolujte, zda jste připojeni k internetu."</string>
     <!-- outdated translation 5953006971954904993 -->     <string name="no_wifi_available" msgid="3389743006886634541">"Internetový hovor je k dispozici pouze v síti WiFi. Aktivujte připojení WiFi v části Nastavení &gt; Nastavení bezdrátového připojení a sítě."</string>
-    <!-- no translation found for no_voip (8901474054537199865) -->
-    <skip />
+    <!-- outdated translation 714656054577477393 -->     <string name="no_voip" msgid="8901474054537199865">"Zařízení nepodporuje internetové hovory."</string>
 </resources>
