@@ -524,7 +524,7 @@ public class InCallScreen extends Activity
 
     @Override
     protected void onCreate(Bundle icicle) {
-        if (DBG) log("onCreate()...  this = " + this);
+        Log.i(LOG_TAG, "onCreate()...  this = " + this);
 
         Profiler.callScreenOnCreate();
 
@@ -965,7 +965,7 @@ public class InCallScreen extends Activity
 
     @Override
     protected void onDestroy() {
-        if (DBG) log("onDestroy()...");
+        Log.i(LOG_TAG, "onDestroy()...  this = " + this);
         super.onDestroy();
 
         // Set the magic flag that tells us NOT to handle any handler
