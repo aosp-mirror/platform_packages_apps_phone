@@ -545,7 +545,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (mPreviousVMProviderKey != null) {
             if (mVMChangeCompletedSuccesfully || mFwdChangesRequireRollback) {
                 // we have to revert with carrier
-                showDialog(VOICEMAIL_REVERTING_DIALOG);
+                showDialogIfForeground(VOICEMAIL_REVERTING_DIALOG);
                 VoiceMailProviderSettings prevSettings =
                     loadSettingsForVoiceMailProvider(mPreviousVMProviderKey);
                 if (mVMChangeCompletedSuccesfully) {
@@ -705,6 +705,31 @@ public class CallFeaturesSetting extends PreferenceActivity
                         FWD_SETTINGS_DONT_TOUCH));
     }
 
+
+    /**
+     * Wrapper around showDialog() that will silently do nothing if we're
+     * not in the foreground.
+     *
+     * This is useful here because most of the dialogs we display from
+     * this class are triggered by asynchronous events (like
+     * success/failure messages from the telephony layer) and it's
+     * possible for those events to come in even after the user has gone
+     * to a different screen.
+     */
+    // TODO: this is too brittle: it's still easy to accidentally add new
+    // code here that calls showDialog() directly (which will result in a
+    // WindowManager$BadTokenException if called after the activity has
+    // been stopped.)
+    //
+    // It would be cleaner to do the "if (mForeground)" check in one
+    // central place, maybe by using a single Handler for all asynchronous
+    // events (and have *that* discard events if we're not in the
+    // foreground.)
+    //
+    // Unfortunately it's not that simple, since we sometimes need to do
+    // actual work to handle these events whether or not we're in the
+    // foreground (see the Handler code in mSetOptionComplete for
+    // example.)
     private void showDialogIfForeground(int id) {
         if (mForeground) {
             showDialog(id);
