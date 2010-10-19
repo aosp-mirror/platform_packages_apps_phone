@@ -1255,18 +1255,22 @@ public class BluetoothHandsfree {
      */
     private void broadcastVendorSpecificEventIntent(String command,
                                                     int companyId,
+                                                    int commandType,
                                                     Object[] arguments,
                                                     BluetoothDevice device) {
         if (VDBG) log("broadcastVendorSpecificEventIntent(" + command + ")");
         Intent intent =
                 new Intent(BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT);
         intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD, command);
-        intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID,
-                        companyId);
-
+        intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD_TYPE,
+                        commandType);
         // assert: all elements of args are Serializable
         intent.putExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_ARGS, arguments);
         intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+
+        intent.addCategory(BluetoothHeadset.VENDOR_SPECIFIC_HEADSET_EVENT_COMPANY_ID_CATEGORY
+            + "." + Integer.toString(companyId));
+
         mContext.sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
     }
 
@@ -2488,9 +2492,25 @@ public class BluetoothHandsfree {
         }
 
         @Override
+        public AtCommandResult handleReadCommand() {
+            return new AtCommandResult(AtCommandResult.ERROR);
+        }
+
+        @Override
+        public AtCommandResult handleTestCommand() {
+            return new AtCommandResult(AtCommandResult.ERROR);
+        }
+
+        @Override
+        public AtCommandResult handleActionCommand() {
+            return new AtCommandResult(AtCommandResult.ERROR);
+        }
+
+        @Override
         public AtCommandResult handleSetCommand(Object[] arguments) {
             broadcastVendorSpecificEventIntent(mCommandName,
                                                mCompanyId,
+                                               BluetoothHeadset.AT_CMD_TYPE_SET,
                                                arguments,
                                                mHeadset.getRemoteDevice());
             return new AtCommandResult(AtCommandResult.OK);
