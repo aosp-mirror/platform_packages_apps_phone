@@ -4294,16 +4294,15 @@ public class InCallScreen extends Activity
         // Check if there's a connected headset, using the BluetoothHeadset API.
         boolean isConnected = false;
         if (mBluetoothHeadset != null) {
-            Set<BluetoothDevice> deviceSet = mBluetoothHeadset.getConnectedDevices();
-            BluetoothDevice[] devices =
-                deviceSet.toArray(new BluetoothDevice[deviceSet.size()]);
+            List<BluetoothDevice> deviceList = mBluetoothHeadset.getConnectedDevices();
 
-            if (devices.length > 0) {
+            if (deviceList.size() > 0) {
+                BluetoothDevice device = deviceList.get(0);
                 isConnected = true;
 
                 if (VDBG) log("  - headset state = " +
-                              mBluetoothHeadset.getConnectionState(devices[0]));
-                if (VDBG) log("  - headset address: " + devices[0]);
+                              mBluetoothHeadset.getConnectionState(device));
+                if (VDBG) log("  - headset address: " + device);
                 if (VDBG) log("  - isConnected: " + isConnected);
             }
         }
@@ -4388,13 +4387,13 @@ public class InCallScreen extends Activity
         if (mBluetoothHandsfree != null) {
             log("= BluetoothHandsfree.isAudioOn: " + mBluetoothHandsfree.isAudioOn());
             if (mBluetoothHeadset != null) {
-                Set<BluetoothDevice> deviceSet = mBluetoothHeadset.getConnectedDevices();
-                BluetoothDevice[] devices = deviceSet.toArray(new BluetoothDevice[deviceSet.size()]);
+                List<BluetoothDevice> deviceList = mBluetoothHeadset.getConnectedDevices();
 
-                if (devices.length > 0) {
-                    log("= BluetoothHeadset.getCurrentDevice: " + devices[0]);
+                if (deviceList.size() > 0) {
+                    BluetoothDevice device = deviceList.get(0);
+                    log("= BluetoothHeadset.getCurrentDevice: " + device);
                     log("= BluetoothHeadset.State: "
-                        + mBluetoothHeadset.getConnectionState(devices[0]));
+                        + mBluetoothHeadset.getConnectionState(device));
                 }
             } else {
                 log("= mBluetoothHeadset is null");

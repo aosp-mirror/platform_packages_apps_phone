@@ -42,12 +42,9 @@ import android.os.ServiceManager;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
-
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Provides Bluetooth Headset and Handsfree profile, as a service in
@@ -596,7 +593,7 @@ public class BluetoothHeadsetService extends Service {
             }
             return headset.mState;
         }
-        public BluetoothDevice[] getConnectedDevices() {
+        public List<BluetoothDevice> getConnectedDevices() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             return getDevicesMatchingConnectionStates(
                 new int[] {BluetoothProfile.STATE_CONNECTED});
@@ -645,12 +642,9 @@ public class BluetoothHeadsetService extends Service {
           if (device.equals(mAudioConnectedDevice)) return true;
           return false;
         }
-        public synchronized BluetoothDevice[] getDevicesMatchingConnectionStates(int[] states) {
+        public synchronized List<BluetoothDevice> getDevicesMatchingConnectionStates(int[] states) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-            ArrayList<BluetoothDevice> headsets = new ArrayList();
-            if (mRemoteHeadsets.isEmpty()) {
-                return headsets.toArray(new BluetoothDevice[headsets.size()]);
-            }
+            List<BluetoothDevice> headsets = new ArrayList<BluetoothDevice>();
             for (BluetoothDevice device: mRemoteHeadsets.keySet()) {
                 int headsetState = getConnectionState(device);
                 for (int state : states) {
@@ -660,7 +654,7 @@ public class BluetoothHeadsetService extends Service {
                     }
                 }
             }
-            return headsets.toArray(new BluetoothDevice[headsets.size()]);
+            return headsets;
         }
         public boolean startVoiceRecognition(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
