@@ -93,7 +93,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         Context phoneContext = PhoneApp.getInstance();
         try {
             SipAudioCall sipAudioCall = SipManager.newInstance(phoneContext)
-                    .takeAudioCall(intent, null, false);
+                    .takeAudioCall(intent, null);
             for (Phone phone : CallManager.getInstance().getAllPhones()) {
                 if (phone.getPhoneType() == Phone.PHONE_TYPE_SIP) {
                    if (((SipPhone) phone).canTake(sipAudioCall)) return;
