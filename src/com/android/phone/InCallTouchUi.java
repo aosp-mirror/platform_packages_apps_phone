@@ -242,7 +242,13 @@ public class InCallTouchUi extends FrameLayout
         boolean showInCallControls = false;
 
         final Call ringingCall = cm.getFirstActiveRingingCall();
-        if (ringingCall.getState() != Call.State.IDLE) {
+        // If the FG call is dialing/alerting, we should display for that call
+        // and ignore the ringing call. This case happens when the telephony
+        // layer rejects the ringing call while the FG call is dialing/alerting,
+        // but the incoming call *does* briefly exist in the DISCONNECTING or
+        // DISCONNECTED state.
+        if ((ringingCall.getState() != Call.State.IDLE)
+                && !cm.getActiveFgCallState().isDialing()) {
             // A phone call is ringing *or* call waiting.
             if (mAllowIncomingCallTouchUi) {
                 // Watch out: even if the phone state is RINGING, it's
