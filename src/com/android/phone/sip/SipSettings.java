@@ -350,10 +350,24 @@ public class SipSettings extends PreferenceActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int w) {
                                 deleteProfile(profile);
+                                unregisterProfile(profile);
                             }
                         })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void unregisterProfile(final SipProfile p) {
+        // run it on background thread for better UI response
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    mSipManager.close(p.getUriString());
+                } catch (Exception e) {
+                    Log.e(TAG, "unregister failed, SipService died?", e);
+                }
+            }
+        }, "unregisterProfile").start();
     }
 
     void deleteProfile(SipProfile p) {
