@@ -16,6 +16,8 @@
 
 package com.android.phone.sip;
 
+import com.android.internal.os.AtomicFile;
+
 import android.content.Context;
 import android.net.sip.SipProfile;
 import android.util.Log;
@@ -66,14 +68,26 @@ public class SipProfileDb {
 
     public void saveProfile(SipProfile p) throws IOException {
         synchronized(SipProfileDb.class) {
+            if (mProfilesCount < 0) retrieveSipProfileListInternal();
             File f = new File(mProfilesDirectory + p.getProfileName());
             if (!f.exists()) f.mkdirs();
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new FileOutputStream(new File(f, PROFILE_OBJ_FILE)));
-            oos.writeObject(p);
-            oos.close();
-            if (mProfilesCount < 0) retrieveSipProfileListInternal();
-            mSipSharedPreferences.setProfilesCount(++mProfilesCount);
+            AtomicFile atomicFile =
+                    new AtomicFile(new File(f, PROFILE_OBJ_FILE));
+            FileOutputStream fos = null;
+            ObjectOutputStream oos = null;
+            try {
+                fos = atomicFile.startWrite();
+                oos = new ObjectOutputStream(fos);
+                oos.writeObject(p);
+                oos.flush();
+                mSipSharedPreferences.setProfilesCount(++mProfilesCount);
+                atomicFile.finishWrite(fos);
+            } catch (IOException e) {
+                atomicFile.failWrite(fos);
+                throw e;
+            } finally {
+                if (oos != null) oos.close();
+            }
         }
     }
 
@@ -114,15 +128,17 @@ public class SipProfileDb {
     }
 
     private SipProfile deserialize(File profileObjectFile) throws IOException {
+        AtomicFile atomicFile = new AtomicFile(profileObjectFile);
+        ObjectInputStream ois = null;
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-                    profileObjectFile));
+            ois = new ObjectInputStream(atomicFile.openRead());
             SipProfile p = (SipProfile) ois.readObject();
-            ois.close();
             return p;
         } catch (ClassNotFoundException e) {
             Log.w(TAG, "deserialize a profile: " + e);
-            return null;
+        } finally {
+            if (ois!= null) ois.close();
         }
+        return null;
     }
 }
