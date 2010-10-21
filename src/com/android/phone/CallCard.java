@@ -217,7 +217,13 @@ public class CallCard extends FrameLayout
         Call fgCall = cm.getActiveFgCall();
         Call bgCall = cm.getFirstActiveBgCall();
 
-        if (ringingCall.getState() != Call.State.IDLE) {
+        // If the FG call is dialing/alerting, we should display for that call
+        // and ignore the ringing call. This case happens when the telephony
+        // layer rejects the ringing call while the FG call is dialing/alerting,
+        // but the incoming call *does* briefly exist in the DISCONNECTING or
+        // DISCONNECTED state.
+        if ((ringingCall.getState() != Call.State.IDLE)
+                && !fgCall.getState().isDialing()) {
             // A phone call is ringing, call waiting *or* being rejected
             // (ie. another call may also be active as well.)
             updateRingingCall(cm);
