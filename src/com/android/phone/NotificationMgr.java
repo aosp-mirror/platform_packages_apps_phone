@@ -503,14 +503,20 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
+        final PhoneApp app = PhoneApp.getInstance();
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
         final boolean hasActiveCall = mCM.hasActiveFgCall();
         final boolean hasHoldingCall = mCM.hasActiveBgCall();
+        if (DBG) {
+            log("  - hasRingingCall = " + hasRingingCall);
+            log("  - hasActiveCall = " + hasActiveCall);
+            log("  - hasHoldingCall = " + hasHoldingCall);
+        }
 
         // Display the appropriate icon in the status bar,
         // based on the current phone and/or bluetooth state.
 
-        boolean enhancedVoicePrivacy = PhoneApp.getInstance().notifier.getCdmaVoicePrivacyState();
+        boolean enhancedVoicePrivacy = app.notifier.getCdmaVoicePrivacyState();
         if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
 
         if (hasRingingCall) {
@@ -523,7 +529,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             } else {
                 resId = R.drawable.stat_sys_phone_call_on_hold;
             }
-        } else if (PhoneApp.getInstance().showBluetoothIndication()) {
+        } else if (app.showBluetoothIndication()) {
             // Bluetooth is active.
             if (enhancedVoicePrivacy) {
                 resId = R.drawable.stat_sys_vp_phone_call_bluetooth;
@@ -683,7 +689,37 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // (rather than just posting a notification to the status bar).
             // Setting fullScreenIntent will cause the InCallScreen to be
             // launched immediately.
+            if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
             notification.fullScreenIntent = inCallPendingIntent;
+
+            // Ugly hack alert:
+            //
+            // The NotificationManager has the (undocumented) behavior
+            // that it will *ignore* the fullScreenIntent field if you
+            // post a new Notification that matches the ID of one that's
+            // already active.  Unfortunately this is exactly what happens
+            // when you get an incoming call-waiting call:  the
+            // "ongoing call" notification is already visible, so the
+            // InCallScreen won't get launched in this case!
+            // (The result: if you bail out of the in-call UI while on a
+            // call and then get a call-waiting call, the incoming call UI
+            // won't come up automatically.)
+            //
+            // The workaround is to just notice this exact case (this is a
+            // call-waiting call *and* the InCallScreen is not in the
+            // foreground) and manually cancel the in-call notification
+            // before (re)posting it.
+            //
+            // TODO: there should be a cleaner way of avoiding this
+            // problem (see discussion in bug 3184149.)
+            Call ringingCall = mCM.getFirstActiveRingingCall();
+            if ((ringingCall.getState() == Call.State.WAITING) && !app.isShowingCallScreen()) {
+                Log.i(LOG_TAG, "updateInCallNotification: call-waiting! force relaunch...");
+                // Cancel the IN_CALL_NOTIFICATION immediately before
+                // (re)posting it; this seems to force the
+                // NotificationManager to launch the fullScreenIntent.
+                mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
+            }
         }
 
         if (DBG) log("Notifying IN_CALL_NOTIFICATION: " + notification);
