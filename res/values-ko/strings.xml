@@ -32,7 +32,7 @@
     <string name="callFailed_congestion" msgid="8737761615702718375">"네트워크 사용량이 많습니다."</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"응답 없음, 시간 초과"</string>
     <string name="callFailed_server_unreachable" msgid="2133506577423869729">"서버에 연결할 수 없음"</string>
-    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"번호에 연결할 수 없음"</string>
+    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"연결할 수 없는 전화 번호"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"사용자 이름 또는 비밀번호가 잘못되었습니다"</string>
     <string name="callFailed_out_of_network" msgid="6485167392133436262">"네트워크 외부에서 온 전화입니다."</string>
     <string name="callFailed_server_error" msgid="5717915213586193217">"서버 오류입니다. 잠시 후에 다시 시도해 보세요."</string>
@@ -667,7 +667,7 @@
     <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"계정을 등록하지 못했습니다(<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). 나중에 다시 시도합니다."</string>
     <!-- outdated translation 8477992041553076396 -->     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"계정을 등록하지 못했습니다. 사용자 이름 또는 비밀번호가 잘못되었습니다."</string>
     <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"계정을 등록하지 못했습니다. 서버 이름을 확인하세요."</string>
-    <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"<xliff:g id="ACCOUNT_OWNER">%s</xliff:g>님의 애플리케이션에서 이 계정을 현재 사용 중입니다."</string>
+    <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"<xliff:g id="ACCOUNT_OWNER">%s</xliff:g> 애플리케이션에서 애플리케이션에서 이 계정을 현재 사용 중입니다."</string>
     <!-- outdated translation 5721647253413919727 -->     <string name="sip_edit_title" msgid="489288416435014385">"SIP 계정 수정"</string>
     <!-- outdated translation 5604066137558229333 -->     <string name="sip_edit_new_title" msgid="3659149255856520385">"새 SIP 계정 수정"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"서버"</string>

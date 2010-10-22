@@ -615,7 +615,7 @@
     <string name="sip_accounts_title" msgid="1212889069281054570">"Accounts"</string>
     <!-- outdated translation 3642905600751185685 -->     <string name="sip_accounts_summary" msgid="6812629993146552527">"SIP-accounts en status beheren"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Inkomende gesprekken ontvangen"</string>
-    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Beperkt levensduur van accu"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Verkort levensduur van accu"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Oproepopties configureren"</string>
     <!-- outdated translation 6645807704059589936 -->     <string name="sip_call_options_title" msgid="27433718808839672">"Internetoproepen gebruiken:"</string>
     <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
@@ -664,7 +664,7 @@
     <skip />
     <!-- outdated translation 7010695922644928173 -->     <string name="registration_status_not_running" msgid="272678962440371182">"Accountregistratie mislukt."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Oproepen ontvangen"</string>
-    <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Accountregistratie mislukt (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); we proberen het later opnieuw."</string>
+    <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Accountregistratie mislukt (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). We proberen het later opnieuw."</string>
     <!-- outdated translation 8477992041553076396 -->     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Accountregistratie mislukt (gebruikersnaam of wachtwoord onjuist)."</string>
     <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Accountregistratie mislukt. Controleer de servernaam."</string>
     <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"Dit account wordt momenteel gebruikt door de toepassing <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
