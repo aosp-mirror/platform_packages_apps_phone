@@ -494,6 +494,11 @@ public class BluetoothHeadsetService extends Service {
                 setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
                 adjustOtherHeadsetPriorities(device);
             }
+            try {
+                mBluetoothService.sendConnectionStateChange(device, state, prevState);
+            } catch (RemoteException e) {
+                Log.e(TAG, "sendConnectionStateChange: exception");
+            }
        }
     }
 
