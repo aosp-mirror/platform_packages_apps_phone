@@ -666,7 +666,7 @@
     <string name="registration_status_done" msgid="6434927607037752239">"接听电话"</string>
     <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"帐户注册失败（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）；稍后，系统会重试。"</string>
     <!-- outdated translation 8477992041553076396 -->     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"帐户注册失败（用户名或密码不正确）。"</string>
-    <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"帐户注册失败。请检查您的服务器名称。"</string>
+    <!-- outdated translation 9119316781113157953 -->     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"帐户注册失败。请检查服务器名称。"</string>
     <!-- outdated translation 5405099660226318314 -->     <string name="third_party_account_summary" msgid="1069915789382987226">"<xliff:g id="ACCOUNT_OWNER">%s</xliff:g> 应用程序当前正在使用该帐户。"</string>
     <!-- outdated translation 5721647253413919727 -->     <string name="sip_edit_title" msgid="489288416435014385">"修改您的 SIP 帐户"</string>
     <!-- outdated translation 5604066137558229333 -->     <string name="sip_edit_new_title" msgid="3659149255856520385">"修改新的 SIP 帐户"</string>
