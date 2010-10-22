@@ -15,5 +15,11 @@
 -->
 
 <resources>
+    <!-- Application label -->
     <string name="app_name">PhoneAppTests</string>
+
+    <!-- Strings for the CallDialTest activity -->
+    <string name="callDialTestLabel">CALL/DIAL test</string>
+    <string name="callCommand">CALL</string>
+    <string name="dialCommand">DIAL</string>
 </resources>
