@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
@@ -2860,9 +2861,21 @@ public class InCallScreen extends Activity
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    // Even in this case we still call endInCallScreenSession (below),
-                    // to make sure we don't stay in the activity history.
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        // There's no "Call log" at all on this device.  That's
+                        // expected in some cases, like with non-voice-capable
+                        // devices, but this *still* should never happen in
+                        // practice since non-voice-capable devices shouldn't be
+                        // making phone calls in the first place!
+                        Log.w(LOG_TAG, "delayedCleanupAfterDisconnect: "
+                              + "transition to call log failed; intent = " + intent);
+                        // ...so just return back where we came from....
+                    }
+                    // Even if we did go to the call log, note that we still
+                    // call endInCallScreenSession (below) to make sure we don't
+                    // stay in the activity history.
                 }
 
                 endInCallScreenSession();
