@@ -563,6 +563,12 @@ public class BluetoothHeadsetService extends Service {
             // stale
             return;
         }
+
+        // Check if incoming connection has already connected.
+        if (mRemoteHeadsets.get(device).mState == BluetoothHeadset.STATE_CONNECTED) {
+            return;
+        }
+
         ParcelUuid[] uuids = device.getUuids();
         int type = BluetoothHandsfree.TYPE_UNKNOWN;
         if (uuids != null) {
