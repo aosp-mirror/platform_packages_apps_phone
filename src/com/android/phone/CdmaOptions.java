@@ -33,6 +33,7 @@ public class CdmaOptions {
 
     private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
     private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "cdma_subscription_key";
+    private static final String BUTTON_CDMA_ACTIVATE_DEVICE = "cdma_activate_device";
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
@@ -60,6 +61,13 @@ public class CdmaOptions {
             log("Both NV and Ruim NOT supported, REMOVE subscription type selection");
             mPrefScreen.removePreference(mPrefScreen
                                 .findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY));
+        }
+
+        final boolean voiceCapable = mPrefActivity.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
+        if (voiceCapable) {
+            // This option should not be available on voice-capable devices (i.e. regular phones).
+            mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE));
         }
     }
 
