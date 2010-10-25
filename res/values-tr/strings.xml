@@ -618,16 +618,11 @@
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Pil ömrünü kısaltır"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Çağrı seçeneklerini yapılandır"</string>
     <!-- outdated translation 6645807704059589936 -->     <string name="sip_call_options_title" msgid="27433718808839672">"İnternet çağrısını kullan:"</string>
-    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"İnternet çağrısı kullan (yalnızca kablosuz)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Veri ağı uygun durumdayken yapılan tüm çağrılar için"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Yalnızca İnternet numaraları için"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Her çağrı için sor"</string>
+    <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Tüm çağrılar için"</string>
     <!-- outdated translation 9010426641641090284 -->     <string name="auto_reg" msgid="8150163311655081599">"Otomatik Kayıt"</string>
     <!-- outdated translation 9150161835243082714 -->     <string name="call_priority" msgid="8374917577270504387">"SIP üzerinden Giden Çağrı"</string>
     <!-- outdated translation 7367292809995876872 -->     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Çağrı yap:"</string>
@@ -660,8 +655,7 @@
     <string name="registration_status_still_trying" msgid="1471733478935862864">"Denemeye devam ediliyor..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Çağrıları almıyor"</string>
     <!-- outdated translation 4901476962360656611 -->     <string name="registration_status_no_data" msgid="8279587001454092132">"İnternet bağlantısı olmadığı için hesap kaydı durduruldu."</string>
-    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
-    <skip />
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Kablosuz bağlantı hesap kayıt işlemi durduruldu"</string>
     <!-- outdated translation 7010695922644928173 -->     <string name="registration_status_not_running" msgid="272678962440371182">"Hesap kaydı başarısız oldu."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Çağrıları alıyor"</string>
     <!-- outdated translation 8637622050742895031 -->     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Hesap kaydı başarısız oldu (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); daha sonra tekrar denenecek."</string>
@@ -692,7 +686,7 @@
     <!-- outdated translation 282547928275577715 -->     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> gerekiyor, bu alan boş bırakılamaz."</string>
     <!-- outdated translation 4796149266434630292 -->     <string name="not_a_valid_port" msgid="5750410768271782606">"Bağlantı noktası numarası 1000 ile 65534 arasında olmalıdır."</string>
     <!-- outdated translation 3901900296890580684 -->     <string name="no_internet_available_title" msgid="3327109242858406165">"İnternet bağlantısı yok"</string>
-    <!-- outdated translation 1922972000345806601 -->     <string name="no_wifi_available_title" msgid="747881033089378758">"KABLOSUZ bağlantısı yok"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Kablosuz bağlantı yok"</string>
     <!-- outdated translation 4720161089584871708 -->     <string name="no_internet_available" msgid="1100564991026313234">"İnternet çağrısı yapmak için öncelikle İnternet bağlantınızı denetleyin."</string>
     <!-- outdated translation 5953006971954904993 -->     <string name="no_wifi_available" msgid="3389743006886634541">"İnternet çağrısı yalnızca KABLOSUZ özelliği ile kullanılabilir. Ayarlar &gt; Kablosuz ve ağ ayarları seçeneklerinden KABLOSUZ bağlantınızı etkinleştirin."</string>
     <!-- outdated translation 714656054577477393 -->     <string name="no_voip" msgid="8901474054537199865">"İntrenet çağr bu cihazda desteklenmiyor."</string>

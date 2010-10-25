@@ -618,16 +618,11 @@
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Reduce la vida útil de la batería"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configurar opciones de llamada"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Usar la llamada por Internet"</string>
-    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Usar la llamada por Internet (sólo Wi-Fi)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Para todas las llamadas cuando la red de datos esté disponible"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Sólo para llamadas por Internet"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Preguntar para cada llamada"</string>
+    <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Para todas las llamadas"</string>
     <string name="auto_reg" msgid="8150163311655081599">"Registro automático"</string>
     <string name="call_priority" msgid="8374917577270504387">"Llamada saliente a través de SIP"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Haz una llamada"</string>
@@ -659,8 +654,7 @@
     <string name="registration_status_still_trying" msgid="1471733478935862864">"Sigue intentando..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"No se están recibiendo llamadas."</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Se detuvo el registro de la cuenta porque no hay conexión a Internet"</string>
-    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
-    <skip />
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Se detuvo el registro de la cuenta porque no hay conexión Wi-Fi"</string>
     <string name="registration_status_not_running" msgid="272678962440371182">"Falló el registro de la cuenta"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Recibiendo llamadas"</string>
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Falló el registro de la cuenta: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se intentará más tarde"</string>
@@ -691,7 +685,7 @@
     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> requerido, no se puede dejar en blanco"</string>
     <string name="not_a_valid_port" msgid="5750410768271782606">"El número de puerto debe estar dentro de 1000 y 65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"No hay conexión a Internet"</string>
-    <!-- outdated translation 6360004347044169827 -->     <string name="no_wifi_available_title" msgid="747881033089378758">"No hay conexión WiFi"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"No hay conexión Wi-Fi"</string>
     <string name="no_internet_available" msgid="1100564991026313234">"Para hacer una llamada por Internet, primero verifica tu conectividad"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Debes estar conectado a las redes de WiFi para hacer llamadas por Internet (usa las Configuraciones de red e inalámbricas &amp;amp)"</string>
     <string name="no_voip" msgid="8901474054537199865">"No admite llamadas por Internet"</string>
