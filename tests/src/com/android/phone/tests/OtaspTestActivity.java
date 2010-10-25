@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.phone;
+package com.android.phone.tests;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -27,14 +27,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.phone.OtaUtils;
+
 /**
  * Test activity that mimics the PERFORM_CDMA_PROVISIONING behavior of
  * SetupWizard, useful for testing "non-interactive" OTASP.
  * @see OtaUtils.startNonInteractiveOtasp
- *
- * STOPSHIP: During initial Stingray OTASP testing, this is exposed as a
- * public activity.  It should ultimately move into the "tests"
- * subdirectory, though.
  *
  */
 public class OtaspTestActivity extends Activity implements View.OnClickListener {
@@ -61,7 +59,7 @@ public class OtaspTestActivity extends Activity implements View.OnClickListener 
 
         // Construct our basic UI:
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ota_test_activity);
+        setContentView(R.layout.otasp_test_activity);
 
         mLabel = (TextView) findViewById(R.id.label1);
         mLabel.setText("OTA Test Activity");

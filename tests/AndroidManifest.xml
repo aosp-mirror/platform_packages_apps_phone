@@ -18,6 +18,7 @@
     package="com.android.phone.tests">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.PERFORM_CDMA_PROVISIONING" />
 
     <application android:label="@string/app_name">
         <uses-library android:name="android.test.runner" />
@@ -31,6 +32,16 @@
         -->
         <activity android:name="CallDialTest"
                   android:label="@string/callDialTestLabel">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Test activity mimicking the PERFORM_CDMA_PROVISIONING behavior of
+             SetupWizard, useful for testing "non-interactive" OTASP. -->
+        <activity android:name="OtaspTestActivity"
+                  android:label="OtaspTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
