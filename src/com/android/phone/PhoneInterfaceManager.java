@@ -476,6 +476,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return mPhone.getServiceState().getState() != ServiceState.STATE_POWER_OFF;
     }
 
+    public boolean isModemPowerSave() {
+        return mPhone.isModemPowerSave();
+    }
+
     public void toggleRadioOnOff() {
         enforceModifyPermission();
         mPhone.setRadioPower(!isRadioOn());
