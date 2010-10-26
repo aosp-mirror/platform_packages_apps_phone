@@ -261,6 +261,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     private boolean showCallScreenInternal(boolean specifyInitialDialpadState,
                                            boolean initialDialpadState) {
+        if (!PhoneApp.sVoiceCapable) {
+            // Never allow the InCallScreen to appear on data-only devices.
+            return false;
+        }
         if (isIdle()) {
             return false;
         }
@@ -273,16 +277,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             } else {
                 intent = PhoneApp.createInCallIntent();
             }
-                    try {
-                        mApp.startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        // It's possible that the in-call UI might not exist
-                        // (like on non-voice-capable devices), although we
-                        // shouldn't be trying to bring up the InCallScreen on
-                        // devices like that in the first place!
-                        Log.w(LOG_TAG, "showCallScreenInternal: "
-                              + "transition to InCallScreen failed; intent = " + intent);
-                    }
+            try {
+                mApp.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                // It's possible that the in-call UI might not exist
+                // (like on non-voice-capable devices), although we
+                // shouldn't be trying to bring up the InCallScreen on
+                // devices like that in the first place!
+                Log.w(LOG_TAG, "showCallScreenInternal: "
+                      + "transition to InCallScreen failed; intent = " + intent);
+            }
         } finally {
             Binder.restoreCallingIdentity(callingId);
         }

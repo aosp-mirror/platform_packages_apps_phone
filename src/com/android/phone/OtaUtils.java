@@ -239,10 +239,7 @@ public class OtaUtils {
 
         // Run the OTASP call in "interactive" mode only if
         // this is a "voice capable" device.
-        boolean voiceCapable = context.getResources().getBoolean(
-                com.android.internal.R.bool.config_voice_capable);
-
-        if (voiceCapable) {
+        if (PhoneApp.sVoiceCapable) {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;

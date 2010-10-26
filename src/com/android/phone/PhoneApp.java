@@ -154,6 +154,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
     boolean mShowBluetoothIndication = false;
     static int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
+    static boolean sVoiceCapable = true;
 
     // Internal PhoneApp Call state tracker
     CdmaPhoneCallState cdmaPhoneCallState;
@@ -572,6 +573,16 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
         }
+
+        // Cache the "voice capable" flag.
+        // This flag currently comes from a resource (which is
+        // overrideable on a per-product basis):
+        sVoiceCapable =
+                getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        // ...but this might eventually become a PackageManager "system
+        // feature" instead, in which case we'd do something like:
+        // sVoiceCapable =
+        //   getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY_VOICE_CALLS);
    }
 
     @Override
@@ -658,6 +669,16 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     private void displayCallScreen() {
         if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
+
+        // On non-voice-capable devices we shouldn't ever be trying to
+        // bring up the InCallScreen in the first place.
+        if (!sVoiceCapable) {
+            Log.w(LOG_TAG, "displayCallScreen() not allowed: non-voice-capable device",
+                  new Throwable("stack dump"));  // Include a stack trace since this warning
+                                                 // indicates a bug in our caller
+            return;
+        }
+
         try {
             startActivity(createInCallIntent());
         } catch (ActivityNotFoundException e) {

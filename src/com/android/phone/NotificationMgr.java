@@ -513,6 +513,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         int resId;
         if (DBG) log("updateInCallNotification()...");
 
+        // Never display the "ongoing call" notification on
+        // non-voice-capable devices, even if the phone is actually
+        // offhook (like during a non-interactive OTASP call.)
+        if (!PhoneApp.sVoiceCapable) {
+            if (DBG) log("- non-voice-capable device; suppressing notification.");
+            return;
+        }
+
         if (mCM.getState() == Phone.State.IDLE) {
             cancelInCall();
             return;
