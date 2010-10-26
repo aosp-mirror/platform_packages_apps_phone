@@ -95,7 +95,7 @@ public class OtaUtils {
 
     // Testing: Extra for the ACTION_PERFORM_CDMA_PROVISIONING intent that
     // allows the caller to manually enable/disable "interactive mode" for
-    // the OTASP call.
+    // the OTASP call.   Only available in userdebug or eng builds.
     public static final String EXTRA_OVERRIDE_INTERACTIVE_MODE =
             "ota_override_interactive_mode";
 
@@ -316,11 +316,6 @@ public class OtaUtils {
                   + number + "': code " + callStatus);
             return callStatus;
         }
-
-        // TODO: temp hack while testing; this makes the OTA call easier to
-        //       hear on Sholes, and has no effect on Stingray.
-        // STOPSHIP: remove before release
-        PhoneUtils.turnOnSpeaker(context, true, true);
 
         // TODO: Any other special work to do here?
         // Such as:

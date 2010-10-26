@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
@@ -42,17 +43,18 @@ import com.android.internal.telephony.Phone;
  */
 public class InCallScreenShowActivation extends Activity {
     private static final String LOG_TAG = "InCallScreenShowActivation";
+    private static final boolean DBG = false;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         Intent intent = getIntent();
-        Log.d(LOG_TAG, "onCreate: intent = " + intent);
+        if (DBG) Log.d(LOG_TAG, "onCreate: intent = " + intent);
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            Log.i(LOG_TAG, "      - has extras: size = " + extras.size()); // forces an unparcel()
-            Log.i(LOG_TAG, "      - extras = " + extras);
+        if (DBG && (extras != null)) {
+            Log.d(LOG_TAG, "      - has extras: size = " + extras.size()); // forces an unparcel()
+            Log.d(LOG_TAG, "      - extras = " + extras);
         }
 
         PhoneApp app = PhoneApp.getInstance();
@@ -78,13 +80,15 @@ public class InCallScreenShowActivation extends Activity {
             // boolean interactiveMode =
             //   getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY_VOICE_CALLS);
 
-            Log.d(LOG_TAG, "- interactiveMode = " + interactiveMode);
+            Log.d(LOG_TAG, "ACTION_PERFORM_CDMA_PROVISIONING (interactiveMode = "
+                  + interactiveMode + ")...");
 
-            // Testing: check the intent extra that allows the caller to
-            // manually enable/disable "interactive mode", regardless of
-            // whether the current device is voice-capable.
-            // STOPSHIP: disable before release.
-            if (intent.hasExtra(OtaUtils.EXTRA_OVERRIDE_INTERACTIVE_MODE)) {
+            // Testing: this intent extra allows test apps manually
+            // enable/disable "interactive mode", regardless of whether
+            // the current device is voice-capable.  This is allowed only
+            // in userdebug or eng builds.
+            if (intent.hasExtra(OtaUtils.EXTRA_OVERRIDE_INTERACTIVE_MODE)
+                    && (SystemProperties.getInt("ro.debuggable", 0) == 1)) {
                 interactiveMode =
                         intent.getBooleanExtra(OtaUtils.EXTRA_OVERRIDE_INTERACTIVE_MODE, false);
                 Log.d(LOG_TAG, "===> MANUALLY OVERRIDING interactiveMode to " + interactiveMode);
@@ -110,7 +114,7 @@ public class InCallScreenShowActivation extends Activity {
                 Intent newIntent = new Intent().setClass(this, InCallScreen.class)
                         .setAction(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING);
 
-                Log.d(LOG_TAG, "==> Launching in-call UI for CDMA provisioning: " + newIntent);
+                if (DBG) Log.d(LOG_TAG, "==> Launching in-call UI for CDMA provisioning: " + newIntent);
                 startActivity(newIntent);
 
                 // Note the result we set here is actually irrelevant, since
@@ -125,11 +129,11 @@ public class InCallScreenShowActivation extends Activity {
                 // SetupWizardActivity, is responsible for displaying some
                 // sort of progress UI.)
 
-                Log.d(LOG_TAG, "==> Starting non-interactive CDMA provisioning...");
+                if (DBG) Log.d(LOG_TAG, "==> Starting non-interactive CDMA provisioning...");
                 int callStatus = OtaUtils.startNonInteractiveOtasp(this);
 
                 if (callStatus == PhoneUtils.CALL_STATUS_DIALED) {
-                    Log.d(LOG_TAG, "  ==> successful result from startNonInteractiveOtasp(): "
+                    if (DBG) Log.d(LOG_TAG, "  ==> successful result from startNonInteractiveOtasp(): "
                           + callStatus);
                     setResult(OtaUtils.RESULT_NONINTERACTIVE_OTASP_STARTED);
                 } else {
@@ -144,5 +148,4 @@ public class InCallScreenShowActivation extends Activity {
 
         finish();
     }
-
 }
