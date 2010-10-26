@@ -618,16 +618,11 @@
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Réduit la durée de vie de la batterie"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configurer les options d\'appel"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Utiliser un appel par Internet"</string>
-    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Appels Internet (Wi-Fi uniquement)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Pour tous les appels quand un réseau de données est disponible"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Seulement pour les appels Internet"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Demander à chaque fois"</string>
+    <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Pour tous les appels"</string>
     <string name="auto_reg" msgid="8150163311655081599">"Enregistrement automatique"</string>
     <string name="call_priority" msgid="8374917577270504387">"Appel sortant via SIP"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Émettre un appel"</string>
@@ -659,8 +654,7 @@
     <string name="registration_status_still_trying" msgid="1471733478935862864">"Tentative en cours..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Réception d\'appels impossible"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"L\'enregistrement du compte a été interrompu, car il n\'y a pas de connexion Internet."</string>
-    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
-    <skip />
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"L\'enregistrement du compte a été interrompu car il n\'y a pas de connexion Wi-Fi."</string>
     <string name="registration_status_not_running" msgid="272678962440371182">"L\'enregistrement du compte a échoué."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Réception d\'appels"</string>
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Échec de l\'enregistrement du compte : (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Une nouvelle tentative sera effectuée ultérieurement."</string>
@@ -691,7 +685,7 @@
     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> doit obligatoirement être renseigné"</string>
     <string name="not_a_valid_port" msgid="5750410768271782606">"Le numéro de port doit être compris entre 1000 et 65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Pas de connexion Internet"</string>
-    <!-- outdated translation 6360004347044169827 -->     <string name="no_wifi_available_title" msgid="747881033089378758">"Pas de connexion Wi-Fi"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Aucune connexion Wi-Fi"</string>
     <string name="no_internet_available" msgid="1100564991026313234">"Pour passer un appel Internet, vérifiez tout d\'abord la connexion Internet."</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Les appels par Internet exigent une connexion Wi-Fi (activez-la dans Paramètres &gt; Sans fil et réseaux)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Appels Internet non pris en charge"</string>
