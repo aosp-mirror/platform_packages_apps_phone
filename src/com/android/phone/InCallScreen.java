@@ -523,10 +523,24 @@ public class InCallScreen extends Activity
     @Override
     protected void onCreate(Bundle icicle) {
         Log.i(LOG_TAG, "onCreate()...  this = " + this);
-
         Profiler.callScreenOnCreate();
-
         super.onCreate(icicle);
+
+        // Make sure this is a voice-capable device.
+        if (!PhoneApp.sVoiceCapable) {
+            // There should be no way to ever reach the InCallScreen on a
+            // non-voice-capable device, since this activity is not exported by
+            // our manifest, and we explicitly disable any other external APIs
+            // like the CALL intent and ITelephony.showCallScreen().
+            // So the fact that we got here indicates a phone app bug.
+            Log.w(LOG_TAG, "onCreate() reached on non-voice-capable device");
+
+            // STOPSHIP: this should eventually be just a warning, but for
+            // now let's also throw an exception to make sure we'll notice
+            // this if it ever happens.
+            throw new IllegalStateException(
+                    "InCallScreen.onCreate() reached on non-voice-capable device");
+        }
 
         final PhoneApp app = PhoneApp.getInstance();
         app.setInCallScreenInstance(this);

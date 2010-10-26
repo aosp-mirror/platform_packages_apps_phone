@@ -49,7 +49,7 @@ public class CallDialTest extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        log("##### onCreate: intent = " + intent);
+        log("onCreate: intent = " + intent);
 
         // Construct our basic UI:
         super.onCreate(savedInstanceState);
@@ -101,7 +101,7 @@ public class CallDialTest extends Activity implements View.OnClickListener {
     }
 
     private void fireIntent(String action) {
-        log("##### fireIntent(action = '" + action + "')...");
+        log("fireIntent(action = '" + action + "')...");
 
         // Get a phone number or SIP address from the EditText widget
         String number = mNumber.getText().toString();

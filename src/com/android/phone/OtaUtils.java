@@ -370,6 +370,10 @@ public class OtaUtils {
                 if (DBG) log("onOtaProvisionStatusChanged(): RETRIES EXCEEDED");
                 updateOtaspProgress();
                 mApplication.cdmaOtaProvisionData.otaSpcUptime = SystemClock.elapsedRealtime();
+                // STOPSHIP: otaShowSpcErrorNotice() is currently unsafe to use if
+                // mInteractive is false.  We need to either (a) only call it in
+                // interactive mode, or (b) fix it so that it does something sane
+                // whether or not mInCallScreen exists.  (See bug 3144568.)
                 otaShowSpcErrorNotice(OTA_SPC_TIMEOUT);
                 // Power.shutdown();
                 break;

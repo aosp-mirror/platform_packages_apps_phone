@@ -129,7 +129,6 @@
 
         <activity android:name="OutgoingCallBroadcaster"
                 android:permission="android.permission.CALL_PHONE"
-                android:theme="@android:style/Theme.NoDisplay"
                 android:configChanges="orientation|keyboardHidden">
             <!-- CALL action intent filters, for the various ways
                  of initiating an outgoing call. -->
@@ -159,8 +158,7 @@
 
         <activity-alias android:name="EmergencyOutgoingCallBroadcaster"
                 android:targetActivity="OutgoingCallBroadcaster"
-                android:permission="android.permission.CALL_PRIVILEGED"
-                android:theme="@android:style/Theme.NoDisplay">
+                android:permission="android.permission.CALL_PRIVILEGED">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_EMERGENCY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -186,7 +184,6 @@
 
         <activity-alias android:name="PrivilegedOutgoingCallBroadcaster"
                 android:targetActivity="OutgoingCallBroadcaster"
-                android:theme="@android:style/Theme.NoDisplay"
                 android:permission="android.permission.CALL_PRIVILEGED">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />

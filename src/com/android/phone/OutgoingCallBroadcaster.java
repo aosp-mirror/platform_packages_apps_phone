@@ -17,8 +17,11 @@
 package com.android.phone;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -44,7 +47,8 @@ import com.android.internal.telephony.Phone;
  * "empty flash" or a nonexistent voicemail number) are exempt from being
  * broadcast.
  */
-public class OutgoingCallBroadcaster extends Activity {
+public class OutgoingCallBroadcaster extends Activity
+        implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
     private static final String PERMISSION = android.Manifest.permission.PROCESS_OUTGOING_CALLS;
     private static final String TAG = "OutgoingCallBroadcaster";
@@ -67,6 +71,9 @@ public class OutgoingCallBroadcaster extends Activity {
      * until this is replaced with the ITelephony API.
      */
     public static final String EXTRA_SEND_EMPTY_FLASH = "com.android.phone.extra.SEND_EMPTY_FLASH";
+
+    // Dialog IDs
+    private static final int DIALOG_NOT_VOICE_CAPABLE = 1;
 
     /**
      * OutgoingCallReceiver finishes NEW_OUTGOING_CALL broadcasts, starting
@@ -174,6 +181,38 @@ public class OutgoingCallBroadcaster extends Activity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        // This method is the single point of entry for the CALL intent,
+        // which is used (by built-in apps like Contacts / Dialer, as well
+        // as 3rd-party apps) to initiate an outgoing voice call.
+        //
+        // We also handle two related intents which are only used internally:
+        // CALL_PRIVILEGED (which can come from built-in apps like contacts /
+        // voice dialer / bluetooth), and CALL_EMERGENCY (from the
+        // EmergencyDialer that's reachable from the lockscreen.)
+        //
+        // The exact behavior depends on the intent's data:
+        //
+        // - The most typical is a tel: URI, which we handle by starting the
+        //   NEW_OUTGOING_CALL broadcast.  That broadcast eventually triggeres
+        //   the sequence OutgoingCallReceiver -> SipCallOptionHandler ->
+        //   InCallScreen.
+        //
+        // - Or, with a sip: URI we skip the NEW_OUTGOING_CALL broadcast and
+        //   go directly to SipCallOptionHandler, which then leads to the
+        //   InCallScreen.
+        //
+        // - voicemail: URIs take the same path as regular tel: URIs.
+        //
+        // Other special cases:
+        //
+        // - Outgoing calls are totally disallowed on non-voice-capable
+        //   devices (see handleNonVoiceCapable()).
+        //
+        // - A CALL intent with the EXTRA_SEND_EMPTY_FLASH extra (and
+        //   presumably no data at all) means "send an empty flash" (which
+        //   is only meaningful on CDMA devices while a call is already
+        //   active.)
+
         Intent intent = getIntent();
         final Configuration configuration = getResources().getConfiguration();
 
@@ -205,6 +244,14 @@ public class OutgoingCallBroadcaster extends Activity {
             // results in an "ActivityManager: Duplicate finish request"
             // warning when the OutgoingCallReceiver runs.)
 
+            return;
+        }
+
+        // Outgoing phone calls are only allowed on "voice-capable" devices.
+        if (!PhoneApp.sVoiceCapable) {
+            handleNonVoiceCapable(intent);
+            // No need to finish() here; handleNonVoiceCapable() will do
+            // that if necessary.
             return;
         }
 
@@ -347,6 +394,99 @@ public class OutgoingCallBroadcaster extends Activity {
         if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                 null, Activity.RESULT_OK, number, null);
+    }
+
+    @Override
+    protected void onStop() {
+        // Clean up (and dismiss if necessary) any managed dialogs.
+        //
+        // We don't do this in onPause() since we can be paused/resumed
+        // due to orientation changes (in which case we don't want to
+        // disturb the dialog), but we *do* need it here in onStop() to be
+        // sure we clean up if the user hits HOME while the dialog is up.
+        //
+        // Note it's safe to call removeDialog() even if there's no dialog
+        // associated with that ID.
+        removeDialog(DIALOG_NOT_VOICE_CAPABLE);
+
+        super.onStop();
+    }
+
+    /**
+     * Handle the specified CALL or CALL_* intent on a non-voice-capable
+     * device.
+     *
+     * This method may launch a different intent (if there's some useful
+     * alternative action to take), or otherwise display an error dialog,
+     * and in either case will finish() the current activity when done.
+     */
+    private void handleNonVoiceCapable(Intent intent) {
+        if (DBG) Log.v(TAG, "handleNonVoiceCapable: handling " + intent
+                       + " on non-voice-capable device...");
+        String action = intent.getAction();
+        Uri uri = intent.getData();
+        String scheme = uri.getScheme();
+
+        // Handle one special case: If this is a regular CALL to a tel: URI,
+        // bring up a UI letting you do something useful with the phone number
+        // (like "Add to contacts" if it isn't a contact yet.)
+        //
+        // This UI is provided by the contacts app in response to a DIAL
+        // intent, so we bring it up here by demoting this CALL to a DIAL and
+        // relaunching.
+        //
+        // TODO: it's strange and unintuitive to manually launch a DIAL intent
+        // to do this; it would be cleaner to have some shared UI component
+        // that we could bring up directly.  (But for now at least, since both
+        // Contacts and Phone are built-in apps, this implementation is fine.)
+
+        if (Intent.ACTION_CALL.equals(action) && ("tel".equals(scheme))) {
+            Intent newIntent = new Intent(Intent.ACTION_DIAL, uri);
+            if (DBG) Log.v(TAG, "- relaunching as a DIAL intent: " + newIntent);
+            startActivity(newIntent);
+            finish();
+            return;
+        }
+
+        // In all other cases, just show a generic "voice calling not
+        // supported" dialog.
+        showDialog(DIALOG_NOT_VOICE_CAPABLE);
+        // ...and we'll eventually finish() when the user dismisses
+        // or cancels the dialog.
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        switch(id) {
+            case DIALOG_NOT_VOICE_CAPABLE:
+                dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.not_voice_capable)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.ok, this)
+                        .setOnCancelListener(this)
+                        .create();
+                break;
+            default:
+                Log.w(TAG, "onCreateDialog: unexpected ID " + id);
+                dialog = null;
+                break;
+        }
+        return dialog;
+    }
+
+    // DialogInterface.OnClickListener implementation
+    public void onClick(DialogInterface dialog, int id) {
+        // DIALOG_NOT_VOICE_CAPABLE is the only dialog we ever use (so far
+        // at least), and its only button is "OK".
+        finish();
+    }
+
+    // DialogInterface.OnCancelListener implementation
+    public void onCancel(DialogInterface dialog) {
+        // DIALOG_NOT_VOICE_CAPABLE is the only dialog we ever use (so far
+        // at least), and canceling it is just like hitting "OK".
+        finish();
     }
 
     // Implement onConfigurationChanged() purely for debugging purposes,
