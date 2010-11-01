@@ -85,6 +85,9 @@ public class SipCallOptionHandler extends Activity implements
             return;
         }
 
+        // set this flag so this activity will stay in front of the keyguard
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
         // If we're trying to make a SIP call, return a SipPhone if one is
         // available.
         //
