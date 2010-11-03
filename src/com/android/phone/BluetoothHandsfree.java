@@ -91,6 +91,7 @@ public class BluetoothHandsfree {
     private IncomingScoAcceptThread mIncomingScoThread = null;
     private ScoSocketConnectThread mConnectScoThread = null;
     private SignalScoCloseThread mSignalScoCloseThread = null;
+    private Object mScoLock = new Object();
 
     private AudioManager mAudioManager;
     private PowerManager mPowerManager;
@@ -253,28 +254,34 @@ public class BluetoothHandsfree {
                 }
 
                 if (mIncomingSco != null) {
-                    if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
-                        mConnectedSco == null) {
-                        Log.i(TAG, "Routing audio for incoming SCO connection");
-                        mConnectedSco = mIncomingSco;
-                        mAudioManager.setBluetoothScoOn(true);
-                        setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
-                            mHeadset.getRemoteDevice());
+                    connectSco();
+                }
+            }
+        }
 
-                        if (mSignalScoCloseThread == null) {
-                            mSignalScoCloseThread = new SignalScoCloseThread();
-                            mSignalScoCloseThread.setName("SignalScoCloseThread");
-                            mSignalScoCloseThread.start();
-                        }
-                    } else {
-                        Log.i(TAG, "Rejecting incoming SCO connection");
-                        try {
-                            mIncomingSco.close();
-                        }catch (IOException e) {
-                            Log.e(TAG, "Error when closing incoming Sco socket");
-                        }
-                        mIncomingSco = null;
+        private void connectSco() {
+            synchronized (mScoLock) {
+                if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                    mConnectedSco == null) {
+                    Log.i(TAG, "Routing audio for incoming SCO connection");
+                    mConnectedSco = mIncomingSco;
+                    mAudioManager.setBluetoothScoOn(true);
+                    setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
+                        mHeadset.getRemoteDevice());
+
+                    if (mSignalScoCloseThread == null) {
+                        mSignalScoCloseThread = new SignalScoCloseThread();
+                        mSignalScoCloseThread.setName("SignalScoCloseThread");
+                        mSignalScoCloseThread.start();
                     }
+                } else {
+                    Log.i(TAG, "Rejecting incoming SCO connection");
+                    try {
+                        mIncomingSco.close();
+                    }catch (IOException e) {
+                        Log.e(TAG, "Error when closing incoming Sco socket");
+                    }
+                    mIncomingSco = null;
                 }
             }
         }
@@ -303,6 +310,7 @@ public class BluetoothHandsfree {
                 mOutgoingSco = device.createScoSocket();
             } catch (IOException e) {
                 Log.w(TAG, "Could not create BluetoothSocket");
+                failedScoConnect();
             }
         }
 
@@ -313,30 +321,50 @@ public class BluetoothHandsfree {
             }catch (IOException connectException) {
                 Log.e(TAG, "BluetoothSocket could not connect");
                 mOutgoingSco = null;
+                failedScoConnect();
+
             }
 
-            if (isHeadsetConnected() && mConnectedSco == null && mOutgoingSco != null) {
-                if (VDBG) log("Routing audio for outgoing SCO conection");
-                mConnectedSco = mOutgoingSco;
-                mAudioManager.setBluetoothScoOn(true);
-
-                setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
-                  mHeadset.getRemoteDevice());
-
-                if (mSignalScoCloseThread == null) {
-                    mSignalScoCloseThread = new SignalScoCloseThread();
-                    mSignalScoCloseThread.setName("SignalScoCloseThread");
-                    mSignalScoCloseThread.start();
-                }
-            } else if (mOutgoingSco != null) {
-                if (VDBG) log("Rejecting new connected outgoing SCO socket");
-                try {
-                    mOutgoingSco.close();
-                }catch (IOException e) {
-                    Log.e(TAG, "Error when closing Sco socket");
-                }
-                mOutgoingSco = null;
+            if (mOutgoingSco != null) {
+                connectSco();
             }
+        }
+
+        private void connectSco() {
+            synchronized (mScoLock) {
+                if (isHeadsetConnected() && mConnectedSco == null) {
+                    if (VDBG) log("Routing audio for outgoing SCO conection");
+                    mConnectedSco = mOutgoingSco;
+                    mAudioManager.setBluetoothScoOn(true);
+
+                    setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTED,
+                      mHeadset.getRemoteDevice());
+
+                    if (mSignalScoCloseThread == null) {
+                        mSignalScoCloseThread = new SignalScoCloseThread();
+                        mSignalScoCloseThread.setName("SignalScoCloseThread");
+                        mSignalScoCloseThread.start();
+                    }
+                } else {
+                    if (VDBG) log("Rejecting new connected outgoing SCO socket");
+                    try {
+                        mOutgoingSco.close();
+                    }catch (IOException e) {
+                        Log.e(TAG, "Error when closing Sco socket");
+                    }
+                    mOutgoingSco = null;
+                    failedScoConnect();
+                }
+            }
+        }
+
+        private void failedScoConnect() {
+            // Wait for couple of secs before sending AUDIO_STATE_DISCONNECTED,
+            // since an incoming SCO connection can happen immediately with
+            // certain headsets.
+            Message msg = Message.obtain(mHandler, SCO_AUDIO_STATE);
+            msg.obj = mHeadset.getRemoteDevice();
+            mHandler.sendMessageDelayed(msg, 2000);
         }
 
         void shutdown() {
@@ -389,8 +417,14 @@ public class BluetoothHandsfree {
 
     private void connectScoThread(){
         if (mConnectScoThread == null) {
+            BluetoothDevice device = mHeadset.getRemoteDevice();
+            if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
+                setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTING, device);
+            }
+
             mConnectScoThread = new ScoSocketConnectThread(mHeadset.getRemoteDevice());
             mConnectScoThread.setName("HandsfreeScoSocketConnectThread");
+
             mConnectScoThread.start();
         }
     }
@@ -1175,6 +1209,7 @@ public class BluetoothHandsfree {
     private static final int CHECK_CALL_STARTED = 4;
     private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
     private static final int MESSAGE_CHECK_PENDING_SCO = 6;
+    private static final int SCO_AUDIO_STATE = 7;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -1209,6 +1244,13 @@ public class BluetoothHandsfree {
                         mPendingSco = false;
                     }
                     break;
+                case SCO_AUDIO_STATE:
+                    BluetoothDevice device = (BluetoothDevice) msg.obj;
+                    if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_CONNECTING) {
+                        setAudioState(BluetoothHeadset.STATE_AUDIO_DISCONNECTED, device);
+                    }
+                    break;
+
                 }
             }
         }
@@ -1224,6 +1266,11 @@ public class BluetoothHandsfree {
             return;
         }
         mBluetoothHeadset.setAudioState(device, state);
+    }
+
+    private synchronized int getAudioState(BluetoothDevice device) {
+        if (mBluetoothHeadset == null) return BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
+        return mBluetoothHeadset.getAudioState(device);
     }
 
     private BluetoothProfile.ServiceListener mProfileListener =

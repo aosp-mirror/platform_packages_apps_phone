@@ -99,6 +99,7 @@ public class BluetoothHeadsetService extends Service {
 
    private class BluetoothRemoteHeadset {
        private int mState;
+       private int mAudioState;
        private int mHeadsetType;
        private HeadsetBase mHeadset;
        private IncomingConnectionInfo mIncomingInfo;
@@ -108,6 +109,7 @@ public class BluetoothHeadsetService extends Service {
            mHeadsetType = BluetoothHandsfree.TYPE_UNKNOWN;
            mHeadset = null;
            mIncomingInfo = null;
+           mAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
        }
 
        BluetoothRemoteHeadset(int headsetType, IncomingConnectionInfo incomingInfo) {
@@ -115,6 +117,7 @@ public class BluetoothHeadsetService extends Service {
            mHeadsetType = headsetType;
            mHeadset = null;
            mIncomingInfo = incomingInfo;
+           mAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
        }
    }
 
@@ -841,12 +844,11 @@ public class BluetoothHeadsetService extends Service {
         }
         public boolean setAudioState(BluetoothDevice device, int state) {
             synchronized (BluetoothHeadsetService.this) {
-                int prevState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
+                int prevState = mRemoteHeadsets.get(device).mAudioState;
+                mRemoteHeadsets.get(device).mAudioState = state;
                 if (state == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
-                    prevState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
                     mAudioConnectedDevice = device;
                 } else if (state == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
-                    prevState = BluetoothHeadset.STATE_AUDIO_CONNECTED;
                     mAudioConnectedDevice = null;
                 }
                 Intent intent = new Intent(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
@@ -858,8 +860,16 @@ public class BluetoothHeadsetService extends Service {
                   + " PrevState: " + prevState);
                 return true;
             }
-
         }
+
+        public int getAudioState(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
+                if (headset == null) return BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
+
+                return headset.mAudioState;
+           }
+       }
     };
 
     @Override
