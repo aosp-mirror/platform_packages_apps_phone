@@ -399,7 +399,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <service android:name="DTMFSenderService" >
+        </service>
 
+        <receiver android:name="DTMFBroadcastReceiver" 
+        		  android:permission="android.permission.CALL_PHONE" >
+            <intent-filter>
+                 <action android:name="android.intent.action.SEND_DTMF" />
+                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
 

@@ -31,6 +31,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.Call;
 import com.android.internal.telephony.DefaultPhoneNotifier;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.ITelephony;
@@ -53,6 +54,8 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final int CMD_ANSWER_RINGING_CALL = 4;
     private static final int CMD_END_CALL = 5;  // not used yet
     private static final int CMD_SILENCE_RINGER = 6;
+    private static final int CMD_START_DTMF = 7;
+    private static final int CMD_STOP_DTMF = 8;
 
     PhoneApp mApp;
     Phone mPhone;
@@ -155,6 +158,39 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                     }
                     break;
 
+                case CMD_START_DTMF:
+                    {
+                        request = (MainThreadRequest) msg.obj;
+                        Call call = mPhone.getForegroundCall();
+                        if (call.getState() == Call.State.ACTIVE) {
+                            Object arg = request.argument;                            
+                            mPhone.startDtmf((Character)arg);
+                            request.result = true;
+                        } else {
+                            request.result = false;
+                        }
+                        synchronized (request) {
+                            request.notifyAll();
+                        }
+                    }
+                    break;
+                    
+                case CMD_STOP_DTMF:
+                    {
+                        request = (MainThreadRequest) msg.obj;
+                        Call call = mPhone.getForegroundCall();
+                        if (call.getState() == Call.State.ACTIVE) {
+                            mPhone.stopDtmf();
+                            request.result = true;
+                        } else {
+                            request.result = false;
+                        }
+                        synchronized (request) {
+                            request.notifyAll();
+                        }
+                    }
+                    break;
+                    
                 default:
                     Log.w(LOG_TAG, "MainThreadHandler: unexpected message code: " + msg.what);
                     break;
@@ -372,6 +408,26 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return (mPhone.getState() == Phone.State.OFFHOOK);
     }
 
+    /**
+     * Returns whether the foreground call is active.
+     * @return true if the foreground call is active. 
+     * @see #CALL_STATE_OFFHOOK
+     */
+    public boolean isCallActive() {
+        Call call = mPhone.getForegroundCall();
+        return call.getState() == Call.State.ACTIVE;
+    }
+    
+    /**
+     * Returns whether the foreground call is holding.
+     * @return true if the foreground call is holding.
+     * @see #CALL_STATE_OFFHOOK 
+     */
+    public boolean isCallHolding() {
+        Call call = mPhone.getForegroundCall();
+        return call.getState() == Call.State.HOLDING;
+    }
+    
     public boolean isRinging() {
         return (mPhone.getState() == Phone.State.RINGING);
     }
@@ -728,4 +784,38 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
     }
+
+    /**
+     * Sends a string of DTMF tones.
+     * @see TelephonyManager#sendDtmfString(String, int, int, boolean)
+     */
+    public void sendDtmfString(String s, int dtmfOn, int dtmfOff, boolean sound) {
+        enforceCallPermission();
+        Intent i = new Intent(TelephonyManager.ACTION_SEND_DTMF);
+        i.setClass(mApp, DTMFSenderService.class);
+        i.putExtra(TelephonyManager.EXTRA_DTMF_STRING, s);
+        i.putExtra(TelephonyManager.EXTRA_DTMF_ON, dtmfOn);
+        i.putExtra(TelephonyManager.EXTRA_DTMF_OFF, dtmfOff);
+        i.putExtra(TelephonyManager.EXTRA_DTMF_SOUND, sound);
+        mApp.startService(i);
+    }
+
+    /**
+     * Starts sending a DTMF tone.
+     * @see TelephonyManager#startDtmf(char)
+     */
+    public boolean startDtmf(char c) {
+        enforceCallPermission();
+        return (Boolean) sendRequest(CMD_START_DTMF, c);
+    }
+
+    /**
+     * Stops sending a DTMF tone.
+     * @see TelephonyManager#stopDtmf()
+     */
+    public boolean stopDtmf() {
+        enforceCallPermission();
+        return (Boolean) sendRequest(CMD_STOP_DTMF, 0);
+    }
+
 }
