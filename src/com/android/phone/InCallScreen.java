@@ -535,9 +535,11 @@ public class InCallScreen extends Activity
             // So the fact that we got here indicates a phone app bug.
             Log.w(LOG_TAG, "onCreate() reached on non-voice-capable device");
 
-            // STOPSHIP: this should eventually be just a warning, but for
+            // This should eventually be just a warning, but for
             // now let's also throw an exception to make sure we'll notice
             // this if it ever happens.
+            // STOPSHIP: Before ship, replace this "throw" with a call to finish(),
+            // which will at least ensure that this activity never becomes visible.
             throw new IllegalStateException(
                     "InCallScreen.onCreate() reached on non-voice-capable device");
         }
@@ -2854,7 +2856,8 @@ public class InCallScreen extends Activity
                 //
                 // And in any case, *never* go to the call log if we're in
                 // emergency mode (i.e. if the screen is locked and a lock
-                // pattern or PIN/password is set.)
+                // pattern or PIN/password is set), or if we somehow got here
+                // on a non-voice-capable device.
 
                 if (VDBG) log("- Post-call behavior:");
                 if (VDBG) log("  - mLastDisconnectCause = " + mLastDisconnectCause);
@@ -2872,18 +2875,20 @@ public class InCallScreen extends Activity
 
                 if ((mLastDisconnectCause != Connection.DisconnectCause.INCOMING_MISSED)
                         && (mLastDisconnectCause != Connection.DisconnectCause.INCOMING_REJECTED)
-                        && !isPhoneStateRestricted()) {
+                        && !isPhoneStateRestricted()
+                        && PhoneApp.sVoiceCapable) {
                     if (VDBG) log("- Show Call Log after disconnect...");
                     final Intent intent = PhoneApp.createCallLogIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     try {
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
-                        // There's no "Call log" at all on this device.  That's
-                        // expected in some cases, like with non-voice-capable
-                        // devices, but this *still* should never happen in
-                        // practice since non-voice-capable devices shouldn't be
-                        // making phone calls in the first place!
+                        // Don't crash if there's somehow no "Call log" at
+                        // all on this device.
+                        // (This should never happen, though, since we already
+                        // checked PhoneApp.sVoiceCapable above, and any
+                        // voice-capable device surely *should* have a call
+                        // log activity....)
                         Log.w(LOG_TAG, "delayedCleanupAfterDisconnect: "
                               + "transition to call log failed; intent = " + intent);
                         // ...so just return back where we came from....

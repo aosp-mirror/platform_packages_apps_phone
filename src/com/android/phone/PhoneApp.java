@@ -405,6 +405,16 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
         ContentResolver resolver = getContentResolver();
 
+        // Cache the "voice capable" flag.
+        // This flag currently comes from a resource (which is
+        // overrideable on a per-product basis):
+        sVoiceCapable =
+                getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        // ...but this might eventually become a PackageManager "system
+        // feature" instead, in which case we'd do something like:
+        // sVoiceCapable =
+        //   getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY_VOICE_CALLS);
+
         if (phone == null) {
             // Initialize the telephony framework
             PhoneFactory.makeDefaultPhones(this);
@@ -414,7 +424,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
             mCM = CallManager.getInstance();
             mCM.registerPhone(phone);
-
 
             NotificationMgr.init(this);
 
@@ -426,7 +435,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // temporary. Will move it to a persistent communication process
             // later.
             SipService.start(this);
-
 
             int phoneType = phone.getPhoneType();
 
@@ -573,16 +581,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
         }
-
-        // Cache the "voice capable" flag.
-        // This flag currently comes from a resource (which is
-        // overrideable on a per-product basis):
-        sVoiceCapable =
-                getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
-        // ...but this might eventually become a PackageManager "system
-        // feature" instead, in which case we'd do something like:
-        // sVoiceCapable =
-        //   getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY_VOICE_CALLS);
    }
 
     @Override

@@ -26,8 +26,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -51,8 +49,6 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
 import com.android.internal.telephony.CallManager;
-
-import java.util.List;
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -384,15 +380,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // When the user clicks this notification, we go to the call log.
         final Intent callLogIntent = PhoneApp.createCallLogIntent();
 
-        // ...but if there's no "Call log" at all on this device (e.g. for
-        // non-voice-capable devices), don't bother posting the missed
-        // call notification at all.
-        final PackageManager packageManager = mContext.getPackageManager();
-        final List<ResolveInfo> receiverList =
-                packageManager.queryIntentActivities(callLogIntent,
-                                                     PackageManager.MATCH_DEFAULT_ONLY);
-        if (receiverList.size() == 0) {
-            if (DBG) log("notifyMissedCall: not posting notification (no call log)");
+        // Never display the missed call notification on non-voice-capable
+        // devices, even if the device does somehow manage to get an
+        // incoming call.
+        if (!PhoneApp.sVoiceCapable) {
+            if (DBG) log("notifyMissedCall: non-voice-capable device, not posting notification");
             return;
         }
 
