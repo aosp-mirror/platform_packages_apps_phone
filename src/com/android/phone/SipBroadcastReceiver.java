@@ -99,8 +99,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                    if (((SipPhone) phone).canTake(sipAudioCall)) return;
                 }
             }
-            Log.v(TAG, "drop SIP call: "
-                    + sipAudioCall.getPeerProfile().getUriString());
+            Log.v(TAG, "drop SIP call: " + intent);
         } catch (SipException e) {
             Log.e(TAG, "process incoming SIP call", e);
         }
