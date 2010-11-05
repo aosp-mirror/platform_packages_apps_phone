@@ -364,6 +364,16 @@ public class CallNotifier extends Handler
         Call ringing = c.getCall();
         Phone phone = ringing.getPhone();
 
+        // Incoming calls are totally ignored on non-voice-capable devices.
+        if (!PhoneApp.sVoiceCapable) {
+            // ...but still log a warning, since we shouldn't have gotten this
+            // event in the first place!  (Incoming calls *should* be blocked at
+            // the telephony layer on non-voice-capable capable devices.)
+            Log.w(LOG_TAG, "Got onNewRingingConnection() on non-voice-capable device! Ignoring...");
+            PhoneUtils.hangupRingingCall(ringing);
+            return;
+        }
+
         // Incoming calls are totally ignored if the device isn't provisioned yet
         boolean provisioned = Settings.Secure.getInt(mApplication.getContentResolver(),
             Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
@@ -910,7 +920,7 @@ public class CallNotifier extends Handler
         // Stop any signalInfo tone being played when a call gets ended
         stopSignalInfoTone();
 
-        if ((c != null) && (c.getCall().getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA)) {                                                                
+        if ((c != null) && (c.getCall().getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
             // Resetting the CdmaPhoneCallState members
             mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
 
@@ -1195,6 +1205,19 @@ public class CallNotifier extends Handler
 
     private void onMwiChanged(boolean visible) {
         if (VDBG) log("onMwiChanged(): " + visible);
+
+        // "Voicemail" is meaningless on non-voice-capable devices,
+        // so ignore MWI events.
+        if (!PhoneApp.sVoiceCapable) {
+            // ...but still log a warning, since we shouldn't have gotten this
+            // event in the first place!
+            // (PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR events
+            // *should* be blocked at the telephony layer on non-voice-capable
+            // capable devices.)
+            Log.w(LOG_TAG, "Got onMwiChanged() on non-voice-capable device! Ignoring...");
+            return;
+        }
+
         NotificationMgr.getDefault().updateMwi(visible);
     }
 
