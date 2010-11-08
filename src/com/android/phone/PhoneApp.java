@@ -918,7 +918,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // regardless of the timeout duration.
         // The short timeout is really used whenever we want to give up
         // the screen lock, such as when we're in call.
-        int pokeLockSetting = LocalPowerManager.POKE_LOCK_IGNORE_CHEEK_EVENTS;
+        int pokeLockSetting = 0;
         switch (mScreenTimeoutDuration) {
             case SHORT:
                 // Set the poke lock to timeout the display after a short
@@ -946,7 +946,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
 
         if (mIgnoreTouchUserActivity) {
-            pokeLockSetting |= LocalPowerManager.POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS;
+            pokeLockSetting |= LocalPowerManager.POKE_LOCK_IGNORE_TOUCH_EVENTS;
         }
 
         // Send the request
@@ -1153,7 +1153,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /**
      * Manually pokes the PowerManager's userActivity method.  Since we
-     * hold the POKE_LOCK_IGNORE_TOUCH_AND_CHEEK_EVENTS poke lock while
+     * hold the POKE_LOCK_IGNORE_TOUCH_EVENTS poke lock while
      * the InCallScreen is active, we need to do this for touch events
      * that really do count as user activity (like DTMF key presses, or
      * unlocking the "touch lock" overlay.)
