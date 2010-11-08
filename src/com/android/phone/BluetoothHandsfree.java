@@ -163,6 +163,9 @@ public class BluetoothHandsfree {
     private static final int BRSF_HF_ENHANCED_CALL_STATUS = 1 <<  5;
     private static final int BRSF_HF_ENHANCED_CALL_CONTROL = 1 << 6;
 
+    // VirtualCall - true if Virtual Call is active, false otherwise
+    private boolean mVirtualCallStarted = false;
+
     public static String typeToString(int type) {
         switch (type) {
         case TYPE_UNKNOWN:
@@ -213,6 +216,7 @@ public class BluetoothHandsfree {
 
         mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
+        mVirtualCallStarted = false;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         cdmaSetSecondCallState(false);
@@ -1173,9 +1177,21 @@ public class BluetoothHandsfree {
 
         private synchronized AtCommandResult toCindResult() {
             AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
-            mSignal = asuToSignal(mCM.getDefaultPhone().getSignalStrength());
+            int call, call_setup;
 
-            String status = "+CIND: " + mService + "," + mCall + "," + mCallsetup + "," +
+            // Handsfree carkits expect that +CIND is properly responded to.
+            // Hence we ensure that a proper response is sent for the virtual call too.
+            if (isVirtualCallInProgress()) {
+                call = 1;
+                call_setup = 0;
+            } else {
+                // regular phone call
+                call = mCall;
+                call_setup = mCallsetup;
+            }
+
+            mSignal = asuToSignal(mCM.getDefaultPhone().getSignalStrength());
+            String status = "+CIND: " + mService + "," + call + "," + call_setup + "," +
                             mCallheld + "," + mSignal + "," + mRoam + "," + mBattchg;
             result.addResponse(status);
             return result;
@@ -1467,6 +1483,9 @@ public class BluetoothHandsfree {
                   "outgoing calls found. Ignoring");
             return new AtCommandResult(AtCommandResult.ERROR);
         }
+        // Outgoing call initiated by the handsfree device
+        // Send terminateVirtualVoiceCall
+        terminateVirtualVoiceCall();
         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
                 Uri.fromParts("tel", number, null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1845,6 +1864,8 @@ public class BluetoothHandsfree {
                         }
                         return redial();
                     } else {
+                        // Send terminateVirtualVoiceCall
+                        terminateVirtualVoiceCall();
                         // Remove trailing ';'
                         if (args.charAt(args.length() - 1) == ';') {
                             args = args.substring(0, args.length() - 1);
@@ -1867,12 +1888,17 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleActionCommand() {
                 sendURC("OK");
-                if (mCM.hasActiveFgCall()) {
-                    PhoneUtils.hangupActiveCall(mCM.getActiveFgCall());
-                } else if (mCM.hasActiveRingingCall()) {
-                    PhoneUtils.hangupRingingCall(mCM.getFirstActiveRingingCall());
-                } else if (mCM.hasActiveBgCall()) {
-                    PhoneUtils.hangupHoldingCall(mCM.getFirstActiveBgCall());
+                if (isVirtualCallInProgress()) {
+                    //TODO(): Need a way to inform the audio manager.
+                    terminateVirtualVoiceCall();
+                } else {
+                    if (mCM.hasActiveFgCall()) {
+                        PhoneUtils.hangupActiveCall(mCM.getActiveFgCall());
+                    } else if (mCM.hasActiveRingingCall()) {
+                        PhoneUtils.hangupRingingCall(mCM.getFirstActiveRingingCall());
+                    } else if (mCM.hasActiveBgCall()) {
+                        PhoneUtils.hangupHoldingCall(mCM.getFirstActiveBgCall());
+                    }
                 }
                 return new AtCommandResult(AtCommandResult.UNSOLICITED);
             }
@@ -2088,6 +2114,23 @@ public class BluetoothHandsfree {
             @Override
             public AtCommandResult handleActionCommand() {
                 int phoneType = phone.getPhoneType();
+                // Handsfree carkits expect that +CLCC is properly responded to.
+                // Hence we ensure that a proper response is sent for the virtual call too.
+                if (isVirtualCallInProgress()) {
+                    String number = phone.getLine1Number();
+                    AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
+                    String args;
+                    if (number == null) {
+                        args = "+CLCC: 1,0,0,0,0,\"\",0";
+                    }
+                    else
+                    {
+                        args = "+CLCC: 1,0,0,0,0,\"" + number + "\"," +
+                                  PhoneNumberUtils.toaFromString(number);
+                    }
+                    result.addResponse(args);
+                    return result;
+                }
                 if (phoneType == Phone.PHONE_TYPE_CDMA) {
                     return cdmaGetClccResult();
                 } else if (phoneType == Phone.PHONE_TYPE_GSM) {
@@ -2367,6 +2410,9 @@ public class BluetoothHandsfree {
                 if (!BluetoothHeadset.isBluetoothVoiceDialingEnabled(mContext)) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
+                // Send terminateVirtualVoiceCall
+                // TODO(): Need a way to inform the audio manager.
+                terminateVirtualVoiceCall();
                 if (args.length >= 1 && args[0].equals(1)) {
                     synchronized (BluetoothHandsfree.this) {
                         if (!mWaitingForVoiceRecognition) {
@@ -2586,6 +2632,89 @@ public class BluetoothHandsfree {
             mDebugThread = null;
         }
     }
+
+    // VirtualCall SCO support
+    //
+
+    // Cellular call in progress
+    private boolean isCellularCallInProgress() {
+        if (mCM.hasActiveFgCall() || mCM.hasActiveRingingCall()) return true;
+        return false;
+    }
+
+    // Virtual Call in Progress
+    private boolean isVirtualCallInProgress() {
+        return mVirtualCallStarted;
+    }
+
+    //NOTE: Currently the VirtualCall API does not allow the application to initiate a call
+    // transfer. Call transfer may be initiated from the handsfree device and this is handled by
+    // the VirtualCall API
+    synchronized boolean initiateVirtualVoiceCall() {
+        if (DBG) log("initiateVirtualVoiceCall: Received");
+        // 1. Check if the SCO state is idle
+        if  ((isCellularCallInProgress()) ||
+            (isVirtualCallInProgress())) {
+            Log.e(TAG, "initiateVirtualVoiceCall: Call in progress");
+            return false;
+        }
+
+        // 1.5. Set mVirtualCallStarted to true
+        mVirtualCallStarted = true;
+
+        // 2. Perform outgoing call setup procedure
+        if (mBluetoothPhoneState.sendUpdate()) {
+            AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
+            // outgoing call
+            result.addResponse("+CIEV: 3,2");
+            result.addResponse("+CIEV: 2,1");
+            result.addResponse("+CIEV: 3,0");
+            sendURC(result.toString());
+            if (DBG) Log.d(TAG, "initiateVirtualVoiceCall: Sent Call-setup procedure");
+        }
+        // 3. Open the Audio Connection
+        if (audioOn() == false) {
+            log("initiateVirtualVoiceCall: audioON failed");
+            terminateVirtualVoiceCall();
+            return false;
+        }
+
+        mAudioPossible = true;
+
+        // Done
+        if (DBG) log("initiateVirtualVoiceCall: Done");
+        return true;
+    }
+
+    synchronized boolean terminateVirtualVoiceCall() {
+        if (DBG) log("terminateVirtualVoiceCall: Received");
+        // 1. Check if a virtual call is in progress
+        if (!isVirtualCallInProgress()) {
+            if (DBG) log("terminateVirtualVoiceCall: VirtualCall is not in progress");
+            return false;
+        }
+
+        // 2. Release audio connection
+        audioOff();
+
+        // 3. Reset mVirtualCallStarted to false
+        mVirtualCallStarted = false;
+
+        // 4. terminate call-setup
+        if (mBluetoothPhoneState.sendUpdate()) {
+            AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
+            // outgoing call
+            result.addResponse("+CIEV: 2,0");
+            sendURC(result.toString());
+            if (DBG) log("terminateVirtualVoiceCall: Sent Call-setup procedure");
+        }
+        mAudioPossible = false;
+
+        // Done
+        if (DBG) log("terminateVirtualVoiceCall: Done");
+        return true;
+    }
+
 
     /** Debug thread to read debug properties - runs when debug.bt.hfp is true
      *  at the time a bluetooth handsfree device is connected. Debug properties

@@ -609,11 +609,13 @@ public class BluetoothHeadsetService extends Service {
             }
             return headset.mState;
         }
+
         public List<BluetoothDevice> getConnectedDevices() {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             return getDevicesMatchingConnectionStates(
                 new int[] {BluetoothProfile.STATE_CONNECTED});
         }
+
         public boolean connect(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
                                            "Need BLUETOOTH_ADMIN permission");
@@ -635,6 +637,7 @@ public class BluetoothHeadsetService extends Service {
                 }
             }
         }
+
         public boolean disconnect(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
                                            "Need BLUETOOTH_ADMIN permission");
@@ -653,11 +656,13 @@ public class BluetoothHeadsetService extends Service {
                 }
             }
         }
+
         public synchronized boolean isAudioConnected(BluetoothDevice device) {
-          enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
-          if (device.equals(mAudioConnectedDevice)) return true;
-          return false;
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            if (device.equals(mAudioConnectedDevice)) return true;
+            return false;
         }
+
         public synchronized List<BluetoothDevice> getDevicesMatchingConnectionStates(int[] states) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             List<BluetoothDevice> headsets = new ArrayList<BluetoothDevice>();
@@ -672,6 +677,7 @@ public class BluetoothHeadsetService extends Service {
             }
             return headsets;
         }
+
         public boolean startVoiceRecognition(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
@@ -683,6 +689,7 @@ public class BluetoothHeadsetService extends Service {
                 return mBtHandsfree.startVoiceRecognition();
             }
         }
+
         public boolean stopVoiceRecognition(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
@@ -695,11 +702,13 @@ public class BluetoothHeadsetService extends Service {
                 return mBtHandsfree.stopVoiceRecognition();
             }
         }
+
         public int getBatteryUsageHint(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
 
             return HeadsetBase.getAtInputCount();
         }
+
         public int getPriority(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_ADMIN_PERM,
                 "Need BLUETOOTH_ADMIN permission");
@@ -722,6 +731,7 @@ public class BluetoothHeadsetService extends Service {
                 return true;
             }
         }
+
         public boolean createIncomingConnect(BluetoothDevice device) {
             synchronized (BluetoothHeadsetService.this) {
                 HeadsetBase headset;
@@ -737,8 +747,33 @@ public class BluetoothHeadsetService extends Service {
 
                 mConnectingStatusHandler.obtainMessage(RFCOMM_CONNECTED, headset).sendToTarget();
                 return true;
-          }
-      }
+            }
+        }
+
+        public boolean startVirtualVoiceCall(BluetoothDevice device) {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (device == null ||
+                    mRemoteHeadsets.get(device) == null ||
+                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED) {
+                    return false;
+                }
+                return mBtHandsfree.initiateVirtualVoiceCall();
+            }
+        }
+
+        public boolean stopVirtualVoiceCall(BluetoothDevice device) {
+            enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
+            synchronized (BluetoothHeadsetService.this) {
+                if (device == null ||
+                    mRemoteHeadsets.get(device) == null ||
+                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED) {
+                    return false;
+                }
+                return mBtHandsfree.terminateVirtualVoiceCall();
+            }
+        }
+
         public boolean acceptIncomingConnect(BluetoothDevice device) {
             synchronized (BluetoothHeadsetService.this) {
                 HeadsetBase headset;
@@ -842,6 +877,7 @@ public class BluetoothHeadsetService extends Service {
                 return false;
             }
         }
+
         public boolean setAudioState(BluetoothDevice device, int state) {
             synchronized (BluetoothHeadsetService.this) {
                 int prevState = mRemoteHeadsets.get(device).mAudioState;
