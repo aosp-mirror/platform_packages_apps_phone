@@ -243,7 +243,9 @@
         </activity>
 
         <!-- general settings -->
-        <activity android:name="Settings" android:label="@string/settings_label">
+        <activity android:name="Settings"
+                android:label="@string/settings_label"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -256,8 +258,9 @@
         <service android:name="NetworkQueryService" />
 
         <activity android:name="NetworkSetting"
-            android:label="@string/networks"
-            android:configChanges="orientation|keyboardHidden">
+                android:label="@string/networks"
+                android:configChanges="orientation|keyboardHidden"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.settings.NETWORK_OPERATOR_" />
@@ -265,83 +268,100 @@
         </activity>
 
         <activity android:name="GsmUmtsOptions"
-            android:label="@string/gsm_umts_options">
+                android:label="@string/gsm_umts_options"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="CdmaOptions"
-            android:label="@string/cdma_options">
+                android:label="@string/cdma_options"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="GsmUmtsCallOptions"
-            android:label="@string/gsm_umts_options">
+                android:label="@string/gsm_umts_options"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="CdmaCallOptions"
-            android:label="@string/cdma_options">
+                android:label="@string/cdma_options"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="GsmUmtsCallForwardOptions"
-            android:label="@string/labelCF"
-            android:configChanges="orientation|keyboardHidden">
+                android:label="@string/labelCF"
+                android:configChanges="orientation|keyboardHidden"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="GsmUmtsAdditionalCallOptions"
-            android:label="@string/labelGSMMore"
-            android:configChanges="orientation|keyboardHidden">
+                android:label="@string/labelGSMMore"
+                android:configChanges="orientation|keyboardHidden"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity android:name="CellBroadcastSms"
-            android:label="@string/cell_broadcast_sms">
+            android:label="@string/cell_broadcast_sms"
+            android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <!-- fdn setting -->
-        <activity android:name="FdnSetting" android:label="@string/fdn">
+        <activity android:name="FdnSetting"
+                android:label="@string/fdn"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name="EnableFdnScreen" android:label="">
+        <activity android:name="EnableFdnScreen"
+                android:label=""
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
         </activity>
 
         <!-- SIM PIN setting -->
-        <activity android:name="EnableIccPinScreen" android:label="@string/enable_pin">
+        <activity android:name="EnableIccPinScreen"
+                android:label="@string/enable_pin"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="ChangeIccPinScreen" android:label="@string/change_pin">
+        <activity android:name="ChangeIccPinScreen"
+                android:label="@string/change_pin"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEVELOPMENT_PREFERENCE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="GetPin2Screen" android:label="@string/get_pin2"
-                  android:windowSoftInputMode="stateVisible">
+        <activity android:name="GetPin2Screen"
+                android:label="@string/get_pin2"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge"
+                android:windowSoftInputMode="stateVisible">
         </activity>
 
         <activity android:name="EditFdnContactScreen"
@@ -353,7 +373,7 @@
         </activity>
 
         <activity android:name="DataRoamingReenable" android:label="@string/android:dialog_alert_title"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@android:style/Theme.Holo.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -361,22 +381,27 @@
 
         <!-- Data usage and throttling setting -->
         <activity android:name="DataUsage"
-            android:label="@string/throttle_data_usage">
+                android:label="@string/throttle_data_usage"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <!-- data roaming setting -->
-        <activity android:name="RoamingSetting" android:label="@string/roaming">
+        <activity android:name="RoamingSetting"
+                android:label="@string/roaming"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <!-- call feature setting -->
-        <activity android:name="CallFeaturesSetting" android:label="@string/call_settings"
-            android:configChanges="orientation|keyboardHidden">
+        <activity android:name="CallFeaturesSetting"
+                android:label="@string/call_settings"
+                android:configChanges="orientation|keyboardHidden"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -432,6 +457,7 @@
 
         <activity android:label="Sip Settings"
                   android:name=".sip.SipSettings"
+                  android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                   android:launchMode="singleTop"
                   android:configChanges="orientation|keyboardHidden">
             <intent-filter>
@@ -440,9 +466,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".sip.SipEditor"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                 android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity android:name=".SipCallOptionHandler"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                 android:configChanges="orientation|keyboardHidden">
         </activity>
 
