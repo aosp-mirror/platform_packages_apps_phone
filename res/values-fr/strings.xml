@@ -611,13 +611,13 @@
     <string name="goPrivate" msgid="865837794424530980">"mode privé"</string>
     <string name="selectContact" msgid="781975788478987237">"sélectionner un contact"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Paramètres d\'appel Internet"</string>
-    <string name="sip_accounts" msgid="2097054001288457163">"Comptes des appels Internet (SIP)"</string>
+    <string name="sip_accounts" msgid="2097054001288457163">"Comptes d\'appels Internet (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Comptes"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"Gestion des comptes des appels Internet (SIP) et de leur état"</string>
+    <string name="sip_accounts_summary" msgid="6812629993146552527">"Gestion des comptes d\'appels Internet (SIP) et de leur état"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Recevoir les appels"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Réduit la durée de vie de la batterie"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configurer les options d\'appel"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Utiliser un appel par Internet"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Passer un appel Internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Appels Internet (Wi-Fi uniquement)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Pour tous les appels quand un réseau de données est disponible"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Seulement pour les appels Internet"</string>
@@ -625,10 +625,10 @@
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Pour tous les appels"</string>
     <string name="auto_reg" msgid="8150163311655081599">"Enregistrement automatique"</string>
     <string name="call_priority" msgid="8374917577270504387">"Appel sortant via SIP"</string>
-    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Émettre un appel"</string>
+    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Passer un appel"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Utiliser un compte de téléphonie par Internet :"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Utiliser systématiquement pour passer des appels Internet"</string>
-    <string name="reset_my_choice_hint" msgid="8522825056755061594">"Servez-vous de l\'option Paramètres d\'appels pour changer le compte SIP (appels Internet) utilisé par défaut lors de l\'émission d\'appels. Pour ce faire, sélectionnez un autre compte sous Paramètres d\'appels Internet."</string>
+    <string name="reset_my_choice_hint" msgid="8522825056755061594">"Servez-vous de l\'option Paramètres d\'appels pour changer le compte SIP (appels Internet) que vous utilisez par défaut lorsque vous émettez des appels. Pour ce faire, sélectionnez un autre compte sous Paramètres d\'appels Internet."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"Appel de mobile"</string>
     <string name="internet_phone" msgid="1147922660195095810">"Appel par Internet"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Aucun compte de téléphonie par Internet"</string>
@@ -660,8 +660,8 @@
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Échec de l\'enregistrement du compte : (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Une nouvelle tentative sera effectuée ultérieurement."</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Échec de l\'enregistrement du compte : nom d\'utilisateur ou mot de passe incorrect"</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"L\'enregistrement du compte a échoué. Veuillez vérifier le nom du serveur."</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Ce compte est utilisé actuellement par l\'application <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
-    <string name="sip_edit_title" msgid="489288416435014385">"Détails du compte SIP"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Ce compte est actuellement utilisé par l\'application <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
+    <string name="sip_edit_title" msgid="489288416435014385">"Infos du compte SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Détails du compte SIP"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Serveur"</string>
     <string name="username_title" msgid="2479375923477682328">"Nom d\'utilisateur"</string>
@@ -687,6 +687,6 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Pas de connexion Internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Aucune connexion Wi-Fi"</string>
     <string name="no_internet_available" msgid="1100564991026313234">"Pour passer un appel Internet, vérifiez tout d\'abord la connexion Internet."</string>
-    <string name="no_wifi_available" msgid="3389743006886634541">"Les appels par Internet exigent une connexion Wi-Fi (activez-la dans Paramètres &gt; Sans fil et réseaux)"</string>
+    <string name="no_wifi_available" msgid="3389743006886634541">"Les appels Internet exigent une connexion Wi-Fi (celle-ci peut être activée sous Paramètres &gt; Sans fil et réseaux)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Appels Internet non pris en charge"</string>
 </resources>
