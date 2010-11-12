@@ -237,8 +237,8 @@ public class OtaUtils {
 
         if (DBG) log("otaShowActivationScreen: " + otaShowActivationScreen);
 
-        // Run the OTASP call in "interactive" mode only if
-        // this is a "voice capable" device.
+        // Run the OTASP call if needed on a "voice capable" device.
+        // No auto launch on non voice capable devices.
         if (PhoneApp.sVoiceCapable) {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
@@ -254,13 +254,9 @@ public class OtaUtils {
             }
         } else {
             if (phoneNeedsActivation) {
-                app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
-                Intent newIntent = new Intent(ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(newIntent);
-                if (DBG) log("maybeDoOtaCall: non-interactive; activation intent sent.");
+                if (DBG) log("maybeDoOtaCall: non-interactive; activation needed.");
             } else {
-                if (DBG) log("maybeDoOtaCall: non-interactive, no need for OTASP.");
+                if (DBG) log("maybeDoOtaCall: non-interactive, activation not needed.");
             }
         }
         return true;
