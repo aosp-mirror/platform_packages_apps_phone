@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Pour passer un appel Internet, vérifiez tout d\'abord la connexion Internet."</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Les appels Internet exigent une connexion Wi-Fi (celle-ci peut être activée sous Paramètres &gt; Sans fil et réseaux)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Appels Internet non pris en charge"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Appels vocaux non pris en charge"</string>
 </resources>

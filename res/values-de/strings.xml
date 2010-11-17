@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Überprüfen Sie zunächst Ihre Internetverbindung, bevor Sie einen Internetanruf tätigen."</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Für Internetanrufe ist eine aktive WLAN-Verbindung notwendig. Wählen Sie die entsprechenden Einstellungen unter \"Drahtlos &amp; Netzwerke\"."</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetanrufe werden nicht unterstützt."</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Sprachanruf wird nicht unterstützt."</string>
 </resources>

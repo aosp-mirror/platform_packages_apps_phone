@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"如要撥打網路電話，請先檢查您的網際網路連線"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"您必須連上 Wi-Fi 網路才能使用網路電話 (使用 [無線網路和網路] 設定)"</string>
     <string name="no_voip" msgid="8901474054537199865">"不支援網路電話"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"不支援語音通話"</string>
 </resources>

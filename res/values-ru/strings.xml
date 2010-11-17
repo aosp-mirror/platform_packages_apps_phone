@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Перед звонком через Интернет проверьте подключение"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Для совершения интернет-вызовов необходимо подключение к сети Wi-Fi (используйте настройки беспроводной сети)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Интернет-вызов не поддерживается"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Голосовые вызовы не поддерживаются"</string>
 </resources>

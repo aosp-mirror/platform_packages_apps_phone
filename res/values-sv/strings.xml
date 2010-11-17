@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Kontrollera Internetanslutningen om du vill ringa Internetsamtal"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Telefonen måste vara ansluten till ett WiFi-nätverk för att du ska kunna ringa Internetsamtal (använd inställningarna för trådlöst och nätverk)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Inget stöd för Internetsamtal"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Röstsamtal stöds inte"</string>
 </resources>

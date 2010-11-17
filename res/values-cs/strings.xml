@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Chcete-li uskutečnit internetový hovor, zkontrolujte, zda jste připojeni k internetu"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Abyste mohli uskutečnit internetový hovor musíte být připojeni k síti WiFi (viz část Nastavení bezdrátového připojení a sítě)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetové hovory nejsou podporovány"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Hlasové volání není podporováno"</string>
 </resources>

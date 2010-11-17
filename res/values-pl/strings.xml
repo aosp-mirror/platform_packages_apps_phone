@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Aby nawiązać połączenie przez internet, sprawdź najpierw połączenie internetowe"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Połączenia przez internet wymagają nawiązania połączenia z siecią Wi-Fi (użyj ustawień sieci zwykłych i bezprzewodowych)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Brak obsługi połączeń przez internet"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Połączenia głosowe nie są obsługiwane"</string>
 </resources>

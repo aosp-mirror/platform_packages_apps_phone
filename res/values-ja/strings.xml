@@ -689,6 +689,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"インターネット通話を行うにはインターネットへの接続を確認してください。"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"インターネット通話を行うにはWi-Fiネットワークへの接続が必要です（[ワイヤレスとネットワークの設定]を使用）。"</string>
     <string name="no_voip" msgid="8901474054537199865">"インターネット通話には対応していません"</string>
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"音声通話はサポートされていません"</string>
 </resources>
