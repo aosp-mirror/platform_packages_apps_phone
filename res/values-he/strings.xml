@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="contactsIconLabel" msgid="9129800048701196916">"אנשי קשר"</string>
+    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"מועדפים"</string>
+    <string name="dialerIconLabel" msgid="1761864493312440268">"חייגן"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"חייגן חירום"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"טלפון"</string>
+    <string name="recentCallsIconLabel" msgid="8717350893637245164">"יומן שיחות"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"רשימת FDN"</string>
+    <string name="unknown" msgid="6878797917991465859">"לא ידוע"</string>
+    <string name="private_num" msgid="6713286113000232309">"מספר פרטי"</string>
+    <string name="payphone" msgid="1931775086311769314">"טלפון ציבורי"</string>
+    <string name="onHold" msgid="9035493194749959955">"מושהה"</string>
+    <string name="ongoing" msgid="8300874342848721367">"שיחה נוכחית"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"הקו לא פנוי"</string>
+    <string name="callFailed_congestion" msgid="8737761615702718375">"רשת לא פנויה"</string>
+    <!-- no translation found for callFailed_timedOut (7590961703135543346) -->
+    <skip />
+    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
+    <skip />
+    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
+    <skip />
+    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
+    <skip />
+    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
+    <skip />
+    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
+    <skip />
+    <string name="callFailed_noSignal" msgid="1889803273616031933">"אין אות"</string>
+    <string name="callFailed_limitExceeded" msgid="4958065157970101491">"חריגה ממגבלת ACM"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"רדיו כבוי"</string>
+    <string name="callFailed_simError" msgid="5652345589458834655">"אין SIM, או שגיאת SIM"</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"מחוץ לאזור שירות"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"שיחות יוצאות מוגבלות על ידי FDN."</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"אינך יכול לבצע שיחות יוצאות כאשר חסימת שיחות מופעלת."</string>
+    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"כל השיחות מוגבלות על ידי בקרת גישה."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"שיחות חירום מוגבלות על ידי בקרת גישה."</string>
+    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"שיחות רגילות מוגבלות על ידי בקרת גישה."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: הטלפון נעול עד לסיום מחזור הטעינה."</string>
+    <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: השיחה בוטלה."</string>
+    <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA: השיחה עוכבה."</string>
+    <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: הוראה חוזרת."</string>
+    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: דחיית אפשרות שירות."</string>
+    <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: הוראה לניסיון חוזר."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: כשל בגישה."</string>
+    <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: תפוס."</string>
+    <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"רק שיחות חירום אפשריות."</string>
+    <!-- no translation found for callFailed_unobtainable_number (7886274717456712105) -->
+    <skip />
+    <string name="confCall" msgid="1904840547188336828">"שיחת ועידה"</string>
+    <string name="call_lost" msgid="317670617901479594">"השיחה אבדה."</string>
+    <string name="retry" msgid="8462986804300767852">"נסה שוב"</string>
+    <string name="call_lost_title" msgid="6696949678847938515">"שיחה אבדה"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"קוד MMI הופעל"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"קוד USSD פועל…"</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"קוד MMI מבוטל"</string>
+    <string name="cancel" msgid="5044513931633602634">"ביטול"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"רמקול"</string>
+    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
+    <string name="menu_mute" msgid="4399723633363773145">"השתק"</string>
+    <string name="menu_hold" msgid="6970441130344786273">"השהה"</string>
+    <string name="menu_endCall" msgid="2142958047156634241">"סיים שיחה"</string>
+    <string name="menu_swapCalls" msgid="1548647524816600795">"החלף שיחות"</string>
+    <string name="menu_mergeCalls" msgid="6414754941392181303">"מזג שיחות"</string>
+    <string name="menu_addCall" msgid="7829255032442131930">"הוסף שיחה"</string>
+    <string name="menu_manageConference" msgid="3770984362002266733">"נהל שיחת ועידה"</string>
+    <string name="menu_showDialpad" msgid="5198200217528406980">"הצג את לוח החיוג"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"הסתר לוח חיוג"</string>
+    <string name="menu_answerAndHold" msgid="8830891495953688905">"השהה את השיחה הנוכחית"\n"וענה"</string>
+    <string name="menu_answerAndEnd" msgid="2071708281281611854">"סיים את השיחה הנוכחית"\n"וענה"</string>
+    <string name="ok" msgid="3811371167865772377">"אישור"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"הקש על \'תפריט\' לקבלת אפשרויות שיחה."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"לחץ על \'תפריט\' לקבלת אפשרויות שיחה  •  השתמש במקלדת כדי לחייג"</string>
+    <string name="menu_answer" msgid="116686205042231098">"מענה"</string>
+    <string name="menu_ignore" msgid="2112030835852537344">"התעלם"</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"לשלוח את הצלילים הבאים?"\n</string>
+    <string name="pause_prompt_str" msgid="341477243019906241">"שולח צלילים "\n</string>
+    <string name="send_button" msgid="4106860097497818751">"שלח"</string>
+    <string name="pause_prompt_yes" msgid="3564467212025151797">"כן"</string>
+    <string name="pause_prompt_no" msgid="6686238803236884877">"לא"</string>
+    <string name="wild_prompt_str" msgid="1585989144582892543">"החלף תו כללי ב"</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"חסר מספר של דואר קולי"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"בכרטיס ה-SIM לא מאוחסן מספר של דואר קולי."</string>
+    <string name="add_vm_number_str" msgid="4676479471644687453">"הוסף מספר"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"טוען…"</string>
+    <string name="enterPin" msgid="4753300834213388397">"הקלד קוד PIN כדי לבטל את נעילת כרטיס ה-SIM."</string>
+    <string name="pinUnlocked" msgid="3260617001055506794">"בוטלה נעילת SIM"</string>
+    <string name="enterNewPin" msgid="5311243769004752401">"קוד PIN חדש של SIM"</string>
+    <string name="verifyNewPin" msgid="2593629913010458867">"הקלד קוד PIN חדש של SIM שוב כדי לאשר"</string>
+    <string name="verifyFailed" msgid="3875778795754857903">"קודי ה-PIN של ה-SIM שהקלדת אינם תואמים. נסה שוב."</string>
+    <string name="enterPuk" msgid="6144749655582862324">"הקלד קוד PUK כדי לבטל את נעילת כרטיס ה-SIM."</string>
+    <string name="badPuk" msgid="3213017898690275965">"קוד PUK שגוי!"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"המשך"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"בוטלה החסימה של כרטיס ה-SIM. מבטל את חסימת הטלפון..."</string>
+    <string name="label_ndp" msgid="780479633159517250">"SIM לביטול נעילת רשת PIN"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"בטל נעילה"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"בטל"</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"מבקש ביטול נעילת רשת..."</string>
+    <string name="unlock_failed" msgid="6490531697031504225">"הבקשה לביטול נעילת הרשת נכשלה."</string>
+    <string name="unlock_success" msgid="6770085622238180152">"ביטול נעילת הרשת התבצע בהצלחה."</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
+    <string name="meid" msgid="66004808679046045">"MEID"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"הגדרות שיחה של GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"הגדרות שיחה של CDMA"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"שמות של נקודות גישה"</string>
+    <string name="settings_label" msgid="3876743539816984008">"הגדרות רשת"</string>
+    <string name="voicemail" msgid="8693759337917898954">"דואר קולי"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"דואר קולי:"</string>
+    <string name="networks" msgid="8873030692174541976">"מפעילי רשת"</string>
+    <string name="call_settings" msgid="6112441768261754562">"הגדרות שיחה"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"הגדרות נוספות"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"הגדרות שיחה נוספות של GSM בלבד"</string>
+    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"הגדרות שיחה נוספות של CDMA"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"הגדרות שיחה נוספות של CDMA בלבד"</string>
+    <string name="labelNwService" msgid="4699970172021870983">"הגדרות של שירות רשת"</string>
+    <string name="labelCallerId" msgid="3888899447379069198">"זיהוי מתקשר"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"המספר מוסתר בשיחות יוצאות"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"מספר המוצג בשיחות יוצאות"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"השתמש בהגדרות ברירת מחדל של מפעיל כדי להציג את המספר שלי בשיחות יוצאות"</string>
+    <string name="labelCW" msgid="6120513814915920200">"שיחה ממתינה"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"במהלך שיחה, הודעה לי על שיחות נכנסות"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"במהלך שיחה, הודעה לי על שיחות נכנסות"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"הגדרות של העברת שיחות"</string>
+    <string name="labelCF" msgid="2574386948026924737">"העברת שיחות"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"העבר תמיד"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"השתמש תמיד במספר זה"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"מעביר את כל השיחות"</string>
+    <string name="sum_cfu_enabled" msgid="956178654350554451">"מעביר את כל השיחות אל \\{0\\}"</string>
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"המספר לא זמין"</string>
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"מושבתת"</string>
+    <string name="labelCFB" msgid="218938523102207587">"העבר כשלא פנוי"</string>
+    <string name="messageCFB" msgid="3711089705936187129">"מספר כאשר לא פנוי"</string>
+    <string name="sum_cfb_enabled" msgid="2501948432392255856">"העברה אל \\{0\\}"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"מושבתת"</string>
+    <string name="disable_cfb_forbidden" msgid="4524424437001441832">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר הטלפון אינו פנוי."</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"העבר כשאין מענה"</string>
+    <string name="messageCFNRy" msgid="672317899884380374">"מספר כשאין תשובה"</string>
+    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"העברה אל \\{0\\}"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"מושבת"</string>
+    <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר אין מענה בטלפון."</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"העבר כשלא ניתן להשגה"</string>
+    <string name="messageCFNRc" msgid="6380695421020295119">"המספר לחיוג כשאין אפשרות להשיג אותך"</string>
+    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"העברה אל\\{0\\}"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"מושבתת"</string>
+    <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר לא ניתן להשיג את הטלפון."</string>
+    <string name="updating_title" msgid="6146755386174019046">"הגדרות שיחה"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"שגיאה בהגדרות שיחה"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"קורא הגדרות…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"מעדכן הגדרות..."</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"חוזר להגדרות הקודמות…"</string>
+    <string name="response_error" msgid="6674110501330139405">"תגובה לא צפויה מהרשת."</string>
+    <string name="exception_error" msgid="7027667130619518211">"שגיאת רשת או שגיאה של כרטיס SIM."</string>
+    <!-- no translation found for fdn_only_error (7079583506377602000) -->
+    <skip />
+    <string name="radio_off_error" msgid="6717116288405111269">"הפעל את הרדיו לפני העיון בהגדרות אלה."</string>
+    <string name="close_dialog" msgid="2365884406356986917">"אישור"</string>
+    <string name="enable" msgid="1059008390636773574">"הפוך לפעיל"</string>
+    <string name="disable" msgid="7274240979164762320">"השבת"</string>
+    <string name="change_num" msgid="239476305819844391">"עדכן"</string>
+  <string-array name="clir_display_values">
+    <item msgid="5560134294467334594">"רשת ברירת מחדל"</item>
+    <item msgid="7876195870037833661">"הסתר מספר"</item>
+    <item msgid="1108394741608734023">"הצג מספר"</item>
+  </string-array>
+    <string name="vm_save_number" msgid="4579969432544566719">"שמור מספר של דואר קולי"</string>
+    <string name="vm_changed" msgid="380744030726254139">"המספר של הדואר הקולי השתנה."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"שינוי המספר של הדואר הקולי נכשל."\n"פנה אל הספק אם בעיה זו נמשכת."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"שינוי המספר של העברה נכשל."\n"פנה אל הספק אם בעיה זו נמשכת."</string>
+    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"האחזור והשמירה של הגדרות מספר ההעברה הנוכחי נכשלו."\n"האם ברצונך לעבור לספק החדש למרות זאת?"</string>
+    <string name="no_change" msgid="3186040086622435212">"לא בוצעו שינויים."</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"בחר שירות של דואר קולי"</string>
+    <string name="voicemail_default" msgid="5902099213882352338">"הספק שלי"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"הגדרות רשת להתקנים ניידים"</string>
+    <string name="label_available" msgid="1181658289009300430">"רשתות זמינות"</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"מחפש…"</string>
+    <string name="empty_networks_list" msgid="4249426905018815316">"לא נמצאה רשת."</string>
+    <string name="search_networks" msgid="1601136049300882441">"חפש רשתות"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"שגיאה במהלך חיפוש רשתות."</string>
+    <string name="register_on_network" msgid="9055203954040805084">"נרשם ב-<xliff:g id="NETWORK">%s</xliff:g>…"</string>
+    <string name="not_allowed" msgid="3540496123717833833">"כרטיס ה-SIM לא מאפשר חיבור לרשת זאת."</string>
+    <string name="connect_later" msgid="500090982903469816">"לא ניתן להתחבר לרשת זו בשלב זה. נסה שוב מאוחר יותר."</string>
+    <string name="registration_done" msgid="495135664535876612">"רשומה ברשת."</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"בחר מפעיל רשת"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"חפש את כל הרשתות הזמינות"</string>
+    <string name="select_automatically" msgid="8615980695510888796">"בחר באופן אוטומטי"</string>
+    <string name="sum_select_automatically" msgid="8460954604521755275">"בחר באופן אוטומטי רשת מועדפת"</string>
+    <string name="register_automatically" msgid="6272031189219101172">"רישום אוטומטי..."</string>
+    <string name="preferred_network_mode_title" msgid="8873246565334559308">"מצב רשת"</string>
+    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"שנה את מצב ההפעלה של הרשת"</string>
+    <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"מצב רשת מועדפת"</string>
+  <string-array name="preferred_network_mode_choices">
+    <item msgid="2987674222882365152">"עולמי"</item>
+    <item msgid="3273348576277144124">"EvDo בלבד"</item>
+    <item msgid="454610224530856274">"CDMA ללא EvDo"</item>
+    <item msgid="8928247118825616081">"CDMA / EvDo אוטומטי"</item>
+    <item msgid="8595462903294812666">"GSM / WCDMA אוטומטי"</item>
+    <item msgid="5189164180446264504">"WCDMA בלבד"</item>
+    <item msgid="5714714953966979187">"GSM בלבד"</item>
+    <item msgid="4775796025725908913">"GSM / WCDMA מועדף"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_values">
+    <item msgid="7164534877603905916">"7"</item>
+    <item msgid="2520921432080278213">"6"</item>
+    <item msgid="4978887990900575049">"5"</item>
+    <item msgid="6891436459357445885">"4"</item>
+    <item msgid="339825043192186272">"3"</item>
+    <item msgid="3062641619893382241">"2"</item>
+    <item msgid="2494009747968041784">"1"</item>
+    <item msgid="2568449734331711605">"0"</item>
+  </string-array>
+    <string name="data_enabled" msgid="5972538663568715366">"נתונים מופעלים"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"אפשר גישת נתונים ברשת סלולרית"</string>
+    <string name="roaming" msgid="8871412572928323707">"נדידת נתונים"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"התחבר אל שירותי נתונים בעת נדידה"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"התחבר אל שירותי נתונים בעת נדידה"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"איבדת את קישוריות הנתונים כיוון שעזבת את הרשת הביתית עם נדידת נתונים כבויה."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"לאפשר נדידת נתונים? אתה עלול לצבור חיובי נדידה משמעותיים!"</string>
+    <string name="gsm_umts_options" msgid="6538311689850981686">"אפשרויות GSM/UMTS"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"אפשרויות CDMA"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"שימוש בנתונים"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"מדיניות הנתונים של הספק"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"נתונים שנעשה בהם שימוש בתקופה הנוכחית"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"תקופת שימוש בנתונים"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"מדיניות קצב נתונים"</string>
+    <string name="throttle_help" msgid="243651091785169900">"למידע נוסף"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) מתוך התקופה המרבית של <xliff:g id="USED_2">%3$s</xliff:g> "\n"התקופה הבאה מתחילה בעוד <xliff:g id="USED_3">%4$d</xliff:g> ימים (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) מתוך התקופה המרבית של <xliff:g id="USED_2">%3$s</xliff:g>"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> חריגה מהמקסימום"\n"קצב הנתונים ירד ל-‏‎<xliff:g id="USED_1">%2$d</xliff:g> Kb לשנייה"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ מהמחזור חלפו"\n"התקופה הבאה מתחילה בעוד <xliff:g id="USED_1">%2$d</xliff:g> ימים (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"קצב הנתונים יורד ל-‏‎<xliff:g id="USED">%1$d</xliff:g> Kb לשנייה במקרה של חריגה ממגבלת השימוש בנתונים"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"למידע נוסף על מדיניות השימוש בנתונים ברשת הניידת של הספק שלך"</string>
+    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"SMS בשידור סלולרי"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS בשידור סלולרי"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS בשידור סלולרי"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"SMS בשידור סלולרי מופעל"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"SMS בשידור סלולרי מושבת"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"הגדרות SMS בשידור סלולרי"</string>
+    <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"שידור חירום"</string>
+    <string name="emergency_broadcast_enable" msgid="2645980025414010211">"שידור חירום מופעל"</string>
+    <string name="emergency_broadcast_disable" msgid="3665199821267569426">"שידור חירום מושבת"</string>
+    <string name="enable_disable_administrative" msgid="6501582322182059412">"ניהולי"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"ניהולי מופעל"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"ניהולי מושבת"</string>
+    <string name="enable_disable_maintenance" msgid="1819693083025106678">"תחזוקה"</string>
+    <string name="maintenance_enable" msgid="8566636458770971189">"תחזוקה מופעלת"</string>
+    <string name="maintenance_disable" msgid="7340189100885066077">"תחזוקה מושבתת"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"חדשות כלליות"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"חדשות עסקיות ופיננסיות"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"חדשות ספורט"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"חדשות הבידור"</string>
+    <string name="enable_disable_local" msgid="7890281063123416120">"מקומי"</string>
+    <string name="local_enable" msgid="6370463247609136359">"חדשות מקומיות מופעלות"</string>
+    <string name="local_disable" msgid="4405691986943795798">"חדשות מקומיות מושבתות"</string>
+    <string name="enable_disable_regional" msgid="4905652414535565872">"אזורי"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"חדשות אזוריות מופעלות"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"חדשות אזוריות מושבתות"</string>
+    <string name="enable_disable_national" msgid="236278090206880734">"לאומי"</string>
+    <string name="national_enable" msgid="1172443648912246952">"חדשות לאומיות מופעלות"</string>
+    <string name="national_disable" msgid="326018148178601166">"חדשות לאומיות מושבתות"</string>
+    <string name="enable_disable_international" msgid="7535348799604565592">"בינלאומי"</string>
+    <string name="international_enable" msgid="5855356769925044927">"חדשות לאומיות מופעלות"</string>
+    <string name="international_disable" msgid="2850648591041088931">"חדשות בינלאומיות מושבתות"</string>
+    <string name="list_language_title" msgid="2841683501919760043">"שפה"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"בחר את שפת החדשות"</string>
+  <string-array name="list_language_entries">
+    <item msgid="6137851079727305485">"אנגלית"</item>
+    <item msgid="1151988412809572526">"צרפתית"</item>
+    <item msgid="577840534704312665">"ספרדית"</item>
+    <item msgid="8385712091143148180">"יפנית"</item>
+    <item msgid="1858401628368130638">"קוריאנית"</item>
+    <item msgid="1933212028684529632">"סינית"</item>
+    <item msgid="1908428006803639064">"עברית"</item>
+  </string-array>
+  <string-array name="list_language_values">
+    <item msgid="1804908636436467150">"1"</item>
+    <item msgid="289708030346890334">"2"</item>
+    <item msgid="1121469729692402684">"3"</item>
+    <item msgid="2614093115912897722">"4"</item>
+    <item msgid="2411164639857960614">"5"</item>
+    <item msgid="5884448729274543324">"6"</item>
+    <item msgid="5511864807618312598">"7"</item>
+  </string-array>
+    <string name="list_language_dtitle" msgid="5442908726538951934">"שפות"</string>
+    <string name="enable_disable_local_weather" msgid="986967454867219114">"מזג אוויר מקומי"</string>
+    <string name="local_weather_enable" msgid="6199315114382448922">"מזג אוויר מקומי מופעל"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"מזג אוויר מקומי מושבת"</string>
+    <string name="enable_disable_atr" msgid="8339572391278872343">"דיווחי תנועה אזוריים"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"דיווחי תנועה אזוריים מופעלים"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"דיווחי תנועה אזוריים מושבתים"</string>
+    <string name="enable_disable_lafs" msgid="668189073721277199">"לוחות זמנים של טיסות בנמלי תעופה מקומיים"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"לוחות זמנים של טיסות בנמלי תעופה מקומיים מופעלים"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"לוחות זמנים מושבתים של טיסות בנמלי תעופה מקומיים"</string>
+    <string name="enable_disable_restaurants" msgid="6240381945336814024">"מסעדות"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"מסעדות מופעלות"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"מסעדות מושבתות"</string>
+    <string name="enable_disable_lodgings" msgid="1822029172658551202">"לינה"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"\'לינה\' מופעלת"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"\'לינה\' מושבתת"</string>
+    <string name="enable_disable_retail_directory" msgid="1357809784475660303">"מדריך קמעונות"</string>
+    <string name="retail_directory_enable" msgid="3280626290436111496">"מדריך קמעונות מופעל"</string>
+    <string name="retail_directory_disable" msgid="6479739816662879027">"מדריך קמעונות מושבת"</string>
+    <string name="enable_disable_advertisements" msgid="5999495926176182128">"פרסומות"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"פרסומות מופעלות"</string>
+    <string name="advertisements_disable" msgid="8350985908788707935">"פרסומות מושבתות"</string>
+    <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"מחירי מניות"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"מחירי מניות מופעלים"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"\'מחירי מניות\' מושבתים"</string>
+    <string name="enable_disable_eo" msgid="4863043263443942494">"הזדמנויות תעסוקה"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"הזדמנויות תעסוקה מושבתות"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"הזדמנויות תעסוקה מושבתות"</string>
+    <string name="enable_disable_mhh" msgid="5698783743098373681">"רפואה, בריאות ובתי חולים"</string>
+    <string name="mhh_enable" msgid="3949276822735205799">"\'רפואה, בריאות ובתי חולים\' מופעלים"</string>
+    <string name="mhh_disable" msgid="4834280270664925123">"\'רפואה, בריאות ובתי חולים\' מושבתים"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"חדשות טכנולוגיה"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"חדשות טכנולוגיה מופעלות"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"חדשות טכנולוגיה מושבתות"</string>
+    <string name="enable_disable_multi_category" msgid="626771003122899280">"קטגוריות מרובות"</string>
+    <string name="multi_category_enable" msgid="1179299804641721768">"קטגוריות מרובות מופעלות"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"קטגוריות מרובות מושבתות"</string>
+    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"העדפות רשת GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"לא מיושם עדיין!"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"העדפות רשת GSM/UMTS"</string>
+  <string-array name="gsm_umts_network_preferences_choices">
+    <item msgid="935612021902787683">"GSM/WCDMA (מצב אוטומטי)"</item>
+    <item msgid="8912042051809329533">"WCDMA בלבד"</item>
+    <item msgid="8776934131146642662">"GSM בלבד"</item>
+    <item msgid="4684679567848300935">"GSM/WCDA ‏(WCDMA מועדף)"</item>
+  </string-array>
+  <string-array name="gsm_umts_network_preferences_values">
+    <item msgid="117293148930527265">"0"</item>
+    <item msgid="2264578612775462302">"1"</item>
+    <item msgid="1268081943590316978">"2"</item>
+    <item msgid="4469871047641902607">"3"</item>
+  </string-array>
+    <string name="prefer_2g" msgid="8442550937280449639">"השתמש רק ברשתות ‎2G"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"חוסך בצריכת הסוללה"</string>
+    <string name="cdma_system_select_title" msgid="5757657769327732833">"בחירת מערכת"</string>
+    <string name="cdma_system_select_summary" msgid="2528661990595284707">"שנה את מצב נדידת CDMA"</string>
+    <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"בחירת מערכת"</string>
+  <string-array name="cdma_system_select_choices">
+    <item msgid="176474317493999285">"דף הבית בלבד"</item>
+    <item msgid="1205664026446156265">"אוטומטית"</item>
+  </string-array>
+    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"מצב של נדידת CDMA"</string>
+    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"שנה את מצב נדידת CDMA"</string>
+    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"מצב של נדידת CDMA"</string>
+  <string-array name="cdma_roaming_mode_choices">
+    <item msgid="6024072766548865002">"רשתות ביתיות בלבד"</item>
+    <item msgid="8174642753290624634">"רשתות מסונפות"</item>
+    <item msgid="2241951431403168661">"רשת כלשהי"</item>
+  </string-array>
+  <string-array name="cdma_roaming_mode_values">
+    <item msgid="2549203161367380954">"0"</item>
+    <item msgid="6007798728227141997">"1"</item>
+    <item msgid="4039511109802141047">"2"</item>
+  </string-array>
+    <string name="cdma_network_preferences_title" msgid="41193174429510391">"העדפות רשת CDMA"</string>
+    <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"לא מיושם עדיין!"</string>
+    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"העדפות רשת CDMA"</string>
+  <string-array name="cdma_network_preferences_choices">
+    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
+    <item msgid="6143696847467859795">"CDMA בלבד"</item>
+    <item msgid="2683555124647197574">"EvDo בלבד"</item>
+  </string-array>
+  <string-array name="cdma_network_preferences_values">
+    <item msgid="5584048199290030331">"0"</item>
+    <item msgid="5741268642513143762">"1"</item>
+    <item msgid="419525200910932450">"2"</item>
+  </string-array>
+    <!-- no translation found for cdma_subscription_title (445607520753045412) -->
+    <skip />
+    <!-- no translation found for cdma_subscription_summary (2530890766115781140) -->
+    <skip />
+    <!-- no translation found for cdma_subscription_dialogtitle (2699527950523333110) -->
+    <skip />
+    <!-- no translation found for cdma_subscription_choices:0 (2258014151300708431) -->
+    <!-- no translation found for cdma_subscription_choices:1 (5127722015571873880) -->
+    <!-- no translation found for cdma_subscription_values:0 (7494167883478914080) -->
+    <!-- no translation found for cdma_subscription_values:1 (6043847456049107742) -->
+    <string name="fdn" msgid="7878832555095183202">"מספרי חיוג קבועים"</string>
+    <string name="manage_fdn_list" msgid="8777755791892122369">"רשימת FDN"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"הפעלת FDN"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"מספרי חיוג קבועים מופעלים"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"מספרי חיוג קבועים מושבתים"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"הפוך FDN לפעיל"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"השבת FDN"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"שנה PIN2"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"השבת FDN"</string>
+    <string name="disable_fdn_ok" msgid="5727046928930740173">"הפוך FDN לפעיל"</string>
+    <string name="sum_fdn" msgid="1959399454900272878">"נהל מספרי חיוג קבועים"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"שנה את ה-PIN לקבלת גישת FDN"</string>
+    <string name="sum_fdn_manage_list" msgid="8431088265332628316">"נהל רשימת מספרי טלפון"</string>
+    <string name="voice_privacy" msgid="7803023024169078619">"פרטיות של קול"</string>
+    <string name="voice_privacy_summary" msgid="3159383389833516214">"הפוך מצב פרטיות משופרת לפעיל"</string>
+    <string name="tty_mode_title" msgid="3171521903490559138">"מצב TTY"</string>
+    <string name="tty_mode_summary" msgid="5057244302665817977">"הפוך מצב TTY לפעיל"</string>
+    <string name="tty_mode_option_title" msgid="9033098925144434669">"מצב TTY"</string>
+    <string name="tty_mode_option_summary" msgid="1073835131534808732">"הגדר מצב TTY"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"ניסיון חוזר אוטומטי"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"הפוך מצב ניסיון חוזר אוטומטי לפעיל"</string>
+    <string name="menu_add" msgid="1882023737425114762">"הוסף איש קשר"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"ערוך איש קשר"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"מחק איש קשר"</string>
+    <string name="get_pin2" msgid="1198225482542827652">"הזן PIN2"</string>
+    <string name="name" msgid="7329028332786872378">"שם"</string>
+    <string name="number" msgid="7905950798349903858">"מספר"</string>
+    <string name="save" msgid="4094274636321939086">"שמור"</string>
+    <string name="add_fdn_contact" msgid="2481915899633353976">"הוסף מספר חיוג קבוע"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"מוסיף מספרי חיוג קבועים..."</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"מספר חיוג קבוע נוסף."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"ערוך מספר חיוג קבוע"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"מעדכן מספר חיוג קבוע..."</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"מספר חיוג קבוע עודכן."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"מחק מספר חיוג קבוע"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"מוחק מספר חיוג קבוע..."</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"מספר חיוג קבוע נמחק."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"FDN לא מעודכן: הזנת PIN שגוי."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN לא עודכן: אורך המספר לא יעלה על 20 ספרות."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"קורא מכרטיס SIM…"</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"אין אנשי קשר בכרטיס ה-SIM."</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"בחר אנשי קשר לייבוא"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"הפוך לפעיל/השבת PIN של SIM"</string>
+    <string name="change_pin" msgid="9174186126330785343">"שנה PIN של SIM"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"PIN של SIM:"</string>
+    <string name="oldPinLabel" msgid="5287773661246368314">"PIN ישן"</string>
+    <string name="newPinLabel" msgid="207488227285336897">"PIN חדש"</string>
+    <string name="confirmPinLabel" msgid="257597715098070206">"אשר PIN חדש"</string>
+    <string name="badPin" msgid="4154316827946559447">"ה-PIN הישן שהקלדת שגוי. נסה שוב."</string>
+    <string name="mismatchPin" msgid="5974597541268042785">"קודי ה-PIN של ה-SIM שהזנת אינם תואמים. נסה שוב."</string>
+    <string name="invalidPin" msgid="5981171102258684792">"הקלד PIN שאורכו 4 עד 8 ספרות."</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"השבת PIN של SIM"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"הפוך PIN של SIM לפעיל"</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"נא המתן…"</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"PIN מופעל של SIM"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"PIN של SIM מושבת"</string>
+    <string name="pin_failed" msgid="6597695909685242127">"ה-PIN שהקלדת היה שגוי"</string>
+    <string name="pin_changed" msgid="9000716792724195093">"ה-PIN של ה-SIM השתנה בהצלחה."</string>
+    <string name="puk_requested" msgid="3898394204193202803">"מוגן בסיסמה, ה-SIM נעול! דרוש PUK2‎."</string>
+    <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2"</string>
+    <string name="oldPin2Label" msgid="8559146795026261502">"PIN2 ישן"</string>
+    <string name="newPin2Label" msgid="4573956902204349054">"PIN2 חדש"</string>
+    <string name="confirmPin2Label" msgid="8100319484454787708">"אשר PIN2 חדש"</string>
+    <string name="badPuk2" msgid="4072035207011308856">"ה-PUK2 הישן שהקלדת שגוי. נסה שוב."</string>
+    <string name="badPin2" msgid="515218795152422178">"ה-PIN2 הישן שהקלדת שגוי. נסה שוב."</string>
+    <string name="mismatchPin2" msgid="4177060915600342718">"קודי ה-PIN2 שהזנת אינם תואמים. נסה שוב."</string>
+    <string name="invalidPin2" msgid="8237110107480395938">"הקלד PIN2 שאורכו 4 עד 8 ספרות."</string>
+    <string name="invalidPuk2" msgid="1290977391033057871">"הקלד PUK2 שאורכו 8 ספרות."</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"קוד PIN2 השתנה בהצלחה"</string>
+    <string name="label_puk2_code" msgid="302845876240219560">"הקלד קוד PUK2"</string>
+    <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"הסיסמה שגויה, שנה את ה-PIN2 ונסה שוב!"</string>
+    <string name="puk2_requested" msgid="5863580927788820813">"מוגן בסיסמה, ה-SIM נעול! דרוש PUK2‎."</string>
+    <string name="doneButton" msgid="2859593360997984240">"בוצע"</string>
+    <string name="caller_manage_header" msgid="3231519674734638786">"שיחת ועידה <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"חזרה לשיחה"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"המשך ללא כרטיס SIM"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"לא נמצא כרטיס SIM. הכנס כרטיס SIM לטלפון."</string>
+    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"בטל"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"בטל נעילה"</string>
+    <string name="sim_unlock_status_text" msgid="1919609683384607179">"מאמת את ה-PIN…"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"המספר של הדואר הקולי"</string>
+    <string name="card_title_dialing" msgid="5769417478498348054">"מחייג"</string>
+    <string name="card_title_redialing" msgid="4831412164303596395">"מנסה שוב"</string>
+    <string name="card_title_in_progress" msgid="8603765629781648862">"שיחה נוכחית"</string>
+    <string name="card_title_conf_call" msgid="1162980346189744501">"שיחת ועידה"</string>
+    <string name="card_title_incoming_call" msgid="7364539451234646909">"שיחה נכנסת"</string>
+    <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"שיחה ממתינה של CDMA"</string>
+    <string name="card_title_call_ended" msgid="5544730338889702298">"השיחה הסתיימה"</string>
+    <string name="card_title_on_hold" msgid="821463117892339942">"מושהה"</string>
+    <string name="card_title_hanging_up" msgid="3999101620995182450">"מנתק"</string>
+    <string name="card_title_in_call" msgid="6346543933068225205">"בשיחה"</string>
+    <string name="notification_missedCallTitle" msgid="7554385905572364535">"שיחה שלא נענתה"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"שיחות שלא נענו"</string>
+    <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>שיחות שלא נענו"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"שיחה שלא נענתה מ-<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"שיחה נוכחית (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold" msgid="3480694969511790465">"מושהה"</string>
+    <!-- no translation found for notification_incoming_call (2820429205043529642) -->
+    <skip />
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"הודעה קולית חדשה"</string>
+    <string name="notification_voicemail_title_count" msgid="4366360747660929916">"דואר קולי חדש (<xliff:g id="COUNT">%d</xliff:g>)"</string>
+    <string name="notification_voicemail_text_format" msgid="4447323569453981685">"חייג <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"המספר של הדואר הקולי אינו ידוע"</string>
+    <string name="notification_network_selection_title" msgid="4224455487793492772">"אין שירות"</string>
+    <string name="notification_network_selection_text" msgid="2607085729661923269">"הרשת שנבחרה (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) לא זמינה"</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"כדי להתקשר, כבה תחילה את מצב הטיסה."</string>
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"לא רשום ברשת."</string>
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"הרשת הסלולרית לא זמינה."</string>
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"השיחה לא נשלחה, לא הוזן מספר חוקי."</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"השיחה לא נשלחה."</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"מתחיל רצף MMI…"</string>
+    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"מתחיל רצף של קוד תכונה..."</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"שירות לא נתמך."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"אין אפשרות להחליף שיחות."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"אין אפשרות להפריד את השיחה."</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"אין אפשרות להעביר את השיחה."</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"אין אפשרות לערוך שיחות ועידה."</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"אין אפשרות לדחות את השיחה."</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"אין אפשרות לשחרר את השיחות."</string>
+    <!-- no translation found for incall_call_type_label_sip (2310958283037924371) -->
+    <skip />
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"שיחת חירום"</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"מפעיל את הרדיו…"</string>
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"מחוץ לאזור שירות, מנסה שוב..."</string>
+    <string name="dial_emergency_error" msgid="8362624131726575194">"השיחה לא נשלחה, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> אינו מספר חירום!"</string>
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"השיחה לא נשלחה, חייג מספר חירום!"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"השתמש במקלדת כדי לחייג"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"מקלדת מגע עם צלילים"</string>
+    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"לוח חיוג"</string>
+    <string name="touchLockText" msgid="566824588267376287">"הקש פעמיים"\n"כדי לבטל את הנעילה"</string>
+    <string name="onscreenAnswerText" msgid="3000799558804019765">"גע פעמיים"\n"כדי לענות"</string>
+    <string name="onscreenRejectText" msgid="1456649473993020449">"גע פעמיים"\n"כדי לדחות"</string>
+    <string name="onscreenHoldText" msgid="2285258239691145872">"השהה"</string>
+    <string name="onscreenUnholdText" msgid="5033582269005230794">"בטל השהיה"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"סיום"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"לוח חיוג"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"הסתר"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"רמקול"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"השתק"</string>
+    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
+    <string name="onscreenAddCallText" msgid="5140385634712287403">"הוסף שיחה"</string>
+    <string name="onscreenMergeCallsText" msgid="6640195098064538950">"מזג שיחות"</string>
+    <string name="onscreenSwapCallsText" msgid="1602990689244030047">"החלף"</string>
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"נהל שיחות"</string>
+    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"נהל"</string>
+    <string name="importSimEntry" msgid="6614358325359736031">"ייבא"</string>
+    <string name="importAllSimEntries" msgid="1503181169636198673">"ייבא הכל"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"מייבא אנשי קשר מ-SIM"</string>
+    <string name="importToFDNfromContacts" msgid="2130620207013368580">"ייבא מאנשי קשר"</string>
+    <string name="hac_mode_title" msgid="8740268574688743289">"מכשירי שמיעה"</string>
+    <string name="hac_mode_summary" msgid="6833851160514929341">"הפעל תאימות למכשיר שמיעה"</string>
+  <string-array name="tty_mode_entries">
+    <item msgid="512950011423868021">"TTY כבוי"</item>
+    <item msgid="3971695875449640648">"TTY מלא"</item>
+    <item msgid="1937509904407445684">"TTY HCO"</item>
+    <item msgid="5644925873488772224">"TTY VCO"</item>
+  </string-array>
+    <string name="eri_text_label" msgid="4326942349915331461">"טקסט ERI"</string>
+    <string name="dtmf_tones_title" msgid="3866923093113274152">"צלילי DTMF"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"הגדר את האורך של צלילי DTMF"</string>
+  <string-array name="dtmf_tone_entries">
+    <item msgid="899650777817315681">"רגיל"</item>
+    <item msgid="2883365539347850535">"ארוכים"</item>
+  </string-array>
+    <string name="network_message" msgid="5673682885938122239">"הודעת רשת"</string>
+    <string name="ota_title_activate" msgid="8616918561356194398">"הפעל את הטלפון"</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"יש צורך לבצע שיחה מיוחדת כדי להפעיל את השירות לטלפון. "\n\n"לאחר לחיצה על \'הפעל\', הקשב להוראות המסופקות כדי להפעיל את הטלפון."</string>
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"גע ב\'הפעל\' כדי לבצע שיחה מיוחדת המפעילה את הטלפון ברשת הסלולרית של הספק, כדי שתוכל להתקשר ולהתחבר לרשתות נתונים להתקנים ניידים."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"לדלג על ההפעלה?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"אם תדלג על ההפעלה, לא תוכל להתקשר או להתחבר לרשתות נתונים להתקנים ניידים (אף שתוכל להתחבר לרשתות Wi-Fi). עד שתפעיל את הטלפון, תתבקש להפעיל אותו בכל פעם שתדליק אותו."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"דלג"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"הפעל"</string>
+    <string name="ota_activate" msgid="1368528132525626264">"הפעל"</string>
+    <string name="ota_title_activate_success" msgid="3344632328991980578">"הטלפון מופעל!"</string>
+    <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"בעיה בהפעלה"</string>
+    <string name="ota_listen" msgid="162923839877584937">"בצע את ההוראות הנאמרות עד שתשמע שההפעלה הושלמה."</string>
+    <string name="ota_dialpad" msgid="3530900997110658409">"מקלדת נומרית"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"רמקול"</string>
+    <string name="ota_progress" msgid="4644512049143969504">"המתן בזמן שהטלפון מתוכנת."</string>
+    <string name="ota_failure" msgid="8600027551822478181">"התכנות נכשל"</string>
+    <string name="ota_successful" msgid="1880780692887077407">"הטלפון שלך מופעל כעת. ייתכן שיחלפו עד 15 דקות להפעלת השירות."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"הטלפון שלך לא הופעל. "\n"ייתכן שעליך למצוא אזור עם כיסוי טוב יותר (ליד חלון או בחוץ). "\n\n"נסה שוב או התקשר לשירות הלקוחות לקבלת אפשרויות נוספות."</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"כשלי SPC מרובים"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"חזרה"</string>
+    <string name="ota_try_again" msgid="7685477206465902290">"נסה שוב"</string>
+    <string name="ota_next" msgid="3904945374358235910">"הבא"</string>
+    <string name="ota_back" msgid="2190038043403850052">"הקודם"</string>
+    <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
+    <string name="phone_entered_ecm_text" msgid="6266424252578731203">"נכנס למצב חירום של התקשרות חזרה"</string>
+    <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"מצב חירום של התקשרות חזרה"</string>
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"חיבור נתונים מושבת"</string>
+  <plurals name="phone_in_ecm_notification_time">
+    <item quantity="one" msgid="4866221796252472622">"אין חיבור נתונים במשך <xliff:g id="COUNT">%s</xliff:g> דקה"</item>
+    <item quantity="other" msgid="3122217344579273583">"אין חיבור נתונים במשך <xliff:g id="COUNT">%s</xliff:g> דקות"</item>
+  </plurals>
+  <plurals name="alert_dialog_exit_ecm">
+    <item quantity="one" msgid="2181569650640386253">"הטלפון יהיה במצב חירום של התקשרות חזרה במשך <xliff:g id="COUNT">%s</xliff:g> דקה. במצב זה לא ניתן להשתמש ביישום המשתמש בחיבור נתונים. האם ברצונך לצאת כעת?"</item>
+    <item quantity="other" msgid="3231879566243957821">"הטלפון יהיה במצב חירום של התקשרות חזרה במשך <xliff:g id="COUNT">%s</xliff:g> דקות. במצב זה לא ניתן להשתמש ביישום המשתמש בחיבור נתונים. האם ברצונך לצאת כעת?"</item>
+  </plurals>
+  <plurals name="alert_dialog_not_avaialble_in_ecm">
+    <item quantity="one" msgid="8939225905428421722">"הפעולה שנבחרה אינה זמינה במצב חירום של התקשרות חזרה. הטלפון יהיה במצב זה במשך <xliff:g id="COUNT">%s</xliff:g> דקות. האם ברצונך לצאת כעת?"</item>
+    <item quantity="other" msgid="3489076611710869904">"הפעולה שנבחרה אינה זמינה במצב חירום של התקשרות חזרה. הטלפון יהיה במצב זה במשך <xliff:g id="COUNT">%s</xliff:g> דקות. האם ברצונך לצאת כעת?"</item>
+  </plurals>
+    <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"הפעולה שנבחרה אינה זמינה במהלך שיחת חירום"</string>
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"יוצא ממצב חירום של התקשרות חזרה"</string>
+    <string name="alert_dialog_yes" msgid="6674268047820703974">"כן"</string>
+    <string name="alert_dialog_no" msgid="1476091437797628703">"לא"</string>
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"בטל"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"הגדרות דואר קולי"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;לא מוגדר&gt;"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"שירות דואר קולי"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"הגדרות עבור <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"הגדרות שיחה אחרות"</string>
+    <string name="dial_button_label" msgid="5551611636419190229">"חייג"</string>
+    <string name="calling_via_template" msgid="7374498518104190489">"מתקשר דרך ^1"\n<b>"^2"</b></string>
+    <string name="slide_to_answer" msgid="255903188611244476">"גרור ימינה כדי לענות"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"גרור שמאלה כדי להשתיק את הצלצול"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"גרור שמאלה כדי לדחות"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"גרור ימינה כדי לענות וכדי"\n"ולהשהות שיחה פעילה"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"גרור ימינה כדי לענות וכדי"\n"לסיים שיחה פעילה"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"גרור ימינה כדי לענות "\n"וכדי לסיים שיחה מושהית"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"מענה"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"דחה"</string>
+    <!-- no translation found for contactPhoto (4713193418046639466) -->
+    <skip />
+    <!-- no translation found for goPrivate (865837794424530980) -->
+    <skip />
+    <!-- no translation found for selectContact (781975788478987237) -->
+    <skip />
+    <!-- no translation found for sip_settings (6699045718560859691) -->
+    <skip />
+    <!-- no translation found for sip_accounts (2097054001288457163) -->
+    <skip />
+    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
+    <skip />
+    <!-- no translation found for sip_accounts_summary (6812629993146552527) -->
+    <skip />
+    <!-- no translation found for sip_receive_calls (5635685570889971559) -->
+    <skip />
+    <!-- no translation found for sip_receive_calls_summary (8403613238633679184) -->
+    <skip />
+    <!-- no translation found for sip_call_options (7128315120104066133) -->
+    <skip />
+    <!-- no translation found for sip_call_options_title (27433718808839672) -->
+    <skip />
+    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
+    <skip />
+    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
+    <skip />
+    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
+    <skip />
+    <!-- no translation found for auto_reg (8150163311655081599) -->
+    <skip />
+    <!-- no translation found for call_priority (8374917577270504387) -->
+    <skip />
+    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
+    <skip />
+    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
+    <skip />
+    <!-- no translation found for remember_my_choice (7058059586169290705) -->
+    <skip />
+    <!-- no translation found for reset_my_choice_hint (8522825056755061594) -->
+    <skip />
+    <!-- no translation found for pstn_phone (8782554491484326429) -->
+    <skip />
+    <!-- no translation found for internet_phone (1147922660195095810) -->
+    <skip />
+    <!-- no translation found for no_sip_account_found_title (6266249392379373628) -->
+    <skip />
+    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
+    <skip />
+    <!-- no translation found for sip_menu_add (8757508498518881500) -->
+    <skip />
+    <!-- no translation found for add_sip_account (5904858426290097611) -->
+    <skip />
+    <!-- no translation found for remove_sip_account (7645900420385682570) -->
+    <skip />
+    <!-- no translation found for sip_account_list (5480058210652194306) -->
+    <skip />
+    <!-- no translation found for saving_account (7468818916695729968) -->
+    <skip />
+    <!-- no translation found for removing_account (5569334415898924904) -->
+    <skip />
+    <!-- no translation found for sip_menu_save (5842531129356014943) -->
+    <skip />
+    <!-- no translation found for sip_menu_discard (524075892158789701) -->
+    <skip />
+    <!-- no translation found for alert_dialog_close (7759635137627626235) -->
+    <skip />
+    <!-- no translation found for alert_dialog_ok (3580379406983564080) -->
+    <skip />
+    <!-- no translation found for close_profile (6886968271423155284) -->
+    <skip />
+    <!-- no translation found for primary_account (2229538308291934245) -->
+    <skip />
+    <!-- no translation found for primary_account_title (5694267218020951531) -->
+    <skip />
+    <!-- no translation found for primary_account_summary (7339564526372623187) -->
+    <skip />
+    <!-- no translation found for advanced_settings_title (8846648727128452293) -->
+    <skip />
+    <!-- no translation found for primary_account_summary_with (1633960536212343187) -->
+    <skip />
+    <!-- no translation found for registration_status_checking_status (3381868307694056727) -->
+    <skip />
+    <!-- no translation found for registration_status_registering (7115694971025999516) -->
+    <skip />
+    <!-- no translation found for registration_status_still_trying (1471733478935862864) -->
+    <skip />
+    <!-- no translation found for registration_status_not_receiving (5011399017106466965) -->
+    <skip />
+    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
+    <skip />
+    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
+    <skip />
+    <!-- no translation found for registration_status_not_running (272678962440371182) -->
+    <skip />
+    <!-- no translation found for registration_status_done (6434927607037752239) -->
+    <skip />
+    <!-- no translation found for registration_status_failed_try_later (3045686593819835879) -->
+    <skip />
+    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
+    <skip />
+    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
+    <skip />
+    <!-- no translation found for third_party_account_summary (1069915789382987226) -->
+    <skip />
+    <!-- no translation found for sip_edit_title (489288416435014385) -->
+    <skip />
+    <!-- no translation found for sip_edit_new_title (3659149255856520385) -->
+    <skip />
+    <!-- no translation found for domain_address_title (9071787581316160480) -->
+    <skip />
+    <!-- no translation found for username_title (2479375923477682328) -->
+    <skip />
+    <!-- no translation found for password_title (3323555249068171531) -->
+    <skip />
+    <!-- no translation found for display_name_title (2459768196312249937) -->
+    <skip />
+    <!-- no translation found for proxy_address_title (4828301345351614273) -->
+    <skip />
+    <!-- no translation found for port_title (5952939408078626657) -->
+    <skip />
+    <!-- no translation found for transport_title (8253139511847746640) -->
+    <skip />
+    <!-- no translation found for send_keepalive_title (7533342573918645113) -->
+    <skip />
+    <!-- no translation found for send_keepalive_summary (9038969409950960640) -->
+    <skip />
+    <!-- no translation found for auto_registration_title (3586777375420122154) -->
+    <skip />
+    <!-- no translation found for auto_registration_summary (2522794041206619280) -->
+    <skip />
+    <!-- no translation found for set_primary_title (5351892327447571451) -->
+    <skip />
+    <!-- no translation found for set_primary_summary (2219064654523258577) -->
+    <skip />
+    <!-- no translation found for advanced_settings (8350631795335495338) -->
+    <skip />
+    <!-- no translation found for default_preference_summary (868766740121667450) -->
+    <skip />
+    <!-- no translation found for display_name_summary (8636377460518225523) -->
+    <skip />
+    <!-- no translation found for optional_summary (1464058793789832411) -->
+    <skip />
+    <!-- no translation found for advanced_settings_show (4668880308290857597) -->
+    <skip />
+    <!-- no translation found for advanced_settings_hide (217398292824758079) -->
+    <skip />
+    <!-- no translation found for empty_alert (8177828109581557940) -->
+    <skip />
+    <!-- no translation found for not_a_valid_port (5750410768271782606) -->
+    <skip />
+    <!-- no translation found for no_internet_available_title (3327109242858406165) -->
+    <skip />
+    <!-- no translation found for no_wifi_available_title (747881033089378758) -->
+    <skip />
+    <!-- no translation found for no_internet_available (1100564991026313234) -->
+    <skip />
+    <!-- no translation found for no_wifi_available (3389743006886634541) -->
+    <skip />
+    <!-- no translation found for no_voip (8901474054537199865) -->
+    <skip />
+    <!-- no translation found for not_voice_capable (2739898841461577811) -->
+    <skip />
+</resources>
