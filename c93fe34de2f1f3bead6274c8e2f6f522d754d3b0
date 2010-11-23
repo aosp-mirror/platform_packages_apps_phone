@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9n///MA\u003d",
+        "filename": "src/com/android/phone/DTMFSenderService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000687
+      },
+      "writtenOn": "2010-11-23T02:15:32Z",
+      "side": 1,
+      "message": "The length of dtmf tone will not be On/Off million second as API\nspecified. The start/stopDtmf cmd will be executed in ril/modem side and both can be queued up in between, therefore the tone length can be either shorten or lengthen than API specified.\n\nWhen calling sendDtmf(), you just put the DTMF_START request into the\nqueue. The RIL may or may not get it right way. Similar happens to\nstopDtmf(). So the sleep(dtmfOn) between sendDtmf and stopDtmf defines\nthe period between putting DTMF requests in QUEUE rather than the\nperiod of start and stop the tone. That is why I said \"the tone length\ncan be either shorten or lengthen than API specified\".\n\nWe need clearly document this API clearly so that developers know the on/off time is not guaranteed but as best effort.",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
