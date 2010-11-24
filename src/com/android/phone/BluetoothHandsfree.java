@@ -1458,7 +1458,16 @@ public class BluetoothHandsfree {
 
         int mpty = 0;
         if (currCdmaCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-            mpty = 1;
+            if (prevCdmaCallState == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                // If the current state is reached after merging two calls
+                // we set the multiparty call true.
+                mpty = 1;
+            } else {
+                // CALL_CONF state is not from merging two calls, but from
+                // accepting the second call. In this case first will be on
+                // hold.
+                mpty = 0;
+            }
         } else {
             mpty = 0;
         }
