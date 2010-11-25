@@ -17,7 +17,9 @@
 package com.android.phone;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Binder;
@@ -506,7 +508,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean enableDataConnectivity() {
         enforceModifyPermission();
-        return mPhone.enableDataConnectivity();
+        ConnectivityManager cm =
+                (ConnectivityManager)mApp.getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.setMobileDataEnabled(true);
+        return true;
     }
 
     public int enableApnType(String type) {
@@ -521,7 +526,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean disableDataConnectivity() {
         enforceModifyPermission();
-        return mPhone.disableDataConnectivity();
+        ConnectivityManager cm =
+                (ConnectivityManager)mApp.getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.setMobileDataEnabled(false);
+        return true;
     }
 
     public boolean isDataConnectivityPossible() {
