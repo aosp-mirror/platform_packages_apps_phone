@@ -386,6 +386,8 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
+    <!-- no translation found for cdma_activate_device (4961729544244603347) -->
+    <skip />
     <string name="fdn" msgid="7878832555095183202">"Sabit Arama Numaraları"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"SAN listesi"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"SAN etkinleştirme"</string>

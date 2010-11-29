@@ -393,6 +393,8 @@
     <!-- no translation found for cdma_subscription_choices:1 (5127722015571873880) -->
     <!-- no translation found for cdma_subscription_values:0 (7494167883478914080) -->
     <!-- no translation found for cdma_subscription_values:1 (6043847456049107742) -->
+    <!-- no translation found for cdma_activate_device (4961729544244603347) -->
+    <skip />
     <string name="fdn" msgid="7878832555095183202">"شماره های شماره گیری ثابت"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"لیست FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"فعال کردن FDN"</string>
