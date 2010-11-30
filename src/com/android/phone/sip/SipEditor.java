@@ -16,6 +16,8 @@
 
 package com.android.phone.sip;
 
+import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.Phone;
 import com.android.phone.R;
 import com.android.phone.SipUtil;
 
@@ -23,6 +25,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
@@ -33,12 +36,14 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -66,11 +71,14 @@ public class SipEditor extends PreferenceActivity
     private AdvancedSettings mAdvancedSettings;
     private SipSharedPreferences mSharedPreferences;
     private boolean mDisplayNameSet;
-    private boolean mHomeButtonClicked = false;
+    private boolean mHomeButtonClicked;
+    private boolean mUpdateRequired;
 
     private SipManager mSipManager;
     private SipProfileDb mProfileDb;
     private SipProfile mOldProfile;
+    private CallManager mCallManager;
+    private Button mRemoveButton;
 
     enum PreferenceKey {
         Username(R.string.username, 0, R.string.default_preference_summary),
@@ -134,6 +142,20 @@ public class SipEditor extends PreferenceActivity
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mHomeButtonClicked = false;
+        if (mCallManager.getState() != Phone.State.IDLE) {
+            mAdvancedSettings.show();
+            getPreferenceScreen().setEnabled(false);
+            if (mRemoveButton != null) mRemoveButton.setEnabled(false);
+        } else {
+            getPreferenceScreen().setEnabled(true);
+            if (mRemoveButton != null) mRemoveButton.setEnabled(true);
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.v(TAG, "start profile editor");
         super.onCreate(savedInstanceState);
@@ -141,6 +163,7 @@ public class SipEditor extends PreferenceActivity
         mSipManager = SipManager.newInstance(this);
         mSharedPreferences = new SipSharedPreferences(this);
         mProfileDb = new SipProfileDb(this);
+        mCallManager = CallManager.getInstance();
 
         setContentView(R.layout.sip_settings_ui);
         addPreferencesFromResource(R.xml.sip_edit);
@@ -159,10 +182,10 @@ public class SipEditor extends PreferenceActivity
                     .setVisibility(View.GONE);
             screen.setTitle(R.string.sip_edit_new_title);
         } else {
-            Button removeButton =
+            mRemoveButton =
                     (Button)findViewById(R.id.add_remove_account_button);
-            removeButton.setText(getString(R.string.remove_sip_account));
-            removeButton.setOnClickListener(
+            mRemoveButton.setText(getString(R.string.remove_sip_account));
+            mRemoveButton.setOnClickListener(
                     new android.view.View.OnClickListener() {
                         public void onClick(View v) {
                             setRemovedProfileAndFinish();
@@ -322,14 +345,13 @@ public class SipEditor extends PreferenceActivity
             }
         }
 
-        if (allEmpty) {
+        if (allEmpty || !mUpdateRequired) {
             finish();
             return;
         } else if (firstEmptyFieldTitle != null) {
             showAlert(getString(R.string.empty_alert, firstEmptyFieldTitle));
             return;
         }
-
         try {
             SipProfile profile = createSipProfile();
             Intent intent = new Intent(this, SipSettings.class);
@@ -398,6 +420,12 @@ public class SipEditor extends PreferenceActivity
     }
 
     public boolean onPreferenceChange(Preference pref, Object newValue) {
+        if (!mUpdateRequired) {
+            mUpdateRequired = true;
+            if (mOldProfile != null) {
+                unregisterProfile(mOldProfile.getUriString());
+            }
+        }
         if (pref instanceof CheckBoxPreference) return true;
         String value = (newValue == null) ? "" : newValue.toString();
         if (TextUtils.isEmpty(value)) {
@@ -576,7 +604,7 @@ public class SipEditor extends PreferenceActivity
             }
         }
 
-        private void show() {
+        void show() {
             mShowing = true;
             mAdvancedSettingsTrigger.setSummary(R.string.advanced_settings_hide);
             PreferenceGroup screen = (PreferenceGroup) getPreferenceScreen();

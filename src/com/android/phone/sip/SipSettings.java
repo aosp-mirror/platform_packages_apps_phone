@@ -16,6 +16,8 @@
 
 package com.android.phone.sip;
 
+import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.Phone;
 import com.android.phone.R;
 import com.android.phone.SipUtil;
 
@@ -71,10 +73,12 @@ public class SipSettings extends PreferenceActivity {
 
     private PackageManager mPackageManager;
     private SipManager mSipManager;
+    private CallManager mCallManager;
     private SipProfileDb mProfileDb;
 
     private SipProfile mProfile; // profile that's being edited
 
+    private Button mButtonAddSipAccount;
     private CheckBoxPreference mButtonSipReceiveCalls;
     private PreferenceCategory mSipListContainer;
     private Map<String, SipPreference> mSipPreferenceMap;
@@ -150,6 +154,7 @@ public class SipSettings extends PreferenceActivity {
         mSipListContainer = (PreferenceCategory) findPreference(PREF_SIP_LIST);
         registerForAddSipListener();
         registerForReceiveCallsCheckBox();
+        mCallManager = CallManager.getInstance();
 
         updateProfilesStatus();
     }
@@ -157,6 +162,14 @@ public class SipSettings extends PreferenceActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (mCallManager.getState() != Phone.State.IDLE) {
+            mButtonAddSipAccount.setEnabled(false);
+            mButtonSipReceiveCalls.setEnabled(false);
+        } else {
+            mButtonAddSipAccount.setEnabled(true);
+            mButtonSipReceiveCalls.setEnabled(true);
+        }
     }
 
     @Override
@@ -190,8 +203,10 @@ public class SipSettings extends PreferenceActivity {
     }
 
     private void registerForAddSipListener() {
-        ((Button) findViewById(R.id.add_remove_account_button))
-                .setOnClickListener(new android.view.View.OnClickListener() {
+        mButtonAddSipAccount =
+                (Button) findViewById(R.id.add_remove_account_button);
+        mButtonAddSipAccount.setOnClickListener(
+                new android.view.View.OnClickListener() {
                     public void onClick(View v) {
                         startSipEditor(null);
                     }
