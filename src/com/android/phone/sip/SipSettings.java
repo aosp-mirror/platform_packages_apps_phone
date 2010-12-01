@@ -41,6 +41,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,7 +100,7 @@ public class SipSettings extends PreferenceActivity {
 
         void setProfile(SipProfile p) {
             mProfile = p;
-            setTitle(p.getProfileName());
+            setTitle(getProfileName(p));
             updateSummary(mSipSharedPreferences.isReceivingCallsEnabled()
                     ? getString(R.string.registration_status_checking_status)
                     : getString(R.string.registration_status_not_receiving));
@@ -283,13 +284,21 @@ public class SipSettings extends PreferenceActivity {
         }).start();
     }
 
+    private String getProfileName(SipProfile profile) {
+        String profileName = profile.getProfileName();
+        if (TextUtils.isEmpty(profileName)) {
+            profileName = profile.getUserName() + "@" + profile.getSipDomain();
+        }
+        return profileName;
+    }
+
     private void retrieveSipLists() {
         mSipPreferenceMap = new LinkedHashMap<String, SipPreference>();
         mSipProfileList = mProfileDb.retrieveSipProfileList();
         processActiveProfilesFromSipService();
         Collections.sort(mSipProfileList, new Comparator<SipProfile>() {
             public int compare(SipProfile p1, SipProfile p2) {
-                return p1.getProfileName().compareTo(p2.getProfileName());
+                return getProfileName(p1).compareTo(getProfileName(p2));
             }
 
             public boolean equals(SipProfile p) {
