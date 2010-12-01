@@ -145,6 +145,11 @@ public class OutgoingCallBroadcaster extends Activity {
 
             Uri uri = Uri.parse(originalUri);
 
+            // Since the number could be modified/rewritten by the broadcast,
+            // we have to strip the unwanted characters here.
+            number = PhoneNumberUtils.stripSeparators(
+                    PhoneNumberUtils.convertKeypadLettersToDigits(number));
+
             if (DBG) Log.v(TAG, "CALL to " + /*number*/ "xxxxxxx" + " proceeding.");
 
             startSipCallOptionsHandler(context, intent, uri, number);
