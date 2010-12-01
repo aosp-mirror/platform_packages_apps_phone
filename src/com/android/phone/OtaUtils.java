@@ -113,6 +113,8 @@ public class OtaUtils {
     public static final int OTASP_USER_SKIPPED = 1;  // Only meaningful with interactive OTASP
     public static final int OTASP_SUCCESS = 2;
     public static final int OTASP_FAILURE = 3;
+    // failed due to CDMA_OTA_PROVISION_STATUS_SPC_RETRIES_EXCEEDED
+    public static final int OTASP_FAILURE_SPC_RETRIES = 4;
     // TODO: Distinguish between interactive and non-interactive success
     // and failure.  Then, have the PendingIntent be sent after
     // interactive OTASP as well (so the caller can find out definitively
@@ -370,11 +372,11 @@ public class OtaUtils {
                 if (DBG) log("onOtaProvisionStatusChanged(): RETRIES EXCEEDED");
                 updateOtaspProgress();
                 mApplication.cdmaOtaProvisionData.otaSpcUptime = SystemClock.elapsedRealtime();
-                // STOPSHIP: otaShowSpcErrorNotice() is currently unsafe to use if
-                // mInteractive is false.  We need to either (a) only call it in
-                // interactive mode, or (b) fix it so that it does something sane
-                // whether or not mInCallScreen exists.  (See bug 3144568.)
-                otaShowSpcErrorNotice(OTA_SPC_TIMEOUT);
+                if (mInteractive) {
+                    otaShowSpcErrorNotice(OTA_SPC_TIMEOUT);
+                } else {
+                    sendOtaspResult(OTASP_FAILURE_SPC_RETRIES);
+                }
                 // Power.shutdown();
                 break;
 
