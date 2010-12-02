@@ -642,7 +642,7 @@ public class PhoneUtils {
         String gatewayNumber = gatewayUri.getSchemeSpecificPart();
         Connection connection;
         try {
-            connection = phone.dial(gatewayNumber);
+            connection = PhoneApp.getInstance().mCM.dial(phone, gatewayNumber);
         } catch (CallStateException ex) {
             Log.e(LOG_TAG, "Exception dialing gateway", ex);
             connection = null;
