@@ -1889,7 +1889,6 @@ public class BluetoothHandsfree {
             public AtCommandResult handleActionCommand() {
                 sendURC("OK");
                 if (isVirtualCallInProgress()) {
-                    //TODO(): Need a way to inform the audio manager.
                     terminateVirtualVoiceCall();
                 } else {
                     if (mCM.hasActiveFgCall()) {
@@ -2410,12 +2409,11 @@ public class BluetoothHandsfree {
                 if (!BluetoothHeadset.isBluetoothVoiceDialingEnabled(mContext)) {
                     return new AtCommandResult(AtCommandResult.ERROR);
                 }
-                // Send terminateVirtualVoiceCall
-                // TODO(): Need a way to inform the audio manager.
-                terminateVirtualVoiceCall();
                 if (args.length >= 1 && args[0].equals(1)) {
                     synchronized (BluetoothHandsfree.this) {
-                        if (!mWaitingForVoiceRecognition) {
+                        if (!mWaitingForVoiceRecognition &&
+                            !isCellularCallInProgress() &&
+                            !isVirtualCallInProgress()) {
                             try {
                                 mContext.startActivity(sVoiceCommandIntent);
                             } catch (ActivityNotFoundException e) {
