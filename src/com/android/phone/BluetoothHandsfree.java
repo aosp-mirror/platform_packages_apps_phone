@@ -1989,7 +1989,7 @@ public class BluetoothHandsfree {
                             "+COPS: 0,0,\"" + operatorName + "\"");
                 } else {
                     return new AtCommandResult(
-                            "+COPS: 0,0,\"UNKNOWN\",0");
+                            "+COPS: 0");
                 }
             }
             @Override
