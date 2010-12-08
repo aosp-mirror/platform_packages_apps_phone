@@ -444,7 +444,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 cdmaPhoneCallState.CdmaPhoneCallStateInit();
             }
 
-            if (BluetoothAdapter.getDefaultAdapter() != null && sVoiceCapable) {
+            if (BluetoothAdapter.getDefaultAdapter() != null) {
+                // Start BluetoothHandsree even if device is not voice capable.
+                // The device can still support VOIP.
                 mBtHandsfree = new BluetoothHandsfree(this, mCM);
                 startService(new Intent(this, BluetoothHeadsetService.class));
             } else {

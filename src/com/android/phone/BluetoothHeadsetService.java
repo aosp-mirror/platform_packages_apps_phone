@@ -565,9 +565,11 @@ public class BluetoothHeadsetService extends Service {
         }
 
         ParcelUuid[] uuids = device.getUuids();
+        ParcelUuid[] localUuids = mAdapter.getUuids();
         int type = BluetoothHandsfree.TYPE_UNKNOWN;
         if (uuids != null) {
-            if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree)) {
+            if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree) &&
+                BluetoothUuid.isUuidPresent(localUuids, BluetoothUuid.Handsfree_AG)) {
                 log("SDP UUID: TYPE_HANDSFREE");
                 type = BluetoothHandsfree.TYPE_HANDSFREE;
                 mRemoteHeadsets.get(device).mHeadsetType = type;
@@ -578,7 +580,8 @@ public class BluetoothHeadsetService extends Service {
                     setPriority(device, BluetoothHeadset.PRIORITY_AUTO_CONNECT);
                 }
                 return;
-            } else if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.HSP)) {
+            } else if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.HSP) &&
+                BluetoothUuid.isUuidPresent(localUuids, BluetoothUuid.HSP_AG)) {
                 log("SDP UUID: TYPE_HEADSET");
                 type = BluetoothHandsfree.TYPE_HEADSET;
                 mRemoteHeadsets.get(device).mHeadsetType = type;
