@@ -166,6 +166,10 @@ public class BluetoothHandsfree {
     // VirtualCall - true if Virtual Call is active, false otherwise
     private boolean mVirtualCallStarted = false;
 
+    // Voice Recognition - true if Voice Recognition is active, false otherwise
+    private boolean mVoiceRecognitionStarted;
+
+
     public static String typeToString(int type) {
         switch (type) {
         case TYPE_UNKNOWN:
@@ -217,6 +221,7 @@ public class BluetoothHandsfree {
         mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
         mVirtualCallStarted = false;
+        mVoiceRecognitionStarted = false;
         mPhonebook = new BluetoothAtPhonebook(mContext, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         cdmaSetSecondCallState(false);
@@ -2411,7 +2416,7 @@ public class BluetoothHandsfree {
                 }
                 if (args.length >= 1 && args[0].equals(1)) {
                     synchronized (BluetoothHandsfree.this) {
-                        if (!mWaitingForVoiceRecognition &&
+                        if (!isVoiceRecognitionInProgress() &&
                             !isCellularCallInProgress() &&
                             !isVirtualCallInProgress()) {
                             try {
@@ -2424,7 +2429,9 @@ public class BluetoothHandsfree {
                     }
                     return new AtCommandResult(AtCommandResult.UNSOLICITED);  // send nothing yet
                 } else if (args.length >= 1 && args[0].equals(0)) {
-                    audioOff();
+                    if (isVoiceRecognitionInProgress()) {
+                        audioOff();
+                    }
                     return new AtCommandResult(AtCommandResult.OK);
                 }
                 return new AtCommandResult(AtCommandResult.ERROR);
@@ -2547,6 +2554,16 @@ public class BluetoothHandsfree {
     }
 
     /* package */ synchronized boolean startVoiceRecognition() {
+
+        if  ((isCellularCallInProgress()) ||
+             (isVirtualCallInProgress()) ||
+             mVoiceRecognitionStarted) {
+            Log.e(TAG, "startVoiceRecognition: Call in progress");
+            return false;
+        }
+
+        mVoiceRecognitionStarted = true;
+
         if (mWaitingForVoiceRecognition) {
             // HF initiated
             mWaitingForVoiceRecognition = false;
@@ -2556,6 +2573,9 @@ public class BluetoothHandsfree {
             sendURC("+BVRA: 1");
         }
         boolean ret = audioOn();
+        if (ret == false) {
+            mVoiceRecognitionStarted = false;
+        }
         if (mStartVoiceRecognitionWakeLock.isHeld()) {
             mStartVoiceRecognitionWakeLock.release();
         }
@@ -2563,9 +2583,21 @@ public class BluetoothHandsfree {
     }
 
     /* package */ synchronized boolean stopVoiceRecognition() {
+
+        if (!isVoiceRecognitionInProgress()) {
+            return false;
+        }
+
+        mVoiceRecognitionStarted = false;
+
         sendURC("+BVRA: 0");
         audioOff();
         return true;
+    }
+
+    // Voice Recognition in Progress
+    private boolean isVoiceRecognitionInProgress() {
+        return (mVoiceRecognitionStarted || mWaitingForVoiceRecognition);
     }
 
     /*
@@ -2652,7 +2684,8 @@ public class BluetoothHandsfree {
         if (DBG) log("initiateVirtualVoiceCall: Received");
         // 1. Check if the SCO state is idle
         if  ((isCellularCallInProgress()) ||
-            (isVirtualCallInProgress())) {
+            (isVirtualCallInProgress()) ||
+            (isVoiceRecognitionInProgress())) {
             Log.e(TAG, "initiateVirtualVoiceCall: Call in progress");
             return false;
         }
