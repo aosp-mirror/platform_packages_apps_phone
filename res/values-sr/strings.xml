@@ -393,8 +393,7 @@
     <!-- no translation found for cdma_subscription_choices:1 (5127722015571873880) -->
     <!-- no translation found for cdma_subscription_values:0 (7494167883478914080) -->
     <!-- no translation found for cdma_subscription_values:1 (6043847456049107742) -->
-    <!-- no translation found for cdma_activate_device (4961729544244603347) -->
-    <skip />
+    <string name="cdma_activate_device" msgid="4961729544244603347">"Активирање уређаја"</string>
     <string name="fdn" msgid="7878832555095183202">"Фиксни бирани бројеви"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Листа бројева за фиксно бирање"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"FDN активација"</string>
