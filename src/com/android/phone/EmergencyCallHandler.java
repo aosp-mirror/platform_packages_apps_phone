@@ -25,10 +25,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.telephony.ServiceState;
+import android.util.Log;
+import android.view.WindowManager;
+
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
-import android.telephony.ServiceState;
-import android.view.WindowManager;
 
 /**
  * Helper class used by the InCallScreen to handle certain special
@@ -46,6 +48,9 @@ import android.view.WindowManager;
  * EMERGENCY_CALL_RETRY_KEY to convey information about the current state.
  */
 public class EmergencyCallHandler extends Activity {
+    private static final String TAG = "EmergencyCallHandler";
+    private static final boolean DBG = true;  // OK to have this on by default
+
     /** the key used to get the count from our Intent's extra(s) */
     public static final String EMERGENCY_CALL_RETRY_KEY = "emergency_call_retry_count";
     
@@ -80,22 +85,28 @@ public class EmergencyCallHandler extends Activity {
                 case EVENT_SERVICE_STATE_CHANGED: {
                         // make the initial call attempt after the radio is turned on.
                         ServiceState state = (ServiceState) ((AsyncResult) msg.obj).result;
+                        if (DBG) Log.d(TAG, "EVENT_SERVICE_STATE_CHANGED: state = " + state);
                         if (state.getState() != ServiceState.STATE_POWER_OFF) {
                             EmergencyCallInfo eci = 
                                 (EmergencyCallInfo) ((AsyncResult) msg.obj).userObj;
                             // deregister for the service state change events. 
                             eci.phone.unregisterForServiceStateChanged(this);
-                            eci.app.startActivity(eci.intent);
                             eci.dialog.dismiss();
+
+                            if (DBG) Log.d(TAG, "About to (re)launch InCallScreen: " + eci.intent);
+                            eci.app.startActivity(eci.intent);
                         }
                     }
                     break;
 
                 case EVENT_TIMEOUT_EMERGENCY_CALL: {
+                        if (DBG) Log.d(TAG, "EVENT_TIMEOUT_EMERGENCY_CALL...");
                         // repeated call after the timeout period.
                         EmergencyCallInfo eci = (EmergencyCallInfo) msg.obj;
-                        eci.app.startActivity(eci.intent);
                         eci.dialog.dismiss();
+
+                        if (DBG) Log.d(TAG, "About to (re)launch InCallScreen: " + eci.intent);
+                        eci.app.startActivity(eci.intent);
                     }
                     break;
             }
@@ -104,8 +115,23 @@ public class EmergencyCallHandler extends Activity {
 
     @Override
     protected void onCreate(Bundle icicle) {
+        Log.i(TAG, "onCreate()...  intent = " + getIntent());
         super.onCreate(icicle);
-        
+
+        // Watch out: the intent action we get here should always be
+        // ACTION_CALL_EMERGENCY, since the whole point of this activity
+        // is for it to be launched using the same intent originally
+        // passed to the InCallScreen, which will always be
+        // ACTION_CALL_EMERGENCY when making an emergency call.
+        //
+        // If we ever get launched with any other action, especially if it's
+        // "com.android.phone.InCallScreen.UNDEFINED" (as in bug 3094858), that
+        // almost certainly indicates a logic bug in the InCallScreen.
+        if (!Intent.ACTION_CALL_EMERGENCY.equals(getIntent().getAction())) {
+            Log.w(TAG, "Unexpected intent action!  Should be ACTION_CALL_EMERGENCY, "
+                  + "but instead got: " + getIntent().getAction());
+        }
+
         // setup the phone and get the retry count embedded in the intent.
         Phone phone = PhoneFactory.getDefaultPhone();
         int retryCount = getIntent().getIntExtra(EMERGENCY_CALL_RETRY_KEY, INITIAL_ATTEMPT);
@@ -124,6 +150,7 @@ public class EmergencyCallHandler extends Activity {
         // (see the startActivity() calls above) so the
         // FLAG_ACTIVITY_NEW_TASK flag is required.
         eci.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (DBG) Log.d(TAG, "- initial eci.intent: " + eci.intent);
 
         // create the handler.
         if (sHandler == null) {
@@ -151,6 +178,8 @@ public class EmergencyCallHandler extends Activity {
             // Settings activity turns it off.
             if (Settings.System.getInt(getContentResolver(), 
                     Settings.System.AIRPLANE_MODE_ON, 0) > 0) {
+                if (DBG) Log.d(TAG, "Turning off airplane mode...");
+
                 // Change the system setting
                 Settings.System.putInt(getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
                 
@@ -162,11 +191,13 @@ public class EmergencyCallHandler extends Activity {
             // Otherwise, for some strange reason the radio is just off, so 
             // we just turn it back on.
             } else {
+                if (DBG) Log.d(TAG, "Manually powering radio on...");
                 phone.setRadioPower(true);
             }
             
         } else {
             // decrement and store the number of retries.
+            if (DBG) Log.d(TAG, "Retry attempt...  retryCount = " + retryCount);
             eci.intent.putExtra(EMERGENCY_CALL_RETRY_KEY, (retryCount - 1));
             
             // get the message and attach the data, then wait the alloted
@@ -200,5 +231,13 @@ public class EmergencyCallHandler extends Activity {
         pd.show();
         
         return pd;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // We shouldn't ever get here, since we should never be launched in
+        // "singleTop" mode in the first place.
+        Log.w(TAG, "Unexpected call to onNewIntent(): intent=" + intent);
+        super.onNewIntent(intent);
     }
 }
