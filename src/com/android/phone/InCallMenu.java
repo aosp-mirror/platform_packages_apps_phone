@@ -17,7 +17,6 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.net.sip.SipManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import com.android.internal.telephony.Call;
@@ -217,7 +216,7 @@ class InCallMenu {
         // on phones that support "Manage conference" in the first place.)
         PhoneApp app = PhoneApp.getInstance();
         if (TelephonyCapabilities.supportsConferenceCallManagement(app.phone)
-                || SipManager.isVoipSupported(app)) {
+                || PhoneUtils.isVoipSupported()) {
             mInCallMenuView.addItemView(mManageConference, 0);
         }
         mInCallMenuView.addItemView(mShowDialpad, 0);
@@ -232,7 +231,7 @@ class InCallMenu {
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
         if (TelephonyCapabilities.supportsHoldAndUnhold(app.phone)
-                || SipManager.isVoipSupported(app)) {
+                || PhoneUtils.isVoipSupported()) {
             mInCallMenuView.addItemView(mHold, 2);
         }
 
@@ -243,7 +242,7 @@ class InCallMenu {
         // If default phone does not support answer & hold but SIP VOIP is
         // supported, we still need to show the buttons.
         if (TelephonyCapabilities.supportsAnswerAndHold(app.phone)
-                || SipManager.isVoipSupported(app)) {
+                || PhoneUtils.isVoipSupported()) {
             mInCallMenuView.addItemView(mAnswerAndHold, 2);
             mInCallMenuView.addItemView(mAnswerAndEnd, 2);
         }

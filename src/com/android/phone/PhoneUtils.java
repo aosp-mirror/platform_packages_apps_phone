@@ -30,6 +30,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.net.sip.SipManager;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.IBinder;
@@ -2361,6 +2362,21 @@ public class PhoneUtils {
 
     }
 
+    private static boolean sVoipSupported = false;
+    static {
+        PhoneApp app = PhoneApp.getInstance();
+        sVoipSupported = SipManager.isVoipSupported(app)
+                && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
+                && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+    }
+
+    /**
+     * @return true if this device supports voice calls using the built-in SIP stack.
+     */
+    static boolean isVoipSupported() {
+        return sVoipSupported;
+    }
+
     //
     // General phone and call state debugging/testing code
     //
@@ -2493,5 +2509,4 @@ public class PhoneUtils {
 
         Log.d(LOG_TAG, "############## END dumpCallManager() ###############");
     }
-
 }
