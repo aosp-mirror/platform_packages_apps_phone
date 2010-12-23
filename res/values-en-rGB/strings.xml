@@ -30,18 +30,12 @@
     <string name="ongoing" msgid="8300874342848721367">"Current call"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Line busy"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Network busy"</string>
-    <!-- no translation found for callFailed_timedOut (7590961703135543346) -->
-    <skip />
-    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
-    <skip />
-    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
-    <skip />
-    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
-    <skip />
-    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
-    <skip />
-    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
-    <skip />
+    <string name="callFailed_timedOut" msgid="7590961703135543346">"No response; timed out"</string>
+    <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Server unreachable"</string>
+    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Number unreachable"</string>
+    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Incorrect username or password"</string>
+    <string name="callFailed_out_of_network" msgid="6485167392133436262">"Called from out of network"</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Server error. Try again later."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"No signal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM limit exceeded"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Radio off"</string>
@@ -511,8 +505,7 @@
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Unable to conference calls."</string>
     <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"Unable to reject call."</string>
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"Unable to release call(s)."</string>
-    <!-- no translation found for incall_call_type_label_sip (2310958283037924371) -->
-    <skip />
+    <string name="incall_call_type_label_sip" msgid="2310958283037924371">"Internet call"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Emergency call"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Turning on radio…"</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Out-of-service area; retrying…"</string>
@@ -618,164 +611,84 @@
     <string name="contactPhoto" msgid="4713193418046639466">"contact photo"</string>
     <string name="goPrivate" msgid="865837794424530980">"go private"</string>
     <string name="selectContact" msgid="781975788478987237">"select contact"</string>
-    <!-- no translation found for sip_settings (6699045718560859691) -->
-    <skip />
-    <!-- no translation found for sip_accounts (2097054001288457163) -->
-    <skip />
-    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
-    <skip />
-    <!-- no translation found for sip_accounts_summary (6812629993146552527) -->
-    <skip />
-    <!-- no translation found for sip_receive_calls (5635685570889971559) -->
-    <skip />
-    <!-- no translation found for sip_receive_calls_summary (8403613238633679184) -->
-    <skip />
-    <!-- no translation found for sip_call_options (7128315120104066133) -->
-    <skip />
-    <!-- no translation found for sip_call_options_title (27433718808839672) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
-    <!-- no translation found for auto_reg (8150163311655081599) -->
-    <skip />
-    <!-- no translation found for call_priority (8374917577270504387) -->
-    <skip />
-    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
-    <skip />
-    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
-    <skip />
-    <!-- no translation found for remember_my_choice (7058059586169290705) -->
-    <skip />
-    <!-- no translation found for reset_my_choice_hint (8522825056755061594) -->
-    <skip />
-    <!-- no translation found for pstn_phone (8782554491484326429) -->
-    <skip />
-    <!-- no translation found for internet_phone (1147922660195095810) -->
-    <skip />
-    <!-- no translation found for no_sip_account_found_title (6266249392379373628) -->
-    <skip />
-    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
-    <skip />
-    <!-- no translation found for sip_menu_add (8757508498518881500) -->
-    <skip />
-    <!-- no translation found for add_sip_account (5904858426290097611) -->
-    <skip />
-    <!-- no translation found for remove_sip_account (7645900420385682570) -->
-    <skip />
-    <!-- no translation found for sip_account_list (5480058210652194306) -->
-    <skip />
-    <!-- no translation found for saving_account (7468818916695729968) -->
-    <skip />
-    <!-- no translation found for removing_account (5569334415898924904) -->
-    <skip />
-    <!-- no translation found for sip_menu_save (5842531129356014943) -->
-    <skip />
-    <!-- no translation found for sip_menu_discard (524075892158789701) -->
-    <skip />
-    <!-- no translation found for alert_dialog_close (7759635137627626235) -->
-    <skip />
-    <!-- no translation found for alert_dialog_ok (3580379406983564080) -->
-    <skip />
-    <!-- no translation found for close_profile (6886968271423155284) -->
-    <skip />
-    <!-- no translation found for primary_account (2229538308291934245) -->
-    <skip />
-    <!-- no translation found for primary_account_title (5694267218020951531) -->
-    <skip />
-    <!-- no translation found for primary_account_summary (7339564526372623187) -->
-    <skip />
-    <!-- no translation found for advanced_settings_title (8846648727128452293) -->
-    <skip />
-    <!-- no translation found for primary_account_summary_with (1633960536212343187) -->
-    <skip />
-    <!-- no translation found for registration_status_checking_status (3381868307694056727) -->
-    <skip />
-    <!-- no translation found for registration_status_registering (7115694971025999516) -->
-    <skip />
-    <!-- no translation found for registration_status_still_trying (1471733478935862864) -->
-    <skip />
-    <!-- no translation found for registration_status_not_receiving (5011399017106466965) -->
-    <skip />
-    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
-    <skip />
-    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
-    <skip />
-    <!-- no translation found for registration_status_not_running (272678962440371182) -->
-    <skip />
-    <!-- no translation found for registration_status_done (6434927607037752239) -->
-    <skip />
-    <!-- no translation found for registration_status_failed_try_later (3045686593819835879) -->
-    <skip />
-    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
-    <skip />
-    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
-    <skip />
-    <!-- no translation found for third_party_account_summary (1069915789382987226) -->
-    <skip />
-    <!-- no translation found for sip_edit_title (489288416435014385) -->
-    <skip />
-    <!-- no translation found for sip_edit_new_title (3659149255856520385) -->
-    <skip />
-    <!-- no translation found for domain_address_title (9071787581316160480) -->
-    <skip />
-    <!-- no translation found for username_title (2479375923477682328) -->
-    <skip />
-    <!-- no translation found for password_title (3323555249068171531) -->
-    <skip />
-    <!-- no translation found for display_name_title (2459768196312249937) -->
-    <skip />
-    <!-- no translation found for proxy_address_title (4828301345351614273) -->
-    <skip />
-    <!-- no translation found for port_title (5952939408078626657) -->
-    <skip />
-    <!-- no translation found for transport_title (8253139511847746640) -->
-    <skip />
-    <!-- no translation found for send_keepalive_title (7533342573918645113) -->
-    <skip />
-    <!-- no translation found for send_keepalive_summary (9038969409950960640) -->
-    <skip />
-    <!-- no translation found for auto_registration_title (3586777375420122154) -->
-    <skip />
-    <!-- no translation found for auto_registration_summary (2522794041206619280) -->
-    <skip />
-    <!-- no translation found for set_primary_title (5351892327447571451) -->
-    <skip />
-    <!-- no translation found for set_primary_summary (2219064654523258577) -->
-    <skip />
-    <!-- no translation found for advanced_settings (8350631795335495338) -->
-    <skip />
-    <!-- no translation found for default_preference_summary (868766740121667450) -->
-    <skip />
-    <!-- no translation found for display_name_summary (8636377460518225523) -->
-    <skip />
-    <!-- no translation found for optional_summary (1464058793789832411) -->
-    <skip />
-    <!-- no translation found for advanced_settings_show (4668880308290857597) -->
-    <skip />
-    <!-- no translation found for advanced_settings_hide (217398292824758079) -->
-    <skip />
-    <!-- no translation found for empty_alert (8177828109581557940) -->
-    <skip />
-    <!-- no translation found for not_a_valid_port (5750410768271782606) -->
-    <skip />
-    <!-- no translation found for no_internet_available_title (3327109242858406165) -->
-    <skip />
-    <!-- no translation found for no_wifi_available_title (747881033089378758) -->
-    <skip />
-    <!-- no translation found for no_internet_available (1100564991026313234) -->
-    <skip />
-    <!-- no translation found for no_wifi_available (3389743006886634541) -->
-    <skip />
-    <!-- no translation found for no_voip (8901474054537199865) -->
-    <skip />
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="sip_settings" msgid="6699045718560859691">"Internet call settings"</string>
+    <string name="sip_accounts" msgid="2097054001288457163">"Internet calling (SIP) accounts"</string>
+    <string name="sip_accounts_title" msgid="1212889069281054570">"Accounts"</string>
+    <string name="sip_accounts_summary" msgid="6812629993146552527">"Manage Internet calling (SIP) accounts and status"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Receive incoming calls"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Reduces battery life"</string>
+    <string name="sip_call_options" msgid="7128315120104066133">"Configure call options"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Use Internet calling"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Use Internet calling (Wi-Fi only)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"For all calls when data network is available"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Only for Internet calls"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Ask for each call"</string>
+    <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"For all calls"</string>
+    <string name="auto_reg" msgid="8150163311655081599">"Auto-registration"</string>
+    <string name="call_priority" msgid="8374917577270504387">"Outgoing call via SIP"</string>
+    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Place call"</string>
+    <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Use Internet calling account:"</string>
+    <string name="remember_my_choice" msgid="7058059586169290705">"Always use to place Internet calls"</string>
+    <string name="reset_my_choice_hint" msgid="8522825056755061594">"You can use the Call Settings to change which Internet calling account to use by default when placing calls, by selecting a different account under Internet call settings"</string>
+    <string name="pstn_phone" msgid="8782554491484326429">"Mobile phone call"</string>
+    <string name="internet_phone" msgid="1147922660195095810">"Internet call"</string>
+    <string name="no_sip_account_found_title" msgid="6266249392379373628">"No Internet calling account"</string>
+    <string name="no_sip_account_found" msgid="8777818244108212791">"There are no Internet calling accounts on this phone. Add one now?"</string>
+    <string name="sip_menu_add" msgid="8757508498518881500">"Add"</string>
+    <string name="add_sip_account" msgid="5904858426290097611">"Add account"</string>
+    <string name="remove_sip_account" msgid="7645900420385682570">"Remove account"</string>
+    <string name="sip_account_list" msgid="5480058210652194306">"SIP accounts"</string>
+    <string name="saving_account" msgid="7468818916695729968">"Saving the account..."</string>
+    <string name="removing_account" msgid="5569334415898924904">"Removing the account..."</string>
+    <string name="sip_menu_save" msgid="5842531129356014943">"Save"</string>
+    <string name="sip_menu_discard" msgid="524075892158789701">"Discard"</string>
+    <string name="alert_dialog_close" msgid="7759635137627626235">"Close the profile"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
+    <string name="close_profile" msgid="6886968271423155284">"Close"</string>
+    <string name="primary_account" msgid="2229538308291934245">"Primary"</string>
+    <string name="primary_account_title" msgid="5694267218020951531">"Make this my primary account"</string>
+    <string name="primary_account_summary" msgid="7339564526372623187">"Used for outgoing calls"</string>
+    <string name="advanced_settings_title" msgid="8846648727128452293">"Advanced settings"</string>
+    <string name="primary_account_summary_with" msgid="1633960536212343187">"Primary account. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
+    <string name="registration_status_checking_status" msgid="3381868307694056727">"Checking status..."</string>
+    <string name="registration_status_registering" msgid="7115694971025999516">"Registering..."</string>
+    <string name="registration_status_still_trying" msgid="1471733478935862864">"Still trying..."</string>
+    <string name="registration_status_not_receiving" msgid="5011399017106466965">"Not receiving calls"</string>
+    <string name="registration_status_no_data" msgid="8279587001454092132">"Account registration stopped because there is no Internet connection"</string>
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Account registration stopped because there is no Wi-Fi connection"</string>
+    <string name="registration_status_not_running" msgid="272678962440371182">"Account registration failed"</string>
+    <string name="registration_status_done" msgid="6434927607037752239">"Receiving calls"</string>
+    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Account registration failed: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); will try later"</string>
+    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Account registration failed: Incorrect username or password"</string>
+    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Account registration failed: Please check the server name"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"This account is currently in use by the <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> application"</string>
+    <string name="sip_edit_title" msgid="489288416435014385">"SIP account details"</string>
+    <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP account details"</string>
+    <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>
+    <string name="username_title" msgid="2479375923477682328">"Username"</string>
+    <string name="password_title" msgid="3323555249068171531">"Password"</string>
+    <string name="display_name_title" msgid="2459768196312249937">"Display name"</string>
+    <string name="proxy_address_title" msgid="4828301345351614273">"Outgoing proxy address"</string>
+    <string name="port_title" msgid="5952939408078626657">"Port number"</string>
+    <string name="transport_title" msgid="8253139511847746640">"Transport type"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Send keep-alive"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"Send SIP keep-alive messages"</string>
+    <string name="auto_registration_title" msgid="3586777375420122154">"Auto-registration"</string>
+    <string name="auto_registration_summary" msgid="2522794041206619280">"Register the profile automatically"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Set as primary account"</string>
+    <string name="set_primary_summary" msgid="2219064654523258577">"Used for outgoing calls"</string>
+    <string name="advanced_settings" msgid="8350631795335495338">"Optional settings"</string>
+    <string name="default_preference_summary" msgid="868766740121667450">"&lt;Not set&gt;"</string>
+    <string name="display_name_summary" msgid="8636377460518225523">"&lt;Same as username&gt;"</string>
+    <string name="optional_summary" msgid="1464058793789832411">"&lt;Optional&gt;"</string>
+    <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Touch to show all"</string>
+    <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Touch to hide all"</string>
+    <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> is required; cannot be left blank"</string>
+    <string name="not_a_valid_port" msgid="5750410768271782606">"Port number should be within 1000 and 65534"</string>
+    <string name="no_internet_available_title" msgid="3327109242858406165">"No Internet connection"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"No Wi-Fi connection"</string>
+    <string name="no_internet_available" msgid="1100564991026313234">"To place an Internet call, check your Internet connection first"</string>
+    <string name="no_wifi_available" msgid="3389743006886634541">"You must be connected to a Wi-Fi network for Internet calls (use the Wireless &amp; Network settings)"</string>
+    <string name="no_voip" msgid="8901474054537199865">"Internet calling not supported"</string>
+    <string name="not_voice_capable" msgid="2739898841461577811">"Voice calling not supported"</string>
 </resources>
