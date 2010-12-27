@@ -986,8 +986,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      *
      * @param serviceState Phone service state
      */
-    void updateNetworkSelection(int serviceState) {
-        if (TelephonyCapabilities.supportsNetworkSelection(mPhone)) {
+    void updateNetworkSelection(int serviceState, Phone phone) {
+        if (TelephonyCapabilities.supportsNetworkSelection(phone)) {
             // get the shared preference of network_selection.
             // empty is auto mode, otherwise it is the operator alpha name
             // in case there is no operator name, check the operator numeric

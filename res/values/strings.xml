@@ -1427,4 +1427,43 @@
     <string translatable="false" name="set_primary">SetPrimary</string>
     <string translatable="false" name="advanced_settings_container">advanced settings container</string>
     <!-- End of SIP settings related strings -->
+
+    <!-- Set Subscription screen: set subscription option name -->
+    <string name="set_subscription">Select subscriptions</string>
+    <!-- Set Subscription screen: label Card 1 -->
+    <string name="card_01">Card 1</string>
+    <!-- Set Subscription screen: label Card 2 -->
+    <string name="card_02">Card 2</string>
+    <!-- Set Subscription screen: Message shown in error dialog -->
+    <string name="set_subscription_error_max_two">Select maximum two subscriptions</string>
+    <!-- Set Subscription screen: Message shown in error dialog -->
+    <string name="set_subscription_error_atleast_one">Select atleast one subscription</string>
+    <!-- Set Subscription screen: label sub 1 -->
+    <string name="sub_1">SUB 1</string>
+    <!-- Set Subscription screen: label sub 2 -->
+    <string name="sub_2">SUB 2</string>
+    <!-- Set Subscription screen: Progress message -->
+    <string name="set_uicc_subscription_progress">Set subscription in progress...</string>
+    <!-- Set Subscription screen: Set subscriptio success -->
+    <string name="set_sub_success">Set subscription success</string>
+    <!-- Set Subscription screen: Set subscriptio success -->
+    <string name="set_sub_failed">Set subscription failed</string>
+    <!-- Set Subscription screen: Subscription 1 -->
+    <string name="set_sub_1">Subscription 1: </string>
+    <!-- Set Subscription screen: Subscription 2 -->
+    <string name="set_sub_2">Subscription 2: </string>
+    <!-- Set Subscription screen: Subscription activate success -->
+    <string name="set_sub_activate_success">Activate success</string>
+    <!-- Set Subscription screen: Subscription deactivate success -->
+    <string name="set_sub_deactivate_success">Deactivate success</string>
+    <!-- Set Subscription screen: Subscription activate failed -->
+    <string name="set_sub_activate_failed">Activate failed</string>
+    <!-- Set Subscription screen: Subscription deactivate failed -->
+    <string name="set_sub_deactivate_failed">Deactivate failed</string>
+    <!-- Set Subscription screen: Subscription activate not supported -->
+    <string name="set_sub_activate_not_supported">Activate not supported</string>
+    <!-- Set Subscription screen: Subscription deactivate not supported -->
+    <string name="set_sub_deactivate_not_supported">Deactivate not supported</string>
+    <!-- Set Subscription screen: No change in subscription -->
+    <string name="set_sub_no_change">No change in Subscription</string>
 </resources>
