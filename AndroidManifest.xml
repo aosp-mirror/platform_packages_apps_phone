@@ -235,6 +235,7 @@
         <activity android:name="InCallScreenShowActivation"
             android:permission="android.permission.PERFORM_CDMA_PROVISIONING"
             android:label="@string/phoneIconLabel"
+            android:theme="@android:style/Theme.NoDisplay"
             android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="com.android.phone.PERFORM_CDMA_PROVISIONING" />
