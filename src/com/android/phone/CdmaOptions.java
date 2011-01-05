@@ -16,11 +16,8 @@
 
 package com.android.phone;
 
-import android.content.Intent;
 import android.os.SystemProperties;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.text.TextUtils;
@@ -71,17 +68,6 @@ public class CdmaOptions {
         if (voiceCapable) {
             // This option should not be available on voice-capable devices (i.e. regular phones).
             mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE));
-        } else {
-            mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE).setOnPreferenceClickListener(
-                    new OnPreferenceClickListener() {
-                        public boolean onPreferenceClick(Preference preference) {
-                            Intent newIntent = new Intent(
-                                    OtaUtils.ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
-                            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mPrefActivity.startActivity(newIntent);
-                            return true;
-                        }
-                    });
         }
     }
 
