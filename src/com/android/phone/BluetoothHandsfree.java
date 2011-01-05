@@ -680,11 +680,24 @@ public class BluetoothHandsfree {
         }
 
         private boolean sendUpdate() {
-            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mIndicatorsEnabled;
+            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mIndicatorsEnabled
+                   && mServiceConnectionEstablished;
         }
 
         private boolean sendClipUpdate() {
-            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip;
+            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip &&
+                   mServiceConnectionEstablished;
+        }
+
+        private boolean sendRingUpdate() {
+            if (isHeadsetConnected() && !mIgnoreRing && !mStopRing &&
+                    mCM.getFirstActiveRingingCall().isRinging()) {
+                if (mHeadsetType == TYPE_HANDSFREE) {
+                    return mServiceConnectionEstablished ? true : false;
+                }
+                return true;
+            }
+            return false;
         }
 
         private void stopRing() {
@@ -1165,7 +1178,7 @@ public class BluetoothHandsfree {
 
 
         private AtCommandResult ring() {
-            if (!mIgnoreRing && !mStopRing && mCM.getFirstActiveRingingCall().isRinging()) {
+            if (sendRingUpdate()) {
                 AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
                 result.addResponse("RING");
                 if (sendClipUpdate()) {
