@@ -38,6 +38,8 @@ public class CdmaOptions {
     private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "cdma_subscription_key";
     private static final String BUTTON_CDMA_ACTIVATE_DEVICE = "cdma_activate_device";
 
+    private static final String EXTRA_EXIT_TO_HOME = "exitToHome";
+
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
 
@@ -78,6 +80,7 @@ public class CdmaOptions {
                             Intent newIntent = new Intent(
                                     OtaUtils.ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
                             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            newIntent.putExtra(EXTRA_EXIT_TO_HOME, true);
                             mPrefActivity.startActivity(newIntent);
                             return true;
                         }
