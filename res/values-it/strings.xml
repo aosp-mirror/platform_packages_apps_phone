@@ -617,7 +617,7 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"Ricevi chiamate in arrivo"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Riduce la durata della batteria"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configura opzioni di chiamata"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Utilizza chiamata Internet"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Usa chiamata Internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Usa chiamata Internet (solo Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Per tutte le chiamate quando è disponibile la rete dati"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Solo per chiamate Internet"</string>
