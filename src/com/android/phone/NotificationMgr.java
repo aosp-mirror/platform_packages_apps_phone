@@ -258,6 +258,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             public String number;
             public String label;
             public long date;
+            public int subscription;
         }
 
         public QueryHandler(ContentResolver cr) {
@@ -324,7 +325,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
                         // send the notification
                         if (DBG) log("sending notification.");
-                        notifyMissedCall(n.name, n.number, n.label, n.date);
+                        notifyMissedCall(n.name, n.number, n.label, n.date, n.subscription);
 
                         if (DBG) log("closing contact cursor.");
                         cursor.close();
@@ -355,6 +356,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 n.number = null;
             }
 
+            // TODO MultiSim functionality: Plan to add the right subscription value to the
+            // call log db and the same can be used to display for various
+            // notifications such as missed call. For now, using default
+            // subscription.
+            n.subscription = PhoneApp.getDefaultSubscription();
             if (DBG) log("NotificationInfo constructed for number: " + n.number);
 
             return n;
@@ -371,12 +377,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     /**
-     * Displays a notification about a missed call.
+     * Displays a notification about a missed call for a particular subscription.
      *
      * @param nameOrNumber either the contact name, or the phone number if no contact
      * @param label the label of the number if nameOrNumber is a name, null if it is a number
+     * @param subscription the subscription on which the call was received
      */
-    void notifyMissedCall(String name, String number, String label, long date) {
+    //TODO MultiSim functionality: Display subscription info.
+    void notifyMissedCall(String name, String number, String label, long date, int subscription) {
         // title resource id
         int titleResId;
         // the text in the notification's line 1 and 2.
@@ -451,7 +459,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     void updateSpeakerNotification() {
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
-        if ((mPhone.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn()) {
+        if ((mCM.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn()) {
             if (DBG) log("updateSpeakerNotification: speaker ON");
             notifySpeakerphone();
         } else {
@@ -578,7 +586,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // call (see the "fullScreenIntent" field below).
         PendingIntent inCallPendingIntent =
                 PendingIntent.getActivity(mContext, 0,
-                                          PhoneApp.createInCallIntent(), 0);
+                                          PhoneApp.createInCallIntent(
+                                          currentCall.getPhone().getSubscription()), 0);
         notification.contentIntent = inCallPendingIntent;
 
         // When expanded, the "Ongoing call" notification is (visually)
@@ -748,7 +757,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      *
      * @param visible true if there are messages waiting
      */
-    /* package */ void updateMwi(boolean visible) {
+    /* package */ void updateMwi(boolean visible, Phone phone) {
         if (DBG) log("updateMwi(): " + visible);
         if (visible) {
             int resId = android.R.drawable.stat_notify_voicemail;
@@ -764,8 +773,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // notification.
 
             String notificationTitle = mContext.getString(R.string.notification_voicemail_title);
-            String vmNumber = mPhone.getVoiceMailNumber();
-            if (DBG) log("- got vm number: '" + vmNumber + "'");
+            String vmNumber = phone.getVoiceMailNumber();
+            int subscription = phone.getSubscription();
+            if (DBG) log("- got vm number: '" + vmNumber + "'" + " on Subscription: " + subscription);
 
             // Watch out: vmNumber may be null, for two possible reasons:
             //
@@ -782,7 +792,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // So handle case (2) by retrying the lookup after a short
             // delay.
 
-            if ((vmNumber == null) && !mPhone.getIccRecordsLoaded()) {
+            if ((vmNumber == null) && !phone.getIccRecordsLoaded()) {
                 if (DBG) log("- Null vm number: SIM records not loaded (yet)...");
 
                 // TODO: rather than retrying after an arbitrary delay, it
@@ -799,7 +809,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 if (mVmNumberRetriesRemaining-- > 0) {
                     if (DBG) log("  - Retrying in " + VM_NUMBER_RETRY_DELAY_MILLIS + " msec...");
                     PhoneApp.getInstance().notifier.sendMwiChangedDelayed(
-                            VM_NUMBER_RETRY_DELAY_MILLIS);
+                            VM_NUMBER_RETRY_DELAY_MILLIS, phone);
                     return;
                 } else {
                     Log.w(LOG_TAG, "NotificationMgr.updateMwi: getVoiceMailNumber() failed after "
@@ -809,8 +819,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 }
             }
 
-            if (TelephonyCapabilities.supportsVoiceMessageCount(mPhone)) {
-                int vmCount = mPhone.getVoiceMessageCount();
+            if (TelephonyCapabilities.supportsVoiceMessageCount(phone)) {
+                int vmCount = phone.getVoiceMessageCount();
                 String titleFormat = mContext.getString(R.string.notification_voicemail_title_count);
                 notificationTitle = String.format(titleFormat, vmCount);
             }
@@ -827,6 +837,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             Intent intent = new Intent(Intent.ACTION_CALL,
                     Uri.fromParts("voicemail", "", null));
+            intent.putExtra("subId", subscription);
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
             Notification notification = new Notification(

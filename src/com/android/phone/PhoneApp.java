@@ -674,8 +674,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * This intent can only be used from within the Phone app, since the
      * InCallScreen is not exported from our AndroidManifest.
      */
-    /* package */ static Intent createInCallIntent() {
+    /* package */ static Intent createInCallIntent(int subscription) {
+        Log.d(LOG_TAG, "createInCallIntent subscription:");
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.putExtra("Subscription", subscription);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
                 | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
@@ -689,7 +691,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * comes up.
      */
     /* package */ static Intent createInCallIntent(boolean showDialpad) {
-        Intent intent = createInCallIntent();
+        Intent intent = createInCallIntent(getDefaultSubscription());
         intent.putExtra(InCallScreen.SHOW_DIALPAD_EXTRA, showDialpad);
         return intent;
     }
@@ -703,7 +705,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     private void displayCallScreen() {
         if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
-        startActivity(createInCallIntent());
+        startActivity(createInCallIntent(mCM.getPhoneInCall().getSubscription()));
         Profiler.callScreenRequested();
     }
 
@@ -757,7 +759,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * For OTA Call, it call InCallScreen api to handle OTA Call End scenario
      * to display OTA Call End screen.
      */
-    void dismissCallScreen() {
+    void dismissCallScreen(Phone phone) {
         if (mInCallScreen != null) {
             if ((phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) &&
                     (mInCallScreen.isOtaCallInActiveState()
@@ -1286,8 +1288,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
     }
 
-    /* package */ Phone.State getPhoneState() {
-        return mLastPhoneState;
+    /* package */ Phone.State getPhoneState(int subscription) {
+        return getSinglePhone(subscription).mLastPhoneState;
     }
 
     /**

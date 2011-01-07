@@ -299,7 +299,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             if (specifyInitialDialpadState) {
                 intent = PhoneApp.createInCallIntent(initialDialpadState);
             } else {
-                intent = PhoneApp.createInCallIntent();
+                intent = PhoneApp.createInCallIntent(getPreferredVoiceSubscription());
             }
             mApp.startActivity(intent);
         } finally {
