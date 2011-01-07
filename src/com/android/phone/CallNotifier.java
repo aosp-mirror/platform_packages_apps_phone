@@ -203,13 +203,17 @@ public class CallNotifier extends Handler
 
         TelephonyManager telephonyManager = (TelephonyManager)app.getSystemService(
                 Context.TELEPHONY_SERVICE);
-        telephonyManager.listen(mPhoneStateListener,
-                PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR
-                | PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
+        for (int i = 0; i < TelephonyManager.getPhoneCount(); i++) {
+            telephonyManager.listen(getPhoneStateListener(i),
+                    PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR
+                    | PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
+        }
     }
 
     @Override
     public void handleMessage(Message msg) {
+        log("handleMessage() Msg Type: " + msg.what);
+        mApplication.checkPhoneType();
         switch (msg.what) {
             case PHONE_NEW_RINGING_CONNECTION:
                 if (DBG) log("RINGING... (new)");
@@ -260,7 +264,8 @@ public class CallNotifier extends Handler
                 break;
 
             case PHONE_MWI_CHANGED:
-                onMwiChanged(mApplication.phone.getMessageWaitingIndicator());
+                Phone phone = (Phone)msg.obj;
+                onMwiChanged(phone.getMessageWaitingIndicator(), phone);
                 break;
 
             case PHONE_BATTERY_LOW:
@@ -346,17 +351,23 @@ public class CallNotifier extends Handler
         }
     }
 
-    PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
-        @Override
-        public void onMessageWaitingIndicatorChanged(boolean mwi) {
-            onMwiChanged(mwi);
-        }
+    private PhoneStateListener getPhoneStateListener(int sub) {
+        Log.d(LOG_TAG, "getPhoneStateListener: SUBSCRIPTION == " + sub);
 
-        @Override
-        public void onCallForwardingIndicatorChanged(boolean cfi) {
-            onCfiChanged(cfi);
-        }
-    };
+        PhoneStateListener mPhoneStateListener = new PhoneStateListener(sub) {
+            @Override
+            public void onMessageWaitingIndicatorChanged(boolean mwi) {
+                //mSubscription available in PhoneStateListener class
+                onMwiChanged(mwi, PhoneApp.getPhone(mSubscription));
+            }
+
+            @Override
+            public void onCallForwardingIndicatorChanged(boolean cfi) {
+                onCfiChanged(cfi);
+            }
+        };
+        return mPhoneStateListener;
+    }
 
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
@@ -855,7 +866,8 @@ public class CallNotifier extends Handler
             if (VDBG) log("CallerInfo query complete, posting missed call notification");
 
             NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
-                    ci.phoneLabel, ((Long) cookie).longValue());
+                    ci.phoneLabel, ((Long) cookie).longValue(),
+                    mCM.getFirstActiveRingingCall().getPhone().getSubscription());
         } else if (cookie instanceof CallNotifier) {
             if (VDBG) log("CallerInfo query complete (for CallNotifier), "
                           + "updating state for incoming call..");
@@ -1031,7 +1043,7 @@ public class CallNotifier extends Handler
             // ended" state.)
             if (!mApplication.isShowingCallScreen()) {
                 if (VDBG) log("onDisconnect: force InCallScreen to finish()");
-                mApplication.dismissCallScreen();
+                mApplication.dismissCallScreen(c.getCall().getPhone());
             } else {
                 if (VDBG) log("onDisconnect: In call screen. Set short timeout.");
                 mApplication.clearUserActivityTimeout();
@@ -1183,17 +1195,17 @@ public class CallNotifier extends Handler
         PhoneUtils.setAudioMode(mCM);
     }
 
-    private void onMwiChanged(boolean visible) {
+    private void onMwiChanged(boolean visible, Phone phone) {
         if (VDBG) log("onMwiChanged(): " + visible);
-        NotificationMgr.getDefault().updateMwi(visible);
+        NotificationMgr.getDefault().updateMwi(visible, phone);
     }
 
     /**
      * Posts a delayed PHONE_MWI_CHANGED event, to schedule a "retry" for a
      * failed NotificationMgr.updateMwi() call.
      */
-    /* package */ void sendMwiChangedDelayed(long delayMillis) {
-        Message message = Message.obtain(this, PHONE_MWI_CHANGED);
+    /* package */ void sendMwiChangedDelayed(long delayMillis, Phone phone) {
+        Message message = Message.obtain(this, PHONE_MWI_CHANGED, phone);
         sendMessageDelayed(message, delayMillis);
     }
 
@@ -1780,7 +1792,7 @@ public class CallNotifier extends Handler
                             ci, number, ci.numberPresentation);
                 }
                 NotificationMgr.getDefault().notifyMissedCall(name, number,
-                        ci.phoneLabel, date);
+                        ci.phoneLabel, date, c.getCall().getPhone().getSubscription());
             }
         } else {
             // getCallerInfo() can return null in rare cases, like if we weren't

@@ -2356,7 +2356,7 @@ public class PhoneUtils {
             Phone phone = getSipPhoneFromUri(cm, primarySipUri);
             if (phone != null) return phone;
         }
-        return cm.getDefaultPhone();
+        return PhoneApp.getPhone(PhoneApp.getVoiceSubscription());
     }
 
     public static Phone getSipPhoneFromUri(CallManager cm, String target) {

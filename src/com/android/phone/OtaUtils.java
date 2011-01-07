@@ -75,6 +75,8 @@ public class OtaUtils {
     public final int OTA_SPC_TIMEOUT = 60;
     public final int OTA_FAILURE_DIALOG_TIMEOUT = 2;
 
+    private static final String SUBSCRIPTION = "Subscription";
+
     private InCallScreen mInCallScreen;
     private Context mContext;
     private PhoneApp mApplication;
@@ -210,6 +212,7 @@ public class OtaUtils {
             Intent newIntent = new Intent(InCallScreen.ACTION_SHOW_ACTIVATION);
             newIntent.setClass(context, InCallScreen.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            newIntent.putExtra(SUBSCRIPTION, PhoneApp.getDefaultSubscription());
             mIsWizardMode = false;
             context.startActivity(newIntent);
             if (DBG) log("activation intent sent.");
@@ -286,6 +289,7 @@ public class OtaUtils {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory (Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(SUBSCRIPTION, PhoneApp.getDefaultSubscription());
         mContext.startActivity(intent);
         return;
     }
@@ -312,6 +316,7 @@ public class OtaUtils {
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
             Intent newIntent = new Intent(Intent.ACTION_CALL);
             newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, InCallScreen.OTA_NUMBER);
+            newIntent.putExtra(SUBSCRIPTION, PhoneApp.getDefaultSubscription());
             mInCallScreen.internalResolveIntent(newIntent);
             otaShowListeningScreen();
         }

@@ -214,14 +214,8 @@ class InCallMenu {
         // Row 0:
         // This usually has "Show/Hide dialpad", but that gets replaced by
         // "Manage conference" if a conference call is active.
-        PhoneApp app = PhoneApp.getInstance();
-        // As managing conference is valid for SIP, we always include it
-        // when SIP VOIP feature is present.
-        int phoneType = app.phone.getPhoneType();
-        if ((phoneType == Phone.PHONE_TYPE_GSM)
-                || SipManager.isVoipSupported(app)) {
-            mInCallMenuView.addItemView(mManageConference, 0);
-        }
+        // As managing conference is only valid for GSM and SIP and not for CDMA
+        mInCallMenuView.addItemView(mManageConference, 0);
         mInCallMenuView.addItemView(mShowDialpad, 0);
 
         // Row 1:
@@ -234,16 +228,11 @@ class InCallMenu {
         // In this row we see *either*  bluetooth/speaker/mute/hold
         // *or* answerAndHold/answerAndEnd, but never all 6 together.
         // For CDMA only Answer or Ignore option is valid for a Call Waiting scenario
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
-            mInCallMenuView.addItemView(mAnswer, 2);
-            mInCallMenuView.addItemView(mIgnore, 2);
-        }
-        if ((phoneType == Phone.PHONE_TYPE_GSM)
-                || SipManager.isVoipSupported(app)) {
-            mInCallMenuView.addItemView(mHold, 2);
-            mInCallMenuView.addItemView(mAnswerAndHold, 2);
-            mInCallMenuView.addItemView(mAnswerAndEnd, 2);
-        }
+        mInCallMenuView.addItemView(mAnswer, 2);
+        mInCallMenuView.addItemView(mIgnore, 2);
+        mInCallMenuView.addItemView(mHold, 2);
+        mInCallMenuView.addItemView(mAnswerAndHold, 2);
+        mInCallMenuView.addItemView(mAnswerAndEnd, 2);
         mInCallMenuView.addItemView(mMute, 2);
         mInCallMenuView.addItemView(mSpeaker, 2);
         mInCallMenuView.addItemView(mBluetooth, 2);
