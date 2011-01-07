@@ -683,7 +683,7 @@
         <item>"1"</item>
     </string-array>
     <!-- Preference title with which users can activate CDMA network [CHAR LIMIT=30] -->
-    <string name="cdma_activate_device">Activate Device</string>
+    <string name="cdma_activate_device">Activate device</string>
 
     <!-- FDN settings strings -->
     <!-- Call settings screen, setting option name -->
