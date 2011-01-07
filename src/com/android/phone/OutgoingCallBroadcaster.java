@@ -56,6 +56,9 @@ public class OutgoingCallBroadcaster extends Activity {
     public static final String EXTRA_NEW_CALL_INTENT = "android.phone.extra.NEW_CALL_INTENT";
     public static final String EXTRA_SIP_PHONE_URI = "android.phone.extra.SIP_PHONE_URI";
 
+    /** the key used to specify subscription to be used for emergency calls */
+    public static final String SUBSCRIPTION = "Subscription";
+
     /**
      * Identifier for intent extra for sending an empty Flash message for
      * CDMA networks. This message is used by the network to simulate a
@@ -155,6 +158,8 @@ public class OutgoingCallBroadcaster extends Activity {
             Uri uri, String number) {
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
         newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+        int sub = PhoneApp.getVoiceSubscription();
+        newIntent.putExtra(SUBSCRIPTION, sub);
 
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
@@ -230,6 +235,7 @@ public class OutgoingCallBroadcaster extends Activity {
             if (!Intent.ACTION_CALL.equals(intent.getAction())) {
                 Log.w(TAG, "Attempt to deliver non-CALL action; forcing to CALL");
                 intent.setAction(Intent.ACTION_CALL);
+                intent.putExtra(SUBSCRIPTION, PhoneApp.getVoiceSubscription());
             }
         }
 
@@ -259,6 +265,7 @@ public class OutgoingCallBroadcaster extends Activity {
                                                    "com.android.contacts.DialtactsActivity");
                 invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
                 invokeFrameworkDialer.setData(intent.getData());
+                invokeFrameworkDialer.putExtra(SUBSCRIPTION, PhoneApp.getVoiceSubscription());
 
                 if (DBG) Log.v(TAG, "onCreate(): calling startActivity for Dialer: "
                                + invokeFrameworkDialer);
@@ -279,6 +286,9 @@ public class OutgoingCallBroadcaster extends Activity {
                 finish();
                 return;
             }
+            int sub = PhoneApp.getInstance().getVoiceSubscriptionInService();
+            intent.putExtra(SUBSCRIPTION, sub);
+            Log.d(TAG, "Attempting emergency call on sub :" + sub);
             callNow = true;
         } else {
             Log.e(TAG, "Unhandled Intent " + intent + ".");
