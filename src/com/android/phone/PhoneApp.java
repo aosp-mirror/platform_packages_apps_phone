@@ -104,6 +104,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final int EVENT_TTY_PREFERRED_MODE_CHANGED = 14;
     private static final int EVENT_TTY_MODE_GET = 15;
     private static final int EVENT_TTY_MODE_SET = 16;
+    private static final int EVENT_START_SIP_SERVICE = 17;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -246,6 +247,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         public void handleMessage(Message msg) {
             Phone.State phoneState;
             switch (msg.what) {
+                // Starts the SIP service. It's a no-op if SIP API is not supported
+                // on the deivce.
+                // TODO: Having the phone process host the SIP service is only
+                // temporary. Will move it to a persistent communication process
+                // later.
+                case EVENT_START_SIP_SERVICE:
+                    SipService.start(getApplicationContext());
+                    break;
 
                 // TODO: This event should be handled by the lock screen, just
                 // like the "SIM missing" and "Sim locked" cases (bug 1804111).
@@ -412,13 +421,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
             phoneMgr = new PhoneInterfaceManager(this, phone);
 
-            // Starts the SIP service. It's a no-op if SIP API is not supported
-            // on the deivce.
-            // TODO: Having the phone process host the SIP service is only
-            // temporary. Will move it to a persistent communication process
-            // later.
-            SipService.start(this);
-
+            mHandler.sendEmptyMessage(EVENT_START_SIP_SERVICE);
 
             int phoneType = phone.getPhoneType();
 
