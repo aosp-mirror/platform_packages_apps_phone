@@ -458,6 +458,11 @@
     <string name="roaming_warning">Allow data roaming? You may incur significant roaming charges!</string>
     <string name="gsm_umts_options">GSM/UMTS Options</string>
     <string name="cdma_options">CDMA Options</string>
+    <string name="mobile_network_setting">Mobile Network Settings</string>
+    <string name="network_settings_sel_sub">Select Subscription</string>
+    <string name="network_manage_settings">Network Settings</string>
+    <string name="title_data_settings">Data Settings</string>
+    <string name="summary_manage_subscriptions">Manage Network settings of each subscriptions</string>
 
     <!-- Screen option on the mobile network settings to go into data usage settings -->
     <string name="throttle_data_usage">Data usage</string>
@@ -682,6 +687,23 @@
         <item>"0"</item>
         <item>"1"</item>
     </string-array>
+
+
+    <!-- Call Independent services screen title-->
+    <string name="call_ind_services">Call Independent Services</string>
+    <!-- button name for launching sub1, sub2 screen for DSDS -->
+    <string name="callind_dsds">Select Subscription</string>
+    <!-- button name for direct launch of Call Feature screen for non DSDS -->
+    <string name="callind">Call Feature Settings</string>
+
+    <!-- dual sub one, setting option name -->
+     <string name="subone">Subscription 1</string>
+    <!-- dual mode settings screen, setting summary text -->
+    <string name="sub_one">Manage Subscription 1</string>
+    <!-- dual sub two, setting option name -->
+     <string name="subtwo">Subscription 2</string>
+    <!-- dual mode settings screen, setting summary text -->
+    <string name="sub_two">Manage Subscription 2</string>
 
     <!-- FDN settings strings -->
     <!-- Call settings screen, setting option name -->

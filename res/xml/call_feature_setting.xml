@@ -68,33 +68,6 @@
         android:title="@string/other_settings"
         android:persistent="false" />
 
-    <CheckBoxPreference
-        android:key="button_auto_retry_key"
-        android:title="@string/auto_retry_mode_title"
-        android:persistent="false"
-        android:summary="@string/auto_retry_mode_summary"/>
-
-    <ListPreference
-        android:key="button_tty_mode_key"
-        android:title="@string/tty_mode_option_title"
-        android:summary="@string/tty_mode_option_summary"
-        android:persistent="false"
-        android:entries="@array/tty_mode_entries"
-        android:entryValues="@array/tty_mode_values"/>
-
-     <CheckBoxPreference
-        android:key="button_hac_key"
-        android:title="@string/hac_mode_title"
-        android:persistent="true"
-        android:summary="@string/hac_mode_summary"/>
-
-    <ListPreference
-        android:key="button_dtmf_settings"
-        android:title="@string/dtmf_tones_title"
-        android:summary="@string/dtmf_tones_summary"
-        android:entries="@array/dtmf_tone_entries"
-        android:entryValues="@array/dtmf_tone_values"/>
-
     <PreferenceScreen
         android:key="button_gsm_more_expand_key"
         android:title="@string/labelGSMMore"

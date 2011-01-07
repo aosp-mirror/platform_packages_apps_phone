@@ -239,6 +239,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Mobile Networks Settings -->
+        <activity android:name="MobileNetworkSettings" android:label="@string/settings_label">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <!-- general settings -->
         <activity android:name="Settings" android:label="@string/settings_label">
             <intent-filter>
@@ -368,6 +376,27 @@
         <activity android:name="RoamingSetting" android:label="@string/roaming">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <!-- Call Independent Services setting -->
+        <activity android:name="CallIndependentServices" android:label="@string/call_settings"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <!-- dual mode setting -->
+        <activity android:name="DualModeSetting" android:label="@string/callind_dsds"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

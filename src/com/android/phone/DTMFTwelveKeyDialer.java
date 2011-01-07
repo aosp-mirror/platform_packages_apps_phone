@@ -953,7 +953,7 @@ public class DTMFTwelveKeyDialer implements
         int phoneType = mCM.getFgPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // Cdma case we do stopTone only for Long DTMF Setting
-            if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_LONG) {
+            if (mDTMFToneType == CallIndependentServices.DTMF_TONE_TYPE_LONG) {
                 stopToneCdma();
             }
         } else {
@@ -970,9 +970,9 @@ public class DTMFTwelveKeyDialer implements
         // Read the settings as it may be changed by the user during the call
         mDTMFToneType = Settings.System.getInt(mInCallScreen.getContentResolver(),
                 Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
-                CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL);
+                CallIndependentServices.DTMF_TONE_TYPE_NORMAL);
         // For Short DTMF we need to play the local tone for fixed duration
-        if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
+        if (mDTMFToneType == CallIndependentServices.DTMF_TONE_TYPE_NORMAL) {
             sendShortDtmfToNetwork (tone);
         } else {
             // Pass as a char to be sent to network
@@ -1000,7 +1000,7 @@ public class DTMFTwelveKeyDialer implements
 
                     // Start the new tone.
                     int toneDuration = -1;
-                    if (mDTMFToneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
+                    if (mDTMFToneType == CallIndependentServices.DTMF_TONE_TYPE_NORMAL) {
                         toneDuration = DTMF_DURATION_MS;
                     }
                     mToneGenerator.startTone(mToneMap.get(tone), toneDuration);

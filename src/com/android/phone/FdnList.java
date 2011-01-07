@@ -31,6 +31,9 @@ public class FdnList extends ADNList {
     private static final int MENU_ADD = 1;
     private static final int MENU_EDIT = 2;
     private static final int MENU_DELETE = 3;
+    private static final int SUB1 = 0;
+    private static final int SUB2 = 1;
+    private static int mSubscription = 0;
 
     private static final String INTENT_EXTRA_NAME = "name";
     private static final String INTENT_EXTRA_NUMBER = "number";
@@ -39,7 +42,13 @@ public class FdnList extends ADNList {
     @Override
     protected Uri resolveIntent() {
         Intent intent = getIntent();
-        intent.setData(Uri.parse("content://icc/fdn"));
+        mSubscription = getIntent().getIntExtra("sub_id", 0);
+        if (mSubscription == SUB1) {
+            intent.setData(Uri.parse("content://icc/fdn_sub1"));
+        } else {
+            intent.setData(Uri.parse("content://icc/fdn_sub2"));
+        }
+
         return intent.getData();
     }
 
@@ -100,6 +109,7 @@ public class FdnList extends ADNList {
         // if we don't put extras "name" when starting this activity, then
         // EditFdnContactScreen treats it like add contact.
         Intent intent = new Intent();
+        intent.putExtra("sub_id", mSubscription);
         intent.setClass(this, EditFdnContactScreen.class);
         startActivity(intent);
     }
@@ -123,6 +133,7 @@ public class FdnList extends ADNList {
             String number = mCursor.getString(NUMBER_COLUMN);
 
             Intent intent = new Intent();
+            intent.putExtra("sub_id", mSubscription);
             intent.setClass(this, EditFdnContactScreen.class);
             intent.putExtra(INTENT_EXTRA_NAME, name);
             intent.putExtra(INTENT_EXTRA_NUMBER, number);
@@ -136,6 +147,7 @@ public class FdnList extends ADNList {
             String number = mCursor.getString(NUMBER_COLUMN);
 
             Intent intent = new Intent();
+            intent.putExtra("sub_id", mSubscription);
             intent.setClass(this, DeleteFdnContactScreen.class);
             intent.putExtra(INTENT_EXTRA_NAME, name);
             intent.putExtra(INTENT_EXTRA_NUMBER, number);

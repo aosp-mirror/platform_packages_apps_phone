@@ -36,10 +36,12 @@ public class CdmaOptions {
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
+    private int mSubscription = 0;
 
-    public CdmaOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen) {
+    public CdmaOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen, int subscription) {
         mPrefActivity = prefActivity;
         mPrefScreen = prefScreen;
+        mSubscription = subscription;
         create();
     }
 

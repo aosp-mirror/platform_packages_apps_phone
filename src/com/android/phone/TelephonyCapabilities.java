@@ -48,8 +48,8 @@ public class TelephonyCapabilities {
             int toneType = android.provider.Settings.System.getInt(
                     context.getContentResolver(),
                 Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
-                CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL);
-            if (toneType == CallFeaturesSetting.DTMF_TONE_TYPE_NORMAL) {
+                CallIndependentServices.DTMF_TONE_TYPE_NORMAL);
+            if (toneType == CallIndependentServices.DTMF_TONE_TYPE_NORMAL) {
                 return true;
             } else {
                 return false;
