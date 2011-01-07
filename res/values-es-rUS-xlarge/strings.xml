@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- XL -->
+    <string name="recentCallsIconLabel" msgid="4447077629174491387">"Llamadas"</string>
+    <!-- XL -->
+    <string name="fdnListLabel" msgid="5769699305623890353">"Lista de FDN"</string>
+    <!-- XL -->
+    <string name="unknown" msgid="5962692220462445070">"Desconocido"</string>
+    <!-- XL -->
+    <string name="payphone" msgid="5800928804477659387">"Teléfono público"</string>
+    <!-- XL -->
+    <string name="menu_swapCalls" msgid="9088736617184895294">"Intercambiar llamadas"</string>
+    <!-- XL -->
+    <string name="menu_mergeCalls" msgid="2207201529067026432">"Combinar llamadas"</string>
+    <!-- XL -->
+    <string name="menu_answerAndHold" msgid="4318350337146096072">"Retener la llamada actual"\n" &amp; responder"</string>
+    <!-- XL -->
+    <string name="menu_answerAndEnd" msgid="5862958133894030114">"Finalizar la llamada actual"\n" &amp; responder"</string>
+    <!-- XL -->
+    <string name="wild_prompt_str" msgid="6080452907540007113">"Reemplazar el carácter comodín con"</string>
+    <!-- XL -->
+    <string name="apn_settings" msgid="4820471478026108494">"Nombres de puntos de acceso"</string>
+    <!-- XL -->
+    <string name="voicemail" msgid="6151940161895209600">"Buzón de voz"</string>
+    <!-- XL -->
+    <string name="labelCallerId" msgid="430579765973121153">"ID de emisor"</string>
+    <!-- XL -->
+    <string name="labelCF" msgid="5907706679181757032">"Desvío de llamadas"</string>
+    <!-- XL -->
+    <string name="sum_cfu_enabled" msgid="989438641649924606">"Reenviar todas las llamadas a \\{0\\}"</string>
+    <!-- XL -->
+    <string name="sum_cfb_enabled" msgid="2490495867391861658">"Reenviar a \\{0\\}"</string>
+    <!-- XL -->
+    <string name="sum_cfnry_enabled" msgid="6498888023162342750">"Reenviar a \\{0\\}"</string>
+    <!-- XL -->
+    <string name="sum_cfnry_disabled" msgid="596766256563977657">"Desactivado"</string>
+    <!-- XL -->
+    <string name="labelCFNRc" msgid="2239610345510922167">"Reenviar cuando esté inaccesible"</string>
+    <!-- XL -->
+    <string name="messageCFNRc" msgid="6337378297656994173">"Número cuando no se puede establecer la llamada"</string>
+    <!-- XL -->
+    <string name="sum_cfnrc_enabled" msgid="6690011094298342391">"Reenviar a \\{0\\}"</string>
+    <!-- XL -->
+    <string name="updating_title" msgid="3011204799641537956">"Configuración de llamada"</string>
+    <!-- XL -->
+    <string name="updating_settings" msgid="8379196619439288799">"Actualizando configuración…"</string>
+    <!-- XL -->
+    <string name="disable" msgid="6562903895275275418">"Inhabilitar"</string>
+    <!-- XL -->
+    <string name="load_networks_progress" msgid="3286417882997546772">"Buscando…"</string>
+    <!-- XL -->
+    <string name="select_automatically" msgid="7441045597100270375">"Seleccionar automáticamente"</string>
+    <!-- XL -->
+    <string name="throttle_rate_subtext" msgid="4081008474570967201">"La velocidad de la transferencia de datos se reduce a <xliff:g id="USED">%1$d</xliff:g> Kb/s si se excede el límite de utilización de datos."</string>
+    <!-- XL -->
+    <string name="enable_disable_retail_directory" msgid="3728658120997842716">"Directorio de reventa"</string>
+    <!-- XL -->
+    <string name="fdn" msgid="3564854556003260881">"Números de marcación fija"</string>
+    <!-- XL -->
+    <string name="manage_fdn_list" msgid="423600318426056020">"Lista de FDN"</string>
+    <!-- XL -->
+    <string name="enable_fdn" msgid="355224228625856336">"Activar FDN"</string>
+    <!-- XL -->
+    <string name="disable_fdn_ok" msgid="1194138248182820845">"Activar FDN"</string>
+    <!-- XL -->
+    <string name="menu_delete" msgid="2783568102110050253">"Suprimir contacto"</string>
+    <!-- XL -->
+    <string name="pin2_invalid" msgid="6417451880258766279">"FDN (Número fijo) desactualizado: Ingresaste un PIN incorrecto."</string>
+    <!-- XL -->
+    <string name="change_pin" msgid="903737975824866820">"Cambiar el PIN de SIM"</string>
+    <!-- XL -->
+    <string name="invalidPin" msgid="4250359764750987293">"Escribir un PIN que contenga entre 4 y 8 números."</string>
+    <!-- XL -->
+    <string name="enable_in_progress" msgid="3965835647286544096">"Por favor, espera..."</string>
+    <!-- XL -->
+    <string name="pin_changed" msgid="6223497527991547775">"El PIN de SIM se ha cambiado correctamente"</string>
+    <!-- XL -->
+    <string name="oldPin2Label" msgid="2864970657087926870">"PIN2 viejo"</string>
+    <!-- XL -->
+    <string name="doneButton" msgid="2943872160819651497">"Listo"</string>
+    <!-- XL -->
+    <string name="voicemail_settings_number_label" msgid="7798523937407294566">"Número de mensaje de voz"</string>
+    <!-- XL -->
+    <string name="card_title_dialing" msgid="4468370238625021731">"Marcado"</string>
+    <!-- XL -->
+    <string name="notification_missedCallTicker" msgid="2678931477078360584">"Llamadas perdidas de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <!-- XL -->
+    <string name="notification_voicemail_title" msgid="851526272673356351">"Buzón de voz nuevo"</string>
+    <!-- XL -->
+    <string name="incall_error_power_off" msgid="3517936693948228761">"Para realizar una llamada, primero desactive el Modo avión."</string>
+    <!-- XL -->
+    <string name="touchLockText" msgid="3844100254410847294">"Hacer doble golpe"\n"para desbloquear"</string>
+    <!-- XL -->
+    <string name="onscreenAddCallText" msgid="1887968066776877476">"Agregar llamada"</string>
+    <!-- XL -->
+    <string name="ota_try_again" msgid="4799379984863746960">"Vuelve a intentarlo."</string>
+    <!-- XL -->
+    <string name="voicemail_settings" msgid="5021785016514666771">"Configuración de buzón de voz"</string>
+    <!-- XL -->
+    <string name="voicemail_provider" msgid="8704557610866282491">"Servicio de buzón de voz"</string>
+    <!-- XL -->
+    <string name="advanced_settings_title" msgid="6815316811951695390">"Configuración avanzada"</string>
+    <!-- XL -->
+    <string name="registration_status_server_unreachable" msgid="6783207789889613590">"Falló el registro de cuenta: comprueba el nombre del servidor"</string>
+    <!-- XL -->
+    <string name="no_internet_available_title" msgid="6120510443151227171">"Sin conexión a Internet"</string>
+    <!-- XL -->
+    <string name="no_wifi_available" msgid="3498006464814624574">"Debes estar conectado a las redes de WiFi para hacer llamadas por Internet (usa las Configuraciones de redes inalámbricas &amp; redes)"</string>
+</resources>
