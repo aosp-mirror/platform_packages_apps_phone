@@ -27,7 +27,6 @@ import android.os.Message;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -157,7 +156,6 @@ public class NetworkQueryService extends Service {
     @Override
     public void onCreate() {
         mState = QUERY_READY;
-        mPhone = PhoneFactory.getDefaultPhone();
     }
     
     /**
@@ -165,8 +163,11 @@ public class NetworkQueryService extends Service {
      */
     @Override
     public void onStart(Intent intent, int startId) {
+        int subscription = intent.getIntExtra(Settings.SUBSCRIPTION, 0);
+        log("onStart subscription :" + subscription);
+        mPhone = PhoneApp.getPhone(subscription);
     }
-    
+
     /**
      * Handle the bind request.
      */

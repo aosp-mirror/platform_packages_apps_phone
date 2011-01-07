@@ -41,25 +41,32 @@ public class GsmUmtsOptions {
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
 
-    public GsmUmtsOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen) {
+    private int mSubscription = 0;
+
+    public GsmUmtsOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen, int subscription) {
         mPrefActivity = prefActivity;
         mPrefScreen = prefScreen;
+        mSubscription = subscription;
         create();
     }
 
     protected void create() {
         mPrefActivity.addPreferencesFromResource(R.xml.gsm_umts_options);
         mButtonAPNExpand = (PreferenceScreen) mPrefScreen.findPreference(BUTTON_APN_EXPAND_KEY);
+        mButtonAPNExpand.getIntent().putExtra(Settings.SUBSCRIPTION, mSubscription);
         mButtonOperatorSelectionExpand =
                 (PreferenceScreen) mPrefScreen.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
+        mButtonOperatorSelectionExpand.getIntent().putExtra(Settings.SUBSCRIPTION, mSubscription);
         mButtonPrefer2g = (CheckBoxPreference) mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_GSM) {
+        Phone phone = PhoneApp.getPhone(mSubscription);
+        Use2GOnlyCheckBoxPreference.updatePhone(phone);
+        if (phone.getPhoneType() != Phone.PHONE_TYPE_GSM) {
             log("Not a GSM phone");
             mButtonAPNExpand.setEnabled(false);
             mButtonOperatorSelectionExpand.setEnabled(false);
             mButtonPrefer2g.setEnabled(false);
         } else if (mPrefActivity.getResources().getBoolean(R.bool.csp_enabled)) {
-            if (PhoneFactory.getDefaultPhone().isCspPlmnEnabled()) {
+            if (phone.isCspPlmnEnabled()) {
                 log("[CSP] Enabling Operator Selection menu.");
                 mButtonOperatorSelectionExpand.setEnabled(true);
             } else {

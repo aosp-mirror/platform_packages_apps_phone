@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2008 The Android Open Source Project
+     Copyright (c) 2010, Code Aurora Forum. All rights reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,14 +16,26 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
-        android:title="@string/mobile_networks">
+        android:title="@string/callind_multi_sim">
 
-    <ListPreference
-        android:key="preferred_network_mode_key"
-        android:title="@string/preferred_network_mode_title"
-        android:summary="@string/preferred_network_mode_summary"
-        android:entries="@array/preferred_network_mode_choices"
-        android:entryValues="@array/preferred_network_mode_values"
-        android:dialogTitle="@string/preferred_network_mode_dialogtitle" />
+    <PreferenceScreen
+        android:key="button_sub_id_00"
+        android:title="@string/subone"
+        android:summary="@string/sub_one"
+        android:persistent="false">
+        <intent
+            android:action="android.intent.action.MAIN"/>
+
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="button_sub_id_01"
+        android:title="@string/subtwo"
+        android:summary="@string/sub_two"
+        android:persistent="false">
+        <intent
+            android:action="android.intent.action.MAIN"/>
+
+    </PreferenceScreen>
 
 </PreferenceScreen>

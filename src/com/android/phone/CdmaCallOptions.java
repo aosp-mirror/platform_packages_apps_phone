@@ -27,8 +27,14 @@ public class CdmaCallOptions extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.cdma_call_options);
 
+        // getting selected subscription
+        int subscription = getIntent().getIntExtra(CallFeaturesSetting.SUBSCRIPTION_ID, 0);
+
+        Log.d(LOG_TAG, "Getting CDMACallOptions subscription =" + subscription);
+        Phone phone = PhoneApp.getPhone(subscription);
+
         mButtonVoicePrivacy = (CheckBoxPreference) findPreference(BUTTON_VP_KEY);
-        if (PhoneFactory.getDefaultPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA) {
+        if (phone.getPhoneType() != Phone.PHONE_TYPE_CDMA) {
             //disable the entire screen
             getPreferenceScreen().setEnabled(false);
         }

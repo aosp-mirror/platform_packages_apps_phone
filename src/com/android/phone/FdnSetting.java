@@ -26,6 +26,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
@@ -38,6 +39,7 @@ import com.android.internal.telephony.PhoneFactory;
 public class FdnSetting extends PreferenceActivity
         implements EditPinPreference.OnPinEnteredListener, DialogInterface.OnCancelListener {
 
+    private static final String LOG_TAG = "FdnSetting";
     private Phone mPhone;
 
     /**
@@ -52,9 +54,12 @@ public class FdnSetting extends PreferenceActivity
     // Preference is handled solely in xml.
     private static final String BUTTON_FDN_ENABLE_KEY = "button_fdn_enable_key";
     private static final String BUTTON_CHANGE_PIN2_KEY = "button_change_pin2_key";
+    private static final String BUTTON_FDN_KEY = "button_fdn_list_key";
+    private static final String SUB_ID = "sub_id";
 
     private EditPinPreference mButtonEnableFDN;
     private EditPinPreference mButtonChangePin2;
+    private PreferenceScreen mSubscriptionPrefFDN;
 
     // State variables
     private String mOldPin;
@@ -77,6 +82,7 @@ public class FdnSetting extends PreferenceActivity
     private static final int MIN_PIN_LENGTH = 4;
     private static final int MAX_PIN_LENGTH = 8;
 
+    private int mSubscription = 0;
     /**
      * Delegate to the respective handlers.
      */
@@ -384,7 +390,13 @@ public class FdnSetting extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.fdn_setting);
 
-        mPhone = PhoneFactory.getDefaultPhone();
+        // getting selected subscription
+        mSubscription = getIntent().getIntExtra(CallFeaturesSetting.SUBSCRIPTION_ID, 0);
+        Log.d(LOG_TAG, "Getting FDNSetting subscription =" + mSubscription);
+        mPhone = PhoneApp.getPhone(mSubscription);
+
+        mSubscriptionPrefFDN  = (PreferenceScreen) findPreference(BUTTON_FDN_KEY);
+        mSubscriptionPrefFDN.getIntent().putExtra("sub_id", mSubscription);
 
         //get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
@@ -413,7 +425,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mPhone = PhoneFactory.getDefaultPhone();
+        mPhone = PhoneApp.getPhone(mSubscription);
         updateEnableFDN();
     }
 

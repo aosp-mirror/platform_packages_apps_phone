@@ -40,12 +40,17 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
 
     private boolean mFirstResume;
     private Bundle mIcicle;
+    private int mSubscription = 0;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         addPreferencesFromResource(R.xml.callforward_options);
+
+        // getting selected subscription
+        mSubscription = getIntent().getIntExtra(GsmUmtsCallOptions.SUBSCRIPTION_ID, 0);
+        Log.d(LOG_TAG, "Call Forwarding options, subscription =" + mSubscription);
 
         PreferenceScreen prefSet = getPreferenceScreen();
         mButtonCFU   = (CallForwardEditPreference) prefSet.findPreference(BUTTON_CFU_KEY);
@@ -78,7 +83,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
         if (mFirstResume) {
             if (mIcicle == null) {
                 if (DBG) Log.d(LOG_TAG, "start to init ");
-                mPreferences.get(mInitIndex).init(this, false);
+                mPreferences.get(mInitIndex).init(this, false, mSubscription);
             } else {
                 mInitIndex = mPreferences.size();
 
@@ -89,7 +94,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
                     cf.number = bundle.getString(KEY_NUMBER);
                     cf.status = bundle.getInt(KEY_STATUS);
                     pref.handleCallForwardResult(cf);
-                    pref.init(this, true);
+                    pref.init(this, true, mSubscription);
                 }
             }
             mFirstResume = false;
@@ -116,7 +121,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
     public void onFinished(Preference preference, boolean reading) {
         if (mInitIndex < mPreferences.size()-1 && !isFinishing()) {
             mInitIndex++;
-            mPreferences.get(mInitIndex).init(this, false);
+            mPreferences.get(mInitIndex).init(this, false, mSubscription);
         }
 
         super.onFinished(preference, reading);

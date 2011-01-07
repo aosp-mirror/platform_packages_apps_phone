@@ -4,7 +4,6 @@ import com.android.internal.telephony.CallForwardInfo;
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneFactory;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,7 +35,6 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
     public CallForwardEditPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        phone = PhoneFactory.getDefaultPhone();
         mSummaryOnTemplate = this.getSummaryOn();
 
         TypedArray a = context.obtainStyledAttributes(attrs,
@@ -54,7 +52,12 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
         this(context, null);
     }
 
-    void init(TimeConsumingPreferenceListener listener, boolean skipReading) {
+    void init(TimeConsumingPreferenceListener listener, boolean skipReading, int subscription) {
+
+        // getting selected subscription
+        if (DBG) Log.d(LOG_TAG, "Getting CallForwardEditPreference subscription =" + subscription);
+        phone = PhoneApp.getPhone(subscription);
+
         tcpListener = listener;
         if (!skipReading) {
             phone.getCallForwardingOption(reason,

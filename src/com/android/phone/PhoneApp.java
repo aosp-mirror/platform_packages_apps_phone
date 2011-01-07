@@ -597,9 +597,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                                                               android.provider.Settings.System.HEARING_AID,
                                                               0);
             AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
-                                      CallFeaturesSetting.HAC_VAL_ON :
-                                      CallFeaturesSetting.HAC_VAL_OFF);
+            audioManager.setParameter(CallIndependentServices.HAC_KEY, hac != 0 ?
+                                      CallIndependentServices.HAC_VAL_ON :
+                                      CallIndependentServices.HAC_VAL_OFF);
         }
     }
 
