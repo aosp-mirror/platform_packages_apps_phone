@@ -1832,17 +1832,16 @@ public class PhoneUtils {
      * foreground call
      */
     static boolean getMute() {
-        Phone phone = PhoneApp.getInstance().mCM.getFgPhone();
+        PhoneApp app = PhoneApp.getInstance();
 
-        Context context = phone.getContext();
         boolean routeToAudioManager =
-            context.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+            app.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
         if (routeToAudioManager) {
             AudioManager audioManager =
-                (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+                (AudioManager) app.getSystemService(Context.AUDIO_SERVICE);
             return audioManager.isMicrophoneMute();
         } else {
-            return phone.getMute();
+            return app.mCM.getMute();
         }
     }
 
