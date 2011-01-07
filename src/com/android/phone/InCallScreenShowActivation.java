@@ -43,7 +43,7 @@ public class InCallScreenShowActivation extends Activity {
         if (intent.getAction().equals(InCallScreen.ACTION_SHOW_ACTIVATION)) {
             Intent newIntent = new Intent().setClass(this, InCallScreen.class)
                     .setAction(InCallScreen.ACTION_SHOW_ACTIVATION);
-
+            newIntent.putExtra("Subscription", PhoneApp.getDefaultSubscription());
             // tuck away the pending intent to send later if the user skips provisioning
             PhoneApp app = PhoneApp.getInstance();
             app.cdmaOtaInCallScreenUiState.reportSkipPendingIntent = (PendingIntent) intent
