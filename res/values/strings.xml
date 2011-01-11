@@ -1370,6 +1370,10 @@
     <string name="set_primary_summary">Used for outbound calls</string>
     <!-- Text of the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings">Optional settings</string>
+    <!-- Text of the username used in authentication. [CHAR LIMIT=NONE] -->
+    <string name="auth_username_title">Authentication username</string>
+    <!-- Help text of the auth_username field. [CHAR LIMIT=NONE] -->
+    <string name="auth_username_summary">Username used for authentication</string>
 
     <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
     <string name="default_preference_summary">&lt;Not set&gt;</string>
@@ -1426,5 +1430,6 @@
     <string translatable="false" name="auto_registration">AutoRegistration</string>
     <string translatable="false" name="set_primary">SetPrimary</string>
     <string translatable="false" name="advanced_settings_container">advanced settings container</string>
+    <string translatable="false" name="auth_username">AuthUserName</string>
     <!-- End of SIP settings related strings -->
 </resources>

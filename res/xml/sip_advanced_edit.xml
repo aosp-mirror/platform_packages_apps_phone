@@ -22,6 +22,14 @@
         android:persistent="false">
 
         <EditTextPreference
+            android:key="@string/auth_username"
+            android:title="@string/auth_username_title"
+            android:dialogTitle="@string/auth_username_title"
+            android:summary="@string/auth_username_summary"
+            android:persistent="false"
+            android:singleLine="true"/>
+
+        <EditTextPreference
             android:key="@string/display_name"
             android:title="@string/display_name_title"
             android:dialogTitle="@string/display_name_title"
