@@ -751,7 +751,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     /* package */ void updateMwi(boolean visible) {
         if (DBG) log("updateMwi(): " + visible);
         if (visible) {
-            int resId = android.R.drawable.stat_notify_voicemail;
+            int resId = mPhone.getVoiceMessagePriority() > 0 ?
+                    R.drawable.stat_notify_voicemail_urgent :
+                    android.R.drawable.stat_notify_voicemail;
 
             // This Notification can get a lot fancier once we have more
             // information about the current voicemail messages.
