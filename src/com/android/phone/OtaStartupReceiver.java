@@ -25,7 +25,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
 import android.provider.Settings;
-import android.text.TextUtils;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 /*
@@ -35,27 +36,58 @@ import android.util.Log;
  */
 public class OtaStartupReceiver extends BroadcastReceiver {
     private static final String TAG = "OtaStartupReceiver";
-    private static final boolean DBG = (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = true; // STOPSHIP revert to: DBG = (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final int MIN_READY = 10;
     private Context mContext;
+
+    /**
+     * For debug purposes we're listening for otaspChanged events as
+     * this may be be used in the future for deciding if OTASP is
+     * necessary.
+     */
+    private int mOtaspMode = -1;
+    private boolean mPhoneStateListenerRegistered = false;
+    private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onOtaspChanged(int otaspMode) {
+            mOtaspMode = otaspMode;
+            Log.v(TAG, "onOtaspChanged: mOtaspMode=" + mOtaspMode);
+        }
+    };
+
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case MIN_READY:
-                Log.v(TAG, "Attempting OtaActivation from handler");
+                Log.v(TAG, "Attempting OtaActivation from handler, mOtaspMode=" + mOtaspMode);
                 OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
             }
         }
     };
 
+    @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+        if (DBG) {
+            Log.v(TAG, "onReceive: intent action=" + intent.getAction() +
+                    "  mOtaspMode=" + mOtaspMode);
+        }
 
         if (!TelephonyCapabilities.supportsOtasp(PhoneApp.getPhone())) {
             if (DBG) Log.d(TAG, "OTASP not supported, nothing to do.");
             return;
+        }
+
+        if (mPhoneStateListenerRegistered == false) {
+            if (DBG) Log.d(TAG, "Register our PhoneStateListener");
+            TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(
+                    Context.TELEPHONY_SERVICE);
+            telephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_OTASP_CHANGED);
+            mPhoneStateListenerRegistered = true;
+        } else {
+            if (DBG) Log.d(TAG, "PhoneStateListener already registered");
         }
 
         if (shouldPostpone(context)) {
@@ -66,6 +98,7 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         // The following depends on the phone process being persistent. Normally we can't
         // expect a BroadcastReceiver to persist after returning from this function but it does
         // because the phone activity is persistent.
+        if (DBG) Log.d(TAG, "call OtaUtils.maybeDoOtaCall");
         OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
     }
     
