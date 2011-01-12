@@ -88,7 +88,8 @@ public class SipEditor extends PreferenceActivity
         ProxyAddress(R.string.proxy_address, 0, R.string.optional_summary),
         Port(R.string.port, R.string.default_port, R.string.default_port),
         Transport(R.string.transport, R.string.default_transport, NA),
-        SendKeepAlive(R.string.send_keepalive, R.string.sip_system_decide, NA);
+        SendKeepAlive(R.string.send_keepalive, R.string.sip_system_decide, NA),
+        AuthUserName(R.string.auth_username, 0, R.string.optional_summary);
 
         final int text;
         final int initValue;
@@ -324,6 +325,7 @@ public class SipEditor extends PreferenceActivity
                         case DisplayName:
                             pref.setText(getDefaultDisplayName());
                             break;
+                        case AuthUserName:
                         case ProxyAddress:
                             // optional; do nothing
                             break;
@@ -416,6 +418,7 @@ public class SipEditor extends PreferenceActivity
                     .setSendKeepAlive(isAlwaysSendKeepAlive())
                     .setAutoRegistration(
                             mSharedPreferences.isReceivingCallsEnabled())
+                    .setAuthUserName(PreferenceKey.AuthUserName.getValue())
                     .build();
     }
 
