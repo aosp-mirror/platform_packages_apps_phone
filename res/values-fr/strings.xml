@@ -386,7 +386,7 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
-    <string name="cdma_activate_device" msgid="4961729544244603347">"Activer le mobile"</string>
+    <!-- outdated translation 4961729544244603347 -->     <string name="cdma_activate_device" msgid="3793805892364814518">"Activer le mobile"</string>
     <string name="fdn" msgid="7878832555095183202">"Numéros autorisés"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Liste de numéros autorisés"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activation des numéros autorisés"</string>
@@ -678,6 +678,10 @@
     <string name="set_primary_title" msgid="5351892327447571451">"Définir comme compte principal"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Utilisé pour les appels sortants"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Paramètres facultatifs"</string>
+    <!-- no translation found for auth_username_title (851473016307947120) -->
+    <skip />
+    <!-- no translation found for auth_username_summary (6782012405225938629) -->
+    <skip />
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Non défini&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Identique au nom d\'utilisateur&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Facultatif&gt;"</string>
