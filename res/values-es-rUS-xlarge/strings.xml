@@ -56,7 +56,7 @@
     <!-- XL -->
     <string name="enable_disable_retail_directory" msgid="3728658120997842716">"Directorio de reventa"</string>
     <!-- XL -->
-    <!-- outdated translation 8400587245211943435 -->     <string name="cdma_activate_device" msgid="7232663593332154606">"Activar dispositivo"</string>
+    <string name="cdma_activate_device" msgid="7232663593332154606">"Activar dispositivo"</string>
     <!-- XL -->
     <string name="fdn" msgid="3564854556003260881">"Números de marcación fija"</string>
     <!-- XL -->
