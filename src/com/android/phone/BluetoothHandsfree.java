@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemProperties;
+import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
@@ -58,6 +60,7 @@ import com.android.internal.telephony.CallManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 /**
  * Bluetooth headset manager for the Phone app.
@@ -175,6 +178,35 @@ public class BluetoothHandsfree {
     private boolean mVoiceRecognitionStarted;
 
     private HandsfreeMessageHandler mHandler;
+
+    // Tone Generator for DTMF local tones
+    private ToneGenerator mToneGenerator;
+
+    // indicate if we want to enable the DTMF tone playback.
+    private boolean mDTMFToneEnabled;
+
+    //  Short Dtmf tone duration
+    private static final int DTMF_DURATION_MS = 120;
+
+    /** Hash Map to map a character to a tone*/
+    private static final HashMap<Character, Integer> mToneMap = new HashMap<Character, Integer>();
+
+    /** Set up the static map*/
+    static {
+        // Map the key characters to tones
+        mToneMap.put('1', ToneGenerator.TONE_DTMF_1);
+        mToneMap.put('2', ToneGenerator.TONE_DTMF_2);
+        mToneMap.put('3', ToneGenerator.TONE_DTMF_3);
+        mToneMap.put('4', ToneGenerator.TONE_DTMF_4);
+        mToneMap.put('5', ToneGenerator.TONE_DTMF_5);
+        mToneMap.put('6', ToneGenerator.TONE_DTMF_6);
+        mToneMap.put('7', ToneGenerator.TONE_DTMF_7);
+        mToneMap.put('8', ToneGenerator.TONE_DTMF_8);
+        mToneMap.put('9', ToneGenerator.TONE_DTMF_9);
+        mToneMap.put('0', ToneGenerator.TONE_DTMF_0);
+        mToneMap.put('#', ToneGenerator.TONE_DTMF_P);
+        mToneMap.put('*', ToneGenerator.TONE_DTMF_S);
+    }
 
     public static String typeToString(int type) {
         switch (type) {
@@ -2265,8 +2297,12 @@ public class BluetoothHandsfree {
             }
         });
 
-        // Send DTMF. I don't know if we are also expected to play the DTMF tone
-        // locally, right now we don't
+        // Send DTMF.
+        // Generate and play the DTMF tone locally.
+        // We are not handling AT+VTS command for long DTMF here
+        // Therefore we always send short DTMF
+        // Unlike long key press handled by DTMFTwelveKeyDialer
+        // using "key down" and "key up" events
         parser.register("+VTS", new AtCommandHandler() {
             @Override
             public AtCommandResult handleSetCommand(Object[] args) {
@@ -2278,7 +2314,18 @@ public class BluetoothHandsfree {
                         c = ((String) args[0]).charAt(0);
                     }
                     if (isValidDtmf(c)) {
-                        phone.sendDtmf(c);
+                        playLocalDtmfTone(c);
+                        // phone.sendDtmf() currently does not work for CDMA
+                        // it takes a long time (up to 7 sec) for one DTMF tone
+                        // and it fails for a sequence of quick DTMF tones
+                        // Therefore we use CDMA specifics here
+                        // the same way as DTMFTwelveKeyDialer does.
+                        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                            String dtmfStr = Character.toString(c);
+                            phone.sendBurstDtmf(dtmfStr, 0, 0, null);
+                        } else {
+                            phone.sendDtmf(c);
+                        }
                         return new AtCommandResult(AtCommandResult.OK);
                     }
                 }
@@ -2712,6 +2759,16 @@ public class BluetoothHandsfree {
         }
     }
 
+    private void playLocalDtmfTone(char tone) {
+        if (DBG) log("playLocalDtmfTone('" + tone + "')..."
+                     + " mDTMFToneEnabled = " + mDTMFToneEnabled + " this = " + this);
+
+        // if local tone playback is enabled, start it.
+        if (mDTMFToneEnabled && mToneGenerator != null) {
+            mToneGenerator.startTone(mToneMap.get(tone), DTMF_DURATION_MS);
+        }
+    }
+
     private static final int START_CALL_TIMEOUT = 10000;  // ms
 
     private synchronized void expectCallStart() {
@@ -2730,6 +2787,19 @@ public class BluetoothHandsfree {
             if (mStartCallWakeLock.isHeld()) {
                 mStartCallWakeLock.release();
             }
+        }
+
+        // see if we need to play DTMF local tones.
+        if (PhoneApp.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
+            mDTMFToneEnabled = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
+        } else {
+            mDTMFToneEnabled = false;
+        }
+        if (DBG) log("mDTMFToneEnabled = " + mDTMFToneEnabled);
+
+        if (mDTMFToneEnabled && mToneGenerator == null) {
+            mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF, 80);
         }
     }
 
