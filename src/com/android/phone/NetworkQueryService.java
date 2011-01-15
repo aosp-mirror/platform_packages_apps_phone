@@ -18,7 +18,7 @@ package com.android.phone;
 
 import android.app.Service;
 import android.content.Intent;
-import com.android.internal.telephony.gsm.NetworkInfo;
+import com.android.internal.telephony.OperatorInfo;
 import android.os.AsyncResult;
 import android.os.Binder;
 import android.os.Handler;
@@ -204,7 +204,7 @@ public class NetworkQueryService extends Service {
                 INetworkQueryServiceCallback cb = mCallbacks.getBroadcastItem(i); 
                 if (DBG) log("broadcasting results to " + cb.getClass().toString());
                 try {
-                    cb.onQueryComplete((ArrayList<NetworkInfo>) ar.result, exception);
+                    cb.onQueryComplete((ArrayList<OperatorInfo>) ar.result, exception);
                 } catch (RemoteException e) {
                 }
             }

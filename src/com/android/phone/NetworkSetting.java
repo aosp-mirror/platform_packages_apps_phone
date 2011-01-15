@@ -37,7 +37,7 @@ import android.util.Log;
 
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.gsm.NetworkInfo;
+import com.android.internal.telephony.OperatorInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +66,7 @@ public class NetworkSetting extends PreferenceActivity
     private static final String BUTTON_AUTO_SELECT_KEY = "button_auto_select_key";
 
     //map of network controls to the network data.
-    private HashMap<Preference, NetworkInfo> mNetworkMap;
+    private HashMap<Preference, OperatorInfo> mNetworkMap;
 
     Phone mPhone;
     protected boolean mIsForeground = false;
@@ -85,7 +85,7 @@ public class NetworkSetting extends PreferenceActivity
             AsyncResult ar;
             switch (msg.what) {
                 case EVENT_NETWORK_SCAN_COMPLETED:
-                    networksListLoaded ((List<NetworkInfo>) msg.obj, msg.arg1);
+                    networksListLoaded ((List<OperatorInfo>) msg.obj, msg.arg1);
                     break;
 
                 case EVENT_NETWORK_SELECTION_DONE:
@@ -159,7 +159,7 @@ public class NetworkSetting extends PreferenceActivity
     private final INetworkQueryServiceCallback mCallback = new INetworkQueryServiceCallback.Stub() {
 
         /** place the message on the looper queue upon query completion. */
-        public void onQueryComplete(List<NetworkInfo> networkInfoArray, int status) {
+        public void onQueryComplete(List<OperatorInfo> networkInfoArray, int status) {
             if (DBG) log("notifying message loop of query completion.");
             Message msg = mHandler.obtainMessage(EVENT_NETWORK_SCAN_COMPLETED,
                     status, 0, networkInfoArray);
@@ -205,7 +205,7 @@ public class NetworkSetting extends PreferenceActivity
         finish();
     }
 
-    public String getNormalizedCarrierName(NetworkInfo ni) {
+    public String getNormalizedCarrierName(OperatorInfo ni) {
         if (ni != null) {
             return ni.getOperatorAlphaLong() + " (" + ni.getOperatorNumeric() + ")";
         }
@@ -221,7 +221,7 @@ public class NetworkSetting extends PreferenceActivity
         mPhone = PhoneApp.getPhone();
 
         mNetworkList = (PreferenceGroup) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
-        mNetworkMap = new HashMap<Preference, NetworkInfo>();
+        mNetworkMap = new HashMap<Preference, OperatorInfo>();
 
         mSearchButton = getPreferenceScreen().findPreference(BUTTON_SRCH_NETWRKS_KEY);
         mAutoSelect = getPreferenceScreen().findPreference(BUTTON_AUTO_SELECT_KEY);
@@ -372,12 +372,12 @@ public class NetworkSetting extends PreferenceActivity
 
     /**
      * networksListLoaded has been rewritten to take an array of
-     * NetworkInfo objects and a status field, instead of an
+     * OperatorInfo objects and a status field, instead of an
      * AsyncResult.  Otherwise, the functionality which takes the
-     * NetworkInfo array and creates a list of preferences from it,
+     * OperatorInfo array and creates a list of preferences from it,
      * remains unchanged.
      */
-    private void networksListLoaded(List<NetworkInfo> result, int status) {
+    private void networksListLoaded(List<OperatorInfo> result, int status) {
         if (DBG) log("networks list loaded");
 
         // update the state of the preferences.
@@ -401,7 +401,7 @@ public class NetworkSetting extends PreferenceActivity
                 // create a preference for each item in the list.
                 // just use the operator name instead of the mildly
                 // confusing mcc/mnc.
-                for (NetworkInfo ni : result) {
+                for (OperatorInfo ni : result) {
                     Preference carrier = new Preference(this, null);
                     carrier.setTitle(ni.getOperatorAlphaLong());
                     carrier.setPersistent(false);
@@ -438,4 +438,3 @@ public class NetworkSetting extends PreferenceActivity
         Log.d(LOG_TAG, "[NetworksList] " + msg);
     }
 }
-

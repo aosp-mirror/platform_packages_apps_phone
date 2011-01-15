@@ -16,7 +16,7 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.gsm.NetworkInfo;
+import com.android.internal.telephony.OperatorInfo;
 
 /**
  * Service interface to handle callbacks into the activity from the
@@ -27,13 +27,13 @@ oneway interface INetworkQueryServiceCallback {
 
     /**
      * Called upon query completion, handing a status value and an
-     * array of NetworkInfo objects.
-     *  
-     * @param networkInfoArray is the list of NetworkInfo. Can be 
-     * null, indicating no results were found, or an error.  
-     * @param status the status indicating if there were any 
-     * problems with the request.   
+     * array of OperatorInfo objects.
+     *
+     * @param networkInfoArray is the list of OperatorInfo. Can be
+     * null, indicating no results were found, or an error.
+     * @param status the status indicating if there were any
+     * problems with the request.
      */
-    void onQueryComplete(in List<NetworkInfo> networkInfoArray, int status);
-    
+    void onQueryComplete(in List<OperatorInfo> networkInfoArray, int status);
+
 }
