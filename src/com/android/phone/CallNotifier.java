@@ -150,6 +150,7 @@ public class CallNotifier extends Handler
     private BluetoothHandsfree mBluetoothHandsfree;
     private CallLogAsync mCallLog;
     private boolean mSilentRingerRequested;
+    private boolean mIsQueryingCallerInfo;
 
     // ToneGenerator instance for playing SignalInfo tones
     private ToneGenerator mSignalInfoToneGenerator;
@@ -224,7 +225,8 @@ public class CallNotifier extends Handler
                     PhoneBase pb =  (PhoneBase)((AsyncResult)msg.obj).result;
 
                     if ((pb.getState() == Phone.State.RINGING)
-                            && (mSilentRingerRequested == false)) {
+                            && (mSilentRingerRequested == false)
+                            && (mIsQueryingCallerInfo == false)) {
                         if (DBG) log("RINGING... (PHONE_INCOMING_RING event)");
                         mRinger.ring();
                     } else {
@@ -500,6 +502,7 @@ public class CallNotifier extends Handler
             }
         }
         if (shouldStartQuery) {
+            mIsQueryingCallerInfo = true;
             // create a custom ringer using the default ringer first
             mRinger.setCustomRingtoneUri(Settings.System.DEFAULT_RINGTONE_URI);
 
@@ -533,6 +536,7 @@ public class CallNotifier extends Handler
             // showIncomingCall().
             if (DBG) log("- showing incoming call (couldn't start query)...");
             showIncomingCall();
+            mIsQueryingCallerInfo = false;
         }
     }
 
@@ -890,6 +894,7 @@ public class CallNotifier extends Handler
                 onCustomRingQueryComplete();
             }
         }
+        mIsQueryingCallerInfo = false;
     }
 
     private void onDisconnect(AsyncResult r) {
