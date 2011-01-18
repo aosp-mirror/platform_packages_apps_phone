@@ -82,6 +82,11 @@ public class OtaUtils {
     public static final String ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING =
             "com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING";
 
+    // boolean voiceless provisioning extra that enables a "don't show this again" checkbox
+    // the user can check to never see the activity upon bootup again
+    public static final String EXTRA_VOICELESS_PROVISIONING_OFFER_DONTSHOW =
+            "com.android.phone.VOICELESS_PROVISIONING_OFFER_DONTSHOW";
+
     // Activity result codes for the ACTION_PERFORM_CDMA_PROVISIONING intent
     // (see the InCallScreenShowActivation activity.)
     //
@@ -259,6 +264,7 @@ public class OtaUtils {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
                 Intent newIntent = new Intent(ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newIntent.putExtra(EXTRA_VOICELESS_PROVISIONING_OFFER_DONTSHOW, true);
                 context.startActivity(newIntent);
                 if (DBG) log("maybeDoOtaCall: non-interactive; activation intent sent.");
             } else {
