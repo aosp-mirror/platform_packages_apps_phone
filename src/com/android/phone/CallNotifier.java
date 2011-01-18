@@ -1597,6 +1597,12 @@ public class CallNotifier extends Handler
      * Plays a tone when the phone receives a SignalInfo record.
      */
     private void onSignalInfo(AsyncResult r) {
+        // Signal Info are totally ignored on non-voice-capable devices.
+        if (!PhoneApp.sVoiceCapable) {
+            Log.w(LOG_TAG, "Got onSignalInfo() on non-voice-capable device! Ignoring...");
+            return;
+        }
+
         if (PhoneUtils.isRealIncomingCall(mCM.getFirstActiveRingingCall().getState())) {
             // Do not start any new SignalInfo tone when Call state is INCOMING
             // and stop any previous SignalInfo tone which is being played
