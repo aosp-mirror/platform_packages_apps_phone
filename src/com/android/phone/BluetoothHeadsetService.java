@@ -909,6 +909,12 @@ public class BluetoothHeadsetService extends Service {
                 return headset.mAudioState;
            }
        }
+
+        public void sendAtCommand(BluetoothDevice device, String command) {
+            synchronized (BluetoothHeadsetService.this) {
+                mBtHandsfree.sendURC(command);
+            }
+        }
     };
 
     @Override
