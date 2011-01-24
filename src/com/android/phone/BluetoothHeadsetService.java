@@ -462,6 +462,7 @@ public class BluetoothHeadsetService extends Service {
             switch (msg.what) {
             case HeadsetBase.RFCOMM_DISCONNECTED:
                 mBtHandsfree.resetAtState();
+                mBtHandsfree.setVirtualCallInProgress(false);
                 BluetoothDevice device = getCurrentDevice();
                 if (device != null) {
                     setState(device, BluetoothProfile.STATE_DISCONNECTED);
@@ -753,27 +754,29 @@ public class BluetoothHeadsetService extends Service {
             }
         }
 
-        public boolean startVirtualVoiceCall(BluetoothDevice device) {
+        public boolean startScoUsingVirtualVoiceCall(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
                 if (device == null ||
                     mRemoteHeadsets.get(device) == null ||
-                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED) {
+                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED ||
+                    getAudioState(device) != BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
                     return false;
                 }
-                return mBtHandsfree.initiateVirtualVoiceCall();
+                return mBtHandsfree.initiateScoUsingVirtualVoiceCall();
             }
         }
 
-        public boolean stopVirtualVoiceCall(BluetoothDevice device) {
+        public boolean stopScoUsingVirtualVoiceCall(BluetoothDevice device) {
             enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
             synchronized (BluetoothHeadsetService.this) {
                 if (device == null ||
                     mRemoteHeadsets.get(device) == null ||
-                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED) {
+                    mRemoteHeadsets.get(device).mState != BluetoothProfile.STATE_CONNECTED ||
+                    getAudioState(device) == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
                     return false;
                 }
-                return mBtHandsfree.terminateVirtualVoiceCall();
+                return mBtHandsfree.terminateScoUsingVirtualVoiceCall();
             }
         }
 
