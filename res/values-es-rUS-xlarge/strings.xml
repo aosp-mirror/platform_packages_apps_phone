@@ -56,8 +56,6 @@
     <!-- XL -->
     <string name="enable_disable_retail_directory" msgid="3728658120997842716">"Directorio de reventa"</string>
     <!-- XL -->
-    <string name="cdma_activate_device" msgid="7232663593332154606">"Activar dispositivo"</string>
-    <!-- XL -->
     <string name="fdn" msgid="3564854556003260881">"Números de marcación fija"</string>
     <!-- XL -->
     <string name="manage_fdn_list" msgid="423600318426056020">"Lista de FDN"</string>
@@ -106,11 +104,11 @@
     <!-- XL -->
     <string name="registration_status_server_unreachable" msgid="6783207789889613590">"Falló el registro de cuenta: comprueba el nombre del servidor"</string>
     <!-- XL -->
-    <string name="no_internet_available_title" msgid="6120510443151227171">"Sin conexión a Internet"</string>
-    <!-- XL -->
-    <string name="no_wifi_available" msgid="3498006464814624574">"Debes estar conectado a las redes de WiFi para hacer llamadas por Internet (usa las Configuraciones de redes inalámbricas &amp; redes)"</string>
-    <!-- XL -->
     <string name="auth_username_title" msgid="6832664950433920700">"Nombre de usuario de autenticación"</string>
     <!-- XL -->
     <string name="auth_username_summary" msgid="3742417559618801097">"Nombre de usuario utilizado para autenticación"</string>
+    <!-- XL -->
+    <string name="no_internet_available_title" msgid="6120510443151227171">"Sin conexión a Internet"</string>
+    <!-- XL -->
+    <string name="no_wifi_available" msgid="3498006464814624574">"Debes estar conectado a las redes de WiFi para hacer llamadas por Internet (usa las Configuraciones de redes inalámbricas &amp; redes)"</string>
 </resources>
