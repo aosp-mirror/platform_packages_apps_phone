@@ -17,7 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.phone"
         android:sharedUserId="android.uid.phone"
-        android:sharedUserLabel="@string/dialerIconLabel"
+        android:sharedUserLabel="@string/phoneAppLabel"
 >
 
     <original-package android:name="com.android.phone" />
@@ -84,7 +84,7 @@
 
     <application android:name="PhoneApp"
                  android:persistent="true"
-                 android:label="@string/dialerIconLabel"
+                 android:label="@string/phoneAppLabel"
                  android:icon="@drawable/ic_launcher_phone">
             <provider android:name="IccProvider"
                       android:authorities="icc"
