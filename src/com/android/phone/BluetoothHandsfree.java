@@ -528,6 +528,9 @@ public class BluetoothHandsfree {
 
     /* package */ synchronized void disconnectHeadset() {
         audioOff();
+        if (isVirtualCallInProgress()) {
+            terminateScoUsingVirtualVoiceCall();
+        }
         mHeadset = null;
         stopDebug();
         resetAtState();
@@ -1489,8 +1492,8 @@ public class BluetoothHandsfree {
             return new AtCommandResult(AtCommandResult.ERROR);
         }
         // Outgoing call initiated by the handsfree device
-        // Send terminateVirtualVoiceCall
-        terminateVirtualVoiceCall();
+        // Send terminateScoUsingVirtualVoiceCall
+        terminateScoUsingVirtualVoiceCall();
         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
                 Uri.fromParts("tel", number, null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1877,8 +1880,8 @@ public class BluetoothHandsfree {
                         }
                         return redial();
                     } else {
-                        // Send terminateVirtualVoiceCall
-                        terminateVirtualVoiceCall();
+                        // Send terminateScoUsingVirtualVoiceCall
+                        terminateScoUsingVirtualVoiceCall();
                         // Remove trailing ';'
                         if (args.charAt(args.length() - 1) == ';') {
                             args = args.substring(0, args.length() - 1);
@@ -1902,7 +1905,7 @@ public class BluetoothHandsfree {
             public AtCommandResult handleActionCommand() {
                 sendURC("OK");
                 if (isVirtualCallInProgress()) {
-                    terminateVirtualVoiceCall();
+                    terminateScoUsingVirtualVoiceCall();
                 } else {
                     if (mCM.hasActiveFgCall()) {
                         PhoneUtils.hangupActiveCall(mCM.getActiveFgCall());
@@ -2685,72 +2688,65 @@ public class BluetoothHandsfree {
         return mVirtualCallStarted;
     }
 
+    void setVirtualCallInProgress(boolean state) {
+        mVirtualCallStarted = state;
+    }
+
     //NOTE: Currently the VirtualCall API does not allow the application to initiate a call
     // transfer. Call transfer may be initiated from the handsfree device and this is handled by
     // the VirtualCall API
-    synchronized boolean initiateVirtualVoiceCall() {
-        if (DBG) log("initiateVirtualVoiceCall: Received");
+    synchronized boolean initiateScoUsingVirtualVoiceCall() {
+        if (DBG) log("initiateScoUsingVirtualVoiceCall: Received");
         // 1. Check if the SCO state is idle
-        if  ((isCellularCallInProgress()) ||
-            (isVirtualCallInProgress()) ||
-            (isVoiceRecognitionInProgress())) {
-            Log.e(TAG, "initiateVirtualVoiceCall: Call in progress");
+        if (isCellularCallInProgress() || isVoiceRecognitionInProgress()) {
+            Log.e(TAG, "initiateScoUsingVirtualVoiceCall: Call in progress");
             return false;
         }
 
-        // 1.5. Set mVirtualCallStarted to true
-        mVirtualCallStarted = true;
-
         // 2. Perform outgoing call setup procedure
-        if (mBluetoothPhoneState.sendUpdate()) {
+        if (mBluetoothPhoneState.sendUpdate() && !isVirtualCallInProgress()) {
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
             // outgoing call
             result.addResponse("+CIEV: 3,2");
             result.addResponse("+CIEV: 2,1");
             result.addResponse("+CIEV: 3,0");
             sendURC(result.toString());
-            if (DBG) Log.d(TAG, "initiateVirtualVoiceCall: Sent Call-setup procedure");
+            mVirtualCallStarted = true;
+            if (DBG) Log.d(TAG, "initiateScoUsingVirtualVoiceCall: Sent Call-setup procedure");
         }
+
         // 3. Open the Audio Connection
         if (audioOn() == false) {
-            log("initiateVirtualVoiceCall: audioON failed");
-            terminateVirtualVoiceCall();
+            log("initiateScoUsingVirtualVoiceCall: audioON failed");
+            terminateScoUsingVirtualVoiceCall();
             return false;
         }
 
         mAudioPossible = true;
 
         // Done
-        if (DBG) log("initiateVirtualVoiceCall: Done");
+        if (DBG) log("initiateScoUsingVirtualVoiceCall: Done");
         return true;
     }
 
-    synchronized boolean terminateVirtualVoiceCall() {
-        if (DBG) log("terminateVirtualVoiceCall: Received");
-        // 1. Check if a virtual call is in progress
-        if (!isVirtualCallInProgress()) {
-            if (DBG) log("terminateVirtualVoiceCall: VirtualCall is not in progress");
-            return false;
-        }
-
-        // 2. Release audio connection
+    synchronized boolean terminateScoUsingVirtualVoiceCall() {
+        if (DBG) log("terminateScoUsingVirtualVoiceCall: Received");
+        // 1. Release audio connection
         audioOff();
 
-        // 3. Reset mVirtualCallStarted to false
-        mVirtualCallStarted = false;
-
-        // 4. terminate call-setup
-        if (mBluetoothPhoneState.sendUpdate()) {
+        // 2. terminate call-setup
+        if (mBluetoothPhoneState.sendUpdate() && isVirtualCallInProgress()) {
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
             // outgoing call
             result.addResponse("+CIEV: 2,0");
             sendURC(result.toString());
-            if (DBG) log("terminateVirtualVoiceCall: Sent Call-setup procedure");
+            mVirtualCallStarted = false;
+            if (DBG) log("terminateScoUsingVirtualVoiceCall: Sent Call-setup procedure");
         }
         mAudioPossible = false;
 
         // Done
-        if (DBG) log("terminateVirtualVoiceCall: Done");
+        if (DBG) log("terminateScoUsingVirtualVoiceCall: Done");
         return true;
     }
 
