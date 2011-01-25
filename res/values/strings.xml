@@ -15,19 +15,21 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Launcher labels -->
-    <!-- Tab title -->
-    <string name="contactsIconLabel">Contacts</string>
-    <!-- Tab title -->
-    <string name="contactsFavoritesLabel">Favorites</string>
-    <!-- Tab title -->
-    <string name="dialerIconLabel">Dialer</string>
+
+    <!-- Official label of the phone app, as seen in "Manage Applications"
+         and other settings UIs.  This is the version of the label for
+         tablet devices, where the phone app handles mobile data but not
+         actual phone calls. -->
+    <string name="phoneAppLabel" product="tablet">Mobile Data</string>
+
+    <!-- Official label of the phone app, as seen in "Manage Applications"
+         and other settings UIs. -->
+    <string name="phoneAppLabel" product="default">Phone</string>
+
     <!-- Screen title for Emergency Dialer UI -->
     <string name="emergencyDialerIconLabel">Emergency Dialer</string>
-    <!-- Application name on Home screen -->
+    <!-- Activity label for the in-call UI -->
     <string name="phoneIconLabel">Phone</string>
-    <!-- Tab title -->
-    <string name="recentCallsIconLabel">Call log</string>
     <!-- Title of FDN list screen -->
     <string name="fdnListLabel">FDN list</string>
 
