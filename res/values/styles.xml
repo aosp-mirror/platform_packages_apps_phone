@@ -226,4 +226,8 @@
         <item name="android:layout_marginTop">10dip</item>
     </style>
 
+    <style name="Theme.Settings" parent="@android:style/Theme.Holo.DialogWhenLarge">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
 </resources>
