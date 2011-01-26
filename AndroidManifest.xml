@@ -246,7 +246,7 @@
         <!-- general settings -->
         <activity android:name="Settings"
                 android:label="@string/settings_label"
-                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
+                android:theme="@style/Theme.Settings">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
