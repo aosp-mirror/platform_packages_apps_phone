@@ -1475,7 +1475,7 @@ public class BluetoothHandsfree {
         mBluetoothPhoneState.ignoreRing();
     }
 
-    /*package*/ void sendURC(String urc) {
+    private void sendURC(String urc) {
         if (isHeadsetConnected()) {
             mHeadset.sendURC(urc);
         }
@@ -1799,44 +1799,36 @@ public class BluetoothHandsfree {
         // HS to send us AT+CKPD=200 or AT+CKPD.
         parser.register("+CKPD", new AtCommandHandler() {
             private AtCommandResult headsetButtonPress() {
-                // STOPSHIP: Remove after certification
-                boolean certification = true;
-                if (certification) {
-                    broadcastVendorSpecificEventIntent("CKPD", 0, 0, null, null);
+                if (mCM.getFirstActiveRingingCall().isRinging()) {
+                    // Answer the call
+                    mBluetoothPhoneState.stopRing();
+                    sendURC("OK");
+                    PhoneUtils.answerCall(mCM.getFirstActiveRingingCall());
+                    // If in-band ring tone is supported, SCO connection will already
+                    // be up and the following call will just return.
+                    audioOn();
                     return new AtCommandResult(AtCommandResult.UNSOLICITED);
-                } else {
-                    if (mCM.getFirstActiveRingingCall().isRinging()) {
-                        // Answer the call
-                        mBluetoothPhoneState.stopRing();
-                        sendURC("OK");
-                        PhoneUtils.answerCall(mCM.getFirstActiveRingingCall());
-                        // If in-band ring tone is supported, SCO connection will already
-                        // be up and the following call will just return.
+                } else if (mCM.hasActiveFgCall()) {
+                    if (!isAudioOn()) {
+                        // Transfer audio from AG to HS
                         audioOn();
-                        return new AtCommandResult(AtCommandResult.UNSOLICITED);
-                    } else if (mCM.hasActiveFgCall()) {
-                        if (!isAudioOn()) {
-                            // Transfer audio from AG to HS
-                            audioOn();
-                        } else {
-                            if (mHeadset.getDirection() == HeadsetBase.DIRECTION_INCOMING &&
-                              (System.currentTimeMillis() -
-                               mHeadset.getConnectTimestamp()) < 5000) {
-                                // Headset made a recent ACL connection to us - and
-                                // made a mandatory AT+CKPD request to connect
-                                // audio which races with our automatic audio
-                                // setup.  ignore
-                            } else {
-                                // Hang up the call
-                                audioOff();
-                                PhoneUtils.hangup(PhoneApp.getInstance().mCM);
-                            }
-                        }
-                        return new AtCommandResult(AtCommandResult.OK);
                     } else {
-                        // No current call - redial last number
-                        return redial();
+                        if (mHeadset.getDirection() == HeadsetBase.DIRECTION_INCOMING &&
+                          (System.currentTimeMillis() - mHeadset.getConnectTimestamp()) < 5000) {
+                            // Headset made a recent ACL connection to us - and
+                            // made a mandatory AT+CKPD request to connect
+                            // audio which races with our automatic audio
+                            // setup.  ignore
+                        } else {
+                            // Hang up the call
+                            audioOff();
+                            PhoneUtils.hangup(PhoneApp.getInstance().mCM);
+                        }
                     }
+                    return new AtCommandResult(AtCommandResult.OK);
+                } else {
+                    // No current call - redial last number
+                    return redial();
                 }
             }
             @Override
