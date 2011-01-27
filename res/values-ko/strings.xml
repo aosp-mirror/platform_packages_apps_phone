@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"기본 계정으로 설정"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"발신 전화에 사용됨"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"설정(선택사항)"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"인증 사용자 이름"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"인증에 사용된 사용자 이름"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;설정 안 됨&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;사용자 이름과 동일&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;선택사항&gt;"</string>

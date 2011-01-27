@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"Ορισμός ως κυρίως λογαριασμού"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Χρησιμοποιείται για εξερχόμενες κλήσεις"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Προαιρετικές ρυθμίσεις"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Όνομα χρήστη ελέγχου ταυτότητας"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Όνομα χρήστη που χρησιμοποιείται για έλεγχο ταυτότητας"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Δεν έχει οριστεί&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Ίδιο με το όνομα χρήστη&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Προαιρετικό&gt;"</string>

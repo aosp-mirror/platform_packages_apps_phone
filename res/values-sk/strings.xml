@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"Nastaviť ako primárny účet"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Použité pre odchádzajúce hovory"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Voliteľné nastavenia"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Používateľské meno na overenie"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Používateľské meno použité na overenie"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nenastavené&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Rovnaké ako používateľské meno&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Voliteľné&gt;"</string>

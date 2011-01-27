@@ -614,13 +614,13 @@
     <string name="sip_accounts" msgid="2097054001288457163">"Cuentas (SIP) de llamadas por Internet"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Cuentas"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Administración de estado y de cuentas (SIP) de llamadas por Internet (SIP)"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"Recibir llamadas entrantes"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Recibir llamadas"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Permite ahorrar batería."</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Configurar opciones de llamada"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Llamadas por Internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Llamadas por Internet (Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Para todas las llamadas cuando haya redes de datos disponibles"</string>
-    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Sólo llamadas Internet"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Solo llamadas Internet"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Preguntar cada vez"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"En todas las llamadas"</string>
     <string name="auto_reg" msgid="8150163311655081599">"Registro automático"</string>
@@ -667,16 +667,18 @@
     <string name="username_title" msgid="2479375923477682328">"Nombre de usuario"</string>
     <string name="password_title" msgid="3323555249068171531">"Contraseña"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Mostrar nombre"</string>
-    <string name="proxy_address_title" msgid="4828301345351614273">"Dirección de servidor proxy saliente"</string>
+    <string name="proxy_address_title" msgid="4828301345351614273">"Dirección proxy saliente"</string>
     <string name="port_title" msgid="5952939408078626657">"Número de puerto"</string>
     <string name="transport_title" msgid="8253139511847746640">"Tipo de transporte"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Enviar mensajes de mantenimiento de la conexión"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Enviar mensajes SIP de mantenimiento de la conexión"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Enviar señal conexión"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"Enviar mensajes SIP de conexión"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"Registro automático"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Registrar el perfil automáticamente"</string>
-    <string name="set_primary_title" msgid="5351892327447571451">"Establecer como cuenta principal"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Establecer como principal"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Se utiliza para llamadas salientes."</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Ajustes opcionales"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Nombre de usuario de autenticación"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Nombre de usuario utilizado para la autenticación"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Sin definir&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Igual que el nombre de usuario&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Opcional&gt;"</string>

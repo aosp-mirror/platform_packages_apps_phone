@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"Imposta come account principale"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Utilizzato per chiamate in uscita"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Impostazioni facoltative"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Nome utente per autenticazione"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Nome utente utilizzato per l\'autenticazione"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Non impostato&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Uguale al nome utente&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Facoltativo&gt;"</string>

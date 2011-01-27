@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"Đặt làm tài khoản chính"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Được sử dụng cho các cuộc gọi đi"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Cài đặt tùy chọn"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Tên người dùng xác thực"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Tên người dùng được sử dụng để xác thực"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Chưa được đặt&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Giống như tên người dùng&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Tùy chọn&gt;"</string>
