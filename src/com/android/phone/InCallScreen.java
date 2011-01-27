@@ -533,15 +533,9 @@ public class InCallScreen extends Activity
             // our manifest, and we explicitly disable any other external APIs
             // like the CALL intent and ITelephony.showCallScreen().
             // So the fact that we got here indicates a phone app bug.
-            Log.w(LOG_TAG, "onCreate() reached on non-voice-capable device");
-
-            // This should eventually be just a warning, but for
-            // now let's also throw an exception to make sure we'll notice
-            // this if it ever happens.
-            // STOPSHIP: Before ship, replace this "throw" with a call to finish(),
-            // which will at least ensure that this activity never becomes visible.
-            throw new IllegalStateException(
-                    "InCallScreen.onCreate() reached on non-voice-capable device");
+            Log.wtf(LOG_TAG, "onCreate() reached on non-voice-capable device");
+            finish();
+            return;
         }
 
         final PhoneApp app = PhoneApp.getInstance();

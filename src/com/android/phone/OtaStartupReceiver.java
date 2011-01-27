@@ -36,7 +36,7 @@ import android.util.Log;
  */
 public class OtaStartupReceiver extends BroadcastReceiver {
     private static final String TAG = "OtaStartupReceiver";
-    private static final boolean DBG = true; // STOPSHIP revert to: DBG = (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = true;
     private static final int MIN_READY = 10;
     private Context mContext;
 
