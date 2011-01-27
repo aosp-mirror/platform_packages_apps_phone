@@ -677,6 +677,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"設為主要帳戶"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"用於外撥通話"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"選用設定"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"驗證使用者名稱"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"用於進行驗證的使用者名稱"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;未設定&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;與使用者名稱相同&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;選擇性&gt;"</string>
