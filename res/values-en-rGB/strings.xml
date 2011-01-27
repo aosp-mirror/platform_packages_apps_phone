@@ -16,12 +16,12 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel" msgid="9129800048701196916">"Contacts"</string>
-    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Favourites"</string>
-    <string name="dialerIconLabel" msgid="1761864493312440268">"Dialler"</string>
+    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
+    <skip />
+    <!-- no translation found for phoneAppLabel (906161039445636857) -->
+    <skip />
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Emergency Dialler"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Phone"</string>
-    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Call log"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"FDN list"</string>
     <string name="unknown" msgid="6878797917991465859">"Unknown"</string>
     <string name="private_num" msgid="6713286113000232309">"Private number"</string>
