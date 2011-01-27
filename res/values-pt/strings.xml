@@ -16,12 +16,12 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel" msgid="9129800048701196916">"Contatos"</string>
-    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"Favoritos"</string>
-    <string name="dialerIconLabel" msgid="1761864493312440268">"Discador"</string>
+    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
+    <skip />
+    <!-- no translation found for phoneAppLabel (906161039445636857) -->
+    <skip />
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Discador de emergência"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Telefone"</string>
-    <string name="recentCallsIconLabel" msgid="8717350893637245164">"Registro de chamadas"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Lista FDN"</string>
     <string name="unknown" msgid="6878797917991465859">"Desconhecido"</string>
     <string name="private_num" msgid="6713286113000232309">"Número privado"</string>
@@ -386,7 +386,7 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
-    <!-- outdated translation 4961729544244603347 -->     <string name="cdma_activate_device" msgid="3793805892364814518">"Ativar aparelho"</string>
+    <!-- outdated translation 8400587245211943435 -->     <string name="cdma_activate_device" msgid="3793805892364814518">"Ativar aparelho"</string>
     <string name="fdn" msgid="7878832555095183202">"Chamadas fixas"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Lista FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Ativação do FDN"</string>
