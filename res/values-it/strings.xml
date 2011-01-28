@@ -646,7 +646,7 @@
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <string name="close_profile" msgid="6886968271423155284">"Chiudi"</string>
     <string name="primary_account" msgid="2229538308291934245">"Principale"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Imposta come account principale"</string>
+    <string name="primary_account_title" msgid="5694267218020951531">"Rendi account principale"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"Utilizzato per le chiamate in uscita"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Impostazioni avanzate"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Account principale. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
@@ -675,7 +675,7 @@
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Invia messaggi keep-alive SIP"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"Registrazione automatica"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Registra automaticamente il profilo"</string>
-    <string name="set_primary_title" msgid="5351892327447571451">"Imposta come account principale"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Account principale"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Utilizzato per chiamate in uscita"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Impostazioni facoltative"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Nome utente per autenticazione"</string>
