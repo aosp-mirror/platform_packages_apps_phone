@@ -228,8 +228,6 @@ public class InCallTouchUi extends FrameLayout
      * the current state of the phone.
      */
     void updateState(CallManager cm) {
-        if (DBG) log("updateState( CallManager" + cm + ")...");
-
         if (mInCallScreen == null) {
             log("- updateState: mInCallScreen has been destroyed; bailing out...");
             return;
