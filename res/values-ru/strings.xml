@@ -611,15 +611,15 @@
     <string name="contactPhoto" msgid="4713193418046639466">"фотография контакта"</string>
     <string name="goPrivate" msgid="865837794424530980">"приватная конференция"</string>
     <string name="selectContact" msgid="781975788478987237">"выбрать контакт"</string>
-    <string name="sip_settings" msgid="6699045718560859691">"Настройки интернет-вызова"</string>
+    <string name="sip_settings" msgid="6699045718560859691">"Настройки интернет-телефонии"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Аккаунты интернет-телефонии (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Аккаунты"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Управление аккаунтами и состоянием интернет-вызовов (SIP)"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"Принимать входящие вызовы"</string>
-    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Снижает ресурс батареи"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Принимать входящие"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Повышает расход заряда батареи"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Настроить параметры вызова"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Интернет-вызов"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Использовать интернет-вызовы (только через Wi-Fi)"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Использовать Интернет"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Использовать интернет-соединение (Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Для всех вызовов при возможности передачи данных"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Только для интернет-вызовов"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Спрашивать для каждого вызова"</string>
@@ -647,7 +647,7 @@
     <string name="close_profile" msgid="6886968271423155284">"Закрыть"</string>
     <string name="primary_account" msgid="2229538308291934245">"Основной"</string>
     <string name="primary_account_title" msgid="5694267218020951531">"Сделать этот аккаунт основным"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"Используется для исходящих вызовов"</string>
+    <string name="primary_account_summary" msgid="7339564526372623187">"Использовать этот аккаунт по умолчанию для исходящих вызовов"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Расширенные настройки"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Основной аккаунт. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Проверка состояния..."</string>
@@ -662,22 +662,22 @@
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Не удается зарегистрировать аккаунт. Неверные имя пользователя или пароль."</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Не удалось зарегистрировать аккаунт. Неверное имя сервера."</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Этим аккаунтом сейчас пользуется приложение <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
-    <string name="sip_edit_title" msgid="489288416435014385">"Сведения о SIP-аккаунте"</string>
-    <string name="sip_edit_new_title" msgid="3659149255856520385">"Сведения о SIP-аккаунте"</string>
+    <string name="sip_edit_title" msgid="489288416435014385">"Настройки SIP-аккаунта"</string>
+    <string name="sip_edit_new_title" msgid="3659149255856520385">"Настройки SIP-аккаунта"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Сервер"</string>
     <string name="username_title" msgid="2479375923477682328">"Имя пользователя"</string>
     <string name="password_title" msgid="3323555249068171531">"Пароль"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Отображаемое имя"</string>
-    <string name="proxy_address_title" msgid="4828301345351614273">"Адрес исходящего прокси-сервера"</string>
+    <string name="proxy_address_title" msgid="4828301345351614273">"Исходящий прокси-сервер"</string>
     <string name="port_title" msgid="5952939408078626657">"Номер порта"</string>
-    <string name="transport_title" msgid="8253139511847746640">"Тип передачи"</string>
+    <string name="transport_title" msgid="8253139511847746640">"Протокол передачи"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Подтверждать активность"</string>
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Отправлять сообщения об активности SIP"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"Автоматическая регистрация"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Регистрировать профиль автоматически"</string>
-    <string name="set_primary_title" msgid="5351892327447571451">"Сделать аккаунтом по умолчанию"</string>
-    <string name="set_primary_summary" msgid="2219064654523258577">"Используется для исходящих вызовов"</string>
-    <string name="advanced_settings" msgid="8350631795335495338">"Необязательные настройки"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Основной аккаунт"</string>
+    <string name="set_primary_summary" msgid="2219064654523258577">"Использовать этот аккаунт по умолчанию для исходящих вызовов"</string>
+    <string name="advanced_settings" msgid="8350631795335495338">"Расширенные настройки"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Имя пользователя для аутентификации"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"Имя пользователя используется для аутентификации"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Не настроено&gt;"</string>
