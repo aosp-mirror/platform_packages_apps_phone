@@ -730,4 +730,11 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
     }
+
+    /**
+     * @return true if an ICC card is invalid
+     */
+    public boolean isIccInvalidCard() {
+        return mPhone.getIccCard().isIccInvalidCard();
+    }
 }
