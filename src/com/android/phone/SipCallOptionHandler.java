@@ -119,8 +119,15 @@ public class SipCallOptionHandler extends Activity implements
         String scheme = uri.getScheme();
         mNumber = PhoneNumberUtils.getNumberFromIntent(mIntent, this);
         boolean isInCellNetwork = PhoneApp.getInstance().phoneMgr.isRadioOn();
+        boolean isKnownCallScheme= "tel".equals(scheme) || "sip".equals(scheme);
         boolean isRegularCall =
                 "tel".equals(scheme) && !PhoneNumberUtils.isUriNumber(mNumber);
+
+        // Bypass the handler if the call scheme is not sip or tel.
+        if (!isKnownCallScheme) {
+            setResultAndFinish();
+            return;
+        }
 
         // Check if VoIP feature is supported.
         if (!voipSupported) {
