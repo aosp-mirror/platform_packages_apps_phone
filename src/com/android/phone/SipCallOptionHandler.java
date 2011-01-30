@@ -118,43 +118,64 @@ public class SipCallOptionHandler extends Activity implements
         Uri uri = mIntent.getData();
         String scheme = uri.getScheme();
         mNumber = PhoneNumberUtils.getNumberFromIntent(mIntent, this);
-        if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(mNumber)) {
-            mUseSipPhone = true;
-        } else if ("tel".equals(scheme) && (
-                (mSipProfileDb.getProfilesCount() == 0)
-                || PhoneUtils.hasPhoneProviderExtras(mIntent))) {
-            // Since we are not sure if anyone has touched the number during
-            // the NEW_OUTGOING_CALL broadcast, we just check if the provider
-            // put their gateway information in the intent. If so, it means
-            // someone has changed the destination number. We then make the
-            // call via the default pstn network. However, if one just alters
-            // the destination directly, then we still let it go through the
-            // Internet call option process.
-            //
-            // TODO: This is just a temporary check, if there is an official
-            // way to handle the results from other providers, we should have
-            // a better revision here.
+        boolean isInCellNetwork = PhoneApp.getInstance().phoneMgr.isRadioOn();
+        boolean isKnownCallScheme= "tel".equals(scheme) || "sip".equals(scheme);
+        boolean isRegularCall =
+                "tel".equals(scheme) && !PhoneNumberUtils.isUriNumber(mNumber);
+
+        // Bypass the handler if the call scheme is not sip or tel.
+        if (!isKnownCallScheme) {
             setResultAndFinish();
             return;
         }
 
-        if (!mUseSipPhone && voipSupported
-                && mCallOption.equals(Settings.System.SIP_ASK_ME_EACH_TIME)) {
-            showDialog(DIALOG_SELECT_PHONE_TYPE);
+        // Check if VoIP feature is supported.
+        if (!voipSupported) {
+            if (!isRegularCall) {
+                showDialog(DIALOG_NO_VOIP);
+            } else {
+                setResultAndFinish();
+            }
             return;
         }
-        if (mCallOption.equals(Settings.System.SIP_ALWAYS)) {
-            mUseSipPhone = true;
-        }
-        if (mUseSipPhone) {
-            if (voipSupported) {
-                startGetPrimarySipPhoneThread();
+
+        // Since we are not sure if anyone has touched the number during
+        // the NEW_OUTGOING_CALL broadcast, we just check if the provider
+        // put their gateway information in the intent. If so, it means
+        // someone has changed the destination number. We then make the
+        // call via the default pstn network. However, if one just alters
+        // the destination directly, then we still let it go through the
+        // Internet call option process.
+        if (!PhoneUtils.hasPhoneProviderExtras(mIntent)) {
+            if (!isNetworkConnected()) {
+                if (!isRegularCall) {
+                    showDialog(DIALOG_NO_INTERNET_ERROR);
+                    return;
+                }
             } else {
-                showDialog(DIALOG_NO_VOIP);
+                if (mCallOption.equals(Settings.System.SIP_ASK_ME_EACH_TIME)
+                        && isRegularCall && isInCellNetwork) {
+                    showDialog(DIALOG_SELECT_PHONE_TYPE);
+                    return;
+                }
+                if (!mCallOption.equals(Settings.System.SIP_ADDRESS_ONLY)
+                        || !isRegularCall) {
+                    mUseSipPhone = true;
+                }
             }
-        } else {
-            setResultAndFinish();
         }
+
+        if (mUseSipPhone) {
+            // If there is no sip profile and it is a regular call, then we
+            // should use pstn network instead.
+            if ((mSipProfileDb.getProfilesCount() > 0) || !isRegularCall) {
+                startGetPrimarySipPhoneThread();
+                return;
+            } else {
+                mUseSipPhone = false;
+            }
+        }
+        setResultAndFinish();
     }
 
     @Override

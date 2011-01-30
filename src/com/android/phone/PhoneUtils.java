@@ -1815,17 +1815,16 @@ public class PhoneUtils {
      * foreground call
      */
     static boolean getMute() {
-        Phone phone = PhoneApp.getInstance().mCM.getFgPhone();
+        PhoneApp app = PhoneApp.getInstance();
 
-        Context context = phone.getContext();
         boolean routeToAudioManager =
-            context.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+            app.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
         if (routeToAudioManager) {
             AudioManager audioManager =
-                (AudioManager) phone.getContext().getSystemService(Context.AUDIO_SERVICE);
+                (AudioManager) app.getSystemService(Context.AUDIO_SERVICE);
             return audioManager.isMicrophoneMute();
         } else {
-            return phone.getMute();
+            return app.mCM.getMute();
         }
     }
 
@@ -2457,9 +2456,16 @@ public class PhoneUtils {
         CallManager cm = PhoneApp.getInstance().mCM;
         StringBuilder b = new StringBuilder(128);
 
+
+
         Log.d(LOG_TAG, "############### dumpCallManager() ##############");
-        Log.d(LOG_TAG, "CallManager: " + cm
-                + ", state = " + cm.getState());
+        // TODO: Don't log "cm" itself, since CallManager.toString()
+        // already spews out almost all this same information.
+        // We should fix CallManager.toString() to be more minimal, and
+        // use an explicit dumpState() method for the verbose dump.
+        // Log.d(LOG_TAG, "CallManager: " + cm
+        //         + ", state = " + cm.getState());
+        Log.d(LOG_TAG, "CallManager: state = " + cm.getState());
         b.setLength(0);
         call = cm.getActiveFgCall();
         b.append(" - FG call: ").append(cm.hasActiveFgCall()? "YES ": "NO ");

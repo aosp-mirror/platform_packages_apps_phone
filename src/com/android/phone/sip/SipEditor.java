@@ -382,12 +382,18 @@ public class SipEditor extends PreferenceActivity
 
     private void replaceProfile(final SipProfile oldProfile,
             final SipProfile newProfile) {
-        // replace profile in a background thread as it takes time to access the
+        // Replace profile in a background thread as it takes time to access the
         // storage; do finish() once everything goes fine.
+        // newProfile may be null if the old profile is to be deleted rather
+        // than being modified.
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    unregisterOldPrimaryAccount();
+                    // if new profile is primary, unregister the old primary account
+                    if ((newProfile != null) && mPrimaryAccountSelector.isSelected()) {
+                        unregisterOldPrimaryAccount();
+                    }
+
                     mPrimaryAccountSelector.commit(newProfile);
                     deleteAndUnregisterProfile(oldProfile);
                     saveAndRegisterProfile(newProfile);
@@ -561,6 +567,10 @@ public class SipEditor extends PreferenceActivity
 
             mCheckbox.setChecked(mWasPrimaryAccount
                     || (editNewProfile && noPrimaryAccountSet));
+        }
+
+        boolean isSelected() {
+            return mCheckbox.isChecked();
         }
 
         // profile is null if the user removes it
