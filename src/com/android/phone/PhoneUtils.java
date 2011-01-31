@@ -1081,8 +1081,10 @@ public class PhoneUtils {
                             switch (keyCode) {
                                 case KeyEvent.KEYCODE_CALL:
                                 case KeyEvent.KEYCODE_ENTER:
-                                    phone.sendUssdResponse(inputText.getText().toString());
-                                    newDialog.dismiss();
+                                    if(event.getAction() == KeyEvent.ACTION_DOWN) {
+                                        phone.sendUssdResponse(inputText.getText().toString());
+                                        newDialog.dismiss();
+                                    }
                                     return true;
                             }
                             return false;
