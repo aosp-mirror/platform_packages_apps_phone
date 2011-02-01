@@ -252,24 +252,24 @@
     <string name="enable_disable_maintenance" msgid="1819693083025106678">"维护"</string>
     <string name="maintenance_enable" msgid="8566636458770971189">"已启用维护"</string>
     <string name="maintenance_disable" msgid="7340189100885066077">"已停用维护"</string>
-    <string name="general_news_settings" msgid="4968779723948432978">"普通资讯"</string>
-    <string name="bf_news_settings" msgid="3935593091894685267">"商务和财经资讯"</string>
-    <string name="sports_news_settings" msgid="7649399631270052835">"体育资讯"</string>
-    <string name="entertainment_news_settings" msgid="5051153952959405035">"娱乐资讯"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"一般新闻"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"商业财经新闻"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"体育新闻"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"娱乐新闻"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"本地"</string>
-    <string name="local_enable" msgid="6370463247609136359">"已启用本地资讯"</string>
-    <string name="local_disable" msgid="4405691986943795798">"已停用本地资讯"</string>
+    <string name="local_enable" msgid="6370463247609136359">"已启用本地新闻"</string>
+    <string name="local_disable" msgid="4405691986943795798">"已停用本地新闻"</string>
     <string name="enable_disable_regional" msgid="4905652414535565872">"地方性"</string>
-    <string name="regional_enable" msgid="4434680415437834759">"已启用地方资讯"</string>
-    <string name="regional_disable" msgid="5359325527213850077">"已停用地方资讯"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"已启用地方新闻"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"已停用地方新闻"</string>
     <string name="enable_disable_national" msgid="236278090206880734">"国内"</string>
-    <string name="national_enable" msgid="1172443648912246952">"已启用国内资讯"</string>
-    <string name="national_disable" msgid="326018148178601166">"已停用国内资讯"</string>
+    <string name="national_enable" msgid="1172443648912246952">"已启用国内新闻"</string>
+    <string name="national_disable" msgid="326018148178601166">"已停用国内新闻"</string>
     <string name="enable_disable_international" msgid="7535348799604565592">"国际"</string>
-    <string name="international_enable" msgid="5855356769925044927">"已启用国际资讯"</string>
-    <string name="international_disable" msgid="2850648591041088931">"已停用国际资讯"</string>
+    <string name="international_enable" msgid="5855356769925044927">"已启用国际新闻"</string>
+    <string name="international_disable" msgid="2850648591041088931">"已停用国际新闻"</string>
     <string name="list_language_title" msgid="2841683501919760043">"语言"</string>
-    <string name="list_language_summary" msgid="8109546531071241601">"选择资讯语言"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"选择新闻语言"</string>
   <string-array name="list_language_entries">
     <item msgid="6137851079727305485">"英语"</item>
     <item msgid="1151988412809572526">"法语"</item>
@@ -319,9 +319,9 @@
     <string name="enable_disable_mhh" msgid="5698783743098373681">"医疗、保健和医院"</string>
     <string name="mhh_enable" msgid="3949276822735205799">"已启用医疗、保健和医院信息"</string>
     <string name="mhh_disable" msgid="4834280270664925123">"已停用医疗、保健和医院信息"</string>
-    <string name="enable_disable_technology_news" msgid="3517184627114999149">"技术资讯"</string>
-    <string name="technology_news_enable" msgid="7995209394210455181">"已启用技术资讯"</string>
-    <string name="technology_news_disable" msgid="5483490380561851946">"已停用技术资讯"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"技术新闻"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"已启用技术新闻"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"已停用技术新闻"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"多类别"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"已启用多类别"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"已停用多类别"</string>
@@ -611,12 +611,12 @@
     <string name="contactPhoto" msgid="4713193418046639466">"联系人照片"</string>
     <string name="goPrivate" msgid="865837794424530980">"私聊"</string>
     <string name="selectContact" msgid="781975788478987237">"选择联系人"</string>
-    <string name="sip_settings" msgid="6699045718560859691">"互联网呼叫设置"</string>
+    <string name="sip_settings" msgid="6699045718560859691">"互联网通话设置"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"互联网电话 (SIP) 帐户"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"帐户"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"管理互联网电话 (SIP) 帐户和状态"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"接听来电"</string>
-    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"缩短电池待机时间"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"会缩短电池待机时间"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"配置呼叫选项"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"使用互联网电话"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"使用互联网通话（仅限 Wi-Fi）"</string>
@@ -655,7 +655,7 @@
     <string name="registration_status_still_trying" msgid="1471733478935862864">"仍在尝试..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"不接听电话"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"由于未连接至互联网，帐户注册已停止"</string>
-    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"由于不存在 Wi-Fi 连接，已停止注册帐户。"</string>
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"因无 Wi-Fi 连接，已停止注册帐户。"</string>
     <string name="registration_status_not_running" msgid="272678962440371182">"帐户注册失败"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"接听电话"</string>
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"帐户注册失败：（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）；系统会在稍后重试"</string>
@@ -671,8 +671,8 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"出站代理地址"</string>
     <string name="port_title" msgid="5952939408078626657">"端口号"</string>
     <string name="transport_title" msgid="8253139511847746640">"传输类型"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"发送仍在运行消息"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"发送 SIP 仍在运行消息"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"发送持续连接消息"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"发送 SIP 持续连接消息"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"自动注册"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"自动注册个人资料"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"设置为主帐户"</string>
@@ -685,7 +685,7 @@
     <string name="optional_summary" msgid="1464058793789832411">"&lt;可选&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ 触摸可全部显示"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"▽ 触摸可全部隐藏"</string>
-    <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g>属于必填字段，不能留空"</string>
+    <string name="empty_alert" msgid="8177828109581557940">"“<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g>”属于必填字段，不能留空"</string>
     <string name="not_a_valid_port" msgid="5750410768271782606">"端口号应在 1000 与 65534 之间"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"无互联网连接"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"无 Wi-Fi 连接"</string>
