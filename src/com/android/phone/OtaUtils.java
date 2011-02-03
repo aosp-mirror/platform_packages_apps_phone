@@ -20,6 +20,7 @@ import com.android.internal.telephony.Phone;
 import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
@@ -223,6 +224,11 @@ public class OtaUtils {
 
         PhoneApp app = PhoneApp.getInstance();
         Phone phone = app.phone;
+
+        if (ActivityManager.isRunningInTestHarness()) {
+            Log.i(LOG_TAG, "Don't run provisioning when in test harness");
+            return true;
+        }
 
         if (!isCdmaPhone()) {
             if (DBG) log("Can't run provisioning on a non-CDMA phone");
