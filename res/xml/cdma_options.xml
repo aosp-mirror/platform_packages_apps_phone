@@ -36,6 +36,8 @@
     <PreferenceScreen
         android:key="cdma_activate_device"
         android:title="@string/cdma_activate_device">
-        <intent android:action="com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING" />
+        <intent android:action="com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING">
+            <extra android:name="autoStart" android:value="true" />
+        </intent>
     </PreferenceScreen>
 </PreferenceScreen>
