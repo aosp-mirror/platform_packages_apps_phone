@@ -614,7 +614,7 @@
     <string name="sip_accounts" msgid="2097054001288457163">"Konti til internetopkald (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Konti"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Administrer status og konti til internetopkald (SIP)"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"Modtag indgående opkald"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Modtag opkald"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Reducerer batteriets levetid"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"Konfigurer opkaldsindstillinger"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Benyt internetopkald"</string>
@@ -684,7 +684,7 @@
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Valgfrit&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Tryk for at vise alle"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Tryk for at skjule alle"</string>
-    <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> skal udfyldes, må ikke være tomt"</string>
+    <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> skal udfyldes. Feltet må ikke være tomt."</string>
     <string name="not_a_valid_port" msgid="5750410768271782606">"Portnummeret skal være mellem 1000 og 65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Ingen internetforbindelse"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen Wi-FI-forbindelse"</string>

@@ -648,7 +648,7 @@
     <string name="primary_account_title" msgid="5694267218020951531">"これをメインのアカウントにする"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"発信に使用"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"詳細設定"</string>
-    <string name="primary_account_summary_with" msgid="1633960536212343187">"メインアカウントです。<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
+    <string name="primary_account_summary_with" msgid="1633960536212343187">"メインアカウント（<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>）"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"ステータスを確認中..."</string>
     <string name="registration_status_registering" msgid="7115694971025999516">"登録中..."</string>
     <string name="registration_status_still_trying" msgid="1471733478935862864">"試行中です..."</string>
