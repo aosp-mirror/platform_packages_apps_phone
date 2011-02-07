@@ -340,7 +340,7 @@
     <item msgid="1268081943590316978">"2"</item>
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
-    <string name="prefer_2g" msgid="8442550937280449639">"Uniquement les réseaux 2G"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Réseau 2G seulement"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Économise la batterie"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Sélection système"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Modifier le mode d\'itinérance CDMA"</string>
