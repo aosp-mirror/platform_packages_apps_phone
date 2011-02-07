@@ -882,8 +882,28 @@ public class DTMFTwelveKeyDialer implements
                 if (mToneGenerator == null) {
                     if (DBG) log("startDtmfTone: mToneGenerator == null, tone: " + tone);
                 } else {
-                    if (DBG) log("starting local tone " + tone);
-                    mToneGenerator.startTone(mToneMap.get(tone));
+                    boolean generateTone = true;
+                    if (PhoneApp.getInstance().isHeadsetPlugged()) {
+                        int TTYmode = Settings.Secure.getInt(
+                                        PhoneApp.getInstance().getContentResolver(),
+                                        Settings.Secure.PREFERRED_TTY_MODE,
+                                        Phone.TTY_MODE_OFF);
+
+                        /*
+                         * In TTY full and and voice carry over modes,
+                         * DTMF tone should not be played
+                         * generateTone is false for FULL/VCO mode
+                         */
+                        generateTone = !((TTYmode == Phone.TTY_MODE_FULL)
+                                         || (TTYmode == Phone.TTY_MODE_VCO));
+                    }
+                    if (generateTone) {
+                        if (DBG) log("starting local tone " + tone);
+                        mToneGenerator.startTone(mToneMap.get(tone));
+                    }
+                    else {
+                        if (DBG) log("Not starting local tone. Phone connected to TTY in FULL or VCO mode");
+                    }
                 }
             }
         }

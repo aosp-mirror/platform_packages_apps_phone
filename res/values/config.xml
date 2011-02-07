@@ -79,7 +79,7 @@
     <bool name="config_enable_dialer_key_vibration">true</bool>
 
     <!-- Flag indicating if the tty is enabled -->
-    <bool name="tty_enabled">false</bool>
+    <bool name="tty_enabled">true</bool>
 
     <!-- Flag indicating if hac is enabled -->
     <bool name="hac_enabled">false</bool>
