@@ -421,7 +421,11 @@
     <string name="preferred_network_mode_summary">Change the network operating mode</string>
     <string name="preferred_network_mode_dialogtitle">Preferred network mode</string>
     <string-array name="preferred_network_mode_choices">
-        <item>Global</item>
+        <item>LTE only</item>
+        <item>Global + LTE</item><!--CDMA/EvDo/GSM/WCDMA/LTE auto-->
+        <item>GSM/WCDMA/LTE auto</item>
+        <item>CDMA + LTE/EvDo auto</item>
+        <item>Global</item><!--CDMA/EvDo/GSM/WCDMA auto-->
         <item>EvDo only</item>
         <item>CDMA w/o EvDo</item>
         <item>CDMA / EvDo auto</item>
@@ -431,6 +435,10 @@
         <item>GSM / WCDMA preferred</item>
     </string-array>
     <string-array name="preferred_network_mode_values">
+        <item>"11"</item>
+        <item>"10"</item>
+        <item>"9"</item>
+        <item>"8"</item>
         <item>"7"</item>
         <item>"6"</item>
         <item>"5"</item>
