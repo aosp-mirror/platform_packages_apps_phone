@@ -16,10 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
-    <skip />
-    <!-- no translation found for phoneAppLabel (906161039445636857) -->
-    <skip />
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"Mobila data"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"Telefon"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Nödsamtal"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"FDN-lista"</string>
@@ -661,7 +659,7 @@
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Det gick inte att registrera kontot: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Försöker igen senare"</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Det gick inte att registrera kontot: felaktigt användarnamn eller lösenord"</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Det gick inte att registrera kontot. Kontrollera servernamnet"</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Kontot används för närvarande i programmet <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Kontot används för närvarande i appen <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Information om SIP-kontot"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Information om SIP-kontot"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>

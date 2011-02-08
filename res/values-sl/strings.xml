@@ -16,10 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
-    <skip />
-    <!-- no translation found for phoneAppLabel (906161039445636857) -->
-    <skip />
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"Mobilni podatki"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"Telefon"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Klicalnik za nujne primere"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Seznam FDN"</string>
