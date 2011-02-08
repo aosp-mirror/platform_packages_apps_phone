@@ -16,10 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
-    <skip />
-    <!-- no translation found for phoneAppLabel (906161039445636857) -->
-    <skip />
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"モバイルデータ"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"電話"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"緊急通報"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"電話"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"発信番号制限リスト"</string>
@@ -649,7 +647,7 @@
     <string name="primary_account_title" msgid="5694267218020951531">"これをメインのアカウントにする"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"発信に使用"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"詳細設定"</string>
-    <string name="primary_account_summary_with" msgid="1633960536212343187">"メインアカウントです。<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
+    <string name="primary_account_summary_with" msgid="1633960536212343187">"メインアカウント（<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>）"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"ステータスを確認中..."</string>
     <string name="registration_status_registering" msgid="7115694971025999516">"登録中..."</string>
     <string name="registration_status_still_trying" msgid="1471733478935862864">"試行中です..."</string>

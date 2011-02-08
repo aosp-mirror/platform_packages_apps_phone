@@ -16,10 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
-    <skip />
-    <!-- no translation found for phoneAppLabel (906161039445636857) -->
-    <skip />
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"Données mobiles"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"Téléphone"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Appels d\'urgence"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Téléphone"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Liste de numéros autorisés"</string>
@@ -340,7 +338,7 @@
     <item msgid="1268081943590316978">"2"</item>
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
-    <string name="prefer_2g" msgid="8442550937280449639">"Uniquement les réseaux 2G"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Réseau 2G seulement"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Économise la batterie"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Sélection système"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Modifier le mode d\'itinérance CDMA"</string>
