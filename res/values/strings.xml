@@ -420,26 +420,58 @@
     <string name="preferred_network_mode_title">Network Mode</string>
     <string name="preferred_network_mode_summary">Change the network operating mode</string>
     <string name="preferred_network_mode_dialogtitle">Preferred network mode</string>
+
+    <!-- Preferred network mode choices--> <skip />
     <string-array name="preferred_network_mode_choices">
-        <item>Global</item>
-        <item>EvDo only</item>
-        <item>CDMA w/o EvDo</item>
-        <item>CDMA / EvDo auto</item>
-        <item>GSM / WCDMA auto</item>
-        <item>WCDMA only</item>
-        <item>GSM only</item>
         <item>GSM / WCDMA preferred</item>
+        <item>GSM</item>
+        <item>WCDMA</item>
+        <item>GSM / WCDMA</item>
+        <item>CDMA / EvDo</item>
+        <item>CDMA</item>
+        <item>EvDo</item>
+        <item>CDMA/EvDo/GSM/WCDMA</item><!--CDMA/EvDo/GSM/WCDMA auto-->
+        <item>CDMA + LTE/EvDo</item>
+        <item>GSM/WCDMA/LTE</item>
+        <item>Global</item><!--CDMA/EvDo/GSM/WCDMA/LTE auto-->
+        <item>LTE</item>
     </string-array>
+
+    <!-- Values modes preferred_network_mode_choices --> <skip />
+    <!-- to preferred_network modes in RILConstants.h--> <skip />
     <string-array name="preferred_network_mode_values">
-        <item>"7"</item>
-        <item>"6"</item>
-        <item>"5"</item>
-        <item>"4"</item>
-        <item>"3"</item>
-        <item>"2"</item>
-        <item>"1"</item>
         <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>"9"</item>
+        <item>"10"</item>
+        <item>"11"</item>
     </string-array>
+
+    <!-- Preferred network mode summary display string --> <skip />
+    <!-- Values map to modes in preferred_network_mode_choices --> <skip />
+    <!-- Array index should be same as preferred_network_mode_choices--> <skip />
+    <string-array name="preferred_network_mode_choice_summary">
+        <item>"Network mode: GSM/WCDMA-Pref"</item>
+        <item>"Network mode: GSM"</item>
+        <item>"Network mode: WCDMA"</item>
+        <item>"Network mode: GSM/WCDMA"</item>
+        <item>"Network mode: CDMA/EVDO"</item>
+        <item>"Network mode: CDMA"</item>
+        <item>"Network mode: EVDO"</item>
+        <item>"Network mode: CDMA/EvDo/GSM/WCDMA"</item>
+        <item>"Network mode: CDMA+LTE/EVDO"</item>
+        <item>"Network mode: GSM/WCDMA/LTE"</item>
+        <item>"Network mode: Global"</item>
+        <item>"Network mode: LTE"</item>
+    </string-array>
+
     <!-- Mobile network settings screen, data enabling checkbox name -->
     <string name="data_enabled">Data enabled</string>
     <!-- Mobile network settings screen, setting summary text when check box is not selected (explains what selecting it would do) -->
