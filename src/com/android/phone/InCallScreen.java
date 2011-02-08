@@ -2758,7 +2758,9 @@ public class InCallScreen extends Activity
 
         switch (state) {
             case ServiceState.STATE_IN_SERVICE:
+            case ServiceState.STATE_OUT_OF_SERVICE:
                 // Normal operation.  It's OK to make outgoing calls.
+                // No network connection. It's OK to try to make outgoing calls.
                 return InCallInitStatus.SUCCESS;
 
             case ServiceState.STATE_POWER_OFF:
@@ -2775,10 +2777,6 @@ public class InCallScreen extends Activity
                 // InCallInitStatus.EMERGENCY_ONLY state and the string
                 // "incall_error_emergency_only" are totally unused.
                 return InCallInitStatus.EMERGENCY_ONLY;
-
-            case ServiceState.STATE_OUT_OF_SERVICE:
-                // No network connection.
-                return InCallInitStatus.OUT_OF_SERVICE;
 
             default:
                 throw new IllegalStateException("Unexpected ServiceState: " + state);
