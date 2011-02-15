@@ -580,7 +580,7 @@
     <item quantity="other" msgid="3122217344579273583">"Inga dataanslutningar på <xliff:g id="COUNT">%s</xliff:g> minuter"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"Telefonen är i läget Återuppringning vid nödsamtal i <xliff:g id="COUNT">%s</xliff:g> minut. I det här läget kan inga program som använder dataanslutningar användas. Vill du avsluta nu?"</item>
+    <item quantity="one" msgid="2181569650640386253">"Telefonen är i läget Återuppringning vid nödsamtal i <xliff:g id="COUNT">%s</xliff:g> minut. I det här läget kan inga appar som använder dataanslutningar användas. Vill du avsluta nu?"</item>
     <item quantity="other" msgid="3231879566243957821">"Telefonen är i läget Återuppringning vid nödsamtal i <xliff:g id="COUNT">%s</xliff:g> minuter. I det här läget kan inga program som använder dataanslutningar användas. Vill du avsluta nu?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
