@@ -38,7 +38,7 @@
     <string name="callFailed_server_error" msgid="5717915213586193217">"サーバーエラー: しばらくしてからもう一度お試しください。"</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"圏外"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACMの制限を超えています"</string>
-    <string name="callFailed_powerOff" msgid="2766035859391549713">"無線通信をオフ"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"無線通信をOFF"</string>
     <string name="callFailed_simError" msgid="5652345589458834655">"エラーまたはSIMなし"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"圏外"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"発信番号制限により発信が制限されています。"</string>
@@ -125,7 +125,7 @@
     <string name="labelCallerId" msgid="3888899447379069198">"発信者番号"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"発信時に番号を通知する"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"発信者番号表示にオペレータの既定値を使用"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"発信者番号表示に通信事業者のデフォルト値を使用する"</string>
     <string name="labelCW" msgid="6120513814915920200">"通話中着信"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"通話中も着信を知らせる"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"通話中も着信を知らせる"</string>
@@ -160,7 +160,7 @@
     <string name="response_error" msgid="6674110501330139405">"ネットワークから予期しない応答が返されました。"</string>
     <string name="exception_error" msgid="7027667130619518211">"ネットワークまたはSIMカードのエラーです。"</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"発信番号制限で指定された番号に対してのみ操作できます。"</string>
-    <string name="radio_off_error" msgid="6717116288405111269">"無線通信をオンにしてから設定を表示してください。"</string>
+    <string name="radio_off_error" msgid="6717116288405111269">"無線通信をONにしてから設定を表示してください。"</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"有効にする"</string>
     <string name="disable" msgid="7274240979164762320">"無効にする"</string>
@@ -188,7 +188,7 @@
     <string name="not_allowed" msgid="3540496123717833833">"このSIMカードではこのネットワークに接続できません。"</string>
     <string name="connect_later" msgid="500090982903469816">"現在このネットワークに接続できません。後ほどもう一度お試しください。"</string>
     <string name="registration_done" msgid="495135664535876612">"ネットワークに登録されました。"</string>
-    <string name="sum_carrier_select" msgid="6526225502314751575">"ネットワークオペレーターの選択"</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"通信事業者を選択する"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"利用可能なすべてのネットワークを検索する"</string>
     <string name="select_automatically" msgid="8615980695510888796">"自動選択"</string>
     <string name="sum_select_automatically" msgid="8460954604521755275">"最適なネットワークを自動的に選択する"</string>
@@ -221,7 +221,7 @@
     <string name="roaming" msgid="8871412572928323707">"データローミング"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"ローミング時にデータサービスに接続する"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"ローミング時にデータサービスに接続する"</string>
-    <string name="roaming_reenable_message" msgid="6973894869473170666">"データローミングをオフにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"データローミングをOFFにしてホームネットワークを離れたため、データ接続が切断されました。"</string>
     <string name="roaming_warning" msgid="7820963598559553967">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTSオプション"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMAオプション"</string>
@@ -506,7 +506,7 @@
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"通話を解放できません。"</string>
     <string name="incall_call_type_label_sip" msgid="2310958283037924371">"インターネット通話"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"緊急通報"</string>
-    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"無線通信をオンにしています..."</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"無線通信をONにしています..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"圏外 - 再試行中..."</string>
     <string name="dial_emergency_error" msgid="8362624131726575194">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>は緊急通報番号ではないので発信できません。"</string>
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"発信できません。緊急通報番号におかけください。"</string>
@@ -614,7 +614,7 @@
     <string name="sip_accounts" msgid="2097054001288457163">"インターネット通話（SIP）アカウント"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"アカウント"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"インターネット通話（SIP）のアカウントと状態を管理"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"着信を受ける"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"着信を許可"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"電池使用量が増えます"</string>
     <string name="sip_call_options" msgid="7128315120104066133">"通話オプションの設定"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"インターネット通話を使用"</string>
@@ -646,7 +646,7 @@
     <string name="close_profile" msgid="6886968271423155284">"閉じる"</string>
     <string name="primary_account" msgid="2229538308291934245">"メイン"</string>
     <string name="primary_account_title" msgid="5694267218020951531">"これをメインのアカウントにする"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"発信に使用"</string>
+    <string name="primary_account_summary" msgid="7339564526372623187">"発信に使用する"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"詳細設定"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"メインアカウント（<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>）"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"ステータスを確認中..."</string>
@@ -674,8 +674,8 @@
     <string name="send_keepalive_summary" msgid="9038969409950960640">"SIPキープアライブメッセージを送信します"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"自動登録"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"プロフィールを自動的に登録します"</string>
-    <string name="set_primary_title" msgid="5351892327447571451">"メインアカウントにする"</string>
-    <string name="set_primary_summary" msgid="2219064654523258577">"発信に使用"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"メインアカウントに設定"</string>
+    <string name="set_primary_summary" msgid="2219064654523258577">"発信に使用する"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"オプション設定"</string>
     <string name="auth_username_title" msgid="851473016307947120">"認証ユーザー名"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"認証に使用するユーザー名"</string>

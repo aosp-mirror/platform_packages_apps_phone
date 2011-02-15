@@ -129,8 +129,8 @@
     <string name="labelCW" msgid="6120513814915920200">"Połączenia oczekujące"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Podczas połączenia powiadamiaj mnie o połączeniach przychodzących"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Podczas połączenia powiadamiaj mnie o połączeniach przychodzących"</string>
-    <string name="call_forwarding_settings" msgid="3378927671091537173">"Ustawienia przekierowania połączeń"</string>
-    <string name="labelCF" msgid="2574386948026924737">"Przekierowania połączeń"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"Ustawienia przekazywania połączeń"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Przekazywanie połączeń"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Przekieruj wszystkie"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Zawsze używaj tego numeru"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Przekierowanie wszystkich rozmów"</string>
@@ -542,8 +542,8 @@
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
     <string name="eri_text_label" msgid="4326942349915331461">"Tekst ERI"</string>
-    <string name="dtmf_tones_title" msgid="3866923093113274152">"Sygnały DTMF"</string>
-    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Ustaw długość sygnałów DTMF"</string>
+    <string name="dtmf_tones_title" msgid="3866923093113274152">"Tony DTMF"</string>
+    <string name="dtmf_tones_summary" msgid="3351820372864020331">"Ustaw długość tonów DTMF"</string>
   <string-array name="dtmf_tone_entries">
     <item msgid="899650777817315681">"Normalne"</item>
     <item msgid="2883365539347850535">"Długie"</item>

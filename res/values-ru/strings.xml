@@ -341,7 +341,7 @@
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Только сети 2G"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Экономия заряда аккумулятора"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Использовать сети 2G для экономии заряда батареи"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Выбор системы"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Изменить режим роуминга CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Выбор системы"</string>
@@ -670,7 +670,7 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Адрес прокси-сервера"</string>
     <string name="port_title" msgid="5952939408078626657">"Номер порта"</string>
     <string name="transport_title" msgid="8253139511847746640">"Протокол"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Сообщения keep-alive"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Отправлять keep-alive"</string>
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Отправлять сообщения keep-alive"</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"Автоматическая регистрация"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Регистрировать профиль автоматически"</string>
