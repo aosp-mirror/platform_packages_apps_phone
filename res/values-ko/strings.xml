@@ -16,12 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="contactsIconLabel" msgid="9129800048701196916">"주소록"</string>
-    <string name="contactsFavoritesLabel" msgid="5360050972935451505">"즐겨찾기"</string>
-    <string name="dialerIconLabel" msgid="1761864493312440268">"다이얼러"</string>
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"모바일 데이터"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"휴대전화"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"긴급 통화"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"휴대전화"</string>
-    <string name="recentCallsIconLabel" msgid="8717350893637245164">"통화기록"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"FDN 목록"</string>
     <string name="unknown" msgid="6878797917991465859">"알 수 없음"</string>
     <string name="private_num" msgid="6713286113000232309">"비공개 번호"</string>
@@ -386,7 +384,7 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
-    <!-- outdated translation 4961729544244603347 -->     <string name="cdma_activate_device" msgid="3793805892364814518">"기기 활성화"</string>
+    <string name="cdma_activate_device" msgid="3793805892364814518">"기기 활성화"</string>
     <string name="fdn" msgid="7878832555095183202">"발신 허용 번호"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"FDN 목록"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"FDN 활성화"</string>
@@ -678,10 +676,8 @@
     <string name="set_primary_title" msgid="5351892327447571451">"기본 계정으로 설정"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"발신 전화에 사용됨"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"설정(선택사항)"</string>
-    <!-- no translation found for auth_username_title (851473016307947120) -->
-    <skip />
-    <!-- no translation found for auth_username_summary (6782012405225938629) -->
-    <skip />
+    <string name="auth_username_title" msgid="851473016307947120">"인증 사용자 이름"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"인증에 사용된 사용자 이름"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;설정 안 됨&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;사용자 이름과 동일&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;선택사항&gt;"</string>
@@ -694,5 +690,5 @@
     <string name="no_internet_available" msgid="1100564991026313234">"인터넷 전화를 걸려면 먼저 인터넷 연결을 확인하세요."</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"인터넷 전화를 사용하려면 Wi-Fi 네트워크에 연결되어 있어야 합니다(\'무선 및 네트워크\' 설정 사용)."</string>
     <string name="no_voip" msgid="8901474054537199865">"인터넷 전화가 지원되지 않습니다."</string>
-    <string name="not_voice_capable" msgid="2739898841461577811">"음성통화가 지원되지 않습니다."</string>
+    <string name="not_voice_capable" msgid="2739898841461577811">"음성통화 지원되지 않음"</string>
 </resources>
