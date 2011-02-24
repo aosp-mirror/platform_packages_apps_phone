@@ -75,6 +75,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.BACKUP" />
     <uses-permission android:name="android.permission.USE_SIP" />
+    <uses-permission android:name="com.android.smspush.WAPPUSH_MANAGER_BIND" />
 
     <!-- This tells the activity manager to not delay any of our activity
          start requests, even if they happen immediately after the user
