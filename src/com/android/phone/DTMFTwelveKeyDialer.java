@@ -134,49 +134,6 @@ public class DTMFTwelveKeyDialer implements
     private DTMFKeyListener mDialerKeyListener;
 
     /**
-     * Create an input method just so that the textview can display the cursor.
-     * There is no selecting / positioning on the dialer field, only number input.
-     */
-    private static class DTMFDisplayMovementMethod implements MovementMethod {
-
-        /**Return false since we are NOT consuming the input.*/
-        public boolean onKeyDown(TextView widget, Spannable buffer, int keyCode, KeyEvent event) {
-            return false;
-        }
-
-        /**Return false since we are NOT consuming the input.*/
-        public boolean onKeyUp(TextView widget, Spannable buffer, int keyCode, KeyEvent event) {
-            return false;
-        }
-
-        /**Return false since we are NOT consuming the input.*/
-        public boolean onKeyOther(TextView view, Spannable text, KeyEvent event) {
-            return false;
-        }
-
-        /**Return false since we are NOT consuming the input.*/
-        public boolean onTrackballEvent(TextView widget, Spannable buffer, MotionEvent event) {
-            return false;
-        }
-
-        /**Return false since we are NOT consuming the input.*/
-        public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
-            return false;
-        }
-
-        public void initialize(TextView widget, Spannable text) {
-        }
-
-        public void onTakeFocus(TextView view, Spannable text, int dir) {
-        }
-
-        /**Disallow arbitrary selection.*/
-        public boolean canSelectArbitrarily() {
-            return false;
-        }
-    }
-
-    /**
      * Our own key listener, specialized for dealing with DTMF codes.
      *   1. Ignore the backspace since it is irrelevant.
      *   2. Allow ONLY valid DTMF characters to generate a tone and be
@@ -436,9 +393,6 @@ public class DTMFTwelveKeyDialer implements
                 // remove the long-press context menus that support
                 // the edit (copy / paste / select) functions.
                 mDialpadDigits.setLongClickable(false);
-
-                // TODO: may also want this at some point:
-                // mDialpadDigits.setMovementMethod(new DTMFDisplayMovementMethod());
             }
 
             // Hook up touch / key listeners for the buttons in the onscreen
