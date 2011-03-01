@@ -515,6 +515,9 @@ public class BluetoothHandsfree {
 
         if (isIncallAudio()) {
             audioOn();
+        } else if ( mCM.getFirstActiveRingingCall().isRinging()) {
+            // need to update HS with RING when single ringing call exist
+            mBluetoothPhoneState.ring();
         }
     }
 
@@ -680,11 +683,24 @@ public class BluetoothHandsfree {
         }
 
         private boolean sendUpdate() {
-            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mIndicatorsEnabled;
+            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mIndicatorsEnabled
+                   && mServiceConnectionEstablished;
         }
 
         private boolean sendClipUpdate() {
-            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip;
+            return isHeadsetConnected() && mHeadsetType == TYPE_HANDSFREE && mClip &&
+                   mServiceConnectionEstablished;
+        }
+
+        private boolean sendRingUpdate() {
+            if (isHeadsetConnected() && !mIgnoreRing && !mStopRing &&
+                    mCM.getFirstActiveRingingCall().isRinging()) {
+                if (mHeadsetType == TYPE_HANDSFREE) {
+                    return mServiceConnectionEstablished ? true : false;
+                }
+                return true;
+            }
+            return false;
         }
 
         private void stopRing() {
@@ -1165,7 +1181,7 @@ public class BluetoothHandsfree {
 
 
         private AtCommandResult ring() {
-            if (!mIgnoreRing && !mStopRing && mCM.getFirstActiveRingingCall().isRinging()) {
+            if (sendRingUpdate()) {
                 AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
                 result.addResponse("RING");
                 if (sendClipUpdate()) {
@@ -1997,6 +2013,10 @@ public class BluetoothHandsfree {
                             sendURC("OK");  // send immediately, then initiate audio
                             if (isIncallAudio()) {
                                 audioOn();
+                            } else if (mCM.getFirstActiveRingingCall().isRinging()) {
+                                // need to update HS with RING cmd when single
+                                // ringing call exist
+                                mBluetoothPhoneState.ring();
                             }
                             // only send OK once
                             return new AtCommandResult(AtCommandResult.UNSOLICITED);
@@ -2252,6 +2272,9 @@ public class BluetoothHandsfree {
                 sendURC("OK");  // send reply first, then connect audio
                 if (isIncallAudio()) {
                     audioOn();
+                } else if (mCM.getFirstActiveRingingCall().isRinging()) {
+                    // need to update HS with RING when single ringing call exist
+                    mBluetoothPhoneState.ring();
                 }
                 // already replied
                 return new AtCommandResult(AtCommandResult.UNSOLICITED);
