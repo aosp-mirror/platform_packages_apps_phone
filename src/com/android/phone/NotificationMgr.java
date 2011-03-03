@@ -983,7 +983,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (DBG) log("showDataDisconnectedRoaming()...");
 
         Intent intent = new Intent(mContext,
-                                   Settings.class);  // "Mobile network settings" screen
+                com.android.phone.Settings.class);  // "Mobile network settings" screen / dialog
 
         Notification notification = new Notification(
                 android.R.drawable.stat_sys_warning, // icon
