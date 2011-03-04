@@ -286,7 +286,7 @@
     <!-- Call forwarding settings screen, setting summary text when forwarding all calls -->
     <string name="sum_cfu_enabled_indicator">Forwarding all calls</string>
     <!-- Call forwarding settings screen, setting summary text the Always forward is set -->
-    <string name="sum_cfu_enabled">Forwarding all calls to {0}</string>
+    <string name="sum_cfu_enabled">Forwarding all calls to <xliff:g id="phonenumber" example="555-1212">{0}</xliff:g></string>
     <!-- Call forwarding settings screen, Always forward is enabled but the number is unavailable -->
     <string name="sum_cfu_enabled_no_number">Number is unavailable</string>
     <!-- Call forwarding settings screen, setting summary text when Always forward is disabled -->
@@ -297,7 +297,7 @@
     <!-- Call forwarding dialog box, text field label -->
     <string name="messageCFB">Number when busy</string>
     <!-- Call forwarding settings screen, setting summary text when forwarding to specific number when busy -->
-    <string name="sum_cfb_enabled">Forwarding to {0}</string>
+    <string name="sum_cfb_enabled">Forwarding to <xliff:g id="phonenumber" example="555-1212">{0}</xliff:g></string>
     <!-- Call forwarding settings screen, setting summary text when forwarding when busy is disabled -->
     <string name="sum_cfb_disabled">Disabled</string>
     <!-- Error message displayed after failing to disable forwarding calls when the phone is busy -->
@@ -308,7 +308,7 @@
     <!-- Call forwarding dialog box, text field label -->
     <string name="messageCFNRy">Number when unanswered</string>
     <!-- Call forwarding settings screen, setting summary text when forwarding to a specific number when unanswered -->
-    <string name="sum_cfnry_enabled">Forwarding to {0}</string>
+    <string name="sum_cfnry_enabled">Forwarding to <xliff:g id="phonenumber" example="555-1212">{0}</xliff:g></string>
     <!-- Call forwarding settings screen, setting summary text when Forward when unanswered is disabled -->
     <string name="sum_cfnry_disabled">Disabled</string>
     <!-- Error message displayed after failing to disable forwarding calls when the phone does not answer -->
@@ -319,7 +319,7 @@
     <!-- Call forwarding dialog box, text field label -->
     <string name="messageCFNRc">Number when unreachable</string>
     <!-- Call forwarding settings screen, setting summary text when forwarding to a specific number when unreachable-->
-    <string name="sum_cfnrc_enabled">Forwarding to {0}</string>
+    <string name="sum_cfnrc_enabled">Forwarding to <xliff:g id="phonenumber" example="555-1212">{0}</xliff:g></string>
     <!-- Call forwarding settings screen, setting summary text when Forward when unreachable is disabled -->
     <string name="sum_cfnrc_disabled">Disabled</string>
     <!-- Error message displayed after failing to disable forwarding calls when the phone is unreachable -->
