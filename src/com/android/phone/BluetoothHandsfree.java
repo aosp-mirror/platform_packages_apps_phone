@@ -270,7 +270,8 @@ public class BluetoothHandsfree {
 
         private void connectSco() {
             synchronized (mScoLock) {
-                if (isHeadsetConnected() && (mAudioPossible || allowAudioAnytime()) &&
+                if (!Thread.interrupted() && isHeadsetConnected() &&
+                    (mAudioPossible || allowAudioAnytime()) &&
                     mConnectedSco == null) {
                     Log.i(TAG, "Routing audio for incoming SCO connection");
                     mConnectedSco = mIncomingSco;
@@ -301,8 +302,10 @@ public class BluetoothHandsfree {
             } catch (IOException e) {
                 Log.w(TAG, "Error when closing server socket");
             }
-            stopped = true;
-            interrupt();
+            synchronized (mScoLock) {
+                stopped = true;
+                interrupt();
+            }
         }
     }
 
@@ -331,7 +334,6 @@ public class BluetoothHandsfree {
                 Log.e(TAG, "BluetoothSocket could not connect");
                 mOutgoingSco = null;
                 failedScoConnect();
-
             }
 
             if (mOutgoingSco != null) {
@@ -341,7 +343,7 @@ public class BluetoothHandsfree {
 
         private void connectSco() {
             synchronized (mScoLock) {
-                if (isHeadsetConnected() && mConnectedSco == null) {
+                if (!Thread.interrupted() && isHeadsetConnected() && mConnectedSco == null) {
                     if (VDBG) log("Routing audio for outgoing SCO conection");
                     mConnectedSco = mOutgoingSco;
                     mAudioManager.setBluetoothScoOn(true);
@@ -377,8 +379,10 @@ public class BluetoothHandsfree {
         }
 
         void shutdown() {
-            closeConnectedSco();
-            interrupt();
+            synchronized (mScoLock) {
+                closeConnectedSco();
+                interrupt();
+            }
         }
     }
 
@@ -391,11 +395,15 @@ public class BluetoothHandsfree {
         @Override
         public void run() {
             while (!stopped) {
-                if (mConnectedSco != null) {
+                BluetoothSocket connectedSco = null;
+                synchronized (mScoLock) {
+                    connectedSco = mConnectedSco;
+                }
+                if (connectedSco != null) {
                     byte b[] = new byte[1];
                     InputStream inStream = null;
                     try {
-                        inStream = mConnectedSco.getInputStream();
+                        inStream = connectedSco.getInputStream();
                     } catch (IOException e) {}
 
                     if (inStream != null) {
@@ -418,9 +426,11 @@ public class BluetoothHandsfree {
         }
 
         void shutdown() {
-            stopped = true;
-            closeConnectedSco();
-            interrupt();
+            synchronized (mScoLock) {
+                stopped = true;
+                closeConnectedSco();
+                interrupt();
+            }
         }
     }
 
@@ -438,6 +448,7 @@ public class BluetoothHandsfree {
         }
     }
 
+    // must be called with mScoLock held
     private void closeConnectedSco() {
         if (mConnectedSco != null) {
             try {
@@ -1475,7 +1486,9 @@ public class BluetoothHandsfree {
             }
         }
 
-        closeConnectedSco();    // Should be closed already, but just in case
+        synchronized (mScoLock) {
+            closeConnectedSco();    // Should be closed already, but just in case
+        }
     }
 
     /* package */ boolean isAudioOn() {
