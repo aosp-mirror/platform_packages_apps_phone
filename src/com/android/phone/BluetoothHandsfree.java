@@ -91,7 +91,6 @@ public class BluetoothHandsfree {
     private IncomingScoAcceptThread mIncomingScoThread = null;
     private ScoSocketConnectThread mConnectScoThread = null;
     private SignalScoCloseThread mSignalScoCloseThread = null;
-    private Object mScoLock = new Object();
 
     private AudioManager mAudioManager;
     private PowerManager mPowerManager;
@@ -269,7 +268,7 @@ public class BluetoothHandsfree {
         }
 
         private void connectSco() {
-            synchronized (mScoLock) {
+            synchronized (BluetoothHandsfree.this) {
                 if (!Thread.interrupted() && isHeadsetConnected() &&
                     (mAudioPossible || allowAudioAnytime()) &&
                     mConnectedSco == null) {
@@ -296,16 +295,15 @@ public class BluetoothHandsfree {
             }
         }
 
+        // must be called with BluetoothHandsfree locked
         void shutdown() {
             try {
                 mIncomingServerSocket.close();
             } catch (IOException e) {
                 Log.w(TAG, "Error when closing server socket");
             }
-            synchronized (mScoLock) {
-                stopped = true;
-                interrupt();
-            }
+            stopped = true;
+            interrupt();
         }
     }
 
@@ -342,7 +340,7 @@ public class BluetoothHandsfree {
         }
 
         private void connectSco() {
-            synchronized (mScoLock) {
+            synchronized (BluetoothHandsfree.this) {
                 if (!Thread.interrupted() && isHeadsetConnected() && mConnectedSco == null) {
                     if (VDBG) log("Routing audio for outgoing SCO conection");
                     mConnectedSco = mOutgoingSco;
@@ -378,11 +376,10 @@ public class BluetoothHandsfree {
             mHandler.sendMessageDelayed(msg, 2000);
         }
 
+        // must be called with BluetoothHandsfree locked
         void shutdown() {
-            synchronized (mScoLock) {
-                closeConnectedSco();
-                interrupt();
-            }
+            closeConnectedSco();
+            interrupt();
         }
     }
 
@@ -396,7 +393,7 @@ public class BluetoothHandsfree {
         public void run() {
             while (!stopped) {
                 BluetoothSocket connectedSco = null;
-                synchronized (mScoLock) {
+                synchronized (BluetoothHandsfree.this) {
                     connectedSco = mConnectedSco;
                 }
                 if (connectedSco != null) {
@@ -425,12 +422,11 @@ public class BluetoothHandsfree {
             }
         }
 
+        // must be called with BluetoothHandsfree locked
         void shutdown() {
-            synchronized (mScoLock) {
-                stopped = true;
-                closeConnectedSco();
-                interrupt();
-            }
+            stopped = true;
+            closeConnectedSco();
+            interrupt();
         }
     }
 
@@ -448,7 +444,7 @@ public class BluetoothHandsfree {
         }
     }
 
-    // must be called with mScoLock held
+    // must be called with BluetoothHandsfree locked
     private void closeConnectedSco() {
         if (mConnectedSco != null) {
             try {
@@ -488,13 +484,8 @@ public class BluetoothHandsfree {
         audioOff();
 
         if (mIncomingScoThread != null) {
-            try {
-                mIncomingScoThread.shutdown();
-                mIncomingScoThread.join();
-                mIncomingScoThread = null;
-            }catch (InterruptedException ex) {
-                Log.w(TAG, "mIncomingScoThread close error " + ex);
-            }
+            mIncomingScoThread.shutdown();
+            mIncomingScoThread = null;
         }
     }
 
@@ -1467,28 +1458,16 @@ public class BluetoothHandsfree {
         mPendingSco = false;
 
         if (mSignalScoCloseThread != null) {
-            try {
-                mSignalScoCloseThread.shutdown();
-                mSignalScoCloseThread.join();
-                mSignalScoCloseThread = null;
-            }catch (InterruptedException ex) {
-                Log.w(TAG, "mSignalScoCloseThread close error " + ex);
-            }
+            mSignalScoCloseThread.shutdown();
+            mSignalScoCloseThread = null;
         }
 
         if (mConnectScoThread != null) {
-            try {
-                mConnectScoThread.shutdown();
-                mConnectScoThread.join();
-                mConnectScoThread = null;
-            }catch (InterruptedException ex) {
-                Log.w(TAG, "mConnectScoThread close error " + ex);
-            }
+            mConnectScoThread.shutdown();
+            mConnectScoThread = null;
         }
 
-        synchronized (mScoLock) {
-            closeConnectedSco();    // Should be closed already, but just in case
-        }
+        closeConnectedSco();    // Should be closed already, but just in case
     }
 
     /* package */ boolean isAudioOn() {
