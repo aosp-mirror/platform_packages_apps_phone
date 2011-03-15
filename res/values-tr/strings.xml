@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Her zaman yönlendir"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Daima bu numarayı kullan"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Tüm çağrılar yönlendiriliyor"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Tüm çağrılar şuraya yönlendiriliyor: {0}"</string>
+    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Tüm çağrılar şuraya yönlendiriliyor: \\\\{0\\\\}"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numara kullanılamıyor"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Devre dışı"</string>
     <string name="labelCFB" msgid="218938523102207587">"Meşgul olduğunda yönlendir"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Meşgulken kullanılacak numara"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Şuna yönlendiriliyor: {0}"</string>
+    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Şuna yönlendiriliyor: \\\\{0\\\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Devre dışı"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Operatörünüz, telefonunuz meşgul olduğunda çağrı yönlendirmenin devre dışı bırakılmasını desteklemiyor."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Yanıtlanmadığında yönlendir"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Yanıtlanmadığında kullanılacak numara"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Şuna yönlendiriliyor: {0}"</string>
+    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Şuna yönlendiriliyor: \\\\{0\\\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Devre dışı"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Operatörünüz, telefonunuz yanıt vermediğinde çağrı yönlendirmenin devre dışı bırakılmasını desteklemiyor."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Ulaşılamadığında yönlendir"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Ulaşılamadığında kullanılacak numara"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Şuna yönlendiriliyor: {0}"</string>
+    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Şuna yönlendiriliyor: \\\\{0\\\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Devre dışı"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Operatörünüz, telefonunuza ulaşılamadığında çağrı yönlendirmenin devre dışı bırakılmasını desteklemiyor."</string>
     <string name="updating_title" msgid="6146755386174019046">"Çağrı ayarları"</string>

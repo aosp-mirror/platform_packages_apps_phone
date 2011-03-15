@@ -44,7 +44,7 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Tous les appels sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Les appels d\'urgence sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Les appels ordinaires sont restreints par un contrôle d\'accès."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA : téléphone bloqué jusqu\'au prochain redémarrage"</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA : téléphone déverrouillé jusqu\'au prochain redémarrage"</string>
     <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA : appel abandonné"</string>
     <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA : appel intercepté"</string>
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA : retrier"</string>
@@ -90,17 +90,17 @@
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Aucun numéro de messagerie vocale n\'est enregistré sur la carte SIM."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Ajouter un numéro"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Chargement..."</string>
-    <string name="enterPin" msgid="4753300834213388397">"Saisissez un code PIN pour débloquer la carte SIM."</string>
+    <string name="enterPin" msgid="4753300834213388397">"Saisissez un code PIN pour déverrouiller la carte SIM."</string>
     <string name="pinUnlocked" msgid="3260617001055506794">"Carte SIM déverrouillée"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Nouveau code PIN de la carte SIM"</string>
     <string name="verifyNewPin" msgid="2593629913010458867">"Saisissez une nouvelle fois le nouveau code PIN de la carte SIM pour le confirmer"</string>
     <string name="verifyFailed" msgid="3875778795754857903">"Les codes PIN de la carte SIM saisis ne correspondent pas. Veuillez réessayer."</string>
-    <string name="enterPuk" msgid="6144749655582862324">"Saisissez la clé PUK pour débloquer la carte SIM"</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Saisissez la clé PUK pour déverrouiller la carte SIM"</string>
     <string name="badPuk" msgid="3213017898690275965">"La clé PUK est incorrecte !"</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Continuer"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Votre carte SIM a été déverrouillée. Votre téléphone est en cours de déverrouillage..."</string>
     <string name="label_ndp" msgid="780479633159517250">"Code PIN de déblocage du réseau SIM"</string>
-    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Débloquer"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Déverrouiller"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Rejeter"</string>
     <string name="requesting_unlock" msgid="6412629401033249351">"Demande de déblocage du réseau…"</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Échec de la demande de déblocage du réseau."</string>
@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Toujours transférer"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Toujours utiliser ce numéro"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Transfert de tous les appels"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Transfert de tous les appels à {0}"</string>
+    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Transfert de tous les appels à \\{0\\}"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numéro indisponible"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Désactivé"</string>
     <string name="labelCFB" msgid="218938523102207587">"Transf. si ligne occupée"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numéro de renvoi lorsque la ligne est occupée"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Transfert vers le {0}"</string>
+    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Transfert vers \\{0\\}"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Désactivé"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Votre opérateur ne prend pas en charge la désactivation du transfert d\'appel lorsque votre téléphone est occupé."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Transf. si sans réponse"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Numéro de renvoi lorsque vous ne répondez pas"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Transfert vers le {0}"</string>
+    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Transfert vers \\{0\\}"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Désactivé"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Votre opérateur ne prend pas en charge la désactivation du transfert d\'appel lorsque votre téléphone ne répond pas."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Transf. si injoignable"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Numéro de renvoi si injoignable"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Transfert vers le {0}"</string>
+    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Transfert vers \\{0\\}"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Désactivé"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Votre opérateur ne prend pas en charge la désactivation du transfert d\'appel lorsque votre téléphone n\'est pas joignable."</string>
     <string name="updating_title" msgid="6146755386174019046">"Paramètres d\'appel"</string>
@@ -384,7 +384,7 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
-    <string name="cdma_activate_device" msgid="3793805892364814518">"Activer le périphérique"</string>
+    <string name="cdma_activate_device" msgid="3793805892364814518">"Activer l\'appareil"</string>
     <string name="fdn" msgid="7878832555095183202">"Numéros autorisés"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Liste de numéros autorisés"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activation des numéros autorisés"</string>
@@ -463,7 +463,7 @@
     <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Continuer sans carte SIM"</string>
     <string name="sim_missing_msg_text" msgid="6803619600564142188">"Aucune carte SIM n\'a été trouvée. Insérez une carte SIM dans le téléphone."</string>
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Rejeter"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Débloquer"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Déverrouiller"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Authentification du code PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"N° messagerie vocale"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Appel en cours…"</string>
