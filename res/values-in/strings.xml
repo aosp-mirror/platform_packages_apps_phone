@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Selalu teruskan"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Selalu gunakan nomor ini"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Meneruskan semua panggilan"</string>
-    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Meneruskan semua panggilan ke \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Meneruskan semua panggilan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Nomor tidak tersedia"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Dinonaktifkan"</string>
     <string name="labelCFB" msgid="218938523102207587">"Teruskan ketika sibuk"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Nomor ketika sibuk"</string>
-    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Meneruskan ke \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Dinonaktifkan"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel Anda sibuk."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Teruskan ketika tidak dijawab"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Nomor ketika tidak dapat dihubungi"</string>
-    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Meneruskan ke \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Dinonaktifkan"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel Anda tidak menerima panggilan."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Teruskan ketika tidak dapat dihubungi"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Nomor ketika tidak dapat dihubungi"</string>
-    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Meneruskan ke \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Dinonaktifkan"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel Anda tidak dapat dijangkau."</string>
     <string name="updating_title" msgid="6146755386174019046">"Setelan panggilan"</string>
