@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Viderestil altid"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Brug altid dette nummer"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Viderestiller alle opkald"</string>
-    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Viderestiller alle opkald til \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Viderestiller alle opkald til <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Nummeret er ikke tilgængeligt"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Deaktiveret"</string>
     <string name="labelCFB" msgid="218938523102207587">"Viderestil ved optaget"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Nummer ved optaget"</string>
-    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Viderestiller til \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Viderestiller til <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Deaktiveret"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Din udbyder understøtter ikke, deaktivering af viderestilling af opkald, når telefonen er optaget."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Viderestil ved ubesvaret"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Nummer ved ubesvaret"</string>
-    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Viderestiller til \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Viderestiller til <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Deaktiveret"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Din udbyder understøtter ikke, deaktivering af viderestilling af opkald, når telefonen ikke bliver taget."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Viderestil ved utilgængelig"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Nummer ved utilgængelig"</string>
-    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Viderestiller til \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Viderestiller til <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Deaktiveret"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Din udbyder understøtter ikke, deaktivering af viderestilling af opkald, når telefonen er utilgængelig."</string>
     <string name="updating_title" msgid="6146755386174019046">"Indstillinger for opkald"</string>

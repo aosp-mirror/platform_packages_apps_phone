@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Devia sempre"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Usa sempre questo numero"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Deviazione di tutte le chiamate"</string>
-    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Deviazione di tutte le chiamate al numero \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Deviazione di tutte le chiamate al numero <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numero non disponibile"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Disattivato"</string>
     <string name="labelCFB" msgid="218938523102207587">"Devia se occupato"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numero se occupato"</string>
-    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Deviazione al numero \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Deviazione al numero <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Disattivato"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Il tuo gestore di telefonia mobile non supporta la disattivazione dell\'inoltro chiamate quando il telefono è occupato."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Devia se non si risponde"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Numero se non si risponde"</string>
-    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Deviazione al numero \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Deviazione al numero <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Disattivato"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Il tuo gestore di telefonia mobile non supporta la disattivazione dell\'inoltro chiamate quando il telefono non risponde."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Devia se non raggiungib."</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Numero se non raggiungibile"</string>
-    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Deviazione al numero \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Deviazione al numero <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Disattivato"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Il tuo gestore di telefonia mobile non supporta la disattivazione dell\'inoltro chiamate quando il telefono non è raggiungibile."</string>
     <string name="updating_title" msgid="6146755386174019046">"Impostazioni chiamate"</string>
