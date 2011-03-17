@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Mindig legyen átirányítás"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Mindig a következő szám használata"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Minden hívás átirányítása"</string>
-    <!-- outdated translation 989438641649924606 -->     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Minden hívás átirányítása ide: \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Minden hívás átirányítása ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"A szám nem érhető el"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Letiltva"</string>
     <string name="labelCFB" msgid="218938523102207587">"Átirányítás, ha foglalt"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Átirányítási szám, ha foglalt"</string>
-    <!-- outdated translation 2490495867391861658 -->     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Átirányítás ide: \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Letiltva"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Szolgáltatója nem támogatja a hívásátirányítás letiltását a telefon foglaltsága esetén."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Átirányítás, ha nem válaszol"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Átirányítási szám, ha nem válaszol"</string>
-    <!-- outdated translation 6498888023162342750 -->     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Átirányítás ide: \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Letiltva"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Szolgáltatója nem támogatja a hívásátirányítás letiltását, ha a telefon nem fogadja a hívást."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Átirányítás, ha nem érhető el"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Átirányítási szám, ha nem elérhető"</string>
-    <!-- outdated translation 6690011094298342391 -->     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Átirányítás ide: \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Kikapcsolva"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Szolgáltatója nem támogatja a hívásátirányítás letiltását, ha a telefon ki van kapcsolva."</string>
     <string name="updating_title" msgid="6146755386174019046">"Hívásbeállítások"</string>
