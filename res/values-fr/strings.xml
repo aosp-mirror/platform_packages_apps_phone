@@ -123,7 +123,7 @@
     <string name="labelCallerId" msgid="3888899447379069198">"Numéro de l\'appelant"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Numéro masqué pour les appels sortants"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Numéro affiché pour les appels sortants"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"Utiliser les paramètres opérateur pour afficher mon n° pour les appels sortants"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Utiliser les paramètres opérateur pour afficher mon numéro pour les appels sortants"</string>
     <string name="labelCW" msgid="6120513814915920200">"Appel en attente"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Me signaler les appels entrants lorsque je suis en communication"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Me signaler les appels entrants lorsque je suis en communication"</string>
