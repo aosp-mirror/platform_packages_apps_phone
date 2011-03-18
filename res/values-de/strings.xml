@@ -346,7 +346,7 @@
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"CDMA-Roamingmodus ändern"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Systemauswahl"</string>
   <string-array name="cdma_system_select_choices">
-    <item msgid="176474317493999285">"Nur Startseite"</item>
+    <item msgid="176474317493999285">"Nur privates Netz"</item>
     <item msgid="1205664026446156265">"Automatisch"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-Roamingmodus"</string>

@@ -74,7 +74,7 @@
     <string name="menu_addCall" msgid="7829255032442131930">"Afegeix una trucada"</string>
     <string name="menu_manageConference" msgid="3770984362002266733">"Gestiona la trucada de conferència"</string>
     <string name="menu_showDialpad" msgid="5198200217528406980">"Mostra el teclat"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Oculta el teclat"</string>
+    <string name="menu_hideDialpad" msgid="2733813546746296771">"Amaga el teclat"</string>
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Posa la trucada actual en espera"\n"i respon"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Finalitza la trucada actual"\n"i respon"</string>
     <string name="ok" msgid="3811371167865772377">"D\'acord"</string>
@@ -123,7 +123,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configuració addicional de trucades només CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Configuració del servei de xarxa"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Identificació de trucada"</string>
-    <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número ocult a les trucades de sortida"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número amagat en trucades sortints"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Número mostrat a les trucades de sortida"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Utilitza la configuració predeterminada de l\'operador per mostrar el meu número a les trucades de sortida"</string>
     <string name="labelCW" msgid="6120513814915920200">"Trucada en espera"</string>
@@ -167,7 +167,7 @@
     <string name="change_num" msgid="239476305819844391">"Actualitza"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"Predeterminat de la xarxa"</item>
-    <item msgid="7876195870037833661">"Oculta el número"</item>
+    <item msgid="7876195870037833661">"Amaga el número"</item>
     <item msgid="1108394741608734023">"Mostra el número"</item>
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Desa el número del correu de veu"</string>
@@ -520,7 +520,7 @@
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Allibera"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Final"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Teclat"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Oculta"</string>
+    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Amaga"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altaveu"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Silencia"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
