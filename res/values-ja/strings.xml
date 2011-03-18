@@ -115,7 +115,7 @@
     <string name="settings_label" msgid="3876743539816984008">"ネットワーク設定"</string>
     <string name="voicemail" msgid="8693759337917898954">"ボイスメール"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
-    <string name="networks" msgid="8873030692174541976">"ネットワークオペレーター"</string>
+    <string name="networks" msgid="8873030692174541976">"通信事業者"</string>
     <string name="call_settings" msgid="6112441768261754562">"通話設定"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"その他の設定"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"その他のGSM専用通話設定"</string>

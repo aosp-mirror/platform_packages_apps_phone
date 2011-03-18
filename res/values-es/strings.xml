@@ -255,7 +255,7 @@
     <string name="general_news_settings" msgid="4968779723948432978">"Noticias generales"</string>
     <string name="bf_news_settings" msgid="3935593091894685267">"Noticias financieras y comerciales"</string>
     <string name="sports_news_settings" msgid="7649399631270052835">"Noticias deportivas"</string>
-    <string name="entertainment_news_settings" msgid="5051153952959405035">"Noticias de ocio"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"Noticias de entretenimiento"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"Local"</string>
     <string name="local_enable" msgid="6370463247609136359">"Noticias locales habilitadas"</string>
     <string name="local_disable" msgid="4405691986943795798">"Noticias locales inhabilitadas"</string>

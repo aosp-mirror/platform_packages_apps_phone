@@ -46,7 +46,7 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Tous les appels sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Les appels d\'urgence sont restreints par un contrôle d\'accès."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Les appels ordinaires sont restreints par un contrôle d\'accès."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA : téléphone bloqué jusqu\'au prochain redémarrage"</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA : téléphone déverrouillé jusqu\'au prochain redémarrage"</string>
     <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA : appel abandonné"</string>
     <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA : appel intercepté"</string>
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA : retrier"</string>
@@ -92,17 +92,17 @@
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Aucun numéro de messagerie vocale n\'est enregistré sur la carte SIM."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Ajouter un numéro"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Chargement..."</string>
-    <string name="enterPin" msgid="4753300834213388397">"Saisissez un code PIN pour débloquer la carte SIM."</string>
+    <string name="enterPin" msgid="4753300834213388397">"Saisissez un code PIN pour déverrouiller la carte SIM."</string>
     <string name="pinUnlocked" msgid="3260617001055506794">"Carte SIM déverrouillée"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Nouveau code PIN de la carte SIM"</string>
     <string name="verifyNewPin" msgid="2593629913010458867">"Saisissez une nouvelle fois le nouveau code PIN de la carte SIM pour le confirmer"</string>
     <string name="verifyFailed" msgid="3875778795754857903">"Les codes PIN de la carte SIM saisis ne correspondent pas. Veuillez réessayer."</string>
-    <string name="enterPuk" msgid="6144749655582862324">"Saisissez la clé PUK pour débloquer la carte SIM"</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Saisissez la clé PUK pour déverrouiller la carte SIM"</string>
     <string name="badPuk" msgid="3213017898690275965">"La clé PUK est incorrecte !"</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Continuer"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Votre carte SIM a été déverrouillée. Votre téléphone est en cours de déverrouillage..."</string>
     <string name="label_ndp" msgid="780479633159517250">"Code PIN de déblocage du réseau SIM"</string>
-    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Débloquer"</string>
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Déverrouiller"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Rejeter"</string>
     <string name="requesting_unlock" msgid="6412629401033249351">"Demande de déblocage du réseau…"</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Échec de la demande de déblocage du réseau."</string>
@@ -125,7 +125,7 @@
     <string name="labelCallerId" msgid="3888899447379069198">"Numéro de l\'appelant"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Numéro masqué pour les appels sortants"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Numéro affiché pour les appels sortants"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"Utiliser les paramètres opérateur pour afficher mon n° pour les appels sortants"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Utiliser les paramètres opérateur pour afficher mon numéro pour les appels sortants"</string>
     <string name="labelCW" msgid="6120513814915920200">"Appel en attente"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Me signaler les appels entrants lorsque je suis en communication"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Me signaler les appels entrants lorsque je suis en communication"</string>
@@ -464,7 +464,7 @@
     <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Continuer sans carte SIM"</string>
     <string name="sim_missing_msg_text" msgid="6803619600564142188">"Aucune carte SIM n\'a été trouvée. Insérez une carte SIM dans le téléphone."</string>
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Rejeter"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Débloquer"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Déverrouiller"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Authentification du code PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"N° messagerie vocale"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Appel en cours…"</string>

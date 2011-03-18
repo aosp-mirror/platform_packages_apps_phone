@@ -580,8 +580,8 @@
     <item quantity="other" msgid="3122217344579273583">"Er is al <xliff:g id="COUNT">%s</xliff:g> minuten geen dataverbinding"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in de modus voor noodoproepen. In deze modus kunt u geen toepassingen gebruiken die een dataverbinding vereisen. Wilt u de modus verlaten?"</item>
-    <item quantity="other" msgid="3231879566243957821">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuten in de modus voor noodoproepen. In deze modus kunt u geen toepassingen gebruiken die een dataverbinding vereisen. Wilt u de modus verlaten?"</item>
+    <item quantity="one" msgid="2181569650640386253">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in de modus voor noodoproepen. In deze modus kunt u geen apps gebruiken waarvoor een dataverbinding nodig is. Wilt u de modus verlaten?"</item>
+    <item quantity="other" msgid="3231879566243957821">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuten in de modus voor noodoproepen. In deze modus kunt u geen apps gebruiken waarvoor een dataverbinding nodig is. Wilt u de modus verlaten?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="8939225905428421722">"De geselecteerde actie is niet beschikbaar in de modus voor noodoproepen. De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in deze modus. Wilt u de modus verlaten?"</item>
@@ -660,7 +660,7 @@
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Accountregistratie mislukt: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). We proberen het later opnieuw"</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Accountregistratie mislukt: gebruikersnaam of wachtwoord onjuist"</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Accountregistratie mislukt: controleer de servernaam"</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Dit account wordt momenteel gebruikt door de toepassing <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Dit account wordt momenteel gebruikt door de app <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP-accountdetails"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP-accountdetails"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>

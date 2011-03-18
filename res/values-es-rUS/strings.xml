@@ -132,7 +132,7 @@
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Configuración de reenvío de llamadas"</string>
     <string name="labelCF" msgid="2574386948026924737">"Reenvío de llamada"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Reenviar siempre"</string>
-    <string name="messageCFU" msgid="3560082430662923687">"Usar este teléfono siempre"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"Usar siempre este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Reenviar todas las llamadas"</string>
     <string name="sum_cfu_enabled" msgid="956178654350554451">"Reenviar todas las llamadas a {0}"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"El número no está disponible"</string>
@@ -179,7 +179,7 @@
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Elegir servicio de buzón de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mi proveedor"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Configuración de red móvil"</string>
-    <string name="label_available" msgid="1181658289009300430">"Red disponible"</string>
+    <string name="label_available" msgid="1181658289009300430">"Redes disponibles"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Buscando..."</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"No se encontraron redes."</string>
     <string name="search_networks" msgid="1601136049300882441">"Buscar redes"</string>
@@ -226,7 +226,7 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opciones de GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opciones de CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Utilización de datos"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Política de velocidad de la transferencia de datos"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Política de datos del proveedor"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Datos utilizados en el período actual"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Período de utilización de datos"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Política de velocidad de transferencia de datos"</string>
@@ -341,7 +341,7 @@
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Utilizar sólo redes 2G"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Guarda la batería"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorra batería"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Sistema seleccionado"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Cambiar el modo de roaming de CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Sistema seleccionado"</string>
@@ -405,8 +405,8 @@
     <string name="tty_mode_summary" msgid="5057244302665817977">"Activar modo TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Modo TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Establecer modo de TTY"</string>
-    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Intentar nuevamente automáticamente"</string>
-    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Activar modo Intentar nuevamente automáticamente"</string>
+    <string name="auto_retry_mode_title" msgid="1478311108889330757">"Reintento automático"</string>
+    <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Habilitar modo Reintento automático"</string>
     <string name="menu_add" msgid="1882023737425114762">"Agregar contacto"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Editar contacto"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Eliminar contacto"</string>
@@ -645,7 +645,7 @@
     <string name="alert_dialog_ok" msgid="3580379406983564080">"Aceptar"</string>
     <string name="close_profile" msgid="6886968271423155284">"Cerrar"</string>
     <string name="primary_account" msgid="2229538308291934245">"Principal"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Hacer ésta mi cuenta principal"</string>
+    <string name="primary_account_title" msgid="5694267218020951531">"Establecer como mi cuenta principal"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"Utilizado para llamadas salientes"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Configuraciones avanzadas"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Cuenta principal. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
@@ -659,8 +659,8 @@
     <string name="registration_status_done" msgid="6434927607037752239">"Recibiendo llamadas"</string>
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Falló el registro de la cuenta: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se intentará más tarde"</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Falló el registro de la cuenta: nombre de usuario o contraseña incorrecto"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Falló el registro de cuenta: compruebe el nombre del servidor"</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"A esta cuenta la está usando actualmente la aplicación <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Falló el registro de la cuenta: comprueba el nombre del servidor"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Esta cuenta está siendo usada por la aplicación <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Detalles de la cuenta SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Detalles de la cuenta SIP"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Servidor"</string>
@@ -685,10 +685,10 @@
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Tocar para mostrar todo"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"▽Tocar para ocultar todo"</string>
     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> requerido, no se puede dejar en blanco"</string>
-    <string name="not_a_valid_port" msgid="5750410768271782606">"El número de puerto debe estar dentro de 1000 y 65534"</string>
+    <string name="not_a_valid_port" msgid="5750410768271782606">"El número de puerto debe estar entre 1000 y 65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"No hay conexión a Internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"No hay conexión Wi-Fi"</string>
     <string name="no_internet_available" msgid="1100564991026313234">"Para hacer una llamada por Internet, primero verifica tu conectividad"</string>
-    <string name="no_wifi_available" msgid="3389743006886634541">"Debes estar conectado a las redes de WiFi para hacer llamadas por Internet (usa las Configuraciones de red e inalámbricas &amp;amp)"</string>
+    <string name="no_wifi_available" msgid="3389743006886634541">"Debes estar conectado a un red WiFi para hacer llamadas por Internet (usa Configuración de Redes inalámbricas y redes)"</string>
     <string name="no_voip" msgid="8901474054537199865">"No admite llamadas por Internet"</string>
 </resources>

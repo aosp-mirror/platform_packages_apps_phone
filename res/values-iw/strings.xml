@@ -346,7 +346,7 @@
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"שנה את מצב נדידת CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"בחירת מערכת"</string>
   <string-array name="cdma_system_select_choices">
-    <item msgid="176474317493999285">"דף הבית בלבד"</item>
+    <item msgid="176474317493999285">"בית בלבד"</item>
     <item msgid="1205664026446156265">"אוטומטית"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"מצב של נדידת CDMA"</string>
