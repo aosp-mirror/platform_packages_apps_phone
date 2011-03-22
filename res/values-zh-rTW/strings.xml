@@ -132,7 +132,7 @@
     <string name="labelCFU" msgid="8147177368148660600">"永遠轉接"</string>
     <string name="messageCFU" msgid="3560082430662923687">"永遠使用此號碼"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"轉接所有來電"</string>
-    <string name="sum_cfu_enabled" msgid="2450052502198827927">"將所有通話轉接至 <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"將所有來電轉接至 <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"號碼無法使用"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"停用"</string>
     <string name="labelCFB" msgid="218938523102207587">"忙線時轉接"</string>
