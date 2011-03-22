@@ -882,6 +882,9 @@
     <string name="card_title_hanging_up">Hanging up</string>
     <!-- In-call screen: status label for a call that's in CDMA flash mode -->
     <string name="card_title_in_call">In call</string>
+    <!-- In-call screen: special status label that shows your own phone
+         number during emergency callback mode (ECM) [CHAR LIMIT=30] -->
+    <string name="card_title_my_phone_number">My number is <xliff:g id="my_phone_number">%s</xliff:g></string>
 
     <!-- Notification strings -->
     <!-- Missed call notification label, used when there's exactly one missed call -->
