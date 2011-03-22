@@ -2065,6 +2065,11 @@ public class PhoneUtils {
     /* package */ static boolean okToAddCall(CallManager cm) {
         Phone phone = cm.getActiveFgCall().getPhone();
 
+        // "Add call" is never allowed in emergency callback mode (ECM).
+        if (isPhoneInEcm(phone)) {
+            return false;
+        }
+
         int phoneType = phone.getPhoneType();
         final Call.State fgCallState = cm.getActiveFgCall().getState();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {

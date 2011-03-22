@@ -138,11 +138,13 @@ public class InCallControlState {
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
-        // It's also explicitly disabled during emergency calls.
+        // It's also explicitly disabled during emergency calls or if
+        // emergency callback mode (ECM) is active.
         Connection c = fgCall.getLatestConnection();
         boolean isEmergencyCall = false;
         if (c != null) isEmergencyCall = PhoneNumberUtils.isEmergencyNumber(c.getAddress());
-        if (isEmergencyCall) { // disable "Mute" item
+        boolean isECM = PhoneUtils.isPhoneInEcm(fgCall.getPhone());
+        if (isEmergencyCall || isECM) {  // disable "Mute" item
             canMute = false;
             muteIndicatorOn = false;
         } else {
