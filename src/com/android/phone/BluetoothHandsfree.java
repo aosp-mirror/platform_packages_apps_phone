@@ -1043,6 +1043,9 @@ public class BluetoothHandsfree {
                 break;
             case DIALING:
                 callsetup = 2;
+                // Open the SCO channel for the outgoing call.
+                mCallStartTime = System.currentTimeMillis();
+                audioOn();
                 mAudioPossible = true;
                 // We also need to send a Call started indication
                 // for cases where the 2nd MO was initiated was
@@ -1056,9 +1059,6 @@ public class BluetoothHandsfree {
                 break;
             case ALERTING:
                 callsetup = 3;
-                // Open the SCO channel for the outgoing call.
-                mCallStartTime = System.currentTimeMillis();
-                audioOn();
                 mAudioPossible = true;
                 break;
             case DISCONNECTING:
