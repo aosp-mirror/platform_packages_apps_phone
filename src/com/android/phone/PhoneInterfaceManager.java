@@ -54,6 +54,8 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final int CMD_ANSWER_RINGING_CALL = 4;
     private static final int CMD_END_CALL = 5;  // not used yet
     private static final int CMD_SILENCE_RINGER = 6;
+    private static final int CMD_SET_TRANSMIT_POWER = 7;
+    private static final int EVENT_SET_TRANSMIT_POWER_DONE = 8;
 
     PhoneApp mApp;
     Phone mPhone;
@@ -93,6 +95,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             MainThreadRequest request;
             Message onCompleted;
             AsyncResult ar;
+            boolean retStatus = false;
 
             switch (msg.what) {
                 case CMD_HANDLE_PIN_MMI:
@@ -151,6 +154,28 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                     }
                     if (DBG) log("CMD_END_CALL: " + (hungUp ? "hung up!" : "no call to hang up"));
                     request.result = hungUp;
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                    break;
+
+                case CMD_SET_TRANSMIT_POWER:
+                    request = (MainThreadRequest) msg.obj;
+                    onCompleted = obtainMessage(EVENT_SET_TRANSMIT_POWER_DONE, request);
+                    mPhone.setTransmitPower((Integer) request.argument, onCompleted);
+                    break;
+
+                case EVENT_SET_TRANSMIT_POWER_DONE:
+                    retStatus = false;
+                    ar = (AsyncResult)msg.obj;
+                    request = (MainThreadRequest)ar.userObj;
+
+                    if (ar.exception == null) {
+                        retStatus = true;
+                    }
+                    request.result = retStatus;
+
                     // Wake up the requesting thread
                     synchronized (request) {
                         request.notifyAll();
@@ -729,5 +754,18 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      */
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
+    }
+
+    /**
+     * Sets the transmit power
+     *
+     * @param power - Specifies the transmit power that is allowed. One of
+     *            TRANSMIT_POWER_DEFAULT      - restore default transmit power
+     *            TRANSMIT_POWER_WIFI_HOTSPOT - reduce transmit power as per FCC
+     *                               regulations (CFR47 2.1093) for WiFi hotspot
+     */
+    public boolean setTransmitPower(int powerLevel) {
+        enforceModifyPermission();
+        return (Boolean) sendRequest(CMD_SET_TRANSMIT_POWER, powerLevel);
     }
 }
