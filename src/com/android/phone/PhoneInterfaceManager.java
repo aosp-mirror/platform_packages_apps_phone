@@ -730,4 +730,17 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
     }
+
+    /**
+     * Sets the transmit power
+     *
+     * @param power - Specifies the transmit power that is allowed. One of
+     *            TRANSMIT_POWER_DEFAULT      - restore default transmit power
+     *            TRANSMIT_POWER_WIFI_HOTSPOT - reduce transmit power as per FCC
+     *                               regulations (CFR47 2.1093) for WiFi hotspot
+     */
+    public void setTransmitPower(int powerLevel) {
+        enforceModifyPermission();
+        mPhone.setTransmitPower(powerLevel);
+    }
 }
