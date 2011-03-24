@@ -395,7 +395,9 @@ public class BluetoothHeadsetService extends Service {
                     Log.i(TAG, "Trying to connect to rfcomm socket again after 1 sec");
                     try {
                       sleep(1000);  // 1 second
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                      return;
+                    }
                 }
                 result = waitForConnect(headset);
             }
