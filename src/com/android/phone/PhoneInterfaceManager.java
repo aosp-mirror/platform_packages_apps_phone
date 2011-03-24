@@ -730,4 +730,14 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
     }
+
+    /**
+     * Sets the transmit power
+     *
+     * @param power - Specifies the transmit power that is allowed
+     */
+    public void setTransmitPower(int powerLevel) {
+        enforceModifyPermission();
+        mPhone.setTransmitPower(powerLevel);
+    }
 }
