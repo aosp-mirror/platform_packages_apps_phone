@@ -1422,7 +1422,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 Preference fdnButton = prefSet.findPreference(BUTTON_FDN_KEY);
                 if (fdnButton != null)
                     prefSet.removePreference(fdnButton);
-                addPreferencesFromResource(R.xml.cdma_call_options);
+                if (!getResources().getBoolean(R.bool.config_voice_privacy_disable)) {
+                    addPreferencesFromResource(R.xml.cdma_call_privacy);
+                }
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 addPreferencesFromResource(R.xml.gsm_umts_call_options);
             } else {

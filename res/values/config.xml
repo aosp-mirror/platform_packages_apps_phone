@@ -119,4 +119,6 @@
     <!-- Determines if device implements a noise suppression device for in call audio-->
     <bool name="has_in_call_noise_suppression">false</bool>
 
+    <!-- If true, removes the Voice Privacy option from Call Settings -->
+    <bool name="config_voice_privacy_disable">false</bool>
 </resources>
