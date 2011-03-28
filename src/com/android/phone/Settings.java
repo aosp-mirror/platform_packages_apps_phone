@@ -194,10 +194,27 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             mCdmaOptions = new CdmaOptions(this, prefSet);
             mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
         } else {
-            prefSet.removePreference(mButtonPreferredNetworkMode);
+            if (SystemProperties.getInt(TelephonyProperties.PROPERTY_NETWORK_LTE_ON_CDMA, 0) != 1) {
+                prefSet.removePreference(mButtonPreferredNetworkMode);
+            }
             int phoneType = mPhone.getPhoneType();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 mCdmaOptions = new CdmaOptions(this, prefSet);
+                if (SystemProperties.getInt(TelephonyProperties.PROPERTY_NETWORK_LTE_ON_CDMA, 0)
+                        == 1) {
+                    mButtonPreferredNetworkMode.setOnPreferenceChangeListener(this);
+                    mButtonPreferredNetworkMode.setEntries(
+                            R.array.preferred_network_mode_choices_lte);
+                    mButtonPreferredNetworkMode.setEntryValues(
+                            R.array.preferred_network_mode_values_lte);
+                    int settingsNetworkMode = android.provider.Settings.Secure.getInt(
+                            mPhone.getContext().getContentResolver(),
+                            android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
+                            preferredNetworkMode);
+                    mButtonPreferredNetworkMode.setValue(
+                            Integer.toString(settingsNetworkMode));
+                }
+
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
             } else {
@@ -427,7 +444,14 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: GSM/WCDMA");
                 break;
             case Phone.NT_MODE_CDMA:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: CDMA / EvDo");
+                if (SystemProperties.getInt(TelephonyProperties.PROPERTY_NETWORK_LTE_ON_CDMA, 0)
+                       == 1) {
+                    mButtonPreferredNetworkMode.setSummary(
+                            R.string.preferred_network_mode_cdma_summary);
+                } else {
+                    mButtonPreferredNetworkMode.setSummary(
+                            R.string.preferred_network_mode_cdma_evdo_summary);
+                }
                 break;
             case Phone.NT_MODE_CDMA_NO_EVDO:
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: CDMA only");
