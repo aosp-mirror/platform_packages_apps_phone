@@ -422,6 +422,10 @@
     <string name="preferred_network_mode_title">Network Mode</string>
     <string name="preferred_network_mode_summary">Change the network operating mode</string>
     <string name="preferred_network_mode_dialogtitle">Preferred network mode</string>
+    <!-- Mobile network settings, summary for preferred network mode CDMA [CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_cdma_summary">Preferred network mode: CDMA</string>
+    <!-- Mobile network settings, summary for preferred network mode CDMA / EvDo [CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_cdma_evdo_summary">Preferred network mode: CDMA / EvDo</string>
     <string-array name="preferred_network_mode_choices">
         <item>Global</item>
         <item>EvDo only</item>
@@ -441,6 +445,15 @@
         <item>"2"</item>
         <item>"1"</item>
         <item>"0"</item>
+    </string-array>
+    <!-- Mobile network settings, network mode choices for a device supporting CDMA and LTE [CHAR LIMIT=25] -->
+    <string-array name="preferred_network_mode_choices_lte">
+        <item>Global</item>
+        <item>CDMA</item>
+    </string-array>
+    <string-array name="preferred_network_mode_values_lte" translatable="false">
+        <item>"7"</item>
+        <item>"4"</item>
     </string-array>
     <!-- Mobile network settings screen, data enabling checkbox name -->
     <string name="data_enabled">Data enabled</string>
