@@ -579,8 +579,8 @@
     <item quantity="other" msgid="3122217344579273583">"Er is al <xliff:g id="COUNT">%s</xliff:g> minuten geen dataverbinding"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in de modus voor noodoproepen. In deze modus kunt u geen toepassingen gebruiken die een dataverbinding vereisen. Wilt u de modus verlaten?"</item>
-    <item quantity="other" msgid="3231879566243957821">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuten in de modus voor noodoproepen. In deze modus kunt u geen toepassingen gebruiken die een dataverbinding vereisen. Wilt u de modus verlaten?"</item>
+    <item quantity="one" msgid="2181569650640386253">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in de modus voor noodoproepen. In deze modus kunt u geen apps gebruiken waarvoor een dataverbinding nodig is. Wilt u de modus verlaten?"</item>
+    <item quantity="other" msgid="3231879566243957821">"De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuten in de modus voor noodoproepen. In deze modus kunt u geen apps gebruiken waarvoor een dataverbinding nodig is. Wilt u de modus verlaten?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="8939225905428421722">"De geselecteerde actie is niet beschikbaar in de modus voor noodoproepen. De telefoon staat <xliff:g id="COUNT">%s</xliff:g> minuut in deze modus. Wilt u de modus verlaten?"</item>
