@@ -754,7 +754,14 @@ public class InCallScreen extends Activity
                 // useless if there's no active call.  So bail out.
                 if (DBG) log("  ==> syncWithPhoneState failed; bailing out!");
                 dismissAllDialogs();
-                endInCallScreenSession();
+
+                // Force the InCallScreen to truly finish(), rather than just
+                // moving it to the back of the activity stack (which is what
+                // our finish() method usually does.)
+                // This is necessary to avoid an obscure scenario where the
+                // InCallScreen can get stuck in an inconsistent state, somehow
+                // causing a *subsequent* outgoing call to fail (bug 4172599).
+                endInCallScreenSession(true /* force a real finish() call */);
                 return;
             }
         } else if (phoneIsCdma) {
@@ -1037,7 +1044,25 @@ public class InCallScreen extends Activity
      */
     public void endInCallScreenSession() {
         if (DBG) log("endInCallScreenSession()...");
-        moveTaskToBack(true);
+        endInCallScreenSession(false);
+    }
+
+    /**
+     * Internal version of endInCallScreenSession().
+     *
+     * @param forceFinish If true, force the InCallScreen to
+     *        truly finish() rather than just calling moveTaskToBack().
+     *        @see finish()
+     */
+    private void endInCallScreenSession(boolean forceFinish) {
+        if (DBG) log("endInCallScreenSession(" + forceFinish + ")...");
+        if (forceFinish) {
+            Log.i(LOG_TAG, "endInCallScreenSession(): FORCING a call to super.finish()!");
+            super.finish();  // Call super.finish() rather than our own finish() method,
+                             // which actually just calls moveTaskToBack().
+        } else {
+            moveTaskToBack(true);
+        }
         setInCallScreenMode(InCallScreenMode.UNDEFINED);
     }
 
@@ -3545,7 +3570,14 @@ public class InCallScreen extends Activity
             mGenericErrorDialog = null;
         }
         if (DBG) log("bailOutAfterErrorDialog(): end InCallScreen session...");
-        endInCallScreenSession();
+
+        // Force the InCallScreen to truly finish(), rather than just
+        // moving it to the back of the activity stack (which is what
+        // our finish() method usually does.)
+        // This is necessary to avoid an obscure scenario where the
+        // InCallScreen can get stuck in an inconsistent state, somehow
+        // causing a *subsequent* outgoing call to fail (bug 4172599).
+        endInCallScreenSession(true /* force a real finish() call */);
     }
 
     /**
