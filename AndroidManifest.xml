@@ -74,7 +74,6 @@
     <uses-permission android:name="android.permission.SHUTDOWN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.PERFORM_CDMA_PROVISIONING" />
-    <uses-permission android:name="android.permission.BACKUP" />
     <uses-permission android:name="android.permission.USE_SIP" />
     <uses-permission android:name="com.android.smspush.WAPPUSH_MANAGER_BIND" />
 
