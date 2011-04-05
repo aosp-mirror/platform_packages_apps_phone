@@ -84,7 +84,6 @@ public class BluetoothHeadsetService extends Service {
         IntentFilter filter = new IntentFilter(
                 BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         filter.addAction(AudioManager.VOLUME_CHANGED_ACTION);
         filter.addAction(BluetoothDevice.ACTION_UUID);
         registerReceiver(mBluetoothReceiver, filter);
@@ -282,19 +281,6 @@ public class BluetoothHeadsetService extends Service {
                             mBinder.disconnect(currDevice);
                         } catch (RemoteException e) {}
                     }
-                    break;
-                }
-            } else if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
-                int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE,
-                                                   BluetoothDevice.ERROR);
-                switch(bondState) {
-                case BluetoothDevice.BOND_BONDED:
-                    if (getPriority(device) == BluetoothProfile.PRIORITY_UNDEFINED) {
-                        setPriority(device, BluetoothProfile.PRIORITY_ON);
-                    }
-                    break;
-                case BluetoothDevice.BOND_NONE:
-                    setPriority(device, BluetoothProfile.PRIORITY_UNDEFINED);
                     break;
                 }
             } else if (action.equals(AudioManager.VOLUME_CHANGED_ACTION)) {
