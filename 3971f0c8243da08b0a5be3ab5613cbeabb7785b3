@@ -16,6 +16,24 @@
       "revId": "3971f0c8243da08b0a5be3ab5613cbeabb7785b3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///mA\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1493,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2011-04-06T23:36:34Z",
+      "side": 1,
+      "message": "Any way that want PTS wants, so we will submit this.",
+      "parentUuid": "AAAA/n///p8\u003d",
+      "revId": "3971f0c8243da08b0a5be3ab5613cbeabb7785b3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
