@@ -129,7 +129,7 @@
 
         <activity android:name="OutgoingCallBroadcaster"
                 android:permission="android.permission.CALL_PHONE"
-                android:configChanges="orientation|keyboardHidden">
+                android:configChanges="orientation|screenSize|keyboardHidden">
             <!-- CALL action intent filters, for the various ways
                  of initiating an outgoing call. -->
             <intent-filter>
@@ -227,7 +227,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|uiMode"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
             android:exported="false">
         </activity>
 
@@ -260,7 +260,7 @@
 
         <activity android:name="NetworkSetting"
                 android:label="@string/networks"
-                android:configChanges="orientation|keyboardHidden"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -302,7 +302,7 @@
 
         <activity android:name="GsmUmtsCallForwardOptions"
                 android:label="@string/labelCF"
-                android:configChanges="orientation|keyboardHidden"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -311,7 +311,7 @@
 
         <activity android:name="GsmUmtsAdditionalCallOptions"
                 android:label="@string/labelGSMMore"
-                android:configChanges="orientation|keyboardHidden"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -401,7 +401,7 @@
         <!-- call feature setting -->
         <activity android:name="CallFeaturesSetting"
                 android:label="@string/call_settings"
-                android:configChanges="orientation|keyboardHidden"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -460,7 +460,7 @@
                   android:name=".sip.SipSettings"
                   android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                   android:launchMode="singleTop"
-                  android:configChanges="orientation|keyboardHidden">
+                  android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.sip.NOTIFY" />
@@ -468,11 +468,11 @@
         </activity>
         <activity android:name=".sip.SipEditor"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge"
-                android:configChanges="orientation|keyboardHidden">
+                android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
         <activity android:name=".SipCallOptionHandler"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge"
-                android:configChanges="orientation|keyboardHidden">
+                android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
 
     </application>
