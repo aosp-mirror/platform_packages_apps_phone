@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///p8\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1493,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2011-04-06T16:59:27Z",
+      "side": 1,
+      "message": "The problem is that it can still be a CONF_CALL because in CDMA there is no clear definition of a multi-party call.\n\nWhen a call waiting is accepted - the state of the call is dependent on how the network implements it. We have seen it some cases it is treated as a multi party call on in some cases the first call is put on hold in different states on the same network in US.\n\nWhen a flash command is sent, its not well defined what the behavior will be.\n\nDo you have more information regarding this ?",
+      "revId": "3971f0c8243da08b0a5be3ab5613cbeabb7785b3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
