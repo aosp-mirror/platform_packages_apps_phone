@@ -203,6 +203,10 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Modus da rait"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Midar il modus da funcziunament da la rait"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Modus da rait preferida"</string>
+    <!-- no translation found for preferred_network_mode_cdma_summary (3175690187294334241) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_cdma_evdo_summary (8332063064712726618) -->
+    <skip />
   <string-array name="preferred_network_mode_choices">
     <item msgid="2987674222882365152">"General"</item>
     <item msgid="3273348576277144124">"Mo EvDo"</item>
@@ -223,6 +227,8 @@
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
   </string-array>
+    <!-- no translation found for preferred_network_mode_choices_lte:0 (4446354214569753370) -->
+    <!-- no translation found for preferred_network_mode_choices_lte:1 (5541716989029928208) -->
     <string name="data_enabled" msgid="5972538663568715366">"Datas activadas"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Activar l\'access a las datas sur la rait mobila"</string>
     <string name="roaming" msgid="8871412572928323707">"Roaming da datas"</string>
@@ -486,6 +492,8 @@
     <string name="card_title_on_hold" msgid="821463117892339942">"Clom spetgant"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Pender si"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Clom"</string>
+    <!-- no translation found for card_title_my_phone_number (112428362494434191) -->
+    <skip />
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Clom manchentà"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Cloms manchentads"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> cloms manchentads"</string>
