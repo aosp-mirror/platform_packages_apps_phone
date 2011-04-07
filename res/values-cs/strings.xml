@@ -194,6 +194,8 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Režim sítě"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Změnit provozní režim sítě"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Upřednostňovaný režim sítě"</string>
+    <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Upřednostňovaný režim sítě: CDMA"</string>
+    <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Upřednostňovaný režim sítě: CDMA / EvDo"</string>
   <string-array name="preferred_network_mode_choices">
     <item msgid="2987674222882365152">"Globální"</item>
     <item msgid="3273348576277144124">"Pouze EvDo"</item>
@@ -213,6 +215,10 @@
     <item msgid="3062641619893382241">"2"</item>
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_choices_lte">
+    <item msgid="4446354214569753370">"Globální"</item>
+    <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Datové přenosy aktivovány"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Aktivuje datový přístup prostřednictvím mobilní sítě"</string>
@@ -476,6 +482,7 @@
     <string name="card_title_on_hold" msgid="821463117892339942">"Přidržený hovor"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Zavěšování"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Probíhá hovor"</string>
+    <string name="card_title_my_phone_number" msgid="112428362494434191">"Moje číslo je <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Zmeškaný hovor"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Zmeškané hovory"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"Zmeškané hovory: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>."</string>

@@ -132,22 +132,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Siempre"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Utilizar siempre este número"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Desviar todas las llamadas"</string>
-    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Desviar todas las llamadas a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Desviando todas las llamadas a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Número no disponible"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Inhabilitado"</string>
     <string name="labelCFB" msgid="218938523102207587">"Línea ocupada"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Número cuando la línea esté ocupada"</string>
-    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Desviar a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Desviando a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Inhabilitado"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Tu operador no permite inhabilitar el desvío de llamadas cuando el teléfono está ocupado."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Llamada sin respuesta"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Número cuando no se responde la llamada"</string>
-    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Desviar a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Desviando a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Inhabilitado"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Tu operador no permite inhabilitar el desvío de llamadas cuando el teléfono no responde."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"No se establece la llamada"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Número cuando no se puede establecer la llamada"</string>
-    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Desviar a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Desviando a <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Inhabilitado"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Tu operador no permite inhabilitar el desvío de llamadas cuando el teléfono no puede establecer la llamada."</string>
     <string name="updating_title" msgid="6146755386174019046">"Configuración de llamada"</string>
@@ -194,6 +194,8 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Modo de red"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Cambiar el modo operativo de la red"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Preferencia de modo de red"</string>
+    <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Preferencia de modo de red: CDMA"</string>
+    <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Preferencia de modo de red: CDMA / EvDo"</string>
   <string-array name="preferred_network_mode_choices">
     <item msgid="2987674222882365152">"Global"</item>
     <item msgid="3273348576277144124">"Solo EvDo"</item>
@@ -213,6 +215,10 @@
     <item msgid="3062641619893382241">"2"</item>
     <item msgid="2494009747968041784">"1"</item>
     <item msgid="2568449734331711605">"0"</item>
+  </string-array>
+  <string-array name="preferred_network_mode_choices_lte">
+    <item msgid="4446354214569753370">"Global"</item>
+    <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Datos habilitados"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Permitir el acceso a los datos a través de la red móvil"</string>
@@ -476,6 +482,7 @@
     <string name="card_title_on_hold" msgid="821463117892339942">"En espera"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Colgando"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Llamada entrante"</string>
+    <string name="card_title_my_phone_number" msgid="112428362494434191">"Mi número es <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Llamada perdida"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Llamadas perdidas"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> llamadas perdidas"</string>
