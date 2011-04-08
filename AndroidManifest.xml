@@ -258,7 +258,7 @@
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.settings.NETWORK_OPERATOR_" />
+                <action android:name="android.settings.NETWORK_OPERATOR_SETTINGS" />
             </intent-filter>
         </activity>
 
