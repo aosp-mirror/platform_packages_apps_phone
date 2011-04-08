@@ -48,7 +48,6 @@ import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.telephony.ServiceState;
-import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;

@@ -21,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Config;
 import android.util.Log;
 
 /**
@@ -33,7 +32,7 @@ public class ProcessOutgoingCallTest extends BroadcastReceiver {
     private static final String TAG = "ProcessOutgoingCallTest";
     private static final String AREACODE = "617";
 
-    private static final boolean LOGV = Config.LOGV;
+    private static final boolean LOGV = false;
 
     private static final boolean REDIRECT_411_TO_GOOG411 = true;
     private static final boolean SEVEN_DIGIT_DIALING = true;
