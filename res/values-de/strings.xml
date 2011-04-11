@@ -684,7 +684,7 @@
     <string name="set_primary_summary" msgid="2219064654523258577">"Für ausgehende Anrufe verwendet"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Optionale Einstellungen"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Nutzername für Authentifizierung"</string>
-    <string name="auth_username_summary" msgid="6782012405225938629">"Für die Authentifizierung verwendeter Nutzername"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Für Authentifizierung verwendeter Nutzername"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nicht festgelegt&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Wie Nutzername&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Optional&gt;"</string>
