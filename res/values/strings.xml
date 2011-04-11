@@ -699,6 +699,8 @@
     </string-array>
     <!-- Preference title with which users can activate CDMA network [CHAR LIMIT=30] -->
     <string name="cdma_activate_device">Activate device</string>
+    <!-- Preference title for launching an account manager page for prepaid LTE [CHAR LIMIT=30] -->
+    <string name="cdma_lte_data_service">Set up data service</string>
 
     <!-- FDN settings strings -->
     <!-- Call settings screen, setting option name -->

@@ -34,10 +34,15 @@
         android:dialogTitle="@string/cdma_subscription_dialogtitle" />
 
     <PreferenceScreen
-        android:key="cdma_activate_device"
+        android:key="cdma_activate_device_key"
         android:title="@string/cdma_activate_device">
         <intent android:action="com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING">
             <extra android:name="autoStart" android:value="true" />
         </intent>
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="cdma_lte_data_service_key"
+        android:title="@string/cdma_lte_data_service">
     </PreferenceScreen>
 </PreferenceScreen>
