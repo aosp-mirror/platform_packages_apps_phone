@@ -16,11 +16,16 @@
 
 package com.android.phone;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.SystemProperties;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.text.TextUtils;
+
+import com.android.internal.telephony.TelephonyProperties;
 
 /**
  * List of Phone-specific settings screens.
@@ -33,7 +38,8 @@ public class CdmaOptions {
 
     private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
     private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "cdma_subscription_key";
-    private static final String BUTTON_CDMA_ACTIVATE_DEVICE = "cdma_activate_device";
+    private static final String BUTTON_CDMA_ACTIVATE_DEVICE_KEY = "cdma_activate_device_key";
+    private static final String BUTTON_CDMA_LTE_DATA_SERVICE_KEY = "cdma_lte_data_service_key";
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
@@ -65,9 +71,20 @@ public class CdmaOptions {
 
         final boolean voiceCapable = mPrefActivity.getResources().getBoolean(
                 com.android.internal.R.bool.config_voice_capable);
-        if (voiceCapable) {
-            // This option should not be available on voice-capable devices (i.e. regular phones).
-            mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE));
+        final boolean isLTE = SystemProperties.getBoolean(
+                TelephonyProperties.PROPERTY_NETWORK_LTE_ON_CDMA, false);
+        if (voiceCapable || isLTE) {
+            // This option should not be available on voice-capable devices (i.e. regular phones)
+            // and is replaced by the LTE data service item on LTE devices
+            mPrefScreen.removePreference(
+                    mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE_KEY));
+        }
+        final boolean missingDataServiceUrl = TextUtils.isEmpty(
+                Settings.Secure.getString(mPrefActivity.getContentResolver(),
+                        Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL));
+        final Preference ltePref = mPrefScreen.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
+        if (!isLTE || missingDataServiceUrl) {
+            mPrefScreen.removePreference(ltePref);
         }
     }
 
@@ -104,6 +121,17 @@ public class CdmaOptions {
         }
         if (preference.getKey().equals(BUTTON_CDMA_SUBSCRIPTION_KEY)) {
             log("preferenceTreeClick: return CDMA_SUBSCRIPTION_KEY true");
+            return true;
+        }
+        if (preference.getKey().equals(BUTTON_CDMA_LTE_DATA_SERVICE_KEY)) {
+            String url = Settings.Secure.getString(mPrefActivity.getContentResolver(),
+                        Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL);
+            if (!TextUtils.isEmpty(url)) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                mPrefActivity.startActivity(intent);
+            } else {
+                android.util.Log.e(LOG_TAG, "Missing SETUP_PREPAID_DATA_SERVICE_URL");
+            }
             return true;
         }
         return false;
