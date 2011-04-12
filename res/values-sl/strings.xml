@@ -477,6 +477,7 @@
     <string name="card_title_on_hold" msgid="821463117892339942">"Zadržano"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Prekinitev"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Dohodni klic"</string>
+    <string name="card_title_my_phone_number" msgid="112428362494434191">"Moja številka je <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Neodgovorjeni klic"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Neodgovorjeni klici"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> neodgovorjenih klicev"</string>
