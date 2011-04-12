@@ -346,7 +346,7 @@
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"CDMA-Roamingmodus ändern"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Systemauswahl"</string>
   <string-array name="cdma_system_select_choices">
-    <item msgid="176474317493999285">"Nur privates Netz"</item>
+    <item msgid="176474317493999285">"Nur Heimatnetz"</item>
     <item msgid="1205664026446156265">"Automatisch"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-Roamingmodus"</string>
@@ -477,6 +477,7 @@
     <string name="card_title_on_hold" msgid="821463117892339942">"Gehaltener Anruf"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Auflegen"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Anruf"</string>
+    <string name="card_title_my_phone_number" msgid="112428362494434191">"Meine Nummer lautet <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Entgangener Anruf"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Entgangene Anrufe"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> entgangene Anrufe"</string>
@@ -678,7 +679,7 @@
     <string name="set_primary_summary" msgid="2219064654523258577">"Für ausgehende Anrufe verwendet"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Optionale Einstellungen"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Nutzername für Authentifizierung"</string>
-    <string name="auth_username_summary" msgid="6782012405225938629">"Für die Authentifizierung verwendeter Nutzername"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Für Authentifizierung verwendeter Nutzername"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nicht festgelegt&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Wie Nutzername&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Optional&gt;"</string>
