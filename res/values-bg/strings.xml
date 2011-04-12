@@ -134,22 +134,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Да се пренасочва винаги"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Винаги използвайте този номер"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Пренасочване на всички обаждания"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Пренасочване на всички обаждания към \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Всички обаждания се пренасочват към <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Номерът не е наличен"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Деактивирано"</string>
     <string name="labelCFB" msgid="218938523102207587">"Пренасочване при заета линия"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Показва номер, при заета мрежа"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Пренасочване към \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Пренасочва се към <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Деактивирано"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Операторът ви не поддържа деактивиране на пренасочване на обаждането по време на разговор."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Пренасочване, когато няма отговор"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Показва номер, когато няма отговор"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Пренасочване към \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Пренасочва се към <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Деактивирано"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Операторът ви не поддържа деактивиране на пренасочване на обаждането, когато телефонът ви не отговаря."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Пренасочване, когато няма връзка"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Показва номер, когато няма достъп"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Пренасочване към \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Пренасочва се към <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Деактивирано"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Операторът ви не поддържа деактивиране на пренасочване на обаждането, когато няма връзка с телефона."</string>
     <string name="updating_title" msgid="6146755386174019046">"Настройки за обаждане"</string>

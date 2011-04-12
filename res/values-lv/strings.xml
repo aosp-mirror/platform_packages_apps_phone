@@ -134,22 +134,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"Vienmēr pāradresēt"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Vienmēr izmantot šo numuru"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Tiek pāradresēti visi zvani"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"Visi zvani tiek pāradresēti uz: \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"Visu zvanu pāradresēšana uz: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numurs nav pieejams"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Atspējots"</string>
     <string name="labelCFB" msgid="218938523102207587">"Pāradresēt, ja aizņemts"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numurs, ja ir aizņemts"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"Pāradresēšana uz: \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Pāradresēšana uz: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Atspējots"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Jūsu mobilo sakaru operators neatbalsta zvanu pāradresācijas atspējošanu, ja tālrunis ir aizņemts."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Pāradresēt, ja nav atbildes"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Numurs, ja nav atbildes"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"Pāradresēšana uz: \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Pāradresēšana uz: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Atspējots"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Jūsu mobilo sakaru operators neatbalsta zvanu pāradresācijas atspējošanu, ja tālrunis neatbild."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Pāradresēt, ja nevar sasniegt"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Numurs, ja nav sasniedzams"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"Pāradresēšana uz: \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Pāradresēšana uz: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Atspējots"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Jūsu mobilo sakaru operators neatbalsta zvanu pāradresācijas atspējošanu, ja tālrunis nav sasniedzams."</string>
     <string name="updating_title" msgid="6146755386174019046">"Zvanu iestatījumi"</string>

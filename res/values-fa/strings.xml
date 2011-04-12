@@ -134,22 +134,22 @@
     <string name="labelCFU" msgid="8147177368148660600">"همیشه هدایت"</string>
     <string name="messageCFU" msgid="3560082430662923687">"همیشه از این شماره استفاده شود"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"هدایت همه تماس ها"</string>
-    <string name="sum_cfu_enabled" msgid="956178654350554451">"هدایت همه تماس ها به \\{0\\}"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"هدایت همه تماس ها به <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"شماره در دسترس نیست"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"غیر فعال شد"</string>
     <string name="labelCFB" msgid="218938523102207587">"هدایت در صورت مشغول بودن"</string>
     <string name="messageCFB" msgid="3711089705936187129">"شماره هنگام مشغول بودن"</string>
-    <string name="sum_cfb_enabled" msgid="2501948432392255856">"هدایت به \\{0\\}"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"هدایت به <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"غیر فعال شد"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"شرکت مخابراتی شما از غیر فعال کردن هدایت تماس هنگامی که تلفن شما مشغول است، پشتیبانی نمی کند."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"هدایت هنگام عدم پاسخگویی"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"شماره هنگام عدم پاسخگویی"</string>
-    <string name="sum_cfnry_enabled" msgid="3473526018876802076">"هدایت به \\{0\\}"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"هدایت به <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"غیر فعال شد"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"شرکت مخابراتی شما از غیر فعال کردن هدایت تماس هنگامی که تلفن شما مشغول است، پشتیبانی نمی کند."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"هدایت هنگام عدم دسترسی"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"شماره در صورت عدم دسترسی"</string>
-    <string name="sum_cfnrc_enabled" msgid="3528648673654636587">"هدایت به \\{0\\}"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"هدایت به <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"غیر فعال شد"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"شرکت مخابراتی شما از غیر فعال کردن هدایت تماس هنگامی که تلفن شما در دسترس نیست پشتیبانی نمی کند."</string>
     <string name="updating_title" msgid="6146755386174019046">"تنظیمات تماس"</string>
