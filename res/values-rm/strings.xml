@@ -401,6 +401,8 @@
   </string-array>
     <!-- no translation found for cdma_activate_device (3793805892364814518) -->
     <skip />
+    <!-- no translation found for cdma_lte_data_service (4255018217292548962) -->
+    <skip />
     <string name="fdn" msgid="7878832555095183202">"Numers autorisads"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Glista da numers autorisads"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activaziun da numers autorisads"</string>
