@@ -310,6 +310,9 @@ public class OtaUtils {
         if (DBG) log("- created OtaUtils: " + app.otaUtils);
 
         // ... and kick off the OTASP call.
+        // TODO(InCallScreen redesign): This should probably go through
+        // the CallController, rather than directly calling
+        // PhoneUtils.placeCall().
         Phone phone = PhoneApp.getPhone();
         String number = OTASP_NUMBER_NON_INTERACTIVE;
         if (DBG) log("- placing call to '" + number + "'...");
@@ -468,7 +471,11 @@ public class OtaUtils {
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
             Intent newIntent = new Intent(Intent.ACTION_CALL);
             newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, OTASP_NUMBER);
-            mInCallScreen.internalResolveIntent(newIntent);
+
+            // Initiate the outgoing call:
+            PhoneApp.getInstance().callController.placeCall(newIntent);
+
+            // ...and get the in-call UI into the right state.
             otaShowListeningScreen();
         }
         return;

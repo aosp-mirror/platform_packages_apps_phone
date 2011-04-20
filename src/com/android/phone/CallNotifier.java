@@ -36,10 +36,8 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
-import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
-import android.provider.CallLog;
 import android.provider.CallLog.Calls;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
@@ -287,7 +285,7 @@ public class CallNotifier extends Handler
                 if (DBG) log("Received CALLWAITING_ADDCALL_DISABLE_TIMEOUT event ...");
                 // Set the mAddCallMenuStateAfterCW state to true
                 mApplication.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(true);
-                mApplication.updateInCallScreenTouchUi();
+                mApplication.updateInCallScreen();
                 break;
 
             case PHONE_STATE_DISPLAYINFO:
@@ -444,8 +442,9 @@ public class CallNotifier extends Handler
         // intercept) new ringing connections.  An app could reject the
         // incoming call by consuming the broadcast and doing nothing, or
         // it could "pick up" the call (without any action by the user!)
-        // by firing off an ACTION_ANSWER intent.
+        // via some future TelephonyManager API.
         //
+        // See bug 1312336 for more details.
         // We'd need to protect this with a new "intercept incoming calls"
         // system permission.
 

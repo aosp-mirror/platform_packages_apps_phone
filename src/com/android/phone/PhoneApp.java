@@ -50,7 +50,6 @@ import android.provider.Settings.System;
 import android.telephony.ServiceState;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallManager;
@@ -59,9 +58,7 @@ import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyIntents;
-import com.android.internal.telephony.cdma.EriInfo;
 import com.android.internal.telephony.cdma.TtyIntent;
-import com.android.internal.telephony.sip.SipPhoneFactory;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 import com.android.server.sip.SipService;
 
@@ -145,6 +142,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     // A few important fields we expose to the rest of the package
     // directly (rather than thru set/get methods) for efficiency.
     Phone phone;
+    CallController callController;
+    InCallUiState inCallUiState;
     CallNotifier notifier;
     Ringer ringer;
     BluetoothHandsfree mBtHandsfree;
@@ -375,11 +374,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                             !isHeadsetPlugged() &&
                             !(mBtHandsfree != null && mBtHandsfree.isAudioOn())) {
                         PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
-
-                        if (mInCallScreen != null) {
-                            mInCallScreen.requestUpdateTouchUi();
-                        }
+                        updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     }
+                    break;
 
                 case EVENT_TTY_PREFERRED_MODE_CHANGED:
                     // TTY mode is only applied if a headset is connected
@@ -488,6 +485,18 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             mPowerManagerService = IPowerManager.Stub.asInterface(
                     ServiceManager.getService("power"));
 
+            // Create the CallController singleton, which is the interface
+            // to the telephony layer for user-initiated telephony functionality
+            // (like making outgoing calls.)
+            callController = CallController.init(this);
+            // ...and also the InCallUiState instance, used by the CallController to
+            // keep track of some "persistent state" of the in-call UI.
+            inCallUiState = InCallUiState.init(this);
+
+            // Create the CallNotifer singleton, which handles
+            // asynchronous events from the telephony layer (like
+            // launching the incoming-call UI when an incoming call comes
+            // in.)
             notifier = new CallNotifier(this, phone, ringer, mBtHandsfree, new CallLogAsync());
 
             // register for ICC status
@@ -670,7 +679,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /**
      * Starts the InCallScreen Activity.
      */
-    private void displayCallScreen() {
+    /* package */ void displayCallScreen() {
         if (VDBG) Log.d(LOG_TAG, "displayCallScreen()...");
 
         // On non-voice-capable devices we shouldn't ever be trying to
@@ -734,7 +743,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * For OTA Call, it call InCallScreen api to handle OTA Call End scenario
      * to display OTA Call End screen.
      */
-    void dismissCallScreen() {
+    /* package */ void dismissCallScreen() {
         if (mInCallScreen != null) {
             if ((TelephonyCapabilities.supportsOtasp(phone)) &&
                     (mInCallScreen.isOtaCallInActiveState()
@@ -1552,7 +1561,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             } else if (action.equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
                 int ringerMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE,
                         AudioManager.RINGER_MODE_NORMAL);
-                if(ringerMode == AudioManager.RINGER_MODE_SILENT) {
+                if (ringerMode == AudioManager.RINGER_MODE_SILENT) {
                     notifier.silenceRinger();
                 }
             }
@@ -1583,9 +1592,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     // If a headset is attached and the press is consumed, also update
                     // any UI items (such as an InCallScreen mute button) that may need to
                     // be updated if their state changed.
-                    if (isShowingCallScreen()) {
-                        updateInCallScreenTouchUi();
-                    }
+                    updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     abortBroadcast();
                 }
             } else {
@@ -1664,11 +1671,27 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
     }
 
-    // Update InCallScreen's touch UI. It is safe to call even if InCallScreen isn't active
-    public void updateInCallScreenTouchUi() {
-        if (DBG) Log.d(LOG_TAG, "- updateInCallScreenTouchUi ...");
+    /**
+     * Force the in-call UI to refresh itself, if it's currently visible.
+     *
+     * This method can be used any time there's a state change anywhere in
+     * the phone app that needs to be reflected in the onscreen UI.
+     *
+     * Note that it's *not* necessary to manually refresh the in-call UI
+     * (via this method) for regular telephony state changes like
+     * DIALING -> ALERTING -> ACTIVE, since the InCallScreen already
+     * listens for those state changes itself.
+     *
+     * This method does *not* force the in-call UI to come up if it's not
+     * already visible.  To do that, use displayCallScreen().
+     */
+    /* package */ void updateInCallScreen() {
+        if (DBG) Log.d(LOG_TAG, "- updateInCallScreen()...");
         if (mInCallScreen != null) {
-            mInCallScreen.requestUpdateTouchUi();
+            // Post an updateScreen() request.  Note that the
+            // updateScreen() call will end up being a no-op if the
+            // InCallScreen isn't the foreground activity.
+            mInCallScreen.requestUpdateScreen();
         }
     }
 

@@ -31,11 +31,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -49,13 +50,22 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * SipCallOptionHandler select the sip phone based on the call option.
+ * Activity that selects the proper phone type for an outgoing call.
+ *
+ * This activity determines which Phone type (SIP or PSTN) should be used
+ * for an outgoing phone call, depending on the outgoing "number" (which
+ * may be either a PSTN number or a SIP address) as well as the user's SIP
+ * preferences.  In some cases this activity has no interaction with the
+ * user, but in other cases it may (by bringing up a dialog if the user's
+ * preference is "Ask for each call".)
  */
 public class SipCallOptionHandler extends Activity implements
         DialogInterface.OnClickListener, DialogInterface.OnCancelListener,
         CompoundButton.OnCheckedChangeListener {
-
     static final String TAG = "SipCallOptionHandler";
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+
     static final int DIALOG_SELECT_PHONE_TYPE = 0;
     static final int DIALOG_SELECT_OUTGOING_SIP_PHONE = 1;
     static final int DIALOG_START_SIP_SETTINGS = 2;
@@ -79,14 +89,32 @@ public class SipCallOptionHandler extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mIntent = (Intent)getIntent().getParcelableExtra
-            (OutgoingCallBroadcaster.EXTRA_NEW_CALL_INTENT);
+        Intent intent = getIntent();
+        String action = intent.getAction();
+
+        // This activity is only ever launched with the
+        // ACTION_SIP_SELECT_PHONE action.
+        if (!OutgoingCallBroadcaster.ACTION_SIP_SELECT_PHONE.equals(action)) {
+            Log.wtf(TAG, "onCreate: got intent action '" + action + "', expected "
+                    + OutgoingCallBroadcaster.ACTION_SIP_SELECT_PHONE);
+            // STOPSHIP: remove this throw before ship (but leave the Log.wtf())
+            throw new IllegalArgumentException("Unexpected intent action '" + action + "'");
+        }
+
+        // mIntent is a copy of the original CALL intent that started the
+        // whole outgoing-call sequence.  This intent will ultimately be
+        // passed to CallController.placeCall() after displaying the SIP
+        // call options dialog (if necessary).
+        mIntent = (Intent) intent.getParcelableExtra(OutgoingCallBroadcaster.EXTRA_NEW_CALL_INTENT);
         if (mIntent == null) {
             finish();
             return;
         }
 
-        // set this flag so this activity will stay in front of the keyguard
+        // Allow this activity to be visible in front of the keyguard.
+        // (This is only necessary for obscure scenarios like the user
+        // initiating a call and then immediately pressing the Power
+        // button.)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         // If we're trying to make a SIP call, return a SipPhone if one is
@@ -111,15 +139,16 @@ public class SipCallOptionHandler extends Activity implements
         //       outgoing call.)
 
         boolean voipSupported = PhoneUtils.isVoipSupported();
+        if (DBG) Log.v(TAG, "voipSupported: " + voipSupported);
         mSipProfileDb = new SipProfileDb(this);
         mSipSharedPreferences = new SipSharedPreferences(this);
         mCallOption = mSipSharedPreferences.getSipCallOption();
-        Log.v(TAG, "Call option is " + mCallOption);
+        if (DBG) Log.v(TAG, "Call option: " + mCallOption);
         Uri uri = mIntent.getData();
         String scheme = uri.getScheme();
         mNumber = PhoneNumberUtils.getNumberFromIntent(mIntent, this);
         boolean isInCellNetwork = PhoneApp.getInstance().phoneMgr.isRadioOn();
-        boolean isKnownCallScheme= "tel".equals(scheme) || "sip".equals(scheme);
+        boolean isKnownCallScheme = "tel".equals(scheme) || "sip".equals(scheme);
         boolean isRegularCall =
                 "tel".equals(scheme) && !PhoneNumberUtils.isUriNumber(mNumber);
 
@@ -282,7 +311,7 @@ public class SipCallOptionHandler extends Activity implements
         } else if(dialog == mDialogs[DIALOG_SELECT_PHONE_TYPE]) {
             String selection = getResources().getStringArray(
                     R.array.phone_type_values)[id];
-            Log.v(TAG, "User pick phone " + selection);
+            if (DBG) Log.v(TAG, "User pick phone " + selection);
             if (selection.equals(getString(R.string.internet_phone))) {
                 mUseSipPhone = true;
                 startGetPrimarySipPhoneThread();
@@ -346,7 +375,7 @@ public class SipCallOptionHandler extends Activity implements
                         showDialog(DIALOG_NO_INTERNET_ERROR);
                         return;
                     }
-                    Log.v(TAG, "primary SIP URI is " +
+                    if (DBG) Log.v(TAG, "primary SIP URI is " +
                             mOutgoingSipProfile.getUriString());
                     createSipPhoneIfNeeded(mOutgoingSipProfile);
                     mIntent.putExtra(OutgoingCallBroadcaster.EXTRA_SIP_PHONE_URI,
@@ -356,11 +385,13 @@ public class SipCallOptionHandler extends Activity implements
                                 mOutgoingSipProfile.getUriString());
                     }
                 }
+
                 if (mUseSipPhone && mOutgoingSipProfile == null) {
                     showDialog(DIALOG_START_SIP_SETTINGS);
                     return;
                 } else {
-                    startActivity(mIntent);
+                    // Woo hoo -- it's finally OK to initiate the outgoing call!
+                    PhoneApp.getInstance().callController.placeCall(mIntent);
                 }
                 finish();
             }

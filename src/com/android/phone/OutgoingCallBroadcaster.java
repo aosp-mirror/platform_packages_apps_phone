@@ -55,6 +55,7 @@ public class OutgoingCallBroadcaster extends Activity
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
+    public static final String ACTION_SIP_SELECT_PHONE = "com.android.phone.SIP_SELECT_PHONE";
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
     public static final String EXTRA_NEW_CALL_INTENT = "android.phone.extra.NEW_CALL_INTENT";
@@ -165,15 +166,20 @@ public class OutgoingCallBroadcaster extends Activity
 
     private void startSipCallOptionsHandler(Context context, Intent intent,
             Uri uri, String number) {
+
+        // Create a copy of the original CALL intent that started the whole
+        // outgoing-call sequence.  This intent will ultimately be passed to
+        // CallController.placeCall() after the SipCallOptionHandler step.
+
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
         newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
-
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
-        newIntent.setClass(context, InCallScreen.class);
-        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Finally, launch the SipCallOptionHandler, with the copy of the
+        // original CALL intent stashed away in the EXTRA_NEW_CALL_INTENT
+        // extra.
 
-        Intent selectPhoneIntent = new Intent(EXTRA_NEW_CALL_INTENT, uri);
+        Intent selectPhoneIntent = new Intent(ACTION_SIP_SELECT_PHONE, uri);
         selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
         selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
         selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
