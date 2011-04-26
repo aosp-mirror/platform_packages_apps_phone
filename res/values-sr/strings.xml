@@ -391,8 +391,7 @@
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
     <string name="cdma_activate_device" msgid="3793805892364814518">"Активирање уређаја"</string>
-    <!-- no translation found for cdma_lte_data_service (4255018217292548962) -->
-    <skip />
+    <string name="cdma_lte_data_service" msgid="4255018217292548962">"Подесите усл. преноса података"</string>
     <string name="fdn" msgid="7878832555095183202">"Фиксни бирани бројеви"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Листа бројева за фиксно бирање"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"FDN активација"</string>
