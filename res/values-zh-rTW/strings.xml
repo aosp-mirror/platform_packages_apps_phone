@@ -64,7 +64,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD 碼執行中..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI 碼已取消"</string>
     <string name="cancel" msgid="5044513931633602634">"取消"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"喇叭"</string>
+    <string name="menu_speaker" msgid="6069700688651964705">"擴音"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"藍牙"</string>
     <string name="menu_mute" msgid="4399723633363773145">"靜音"</string>
     <string name="menu_hold" msgid="6970441130344786273">"保留"</string>
@@ -522,7 +522,7 @@
     <string name="onscreenEndCallText" msgid="4403855834875398585">"結束"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"撥號鍵盤"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"隱藏"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"喇叭"</string>
+    <string name="onscreenSpeakerText" msgid="9013795366801657948">"擴音"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"靜音"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"藍牙"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"新增通話"</string>
@@ -562,7 +562,7 @@
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"啟用失敗"</string>
     <string name="ota_listen" msgid="162923839877584937">"依照語音指示進行，直到您聽到啟用完成為止。"</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"小鍵盤"</string>
-    <string name="ota_speaker" msgid="6904589278542719647">"喇叭"</string>
+    <string name="ota_speaker" msgid="6904589278542719647">"擴音"</string>
     <string name="ota_progress" msgid="4644512049143969504">"手機正在進行程式化設定，請稍候。"</string>
     <string name="ota_failure" msgid="8600027551822478181">"程式化失敗"</string>
     <string name="ota_successful" msgid="1880780692887077407">"您的手機已啟用；系統最多可能需要 15 分鐘，才會開始提供服務。"</string>
