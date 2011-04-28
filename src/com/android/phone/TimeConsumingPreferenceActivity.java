@@ -143,7 +143,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
                 + ", reading=" + reading);
         mBusyList.remove(preference.getKey());
 
-        if (mBusyList.isEmpty() && mIsForeground) {
+        if (mBusyList.isEmpty()) {
             if (reading) {
                 dismissDialogSafely(BUSY_READING_DIALOG);
             } else {
