@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/3///MQ\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2011-05-02T23:11:05Z",
+      "side": 1,
+      "message": "details about the param.  What does 0 mean?  What does 3 mean, etc.",
+      "revId": "4f0f37adb044945707183c3c332ae84aa433d671",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
