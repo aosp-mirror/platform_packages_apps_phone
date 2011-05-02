@@ -16,6 +16,7 @@
 
 package com.android.phone;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemProperties;
@@ -23,6 +24,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.android.internal.telephony.TelephonyProperties;
@@ -124,9 +126,17 @@ public class CdmaOptions {
             return true;
         }
         if (preference.getKey().equals(BUTTON_CDMA_LTE_DATA_SERVICE_KEY)) {
-            String url = Settings.Secure.getString(mPrefActivity.getContentResolver(),
+            String tmpl = Settings.Secure.getString(mPrefActivity.getContentResolver(),
                         Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL);
-            if (!TextUtils.isEmpty(url)) {
+            if (!TextUtils.isEmpty(tmpl)) {
+                TelephonyManager tm = (TelephonyManager) mPrefActivity.getSystemService(
+                        Context.TELEPHONY_SERVICE);
+                String imsi = tm.getSubscriberId();
+                if (imsi == null) {
+                    imsi = "";
+                }
+                final String url = TextUtils.isEmpty(tmpl) ? null
+                        : TextUtils.expandTemplate(tmpl, imsi).toString();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 mPrefActivity.startActivity(intent);
             } else {
