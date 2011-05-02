@@ -16,6 +16,24 @@
       "revId": "4f0f37adb044945707183c3c332ae84aa433d671",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3///J4\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1005066
+      },
+      "writtenOn": "2011-05-02T23:38:23Z",
+      "side": 1,
+      "message": "Updated the RilConstants.java to point to appropriate RIL request to find the details to be consistent with rest of the code.",
+      "parentUuid": "AAAA/3///MQ\u003d",
+      "revId": "4f0f37adb044945707183c3c332ae84aa433d671",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
