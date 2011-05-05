@@ -174,4 +174,9 @@ public class ButtonGridLayout extends ViewGroup {
         final int height = resolveSize(mHeight, heightMeasureSpec);
         setMeasuredDimension(width, height);
     }
+
+    @Override
+    public boolean shouldDelayChildPressedState() {
+        return false;
+    }
 }
