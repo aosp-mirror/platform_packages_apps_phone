@@ -1090,7 +1090,9 @@
     <string name="ota_title_activate_success">Phone is activated!</string>
     <!-- Title text shown on screen where activation fails -->
     <string name="ota_title_problem_with_activation">Problem with activation</string>
-    <!-- Message displayed on the OTA listen screen. This message should be short to ensure the dialer fits. -->
+    <!-- Message displayed on the OTA "listening" screen. This message
+         needs to be kept at 2 lines or less to be sure that there's
+         enough room for the dialpad. [CHAR LIMIT=80] -->
     <string name="ota_listen">Follow the spoken instructions until you hear that activation is complete.</string>
 
     <!-- Button label within the OTA listen screen -->

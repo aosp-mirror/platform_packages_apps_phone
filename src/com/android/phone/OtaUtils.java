@@ -44,10 +44,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 /**
- * Handles all OTA Call related logic and UI functionality.
- * The InCallScreen interacts with this class to perform an OTA Call.
+ * Handles all OTASP Call related logic and UI functionality.
+ * The InCallScreen interacts with this class to perform an OTASP Call.
  *
- * OTA is a CDMA-specific feature:
+ * OTASP is a CDMA-specific feature:
  *   OTA or OTASP == Over The Air service provisioning
  *   SPC == Service Programming Code
  *   TODO: Include pointer to more detailed documentation.
@@ -137,16 +137,10 @@ public class OtaUtils {
     private ViewGroup mInCallPanel;
     private CallCard mCallCard;
 
-    // The DTMFTwelveKeyDialer instance owned by the InCallScreen, which
-    // the InCallScreen passes in to our constructor.
-    private DTMFTwelveKeyDialer mDialer;
-    //
-    // The DTMFTwelveKeyDialer instance that we create ourselves in
-    // initOtaInCallScreen(), and attach to the DTMFTwelveKeyDialerView
+    // The DTMFTwelveKeyDialer instance.   We create this in
+    // initOtaInCallScreen(), and attach it to the DTMFTwelveKeyDialerView
     // ("otaDtmfDialerView") that comes from otacall_card.xml.
     private DTMFTwelveKeyDialer mOtaCallCardDtmfDialer;
-    // TODO: we ought to share a single DTMFTwelveKeyDialer instance for
-    // both these uses, but see bug 2432289 for related issues.
 
     private static boolean mIsWizardMode = true;
 
@@ -176,7 +170,7 @@ public class OtaUtils {
         public Button otaSkipButton;
         public Button otaNextButton;
         public ToggleButton otaSpeakerButton;
-        public View otaCallCardBase;
+        public ViewGroup otaUpperWidgets;
         public View callCardOtaButtonsFailSuccess;
         public ProgressBar otaTextProgressBar;
         public TextView otaTextSuccessFail;
@@ -184,7 +178,6 @@ public class OtaUtils {
         public View callCardOtaButtonsListenProgress;
         public TextView otaTextActivate;
         public TextView otaTextListenProgress;
-        public ScrollView otaTextListenProgressContainer;
         public AlertDialog spcErrorDialog;
         public AlertDialog otaFailureDialog;
         public AlertDialog otaSkipConfirmationDialog;
@@ -224,8 +217,7 @@ public class OtaUtils {
      */
     public void updateUiWidgets(InCallScreen inCallScreen,
                                 ViewGroup inCallPanel,
-                                CallCard callCard,
-                                DTMFTwelveKeyDialer dialer) {
+                                CallCard callCard) {
         if (DBG) log("updateUiWidgets()...  mInCallScreen = " + mInCallScreen);
 
         if (!mInteractive) {
@@ -240,7 +232,6 @@ public class OtaUtils {
         mInCallScreen = inCallScreen;
         mInCallPanel = inCallPanel;
         mCallCard = callCard;
-        mDialer = dialer;
         mOtaWidgetData = new OtaWidgetData();
 
         // Inflate OTASP-specific UI elements:
@@ -264,7 +255,6 @@ public class OtaUtils {
         mInCallScreen = null;
         mInCallPanel = null;
         mCallCard = null;
-        mDialer = null;
         mOtaWidgetData = null;
     }
 
@@ -278,7 +268,6 @@ public class OtaUtils {
      * @return true if we were able to launch Ota activity or it's not required; false otherwise
      */
     public static boolean maybeDoOtaCall(Context context, Handler handler, int request) {
-
         PhoneApp app = PhoneApp.getInstance();
         Phone phone = app.phone;
 
@@ -287,9 +276,10 @@ public class OtaUtils {
             return true;
         }
 
-        if (!isCdmaPhone()) {
-            if (DBG) log("Can't run provisioning on a non-CDMA phone");
-            return true; // sanity check - a non-cdma phone doesn't need to run this
+        if (!TelephonyCapabilities.supportsOtasp(phone)) {
+            // Presumably not a CDMA phone.
+            if (DBG) log("maybeDoOtaCall: OTASP not supported on this device");
+            return true;  // Nothing to do here.
         }
 
         if (!phone.isMinInfoReady()) {
@@ -696,7 +686,7 @@ public class OtaUtils {
     }
 
     private void otaShowHome() {
-        if (DBG) log("OtaShowHome()...");
+        if (DBG) log("otaShowHome()...");
         mApplication.cdmaOtaScreenState.otaScreenState =
                 CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED;
         mInCallScreen.endInCallScreenSession();
@@ -738,6 +728,7 @@ public class OtaUtils {
 
             // ...and get the in-call UI into the right state.
             otaShowListeningScreen();
+            mInCallScreen.requestUpdateScreen();
         }
         return;
     }
@@ -749,10 +740,10 @@ public class OtaUtils {
      * which allow user to start OTA activation or skip the activation process.
      */
     public void otaShowActivateScreen() {
-        if (DBG) log("OtaShowActivationScreen()...");
+        if (DBG) log("otaShowActivateScreen()...");
         if (mApplication.cdmaOtaConfigData.otaShowActivationScreen
                 == OTA_SHOW_ACTIVATION_SCREEN_ON) {
-            if (DBG) log("OtaShowActivationScreen(): show activation screen");
+            if (DBG) log("otaShowActivateScreen(): show activation screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
                 mOtaWidgetData.otaSkipButton.setVisibility(mIsWizardMode ?
@@ -763,7 +754,7 @@ public class OtaUtils {
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
         } else {
-            if (DBG) log("OtaShowActivationScreen(): show home screen");
+            if (DBG) log("otaShowActivateScreen(): show home screen");
             otaShowHome();
         }
      }
@@ -783,10 +774,10 @@ public class OtaUtils {
 
         if (mApplication.cdmaOtaConfigData.otaShowListeningScreen
                 == OTA_SHOW_LISTENING_SCREEN_ON) {
-            if (DBG) log("OtaShowListeningScreen(): show listening screen");
+            if (DBG) log("otaShowListeningScreen(): show listening screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
-                mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
+                mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
                 mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_listen);
                 mOtaWidgetData.otaDtmfDialerView.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
@@ -796,11 +787,8 @@ public class OtaUtils {
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
-
-            // Update the onscreen UI.
-            mInCallScreen.requestUpdateScreen();
         } else {
-            if (DBG) log("OtaShowListeningScreen(): show progress screen");
+            if (DBG) log("otaShowListeningScreen(): show progress screen");
             otaShowInProgressScreen();
         }
     }
@@ -928,7 +916,7 @@ public class OtaUtils {
 
         if (!isDialerOpened()) {
             otaScreenInitialize();
-            mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
+            mOtaWidgetData.otaTextListenProgress.setVisibility(View.VISIBLE);
             mOtaWidgetData.otaTextListenProgress.setText(R.string.ota_progress);
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.VISIBLE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.VISIBLE);
@@ -936,9 +924,6 @@ public class OtaUtils {
             boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
             mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
         }
-
-        // Update the onscreen UI.
-        mInCallScreen.requestUpdateScreen();
     }
 
     /**
@@ -948,18 +933,18 @@ public class OtaUtils {
      * information. When notice expires, phone returns to activation screen.
      */
     private void otaShowProgramFailure(int length) {
-        if (DBG) log("OtaShowProgramFailure()...");
+        if (DBG) log("otaShowProgramFailure()...");
         mApplication.cdmaOtaProvisionData.activationCount++;
         if ((mApplication.cdmaOtaProvisionData.activationCount <
                 mApplication.cdmaOtaConfigData.otaShowActivateFailTimes)
                 && (mApplication.cdmaOtaConfigData.otaShowActivationScreen ==
                 OTA_SHOW_ACTIVATION_SCREEN_ON)) {
-            if (DBG) log("OtaShowProgramFailure(): activationCount"
+            if (DBG) log("otaShowProgramFailure(): activationCount"
                     + mApplication.cdmaOtaProvisionData.activationCount);
-            if (DBG) log("OtaShowProgramFailure(): show failure notice");
+            if (DBG) log("otaShowProgramFailure(): show failure notice");
             otaShowProgramFailureNotice(length);
         } else {
-            if (DBG) log("OtaShowProgramFailure(): show failure dialog");
+            if (DBG) log("otaShowProgramFailure(): show failure dialog");
             otaShowProgramFailureDialog();
         }
     }
@@ -978,13 +963,13 @@ public class OtaUtils {
         }
 
         otaScreenInitialize();
-        if (DBG) log("OtaShowSuccessFailure(): isOtaCallCommitted"
+        if (DBG) log("otaShowSuccessFailure(): isOtaCallCommitted"
                 + mApplication.cdmaOtaProvisionData.isOtaCallCommitted);
         if (mApplication.cdmaOtaProvisionData.isOtaCallCommitted) {
-            if (DBG) log("OtaShowSuccessFailure(), show success dialog");
+            if (DBG) log("otaShowSuccessFailure(), show success dialog");
             otaShowProgramSuccessDialog();
         } else {
-            if (DBG) log("OtaShowSuccessFailure(), show failure dialog");
+            if (DBG) log("otaShowSuccessFailure(), show failure dialog");
             otaShowProgramFailure(OTA_FAILURE_DIALOG_TIMEOUT);
         }
         return;
@@ -995,7 +980,7 @@ public class OtaUtils {
      * times.
      */
     private void otaShowProgramFailureDialog() {
-        if (DBG) log("OtaShowProgramFailureDialog()...");
+        if (DBG) log("otaShowProgramFailureDialog()...");
         mApplication.cdmaOtaScreenState.otaScreenState =
                 CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG;
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_problem_with_activation);
@@ -1005,7 +990,7 @@ public class OtaUtils {
         mOtaWidgetData.otaTryAgainButton.setVisibility(View.VISIBLE);
         //close the dialer if open
         if (isDialerOpened()) {
-            mDialer.closeDialer(false);
+            mOtaCallCardDtmfDialer.closeDialer(false);
         }
     }
 
@@ -1013,7 +998,7 @@ public class OtaUtils {
      * Show programming success dialog when OTA provisioning succeeds.
      */
     private void otaShowProgramSuccessDialog() {
-        if (DBG) log("OtaShowProgramSuccessDialog()...");
+        if (DBG) log("otaShowProgramSuccessDialog()...");
         mApplication.cdmaOtaScreenState.otaScreenState =
                 CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG;
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate_success);
@@ -1023,7 +1008,7 @@ public class OtaUtils {
         mOtaWidgetData.otaNextButton.setVisibility(View.VISIBLE);
         //close the dialer if open
         if (isDialerOpened()) {
-            mDialer.closeDialer(false);
+            mOtaCallCardDtmfDialer.closeDialer(false);
         }
     }
 
@@ -1034,7 +1019,7 @@ public class OtaUtils {
      * then phone will power down.
      */
     private void otaShowSpcErrorNotice(int length) {
-        if (DBG) log("OtaShowSpcErrorNotice()...");
+        if (DBG) log("otaShowSpcErrorNotice()...");
         if (mOtaWidgetData.spcErrorDialog == null) {
             mApplication.cdmaOtaProvisionData.inOtaSpcState = true;
             DialogInterface.OnKeyListener keyListener;
@@ -1053,10 +1038,10 @@ public class OtaUtils {
             mOtaWidgetData.spcErrorDialog.show();
             //close the dialer if open
             if (isDialerOpened()) {
-                mDialer.closeDialer(false);
+                mOtaCallCardDtmfDialer.closeDialer(false);
             }
             long noticeTime = length*1000;
-            if (DBG) log("OtaShowSpcErrorNotice(), remaining SPC noticeTime" + noticeTime);
+            if (DBG) log("otaShowSpcErrorNotice(), remaining SPC noticeTime" + noticeTime);
             mInCallScreen.requestCloseSpcErrorNotice(noticeTime);
         }
     }
@@ -1077,7 +1062,7 @@ public class OtaUtils {
      * is less then 3.
      */
     private void otaShowProgramFailureNotice(int length) {
-        if (DBG) log("OtaShowProgramFailureNotice()...");
+        if (DBG) log("otaShowProgramFailureNotice()...");
         if (mOtaWidgetData.otaFailureDialog == null) {
             mOtaWidgetData.otaFailureDialog = new AlertDialog.Builder(mInCallScreen)
                     .setMessage(R.string.ota_failure)
@@ -1125,7 +1110,7 @@ public class OtaUtils {
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
+        mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
         mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
         mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
@@ -1135,7 +1120,7 @@ public class OtaUtils {
         mOtaWidgetData.otaSpeakerButton.setVisibility(View.GONE);
         mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
         mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
-        mOtaWidgetData.otaCallCardBase.setVisibility(View.VISIBLE);
+        mOtaWidgetData.otaUpperWidgets.setVisibility(View.VISIBLE);
         mOtaWidgetData.otaSkipButton.setVisibility(View.VISIBLE);
     }
 
@@ -1145,11 +1130,13 @@ public class OtaUtils {
         mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.GONE);
         mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.GONE);
-        mOtaWidgetData.otaCallCardBase.setVisibility(View.GONE);
+        mOtaWidgetData.otaUpperWidgets.setVisibility(View.GONE);
     }
 
     public boolean isDialerOpened() {
-        return (mDialer != null && mDialer.isOpened());
+        boolean retval = (mOtaCallCardDtmfDialer != null && mOtaCallCardDtmfDialer.isOpened());
+        if (DBG) log("- isDialerOpened() ==> " + retval);
+        return retval;
     }
 
     /**
@@ -1203,25 +1190,25 @@ public class OtaUtils {
         int tmpOtaShowActivationScreen =
                 mContext.getResources().getInteger(R.integer.OtaShowActivationScreen);
         mApplication.cdmaOtaConfigData.otaShowActivationScreen = tmpOtaShowActivationScreen;
-        if (DBG) log("readXmlSettings(), otaShowActivationScreen"
+        if (DBG) log("readXmlSettings(), otaShowActivationScreen = "
                 + mApplication.cdmaOtaConfigData.otaShowActivationScreen);
 
         int tmpOtaShowListeningScreen =
                 mContext.getResources().getInteger(R.integer.OtaShowListeningScreen);
         mApplication.cdmaOtaConfigData.otaShowListeningScreen = tmpOtaShowListeningScreen;
-        if (DBG) log("readXmlSettings(), otaShowListeningScreen"
+        if (DBG) log("readXmlSettings(), otaShowListeningScreen = "
                 + mApplication.cdmaOtaConfigData.otaShowListeningScreen);
 
         int tmpOtaShowActivateFailTimes =
                 mContext.getResources().getInteger(R.integer.OtaShowActivateFailTimes);
         mApplication.cdmaOtaConfigData.otaShowActivateFailTimes = tmpOtaShowActivateFailTimes;
-        if (DBG) log("readXmlSettings(), otaShowActivateFailTimes"
+        if (DBG) log("readXmlSettings(), otaShowActivateFailTimes = "
                 + mApplication.cdmaOtaConfigData.otaShowActivateFailTimes);
 
         int tmpOtaPlaySuccessFailureTone =
                 mContext.getResources().getInteger(R.integer.OtaPlaySuccessFailureTone);
         mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone = tmpOtaPlaySuccessFailureTone;
-        if (DBG) log("readXmlSettings(), otaPlaySuccessFailureTone"
+        if (DBG) log("readXmlSettings(), otaPlaySuccessFailureTone = "
                 + mApplication.cdmaOtaConfigData.otaPlaySuccessFailureTone);
     }
 
@@ -1376,8 +1363,6 @@ public class OtaUtils {
         mOtaWidgetData.otaTitle = (TextView) mInCallScreen.findViewById(R.id.otaTitle);
         mOtaWidgetData.otaTextActivate = (TextView) mInCallScreen.findViewById(R.id.otaActivate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-        mOtaWidgetData.otaTextListenProgressContainer =
-                (ScrollView) mInCallScreen.findViewById(R.id.otaListenProgressContainer);
         mOtaWidgetData.otaTextListenProgress =
                 (TextView) mInCallScreen.findViewById(R.id.otaListenProgress);
         mOtaWidgetData.otaTextProgressBar =
@@ -1386,7 +1371,8 @@ public class OtaUtils {
         mOtaWidgetData.otaTextSuccessFail =
                 (TextView) mInCallScreen.findViewById(R.id.otaSuccessFailStatus);
 
-        mOtaWidgetData.otaCallCardBase = (View) mInCallScreen.findViewById(R.id.otaBase);
+        mOtaWidgetData.otaUpperWidgets =
+                (ViewGroup) mInCallScreen.findViewById(R.id.otaUpperWidgets);
         mOtaWidgetData.callCardOtaButtonsListenProgress =
                 (View) mInCallScreen.findViewById(R.id.callCardOtaListenProgress);
         mOtaWidgetData.callCardOtaButtonsActivate =
@@ -1411,19 +1397,15 @@ public class OtaUtils {
         mOtaWidgetData.otaTryAgainButton.setOnClickListener(mInCallScreen);
 
         mOtaWidgetData.otaDtmfDialerView =
-                (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.otaDtmfDialer);
-        // Sanity-check: the otaDtmfDialer widget should *always* be present.
+                (DTMFTwelveKeyDialerView) mInCallScreen.findViewById(R.id.otaDtmfDialerView);
+        // Sanity-check: the otaDtmfDialerView widget should *always* be present.
         if (mOtaWidgetData.otaDtmfDialerView == null) {
-            Log.e(LOG_TAG, "onCreate: couldn't find otaDtmfDialer", new IllegalStateException());
+            throw new IllegalStateException("initOtaInCallScreen: couldn't find otaDtmfDialerView");
         }
-
 
         // Create a new DTMFTwelveKeyDialer instance purely for use by the
         // DTMFTwelveKeyDialerView ("otaDtmfDialerView") that comes from
         // otacall_card.xml.
-        // (But note that mDialer is a separate DTMFTwelveKeyDialer
-        // instance, that belongs to the InCallScreen.  This is confusing;
-        // see the TODO comment above.)
         mOtaCallCardDtmfDialer = new DTMFTwelveKeyDialer(mInCallScreen,
                                                          mOtaWidgetData.otaDtmfDialerView);
 
@@ -1462,13 +1444,13 @@ public class OtaUtils {
             }
 
             mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
-            mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.GONE);
+            mOtaWidgetData.otaTextListenProgress.setVisibility(View.GONE);
             mOtaWidgetData.otaTextProgressBar.setVisibility(View.GONE);
             mOtaWidgetData.otaTextSuccessFail.setVisibility(View.GONE);
             mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.GONE);
             mOtaWidgetData.callCardOtaButtonsListenProgress.setVisibility(View.GONE);
             mOtaWidgetData.callCardOtaButtonsFailSuccess.setVisibility(View.GONE);
-            mOtaWidgetData.otaCallCardBase.setVisibility(View.GONE);
+            mOtaWidgetData.otaUpperWidgets.setVisibility(View.GONE);
             mOtaWidgetData.otaDtmfDialerView.setVisibility(View.GONE);
             mOtaWidgetData.otaNextButton.setVisibility(View.GONE);
             mOtaWidgetData.otaTryAgainButton.setVisibility(View.GONE);
@@ -1612,9 +1594,5 @@ public class OtaUtils {
 
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
-    }
-
-    private static boolean isCdmaPhone() {
-        return (PhoneApp.getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA);
     }
 }

@@ -16,9 +16,10 @@
 
 <!-- In-call Phone UI; see InCallScreen.java. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              >
+    android:id="@+id/incall_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <!-- inCallPanel: container for the CallCard. -->
     <!-- TODO: This RelativeLayout is useless since it only has
