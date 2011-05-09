@@ -266,7 +266,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         /**
          * Handles the query results.  There are really 2 steps to this,
-         * similar to what happens in RecentCallsListActivity.
+         * similar to what happens in CallLogActivity.
          *  1. Find the list of missed calls
          *  2. For each call, run a query to retrieve the caller's name.
          */
@@ -285,7 +285,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // Provider.
 
             // At this point, we will execute subqueries on each row just as
-            // RecentCallsListActivity.java does.
+            // CallLogActivity.java does.
             switch (token) {
                 case CALL_LOG_TOKEN:
                     if (DBG) log("call log query complete.");

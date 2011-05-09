@@ -634,7 +634,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /**
      * Returns an Intent that can be used to go to the "Call log"
-     * UI (aka RecentCallsListActivity) in the Contacts app.
+     * UI (aka CallLogActivity) in the Contacts app.
      *
      * Watch out: there's no guarantee that the system has any activity to
      * handle this intent.  (In particular there may be no "Call log" at
