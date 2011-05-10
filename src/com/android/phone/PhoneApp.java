@@ -432,7 +432,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
             NotificationMgr.init(this);
 
-            phoneMgr = new PhoneInterfaceManager(this, phone);
+            phoneMgr = PhoneInterfaceManager.init(this, phone);
 
             mHandler.sendEmptyMessage(EVENT_START_SIP_SERVICE);
 
@@ -447,14 +447,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (BluetoothAdapter.getDefaultAdapter() != null) {
                 // Start BluetoothHandsree even if device is not voice capable.
                 // The device can still support VOIP.
-                mBtHandsfree = new BluetoothHandsfree(this, mCM);
+                mBtHandsfree = BluetoothHandsfree.init(this, mCM);
                 startService(new Intent(this, BluetoothHeadsetService.class));
             } else {
                 // Device is not bluetooth capable
                 mBtHandsfree = null;
             }
 
-            ringer = new Ringer(this);
+            ringer = Ringer.init(this);
 
             // before registering for phone state changes
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -497,7 +497,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // asynchronous events from the telephony layer (like
             // launching the incoming-call UI when an incoming call comes
             // in.)
-            notifier = new CallNotifier(this, phone, ringer, mBtHandsfree, new CallLogAsync());
+            notifier = CallNotifier.init(this, phone, ringer, mBtHandsfree, new CallLogAsync());
 
             // register for ICC status
             IccCard sim = phone.getIccCard();

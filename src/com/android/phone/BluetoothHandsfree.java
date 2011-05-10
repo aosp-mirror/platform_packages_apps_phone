@@ -71,6 +71,9 @@ public class BluetoothHandsfree {
     public static final int TYPE_HEADSET           = 1;
     public static final int TYPE_HANDSFREE         = 2;
 
+    /** The singleton instance. */
+    private static BluetoothHandsfree sInstance;
+
     private final Context mContext;
     private final BluetoothAdapter mAdapter;
     private final CallManager mCM;
@@ -181,7 +184,23 @@ public class BluetoothHandsfree {
         return null;
     }
 
-    public BluetoothHandsfree(Context context, CallManager cm) {
+    /**
+     * Initialize the singleton BluetoothHandsfree instance.
+     * This is only done once, at startup, from PhoneApp.onCreate().
+     */
+    /* package */ static BluetoothHandsfree init(Context context, CallManager cm) {
+        synchronized (BluetoothHandsfree.class) {
+            if (sInstance == null) {
+                sInstance = new BluetoothHandsfree(context, cm);
+            } else {
+                Log.wtf(TAG, "init() called multiple times!  sInstance = " + sInstance);
+            }
+            return sInstance;
+        }
+    }
+
+    /** Private constructor; @see init() */
+    private BluetoothHandsfree(Context context, CallManager cm) {
         mCM = cm;
         mContext = context;
         mAdapter = BluetoothAdapter.getDefaultAdapter();

@@ -58,6 +58,9 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final int CMD_END_CALL = 5;  // not used yet
     private static final int CMD_SILENCE_RINGER = 6;
 
+    /** The singleton instance. */
+    private static PhoneInterfaceManager sInstance;
+
     PhoneApp mApp;
     Phone mPhone;
     CallManager mCM;
@@ -204,7 +207,23 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mMainThreadHandler.sendEmptyMessage(command);
     }
 
-    public PhoneInterfaceManager(PhoneApp app, Phone phone) {
+    /**
+     * Initialize the singleton PhoneInterfaceManager instance.
+     * This is only done once, at startup, from PhoneApp.onCreate().
+     */
+    /* package */ static PhoneInterfaceManager init(PhoneApp app, Phone phone) {
+        synchronized (PhoneInterfaceManager.class) {
+            if (sInstance == null) {
+                sInstance = new PhoneInterfaceManager(app, phone);
+            } else {
+                Log.wtf(LOG_TAG, "init() called multiple times!  sInstance = " + sInstance);
+            }
+            return sInstance;
+        }
+    }
+
+    /** Private constructor; @see init() */
+    private PhoneInterfaceManager(PhoneApp app, Phone phone) {
         mApp = app;
         mPhone = phone;
         mCM = PhoneApp.getInstance().mCM;

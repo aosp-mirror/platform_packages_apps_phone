@@ -74,6 +74,9 @@ public class CallNotifier extends Handler
     // Time to display the  DisplayInfo Record sent by CDMA network
     private static final int DISPLAYINFO_NOTIFICATION_TIME = 2000; // msec
 
+    /** The singleton instance. */
+    private static CallNotifier sInstance;
+
     // Boolean to keep track of whether or not a CDMA Call Waiting call timed out.
     //
     // This is CDMA-specific, because with CDMA we *don't* get explicit
@@ -173,8 +176,25 @@ public class CallNotifier extends Handler
     // Cached AudioManager
     private AudioManager mAudioManager;
 
-    public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
-                        BluetoothHandsfree btMgr, CallLogAsync callLog) {
+    /**
+     * Initialize the singleton CallNotifier instance.
+     * This is only done once, at startup, from PhoneApp.onCreate().
+     */
+    /* package */ static CallNotifier init(PhoneApp app, Phone phone, Ringer ringer,
+                                           BluetoothHandsfree btMgr, CallLogAsync callLog) {
+        synchronized (CallNotifier.class) {
+            if (sInstance == null) {
+                sInstance = new CallNotifier(app, phone, ringer, btMgr, callLog);
+            } else {
+                Log.wtf(LOG_TAG, "init() called multiple times!  sInstance = " + sInstance);
+            }
+            return sInstance;
+        }
+    }
+
+    /** Private constructor; @see init() */
+    private CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
+                         BluetoothHandsfree btMgr, CallLogAsync callLog) {
         mApplication = app;
         mCM = app.mCM;
         mCallLog = callLog;

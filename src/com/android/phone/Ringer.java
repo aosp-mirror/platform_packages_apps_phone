@@ -47,6 +47,9 @@ public class Ringer {
     private static final int VIBRATE_LENGTH = 1000; // ms
     private static final int PAUSE_LENGTH = 1000; // ms
 
+    /** The singleton instance. */
+    private static Ringer sInstance;
+
     // Uri for the ringtone.
     Uri mCustomRingtoneUri;
 
@@ -61,7 +64,23 @@ public class Ringer {
     private long mFirstRingEventTime = -1;
     private long mFirstRingStartTime = -1;
 
-    Ringer(Context context) {
+    /**
+     * Initialize the singleton Ringer instance.
+     * This is only done once, at startup, from PhoneApp.onCreate().
+     */
+    /* package */ static Ringer init(Context context) {
+        synchronized (Ringer.class) {
+            if (sInstance == null) {
+                sInstance = new Ringer(context);
+            } else {
+                Log.wtf(LOG_TAG, "init() called multiple times!  sInstance = " + sInstance);
+            }
+            return sInstance;
+        }
+    }
+
+    /** Private constructor; @see init() */
+    private Ringer(Context context) {
         mContext = context;
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
     }
