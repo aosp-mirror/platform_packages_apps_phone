@@ -25,6 +25,7 @@
     <color name="incall_textOnHold">#FF9524</color> <!-- orange -->
     <color name="incall_endButtonLabel">#FF6072</color> <!-- red -->
     <color name="incall_callTypeSip">#99CE3F</color> <!-- green -->
+    <color name="incall_call_banner_background">#A0000000</color> <!-- semitransparent black -->
 
     <!-- DTMF Dialer -->
     <color name="dtmf_dialer_background">#333333</color> <!-- green -->

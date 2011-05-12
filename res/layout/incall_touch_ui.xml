@@ -33,7 +33,7 @@
     <com.android.internal.widget.multiwaveview.MultiWaveView
         android:id="@+id/incomingCallWidget"
         android:layout_width="match_parent"
-        android:layout_height="300dip"
+        android:layout_height="@dimen/upper_buttons_top_margin"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
 
@@ -73,6 +73,7 @@
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dip"
+                android:layout_marginTop="@dimen/upper_buttons_top_margin"
                 android:visibility="gone">
             <ImageButton android:id="@+id/holdButton"
                     style="@style/InCallRoundTouchButton"
@@ -88,6 +89,7 @@
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dip"
+                android:layout_marginTop="@dimen/upper_buttons_top_margin"
                 android:visibility="gone">
             <ImageButton android:id="@+id/swapButton"
                     style="@style/InCallRoundTouchButton"
@@ -105,6 +107,7 @@
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dip"
+                android:layout_marginTop="@dimen/upper_buttons_top_margin"
                 android:visibility="gone">
             <ImageButton android:id="@+id/cdmaMergeButton"
                     style="@style/InCallRoundTouchButton"

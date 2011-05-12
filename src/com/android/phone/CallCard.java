@@ -161,10 +161,10 @@ public class CallCard extends FrameLayout
 
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
 
-        mPrimaryCallInfo = (ViewGroup) findViewById(R.id.primaryCallInfo);
-        mSecondaryCallInfo = (ViewGroup) findViewById(R.id.secondaryCallInfo);
+        mPrimaryCallInfo = (ViewGroup) findViewById(R.id.call_info_1);
+        mSecondaryCallInfo = (ViewGroup) findViewById(R.id.call_info_2);
 
-        // "Upper" and "lower" title widgets
+        // Title and elapsed-time widgets
         mUpperTitle = (TextView) findViewById(R.id.upperTitle);
         mElapsedTime = (TextView) findViewById(R.id.elapsedTime);
 
@@ -190,7 +190,7 @@ public class CallCard extends FrameLayout
         mCallTypeLabel = (TextView) findViewById(R.id.callTypeLabel);
         mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
-        // "Other call" info area
+        // Secondary info area, for the background ("on hold") call
         mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
         mSecondaryCallStatus = (TextView) findViewById(R.id.secondaryCallStatus);
         mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
@@ -1196,7 +1196,7 @@ public class CallCard extends FrameLayout
         }
         // And no matter what, on all devices, we never see the "manage
         // conference" button in this state.
-        mManageConferencePhotoButton.setVisibility(View.INVISIBLE);
+        mManageConferencePhotoButton.setVisibility(View.GONE);
 
         if (displayNumber != null && !call.isGeneric()) {
             mPhoneNumber.setText(displayNumber);
@@ -1251,10 +1251,8 @@ public class CallCard extends FrameLayout
         } else if ((phoneType == Phone.PHONE_TYPE_GSM)
                 || (phoneType == Phone.PHONE_TYPE_SIP)) {
             if (mInCallScreen.isTouchUiEnabled()) {
-                // Display the "manage conference" button in place of the photo.
+                // Display the "manage conference" button.
                 mManageConferencePhotoButton.setVisibility(View.VISIBLE);
-                mPhoto.setVisibility(View.INVISIBLE);  // Not GONE, since that would break
-                                                       // other views in our RelativeLayout.
             } else {
                 // Display the "conference call" image in the photo slot,
                 // with no other information.
