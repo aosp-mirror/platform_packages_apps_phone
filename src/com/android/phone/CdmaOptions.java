@@ -27,6 +27,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyProperties;
 
 /**
@@ -45,10 +46,12 @@ public class CdmaOptions {
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
+    private Phone mPhone;
 
-    public CdmaOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen) {
+    public CdmaOptions(PreferenceActivity prefActivity, PreferenceScreen prefScreen, Phone phone) {
         mPrefActivity = prefActivity;
         mPrefScreen = prefScreen;
+        mPhone = phone;
         create();
     }
 
@@ -73,8 +76,7 @@ public class CdmaOptions {
 
         final boolean voiceCapable = mPrefActivity.getResources().getBoolean(
                 com.android.internal.R.bool.config_voice_capable);
-        final boolean isLTE = SystemProperties.getBoolean(
-                TelephonyProperties.PROPERTY_NETWORK_LTE_ON_CDMA, false);
+        final boolean isLTE = mPhone.getLteOnCdmaMode() == Phone.LTE_ON_CDMA_TRUE;
         if (voiceCapable || isLTE) {
             // This option should not be available on voice-capable devices (i.e. regular phones)
             // and is replaced by the LTE data service item on LTE devices
@@ -87,6 +89,8 @@ public class CdmaOptions {
         final Preference ltePref = mPrefScreen.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
         if (!isLTE || missingDataServiceUrl) {
             mPrefScreen.removePreference(ltePref);
+        } else {
+            android.util.Log.d(LOG_TAG, "keep ltePref");
         }
     }
 
