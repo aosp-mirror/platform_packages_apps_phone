@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAX///50\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-13T18:32:14Z",
+      "side": 1,
+      "message": "Please add if (DBG) in front of these logs, I don\u0027t think they should be pushed to the logs in the normal work flow.",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///5w\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-13T18:32:14Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///54\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-13T18:32:14Z",
+      "side": 1,
+      "message": "Since these APIs can\u0027t be used by anything other than the smart card process they should be hidden so they won\u0027t show up in the SDK. To do that please add a javadoc comment that includes the @hide tag, like this:\n\n/**\n * @hide\n */",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
