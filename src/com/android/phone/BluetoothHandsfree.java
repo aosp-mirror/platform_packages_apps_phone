@@ -1324,6 +1324,15 @@ public class BluetoothHandsfree {
             }
         }
 
+        private void scoClosed() {
+            // sync on mUserWantsAudio change
+            synchronized(BluetoothHandsfree.this) {
+                if (mUserWantsAudio) {
+                    Message msg = mHandler.obtainMessage(SCO_CONNECTION_CHECK);
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }
     };
 
     private static final int SCO_CLOSED = 3;
@@ -1331,6 +1340,7 @@ public class BluetoothHandsfree {
     private static final int CHECK_VOICE_RECOGNITION_STARTED = 5;
     private static final int MESSAGE_CHECK_PENDING_SCO = 6;
     private static final int SCO_AUDIO_STATE = 7;
+    private static final int SCO_CONNECTION_CHECK = 8;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -1339,6 +1349,8 @@ public class BluetoothHandsfree {
                 switch (msg.what) {
                 case SCO_CLOSED:
                     audioOff();
+                    // notify mBluetoothPhoneState that the SCO channel has closed
+                    mBluetoothPhoneState.scoClosed();
                     break;
                 case CHECK_CALL_STARTED:
                     if (mWaitingForCallStart) {
@@ -1371,7 +1383,17 @@ public class BluetoothHandsfree {
                         setAudioState(BluetoothHeadset.STATE_AUDIO_DISCONNECTED, device);
                     }
                     break;
-
+                case SCO_CONNECTION_CHECK:
+                    synchronized (mBluetoothPhoneState) {
+                        // synchronized on mCall change
+                        if (mBluetoothPhoneState.mCall == 1) {
+                            // Sometimes, the SCO channel is torn down by HF with no reason.
+                            // Because we are still in active call, reconnect SCO.
+                            // audioOn does nothing if the SCO is already on.
+                            audioOn();
+                        }
+                    }
+                    break;
                 }
             }
         }
