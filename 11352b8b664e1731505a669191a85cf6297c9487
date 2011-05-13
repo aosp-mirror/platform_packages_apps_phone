@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABAX///3Y\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "I feel the status should be returned as part of the result, but if this must be used it should be named mLastError.",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///20\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "I think you can make use of request.result to return the error.",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAX///50\u003d",
         "filename": "src/com/android/phone/PhoneInterfaceManager.java",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2011-05-13T18:32:14Z",
       "side": 1,
       "message": "Please add if (DBG) in front of these logs, I don\u0027t think they should be pushed to the logs in the normal work flow.",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///2k\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "Why is IccIoResult.success not being checked?",
       "revId": "11352b8b664e1731505a669191a85cf6297c9487",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -47,6 +98,74 @@
       "writtenOn": "2011-05-13T18:32:14Z",
       "side": 1,
       "message": "Since these APIs can\u0027t be used by anything other than the smart card process they should be hidden so they won\u0027t show up in the SDK. To do that please add a javadoc comment that includes the @hide tag, like this:\n\n/**\n * @hide\n */",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///2g\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "I believe exchangeIccAPDU could return an error?",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///3U\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "white space",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///2U\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "Consider changing error handling as mentioned.",
+      "revId": "11352b8b664e1731505a669191a85cf6297c9487",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///3E\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2011-05-13T21:06:15Z",
+      "side": 1,
+      "message": "I prefer not using getLastError style, return errors from the calls directly.",
       "revId": "11352b8b664e1731505a669191a85cf6297c9487",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
