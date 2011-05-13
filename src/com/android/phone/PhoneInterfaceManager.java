@@ -746,4 +746,16 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean hasIccCard() {
         return mPhone.getIccCard().hasIccCard();
     }
+
+    /**
+     * Return if the current radio is LTE on CDMA. This
+     * is a tri-state return value as for a period of time
+     * the mode may be unknown.
+     *
+     * @return {@link Phone#LTE_ON_CDMA_UNKNOWN}, {@link Phone#LTE_ON_CDMA_FALSE}
+     * or {@link PHone#LTE_ON_CDMA_TRUE}
+     */
+    public int getLteOnCdmaMode() {
+        return mPhone.getLteOnCdmaMode();
+    }
 }
