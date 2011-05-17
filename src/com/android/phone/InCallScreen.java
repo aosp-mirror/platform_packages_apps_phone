@@ -1097,8 +1097,11 @@ public class InCallScreen extends Activity
         // the CDMA OTASP call.  (Note: on non-voice-capable devices, this
         // intent is handled by the OtaUtils class without involving the
         // InCallScreen at all.)
-        // TODO: This should be handled by its own receiver somewhere else
-        // in the phone app, not here (see bug 4194458).
+        //
+        // TODO: This needs to be handled by the CallController, not here
+        // (see bug 4194458).  This action should probably have its own
+        // receiver somewhere else in the phone app, and call the
+        // CallController API from there.
         if ((action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING))
                 && (TelephonyCapabilities.supportsOtasp(mPhone))) {
             setInCallScreenMode(InCallScreenMode.OTA_NORMAL);

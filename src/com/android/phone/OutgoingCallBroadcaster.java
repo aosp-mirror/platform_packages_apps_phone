@@ -371,9 +371,22 @@ public class OutgoingCallBroadcaster extends Activity
         }
 
         if (callNow) {
-            intent.setClass(this, InCallScreen.class);
-            if (DBG) Log.v(TAG, "onCreate(): callNow case, calling startActivity: " + intent);
-            startActivity(intent);
+            // This is a special kind of call (most likely an emergency number)
+            // that 3rd parties aren't allowed to intercept or affect in any way.
+            // So initiate the outgoing call immediately.
+
+            if (DBG) Log.v(TAG, "onCreate(): callNow case! Calling placeCall(): " + intent);
+
+            // Initiate the outgoing call, and simultaneously launch the
+            // InCallScreen to display the in-call UI:
+            PhoneApp.getInstance().callController.placeCall(intent);
+
+            // Note we do *not* "return" here, but instead continue and
+            // send the ACTION_NEW_OUTGOING_CALL broadcast like for any
+            // other outgoing call.  (But when the broadcast finally
+            // reaches the OutgoingCallReceiver, we'll know not to
+            // initiate the call again because of the presence of the
+            // EXTRA_ALREADY_CALLED extra.)
         }
 
         // For now, SIP calls will be processed directly without a
@@ -392,6 +405,10 @@ public class OutgoingCallBroadcaster extends Activity
             startSipCallOptionsHandler(this, intent, uri, number);
             finish();
             return;
+
+            // TODO: if there's ever a way for SIP calls to trigger a
+            // "callNow=true" case (see above), we'll need to handle that
+            // case here too (most likely by just doing nothing at all.)
         }
 
         Intent broadcastIntent = new Intent(Intent.ACTION_NEW_OUTGOING_CALL);
