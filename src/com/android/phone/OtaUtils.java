@@ -256,6 +256,11 @@ public class OtaUtils {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
+
+                // TODO(InCallScreen redesign): Fire off the OTASP call using
+                // some TBD API on the CallController, not by launching the
+                // InCallScreen! (see bug 4194458)
+
                 Intent newIntent = new Intent(ACTION_PERFORM_CDMA_PROVISIONING);
                 newIntent.setClass(context, InCallScreen.class);
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

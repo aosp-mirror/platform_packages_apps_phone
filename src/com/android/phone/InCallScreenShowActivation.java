@@ -102,6 +102,10 @@ public class InCallScreenShowActivation extends Activity {
                 // intent, this will cause the InCallScreen to launch an OTASP
                 // call.)
 
+                // TODO(InCallScreen redesign): Fire off the OTASP call using
+                // some TBD API on the CallController, not by launching the
+                // InCallScreen! (see bug 4194458)
+
                 Intent newIntent = new Intent().setClass(this, InCallScreen.class)
                         .setAction(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING);
 

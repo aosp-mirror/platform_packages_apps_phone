@@ -672,6 +672,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         return intent;
     }
 
+    // TODO(InCallScreen redesign): This should be made private once
+    // we fix PhoneInterfaceManager.java to *not* manually launch
+    // the InCallScreen from its call() method.
     static String getCallScreenClassName() {
         return InCallScreen.class.getName();
     }
