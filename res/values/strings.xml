@@ -1431,14 +1431,15 @@
     <!-- Title of the alert dialog to notify user that Internet call is not supported. [CHAR LIMIT=40] -->
     <string name="no_voip">Internet calling not supported</string>
 
+    <!-- Option for whether the SIP service should send keepalive messages. [CHAR LIMIT=40] -->
+    <string translatable="true" name="sip_system_decide">Automatic</string>
+    <!-- Option for whether the SIP service should send keepalive messages. [CHAR LIMIT=40] -->
+    <string translatable="true" name="sip_always_send_keepalive">Always send</string>
+
     <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
     <string translatable="false" name="sip_address_only">SIP_ADDRESS_ONLY</string>
     <string translatable="false" name="sip_ask_me_each_time">SIP_ASK_ME_EACH_TIME</string>
-
-    <!-- Do not translate the following strings. Used for SIP send-keepalive option values -->
-    <string translatable="false" name="sip_system_decide">Automatic</string>
-    <string translatable="false" name="sip_always_send_keepalive">Always send</string>
 
     <!-- Do not translate the following strings. Used for the preference keys -->
     <string translatable="false" name="domain_address">SipDomain</string>
