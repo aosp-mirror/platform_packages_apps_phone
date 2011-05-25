@@ -552,9 +552,11 @@ public class BluetoothHandsfree {
 
     /* package */ synchronized void disconnectHeadset() {
         audioOff();
-        if (isVirtualCallInProgress()) {
-            terminateScoUsingVirtualVoiceCall();
-        }
+
+        // No need to check if isVirtualCallInProgress()
+        // terminateScoUsingVirtualVoiceCall() does the check
+        terminateScoUsingVirtualVoiceCall();
+
         mHeadset = null;
         stopDebug();
         resetAtState();
@@ -2768,6 +2770,11 @@ public class BluetoothHandsfree {
 
     synchronized boolean terminateScoUsingVirtualVoiceCall() {
         if (DBG) log("terminateScoUsingVirtualVoiceCall: Received");
+
+        if (!isVirtualCallInProgress()) {
+            return false;
+        }
+
         // 1. Release audio connection
         audioOff();
 
