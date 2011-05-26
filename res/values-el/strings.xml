@@ -698,5 +698,7 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Για να πραγματοποιήσετε μια κλήση μέσω Διαδικτύου, ελέγξτε πρώτα τη σύνδεσή σας στο Διαδίκτυο"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Για κλήσεις μέσω Διαδικτύου πρέπει να είστε συνδεδεμένοι σε δίκτυο Wi-Fi (χρησιμοποιήστε το στοιχείο Ασύρματο δίκτυο και Ρυθμίσεις δικτύου)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Η κλ. μέσω Διαδικτύου δεν υποστηρίζεται"</string>
+    <string name="sip_system_decide" msgid="368030746310423471">"Αυτόματα"</string>
+    <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Πάντα να αποστέλλεται"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Η φωνητική κλήση δεν υποστηρίζεται"</string>
 </resources>

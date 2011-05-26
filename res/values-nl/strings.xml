@@ -698,5 +698,7 @@
     <string name="no_internet_available" msgid="1100564991026313234">"Controleer uw internetverbinding voordat u belt via internet"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"Voor internetoproepen moet u verbinding hebben met een Wi-Fi-netwerk (gebruik \'Draadloze en netwerkinstellingen\')"</string>
     <string name="no_voip" msgid="8901474054537199865">"Bellen via internet niet ondersteund"</string>
+    <string name="sip_system_decide" msgid="368030746310423471">"Automatisch"</string>
+    <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Altijd verzenden"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Spraakoproepen worden niet ondersteund"</string>
 </resources>

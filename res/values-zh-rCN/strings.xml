@@ -698,5 +698,7 @@
     <string name="no_internet_available" msgid="1100564991026313234">"要拨打互联网电话，请先检查互联网连接情况"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"您必须连接到 Wi-Fi 网络才能使用互联网电话（使用“无线和网络设置”）"</string>
     <string name="no_voip" msgid="8901474054537199865">"不支持互联网电话"</string>
+    <string name="sip_system_decide" msgid="368030746310423471">"自动"</string>
+    <string name="sip_always_send_keepalive" msgid="8192080724632877132">"一律发送"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"不支持语音呼叫"</string>
 </resources>
