@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABBn///NM\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-31T18:23:36Z",
+      "side": 1,
+      "message": "From patch 1: \"Why is IccIoResult.success not being checked?\"",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBn///NI\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-31T18:23:36Z",
+      "side": 1,
+      "message": "From patch 1: \"I believe exchangeIccAPDU could return an error?\"",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBn///NE\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-31T18:23:36Z",
+      "side": 1,
+      "message": "From patch 1: \"Consider changing error handling as mentioned.\"",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBn///M8\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1000678
+      },
+      "writtenOn": "2011-05-31T18:23:36Z",
+      "side": 1,
+      "message": "From patch 1: \"I prefer not using getLastError style, return errors from the calls directly.\"\n\nThis is important since multiple threads may be attempting to access the APIs at the same time and the state of mLastError may be changed before calling this method.",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
