@@ -376,50 +376,23 @@ public class CallNotifier extends Handler
         }
     };
 
+    /**
+     * Handles a "new ringing connection" event from the telephony layer.
+     */
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
         if (DBG) log("onNewRingingConnection(): " + c);
         Call ringing = c.getCall();
         Phone phone = ringing.getPhone();
 
-        // Incoming calls are totally ignored on non-voice-capable devices.
-        if (!PhoneApp.sVoiceCapable) {
-            // ...but still log a warning, since we shouldn't have gotten this
-            // event in the first place!  (Incoming calls *should* be blocked at
-            // the telephony layer on non-voice-capable capable devices.)
-            Log.w(LOG_TAG, "Got onNewRingingConnection() on non-voice-capable device! Ignoring...");
+        // Check for a few cases where we totally ignore incoming calls.
+        if (ignoreAllIncomingCalls(phone)) {
+            // Immediately reject the call, without even indicating to the user
+            // that an incoming call occurred.  (This will generally send the
+            // caller straight to voicemail, just as if we *had* shown the
+            // incoming-call UI and the user had declined the call.)
             PhoneUtils.hangupRingingCall(ringing);
             return;
-        }
-
-        // Incoming calls are totally ignored if the device isn't provisioned yet
-        boolean provisioned = Settings.Secure.getInt(mApplication.getContentResolver(),
-            Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
-        if (!provisioned && !PhoneUtils.isPhoneInEcm(phone)) {
-            Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: not provisioned / ECM");
-            // Send the caller straight to voicemail, just like
-            // "rejecting" an incoming call.
-            PhoneUtils.hangupRingingCall(ringing);
-            return;
-        }
-
-        // Incoming calls are totally ignored if OTA call is active
-        if (TelephonyCapabilities.supportsOtasp(phone)) {
-            boolean activateState = (mApplication.cdmaOtaScreenState.otaScreenState
-                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
-            boolean dialogState = (mApplication.cdmaOtaScreenState.otaScreenState
-                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG);
-            boolean spcState = mApplication.cdmaOtaProvisionData.inOtaSpcState;
-
-            if (spcState) {
-                Log.i(LOG_TAG, "CallNotifier: rejecting incoming call: OTA call is active");
-                PhoneUtils.hangupRingingCall(ringing);
-                return;
-            } else if (activateState || dialogState) {
-                if (dialogState) mApplication.dismissOtaDialogs();
-                mApplication.clearOtaState();
-                mApplication.clearInCallScreenMode();
-            }
         }
 
         if (c == null) {
@@ -502,6 +475,75 @@ public class CallNotifier extends Handler
         // when the caller-id query completes or times out.
 
         if (VDBG) log("- onNewRingingConnection() done.");
+    }
+
+    /**
+     * Determines whether or not we're allowed to present incoming calls to the
+     * user, based on the capabilities and/or current state of the device.
+     *
+     * If this method returns true, that means we should immediately reject the
+     * current incoming call, without even indicating to the user that an
+     * incoming call occurred.
+     *
+     * (We only reject incoming calls in a few cases, like during an OTASP call
+     * when we can't interrupt the user, or if the device hasn't completed the
+     * SetupWizard yet.  We also don't allow incoming calls on non-voice-capable
+     * devices.  But note that we *always* allow incoming calls while in ECM.)
+     *
+     * @return true if we're *not* allowed to present an incoming call to
+     * the user.
+     */
+    private boolean ignoreAllIncomingCalls(Phone phone) {
+        // Incoming calls are totally ignored on non-voice-capable devices.
+        if (!PhoneApp.sVoiceCapable) {
+            // ...but still log a warning, since we shouldn't have gotten this
+            // event in the first place!  (Incoming calls *should* be blocked at
+            // the telephony layer on non-voice-capable capable devices.)
+            Log.w(LOG_TAG, "Got onNewRingingConnection() on non-voice-capable device! Ignoring...");
+            return true;
+        }
+
+        // In ECM (emergency callback mode), we ALWAYS allow incoming calls
+        // to get through to the user.  (Note that ECM is applicable only to
+        // voice-capable CDMA devices).
+        if (PhoneUtils.isPhoneInEcm(phone)) {
+            if (DBG) log("Incoming call while in ECM: always allow...");
+            return false;
+        }
+
+        // Incoming calls are totally ignored if the device isn't provisioned yet.
+        boolean provisioned = Settings.Secure.getInt(mApplication.getContentResolver(),
+            Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
+        if (!provisioned) {
+            Log.i(LOG_TAG, "Ignoring incoming call: not provisioned");
+            return true;
+        }
+
+        // Incoming calls are totally ignored if an OTASP call is active.
+        if (TelephonyCapabilities.supportsOtasp(phone)) {
+            boolean activateState = (mApplication.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION);
+            boolean dialogState = (mApplication.cdmaOtaScreenState.otaScreenState
+                    == OtaUtils.CdmaOtaScreenState.OtaScreenState.OTA_STATUS_SUCCESS_FAILURE_DLG);
+            boolean spcState = mApplication.cdmaOtaProvisionData.inOtaSpcState;
+
+            if (spcState) {
+                Log.i(LOG_TAG, "Ignoring incoming call: OTA call is active");
+                return true;
+            } else if (activateState || dialogState) {
+                // We *are* allowed to receive incoming calls at this point.
+                // But clear out any residual OTASP UI first.
+                // TODO: It's an MVC violation to twiddle the OTA UI state here;
+                // we should instead provide a higher-level API via OtaUtils.
+                if (dialogState) mApplication.dismissOtaDialogs();
+                mApplication.clearOtaState();
+                mApplication.clearInCallScreenMode();
+                return false;
+            }
+        }
+
+        // Normal case: allow this call to be presented to the user.
+        return false;
     }
 
     /**
