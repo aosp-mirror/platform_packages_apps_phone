@@ -26,24 +26,22 @@ import android.util.Log;
 import com.android.internal.telephony.Phone;
 
 /**
- * Trampoline activity that handles the com.android.phone.PERFORM_CDMA_PROVISIONING intent.
+ * Invisible activity that handles the com.android.phone.PERFORM_CDMA_PROVISIONING intent.
  * This activity is protected by the android.permission.PERFORM_CDMA_PROVISIONING permission.
  *
- * On regular phones, we simply redirect to the InCallScreen, which will
- * handle the PERFORM_CDMA_PROVISIONING action by launching an OTASP call.
- *
- * On data-only devices, though, we manually launch the OTASP call without
- * displaying the in-call UI, and then immediately finish(), so that our
- * caller (presumably the SetupWizard) can display some sort of progress UI.
+ * We handle the PERFORM_CDMA_PROVISIONING action by launching an OTASP
+ * call via one of the OtaUtils helper methods: startInteractiveOtasp() on
+ * regular phones, or startNonInteractiveOtasp() on data-only devices.
  *
  * TODO: The class name InCallScreenShowActivation is misleading, since
- * the InCallScreen is not involved at all in CDMA provisioning on some
- * devices.  Let's eventually rename this to something like
- * CdmaProvisioningLauncher or CdmaProvisioningHandler...
+ * this activity is totally unrelated to the InCallScreen (which
+ * implements the in-call UI.)  Let's eventually rename this to something
+ * like CdmaProvisioningLauncher or CdmaProvisioningHandler...
  */
 public class InCallScreenShowActivation extends Activity {
     private static final String LOG_TAG = "InCallScreenShowActivation";
-    private static final boolean DBG = false;
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -97,24 +95,17 @@ public class InCallScreenShowActivation extends Activity {
                                 OtaUtils.EXTRA_OTASP_RESULT_CODE_PENDING_INTENT);
 
             if (interactiveMode) {
-                // On voice-capable devices, immediately bring up the in-call
-                // UI.  (By passing along the ACTION_PERFORM_CDMA_PROVISIONING
-                // intent, this will cause the InCallScreen to launch an OTASP
-                // call.)
+                // On voice-capable devices, launch an OTASP call and arrange
+                // for the in-call UI to come up.  (The InCallScreen will
+                // notice that an OTASP call is active, and display the
+                // special OTASP UI instead of the usual in-call controls.)
 
-                // TODO(InCallScreen redesign): Fire off the OTASP call using
-                // some TBD API on the CallController, not by launching the
-                // InCallScreen! (see bug 4194458)
+                if (DBG) Log.d(LOG_TAG, "==> Starting interactive CDMA provisioning...");
+                OtaUtils.startInteractiveOtasp(this);
 
-                Intent newIntent = new Intent().setClass(this, InCallScreen.class)
-                        .setAction(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING);
-
-                if (DBG) Log.d(LOG_TAG, "==> Launching in-call UI for CDMA provisioning: " + newIntent);
-                startActivity(newIntent);
-
-                // Note the result we set here is actually irrelevant, since
-                // the InCallScreen's "interactive" OTASP sequence never
-                // actually finish()es; it ends by directly launching the Home
+                // The result we set here is actually irrelevant, since the
+                // InCallScreen's "interactive" OTASP sequence never actually
+                // finish()es; it ends by directly launching the Home
                 // activity.  So our caller won't actually ever get an
                 // onActivityResult() call in this case.
                 setResult(OtaUtils.RESULT_INTERACTIVE_OTASP_STARTED);

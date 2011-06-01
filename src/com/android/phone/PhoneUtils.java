@@ -169,7 +169,7 @@ public class PhoneUtils {
                             cnlist.hasNext();) {
                         cn = cnlist.next();
                         if (!fgConnections.contains(cn) && !bgConnections.contains(cn)) {
-                            if (DBG) log("connection: " + cn + "not accounted for, removing.");
+                            if (DBG) log("connection '" + cn + "' not accounted for, removing.");
                             cnlist.remove();
                         }
                     }

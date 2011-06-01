@@ -183,8 +183,18 @@ public class CallController extends Handler {
         //       Or did we already acquire one somewhere earlier
         //       in this sequence (like when we first received the CALL intent?)
 
+        if (intent == null) {
+            Log.wtf(TAG, "placeCall: called with null intent");
+            throw new IllegalArgumentException("placeCall: called with null intent");
+        }
+
         String action = intent.getAction();
         Uri uri = intent.getData();
+        if (uri == null) {
+            Log.wtf(TAG, "placeCall: intent had no data");
+            throw new IllegalArgumentException("placeCall: intent had no data");
+        }
+
         String scheme = uri.getScheme();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, mApp);
         if (DBG) {
@@ -194,8 +204,32 @@ public class CallController extends Handler {
             log("- number: " + number);  // STOPSHIP: don't log number (PII)
         }
 
+        // This method should only be used with the various flavors of CALL
+        // intents.  (It doesn't make sense for any other action to trigger an
+        // outgoing call!)
+        if (!(Intent.ACTION_CALL.equals(action)
+              || Intent.ACTION_CALL_EMERGENCY.equals(action)
+              || Intent.ACTION_CALL_PRIVILEGED.equals(action))) {
+            Log.wtf(TAG, "placeCall: unexpected intent action " + action);
+            throw new IllegalArgumentException("Unexpected action: " + action);
+        }
+
+        // Check to see if this is an OTASP call (the "activation" call
+        // used to provision CDMA devices), and if so, do some
+        // OTASP-specific setup.
+        Phone phone = mApp.mCM.getDefaultPhone();
+        if (TelephonyCapabilities.supportsOtasp(phone)) {
+            checkForOtaspCall(intent);
+        }
+
         // Clear out the "restore mute state" flag since we're
         // initiating a brand-new call.
+        //
+        // (This call to setRestoreMuteOnInCallResume(false) informs the
+        // phone app that we're dealing with a new connection
+        // (i.e. placing an outgoing call, and NOT handling an aborted
+        // "Add Call" request), so we should let the mute state be handled
+        // by the PhoneUtils phone state change handler.)
         mApp.setRestoreMuteOnInCallResume(false);
 
         // If a provider is used, extract the info to build the
@@ -378,25 +412,6 @@ public class CallController extends Handler {
             }
         }
 
-        if ((TelephonyCapabilities.supportsOtasp(phone)) && (phone.isOtaSpNumber(number))) {
-            if (DBG) log("placeCall: isOtaSpNumber() returns true");
-
-            // We're initiating an OTASP call!
-
-            // TODO: we used to do
-            //     setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
-            // back when this happened inside the InCallScreen.
-            // But now, need to confirm that the InCallScreen can
-            // figure out itself (when it comes up) that this is
-            // an OTA call.
-
-            // Also, since the OTA call is now just starting, clear out
-            // the "committed" flag in mApp.cdmaOtaProvisionData.
-            if (mApp.cdmaOtaProvisionData != null) {
-                mApp.cdmaOtaProvisionData.isOtaCallCommitted = false;
-            }
-        }
-
         inCallUiState.needToShowCallLostDialog = false;
 
         // We have a valid number, so try to actually place a call:
@@ -419,7 +434,19 @@ public class CallController extends Handler {
                 if (VDBG) log("placeCall: PhoneUtils.placeCall() succeeded for regular call '"
                              + number + "'.");
 
+
+                // TODO(OTASP): still need more cleanup to simplify the mApp.cdma*State objects:
+                // - Rather than checking inCallUiState.inCallScreenMode, the
+                //   code here could also check for
+                //   app.getCdmaOtaInCallScreenUiState() returning NORMAL.
+                // - But overall, app.inCallUiState.inCallScreenMode and
+                //   app.cdmaOtaInCallScreenUiState.state are redundant.
+                //   Combine them.
+
+                if (VDBG) log ("- inCallUiState.inCallScreenMode = "
+                               + inCallUiState.inCallScreenMode);
                 if (inCallUiState.inCallScreenMode == InCallScreenMode.OTA_NORMAL) {
+                    if (VDBG) log ("==>  OTA_NORMAL note: switching to OTA_STATUS_LISTENING.");
                     mApp.cdmaOtaScreenState.otaScreenState =
                             CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
                 }
@@ -564,7 +591,9 @@ public class CallController extends Handler {
      *   contains a "voicemail" URI, but there's no voicemail
      *   number configured on the device.
      */
-    private String getInitialNumber(Intent intent)
+    // TODO: Consider moving this out to PhoneUtils and/or combining it
+    // with PhoneUtils.getNumberFromIntent().
+    public static String getInitialNumber(Intent intent)
             throws PhoneUtils.VoiceMailNumberMissingException {
         String action = intent.getAction();
 
@@ -572,21 +601,7 @@ public class CallController extends Handler {
             return null;
         }
 
-        // If the EXTRA_PHONE_NUMBER extra is present, get the phone
-        // number from there.  (That extra takes priority over the actual
-        // data included in the intent.)  This is used when making the
-        // OTASP call (see OtaUtils.otaPerformActivation()).
-        //
-        // TODO: it's confusing to use EXTRA_PHONE_NUMBER here, since that extra
-        // really belongs to the NEW_OUTGOING_CALL broadcast, not regular CALL
-        // intents.  And it isn't really necessary; it would be better for the
-        // OtaUtils code to just load the OTASP number into the *data* in the
-        // CALL intent...
-        if (intent.hasExtra(Intent.EXTRA_PHONE_NUMBER)) {
-            return intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-        }
-
-        return PhoneUtils.getNumberFromIntent(mApp, intent);
+        return PhoneUtils.getNumberFromIntent(PhoneApp.getInstance(), intent);
     }
 
     /**
@@ -692,6 +707,28 @@ public class CallController extends Handler {
                 // Show a generic "call failed" error.
                 inCallUiState.setPendingCallStatusCode(CallStatusCode.CALL_FAILED);
                 break;
+        }
+    }
+
+
+    /**
+     * Checks the current outgoing call to see if it's an OTASP call (the
+     * "activation" call used to provision CDMA devices).  If so, do any
+     * necessary OTASP-specific setup before actually placing the call.
+     */
+    private void checkForOtaspCall(Intent intent) {
+        if (OtaUtils.isOtaspCallIntent(intent)) {
+            Log.i(TAG, "checkForOtaspCall: handling OTASP intent! " + intent);
+
+            // ("OTASP-specific setup" basically means creating and initializing
+            // the OtaUtils instance.  Note that this setup needs to be here in
+            // the CallController.placeCall() sequence, *not* in
+            // OtaUtils.startInteractiveOtasp(), since it's also possible to
+            // start an OTASP call by manually dialing "*228" (in which case
+            // OtaUtils.startInteractiveOtasp() never gets run at all.)
+            OtaUtils.setupOtaspCall(intent);
+        } else {
+            if (DBG) log("checkForOtaspCall: not an OTASP call.");
         }
     }
 

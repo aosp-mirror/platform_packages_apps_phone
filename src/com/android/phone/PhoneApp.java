@@ -212,6 +212,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /**
      * The singleton OtaUtils instance used for OTASP calls.
+     *
+     * The OtaUtils instance is created lazily the first time we need to
+     * make an OTASP call, regardless of whether it's an interactive or
+     * non-interactive OTASP call.
      */
     public OtaUtils otaUtils;
 
@@ -771,19 +775,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     }
 
     /**
-     * Handle OTASP events
+     * Handles OTASP-related events from the telephony layer.
      *
      * While an OTASP call is active, the CallNotifier forwards
      * OTASP-related telephony events to this method.
-     *
-     * If the InCallScreen is in the foreground, it handles these events
-     * itself so we don't need to do anything here.  But if the screen
-     * goes off during the OTASP call, or if we're on a data-only device
-     * with no in-call UI at all, we handle these events here by
-     * forwarding them to the OtaUtils singleton.
      */
-    void handleOtaEvents(Message msg) {
-        if (DBG) Log.d(LOG_TAG, "handleOtaEvents(message " + msg + ")...");
+    void handleOtaspEvent(Message msg) {
+        if (DBG) Log.d(LOG_TAG, "handleOtaspEvent(message " + msg + ")...");
 
         if (otaUtils == null) {
             // We shouldn't be getting OTASP events without ever
@@ -793,9 +791,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             return;
         }
 
-        if (!isShowingCallScreen()) {
-            otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
-        }
+        otaUtils.onOtaProvisionStatusChanged((AsyncResult) msg.obj);
     }
 
     /**

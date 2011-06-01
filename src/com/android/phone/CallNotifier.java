@@ -324,7 +324,8 @@ public class CallNotifier extends Handler
                 break;
 
             case EVENT_OTA_PROVISION_CHANGE:
-                mApplication.handleOtaEvents(msg);
+                if (DBG) log("EVENT_OTA_PROVISION_CHANGE...");
+                mApplication.handleOtaspEvent(msg);
                 break;
 
             case PHONE_ENHANCED_VP_ON:

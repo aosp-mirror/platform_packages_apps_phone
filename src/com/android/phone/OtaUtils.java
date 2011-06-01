@@ -27,6 +27,7 @@ import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -159,6 +160,15 @@ public class OtaUtils {
 
     /**
      * OtaWidgetData class represent all OTA UI elements
+     *
+     * TODO(OTASP): It's really ugly for the OtaUtils object to reach into the
+     *     InCallScreen like this and directly manipulate its widgets.
+     *
+     *     Instead, the model/view separation should be more clear: OtaUtils
+     *     should only know about a higher-level abstraction of the
+     *     OTASP-specific UI state (just like how the CallController uses the
+     *     InCallUiState object), and the InCallScreen itself should translate
+     *     that higher-level abstraction into actual onscreen views and widgets.
      */
     private class OtaWidgetData {
         public Button otaEndButton;
@@ -183,32 +193,79 @@ public class OtaUtils {
         public Button otaTryAgainButton;
     }
 
-    public OtaUtils(Context context,
-                    InCallScreen inCallScreen,
-                    ViewGroup inCallPanel,
-                    CallCard callCard,
-                    DTMFTwelveKeyDialer dialer) {
+    /**
+     * OtaUtils constructor.
+     *
+     * @param context the Context of the calling Activity or Application
+     * @param interactive if true, use the InCallScreen to display the progress
+     *                    and result of the OTASP call.  In practice this is
+     *                    true IFF the current device is a voice-capable phone.
+     *
+     * Note if interactive is true, you must also call updateUiWidgets() as soon
+     * as the InCallScreen instance is ready.
+     */
+    public OtaUtils(Context context, boolean interactive) {
+        if (DBG) log("OtaUtils constructor...");
+        mApplication = PhoneApp.getInstance();
+        mContext = context;
+        mInteractive = interactive;
+    }
 
-        if (DBG) log("Enter OtaUtil constructor");
+    /**
+     * Updates the OtaUtils object's references to some UI elements belonging to
+     * the InCallScreen.  This is used only in interactive mode.
+     *
+     * Use clearUiWidgets() to clear out these references.  (The InCallScreen
+     * is responsible for doing this from its onDestroy() method.)
+     *
+     * This method has no effect if the UI widgets have already been set up.
+     * (In other words, it's safe to call this every time through
+     * InCallScreen.onResume().)
+     */
+    public void updateUiWidgets(InCallScreen inCallScreen,
+                                ViewGroup inCallPanel,
+                                CallCard callCard,
+                                DTMFTwelveKeyDialer dialer) {
+        if (DBG) log("updateUiWidgets()...  mInCallScreen = " + mInCallScreen);
+
+        if (!mInteractive) {
+            throw new IllegalStateException("updateUiWidgets() called in non-interactive mode");
+        }
+
+        if (mInCallScreen != null) {
+            if (DBG) log("updateUiWidgets(): widgets already set up, nothing to do...");
+            return;
+        }
 
         mInCallScreen = inCallScreen;
-        mContext = context;
         mInCallPanel = inCallPanel;
         mCallCard = callCard;
         mDialer = dialer;
-        mApplication = PhoneApp.getInstance();
         mOtaWidgetData = new OtaWidgetData();
 
-        // If no InCallScreen was passed in, assume non-interactive mode.
-        mInteractive = (mInCallScreen != null);
-
-        if (mInteractive) {
-            // inflate OTA Call card and footers
-            ViewStub otaCallCardStub = (ViewStub) mInCallScreen.findViewById(R.id.otaCallCardStub);
+        // Inflate OTASP-specific UI elements:
+        ViewStub otaCallCardStub = (ViewStub) mInCallScreen.findViewById(R.id.otaCallCardStub);
+        if (otaCallCardStub != null) {
+            // If otaCallCardStub is null here, that means it's already been
+            // inflated (which could have happened in the current InCallScreen
+            // instance for a *prior* OTASP call.)
             otaCallCardStub.inflate();
-            readXmlSettings();
-            initOtaInCallScreen();
         }
+
+        readXmlSettings();
+        initOtaInCallScreen();
+    }
+
+    /**
+     * Clear out the OtaUtils object's references to any InCallScreen UI
+     * elements.  This is the opposite of updateUiWidgets().
+     */
+    public void clearUiWidgets() {
+        mInCallScreen = null;
+        mInCallPanel = null;
+        mCallCard = null;
+        mDialer = null;
+        mOtaWidgetData = null;
     }
 
     /**
@@ -247,7 +304,6 @@ public class OtaUtils {
 
         int otaShowActivationScreen = context.getResources().getInteger(
                 R.integer.OtaShowActivationScreen);
-
         if (DBG) log("otaShowActivationScreen: " + otaShowActivationScreen);
 
         // Run the OTASP call in "interactive" mode only if
@@ -256,19 +312,14 @@ public class OtaUtils {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
-
-                // TODO(InCallScreen redesign): Fire off the OTASP call using
-                // some TBD API on the CallController, not by launching the
-                // InCallScreen! (see bug 4194458)
-
-                Intent newIntent = new Intent(ACTION_PERFORM_CDMA_PROVISIONING);
-                newIntent.setClass(context, InCallScreen.class);
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mIsWizardMode = false;
-                context.startActivity(newIntent);
-                if (DBG) log("maybeDoOtaCall: voice capable; activation intent sent.");
+
+                if (DBG) Log.d(LOG_TAG, "==> Starting interactive CDMA provisioning...");
+                OtaUtils.startInteractiveOtasp(context);
+
+                if (DBG) log("maybeDoOtaCall: voice capable; activation started.");
             } else {
-                if (DBG) log("maybeDoOtaCall: voice capable; activation intent NOT sent.");
+                if (DBG) log("maybeDoOtaCall: voice capable; activation NOT started.");
             }
         } else {
             if (phoneNeedsActivation) {
@@ -283,6 +334,102 @@ public class OtaUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * Starts a normal "interactive" OTASP call (i.e. CDMA activation
+     * for regular voice-capable phone devices.)
+     *
+     * This method is called from the InCallScreenShowActivation activity when
+     * handling the ACTION_PERFORM_CDMA_PROVISIONING intent.
+     */
+    public static void startInteractiveOtasp(Context context) {
+        if (DBG) log("startInteractiveOtasp()...");
+        PhoneApp app = PhoneApp.getInstance();
+
+        // There are two ways to start OTASP on voice-capable devices:
+        //
+        // (1) via the PERFORM_CDMA_PROVISIONING intent
+        //     - this is triggered by the  "Activate device" button in settings,
+        //       or can be launched automatically upon boot if the device
+        //       thinks it needs to be provisioned.
+        //     - the intent is handled by InCallScreenShowActivation.onCreate(),
+        //       which calls this method
+        //     - we prepare for OTASP by initializing the OtaUtils object
+        //     - we bring up the InCallScreen in the ready-to-activate state
+        //     - when the user presses the "Activate" button we launch the
+        //       call by calling CallController.placeCall() via the
+        //       otaPerformActivation() method.
+        //
+        // (2) by manually making an outgoing call to a special OTASP number
+        //     like "*228" or "*22899".
+        //     - That sequence does NOT involve this method (OtaUtils.startInteractiveOtasp()).
+        //       Instead, the outgoing call request goes straight to CallController.placeCall().
+        //     - CallController.placeCall() notices that it's an OTASP
+        //       call, and initializes the OtaUtils object.
+        //     - The InCallScreen is launched (as the last step of
+        //       CallController.placeCall()).  The InCallScreen notices that
+        //       OTASP is active and shows the correct UI.
+
+        // TODO(OTASP): but for now, use the behavior of scenario (2) in all
+        // cases, since there's still some InCallScreen cleanup necessary to get
+        // scenario (1) to work.
+        //
+        // But ultimately the code here needs to bring up the InCallScreen in
+        // the special "activate" state (see OtaUtils.otaShowActivateScreen()),
+        // where we won't actually make the call till the user presses the
+        // "Activate" button.
+        //
+        // So simply place an outgoing call to the special OTASP number:
+        Intent newIntent = new Intent(Intent.ACTION_CALL);
+        newIntent.setData(Uri.fromParts("tel", OTASP_NUMBER, null));
+
+        Log.i(LOG_TAG, "startInteractiveOtasp: placing call: " + newIntent);
+        app.callController.placeCall(newIntent);
+
+
+        // TODO(OTASP): still need more cleanup to simplify the mApp.cdma*State objects.
+        //
+        // Here's some possibly-redundant code that might still need to
+        // happen as part of this sequence:
+        //
+        // (1) Original block of code from InCallScreen.checkIsOtaCall(), when
+        // handling ACTION_PERFORM_CDMA_PROVISIONING:
+        //
+        //        if (action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING)) {
+        //            if (DBG) log("checkIsOtaCall action = ACTION_PERFORM_CDMA_PROVISIONING");
+        //            if (!mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed) {
+        //                if (DBG) log("ACTION_PERFORM_CDMA_PROVISIONING not handled before");
+        //                mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
+        //                mApp.cdmaOtaScreenState.otaScreenState =
+        //                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
+        //            }
+        //            isOtaCall = true;
+        //        }
+        //
+        // (2) Similar block originally from InCallScreen.internalResolveIntent():
+        //
+        //        // The ACTION_PERFORM_CDMA_PROVISIONING intent tells us to launch
+        //        // the CDMA OTASP call.  (Note: on non-voice-capable devices, this
+        //        // intent is handled by the OtaUtils class without involving the
+        //        // InCallScreen at all.)
+        //        //
+        //        // TODO: This needs to be handled by the CallController, not here
+        //        // (see bug 4194458).  This action should probably have its own
+        //        // receiver somewhere else in the phone app, and call the
+        //        // CallController API from there.
+        //        if ((action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING))
+        //                && (TelephonyCapabilities.supportsOtasp(mPhone))) {
+        //            setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+        //            if ((mApp.cdmaOtaProvisionData != null)
+        //                    && (!mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed)) {
+        //                mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
+        //                mApp.cdmaOtaScreenState.otaScreenState =
+        //                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
+        //            }
+        //            return;
+        //
+        //        }
     }
 
     /**
@@ -301,17 +448,13 @@ public class OtaUtils {
         PhoneApp app = PhoneApp.getInstance();
 
         if (app.otaUtils != null) {
-            // An OtaUtils instance already exists.
-            // TODO: Is this actually an error condition?
-            Log.w(LOG_TAG, "startNonInteractiveOtasp: "
+            // An OtaUtils instance already exists, presumably from a previous OTASP call.
+            Log.i(LOG_TAG, "startNonInteractiveOtasp: "
                   + "OtaUtils already exists; nuking the old one and starting again...");
         }
 
-        // Create the OtaUtils instance, and indicate we're in
-        // "non-interactive mode" by passing in null for
-        // inCallScreen / callCard / dialer / etc.
-        app.otaUtils = new OtaUtils(context,
-                                    null, null, null, null);
+        // Create the OtaUtils instance.
+        app.otaUtils = new OtaUtils(context, false /* non-interactive mode */);
         if (DBG) log("- created OtaUtils: " + app.otaUtils);
 
         // ... and kick off the OTASP call.
@@ -320,7 +463,7 @@ public class OtaUtils {
         // PhoneUtils.placeCall().
         Phone phone = PhoneApp.getPhone();
         String number = OTASP_NUMBER_NON_INTERACTIVE;
-        if (DBG) log("- placing call to '" + number + "'...");
+        Log.i(LOG_TAG, "startNonInteractiveOtasp: placing call to '" + number + "'...");
         int callStatus = PhoneUtils.placeCall(context,
                                               phone,
                                               number,
@@ -350,6 +493,114 @@ public class OtaUtils {
         return callStatus;
     }
 
+    /**
+     * @return true if the specified Intent is a CALL action that's an attempt
+     * to initate an OTASP call.
+     *
+     * OTASP is a CDMA-specific concept, so this method will always return false
+     * on GSM phones.
+     *
+     * This code was originally part of the InCallScreen.checkIsOtaCall() method.
+     */
+    public static boolean isOtaspCallIntent(Intent intent) {
+        if (DBG) log("isOtaspCallIntent(" + intent + ")...");
+        PhoneApp app = PhoneApp.getInstance();
+        Phone phone = app.mCM.getDefaultPhone();
+
+        if (intent == null) {
+            return false;
+        }
+        if (!TelephonyCapabilities.supportsOtasp(phone)) {
+            return false;
+        }
+
+        String action = intent.getAction();
+        if (action == null) {
+            return false;
+        }
+        if (!action.equals(Intent.ACTION_CALL)) {
+            if (DBG) log("isOtaspCallIntent: not a CALL action: '" + action + "' ==> not OTASP");
+            return false;
+        }
+
+        if ((app.cdmaOtaScreenState == null) || (app.cdmaOtaProvisionData == null)) {
+            // Uh oh -- something wrong with our internal OTASP state.
+            // (Since this is an OTASP-capable device, these objects
+            // *should* have already been created by PhoneApp.onCreate().)
+            throw new IllegalStateException("isOtaspCallIntent: "
+                                            + "app.cdmaOta* objects(s) not initialized");
+        }
+
+        // This is an OTASP call iff the number we're trying to dial is one of
+        // the magic OTASP numbers.
+        String number;
+        try {
+            number = CallController.getInitialNumber(intent);
+        } catch (PhoneUtils.VoiceMailNumberMissingException ex) {
+            // This was presumably a "voicemail:" intent, so it's
+            // obviously not an OTASP number.
+            if (DBG) log("isOtaspCallIntent: VoiceMailNumberMissingException => not OTASP");
+            return false;
+        }
+        if (phone.isOtaSpNumber(number)) {
+            if (DBG) log("isOtaSpNumber: ACTION_CALL to '" + number + "' ==> OTASP call!");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Set up for an OTASP call.
+     *
+     * This method is called as part of the CallController placeCall() sequence
+     * before initiating an outgoing OTASP call.
+     *
+     * The purpose of this method is mainly to create and initialize the
+     * OtaUtils instance, along with some other misc pre-OTASP cleanup.
+     */
+    public static void setupOtaspCall(Intent intent) {
+        if (DBG) log("setupOtaspCall(): preparing for OTASP call to " + intent);
+        PhoneApp app = PhoneApp.getInstance();
+
+        if (app.otaUtils != null) {
+            // An OtaUtils instance already exists, presumably from a prior OTASP call.
+            // Nuke the old one and start this call with a fresh instance.
+            Log.i(LOG_TAG, "setupOtaspCall: "
+                  + "OtaUtils already exists; replacing with new instance...");
+        }
+
+        // Create the OtaUtils instance.
+        app.otaUtils = new OtaUtils(app.getApplicationContext(), true /* interactive */);
+        if (DBG) log("- created OtaUtils: " + app.otaUtils);
+
+        // NOTE we still need to call OtaUtils.updateUiWidgets() once the
+        // InCallScreen instance is ready; see InCallScreen.checkOtaspStateOnResume()
+
+
+        // Make sure the InCallScreen knows that it needs to switch into OTASP mode.
+        //
+        // NOTE in gingerbread and earlier, we used to do
+        //     setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+        // directly in the InCallScreen, back when this check happened inside the InCallScreen.
+        //
+        // But now, set the global CdmaOtaInCallScreenUiState object into
+        // NORMAL mode, which will then cause the InCallScreen (when it
+        // comes up) to realize that an OTA call is active.
+
+        app.otaUtils.setCdmaOtaInCallScreenUiState(
+            OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL);
+
+        // TODO(OTASP): note app.inCallUiState.inCallScreenMode and
+        // app.cdmaOtaInCallScreenUiState.state are mostly redundant.  Combine them.
+        app.inCallUiState.inCallScreenMode = InCallUiState.InCallScreenMode.OTA_NORMAL;
+
+        // Also, since the OTA call is now just starting, clear out
+        // the "committed" flag in app.cdmaOtaProvisionData.
+        if (app.cdmaOtaProvisionData != null) {
+            app.cdmaOtaProvisionData.isOtaCallCommitted = false;
+        }
+    }
+
     private void setSpeaker(boolean state) {
         if (DBG) log("setSpeaker : " + state );
 
@@ -371,7 +622,11 @@ public class OtaUtils {
     }
 
     /**
-     * Handle OTA Provision events from Framework. Possible events are:
+     * Handles OTA Provision events from the telephony layer.
+     * These events come in to this method whether or not
+     * the InCallScreen is visible.
+     *
+     * Possible events are:
      * OTA Commit Event - OTA provisioning was successful
      * SPC retries exceeded - SPC failure retries has exceeded, and Phone needs to
      *    power down.
@@ -474,11 +729,12 @@ public class OtaUtils {
         }
 
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
+            // Place an outgoing call to the special OTASP number:
             Intent newIntent = new Intent(Intent.ACTION_CALL);
-            newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, OTASP_NUMBER);
+            newIntent.setData(Uri.fromParts("tel", OTASP_NUMBER, null));
 
             // Initiate the outgoing call:
-            PhoneApp.getInstance().callController.placeCall(newIntent);
+            mApplication.callController.placeCall(newIntent);
 
             // ...and get the in-call UI into the right state.
             otaShowListeningScreen();
@@ -661,6 +917,19 @@ public class OtaUtils {
             return;
         }
 
+        mApplication.cdmaOtaScreenState.otaScreenState =
+            CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS;
+
+        if ((mOtaWidgetData == null) || (mInCallScreen == null)) {
+            Log.w(LOG_TAG, "otaShowInProgressScreen: UI widgets not set up yet!");
+
+            // TODO(OTASP): our CdmaOtaScreenState is now correct; we just set
+            // it to OTA_STATUS_PROGRESS.  But we still need to make sure that
+            // when the InCallScreen eventually comes to the foreground, it
+            // notices that state and does all the same UI updating we do below.
+            return;
+        }
+
         if (!isDialerOpened()) {
             otaScreenInitialize();
             mOtaWidgetData.otaTextListenProgressContainer.setVisibility(View.VISIBLE);
@@ -673,8 +942,6 @@ public class OtaUtils {
         } else {
             mDialer.setHandleVisible(true);
         }
-        mApplication.cdmaOtaScreenState.otaScreenState =
-            CdmaOtaScreenState.OtaScreenState.OTA_STATUS_PROGRESS;
 
         // Update the state of the in-call menu items.
         mInCallScreen.updateMenuItems();
@@ -906,8 +1173,8 @@ public class OtaUtils {
             return;
         }
 
-        if (mInCallScreen.isForegroundActivity()) {
-            if (DBG) log("otaShowProperScreen(), OTA is foreground activity, currentstate ="
+        if ((mInCallScreen != null) && mInCallScreen.isForegroundActivity()) {
+            if (DBG) log("otaShowProperScreen(): InCallScreen in foreground, currentstate = "
                     + mApplication.cdmaOtaScreenState.otaScreenState);
             if (mInCallPanel != null) {
                 mInCallPanel.setVisibility(View.GONE);
@@ -1075,15 +1342,17 @@ public class OtaUtils {
     }
 
     public void dismissAllOtaDialogs() {
-        if (mOtaWidgetData.spcErrorDialog != null) {
-            if (DBG) log("- DISMISSING mSpcErrorDialog.");
-            mOtaWidgetData.spcErrorDialog.dismiss();
-            mOtaWidgetData.spcErrorDialog = null;
-        }
-        if (mOtaWidgetData.otaFailureDialog != null) {
-            if (DBG) log("- DISMISSING mOtaFailureDialog.");
-            mOtaWidgetData.otaFailureDialog.dismiss();
-            mOtaWidgetData.otaFailureDialog = null;
+        if (mOtaWidgetData != null) {
+            if (mOtaWidgetData.spcErrorDialog != null) {
+                if (DBG) log("- DISMISSING mSpcErrorDialog.");
+                mOtaWidgetData.spcErrorDialog.dismiss();
+                mOtaWidgetData.spcErrorDialog = null;
+            }
+            if (mOtaWidgetData.otaFailureDialog != null) {
+                if (DBG) log("- DISMISSING mOtaFailureDialog.");
+                mOtaWidgetData.otaFailureDialog.dismiss();
+                mOtaWidgetData.otaFailureDialog = null;
+            }
         }
     }
 
@@ -1190,10 +1459,10 @@ public class OtaUtils {
         mApplication.cdmaOtaProvisionData.otaSpcUptime = 0;
         mApplication.cdmaOtaInCallScreenUiState.state = State.UNDEFINED;
 
-        if (mInteractive) {
+        if (mInteractive && (mOtaWidgetData != null)) {
             if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
             if (mCallCard != null) mCallCard.hideCallCardElements();
-            mDialer.setHandleVisible(true);
+            if (mDialer != null) mDialer.setHandleVisible(true);
 
             // Free resources from the DTMFTwelveKeyDialer instance we created
             // in initOtaInCallScreen().
