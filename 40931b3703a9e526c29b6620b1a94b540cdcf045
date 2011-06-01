@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///64\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1002811
+      },
+      "writtenOn": "2011-06-01T11:45:05Z",
+      "side": 1,
+      "message": "The method exchangeIccAPDU sends a command APDU to the UICC and returns the response APDU to the caller. No need to parse the response APDU here. The caller parses the response APDU.",
+      "parentUuid": "AAABBn///NM\u003d",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABBn///NI\u003d",
         "filename": "src/com/android/phone/PhoneInterfaceManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-31T18:23:36Z",
       "side": 1,
       "message": "From patch 1: \"I believe exchangeIccAPDU could return an error?\"",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///6w\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 1002811
+      },
+      "writtenOn": "2011-06-01T11:45:05Z",
+      "side": 1,
+      "message": "The method exchangeIccAPDU returns the response APDU from the UICC. On any communication error, the response APDU is \"6f 00\" (see EVENT_EXCHANGE_APDU_DONE). So, in any case, the method exchangeIccAPDU returns a valid response APDU (\u003d string with at least two characters). Again, the method transmitIccLogicalChannel does not parse the response APDU. The caller parses the response APDU.",
+      "parentUuid": "AAABBn///NI\u003d",
       "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///6U\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1002811
+      },
+      "writtenOn": "2011-06-01T11:45:05Z",
+      "side": 1,
+      "message": "The method openIccLogicalChannel returns an unsigned 32-bit session key (as defined in 3GPP TS 27.007). The modem returns a session key instead of the channel number for security reasons (you have to know to the session key to use the logical channel). The value zero is an invalid session key, and therefore is used to indicate an error. Currently the caller (UiccTerminal.java) translates the session key to a channel number and back, but we could move this functionality to RIL. Then, the method openIccLogicalChannel would return a channel number (in the range 1 to 20), or an error code (-1 to -x). Since 3GPP TS 27.007 covers AT commands based modems only, and other types of modems might have a different interface, this solution looks better than the current one. Any comments?",
+      "parentUuid": "AAABBn///NE\u003d",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABBn///M8\u003d",
         "filename": "src/com/android/phone/PhoneInterfaceManager.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-05-31T18:23:36Z",
       "side": 1,
       "message": "From patch 1: \"I prefer not using getLastError style, return errors from the calls directly.\"\n\nThis is important since multiple threads may be attempting to access the APIs at the same time and the state of mLastError may be changed before calling this method.",
+      "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///6M\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1002811
+      },
+      "writtenOn": "2011-06-01T11:45:05Z",
+      "side": 1,
+      "message": "This method only gets called by SmartCardService/UiccTerminal, and the calls from there are synchronized. This method becomes obsolete once we change the method openIccLogicalChannel as mentioned above.",
+      "parentUuid": "AAABBn///M8\u003d",
       "revId": "40931b3703a9e526c29b6620b1a94b540cdcf045",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
