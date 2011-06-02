@@ -427,11 +427,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 );
         note.setLatestEventInfo(mContext, mContext.getText(titleResId), expandedText,
                 PendingIntent.getActivity(mContext, 0, callLogIntent, 0));
+        note.flags |= Notification.FLAG_AUTO_CANCEL;
 
         configureLedNotification(note);
         mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
     }
 
+    /**
+     * Cancels the "missed call" notification.
+     *
+     * @see ITelephony.cancelMissedCallsNotification()
+     */
     void cancelMissedCallNotification() {
         // reset the number of missed calls to 0.
         mNumberMissedCalls = 0;
