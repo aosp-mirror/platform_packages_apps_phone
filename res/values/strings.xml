@@ -209,7 +209,7 @@
     <!-- Button label on SIM PIN unlock panel -->
     <string name="buttonTxtContinue">Continue</string>
     <!-- Status message displayed on SIM PIN unlock panel -->
-    <string name="puk_unlocked">Your SIM card has been unblocked. Your phone is unlocking\u2026</string>
+    <string name="puk_unlocked">PIN1 Unblocked! Your phone is unlocking\u2026</string>
     <!-- network depersonalization -->
     <!-- Label text for PIN entry widget on SIM Network Depersonalization panel -->
     <string name="label_ndp">SIM network unlock PIN</string>
@@ -800,8 +800,10 @@
     <string name="pin_failed">The PIN you typed was incorrect</string>
     <!-- SIM PIN screen: status message displayed in a popup (toast) -->
     <string name="pin_changed">SIM PIN changed successfully</string>
+    <!-- SIM PIN screen: status message displayed in a popup (toast) -->
+    <string name="pin2_unblocked">PIN2 Unblocked!</string>
     <!-- SIM PIN screen: error message displayed in a dialog -->
-    <string name="puk_requested">Password incorrect, SIM is locked! PUK2 requested.</string>
+    <string name="puk_requested">Password incorrect, PIN2 Blocked! PUK2 requested.</string>
 
     <!-- SIM PIN2 strings -->
     <!-- SIM PIN2 screen: label for PIN entry widget -->
@@ -827,11 +829,14 @@
     <!-- SIM PIN2 screen: label for PUK2 entry widget -->
     <string name="label_puk2_code">Type PUK2 code</string>
     <!-- SIM PIN2 screen: error message displayed in a dialog -->
-    <string name="fdn_enable_puk2_requested">Password incorrect, please change PIN2 and retry!</string>
+    <string name="fdn_enable_puk2_requested">Password incorrect, PIN2 Blocked. Please change PIN2 and retry!</string>
     <!-- SIM PIN2 screen: error message displayed in a dialog -->
     <string name="puk2_requested">Password incorrect, SIM is locked! PUK2 requested.</string>
     <!-- SIM PIN2 screen: error message -->
     <string name="pin2_perm_blocked">PIN2 is permanently blocked.</string>
+    <string name="puk2_blocked">PUK2 is permanently blocked.</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="pin2_attempts">\nAttempts Remaining :</string>
 
     <!-- SIM PIN screen: button label -->
     <string name="doneButton">Done</string>
