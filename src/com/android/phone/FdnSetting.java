@@ -258,8 +258,12 @@ public class FdnSetting extends PreferenceActivity
                                 }
                             }
                         } else {
+                            if (mPinChangeState == PIN_CHANGE_PUK) {
+                                displayMessage(R.string.pin2_unblocked);
+                            } else {
+                                displayMessage(R.string.pin2_changed);
+                            }
                             // reset to normal behaviour on successful change.
-                            displayMessage(R.string.pin2_changed);
                             mSkipOldPin = false;
                             resetPinChangeState();
                         }
@@ -282,8 +286,15 @@ public class FdnSetting extends PreferenceActivity
      * Display a toast for message, like the rest of the settings.
      */
     private final void displayMessage(int strId) {
-        Toast.makeText(this, getString(strId), Toast.LENGTH_SHORT)
-            .show();
+        String msg = getString(strId);
+        if ((strId == R.string.badPin2) || (strId == R.string.badPuk2) || (strId == R.string.pin2_invalid)) {
+            int attemptsRemaining = mPhone.getIccCard().getIccPin2RetryCount();
+            if (attemptsRemaining >= 0) {
+                msg = getString(strId) + getString(R.string.pin2_attempts) + attemptsRemaining;
+            }
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).
+            show();
     }
 
     /**

@@ -590,6 +590,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return (List <NeighboringCellInfo>) cells;
     }
 
+    // Gets the retry count during PIN1/PIN2/PUK1/PUK2 verification.
+    public int getIccPin1RetryCount() {
+        return mPhone.getIccCard().getIccPin1RetryCount();
+    }
 
     //
     // Internal helper methods.
