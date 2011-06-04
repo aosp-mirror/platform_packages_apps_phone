@@ -428,16 +428,23 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean supplyPin(String pin) {
         enforceModifyPermission();
-        final CheckSimPin checkSimPin = new CheckSimPin(mPhone.getIccCard());
+        final UnlockSim checkSimPin = new UnlockSim(mPhone.getIccCard());
         checkSimPin.start();
-        return checkSimPin.checkPin(pin);
+        return checkSimPin.unlockSim(null, pin);
+    }
+
+    public boolean supplyPuk(String puk, String pin) {
+        enforceModifyPermission();
+        final UnlockSim checkSimPuk = new UnlockSim(mPhone.getIccCard());
+        checkSimPuk.start();
+        return checkSimPuk.unlockSim(puk, pin);
     }
 
     /**
      * Helper thread to turn async call to {@link SimCard#supplyPin} into
      * a synchronous one.
      */
-    private static class CheckSimPin extends Thread {
+    private static class UnlockSim extends Thread {
 
         private final IccCard mSimCard;
 
@@ -450,14 +457,14 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         // For async handler to identify request type
         private static final int SUPPLY_PIN_COMPLETE = 100;
 
-        public CheckSimPin(IccCard simCard) {
+        public UnlockSim(IccCard simCard) {
             mSimCard = simCard;
         }
 
         @Override
         public void run() {
             Looper.prepare();
-            synchronized (CheckSimPin.this) {
+            synchronized (UnlockSim.this) {
                 mHandler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
@@ -465,21 +472,28 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         switch (msg.what) {
                             case SUPPLY_PIN_COMPLETE:
                                 Log.d(LOG_TAG, "SUPPLY_PIN_COMPLETE");
-                                synchronized (CheckSimPin.this) {
+                                synchronized (UnlockSim.this) {
                                     mResult = (ar.exception == null);
                                     mDone = true;
-                                    CheckSimPin.this.notifyAll();
+                                    UnlockSim.this.notifyAll();
                                 }
                                 break;
                         }
                     }
                 };
-                CheckSimPin.this.notifyAll();
+                UnlockSim.this.notifyAll();
             }
             Looper.loop();
         }
 
-        synchronized boolean checkPin(String pin) {
+        /*
+         * Use PIN or PUK to unlock SIM card
+         *
+         * If PUK is null, unlock SIM card with PIN
+         *
+         * If PUK is not null, unlock SIM card with PUK and set PIN code
+         */
+        synchronized boolean unlockSim(String puk, String pin) {
 
             while (mHandler == null) {
                 try {
@@ -490,7 +504,11 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             }
             Message callback = Message.obtain(mHandler, SUPPLY_PIN_COMPLETE);
 
-            mSimCard.supplyPin(pin, callback);
+            if (puk == null) {
+                mSimCard.supplyPin(pin, callback);
+            } else {
+                mSimCard.supplyPuk(puk, pin, callback);
+            }
 
             while (!mDone) {
                 try {
