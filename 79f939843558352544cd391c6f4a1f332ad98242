@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///Ss\u003d",
+        "filename": "src/com/android/phone/FdnSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2011-06-06T19:50:41Z",
+      "side": 1,
+      "message": "Tiny code-style nits: put a space char after the comma, also keep line length under 100 chars.",
+      "revId": "79f939843558352544cd391c6f4a1f332ad98242",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Sk\u003d",
+        "filename": "src/com/android/phone/FdnSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000358
+      },
+      "writtenOn": "2011-06-06T19:50:41Z",
+      "side": 1,
+      "message": "line too long here too",
+      "revId": "79f939843558352544cd391c6f4a1f332ad98242",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
