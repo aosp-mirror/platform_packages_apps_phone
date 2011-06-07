@@ -705,6 +705,8 @@
     <string name="enable_fdn_ok">Disable FDN</string>
     <!-- Call settings screen, setting option name when FDN is disabled -->
     <string name="disable_fdn_ok">Enable FDN</string>
+    <!-- Call settings screen, toast when FDN service is unavailable-->
+    <string name="fdn_unavailable">FDN Service is not available.</string>
     <!-- Call settings screen, setting summary text -->
     <string name="sum_fdn">Manage Fixed Dialing Numbers</string>
     <!-- Call settings, FDN screen, setting option name -->

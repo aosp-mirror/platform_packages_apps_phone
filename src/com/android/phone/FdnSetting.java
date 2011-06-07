@@ -378,14 +378,23 @@ public class FdnSetting extends PreferenceActivity
      * Reflect the updated FDN state in the UI.
      */
     private void updateEnableFDN() {
-        if (mPhone.getIccCard().getIccFdnEnabled()) {
-            mButtonEnableFDN.setTitle(R.string.enable_fdn_ok);
-            mButtonEnableFDN.setSummary(R.string.fdn_enabled);
-            mButtonEnableFDN.setDialogTitle(R.string.disable_fdn);
-        } else {
-            mButtonEnableFDN.setTitle(R.string.disable_fdn_ok);
-            mButtonEnableFDN.setSummary(R.string.fdn_disabled);
-            mButtonEnableFDN.setDialogTitle(R.string.enable_fdn);
+        if (mPhone.getIccCard().getIccFdnAvailable()) {
+            if (mPhone.getIccCard().getIccFdnEnabled()) {
+                mButtonEnableFDN.setTitle(R.string.enable_fdn_ok);
+                mButtonEnableFDN.setSummary(R.string.fdn_enabled);
+                mButtonEnableFDN.setDialogTitle(R.string.disable_fdn);
+            } else {
+                mButtonEnableFDN.setTitle(R.string.disable_fdn_ok);
+                mButtonEnableFDN.setSummary(R.string.fdn_disabled);
+                mButtonEnableFDN.setDialogTitle(R.string.enable_fdn);
+            }
+        }  else {
+           // Disable FDN Settings since FDN service is unavailable.
+           mButtonEnableFDN.setEnabled(false);
+           mButtonChangePin2.setEnabled(false);
+           mButtonEnableFDN.setSummary(R.string.fdn_unavailable);
+           mButtonChangePin2.setSummary(R.string.fdn_unavailable);
+           displayMessage(R.string.fdn_unavailable);
         }
     }
 
