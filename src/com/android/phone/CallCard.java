@@ -42,6 +42,7 @@ import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.gsm.SuppServiceNotification;
 
 import java.util.List;
 
@@ -619,6 +620,9 @@ public class CallCard extends FrameLayout
         // need to be set.)
 
         String cardTitle;
+
+        String callForwardTxt = getSuppSvcNotification();
+
         int phoneType = phone.getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (!PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
@@ -674,8 +678,13 @@ public class CallCard extends FrameLayout
                         // Display the brief "Hanging up" indication.
                         setUpperTitle(cardTitle, mTextColorDefaultPrimary, state);
                     } else {  // state == Call.State.ACTIVE
-                        // Normal "ongoing call" state; don't use any "title" at all.
-                        clearUpperTitle();
+                        // Display the title for call forwarding notifications.
+                        if (!(callForwardTxt.equals("")) && state == Call.State.ACTIVE) {
+                            setUpperTitle(callForwardTxt, mTextColorDefaultPrimary, state);
+                        } else {
+                            // Normal "ongoing call" state; don't use any "title" at all.
+                            clearUpperTitle();
+                        }
                     }
                 }
 
@@ -702,6 +711,11 @@ public class CallCard extends FrameLayout
                 // the call that just ended.)
                 mElapsedTime.setVisibility(View.VISIBLE);
                 mElapsedTime.setTextColor(mTextColorEnded);
+
+                //Clear Supp Service Notifictions if any.
+                if (CallNotifier.getSuppSvcNotification() != null) {
+                    CallNotifier.clearSuppSvcNotification();
+                }
                 break;
 
             case HOLDING:
@@ -726,13 +740,77 @@ public class CallCard extends FrameLayout
             default:
                 // All other states (DIALING, INCOMING, etc.) use the "upper title":
                 setUpperTitle(cardTitle, mTextColorDefaultPrimary, state);
-
-                // ...and we don't show the elapsed time.
-                mElapsedTime.setVisibility(View.INVISIBLE);
+                // If Call forwarding notification is set, display the call
+                // forwarding text in elapsed time widget else don't show
+                // the elapsed time.
+                if (callForwardTxt.equals("")) {
+                    mElapsedTime.setVisibility(View.INVISIBLE);
+                } else {
+                    mElapsedTime.setVisibility(View.VISIBLE);
+                    mElapsedTime.setText(callForwardTxt);
+                }
                 break;
         }
     }
 
+    private String getSuppSvcNotification() {
+        SuppServiceNotification suppSvcNotification = CallNotifier.getSuppSvcNotification();
+
+        String callForwardTxt = "";
+        if (suppSvcNotification != null) {
+            switch (suppSvcNotification.notificationType) {
+                // The Notification is for MO call
+                case 0:
+                    switch (suppSvcNotification.code) {
+                        case SuppServiceNotification.MO_CODE_UNCONDITIONAL_CF_ACTIVE :
+                            // This message is displayed when an outgoing call is made
+                            // and unconditional forwarding is enabled.
+                            callForwardTxt = getContext().getString(R.string.card_title_unconditionalCF);
+                            break;
+
+                        case SuppServiceNotification.MO_CODE_SOME_CF_ACTIVE:
+                            // This message is displayed when an outgoing call is made
+                            // and conditional forwarding is enabled.
+                            callForwardTxt = getContext().getString(R.string.card_title_conditionalCF);
+                            break;
+
+                        case SuppServiceNotification.MO_CODE_CALL_FORWARDED:
+                            //This message is displayed on A when the outgoing call actually gets forwarded to C
+                            callForwardTxt = getContext().getString(R.string.card_title_MOcall_forwarding);
+                            break;
+
+                        default:
+                            log("Received unsupported MO SS Notification :" + suppSvcNotification.code);
+                            break;
+                    }
+                    break;
+
+                // The Notification is for MT call
+                case 1:
+                    switch (suppSvcNotification.code) {
+                        case SuppServiceNotification.MT_CODE_FORWARDED_CALL:
+                            //This message is displayed on C when the incoming call is forwarded from B
+                            callForwardTxt = getContext().getString(R.string.card_title_forwarded_MTcall);
+                            break;
+
+                        case SuppServiceNotification.MT_CODE_ADDITIONAL_CALL_FORWARDED:
+                            // This message is displayed on B when it is busy and the incoming call gets forwarded to C
+                            callForwardTxt = getContext().getString(R.string.card_title_MTcall_forwarding);
+                            break;
+
+                        default :
+                            log("Received unsupported MT SS Notification :" + suppSvcNotification.code);
+                            break;
+                    }
+                    break;
+
+                default:
+                    Log.e(LOG_TAG, "Received invalid Notification Type :" + suppSvcNotification.notificationType);
+                    break;
+            }
+        }
+        return callForwardTxt;
+    }
     /**
      * Updates mElapsedTime based on the specified number of seconds.
      * A timeElapsed value of zero means to not show an elapsed time at all.

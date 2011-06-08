@@ -103,6 +103,8 @@
     <string name="confCall">Conference call</string>
     <!-- In-call screen: call lost dialog text -->
     <string name="call_lost">Call has been lost.</string>
+    <!-- In-call screen: status label for an incoming call that is not answered and forwarded  -->
+    <string name="callUnanswered_forwarded">Call Unanswered and Forwarded</string>
     <!-- In-call screen: auto retry  -->
     <string name="retry">Retry</string>
     <!-- In-call screen: call lost title of dialog -->
@@ -866,6 +868,17 @@
     <string name="card_title_dialing">Dialing</string>
     <!-- In-call screen: status label for a re-dialing call -->
     <string name="card_title_redialing">Retrying</string>
+    <!-- In-call screen: status label for Unconditional Call Forwarding enabled  -->
+    <string name="card_title_unconditionalCF">Call Forward Unconditional is enabled</string>
+    <!-- In-call screen: status label for Conditional Call Forwarding enabled  -->
+    <string name="card_title_conditionalCF">Call Forward Conditional is enabled</string>
+    <!-- In-call screen: status label for a forwarded MO call  -->
+    <string name="card_title_MOcall_forwarding">Outgoing Forwarded Call</string>
+    <!-- In-call screen: status label for incoming call being forwarded to other remote party  -->
+    <string name="card_title_MTcall_forwarding">Incoming Call is Forwarded</string>
+    <!-- In-call screen: status label for incoming call forwarded from other remote party -->
+    <string name="card_title_forwarded_MTcall">Forwarded Incoming Call</string>
+
     <!-- In-call screen: status label for a call in progress -->
     <string name="card_title_in_progress">Current call</string>
     <!-- In-call screen: status label for a conference call -->

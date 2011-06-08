@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="18dip"
+        android:layout_marginTop="45dip"
         >
 
         <!-- "Upper title" at the very top of the CallCard. -->
