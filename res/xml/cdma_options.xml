@@ -40,9 +40,4 @@
             <extra android:name="autoStart" android:value="true" />
         </intent>
     </PreferenceScreen>
-
-    <PreferenceScreen
-        android:key="cdma_lte_data_service_key"
-        android:title="@string/cdma_lte_data_service">
-    </PreferenceScreen>
 </PreferenceScreen>

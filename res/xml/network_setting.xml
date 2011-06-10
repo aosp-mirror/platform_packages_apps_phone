@@ -17,6 +17,11 @@
     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
         android:title="@string/mobile_networks">
 
+    <PreferenceScreen
+        android:key="cdma_lte_data_service_key"
+        android:title="@string/cdma_lte_data_service">
+    </PreferenceScreen>
+
     <CheckBoxPreference
         android:key="button_data_enabled_key"
         android:title="@string/data_enabled"
