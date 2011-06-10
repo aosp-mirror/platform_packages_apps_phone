@@ -1307,10 +1307,16 @@ public class PhoneUtils {
             return cit;
         }
 
-        // There are now 3 states for the userdata.
-        //   1. Uri - query has not been executed yet
-        //   2. CallerInfoToken - query is executing, but has not completed.
-        //   3. CallerInfo - query has executed.
+        Object userDataObject = c.getUserData();
+
+        // There are now 3 states for the Connection's userData object:
+        //
+        //   (1) Uri - query has not been executed yet
+        //
+        //   (2) CallerInfoToken - query is executing, but has not completed.
+        //
+        //   (3) CallerInfo - query has executed.
+        //
         // In each case we have slightly different behaviour:
         //   1. If the query has not been executed yet (Uri or null), we start
         //      query execution asynchronously, and note it by attaching a
@@ -1336,8 +1342,10 @@ public class PhoneUtils {
         //      outcome.  From now on, we will append an empty CallerInfo
         //      object, to mirror previous behaviour, and to avoid Null Pointer
         //      Exceptions.
-        Object userDataObject = c.getUserData();
+
         if (userDataObject instanceof Uri) {
+            // State (1): query has not been executed yet
+
             //create a dummy callerinfo, populate with what we know from URI.
             cit = new CallerInfoToken();
             cit.currentInfo = new CallerInfo();
@@ -1424,7 +1432,9 @@ public class PhoneUtils {
             if (DBG) log("startGetCallerInfo: query based on number: " + number);
 
         } else if (userDataObject instanceof CallerInfoToken) {
-            // query is running, just tack on this listener to the queue.
+            // State (2): query is executing, but has not completed.
+
+            // just tack on this listener to the queue.
             cit = (CallerInfoToken) userDataObject;
 
             // handling case where number is null (caller id hidden) as well.
@@ -1483,23 +1493,35 @@ public class PhoneUtils {
                 }
             }
         } else {
+            // State (3): query is complete.
+
+            // The connection's userDataObject is a full-fledged
+            // CallerInfo instance.  Wrap it in a CallerInfoToken and
+            // return it to the user.
+
             cit = new CallerInfoToken();
             cit.currentInfo = (CallerInfo) userDataObject;
             cit.asyncQuery = null;
             cit.isFinal = true;
             // since the query is already done, call the listener.
             if (DBG) log("startGetCallerInfo: query already done, returning CallerInfo");
+            if (DBG) log("==> cit.currentInfo = " + cit.currentInfo);
         }
         return cit;
     }
 
     /**
-     * Implemented for CallerInfo.OnCallerInfoQueryCompleteListener interface.
-     * Updates the connection's userData when called.
+     * Static CallerInfoAsyncQuery.OnQueryCompleteListener instance that
+     * we use with all our CallerInfoAsyncQuery.startQuery() requests.
      */
     private static final int QUERY_TOKEN = -1;
     static CallerInfoAsyncQuery.OnQueryCompleteListener sCallerInfoQueryListener =
         new CallerInfoAsyncQuery.OnQueryCompleteListener () {
+            /**
+             * When the query completes, we stash the resulting CallerInfo
+             * object away in the Connection's "userData" (where it will
+             * later be retrieved by the in-call UI.)
+             */
             public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
                 if (DBG) log("query complete, updating connection.userdata");
                 Connection conn = (Connection) cookie;
@@ -1528,12 +1550,22 @@ public class PhoneUtils {
                         ci.numberPresentation = conn.getNumberPresentation();
                     }
                 } else {
+                    // No matching contact was found for this number.
+                    // Return a new CallerInfo based solely on the CNAP
+                    // information from the network.
+
                     CallerInfo newCi = getCallerInfo(null, conn);
+
+                    // ...but copy over the (few) things we care about
+                    // from the original CallerInfo object:
                     if (newCi != null) {
                         newCi.phoneNumber = ci.phoneNumber; // To get formatted phone number
+                        newCi.geoDescription = ci.geoDescription; // To get geo description string
                         ci = newCi;
                     }
                 }
+
+                if (DBG) log("==> Stashing CallerInfo " + ci + " into the connection...");
                 conn.setUserData(ci);
             }
         };

@@ -1098,21 +1098,38 @@ public class CallCard extends FrameLayout
             if (TextUtils.isEmpty(info.name)) {
                 // No valid "name" in the CallerInfo, so fall back to
                 // something else.
-                // (Typically, we promote the phone number up to the "name"
-                // slot onscreen, and leave the "number" slot empty.)
+                // (Typically, we promote the phone number up to the "name" slot
+                // onscreen, and possibly display a descriptive string in the
+                // "number" slot.)
                 if (TextUtils.isEmpty(number)) {
+                    // No name *or* number!  Display a generic "unknown" string
+                    // (or potentially some other default based on the presentation.)
                     displayName =  getPresentationString(presentation);
+                    if (DBG) log("  ==> no name *or* number! displayName = " + displayName);
                 } else if (presentation != Connection.PRESENTATION_ALLOWED) {
                     // This case should never happen since the network should never send a phone #
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
                     displayName = getPresentationString(presentation);
+                    if (DBG) log("  ==> presentation not allowed! displayName = " + displayName);
                 } else if (!TextUtils.isEmpty(info.cnapName)) {
+                    // No name, but we do have a valid CNAP name, so use that.
                     displayName = info.cnapName;
                     info.name = info.cnapName;
                     displayNumber = number;
+                    if (DBG) log("  ==> cnapName available: displayName '"
+                                 + displayName + "', displayNumber '" + displayNumber + "'");
                 } else {
+                    // No name; all we have is a number.  This is the typical
+                    // case when an incoming call doesn't match any contact.
+
+                    // Promote the phone number up to the "name" slot, and use
+                    // the "number" slot for a geographical description string
+                    // if available.
                     displayName = number;
+                    displayNumber = info.geoDescription;  // may be null
+                    if (DBG) log("  ==>  no name; falling back to number: displayName '"
+                                 + displayName + "', displayNumber '" + displayNumber + "'");
                 }
             } else {
                 // We do have a valid "name" in the CallerInfo.  Display that
@@ -1122,10 +1139,14 @@ public class CallCard extends FrameLayout
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
                     displayName = getPresentationString(presentation);
+                    if (DBG) log("  ==> valid name, but presentation not allowed!"
+                                 + " displayName = " + displayName);
                 } else {
                     displayName = info.name;
                     displayNumber = number;
                     label = info.phoneLabel;
+                    if (DBG) log("  ==>  name is present in CallerInfo: displayName '"
+                                 + displayName + "', displayNumber '" + displayNumber + "'");
                 }
             }
             personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, info.person_id);
