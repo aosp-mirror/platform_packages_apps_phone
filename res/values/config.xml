@@ -125,4 +125,6 @@
          CPHS4_2.WW6, CPHS B.4.7.1 for more information -->
     <bool name="csp_enabled">false</bool>
 
+    <!-- If true, removes the Voice Privacy option from Call Settings -->
+    <bool name="config_voice_privacy_disable">false</bool>
 </resources>
