@@ -35,7 +35,8 @@ import android.widget.ToggleButton;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
-import com.android.internal.widget.SlidingTab;
+import com.android.internal.widget.multiwaveview.MultiWaveView;
+import com.android.internal.widget.multiwaveview.MultiWaveView.OnTriggerListener;
 import com.android.internal.telephony.CallManager;
 
 
@@ -46,10 +47,15 @@ import com.android.internal.telephony.CallManager;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, SlidingTab.OnTriggerListener {
+        implements View.OnClickListener, OnTriggerListener {
     private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+
+    // Incoming call widget targets
+    private static final int ANSWER_CALL_ID = 0;
+    private static final int SEND_SMS_ID = 1;
+    private static final int DECLINE_CALL_ID = 2;
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -62,7 +68,7 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApplication;
 
     // UI containers / elements
-    private SlidingTab mIncomingCallWidget;  // UI used for an incoming call
+    private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
     //
     private Button mAddButton;
@@ -134,24 +140,7 @@ public class InCallTouchUi extends FrameLayout
         // Look up the various UI elements.
 
         // "Dial-to-answer" widget for incoming calls.
-        mIncomingCallWidget = (SlidingTab) findViewById(R.id.incomingCallWidget);
-        mIncomingCallWidget.setLeftTabResources(
-                R.drawable.ic_jog_dial_answer,
-                com.android.internal.R.drawable.jog_tab_target_green,
-                com.android.internal.R.drawable.jog_tab_bar_left_answer,
-                com.android.internal.R.drawable.jog_tab_left_answer
-                );
-        mIncomingCallWidget.setRightTabResources(
-                R.drawable.ic_jog_dial_decline,
-                com.android.internal.R.drawable.jog_tab_target_red,
-                com.android.internal.R.drawable.jog_tab_bar_right_decline,
-                com.android.internal.R.drawable.jog_tab_right_decline
-                );
-
-        // For now, we only need to show two states: answer and decline.
-        mIncomingCallWidget.setLeftHintText(R.string.slide_to_answer_hint);
-        mIncomingCallWidget.setRightHintText(R.string.slide_to_decline_hint);
-
+        mIncomingCallWidget = (MultiWaveView) findViewById(R.id.incomingCallWidget);
         mIncomingCallWidget.setOnTriggerListener(this);
 
         // Container for the UI elements shown while on a regular call.
@@ -527,8 +516,16 @@ public class InCallTouchUi extends FrameLayout
     }
 
     //
-    // SlidingTab.OnTriggerListener implementation
+    // MultiWaveView.OnTriggerListener implementation
     //
+
+    public void onGrabbed(View v, int handle) {
+
+    }
+
+    public void onReleased(View v, int handle) {
+
+    }
 
     /**
      * Handles "Answer" and "Reject" actions for an incoming call.
@@ -546,8 +543,8 @@ public class InCallTouchUi extends FrameLayout
         log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
         switch (whichHandle) {
-            case SlidingTab.OnTriggerListener.LEFT_HANDLE:
-                if (DBG) log("LEFT_HANDLE: answer!");
+            case ANSWER_CALL_ID:
+                if (DBG) log("ANSWER_CALL_ID: answer!");
 
                 hideIncomingCallWidget();
 
@@ -564,8 +561,13 @@ public class InCallTouchUi extends FrameLayout
                 }
                 break;
 
-            case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
-                if (DBG) log("RIGHT_HANDLE: reject!");
+            case SEND_SMS_ID:
+                // TODO
+                if (DBG) log("SEND_SMS_ID!");
+                break;
+
+            case DECLINE_CALL_ID:
+                if (DBG) log("DECLINE_CALL_ID: reject!");
 
                 hideIncomingCallWidget();
 
@@ -589,7 +591,7 @@ public class InCallTouchUi extends FrameLayout
 
         // Regardless of what action the user did, be sure to clear out
         // the hint text we were displaying while the user was dragging.
-        mInCallScreen.updateSlidingTabHint(0, 0);
+        mInCallScreen.updateIncomingCallWidgetHint(0, 0);
     }
 
     /**
@@ -649,23 +651,21 @@ public class InCallTouchUi extends FrameLayout
             // handle means "Answer" and the right handle means "Decline".)
             int hintTextResId, hintColorResId;
             switch (grabbedState) {
-                case SlidingTab.OnTriggerListener.NO_HANDLE:
+                case MultiWaveView.OnTriggerListener.NO_HANDLE:
                     hintTextResId = 0;
                     hintColorResId = 0;
                     break;
-                case SlidingTab.OnTriggerListener.LEFT_HANDLE:
-                    // TODO: Use different variants of "Slide to answer" in some cases
-                    // depending on the phone state, like slide_to_answer_and_hold
-                    // for a call waiting call, or slide_to_answer_and_end_active or
-                    // slide_to_answer_and_end_onhold for the 2-lines-in-use case.
-                    // (Note these are GSM-only cases, though.)
-                    hintTextResId = R.string.slide_to_answer;
-                    hintColorResId = R.color.incall_textConnected;  // green
-                    break;
-                case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
-                    hintTextResId = R.string.slide_to_decline;
-                    hintColorResId = R.color.incall_textEnded;  // red
-                    break;
+                // TODO: MultiWaveView only has one handle. MultiWaveView could send an event
+                // indicating that a snap (but not release) happened. Could be used to show text
+                // when user hovers over an item.
+                //        case SlidingTab.OnTriggerListener.LEFT_HANDLE:
+                //            hintTextResId = R.string.slide_to_answer;
+                //            hintColorResId = R.color.incall_textConnected;  // green
+                //            break;
+                //        case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
+                //            hintTextResId = R.string.slide_to_decline;
+                //            hintColorResId = R.color.incall_textEnded;  // red
+                //            break;
                 default:
                     Log.e(LOG_TAG, "onGrabbedStateChange: unexpected grabbedState: "
                           + grabbedState);
@@ -676,7 +676,7 @@ public class InCallTouchUi extends FrameLayout
 
             // Tell the InCallScreen to update the CallCard and force the
             // screen to redraw.
-            mInCallScreen.updateSlidingTabHint(hintTextResId, hintColorResId);
+            mInCallScreen.updateIncomingCallWidgetHint(hintTextResId, hintColorResId);
         }
     }
 

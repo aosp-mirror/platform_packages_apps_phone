@@ -104,8 +104,8 @@ public class CallCard extends FrameLayout
     private TextView mMenuButtonHint;
 
     // Onscreen hint for the incoming call RotarySelector widget.
-    private int mRotarySelectorHintTextResId;
-    private int mRotarySelectorHintColorResId;
+    private int mIncomingCallWidgetHintTextResId;
+    private int mIncomingCallWidgetHintColorResId;
 
     private CallTime mCallTime;
 
@@ -529,10 +529,10 @@ public class CallCard extends FrameLayout
         // One special feature of the "number" text field: For incoming
         // calls, while the user is dragging the RotarySelector widget, we
         // use mPhoneNumber to display a hint like "Rotate to answer".
-        if (mRotarySelectorHintTextResId != 0) {
+        if (mIncomingCallWidgetHintTextResId != 0) {
             // Display the hint!
-            mPhoneNumber.setText(mRotarySelectorHintTextResId);
-            mPhoneNumber.setTextColor(getResources().getColor(mRotarySelectorHintColorResId));
+            mPhoneNumber.setText(mIncomingCallWidgetHintTextResId);
+            mPhoneNumber.setTextColor(getResources().getColor(mIncomingCallWidgetHintColorResId));
             mPhoneNumber.setVisibility(View.VISIBLE);
             mLabel.setVisibility(View.GONE);
         }
@@ -1547,9 +1547,9 @@ public class CallCard extends FrameLayout
      * Updates the hint (like "Rotate to answer") that we display while
      * the user is dragging the incoming call RotarySelector widget.
      */
-    /* package */ void setRotarySelectorHint(int hintTextResId, int hintColorResId) {
-        mRotarySelectorHintTextResId = hintTextResId;
-        mRotarySelectorHintColorResId = hintColorResId;
+    /* package */ void setIncomingCallWidgetHint(int hintTextResId, int hintColorResId) {
+        mIncomingCallWidgetHintTextResId = hintTextResId;
+        mIncomingCallWidgetHintColorResId = hintColorResId;
     }
 
     // View.OnClickListener implementation

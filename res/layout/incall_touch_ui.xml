@@ -30,15 +30,26 @@
     >
 
     <!-- (1) incomingCallWidget: the UI displayed while an incoming call is ringing. -->
-    <com.android.internal.widget.SlidingTab
+    <com.android.internal.widget.multiwaveview.MultiWaveView
         android:id="@+id/incomingCallWidget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_height="300dip"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dip"
-        />
+        android:visibility="gone"
 
+        android:targetDrawables="@array/incall_targets"
+        android:handleDrawable="@*android:drawable/ic_lockscreen_handle"
+        android:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
+        android:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
+        android:snapMargin="@*android:dimen/multiwaveview_snap_margin"
+        android:hitRadius="@*android:dimen/multiwaveview_hit_radius"
+        android:vibrationDuration="20"
+        android:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
+        android:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
+        android:feedbackCount="3"
+        android:horizontalOffset="0dip"
+        android:verticalOffset="60dip"
+        />
     <!--
         (2) inCallControls: the widgets visible while a regular call
         (or calls) is in progress

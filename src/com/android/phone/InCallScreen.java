@@ -3027,9 +3027,8 @@ public class InCallScreen extends Activity
         }
 
         // Also, if an incoming call is ringing, hide the hint if the
-        // "incoming call" touch UI is present (since the SlidingTab
-        // widget takes up a lot of space and the hint would collide with
-        // it.)
+        // "incoming call" touch UI is present (since the unlock widget takes
+        // up a lot of space and the hint would collide with it.)
         if (hasRingingCall && isIncomingCallTouchUiEnabled()) {
             hintVisible = false;
         }
@@ -4812,10 +4811,10 @@ public class InCallScreen extends Activity
      *        or 0 if no hint should be visible.
      * @param hintColorResId resource ID for the color of the hint text
      */
-    /* package */ void updateSlidingTabHint(int hintTextResId, int hintColorResId) {
-        if (VDBG) log("updateRotarySelectorHint(" + hintTextResId + ")...");
+    /* package */ void updateIncomingCallWidgetHint(int hintTextResId, int hintColorResId) {
+        if (VDBG) log("updateIncomingCallWidgetHint(" + hintTextResId + ")...");
         if (mCallCard != null) {
-            mCallCard.setRotarySelectorHint(hintTextResId, hintColorResId);
+            mCallCard.setIncomingCallWidgetHint(hintTextResId, hintColorResId);
             mCallCard.updateState(mCM);
             // TODO: if hintTextResId == 0, consider NOT clearing the onscreen
             // hint right away, but instead post a delayed handler message to
