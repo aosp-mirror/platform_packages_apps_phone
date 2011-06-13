@@ -529,7 +529,7 @@ public class InCallTouchUi extends FrameLayout
 
     /**
      * Handles "Answer" and "Reject" actions for an incoming call.
-     * We get this callback from the SlidingTab
+     * We get this callback from the incoming call widget
      * when the user triggers an action.
      *
      * To answer or reject the incoming call, we call
@@ -639,7 +639,7 @@ public class InCallTouchUi extends FrameLayout
     }
 
     /**
-     * Handles state changes of the SlidingTabSelector widget.  While the user
+     * Handles state changes of the incoming-call widget.  While the user
      * is dragging one of the handles, we display an onscreen hint; see
      * CallCard.getRotateWidgetHint().
      */
@@ -680,6 +680,14 @@ public class InCallTouchUi extends FrameLayout
         }
     }
 
+    /**
+     * Handles an incoming RING event from the telephony layer.
+     */
+    public void onIncomingRing() {
+        // This event triggers the "ping" animation of the MultiWaveView
+        // widget.
+        if (mIncomingCallWidget != null) mIncomingCallWidget.ping();
+    }
 
     /**
      * OnTouchListener used to shrink the "hit target" of some onscreen

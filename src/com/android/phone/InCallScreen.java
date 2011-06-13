@@ -171,6 +171,7 @@ public class InCallScreen extends Activity
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
     private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
     private static final int REQUEST_UPDATE_SCREEN = 122;
+    private static final int PHONE_INCOMING_RING = 123;
 
     // When InCallScreenMode is UNDEFINED set the default action
     // to ACTION_UNDEFINED so if we are resumed the activity will
@@ -436,6 +437,14 @@ public class InCallScreen extends Activity
 
                 case REQUEST_UPDATE_SCREEN:
                     updateScreen();
+                    break;
+
+                case PHONE_INCOMING_RING:
+                    onIncomingRing();
+                    break;
+
+                default:
+                    Log.wtf(LOG_TAG, "mHandler: unexpected message: " + msg);
                     break;
             }
         }
@@ -1015,7 +1024,6 @@ public class InCallScreen extends Activity
 
     private void registerForPhoneStates() {
         if (!mRegisteredForPhoneStates) {
-
             mCM.registerForPreciseCallStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mCM.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
             mCM.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
@@ -1028,6 +1036,7 @@ public class InCallScreen extends Activity
             mCM.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
             mCM.registerForPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mCM.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
+            mCM.registerForIncomingRing(mHandler, PHONE_INCOMING_RING, null);
             mRegisteredForPhoneStates = true;
         }
     }
@@ -1038,8 +1047,9 @@ public class InCallScreen extends Activity
         mCM.unregisterForMmiInitiate(mHandler);
         mCM.unregisterForMmiComplete(mHandler);
         mCM.unregisterForCallWaiting(mHandler);
-        mCM.unregisterForSuppServiceFailed(mHandler);
         mCM.unregisterForPostDialCharacter(mHandler);
+        mCM.unregisterForSuppServiceFailed(mHandler);
+        mCM.unregisterForIncomingRing(mHandler);
         mRegisteredForPhoneStates = false;
     }
 
@@ -4873,6 +4883,17 @@ public class InCallScreen extends Activity
         // See bug 2089513.
     }
 
+    /**
+     * Handles an incoming RING event from the telephony layer.
+     */
+    private void onIncomingRing() {
+        // IFF we're visible, forward this event to the InCallTouchUi
+        // instance (which uses this event to drive the animation of the
+        // incoming-call UI.)
+        if (mIsForegroundActivity && (mInCallTouchUi != null)) {
+            mInCallTouchUi.onIncomingRing();
+        }
+    }
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
