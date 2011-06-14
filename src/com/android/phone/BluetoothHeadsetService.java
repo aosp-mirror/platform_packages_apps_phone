@@ -579,6 +579,11 @@ public class BluetoothHeadsetService extends Service {
         ParcelUuid[] uuids = device.getUuids();
         int type = BluetoothHandsfree.TYPE_UNKNOWN;
         if (uuids != null) {
+
+            if (mAdapter.isDiscovering()) {
+                mAdapter.cancelDiscovery();
+            }
+
             if (BluetoothUuid.isUuidPresent(uuids, BluetoothUuid.Handsfree)) {
                 log("SDP UUID: TYPE_HANDSFREE");
                 type = BluetoothHandsfree.TYPE_HANDSFREE;
