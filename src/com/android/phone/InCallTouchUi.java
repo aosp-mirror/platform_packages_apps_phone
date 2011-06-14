@@ -18,6 +18,8 @@ package com.android.phone;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -99,6 +101,27 @@ public class InCallTouchUi extends FrameLayout
     // Overall enabledness of the "touch UI" features
     private boolean mAllowIncomingCallTouchUi;
     private boolean mAllowInCallTouchUi;
+
+    private static final int INCOMING_CALL_WIDGET_PING = 101;
+    private Handler mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // If the InCallScreen activity isn't around any more,
+                // there's no point doing anything here.
+                if (mInCallScreen == null) return;
+
+                switch (msg.what) {
+                    case INCOMING_CALL_WIDGET_PING:
+                        if (DBG) log("INCOMING_CALL_WIDGET_PING...");
+                        if (mIncomingCallWidget != null) mIncomingCallWidget.ping();
+                        break;
+                    default:
+                        Log.wtf(LOG_TAG, "mHandler: unexpected message: " + msg);
+                        break;
+                }
+            }
+        };
+
 
     public InCallTouchUi(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -619,6 +642,8 @@ public class InCallTouchUi extends FrameLayout
      * Shows the incoming call widget and cancels any animation that may be fading it out.
      */
     private void showIncomingCallWidget() {
+        if (DBG) log("showIncomingCallWidget()...");
+
         Animation anim = mIncomingCallWidget.getAnimation();
         if (anim != null) {
             anim.reset();
@@ -645,6 +670,25 @@ public class InCallTouchUi extends FrameLayout
         //   other than PRESENTATION_ALLOWED
         //
         // (any other cases?)
+
+        // Finally, manually trigger a "ping" animation.
+        //
+        // Normally, the ping animation is triggered by RING events from
+        // the telephony layer (see onIncomingRing().)  But that *doesn't*
+        // happen for the very first RING event of an incoming call, since
+        // the incoming-call UI hasn't been set up yet at that point!
+        //
+        // So trigger an explicit ping() here, to force the animation to
+        // run when the widget first appears.
+        //
+        mHandler.removeMessages(INCOMING_CALL_WIDGET_PING);
+        mHandler.sendEmptyMessageDelayed(
+                INCOMING_CALL_WIDGET_PING,
+                // Visual polish: add a small delay here, to make the
+                // MultiWaveView widget visible for a brief moment
+                // *before* starting the ping animation.
+                // This value doesn't need to be very precise.
+                250 /* msec */);
     }
 
     /**
@@ -693,8 +737,10 @@ public class InCallTouchUi extends FrameLayout
      * Handles an incoming RING event from the telephony layer.
      */
     public void onIncomingRing() {
-        // This event triggers the "ping" animation of the MultiWaveView
-        // widget.
+        // Each RING from the telephony layer triggers a "ping" animation
+        // of the MultiWaveView widget.  (The intent here is to make the
+        // pinging appear to be synchronized with the ringtone, although
+        // that only works for non-looping ringtones.)
         if (mIncomingCallWidget != null) mIncomingCallWidget.ping();
     }
 

@@ -665,7 +665,11 @@ public class InCallScreen extends Activity
         // UI; it's totally useless when *entering* the InCallScreen.)
         mCM.clearDisconnected();
 
+        // Update the onscreen UI to reflect the current telephony state.
         SyncWithPhoneStateStatus status = syncWithPhoneState();
+
+        // Note there's no need to call updateScreen() here;
+        // syncWithPhoneState() already did that if necessary.
 
         if (status != SyncWithPhoneStateStatus.SUCCESS) {
             if (DBG) log("- onResume: syncWithPhoneState failed! status = " + status);
@@ -1065,6 +1069,11 @@ public class InCallScreen extends Activity
 
         // (Re)register for all events relevant to the new active phone
         registerForPhoneStates();
+
+        // And finally, refresh the onscreen UI.  (Note that it's safe
+        // to call requestUpdateScreen() even if the radio change ended up
+        // causing us to exit the InCallScreen.)
+        requestUpdateScreen();
     }
 
     @Override
@@ -1315,6 +1324,7 @@ public class InCallScreen extends Activity
         if (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
             // Hide the Manage Conference panel, return to NORMAL mode.
             setInCallScreenMode(InCallScreenMode.NORMAL);
+            requestUpdateScreen();
             return;
         }
 
@@ -1677,7 +1687,13 @@ public class InCallScreen extends Activity
             return;
         }
 
-        updateScreen();
+        // Update the onscreen UI.
+        // We use requestUpdateScreen() here (which posts a handler message)
+        // instead of calling updateScreen() directly, which allows us to avoid
+        // unnecessary work if multiple onPhoneStateChanged() events come in all
+        // at the same time.
+
+        requestUpdateScreen();
 
         // Make sure we update the poke lock and wake lock when certain
         // phone state changes occur.
@@ -1914,18 +1930,18 @@ public class InCallScreen extends Activity
             // still in use, or the phone is idle but we want to display
             // the "call ended" state for a couple of seconds.)
 
-            // Force a UI update in case we need to display anything
-            // special given this connection's DisconnectCause (see
-            // CallCard.getCallFailedString()).
-            updateScreen();
-
-            // Display the special "Call ended" state when the phone is idle
+            // Switch to the special "Call ended" state when the phone is idle
             // but there's still a call in the DISCONNECTED state:
             if (currentlyIdle
                 && (mCM.hasDisconnectedFgCall() || mCM.hasDisconnectedBgCall())) {
                 if (VDBG) log("- onDisconnect: switching to 'Call ended' state...");
                 setInCallScreenMode(InCallScreenMode.CALL_ENDED);
             }
+
+            // Force a UI update in case we need to display anything
+            // special based on this connection's DisconnectCause
+            // (see CallCard.getCallFailedString()).
+            updateScreen();
 
             // Some other misc cleanup that we do if the call that just
             // disconnected was the foreground call.
@@ -2265,6 +2281,12 @@ public class InCallScreen extends Activity
      * Updates the state of the in-call UI based on the current state of
      * the Phone.  This call has no effect if we're not currently the
      * foreground activity.
+     *
+     * This method is only allowed to be called from the UI thread (since it
+     * manipulates our View hierarchy).  If you need to update the screen from
+     * some other thread, or if you just want to "post a request" for the screen
+     * to be updated (rather than doing it synchronously), call
+     * requestUpdateScreen() instead.
      */
     private void updateScreen() {
         if (DBG) log("updateScreen()...");
@@ -2333,10 +2355,10 @@ public class InCallScreen extends Activity
             updateManageConferencePanelIfNecessary();
             return;
         } else if (inCallScreenMode == InCallScreenMode.CALL_ENDED) {
-            if (DBG) log("- updateScreen: call ended state (NOT updating in-call UI)...");
-            // Actually we do need to update one thing: the background.
-            updateInCallBackground();
-            return;
+            if (DBG) log("- updateScreen: call ended state...");
+            // Continue with the rest of updateScreen() as usual, since we do
+            // need to update the background (to the special "call ended" color)
+            // and the CallCard (to show the "Call ended" label.)
         }
 
         if (DBG) log("- updateScreen: updating the in-call UI...");
@@ -2397,6 +2419,9 @@ public class InCallScreen extends Activity
      *    shouldn't even be in the in-call UI in the first place, and it's
      *    the caller's responsibility to bail out of this activity by
      *    calling endInCallScreenSession if appropriate.
+     *
+     * This method directly calls updateScreen() in the normal "phone is
+     * in use" case, so there's no need for the caller to do so.
      */
     private SyncWithPhoneStateStatus syncWithPhoneState() {
         boolean updateSuccessful = false;
@@ -2664,6 +2689,7 @@ public class InCallScreen extends Activity
                 if (VDBG) log("onClick: ManageConference...");
                 // Show the Manage Conference panel.
                 setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
+                requestUpdateScreen();
                 break;
 
             case R.id.menuShowDialpad:
@@ -2675,6 +2701,7 @@ public class InCallScreen extends Activity
                 if (VDBG) log("onClick: mButtonManageConferenceDone...");
                 // Hide the Manage Conference panel, return to NORMAL mode.
                 setInCallScreenMode(InCallScreenMode.NORMAL);
+                requestUpdateScreen();
                 break;
 
             case R.id.menuSpeaker:
@@ -2937,6 +2964,7 @@ public class InCallScreen extends Activity
             case R.id.manageConferencePhotoButton:
                 // Show the Manage Conference panel.
                 setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
+                requestUpdateScreen();
                 break;
 
             default:
@@ -3583,6 +3611,10 @@ public class InCallScreen extends Activity
      * NOTE: if newMode is CALL_ENDED, the caller is responsible for
      * posting a delayed DELAYED_CLEANUP_AFTER_DISCONNECT message, to make
      * sure the "call ended" state goes away after a couple of seconds.
+     *
+     * Note this method does NOT refresh of the onscreen UI; the caller is
+     * responsible for calling updateScreen() or requestUpdateScreen() if
+     * necessary.
      */
     private void setInCallScreenMode(InCallScreenMode newMode) {
         if (DBG) log("setInCallScreenMode: " + newMode);
@@ -3712,14 +3744,6 @@ public class InCallScreen extends Activity
                 mInCallPanel.setVisibility(View.VISIBLE);
                 break;
         }
-
-        // Update the visibility of the DTMF dialer tab on any state
-        // change.
-        updateDialpadVisibility();
-
-        // Update the in-call touch UI on any state change (since it may
-        // need to hide or re-show itself.)
-        updateInCallTouchUi();
     }
 
     /**
