@@ -33,6 +33,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.telephony.CommandException;
@@ -406,7 +407,7 @@ public class NetworkSetting extends PreferenceActivity
                 // confusing mcc/mnc.
                 for (OperatorInfo ni : result) {
                     Preference carrier = new Preference(this, null);
-                    carrier.setTitle(ni.getOperatorAlphaLong());
+                    carrier.setTitle(getNetworkTitle(ni));
                     carrier.setPersistent(false);
                     mNetworkList.addPreference(carrier);
                     mNetworkMap.put(carrier, ni);
@@ -417,6 +418,25 @@ public class NetworkSetting extends PreferenceActivity
             } else {
                 displayEmptyNetworkList(true);
             }
+        }
+    }
+
+    /**
+     * Returns the title of the network obtained in the manual search.
+     *
+     * @param OperatorInfo contains the information of the network.
+     *
+     * @return Long Name if not null/empty, otherwise Short Name if not null/empty,
+     * else MCCMNC string.
+     */
+
+    private String getNetworkTitle(OperatorInfo ni) {
+        if (!TextUtils.isEmpty(ni.getOperatorAlphaLong())) {
+            return ni.getOperatorAlphaLong();
+        } else if (!TextUtils.isEmpty(ni.getOperatorAlphaShort())) {
+            return ni.getOperatorAlphaShort();
+        } else {
+            return ni.getOperatorNumeric();
         }
     }
 
