@@ -184,7 +184,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Fehler bei der Netzwerksuche"</string>
     <string name="register_on_network" msgid="9055203954040805084">"Registrierung in <xliff:g id="NETWORK">%s</xliff:g> läuft..."</string>
     <string name="not_allowed" msgid="3540496123717833833">"Ihre SIM-Karte unterstützt keine Verbindung mit diesem Netzwerk."</string>
-    <string name="connect_later" msgid="500090982903469816">"Es kann derzeit keine Verbindung zu diesem Netzwerk hergestellt werden. Versuchen Sie es später erneut."</string>
+    <string name="connect_later" msgid="500090982903469816">"Es kann zurzeit keine Verbindung zu diesem Netzwerk hergestellt werden. Versuchen Sie es später erneut."</string>
     <string name="registration_done" msgid="495135664535876612">"In Netzwerk registriert."</string>
     <string name="sum_carrier_select" msgid="6526225502314751575">"Netzbetreiber auswählen"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Nach allen verfügbaren Netzwerken suchen"</string>
@@ -659,7 +659,7 @@
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Kontoregistrierung fehlgeschlagen (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Erneuter Versuch zu einem späteren Zeitpunkt."</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Kontoregistrierung fehlgeschlagen. Nutzername oder Passwort falsch."</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Kontoregistrierung fehlgeschlagen. Überprüfen Sie den Servernamen."</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Dieses Konto wird derzeit von der <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>-Anwendung verwendet."</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Dieses Konto wird zurzeit von der <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>-Anwendung verwendet."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP-Konto: Details"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP-Konto: Details"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>
