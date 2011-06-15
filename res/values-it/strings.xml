@@ -251,7 +251,7 @@
     <string name="maintenance_enable" msgid="8566636458770971189">"Manutenzione attivata"</string>
     <string name="maintenance_disable" msgid="7340189100885066077">"Manutenzione disattivata"</string>
     <string name="general_news_settings" msgid="4968779723948432978">"News generiche"</string>
-    <string name="bf_news_settings" msgid="3935593091894685267">"News di business e finanza"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"Economia e finanza"</string>
     <string name="sports_news_settings" msgid="7649399631270052835">"News sportive"</string>
     <string name="entertainment_news_settings" msgid="5051153952959405035">"News di intrattenimento"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"Locali"</string>
