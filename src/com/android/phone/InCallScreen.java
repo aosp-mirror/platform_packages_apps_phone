@@ -1521,13 +1521,7 @@ public class InCallScreen extends Activity
                           + " (PhoneWindowManager should have handled this key.)");
                     // But go ahead and handle the key as normal, since the
                     // PhoneWindowManager presumably did NOT handle it:
-
-                    final CallNotifier notifier = mApp.notifier;
-                    if (notifier.isRinging()) {
-                        // ringer is actually playing, so silence it.
-                        if (DBG) log("VOLUME key: silence ringer");
-                        notifier.silenceRinger();
-                    }
+                    internalSilenceRinger();
 
                     // As long as an incoming call is ringing, we always
                     // consume the VOLUME keys.
@@ -2901,11 +2895,14 @@ public class InCallScreen extends Activity
             // item *or* touch button) and does the appropriate user action.
 
             // Actions while an incoming call is ringing:
-            case R.id.answerButton:
+            case R.id.incomingCallAnswer:
                 internalAnswerCall();
                 break;
-            case R.id.rejectButton:
+            case R.id.incomingCallReject:
                 internalHangupRingingCall();
+                break;
+            case R.id.incomingCallRespondViaSms:
+                internalRespondViaSms();
                 break;
 
             // The other regular (single-tap) buttons used while in-call:
@@ -3410,7 +3407,7 @@ public class InCallScreen extends Activity
      * Answer a ringing call.  This method does nothing if there's no
      * ringing or waiting call.
      */
-    /* package */ void internalAnswerCall() {
+    private void internalAnswerCall() {
         // if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
@@ -3458,7 +3455,7 @@ public class InCallScreen extends Activity
     /**
      * Answer the ringing call *and* hang up the ongoing call.
      */
-    /* package */ void internalAnswerAndEnd() {
+    private void internalAnswerAndEnd() {
         if (DBG) log("internalAnswerAndEnd()...");
         if (VDBG) PhoneUtils.dumpCallManager();
         // In the rare case when multiple calls are ringing, the UI policy
@@ -3469,18 +3466,78 @@ public class InCallScreen extends Activity
     /**
      * Hang up the ringing call (aka "Don't answer").
      */
-    /* package */ void internalHangupRingingCall() {
+    private void internalHangupRingingCall() {
         if (DBG) log("internalHangupRingingCall()...");
         if (VDBG) PhoneUtils.dumpCallManager();
         // In the rare case when multiple calls are ringing, the UI policy
-        // it to always act on the first ringing call.v
+        // it to always act on the first ringing call.
         PhoneUtils.hangupRingingCall(mCM.getFirstActiveRingingCall());
+    }
+
+    /**
+     * Silence the ringer (if an incoming call is ringing.)
+     */
+    private void internalSilenceRinger() {
+        if (DBG) log("internalSilenceRinger()...");
+        final CallNotifier notifier = mApp.notifier;
+        if (notifier.isRinging()) {
+            // ringer is actually playing, so silence it.
+            notifier.silenceRinger();
+        }
+    }
+
+    /**
+     * Respond via SMS to the ringing call.
+     * @see RespondViaSms
+     */
+    private void internalRespondViaSms() {
+        if (DBG) log("internalRespondViaSms()...");
+        if (VDBG) PhoneUtils.dumpCallManager();
+
+        // In the rare case when multiple calls are ringing, the UI policy
+        // it to always act on the first ringing call.
+        Call ringingCall = mCM.getFirstActiveRingingCall();
+
+        View anchorView = mInCallTouchUi.findViewById(R.id.popupMenuAnchor);
+
+        RespondViaSms.showRespondViaSmsPopup(this, ringingCall, anchorView);
+
+        // TODO: still need to decide exactly what to do with the incoming call.
+        //
+        // (1) definitely silence the ringer
+        // (2) but should we immediately reject the incoming call?
+        //     or just ignore it and let it go to voicemail eventually?
+        // (3) also, should the code in InCallTouchUi dismiss the
+        //     MultiWaveView widget right now, or leave it up with the
+        //     popup menu on top, perhaps to show some visual context for
+        //     how we got here?
+        //
+        // Or, maybe we should do nothing here, and instead wait
+        // till you've actually picked one of the choices from the
+        // popup menu (before we silence the ringer).  That would
+        // allow you to change your mind (i.e. dismiss the popup
+        // menu, and then select either "answer" or "reject" from
+        // the incoming-call widget.)
+        //
+        // Also, issues if the incoming call disconnects on its own:
+        //   - We should probably make sure to *not* exit the
+        //     incoming-call screen immediately if the incoming call
+        //     disconnects but the SMS popup is still visible (to give the
+        //     user a little extra time to decide which response to use.)
+        //   - But OTOH we *should* eventually time out if you bring up
+        //     the popup but don't do anything.
+        //   - We should also take down the popup (if it was up) if you
+        //     press Power to turn the screen off, or if the screen times
+        //     out on its own.
+        //
+        // For now:
+        internalSilenceRinger();
     }
 
     /**
      * Hang up the current active call.
      */
-    /* package */ void internalHangup() {
+    private void internalHangup() {
         if (DBG) log("internalHangup()...");
         PhoneUtils.hangup(mCM);
     }

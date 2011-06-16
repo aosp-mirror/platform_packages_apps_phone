@@ -50,6 +50,32 @@
         android:horizontalOffset="0dip"
         android:verticalOffset="60dip"
         />
+
+    <!-- Placeholder view used to anchor the "Respond via SMS" popup menu. -->
+    <!-- TODO: Ideally this would be positioned as
+             android:layout_above="@id/incomingCallWidget"
+         along with a layout_marginBottom value equal to the height of the popup
+         menu.  But the incomingCallWidget can potentially disappear while the
+         menu is up, which would cause the menu to jump.
+         So for now, just used a fixed distance from the top of the screen.
+         (The visual design hasn't been fully specced yet anyway.) -->
+    <View
+        android:id="@+id/popupMenuAnchor"
+        android:layout_width="match_parent"
+        android:layout_height="20dip"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginTop="40dip"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        />
+    <!-- Note: to make layout debugging easier, temporarily make this into
+         a TextView with
+              android:text="@string/menu_answer"
+              android:textColor="#FD3D"
+              android:background="#F444"
+         to make it easy to see how this view affects the placement of the popup. -->
+
     <!--
         (2) inCallControls: the widgets visible while a regular call
         (or calls) is in progress

@@ -531,61 +531,51 @@ public class InCallTouchUi extends FrameLayout
      * Handles "Answer" and "Reject" actions for an incoming call.
      * We get this callback from the incoming call widget
      * when the user triggers an action.
-     *
-     * To answer or reject the incoming call, we call
-     * InCallScreen.handleOnscreenButtonClick() and pass one of the
-     * special "virtual button" IDs:
-     *   - R.id.answerButton to answer the call
-     * or
-     *   - R.id.rejectButton to reject the call.
      */
     public void onTrigger(View v, int whichHandle) {
-        log("onDialTrigger(whichHandle = " + whichHandle + ")...");
+        if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
 
+        // On any action by the user, hide the widget:
+        hideIncomingCallWidget();
+
+        // ...and also prevent it from reappearing right away.
+        // (This covers up a slow response from the radio for some
+        // actions; see updateState().)
+        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
+
+        // The InCallScreen actually implements all of these actions.
+        // Each possible action from the incoming call widget corresponds
+        // to an R.id value; we pass those to the InCallScreen's "button
+        // click" handler (even though the UI elements aren't actually
+        // buttons; see InCallScreen.handleOnscreenButtonClick().)
+
+        if (mInCallScreen == null) {
+            Log.wtf(LOG_TAG, "onTrigger(" + whichHandle
+                    + ") from incoming-call widget, but null mInCallScreen!");
+            return;
+        }
         switch (whichHandle) {
             case ANSWER_CALL_ID:
                 if (DBG) log("ANSWER_CALL_ID: answer!");
-
-                hideIncomingCallWidget();
-
-                // ...and also prevent it from reappearing right away.
-                // (This covers up a slow response from the radio; see updateState().)
-                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
-
-                // Do the appropriate action.
-                if (mInCallScreen != null) {
-                    // Send this to the InCallScreen as a virtual "button click" event:
-                    mInCallScreen.handleOnscreenButtonClick(R.id.answerButton);
-                } else {
-                    Log.e(LOG_TAG, "answer trigger: mInCallScreen is null");
-                }
+                mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallAnswer);
                 break;
 
             case SEND_SMS_ID:
-                // TODO
                 if (DBG) log("SEND_SMS_ID!");
+
+                // TODO: maybe *don't* hideIncomingCallWidget() in this
+                // case?  (Exact UI spec is still TBD.)
+
+                mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallRespondViaSms);
                 break;
 
             case DECLINE_CALL_ID:
                 if (DBG) log("DECLINE_CALL_ID: reject!");
-
-                hideIncomingCallWidget();
-
-                // ...and also prevent it from reappearing right away.
-                // (This covers up a slow response from the radio; see updateState().)
-                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
-
-                // Do the appropriate action.
-                if (mInCallScreen != null) {
-                    // Send this to the InCallScreen as a virtual "button click" event:
-                    mInCallScreen.handleOnscreenButtonClick(R.id.rejectButton);
-                } else {
-                    Log.e(LOG_TAG, "reject trigger: mInCallScreen is null");
-                }
+                mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallReject);
                 break;
 
             default:
-                Log.e(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
+                Log.wtf(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
 
@@ -636,6 +626,25 @@ public class InCallTouchUi extends FrameLayout
         }
         mIncomingCallWidget.reset(false);
         mIncomingCallWidget.setVisibility(View.VISIBLE);
+
+        // TODO: may need update or reconfigure the MultiWaveView widget
+        // at this point based on the state of the ringing call.
+        //
+        // Specifically, we probably need to disable the "respond via SMS"
+        // option in a few cases:
+        //
+        // - if the ringing call's getAddress() is blank, or not a valid
+        //   phone number
+        //
+        // - if the ringing call's getAddress() is a SIP address rather
+        //   than a PSTN number.  (Or do we really need to disable this
+        //   feature for SIP addresses?  Could there be some SIP-specific
+        //   equivalent to sending a text?)
+        //
+        // - if the ringing call's getNumberPresentation() is anything
+        //   other than PRESENTATION_ALLOWED
+        //
+        // (any other cases?)
     }
 
     /**
