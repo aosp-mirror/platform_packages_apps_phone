@@ -108,7 +108,7 @@
          able to prevent manual operator selection. If false, this SIM setting will be
          ignored and manual operator selection will always be available. See
          CPHS4_2.WW6, CPHS B.4.7.1 for more information -->
-    <bool name="csp_enabled">false</bool>
+    <bool name="csp_enabled">true</bool>
 
     <!-- If true, removes the Voice Privacy option from Call Settings -->
     <bool name="config_voice_privacy_disable">false</bool>
