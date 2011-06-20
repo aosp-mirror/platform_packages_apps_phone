@@ -39,18 +39,12 @@
     <skip />
     <!-- no translation found for callFailed_congestion (8737761615702718375) -->
     <skip />
-    <!-- no translation found for callFailed_timedOut (7590961703135543346) -->
-    <skip />
-    <!-- no translation found for callFailed_server_unreachable (2133506577423869729) -->
-    <skip />
-    <!-- no translation found for callFailed_number_unreachable (7632566442515734778) -->
-    <skip />
-    <!-- no translation found for callFailed_invalid_credentials (8226835346196775378) -->
-    <skip />
-    <!-- no translation found for callFailed_out_of_network (6485167392133436262) -->
-    <skip />
-    <!-- no translation found for callFailed_server_error (5717915213586193217) -->
-    <skip />
+    <string name="callFailed_timedOut" msgid="7590961703135543346">"Geen reaksie nie, uitgetel"</string>
+    <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Bediener onbereikbaar"</string>
+    <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Nommer onbereikbaar"</string>
+    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Verkeerde gebruikernaam of wagwoord"</string>
+    <string name="callFailed_out_of_network" msgid="6485167392133436262">"Geskakel van buite netwerk"</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Bedienerfout. Probeer later weer."</string>
     <!-- no translation found for callFailed_noSignal (1889803273616031933) -->
     <skip />
     <!-- no translation found for callFailed_limitExceeded (4958065157970101491) -->
@@ -77,8 +71,7 @@
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Toegangsmislukking."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Voorgespring."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Net noodoproepe is moontlik."</string>
-    <!-- no translation found for callFailed_unobtainable_number (7886274717456712105) -->
-    <skip />
+    <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Ongeldige nommer"</string>
     <!-- no translation found for confCall (1904840547188336828) -->
     <skip />
     <string name="call_lost" msgid="317670617901479594">"Oproep is verlore."</string>
@@ -207,8 +200,7 @@
     <skip />
     <!-- no translation found for sum_cfu_enabled (2450052502198827927) -->
     <skip />
-    <!-- no translation found for sum_cfu_enabled_no_number (6591985777096823616) -->
-    <skip />
+    <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Nommer is nie beskikbaar nie"</string>
     <!-- no translation found for sum_cfu_disabled (3698472522160364904) -->
     <skip />
     <!-- no translation found for labelCFB (218938523102207587) -->
@@ -219,8 +211,7 @@
     <skip />
     <!-- no translation found for sum_cfb_disabled (227440009979537651) -->
     <skip />
-    <!-- no translation found for disable_cfb_forbidden (4524424437001441832) -->
-    <skip />
+    <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Jou draer ondersteun nie die deaktivering van oproepaanstuur wanneer jou foon beset is nie."</string>
     <!-- no translation found for labelCFNRy (3646316323834351390) -->
     <skip />
     <!-- no translation found for messageCFNRy (672317899884380374) -->
@@ -229,8 +220,7 @@
     <skip />
     <!-- no translation found for sum_cfnry_disabled (8422350929957344729) -->
     <skip />
-    <!-- no translation found for disable_cfnry_forbidden (7041605706777677935) -->
-    <skip />
+    <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Jou draer ondersteun nie die deaktivering van oproepaanstuur wanneer jou foon nie geantwoord word nie."</string>
     <!-- no translation found for labelCFNRc (47183615370850000) -->
     <skip />
     <!-- no translation found for messageCFNRc (6380695421020295119) -->
@@ -239,8 +229,7 @@
     <skip />
     <!-- no translation found for sum_cfnrc_disabled (7222141261321276464) -->
     <skip />
-    <!-- no translation found for disable_cfnrc_forbidden (1093527570652781997) -->
-    <skip />
+    <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Jou draer ondersteun nie die deaktiveer van oproepaanstuur wanneer jou foon onbereikbaar is nie."</string>
     <!-- no translation found for updating_title (6146755386174019046) -->
     <skip />
     <!-- no translation found for error_updating_title (7970259216988931777) -->
@@ -249,12 +238,10 @@
     <skip />
     <!-- no translation found for updating_settings (8171225533884883252) -->
     <skip />
-    <!-- no translation found for reverting_settings (4752151682666912828) -->
-    <skip />
+    <string name="reverting_settings" msgid="4752151682666912828">"Stel tans instellings terug…"</string>
     <string name="response_error" msgid="6674110501330139405">"Onverwagte antwoord van netwerk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netwerk- of SIM-kaartfout."</string>
-    <!-- no translation found for fdn_only_error (7079583506377602000) -->
-    <skip />
+    <string name="fdn_only_error" msgid="7079583506377602000">"Bewerkings word net vir belbeperking-nommers toegelaat."</string>
     <!-- no translation found for radio_off_error (6717116288405111269) -->
     <skip />
     <!-- no translation found for close_dialog (2365884406356986917) -->
@@ -274,10 +261,8 @@
     <skip />
     <!-- no translation found for vm_changed (380744030726254139) -->
     <skip />
-    <!-- no translation found for vm_change_failed (6912718596496220653) -->
-    <skip />
-    <!-- no translation found for fw_change_failed (4437005899675054038) -->
-    <skip />
+    <string name="vm_change_failed" msgid="6912718596496220653">"Verandering van stemboodskapsnommer onsuksesvol."\n"Kontak asseblief jou draer as die probleem voortduur."</string>
+    <string name="fw_change_failed" msgid="4437005899675054038">"Verandering van aanstuurnommer onsuksesvol."\n"Kontak asseblief jou draer as hierdie probleem voortduur."</string>
     <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Kon nie huidige aanstuurnommer-instellings ontsluit en stoor nie."\n"Wil jy in elk geval oorskakel na die nuwe verskaffer?"</string>
     <!-- no translation found for no_change (3186040086622435212) -->
     <skip />
@@ -299,8 +284,7 @@
     <skip />
     <!-- no translation found for not_allowed (3540496123717833833) -->
     <skip />
-    <!-- no translation found for connect_later (500090982903469816) -->
-    <skip />
+    <string name="connect_later" msgid="500090982903469816">"Kan nie tans aan hierdie netwerk koppel nie. Probeer later weer."</string>
     <!-- no translation found for registration_done (495135664535876612) -->
     <skip />
     <!-- no translation found for sum_carrier_select (6526225502314751575) -->
@@ -315,12 +299,26 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Netwerkmodus"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Verander die netwerkbedryfsmodus"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Voorkeurnetwerk-modus"</string>
+    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
+    <skip />
     <!-- no translation found for preferred_network_mode_cdma_summary (3175690187294334241) -->
     <skip />
     <!-- no translation found for preferred_network_mode_cdma_evdo_summary (8332063064712726618) -->
     <skip />
+    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
+    <skip />
   <string-array name="preferred_network_mode_choices">
-    <item msgid="2987674222882365152">"Wêreldwyd"</item>
+    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"Wêreldwyd"</item>
     <item msgid="3273348576277144124">"Net EvDo"</item>
     <item msgid="454610224530856274">"CDMA sonder EvDo"</item>
     <item msgid="8928247118825616081">"CDMA / EvDo outomaties"</item>
@@ -329,22 +327,10 @@
     <item msgid="5714714953966979187">"Net GSM"</item>
     <item msgid="4775796025725908913">"GSM / WCDMA verkies"</item>
   </string-array>
-  <string-array name="preferred_network_mode_values">
-    <item msgid="7164534877603905916">"7"</item>
-    <item msgid="2520921432080278213">"6"</item>
-    <item msgid="4978887990900575049">"5"</item>
-    <item msgid="6891436459357445885">"4"</item>
-    <item msgid="339825043192186272">"3"</item>
-    <item msgid="3062641619893382241">"2"</item>
-    <item msgid="2494009747968041784">"1"</item>
-    <item msgid="2568449734331711605">"0"</item>
-  </string-array>
-    <!-- no translation found for preferred_network_mode_choices_lte:0 (4446354214569753370) -->
+    <!-- no translation found for preferred_network_mode_choices_lte:0 (7345284701413565429) -->
     <!-- no translation found for preferred_network_mode_choices_lte:1 (5541716989029928208) -->
-    <!-- no translation found for data_enabled (5972538663568715366) -->
-    <skip />
-    <!-- no translation found for data_enable_summary (5022018967714633874) -->
-    <skip />
+    <string name="data_enabled" msgid="5972538663568715366">"Data geaktiveer"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Aktiveer datatoegang via mobiele netwerk"</string>
     <!-- no translation found for roaming (8871412572928323707) -->
     <skip />
     <!-- no translation found for roaming_enable (7331106985174381987) -->
@@ -357,30 +343,18 @@
     <skip />
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM//UMTS-opsies"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-opsies"</string>
-    <!-- no translation found for throttle_data_usage (3715677828160555808) -->
-    <skip />
-    <!-- no translation found for throttle_settings_title (2761975408383706589) -->
-    <skip />
-    <!-- no translation found for throttle_current_usage (8762280193043815361) -->
-    <skip />
-    <!-- no translation found for throttle_time_frame (1915198770363734685) -->
-    <skip />
-    <!-- no translation found for throttle_rate (4710388992676803508) -->
-    <skip />
-    <!-- no translation found for throttle_help (243651091785169900) -->
-    <skip />
-    <!-- no translation found for throttle_status_subtext (1657318943142085170) -->
-    <skip />
-    <!-- no translation found for throttle_data_usage_subtext (6029276011123694701) -->
-    <skip />
-    <!-- no translation found for throttle_data_rate_reduced_subtext (7492763592720107737) -->
-    <skip />
-    <!-- no translation found for throttle_time_frame_subtext (7732763021560399960) -->
-    <skip />
-    <!-- no translation found for throttle_rate_subtext (2149102656120726855) -->
-    <skip />
-    <!-- no translation found for throttle_help_subtext (5217706521499010816) -->
-    <skip />
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Datagebruik"</string>
+    <string name="throttle_settings_title" msgid="2761975408383706589">"Draer-databeleid"</string>
+    <string name="throttle_current_usage" msgid="8762280193043815361">"Data in huidige tydperk gebruik"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Datagebruiksperiode"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"Datatempobeleid"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Kom meer te wete"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>%) van <xliff:g id="USED_2">%3$s</xliff:g> periode se maksimum"\n"Volgende periode begin oor <xliff:g id="USED_3">%4$d</xliff:g> dae (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) van <xliff:g id="USED_2">%3$s</xliff:g> tydperk se maksimum"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> maksimum oorskry"\n"Datatempo verminder na <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% van siklus het verloop"\n"Volgende periode begin oor <xliff:g id="USED_1">%2$d</xliff:g> dae (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datatempo verminder na <xliff:g id="USED">%1$d</xliff:g> Kb/s as datagebruiklimiet oorskry word"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Meer inligting oor jou draer se mobielenetwerk-datagebruikbeleid"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Seluitsending-SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Seluitsending-SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Seluitsending-SMS"</string>
@@ -520,18 +494,18 @@
     <item msgid="5741268642513143762">"1"</item>
     <item msgid="419525200910932450">"2"</item>
   </string-array>
-    <!-- no translation found for cdma_subscription_title (445607520753045412) -->
-    <skip />
-    <!-- no translation found for cdma_subscription_summary (2530890766115781140) -->
-    <skip />
-    <!-- no translation found for cdma_subscription_dialogtitle (2699527950523333110) -->
-    <skip />
-    <!-- no translation found for cdma_subscription_choices:0 (2258014151300708431) -->
-    <!-- no translation found for cdma_subscription_choices:1 (5127722015571873880) -->
-    <!-- no translation found for cdma_subscription_values:0 (7494167883478914080) -->
-    <!-- no translation found for cdma_subscription_values:1 (6043847456049107742) -->
-    <!-- no translation found for cdma_activate_device (3793805892364814518) -->
-    <skip />
+    <string name="cdma_subscription_title" msgid="445607520753045412">"CDMA-intekening"</string>
+    <string name="cdma_subscription_summary" msgid="2530890766115781140">"Wissel tussen RUIM/SIM en NV"</string>
+    <string name="cdma_subscription_dialogtitle" msgid="2699527950523333110">"intekening"</string>
+  <string-array name="cdma_subscription_choices">
+    <item msgid="2258014151300708431">"RUIM/SIM"</item>
+    <item msgid="5127722015571873880">"NV"</item>
+  </string-array>
+  <string-array name="cdma_subscription_values">
+    <item msgid="7494167883478914080">"0"</item>
+    <item msgid="6043847456049107742">"1"</item>
+  </string-array>
+    <string name="cdma_activate_device" msgid="3793805892364814518">"Aktiveer toestel"</string>
     <!-- no translation found for cdma_lte_data_service (4255018217292548962) -->
     <skip />
     <string name="fdn" msgid="7878832555095183202">"Belbeperking-nommers"</string>
@@ -578,28 +552,17 @@
     <skip />
     <!-- no translation found for save (4094274636321939086) -->
     <skip />
-    <!-- no translation found for add_fdn_contact (2481915899633353976) -->
-    <skip />
-    <!-- no translation found for adding_fdn_contact (7627379633721940991) -->
-    <skip />
-    <!-- no translation found for fdn_contact_added (7458335758501736665) -->
-    <skip />
-    <!-- no translation found for edit_fdn_contact (7976936035587081480) -->
-    <skip />
-    <!-- no translation found for updating_fdn_contact (8370929876849803600) -->
-    <skip />
-    <!-- no translation found for fdn_contact_updated (5497828782609005017) -->
-    <skip />
-    <!-- no translation found for delete_fdn_contact (6668958073074151717) -->
-    <skip />
-    <!-- no translation found for deleting_fdn_contact (5669163206349319969) -->
-    <skip />
-    <!-- no translation found for fdn_contact_deleted (7154162327112259569) -->
-    <skip />
-    <!-- no translation found for pin2_invalid (7176360264228076810) -->
-    <skip />
-    <!-- no translation found for fdn_invalid_number (9193130794297997290) -->
-    <skip />
+    <string name="add_fdn_contact" msgid="2481915899633353976">"Voeg belbeperking-nommer by"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Voeg belbeperking-nommer by…"</string>
+    <string name="fdn_contact_added" msgid="7458335758501736665">"Belbeperking-nommer bygevoeg."</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Redigeer belbeperking-nommer"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Dateer tans belbeperking-nommer op…"</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"Belbeperking-nommer opgedateer."</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Vee belbeperking-nommer uit"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Verwyder belbeperking-nommer…"</string>
+    <string name="fdn_contact_deleted" msgid="7154162327112259569">"Belbeperking-nommer uitgevee."</string>
+    <string name="pin2_invalid" msgid="7176360264228076810">"FDN nie opgedateer nie: jy het \'n verkeerde PIN ingevoer."</string>
+    <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN nie opgedateer nie: nommer mag nie meer as 20 syfers wees nie."</string>
     <!-- no translation found for simContacts_emptyLoading (2203331234764498011) -->
     <skip />
     <!-- no translation found for simContacts_empty (5270660846489561932) -->
@@ -706,8 +669,7 @@
     <skip />
     <!-- no translation found for notification_on_hold (3480694969511790465) -->
     <skip />
-    <!-- no translation found for notification_incoming_call (2820429205043529642) -->
-    <skip />
+    <string name="notification_incoming_call" msgid="2820429205043529642">"Inkomende oproep"</string>
     <!-- no translation found for notification_voicemail_title (8933468752045550523) -->
     <skip />
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Nuwe stemboodskap (<xliff:g id="COUNT">%d</xliff:g>)"</string>
@@ -720,8 +682,7 @@
     <string name="incall_error_power_off" msgid="6550191216405193368">"Om \'n oproep te maak, skakel eers vliegtuigmodus af."</string>
     <!-- no translation found for incall_error_emergency_only (4678640422710818317) -->
     <skip />
-    <!-- no translation found for incall_error_out_of_service (8587993036435080418) -->
-    <skip />
+    <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobiele netwerk nie beskikbaar nie."</string>
     <!-- no translation found for incall_error_no_phone_number_supplied (4197432103471807739) -->
     <skip />
     <!-- no translation found for incall_error_call_failed (4313552620858880999) -->
@@ -743,8 +704,7 @@
     <skip />
     <!-- no translation found for incall_error_supp_service_hangup (7417583238334762737) -->
     <skip />
-    <!-- no translation found for incall_call_type_label_sip (2310958283037924371) -->
-    <skip />
+    <string name="incall_call_type_label_sip" msgid="2310958283037924371">"Internetoproep"</string>
     <!-- no translation found for emergency_enable_radio_dialog_title (4627849966634578257) -->
     <skip />
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Skakel tans radio aan…"</string>
@@ -771,8 +731,7 @@
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Voeg oproep by"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Voeg oproepe saam"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Ruil"</string>
-    <!-- no translation found for onscreenManageCallsText (5473231160123254154) -->
-    <skip />
+    <string name="onscreenManageCallsText" msgid="5473231160123254154">"Bestuur oproepe"</string>
     <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Bestuur"</string>
     <!-- no translation found for importSimEntry (6614358325359736031) -->
     <skip />
@@ -799,20 +758,15 @@
     <string name="network_message" msgid="5673682885938122239">"Netwerkboodskap"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktiveer jou foon"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"\'n Spesiale oproep moet gemaak word om jou foondiens te aktiveer. "\n\n"Druk \"Aktiveer\" en luister dan na die instruksies om jou foon te aktiveer."</string>
-    <!-- no translation found for ota_touch_activate_new (4508197891732183852) -->
-    <skip />
-    <!-- no translation found for ota_skip_activation_dialog_title (2943366608272261306) -->
-    <skip />
-    <!-- no translation found for ota_skip_activation_dialog_message (2440770373498870550) -->
-    <skip />
-    <!-- no translation found for ota_skip_activation_dialog_skip_label (3458532775091563208) -->
-    <skip />
-    <!-- no translation found for ota_skip_activation_dialog_continue_label (4343765820509664362) -->
-    <skip />
+    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Raak \"Aktiveer\" om \'n spesiale oproep te maak wat jou foon op jou draer se mobiele netwerk aktiveer sodat jy oproepe kan maak en aan mobiele datanetwerke kan koppel."</string>
+    <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Slaan aktivering oor?"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"As jy aktivering oorslaan, kan jy nie oproepe maak of aan mobiele datanetwerke koppel nie (hoewel jy aan Wi-Fi-netwerke kan koppel). Tot tyd en wyl jy jou foon aktiveer, word jy gevra om dit te aktiveer elke keer wat jy dit aanskakel."</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Slaan oor"</string>
+    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktiveer"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktiveer"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Foon is geaktiveer!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Probleem met aktivering"</string>
-    <!-- outdated translation 3656020498420727053 -->     <string name="ota_listen" msgid="162923839877584937">"Luister na die instruksies om jou foon te aktiveer. Hou asseblief aan totdat jy bevestiging hoor dat jou foon geaktiveer is."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Volg die gesproke instruksies tot jy hoor dat aktivering afgehandel is."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Nommerbord"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Spreker"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Wag asseblief terwyl jou foon geprogrammeer word."</string>
@@ -852,194 +806,101 @@
     <string name="other_settings" msgid="3672912580359716394">"Ander oproepinstellings"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Bel"</string>
     <string name="calling_via_template" msgid="7374498518104190489">"Bel via ^1"\n<b>"^2"</b></string>
-    <!-- no translation found for slide_to_answer (255903188611244476) -->
-    <skip />
-    <!-- no translation found for slide_to_silence (2224982696981131553) -->
-    <skip />
-    <!-- no translation found for slide_to_decline (7342094219435077069) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_hold (9212596323067601245) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_active (6473719408670133380) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_and_end_onhold (638748048960663506) -->
-    <skip />
-    <!-- no translation found for slide_to_answer_hint (4901042355463593903) -->
-    <skip />
-    <!-- no translation found for slide_to_decline_hint (4484576372463030324) -->
-    <skip />
-    <!-- no translation found for contactPhoto (4713193418046639466) -->
-    <skip />
-    <!-- no translation found for goPrivate (865837794424530980) -->
-    <skip />
-    <!-- no translation found for selectContact (781975788478987237) -->
-    <skip />
-    <!-- no translation found for sip_settings (6699045718560859691) -->
-    <skip />
-    <!-- no translation found for sip_accounts (2097054001288457163) -->
-    <skip />
-    <!-- no translation found for sip_accounts_title (1212889069281054570) -->
-    <skip />
-    <!-- no translation found for sip_accounts_summary (6812629993146552527) -->
-    <skip />
-    <!-- no translation found for sip_receive_calls (5635685570889971559) -->
-    <skip />
-    <!-- no translation found for sip_receive_calls_summary (8403613238633679184) -->
-    <skip />
-    <!-- no translation found for sip_call_options (7128315120104066133) -->
-    <skip />
-    <!-- no translation found for sip_call_options_title (27433718808839672) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_title (145572394529090811) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_1 (6556668894178520760) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_2 (6789764029719494361) -->
-    <skip />
-    <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
-    <skip />
-    <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
-    <!-- no translation found for auto_reg (8150163311655081599) -->
-    <skip />
-    <!-- no translation found for call_priority (8374917577270504387) -->
-    <skip />
-    <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
-    <skip />
-    <!-- no translation found for pick_outgoing_sip_phone (7012322118236208875) -->
-    <skip />
-    <!-- no translation found for remember_my_choice (7058059586169290705) -->
-    <skip />
-    <!-- no translation found for reset_my_choice_hint (8522825056755061594) -->
-    <skip />
-    <!-- no translation found for pstn_phone (8782554491484326429) -->
-    <skip />
-    <!-- no translation found for internet_phone (1147922660195095810) -->
-    <skip />
-    <!-- no translation found for no_sip_account_found_title (6266249392379373628) -->
-    <skip />
-    <!-- no translation found for no_sip_account_found (8777818244108212791) -->
-    <skip />
-    <!-- no translation found for sip_menu_add (8757508498518881500) -->
-    <skip />
-    <!-- no translation found for add_sip_account (5904858426290097611) -->
-    <skip />
-    <!-- no translation found for remove_sip_account (7645900420385682570) -->
-    <skip />
-    <!-- no translation found for sip_account_list (5480058210652194306) -->
-    <skip />
-    <!-- no translation found for saving_account (7468818916695729968) -->
-    <skip />
-    <!-- no translation found for removing_account (5569334415898924904) -->
-    <skip />
-    <!-- no translation found for sip_menu_save (5842531129356014943) -->
-    <skip />
-    <!-- no translation found for sip_menu_discard (524075892158789701) -->
-    <skip />
-    <!-- no translation found for alert_dialog_close (7759635137627626235) -->
-    <skip />
-    <!-- no translation found for alert_dialog_ok (3580379406983564080) -->
-    <skip />
-    <!-- no translation found for close_profile (6886968271423155284) -->
-    <skip />
-    <!-- no translation found for primary_account (2229538308291934245) -->
-    <skip />
-    <!-- no translation found for primary_account_title (5694267218020951531) -->
-    <skip />
-    <!-- no translation found for primary_account_summary (7339564526372623187) -->
-    <skip />
-    <!-- no translation found for advanced_settings_title (8846648727128452293) -->
-    <skip />
-    <!-- no translation found for primary_account_summary_with (1633960536212343187) -->
-    <skip />
-    <!-- no translation found for registration_status_checking_status (3381868307694056727) -->
-    <skip />
-    <!-- no translation found for registration_status_registering (7115694971025999516) -->
-    <skip />
-    <!-- no translation found for registration_status_still_trying (1471733478935862864) -->
-    <skip />
-    <!-- no translation found for registration_status_not_receiving (5011399017106466965) -->
-    <skip />
-    <!-- no translation found for registration_status_no_data (8279587001454092132) -->
-    <skip />
-    <!-- no translation found for registration_status_no_wifi_data (6698550648571450078) -->
-    <skip />
-    <!-- no translation found for registration_status_not_running (272678962440371182) -->
-    <skip />
-    <!-- no translation found for registration_status_done (6434927607037752239) -->
-    <skip />
-    <!-- no translation found for registration_status_failed_try_later (3045686593819835879) -->
-    <skip />
-    <!-- no translation found for registration_status_invalid_credentials (1830368411591265203) -->
-    <skip />
-    <!-- no translation found for registration_status_server_unreachable (8173553259218123653) -->
-    <skip />
-    <!-- no translation found for third_party_account_summary (1069915789382987226) -->
-    <skip />
-    <!-- no translation found for sip_edit_title (489288416435014385) -->
-    <skip />
-    <!-- no translation found for sip_edit_new_title (3659149255856520385) -->
-    <skip />
-    <!-- no translation found for domain_address_title (9071787581316160480) -->
-    <skip />
-    <!-- no translation found for username_title (2479375923477682328) -->
-    <skip />
-    <!-- no translation found for password_title (3323555249068171531) -->
-    <skip />
-    <!-- no translation found for display_name_title (2459768196312249937) -->
-    <skip />
-    <!-- no translation found for proxy_address_title (4828301345351614273) -->
-    <skip />
-    <!-- no translation found for port_title (5952939408078626657) -->
-    <skip />
-    <!-- no translation found for transport_title (8253139511847746640) -->
-    <skip />
-    <!-- no translation found for send_keepalive_title (7533342573918645113) -->
-    <skip />
-    <!-- no translation found for send_keepalive_summary (9038969409950960640) -->
-    <skip />
-    <!-- no translation found for auto_registration_title (3586777375420122154) -->
-    <skip />
-    <!-- no translation found for auto_registration_summary (2522794041206619280) -->
-    <skip />
-    <!-- no translation found for set_primary_title (5351892327447571451) -->
-    <skip />
-    <!-- no translation found for set_primary_summary (2219064654523258577) -->
-    <skip />
-    <!-- no translation found for advanced_settings (8350631795335495338) -->
-    <skip />
-    <!-- no translation found for auth_username_title (851473016307947120) -->
-    <skip />
-    <!-- no translation found for auth_username_summary (6782012405225938629) -->
-    <skip />
-    <!-- no translation found for default_preference_summary (868766740121667450) -->
-    <skip />
-    <!-- no translation found for display_name_summary (8636377460518225523) -->
-    <skip />
-    <!-- no translation found for optional_summary (1464058793789832411) -->
-    <skip />
-    <!-- no translation found for advanced_settings_show (4668880308290857597) -->
-    <skip />
-    <!-- no translation found for advanced_settings_hide (217398292824758079) -->
-    <skip />
-    <!-- no translation found for empty_alert (8177828109581557940) -->
-    <skip />
-    <!-- no translation found for not_a_valid_port (5750410768271782606) -->
-    <skip />
-    <!-- no translation found for no_internet_available_title (3327109242858406165) -->
-    <skip />
-    <!-- no translation found for no_wifi_available_title (747881033089378758) -->
-    <skip />
-    <!-- no translation found for no_internet_available (1100564991026313234) -->
-    <skip />
-    <!-- no translation found for no_wifi_available (3389743006886634541) -->
-    <skip />
-    <!-- no translation found for no_voip (8901474054537199865) -->
-    <skip />
+    <string name="slide_to_answer" msgid="255903188611244476">"Trek regs om te antwoord"</string>
+    <string name="slide_to_silence" msgid="2224982696981131553">"Trek links om luitoestel stil te maak"</string>
+    <string name="slide_to_decline" msgid="7342094219435077069">"Trek links om af te wys"</string>
+    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Trek regs om te antwoord en"\n"aktiewe oproep aan te hou"</string>
+    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Trek regs om te antwoord en"\n"aktiewe oproep te beëindig"</string>
+    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Trek regs om te antwoord en"\n"die aangehoude oproep te beëindig"</string>
+    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Antwoord"</string>
+    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Wys af"</string>
+    <string name="contactPhoto" msgid="4713193418046639466">"kontakfoto"</string>
+    <string name="goPrivate" msgid="865837794424530980">"gaan privaat"</string>
+    <string name="selectContact" msgid="781975788478987237">"kies kontak"</string>
+    <string name="sip_settings" msgid="6699045718560859691">"Internetoproep-instellings"</string>
+    <string name="sip_accounts" msgid="2097054001288457163">"Internetoproep-rekeninge (SIP-rekeninge)"</string>
+    <string name="sip_accounts_title" msgid="1212889069281054570">"Rekeninge"</string>
+    <string name="sip_accounts_summary" msgid="6812629993146552527">"Bestuur internetoproep-rekeninge (SIP-rekeninge) en -status"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Ontvang inkomende oproepe"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Verminder batteryleeftyd"</string>
+    <string name="sip_call_options" msgid="7128315120104066133">"Stel oproepopsies op"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Gebruik internetoproepe"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Gebruik internetbel (net Wi-Fi)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Vir alle oproepe wanneer datanetwerk beskikbaar is"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Net vir internetoproepe"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Vra vir elke oproep"</string>
+    <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Vir alle oproepe"</string>
+    <string name="auto_reg" msgid="8150163311655081599">"Outoregistrasie"</string>
+    <string name="call_priority" msgid="8374917577270504387">"Uitgaande oproep via SIP"</string>
+    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Maak oproep"</string>
+    <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Gebruik internetoproep-rekening:"</string>
+    <string name="remember_my_choice" msgid="7058059586169290705">"Gebruik altyd om internetoproepe te maak"</string>
+    <string name="reset_my_choice_hint" msgid="8522825056755061594">"Jy kan die oproepinstellings gebruik om die verstek internetoproep-rekening te verander deur \'n ander rekening te kies onder Internetoproep-instellings"</string>
+    <string name="pstn_phone" msgid="8782554491484326429">"Selfoonoproep"</string>
+    <string name="internet_phone" msgid="1147922660195095810">"Internetoproep"</string>
+    <string name="no_sip_account_found_title" msgid="6266249392379373628">"Geen internetoproep-rekening nie"</string>
+    <string name="no_sip_account_found" msgid="8777818244108212791">"Daar is geen internetoproep-rekeninge op hierdie foon nie. Voeg nou een by?"</string>
+    <string name="sip_menu_add" msgid="8757508498518881500">"Voeg by"</string>
+    <string name="add_sip_account" msgid="5904858426290097611">"Voeg rekening by"</string>
+    <string name="remove_sip_account" msgid="7645900420385682570">"Verwyder rekening"</string>
+    <string name="sip_account_list" msgid="5480058210652194306">"SIP-rekeninge"</string>
+    <string name="saving_account" msgid="7468818916695729968">"Stoor tans die rekening..."</string>
+    <string name="removing_account" msgid="5569334415898924904">"Verwyder tans die rekening..."</string>
+    <string name="sip_menu_save" msgid="5842531129356014943">"Stoor"</string>
+    <string name="sip_menu_discard" msgid="524075892158789701">"Gooi weg"</string>
+    <string name="alert_dialog_close" msgid="7759635137627626235">"Sluit die profiel"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
+    <string name="close_profile" msgid="6886968271423155284">"Sluit"</string>
+    <string name="primary_account" msgid="2229538308291934245">"Primêre"</string>
+    <string name="primary_account_title" msgid="5694267218020951531">"Maak hierdie my primêre rekening"</string>
+    <string name="primary_account_summary" msgid="7339564526372623187">"Gebruik vir uitgaande oproepe"</string>
+    <string name="advanced_settings_title" msgid="8846648727128452293">"Gevorderde instellings"</string>
+    <string name="primary_account_summary_with" msgid="1633960536212343187">"Primêre rekening. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
+    <string name="registration_status_checking_status" msgid="3381868307694056727">"Kontroleer tans status..."</string>
+    <string name="registration_status_registering" msgid="7115694971025999516">"Registreer tans..."</string>
+    <string name="registration_status_still_trying" msgid="1471733478935862864">"Probeer nog steeds..."</string>
+    <string name="registration_status_not_receiving" msgid="5011399017106466965">"Ontvang nie oproepe nie"</string>
+    <string name="registration_status_no_data" msgid="8279587001454092132">"Rekeningregistrasie gestop omdat daar geen internetverbinding is nie"</string>
+    <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Rekeningregistrasie gestaak omdat daar geen Wi-Fi-verbinding is nie"</string>
+    <string name="registration_status_not_running" msgid="272678962440371182">"Rekeningregistrasie het misluk"</string>
+    <string name="registration_status_done" msgid="6434927607037752239">"Ontvang oproepe"</string>
+    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Rekeningregistrasie het misluk: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); sal later probeer"</string>
+    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Rekeningregistrasie het misluk: verkeerde gebruikernaam of wagwoord"</string>
+    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Rekeningregistrasie het misluk: kontroleer asseblief die bedienernaam"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Hierdie rekening word tans gebruik deur die <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> program"</string>
+    <string name="sip_edit_title" msgid="489288416435014385">"SIP-rekeningdetails"</string>
+    <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP-rekeningdetails"</string>
+    <string name="domain_address_title" msgid="9071787581316160480">"Bediener"</string>
+    <string name="username_title" msgid="2479375923477682328">"Gebruikernaam"</string>
+    <string name="password_title" msgid="3323555249068171531">"Wagwoord"</string>
+    <string name="display_name_title" msgid="2459768196312249937">"Vertoonnaam"</string>
+    <string name="proxy_address_title" msgid="4828301345351614273">"Uitgaande-instaan-adres"</string>
+    <string name="port_title" msgid="5952939408078626657">"Poortnommer"</string>
+    <string name="transport_title" msgid="8253139511847746640">"Vervoertipe"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Stuur lewendighou"</string>
+    <string name="send_keepalive_summary" msgid="9038969409950960640">"Stuur SIP lewendighou-boodskappe"</string>
+    <string name="auto_registration_title" msgid="3586777375420122154">"Outoregistrasie"</string>
+    <string name="auto_registration_summary" msgid="2522794041206619280">"Registreer die profiel outomaties"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"Stel as primêre rekening"</string>
+    <string name="set_primary_summary" msgid="2219064654523258577">"Gebruik vir uitgaande oproepe"</string>
+    <string name="advanced_settings" msgid="8350631795335495338">"Opsionele instellings"</string>
+    <string name="auth_username_title" msgid="851473016307947120">"Stawingsgebruikernaam"</string>
+    <string name="auth_username_summary" msgid="6782012405225938629">"Gebruikernaam gebruik vir stawing"</string>
+    <string name="default_preference_summary" msgid="868766740121667450">"&lt;Nie gestel nie&gt;"</string>
+    <string name="display_name_summary" msgid="8636377460518225523">"&lt;Dieselfde as gebruikernaam&gt;"</string>
+    <string name="optional_summary" msgid="1464058793789832411">"&lt;Opsioneel&gt;"</string>
+    <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Raak om almal te wys"</string>
+    <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Raak om almal te versteek"</string>
+    <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> word vereis, kan nie leeg wees nie"</string>
+    <string name="not_a_valid_port" msgid="5750410768271782606">"Poortnommer moet tussen 1000 en 65534 wees"</string>
+    <string name="no_internet_available_title" msgid="3327109242858406165">"Geen internetverbinding nie"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Geen Wi-Fi-verbinding nie"</string>
+    <string name="no_internet_available" msgid="1100564991026313234">"Om \'n internetoproep te maak, kontroleer eers jou internetverbinding"</string>
+    <string name="no_wifi_available" msgid="3389743006886634541">"Jy moet aan \'n Wi-Fi-netwerk gekoppel wees vir internetoproepe (gebruik draadloos-en-netwerkinstellings)"</string>
+    <string name="no_voip" msgid="8901474054537199865">"Internetoproepe nie ondersteun nie"</string>
     <!-- no translation found for sip_system_decide (368030746310423471) -->
     <skip />
     <!-- no translation found for sip_always_send_keepalive (8192080724632877132) -->
     <skip />
-    <!-- no translation found for not_voice_capable (2739898841461577811) -->
-    <skip />
+    <string name="not_voice_capable" msgid="2739898841461577811">"Stembel nie ondersteun nie"</string>
 </resources>

@@ -194,10 +194,24 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Netværkstilstand"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Skift netværksdriftstilstand"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Foretrukken netværkstilstand"</string>
+    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
+    <skip />
     <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Foretrukket netværkstilstand: CDMA"</string>
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Foretrukket netværkstilstand: CDMA / EvDo"</string>
+    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
+    <skip />
   <string-array name="preferred_network_mode_choices">
-    <item msgid="2987674222882365152">"Global"</item>
+    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"Global"</item>
     <item msgid="3273348576277144124">"Kun EvDo"</item>
     <item msgid="454610224530856274">"CDMA u. EvDo"</item>
     <item msgid="8928247118825616081">"Automatisk CDMA/EvDo"</item>
@@ -206,18 +220,8 @@
     <item msgid="5714714953966979187">"Kun GSM"</item>
     <item msgid="4775796025725908913">"GSM/WCDMA foretrækkes"</item>
   </string-array>
-  <string-array name="preferred_network_mode_values">
-    <item msgid="7164534877603905916">"7"</item>
-    <item msgid="2520921432080278213">"6"</item>
-    <item msgid="4978887990900575049">"5"</item>
-    <item msgid="6891436459357445885">"4"</item>
-    <item msgid="339825043192186272">"3"</item>
-    <item msgid="3062641619893382241">"2"</item>
-    <item msgid="2494009747968041784">"1"</item>
-    <item msgid="2568449734331711605">"0"</item>
-  </string-array>
   <string-array name="preferred_network_mode_choices_lte">
-    <item msgid="4446354214569753370">"Generelt"</item>
+    <!-- outdated translation 4446354214569753370 -->     <item msgid="7345284701413565429">"Generelt"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Data aktiveret"</string>
@@ -587,8 +591,8 @@
     <item quantity="other" msgid="3122217344579273583">"Ingen dataforbindelse i <xliff:g id="COUNT">%s</xliff:g> minutter"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i nødtilbagekaldstilstand i <xliff:g id="COUNT">%s</xliff:g> minut. I denne tilstand kan der ikke anvendes programmer, der anvender en dataforbindelse. Vil du afslutte nu?"</item>
-    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i nødtilbagekaldstilstand i <xliff:g id="COUNT">%s</xliff:g> minutter. I denne tilstand kan der ikke anvendes programmer, der anvender en dataforbindelse. Vil du afslutte nu?"</item>
+    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i nødtilbagekaldstilstand i <xliff:g id="COUNT">%s</xliff:g> minut. I denne tilstand kan der ikke anvendes applikationer, der anvender en dataforbindelse. Vil du afslutte nu?"</item>
+    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i nødtilbagekaldstilstand i <xliff:g id="COUNT">%s</xliff:g> minutter. I denne tilstand kan der ikke anvendes applikationer, der anvender en dataforbindelse. Vil du afslutte nu?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="8939225905428421722">"Den valgte handling er ikke tilgængelig, når telefonen er i nødtilbagekaldstilstand. Telefonen vil være i denne tilstand i <xliff:g id="COUNT">%s</xliff:g> minut. Ønsker du at afslutte?"</item>
@@ -667,7 +671,7 @@
     <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Kontotilmeldingen mislykkedes (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Prøver igen senere"</string>
     <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Kontotilmeldingen mislykkedes: forkert brugernavn eller adgangskode"</string>
     <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Kontotilmeldingen mislykkedes. Kontroller servernavn"</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Denne konto benyttes i øjeblikket af programmet <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Denne konto benyttes i øjeblikket af applikationen <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Oplysninger om SIP-konto"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Oplysninger om SIP-konto"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>

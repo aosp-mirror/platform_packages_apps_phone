@@ -194,10 +194,24 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"وضع الشبكة"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"تغيير وضع تشغيل الشبكة"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"وضع الشبكة المفضل"</string>
+    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
+    <skip />
     <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"وضع الشبكة المفضل: CDMA"</string>
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"وضع الشبكة المفضل: CDMA / EvDo"</string>
+    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
+    <skip />
+    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
+    <skip />
   <string-array name="preferred_network_mode_choices">
-    <item msgid="2987674222882365152">"عالميًا"</item>
+    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"عالميًا"</item>
     <item msgid="3273348576277144124">"EvDo فقط"</item>
     <item msgid="454610224530856274">"CDMA w/o EvDo"</item>
     <item msgid="8928247118825616081">"CDMA / EvDo تلقائي"</item>
@@ -206,18 +220,8 @@
     <item msgid="5714714953966979187">"نظام GSM فقط"</item>
     <item msgid="4775796025725908913">"GSM / WCDMA المفضلة"</item>
   </string-array>
-  <string-array name="preferred_network_mode_values">
-    <item msgid="7164534877603905916">"7"</item>
-    <item msgid="2520921432080278213">"6"</item>
-    <item msgid="4978887990900575049">"5"</item>
-    <item msgid="6891436459357445885">"4"</item>
-    <item msgid="339825043192186272">"3"</item>
-    <item msgid="3062641619893382241">"2"</item>
-    <item msgid="2494009747968041784">"1"</item>
-    <item msgid="2568449734331711605">"0"</item>
-  </string-array>
   <string-array name="preferred_network_mode_choices_lte">
-    <item msgid="4446354214569753370">"عالميًا"</item>
+    <!-- outdated translation 4446354214569753370 -->     <item msgid="7345284701413565429">"عالميًا"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"تم تمكين البيانات"</string>
