@@ -438,7 +438,7 @@ public class CallCard extends FrameLayout
                 // with the current implementation of getCallerInfo and
                 // updateDisplayForPerson.
                 CallerInfo info = PhoneUtils.getCallerInfo(getContext(), null /* conn */);
-                updateDisplayForPerson(info, Connection.PRESENTATION_ALLOWED, false, call);
+                updateDisplayForPerson(info, Connection.PRESENTATION_ALLOWED, false, call, conn);
             } else {
                 if (DBG) log("  - CONN: " + conn + ", state = " + conn.getState());
                 int presentation = conn.getNumberPresentation();
@@ -485,7 +485,8 @@ public class CallCard extends FrameLayout
                     if (DBG) log("- displayMainCallStatus: starting CallerInfo query...");
                     PhoneUtils.CallerInfoToken info =
                             PhoneUtils.startGetCallerInfo(getContext(), conn, this, call);
-                    updateDisplayForPerson(info.currentInfo, presentation, !info.isFinal, call);
+                    updateDisplayForPerson(info.currentInfo, presentation, !info.isFinal,
+                                           call, conn);
                 } else {
                     // No need to fire off a new query.  We do still need
                     // to update the display, though (since we might have
@@ -501,14 +502,14 @@ public class CallCard extends FrameLayout
                                 + "CNAP name=" + ci.cnapName
                                 + ", Number/Name Presentation=" + ci.numberPresentation);
                         if (DBG) log("   ==> Got CallerInfo; updating display: ci = " + ci);
-                        updateDisplayForPerson(ci, presentation, false, call);
+                        updateDisplayForPerson(ci, presentation, false, call, conn);
                     } else if (o instanceof PhoneUtils.CallerInfoToken){
                         CallerInfo ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
                         if (DBG) log("- displayMainCallStatus: CNAP data from Connection: "
                                 + "CNAP name=" + ci.cnapName
                                 + ", Number/Name Presentation=" + ci.numberPresentation);
                         if (DBG) log("   ==> Got CallerInfoToken; updating display: ci = " + ci);
-                        updateDisplayForPerson(ci, presentation, true, call);
+                        updateDisplayForPerson(ci, presentation, true, call, conn);
                     } else {
                         Log.w(LOG_TAG, "displayMainCallStatus: runQuery was false, "
                               + "but we didn't have a cached CallerInfo object!  o = " + o);
@@ -577,9 +578,9 @@ public class CallCard extends FrameLayout
             // CallerInfo (for CNAP). Therefore if ci.contactExists then use the ci passed in.
             // Otherwise, regenerate the CIT from the Connection and use the CallerInfo from there.
             if (ci.contactExists) {
-                updateDisplayForPerson(ci, Connection.PRESENTATION_ALLOWED, false, call);
+                updateDisplayForPerson(ci, Connection.PRESENTATION_ALLOWED, false, call, conn);
             } else {
-                updateDisplayForPerson(cit.currentInfo, presentation, false, call);
+                updateDisplayForPerson(cit.currentInfo, presentation, false, call, conn);
             }
             updatePhotoForCallState(call);
 
@@ -1051,7 +1052,8 @@ public class CallCard extends FrameLayout
     private void updateDisplayForPerson(CallerInfo info,
                                         int presentation,
                                         boolean isTemporary,
-                                        Call call) {
+                                        Call call,
+                                        Connection conn) {
         if (DBG) log("updateDisplayForPerson(" + info + ")\npresentation:" +
                      presentation + " isTemporary:" + isTemporary);
 
@@ -1121,13 +1123,22 @@ public class CallCard extends FrameLayout
                                  + displayName + "', displayNumber '" + displayNumber + "'");
                 } else {
                     // No name; all we have is a number.  This is the typical
-                    // case when an incoming call doesn't match any contact.
+                    // case when an incoming call doesn't match any contact,
+                    // or if you manually dial an outgoing number using the
+                    // dialpad.
 
-                    // Promote the phone number up to the "name" slot, and use
-                    // the "number" slot for a geographical description string
-                    // if available.
+                    // Promote the phone number up to the "name" slot:
                     displayName = number;
-                    displayNumber = info.geoDescription;  // may be null
+
+                    // ...and use the "number" slot for a geographical description
+                    // string if available (but only for incoming calls.)
+                    if ((conn != null) && (conn.isIncoming())) {
+                        // TODO (CallerInfoAsyncQuery cleanup): Fix the CallerInfo
+                        // query to only do the geoDescription lookup in the first
+                        // place for incoming calls.
+                        displayNumber = info.geoDescription;  // may be null
+                    }
+
                     if (DBG) log("  ==>  no name; falling back to number: displayName '"
                                  + displayName + "', displayNumber '" + displayNumber + "'");
                 }
