@@ -899,7 +899,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             }
 
             Intent intent = new Intent(Intent.ACTION_CALL,
-                    Uri.fromParts("voicemail", "", null));
+                    Uri.fromParts(Constants.SCHEME_VOICEMAIL, "", null));
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
             Notification notification = new Notification(

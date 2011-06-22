@@ -23,7 +23,7 @@ package com.android.phone;
  * the com.android.phone package should be defined here.  (Constants that
  * are private to only one class can go in that class's .java file.)
  */
-class Constants {
+public class Constants {
 
     /**
      * Complete list of error / diagnostic indications we might possibly
@@ -122,6 +122,15 @@ class Constants {
          */
         EXITED_ECM
     }
+
+    //
+    // URI schemes
+    //
+
+    public static final String SCHEME_SIP = "sip";
+    public static final String SCHEME_SMS = "sms";
+    public static final String SCHEME_TEL = "tel";
+    public static final String SCHEME_VOICEMAIL = "voicemail";
 
     //
     // TODO: Move all the various EXTRA_* and intent action constants here too.

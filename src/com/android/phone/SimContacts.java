@@ -336,7 +336,7 @@ public class SimContacts extends ADNList {
                         return true;
                     }
                     Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
-                            Uri.fromParts("tel", phoneNumber, null));
+                            Uri.fromParts(Constants.SCHEME_TEL, phoneNumber, null));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                                           | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                     startActivity(intent);

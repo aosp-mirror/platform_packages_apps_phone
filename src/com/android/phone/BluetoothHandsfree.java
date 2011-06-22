@@ -1546,7 +1546,7 @@ public class BluetoothHandsfree {
         // Send terminateScoUsingVirtualVoiceCall
         terminateScoUsingVirtualVoiceCall();
         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
-                Uri.fromParts("tel", number, null));
+                Uri.fromParts(Constants.SCHEME_TEL, number, null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
 
@@ -1941,7 +1941,7 @@ public class BluetoothHandsfree {
                             args = args.substring(0, args.length() - 1);
                         }
                         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
-                                Uri.fromParts("tel", args, null));
+                                Uri.fromParts(Constants.SCHEME_TEL, args, null));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
 

@@ -171,7 +171,7 @@ public class RespondViaSms {
         if (DBG) log("launchSmsCompose: number " + phoneNumber);
 
         // TODO: confirm with SMS guys that this is the correct intent to use.
-        Uri uri = Uri.fromParts("sms", phoneNumber, null);
+        Uri uri = Uri.fromParts(Constants.SCHEME_SMS, phoneNumber, null);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
         if (DBG) log("- Launching SMS compose UI: " + intent);

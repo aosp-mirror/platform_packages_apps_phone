@@ -401,7 +401,8 @@ public class OutgoingCallBroadcaster extends Activity
         // a plain address, whether it could be a tel: URI, etc.)
         Uri uri = intent.getData();
         String scheme = uri.getScheme();
-        if ("sip".equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
+        if (Constants.SCHEME_SIP.equals(scheme)
+                || PhoneNumberUtils.isUriNumber(number)) {
             startSipCallOptionsHandler(this, intent, uri, number);
             finish();
             return;
@@ -468,7 +469,7 @@ public class OutgoingCallBroadcaster extends Activity
         // that we could bring up directly.  (But for now at least, since both
         // Contacts and Phone are built-in apps, this implementation is fine.)
 
-        if (Intent.ACTION_CALL.equals(action) && ("tel".equals(scheme))) {
+        if (Intent.ACTION_CALL.equals(action) && (Constants.SCHEME_TEL.equals(scheme))) {
             Intent newIntent = new Intent(Intent.ACTION_DIAL, uri);
             if (DBG) Log.v(TAG, "- relaunching as a DIAL intent: " + newIntent);
             startActivity(newIntent);

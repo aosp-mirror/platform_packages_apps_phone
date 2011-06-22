@@ -566,7 +566,7 @@ public class PhoneUtils {
         if (useGateway) {
             // TODO: 'tel' should be a constant defined in framework base
             // somewhere (it is in webkit.)
-            if (null == gatewayUri || !"tel".equals(gatewayUri.getScheme())) {
+            if (null == gatewayUri || !Constants.SCHEME_TEL.equals(gatewayUri.getScheme())) {
                 Log.e(LOG_TAG, "Unsupported URL:" + gatewayUri);
                 return CALL_STATUS_FAILED;
             }
@@ -1185,7 +1185,7 @@ public class PhoneUtils {
 
         // The sip: scheme is simple: just treat the rest of the URI as a
         // SIP address.
-        if (scheme.equals("sip")) {
+        if (Constants.SCHEME_SIP.equals(scheme)) {
             return uri.getSchemeSpecificPart();
         }
 
@@ -1196,7 +1196,7 @@ public class PhoneUtils {
 
         // Check for a voicemail-dialing request.  If the voicemail number is
         // empty, throw a VoiceMailNumberMissingException.
-        if (scheme.equals("voicemail") &&
+        if (Constants.SCHEME_VOICEMAIL.equals(scheme) &&
                 (number == null || TextUtils.isEmpty(number)))
             throw new VoiceMailNumberMissingException();
 
@@ -2287,7 +2287,7 @@ public class PhoneUtils {
      */
     /* package */ static String formatProviderUri(Uri uri) {
         if (null != uri) {
-            if ("tel".equals(uri.getScheme())) {
+            if (Constants.SCHEME_TEL.equals(uri.getScheme())) {
                 return PhoneNumberUtils.formatNumber(uri.getSchemeSpecificPart());
             } else {
                 return uri.toString();

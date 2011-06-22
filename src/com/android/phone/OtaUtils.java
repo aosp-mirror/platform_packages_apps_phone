@@ -382,7 +382,7 @@ public class OtaUtils {
         //
         // So simply place an outgoing call to the special OTASP number:
         Intent newIntent = new Intent(Intent.ACTION_CALL);
-        newIntent.setData(Uri.fromParts("tel", OTASP_NUMBER, null));
+        newIntent.setData(Uri.fromParts(Constants.SCHEME_TEL, OTASP_NUMBER, null));
 
         Log.i(LOG_TAG, "startInteractiveOtasp: placing call: " + newIntent);
         app.callController.placeCall(newIntent);
@@ -731,7 +731,7 @@ public class OtaUtils {
         if (!mApplication.cdmaOtaProvisionData.inOtaSpcState) {
             // Place an outgoing call to the special OTASP number:
             Intent newIntent = new Intent(Intent.ACTION_CALL);
-            newIntent.setData(Uri.fromParts("tel", OTASP_NUMBER, null));
+            newIntent.setData(Uri.fromParts(Constants.SCHEME_TEL, OTASP_NUMBER, null));
 
             // Initiate the outgoing call:
             mApplication.callController.placeCall(newIntent);

@@ -30,15 +30,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.phone.Constants;
+
 /**
  * Test activity that mimics the behavior of 3rd party apps firing off
  * CALL and DIAL intents.
  */
 public class CallDialTest extends Activity implements View.OnClickListener {
     private static final String LOG_TAG = "CallDialTest";
-
-    public static final String SCHEME_TEL = "tel";
-    public static final String SCHEME_SIP = "sip";
 
     // UI elements
     private TextView mLabel;
@@ -118,9 +117,9 @@ public class CallDialTest extends Activity implements View.OnClickListener {
             if (number.contains(":")) {
                 uri = Uri.parse(number);
             } else if (PhoneNumberUtils.isUriNumber(number)) {
-                uri = Uri.fromParts(SCHEME_SIP, number, null);
+                uri = Uri.fromParts(Constants.SCHEME_SIP, number, null);
             } else {
-                uri = Uri.fromParts(SCHEME_TEL, number, null);
+                uri = Uri.fromParts(Constants.SCHEME_TEL, number, null);
             }
         }
         log("==> uri: " + uri);
