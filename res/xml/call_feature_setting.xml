@@ -29,6 +29,17 @@
 
     </PreferenceScreen>
 
+    <PreferenceScreen
+        android:key="button_respond_via_sms_key"
+        android:title="@string/respond_via_sms_setting_title"
+        android:summary="@string/respond_via_sms_setting_summary"
+        android:persistent="false">
+
+        <intent android:action="android.intent.action.MAIN"
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.RespondViaSmsManager$Settings" />
+    </PreferenceScreen>
+
     <PreferenceCategory
         android:key="button_voicemail_category_key"
         android:title="@string/voicemail"

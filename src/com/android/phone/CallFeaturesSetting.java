@@ -62,7 +62,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Top level "Call settings" UI; see res/xml/call_feature_setting.xml
+ */
 public class CallFeaturesSetting extends PreferenceActivity
         implements DialogInterface.OnClickListener,
         Preference.OnPreferenceChangeListener,
@@ -117,10 +119,12 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String NUM_PROJECTION[] = {CommonDataKinds.Phone.NUMBER};
 
     // String keys for preference lookup
+    // TODO: Naming these "BUTTON_*" is confusing since they're not actually buttons(!)
     private static final String BUTTON_VOICEMAIL_KEY = "button_voicemail_key";
     private static final String BUTTON_VOICEMAIL_PROVIDER_KEY = "button_voicemail_provider_key";
     private static final String BUTTON_VOICEMAIL_SETTING_KEY = "button_voicemail_setting_key";
     private static final String BUTTON_FDN_KEY   = "button_fdn_key";
+    private static final String BUTTON_RESPOND_VIA_SMS_KEY   = "button_respond_via_sms_key";
 
     private static final String BUTTON_DTMF_KEY   = "button_dtmf_settings";
     private static final String BUTTON_RETRY_KEY  = "button_auto_retry_key";

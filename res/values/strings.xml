@@ -1475,15 +1475,27 @@
          on this device. [CHAR LIMIT=40] -->
     <string name="not_voice_capable">Voice calling not supported</string>
 
-    <!-- Canned response for the "Respond via SMS" feature for incoming calls  [CHAR LIMIT=35] -->
+    <!-- Canned response for the "Respond via SMS" feature for incoming calls. [CHAR LIMIT=35] -->
     <string name="respond_via_sms_canned_response_1">Can\'t talk now. What\'s up?</string>
-    <!-- Canned response for the "Respond via SMS" feature for incoming calls  [CHAR LIMIT=35] -->
+    <!-- Canned response for the "Respond via SMS" feature for incoming calls. [CHAR LIMIT=35] -->
     <string name="respond_via_sms_canned_response_2">I\'ll call you right back.</string>
-    <!-- Canned response for the "Respond via SMS" feature for incoming calls  [CHAR LIMIT=35] -->
+    <!-- Canned response for the "Respond via SMS" feature for incoming calls. [CHAR LIMIT=35] -->
     <string name="respond_via_sms_canned_response_3">I\'ll call you later.</string>
-    <!-- Canned response for the "Respond via SMS" feature for incoming calls  [CHAR LIMIT=35] -->
+    <!-- Canned response for the "Respond via SMS" feature for incoming calls. [CHAR LIMIT=35] -->
     <string name="respond_via_sms_canned_response_4">Can\'t talk now. Call me later?</string>
-    <!-- "Respond via SMS" option that lets you compose a custom response  [CHAR LIMIT=30] -->
+    <!-- "Respond via SMS" option that lets you compose a custom response. [CHAR LIMIT=30] -->
     <string name="respond_via_sms_custom_message">Custom message...</string>
+
+    <!-- Title of settings screen for managing the "Respond via SMS" feature. [CHAR LIMIT=30] -->
+    <string name="respond_via_sms_setting_title">Quick text response</string>
+    <!-- Slightly more verbose title of settings screen for managing the
+         "Respond via SMS" feature. [CHAR LIMIT=30] -->
+    <string name="respond_via_sms_setting_title_2">Quick text response strings</string>
+    <!-- Settings summary string for the "Respond via SMS" feature. [CHAR LIMIT=40] -->
+    <string name="respond_via_sms_setting_summary">Manage quick text response strings</string>
+    <!-- Dialog title when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=30] -->
+    <string name="respond_via_sms_edittext_dialog_title">Quick text response</string>
+    <!-- Dialog message when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=40] -->
+    <string name="respond_via_sms_edittext_dialog_message">Customize this response:</string>
 
 </resources>
