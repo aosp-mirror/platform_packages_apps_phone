@@ -1315,6 +1315,26 @@ public class CallNotifier extends Handler
     }
 
     /**
+     * Restarts the ringer after having previously silenced it.
+     *
+     * (This is a no-op if the ringer is actually still ringing, or if the
+     * incoming ringing call no longer exists.)
+     */
+    /* package */ void restartRinger() {
+        if (DBG) log("restartRinger()...");
+        if (isRinging()) return;  // Already ringing; no need to restart.
+
+        final Call ringingCall = mCM.getFirstActiveRingingCall();
+        // Don't check ringingCall.isRinging() here, since that'll be true
+        // for the WAITING state also.  We only allow the ringer for
+        // regular INCOMING calls.
+        if (DBG) log("- ringingCall state: " + ringingCall.getState());
+        if (ringingCall.getState() == Call.State.INCOMING) {
+            mRinger.ring();
+        }
+    }
+
+    /**
      * Posts a PHONE_BATTERY_LOW event, causing us to play a warning
      * tone if the user is in-call.
      */

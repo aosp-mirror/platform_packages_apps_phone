@@ -35,8 +35,9 @@ import com.android.internal.telephony.Connection;
  */
 public class RespondViaSms {
     private static final String TAG = "RespondViaSms";
-    private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG = true;
+    // STOPSHIP: reduce DBG to
+    //       (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     /** This class is never instantiated. */
     private RespondViaSms() {
@@ -81,9 +82,14 @@ public class RespondViaSms {
         String phoneNumber = c.getAddress();
         if (DBG) log("- phoneNumber: " + phoneNumber);
 
-        RespondViaSms.RespondViaSmsClickListener listener =
-                new RespondViaSms.RespondViaSmsClickListener(inCallScreen, phoneNumber);
-        popup.setOnMenuItemClickListener(listener);
+        RespondViaSmsClickListener clickListener =
+                new RespondViaSmsClickListener(inCallScreen, phoneNumber);
+        popup.setOnMenuItemClickListener(clickListener);
+
+        // Also listen for the menu being dismissed:
+        RespondViaSmsDismissListener dismissListener =
+                new RespondViaSmsDismissListener(inCallScreen);
+        popup.setOnDismissListener(dismissListener);
 
         popup.show();
     }
@@ -122,6 +128,9 @@ public class RespondViaSms {
             mPhoneNumber = phoneNumber;
         }
 
+        /**
+         * Handles the user selecting an item from the popup.
+         */
         public boolean onMenuItemClick(MenuItem item) {
             if (DBG) log("- onMenuItemClick: " + item);
             if (DBG) log("  id: " + item.getItemId());
@@ -139,6 +148,46 @@ public class RespondViaSms {
             PhoneApp.getInstance().dismissCallScreen();
 
             return true;
+        }
+    }
+
+    /**
+     * PopupMenu.OnDismissListener for the "Respond via SMS" popup menu.
+     */
+    public static class RespondViaSmsDismissListener implements PopupMenu.OnDismissListener {
+        // Reference back to the InCallScreen instance.
+        private InCallScreen mInCallScreen;
+
+        public RespondViaSmsDismissListener(InCallScreen inCallScreen) {
+            mInCallScreen = inCallScreen;
+        }
+
+        /**
+         * Handles the user dismissing the popup, either by touching
+         * outside the popup or by pressing Back.
+         */
+        public void onDismiss(PopupMenu menu) {
+            if (DBG) log("- onDismiss: " + menu);
+
+            // If the user dismisses the popup, this presumably means that
+            // they didn't actually mean to bring up the "Respond via SMS"
+            // UI in the first place (and instead want to go back to the
+            // state where they can either answer or reject the call.)
+            // So restart the ringer and bring back the regular incoming
+            // call UI.
+
+            // This will have no effect if the incoming call isn't still ringing.
+            PhoneApp.getInstance().notifier.restartRinger();
+
+            // We hid the MultiWaveView widget way back in
+            // InCallTouchUi.onTrigger(), when the user first selected
+            // the "SMS" trigger.
+            //
+            // To bring it back, just force the entire InCallScreen to
+            // update itself based on the current telephony state.
+            // (Assuming the incoming call is still ringing, this will
+            // cause the incoming call widget to reappear.)
+            mInCallScreen.requestUpdateScreen();
         }
     }
 
