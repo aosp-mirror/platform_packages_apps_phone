@@ -172,6 +172,7 @@ public class InCallScreen extends Activity
     private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
     private static final int REQUEST_UPDATE_SCREEN = 122;
     private static final int PHONE_INCOMING_RING = 123;
+    private static final int PHONE_NEW_RINGING_CONNECTION = 124;
 
     // When InCallScreenMode is UNDEFINED set the default action
     // to ACTION_UNDEFINED so if we are resumed the activity will
@@ -225,6 +226,7 @@ public class InCallScreen extends Activity
     private InCallControlState mInCallControlState;
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
+    private RespondViaSms.RespondViaSmsPopup mRespondViaSmsPopup;  // see internalRespondViaSms()
     private ManageConferenceUtils mManageConferenceUtils;
 
     // DTMF Dialer controller and its view:
@@ -441,6 +443,10 @@ public class InCallScreen extends Activity
 
                 case PHONE_INCOMING_RING:
                     onIncomingRing();
+                    break;
+
+                case PHONE_NEW_RINGING_CONNECTION:
+                    onNewRingingConnection();
                     break;
 
                 default:
@@ -1041,6 +1047,7 @@ public class InCallScreen extends Activity
             mCM.registerForPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mCM.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
             mCM.registerForIncomingRing(mHandler, PHONE_INCOMING_RING, null);
+            mCM.registerForNewRingingConnection(mHandler, PHONE_NEW_RINGING_CONNECTION, null);
             mRegisteredForPhoneStates = true;
         }
     }
@@ -1054,6 +1061,7 @@ public class InCallScreen extends Activity
         mCM.unregisterForPostDialCharacter(mHandler);
         mCM.unregisterForSuppServiceFailed(mHandler);
         mCM.unregisterForIncomingRing(mHandler);
+        mCM.unregisterForNewRingingConnection(mHandler);
         mRegisteredForPhoneStates = false;
     }
 
@@ -1878,6 +1886,18 @@ public class InCallScreen extends Activity
                  || ((cause == Connection.DisconnectCause.OUT_OF_SERVICE)
                          && (emergencyCallRetryCount > 0)))
                 && currentlyIdle;
+
+        // TODO: one more case where we *shouldn't* bail out immediately:
+        // If the disconnect event was from an incoming ringing call, but
+        // the "Respond via SMS" popup is visible onscreen.  (In this
+        // case, we let the popup stay up even after the incoming call
+        // stops ringing, to give people extra time to choose a response.)
+        //
+        // But watch out: if we allow the popup to stay onscreen even
+        // after the incoming call disconnects, then we'll *also* have to
+        // forcibly dismiss it if the InCallScreen gets paused in that
+        // state (like by the user pressing Power or the screen timing
+        // out).
 
         if (bailOutImmediately) {
             if (VDBG) log("- onDisconnect: bailOutImmediately...");
@@ -3547,37 +3567,12 @@ public class InCallScreen extends Activity
 
         View anchorView = mInCallTouchUi.findViewById(R.id.popupMenuAnchor);
 
-        RespondViaSms.showRespondViaSmsPopup(this, ringingCall, anchorView);
+        mRespondViaSmsPopup =
+                RespondViaSms.showRespondViaSmsPopup(this, ringingCall, anchorView);
 
-        // TODO: still need to decide exactly what to do with the incoming call.
-        //
-        // (1) definitely silence the ringer
-        // (2) but should we immediately reject the incoming call?
-        //     or just ignore it and let it go to voicemail eventually?
-        // (3) also, should the code in InCallTouchUi dismiss the
-        //     MultiWaveView widget right now, or leave it up with the
-        //     popup menu on top, perhaps to show some visual context for
-        //     how we got here?
-        //
-        // Or, maybe we should do nothing here, and instead wait
-        // till you've actually picked one of the choices from the
-        // popup menu (before we silence the ringer).  That would
-        // allow you to change your mind (i.e. dismiss the popup
-        // menu, and then select either "answer" or "reject" from
-        // the incoming-call widget.)
-        //
-        // Also, issues if the incoming call disconnects on its own:
-        //   - We should probably make sure to *not* exit the
-        //     incoming-call screen immediately if the incoming call
-        //     disconnects but the SMS popup is still visible (to give the
-        //     user a little extra time to decide which response to use.)
-        //   - But OTOH we *should* eventually time out if you bring up
-        //     the popup but don't do anything.
-        //   - We should also take down the popup (if it was up) if you
-        //     press Power to turn the screen off, or if the screen times
-        //     out on its own.
-        //
-        // For now:
+        // Silence the ringer, since it would be distracting while you're trying
+        // to pick a response.  (Note that we'll restart the ringer if you bail
+        // out of the popup, though; see RespondViaSmsDismissListener.)
         internalSilenceRinger();
     }
 
@@ -4987,11 +4982,35 @@ public class InCallScreen extends Activity
      * Handles an incoming RING event from the telephony layer.
      */
     private void onIncomingRing() {
+        if (DBG) log("onIncomingRing()...");
         // IFF we're visible, forward this event to the InCallTouchUi
         // instance (which uses this event to drive the animation of the
         // incoming-call UI.)
         if (mIsForegroundActivity && (mInCallTouchUi != null)) {
             mInCallTouchUi.onIncomingRing();
+        }
+    }
+
+    /**
+     * Handles a "new ringing connection" event from the telephony layer.
+     */
+    private void onNewRingingConnection() {
+        if (DBG) log("onNewRingingConnection()...");
+
+        // This event comes in right at the start of the incoming-call
+        // sequence, exactly once per incoming call.  We use this event to
+        // reset any incoming-call-related UI elements that might have
+        // been left in an inconsistent state after a prior incoming call.
+        // (Note we do this whether or not we're the foreground activity,
+        // since this event comes in *before* we actually get launched to
+        // display the incoming-call UI.)
+
+        // If there's a RespondViaSmsPopup instance around since last
+        // time, make sure it's not still active(!) since that would
+        // interfere with *this* incoming call.
+        if (mRespondViaSmsPopup != null) {
+            mRespondViaSmsPopup.dismiss();
+            mRespondViaSmsPopup = null;
         }
     }
 

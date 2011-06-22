@@ -611,6 +611,7 @@ public class InCallTouchUi extends FrameLayout
      * Apply an animation to hide the incoming call widget.
      */
     private void hideIncomingCallWidget() {
+        if (DBG) log("hideIncomingCallWidget()...");
         if (mIncomingCallWidget.getVisibility() != View.VISIBLE
                 || mIncomingCallWidget.getAnimation() != null) {
             // Widget is already hidden or in the process of being hidden

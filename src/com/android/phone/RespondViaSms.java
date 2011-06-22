@@ -50,9 +50,9 @@ public class RespondViaSms {
      * @param ringingCall the current incoming call
      * @param anchorView the onscreen view used to position the popup
      */
-    public static void showRespondViaSmsPopup(InCallScreen inCallScreen,
-                                              Call ringingCall,
-                                              View anchorView) {
+    public static RespondViaSmsPopup showRespondViaSmsPopup(InCallScreen inCallScreen,
+                                                            Call ringingCall,
+                                                            View anchorView) {
         if (DBG) log("showRespondViaSmsPopup()...");
 
         // Create the popup menu.  It's positioned based on anchorView: the
@@ -92,6 +92,7 @@ public class RespondViaSms {
         popup.setOnDismissListener(dismissListener);
 
         popup.show();
+        return popup;
     }
 
     /**
@@ -104,13 +105,6 @@ public class RespondViaSms {
         // TODO: For now we're just using a totally vanilla PopupMenu, but
         // we'll probably need to do a bunch of visual customization here
         // eventually.  (Exact visual design of this UI is still TBD.)
-
-        // TODO: also still need to handle popup dismissal (i.e. if we bring
-        // up the popup but the user dismisses it by tapping outside the
-        // menu or pressing Back.)  Should we:
-        // - bring back the MultiWaveView widget?  (and restart the ringer too?)
-        // - dismiss the InCallScreen?
-        // Also, should the popup menu have an explicit "Cancel" choice?
      }
 
     /**
