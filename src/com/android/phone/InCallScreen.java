@@ -606,9 +606,9 @@ public class InCallScreen extends Activity
 
         // Update the onscreen dialpad state to match the InCallUiState.
         if (mApp.inCallUiState.showDialpad) {
-            mDialer.openDialer(false);  // no "opening" animation
+            showDialpadInternal(false);  // no "opening" animation
         } else {
-            mDialer.closeDialer(false);  // no "closing" animation
+            hideDialpadInternal(false);  // no "closing" animation
         }
         //
         // TODO: also need to load inCallUiState.dialpadDigits into the dialpad
@@ -1317,7 +1317,7 @@ public class InCallScreen extends Activity
             // user clearly see the DTMF dialpad's closing animation.
             enableTouchLock(false);
 
-            mDialer.closeDialer(true);  // do the "closing" animation
+            hideDialpadInternal(true);  // do the "closing" animation
             return;
         }
 
@@ -2834,7 +2834,7 @@ public class InCallScreen extends Activity
         // responsive enough.)
 
         // Also, any time we hold or unhold, force the DTMF dialpad to close.
-        mDialer.closeDialer(true);  // do the "closing" animation
+        hideDialpadInternal(true);  // do the "closing" animation
     }
 
     private void onSpeakerClick() {
@@ -2899,14 +2899,33 @@ public class InCallScreen extends Activity
         }
     }
 
+    /**
+     * Handle a click on the "Show/Hide dialpad" button.
+     */
     private void onShowHideDialpad() {
         if (VDBG) log("onShowHideDialpad()...");
         if (mDialer.isOpened()) {
-            mDialer.closeDialer(true);  // do the "closing" animation
+            hideDialpadInternal(true);  // do the "closing" animation
         } else {
-            mDialer.openDialer(true);  // do the "opening" animation
+            showDialpadInternal(true);  // do the "opening" animation
         }
         mDialer.setHandleVisible(true);
+    }
+
+    // Internal wrapper around DTMFTwelveKeyDialer.openDialer()
+    private void showDialpadInternal(boolean animate) {
+        mDialer.openDialer(animate);
+        // And update the InCallUiState (so that we'll restore the dialpad
+        // to the correct state if we get paused/resumed).
+        mApp.inCallUiState.showDialpad = true;
+    }
+
+    // Internal wrapper around DTMFTwelveKeyDialer.closeDialer()
+    private void hideDialpadInternal(boolean animate) {
+        mDialer.closeDialer(animate);
+        // And update the InCallUiState (so that we'll restore the dialpad
+        // to the correct state if we get paused/resumed).
+        mApp.inCallUiState.showDialpad = false;
     }
 
     /**
@@ -3579,7 +3598,7 @@ public class InCallScreen extends Activity
         // Any time we swap calls, force the DTMF dialpad to close.
         // (We want the regular in-call UI to be visible right now, so the
         // user can clearly see which call is now in the foreground.)
-        mDialer.closeDialer(true);  // do the "closing" animation
+        hideDialpadInternal(true);  // do the "closing" animation
 
         // Also, clear out the "history" of DTMF digits you typed, to make
         // sure you don't see digits from call #1 while call #2 is active.
@@ -3820,7 +3839,7 @@ public class InCallScreen extends Activity
         // "incoming call" UI, and especially to make sure that the "touch
         // lock" overlay won't appear.)
         if (mCM.getState() == Phone.State.RINGING) {
-            mDialer.closeDialer(false);  // don't do the "closing" animation
+            hideDialpadInternal(false);  // don't do the "closing" animation
 
             // Also, clear out the "history" of DTMF digits you may have typed
             // into the previous call (so you don't see the previous call's
