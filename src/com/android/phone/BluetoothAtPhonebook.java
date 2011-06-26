@@ -19,7 +19,10 @@ package com.android.phone;
 import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.HeadsetBase;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -38,7 +41,7 @@ import java.util.HashMap;
  * @hide
  */
 public class BluetoothAtPhonebook {
-    private static final String TAG = "BtAtPhonebook";
+    private static final String TAG = "BluetoothAtPhonebook";
     private static final boolean DBG = false;
 
     /** The projection to use when querying the call log database in response
@@ -78,6 +81,15 @@ public class BluetoothAtPhonebook {
     private String mCurrentPhonebook;
     private String mCharacterSet = "UTF-8";
 
+    private int mCpbrIndex1, mCpbrIndex2;
+    private boolean mCheckingAccessPermission;
+
+    // package and class name to which we send intent to check phone book access permission
+    private static final String ACCESS_AUTHORITY_PACKAGE = "com.android.settings";
+    private static final String ACCESS_AUTHORITY_CLASS =
+        "com.android.settings.bluetooth.BluetoothPermissionRequest";
+    private static final String BLUETOOTH_ADMIN_PERM = android.Manifest.permission.BLUETOOTH_ADMIN;
+
     private final HashMap<String, PhonebookResult> mPhonebooks =
             new HashMap<String, PhonebookResult>(4);
 
@@ -90,6 +102,9 @@ public class BluetoothAtPhonebook {
         mPhonebooks.put("ME", new PhonebookResult());  // mobile phonebook
 
         mCurrentPhonebook = "ME";  // default to mobile phonebook
+
+        mCpbrIndex1 = mCpbrIndex2 = -1;
+        mCheckingAccessPermission = false;
     }
 
     /** Returns the last dialled number, or null if no numbers have been called */
@@ -186,6 +201,11 @@ public class BluetoothAtPhonebook {
                 // Phone Book Read Request
                 // AT+CPBR=<index1>[,<index2>]
 
+                if (mCpbrIndex1 != -1) {
+                    /* handling a CPBR at the moment, reject this CPBR command */
+                    return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_ALLOWED);
+                }
+
                 // Parse indexes
                 int index1;
                 int index2;
@@ -203,94 +223,21 @@ public class BluetoothAtPhonebook {
                     index2 = (Integer)args[1];
                 }
 
-                // Shortcut SM phonebook
-                if ("SM".equals(mCurrentPhonebook)) {
-                    return new AtCommandResult(AtCommandResult.OK);
+                mCpbrIndex1 = index1;
+                mCpbrIndex2 = index2;
+                mCheckingAccessPermission = true;
+
+                if (checkAccessPermission()) {
+                    mCheckingAccessPermission = false;
+                    AtCommandResult atResult = processCpbrCommand();
+                    mCpbrIndex1 = mCpbrIndex2 = -1;
+                    return atResult;
                 }
 
-                // Check phonebook
-                PhonebookResult pbr = getPhonebookResult(mCurrentPhonebook, false);
-                if (pbr == null) {
-                    return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_ALLOWED);
-                }
+                // no reponse here, will continue the process in handleAccessPermissionResult
+                return new AtCommandResult(AtCommandResult.UNSOLICITED);
+            };
 
-                // More sanity checks
-                // Send OK instead of ERROR if these checks fail.
-                // When we send error, certain kits like BMW disconnect the
-                // Handsfree connection.
-                if (pbr.cursor.getCount() == 0 || index1 <= 0 || index2 < index1  ||
-                    index2 > pbr.cursor.getCount() || index1 > pbr.cursor.getCount()) {
-                    return new AtCommandResult(AtCommandResult.OK);
-                }
-
-                // Process
-                AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
-                int errorDetected = -1; // no error
-                pbr.cursor.moveToPosition(index1 - 1);
-                for (int index = index1; index <= index2; index++) {
-                    String number = pbr.cursor.getString(pbr.numberColumn);
-                    String name = null;
-                    int type = -1;
-                    if (pbr.nameColumn == -1) {
-                        // try caller id lookup
-                        // TODO: This code is horribly inefficient. I saw it
-                        // take 7 seconds to process 100 missed calls.
-                        Cursor c = mContext.getContentResolver().query(
-                                Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, number),
-                                new String[] {PhoneLookup.DISPLAY_NAME, PhoneLookup.TYPE},
-                                null, null, null);
-                        if (c != null) {
-                            if (c.moveToFirst()) {
-                                name = c.getString(0);
-                                type = c.getInt(1);
-                            }
-                            c.close();
-                        }
-                        if (DBG && name == null) log("Caller ID lookup failed for " + number);
-
-                    } else {
-                        name = pbr.cursor.getString(pbr.nameColumn);
-                    }
-                    if (name == null) name = "";
-                    name = name.trim();
-                    if (name.length() > 28) name = name.substring(0, 28);
-
-                    if (pbr.typeColumn != -1) {
-                        type = pbr.cursor.getInt(pbr.typeColumn);
-                        name = name + "/" + getPhoneType(type);
-                    }
-
-                    if (number == null) number = "";
-                    int regionType = PhoneNumberUtils.toaFromString(number);
-
-                    number = number.trim();
-                    number = PhoneNumberUtils.stripSeparators(number);
-                    if (number.length() > 30) number = number.substring(0, 30);
-                    if (number.equals("-1")) {
-                        // unknown numbers are stored as -1 in our database
-                        number = "";
-                        name = mContext.getString(R.string.unknown);
-                    }
-
-                    // TODO(): Handle IRA commands. It's basically
-                    // a 7 bit ASCII character set.
-                    if (!name.equals("") && mCharacterSet.equals("GSM")) {
-                        byte[] nameByte = GsmAlphabet.stringToGsm8BitPacked(name);
-                        if (nameByte == null) {
-                            name = mContext.getString(R.string.unknown);
-                        } else {
-                            name = new String(nameByte);
-                        }
-                    }
-
-                    result.addResponse("+CPBR: " + index + ",\"" + number + "\"," +
-                                       regionType + ",\"" + name + "\"");
-                    if (!pbr.cursor.moveToNext()) {
-                        break;
-                    }
-                }
-                return result;
-            }
             @Override
             public AtCommandResult handleTestCommand() {
                 /* Ideally we should return the maximum range of valid index's
@@ -317,6 +264,36 @@ public class BluetoothAtPhonebook {
                 return new AtCommandResult("+CPBR: (1-" + size + "),30,30");
             }
         });
+    }
+
+    /* package */ void handleAccessPermissionResult(Intent intent) {
+        if (!mCheckingAccessPermission) {
+            return;
+        }
+
+        HeadsetBase headset = mHandsfree.getHeadset();
+        // ASSERT: (headset != null) && headSet.isConnected()
+        // REASON: mCheckingAccessPermission is true, otherwise resetAtState
+        //         has set mCheckingAccessPermission to false
+
+        if (intent.getAction().equals(BluetoothDevice.ACTION_CONNECTION_ACCESS_REPLY)) {
+
+            if (intent.getIntExtra(BluetoothDevice.EXTRA_CONNECTION_ACCESS_RESULT,
+                                   BluetoothDevice.CONNECTION_ACCESS_NO) ==
+                BluetoothDevice.CONNECTION_ACCESS_YES) {
+                BluetoothDevice remoteDevice = headset.getRemoteDevice();
+                if (intent.getBooleanExtra(BluetoothDevice.EXTRA_ALWAYS_ALLOWED, false)) {
+                    remoteDevice.setTrust(true);
+                }
+
+                AtCommandResult cpbrResult = processCpbrCommand();
+                headset.sendURC(cpbrResult.toString());
+            } else {
+                headset.sendURC("ERROR");
+            }
+        }
+        mCpbrIndex1 = mCpbrIndex2 = -1;
+        mCheckingAccessPermission = false;
     }
 
     /** Get the most recent result for the given phone book,
@@ -393,6 +370,8 @@ public class BluetoothAtPhonebook {
 
     synchronized void resetAtState() {
         mCharacterSet = "UTF-8";
+        mCpbrIndex1 = mCpbrIndex2 = -1;
+        mCheckingAccessPermission = false;
     }
 
     private synchronized int getMaxPhoneBookSize(int currSize) {
@@ -415,6 +394,122 @@ public class BluetoothAtPhonebook {
         x |= x >> 8;
         x |= x >> 16;
         return x + 1;
+    }
+
+    // process CPBR command after permission check
+    private AtCommandResult processCpbrCommand()
+    {
+        // Shortcut SM phonebook
+        if ("SM".equals(mCurrentPhonebook)) {
+            return new AtCommandResult(AtCommandResult.OK);
+        }
+
+        // Check phonebook
+        PhonebookResult pbr = getPhonebookResult(mCurrentPhonebook, false);
+        if (pbr == null) {
+            return mHandsfree.reportCmeError(BluetoothCmeError.OPERATION_NOT_ALLOWED);
+        }
+
+        // More sanity checks
+        // Send OK instead of ERROR if these checks fail.
+        // When we send error, certain kits like BMW disconnect the
+        // Handsfree connection.
+        if (pbr.cursor.getCount() == 0 || mCpbrIndex1 <= 0 || mCpbrIndex2 < mCpbrIndex1  ||
+            mCpbrIndex2 > pbr.cursor.getCount() || mCpbrIndex1 > pbr.cursor.getCount()) {
+            return new AtCommandResult(AtCommandResult.OK);
+        }
+
+        // Process
+        AtCommandResult result = new AtCommandResult(AtCommandResult.OK);
+        int errorDetected = -1; // no error
+        pbr.cursor.moveToPosition(mCpbrIndex1 - 1);
+        for (int index = mCpbrIndex1; index <= mCpbrIndex2; index++) {
+            String number = pbr.cursor.getString(pbr.numberColumn);
+            String name = null;
+            int type = -1;
+            if (pbr.nameColumn == -1) {
+                // try caller id lookup
+                // TODO: This code is horribly inefficient. I saw it
+                // take 7 seconds to process 100 missed calls.
+                Cursor c = mContext.getContentResolver().
+                    query(Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, number),
+                          new String[] {PhoneLookup.DISPLAY_NAME, PhoneLookup.TYPE},
+                          null, null, null);
+                if (c != null) {
+                    if (c.moveToFirst()) {
+                        name = c.getString(0);
+                        type = c.getInt(1);
+                    }
+                    c.close();
+                }
+                if (DBG && name == null) log("Caller ID lookup failed for " + number);
+
+            } else {
+                name = pbr.cursor.getString(pbr.nameColumn);
+            }
+            if (name == null) name = "";
+            name = name.trim();
+            if (name.length() > 28) name = name.substring(0, 28);
+
+            if (pbr.typeColumn != -1) {
+                type = pbr.cursor.getInt(pbr.typeColumn);
+                name = name + "/" + getPhoneType(type);
+            }
+
+            if (number == null) number = "";
+            int regionType = PhoneNumberUtils.toaFromString(number);
+
+            number = number.trim();
+            number = PhoneNumberUtils.stripSeparators(number);
+            if (number.length() > 30) number = number.substring(0, 30);
+            if (number.equals("-1")) {
+                // unknown numbers are stored as -1 in our database
+                number = "";
+                name = mContext.getString(R.string.unknown);
+            }
+
+            // TODO(): Handle IRA commands. It's basically
+            // a 7 bit ASCII character set.
+            if (!name.equals("") && mCharacterSet.equals("GSM")) {
+                byte[] nameByte = GsmAlphabet.stringToGsm8BitPacked(name);
+                if (nameByte == null) {
+                    name = mContext.getString(R.string.unknown);
+                } else {
+                    name = new String(nameByte);
+                }
+            }
+
+            result.addResponse("+CPBR: " + index + ",\"" + number + "\"," +
+                               regionType + ",\"" + name + "\"");
+            if (!pbr.cursor.moveToNext()) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    // Check if the remote device has premission to read our phone book
+    // Return true if it has the permission
+    //        false if not known and we have sent our Intent to check
+    private boolean checkAccessPermission() {
+        BluetoothDevice remoteDevice = mHandsfree.getHeadset().getRemoteDevice();
+
+        boolean trust = remoteDevice.getTrustState();
+
+        if (trust) {
+            return true;
+        }
+
+        Intent intent = new Intent(BluetoothDevice.ACTION_CONNECTION_ACCESS_REQUEST);
+        intent.setClassName(ACCESS_AUTHORITY_PACKAGE, ACCESS_AUTHORITY_CLASS);
+        intent.putExtra(BluetoothDevice.EXTRA_ACCESS_REQUEST_TYPE,
+                        BluetoothDevice.REQUEST_TYPE_PHONEBOOK_ACCESS);
+        intent.putExtra(BluetoothDevice.EXTRA_DEVICE, remoteDevice);
+        intent.putExtra(BluetoothDevice.EXTRA_PACKAGE_NAME, mContext.getPackageName());
+        intent.putExtra(BluetoothDevice.EXTRA_CLASS_NAME, BluetoothHandsfree.class.getName());
+        mContext.sendBroadcast(intent, BLUETOOTH_ADMIN_PERM);
+
+        return false;
     }
 
     private static String getPhoneType(int type) {

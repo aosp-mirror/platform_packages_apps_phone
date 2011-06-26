@@ -232,17 +232,19 @@ public class BluetoothHeadsetService extends Service {
                 case BluetoothProfile.STATE_CONNECTED:
                     Log.i(TAG, "Already connected to " + device + ", disconnecting " +
                             info.mRemoteDevice);
-
-                    headset = new HeadsetBase(mPowerManager, mAdapter,
-                                              info.mRemoteDevice,
-                                              info.mSocketFd, info.mRfcommChan,
-                                              null);
-                    headset.disconnect();
+                    rejectIncomingConnection(info);
                     break;
                 }
             }
         }
     };
+
+    private void rejectIncomingConnection(IncomingConnectionInfo info) {
+        HeadsetBase headset = new HeadsetBase(mPowerManager, mAdapter,
+            info.mRemoteDevice, info.mSocketFd, info.mRfcommChan, null);
+        headset.disconnect();
+    }
+
 
     private final BroadcastReceiver mBluetoothReceiver = new BroadcastReceiver() {
 
@@ -765,6 +767,19 @@ public class BluetoothHeadsetService extends Service {
                     return false;
                 }
                 return mBtHandsfree.terminateScoUsingVirtualVoiceCall();
+            }
+        }
+
+        public boolean rejectIncomingConnect(BluetoothDevice device) {
+            synchronized (BluetoothHeadsetService.this) {
+                BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
+                if (headset != null) {
+                    IncomingConnectionInfo info = headset.mIncomingInfo;
+                    rejectIncomingConnection(info);
+                } else {
+                    Log.e(TAG, "Error no record of remote headset");
+                }
+                return true;
             }
         }
 
