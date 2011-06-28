@@ -38,7 +38,7 @@
         android:visibility="gone"
 
         android:targetDrawables="@array/incall_targets"
-        android:handleDrawable="@*android:drawable/ic_lockscreen_handle"
+        android:handleDrawable="@drawable/ic_in_call_touch_handle"
         android:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
         android:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
         android:snapMargin="@*android:dimen/multiwaveview_snap_margin"
