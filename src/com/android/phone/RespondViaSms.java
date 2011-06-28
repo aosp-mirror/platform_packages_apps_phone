@@ -171,7 +171,9 @@ public class RespondViaSms {
             // call UI.
 
             // This will have no effect if the incoming call isn't still ringing.
-            PhoneApp.getInstance().notifier.restartRinger();
+            // TODO: Once PopupMenu gets an OnCancelListener,
+            // this needs to happen in onCancel(), not here.
+            // PhoneApp.getInstance().notifier.restartRinger();
 
             // We hid the MultiWaveView widget way back in
             // InCallTouchUi.onTrigger(), when the user first selected
