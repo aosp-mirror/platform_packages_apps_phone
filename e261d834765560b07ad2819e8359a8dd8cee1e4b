@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX///yw\u003d",
+        "filename": "src/com/android/phone/BluetoothHeadsetService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1000635
+      },
+      "writtenOn": "2011-06-28T15:53:59Z",
+      "side": 1,
+      "message": "Lets cancel inside the two ifs. Thus in the case where we don\u0027t have the UUID for some reason, we don\u0027t want to cancel discovery started by some other app",
+      "revId": "e261d834765560b07ad2819e8359a8dd8cee1e4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
