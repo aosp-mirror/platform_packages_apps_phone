@@ -16,19 +16,24 @@
 
 package com.android.phone;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemProperties;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 
+import java.util.Arrays;
 
 /**
  * Implementation of the "Respond via SMS" feature for incoming calls.
@@ -44,31 +49,45 @@ public class RespondViaSms {
     }
 
     /**
-     * Brings up the "Respond via SMS" popup menu for an incoming call.
+     * Brings up the "Respond via SMS" popup for an incoming call.
      *
      * @param inCallScreen the InCallScreen instance
      * @param ringingCall the current incoming call
-     * @param anchorView the onscreen view used to position the popup
+     * @return the resulting Dialog
      */
-    public static RespondViaSmsPopup showRespondViaSmsPopup(InCallScreen inCallScreen,
-                                                            Call ringingCall,
-                                                            View anchorView) {
+    public static Dialog showRespondViaSmsPopup(InCallScreen inCallScreen,
+                                                Call ringingCall) {
         if (DBG) log("showRespondViaSmsPopup()...");
 
-        // Create the popup menu.  It's positioned based on anchorView: the
-        // upper left corner of the popup menu gets anchored to the bottom
-        // left corner of the anchorView.
+        ListView lv = new ListView(inCallScreen);
 
-        RespondViaSmsPopup popup = new RespondViaSmsPopup(inCallScreen /* context */, anchorView);
-        popup.getMenuInflater().inflate(R.menu.respond_via_sms, popup.getMenu());
-        if (DBG) log("- popup: " + popup);
+        // Load the canned responses come from an array resource.
+        // TODO: This will eventually come from a SharedPreferences, since
+        // the responses need to be customizable.  (Ultimately the
+        // respond_via_sms_canned_responses strings will only be used as
+        // default values.)
+        String[] responses = inCallScreen.getResources()
+                .getStringArray(R.array.respond_via_sms_canned_responses);
 
-        // Create a RespondViaSmsClickListener instance to handle item
-        // clicks from the popup menu.
+        // And manually add "Custom message..." as the last choice.
+        int numPopupItems = responses.length + 1;
+        String[] popupItems = Arrays.copyOf(responses, numPopupItems);
+        popupItems[numPopupItems - 1] = inCallScreen.getResources()
+                .getString(R.string.respond_via_sms_custom_message);
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(inCallScreen,
+                                         android.R.layout.simple_list_item_1,
+                                         android.R.id.text1,
+                                         popupItems);
+        lv.setAdapter(adapter);
+
+        // Create a RespondViaSmsItemClickListener instance to handle item
+        // clicks from the popup.
         // (Note we create a fresh instance for each incoming call, and
         // stash away the call's phone number, since we can't necessarily
         // assume this call will still be ringing when the user finally
-        // chooses a response from the menu.)
+        // chooses a response.)
 
         Connection c = ringingCall.getLatestConnection();
         if (DBG) log("- connection: " + c);
@@ -80,44 +99,30 @@ public class RespondViaSms {
         // first place.)
 
         String phoneNumber = c.getAddress();
-        if (DBG) log("- phoneNumber: " + phoneNumber);
+        if (DBG) log("- phoneNumber: " + phoneNumber);  // STOPSHIP: don't log PII
+        lv.setOnItemClickListener(new RespondViaSmsItemClickListener(inCallScreen, phoneNumber));
 
-        RespondViaSmsClickListener clickListener =
-                new RespondViaSmsClickListener(inCallScreen, phoneNumber);
-        popup.setOnMenuItemClickListener(clickListener);
+        AlertDialog.Builder builder = new AlertDialog.Builder(inCallScreen)
+                .setCancelable(true)
+                .setOnCancelListener(new RespondViaSmsCancelListener(inCallScreen))
+                .setView(lv);
+        Dialog dialog = builder.create();
+        dialog.show();
 
-        // Also listen for the menu being dismissed:
-        RespondViaSmsDismissListener dismissListener =
-                new RespondViaSmsDismissListener(inCallScreen);
-        popup.setOnDismissListener(dismissListener);
-
-        popup.show();
-        return popup;
+        return dialog;
     }
 
     /**
-     * The "Respond via SMS" popup menu.
+     * OnItemClickListener for the "Respond via SMS" popup.
      */
-    public static class RespondViaSmsPopup extends PopupMenu {
-        public RespondViaSmsPopup(Context context, View anchorView) {
-            super(context, anchorView);
-        }
-        // TODO: For now we're just using a totally vanilla PopupMenu, but
-        // we'll probably need to do a bunch of visual customization here
-        // eventually.  (Exact visual design of this UI is still TBD.)
-     }
-
-    /**
-     * PopupMenu.OnMenuItemClickListener for the "Respond via SMS" popup menu.
-     */
-    public static class RespondViaSmsClickListener implements PopupMenu.OnMenuItemClickListener {
+    public static class RespondViaSmsItemClickListener implements AdapterView.OnItemClickListener {
         // Reference back to the InCallScreen instance.
         private InCallScreen mInCallScreen;
 
         // Phone number to send the SMS to.
         private String mPhoneNumber;
 
-        public RespondViaSmsClickListener(InCallScreen inCallScreen, String phoneNumber) {
+        public RespondViaSmsItemClickListener(InCallScreen inCallScreen, String phoneNumber) {
             mInCallScreen = inCallScreen;
             mPhoneNumber = phoneNumber;
         }
@@ -125,45 +130,47 @@ public class RespondViaSms {
         /**
          * Handles the user selecting an item from the popup.
          */
-        public boolean onMenuItemClick(MenuItem item) {
-            if (DBG) log("- onMenuItemClick: " + item);
-            if (DBG) log("  id: " + item.getItemId());
-            if (DBG) log("  title: '" + item.getTitle() + "'");
+        public void onItemClick(AdapterView<?> parent,  // The ListView
+                                View view,  // The TextView that was clicked
+                                int position,
+                                long id) {
+            if (DBG) log("RespondViaSmsItemClickListener.onItemClick(" + position + ")...");
+            String message = (String) parent.getItemAtPosition(position);
+            if (DBG) log("- message: '" + message + "'");
 
-            // The "Custom" choice is a special case:
-            if (item.getItemId() == R.id.custom_message) {
+            // The "Custom" choice is a special case.
+            // (For now, it's guaranteed to be the last item.)
+            if (position == (parent.getCount() - 1)) {
                 // Take the user to the standard SMS compose UI.
                 launchSmsCompose(mInCallScreen, mPhoneNumber);
             } else {
-                // Send the SMS immediately with no user interaction.
-                sendText(mInCallScreen, mPhoneNumber, item.getTitle().toString());
+                // Send the selected message immediately with no user interaction.
+                sendText(mInCallScreen, mPhoneNumber, message);
             }
 
             PhoneApp.getInstance().dismissCallScreen();
-
-            return true;
         }
     }
 
     /**
-     * PopupMenu.OnDismissListener for the "Respond via SMS" popup menu.
+     * OnCancelListener for the "Respond via SMS" popup.
      */
-    public static class RespondViaSmsDismissListener implements PopupMenu.OnDismissListener {
+    public static class RespondViaSmsCancelListener implements DialogInterface.OnCancelListener {
         // Reference back to the InCallScreen instance.
         private InCallScreen mInCallScreen;
 
-        public RespondViaSmsDismissListener(InCallScreen inCallScreen) {
+        public RespondViaSmsCancelListener(InCallScreen inCallScreen) {
             mInCallScreen = inCallScreen;
         }
 
         /**
-         * Handles the user dismissing the popup, either by touching
+         * Handles the user canceling the popup, either by touching
          * outside the popup or by pressing Back.
          */
-        public void onDismiss(PopupMenu menu) {
-            if (DBG) log("- onDismiss: " + menu);
+        public void onCancel(DialogInterface dialog) {
+            if (DBG) log("RespondViaSmsCancelListener.onCancel()...");
 
-            // If the user dismisses the popup, this presumably means that
+            // If the user cancels the popup, this presumably means that
             // they didn't actually mean to bring up the "Respond via SMS"
             // UI in the first place (and instead want to go back to the
             // state where they can either answer or reject the call.)
@@ -171,9 +178,7 @@ public class RespondViaSms {
             // call UI.
 
             // This will have no effect if the incoming call isn't still ringing.
-            // TODO: Once PopupMenu gets an OnCancelListener,
-            // this needs to happen in onCancel(), not here.
-            // PhoneApp.getInstance().notifier.restartRinger();
+            PhoneApp.getInstance().notifier.restartRinger();
 
             // We hid the MultiWaveView widget way back in
             // InCallTouchUi.onTrigger(), when the user first selected

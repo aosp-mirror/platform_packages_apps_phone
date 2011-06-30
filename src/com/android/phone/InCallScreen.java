@@ -226,7 +226,7 @@ public class InCallScreen extends Activity
     private InCallControlState mInCallControlState;
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
-    private RespondViaSms.RespondViaSmsPopup mRespondViaSmsPopup;  // see internalRespondViaSms()
+    private Dialog mRespondViaSmsPopup;  // see internalRespondViaSms()
     private ManageConferenceUtils mManageConferenceUtils;
 
     // DTMF Dialer controller and its view:
@@ -3565,10 +3565,7 @@ public class InCallScreen extends Activity
         // it to always act on the first ringing call.
         Call ringingCall = mCM.getFirstActiveRingingCall();
 
-        View anchorView = mInCallTouchUi.findViewById(R.id.popupMenuAnchor);
-
-        mRespondViaSmsPopup =
-                RespondViaSms.showRespondViaSmsPopup(this, ringingCall, anchorView);
+        mRespondViaSmsPopup = RespondViaSms.showRespondViaSmsPopup(this, ringingCall);
 
         // Silence the ringer, since it would be distracting while you're trying
         // to pick a response.  (Note that we'll restart the ringer if you bail
@@ -5009,7 +5006,7 @@ public class InCallScreen extends Activity
         // time, make sure it's not still active(!) since that would
         // interfere with *this* incoming call.
         if (mRespondViaSmsPopup != null) {
-            mRespondViaSmsPopup.dismiss();
+            mRespondViaSmsPopup.dismiss();  // safe even if already dismissed
             mRespondViaSmsPopup = null;
         }
     }

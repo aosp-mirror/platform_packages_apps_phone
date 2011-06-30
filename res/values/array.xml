@@ -55,5 +55,13 @@
         <item>@null</item>"
     </array>
 
+    <!-- Default "canned responses" for the "Respond via SMS" feature for incoming calls. -->
+    <string-array name="respond_via_sms_canned_responses">
+        <item>@string/respond_via_sms_canned_response_1</item>
+        <item>@string/respond_via_sms_canned_response_2</item>
+        <item>@string/respond_via_sms_canned_response_3</item>
+        <item>@string/respond_via_sms_canned_response_4</item>
+    </string-array>
+
 </resources>
 
