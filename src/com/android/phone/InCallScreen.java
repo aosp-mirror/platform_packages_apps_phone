@@ -619,6 +619,18 @@ public class InCallScreen extends Activity
         //
         // TODO: also need to load inCallUiState.dialpadDigits into the dialpad
 
+        // If there's a RespondViaSmsPopup instance still around since the
+        // last time we were the foreground activity, make sure it's not
+        // still active!
+        // (The popup should *never* be visible initially when we first
+        // come to the foreground; it only ever comes up in response to
+        // the user selecting the "SMS" option from the incoming call
+        // widget.)
+        if (mRespondViaSmsPopup != null) {
+            mRespondViaSmsPopup.dismiss();
+            mRespondViaSmsPopup = null;
+        }
+
         // Display an error / diagnostic indication if necessary.
         //
         // When the InCallScreen comes to the foreground, we normally we
@@ -5008,6 +5020,10 @@ public class InCallScreen extends Activity
         // If there's a RespondViaSmsPopup instance around since last
         // time, make sure it's not still active(!) since that would
         // interfere with *this* incoming call.
+        // (Note that we also call mRespondViaSmsPopup.dismiss() from
+        // onResume().  But we need it here too, to make sure the popup
+        // gets reset in the case where a call-waiting call comes in while
+        // the InCallScreen is already in the foreground.)
         if (mRespondViaSmsPopup != null) {
             mRespondViaSmsPopup.dismiss();
             mRespondViaSmsPopup = null;
