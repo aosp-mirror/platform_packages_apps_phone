@@ -36,47 +36,68 @@ import com.android.internal.telephony.Connection;
 import java.util.Arrays;
 
 /**
- * Implementation of the "Respond via SMS" feature for incoming calls.
+ * Helper class to manage the "Respond via SMS" feature for incoming calls.
+ * @see InCallScreen.internalRespondViaSms()
  */
-public class RespondViaSms {
-    private static final String TAG = "RespondViaSms";
+public class RespondViaSmsManager {
+    private static final String TAG = "RespondViaSmsManager";
     private static final boolean DBG = true;
     // STOPSHIP: reduce DBG to
     //       (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
-    /** This class is never instantiated. */
-    private RespondViaSms() {
+    /**
+     * Reference to the InCallScreen activity that owns us.  This may be
+     * null if we haven't been initialized yet *or* after the InCallScreen
+     * activity has been destroyed.
+     */
+    private InCallScreen mInCallScreen;
+
+    /**
+     * The popup showing the list of canned responses.
+     *
+     * This is an AlertDialog containing a ListView showing the possible
+     * choices.  This may be null if the InCallScreen hasn't ever called
+     * showRespondViaSmsPopup() yet, or if the popup was visible once but
+     * then got dismissed.
+     */
+    private Dialog mPopup;
+
+    /**
+     * RespondViaSmsManager constructor.
+     */
+    public RespondViaSmsManager() {
+    }
+
+    public void setInCallScreenInstance(InCallScreen inCallScreen) {
+        mInCallScreen = inCallScreen;
     }
 
     /**
      * Brings up the "Respond via SMS" popup for an incoming call.
      *
-     * @param inCallScreen the InCallScreen instance
      * @param ringingCall the current incoming call
-     * @return the resulting Dialog
      */
-    public static Dialog showRespondViaSmsPopup(InCallScreen inCallScreen,
-                                                Call ringingCall) {
+    public void showRespondViaSmsPopup(Call ringingCall) {
         if (DBG) log("showRespondViaSmsPopup()...");
 
-        ListView lv = new ListView(inCallScreen);
+        ListView lv = new ListView(mInCallScreen);
 
         // Load the canned responses come from an array resource.
         // TODO: This will eventually come from a SharedPreferences, since
         // the responses need to be customizable.  (Ultimately the
         // respond_via_sms_canned_responses strings will only be used as
         // default values.)
-        String[] responses = inCallScreen.getResources()
+        String[] responses = mInCallScreen.getResources()
                 .getStringArray(R.array.respond_via_sms_canned_responses);
 
         // And manually add "Custom message..." as the last choice.
         int numPopupItems = responses.length + 1;
         String[] popupItems = Arrays.copyOf(responses, numPopupItems);
-        popupItems[numPopupItems - 1] = inCallScreen.getResources()
+        popupItems[numPopupItems - 1] = mInCallScreen.getResources()
                 .getString(R.string.respond_via_sms_custom_message);
 
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(inCallScreen,
+                new ArrayAdapter<String>(mInCallScreen,
                                          android.R.layout.simple_list_item_1,
                                          android.R.id.text1,
                                          popupItems);
@@ -100,30 +121,38 @@ public class RespondViaSms {
 
         String phoneNumber = c.getAddress();
         if (DBG) log("- phoneNumber: " + phoneNumber);  // STOPSHIP: don't log PII
-        lv.setOnItemClickListener(new RespondViaSmsItemClickListener(inCallScreen, phoneNumber));
+        lv.setOnItemClickListener(new RespondViaSmsItemClickListener(phoneNumber));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(inCallScreen)
+        AlertDialog.Builder builder = new AlertDialog.Builder(mInCallScreen)
                 .setCancelable(true)
-                .setOnCancelListener(new RespondViaSmsCancelListener(inCallScreen))
+                .setOnCancelListener(new RespondViaSmsCancelListener())
                 .setView(lv);
-        Dialog dialog = builder.create();
-        dialog.show();
+        mPopup = builder.create();
+        mPopup.show();
+    }
 
-        return dialog;
+    /**
+     * Dismiss the "Respond via SMS" popup if it's visible.
+     *
+     * This is safe to call even if the popup is already dismissed, and
+     * even if you never called showRespondViaSmsPopup() in the first
+     * place.
+     */
+    public void dismissPopup() {
+        if (mPopup != null) {
+            mPopup.dismiss();  // safe even if already dismissed
+            mPopup = null;
+        }
     }
 
     /**
      * OnItemClickListener for the "Respond via SMS" popup.
      */
-    public static class RespondViaSmsItemClickListener implements AdapterView.OnItemClickListener {
-        // Reference back to the InCallScreen instance.
-        private InCallScreen mInCallScreen;
-
+    public class RespondViaSmsItemClickListener implements AdapterView.OnItemClickListener {
         // Phone number to send the SMS to.
         private String mPhoneNumber;
 
-        public RespondViaSmsItemClickListener(InCallScreen inCallScreen, String phoneNumber) {
-            mInCallScreen = inCallScreen;
+        public RespondViaSmsItemClickListener(String phoneNumber) {
             mPhoneNumber = phoneNumber;
         }
 
@@ -142,10 +171,10 @@ public class RespondViaSms {
             // (For now, it's guaranteed to be the last item.)
             if (position == (parent.getCount() - 1)) {
                 // Take the user to the standard SMS compose UI.
-                launchSmsCompose(mInCallScreen, mPhoneNumber);
+                launchSmsCompose(mPhoneNumber);
             } else {
                 // Send the selected message immediately with no user interaction.
-                sendText(mInCallScreen, mPhoneNumber, message);
+                sendText(mPhoneNumber, message);
             }
 
             PhoneApp.getInstance().dismissCallScreen();
@@ -155,12 +184,8 @@ public class RespondViaSms {
     /**
      * OnCancelListener for the "Respond via SMS" popup.
      */
-    public static class RespondViaSmsCancelListener implements DialogInterface.OnCancelListener {
-        // Reference back to the InCallScreen instance.
-        private InCallScreen mInCallScreen;
-
-        public RespondViaSmsCancelListener(InCallScreen inCallScreen) {
-            mInCallScreen = inCallScreen;
+    public class RespondViaSmsCancelListener implements DialogInterface.OnCancelListener {
+        public RespondViaSmsCancelListener() {
         }
 
         /**
@@ -195,7 +220,7 @@ public class RespondViaSms {
     /**
      * Sends a text message without any interaction from the user.
      */
-    private static void sendText(Context context, String phoneNumber, String message) {
+    private void sendText(String phoneNumber, String message) {
         // STOPSHIP: disable all logging of PII (everywhere in this file)
         if (DBG) log("sendText: number "
                      + phoneNumber + ", message '" + message + "'");
@@ -217,7 +242,7 @@ public class RespondViaSms {
     /**
      * Brings up the standard SMS compose UI.
      */
-    private static void launchSmsCompose(Context context, String phoneNumber) {
+    private void launchSmsCompose(String phoneNumber) {
         if (DBG) log("launchSmsCompose: number " + phoneNumber);
 
         // TODO: confirm with SMS guys that this is the correct intent to use.
@@ -225,7 +250,7 @@ public class RespondViaSms {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
         if (DBG) log("- Launching SMS compose UI: " + intent);
-        context.startActivity(intent);
+        mInCallScreen.startActivity(intent);
 
         // TODO: One open issue here: if the user selects "Custom message"
         // for an incoming call while the device was locked, and the user
@@ -247,7 +272,7 @@ public class RespondViaSms {
         // secure keyguard set.
     }
 
-    private static void log(String msg) {
+    private void log(String msg) {
         Log.d(TAG, msg);
     }
 }

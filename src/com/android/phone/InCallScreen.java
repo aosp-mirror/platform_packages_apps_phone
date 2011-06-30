@@ -226,7 +226,7 @@ public class InCallScreen extends Activity
     private InCallControlState mInCallControlState;
     private InCallMenu mInCallMenu;  // used on some devices
     private InCallTouchUi mInCallTouchUi;  // used on some devices
-    private Dialog mRespondViaSmsPopup;  // see internalRespondViaSms()
+    private RespondViaSmsManager mRespondViaSmsManager;  // see internalRespondViaSms()
     private ManageConferenceUtils mManageConferenceUtils;
 
     // DTMF Dialer controller and its view:
@@ -619,16 +619,15 @@ public class InCallScreen extends Activity
         //
         // TODO: also need to load inCallUiState.dialpadDigits into the dialpad
 
-        // If there's a RespondViaSmsPopup instance still around since the
+        // If there's a "Respond via SMS" popup still around since the
         // last time we were the foreground activity, make sure it's not
         // still active!
         // (The popup should *never* be visible initially when we first
         // come to the foreground; it only ever comes up in response to
         // the user selecting the "SMS" option from the incoming call
         // widget.)
-        if (mRespondViaSmsPopup != null) {
-            mRespondViaSmsPopup.dismiss();
-            mRespondViaSmsPopup = null;
+        if (mRespondViaSmsManager != null) {
+            mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
         }
 
         // Display an error / diagnostic indication if necessary.
@@ -952,6 +951,9 @@ public class InCallScreen extends Activity
         }
         if (mInCallTouchUi != null) {
             mInCallTouchUi.setInCallScreenInstance(null);
+        }
+        if (mRespondViaSmsManager != null) {
+            mRespondViaSmsManager.setInCallScreenInstance(null);
         }
 
         mDialer.clearInCallScreenReference();
@@ -3567,17 +3569,22 @@ public class InCallScreen extends Activity
 
     /**
      * Respond via SMS to the ringing call.
-     * @see RespondViaSms
+     * @see RespondViaSmsManager
      */
     private void internalRespondViaSms() {
         if (DBG) log("internalRespondViaSms()...");
         if (VDBG) PhoneUtils.dumpCallManager();
 
+        if (mRespondViaSmsManager == null) {
+            throw new IllegalStateException(
+                "got internalRespondViaSms(), but mRespondViaSmsManager was never initialized");
+        }
+
         // In the rare case when multiple calls are ringing, the UI policy
         // it to always act on the first ringing call.
         Call ringingCall = mCM.getFirstActiveRingingCall();
 
-        mRespondViaSmsPopup = RespondViaSms.showRespondViaSmsPopup(this, ringingCall);
+        mRespondViaSmsManager.showRespondViaSmsPopup(ringingCall);
 
         // Silence the ringer, since it would be distracting while you're trying
         // to pick a response.  (Note that we'll restart the ringer if you bail
@@ -4019,6 +4026,11 @@ public class InCallScreen extends Activity
         // to not even inflate the InCallTouchUi widget on those devices.
         mInCallTouchUi = (InCallTouchUi) findViewById(R.id.inCallTouchUi);
         mInCallTouchUi.setInCallScreenInstance(this);
+
+        // RespondViaSmsManager implements the "Respond via SMS"
+        // feature that's triggered from the incoming call widget.
+        mRespondViaSmsManager = new RespondViaSmsManager();
+        mRespondViaSmsManager.setInCallScreenInstance(this);
     }
 
     /**
@@ -5014,16 +5026,16 @@ public class InCallScreen extends Activity
         // since this event comes in *before* we actually get launched to
         // display the incoming-call UI.)
 
-        // If there's a RespondViaSmsPopup instance around since last
-        // time, make sure it's not still active(!) since that would
-        // interfere with *this* incoming call.
-        // (Note that we also call mRespondViaSmsPopup.dismiss() from
-        // onResume().  But we need it here too, to make sure the popup
-        // gets reset in the case where a call-waiting call comes in while
-        // the InCallScreen is already in the foreground.)
-        if (mRespondViaSmsPopup != null) {
-            mRespondViaSmsPopup.dismiss();  // safe even if already dismissed
-            mRespondViaSmsPopup = null;
+        // If there's a "Respond via SMS" popup still around since the
+        // last time we were the foreground activity, make sure it's not
+        // still active(!) since that would interfere with *this* incoming
+        // call.
+        // (Note that we also do this same check in onResume().  But we
+        // need it here too, to make sure the popup gets reset in the case
+        // where a call-waiting call comes in while the InCallScreen is
+        // already in the foreground.)
+        if (mRespondViaSmsManager != null) {
+            mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
         }
     }
 
