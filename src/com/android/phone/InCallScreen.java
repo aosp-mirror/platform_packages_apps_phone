@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (c) 2012, Code Aurora Forum. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1035,7 +1036,12 @@ public class InCallScreen extends Activity
      */
     public void endInCallScreenSession() {
         if (DBG) log("endInCallScreenSession()... phone state = " + mCM.getState());
-        endInCallScreenSession(false);
+        // Do not end the session if a call is on progress.
+        if (mCM.getState() == PhoneConstants.State.IDLE) {
+            endInCallScreenSession(false);
+        } else {
+            Log.i(LOG_TAG, "endInCallScreenSession(): Call in progress");
+        }
     }
 
     /**
