@@ -1810,6 +1810,15 @@ public class InCallScreen extends Activity
         } else if (cause == Connection.DisconnectCause.CS_RESTRICTED_NORMAL) {
             showGenericErrorDialog(R.string.callFailed_dsac_restricted_normal, false);
             return;
+        } else if (cause == Connection.DisconnectCause.DIAL_MODIFIED_TO_USSD) {
+            showGenericErrorDialog(R.string.callFailed_dialToUssd, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.DIAL_MODIFIED_TO_SS) {
+            showGenericErrorDialog(R.string.callFailed_dialToSs, false);
+            return;
+        } else if (cause == Connection.DisconnectCause.DIAL_MODIFIED_TO_DIAL) {
+            showGenericErrorDialog(R.string.callFailed_dialToDial, false);
+            return;
         }
 
         if (phoneIsCdma) {
