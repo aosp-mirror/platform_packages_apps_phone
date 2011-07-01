@@ -75,6 +75,12 @@
     <string name="callFailed_fdn_only">Outgoing calls are restricted by FDN.</string>
     <!-- In-call screen: call failure reason (call denied because call barring is on) -->
     <string name="callFailed_cb_enabled">You cannot make outgoing calls while call barring is on.</string>
+    <!-- In-call screen: call failure reason (call modified to USSD request) -->
+    <string name="callFailed_dialToUssd">DIAL request modified to USSD request.</string>
+    <!-- In-call screen: call failure reason (call modified to SS request) -->
+    <string name="callFailed_dialToSs">DIAL request modified to SS request.</string>
+    <!-- In-call screen: call failure reason (call modified to call with modified data) -->
+    <string name="callFailed_dialToDial">DIAL request modified to DIAL with different number.</string>
     <!-- In-call screen: call failure reason (call denied because domain specific access control is on) -->
     <string name="callFailed_dsac_restricted">All calls are restricted by access control.</string>
     <!-- In-call screen: call failure reason (Emergency call denied because domain specific access control is on)-->
@@ -315,6 +321,11 @@
     <string name="exception_error">Network or SIM card error.</string>
     <!-- Status message displayed in the "Call settings error" dialog when operation fails due to FDN -->
     <string name="fdn_only_error">Operations are only allowed on fixed dialing numbers.</string>
+    <!-- Status message displayed in the "Call settings error" dialog when
+         current SS request is modified to a different request by STK CC -->
+    <string name="stk_cc_ss_to_dial_error">SS request modified to DIAL request.</string>
+    <string name="stk_cc_ss_to_ussd_error">SS request modified to USSD request.</string>
+    <string name="stk_cc_ss_to_ss_error">SS request modified to new SS request.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
     <string name="radio_off_error">Please turn on the radio before viewing these settings.</string>
     <!-- Button label used to dismiss the "Call settings error" dialog -->
