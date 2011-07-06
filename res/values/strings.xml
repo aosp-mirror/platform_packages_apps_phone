@@ -1258,6 +1258,28 @@
     <!-- Option for whether the SIP service should send keepalive messages. [CHAR LIMIT=40] -->
     <string translatable="true" name="sip_always_send_keepalive">Always send</string>
 
+    <!-- supplementary service notification code -->
+    <string name="mo_unconditional_cf_active">Unconditional call forwarding is active</string>
+    <string name="mo_some_cf_active">Some of the conditional call forwardings are active</string>
+    <string name="mo_call_forwarded">Call has been forwarded</string>
+    <string name="mo_call_is_waiting">Call is waiting</string>
+    <string name="mo_cug_call">This is a CUG call</string>
+    <string name="mo_outgoing_calls_barred">Outgoing calls are barred</string>
+    <string name="mo_incoming_calls_barred">Incoming calls are barred</string>
+    <string name="mo_clir_suppression_rejected">CLIR suppression rejected</string>
+    <string name="mo_call_deflected">Call has been deflected</string>
+    <string name="mt_forwarded_call">This is a forwarded call</string>
+    <string name="mt_cug_call">This is a CUG call</string>
+    <string name="mt_call_on_hold">Call has been put on hold</string>
+    <string name="mt_call_retrieved">Call has been retrieved</string>
+    <string name="mt_multi_party_call">Multiparty call entered</string>
+    <string name="mt_on_hold_call_released">Call on hold has been released</string>
+    <string name="mt_forward_check_received">Forward check SS message received</string>
+    <string name="mt_call_connecting_ect">Call is being connected (alerting) with the remote party in alerting state in explicit call transfer operation</string>
+    <string name="mt_call_connected_ect">Call has been connected with the other remote party in explicit call transfer operation</string>
+    <string name="mt_deflected_call">This is a deflected call</string>
+    <string name="mt_additional_call_forwarded">Additional incoming call forwarded</string>
+
     <!-- Do not translate the following strings. Used for the Internet call options. Need to be in-sync with Settings.System.SIP_ strings. -->
     <string translatable="false" name="sip_always">SIP_ALWAYS</string>
     <string translatable="false" name="sip_address_only">SIP_ADDRESS_ONLY</string>
