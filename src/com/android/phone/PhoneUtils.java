@@ -68,6 +68,8 @@ import com.android.internal.telephony.cdma.CdmaConnection;
 import com.android.internal.telephony.sip.SipPhone;
 
 import java.util.ArrayList;
+import com.android.internal.telephony.gsm.SuppServiceNotification;
+
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -2617,6 +2619,48 @@ public class PhoneUtils {
         sVoipSupported = SipManager.isVoipSupported(app)
                 && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
                 && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+    }
+
+    /**
+     * Display the Supplementary Service Notification
+     */
+    static void displaySSN(Context context, final SuppServiceNotification notification) {
+        int textid = -1;
+        try {
+            if (notification.notificationType == 0) { // MO
+                final int[] mo_string = {
+                        R.string.mo_unconditional_cf_active,
+                        R.string.mo_some_cf_active,
+                        R.string.mo_call_forwarded,
+                        R.string.mo_call_is_waiting,
+                        R.string.mo_cug_call,
+                        R.string.mo_outgoing_calls_barred,
+                        R.string.mo_incoming_calls_barred,
+                        R.string.mo_clir_suppression_rejected,
+                        R.string.mo_call_deflected
+                };
+                textid = mo_string[notification.code];
+            } else if (notification.notificationType == 1) { // MT
+                final int[] mt_string = {
+                        R.string.mt_forwarded_call,
+                        R.string.mt_cug_call,
+                        R.string.mt_call_on_hold,
+                        R.string.mt_call_retrieved,
+                        R.string.mt_multi_party_call,
+                        R.string.mt_on_hold_call_released,
+                        R.string.mt_forward_check_received,
+                        R.string.mt_call_connecting_ect,
+                        R.string.mt_call_connected_ect,
+                        R.string.mt_deflected_call,
+                        R.string.mt_additional_call_forwarded
+                };
+                textid = mt_string[notification.code];
+            }
+        } catch (java.lang.IndexOutOfBoundsException ex) {
+            Log.e(LOG_TAG, "SSN code is incorrect: " + notification.code + ", catch " + ex, ex);
+        }
+        if (textid != -1)
+            Toast.makeText(context, context.getText(textid), Toast.LENGTH_LONG).show();
     }
 
     /**
