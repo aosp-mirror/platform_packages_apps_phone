@@ -622,4 +622,27 @@
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"响铃时振动"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"拨号键盘触摸音效"</string>
     <string name="preference_category_ringtone" msgid="9007490591910078324">"铃声"</string>
+
+    <!-- supplementary service notification code -->
+    <string name="mo_unconditional_cf_active">无条件转移已激活</string>
+    <string name="mo_some_cf_active">条件转移已激活</string>
+    <string name="mo_call_forwarded">呼叫已转移</string>
+    <string name="mo_call_is_waiting">呼叫正等待</string>
+    <string name="mo_cug_call">封闭用户呼叫</string>
+    <string name="mo_outgoing_calls_barred">呼叫被限制</string>
+    <string name="mo_incoming_calls_barred">来电被限制</string>
+    <string name="mo_clir_suppression_rejected">CLIR抑制被拒绝</string>
+    <string name="mo_call_deflected">呼叫已转向</string>
+    <string name="mt_forwarded_call">转移的呼叫</string>
+    <string name="mt_cug_call">封闭用户呼叫</string>
+    <string name="mt_call_on_hold">呼叫被保持</string>
+    <string name="mt_call_retrieved">呼叫被恢复</string>
+    <string name="mt_multi_party_call">多方呼叫</string>
+    <string name="mt_on_hold_call_released">保持的呼叫被挂断</string>
+    <string name="mt_forward_check_received">转移确认已收到</string>
+    <string name="mt_call_connecting_ect">呼叫连接中</string>
+    <string name="mt_call_connected_ect">呼叫被连接</string>
+    <string name="mt_deflected_call">被转向的呼叫</string>
+    <string name="mt_additional_call_forwarded">额外的转移来电</string>
+
 </resources>

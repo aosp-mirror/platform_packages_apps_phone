@@ -68,6 +68,7 @@ import com.android.internal.telephony.PhoneFactory;
 import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.cdma.TtyIntent;
+import com.android.internal.telephony.gsm.SuppServiceNotification;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 import com.android.server.sip.SipService;
 
@@ -114,6 +115,7 @@ public class PhoneGlobals extends ContextWrapper
     private static final int EVENT_TTY_MODE_GET = 15;
     private static final int EVENT_TTY_MODE_SET = 16;
     private static final int EVENT_START_SIP_SERVICE = 17;
+    private static final int EVENT_SSN = 18;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -416,6 +418,10 @@ public class PhoneGlobals extends ContextWrapper
                 case EVENT_TTY_MODE_SET:
                     handleSetTTYModeResponse(msg);
                     break;
+
+                case EVENT_SSN:
+                    handleSSN(msg);
+                    break;
             }
         }
     };
@@ -541,6 +547,9 @@ public class PhoneGlobals extends ContextWrapper
                 if (VDBG) Log.v(LOG_TAG, "register for ICC status");
                 sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
             }
+
+            // register for SS notification
+            phone.registerForSuppServiceNotification(mHandler, EVENT_SSN, null);
 
             // register for MMI/USSD
             mCM.registerForMmiComplete(mHandler, MMI_COMPLETE, null);
@@ -1847,4 +1856,10 @@ public class PhoneGlobals extends ContextWrapper
             mBluetoothPhone = null;
         }
     };
+
+    private void handleSSN(Message msg) {
+        AsyncResult ar = (AsyncResult) msg.obj;
+        SuppServiceNotification notification = (SuppServiceNotification) ar.result;
+        PhoneUtils.displaySSN(getInstance(), notification);
+    }
 }
