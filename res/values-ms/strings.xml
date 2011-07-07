@@ -154,7 +154,7 @@
     <string name="error_updating_title" msgid="7970259216988931777">"Ralat tetapan panggilan"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Membaca tetapan..."</string>
     <string name="updating_settings" msgid="8171225533884883252">"Mengemas kini tetapan..."</string>
-    <string name="reverting_settings" msgid="4752151682666912828">"Mengembalikan tetapan kepada sebelumnya…"</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Mengembalikan tetapan kepada sebelumnya..."</string>
     <string name="response_error" msgid="6674110501330139405">"Respons tidak dijangka daripada rangkaian."</string>
     <string name="exception_error" msgid="7027667130619518211">"Ralat Rangkaian atau kad SIM."</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"Pengendalian hanya dibenarkan pada nombor dailan tetap sahaja."</string>
@@ -425,13 +425,13 @@
     <string name="number" msgid="7905950798349903858">"Nombor"</string>
     <string name="save" msgid="4094274636321939086">"Simpan"</string>
     <string name="add_fdn_contact" msgid="2481915899633353976">"Tambah nombor dailan tetap"</string>
-    <string name="adding_fdn_contact" msgid="7627379633721940991">"Menambahkan nombor dailan tetap…"</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Menambahkan nombor dailan tetap..."</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"Nombor dailan tetap ditambah."</string>
     <string name="edit_fdn_contact" msgid="7976936035587081480">"Edit nombor dailan tetap"</string>
-    <string name="updating_fdn_contact" msgid="8370929876849803600">"Mengemaskinikan nombor dailan tetap…"</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Mengemaskinikan nombor dailan tetap..."</string>
     <string name="fdn_contact_updated" msgid="5497828782609005017">"Nombor dailan tetap dikemaskinikan"</string>
     <string name="delete_fdn_contact" msgid="6668958073074151717">"Padam nombor dailan tetap"</string>
-    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Memadamkan nombor dailan tetap…"</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Memadamkan nombor dailan tetap..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Nombor dailan tetap dipadamkan."</string>
     <string name="pin2_invalid" msgid="7176360264228076810">"FDN tidak dikemaskinikan: anda telah memasukkan PIN yang salah."</string>
     <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN tidak dikemaskinikan: nombor tidak boleh melebihi 20 digit."</string>
@@ -707,4 +707,24 @@
     <!-- no translation found for sip_always_send_keepalive (8192080724632877132) -->
     <skip />
     <string name="not_voice_capable" msgid="2739898841461577811">"Panggilan suara tidak disokong"</string>
+    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
+    <skip />
 </resources>

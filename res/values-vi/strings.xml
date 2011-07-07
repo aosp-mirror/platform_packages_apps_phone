@@ -48,7 +48,7 @@
     <string name="callFailed_cdma_drop" msgid="6030084920001082496">"CDMA: Cuộc gọi bị gián đoạn."</string>
     <string name="callFailed_cdma_intercept" msgid="8402269373120277330">"CDMA: Cuộc gọi bị chặn."</string>
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: sắp xếp lại."</string>
-    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Từ chối Tuỳ chọn Dịch vụ."</string>
+    <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Từ chối Tùy chọn Dịch vụ."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: thử sắp xếp lại."</string>
     <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Lỗi truy cập."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Bị chặn trước."</string>
@@ -60,8 +60,8 @@
     <string name="call_lost_title" msgid="6696949678847938515">"Cuộc gọi bị Mất"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Đã bắt đầu mã MMI"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Mã USSD đang chạy…"</string>
-    <string name="mmiCancelled" msgid="2771923949751842276">"Mã MMI đã bị huỷ"</string>
-    <string name="cancel" msgid="5044513931633602634">"Huỷ"</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"Mã MMI đã bị hủy"</string>
+    <string name="cancel" msgid="5044513931633602634">"Hủy"</string>
     <string name="menu_speaker" msgid="6069700688651964705">"Loa"</string>
     <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
     <string name="menu_mute" msgid="4399723633363773145">"Tắt tiếng"</string>
@@ -76,8 +76,8 @@
     <string name="menu_answerAndHold" msgid="8830891495953688905">"Giữ cuộc gọi hiện tại"\n"&amp; trả lời"</string>
     <string name="menu_answerAndEnd" msgid="2071708281281611854">"Kết thúc cuộc gọi hiện tại"\n"&amp; trả lời"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Nhấn vào Trình đơn cho tuỳ chọn cuộc gọi."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Nhấn vào Trình đơn cho tuỳ chọn cuộc gọi  •  Sử dụng bàn phím để quay số"</string>
+    <string name="menuButtonHint" msgid="4853215496220101699">"Nhấn vào Trình đơn cho tùy chọn cuộc gọi."</string>
+    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Nhấn vào Trình đơn cho tùy chọn cuộc gọi  •  Sử dụng bàn phím để quay số"</string>
     <string name="menu_answer" msgid="116686205042231098">"Trả lời"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Bỏ qua"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Gửi các âm sau?"\n</string>
@@ -194,24 +194,17 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Chế độ Mạng"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Thay đổi chế độ hoạt động của mạng"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Chế độ mạng được ưu thích"</string>
-    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
-    <skip />
+    <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"Chế độ mạng được ưa thích: ưu tiên WCDMA"</string>
+    <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"Chế độ mạng được ưa thích: chỉ GSM"</string>
+    <string name="preferred_network_mode_wcdma_only_summary" msgid="2836897236221063413">"Chế độ mạng được ưa thích: chỉ WCDMA"</string>
+    <string name="preferred_network_mode_gsm_wcdma_summary" msgid="3161255745326408587">"Chế độ mạng được ưa thích: GSM / WCDMA"</string>
     <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Chế độ mạng được ưa thích: CDMA"</string>
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Chế độ mạng được ưa thích: CDMA / EvDo"</string>
-    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
-    <skip />
+    <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Chế độ mạng được ưa thích: chỉ CDMA"</string>
+    <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Chế độ mạng được ưa thích: chỉ EvDo"</string>
+    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Chế độ mạng được ưa thích: LTE / CDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"Toàn cầu"</item>
+    <item msgid="5886604709726177211">"LTE / CDMA"</item>
     <item msgid="3273348576277144124">"Chỉ EvDo"</item>
     <item msgid="454610224530856274">"CDMA không có EvDo"</item>
     <item msgid="8928247118825616081">"CDMA / EvDo tự động"</item>
@@ -221,7 +214,7 @@
     <item msgid="4775796025725908913">"GSM / WCDMA được ưu thích"</item>
   </string-array>
   <string-array name="preferred_network_mode_choices_lte">
-    <!-- outdated translation 4446354214569753370 -->     <item msgid="7345284701413565429">"Toàn cầu"</item>
+    <item msgid="7345284701413565429">"LTE / CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Đã bật dữ liệu"</string>
@@ -231,8 +224,8 @@
     <string name="roaming_disable" msgid="1843417228755568110">"Kết nối với dịch vụ dữ liệu khi chuyển vùng"</string>
     <string name="roaming_reenable_message" msgid="6973894869473170666">"Bạn đã mất kết nối dữ liệu vì bạn đã tắt chuyển vùng dữ liệu của mạng gia đình của mình."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"Cho phép chuyển vùng dữ liệu? Bạn có thể phải chịu phí chuyển vùng đáng kể!"</string>
-    <string name="gsm_umts_options" msgid="6538311689850981686">"Tuỳ chọn GSM/UMTS"</string>
-    <string name="cdma_options" msgid="4016822858172249884">"Tuỳ chọn CDMA"</string>
+    <string name="gsm_umts_options" msgid="6538311689850981686">"Tùy chọn GSM/UMTS"</string>
+    <string name="cdma_options" msgid="4016822858172249884">"Tùy chọn CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Sử dụng dữ liệu"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"Chính sách dữ liệu của nhà cung cấp dịch vụ"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Dữ liệu được sử dụng trong thời gian hiện tại"</string>
@@ -333,9 +326,9 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Nhiều danh mục"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Đã bật nhiều danh mục"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Đã vô hiệu hoá nhiều danh mục"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Tuỳ chọn Mạng GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Tùy chọn Mạng GSM/UMTS"</string>
     <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Chưa triển khai!"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Tuỳ chọn mạng GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Tùy chọn mạng GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (chế độ tự động)"</item>
     <item msgid="8912042051809329533">"Chỉ WCDMA"</item>
@@ -370,9 +363,9 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="41193174429510391">"Tuỳ chọn Mạng CDMA"</string>
+    <string name="cdma_network_preferences_title" msgid="41193174429510391">"Tùy chọn Mạng CDMA"</string>
     <string name="cdma_network_preferneces_summary" msgid="3524451924935793338">"Chưa triển khai!"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Tuỳ chọn mạng CDMA"</string>
+    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Tùy chọn mạng CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Chỉ CDMA"</item>
@@ -576,7 +569,7 @@
     <string name="ota_progress" msgid="4644512049143969504">"Vui lòng đợi trong khi điện thoại của bạn được lập trình."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Lập trình Không thành công"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Điện thoại của bạn giờ đây đã được kích hoạt. Có thể mất tối đa 15 phút để dịch vụ bắt đầu."</string>
-    <string name="ota_unsuccessful" msgid="623361244652068739">"Điện thoại của bạn chưa được kích hoạt. "\n"Bạn có thể phải tìm khu vực có phạm vi phủ sóng tốt hơn (gần cửa sổ hoặc bên ngoài). "\n\n"Hãy thử lại hoặc gọi cho dịch vụ khách hàng để có tuỳ chọn khác."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Điện thoại của bạn chưa được kích hoạt. "\n"Bạn có thể phải tìm khu vực có phạm vi phủ sóng tốt hơn (gần cửa sổ hoặc bên ngoài). "\n\n"Hãy thử lại hoặc gọi cho dịch vụ khách hàng để có tùy chọn khác."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"LỖI SPC QUÁ MỨC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Quay lại"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Thử lại"</string>
@@ -705,4 +698,24 @@
     <string name="sip_system_decide" msgid="368030746310423471">"Tự động"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Luôn luôn gửi"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Không hỗ trợ tính năng gọi thoại"</string>
+    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
+    <skip />
 </resources>

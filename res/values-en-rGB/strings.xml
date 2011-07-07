@@ -698,4 +698,24 @@
     <string name="sip_system_decide" msgid="368030746310423471">"Automatic"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Always send"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Voice calling not supported"</string>
+    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
+    <skip />
 </resources>
