@@ -605,6 +605,10 @@ public class BluetoothHandsfree {
         mPhonebook.resetAtState();
     }
 
+    /* package */ HeadsetBase getHeadset() {
+        return mHeadset;
+    }
+
     private void configAudioParameters() {
         String name = mHeadset.getRemoteDevice().getName();
         if (name == null) {
@@ -714,6 +718,7 @@ public class BluetoothHandsfree {
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             filter.addAction(TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED);
             filter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
+            filter.addAction(BluetoothDevice.ACTION_CONNECTION_ACCESS_REPLY);
             mContext.registerReceiver(mStateReceiver, filter);
         }
 
@@ -899,6 +904,9 @@ public class BluetoothHandsfree {
                             }
                         }
                     }
+                } else if (intent.getAction().
+                           equals(BluetoothDevice.ACTION_CONNECTION_ACCESS_REPLY)) {
+                    mPhonebook.handleAccessPermissionResult(intent);
                 }
             }
         };
