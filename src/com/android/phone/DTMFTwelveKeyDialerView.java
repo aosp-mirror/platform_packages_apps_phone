@@ -43,7 +43,7 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
     private static final boolean DBG = false;
 
     private DTMFTwelveKeyDialer mDialer;
-    private ButtonGridLayout mButtonGrid;
+
 
     public DTMFTwelveKeyDialerView (Context context) {
         super(context);
@@ -55,7 +55,6 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
 
     void setDialer (DTMFTwelveKeyDialer dialer) {
         mDialer = dialer;
-        mButtonGrid = (ButtonGridLayout)findViewById(R.id.dialpad);
     }
 
     /**
@@ -87,11 +86,17 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
      * @param resid Is a resource id to be used for each button's background.
      */
     public void setKeysBackgroundResource(int resid) {
-        mButtonGrid.setChildrenBackgroundResource(resid);
+        final View[] buttons = new View[] {
+                findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three),
+                findViewById(R.id.four), findViewById(R.id.five), findViewById(R.id.six),
+                findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine),
+                findViewById(R.id.star), findViewById(R.id.zero), findViewById(R.id.pound) };
+        for (View button : buttons) {
+            button.setBackgroundResource(resid);
+        }
     }
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
     }
-
 }
