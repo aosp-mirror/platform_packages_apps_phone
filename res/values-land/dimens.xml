@@ -14,14 +14,7 @@
      limitations under the License.
 -->
 <resources>
-    <!-- Dimensions for OTA Call Card -->
-    <dimen name="otabase_layout_marginTop">30dip</dimen>
-    <dimen name="otabase_minHeight">270dip</dimen>
-    <dimen name="otaactivate_layout_marginTop">10dip</dimen>
-    <dimen name="otalistenprogress_layout_marginTop">5dip</dimen>
-    <dimen name="otasuccessfail_layout_marginTop">10dip</dimen>
-
-    <dimen name="emergency_dialer_digits_height">67dip</dimen>
-    <dimen name="dialpad_additional_buttons_height">50dip</dimen>
-    <dimen name="dialpad_button_height">50dip</dimen>
+    <dimen name="emergency_dialer_digits_height">66dip</dimen>
+    <dimen name="emergency_dialer_digits_margin_bottom">69dip</dimen>
+    <dimen name="emergency_dialer_digits_text_size">28sp</dimen>
 </resources>

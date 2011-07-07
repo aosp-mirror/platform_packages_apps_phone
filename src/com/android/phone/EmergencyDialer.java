@@ -86,16 +86,12 @@ public class EmergencyDialer extends Activity
 
     EditText mDigits;
     // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
-    private View mVoicemailDialAndDeleteRow;
+    private View mAdditionalButtons;
     private View mDialButton;
     private View mDelete;
 
     private ToneGenerator mToneGenerator;
     private Object mToneGeneratorLock = new Object();
-
-    // new UI background assets
-    private Drawable mDigitsBackground;
-    private Drawable mDigitsEmptyBackground;
 
     // determines if we want to playback local DTMF tones.
     private boolean mDTMFToneEnabled;
@@ -138,13 +134,6 @@ public class EmergencyDialer extends Activity
             mDigits.getText().clear();
         }
 
-        final boolean notEmpty = mDigits.length() != 0;
-        if (notEmpty) {
-            mDigits.setBackgroundDrawable(mDigitsBackground);
-        } else {
-            mDigits.setBackgroundDrawable(mDigitsEmptyBackground);
-        }
-
         updateDialAndDeleteButtonStateEnabledAttr();
     }
 
@@ -159,9 +148,7 @@ public class EmergencyDialer extends Activity
         setContentView(R.layout.emergency_dialer);
 
         // Load up the resources for the text field and delete button
-        Resources r = getResources();
-        mDigitsBackground = r.getDrawable(R.drawable.btn_dial_textfield_active);
-        mDigitsEmptyBackground = r.getDrawable(R.drawable.btn_dial_textfield);
+        Resources res = getResources();
 
         mDigits = (EditText) findViewById(R.id.digits);
         mDigits.setKeyListener(DialerKeyListener.getInstance());
@@ -176,26 +163,22 @@ public class EmergencyDialer extends Activity
             setupKeypad();
         }
 
-        mVoicemailDialAndDeleteRow = findViewById(R.id.voicemailAndDialAndDelete);
+        mAdditionalButtons = findViewById(R.id.dialpadAdditionalButtons);
 
         // Check whether we should show the onscreen "Dial" button and co.
-        if (r.getBoolean(R.bool.config_show_onscreen_dial_button)) {
+        if (res.getBoolean(R.bool.config_show_onscreen_dial_button)) {
+            // Make sure it is disabled.
+            mAdditionalButtons.findViewById(R.id.searchButton).setEnabled(false);
 
-            // The voicemail button is not active. Even if we marked
-            // it as disabled in the layout, we have to manually clear
-            // that state as well (b/2134374)
-            // TODO: Check with UI designer if we should not show that button at all. (b/2134854)
-            mVoicemailDialAndDeleteRow.findViewById(R.id.voicemailButton).setEnabled(false);
-
-            mDialButton = mVoicemailDialAndDeleteRow.findViewById(R.id.dialButton);
+            mDialButton = mAdditionalButtons.findViewById(R.id.dialButton);
             mDialButton.setOnClickListener(this);
 
-            mDelete = mVoicemailDialAndDeleteRow.findViewById(R.id.deleteButton);
+            mDelete = mAdditionalButtons.findViewById(R.id.deleteButton);
             mDelete.setOnClickListener(this);
             mDelete.setOnLongClickListener(this);
         } else {
-            mVoicemailDialAndDeleteRow.setVisibility(View.GONE); // It's VISIBLE by default
-            mVoicemailDialAndDeleteRow = null;
+            mAdditionalButtons.setVisibility(View.GONE); // It's VISIBLE by default
+            mAdditionalButtons = null;
         }
 
         if (icicle != null) {
@@ -233,7 +216,7 @@ public class EmergencyDialer extends Activity
         registerReceiver(mBroadcastReceiver, intentFilter);
 
         try {
-            mHaptic.init(this, r.getBoolean(R.bool.config_enable_dialer_key_vibration));
+            mHaptic.init(this, res.getBoolean(R.bool.config_enable_dialer_key_vibration));
         } catch (Resources.NotFoundException nfe) {
              Log.e(LOG_TAG, "Vibrate control bool missing.", nfe);
         }
@@ -602,7 +585,7 @@ public class EmergencyDialer extends Activity
      * Update the enabledness of the "Dial" and "Backspace" buttons if applicable.
      */
     private void updateDialAndDeleteButtonStateEnabledAttr() {
-        if (null != mVoicemailDialAndDeleteRow) {
+        if (null != mAdditionalButtons) {
             final boolean notEmpty = mDigits.length() != 0;
 
             mDialButton.setEnabled(notEmpty);
