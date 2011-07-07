@@ -967,10 +967,12 @@ public class CallNotifier extends Handler
 
         mVoicePrivacyState = false;
         Connection c = (Connection) r.result;
-        if (DBG && c != null) {
-            log("- onDisconnect: cause = " + c.getDisconnectCause()
-                + ", incoming = " + c.isIncoming()
-                + ", date = " + c.getCreateTime());
+        if (c != null) {
+            Log.d(LOG_TAG, "onDisconnect: cause = " + c.getDisconnectCause()
+                  + ", incoming = " + c.isIncoming()
+                  + ", date = " + c.getCreateTime());
+        } else {
+            Log.w(LOG_TAG, "onDisconnect: null connection");
         }
 
         int autoretrySetting = 0;
