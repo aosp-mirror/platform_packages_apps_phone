@@ -394,12 +394,29 @@ public class BluetoothHandsfree {
             Message msg = Message.obtain(mHandler, SCO_AUDIO_STATE);
             msg.obj = mHeadset.getRemoteDevice();
             mHandler.sendMessageDelayed(msg, 2000);
+
+            // Sync with interrupt() statement of shutdown method
+            // This prevents resetting of a valid mConnectScoThread.
+            // If this thread has been interrupted, it has been shutdown and
+            // mConnectScoThread is/will be reset by the outer class.
+            // We do not want to do it here since mConnectScoThread could be
+            // assigned with a new object.
+            synchronized (ScoSocketConnectThread.this) {
+                if (!isInterrupted()) {
+                    resetConnectScoThread();
+                }
+            }
         }
 
         // must be called with BluetoothHandsfree locked
         void shutdown() {
             closeConnectedSco();
-            interrupt();
+
+            // sync with isInterrupted() check in failedScoConnect method
+            // see explanation there
+            synchronized (ScoSocketConnectThread.this) {
+                interrupt();
+            }
         }
     }
 
@@ -451,16 +468,27 @@ public class BluetoothHandsfree {
     }
 
     private void connectScoThread(){
-        if (mConnectScoThread == null) {
-            BluetoothDevice device = mHeadset.getRemoteDevice();
-            if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
-                setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTING, device);
+        // Sync with setting mConnectScoThread to null to assure the validity of
+        // the condition
+        synchronized (ScoSocketConnectThread.class) {
+            if (mConnectScoThread == null) {
+                BluetoothDevice device = mHeadset.getRemoteDevice();
+                if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
+                    setAudioState(BluetoothHeadset.STATE_AUDIO_CONNECTING, device);
+                }
+
+                mConnectScoThread = new ScoSocketConnectThread(mHeadset.getRemoteDevice());
+                mConnectScoThread.setName("HandsfreeScoSocketConnectThread");
+
+                mConnectScoThread.start();
             }
+        }
+    }
 
-            mConnectScoThread = new ScoSocketConnectThread(mHeadset.getRemoteDevice());
-            mConnectScoThread.setName("HandsfreeScoSocketConnectThread");
-
-            mConnectScoThread.start();
+    private void resetConnectScoThread() {
+        // Sync with if (mConnectScoThread == null) check
+        synchronized (ScoSocketConnectThread.class) {
+            mConnectScoThread = null;
         }
     }
 
@@ -1505,9 +1533,13 @@ public class BluetoothHandsfree {
             mSignalScoCloseThread = null;
         }
 
-        if (mConnectScoThread != null) {
-            mConnectScoThread.shutdown();
-            mConnectScoThread = null;
+        // Sync with setting mConnectScoThread to null to assure the validity of
+        // the condition
+        synchronized (ScoSocketConnectThread.class) {
+            if (mConnectScoThread != null) {
+                mConnectScoThread.shutdown();
+                resetConnectScoThread();
+            }
         }
 
         closeConnectedSco();    // Should be closed already, but just in case
