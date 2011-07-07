@@ -194,24 +194,17 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Mod reţea"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Schimbaţi modul de operare a reţelei"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Mod de reţea preferat"</string>
-    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
-    <skip />
+    <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"Mod de reţea preferat: de preferat WCDMA"</string>
+    <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"Mod de reţea preferat: numai GSM"</string>
+    <string name="preferred_network_mode_wcdma_only_summary" msgid="2836897236221063413">"Mod de reţea preferat: numai WCDMA"</string>
+    <string name="preferred_network_mode_gsm_wcdma_summary" msgid="3161255745326408587">"Mod de reţea preferat: GSM/WCDMA"</string>
     <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Mod de reţea preferat: CDMA"</string>
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Mod de reţea preferat: CDMA/EvDo"</string>
-    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
-    <skip />
+    <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Mod de reţea preferat: numai CDMA"</string>
+    <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Mod de reţea preferat: numai EvDo"</string>
+    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Mod de reţea preferat: LTE/CDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"Global"</item>
+    <item msgid="5886604709726177211">"LTE/CDMA"</item>
     <item msgid="3273348576277144124">"Numai EvDo"</item>
     <item msgid="454610224530856274">"CDMA fără EvDo"</item>
     <item msgid="8928247118825616081">"CDMA/EvDo automat"</item>
@@ -221,7 +214,7 @@
     <item msgid="4775796025725908913">"GSM/WCDMA preferată"</item>
   </string-array>
   <string-array name="preferred_network_mode_choices_lte">
-    <!-- outdated translation 4446354214569753370 -->     <item msgid="7345284701413565429">"Global"</item>
+    <item msgid="7345284701413565429">"LTE/CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Date activate"</string>
@@ -705,4 +698,24 @@
     <string name="sip_system_decide" msgid="368030746310423471">"Automat"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Se trimite întotdeauna"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Apelarea vocală nu este acceptată"</string>
+    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
+    <skip />
 </resources>
