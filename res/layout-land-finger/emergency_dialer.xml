@@ -25,7 +25,7 @@
     <!-- TODO: Use a textAppearance to control the display of the number -->
     <EditText android:id="@+id/digits"
         android:layout_width="match_parent"
-        android:layout_height="66dip"
+        android:layout_height="@dimen/emergency_dialer_digits_height"
         android:layout_marginBottom="69dip"
         android:layout_marginTop="1dip"
         android:gravity="center"
@@ -38,7 +38,7 @@
         android:hint="@string/dialerKeyboardHintText"
      />
 
-    <!-- Horizontal row of buttons (Voicemail + DialButton + Delete.) -->
-    <include layout="@layout/voicemail_dial_delete" />
+    <!-- Horizontal row of buttons (Search + DialButton + Delete.) -->
+    <include layout="@layout/dialpad_additional_buttons"/>
 
 </LinearLayout>
