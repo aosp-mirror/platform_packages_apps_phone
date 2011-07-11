@@ -31,25 +31,29 @@
     <!-- The defaultValues here must agree with the values used with
          prefs.getString() in RespondViaSmsManager.loadCannedResponses(). -->
 
-    <EditTextPreference
+    <!-- Use MultiLineTitleEditTextPreference instead of the standard
+         EditTextPreference here, to allow the preference "title" to wrap
+         onto multiple lines if the customized messages are long enough. -->
+
+    <com.android.phone.MultiLineTitleEditTextPreference
         android:key="canned_response_pref_1"
         android:defaultValue="@string/respond_via_sms_canned_response_1"
         android:dialogTitle="@string/respond_via_sms_edittext_dialog_title"
         android:dialogMessage="@string/respond_via_sms_edittext_dialog_message" />
 
-    <EditTextPreference
+    <com.android.phone.MultiLineTitleEditTextPreference
         android:key="canned_response_pref_2"
         android:defaultValue="@string/respond_via_sms_canned_response_2"
         android:dialogTitle="@string/respond_via_sms_edittext_dialog_title"
         android:dialogMessage="@string/respond_via_sms_edittext_dialog_message" />
 
-    <EditTextPreference
+    <com.android.phone.MultiLineTitleEditTextPreference
         android:key="canned_response_pref_3"
         android:defaultValue="@string/respond_via_sms_canned_response_3"
         android:dialogTitle="@string/respond_via_sms_edittext_dialog_title"
         android:dialogMessage="@string/respond_via_sms_edittext_dialog_message" />
 
-    <EditTextPreference
+    <com.android.phone.MultiLineTitleEditTextPreference
         android:key="canned_response_pref_4"
         android:defaultValue="@string/respond_via_sms_canned_response_4"
         android:dialogTitle="@string/respond_via_sms_edittext_dialog_title"
