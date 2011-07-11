@@ -505,8 +505,8 @@ public class BluetoothAtPhonebook {
         intent.putExtra(BluetoothDevice.EXTRA_ACCESS_REQUEST_TYPE,
                         BluetoothDevice.REQUEST_TYPE_PHONEBOOK_ACCESS);
         intent.putExtra(BluetoothDevice.EXTRA_DEVICE, remoteDevice);
-        intent.putExtra(BluetoothDevice.EXTRA_PACKAGE_NAME, mContext.getPackageName());
-        intent.putExtra(BluetoothDevice.EXTRA_CLASS_NAME, BluetoothHandsfree.class.getName());
+        // Leave EXTRA_PACKAGE_NAME and EXTRA_CLASS_NAME field empty
+        // BluetoothHandsfree's broadcast receiver is anonymous, cannot be targeted
         mContext.sendBroadcast(intent, BLUETOOTH_ADMIN_PERM);
 
         return false;
