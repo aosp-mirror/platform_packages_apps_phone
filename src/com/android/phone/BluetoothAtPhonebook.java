@@ -16,6 +16,8 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.GsmAlphabet;
+
 import android.bluetooth.AtCommandHandler;
 import android.bluetooth.AtCommandResult;
 import android.bluetooth.AtParser;
@@ -25,14 +27,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.provider.CallLog.Calls;
-import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
-
-import com.android.internal.telephony.GsmAlphabet;
 
 import java.util.HashMap;
 
@@ -350,14 +349,8 @@ public class BluetoothAtPhonebook {
             pbr.typeColumn = -1;
             pbr.nameColumn = -1;
         } else {
-            // Pass in the package name of the Bluetooth PBAB support so that this
-            // AT phonebook support uses the same access rights as the PBAB code.
-            Uri uri = Phone.CONTENT_URI.buildUpon()
-                    .appendQueryParameter(ContactsContract.REQUESTING_PACKAGE_PARAM_KEY,
-                            "com.android.bluetooth")
-                    .build();
-            pbr.cursor = mContext.getContentResolver().query(uri, PHONES_PROJECTION, where, null,
-                    Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
+            pbr.cursor = mContext.getContentResolver().query(Phone.CONTENT_URI, PHONES_PROJECTION,
+                    where, null, Phone.NUMBER + " LIMIT " + MAX_PHONEBOOK_SIZE);
             if (pbr.cursor == null) return false;
 
             pbr.numberColumn = pbr.cursor.getColumnIndex(Phone.NUMBER);
