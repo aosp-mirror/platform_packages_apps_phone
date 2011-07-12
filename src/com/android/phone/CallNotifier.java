@@ -1393,8 +1393,8 @@ public class CallNotifier extends Handler
                     toneLengthMillis = 5000;
                     break;
                 case TONE_REORDER:
-                    toneType = ToneGenerator.TONE_CDMA_ABBR_REORDER;
-                    toneVolume = TONE_RELATIVE_VOLUME_LOPRI;
+                    toneType = ToneGenerator.TONE_CDMA_REORDER;
+                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                     toneLengthMillis = 4000;
                     break;
                 case TONE_INTERCEPT:
@@ -1475,6 +1475,7 @@ public class CallNotifier extends Handler
                             needToStopTone = false;
                         }
                     } else if ((toneType == ToneGenerator.TONE_CDMA_NETWORK_BUSY_ONE_SHOT) ||
+                            (toneType == ToneGenerator.TONE_CDMA_REORDER) ||
                             (toneType == ToneGenerator.TONE_CDMA_ABBR_REORDER) ||
                             (toneType == ToneGenerator.TONE_CDMA_ABBR_INTERCEPT) ||
                             (toneType == ToneGenerator.TONE_CDMA_CALLDROP_LITE)) {
