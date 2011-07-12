@@ -214,15 +214,6 @@
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           >
-                <!-- "Bluetooth" -->
-                <ToggleButton android:id="@+id/bluetoothButton"
-                        style="@style/InCallTouchToggleButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textOn="@string/onscreenBluetoothText"
-                        android:textOff="@string/onscreenBluetoothText"
-                        />
                 <!-- "Mute" -->
                 <ToggleButton android:id="@+id/muteButton"
                         style="@style/InCallTouchToggleButton"
@@ -232,14 +223,19 @@
                         android:textOn="@string/onscreenMuteText"
                         android:textOff="@string/onscreenMuteText"
                         />
-                <!-- "Speaker" -->
-                <ToggleButton android:id="@+id/speakerButton"
+                <!-- "Audio": brings up a PopupMenu letting you switch
+                     between speaker / bluetooth / earpiece. -->
+                <!-- TODO: this is a temporary placeholder, pending final visual
+                     design of the in-call button cluster.  Note that
+                     "style/InCallTouchToggleButton" is wrong here (since this
+                     isn't actually a toggle), but it's necessary to get the
+                     correct background asset. -->
+                <Button android:id="@+id/audioButton"
                         style="@style/InCallTouchToggleButton"
                         android:layout_width="1dip"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textOn="@string/onscreenSpeakerText"
-                        android:textOff="@string/onscreenSpeakerText"
+                        android:text="@string/onscreenAudioText"
                         />
             </LinearLayout>
 
