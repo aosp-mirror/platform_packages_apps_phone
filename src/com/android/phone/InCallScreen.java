@@ -274,6 +274,13 @@ public class InCallScreen extends Activity
     // delayedCleanupAfterDisconnect().)
     private Connection.DisconnectCause mLastDisconnectCause;
 
+    /** In-call audio routing options; see switchInCallAudio(). */
+    public enum InCallAudioMode {
+        SPEAKER,    // Speakerphone
+        BLUETOOTH,  // Bluetooth headset (if available)
+        EARPIECE,   // Handset earpiece
+    }
+
 
     private Handler mHandler = new Handler() {
         @Override
@@ -2934,6 +2941,66 @@ public class InCallScreen extends Activity
     }
 
     /**
+     * Switches the current routing of in-call audio between speaker,
+     * bluetooth, and the built-in earpiece.
+     *
+     * This method is used on devices that provide a single 3-way switch
+     * for audio routing.  For devices that provide separate toggles for
+     * Speaker and Bluetooth, see onBluetoothClick() and onSpeakerClick().
+     *
+     * TODO: UI design is still in flux.  If we end up totally
+     * eliminating the concept of Speaker and Bluetooth toggle buttons,
+     * we can get rid of onBluetoothClick() and onSpeakerClick().
+     */
+    public void switchInCallAudio(InCallAudioMode newMode) {
+        if (DBG) log("switchInCallAudio: new mode = " + newMode);
+        switch (newMode) {
+            case SPEAKER:
+                if (!PhoneUtils.isSpeakerOn(this)) {
+                    // Switch away from Bluetooth, if it was active.
+                    if (isBluetoothAvailable() && isBluetoothAudioConnected()) {
+                        disconnectBluetoothAudio();
+                    }
+                    PhoneUtils.turnOnSpeaker(this, true, true);
+
+                    // The "touch lock" overlay is NEVER used when the speaker is on.
+                    enableTouchLock(false);
+                }
+                break;
+
+            case BLUETOOTH:
+                // If already connected to BT, there's nothing to do here.
+                if (isBluetoothAvailable() && !isBluetoothAudioConnected()) {
+                    // Manually turn the speaker phone off, instead of allowing the
+                    // Bluetooth audio routing handle it.  This ensures that the rest
+                    // of the speakerphone code is executed, and reciprocates the
+                    // menuSpeaker code above in onClick().  The onClick() code
+                    // disconnects the active bluetooth headsets when the
+                    // speakerphone is turned on.
+                    if (PhoneUtils.isSpeakerOn(this)) {
+                        PhoneUtils.turnOnSpeaker(this, false, true);
+                    }
+                    connectBluetoothAudio();
+                }
+                break;
+
+            case EARPIECE:
+                // Force both speaker and bluetooth off.
+                if (isBluetoothAvailable() && isBluetoothAudioConnected()) {
+                    disconnectBluetoothAudio();
+                }
+                if (PhoneUtils.isSpeakerOn(this)) {
+                    PhoneUtils.turnOnSpeaker(this, false, true);
+                }
+                break;
+
+            default:
+                Log.wtf(LOG_TAG, "switchInCallAudio: unexpected mode " + newMode);
+                break;
+        }
+    }
+
+    /**
      * Handle a click on the "Show/Hide dialpad" button.
      */
     private void onShowHideDialpad() {
@@ -2998,14 +3065,8 @@ public class InCallScreen extends Activity
             case R.id.dialpadButton:
                 onShowHideDialpad();
                 break;
-            case R.id.bluetoothButton:
-                onBluetoothClick();
-                break;
             case R.id.muteButton:
                 onMuteClick();
-                break;
-            case R.id.speakerButton:
-                onSpeakerClick();
                 break;
             case R.id.addButton:
                 PhoneUtils.startNewCall(mCM);  // Fires off an ACTION_DIAL intent

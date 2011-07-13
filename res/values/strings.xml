@@ -161,6 +161,13 @@
     <!-- Incoming call menu: Label for "Ignore" menu item -->
     <string name="menu_ignore">Ignore</string>
 
+    <!-- "Audio mode" popup menu: Item label to select the speakerphone [CHAR LIMIT=25] -->
+    <string name="audio_mode_speaker">Speaker</string>
+    <!-- "Audio mode" popup menu: Item label to select the handset earpiece [CHAR LIMIT=25] -->
+    <string name="audio_mode_earpiece">Handset earpiece</string>
+    <!-- "Audio mode" popup menu: Item label to select the bluetooth headset [CHAR LIMIT=25] -->
+    <string name="audio_mode_bluetooth">Bluetooth</string>
+
     <!-- post dial -->
     <!-- In-call screen: body text of the dialog that appears when we encounter
          the "wait" character in a phone number to be dialed; this dialog asks the
@@ -1049,6 +1056,9 @@
     <string name="onscreenManageCallsText">Manage calls</string>
     <!-- Text for the onscreen "Manage conference" button [CHAR LIMIT=20] -->
     <string name="onscreenManageConferenceText">Manage conference</string>
+    <!-- Text for the onscreen "Audio" button that lets you switch
+         between speaker / bluetooth / earpiece [CHAR LIMIT=10] -->
+    <string name="onscreenAudioText">Audio</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>

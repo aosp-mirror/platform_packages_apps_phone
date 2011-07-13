@@ -24,6 +24,8 @@ import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -32,6 +34,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -49,7 +52,8 @@ import com.android.internal.telephony.CallManager;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, OnTriggerListener {
+        implements View.OnClickListener, OnTriggerListener,
+        PopupMenu.OnMenuItemClickListener {
     private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
@@ -77,9 +81,8 @@ public class InCallTouchUi extends FrameLayout
     private Button mMergeButton;
     private Button mEndButton;
     private Button mDialpadButton;
-    private ToggleButton mBluetoothButton;
     private ToggleButton mMuteButton;
-    private ToggleButton mSpeakerButton;
+    private Button mAudioButton;
     //
     private View mHoldButtonContainer;
     private ImageButton mHoldButton;
@@ -94,6 +97,9 @@ public class InCallTouchUi extends FrameLayout
     private Drawable mUnholdIcon;
     private Drawable mShowDialpadIcon;
     private Drawable mHideDialpadIcon;
+
+    // "Audio mode" PopupMenu
+    private PopupMenu mAudioModePopup;
 
     // Time of the most recent "answer" or "reject" action (see updateState())
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
@@ -179,12 +185,10 @@ public class InCallTouchUi extends FrameLayout
         mEndButton.setOnClickListener(this);
         mDialpadButton = (Button) mInCallControls.findViewById(R.id.dialpadButton);
         mDialpadButton.setOnClickListener(this);
-        mBluetoothButton = (ToggleButton) mInCallControls.findViewById(R.id.bluetoothButton);
-        mBluetoothButton.setOnClickListener(this);
         mMuteButton = (ToggleButton) mInCallControls.findViewById(R.id.muteButton);
         mMuteButton.setOnClickListener(this);
-        mSpeakerButton = (ToggleButton) mInCallControls.findViewById(R.id.speakerButton);
-        mSpeakerButton.setOnClickListener(this);
+        mAudioButton = (Button) mInCallControls.findViewById(R.id.audioButton);
+        mAudioButton.setOnClickListener(this);
 
         // Upper corner buttons:
         mHoldButtonContainer = mInCallControls.findViewById(R.id.holdButtonContainer);
@@ -220,12 +224,10 @@ public class InCallTouchUi extends FrameLayout
         mAddButton.setOnTouchListener(smallerHitTargetTouchListener);
         mMergeButton.setOnTouchListener(smallerHitTargetTouchListener);
         mDialpadButton.setOnTouchListener(smallerHitTargetTouchListener);
-        mBluetoothButton.setOnTouchListener(smallerHitTargetTouchListener);
-        mSpeakerButton.setOnTouchListener(smallerHitTargetTouchListener);
+        mAudioButton.setOnTouchListener(smallerHitTargetTouchListener);
         mHoldButton.setOnTouchListener(smallerHitTargetTouchListener);
         mSwapButton.setOnTouchListener(smallerHitTargetTouchListener);
         mCdmaMergeButton.setOnTouchListener(smallerHitTargetTouchListener);
-        mSpeakerButton.setOnTouchListener(smallerHitTargetTouchListener);
 
         // Icons we need to change dynamically.  (Most other icons are specified
         // directly in incall_touch_ui.xml.)
@@ -322,6 +324,12 @@ public class InCallTouchUi extends FrameLayout
         // TODO: As an optimization, also consider setting the visibility
         // of the overall InCallTouchUi widget to GONE if *nothing at all*
         // is visible right now.
+
+        // Dismiss the "Audio mode" PopupMenu if it's up.
+        // (This updateState() call was presumably triggered by a phone state
+        // change, or the InCallScreen getting resumed.  In either of those
+        // cases the "Audio mode" popup might no longer be relevant.)
+        dismissAudioModePopup();  // safe even if not active
     }
 
     // View.OnClickListener implementation
@@ -334,15 +342,17 @@ public class InCallTouchUi extends FrameLayout
             case R.id.mergeButton:
             case R.id.endButton:
             case R.id.dialpadButton:
-            case R.id.bluetoothButton:
             case R.id.muteButton:
-            case R.id.speakerButton:
             case R.id.holdButton:
             case R.id.swapButton:
             case R.id.cdmaMergeButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
+                break;
+
+            case R.id.audioButton:
+                showAudioModePopup();
                 break;
 
             default:
@@ -442,17 +452,15 @@ public class InCallTouchUi extends FrameLayout
                     null, mShowDialpadIcon, null, null);
         }
 
-        // "Bluetooth"
-        mBluetoothButton.setEnabled(inCallControlState.bluetoothEnabled);
-        mBluetoothButton.setChecked(inCallControlState.bluetoothIndicatorOn);
-
         // "Mute"
         mMuteButton.setEnabled(inCallControlState.canMute);
         mMuteButton.setChecked(inCallControlState.muteIndicatorOn);
 
-        // "Speaker"
-        mSpeakerButton.setEnabled(inCallControlState.speakerEnabled);
-        mSpeakerButton.setChecked(inCallControlState.speakerOn);
+        // "Audio": You're allowed to bring up the PopupMenu as long
+        // as either Speaker or Bluetooth are available.
+        boolean enableAudioModePopup =
+                inCallControlState.speakerEnabled || inCallControlState.bluetoothEnabled;
+        mAudioButton.setEnabled(enableAudioModePopup);
 
         // "Hold"
         // (Note "Hold" and "Swap" are never both available at
@@ -517,6 +525,92 @@ public class InCallTouchUi extends FrameLayout
             mCdmaMergeButtonContainer.setVisibility(View.GONE);
         }
     }
+
+    /**
+     * Brings up the "Audio mode" popup.
+     */
+    private void showAudioModePopup() {
+        if (DBG) log("showAudioModePopup()...");
+
+        mAudioModePopup = new PopupMenu(mInCallScreen /* context */,
+                                        mAudioButton /* anchorView */);
+        mAudioModePopup.getMenuInflater().inflate(R.menu.incall_audio_mode_menu,
+                                                  mAudioModePopup.getMenu());
+        mAudioModePopup.setOnMenuItemClickListener(this);
+
+        // Update the enabled/disabledness of menu items based on the
+        // current call state.
+        InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
+
+        Menu menu = mAudioModePopup.getMenu();
+
+        // TODO: Still need to have the "currently active" audio mode come
+        // up pre-selected (or focused?) with a blue highlight.  Still
+        // need exact visual design, and possibly framework support for this.
+        // See comments below for the exact logic.
+
+        MenuItem speakerItem = menu.findItem(R.id.audio_mode_speaker);
+        speakerItem.setEnabled(inCallControlState.speakerEnabled);
+        // TODO: Show speakerItem as initially "selected" if
+        // inCallControlState.speakerOn is true.
+
+        // MenuItem earpieceItem = menu.findItem(R.id.audio_mode_earpiece);
+        // "Handset earpiece" is always enabled.
+        // TODO: Show earpieceItem as initially "selected" if
+        // inCallControlState.speakerOn and
+        // inCallControlState.bluetoothIndicatorOn are both false.
+
+        MenuItem bluetoothItem = menu.findItem(R.id.audio_mode_bluetooth);
+        bluetoothItem.setEnabled(inCallControlState.bluetoothEnabled);
+        // TODO: Show bluetoothItem as initially "selected" if
+        // inCallControlState.bluetoothIndicatorOn is true.
+
+        mAudioModePopup.show();
+    }
+
+    /**
+     * Dismisses the "Audio mode" popup if it's visible.
+     *
+     * This is safe to call even if the popup is already dismissed, or even if
+     * you never called showAudioModePopup() in the first place.
+     */
+    private void dismissAudioModePopup() {
+        if (mAudioModePopup != null) {
+            mAudioModePopup.dismiss();  // safe even if already dismissed
+            mAudioModePopup = null;
+        }
+    }
+
+    // OnMenuItemClickListener interface; see showAudioModePopup()
+    public boolean onMenuItemClick(MenuItem item) {
+        if (DBG) log("- onMenuItemClick: " + item);
+        if (DBG) log("  id: " + item.getItemId());
+        if (DBG) log("  title: '" + item.getTitle() + "'");
+
+        if (mInCallScreen == null) {
+            Log.w(LOG_TAG, "onMenuItemClick(" + item + "), but null mInCallScreen!");
+            return true;
+        }
+
+        switch (item.getItemId()) {
+            case R.id.audio_mode_speaker:
+                mInCallScreen.switchInCallAudio(InCallScreen.InCallAudioMode.SPEAKER);
+                break;
+            case R.id.audio_mode_earpiece:
+                mInCallScreen.switchInCallAudio(InCallScreen.InCallAudioMode.EARPIECE);
+                break;
+            case R.id.audio_mode_bluetooth:
+                mInCallScreen.switchInCallAudio(InCallScreen.InCallAudioMode.BLUETOOTH);
+                break;
+            default:
+                Log.wtf(LOG_TAG,
+                        "onMenuItemClick:  unexpected View ID " + item.getItemId()
+                        + " (MenuItem = '" + item + "')");
+                break;
+        }
+        return true;
+    }
+
 
     //
     // InCallScreen API
