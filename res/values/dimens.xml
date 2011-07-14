@@ -35,7 +35,7 @@
          incoming call is ringing, we use in_call_control_height_incoming
          instead since the incoming-call widget takes up more vertical
          space than the regular button cluster. -->
-    <dimen name="in_call_button_cluster_height">180dp</dimen>
+    <dimen name="in_call_button_cluster_height">130dp</dimen>
 
     <!-- Amount of vertical space to reserve for the MultiWaveView widget
          while an incoming call is ringing.
@@ -53,12 +53,28 @@
     <!-- Padding at the top and bottom edges of the "call banner". -->
     <dimen name="call_banner_top_bottom_padding">10dp</dimen>
 
+    <!-- Button height for the main row of in-call buttons. -->
+    <dimen name="in_call_button_height">60dip</dimen>
+
+    <!-- Button height for the in-call "End" button. -->
+    <dimen name="in_call_end_button_height">60dip</dimen>
+
+    <!-- Padding at the left and right edges of the incall_touch_ui button
+         cluster.  This padding is necessary because we can't allow the
+         buttons to be very close to the edges of the screen, due to the
+         risk of false touches (from your finger wrapping around while
+         holding the phone, *before* moving it up to your face and having
+         the prox sensor kick in.) -->
+    <dimen name="button_cluster_side_padding">20dp</dimen>
+
+
     <!-- Dimensions for OTA Call Card -->
     <dimen name="otabase_layout_marginTop">30dp</dimen>
     <dimen name="otabase_minHeight">270dp</dimen>
     <dimen name="otaactivate_layout_marginTop">10dp</dimen>
     <dimen name="otalistenprogress_layout_marginTop">5dp</dimen>
     <dimen name="otasuccessfail_layout_marginTop">10dp</dimen>
+
 
     <!-- Dimensions for Emergency Dialer -->
     <dimen name="emergency_dialer_digits_height">67dp</dimen>

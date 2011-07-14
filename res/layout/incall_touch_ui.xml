@@ -65,44 +65,12 @@
         <!-- These are small round ImageButtons with a text label floating
              off to the side. -->
 
-        <!-- "Hold" (upper left) -->
-        <!-- (Note "Hold", "Swap" and "Merge" are never available at
-             the same time.  That's why it's OK for them to be in the
-             same position onscreen.) -->
-        <LinearLayout android:id="@+id/holdButtonContainer"
-                style="@style/InCallRoundButtonContainer"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dip"
-                android:layout_marginTop="@dimen/upper_buttons_top_margin"
-                android:visibility="gone">
-            <ImageButton android:id="@+id/holdButton"
-                    style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_hold"
-                    android:contentDescription="@string/onscreenHoldText" />
-            <TextView android:id="@+id/holdButtonLabel"
-                    style="@style/InCallRoundButtonLabel" />
-        </LinearLayout>
-
-        <!-- "Swap" (upper left) -->
-        <!-- This button's label changes to "Manage calls" in some CDMA states. -->
-        <LinearLayout android:id="@+id/swapButtonContainer"
-                style="@style/InCallRoundButtonContainer"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dip"
-                android:layout_marginTop="@dimen/upper_buttons_top_margin"
-                android:visibility="gone">
-            <ImageButton android:id="@+id/swapButton"
-                    style="@style/InCallRoundTouchButton"
-                    android:src="@drawable/ic_in_call_touch_round_swap"
-                    android:contentDescription="@string/onscreenSwapCallsText"/>
-            <TextView android:id="@+id/swapButtonLabel"
-                style="@style/InCallRoundButtonLabel" />
-        </LinearLayout>
 
         <!-- CDMA-specific "Merge" (upper left) -->
         <!-- This button is used only on CDMA devices, where we can't use
              the Merge button in the main cluster (because the "Add Call"
              button might need to be enabled at the same time.) -->
+        <!-- TODO: need to move this down to "row 1" of the main cluster below. -->
         <LinearLayout android:id="@+id/cdmaMergeButtonContainer"
                 style="@style/InCallRoundButtonContainer"
                 android:layout_alignParentLeft="true"
@@ -132,111 +100,109 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
-                      android:paddingLeft="4dip"
-                      android:paddingRight="4dip"
-                      android:paddingBottom="4dip"
+                      android:paddingLeft="@dimen/button_cluster_side_padding"
+                      android:paddingRight="@dimen/button_cluster_side_padding"
                       >
 
-            <LinearLayout android:id="@+id/inCallControlsRow1"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          >
-                <!-- The buttons in the top row all have an icon *and* a
-                     text label, so we use a <Button> with a "top"
-                     compound drawable (rather than an ImageButton, which
-                     can't have a label.)  Some buttons set the icon image
-                     here; others do it from Java if the image depends on
-                     the current state of the call. -->
+            <!-- Row 1: A couple of relatively rare buttons used only in certain call states.
+                 Most of the time this whole row is GONE. -->
+            <!-- TODO: still need to implement this:
+                    - Add new horizontal LinearLayout here called "inCallControlsRow1"
+                    - Move CDMA Merge here
+                    - Move "Manage conference" here, and move its code
+                      from CallCard (see mManageConferencePhotoButton) to
+                      InCallTouchUi.
+                    - Update InCallTouchUi.java to mark the whole row GONE if
+                      none of its buttons are needed.  Also, mark the whole row
+                      GONE if the dialpad is visible (since otherwise it would overlap.)
+            -->
 
-                <!-- The upper-left button in the main cluster is either
-                     "Add" or "Merge", depending on the state of the call. -->
-                <FrameLayout
-                    android:layout_width="1dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dip"
-                    android:layout_marginBottom="8dip"
-                    android:layout_marginLeft="8dip"
-                    android:layout_marginRight="8dip"
-                    >
-                    <!-- "Add Call" -->
-                    <Button android:id="@+id/addButton"
-                            style="@style/InCallTouchButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dip"
-                            android:layout_marginBottom="0dip"
-                            android:layout_marginLeft="0dip"
-                            android:layout_marginRight="0dip"
-                            android:text="@string/onscreenAddCallText"
-                            android:drawableTop="@drawable/ic_in_call_touch_add_call"
-                            />
-                    <!-- "Merge calls" -->
-                    <!-- This button is used only on GSM devices, where we know
-                         that "Add" and "Merge" are never available at the same time.
-                         The "Merge" button for CDMA devices is "cdmaMergeButton" above. -->
-                    <Button android:id="@+id/mergeButton"
-                            style="@style/InCallTouchButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dip"
-                            android:layout_marginBottom="0dip"
-                            android:layout_marginLeft="0dip"
-                            android:layout_marginRight="0dip"
-                            android:text="@string/onscreenMergeCallsText"
-                            android:drawableTop="@drawable/ic_in_call_touch_merge_call"
-                            />
-                </FrameLayout>
+            <!-- Row 2: The "End call" button. -->
+            <!-- TODO: no asset for this yet; should be ic_end_call -->
+            <ImageButton android:id="@+id/endButton"
+                    style="@style/InCallEndButton"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/ic_in_call_touch_end"
+                    />
 
-                <!-- "End call" -->
-                <Button android:id="@+id/endButton"
-                        style="@style/InCallTouchButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/onscreenEndCallText"
-                        android:drawableTop="@drawable/ic_in_call_touch_end"
-                        android:textColor="@color/end_call_button_text"
-                        />
+            <!-- Row 3: The main batch of in-call buttons:
+                    Dialpad / Audio mode / Mute / Hold / Add call
+                 Visible in all states except while an incoming call is
+                 ringing. -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <!-- This row should always have exactly 5 buttons.  If a button
+                     isn't available, we leave it visible but disabled, rather than
+                     making it GONE, since it would look bad for the remaining
+                     buttons to jump around.
+
+                     But note there are a couple of *pairs* of buttons that share a
+                     single "slot", namely Hold/Swap and Add/Merge.  For these, the
+                     code in InCallTouchUi is responsible for making sure that at any
+                     point exactly one of the pair is VISIBLE and the other is
+                     GONE. -->
 
                 <!-- "Dialpad" -->
-                <Button android:id="@+id/dialpadButton"
-                        style="@style/InCallTouchButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/onscreenShowDialpadText"
-                        />
-            </LinearLayout>
-            <LinearLayout android:id="@+id/inCallControlsRow2"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          >
-                <!-- "Mute" -->
-                <ToggleButton android:id="@+id/muteButton"
-                        style="@style/InCallTouchToggleButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textOn="@string/onscreenMuteText"
-                        android:textOff="@string/onscreenMuteText"
-                        />
+                <ImageButton android:id="@+id/dialpadButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_dialpad_holo_dark"
+                    />
+
                 <!-- "Audio": brings up a PopupMenu letting you switch
                      between speaker / bluetooth / earpiece. -->
-                <!-- TODO: this is a temporary placeholder, pending final visual
-                     design of the in-call button cluster.  Note that
-                     "style/InCallTouchToggleButton" is wrong here (since this
-                     isn't actually a toggle), but it's necessary to get the
-                     correct background asset. -->
-                <Button android:id="@+id/audioButton"
-                        style="@style/InCallTouchToggleButton"
-                        android:layout_width="1dip"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/onscreenAudioText"
-                        />
+                <!-- TODO: might need to manually show an extra indication
+                     here ("ic_more_indicator_holo_dark"?) that this isn't
+                     a plain button but will instead pop up a menu. -->
+                <ImageButton android:id="@+id/audioButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_sound_holo_dark"
+                    />
+
+                <!-- "Mute" -->
+                <!-- TODO: no asset for this yet; should be ic_mute_holo_dark -->
+                <ImageButton android:id="@+id/muteButton"
+                    style="@style/InCallButton"
+                    android:src="@*android:drawable/stat_notify_call_mute"
+                    />
+
+                <!-- This slot is either "Hold" or "Swap", depending on
+                     the state of the call.   One or the other of these
+                     must always be set to GONE. -->
+                <!-- "Hold" -->
+                <ImageButton android:id="@+id/holdButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_hold_pause_holo_dark"
+                    />
+                <!-- "Swap" -->
+                <!-- TODO: This button currently becomes "Manage calls" in some CDMA states,
+                     but that should move up to a separate button in row 1. -->
+                <ImageButton android:id="@+id/swapButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_incall_switch_holo_dark"
+                    />
+
+                <!-- This slot is either "Add" or "Merge", depending on
+                     the state of the call.  One or the other of these
+                     must always be set to GONE. -->
+                <!-- "Add Call" -->
+                <ImageButton android:id="@+id/addButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_add_contact_holo_dark"
+                    />
+                <!-- "Merge calls" -->
+                <!-- This button is used only on GSM devices, where we know
+                     that "Add" and "Merge" are never available at the same time.
+                     The "Merge" button for CDMA devices is "cdmaMergeButton" above. -->
+                <!-- TODO: no asset for this yet; this is a temporary placeholder. -->
+                <ImageButton android:id="@+id/mergeButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_menu_merge_holo_light"
+                    />
+
             </LinearLayout>
 
         </LinearLayout>

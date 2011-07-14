@@ -16,15 +16,15 @@
 
 <!-- "Audio mode" popup menu for the in-call UI. -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- TODO: all icons here are temporary placeholders.
-         ...and PopupMenu currently ignores the android:icon attribute anyway(!) -->
+    <!-- TODO: Need final icon assets.  Also, PopupMenu currently ignores the
+         android:icon attribute anyway(!) -->
     <item android:id="@+id/audio_mode_speaker"
-          android:icon="@android:drawable/stat_sys_speakerphone"
+          android:icon="@drawable/ic_sound_holo_dark"
           android:title="@string/audio_mode_speaker" />
     <item android:id="@+id/audio_mode_earpiece"
-          android:icon="@drawable/ic_menu_answer_call"
+          android:icon="@drawable/ic_ab_dialer_holo_dark"
           android:title="@string/audio_mode_earpiece" />
     <item android:id="@+id/audio_mode_bluetooth"
-          android:icon="@drawable/ic_incall_ongoing_bluetooth"
+          android:icon="@drawable/ic_bluetooth_holo_dark"
           android:title="@string/audio_mode_bluetooth" />
 </menu>

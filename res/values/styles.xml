@@ -167,32 +167,22 @@
         <item name="android:textSize">17sp</item>
     </style>
 
-    <!-- Regular (non-toggle) buttons in the in-call onscreen touch UI. -->
-    <style name="InCallTouchButton">
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/incall_button</item>
-        <item name="android:layout_marginTop">8dip</item>
-        <item name="android:layout_marginBottom">8dip</item>
-        <item name="android:layout_marginLeft">8dip</item>
-        <item name="android:layout_marginRight">8dip</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textColor">@color/in_call_button_text</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">marquee</item>
+    <!-- Buttons in the main "button row" of the in-call onscreen touch UI. -->
+    <style name="InCallButton">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">@dimen/in_call_button_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_dial</item>
     </style>
 
-    <!-- Toggle buttons in the in-call onscreen touch UI. -->
-    <style name="InCallTouchToggleButton">
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/incall_toggle_button</item>
-        <item name="android:layout_marginTop">8dip</item>
-        <item name="android:layout_marginBottom">8dip</item>
-        <item name="android:layout_marginLeft">8dip</item>
-        <item name="android:layout_marginRight">8dip</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textColor">@color/in_call_button_text</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">marquee</item>
+    <!-- "End" button.  Similar to InCallTouchButton, but different height
+         and background. -->
+    <!-- TODO: no asset for the background yet; btn_dial is just a placeholder.  -->
+    <style name="InCallEndButton">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">@dimen/in_call_end_button_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_dial</item>
     </style>
 
     <!-- Small round ImageButtons at the upper corners of the in-call onscreen touch UI. -->
