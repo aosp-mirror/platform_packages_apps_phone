@@ -25,11 +25,28 @@
          that are shown just above the main in-call button cluster. -->
     <dimen name="upper_buttons_top_margin">280dp</dimen>
 
-    <!-- Bottom margin for the "calls" area of the in-call UI
-         (which shows either one or two call_info blocks.)
-         This margin prevents the "calls" area from overlapping
-         with the bottom button cluster. -->
-    <dimen name="calls_area_bottom_margin">180dp</dimen>
+    <!-- Amount of vertical space to reserve for the in-call button cluster
+         at the bottom of the screen.
+         This is used as the bottom margin for the "call info container"
+         of the in-call UI, to prevent the call info from overlapping with
+         the button cluster.
+
+         This value is used during most call states.  However, if an
+         incoming call is ringing, we use in_call_control_height_incoming
+         instead since the incoming-call widget takes up more vertical
+         space than the regular button cluster. -->
+    <dimen name="in_call_button_cluster_height">180dp</dimen>
+
+    <!-- Amount of vertical space to reserve for the MultiWaveView widget
+         while an incoming call is ringing.
+         This is used as the bottom margin for the "call info container"
+         of the in-call UI while an incoming call is ringing, to prevent
+         the call info from overlapping with the incoming-call widget.
+
+         The incoming-call widget takes up more vertical space than the
+         regular in-call button cluster, so this value is larger than
+         in_call_control_height_active. -->
+    <dimen name="in_call_incoming_call_widget_height">260dp</dimen>
 
     <!-- Padding at the left and right edges of the "call banner". -->
     <dimen name="call_banner_side_padding">10dp</dimen>

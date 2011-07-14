@@ -34,6 +34,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.internal.telephony.Call;
@@ -68,8 +69,10 @@ public class CallCard extends FrameLayout
     private PhoneApp mApplication;
 
     // Top-level subviews of the CallCard
-    private ViewGroup mPrimaryCallInfo;
-    private ViewGroup mSecondaryCallInfo;
+    private ViewGroup mCallInfoContainer;  // Container for info about the current call(s)
+    private ViewGroup mPrimaryCallInfo;  // "Call info" block #1 (the foreground or ringing call)
+    private ViewGroup mPrimaryCallBanner;  // "Call banner" for the primary call
+    private ViewGroup mSecondaryCallInfo;  // "Call info" block #2 (the background "on hold" call)
 
     // Title and elapsed-time widgets
     private TextView mUpperTitle;
@@ -161,7 +164,9 @@ public class CallCard extends FrameLayout
 
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
 
+        mCallInfoContainer = (ViewGroup) findViewById(R.id.call_info_container);
         mPrimaryCallInfo = (ViewGroup) findViewById(R.id.call_info_1);
+        mPrimaryCallBanner = (ViewGroup) findViewById(R.id.call_banner_1);
         mSecondaryCallInfo = (ViewGroup) findViewById(R.id.call_info_2);
 
         // Title and elapsed-time widgets
@@ -206,17 +211,15 @@ public class CallCard extends FrameLayout
     void updateState(CallManager cm) {
         if (DBG) log("updateState(" + cm + ")...");
 
-        // Update some internal state based on the current state of the phone.
-
-        // TODO: clean up this method to just fully update EVERYTHING in
-        // the callcard based on the current phone state: set the overall
-        // type of the CallCard, load up the main caller info area, and
-        // load up and show or hide the "other call" area if necessary.
+        // Update the onscreen UI based on the current state of the phone.
 
         Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
         Call ringingCall = cm.getFirstActiveRingingCall();
         Call fgCall = cm.getActiveFgCall();
         Call bgCall = cm.getFirstActiveBgCall();
+
+        // Update the overall layout of the onscreen elements.
+        updateCallInfoLayout(state);
 
         // If the FG call is dialing/alerting, we should display for that call
         // and ignore the ringing call. This case happens when the telephony
@@ -257,6 +260,47 @@ public class CallCard extends FrameLayout
             // In these cases, put the callcard into a sane but "blank" state:
             updateNoCall(cm);
         }
+    }
+
+    /**
+     * Updates the overall size and positioning of mCallInfoContainer and
+     * the "Call info" blocks, based on the phone state.
+     */
+    private void updateCallInfoLayout(Phone.State state) {
+        boolean ringing = (state == Phone.State.RINGING);
+
+        // Based on whether the phone is ringing, update the overall
+        // CallCard layout in a couple of ways:
+
+        // (1) When ringing, shrink mCallInfoContainer by increasing its bottom margin.
+        //     (The incoming-call widget takes up more vertical space than the
+        //     regular in-call button cluster, so while ringing the bottom
+        //     margin needs to be larger so that the call info doesn't overlap
+        //     the widget.)
+        // TODO: Animate this value for the RINGING -> OFFHOOK transition.
+
+        int resId = ringing ? R.dimen.in_call_incoming_call_widget_height
+                : R.dimen.in_call_button_cluster_height;
+        int reservedVerticalSpace = (int) getResources().getDimension(resId);
+        ViewGroup.MarginLayoutParams callInfoLp =
+                (ViewGroup.MarginLayoutParams) mCallInfoContainer.getLayoutParams();
+        callInfoLp.bottomMargin = reservedVerticalSpace;  // Equivalent to setting
+                                                          // android:layout_marginBottom in XML
+        mCallInfoContainer.setLayoutParams(callInfoLp);
+
+        // (2) Normally, the "call banner" is overlaid across the top of
+        //     the contact photo.  But when ringing, move the banner down to
+        //     the bottom of the photo; this makes it more centered on the
+        //     screen, and closer to the incoming-call widget.
+        //
+        //     Note that while ringing, we only ever display info about one
+        //     call (i.e. the "primary call"), even if two lines are in use.
+
+        RelativeLayout.LayoutParams bannerLp =
+                (RelativeLayout.LayoutParams) mPrimaryCallBanner.getLayoutParams();
+        bannerLp.addRule(RelativeLayout.ALIGN_PARENT_TOP, ringing ? 0 : RelativeLayout.TRUE);
+        bannerLp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, ringing ? RelativeLayout.TRUE : 0);
+        mPrimaryCallBanner.setLayoutParams(bannerLp);
     }
 
     /**

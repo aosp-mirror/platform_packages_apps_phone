@@ -32,20 +32,20 @@
          and thus the 1st one will expand to fill the full height of the
          CallCard.
 
-         The bottom margin is there to make sure we don't overlap
-         with the bottom button cluster. -->
+         We set a bottom margin on this element dynamically (see
+         updateCallInfoLayout()) to make sure it doesn't overlap with either
+         the bottom button cluster or the incoming-call widget. -->
 
     <!-- TODO: once we get rid of menuButtonHint, remove the useless
-         RelativeLayout (i.e. our parent) and make this LinearLayout be
+         RelativeLayout that's our current parent, and make this LinearLayout be
          the top-level element in this XML file. -->
 
-    <LinearLayout android:id="@+id/call_card_calls"
+    <LinearLayout android:id="@+id/call_info_container"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginBottom="@dimen/calls_area_bottom_margin"
         >
 
         <!-- TODO (XML cleanup): Currently, every View of the entire
@@ -91,16 +91,18 @@
                        android:contentDescription="@string/contactPhoto"
                        />
 
-            <!-- "Call Banner" for call #1.
+            <!-- "Call Banner" for call #1, the foregound or ringing call.
 
                  The "call banner" is a block of mostly textual info about
                  a single call, including the contact name, phone number,
                  call time counter, and other status info.  This block of
                  info is shown as a "banner" overlaid across the top of
                  contact photo.
-                 This is the banner for call #1, the "active" or "foreground" call. -->
+
+                 This element gets either layout_alignParentTop or
+                 layout_alignParentBottom alignment, depending on the phone
+                 state (see updateCallInfoLayout().) -->
             <RelativeLayout android:id="@+id/call_banner_1"
-                android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/call_banner_height"
                 android:paddingLeft="@dimen/call_banner_side_padding"
@@ -283,12 +285,6 @@
             </RelativeLayout>
 
         </RelativeLayout>
-
-
-
-
-
-
 
     </LinearLayout>    <!-- End of (1) The main call card -->
 
