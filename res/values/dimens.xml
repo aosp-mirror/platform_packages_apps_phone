@@ -54,7 +54,7 @@
     <dimen name="call_banner_top_bottom_padding">10dp</dimen>
 
     <!-- Button height for the main row of in-call buttons. -->
-    <dimen name="in_call_button_height">60dip</dimen>
+    <dimen name="in_call_button_height">50dip</dimen>
 
     <!-- Button height for the in-call "End" button. -->
     <dimen name="in_call_end_button_height">60dip</dimen>

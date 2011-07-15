@@ -100,8 +100,6 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
-                      android:paddingLeft="@dimen/button_cluster_side_padding"
-                      android:paddingRight="@dimen/button_cluster_side_padding"
                       >
 
             <!-- Row 1: A couple of relatively rare buttons used only in certain call states.
@@ -118,12 +116,20 @@
             -->
 
             <!-- Row 2: The "End call" button. -->
-            <!-- TODO: no asset for this yet; should be ic_end_call -->
-            <ImageButton android:id="@+id/endButton"
+            <!-- This is in its own LinearLayout purely so that the whole row
+                 can have a background drawable distinct from the image itself. -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/end_call_background"
+                >
+                <ImageButton android:id="@+id/endButton"
                     style="@style/InCallEndButton"
                     android:layout_width="match_parent"
-                    android:src="@drawable/ic_in_call_touch_end"
+                    android:src="@drawable/ic_end_call"
                     />
+            </LinearLayout>
 
             <!-- Row 3: The main batch of in-call buttons:
                     Dialpad / Audio mode / Mute / Hold / Add call
@@ -133,6 +139,9 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialpad_background"
+                android:paddingLeft="@dimen/button_cluster_side_padding"
+                android:paddingRight="@dimen/button_cluster_side_padding"
                 >
 
                 <!-- This row should always have exactly 5 buttons.  If a button
@@ -154,19 +163,26 @@
 
                 <!-- "Audio": brings up a PopupMenu letting you switch
                      between speaker / bluetooth / earpiece. -->
-                <!-- TODO: might need to manually show an extra indication
-                     here ("ic_more_indicator_holo_dark"?) that this isn't
-                     a plain button but will instead pop up a menu. -->
+                <!-- "ic_more_indicator_holo_dark" is the little triangle
+                     that indicates that this isn't a plain button, but
+                     will instead pop up a menu. -->
+                <!-- TODO: it's wrong to set ic_more_indicator_holo_dark
+                     as the android:background here, since that overrides
+                     the "@drawable/btn_dial" background that comes from
+                     the InCallButton style, which means we don't get the
+                     "blue background when pressed" effect.  The more
+                     indicator probably needs to go into a separate layer
+                     somewhere. -->
                 <ImageButton android:id="@+id/audioButton"
                     style="@style/InCallButton"
                     android:src="@drawable/ic_sound_holo_dark"
+                    android:background="@drawable/ic_more_indicator_holo_dark"
                     />
 
                 <!-- "Mute" -->
-                <!-- TODO: no asset for this yet; should be ic_mute_holo_dark -->
                 <ImageButton android:id="@+id/muteButton"
                     style="@style/InCallButton"
-                    android:src="@*android:drawable/stat_notify_call_mute"
+                    android:src="@drawable/ic_mute_holo_dark"
                     />
 
                 <!-- This slot is either "Hold" or "Swap", depending on
@@ -177,9 +193,7 @@
                     style="@style/InCallButton"
                     android:src="@drawable/ic_hold_pause_holo_dark"
                     />
-                <!-- "Swap" -->
-                <!-- TODO: This button currently becomes "Manage calls" in some CDMA states,
-                     but that should move up to a separate button in row 1. -->
+                <!-- "Swap" (or "Manage calls" in some CDMA states) -->
                 <ImageButton android:id="@+id/swapButton"
                     style="@style/InCallButton"
                     android:src="@drawable/ic_incall_switch_holo_dark"

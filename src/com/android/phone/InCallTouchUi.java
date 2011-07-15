@@ -436,11 +436,14 @@ public class InCallTouchUi extends FrameLayout
 
         // "Mute"
         mMuteButton.setEnabled(inCallControlState.canMute);
-        // TODO: no assets for this button yet; should be "ic_mute_holo_dark"
-        // and (presumably) "ic_unmute_holo_dark".
-        // Once we have assets, we'll need to do
-        //     mMuteButton.setImageResource()
-        // here based on inCallControlState.muteIndicatorOn.
+        if (inCallControlState.muteIndicatorOn) {
+            // We're currently muted, so the button means "unmute".
+            // TODO: no asset for the "unmute" state yet
+            mMuteButton.setImageResource(R.drawable.ic_mute_holo_dark);
+        } else {
+            // The button means "mute".
+            mMuteButton.setImageResource(R.drawable.ic_mute_holo_dark);
+        }
 
         // "Audio": You're allowed to bring up the PopupMenu as long
         // as either Speaker or Bluetooth are available.
@@ -458,9 +461,7 @@ public class InCallTouchUi extends FrameLayout
             mSwapButton.setVisibility(View.GONE);
             if (inCallControlState.onHold) {
                 // The button means "unhold" in this state.
-                // TODO: no asset for this yet; we have ic_hold_pause_holo_dark,
-                // but still need the corresponding "play" or "unhold" icon.
-                mHoldButton.setImageResource(R.drawable.ic_hold_pause_holo_dark);
+                mHoldButton.setImageResource(R.drawable.ic_play_holo_dark);
             } else {
                 // The button means "hold" in this state.
                 mHoldButton.setImageResource(R.drawable.ic_hold_pause_holo_dark);

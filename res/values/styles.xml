@@ -175,9 +175,7 @@
         <item name="android:background">@drawable/btn_dial</item>
     </style>
 
-    <!-- "End" button.  Similar to InCallTouchButton, but different height
-         and background. -->
-    <!-- TODO: no asset for the background yet; btn_dial is just a placeholder.  -->
+    <!-- "End" button; similar to InCallButton. -->
     <style name="InCallEndButton">
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">@dimen/in_call_end_button_height</item>
