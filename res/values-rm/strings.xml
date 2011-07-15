@@ -88,6 +88,12 @@
     <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Smatgai sin Menu per laschar mussar las opziuns da clom • Utilisai la tastatura per cumponer in numer"</string>
     <string name="menu_answer" msgid="116686205042231098">"Respunder"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorar"</string>
+    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
+    <skip />
+    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
+    <skip />
+    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
+    <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"Trametter ils tuns suandants?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Trametter tuns"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Trametter"</string>
@@ -552,7 +558,9 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Fusiunar ils cloms"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Stgamiar"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Administrar ils cloms"</string>
-    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Administrar"</string>
+    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Administrar"</string>
+    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar tuts"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importar contacts SIM"</string>
@@ -790,5 +798,35 @@
     <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
     <skip />
     <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
+    <skip />
+    <!-- no translation found for description_image_button_one (5502718871331943463) -->
+    <skip />
+    <!-- no translation found for description_image_button_two (4903738528222924522) -->
+    <skip />
+    <!-- no translation found for description_image_button_three (5570985408463782329) -->
+    <skip />
+    <!-- no translation found for description_image_button_four (1697520001239289074) -->
+    <skip />
+    <!-- no translation found for description_image_button_five (3450276493026943454) -->
+    <skip />
+    <!-- no translation found for description_image_button_six (2070376172268675300) -->
+    <skip />
+    <!-- no translation found for description_image_button_seven (1757351311199993371) -->
+    <skip />
+    <!-- no translation found for description_image_button_eight (4734693919020613227) -->
+    <skip />
+    <!-- no translation found for description_image_button_nine (5568534122590597040) -->
+    <skip />
+    <!-- no translation found for description_image_button_star (1976280813017254462) -->
+    <skip />
+    <!-- no translation found for description_image_button_zero (4211255756866893605) -->
+    <skip />
+    <!-- no translation found for description_image_button_pound (1716041284529917866) -->
+    <skip />
+    <!-- no translation found for description_search_button (239929880630534731) -->
+    <skip />
+    <!-- no translation found for description_dial_button (7459705245418435351) -->
+    <skip />
+    <!-- no translation found for description_delete_button (4015842181592283903) -->
     <skip />
 </resources>

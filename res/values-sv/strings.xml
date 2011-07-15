@@ -80,6 +80,12 @@
     <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Tryck på Menu om du vill visa samtalsalternativ • Använd tangentbordet om du vill ringa"</string>
     <string name="menu_answer" msgid="116686205042231098">"Svar"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"Ignorera"</string>
+    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
+    <skip />
+    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
+    <skip />
+    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
+    <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Skickar signaler"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Skicka"</string>
@@ -532,7 +538,9 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Koppla ihop samtal"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Växla"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Hantera samtal"</string>
-    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"Hantera"</string>
+    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Hantera"</string>
+    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"Importera"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importera alla"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importera SIM-kontakter"</string>
@@ -698,24 +706,29 @@
     <string name="sip_system_decide" msgid="368030746310423471">"Automatiskt"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Skicka alltid"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Röstsamtal stöds inte"</string>
-    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
-    <skip />
+    <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"Kan inte prata nu. Läget?"</string>
+    <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"Jag ringer tillbaka alldeles strax."</string>
+    <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Jag ringer dig senare."</string>
+    <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Kan inte prata nu. Ring senare!"</string>
+    <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Anpassat meddelande..."</string>
+    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"Snabbsvar via SMS"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"Strängar för snabbsvar via SMS"</string>
+    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"Hantera strängar för snabbsvar via SMS"</string>
+    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Snabbsvar via SMS"</string>
+    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"Skräddarsy detta svar:"</string>
+    <string name="description_image_button_one" msgid="5502718871331943463">"ett"</string>
+    <string name="description_image_button_two" msgid="4903738528222924522">"två"</string>
+    <string name="description_image_button_three" msgid="5570985408463782329">"tre"</string>
+    <string name="description_image_button_four" msgid="1697520001239289074">"fyra"</string>
+    <string name="description_image_button_five" msgid="3450276493026943454">"fem"</string>
+    <string name="description_image_button_six" msgid="2070376172268675300">"sex"</string>
+    <string name="description_image_button_seven" msgid="1757351311199993371">"sju"</string>
+    <string name="description_image_button_eight" msgid="4734693919020613227">"åtta"</string>
+    <string name="description_image_button_nine" msgid="5568534122590597040">"nio"</string>
+    <string name="description_image_button_star" msgid="1976280813017254462">"stjärna"</string>
+    <string name="description_image_button_zero" msgid="4211255756866893605">"noll"</string>
+    <string name="description_image_button_pound" msgid="1716041284529917866">"pund"</string>
+    <string name="description_search_button" msgid="239929880630534731">"sök"</string>
+    <string name="description_dial_button" msgid="7459705245418435351">"ring upp"</string>
+    <string name="description_delete_button" msgid="4015842181592283903">"backsteg"</string>
 </resources>

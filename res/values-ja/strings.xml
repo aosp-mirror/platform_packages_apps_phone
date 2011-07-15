@@ -80,6 +80,12 @@
     <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Menuキーを押して通話オプションを表示  •  キーボードからダイヤル"</string>
     <string name="menu_answer" msgid="116686205042231098">"電話に出る"</string>
     <string name="menu_ignore" msgid="2112030835852537344">"無視"</string>
+    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
+    <skip />
+    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
+    <skip />
+    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
+    <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"次の番号を送信しますか？"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"番号を送信中"\n</string>
     <string name="send_button" msgid="4106860097497818751">"送信"</string>
@@ -532,7 +538,9 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"グループ通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切り替え"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"通話の管理"</string>
-    <string name="onscreenManageConferenceText" msgid="6952581578445378981">"管理"</string>
+    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"管理"</string>
+    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"インポート"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"すべてインポート"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"SIMの連絡先をインポート中"</string>
@@ -698,24 +706,29 @@
     <string name="sip_system_decide" msgid="368030746310423471">"自動"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"常に送信"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"音声通話はサポートされていません"</string>
-    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
-    <skip />
+    <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"今話せません。用件は何ですか。"</string>
+    <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"すぐにかけ直します。"</string>
+    <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"後でかけ直します。"</string>
+    <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"今話せません。かけ直してください。"</string>
+    <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"カスタムメッセージ..."</string>
+    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"クイックテキスト返信"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"クイックテキスト返信文字列"</string>
+    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"クイックテキスト返信文字列を管理"</string>
+    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"クイックテキスト返信"</string>
+    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"この応答をカスタマイズ:"</string>
+    <string name="description_image_button_one" msgid="5502718871331943463">"1"</string>
+    <string name="description_image_button_two" msgid="4903738528222924522">"2"</string>
+    <string name="description_image_button_three" msgid="5570985408463782329">"3"</string>
+    <string name="description_image_button_four" msgid="1697520001239289074">"4"</string>
+    <string name="description_image_button_five" msgid="3450276493026943454">"5"</string>
+    <string name="description_image_button_six" msgid="2070376172268675300">"6"</string>
+    <string name="description_image_button_seven" msgid="1757351311199993371">"7"</string>
+    <string name="description_image_button_eight" msgid="4734693919020613227">"8"</string>
+    <string name="description_image_button_nine" msgid="5568534122590597040">"9"</string>
+    <string name="description_image_button_star" msgid="1976280813017254462">"スター"</string>
+    <string name="description_image_button_zero" msgid="4211255756866893605">"0"</string>
+    <string name="description_image_button_pound" msgid="1716041284529917866">"ポンド"</string>
+    <string name="description_search_button" msgid="239929880630534731">"検索"</string>
+    <string name="description_dial_button" msgid="7459705245418435351">"発信"</string>
+    <string name="description_delete_button" msgid="4015842181592283903">"バックスペース"</string>
 </resources>
