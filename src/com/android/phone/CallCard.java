@@ -977,29 +977,8 @@ public class CallCard extends FrameLayout
                 break;
         }
 
-        if (showSecondaryCallInfo) {
-            // Ok, we have something useful to display in the "secondary
-            // call" info area.
-            mSecondaryCallInfo.setVisibility(View.VISIBLE);
-
-            // Watch out: there are some cases where we need to display the
-            // secondary call photo but *not* the two lines of text above it.
-            // Specifically, that's any state where the CallCard "upper title" is
-            // in use, since the title (e.g. "Dialing" or "Call ended") might
-            // collide with the secondaryCallStatus and secondaryCallName widgets.
-            //
-            // We detect this case by simply seeing whether or not there's any text
-            // in mUpperTitle.  (This is much simpler than detecting all possible
-            // telephony states where the "upper title" is used!  But note it does
-            // rely on the fact that updateCardTitleWidgets() gets called *earlier*
-            // than this method, in the CallCard.updateState() sequence...)
-            boolean okToShowLabels = TextUtils.isEmpty(mUpperTitle.getText());
-            mSecondaryCallName.setVisibility(okToShowLabels ? View.VISIBLE : View.INVISIBLE);
-            mSecondaryCallStatus.setVisibility(okToShowLabels ? View.VISIBLE : View.INVISIBLE);
-        } else {
-            // Hide the entire "secondary call" info area.
-            mSecondaryCallInfo.setVisibility(View.GONE);
-        }
+        // Show or hide the entire "secondary call" info area.
+        mSecondaryCallInfo.setVisibility(showSecondaryCallInfo ? View.VISIBLE : View.GONE);
     }
 
     private String getCallFailedString(Call call) {
@@ -1511,6 +1490,12 @@ public class CallCard extends FrameLayout
      * Call state, possibly display an icon along with the title.
      */
     private void setUpperTitle(String title, int color, Call.State state) {
+        if (TextUtils.isEmpty(title)) {
+            mUpperTitle.setVisibility(View.GONE);
+            return;
+        }
+
+        mUpperTitle.setVisibility(View.VISIBLE);
         mUpperTitle.setText(title);
         mUpperTitle.setTextColor(color);
 

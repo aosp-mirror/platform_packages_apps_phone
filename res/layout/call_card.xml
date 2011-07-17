@@ -104,7 +104,8 @@
                  state (see updateCallInfoLayout().) -->
             <RelativeLayout android:id="@+id/call_banner_1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/call_banner_height"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/call_banner_height"
                 android:paddingLeft="@dimen/call_banner_side_padding"
                 android:paddingRight="@dimen/call_banner_side_padding"
                 android:paddingTop="@dimen/call_banner_top_bottom_padding"
@@ -112,55 +113,29 @@
                 android:background="@color/incall_call_banner_background"
                 >
 
-                <!-- "Upper title" shown at the upper-right of the call
-                     banner.  In some call states this shows a special
+                <!-- "Upper title" (i.e. "call state" label).
+                     In some call states this shows a special
                      indication like "Dialing" or "Incoming call" or "Call
-                     ended", although it's blank for the normal case
+                     ended", although it's unused for the normal case
                      of an active ongoing call. -->
                 <!-- TODO: figure out where this belongs!  Also, give it a better
                      name if it ends up not being the "upper" element... -->
                 <TextView android:id="@+id/upperTitle"
                           android:layout_alignParentTop="true"
-                          android:layout_alignParentRight="true"
+                          android:layout_centerHorizontal="true"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:textAppearance="?android:attr/textAppearanceLarge"
-                          android:textSize="18sp"
-                          />
-
-                <!-- The "Manage conference" button that we show during a
-                     conference call (but only on devices where the
-                     in-call touch UI is enabled.) -->
-                <!-- TODO: figure out where this belongs! -->
-                <Button android:id="@+id/manageConferencePhotoButton"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/onscreenManageConferenceText"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="?android:attr/textColorPrimary"
-                        />
-                <!-- Old asset: android:background="@drawable/manage_conference_photo_button" -->
-
-                <!-- Elapsed time indication for a call in progress. -->
-                <!-- TODO: This needs to go somewhere else -->
-                <TextView android:id="@+id/elapsedTime"
-                          android:layout_alignParentBottom="true"
-                          android:layout_alignParentRight="true"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:textAppearance="?android:attr/textAppearanceMedium"
-                          android:textSize="15sp"
+                          android:textSize="20sp"
                           android:textStyle="bold"
-                          android:singleLine="true"
                           />
 
                 <!-- Name (or the phone number, if we don't have a name to display). -->
                 <TextView android:id="@+id/name"
-                          android:layout_alignParentTop="true"
+                          android:layout_below="@id/upperTitle"
+                          android:layout_alignWithParentIfMissing="true"
                           android:layout_alignParentLeft="true"
-                          android:layout_width="wrap_content"
+                          android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:textAppearance="?android:attr/textAppearanceLarge"
                           android:textStyle="bold"
@@ -193,6 +168,34 @@
                               android:singleLine="true"
                               />
                 </LinearLayout>
+
+                <!-- Elapsed time indication for a call in progress. -->
+                <!-- TODO: This needs to go somewhere else -->
+                <TextView android:id="@+id/elapsedTime"
+                          android:layout_below="@id/name"
+                          android:layout_alignParentRight="true"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceMedium"
+                          android:textSize="15sp"
+                          android:textStyle="bold"
+                          android:singleLine="true"
+                          />
+
+                <!-- The "Manage conference" button that we show during a
+                     conference call (but only on devices where the
+                     in-call touch UI is enabled.) -->
+                <!-- TODO: figure out where this belongs! -->
+                <Button android:id="@+id/manageConferencePhotoButton"
+                        android:layout_below="@id/labelAndNumber"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onscreenManageConferenceText"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="?android:attr/textColorPrimary"
+                        />
+                <!-- Old asset: android:background="@drawable/manage_conference_photo_button" -->
 
                 <!-- Call type indication: a special label and/or branding
                      for certain kinds of calls (like "Internet call" for a SIP call.) -->
