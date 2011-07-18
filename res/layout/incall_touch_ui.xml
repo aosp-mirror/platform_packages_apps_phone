@@ -211,10 +211,9 @@
                 <!-- This button is used only on GSM devices, where we know
                      that "Add" and "Merge" are never available at the same time.
                      The "Merge" button for CDMA devices is "cdmaMergeButton" above. -->
-                <!-- TODO: no asset for this yet; this is a temporary placeholder. -->
                 <ImageButton android:id="@+id/mergeButton"
                     style="@style/InCallButton"
-                    android:src="@drawable/ic_menu_merge_holo_light"
+                    android:src="@drawable/ic_merge_holo_dark"
                     />
 
             </LinearLayout>
