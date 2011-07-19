@@ -16,6 +16,10 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.Connection;
+
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -25,19 +29,16 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemProperties;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Connection;
 
 import java.util.Arrays;
 
@@ -337,6 +338,12 @@ public class RespondViaSmsManager {
             pref = (EditTextPreference) findPreference(KEY_CANNED_RESPONSE_PREF_4);
             pref.setTitle(pref.getText());
             pref.setOnPreferenceChangeListener(this);
+
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                // android.R.id.home will be triggered in onOptionsItemSelected()
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
 
         // Preference.OnPreferenceChangeListener implementation
@@ -354,6 +361,16 @@ public class RespondViaSmsManager {
             pref.setTitle((String) newValue);
 
             return true;  // means it's OK to update the state of the Preference with the new value
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            final int itemId = item.getItemId();
+            if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
+                CallFeaturesSetting.goUpToTopLevelSetting(this);
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
         }
     }
 

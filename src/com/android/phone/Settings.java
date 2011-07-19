@@ -16,6 +16,11 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.TelephonyProperties;
+
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,10 +41,7 @@ import android.preference.PreferenceScreen;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.TelephonyIntents;
-import com.android.internal.telephony.TelephonyProperties;
+import android.view.MenuItem;
 
 /**
  * List of Phone-specific settings screens.
@@ -60,6 +62,10 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private static final String BUTTON_CDMA_LTE_DATA_SERVICE_KEY = "cdma_lte_data_service_key";
 
     static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
+
+    //Information about logical "up" Activity
+    private static final String UP_ACTIVITY_PACKAGE = "com.android.settings";
+    private static final String UP_ACTIVITY_CLASS = "com.android.settings.WirelessSettings";
 
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
@@ -257,6 +263,12 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
         mDataUsageListener = new DataUsageListener(this, mButtonDataUsage, prefSet);
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            // android.R.id.home will be triggered in onOptionsItemSelected()
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -529,5 +541,19 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setClassName(UP_ACTIVITY_PACKAGE, UP_ACTIVITY_CLASS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

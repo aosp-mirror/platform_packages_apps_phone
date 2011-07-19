@@ -1,5 +1,9 @@
 package com.android.phone;
 
+import com.android.internal.telephony.CallForwardInfo;
+import com.android.internal.telephony.CommandsInterface;
+
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,9 +11,7 @@ import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
-
-import com.android.internal.telephony.CallForwardInfo;
-import com.android.internal.telephony.CommandsInterface;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
@@ -69,6 +71,12 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
 
         mFirstResume = true;
         mIcicle = icicle;
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            // android.R.id.home will be triggered in onOptionsItemSelected()
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -152,5 +160,15 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
             default:
                 // TODO: may need exception here.
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
+            CallFeaturesSetting.goUpToTopLevelSetting(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

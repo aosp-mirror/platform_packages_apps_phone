@@ -18,19 +18,21 @@ package com.android.phone.sip;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.phone.CallFeaturesSetting;
 import com.android.phone.R;
 import com.android.phone.SipUtil;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.net.sip.SipException;
 import android.net.sip.SipErrorCode;
-import android.net.sip.SipProfile;
+import android.net.sip.SipException;
 import android.net.sip.SipManager;
+import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -40,14 +42,10 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
-import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 
 import java.io.IOException;
@@ -158,6 +156,12 @@ public class SipSettings extends PreferenceActivity {
         mCallManager = CallManager.getInstance();
 
         updateProfilesStatus();
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            // android.R.id.home will be triggered in onOptionsItemSelected()
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -477,5 +481,15 @@ public class SipSettings extends PreferenceActivity {
                 }
             }
         };
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
+            CallFeaturesSetting.goUpToTopLevelSetting(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

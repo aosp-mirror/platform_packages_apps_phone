@@ -16,19 +16,22 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
-
-import com.android.internal.telephony.CommandException;
-import com.android.internal.telephony.Phone;
 
 /**
  * FDN settings UI for the Phone app.
@@ -407,6 +410,12 @@ public class FdnSetting extends PreferenceActivity
             mButtonChangePin2.setDialogMessage(icicle.getString(DIALOG_MESSAGE_KEY));
             mButtonChangePin2.setText(icicle.getString(DIALOG_PIN_ENTRY_KEY));
         }
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            // android.R.id.home will be triggered in onOptionsItemSelected()
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -428,6 +437,16 @@ public class FdnSetting extends PreferenceActivity
         out.putString(NEW_PIN_KEY, mNewPin);
         out.putString(DIALOG_MESSAGE_KEY, mButtonChangePin2.getDialogMessage().toString());
         out.putString(DIALOG_PIN_ENTRY_KEY, mButtonChangePin2.getText());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
+            CallFeaturesSetting.goUpToTopLevelSetting(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
