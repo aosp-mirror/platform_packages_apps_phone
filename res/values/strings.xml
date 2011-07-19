@@ -1497,16 +1497,14 @@
     <string name="respond_via_sms_custom_message">Custom message...</string>
 
     <!-- Title of settings screen for managing the "Respond via SMS" feature. [CHAR LIMIT=30] -->
-    <string name="respond_via_sms_setting_title">Quick text response</string>
+    <string name="respond_via_sms_setting_title">Quick text responses</string>
     <!-- Slightly more verbose title of settings screen for managing the
          "Respond via SMS" feature. [CHAR LIMIT=30] -->
-    <string name="respond_via_sms_setting_title_2">Quick text response strings</string>
+    <string name="respond_via_sms_setting_title_2">Edit quick text responses</string>
     <!-- Settings summary string for the "Respond via SMS" feature. [CHAR LIMIT=40] -->
-    <string name="respond_via_sms_setting_summary">Manage quick text response strings</string>
+    <string name="respond_via_sms_setting_summary"></string>
     <!-- Dialog title when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=30] -->
     <string name="respond_via_sms_edittext_dialog_title">Quick text response</string>
-    <!-- Dialog message when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=40] -->
-    <string name="respond_via_sms_edittext_dialog_message">Customize this response:</string>
 
     <!-- String describing the image on ImageButton one
 
