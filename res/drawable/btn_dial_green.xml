@@ -14,10 +14,11 @@
      limitations under the License.
 -->
 
-<!-- Background resource for digit buttons in the "new" style in-call
-     DTMF dialpad (see non_drawer_dialpad.xml). 
+<!-- Background resource for digit buttons in the in-call
+     DTMF dialpad (see dialpad.xml).
      This is just like btn_dial.xml, except the default state uses the
-     "normal_green" asset rather than the plain "normal" asset. -->
+     "normal_green" asset rather than the plain "normal" asset.
+     TODO: Still need holo-themed assets here. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
         android:drawable="@drawable/btn_dial_pressed" />

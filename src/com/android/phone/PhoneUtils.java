@@ -2088,7 +2088,7 @@ public class PhoneUtils {
         int phoneType = phone.getPhoneType();
         final Call.State fgCallState = cm.getActiveFgCall().getState();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
-           // CDMA: "Add call" menu item is only enabled when the call is in
+           // CDMA: "Add call" button is only enabled when:
            // - ForegroundCall is in ACTIVE state
            // - After 30 seconds of user Ignoring/Missing a Call Waiting call.
             PhoneApp app = PhoneApp.getInstance();

@@ -15,22 +15,6 @@
 -->
 
 <resources>
-    <!-- Views created dynamically in InCallMenu.java -->
-    <item type="id" name="menuManageConference" />
-    <item type="id" name="menuShowDialpad" />
-    <item type="id" name="menuEndCall" />
-    <item type="id" name="menuAddCall" />
-    <item type="id" name="menuSwapCalls" />
-    <item type="id" name="menuMergeCalls" />
-    <item type="id" name="menuBluetooth" />
-    <item type="id" name="menuSpeaker" />
-    <item type="id" name="menuMute" />
-    <item type="id" name="menuHold" />
-    <item type="id" name="menuAnswerAndHold" />
-    <item type="id" name="menuAnswerAndEnd" />
-    <item type="id" name="menuAnswer" />
-    <item type="id" name="menuIgnore" />
-
     <!-- IDs used with events from in-call touch UI elements.
          (Note we handle these in the InCallScreen's "button click"
          handler even though the UI elements may not actually be buttons.) -->

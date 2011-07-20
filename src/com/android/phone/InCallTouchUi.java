@@ -94,10 +94,6 @@ public class InCallTouchUi extends FrameLayout
     // Time of the most recent "answer" or "reject" action (see updateState())
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
 
-    // Overall enabledness of the "touch UI" features
-    private boolean mAllowIncomingCallTouchUi;
-    private boolean mAllowInCallTouchUi;
-
     private static final int INCOMING_CALL_WIDGET_PING = 101;
     private Handler mHandler = new Handler() {
             @Override
@@ -134,17 +130,6 @@ public class InCallTouchUi extends FrameLayout
                 true);
 
         mApplication = PhoneApp.getInstance();
-
-        // The various touch UI features are enabled on a per-product
-        // basis.  (These flags in config.xml may be overridden by
-        // product-specific overlay files.)
-
-        mAllowIncomingCallTouchUi = getResources().getBoolean(R.bool.allow_incoming_call_touch_ui);
-        if (DBG) log("- incoming call touch UI: "
-                     + (mAllowIncomingCallTouchUi ? "ENABLED" : "DISABLED"));
-        mAllowInCallTouchUi = getResources().getBoolean(R.bool.allow_in_call_touch_ui);
-        if (DBG) log("- regular in-call touch UI: "
-                     + (mAllowInCallTouchUi ? "ENABLED" : "DISABLED"));
     }
 
     void setInCallScreenInstance(InCallScreen inCallScreen) {
@@ -246,44 +231,40 @@ public class InCallTouchUi extends FrameLayout
         if ((ringingCall.getState() != Call.State.IDLE)
                 && !cm.getActiveFgCallState().isDialing()) {
             // A phone call is ringing *or* call waiting.
-            if (mAllowIncomingCallTouchUi) {
-                // Watch out: even if the phone state is RINGING, it's
-                // possible for the ringing call to be in the DISCONNECTING
-                // state.  (This typically happens immediately after the user
-                // rejects an incoming call, and in that case we *don't* show
-                // the incoming call controls.)
-                if (ringingCall.getState().isAlive()) {
-                    if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
-                    showIncomingCallControls = true;
-                }
 
-                // Ugly hack to cover up slow response from the radio:
-                // if we attempted to answer or reject an incoming call
-                // within the last 500 msec, *don't* show the incoming call
-                // UI even if the phone is still in the RINGING state.
-                long now = SystemClock.uptimeMillis();
-                if (now < mLastIncomingCallActionTime + 500) {
-                    log("updateState: Too soon after last action; not drawing!");
-                    showIncomingCallControls = false;
-                }
-
-                // TODO: UI design issue: if the device is NOT currently
-                // locked, we probably don't need to make the user
-                // double-tap the "incoming call" buttons.  (The device
-                // presumably isn't in a pocket or purse, so we don't need
-                // to worry about false touches while it's ringing.)
-                // But OTOH having "inconsistent" buttons might just make
-                // it *more* confusing.
+            // Watch out: even if the phone state is RINGING, it's
+            // possible for the ringing call to be in the DISCONNECTING
+            // state.  (This typically happens immediately after the user
+            // rejects an incoming call, and in that case we *don't* show
+            // the incoming call controls.)
+            if (ringingCall.getState().isAlive()) {
+                if (DBG) log("- updateState: RINGING!  Showing incoming call controls...");
+                showIncomingCallControls = true;
             }
+
+            // Ugly hack to cover up slow response from the radio:
+            // if we attempted to answer or reject an incoming call
+            // within the last 500 msec, *don't* show the incoming call
+            // UI even if the phone is still in the RINGING state.
+            long now = SystemClock.uptimeMillis();
+            if (now < mLastIncomingCallActionTime + 500) {
+                log("updateState: Too soon after last action; not drawing!");
+                showIncomingCallControls = false;
+            }
+
+            // TODO: UI design issue: if the device is NOT currently
+            // locked, we probably don't need to make the user
+            // double-tap the "incoming call" buttons.  (The device
+            // presumably isn't in a pocket or purse, so we don't need
+            // to worry about false touches while it's ringing.)
+            // But OTOH having "inconsistent" buttons might just make
+            // it *more* confusing.
         } else {
-            if (mAllowInCallTouchUi) {
-                // Ok, the in-call touch UI is available on this platform,
-                // so make it visible (with some exceptions):
-                if (mInCallScreen.okToShowInCallTouchUi()) {
-                    showInCallControls = true;
-                } else {
-                    if (DBG) log("- updateState: NOT OK to show touch UI; disabling...");
-                }
+            // Ok, show the regular in-call touch UI (with some exceptions):
+            if (mInCallScreen.okToShowInCallTouchUi()) {
+                showInCallControls = true;
+            } else {
+                if (DBG) log("- updateState: NOT OK to show touch UI; disabling...");
             }
         }
 
@@ -601,26 +582,6 @@ public class InCallTouchUi extends FrameLayout
         return true;
     }
 
-
-    //
-    // InCallScreen API
-    //
-
-    /**
-     * @return true if the onscreen touch UI is enabled (for regular
-     * "ongoing call" states) on the current device.
-     */
-    /* package */ boolean isTouchUiEnabled() {
-        return mAllowInCallTouchUi;
-    }
-
-    /**
-     * @return true if the onscreen touch UI is enabled for
-     * the "incoming call" state on the current device.
-     */
-    /* package */ boolean isIncomingCallTouchUiEnabled() {
-        return mAllowIncomingCallTouchUi;
-    }
 
     //
     // MultiWaveView.OnTriggerListener implementation

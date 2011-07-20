@@ -33,23 +33,6 @@
          the PIN.) -->
     <bool name="sim_network_unlock_allow_dismiss">true</bool>
 
-    <!-- If true, enable the onscreen touch UI for incoming calls.
-         This feature is necessary for devices with no hard SEND/END keys,
-         and optional on all other devices. -->
-    <bool name="allow_incoming_call_touch_ui">true</bool>
-
-    <!-- If true, enable the onscreen touch UI for regular "ongoing call"
-         states of the in-call UI.
-         In general, the touch UI is used for regular calls only on
-         devices with a proximity sensor.  (On other devices, we can't
-         have touchable UI onscreen during a call because of the risk of
-         false cheek touches.)
-         TODO: maybe this can be determined algorithmically based on
-         specific properties of the device, perhaps by detecting the
-         presence of a proximity sensor and/or hard SEND/END keys.  (If
-         so, we wouldn't need this flag at all.) -->
-    <bool name="allow_in_call_touch_ui">true</bool>
-
     <!-- OTA configuration values, used when provisioning CDMA devices.
          Following defaults values of zero means OTA UI is completely disabled.
          These OTA UI can be enabled by setting config value to one in the product
@@ -106,7 +89,7 @@
     <bool name="allow_back_key_to_reject_incoming_call">true</bool>
 
     <!-- If true, show an onscreen "Dial" button in the dialer.
-         In practice this is used on all platforms even the ones with hard SEND/END
+         In practice this is used on all platforms, even the ones with hard SEND/END
          keys, but for maximum flexibility it's controlled by a flag here
          (which can be overridden on a per-product basis.) -->
     <bool name="config_show_onscreen_dial_button">true</bool>

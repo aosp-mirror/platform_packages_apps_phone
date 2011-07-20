@@ -14,17 +14,20 @@
      limitations under the License.
 -->
 
-<!-- New style in-call DTMF dialpad, for devices that use the
-     InCallTouchUi widget, and thus do NOT use a SlidingDrawer
-     to contain the dialpad.
+<!-- Onscreen in-call DTMF dialpad.  This element contains the grid of
+     DTMF buttons (dialpad.xml) along with a TextView showing
+     the digits you've typed.
 
-     This provides basically the same UI elements as
-     dtmf_twelve_key_dialer.xml and dialpad.xml, but in a more
-     compact layout, and without the SlidingDrawer container.
-     -->
+     When the user presses the "Dialpad" button, this UI appears in the
+     upper part of the in-call screen, covering up the "call card" area.
+     The regular in-call controls (i.e. the InCallTouchUi widget) are
+     still visible at the lower part of the screen.
+
+     This layout is inflated in place of dtmf_twelve_key_dialer_stub
+     in incall_touch_ui.xml. -->
 <com.android.phone.DTMFTwelveKeyDialerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/non_drawer_dtmf_dialer"
+    android:id="@+id/dtmf_twelve_key_dialer_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"

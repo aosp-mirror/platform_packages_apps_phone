@@ -31,15 +31,13 @@ import com.android.internal.telephony.CallManager;
  * UI, based on the current telephony state.
  *
  * This class is independent of the exact UI controls used on any given
- * device.  (Some devices use onscreen touchable buttons, for example, and
- * other devices use menu items.)  To avoid cluttering up the InCallMenu
- * and InCallTouchUi code with logic about which functions are available
- * right now, we instead have that logic here, and provide simple boolean
- * flags to indicate the state and/or enabledness of all possible in-call
- * user operations.
+ * device.  To avoid cluttering up the "view" code (i.e. InCallTouchUi)
+ * with logic about which functions are available right now, we instead
+ * have that logic here, and provide simple boolean flags to indicate the
+ * state and/or enabledness of all possible in-call user operations.
  *
  * (In other words, this is the "model" that corresponds to the "view"
- * implemented by InCallMenu and InCallTouchUi.)
+ * implemented by InCallTouchUi.)
  */
 public class InCallControlState {
     private static final String LOG_TAG = "InCallControlState";
