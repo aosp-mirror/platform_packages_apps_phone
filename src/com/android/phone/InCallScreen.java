@@ -199,7 +199,6 @@ public class InCallScreen extends Activity
     private long mBluetoothConnectionRequestTime;
 
     // Main in-call UI ViewGroups
-    private ViewGroup mMainFrame;
     private ViewGroup mInCallPanel;
 
     // Main in-call UI elements:
@@ -1154,7 +1153,6 @@ public class InCallScreen extends Activity
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
 
-        mMainFrame = (ViewGroup) findViewById(R.id.mainFrame);
         mInCallPanel = (ViewGroup) findViewById(R.id.inCallPanel);
 
         // Initialize the CallCard.
@@ -2236,11 +2234,13 @@ public class InCallScreen extends Activity
         }
 
         if (DBG) log("- updateScreen: updating the in-call UI...");
+        // Note we update the InCallTouchUi widget before the CallCard,
+        // since the CallCard adjusts its size based on how much vertical
+        // space the InCallTouchUi widget needs.
+        updateInCallTouchUi();
         mCallCard.updateState(mCM);
         updateDialpadVisibility();
-        updateInCallTouchUi();
         updateProviderOverlay();
-        updateInCallBackground();
 
         // Forcibly take down all dialog if an incoming call is ringing.
         if (mCM.hasActiveRingingCall()) {
@@ -2772,7 +2772,7 @@ public class InCallScreen extends Activity
             case R.id.cdmaMergeButton:
                 PhoneUtils.mergeCalls(mCM);
                 break;
-            case R.id.manageConferencePhotoButton:
+            case R.id.manageConferenceButton:
                 // Show the Manage Conference panel.
                 setInCallScreenMode(InCallScreenMode.MANAGE_CONFERENCE);
                 requestUpdateScreen();
@@ -3300,7 +3300,7 @@ public class InCallScreen extends Activity
 
         // Silence the ringer, since it would be distracting while you're trying
         // to pick a response.  (Note that we'll restart the ringer if you bail
-        // out of the popup, though; see RespondViaSmsDismissListener.)
+        // out of the popup, though; see RespondViaSmsCancelListener.)
         internalSilenceRinger();
     }
 
@@ -3580,12 +3580,6 @@ public class InCallScreen extends Activity
         // child of mInCallPanel) while the dialpad is visible.
         //
 
-        if (mDialerView != null) {
-            mDialerView.setKeysBackgroundResource(
-                isBluetoothAudioConnected() ? R.drawable.btn_dial_blue
-                : R.drawable.btn_dial_green);
-        }
-
         if (isDialerOpened()) {
             mInCallPanel.setVisibility(View.GONE);
         } else {
@@ -3726,6 +3720,13 @@ public class InCallScreen extends Activity
         if (mInCallTouchUi != null) {
             mInCallTouchUi.updateState(mCM);
         }
+    }
+
+    /**
+     * @return the InCallTouchUi widget
+     */
+    /* package */ InCallTouchUi getInCallTouchUi() {
+        return mInCallTouchUi;
     }
 
     /**
@@ -4151,76 +4152,6 @@ public class InCallScreen extends Activity
         if (VDBG) log("getUpdatedInCallControlState()...");
         mInCallControlState.update();
         return mInCallControlState;
-    }
-
-    /**
-     * Updates the background of the InCallScreen to indicate the state of
-     * the current call(s).
-     */
-    private void updateInCallBackground() {
-        final boolean hasRingingCall = mCM.hasActiveRingingCall();
-        final boolean hasActiveCall = mCM.hasActiveFgCall();
-        final boolean hasHoldingCall = mCM.hasActiveBgCall();
-        final boolean bluetoothActive = mApp.showBluetoothIndication();
-
-        int backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
-
-        // Possible states of the background are:
-        // - bg_in_call_gradient_bluetooth.9.png     // blue
-        // - bg_in_call_gradient_connected.9.png     // green
-        // - bg_in_call_gradient_ended.9.png         // red
-        // - bg_in_call_gradient_on_hold.9.png       // orange
-        // - bg_in_call_gradient_unidentified.9.png  // gray
-
-        if (hasRingingCall) {
-            // There's an INCOMING (or WAITING) call.
-            if (bluetoothActive) {
-                backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
-            } else {
-                backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
-            }
-        } else if (hasHoldingCall && !hasActiveCall) {
-            // No foreground call, but there is a call on hold.
-            backgroundResId = R.drawable.bg_in_call_gradient_on_hold;
-        } else {
-            // In all cases other than "ringing" and "on hold", the state
-            // of the foreground call determines the background.
-            final Call.State fgState = mCM.getActiveFgCallState();
-            switch (fgState) {
-                case ACTIVE:
-                case DISCONNECTING:  // Call will disconnect soon, but keep showing
-                                     // the normal "connected" background for now.
-                    if (bluetoothActive) {
-                        backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
-                    } else {
-                        backgroundResId = R.drawable.bg_in_call_gradient_connected;
-                    }
-                    break;
-
-                case DISCONNECTED:
-                    backgroundResId = R.drawable.bg_in_call_gradient_ended;
-                    break;
-
-                case DIALING:
-                case ALERTING:
-                    if (bluetoothActive) {
-                        backgroundResId = R.drawable.bg_in_call_gradient_bluetooth;
-                    } else {
-                        backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
-                    }
-                    break;
-
-                default:
-                    // Foreground call is (presumably) IDLE.
-                    // We're not usually here at all in this state, but
-                    // this *does* happen in some unusual cases (like
-                    // while displaying an MMI result).
-                    // Use the most generic background.
-                    backgroundResId = R.drawable.bg_in_call_gradient_unidentified;
-                    break;
-            }
-        }
-        mMainFrame.setBackgroundResource(backgroundResId);
     }
 
     public void resetInCallScreenMode() {

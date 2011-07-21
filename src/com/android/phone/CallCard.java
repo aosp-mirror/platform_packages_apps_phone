@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class CallCard extends FrameLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
-                   ContactsAsyncHelper.OnImageLoadCompleteListener, View.OnClickListener {
+                   ContactsAsyncHelper.OnImageLoadCompleteListener {
     private static final String LOG_TAG = "CallCard";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -90,7 +90,6 @@ public class CallCard extends FrameLayout
     // The main block of info about the "primary" or "active" call,
     // including photo / name / phone number / etc.
     private ImageView mPhoto;
-    private Button mManageConferencePhotoButton;  // Possibly shown in place of mPhoto
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
@@ -184,8 +183,6 @@ public class CallCard extends FrameLayout
 
         // "Caller info" area, including photo / name / phone numbers / etc
         mPhoto = (ImageView) findViewById(R.id.photo);
-        mManageConferencePhotoButton = (Button) findViewById(R.id.manageConferencePhotoButton);
-        mManageConferencePhotoButton.setOnClickListener(this);
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
@@ -263,19 +260,23 @@ public class CallCard extends FrameLayout
     private void updateCallInfoLayout(Phone.State state) {
         boolean ringing = (state == Phone.State.RINGING);
 
-        // Based on whether the phone is ringing, update the overall
+        // Based on the current state, update the overall
         // CallCard layout in a couple of ways:
 
-        // (1) When ringing, shrink mCallInfoContainer by increasing its bottom margin.
-        //     (The incoming-call widget takes up more vertical space than the
-        //     regular in-call button cluster, so while ringing the bottom
-        //     margin needs to be larger so that the call info doesn't overlap
-        //     the widget.)
+        // (1) Update the bottom margin of mCallInfoContainer to make sure
+        //     we don't overlap with the InCallTouchUi widget (the touchable
+        //     controls on the bottom part of the screen.)
+        //
+        //     We have to do this dynamically since the InCallTouchUi widget
+        //     can get taller or shorter depending on the call state.
+        //     (In particular, mCallInfoContainer needs to shrink
+        //     significantly while an incoming call is ringing, since the
+        //     incoming-call widget takes up more vertical space than the
+        //     regular in-call button cluster.)
+        //
         // TODO: Animate this value for the RINGING -> OFFHOOK transition.
 
-        int resId = ringing ? R.dimen.in_call_incoming_call_widget_height
-                : R.dimen.in_call_button_cluster_height;
-        int reservedVerticalSpace = (int) getResources().getDimension(resId);
+        int reservedVerticalSpace = mInCallScreen.getInCallTouchUi().getTouchUiHeight();
         ViewGroup.MarginLayoutParams callInfoLp =
                 (ViewGroup.MarginLayoutParams) mCallInfoContainer.getLayoutParams();
         callInfoLp.bottomMargin = reservedVerticalSpace;  // Equivalent to setting
@@ -1211,9 +1212,6 @@ public class CallCard extends FrameLayout
             ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
                 info, 0, this, call, getContext(), mPhoto, personUri, R.drawable.picture_unknown);
         }
-        // And no matter what, on all devices, we never see the "manage
-        // conference" button in this state.
-        mManageConferencePhotoButton.setVisibility(View.GONE);
 
         if (displayNumber != null && !call.isGeneric()) {
             mPhoneNumber.setText(displayNumber);
@@ -1267,17 +1265,11 @@ public class CallCard extends FrameLayout
             mName.setText(R.string.card_title_in_call);
         } else if ((phoneType == Phone.PHONE_TYPE_GSM)
                 || (phoneType == Phone.PHONE_TYPE_SIP)) {
-            // Display the "manage conference" button.
-            mManageConferencePhotoButton.setVisibility(View.VISIBLE);
-
-            // TODO: The "Manage conference" button logic actually
-            // belongs in InCallTouchUi; see TODO in
-            // incall_touch_ui.xml (bug 5044296).
-            //
-            // Also, at this point we should display the "conference
-            // call" image in the photo slot:
-            // showImage(mPhoto, R.drawable.picture_conference);
-
+            // Normal GSM (or possibly SIP?) conference call.
+            // Display the "conference call" image as the contact photo.
+            // TODO: Better visual treatment for contact photos in a
+            // conference call (see bug 1313252).
+            showImage(mPhoto, R.drawable.picture_conference);
             mName.setText(R.string.card_title_conf_call);
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
@@ -1599,24 +1591,6 @@ public class CallCard extends FrameLayout
         mIncomingCallWidgetHintColorResId = hintColorResId;
     }
 
-    // View.OnClickListener implementation
-    public void onClick(View view) {
-        int id = view.getId();
-        if (DBG) log("onClick(View " + view + ", id " + id + ")...");
-
-        switch (id) {
-            case R.id.manageConferencePhotoButton:
-                // A click on anything here gets forwarded
-                // straight to the InCallScreen.
-                mInCallScreen.handleOnscreenButtonClick(id);
-                break;
-
-            default:
-                Log.w(LOG_TAG, "onClick: unexpected click: View " + view + ", id " + id);
-                break;
-        }
-    }
-
     // Accessibility event support.
     // Since none of the CallCard elements are focusable, we need to manually
     // fill in the AccessibilityEvent here (so that the name / number / etc will
@@ -1625,7 +1599,6 @@ public class CallCard extends FrameLayout
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         dispatchPopulateAccessibilityEvent(event, mUpperTitle);
         dispatchPopulateAccessibilityEvent(event, mPhoto);
-        dispatchPopulateAccessibilityEvent(event, mManageConferencePhotoButton);
         dispatchPopulateAccessibilityEvent(event, mName);
         dispatchPopulateAccessibilityEvent(event, mPhoneNumber);
         dispatchPopulateAccessibilityEvent(event, mLabel);

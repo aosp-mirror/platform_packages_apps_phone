@@ -92,6 +92,13 @@
              This element gets either layout_alignParentTop or
              layout_alignParentBottom alignment, depending on the phone
              state (see updateCallInfoLayout().) -->
+
+        <!-- TODO: consider using android:animateLayoutChanges="true" here
+             to get a smoother transition when the call state labels (like
+             "Dialing" or "Call ended") appear or disappear.  But watch out
+             for distracting side effects like elements moving sideways(?)
+             when we show and hide the call timer or "call state" label. -->
+
         <RelativeLayout android:id="@+id/call_banner_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,21 +178,6 @@
                       android:textStyle="bold"
                       android:singleLine="true"
                       />
-
-            <!-- The "Manage conference" button that we show during a
-                 conference call (but only on devices where the
-                 in-call touch UI is enabled.) -->
-            <!-- TODO: figure out where this belongs! -->
-            <Button android:id="@+id/manageConferencePhotoButton"
-                    android:layout_below="@id/labelAndNumber"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/onscreenManageConferenceText"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?android:attr/textColorPrimary"
-                    />
-            <!-- Old asset: android:background="@drawable/manage_conference_photo_button" -->
 
             <!-- Call type indication: a special label and/or branding
                  for certain kinds of calls (like "Internet call" for a SIP call.) -->

@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -85,8 +86,12 @@ public class InCallTouchUi extends FrameLayout
     private ImageButton mAudioButton;
     private ImageButton mHoldButton;
     private ImageButton mSwapButton;
-    private View mCdmaMergeButtonContainer;
+    //
+    private ViewGroup mExtraButtonRow;
+    private ViewGroup mCdmaMergeButtonContainer;
     private ImageButton mCdmaMergeButton;
+    private ViewGroup mManageConferenceButtonContainer;
+    private ImageButton mManageConferenceButton;
 
     // "Audio mode" PopupMenu
     private PopupMenu mAudioModePopup;
@@ -183,9 +188,18 @@ public class InCallTouchUi extends FrameLayout
         // If this is still needed, consider having a special icon for this
         // button in CDMA.
 
-        mCdmaMergeButtonContainer = mInCallControls.findViewById(R.id.cdmaMergeButtonContainer);
-        mCdmaMergeButton = (ImageButton) mInCallControls.findViewById(R.id.cdmaMergeButton);
+        // Buttons shown on the "extra button row", only visible in certain (rare) states.
+        mExtraButtonRow = (ViewGroup) mInCallControls.findViewById(R.id.extraButtonRow);
+        mCdmaMergeButtonContainer =
+                (ViewGroup) mInCallControls.findViewById(R.id.cdmaMergeButtonContainer);
+        mCdmaMergeButton =
+                (ImageButton) mInCallControls.findViewById(R.id.cdmaMergeButton);
         mCdmaMergeButton.setOnClickListener(this);
+        mManageConferenceButtonContainer =
+                (ViewGroup) mInCallControls.findViewById(R.id.manageConferenceButtonContainer);
+        mManageConferenceButton =
+                (ImageButton) mInCallControls.findViewById(R.id.manageConferenceButton);
+        mManageConferenceButton.setOnClickListener(this);
 
         // Add a custom OnTouchListener to manually shrink the "hit
         // target" of some buttons.
@@ -311,6 +325,7 @@ public class InCallTouchUi extends FrameLayout
             case R.id.holdButton:
             case R.id.swapButton:
             case R.id.cdmaMergeButton:
+            case R.id.manageConferenceButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
@@ -345,6 +360,10 @@ public class InCallTouchUi extends FrameLayout
         // The InCallControlState object tells us the enabledness and/or
         // state of the various onscreen buttons:
         InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
+
+        // The "extra button row" will be visible only if any of its
+        // buttons need to be visible.
+        boolean showExtraButtonRow = false;
 
         // "Add" / "Merge":
         // These two buttons occupy the same space onscreen, so at any
@@ -468,12 +487,16 @@ public class InCallTouchUi extends FrameLayout
             Log.w(LOG_TAG, "updateInCallControls: Hold *and* Swap enabled, but can't show both!");
         }
 
-        if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            // "Merge"
-            // This button is totally hidden (rather than just disabled)
-            // when the operation isn't available.
-            mCdmaMergeButtonContainer.setVisibility(
-                    inCallControlState.canMerge ? View.VISIBLE : View.GONE);
+        // CDMA-specific "Merge" button.
+        // This button and its label are totally hidden (rather than just disabled)
+        // when the operation isn't available.
+        boolean showCdmaMerge =
+                (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
+        if (showCdmaMerge) {
+            mCdmaMergeButtonContainer.setVisibility(View.VISIBLE);
+            showExtraButtonRow = true;
+        } else {
+            mCdmaMergeButtonContainer.setVisibility(View.GONE);
         }
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (inCallControlState.canSwap && inCallControlState.canMerge) {
@@ -487,13 +510,23 @@ public class InCallTouchUi extends FrameLayout
             }
         }
 
-        // One final special case: if the dialpad is visible, that trumps
-        // *any* of the upper corner buttons:
-        // TODO: Once mCdmaMergeButton gets moved into row 1 of the
-        // "bottomButtons" cluster, this test should instead hide row 1
-        // entirely if the dialpad is visible.
-        if (inCallControlState.dialpadVisible) {
-            mCdmaMergeButtonContainer.setVisibility(View.GONE);
+        // "Manage conference" (used only on GSM devices)
+        // This button and its label are shown or hidden together.
+        if (inCallControlState.manageConferenceVisible) {
+            mManageConferenceButtonContainer.setVisibility(View.VISIBLE);
+            showExtraButtonRow = true;
+            mManageConferenceButton.setEnabled(inCallControlState.manageConferenceEnabled);
+        } else {
+            mManageConferenceButtonContainer.setVisibility(View.GONE);
+        }
+
+        // Finally, update the "extra button row": It's displayed above the
+        // "End" button, but only if necessary.  Also, it's never displayed
+        // while the dialpad is visible (since it would overlap.)
+        if (showExtraButtonRow && !inCallControlState.dialpadVisible) {
+            mExtraButtonRow.setVisibility(View.VISIBLE);
+        } else {
+            mExtraButtonRow.setVisibility(View.GONE);
         }
     }
 
@@ -580,6 +613,44 @@ public class InCallTouchUi extends FrameLayout
                 break;
         }
         return true;
+    }
+
+    /**
+     * @return the amount of vertical space (in pixels) that needs to be
+     * reserved for the button cluster at the bottom of the screen.
+     * (The CallCard uses this measurement to determine how big
+     * the main "contact photo" area can be.)
+     *
+     * Watch out: the value we return is based on the current visibility state
+     * of our internal widgets.  So be sure to call updateState() *before*
+     * calling this method, since that's the place that actually sets the
+     * visibility of the relevant widgets.
+     */
+    public int getTouchUiHeight() {
+        // Based on the visibility state of our internal widgets, return
+        // how much vertical space we actually need for the touch controls
+        // at the bottom of the screen.
+
+        // Note that the value we return is based on constants like
+        // in_call_button_cluster_height or in_call_incoming_call_widget_height,
+        // *not* the true height in pixels of any actual UI element.
+
+        int height;
+
+        if (mIncomingCallWidget.getVisibility() == View.VISIBLE) {
+            // Incoming call is ringing.
+            height = (int) getResources().getDimension(R.dimen.in_call_incoming_call_widget_height);
+        } else {
+            // Normal in-call button cluster is visible.
+            height = (int) getResources().getDimension(R.dimen.in_call_button_cluster_height);
+
+            // Also, we need to reserve even more vertical space when the
+            // InCallTouchUi widget's "extra button row" is visible.
+            if (mExtraButtonRow.getVisibility() == View.VISIBLE) {
+                height += (int) getResources().getDimension(R.dimen.in_call_button_height);
+            }
+        }
+        return height;
     }
 
 

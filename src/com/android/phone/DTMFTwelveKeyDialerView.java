@@ -81,23 +81,6 @@ class DTMFTwelveKeyDialerView extends LinearLayout {
         return super.dispatchKeyEvent(event);
     }
 
-    /**
-     * Set the background of all the dialpad keys. Typically a selector to
-     * change the background based on some combination of the
-     * attributes.
-     * @param resid Is a resource id to be used for each button's background.
-     */
-    public void setKeysBackgroundResource(int resid) {
-        final View[] buttons = new View[] {
-                findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three),
-                findViewById(R.id.four), findViewById(R.id.five), findViewById(R.id.six),
-                findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine),
-                findViewById(R.id.star), findViewById(R.id.zero), findViewById(R.id.pound) };
-        for (View button : buttons) {
-            button.setBackgroundResource(resid);
-        }
-    }
-
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
     }

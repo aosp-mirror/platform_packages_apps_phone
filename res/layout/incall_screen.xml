@@ -14,66 +14,64 @@
      limitations under the License.
 -->
 
-<!-- In-call state of the Phone UI. -->
+<!-- In-call Phone UI; see InCallScreen.java. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               >
 
-    <!-- Main frame containing the main set of in-call UI elements. -->
-    <FrameLayout android:id="@+id/mainFrame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dip"
-        android:paddingLeft="6dip"
-        android:paddingRight="6dip"
-        >
+    <!-- inCallPanel: container for the CallCard. -->
+    <!-- TODO: This RelativeLayout is useless since it only has
+         one child.  And the only reason it's here is so we can
+         setVisibility(View.GONE) on it when we want to entirely
+         hide the CallCard.
+         So let's just get rid of it, and call setVisibility()
+         directly on the CallCard. -->
+    <RelativeLayout android:id="@+id/inCallPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+        <!-- The "Call Card", which displays info about the currently
+             active phone call(s) on the device.  See call_card.xml. -->
+        <com.android.phone.CallCard android:id="@+id/callCard"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    />
+    </RelativeLayout>  <!-- End of inCallPanel -->
 
-        <!-- (1) inCallPanel: the main set of in-call UI elements.
-             We update this view's background to indicate the state of the
-             current call; see updateInCallPanelBackground(). -->
-        <RelativeLayout android:id="@+id/inCallPanel"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
-            <!-- The "Call Card", which displays info about the currently
-                 active phone call(s) on the device.  See call_card.xml. -->
-            <com.android.phone.CallCard android:id="@+id/callCard"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                />
-        </RelativeLayout>  <!-- End of inCallPanel -->
-
-         <!-- Contains all OTA-related UI elements for CDMA -->
-        <ViewStub android:id="@+id/otaCallCardStub"
-                  android:layout="@layout/otacall_card"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  />
-
-    </FrameLayout>  <!-- End of mainFrame -->
-
-    <!-- The "Manage conference" UI.  This panel is displayed (instead of
-         the inCallPanel) when the user clicks the "Manage conference"
-         button while on a conference call. -->
-    <ViewStub android:id="@+id/manageConferencePanelStub"
-              android:layout="@layout/manage_conference_panel"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              />
-
-    <!-- In-call onscreen touch controls. -->
+    <!-- In-call onscreen touch controls; see InCallTouchUi.java.
+         This widget contains the cluster of buttons shown at the bottom
+         of the in-call screen, and also the DTMF dialpad (which, when
+         visible, covers the upper part of the screen too.) -->
     <com.android.phone.InCallTouchUi
         android:id="@+id/inCallTouchUi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
-    <!-- Layout where the provider's badge will be
-         inflated. The badge must fit in the available height.
-         The badge is displayed for 5s on top of the contact's
-         picture.
-      -->
+    <!-- ViewStub for OTASP-related UI elements (for the CDMA "activation"
+         call.)  Note that this ViewStub provides the *entire* OTASP
+         screen, including the status area at the top *and* touch controls
+         at the bottom of the screen.  The regular CallCard and the
+         InCallTouchUi widget are not used at all during an OTASP call. -->
+    <ViewStub android:id="@+id/otaCallCardStub"
+              android:layout="@layout/otacall_card"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              />
+
+    <!-- The "Manage conference" UI.  This panel is displayed (and covers up
+         the entire normal in-call UI) when the user clicks "Manage conference"
+         during a GSM conference call. -->
+    <ViewStub android:id="@+id/manageConferencePanelStub"
+              android:layout="@layout/manage_conference_panel"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              />
+
+    <!-- Overlay for the "Calling via ..." provider badge, which is
+         displayed for a few seconds at the start of any outgoing call
+         using a gateway provider (see InCallScreen.updateProviderOverlay()). -->
     <LinearLayout android:id="@+id/inCallProviderOverlay"
         android:background="@drawable/dialog_bg_calling_via"
         android:layout_width="match_parent"
