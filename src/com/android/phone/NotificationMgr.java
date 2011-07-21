@@ -446,7 +446,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     void notifySpeakerphone() {
         if (!mShowingSpeakerphoneIcon) {
-            mStatusBar.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0);
+            mStatusBar.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0,
+                    mContext.getString(R.string.accessibility_speakerphone_enabled));
             mShowingSpeakerphoneIcon = true;
         }
     }
@@ -476,7 +477,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     private void notifyMute() {
         if (!mShowingMuteIcon) {
-            mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0);
+            mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0,
+                    mContext.getString(R.string.accessibility_call_muted));
             mShowingMuteIcon = true;
         }
     }
