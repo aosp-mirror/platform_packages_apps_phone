@@ -14,6 +14,8 @@
      limitations under the License.
 -->
 
+<!-- The grid of buttons used in the onscreen DTMF dialpad;
+     see dtmf_twelve_key_dialer_view.xml. -->
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialpad"

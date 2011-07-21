@@ -120,46 +120,8 @@
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
 
-    <!-- In-call menu item labels -->
-    <!-- Regular in-call menu items: -->
-    <!-- In-call menu: Label for "speakerphone" menu item -->
-    <string name="menu_speaker">Speaker</string>
-    <!-- In-call menu: Label for "bluetooth" menu item -->
-    <string name="menu_bluetooth">Bluetooth</string>
-    <!-- In-call menu: Label for "mute" menu item -->
-    <string name="menu_mute">Mute</string>
-    <!-- In-call menu: Label for "hold" menu item -->
-    <string name="menu_hold">Hold</string>
-    <!-- In-call menu: Label for "end call" menu item -->
-    <string name="menu_endCall">End call</string>
-    <!-- In-call menu: Label for "swap calls" menu item -->
-    <string name="menu_swapCalls">Swap calls</string>
-    <!-- In-call menu: Label for "merge calls" menu item -->
-    <string name="menu_mergeCalls">Merge calls</string>
-    <!-- In-call menu: Label for "add call" menu item -->
-    <string name="menu_addCall">Add call</string>
-    <!-- In-call menu: Label for "manage conference call" menu item -->
-    <string name="menu_manageConference">Manage conference call</string>
-    <!-- In-call menu: Label for "show dialpad" menu item -->
-    <string name="menu_showDialpad">Show dialpad</string>
-    <!-- In-call menu: Label for "hide dialpad" menu item -->
-    <string name="menu_hideDialpad">Hide dialpad</string>
-    <!-- Incoming call menu items: -->
-    <!-- Incoming call menu: Label for "Hold and answer" menu item -->
-    <string name="menu_answerAndHold">Hold current call\n&amp; answer</string>
-    <!-- Incoming call menu: Label for "End and answer" menu item -->
-    <string name="menu_answerAndEnd">End current call\n&amp; answer</string>
-    <!-- Other misc labels for the in-call UI -->
-    <!-- Positive button label ("OK") used in several dialogs in the phone UI -->
-    <string name="ok">OK</string>
-    <!-- In-call screen, message just under call window when keyboard is closed -->
-    <string name="menuButtonHint">Press Menu for call options.</string>
-    <!-- In-call screen, message just under call window when keyboard is revealed -->
-    <string name="menuButtonKeyboardDialHint">"Press Menu for call options  \u2022  Use keyboard to dial"</string>
-    <!-- Incoming call menu: Label for "Answer" menu item -->
-    <string name="menu_answer">Answer</string>
-    <!-- Incoming call menu: Label for "Ignore" menu item -->
-    <string name="menu_ignore">Ignore</string>
+    <!-- Label for "Manage conference call" panel [CHAR LIMIT=40] -->
+    <string name="manageConferenceLabel">Manage conference call</string>
 
     <!-- "Audio mode" popup menu: Item label to select the speakerphone [CHAR LIMIT=25] -->
     <string name="audio_mode_speaker">Speaker</string>
@@ -1016,20 +978,6 @@
          dialpad is there to generate tones, not to add a new call.) -->
     <string name="dtmfDialpadHintText">Touch tone keypad</string>
 
-    <!-- Text displayed in the "sliding drawer handle" that you use to
-         open the in-call DTMF dialpad. -->
-    <string name="dtmfDialpadHandleLabel">Dialpad</string>
-
-    <!-- Text displayed on the in-call screen's "touch lock" overlay,
-         instructing the user that they need to double-tap to unlock the
-         screen. -->
-    <string name="touchLockText">Double-tap\nto unlock</string>
-
-    <!-- Text for the onscreen "Answer" button, instructing the user that
-         they need to double-tap to answer the incoming call. -->
-    <string name="onscreenAnswerText">Double-tap\nto answer</string>
-    <!-- Text for the onscreen "Decline" button -->
-    <string name="onscreenRejectText">Double-tap\nto decline</string>
     <!-- Text for the onscreen "Hold" button -->
     <string name="onscreenHoldText">Hold</string>
     <!-- Text for the onscreen "Hold" button in the "Unhold" state -->

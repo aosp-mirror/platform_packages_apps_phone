@@ -759,8 +759,6 @@ public class OtaUtils {
                         View.VISIBLE : View.INVISIBLE);
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
-            } else {
-                mDialer.setHandleVisible(true);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
@@ -795,14 +793,12 @@ public class OtaUtils {
                 mOtaWidgetData.otaSpeakerButton.setVisibility(View.VISIBLE);
                 boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
                 mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
-            } else {
-                mDialer.setHandleVisible(true);
             }
             mApplication.cdmaOtaScreenState.otaScreenState =
                     CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
 
-            // Update the state of the in-call menu items.
-            mInCallScreen.updateMenuItems();
+            // Update the onscreen UI.
+            mInCallScreen.requestUpdateScreen();
         } else {
             if (DBG) log("OtaShowListeningScreen(): show progress screen");
             otaShowInProgressScreen();
@@ -939,12 +935,10 @@ public class OtaUtils {
             mOtaWidgetData.otaSpeakerButton.setVisibility(View.VISIBLE);
             boolean speakerOn = PhoneUtils.isSpeakerOn(mContext);
             mOtaWidgetData.otaSpeakerButton.setChecked(speakerOn);
-        } else {
-            mDialer.setHandleVisible(true);
         }
 
-        // Update the state of the in-call menu items.
-        mInCallScreen.updateMenuItems();
+        // Update the onscreen UI.
+        mInCallScreen.requestUpdateScreen();
     }
 
     /**
@@ -1128,7 +1122,6 @@ public class OtaUtils {
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
-        mDialer.setHandleVisible(false);
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
@@ -1432,8 +1425,7 @@ public class OtaUtils {
         // instance, that belongs to the InCallScreen.  This is confusing;
         // see the TODO comment above.)
         mOtaCallCardDtmfDialer = new DTMFTwelveKeyDialer(mInCallScreen,
-                                                         mOtaWidgetData.otaDtmfDialerView,
-                                                         null /* no SlidingDrawer used here */);
+                                                         mOtaWidgetData.otaDtmfDialerView);
 
         // Initialize the new DTMFTwelveKeyDialer instance.  This is
         // needed to play local DTMF tones.
@@ -1462,7 +1454,6 @@ public class OtaUtils {
         if (mInteractive && (mOtaWidgetData != null)) {
             if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
             if (mCallCard != null) mCallCard.hideCallCardElements();
-            if (mDialer != null) mDialer.setHandleVisible(true);
 
             // Free resources from the DTMFTwelveKeyDialer instance we created
             // in initOtaInCallScreen().

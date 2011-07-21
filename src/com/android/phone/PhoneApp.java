@@ -1083,32 +1083,19 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // Note that the "screen timeout" value we determine here is
         // meaningless if the screen is forced on (see (2) below.)
         //
-        if (!isShowingCallScreen || isSpeakerInUse) {
-            // Use the system-wide default timeout.
-            setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
-        } else {
-            // We're on the in-call screen, and *not* using the speakerphone.
-            if (isDialerOpened) {
-                // The DTMF dialpad is up.  This case is special because
-                // the in-call UI has its own "touch lock" mechanism to
-                // disable the dialpad after a very short amount of idle
-                // time (to avoid false touches from the user's face while
-                // in-call.)
-                //
-                // In this case the *physical* screen just uses the
-                // system-wide default timeout.
-                setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
-            } else {
-                // We're on the in-call screen, and not using the DTMF dialpad.
-                // There's actually no touchable UI onscreen at all in
-                // this state.  Also, the user is (most likely) not
-                // looking at the screen at all, since they're probably
-                // holding the phone up to their face.  Here we use a
-                // special screen timeout value specific to the in-call
-                // screen, purely to save battery life.
-                setScreenTimeout(ScreenTimeoutDuration.MEDIUM);
-            }
-        }
+
+        // Historical note: In froyo and earlier, we checked here for a special
+        // case: the in-call UI being active, the speaker off, and the DTMF dialpad
+        // not visible.  In that case, with no touchable UI onscreen at all (for
+        // non-prox-sensor devices at least), we could assume the user was probably
+        // holding the phone up to their face and *not* actually looking at the
+        // screen.  So we'd switch to a special screen timeout value
+        // (ScreenTimeoutDuration.MEDIUM), purely to save battery life.
+        //
+        // On current devices, we can rely on the proximity sensor to turn the
+        // screen off in this case, so we use the system-wide default timeout
+        // unconditionally.
+        setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
 
         //
         // (2) Decide whether to force the screen on or not.
@@ -1168,8 +1155,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * Manually pokes the PowerManager's userActivity method.  Since we
      * hold the POKE_LOCK_IGNORE_TOUCH_EVENTS poke lock while
      * the InCallScreen is active, we need to do this for touch events
-     * that really do count as user activity (like DTMF key presses, or
-     * unlocking the "touch lock" overlay.)
+     * that really do count as user activity (like pressing any
+     * onscreen UI elements.)
      */
     /* package */ void pokeUserActivity() {
         if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");

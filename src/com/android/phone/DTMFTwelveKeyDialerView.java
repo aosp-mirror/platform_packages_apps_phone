@@ -36,6 +36,8 @@ import java.util.ArrayList;
  * This is really a thin wrapper around Linear Layout that intercepts
  * some user interactions to provide the correct UI behaviour for the
  * dialer.
+ *
+ * See dtmf_twelve_key_dialer_view.xml.
  */
 class DTMFTwelveKeyDialerView extends LinearLayout {
 

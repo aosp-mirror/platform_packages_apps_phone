@@ -103,9 +103,6 @@ public class CallCard extends FrameLayout
     private TextView mSecondaryCallStatus;
     private ImageView mSecondaryCallPhoto;
 
-    // Menu button hint
-    private TextView mMenuButtonHint;
-
     // Onscreen hint for the incoming call RotarySelector widget.
     private int mIncomingCallWidgetHintTextResId;
     private int mIncomingCallWidgetHintColorResId;
@@ -199,9 +196,6 @@ public class CallCard extends FrameLayout
         mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
         mSecondaryCallStatus = (TextView) findViewById(R.id.secondaryCallStatus);
         mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
-
-        // Menu Button hint
-        mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
     }
 
     /**
@@ -1273,14 +1267,17 @@ public class CallCard extends FrameLayout
             mName.setText(R.string.card_title_in_call);
         } else if ((phoneType == Phone.PHONE_TYPE_GSM)
                 || (phoneType == Phone.PHONE_TYPE_SIP)) {
-            if (mInCallScreen.isTouchUiEnabled()) {
-                // Display the "manage conference" button.
-                mManageConferencePhotoButton.setVisibility(View.VISIBLE);
-            } else {
-                // Display the "conference call" image in the photo slot,
-                // with no other information.
-                showImage(mPhoto, R.drawable.picture_conference);
-            }
+            // Display the "manage conference" button.
+            mManageConferencePhotoButton.setVisibility(View.VISIBLE);
+
+            // TODO: The "Manage conference" button logic actually
+            // belongs in InCallTouchUi; see TODO in
+            // incall_touch_ui.xml (bug 5044296).
+            //
+            // Also, at this point we should display the "conference
+            // call" image in the photo slot:
+            // showImage(mPhoto, R.drawable.picture_conference);
+
             mName.setText(R.string.card_title_conf_call);
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
@@ -1458,15 +1455,6 @@ public class CallCard extends FrameLayout
     private static final void showImage(ImageView view, Drawable drawable) {
         view.setImageDrawable(drawable);
         view.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * Returns the "Menu button hint" TextView (which is manipulated
-     * directly by the InCallScreen.)
-     * @see InCallScreen.updateMenuButtonHint()
-     */
-    /* package */ TextView getMenuButtonHint() {
-        return mMenuButtonHint;
     }
 
     /**
