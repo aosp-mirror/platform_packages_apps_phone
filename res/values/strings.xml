@@ -110,7 +110,10 @@
     <!-- In-call screen: call lost title of dialog -->
     <string name="call_lost_title">Call Lost</string>
 
-    <!-- MMI strings -->
+    <!-- Positive button label ("OK") used in several dialogs in the phone UI [CHAR LIMIT=10] -->
+    <string name="ok">OK</string>
+
+    <!-- MMI dialog strings -->
     <!-- Dialog label when an MMI code starts running -->
     <string name="mmiStarted">MMI code started</string>
     <!-- Dialog label when a USSD code starts running -->
