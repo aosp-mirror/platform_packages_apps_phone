@@ -35,7 +35,12 @@
     android:visibility="gone"
     >
 
-    <!-- Display of the digits you've typed so far -->
+    <!-- Display of the digits you've typed so far.
+         This widget appears completely non-interactive to the user: you
+         can't edit or "hit backspace" since these are DTMF tones you've
+         already sent over the network.  But it's still an EditText rather
+         than a TextView because it needs to receive key events from a
+         hard keyboard, if present (see mDialerKeyListener). -->
     <EditText
         android:id="@+id/dtmfDialerField"
         android:layout_width="match_parent"
@@ -46,7 +51,7 @@
         android:layout_marginRight="32dp"
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
-        android:maxLines="1"
+        android:singleLine="true"
         android:scrollHorizontally="true"
         android:textSize="24sp"
         android:gravity="center"
