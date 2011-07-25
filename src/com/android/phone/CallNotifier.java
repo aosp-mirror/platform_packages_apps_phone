@@ -139,6 +139,7 @@ public class CallNotifier extends Handler
     private static final int DISPLAYINFO_NOTIFICATION_DONE = 25;
     private static final int EVENT_OTA_PROVISION_CHANGE = 26;
     private static final int CDMA_CALL_WAITING_REJECT = 27;
+    private static final int UPDATE_IN_CALL_NOTIFICATION = 28;
 
     // Emergency call related defines:
     private static final int EMERGENCY_TONE_OFF = 0;
@@ -358,6 +359,10 @@ public class CallNotifier extends Handler
 
             case PHONE_RESEND_MUTE:
                 onResendMute();
+                break;
+
+            case UPDATE_IN_CALL_NOTIFICATION:
+                NotificationMgr.getDefault().updateInCallNotification();
                 break;
 
             default:
@@ -817,9 +822,25 @@ public class CallNotifier extends Handler
             if (DBG) log("stopRing()... (OFFHOOK state)");
             mRinger.stopRing();
 
-            // put a icon in the status bar
-            if (DBG) log("- updating notification for phone state change...");
-            NotificationMgr.getDefault().updateInCallNotification();
+            // Post a request to update the "in-call" status bar icon.
+            //
+            // We don't call NotificationMgr.updateInCallNotification()
+            // directly here, for two reasons:
+            // (1) a single phone state change might actually trigger multiple
+            //   onPhoneStateChanged() callbacks, so this prevents redundant
+            //   updates of the notification.
+            // (2) we suppress the status bar icon while the in-call UI is
+            //   visible (see updateInCallNotification()).  But when launching
+            //   an outgoing call the phone actually goes OFFHOOK slightly
+            //   *before* the InCallScreen comes up, so the delay here avoids a
+            //   brief flicker of the icon at that point.
+
+            if (DBG) log("- posting UPDATE_IN_CALL_NOTIFICATION request...");
+            // Remove any previous requests in the queue
+            removeMessages(UPDATE_IN_CALL_NOTIFICATION);
+            final int IN_CALL_NOTIFICATION_UPDATE_DELAY = 1000;  // msec
+            sendEmptyMessageDelayed(UPDATE_IN_CALL_NOTIFICATION,
+                                    IN_CALL_NOTIFICATION_UPDATE_DELAY);
         }
 
         if (fgPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
@@ -1011,8 +1032,8 @@ public class CallNotifier extends Handler
             if (PhoneUtils.isRealIncomingCall(ringingCall.getState())) {
                 // Also we need to take off the "In Call" icon from the Notification
                 // area as the Out going Call never got connected
-                if (DBG) log("cancelCallInProgressNotification()... (onDisconnect)");
-                NotificationMgr.getDefault().cancelCallInProgressNotification();
+                if (DBG) log("cancelCallInProgressNotifications()... (onDisconnect)");
+                NotificationMgr.getDefault().cancelCallInProgressNotifications();
             } else {
                 if (DBG) log("stopRing()... (onDisconnect)");
                 mRinger.stopRing();
@@ -1102,7 +1123,7 @@ public class CallNotifier extends Handler
                 resetAudioStateAfterDisconnect();
             }
 
-            NotificationMgr.getDefault().cancelCallInProgressNotification();
+            NotificationMgr.getDefault().cancelCallInProgressNotifications();
 
             // If the InCallScreen is *not* in the foreground, forcibly
             // dismiss it to make sure it won't still be in the activity

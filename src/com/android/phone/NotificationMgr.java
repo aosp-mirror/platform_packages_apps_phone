@@ -521,8 +521,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
+        // If the phone is idle, completely clean up all call-related
+        // notifications.
         if (mCM.getState() == Phone.State.IDLE) {
             cancelInCall();
+            cancelMute();
+            cancelSpeakerphone();
             return;
         }
 
@@ -534,6 +538,21 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             log("  - hasRingingCall = " + hasRingingCall);
             log("  - hasActiveCall = " + hasActiveCall);
             log("  - hasHoldingCall = " + hasHoldingCall);
+        }
+
+        // Suppress the in-call notification if the the InCallScreen is the
+        // foreground activity, since it's already obvious that you're on a
+        // call.  (The status bar icon is needed only if you navigate *away*
+        // from the in-call UI.)
+        //
+        // But *never* do this if there's an incoming ringing call: We need the
+        // in-call notification to actually launch the incoming call UI in the
+        // first place (see notification.fullScreenIntent below) and we can't
+        // safely assume that the InCallScreen will never be in the foreground
+        // when a new incoming call comes in.
+        if (app.isShowingCallScreen() && !hasRingingCall) {
+            cancelInCall();
+            return;
         }
 
         // Display the appropriate icon in the status bar,
@@ -800,22 +819,30 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
+    /**
+     * Take down the in-call notification.
+     * @see updateInCallNotification()
+     */
     private void cancelInCall() {
         if (DBG) log("cancelInCall()...");
-        cancelMute();
-        cancelSpeakerphone();
         mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
         mInCallResId = 0;
     }
 
-    void cancelCallInProgressNotification() {
-        if (DBG) log("cancelCallInProgressNotification()...");
+    /**
+     * Completely take down the in-call notification *and* the mute/speaker
+     * notifications as well, to indicate that the phone is now idle.
+     */
+    /* package */ void cancelCallInProgressNotifications() {
+        if (DBG) log("cancelCallInProgressNotifications()...");
         if (mInCallResId == 0) {
             return;
         }
 
-        if (DBG) log("cancelCallInProgressNotification: " + mInCallResId);
+        if (DBG) log("cancelCallInProgressNotifications: " + mInCallResId);
         cancelInCall();
+        cancelMute();
+        cancelSpeakerphone();
     }
 
     /**

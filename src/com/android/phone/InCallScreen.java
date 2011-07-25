@@ -558,6 +558,9 @@ public class InCallScreen extends Activity
         // Disable the status bar "window shade" the entire time we're on
         // the in-call screen.
         NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(false);
+        // ...and update the in-call notification too, since the status bar
+        // icon needs to be hidden while we're the foreground activity:
+        NotificationMgr.getDefault().updateInCallNotification();
 
         // Listen for broadcast intents that might affect the onscreen UI.
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
@@ -816,6 +819,8 @@ public class InCallScreen extends Activity
 
         // Re-enable the status bar (which we disabled in onResume().)
         NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(true);
+        // ...and the in-call notification too:
+        NotificationMgr.getDefault().updateInCallNotification();
 
         // Unregister for broadcast intents.  (These affect the visible UI
         // of the InCallScreen, so we only care about them while we're in the
