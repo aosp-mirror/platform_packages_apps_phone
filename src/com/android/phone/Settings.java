@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.ThrottleManager;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
@@ -54,6 +57,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private static final String BUTTON_DATA_USAGE_KEY = "button_data_usage_key";
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
+    private static final String BUTTON_CDMA_LTE_DATA_SERVICE_KEY = "cdma_lte_data_service_key";
 
     static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
 
@@ -61,6 +65,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private ListPreference mButtonPreferredNetworkMode;
     private CheckBoxPreference mButtonDataRoam;
     private CheckBoxPreference mButtonDataEnabled;
+    private Preference mLteDataServicePref;
 
     private Preference mButtonDataUsage;
     private DataUsageListener mDataUsageListener;
@@ -153,6 +158,24 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
             cm.setMobileDataEnabled(mButtonDataEnabled.isChecked());
             return true;
+        } else if (preference == mLteDataServicePref) {
+            String tmpl = android.provider.Settings.Secure.getString(getContentResolver(),
+                        android.provider.Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL);
+            if (!TextUtils.isEmpty(tmpl)) {
+                TelephonyManager tm = (TelephonyManager) getSystemService(
+                        Context.TELEPHONY_SERVICE);
+                String imsi = tm.getSubscriberId();
+                if (imsi == null) {
+                    imsi = "";
+                }
+                final String url = TextUtils.isEmpty(tmpl) ? null
+                        : TextUtils.expandTemplate(tmpl, imsi).toString();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            } else {
+                android.util.Log.e(LOG_TAG, "Missing SETUP_PREPAID_DATA_SERVICE_URL");
+            }
+            return true;
         } else {
             // if the button is anything but the simple toggle preference,
             // we'll need to disable all preferences to reject all click
@@ -180,7 +203,9 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_NETWORK_MODE);
         mButtonDataUsage = prefSet.findPreference(BUTTON_DATA_USAGE_KEY);
+        mLteDataServicePref = prefSet.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
 
+        boolean isLteOnCdma = mPhone.getLteOnCdmaMode() == Phone.LTE_ON_CDMA_TRUE;
         if (getResources().getBoolean(R.bool.world_phone) == true) {
             // set the listener for the mButtonPreferredNetworkMode list preference so we can issue
             // change Preferred Network Mode.
@@ -194,7 +219,6 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             mCdmaOptions = new CdmaOptions(this, prefSet, mPhone);
             mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
         } else {
-            boolean isLteOnCdma = mPhone.getLteOnCdmaMode() == Phone.LTE_ON_CDMA_TRUE;
             if (!isLteOnCdma) {
                 prefSet.removePreference(mButtonPreferredNetworkMode);
             }
@@ -221,6 +245,16 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
         }
+
+        final boolean missingDataServiceUrl = TextUtils.isEmpty(
+                android.provider.Settings.Secure.getString(getContentResolver(),
+                        android.provider.Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL));
+        if (!isLteOnCdma || missingDataServiceUrl) {
+            prefSet.removePreference(mLteDataServicePref);
+        } else {
+            android.util.Log.d(LOG_TAG, "keep ltePref");
+        }
+
         ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
         mDataUsageListener = new DataUsageListener(this, mButtonDataUsage, prefSet);
     }

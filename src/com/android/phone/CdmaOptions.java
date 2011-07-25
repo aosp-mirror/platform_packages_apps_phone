@@ -42,7 +42,6 @@ public class CdmaOptions {
     private static final String BUTTON_CDMA_SYSTEM_SELECT_KEY = "cdma_system_select_key";
     private static final String BUTTON_CDMA_SUBSCRIPTION_KEY = "cdma_subscription_key";
     private static final String BUTTON_CDMA_ACTIVATE_DEVICE_KEY = "cdma_activate_device_key";
-    private static final String BUTTON_CDMA_LTE_DATA_SERVICE_KEY = "cdma_lte_data_service_key";
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
@@ -83,15 +82,6 @@ public class CdmaOptions {
             mPrefScreen.removePreference(
                     mPrefScreen.findPreference(BUTTON_CDMA_ACTIVATE_DEVICE_KEY));
         }
-        final boolean missingDataServiceUrl = TextUtils.isEmpty(
-                Settings.Secure.getString(mPrefActivity.getContentResolver(),
-                        Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL));
-        final Preference ltePref = mPrefScreen.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
-        if (!isLTE || missingDataServiceUrl) {
-            mPrefScreen.removePreference(ltePref);
-        } else {
-            android.util.Log.d(LOG_TAG, "keep ltePref");
-        }
     }
 
     private boolean deviceSupportsNvAndRuim() {
@@ -127,25 +117,6 @@ public class CdmaOptions {
         }
         if (preference.getKey().equals(BUTTON_CDMA_SUBSCRIPTION_KEY)) {
             log("preferenceTreeClick: return CDMA_SUBSCRIPTION_KEY true");
-            return true;
-        }
-        if (preference.getKey().equals(BUTTON_CDMA_LTE_DATA_SERVICE_KEY)) {
-            String tmpl = Settings.Secure.getString(mPrefActivity.getContentResolver(),
-                        Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL);
-            if (!TextUtils.isEmpty(tmpl)) {
-                TelephonyManager tm = (TelephonyManager) mPrefActivity.getSystemService(
-                        Context.TELEPHONY_SERVICE);
-                String imsi = tm.getSubscriberId();
-                if (imsi == null) {
-                    imsi = "";
-                }
-                final String url = TextUtils.isEmpty(tmpl) ? null
-                        : TextUtils.expandTemplate(tmpl, imsi).toString();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                mPrefActivity.startActivity(intent);
-            } else {
-                android.util.Log.e(LOG_TAG, "Missing SETUP_PREPAID_DATA_SERVICE_URL");
-            }
             return true;
         }
         return false;
