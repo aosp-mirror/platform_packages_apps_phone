@@ -58,28 +58,13 @@
     <string name="call_lost" msgid="317670617901479594">"השיחה אבדה."</string>
     <string name="retry" msgid="8462986804300767852">"נסה שוב"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"שיחה אבדה"</string>
+    <string name="ok" msgid="3811371167865772377">"אישור"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"קוד MMI הופעל"</string>
     <string name="ussdRunning" msgid="485588686340541690">"קוד USSD פועל…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"קוד MMI מבוטל"</string>
     <string name="cancel" msgid="5044513931633602634">"ביטול"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"רמקול"</string>
-    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"השתק"</string>
-    <string name="menu_hold" msgid="6970441130344786273">"השהה"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"סיים שיחה"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"החלף שיחות"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"מזג שיחות"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"הוסף שיחה"</string>
-    <string name="menu_manageConference" msgid="3770984362002266733">"נהל שיחת ועידה"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"הצג את לוח החיוג"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"הסתר לוח חיוג"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"השהה את השיחה הנוכחית"\n"וענה"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"סיים את השיחה הנוכחית"\n"וענה"</string>
-    <string name="ok" msgid="3811371167865772377">"אישור"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"הקש על \'תפריט\' לקבלת אפשרויות שיחה."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"לחץ על \'תפריט\' לקבלת אפשרויות שיחה  •  השתמש במקלדת כדי לחייג"</string>
-    <string name="menu_answer" msgid="116686205042231098">"מענה"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"התעלם"</string>
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
+    <skip />
     <!-- no translation found for audio_mode_speaker (27649582100085266) -->
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
@@ -522,10 +507,6 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"השיחה לא נשלחה, חייג מספר חירום!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"השתמש במקלדת כדי לחייג"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"מקלדת מגע עם צלילים"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"לוח חיוג"</string>
-    <string name="touchLockText" msgid="566824588267376287">"הקש פעמיים"\n"כדי לבטל את הנעילה"</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"גע פעמיים"\n"כדי לענות"</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"גע פעמיים"\n"כדי לדחות"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"השהה"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"בטל השהיה"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"סיום"</string>
@@ -711,11 +692,12 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"אני אתקשר אליך יותר מאוחר."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"אני לא יכול לדבר עכשיו. תתקשר אלי מאוחר יותר?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"הודעה מותאמת אישית..."</string>
-    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"תגובת טקסט מהירה"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"מחרוזות של תגובות טקסט מהירות"</string>
-    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"נהל מחרוזות של תגובות טקסט מהירות"</string>
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
+    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"תגובת טקסט מהירה"</string>
-    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"התאם אישית תגובה זו:"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"אחד"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"שתיים"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"שלוש"</string>
@@ -731,4 +713,8 @@
     <string name="description_search_button" msgid="239929880630534731">"חיפוש"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"חייג"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"Backspace"</string>
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
+    <skip />
 </resources>

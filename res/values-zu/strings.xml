@@ -77,6 +77,8 @@
     <string name="call_lost" msgid="317670617901479594">"Ucingo lwakho lulahlekile."</string>
     <string name="retry" msgid="8462986804300767852">"Zama futhi"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"Ikholi ilahlekile"</string>
+    <!-- no translation found for ok (3811371167865772377) -->
+    <skip />
     <!-- no translation found for mmiStarted (6347869857061147003) -->
     <skip />
     <!-- no translation found for ussdRunning (485588686340541690) -->
@@ -85,34 +87,8 @@
     <skip />
     <!-- no translation found for cancel (5044513931633602634) -->
     <skip />
-    <!-- no translation found for menu_speaker (6069700688651964705) -->
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for menu_bluetooth (8842523654717305695) -->
-    <skip />
-    <!-- no translation found for menu_mute (4399723633363773145) -->
-    <skip />
-    <!-- no translation found for menu_hold (6970441130344786273) -->
-    <skip />
-    <!-- no translation found for menu_endCall (2142958047156634241) -->
-    <skip />
-    <!-- no translation found for menu_swapCalls (1548647524816600795) -->
-    <skip />
-    <!-- no translation found for menu_mergeCalls (6414754941392181303) -->
-    <skip />
-    <!-- no translation found for menu_addCall (7829255032442131930) -->
-    <skip />
-    <!-- no translation found for menu_manageConference (3770984362002266733) -->
-    <skip />
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Bonisa iphedi yokudayela"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Fihla iphedi yokudayela"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"Misa ikholi yamanje "\n"&amp; phendula"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Vala ikholi yamanje "\n"&amp; phendula"</string>
-    <!-- no translation found for ok (3811371167865772377) -->
-    <skip />
-    <string name="menuButtonHint" msgid="4853215496220101699">"Cindezela Menyu ukuthola okukhethwa kukho kukholi."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Cindezela Menyu ukuthola okukhethwa kukho kukholi •  Sebenzisa ikhibhodi ukudayela"</string>
-    <string name="menu_answer" msgid="116686205042231098">"Phendula"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"Ziba"</string>
     <!-- no translation found for audio_mode_speaker (27649582100085266) -->
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
@@ -722,13 +698,9 @@
     <!-- no translation found for dialerKeyboardHintText (9192914825413747792) -->
     <skip />
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Thinta ikhiphedi yethoni"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Iphedi yokudayela"</string>
-    <string name="touchLockText" msgid="566824588267376287">"Thepha kabili "\n" ukuvula"</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"Thepha kabili "\n" ukuphendula"</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"Thepha kabili "\n" ukwenqaba"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Bamba"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Ukungabambi"</string>
-    <string name="onscreenEndCallText" msgid="4403855834875398585">"Ekupheleni"</string>
+    <string name="onscreenEndCallText" msgid="4403855834875398585">"Qeda"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Iphedi yokudayela"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Fihla"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Isipikha"</string>
@@ -904,7 +876,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Alukho uxhumano lwe-Inthanethi"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Alukho uxhumano lwe-Wi-Fi"</string>
     <string name="no_internet_available" msgid="1100564991026313234">"Ukwenza ikholi nge-Inthanethi, hlola kuqala uxhumano lwakho lwe-Inthanethi"</string>
-    <string name="no_wifi_available" msgid="3389743006886634541">"Kumele uxhumeke kwinethiwekhi ye-Wi-Fi ukwenza izincingo nge-Inthanethi (sebenzisa izilungiselelo Zenethiwekhi Engenantambo &amp;)"</string>
+    <string name="no_wifi_available" msgid="3389743006886634541">"Kumele uxhumeke kwinethiwekhi ye-Wi-Fi ukwenza amakholi nge-Inthanethi (sebenzisa izilungiselelo Zenethiwekhi Engenantambo &amp;)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Ukushayela nge-Inthanethi akusekelwe"</string>
     <!-- no translation found for sip_system_decide (368030746310423471) -->
     <skip />
@@ -921,15 +893,12 @@
     <skip />
     <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
     <skip />
-    <!-- no translation found for respond_via_sms_setting_title (7794690978209630905) -->
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
     <skip />
-    <!-- no translation found for respond_via_sms_setting_title_2 (8324198379081998754) -->
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
     <skip />
-    <!-- no translation found for respond_via_sms_setting_summary (5683224184905454012) -->
-    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_edittext_dialog_message (3272733219042271609) -->
     <skip />
     <!-- no translation found for description_image_button_one (5502718871331943463) -->
     <skip />
@@ -960,5 +929,9 @@
     <!-- no translation found for description_dial_button (7459705245418435351) -->
     <skip />
     <!-- no translation found for description_delete_button (4015842181592283903) -->
+    <skip />
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
     <skip />
 </resources>

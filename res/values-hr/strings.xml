@@ -58,28 +58,13 @@
     <string name="call_lost" msgid="317670617901479594">"Poziv je prekinut."</string>
     <string name="retry" msgid="8462986804300767852">"Pokušaj ponovo"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"Poziv je prekinut"</string>
+    <string name="ok" msgid="3811371167865772377">"U redu"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Pokrenut je MMI kôd"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Pokrenut je USSD kôd…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Otkazan je MMI kôd"</string>
     <string name="cancel" msgid="5044513931633602634">"Odustani"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Zvučnik"</string>
-    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"Isključi zvuk"</string>
-    <string name="menu_hold" msgid="6970441130344786273">"Na čekanju"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Prekid poziva"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Zamijeni pozive"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Spoji pozive"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Dodaj poziv"</string>
-    <string name="menu_manageConference" msgid="3770984362002266733">"Upravljaj konferencijskim pozivom"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Prikaži površinu za biranje brojeva"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Sakrij površinu za biranje brojeva"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"Zadrži trenutačni poziv"\n"i odgovori"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Prekini trenutačni poziv"\n"i odgovori"</string>
-    <string name="ok" msgid="3811371167865772377">"U redu"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Pritisnite Izbornik za opcije poziva."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Pritisnite izbornik za opcije poziva  •  Za biranje koristite tipkovnicu"</string>
-    <string name="menu_answer" msgid="116686205042231098">"Odgovor"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"Zanemari"</string>
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
+    <skip />
     <!-- no translation found for audio_mode_speaker (27649582100085266) -->
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
@@ -522,10 +507,6 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Poziv nije poslan, birajte hitan poziv!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Birajte pomoću tipkovnice"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Tipkovnica za dodirni zvuk"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Površina za biranje brojeva"</string>
-    <string name="touchLockText" msgid="566824588267376287">"Dvaput dotaknite"\n"za otključavanje"</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"Dvaput dotaknite"\n"za odgovor"</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"Dvaput dotaknite"\n"za odbijanje"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Na čekanju"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Više nije na čekanju"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Kraj"</string>
@@ -711,11 +692,12 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Zvat ću vas kasnije."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Sada ne mogu razgovarati. Nazovite me kasnije?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Prilagođena poruka..."</string>
-    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"Brzi tekstualni odgovor"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"Nizovi brzih tekstualnih odgovora"</string>
-    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"Upravljanje nizovima brzih tekstualnih  odgovora"</string>
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
+    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Brzi tekstualni odgovor"</string>
-    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"Prilagodite ovaj odgovor:"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"jedan"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"dva"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"tri"</string>
@@ -731,4 +713,8 @@
     <string name="description_search_button" msgid="239929880630534731">"pretraži"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"biraj"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
+    <skip />
 </resources>

@@ -58,28 +58,13 @@
     <string name="call_lost" msgid="317670617901479594">"L\'appel a été perdu."</string>
     <string name="retry" msgid="8462986804300767852">"Réessayer"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"Appel manqué"</string>
+    <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Le code IHM a été lancé."</string>
     <string name="ussdRunning" msgid="485588686340541690">"Exécution du code USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Code IHM annulé"</string>
     <string name="cancel" msgid="5044513931633602634">"Annuler"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Ht. parleur"</string>
-    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"Silencieux"</string>
-    <string name="menu_hold" msgid="6970441130344786273">"En attente"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Fin d\'appel"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Permuter"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Fusionner"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Ajouter"</string>
-    <string name="menu_manageConference" msgid="3770984362002266733">"Gérer la conférence téléphonique"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Afficher le clavier"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Masquer le clavier"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"Suspendre l\'appel"\n"et répondre"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Terminer l\'appel"\n"et répondre"</string>
-    <string name="ok" msgid="3811371167865772377">"OK"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Appuyez sur \"Menu\" pour afficher les options d\'appel."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Appuyez sur \"Menu\" pour afficher les options d\'appel • Utilisez le clavier pour composer un numéro"</string>
-    <string name="menu_answer" msgid="116686205042231098">"Répondre"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"Ignorer"</string>
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
+    <skip />
     <!-- no translation found for audio_mode_speaker (27649582100085266) -->
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
@@ -522,10 +507,6 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"L\'appel n\'a pas été effectué. Veuillez composer un numéro d\'urgence !"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilisez le clavier pour composer un numéro."</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Touches sonores"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Clavier"</string>
-    <string name="touchLockText" msgid="566824588267376287">"Appuyez deux fois"\n"pour déverrouiller"</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"Appuyez deux fois"\n"pour répondre."</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"Appuyez deux fois"\n"pour refuser."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"En attente"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Reprendre"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Raccrocher"</string>
@@ -709,13 +690,14 @@
     <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"Peux pas parler. Quoi de neuf ?"</string>
     <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"Je te rappelle tout de suite."</string>
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Je t\'appellerai plus tard."</string>
-    <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Peux pas parler. Plus tard ?"</string>
+    <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Peux pas parler. On se rappelle ?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Message personnalisé..."</string>
-    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"Réponse rapide par SMS"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"Chaînes de réponses rapides SMS"</string>
-    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"Gérer les réponses rapides par SMS"</string>
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
+    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Réponse rapide par SMS"</string>
-    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"Personnaliser cette réponse :"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"un"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"deux"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"trois"</string>
@@ -731,4 +713,8 @@
     <string name="description_search_button" msgid="239929880630534731">"rechercher"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"composer"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"retour arrière"</string>
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
+    <skip />
 </resources>
