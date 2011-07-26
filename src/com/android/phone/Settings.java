@@ -44,7 +44,19 @@ import android.util.Log;
 import android.view.MenuItem;
 
 /**
- * List of Phone-specific settings screens.
+ * "Mobile network settings" screen.  This preference screen lets you
+ * enable/disable mobile data, and control data roaming and other
+ * network-specific mobile data features.  It's used on non-voice-capable
+ * tablets as well as regular phone devices.
+ *
+ * Note that this PreferenceActivity is part of the phone app, even though
+ * you reach it from the "Wireless & Networks" section of the main
+ * Settings app.  It's not part of the "Call settings" hierarchy that's
+ * available from the Phone app (see CallFeaturesSetting for that.)
+ *
+ * TODO: Rename this to be "NetworkSettings.java" to be more clear.
+ * (But be careful in case the Settings app has any hardwired references
+ * to this class name...)
  */
 public class Settings extends PreferenceActivity implements DialogInterface.OnClickListener,
         DialogInterface.OnDismissListener, Preference.OnPreferenceChangeListener{

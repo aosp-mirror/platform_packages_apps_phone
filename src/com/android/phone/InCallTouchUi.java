@@ -265,14 +265,6 @@ public class InCallTouchUi extends FrameLayout
                 log("updateState: Too soon after last action; not drawing!");
                 showIncomingCallControls = false;
             }
-
-            // TODO: UI design issue: if the device is NOT currently
-            // locked, we probably don't need to make the user
-            // double-tap the "incoming call" buttons.  (The device
-            // presumably isn't in a pocket or purse, so we don't need
-            // to worry about false touches while it's ringing.)
-            // But OTOH having "inconsistent" buttons might just make
-            // it *more* confusing.
         } else {
             // Ok, show the regular in-call touch UI (with some exceptions):
             if (mInCallScreen.okToShowInCallTouchUi()) {
@@ -283,8 +275,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         if (showInCallControls) {
-            // TODO change the phone to CallManager
-            updateInCallControls(cm.getActiveFgCall().getPhone());
+            updateInCallControls(cm);
         }
 
         if (showIncomingCallControls && showInCallControls) {
@@ -345,8 +336,9 @@ public class InCallTouchUi extends FrameLayout
      * Updates the enabledness and "checked" state of the buttons on the
      * "inCallControls" panel, based on the current telephony state.
      */
-    void updateInCallControls(Phone phone) {
-        int phoneType = phone.getPhoneType();
+    void updateInCallControls(CallManager cm) {
+        int phoneType = cm.getActiveFgCall().getPhone().getPhoneType();
+
         // Note we do NOT need to worry here about cases where the entire
         // in-call touch UI is disabled, like during an OTA call or if the
         // dtmf dialpad is up.  (That's handled by updateState(), which
@@ -491,7 +483,7 @@ public class InCallTouchUi extends FrameLayout
         // This button and its label are totally hidden (rather than just disabled)
         // when the operation isn't available.
         boolean showCdmaMerge =
-                (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
+                (phoneType == Phone.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
         if (showCdmaMerge) {
             mCdmaMergeButtonContainer.setVisibility(View.VISIBLE);
             showExtraButtonRow = true;
@@ -701,10 +693,6 @@ public class InCallTouchUi extends FrameLayout
 
             case SEND_SMS_ID:
                 if (DBG) log("SEND_SMS_ID!");
-
-                // TODO: maybe *don't* hideIncomingCallWidget() in this
-                // case?  (Exact UI spec is still TBD.)
-
                 mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallRespondViaSms);
                 break;
 
@@ -769,9 +757,8 @@ public class InCallTouchUi extends FrameLayout
         mIncomingCallWidget.reset(false);
         mIncomingCallWidget.setVisibility(View.VISIBLE);
 
-        // TODO: may need update or reconfigure the MultiWaveView widget
+        // TODO: need to reconfigure the MultiWaveView widget
         // at this point based on the state of the ringing call.
-        //
         // Specifically, we probably need to disable the "respond via SMS"
         // option in a few cases:
         //

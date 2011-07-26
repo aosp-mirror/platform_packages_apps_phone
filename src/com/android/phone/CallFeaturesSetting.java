@@ -66,6 +66,19 @@ import java.util.Map;
 
 /**
  * Top level "Call settings" UI; see res/xml/call_feature_setting.xml
+ *
+ * This preference screen is the root of the "Call settings" hierarchy
+ * available from the Phone app; the settings here let you control various
+ * features related to phone calls (including voicemail settings, SIP
+ * settings, the "Respond via SMS" feature, and others.)  It's used only
+ * on voice-capable phone devices.
+ *
+ * Note that this activity is part of the package com.android.phone, even
+ * though you reach it from the "Phone" app (i.e. DialtactsActivity) which
+ * is from the package com.android.contacts.
+ *
+ * For the "Mobile network settings" screen under the main Settings app,
+ * see apps/Phone/src/com/android/phone/Settings.java.
  */
 public class CallFeaturesSetting extends PreferenceActivity
         implements DialogInterface.OnClickListener,
