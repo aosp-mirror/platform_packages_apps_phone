@@ -58,34 +58,16 @@
     <string name="call_lost" msgid="317670617901479594">"통화가 끊겼습니다."</string>
     <string name="retry" msgid="8462986804300767852">"다시 시도"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"통화 끊김"</string>
+    <string name="ok" msgid="3811371167865772377">"확인"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI 코드 시작됨"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD 코드 실행 중..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI 코드 취소됨"</string>
     <string name="cancel" msgid="5044513931633602634">"취소"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"스피커"</string>
-    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"음소거"</string>
-    <string name="menu_hold" msgid="6970441130344786273">"보류"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"통화 종료"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"통화 전환"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"통화 합치기"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"통화 추가"</string>
-    <string name="menu_manageConference" msgid="3770984362002266733">"다자간 통화 관리"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"다이얼패드 표시"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"다이얼패드 숨기기"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"현재 통화를 보류하고"\n" 전화받기"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"현재 통화를 끊고"\n" 전화받기"</string>
-    <string name="ok" msgid="3811371167865772377">"확인"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"통화 옵션을 보려면 \'메뉴\'를 누르세요."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"통화 옵션을 보려면 메뉴를 누르세요.  •  키보드를 사용하여 전화걸기"</string>
-    <string name="menu_answer" msgid="116686205042231098">"응답"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"무시"</string>
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"스피커"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"무선 이어폰"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"블루투스"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"다음 톤을 보내시겠습니까?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"신호음 보내기"\n</string>
     <string name="send_button" msgid="4106860097497818751">"전송"</string>
@@ -522,10 +504,6 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"전화를 걸지 못했습니다. 긴급 전화번호로 전화를 걸어 보세요."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"키보드를 사용하여 전화걸기"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"터치톤 키패드"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"다이얼패드"</string>
-    <string name="touchLockText" msgid="566824588267376287">"잠금해제하려면"\n"두 번 누르세요."</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"전화를 받으려면"\n"두 번 누르기"</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"거부하려면"\n"두 번 누르기"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"대기"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"대기 해제"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"종료"</string>
@@ -538,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"통화 병합"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"전환"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"통화 관리"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"관리"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"다자간 통화 관리"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"오디오"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"가져오기"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"모두 가져오기"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"SIM 주소록 가져오는 중"</string>
@@ -711,11 +688,12 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"나중에 전화드리겠습니다."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"전화를 받을 수 없습니다. 나중에 전화하세요."</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"메시지 맞춤설정..."</string>
-    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"빠른 텍스트 응답"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"빠른 텍스트 응답 문자열"</string>
-    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"빠른 텍스트 응답 문자열 관리"</string>
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
+    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"빠른 텍스트 응답"</string>
-    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"응답 맞춤설정:"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"1"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"2"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"3"</string>
@@ -731,4 +709,8 @@
     <string name="description_search_button" msgid="239929880630534731">"검색"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"전화걸기"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"백스페이스"</string>
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
+    <skip />
 </resources>

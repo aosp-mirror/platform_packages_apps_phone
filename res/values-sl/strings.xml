@@ -58,34 +58,16 @@
     <string name="call_lost" msgid="317670617901479594">"Klic je bil izgubljen."</string>
     <string name="retry" msgid="8462986804300767852">"Poskusi znova"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"Izgubljeni klic"</string>
+    <string name="ok" msgid="3811371167865772377">"V redu"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Koda MMI zagnana"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Koda USSD se izvaja ..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Koda MMI preklicana"</string>
     <string name="cancel" msgid="5044513931633602634">"Prekliči"</string>
-    <string name="menu_speaker" msgid="6069700688651964705">"Zvočnik"</string>
-    <string name="menu_bluetooth" msgid="8842523654717305695">"Bluetooth"</string>
-    <string name="menu_mute" msgid="4399723633363773145">"Nemo"</string>
-    <string name="menu_hold" msgid="6970441130344786273">"Zadrži"</string>
-    <string name="menu_endCall" msgid="2142958047156634241">"Končaj klic"</string>
-    <string name="menu_swapCalls" msgid="1548647524816600795">"Zamenjaj klice"</string>
-    <string name="menu_mergeCalls" msgid="6414754941392181303">"Združi klice"</string>
-    <string name="menu_addCall" msgid="7829255032442131930">"Dodaj klic"</string>
-    <string name="menu_manageConference" msgid="3770984362002266733">"Upravljanje konferenčnih klicev"</string>
-    <string name="menu_showDialpad" msgid="5198200217528406980">"Prikaži številčnico"</string>
-    <string name="menu_hideDialpad" msgid="2733813546746296771">"Skrij številčnico"</string>
-    <string name="menu_answerAndHold" msgid="8830891495953688905">"Zadrži trenutni klic"\n"in odgovori"</string>
-    <string name="menu_answerAndEnd" msgid="2071708281281611854">"Končaj trenutni klic"\n"in odgovori"</string>
-    <string name="ok" msgid="3811371167865772377">"V redu"</string>
-    <string name="menuButtonHint" msgid="4853215496220101699">"Pritisnite meni za možnosti klica."</string>
-    <string name="menuButtonKeyboardDialHint" msgid="2869270434715312458">"Za možnosti klica pritisnite Meni  •  Za klicanje uporabite tipkovnico"</string>
-    <string name="menu_answer" msgid="116686205042231098">"Odgovor"</string>
-    <string name="menu_ignore" msgid="2112030835852537344">"Prezri"</string>
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
+    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"Zvočnik"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"Slušalka"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Ali želite poslati naslednje tone?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Pošiljanje tonov "\n</string>
     <string name="send_button" msgid="4106860097497818751">"Pošlji"</string>
@@ -522,10 +504,6 @@
     <string name="dial_emergency_empty_error" msgid="5048645338094088229">"Klic ni bil poslan, pokličite številko za nujne primere!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Za klicanje uporabite tipkovnico"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Tonska tipkovnica"</string>
-    <string name="dtmfDialpadHandleLabel" msgid="6077872154488117962">"Številčnica"</string>
-    <string name="touchLockText" msgid="566824588267376287">"Dvakrat tapnite,"\n"da odklenete"</string>
-    <string name="onscreenAnswerText" msgid="3000799558804019765">"Za odgovor"\n"dvakrat tapnite"</string>
-    <string name="onscreenRejectText" msgid="1456649473993020449">"Za zavrnitev"\n"dvakrat tapnite"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Zadrži"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Ne zadrži"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Konec"</string>
@@ -538,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Združi klice"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Zamenjaj"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Upravljanje klicev"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Upravljanje"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Upravljanje konference"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"Zvok"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Uvozi"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Uvozi vse"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Uvažanje stikov s kartice SIM"</string>
@@ -711,11 +688,12 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Poklical bom pozneje."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Zdaj ne morem govoriti. Pozneje?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Sporočilo po meri ..."</string>
-    <string name="respond_via_sms_setting_title" msgid="7794690978209630905">"Hiter odgovor z SMS-om"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="8324198379081998754">"Nizi hitrega odgovora z SMS-om"</string>
-    <string name="respond_via_sms_setting_summary" msgid="5683224184905454012">"Upravljaj nize za hiter odgovor z SMS-om"</string>
+    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
+    <skip />
+    <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Hiter odgovor z SMS-om"</string>
-    <string name="respond_via_sms_edittext_dialog_message" msgid="3272733219042271609">"Prilagodi ta odgovor:"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"ena"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"dve"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"tri"</string>
@@ -731,4 +709,8 @@
     <string name="description_search_button" msgid="239929880630534731">"iskanje"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"klicanje"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"vračalka"</string>
+    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
+    <skip />
+    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
+    <skip />
 </resources>
