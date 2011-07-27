@@ -65,7 +65,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
     //Information about logical "up" Activity
     private static final String UP_ACTIVITY_PACKAGE = "com.android.settings";
-    private static final String UP_ACTIVITY_CLASS = "com.android.settings.WirelessSettings";
+    private static final String UP_ACTIVITY_CLASS =
+            "com.android.settings.Settings$WirelessSettingsActivity";
 
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
