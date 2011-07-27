@@ -72,7 +72,7 @@ public class InCallTouchUi extends FrameLayout
     private InCallScreen mInCallScreen;
 
     // Phone app instance
-    private PhoneApp mApplication;
+    private PhoneApp mApp;
 
     // UI containers / elements
     private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
@@ -135,7 +135,7 @@ public class InCallTouchUi extends FrameLayout
                 this,                      // root
                 true);
 
-        mApplication = PhoneApp.getInstance();
+        mApp = PhoneApp.getInstance();
     }
 
     void setInCallScreenInstance(InCallScreen inCallScreen) {
@@ -277,26 +277,39 @@ public class InCallTouchUi extends FrameLayout
             }
         }
 
-        if (showInCallControls) {
-            updateInCallControls(cm);
-        }
+        // Update visibility and state of the incoming call controls or
+        // the normal in-call controls.
 
         if (showIncomingCallControls && showInCallControls) {
             throw new IllegalStateException(
                 "'Incoming' and 'in-call' touch controls visible at the same time!");
         }
 
-        if (showIncomingCallControls) {
-            showIncomingCallWidget();
+        if (showInCallControls) {
+            updateInCallControls(cm);
+            mInCallControls.setVisibility(View.VISIBLE);
         } else {
-            hideIncomingCallWidget();
+            mInCallControls.setVisibility(View.GONE);
         }
 
-        mInCallControls.setVisibility(showInCallControls ? View.VISIBLE : View.GONE);
+        if (showIncomingCallControls) {
+            showIncomingCallWidget();
 
-        // TODO: As an optimization, also consider setting the visibility
-        // of the overall InCallTouchUi widget to GONE if *nothing at all*
-        // is visible right now.
+            // On devices with a system bar (soft buttons at the bottom of
+            // the screen), disable navigation while the incoming-call UI
+            // is up.
+            // This prevents false touches (e.g. on the "Recents" button)
+            // from interfering with the incoming call UI, like if you
+            // accidentally touch the system bar while pulling the phone
+            // out of your pocket.
+            mApp.notificationMgr.statusBarHelper.enableSystemBarNavigation(false);
+        } else {
+            hideIncomingCallWidget();
+
+            // The system bar is allowed to work normally in regular
+            // in-call states.
+            mApp.notificationMgr.statusBarHelper.enableSystemBarNavigation(true);
+        }
 
         // Dismiss the "Audio mode" PopupMenu if necessary.
         //
@@ -570,7 +583,7 @@ public class InCallTouchUi extends FrameLayout
         // depending on whether a wired headset is physically plugged in.
         MenuItem earpieceItem = menu.findItem(R.id.audio_mode_earpiece);
         MenuItem wiredHeadsetItem = menu.findItem(R.id.audio_mode_wired_headset);
-        final boolean usingHeadset = mApplication.isHeadsetPlugged();
+        final boolean usingHeadset = mApp.isHeadsetPlugged();
         earpieceItem.setVisible(!usingHeadset);
         earpieceItem.setEnabled(!usingHeadset);
         wiredHeadsetItem.setVisible(usingHeadset);
