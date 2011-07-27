@@ -177,6 +177,8 @@ public class CallController extends Handler {
      */
     public void placeCall(Intent intent) {
         if (DBG) log("placeCall()...  intent = " + intent);
+        if (VDBG) log("                extras = " + intent.getExtras());
+
         final InCallUiState inCallUiState = mApp.inCallUiState;
 
         // TODO: Do we need to hold a wake lock while this method runs?
@@ -323,6 +325,7 @@ public class CallController extends Handler {
 
         try {
             number = getInitialNumber(intent);
+            if (DBG) log("- actual number to dial: '" + number + "'");  // STOPSHIP: don't log PII
 
             // find the phone first
             // TODO Need a way to determine which phone to place the call
@@ -583,6 +586,13 @@ public class CallController extends Handler {
      * Note that the returned "number" may actually be a SIP address,
      * if the specified intent contains a sip: URI.
      *
+     * This method is basically a wrapper around PhoneUtils.getNumberFromIntent(),
+     * except it's also aware of the EXTRA_ACTUAL_NUMBER_TO_DIAL extra.
+     * (That extra, if present, tells us the exact string to pass down to the
+     * telephony layer.  It's guaranteed to be safe to dial: it's either a PSTN
+     * phone number with separators and keypad letters stripped out, or a raw
+     * unencoded SIP address.)
+     *
      * @return the phone number corresponding to the specified Intent, or null
      *   if the Intent has no action or if the intent's data is malformed or
      *   missing.
@@ -595,10 +605,22 @@ public class CallController extends Handler {
     // with PhoneUtils.getNumberFromIntent().
     public static String getInitialNumber(Intent intent)
             throws PhoneUtils.VoiceMailNumberMissingException {
-        String action = intent.getAction();
+        if (VDBG) log("getInitialNumber(): " + intent);
 
+        String action = intent.getAction();
         if (TextUtils.isEmpty(action)) {
             return null;
+        }
+
+        // If the EXTRA_ACTUAL_NUMBER_TO_DIAL extra is present, get the phone
+        // number from there.  (That extra takes precedence over the actual data
+        // included in the intent.)
+        if (intent.hasExtra(OutgoingCallBroadcaster.EXTRA_ACTUAL_NUMBER_TO_DIAL)) {
+            String actualNumberToDial =
+                    intent.getStringExtra(OutgoingCallBroadcaster.EXTRA_ACTUAL_NUMBER_TO_DIAL);
+            if (VDBG) log("==> got EXTRA_ACTUAL_NUMBER_TO_DIAL; returning '"
+                          + actualNumberToDial + "'");  // STOPSHIP: don't log number (PII)
+            return actualNumberToDial;
         }
 
         return PhoneUtils.getNumberFromIntent(PhoneApp.getInstance(), intent);
@@ -737,7 +759,7 @@ public class CallController extends Handler {
     // Debugging
     //
 
-    private void log(String msg) {
+    private static void log(String msg) {
         Log.d(TAG, msg);
     }
 }
