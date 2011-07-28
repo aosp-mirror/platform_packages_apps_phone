@@ -41,7 +41,8 @@ import com.android.internal.telephony.Phone;
  * After the other applications have had a chance to see the
  * ACTION_NEW_OUTGOING_CALL intent, it finally reaches the
  * {@link OutgoingCallReceiver}, which passes the (possibly modified)
- * intent on to the {@link InCallScreen}.
+ * intent on to the {@link SipCallOptionHandler}, which will
+ * ultimately start the call using the CallController.placeCall() API.
  *
  * Emergency calls and calls where no number is present (like for a CDMA
  * "empty flash" or a nonexistent voicemail number) are exempt from being
@@ -60,6 +61,8 @@ public class OutgoingCallBroadcaster extends Activity
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
     public static final String EXTRA_NEW_CALL_INTENT = "android.phone.extra.NEW_CALL_INTENT";
     public static final String EXTRA_SIP_PHONE_URI = "android.phone.extra.SIP_PHONE_URI";
+    public static final String EXTRA_ACTUAL_NUMBER_TO_DIAL =
+            "android.phone.extra.ACTUAL_NUMBER_TO_DIAL";
 
     /**
      * Identifier for intent extra for sending an empty Flash message for
@@ -103,7 +106,14 @@ public class OutgoingCallBroadcaster extends Activity
                 return;
             }
 
+            // Once the NEW_OUTGOING_CALL broadcast is finished, the resultData
+            // is used as the actual number to call. (If null, no call will be
+            // placed.)
+
             number = getResultData();
+            // STOPSHIP: disable this log message before ship (PII)
+            if (DBG) Log.v(TAG, "- got number from resultData: '" + number + "'");
+
             final PhoneApp app = PhoneApp.getInstance();
 
             if (TelephonyCapabilities.supportsOtasp(app.phone)) {
@@ -153,26 +163,68 @@ public class OutgoingCallBroadcaster extends Activity
 
             Uri uri = Uri.parse(originalUri);
 
-            // Since the number could be modified/rewritten by the broadcast,
-            // we have to strip the unwanted characters here.
-            number = PhoneNumberUtils.stripSeparators(
-                    PhoneNumberUtils.convertKeypadLettersToDigits(number));
+            // We already called convertKeypadLettersToDigits() and
+            // stripSeparators() way back in onCreate(), before we sent out the
+            // NEW_OUTGOING_CALL broadcast.  But we need to do it again here
+            // too, since the number might have been modified/rewritten during
+            // the broadcast (and may now contain letters or separators again.)
+            number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
+            number = PhoneNumberUtils.stripSeparators(number);
 
-            if (DBG) Log.v(TAG, "CALL to " + /*number*/ "xxxxxxx" + " proceeding.");
+            if (DBG) Log.v(TAG, "doReceive: proceeding with call...");
+            // STOPSHIP: disable these two log messages before ship (PII):
+            if (DBG) Log.v(TAG, "- uri: " + uri);
+            if (DBG) Log.v(TAG, "- actual number to dial: '" + number + "'");
 
-            startSipCallOptionsHandler(context, intent, uri, number);
+            startSipCallOptionHandler(context, intent, uri, number);
         }
     }
 
-    private void startSipCallOptionsHandler(Context context, Intent intent,
+    /**
+     * Launch the SipCallOptionHandler, which is the next step(*) in the
+     * outgoing-call sequence after the outgoing call broadcast is
+     * complete.
+     *
+     * (*) We now know exactly what phone number we need to dial, so the next
+     *     step is for the SipCallOptionHandler to decide which Phone type (SIP
+     *     or PSTN) should be used.  (Depending on the user's preferences, this
+     *     decision may also involve popping up a dialog to ask the user to
+     *     choose what type of call this should be.)
+     *
+     * @param context used for the startActivity() call
+     *
+     * @param intent the intent from the previous step of the outgoing-call
+     *   sequence.  Normally this will be the NEW_OUTGOING_CALL broadcast intent
+     *   that came in to the OutgoingCallReceiver, although it can also be the
+     *   original ACTION_CALL intent that started the whole sequence (in cases
+     *   where we don't do the NEW_OUTGOING_CALL broadcast at all, like for
+     *   emergency numbers or SIP addresses).
+     *
+     * @param uri the data URI from the original CALL intent, presumably either
+     *   a tel: or sip: URI.  For tel: URIs, note that the scheme-specific part
+     *   does *not* necessarily have separators and keypad letters stripped (so
+     *   we might see URIs like "tel:(650)%20555-1234" or "tel:1-800-GOOG-411"
+     *   here.)
+     *
+     * @param number the actual number (or SIP address) to dial.  This is
+     *   guaranteed to be either a PSTN phone number with separators stripped
+     *   out and keypad letters converted to digits (like "16505551234"), or a
+     *   raw SIP address (like "user@example.com").
+     */
+    private void startSipCallOptionHandler(Context context, Intent intent,
             Uri uri, String number) {
+        // Verbose debugging.  Do not check in with this enabled (PII).
+        // Log.i(TAG, "startSipCallOptionHandler...");
+        // Log.i(TAG, "- intent: " + intent);
+        // Log.i(TAG, "- uri: " + uri);
+        // Log.i(TAG, "- number: " + number);
 
         // Create a copy of the original CALL intent that started the whole
         // outgoing-call sequence.  This intent will ultimately be passed to
         // CallController.placeCall() after the SipCallOptionHandler step.
 
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
-        newIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
+        newIntent.putExtra(EXTRA_ACTUAL_NUMBER_TO_DIAL, number);
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
         // Finally, launch the SipCallOptionHandler, with the copy of the
@@ -183,9 +235,10 @@ public class OutgoingCallBroadcaster extends Activity
         selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
         selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
         selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (DBG) Log.v(TAG, "startSipCallOptionsHandler(): " +
+        if (DBG) Log.v(TAG, "startSipCallOptionHandler(): " +
                 "calling startActivity: " + selectPhoneIntent);
         context.startActivity(selectPhoneIntent);
+        // ...and see SipCallOptionHandler.onCreate() for the next step of the sequence.
     }
 
     @Override
@@ -403,7 +456,7 @@ public class OutgoingCallBroadcaster extends Activity
         String scheme = uri.getScheme();
         if (Constants.SCHEME_SIP.equals(scheme)
                 || PhoneNumberUtils.isUriNumber(number)) {
-            startSipCallOptionsHandler(this, intent, uri, number);
+            startSipCallOptionHandler(this, intent, uri, number);
             finish();
             return;
 
@@ -422,7 +475,10 @@ public class OutgoingCallBroadcaster extends Activity
 
         if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
-                null, Activity.RESULT_OK, number, null);
+                             null,  // scheduler
+                             Activity.RESULT_OK,  // initialCode
+                             number,  // initialData: initial value for the result data
+                             null);  // initialExtras
     }
 
     @Override
