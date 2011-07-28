@@ -362,6 +362,15 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                     default:
                         modemNetworkMode = Phone.PREFERRED_NT_MODE;
                 }
+
+                // If button has no valid selection && setting is LTE ONLY
+                // mode, let the setting stay in LTE ONLY mode. UI is not
+                // supported but LTE ONLY mode could be used in testing.
+                if ((modemNetworkMode == Phone.PREFERRED_NT_MODE) &&
+                    (settingsNetworkMode == Phone.NT_MODE_LTE_ONLY)) {
+                    return true;
+                }
+
                 UpdatePreferredNetworkModeSummary(buttonNetworkMode);
 
                 android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
@@ -453,6 +462,9 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                     UpdatePreferredNetworkModeSummary(modemNetworkMode);
                     // changes the mButtonPreferredNetworkMode accordingly to modemNetworkMode
                     mButtonPreferredNetworkMode.setValue(Integer.toString(modemNetworkMode));
+                } else if (modemNetworkMode == Phone.NT_MODE_LTE_ONLY) {
+                    // LTE Only mode not yet supported on UI, but could be used for testing
+                    if (DBG) log("handleGetPreferredNetworkTypeResponse: lte only: no action");
                 } else {
                     if (DBG) log("handleGetPreferredNetworkTypeResponse: else: reset to default");
                     resetNetworkModeToDefault();
