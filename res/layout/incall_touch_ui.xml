@@ -60,6 +60,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:visibility="gone"
+                    android:animateLayoutChanges="true"
                     >
 
         <!-- DTMF dialpad shown in the upper part of the screen

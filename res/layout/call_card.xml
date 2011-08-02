@@ -69,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:animateLayoutChanges="true"
         >
 
         <!-- Contact photo for call_info_1 -->
@@ -110,27 +111,9 @@
             android:background="@color/incall_call_banner_background"
             >
 
-            <!-- "Upper title" (i.e. "call state" label).
-                 In some call states this shows a special
-                 indication like "Dialing" or "Incoming call" or "Call
-                 ended", although it's unused for the normal case
-                 of an active ongoing call. -->
-            <!-- TODO: figure out where this belongs!  Also, give it a better
-                 name if it ends up not being the "upper" element... -->
-            <TextView android:id="@+id/upperTitle"
-                      android:layout_alignParentTop="true"
-                      android:layout_centerHorizontal="true"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge"
-                      android:textSize="20sp"
-                      android:textStyle="bold"
-                      />
-
             <!-- Name (or the phone number, if we don't have a name to display). -->
             <TextView android:id="@+id/name"
-                      android:layout_below="@id/upperTitle"
-                      android:layout_alignWithParentIfMissing="true"
+                      android:layout_alignParentTop="true"
                       android:layout_alignParentLeft="true"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -205,6 +188,27 @@
                       />
 
         </RelativeLayout>  <!-- End of call_banner for call_info #1. -->
+
+        <!-- The "call state label": In some states, this shows a special
+             indication like "Dialing" or "Incoming call" or "Call ended".
+             It's unused for the normal case of an active ongoing call. -->
+        <!-- This is visually part of the call banner, but it's not actually
+             part of the "call_banner_1" RelativeLayout since it needs a
+             different background color. -->
+        <TextView android:id="@+id/callStateLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/call_banner_1"
+            android:gravity="right"
+            android:paddingTop="@dimen/call_banner_top_bottom_padding"
+            android:paddingBottom="@dimen/call_banner_top_bottom_padding"
+            android:paddingRight="@dimen/call_banner_side_padding"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@color/incall_call_state_label_background"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 

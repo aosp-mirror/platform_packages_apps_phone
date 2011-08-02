@@ -19,6 +19,7 @@
     android:id="@+id/incall_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     >
 
     <!-- inCallPanel: container for the CallCard. -->
