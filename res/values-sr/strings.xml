@@ -65,12 +65,9 @@
     <string name="cancel" msgid="5044513931633602634">"Откажи"</string>
     <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"Звучник"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"Слушалица телефона"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Желите ли да пошаљете следеће тонове?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Тонови слања "\n</string>
     <string name="send_button" msgid="4106860097497818751">"Пошаљи"</string>
@@ -519,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Обједини позиве"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Замени"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Управљајте позивима"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Управљај"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Управљај конференцијом"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"Аудио"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Увези"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Увези све"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Увоз SIM контаката"</string>

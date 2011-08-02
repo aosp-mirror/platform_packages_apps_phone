@@ -65,12 +65,9 @@
     <string name="cancel" msgid="5044513931633602634">"取消"</string>
     <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"扬声器"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"手机听筒"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"蓝牙"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"发送以下音频？"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"正在发送双音频"\n</string>
     <string name="send_button" msgid="4106860097497818751">"发送"</string>
@@ -519,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"合并通话"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"交换"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"管理通话"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"管理"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"管理会议"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"音频"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"导入"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"全部导入"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"正在导入 SIM 联系人"</string>
