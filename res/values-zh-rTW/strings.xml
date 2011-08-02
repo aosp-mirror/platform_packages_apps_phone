@@ -65,12 +65,9 @@
     <string name="cancel" msgid="5044513931633602634">"取消"</string>
     <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"喇叭"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"免持聽筒"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"藍牙"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"傳送此鈴聲？"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"正在傳送信號音"\n</string>
     <string name="send_button" msgid="4106860097497818751">"傳送"</string>
@@ -519,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"合併通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切換"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"管理通話"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"管理"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"管理會議"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"音訊"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"匯入"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"全部匯入"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"匯入 SIM 聯絡人"</string>
@@ -698,18 +694,18 @@
     <skip />
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"快速簡訊回應"</string>
-    <string name="description_image_button_one" msgid="5502718871331943463">"一"</string>
-    <string name="description_image_button_two" msgid="4903738528222924522">"二"</string>
-    <string name="description_image_button_three" msgid="5570985408463782329">"三"</string>
-    <string name="description_image_button_four" msgid="1697520001239289074">"四"</string>
-    <string name="description_image_button_five" msgid="3450276493026943454">"五"</string>
-    <string name="description_image_button_six" msgid="2070376172268675300">"六"</string>
-    <string name="description_image_button_seven" msgid="1757351311199993371">"七"</string>
-    <string name="description_image_button_eight" msgid="4734693919020613227">"八"</string>
-    <string name="description_image_button_nine" msgid="5568534122590597040">"九"</string>
+    <string name="description_image_button_one" msgid="5502718871331943463">"1"</string>
+    <string name="description_image_button_two" msgid="4903738528222924522">"2"</string>
+    <string name="description_image_button_three" msgid="5570985408463782329">"3"</string>
+    <string name="description_image_button_four" msgid="1697520001239289074">"4"</string>
+    <string name="description_image_button_five" msgid="3450276493026943454">"5"</string>
+    <string name="description_image_button_six" msgid="2070376172268675300">"6"</string>
+    <string name="description_image_button_seven" msgid="1757351311199993371">"7"</string>
+    <string name="description_image_button_eight" msgid="4734693919020613227">"8"</string>
+    <string name="description_image_button_nine" msgid="5568534122590597040">"9"</string>
     <string name="description_image_button_star" msgid="1976280813017254462">"星號"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"零"</string>
-    <string name="description_image_button_pound" msgid="1716041284529917866">"磅"</string>
+    <string name="description_image_button_pound" msgid="1716041284529917866">"井字鍵"</string>
     <string name="description_search_button" msgid="239929880630534731">"搜尋"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"撥號"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"Backspace"</string>

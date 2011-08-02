@@ -65,12 +65,9 @@
     <string name="cancel" msgid="5044513931633602634">"Annuler"</string>
     <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"Haut-parleur"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"Écouteur du combiné"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Envoyer les tonalités suivantes ?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Envoi des tonalités"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Envoyer"</string>
@@ -519,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Fusionner les appels"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Permuter"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gérer les appels"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Gérer"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Gérer la conférence"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importer"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Tout importer"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importation des contacts SIM"</string>

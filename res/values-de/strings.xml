@@ -65,12 +65,9 @@
     <string name="cancel" msgid="5044513931633602634">"Abbrechen"</string>
     <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
     <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"Lautsprecher"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"Handy-Kopfhörer"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Folgende Töne senden?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Töne werden gesendet"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Senden"</string>
@@ -519,9 +516,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Anrufe verbinden"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Wechseln"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Anrufe verwalten"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Verwalten"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Konferenz verwalten"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importieren"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Alle importieren"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"SIM-Kontakte werden importiert"</string>
@@ -698,19 +694,19 @@
     <skip />
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Kurzantwort"</string>
-    <string name="description_image_button_one" msgid="5502718871331943463">"eins"</string>
-    <string name="description_image_button_two" msgid="4903738528222924522">"zwei"</string>
-    <string name="description_image_button_three" msgid="5570985408463782329">"drei"</string>
-    <string name="description_image_button_four" msgid="1697520001239289074">"vier"</string>
-    <string name="description_image_button_five" msgid="3450276493026943454">"fünf"</string>
-    <string name="description_image_button_six" msgid="2070376172268675300">"sechs"</string>
-    <string name="description_image_button_seven" msgid="1757351311199993371">"sieben"</string>
-    <string name="description_image_button_eight" msgid="4734693919020613227">"acht"</string>
-    <string name="description_image_button_nine" msgid="5568534122590597040">"neun"</string>
+    <string name="description_image_button_one" msgid="5502718871331943463">"Eins"</string>
+    <string name="description_image_button_two" msgid="4903738528222924522">"Zwei"</string>
+    <string name="description_image_button_three" msgid="5570985408463782329">"Drei"</string>
+    <string name="description_image_button_four" msgid="1697520001239289074">"Vier"</string>
+    <string name="description_image_button_five" msgid="3450276493026943454">"Fünf"</string>
+    <string name="description_image_button_six" msgid="2070376172268675300">"Sechs"</string>
+    <string name="description_image_button_seven" msgid="1757351311199993371">"Sieben"</string>
+    <string name="description_image_button_eight" msgid="4734693919020613227">"Acht"</string>
+    <string name="description_image_button_nine" msgid="5568534122590597040">"Neun"</string>
     <string name="description_image_button_star" msgid="1976280813017254462">"Sternsymbol"</string>
-    <string name="description_image_button_zero" msgid="4211255756866893605">"null"</string>
+    <string name="description_image_button_zero" msgid="4211255756866893605">"Null"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"Pfund"</string>
-    <string name="description_search_button" msgid="239929880630534731">"suchen"</string>
+    <string name="description_search_button" msgid="239929880630534731">"Suchen"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"Wählen"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"Rücktaste"</string>
     <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
