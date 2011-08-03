@@ -872,8 +872,6 @@
     <string name="card_title_dialing">Dialing</string>
     <!-- In-call screen: status label for a re-dialing call -->
     <string name="card_title_redialing">Retrying</string>
-    <!-- In-call screen: status label for a call in progress -->
-    <string name="card_title_in_progress">Current call</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="card_title_conf_call">Conference call</string>
     <!-- In-call screen: status label for an incoming call -->

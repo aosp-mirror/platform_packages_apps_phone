@@ -53,6 +53,10 @@
     <!-- Padding at the top and bottom edges of the "call banner". -->
     <dimen name="call_banner_top_bottom_padding">10dp</dimen>
 
+    <!-- Padding for the "call state label" at the bottom of the banner. -->
+    <dimen name="call_state_label_right_padding">10dp</dimen>
+    <dimen name="call_state_label_top_bottom_padding">5dp</dimen>
+
     <!-- Button height for the main row of in-call buttons. -->
     <dimen name="in_call_button_height">50dip</dimen>
 
