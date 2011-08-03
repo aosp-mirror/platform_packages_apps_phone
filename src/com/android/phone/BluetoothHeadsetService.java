@@ -271,7 +271,6 @@ public class BluetoothHeadsetService extends Service {
                 switch (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
                                            BluetoothAdapter.ERROR)) {
                 case BluetoothAdapter.STATE_ON:
-                    adjustPriorities();
                     mAg.start(mIncomingConnectionHandler);
                     mBtHandsfree.onBluetoothEnabled();
                     break;
@@ -520,28 +519,6 @@ public class BluetoothHeadsetService extends Service {
             Log.e(TAG, "Error while getting priority for: " + device);
         }
         return BluetoothProfile.PRIORITY_UNDEFINED;
-    }
-
-    private void adjustPriorities() {
-        // This is to ensure backward compatibility.
-        // Only 1 device is set to AUTO_CONNECT
-        BluetoothDevice savedDevice = null;
-        int max_priority = BluetoothProfile.PRIORITY_AUTO_CONNECT;
-        if (mAdapter.getBondedDevices() != null) {
-            for (BluetoothDevice device : mAdapter.getBondedDevices()) {
-                int priority = getPriority(device);
-                if (priority >= BluetoothProfile.PRIORITY_AUTO_CONNECT) {
-                    setPriority(device, BluetoothProfile.PRIORITY_ON);
-                }
-                if (priority >= max_priority) {
-                    max_priority = priority;
-                    savedDevice = device;
-                }
-            }
-            if (savedDevice != null) {
-                setPriority(savedDevice, BluetoothProfile.PRIORITY_AUTO_CONNECT);
-            }
-        }
     }
 
     private synchronized void getSdpRecordsAndConnect(BluetoothDevice device) {
