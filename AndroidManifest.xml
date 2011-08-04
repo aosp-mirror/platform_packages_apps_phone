@@ -111,7 +111,9 @@
         <activity android:name="ADNList" />
 
         <activity android:name="SimContacts"
-            android:label="@string/simContacts_title">
+            android:label="@string/simContacts_title"
+            android:theme="@style/SimImportTheme"
+            android:icon="@mipmap/ic_launcher_contacts">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

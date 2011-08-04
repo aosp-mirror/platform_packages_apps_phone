@@ -25,4 +25,7 @@
 
     <!-- DTMF Dialer -->
     <color name="dtmf_dialer_display_text">#FFFFFF</color> <!-- white -->
+
+    <!-- Color of the theme of the People app -->
+    <color name="people_app_theme_color">#33B5E5</color>
 </resources>
