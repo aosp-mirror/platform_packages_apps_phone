@@ -481,7 +481,6 @@
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numer da la mailbox"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Telefonar..."</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Nova emprova"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"Clom actual"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Conferenza da telefon"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Clom entrant"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Clom CDMA spetgant"</string>

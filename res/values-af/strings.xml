@@ -625,7 +625,6 @@
     <!-- no translation found for card_title_dialing (5769417478498348054) -->
     <skip />
     <string name="card_title_redialing" msgid="4831412164303596395">"Probeer weer"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"Huidige oproep"</string>
     <!-- no translation found for card_title_conf_call (1162980346189744501) -->
     <skip />
     <!-- no translation found for card_title_incoming_call (7364539451234646909) -->

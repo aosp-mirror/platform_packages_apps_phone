@@ -63,8 +63,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Exécution du code USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Code IHM annulé"</string>
     <string name="cancel" msgid="5044513931633602634">"Annuler"</string>
-    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
-    <skip />
+    <string name="manageConferenceLabel" msgid="4691922394301969053">"Gérer la conférence téléphonique"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Haut-parleur"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Écouteur du combiné"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
@@ -460,7 +459,6 @@
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"N° messagerie vocale"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Appel en cours…"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Nouvelle tentative"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"Appel en cours"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Conférence téléphonique"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Appel entrant"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Appel CDMA en attente"</string>
@@ -688,10 +686,8 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Je t\'appellerai plus tard."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Peux pas parler. On se rappelle ?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Message personnalisé..."</string>
-    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
-    <skip />
+    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"Réponses rapides par SMS"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Modifier réponses rapides SMS"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Réponse rapide par SMS"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"un"</string>
@@ -709,8 +705,6 @@
     <string name="description_search_button" msgid="239929880630534731">"rechercher"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"composer"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"retour arrière"</string>
-    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
-    <skip />
-    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
-    <skip />
+    <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Haut-parleur activé"</string>
+    <string name="accessibility_call_muted" msgid="2776111226185342220">"Son coupé"</string>
 </resources>

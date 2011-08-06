@@ -459,7 +459,6 @@
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Nombor mel suara"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Mendail"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Mencuba semula"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"Panggilan semasa"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Panggilan sidang"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Panggilan masuk"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Panggilan menunggu Cdma"</string>
@@ -701,9 +700,9 @@
     <string name="description_image_button_eight" msgid="4734693919020613227">"lapan"</string>
     <string name="description_image_button_nine" msgid="5568534122590597040">"sembilan"</string>
     <string name="description_image_button_star" msgid="1976280813017254462">"bintang"</string>
-    <string name="description_image_button_zero" msgid="4211255756866893605">"kosong"</string>
+    <string name="description_image_button_zero" msgid="4211255756866893605">"sifar"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"paun"</string>
-    <string name="description_search_button" msgid="239929880630534731">"carian"</string>
+    <string name="description_search_button" msgid="239929880630534731">"cari"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"dail"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Telefon pembesar suara didayakan."</string>

@@ -459,7 +459,6 @@
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Số thư thoại"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Đang quay số"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Đang thử lại"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"Cuộc gọi hiện tại"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Cuộc gọi hội nghị"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Cuộc gọi đến"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Chờ cuộc gọi cdma"</string>

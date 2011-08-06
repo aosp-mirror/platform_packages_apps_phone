@@ -459,7 +459,6 @@
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"음성사서함 번호"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"전화 거는 중"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"다시 시도 중"</string>
-    <string name="card_title_in_progress" msgid="8603765629781648862">"현재 통화"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"다자간 통화"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"수신전화"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Cdma 통화 대기"</string>
