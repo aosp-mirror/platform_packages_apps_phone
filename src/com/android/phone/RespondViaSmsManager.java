@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -209,6 +210,30 @@ public class RespondViaSmsManager {
             } else {
                 // Send the selected message immediately with no user interaction.
                 sendText(mPhoneNumber, message);
+
+                // ...and show a brief confirmation to the user (since
+                // otherwise it's hard to be sure that anything actually
+                // happened.)
+                final Resources res = mInCallScreen.getResources();
+                String formatString = res.getString(R.string.respond_via_sms_confirmation_format);
+                String confirmationMsg = String.format(formatString, mPhoneNumber);
+                Toast.makeText(mInCallScreen,
+                               confirmationMsg,
+                               Toast.LENGTH_LONG).show();
+
+                // TODO: If the device is locked, this toast won't actually ever
+                // be visible!  (That's because we're about to dismiss the call
+                // screen, which means that the device will return to the
+                // keyguard.  But toasts aren't visible on top of the keyguard.)
+                // Possible fixes:
+                // (1) Is it possible to allow a specific Toast to be visible
+                //     on top of the keyguard?
+                // (2) Artifically delay the dismissCallScreen() call by 3
+                //     seconds to allow the toast to be seen?
+                // (3) Don't use a toast at all; instead use a transient state
+                //     of the InCallScreen (perhaps via the InCallUiState
+                //     progressIndication feature), and have that state be
+                //     visible for 3 seconds before calling dismissCallScreen().
             }
 
             // At this point the user is done dealing with the incoming call, so

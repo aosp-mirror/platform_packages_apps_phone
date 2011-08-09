@@ -1459,6 +1459,10 @@
     <!-- Dialog title when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=30] -->
     <string name="respond_via_sms_edittext_dialog_title">Quick text response</string>
 
+    <!-- "Respond via SMS": Confirmation message shown after sending
+         a text response. [CHAR LIMIT=40] -->
+    <string name="respond_via_sms_confirmation_format">Message sent to <xliff:g id="phone_number">%s</xliff:g>.</string>
+
     <!-- String describing the image on ImageButton one
 
          Note: AccessibilityServices use this attribute to announce what the view represents.
