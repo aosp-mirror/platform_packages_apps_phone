@@ -1242,7 +1242,7 @@ public class InCallScreen extends Activity
             // (This is only enabled on some platforms, though.)
             if (getResources().getBoolean(R.bool.allow_back_key_to_reject_incoming_call)) {
                 if (DBG) log("BACK key while ringing: reject the call");
-                internalHangupRingingCall();
+                hangupRingingCall();
 
                 // Don't consume the key; instead let the BACK event *also*
                 // get handled normally by the framework (which presumably
@@ -2756,7 +2756,7 @@ public class InCallScreen extends Activity
                 internalAnswerCall();
                 break;
             case R.id.incomingCallReject:
-                internalHangupRingingCall();
+                hangupRingingCall();
                 break;
             case R.id.incomingCallRespondViaSms:
                 internalRespondViaSms();
@@ -3272,8 +3272,8 @@ public class InCallScreen extends Activity
     /**
      * Hang up the ringing call (aka "Don't answer").
      */
-    private void internalHangupRingingCall() {
-        if (DBG) log("internalHangupRingingCall()...");
+    /* package */ void hangupRingingCall() {
+        if (DBG) log("hangupRingingCall()...");
         if (VDBG) PhoneUtils.dumpCallManager();
         // In the rare case when multiple calls are ringing, the UI policy
         // it to always act on the first ringing call.

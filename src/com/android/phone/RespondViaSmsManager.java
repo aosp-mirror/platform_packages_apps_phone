@@ -136,6 +136,17 @@ public class RespondViaSmsManager {
         Connection c = ringingCall.getLatestConnection();
         if (DBG) log("- connection: " + c);
 
+        if (c == null) {
+            // Uh oh -- the "ringingCall" doesn't have any connections any more.
+            // (In other words, it's no longer ringing.)  This is rare, but can
+            // happen if the caller hangs up right at the exact moment the user
+            // selects the "Respond via SMS" option.
+            // There's nothing to do here (since the incoming call is gone),
+            // so just bail out.
+            Log.i(TAG, "showRespondViaSmsPopup: null connection; bailing out...");
+            return;
+        }
+
         // TODO: at this point we probably should re-check c.getAddress()
         // and c.getNumberPresentation() for validity.  (i.e. recheck the
         // same cases in InCallTouchUi.showIncomingCallWidget() where we
@@ -199,6 +210,12 @@ public class RespondViaSmsManager {
                 // Send the selected message immediately with no user interaction.
                 sendText(mPhoneNumber, message);
             }
+
+            // At this point the user is done dealing with the incoming call, so
+            // there's no reason to keep it around.  (It's also confusing for
+            // the "incoming call" icon in the status bar to still be visible.)
+            // So reject the call now.
+            mInCallScreen.hangupRingingCall();
 
             PhoneApp.getInstance().dismissCallScreen();
         }
