@@ -252,7 +252,7 @@ public class InCallScreen extends Activity
     public enum InCallAudioMode {
         SPEAKER,    // Speakerphone
         BLUETOOTH,  // Bluetooth headset (if available)
-        EARPIECE,   // Handset earpiece
+        EARPIECE,   // Handset earpiece (or wired headset, if connected)
     }
 
 
@@ -287,7 +287,7 @@ public class InCallScreen extends Activity
 
                 case EVENT_HEADSET_PLUG_STATE_CHANGED:
                     // Update the in-call UI, since some UI elements (such
-                    // as the "Speaker" button) change state depending on
+                    // as the "Speaker" button) may change state depending on
                     // whether a headset is plugged in.
                     // TODO: A full updateScreen() is overkill here, since
                     // the value of PhoneApp.isHeadsetPlugged() only affects a
@@ -295,6 +295,13 @@ public class InCallScreen extends Activity
                     // is still pretty cheap, so let's keep this simple
                     // for now.)
                     updateScreen();
+
+                    // Also, force the "audio mode" popup to refresh itself if
+                    // it's visible, since one of its items is either "Wired
+                    // headset" or "Handset earpiece" depending on whether the
+                    // headset is plugged in or not.
+                    mInCallTouchUi.refreshAudioModePopup();  // safe even if the popup's not active
+
                     break;
 
                 case PhoneApp.MMI_INITIATE:
@@ -2652,7 +2659,7 @@ public class InCallScreen extends Activity
 
     /**
      * Switches the current routing of in-call audio between speaker,
-     * bluetooth, and the built-in earpiece.
+     * bluetooth, and the built-in earpiece (or wired headset.)
      *
      * This method is used on devices that provide a single 3-way switch
      * for audio routing.  For devices that provide separate toggles for
@@ -2693,7 +2700,8 @@ public class InCallScreen extends Activity
                 break;
 
             case EARPIECE:
-                // Force both speaker and bluetooth off.
+                // Switch to either the handset earpiece, or the wired headset (if connected.)
+                // (Do this by simply making sure both speaker and bluetooth are off.)
                 if (isBluetoothAvailable() && isBluetoothAudioConnected()) {
                     disconnectBluetoothAudio();
                 }

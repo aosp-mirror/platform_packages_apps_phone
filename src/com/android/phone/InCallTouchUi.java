@@ -54,7 +54,7 @@ import com.android.internal.telephony.CallManager;
  */
 public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, OnTriggerListener,
-        PopupMenu.OnMenuItemClickListener {
+        PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
     private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
@@ -95,6 +95,7 @@ public class InCallTouchUi extends FrameLayout
 
     // "Audio mode" PopupMenu
     private PopupMenu mAudioModePopup;
+    private boolean mAudioModePopupVisible = false;
 
     // Time of the most recent "answer" or "reject" action (see updateState())
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
@@ -237,13 +238,15 @@ public class InCallTouchUi extends FrameLayout
         boolean showInCallControls = false;
 
         final Call ringingCall = cm.getFirstActiveRingingCall();
+        final Call.State fgCallState = cm.getActiveFgCallState();
+
         // If the FG call is dialing/alerting, we should display for that call
         // and ignore the ringing call. This case happens when the telephony
         // layer rejects the ringing call while the FG call is dialing/alerting,
         // but the incoming call *does* briefly exist in the DISCONNECTING or
         // DISCONNECTED state.
         if ((ringingCall.getState() != Call.State.IDLE)
-                && !cm.getActiveFgCallState().isDialing()) {
+                && !fgCallState.isDialing()) {
             // A phone call is ringing *or* call waiting.
 
             // Watch out: even if the phone state is RINGING, it's
@@ -295,11 +298,23 @@ public class InCallTouchUi extends FrameLayout
         // of the overall InCallTouchUi widget to GONE if *nothing at all*
         // is visible right now.
 
-        // Dismiss the "Audio mode" PopupMenu if it's up.
-        // (This updateState() call was presumably triggered by a phone state
-        // change, or the InCallScreen getting resumed.  In either of those
-        // cases the "Audio mode" popup might no longer be relevant.)
-        dismissAudioModePopup();  // safe even if not active
+        // Dismiss the "Audio mode" PopupMenu if necessary.
+        //
+        // The "Audio mode" popup is only relevant in call states that support
+        // in-call audio, namely when the phone is OFFHOOK (not RINGING), *and*
+        // the foreground call is either ALERTING (where you can hear the other
+        // end ringing) or ACTIVE (when the call is actually connected.)  In any
+        // state *other* than these, the popup should not be visible.
+
+        if ((state == Phone.State.OFFHOOK)
+            && (fgCallState == Call.State.ALERTING || fgCallState == Call.State.ACTIVE)) {
+            // The audio mode popup is allowed to be visible in this state.
+            // So if it's up, leave it alone.
+        } else {
+            // The Audio mode popup isn't relevant in this state, so make sure
+            // it's not visible.
+            dismissAudioModePopup();  // safe even if not active
+        }
     }
 
     // View.OnClickListener implementation
@@ -533,6 +548,7 @@ public class InCallTouchUi extends FrameLayout
         mAudioModePopup.getMenuInflater().inflate(R.menu.incall_audio_mode_menu,
                                                   mAudioModePopup.getMenu());
         mAudioModePopup.setOnMenuItemClickListener(this);
+        mAudioModePopup.setOnDismissListener(this);
 
         // Update the enabled/disabledness of menu items based on the
         // current call state.
@@ -550,10 +566,17 @@ public class InCallTouchUi extends FrameLayout
         // TODO: Show speakerItem as initially "selected" if
         // inCallControlState.speakerOn is true.
 
-        // MenuItem earpieceItem = menu.findItem(R.id.audio_mode_earpiece);
-        // "Handset earpiece" is always enabled.
-        // TODO: Show earpieceItem as initially "selected" if
-        // inCallControlState.speakerOn and
+        // We display *either* "earpiece" or "wired headset", never both,
+        // depending on whether a wired headset is physically plugged in.
+        MenuItem earpieceItem = menu.findItem(R.id.audio_mode_earpiece);
+        MenuItem wiredHeadsetItem = menu.findItem(R.id.audio_mode_wired_headset);
+        final boolean usingHeadset = mApplication.isHeadsetPlugged();
+        earpieceItem.setVisible(!usingHeadset);
+        earpieceItem.setEnabled(!usingHeadset);
+        wiredHeadsetItem.setVisible(usingHeadset);
+        wiredHeadsetItem.setEnabled(usingHeadset);
+        // TODO: Show the above item (either earpieceItem or wiredHeadsetItem)
+        // as initially "selected" if inCallControlState.speakerOn and
         // inCallControlState.bluetoothIndicatorOn are both false.
 
         MenuItem bluetoothItem = menu.findItem(R.id.audio_mode_bluetooth);
@@ -562,6 +585,11 @@ public class InCallTouchUi extends FrameLayout
         // inCallControlState.bluetoothIndicatorOn is true.
 
         mAudioModePopup.show();
+
+        // Unfortunately we need to manually keep track of the popup menu's
+        // visiblity, since PopupMenu doesn't have an isShowing() method like
+        // Dialogs do.
+        mAudioModePopupVisible = true;
     }
 
     /**
@@ -570,14 +598,33 @@ public class InCallTouchUi extends FrameLayout
      * This is safe to call even if the popup is already dismissed, or even if
      * you never called showAudioModePopup() in the first place.
      */
-    private void dismissAudioModePopup() {
+    public void dismissAudioModePopup() {
         if (mAudioModePopup != null) {
             mAudioModePopup.dismiss();  // safe even if already dismissed
             mAudioModePopup = null;
+            mAudioModePopupVisible = false;
         }
     }
 
-    // OnMenuItemClickListener interface; see showAudioModePopup()
+    /**
+     * Refreshes the "Audio mode" popup if it's visible.  This is useful
+     * (for example) when a wired headset is plugged or unplugged,
+     * since we need to switch back and forth between the "earpiece"
+     * and "wired headset" items.
+     *
+     * This is safe to call even if the popup is already dismissed, or even if
+     * you never called showAudioModePopup() in the first place.
+     */
+    public void refreshAudioModePopup() {
+        if (mAudioModePopup != null && mAudioModePopupVisible) {
+            // Dismiss the previous one
+            mAudioModePopup.dismiss();  // safe even if already dismissed
+            // And bring up a fresh PopupMenu
+            showAudioModePopup();
+        }
+    }
+
+    // PopupMenu.OnMenuItemClickListener implementation; see showAudioModePopup()
     public boolean onMenuItemClick(MenuItem item) {
         if (DBG) log("- onMenuItemClick: " + item);
         if (DBG) log("  id: " + item.getItemId());
@@ -593,6 +640,9 @@ public class InCallTouchUi extends FrameLayout
                 mInCallScreen.switchInCallAudio(InCallScreen.InCallAudioMode.SPEAKER);
                 break;
             case R.id.audio_mode_earpiece:
+            case R.id.audio_mode_wired_headset:
+                // InCallAudioMode.EARPIECE means either the handset earpiece,
+                // or the wired headset (if connected.)
                 mInCallScreen.switchInCallAudio(InCallScreen.InCallAudioMode.EARPIECE);
                 break;
             case R.id.audio_mode_bluetooth:
@@ -605,6 +655,15 @@ public class InCallTouchUi extends FrameLayout
                 break;
         }
         return true;
+    }
+
+    // PopupMenu.OnDismissListener implementation; see showAudioModePopup().
+    // This gets called when the PopupMenu gets dismissed for *any* reason, like
+    // the user tapping outside its bounds, or pressing Back, or selecting one
+    // of the menu items.
+    public void onDismiss(PopupMenu menu) {
+        if (DBG) log("- onDismiss: " + menu);
+        mAudioModePopupVisible = false;
     }
 
     /**
