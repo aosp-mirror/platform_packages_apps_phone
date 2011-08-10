@@ -195,8 +195,19 @@
         <item name="android:layout_marginRight">5dip</item>
     </style>
 
+    <!-- Theme for the activity com.android.phone.Settings, which is the
+         "Mobile network settings" screen (used on non-voice-capable
+         tablets as well as regular phone devices.) -->
     <style name="Theme.Settings" parent="@android:style/Theme.Holo.DialogWhenLarge">
         <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!-- Theme for the InCallScreen activity.  This gives us a totally black
+         window background instead of the default dark grey.  (We don't just use
+         Theme.Black.NoTitleBar directly, since we want any popups or dialogs
+         from the InCallScreen to have the correct holo style. -->
+    <style name="Theme.InCallScreen" parent="@android:style/Theme.Holo.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
 
     <style name="DialpadButtonStyle">

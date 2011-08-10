@@ -226,7 +226,7 @@
              the OutgoingCallBroadcaster (for outgoing calls), or as the
              fullScreenIntent of a notification (for incoming calls.) -->
         <activity android:name="InCallScreen"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.InCallScreen"
             android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
@@ -247,7 +247,8 @@
             </intent-filter>
         </activity>
 
-        <!-- general settings -->
+        <!-- "Mobile network settings" screen, used on both
+             non-voice-capable tablets and regular phone devices. -->
         <activity android:name="Settings"
                 android:label="@string/settings_label"
                 android:theme="@style/Theme.Settings">
@@ -404,7 +405,7 @@
             </intent-filter>
         </activity>
 
-        <!-- call feature setting -->
+        <!-- "Call settings" UI, used only on voice-capable phone devices. -->
         <activity android:name="CallFeaturesSetting"
                 android:label="@string/call_settings"
                 android:configChanges="orientation|screenSize|keyboardHidden"
