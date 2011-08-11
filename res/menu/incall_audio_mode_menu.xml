@@ -21,9 +21,17 @@
     <item android:id="@+id/audio_mode_speaker"
           android:icon="@drawable/ic_sound_holo_dark"
           android:title="@string/audio_mode_speaker" />
+
+    <!-- We display *either* "earpiece" or "wired headset", never both,
+         depending on whether a wired headset is physically plugged in
+         (see InCallTouchUi.showAudioModePopup().) -->
     <item android:id="@+id/audio_mode_earpiece"
           android:icon="@drawable/ic_ab_dialer_holo_dark"
           android:title="@string/audio_mode_earpiece" />
+    <item android:id="@+id/audio_mode_wired_headset"
+          android:icon="@drawable/ic_ab_dialer_holo_dark"
+          android:title="@string/audio_mode_wired_headset" />
+
     <item android:id="@+id/audio_mode_bluetooth"
           android:icon="@drawable/ic_bluetooth_holo_dark"
           android:title="@string/audio_mode_bluetooth" />
