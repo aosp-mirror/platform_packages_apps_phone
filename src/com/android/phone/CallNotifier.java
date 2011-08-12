@@ -699,7 +699,7 @@ public class CallNotifier extends Handler
      * the ringer and/or vibrator are started separately (see the various
      * calls to Ringer.ring() in this class.)
      *
-     * @see NotificationMgr.updateInCallNotification()
+     * @see NotificationMgr.updateNotificationAndLaunchIncomingCallUi()
      */
     private void showIncomingCall() {
         if (DBG) log("showIncomingCall()...");
@@ -743,12 +743,13 @@ public class CallNotifier extends Handler
         mApplication.preventScreenOn(true);
         mApplication.requestWakeState(PhoneApp.WakeState.FULL);
 
-        // Post the "incoming call" notification.  This will usually take
-        // us straight to the incoming call screen (thanks to the
-        // notification's "fullScreenIntent" field), but if an immersive
-        // activity is running it'll just appear as a notification.
+        // Post the "incoming call" notification *and* include the
+        // fullScreenIntent that'll launch the incoming-call UI.
+        // (This will usually take us straight to the incoming call
+        // screen, but if an immersive activity is running it'll just
+        // appear as a notification.)
         if (DBG) log("- updating notification from showIncomingCall()...");
-        NotificationMgr.getDefault().updateInCallNotification();
+        NotificationMgr.getDefault().updateNotificationAndLaunchIncomingCallUi();
     }
 
     /**

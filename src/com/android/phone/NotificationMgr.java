@@ -34,7 +34,6 @@ import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.ContactsContract.PhoneLookup;
-import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
@@ -508,10 +507,71 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * Updates the phone app's status bar notification based on the
      * current telephony state, or cancels the notification if the phone
      * is totally idle.
+     *
+     * This method will never actually launch the incoming-call UI.
+     * (Use updateNotificationAndLaunchIncomingCallUi() for that.)
      */
-    void updateInCallNotification() {
+    public void updateInCallNotification() {
+        // allowFullScreenIntent=false means *don't* allow the incoming
+        // call UI to be launched.
+        updateInCallNotification(false);
+    }
+
+    /**
+     * Updates the phone app's status bar notification *and* launches the
+     * incoming call UI in response to a new incoming call.
+     *
+     * This is just like updateInCallNotification(), with one exception:
+     * If an incoming call is ringing (or call-waiting), the notification
+     * will also include a "fullScreenIntent" that will cause the
+     * InCallScreen to be launched immediately, unless the current
+     * foreground activity is marked as "immersive".
+     *
+     * (This is the mechanism that actually brings up the incoming call UI
+     * when we receive a "new ringing connection" event from the telephony
+     * layer.)
+     *
+     * Watch out: this method should ONLY be called directly from the code
+     * path in CallNotifier that handles the "new ringing connection"
+     * event from the telephony layer.  All other places that update the
+     * in-call notification (like for phone state changes) should call
+     * updateInCallNotification() instead.  (This ensures that we don't
+     * end up launching the InCallScreen multiple times for a single
+     * incoming call, which could cause slow responsiveness and/or visible
+     * glitches.)
+     *
+     * Also note that this method is safe to call even if the phone isn't
+     * actually ringing (or, more likely, if an incoming call *was*
+     * ringing briefly but then disconnected).  In that case, we'll simply
+     * update or cancel the in-call notification based on the current
+     * phone state.
+     *
+     * @see updateInCallNotification()
+     */
+    public void updateNotificationAndLaunchIncomingCallUi() {
+        // Set allowFullScreenIntent=true to indicate that we *should*
+        // launch the incoming call UI if necessary.
+        updateInCallNotification(true);
+    }
+
+    /**
+     * Helper method for updateInCallNotification() and
+     * updateNotificationAndLaunchIncomingCallUi(): Update the phone app's
+     * status bar notification based on the current telephony state, or
+     * cancels the notification if the phone is totally idle.
+     *
+     * @param allowLaunchInCallScreen If true, *and* an incoming call is
+     *   ringing, the notification will include a "fullScreenIntent"
+     *   pointing at the InCallScreen (which will cause the InCallScreen
+     *   to be launched.)
+     *   Watch out: This should be set to true *only* when directly
+     *   handling the "new ringing connection" event from the telephony
+     *   layer (see updateNotificationAndLaunchIncomingCallUi().)
+     */
+    private void updateInCallNotification(boolean allowFullScreenIntent) {
         int resId;
-        if (DBG) log("updateInCallNotification()...");
+        if (DBG) log("updateInCallNotification(allowFullScreenIntent = "
+                     + allowFullScreenIntent + ")...");
 
         // Never display the "ongoing call" notification on
         // non-voice-capable devices, even if the phone is actually
@@ -741,41 +801,43 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // call".)
             notification.tickerText = expandedViewLine2;
 
-            // In most cases, we actually want to launch the incoming call
-            // UI at this point (rather than just posting a notification
-            // to the status bar).  Setting fullScreenIntent will cause
-            // the InCallScreen to be launched immediately *unless* the
-            // current foreground activity is marked as "immersive".
-            if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
-            notification.fullScreenIntent = inCallPendingIntent;
+            if (allowFullScreenIntent) {
+                // Ok, we actually want to launch the incoming call
+                // UI at this point (in addition to simply posting a notification
+                // to the status bar).  Setting fullScreenIntent will cause
+                // the InCallScreen to be launched immediately *unless* the
+                // current foreground activity is marked as "immersive".
+                if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
+                notification.fullScreenIntent = inCallPendingIntent;
 
-            // Ugly hack alert:
-            //
-            // The NotificationManager has the (undocumented) behavior
-            // that it will *ignore* the fullScreenIntent field if you
-            // post a new Notification that matches the ID of one that's
-            // already active.  Unfortunately this is exactly what happens
-            // when you get an incoming call-waiting call:  the
-            // "ongoing call" notification is already visible, so the
-            // InCallScreen won't get launched in this case!
-            // (The result: if you bail out of the in-call UI while on a
-            // call and then get a call-waiting call, the incoming call UI
-            // won't come up automatically.)
-            //
-            // The workaround is to just notice this exact case (this is a
-            // call-waiting call *and* the InCallScreen is not in the
-            // foreground) and manually cancel the in-call notification
-            // before (re)posting it.
-            //
-            // TODO: there should be a cleaner way of avoiding this
-            // problem (see discussion in bug 3184149.)
-            Call ringingCall = mCM.getFirstActiveRingingCall();
-            if ((ringingCall.getState() == Call.State.WAITING) && !app.isShowingCallScreen()) {
-                Log.i(LOG_TAG, "updateInCallNotification: call-waiting! force relaunch...");
-                // Cancel the IN_CALL_NOTIFICATION immediately before
-                // (re)posting it; this seems to force the
-                // NotificationManager to launch the fullScreenIntent.
-                mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
+                // Ugly hack alert:
+                //
+                // The NotificationManager has the (undocumented) behavior
+                // that it will *ignore* the fullScreenIntent field if you
+                // post a new Notification that matches the ID of one that's
+                // already active.  Unfortunately this is exactly what happens
+                // when you get an incoming call-waiting call:  the
+                // "ongoing call" notification is already visible, so the
+                // InCallScreen won't get launched in this case!
+                // (The result: if you bail out of the in-call UI while on a
+                // call and then get a call-waiting call, the incoming call UI
+                // won't come up automatically.)
+                //
+                // The workaround is to just notice this exact case (this is a
+                // call-waiting call *and* the InCallScreen is not in the
+                // foreground) and manually cancel the in-call notification
+                // before (re)posting it.
+                //
+                // TODO: there should be a cleaner way of avoiding this
+                // problem (see discussion in bug 3184149.)
+                Call ringingCall = mCM.getFirstActiveRingingCall();
+                if ((ringingCall.getState() == Call.State.WAITING) && !app.isShowingCallScreen()) {
+                    Log.i(LOG_TAG, "updateInCallNotification: call-waiting! force relaunch...");
+                    // Cancel the IN_CALL_NOTIFICATION immediately before
+                    // (re)posting it; this seems to force the
+                    // NotificationManager to launch the fullScreenIntent.
+                    mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
+                }
             }
         }
 
