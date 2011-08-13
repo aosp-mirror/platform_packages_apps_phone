@@ -63,9 +63,11 @@
     <string name="ussdRunning" msgid="485588686340541690">"Tumatakbo ang USSD code…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Kinansela ang MMI code"</string>
     <string name="cancel" msgid="5044513931633602634">"Kanselahin"</string>
-    <string name="manageConferenceLabel" msgid="4691922394301969053">"Pamahalaan ang conference na tawag"</string>
+    <string name="manageConferenceLabel" msgid="4691922394301969053">"Pamahalaan ang conference call"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Speaker"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Handset earpiece"</string>
+    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
+    <skip />
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Ipadala ang mga sumusunod na tone?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Nagpapadala ng Mga Tone"\n</string>
@@ -514,7 +516,7 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Pagsamahin ang mga tawag"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Pagpalitin"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Pamahalaan ang mga tawag"</string>
-    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Pamahalaan ang conference"</string>
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Pamahalaan conference"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"I-import"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"I-import lahat"</string>
@@ -686,10 +688,12 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Tawagan kita mamaya."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Di masagot ngayon. Tawag ka mamaya?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Custom na mensahe..."</string>
-    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"Mga tugon sa quick text"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"I-edit ang tugon sa quick text"</string>
+    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"Mga mabilisang text na pagtugon"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"I-edit ang mga mabilisang text na pagtugon"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Tugon sa quick text"</string>
+    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
+    <skip />
     <string name="description_image_button_one" msgid="5502718871331943463">"isa"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"dalawa"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"tatlo"</string>
@@ -705,6 +709,6 @@
     <string name="description_search_button" msgid="239929880630534731">"maghanap"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"Mag-dial"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
-    <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Pinagana ang speakerphone."</string>
+    <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Pinapagana ang speakerphone."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Naka-mute ang tawag."</string>
 </resources>

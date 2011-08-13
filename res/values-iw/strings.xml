@@ -68,6 +68,8 @@
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
     <skip />
+    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
+    <skip />
     <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
     <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"לשלוח את הצלילים הבאים?"\n</string>
@@ -694,6 +696,8 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"עריכת תגובות טקסט מהירות"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"תגובת טקסט מהירה"</string>
+    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
+    <skip />
     <string name="description_image_button_one" msgid="5502718871331943463">"אחד"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"שתיים"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"שלוש"</string>

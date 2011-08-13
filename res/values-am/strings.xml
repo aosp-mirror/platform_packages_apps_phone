@@ -93,6 +93,8 @@
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
     <skip />
+    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
+    <skip />
     <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
     <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"የሚከተሉትንድምፆች ላክ?"\n</string>
@@ -898,6 +900,8 @@
     <skip />
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
+    <skip />
+    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
     <skip />
     <!-- no translation found for description_image_button_one (5502718871331943463) -->
     <skip />
