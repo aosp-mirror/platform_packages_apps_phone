@@ -96,6 +96,7 @@
         <!-- Dialer UI that only allows emergency calls -->
         <activity android:name="EmergencyDialer"
             android:label="@string/emergencyDialerIconLabel"
+            android:theme="@style/EmergencyDialerTheme"
             android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="com.android.phone.EmergencyDialer.DIAL" />

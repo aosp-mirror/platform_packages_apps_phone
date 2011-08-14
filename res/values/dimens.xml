@@ -80,8 +80,10 @@
     <dimen name="otasuccessfail_layout_marginTop">10dp</dimen>
 
 
-    <!-- Dimensions for Emergency Dialer -->
-    <dimen name="emergency_dialer_digits_height">67dp</dimen>
-    <dimen name="dialpad_additional_buttons_height">50dp</dimen>
-    <dimen name="dialpad_button_height">50dp</dimen>
+    <!-- Dimensions for Emergency Dialer and dialpad inside the in-call screen -->
+    <dimen name="dialpad_horizontal_margin">4dip</dimen>
+    <dimen name="dialpad_vertical_margin">2dip</dimen>
+    <dimen name="dialpad_digits_text_size">35sp</dimen>
+    <!-- Just used in landscape mode -->
+    <dimen name="emergency_dialer_digits_height">0px</dimen>
 </resources>
