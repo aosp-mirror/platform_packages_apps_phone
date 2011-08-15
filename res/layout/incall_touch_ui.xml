@@ -69,7 +69,8 @@
                   android:layout="@layout/dtmf_twelve_key_dialer_view"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  />
+                  android:layout_above="@+id/bottomButtons"
+                  android:layout_marginBottom="@dimen/dialpad_vertical_margin" />
 
         <!-- Main cluster of onscreen buttons on the lower part of the screen. -->
         <LinearLayout android:id="@+id/bottomButtons"
