@@ -69,11 +69,16 @@ public class CallController extends Handler {
     private PhoneApp mApp;
     private CallManager mCM;
 
+    /** Helper object for emergency calls in some rare use cases.  Created lazily. */
+    private EmergencyCallHelper mEmergencyCallHelper;
+
+
     //
     // Message codes; see handleMessage().
     //
 
     private static final int THREEWAY_CALLERINFO_DISPLAY_DONE = 1;
+
 
     //
     // Misc constants.
@@ -378,7 +383,7 @@ public class CallController extends Handler {
         }
 
         // If we're trying to call an emergency number, then it's OK to
-        // proceed in certain states where we'd usually just bring up
+        // proceed in certain states where we'd otherwise bring up
         // an error dialog:
         // - If we're in EMERGENCY_ONLY mode, then (obviously) you're allowed
         //   to dial emergency numbers.
@@ -394,28 +399,42 @@ public class CallController extends Handler {
         }
 
         if (okToCallStatus != CallStatusCode.SUCCESS) {
-            // If this is an emergency call, we call the emergency call
-            // handler activity to turn on the radio and do whatever else
-            // is needed. For now, we finish the InCallScreen (since were
-            // expecting a callback when the emergency call handler dictates
-            // it) and just return the success state.
+            // If this is an emergency call, launch the EmergencyCallHelperService
+            // to turn on the radio and retry the call.
             if (isEmergencyNumber && (okToCallStatus == CallStatusCode.POWER_OFF)) {
                 Log.i(TAG, "placeCall: Trying to make emergency call while POWER_OFF!");
 
-                // TODO: still need to get rid of EmergencyCallHandler,
-                // and instead implement its state machine here in the
-                // CallController.
+                // If needed, lazily instantiate an EmergencyCallHelper instance.
+                synchronized (this) {
+                    if (mEmergencyCallHelper == null) {
+                        mEmergencyCallHelper = new EmergencyCallHelper(this);
+                    }
+                }
 
-                Log.i(TAG, "- starting EmergencyCallHandler...");
-                mApp.startActivity(intent.setClassName(mApp,
-                                                       EmergencyCallHandler.class.getName()));
+                // ...and kick off the "emergency call from airplane mode" sequence.
+                mEmergencyCallHelper.startEmergencyCallFromAirplaneModeSequence(number);
+
+                // Finally, return CallStatusCode.SUCCESS right now so
+                // that the in-call UI will remain visible (in order to
+                // display the progress indication.)
+                // TODO: or maybe it would be more clear to return a whole
+                // new CallStatusCode called "TURNING_ON_RADIO" here.
+                // That way, we'd update inCallUiState.progressIndication from
+                // the handleOutgoingCallError() method, rather than here.
                 return CallStatusCode.SUCCESS;
             } else {
+                // Otherwise, just return the (non-SUCCESS) status code
+                // back to our caller.
                 return okToCallStatus;
             }
         }
 
+        // Ok, we can proceed with this outgoing call.
+
+        // Reset some InCallUiState flags, just in case they're still set
+        // from a prior call.
         inCallUiState.needToShowCallLostDialog = false;
+        inCallUiState.clearProgressIndication();
 
         // We have a valid number, so try to actually place a call:
         // make sure we pass along the intent's URI which is a
@@ -731,7 +750,6 @@ public class CallController extends Handler {
                 break;
         }
     }
-
 
     /**
      * Checks the current outgoing call to see if it's an OTASP call (the

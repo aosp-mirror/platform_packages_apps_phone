@@ -268,6 +268,66 @@ public class InCallUiState {
 
 
     //
+    // Progress indications
+    //
+
+    /**
+     * Possible messages we might need to display along with
+     * an indefinite progress spinner.
+     */
+    public enum ProgressIndicationType {
+        /**
+         * No progress indication needs to be shown.
+         */
+        NONE,
+
+        /**
+         * Shown when making an emergency call from airplane mode;
+         * see CallController$EmergencyCallHelper.
+         */
+        TURNING_ON_RADIO,
+
+        /**
+         * Generic "retrying" state.  (Specifically, this is shown while
+         * retrying after an initial failure from the "emergency call from
+         * airplane mode" sequence.)
+         */
+         RETRYING
+    }
+
+    /**
+     * The current progress indication that should be shown
+     * to the user.  Any value other than NONE will cause the InCallScreen
+     * to bring up an indefinite progress spinner along with a message
+     * corresponding to the specified ProgressIndicationType.
+     */
+    private ProgressIndicationType progressIndication = ProgressIndicationType.NONE;
+
+    /** Sets the current progressIndication. */
+    public void setProgressIndication(ProgressIndicationType value) {
+        progressIndication = value;
+    }
+
+    /** Clears the current progressIndication. */
+    public void clearProgressIndication() {
+        progressIndication = ProgressIndicationType.NONE;
+    }
+
+    /**
+     * @return the current progress indication type, or ProgressIndicationType.NONE
+     * if no progress indication is currently active.
+     */
+    public ProgressIndicationType getProgressIndication() {
+        return progressIndication;
+    }
+
+    /** @return true if a progress indication is currently active. */
+    public boolean isProgressIndicationActive() {
+        return (progressIndication != ProgressIndicationType.NONE);
+    }
+
+
+    //
     // (4) Optional overlay when a 3rd party "provider" is used.
     //     @see InCallScreen.updateProviderOverlay()
     //
@@ -325,6 +385,7 @@ public class InCallUiState {
         } else {
             Log.d(TAG, "  - pending call status code: none");
         }
+        Log.d(TAG, "  - progressIndication: " + progressIndication);
         if (providerOverlayVisible) {
             Log.d(TAG, "  - provider overlay VISIBLE: "
                   + providerLabel + " / "

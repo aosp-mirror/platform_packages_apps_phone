@@ -419,12 +419,6 @@
             </intent-filter>
         </activity>
 
-        <!-- emergency call handler, coordinates emergency calls -->
-        <activity android:name="EmergencyCallHandler" android:label="@string/phoneIconLabel"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance">
-        </activity>
-
         <!-- bluetooth headset service -->
         <service android:name="BluetoothHeadsetService">
             <intent-filter>

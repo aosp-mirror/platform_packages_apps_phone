@@ -19,6 +19,7 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
@@ -232,6 +233,9 @@ public class InCallScreen extends Activity
     private AlertDialog mPausePromptDialog;
     private AlertDialog mExitingECMDialog;
     // NOTE: if you add a new dialog here, be sure to add it to dismissAllDialogs() also.
+
+    // ProgressDialog created by showProgressIndication()
+    private ProgressDialog mProgressDialog;
 
     // TODO: If the Activity class ever provides an easy way to get the
     // current "activity lifecycle" state, we can remove these flags.
@@ -579,7 +583,7 @@ public class InCallScreen extends Activity
         // Restore various other state from the InCallUiState object:
 
         // Update the onscreen dialpad state to match the InCallUiState.
-        if (mApp.inCallUiState.showDialpad) {
+        if (inCallUiState.showDialpad) {
             showDialpadInternal(false);  // no "opening" animation
         } else {
             hideDialpadInternal(false);  // no "closing" animation
@@ -661,13 +665,15 @@ public class InCallScreen extends Activity
             // Couldn't update the UI, presumably because the phone is totally
             // idle.
 
+            // Even though the phone is idle, though, we do still need to
+            // stay here on the InCallScreen if we're displaying an
+            // error dialog (see "showStatusIndication()" above).
+
             if (handledStartupError) {
-                // Do NOT bail out of the in-call UI, since there's presumably
-                // a dialog visible right now (see "showStatusIndication()" above.)
-                //
-                // In this case, stay here for now, and we'll eventually
-                // leave the InCallScreen when the user presses the
-                // dialog's OK button (see bailOutAfterErrorDialog()).
+                // Stay here for now.  We'll eventually leave the
+                // InCallScreen when the user presses the dialog's OK
+                // button (see bailOutAfterErrorDialog()), or when the
+                // progress indicator goes away.
                 Log.i(LOG_TAG, "  ==> syncWithPhoneState failed, but staying here anyway.");
             } else {
                 // The phone is idle, and we did NOT handle a
@@ -1613,10 +1619,6 @@ public class InCallScreen extends Activity
         Connection.DisconnectCause cause = c.getDisconnectCause();
         if (DBG) log("onDisconnect: connection '" + c + "', cause = " + cause);
 
-        // Stash away a copy of the "current intent" in case we need it
-        // later (see the EmergencyCallHandler-related code below.)
-        Intent originalInCallIntent = getIntent();
-
         boolean currentlyIdle = !phoneIsInUse();
         int autoretrySetting = AUTO_RETRY_OFF;
         boolean phoneIsCdma = (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
@@ -1740,12 +1742,6 @@ public class InCallScreen extends Activity
             }
         }
 
-        // Retrieve the emergency call retry count from this intent, in
-        // case we need to retry the call again.
-        int emergencyCallRetryCount = getIntent().getIntExtra(
-                EmergencyCallHandler.EMERGENCY_CALL_RETRY_KEY,
-                EmergencyCallHandler.INITIAL_ATTEMPT);
-
         // Note: see CallNotifier.onDisconnect() for some other behavior
         // that might be triggered by a disconnect event, like playing the
         // busy/congestion tone.
@@ -1761,15 +1757,16 @@ public class InCallScreen extends Activity
         mLastDisconnectCause = cause;
 
         // We bail out immediately (and *don't* display the "call ended"
-        // state at all) in a couple of cases, including those where we
-        // are waiting for the radio to finish powering up for an
-        // emergency call:
+        // state at all) if this was an incoming call.
         boolean bailOutImmediately =
                 ((cause == Connection.DisconnectCause.INCOMING_MISSED)
-                 || (cause == Connection.DisconnectCause.INCOMING_REJECTED)
-                 || ((cause == Connection.DisconnectCause.OUT_OF_SERVICE)
-                         && (emergencyCallRetryCount > 0)))
+                 || (cause == Connection.DisconnectCause.INCOMING_REJECTED))
                 && currentlyIdle;
+
+        // Note: we also do some special handling for the case when a call
+        // disconnects with cause==OUT_OF_SERVICE while making an
+        // emergency call from airplane mode.  That's handled by
+        // EmergencyCallHelper.onDisconnect().
 
         // TODO: one more case where we *shouldn't* bail out immediately:
         // If the disconnect event was from an incoming ringing call, but
@@ -1784,52 +1781,15 @@ public class InCallScreen extends Activity
         // out).
 
         if (bailOutImmediately) {
-            if (VDBG) log("- onDisconnect: bailOutImmediately...");
+            if (DBG) log("- onDisconnect: bailOutImmediately...");
 
             // Exit the in-call UI!
             // (This is basically the same "delayed cleanup" we do below,
             // just with zero delay.  Since the Phone is currently idle,
             // this call is guaranteed to immediately finish this activity.)
             delayedCleanupAfterDisconnect();
-
-            // Also, if this was a failed emergency call, we may need to
-            // (re)launch the EmergencyCallHandler in order to retry the
-            // call.
-            // (Note that emergencyCallRetryCount will be -1 if we weren't
-            // launched via the EmergencyCallHandler in the first place.)
-            if ((cause == Connection.DisconnectCause.OUT_OF_SERVICE)
-                    && (emergencyCallRetryCount > 0)) {
-                Log.i(LOG_TAG, "onDisconnect: OUT_OF_SERVICE; need to retry emergency call!");
-                Log.i(LOG_TAG, "- emergencyCallRetryCount = " + emergencyCallRetryCount);
-
-                // Fire off the EmergencyCallHandler, and pass it the
-                // original CALL_EMERGENCY intent that got us here.  (The
-                // EmergencyCallHandler will re-try turning the radio on,
-                // and then pass this intent back to us.)
-
-                // Watch out: we use originalInCallIntent here rather than
-                // the current value of getIntent(), since the current intent
-                // just got reset by the delayedCleanupAfterDisconnect() call
-                // immediately above!
-
-                Intent i = originalInCallIntent.setClassName(this,
-                        EmergencyCallHandler.class.getName());
-                Log.i(LOG_TAG, "- launching: " + i);
-                startActivity(i);
-
-                // TODO: the sequence of startActivity() calls is a little
-                // ugly here.  We just launched the EmergencyCallHandler (see
-                // the code immediately above here), but right before doing
-                // that we *also* called delayedCleanupAfterDisconnect() which
-                // itself calls startActivity() in order to launch the call
-                // log.  Issuing two startActivity() calls in a row like this
-                // makes no sense; in practice the 2nd call wins, but it would
-                // be cleaner for us to force delayedCleanupAfterDisconnect()
-                // to not even try launching the call log if we know we're
-                // about to launch the EmergencyCallHandler instead.
-            }
         } else {
-            if (VDBG) log("- onDisconnect: delayed bailout...");
+            if (DBG) log("- onDisconnect: delayed bailout...");
             // Stay on the in-call screen for now.  (Either the phone is
             // still in use, or the phone is idle but we want to display
             // the "call ended" state for a couple of seconds.)
@@ -1838,7 +1798,7 @@ public class InCallScreen extends Activity
             // but there's still a call in the DISCONNECTED state:
             if (currentlyIdle
                 && (mCM.hasDisconnectedFgCall() || mCM.hasDisconnectedBgCall())) {
-                if (VDBG) log("- onDisconnect: switching to 'Call ended' state...");
+                if (DBG) log("- onDisconnect: switching to 'Call ended' state...");
                 setInCallScreenMode(InCallScreenMode.CALL_ENDED);
             }
 
@@ -1851,7 +1811,7 @@ public class InCallScreen extends Activity
             // disconnected was the foreground call.
             final boolean hasActiveCall = mCM.hasActiveFgCall();
             if (!hasActiveCall) {
-                if (VDBG) log("- onDisconnect: cleaning up after FG call disconnect...");
+                if (DBG) log("- onDisconnect: cleaning up after FG call disconnect...");
 
                 // Dismiss any dialogs which are only meaningful for an
                 // active call *and* which become moot if the call ends.
@@ -2253,6 +2213,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mCM);
         updateDialpadVisibility();
         updateProviderOverlay();
+        updateProgressIndication();
 
         // Forcibly take down all dialog if an incoming call is ringing.
         if (mCM.hasActiveRingingCall()) {
@@ -2336,8 +2297,13 @@ public class InCallScreen extends Activity
                 (mPhone.getPhoneType() == Phone.PHONE_TYPE_GSM)
                 && !mPhone.getPendingMmiCodes().isEmpty();
 
+        // Finally, it's also OK to stay here on the InCallScreen if we
+        // need to display a progress indicator while something's
+        // happening in the background.
+        boolean showProgressIndication = mApp.inCallUiState.isProgressIndicationActive();
+
         if (mCM.hasActiveFgCall() || mCM.hasActiveBgCall() || mCM.hasActiveRingingCall()
-                || hasPendingMmiCodes) {
+                || hasPendingMmiCodes || showProgressIndication) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return SyncWithPhoneStateStatus.SUCCESS;
@@ -2427,9 +2393,8 @@ public class InCallScreen extends Activity
      * time to endInCallScreenSession this activity.
      *
      * If the Phone is *not* idle right now, that probably means that one
-     * call ended but the other line is still in use.  In that case, we
-     * *don't* exit the in-call screen, but we at least turn off the
-     * backlight (which we turned on in onDisconnect().)
+     * call ended but the other line is still in use.  In that case, do
+     * nothing, and instead stay here on the InCallScreen.
      */
     private void delayedCleanupAfterDisconnect() {
         if (VDBG) log("delayedCleanupAfterDisconnect()...  Phone state = " + mCM.getState());
@@ -2446,8 +2411,19 @@ public class InCallScreen extends Activity
         // connections still in that state.]
         mCM.clearDisconnected();
 
-        if (!phoneIsInUse()) {
-            // Phone is idle!  We should exit this screen now.
+
+        // There are two cases where we should *not* exit the InCallScreen:
+        //   (1) Phone is still in use
+        // or
+        //   (2) There's an active progress indication (i.e. the "Retrying..."
+        //       progress dialog) that we need to continue to display.
+
+        boolean stayHere = phoneIsInUse() || mApp.inCallUiState.isProgressIndicationActive();
+
+        if (stayHere) {
+            if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
+        } else {
+            // Phone is idle!  We should exit the in-call UI now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
 
             // And (finally!) exit from the in-call screen
@@ -2512,11 +2488,6 @@ public class InCallScreen extends Activity
 
                 endInCallScreenSession();
             }
-        } else {
-            // The phone is still in use.  Stay here in this activity, but
-            // we don't need to keep the screen on.
-            if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
-            if (DBG) PhoneUtils.dumpCallState(mPhone);
         }
     }
 
@@ -3201,6 +3172,85 @@ public class InCallScreen extends Activity
             if (DBG) log("- DISMISSING mExitingECMDialog.");
             mExitingECMDialog.dismiss();
             mExitingECMDialog = null;
+        }
+    }
+
+    /**
+     * Updates the state of the onscreen "progress indication" used in
+     * some (relatively rare) scenarios where we need to wait for
+     * something to happen before enabling the in-call UI.
+     *
+     * If necessary, this method will cause a ProgressDialog (i.e. a
+     * spinning wait cursor) to be drawn *on top of* whatever the current
+     * state of the in-call UI is.
+     *
+     * @see InCallUiState.ProgressIndicationType
+     */
+    private void updateProgressIndication() {
+        // If an incoming call is ringing, that takes priority over any
+        // possible value of inCallUiState.progressIndication.
+        if (mCM.hasActiveRingingCall()) {
+            dismissProgressIndication();
+            return;
+        }
+
+        // Otherwise, put up a progress indication if indicated by the
+        // inCallUiState.progressIndication field.
+        final InCallUiState inCallUiState = mApp.inCallUiState;
+        switch (inCallUiState.getProgressIndication()) {
+            case NONE:
+                // No progress indication necessary, so make sure it's dismissed.
+                dismissProgressIndication();
+                break;
+
+            case TURNING_ON_RADIO:
+                showProgressIndication(
+                    R.string.emergency_enable_radio_dialog_title,
+                    R.string.emergency_enable_radio_dialog_message);
+                break;
+
+            case RETRYING:
+                showProgressIndication(
+                    R.string.emergency_enable_radio_dialog_title,
+                    R.string.emergency_enable_radio_dialog_retry);
+                break;
+
+            default:
+                Log.wtf(LOG_TAG, "updateProgressIndication: unexpected value: "
+                        + inCallUiState.getProgressIndication());
+                dismissProgressIndication();
+                break;
+        }
+    }
+
+    /**
+     * Show an onscreen "progress indication" with the specified title and message.
+     */
+    private void showProgressIndication(int titleResId, int messageResId) {
+        if (DBG) log("showProgressIndication(message " + messageResId + ")...");
+
+        // TODO: make this be a no-op if the progress indication is
+        // already visible with the exact same title and message.
+
+        dismissProgressIndication();  // Clean up any prior progress indication
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle(getText(titleResId));
+        mProgressDialog.setMessage(getText(messageResId));
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        mProgressDialog.show();
+    }
+
+    /**
+     * Dismiss the onscreen "progress indication" (if present).
+     */
+    private void dismissProgressIndication() {
+        if (DBG) log("dismissProgressIndication()...");
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();  // safe even if already dismissed
+            mProgressDialog = null;
         }
     }
 
