@@ -1243,25 +1243,14 @@ public class InCallScreen extends Activity
         // current activity.)
 
         if (mCM.hasActiveRingingCall()) {
-            // While an incoming call is ringing, BACK behaves just like
-            // ENDCALL: it stops the ringing and rejects the current call.
-            // (This is only enabled on some platforms, though.)
-            if (getResources().getBoolean(R.bool.allow_back_key_to_reject_incoming_call)) {
-                if (DBG) log("BACK key while ringing: reject the call");
-                hangupRingingCall();
+            // The Back key, just like the Home key, is always disabled
+            // while an incoming call is ringing.  (The user *must* either
+            // answer or reject the call before leaving the incoming-call
+            // screen.)
+            if (DBG) log("BACK key while ringing: ignored");
 
-                // Don't consume the key; instead let the BACK event *also*
-                // get handled normally by the framework (which presumably
-                // will cause us to exit out of this activity.)
-                super.onBackPressed();
-                return;
-            } else {
-                // The BACK key is disabled; don't reject the call, but
-                // *do* consume the keypress (otherwise we'll exit out of
-                // this activity.)
-                if (DBG) log("BACK key while ringing: ignored");
-                return;
-            }
+            // And consume this event; *don't* call super.onBackPressed().
+            return;
         }
 
         // BACK is also used to exit out of any "special modes" of the
