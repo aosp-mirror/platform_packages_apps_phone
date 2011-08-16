@@ -2002,6 +2002,9 @@ public class BluetoothHandsfree {
                         if (args.charAt(args.length() - 1) == ';') {
                             args = args.substring(0, args.length() - 1);
                         }
+
+                        args = PhoneNumberUtils.convertPreDial(args);
+
                         Intent intent = new Intent(Intent.ACTION_CALL_PRIVILEGED,
                                 Uri.fromParts(Constants.SCHEME_TEL, args, null));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
