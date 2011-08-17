@@ -77,17 +77,6 @@
          just let the radio/BP handle playing of the tones. -->
     <bool name="allow_local_dtmf_tones">true</bool>
 
-    <!-- While an incoming call is ringing, this flag specifies whether
-         the BACK key should reject the current call (just like the
-         ENDCALL button does.)
-         This was originally the default behavior for all platforms, but
-         it's a bad idea on devices where the BACK key is a capacitive
-         button (since it's too easy to press the key accidentally as you
-         pull the phone out of your pocket.)  So devices that *don't* want
-         this behavior should set this flag to false via the resource
-         overlay.  -->
-    <bool name="allow_back_key_to_reject_incoming_call">true</bool>
-
     <!-- If true, show an onscreen "Dial" button in the dialer.
          In practice this is used on all platforms, even the ones with hard SEND/END
          keys, but for maximum flexibility it's controlled by a flag here
