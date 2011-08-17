@@ -14,7 +14,8 @@
      limitations under the License.
 -->
 
-<!-- Horizontal row of buttons (Search + DialButton + Delete.) -->
+<!-- Horizontal row of buttons (Search / Dial / Backspace) shown
+     beneath the dialpad in the emergency dialer; see emergency_dialer.xml. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialpadAdditionalButtons"
     android:layout_width="match_parent"
@@ -25,7 +26,10 @@
     android:background="@drawable/dialpad_background"
     android:orientation="horizontal">
 
-    <!-- Onscreen "Search" button, which will never be enabled in the emergency dialer. -->
+    <!-- Placeholder for the "Search" button.
+         (This button is never visible since there's no "Search" function
+         on this screen, but we have a placeholder here just to be
+         consistent with the dialpad in DialpadFragment.) -->
     <ImageButton android:id="@+id/searchButton"
         android:layout_width="0px"
         android:layout_weight="0.30"
@@ -34,7 +38,9 @@
         android:state_enabled="false"
         android:background="@drawable/btn_dial"
         android:contentDescription="@string/description_search_button"
-        android:src="@drawable/ic_dial_action_search"/>
+        android:src="@drawable/ic_dial_action_search"
+        android:visibility="invisible"
+        />
 
     <!-- Onscreen "Dial" button, used on all platforms by
          default. Its usage can be disabled using resources (see

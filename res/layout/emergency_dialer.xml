@@ -14,6 +14,7 @@
      limitations under the License.
 -->
 
+<!-- Layout for the emergency dialer; see EmergencyDialer.java. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/top"
     android:layout_width="match_parent"
@@ -41,7 +42,7 @@
     <!-- Keypad section -->
     <include layout="@layout/dialpad" />
 
-    <!-- Horizontal row of buttons (Search + DialButton + Delete.) -->
+    <!-- Horizontal row of buttons beneath the dialpad (Search + DialButton + Delete.) -->
     <include layout="@layout/dialpad_additional_buttons" />
 
 </LinearLayout>
