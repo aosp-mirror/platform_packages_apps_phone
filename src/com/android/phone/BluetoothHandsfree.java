@@ -667,6 +667,8 @@ public class BluetoothHandsfree {
         private static final int PRECISE_CALL_STATE_CHANGED = 2;
         private static final int RING = 3;
         private static final int PHONE_CDMA_CALL_WAITING = 4;
+        private static final int BATTERY_CHANGED = 5;
+        private static final int SIGNAL_STRENGTH_CHANGED = 6;
 
         private Handler mStateChangeHandler = new Handler() {
             @Override
@@ -689,6 +691,12 @@ public class BluetoothHandsfree {
                         connection = (Connection) ((AsyncResult) msg.obj).result;
                     }
                     handlePreciseCallStateChange(sendUpdate(), connection);
+                    break;
+                case BATTERY_CHANGED:
+                    updateBatteryState((Intent) msg.obj);
+                    break;
+                case SIGNAL_STRENGTH_CHANGED:
+                    updateSignalState((Intent) msg.obj);
                     break;
                 }
             }
@@ -867,10 +875,13 @@ public class BluetoothHandsfree {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
-                    updateBatteryState(intent);
+                    Message msg = mStateChangeHandler.obtainMessage(BATTERY_CHANGED, intent);
+                    mStateChangeHandler.sendMessage(msg);
                 } else if (intent.getAction().equals(
                             TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED)) {
-                    updateSignalState(intent);
+                    Message msg = mStateChangeHandler.obtainMessage(SIGNAL_STRENGTH_CHANGED,
+                                                                    intent);
+                    mStateChangeHandler.sendMessage(msg);
                 } else if (intent.getAction().equals(
                     BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)) {
                     int state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE,
