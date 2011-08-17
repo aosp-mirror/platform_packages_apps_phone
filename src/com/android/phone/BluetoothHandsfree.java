@@ -2842,9 +2842,10 @@ public class BluetoothHandsfree {
             result.addResponse("+CIEV: 2,1");
             result.addResponse("+CIEV: 3,0");
             sendURC(result.toString());
-            mVirtualCallStarted = true;
             if (DBG) Log.d(TAG, "initiateScoUsingVirtualVoiceCall: Sent Call-setup procedure");
         }
+
+        mVirtualCallStarted = true;
 
         // 3. Open the Audio Connection
         if (audioOn() == false) {
@@ -2871,14 +2872,14 @@ public class BluetoothHandsfree {
         audioOff();
 
         // 2. terminate call-setup
-        if (mBluetoothPhoneState.sendUpdate() && isVirtualCallInProgress()) {
+        if (mBluetoothPhoneState.sendUpdate()) {
             AtCommandResult result = new AtCommandResult(AtCommandResult.UNSOLICITED);
             // outgoing call
             result.addResponse("+CIEV: 2,0");
             sendURC(result.toString());
-            mVirtualCallStarted = false;
             if (DBG) log("terminateScoUsingVirtualVoiceCall: Sent Call-setup procedure");
         }
+        mVirtualCallStarted = false;
         mAudioPossible = false;
 
         // Done
