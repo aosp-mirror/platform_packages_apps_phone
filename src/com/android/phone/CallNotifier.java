@@ -1434,7 +1434,7 @@ public class CallNotifier extends Handler
 
         @Override
         public void run() {
-            if (VDBG) log("InCallTonePlayer.run(toneId = " + mToneId + ")...");
+            log("InCallTonePlayer.run(toneId = " + mToneId + ")...");
 
             int toneType = 0;  // passed to ToneGenerator.startTone()
             int toneVolume;  // passed to the ToneGenerator constructor
@@ -1688,7 +1688,7 @@ public class CallNotifier extends Handler
 
         @Override
         public void run() {
-            if (DBG) log("SignalInfoTonePlayer.run(toneId = " + mToneId + ")...");
+            log("SignalInfoTonePlayer.run(toneId = " + mToneId + ")...");
 
             if (mSignalInfoToneGenerator != null) {
                 //First stop any ongoing SignalInfo tone
@@ -1962,7 +1962,7 @@ public class CallNotifier extends Handler
 
             if ((mIsEmergencyToneOn == EMERGENCY_TONE_ALERT) &&
                     (ringerMode == AudioManager.RINGER_MODE_NORMAL)) {
-                if (VDBG) log("Play Emergency Tone.");
+                log("EmergencyTonePlayerVibrator.start(): emergency tone...");
                 mToneGenerator = new ToneGenerator (AudioManager.STREAM_VOICE_CALL,
                         InCallTonePlayer.TONE_RELATIVE_VOLUME_HIPRI);
                 if (mToneGenerator != null) {
@@ -1970,7 +1970,7 @@ public class CallNotifier extends Handler
                     mCurrentEmergencyToneState = EMERGENCY_TONE_ALERT;
                 }
             } else if (mIsEmergencyToneOn == EMERGENCY_TONE_VIBRATE) {
-                if (VDBG) log("Play Emergency Vibrate.");
+                log("EmergencyTonePlayerVibrator.start(): emergency vibrate...");
                 mEmgVibrator = new Vibrator();
                 if (mEmgVibrator != null) {
                     mEmgVibrator.vibrate(mVibratePattern, 0);
