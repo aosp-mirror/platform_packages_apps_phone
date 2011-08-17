@@ -86,4 +86,15 @@
     <dimen name="dialpad_digits_text_size">35sp</dimen>
     <!-- Just used in landscape mode -->
     <dimen name="emergency_dialer_digits_height">0px</dimen>
+
+    <!-- Top margin for the "Calling via ..." provider badge, which is
+         displayed for a few seconds at the start of any outgoing call
+         using a gateway provider (see InCallScreen.updateProviderOverlay()).
+           Currently, this badge floats on top of the normal in-call UI, and
+         the value here is used to position the badge vertically so that
+         it doesn't cover up the "call banner" or any onscreen buttons.
+           TODO: Integrate the badge more smoothly into the call banner,
+         rather than using an overlay element at all (bug 5045539). -->
+    <dimen name="provider_overlay_top_margin">160dip</dimen>
+
 </resources>
