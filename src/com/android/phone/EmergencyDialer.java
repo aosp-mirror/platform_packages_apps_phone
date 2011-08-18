@@ -19,6 +19,7 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.StatusBarManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -72,6 +73,9 @@ public class EmergencyDialer extends Activity
     // Debug constants.
     private static final boolean DBG = false;
     private static final String LOG_TAG = "EmergencyDialer";
+
+    private PhoneApp mApp;
+    private StatusBarManager mStatusBarManager;
 
     /** The length of DTMF tones in milliseconds */
     private static final int TONE_LENGTH_MS = 150;
@@ -141,14 +145,13 @@ public class EmergencyDialer extends Activity
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        // set this flag so this activity will stay in front of the keyguard
+        mApp = PhoneApp.getInstance();
+        mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
+
+        // Allow this activity to be displayed in front of the keyguard / lockscreen.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
-        // Set the content view
         setContentView(R.layout.emergency_dialer);
-
-        // Load up the resources for the text field and delete button
-        Resources res = getResources();
 
         mDigits = (EditText) findViewById(R.id.digits);
         mDigits.setKeyListener(DialerKeyListener.getInstance());
@@ -166,6 +169,7 @@ public class EmergencyDialer extends Activity
         mAdditionalButtons = findViewById(R.id.dialpadAdditionalButtons);
 
         // Check whether we should show the onscreen "Dial" button and co.
+        Resources res = getResources();
         if (res.getBoolean(R.bool.config_show_onscreen_dial_button)) {
             // Make sure it is disabled.
             mAdditionalButtons.findViewById(R.id.searchButton).setEnabled(false);
@@ -454,9 +458,8 @@ public class EmergencyDialer extends Activity
         // Disable the status bar and set the poke lock timeout to medium.
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "disabling status bar, set to long timeout");
-        PhoneApp app = (PhoneApp) getApplication();
-        app.disableStatusBar();
-        app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
+        mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
+        mApp.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
 
         updateDialAndDeleteButtonStateEnabledAttr();
     }
@@ -466,9 +469,8 @@ public class EmergencyDialer extends Activity
         // Reenable the status bar and set the poke lock timeout to default.
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "reenabling status bar and closing the dialer");
-        PhoneApp app = (PhoneApp) getApplication();
-        app.reenableStatusBar();
-        app.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
+        mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
+        mApp.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
 
         super.onPause();
 

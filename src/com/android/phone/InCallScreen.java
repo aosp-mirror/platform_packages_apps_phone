@@ -559,8 +559,6 @@ public class InCallScreen extends Activity
         final InCallUiState inCallUiState = mApp.inCallUiState;
         if (VDBG) inCallUiState.dumpState();
 
-        mApp.disableStatusBar();
-
         // Touch events are never considered "user activity" while the
         // InCallScreen is active, so that unintentional touches won't
         // prevent the device from going to sleep.
@@ -568,10 +566,10 @@ public class InCallScreen extends Activity
 
         // Disable the status bar "window shade" the entire time we're on
         // the in-call screen.
-        NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(false);
+        mApp.notificationMgr.statusBarHelper.enableExpandedView(false);
         // ...and update the in-call notification too, since the status bar
         // icon needs to be hidden while we're the foreground activity:
-        NotificationMgr.getDefault().updateInCallNotification();
+        mApp.notificationMgr.updateInCallNotification();
 
         // Listen for broadcast intents that might affect the onscreen UI.
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
@@ -831,9 +829,9 @@ public class InCallScreen extends Activity
         dismissAllDialogs();
 
         // Re-enable the status bar (which we disabled in onResume().)
-        NotificationMgr.getDefault().getStatusBarMgr().enableExpandedView(true);
+        mApp.notificationMgr.statusBarHelper.enableExpandedView(true);
         // ...and the in-call notification too:
-        NotificationMgr.getDefault().updateInCallNotification();
+        mApp.notificationMgr.updateInCallNotification();
 
         // Unregister for broadcast intents.  (These affect the visible UI
         // of the InCallScreen, so we only care about them while we're in the
@@ -850,8 +848,6 @@ public class InCallScreen extends Activity
                     mApp.setIgnoreTouchUserActivity(false);
                 }
             }, 500);
-
-        mApp.reenableStatusBar();
 
         // Make sure we revert the poke lock and wake lock when we move to
         // the background.

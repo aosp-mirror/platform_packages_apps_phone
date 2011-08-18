@@ -337,7 +337,7 @@ public class CallNotifier extends Handler
                     mVoicePrivacyState = true;
                     // Update the VP icon:
                     if (DBG) log("- updating notification for VP state...");
-                    NotificationMgr.getDefault().updateInCallNotification();
+                    mApplication.notificationMgr.updateInCallNotification();
                 }
                 break;
 
@@ -349,7 +349,7 @@ public class CallNotifier extends Handler
                     mVoicePrivacyState = false;
                     // Update the VP icon:
                     if (DBG) log("- updating notification for VP state...");
-                    NotificationMgr.getDefault().updateInCallNotification();
+                    mApplication.notificationMgr.updateInCallNotification();
                 }
                 break;
 
@@ -362,7 +362,7 @@ public class CallNotifier extends Handler
                 break;
 
             case UPDATE_IN_CALL_NOTIFICATION:
-                NotificationMgr.getDefault().updateInCallNotification();
+                mApplication.notificationMgr.updateInCallNotification();
                 break;
 
             default:
@@ -749,7 +749,7 @@ public class CallNotifier extends Handler
         // screen, but if an immersive activity is running it'll just
         // appear as a notification.)
         if (DBG) log("- updating notification from showIncomingCall()...");
-        NotificationMgr.getDefault().updateNotificationAndLaunchIncomingCallUi();
+        mApplication.notificationMgr.updateNotificationAndLaunchIncomingCallUi();
     }
 
     /**
@@ -767,7 +767,7 @@ public class CallNotifier extends Handler
         // Turn status bar notifications on or off depending upon the state
         // of the phone.  Notification Alerts (audible or vibrating) should
         // be on if and only if the phone is IDLE.
-        NotificationMgr.getDefault().getStatusBarMgr()
+        mApplication.notificationMgr.statusBarHelper
                 .enableNotificationAlerts(state == Phone.State.IDLE);
 
         Phone fgPhone = mCM.getFgPhone();
@@ -946,7 +946,7 @@ public class CallNotifier extends Handler
         if (cookie instanceof Long) {
             if (VDBG) log("CallerInfo query complete, posting missed call notification");
 
-            NotificationMgr.getDefault().notifyMissedCall(ci.name, ci.phoneNumber,
+            mApplication.notificationMgr.notifyMissedCall(ci.name, ci.phoneNumber,
                     ci.phoneLabel, ((Long) cookie).longValue());
         } else if (cookie instanceof CallNotifier) {
             if (VDBG) log("CallerInfo query complete (for CallNotifier), "
@@ -1034,7 +1034,7 @@ public class CallNotifier extends Handler
                 // Also we need to take off the "In Call" icon from the Notification
                 // area as the Out going Call never got connected
                 if (DBG) log("cancelCallInProgressNotifications()... (onDisconnect)");
-                NotificationMgr.getDefault().cancelCallInProgressNotifications();
+                mApplication.notificationMgr.cancelCallInProgressNotifications();
             } else {
                 if (DBG) log("stopRing()... (onDisconnect)");
                 mRinger.stopRing();
@@ -1124,7 +1124,7 @@ public class CallNotifier extends Handler
                 resetAudioStateAfterDisconnect();
             }
 
-            NotificationMgr.getDefault().cancelCallInProgressNotifications();
+            mApplication.notificationMgr.cancelCallInProgressNotifications();
 
             // If the InCallScreen is *not* in the foreground, forcibly
             // dismiss it to make sure it won't still be in the activity
@@ -1304,7 +1304,7 @@ public class CallNotifier extends Handler
             return;
         }
 
-        NotificationMgr.getDefault().updateMwi(visible);
+        mApplication.notificationMgr.updateMwi(visible);
     }
 
     /**
@@ -1318,7 +1318,7 @@ public class CallNotifier extends Handler
 
     private void onCfiChanged(boolean visible) {
         if (VDBG) log("onCfiChanged(): " + visible);
-        NotificationMgr.getDefault().updateCfi(visible);
+        mApplication.notificationMgr.updateCfi(visible);
     }
 
     /**
@@ -1925,7 +1925,7 @@ public class CallNotifier extends Handler
                     number = PhoneUtils.modifyForSpecialCnapCases(mApplication,
                             ci, number, ci.numberPresentation);
                 }
-                NotificationMgr.getDefault().notifyMissedCall(name, number,
+                mApplication.notificationMgr.notifyMissedCall(name, number,
                         ci.phoneLabel, date);
             }
         } else {

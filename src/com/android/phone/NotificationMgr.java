@@ -51,6 +51,12 @@ import com.android.internal.telephony.CallManager;
 
 /**
  * NotificationManager-related utility code for the Phone app.
+ *
+ * This is a singleton object which acts as the interface to the
+ * framework's NotificationManager, and is used to display status bar
+ * icons and control other status bar-related behavior.
+ *
+ * @see PhoneApp.notificationMgr
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = "NotificationMgr";
@@ -75,17 +81,21 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     static final int DATA_DISCONNECTED_ROAMING_NOTIFICATION = 7;
     static final int SELECTED_OPERATOR_FAIL_NOTIFICATION = 8;
 
-    private static NotificationMgr sMe = null;
+    /** The singleton NotificationMgr instance. */
+    private static NotificationMgr sInstance;
+
+    private PhoneApp mApp;
     private Phone mPhone;
     private CallManager mCM;
 
     private Context mContext;
-    private NotificationManager mNotificationMgr;
-    private StatusBarManager mStatusBar;
-    private StatusBarMgr mStatusBarMgr;
+    private NotificationManager mNotificationManager;
+    private StatusBarManager mStatusBarManager;
     private Toast mToast;
     private boolean mShowingSpeakerphoneIcon;
     private boolean mShowingMuteIcon;
+
+    public StatusBarHelper statusBarHelper;
 
     // used to track the missed call counter, default to 0.
     private int mNumberMissedCalls = 0;
@@ -107,65 +117,74 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private static final int CALL_LOG_TOKEN = -1;
     private static final int CONTACT_TOKEN = -2;
 
-    NotificationMgr(Context context) {
-        mContext = context;
-        mNotificationMgr = (NotificationManager)
-            context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        mStatusBar = (StatusBarManager) context.getSystemService(Context.STATUS_BAR_SERVICE);
-
-        PhoneApp app = PhoneApp.getInstance();
-        mPhone = app.phone;
+    /**
+     * Private constructor (this is a singleton).
+     * @see init()
+     */
+    private NotificationMgr(PhoneApp app) {
+        mApp = app;
+        mContext = app;
+        mNotificationManager =
+                (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+        mStatusBarManager =
+                (StatusBarManager) app.getSystemService(Context.STATUS_BAR_SERVICE);
+        mPhone = app.phone;  // TODO: better style to use mCM.getDefaultPhone() everywhere instead
         mCM = app.mCM;
-    }
-
-    static void init(Context context) {
-        sMe = new NotificationMgr(context);
-
-        // update the notifications that need to be touched at startup.
-        sMe.updateNotificationsAtStartup();
-    }
-
-    static NotificationMgr getDefault() {
-        return sMe;
+        statusBarHelper = new StatusBarHelper();
     }
 
     /**
-     * Class that controls the status bar.  This class maintains a set
-     * of state and acts as an interface between the Phone process and
-     * the Status bar.  All interaction with the status bar should be
-     * though the methods contained herein.
+     * Initialize the singleton NotificationMgr instance.
+     *
+     * This is only done once, at startup, from PhoneApp.onCreate().
+     * From then on, the NotificationMgr instance is available via the
+     * PhoneApp's public "notificationMgr" field, which is why there's no
+     * getInstance() method here.
      */
-
-    /**
-     * Factory method
-     */
-    StatusBarMgr getStatusBarMgr() {
-        if (mStatusBarMgr == null) {
-            mStatusBarMgr = new StatusBarMgr();
+    /* package */ static NotificationMgr init(PhoneApp app) {
+        synchronized (NotificationMgr.class) {
+            if (sInstance == null) {
+                sInstance = new NotificationMgr(app);
+                // Update the notifications that need to be touched at startup.
+                sInstance.updateNotificationsAtStartup();
+            } else {
+                Log.wtf(LOG_TAG, "init() called multiple times!  sInstance = " + sInstance);
+            }
+            return sInstance;
         }
-        return mStatusBarMgr;
     }
 
     /**
-     * StatusBarMgr implementation
+     * Helper class that's a wrapper around the framework's
+     * StatusBarManager.disable() API.
+     *
+     * This class is used to control features like:
+     *
+     *   - Disabling the status bar "notification windowshade"
+     *     while the in-call UI is up
+     *
+     *   - Disabling notification alerts (audible or vibrating)
+     *     while a phone call is active
+     *
+     * We control these features through a single point of control to make
+     * sure that the various StatusBarManager.disable() calls don't
+     * interfere with each other.
      */
-    class StatusBarMgr {
-        // current settings
+    public class StatusBarHelper {
+        // Current desired state of the status bar
         private boolean mIsNotificationEnabled = true;
         private boolean mIsExpandedViewEnabled = true;
 
-        private StatusBarMgr () {
+        private StatusBarHelper () {
         }
 
         /**
-         * Sets the notification state (enable / disable
-         * vibrating notifications) for the status bar,
-         * updates the status bar service if there is a change.
-         * Independent of the remaining Status Bar
-         * functionality, including icons and expanded view.
+         * Enables or disables auditory / vibrational alerts.
+         *
+         * (We disable these any time a voice call is active, regardless
+         * of whether or not the in-call UI is visible.)
          */
-        void enableNotificationAlerts(boolean enable) {
+        public void enableNotificationAlerts(boolean enable) {
             if (mIsNotificationEnabled != enable) {
                 mIsNotificationEnabled = enable;
                 updateStatusBar();
@@ -173,13 +192,13 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         /**
-         * Sets the ability to expand the notifications for the
-         * status bar, updates the status bar service if there
-         * is a change. Independent of the remaining Status Bar
-         * functionality, including icons and notification
-         * alerts.
+         * Enables or disables the expanded view of the status bar
+         * (i.e. the ability to pull down the "notification windowshade").
+         *
+         * (This feature is disabled by the InCallScreen while the in-call
+         * UI is active.)
          */
-        void enableExpandedView(boolean enable) {
+        public void enableExpandedView(boolean enable) {
             if (mIsExpandedViewEnabled != enable) {
                 mIsExpandedViewEnabled = enable;
                 updateStatusBar();
@@ -187,10 +206,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         /**
-         * Method to synchronize status bar state with our current
-         * state.
+         * Updates the status bar to reflect the current desired state.
          */
-        void updateStatusBar() {
+        private void updateStatusBar() {
             int state = StatusBarManager.DISABLE_NONE;
 
             if (!mIsExpandedViewEnabled) {
@@ -201,9 +219,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 state |= StatusBarManager.DISABLE_NOTIFICATION_ALERTS;
             }
 
-            // send the message to the status bar manager.
             if (DBG) log("updating status bar state: " + state);
-            mStatusBar.disable(state);
+            mStatusBarManager.disable(state);
         }
     }
 
@@ -429,7 +446,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         note.flags |= Notification.FLAG_AUTO_CANCEL;
 
         configureLedNotification(note);
-        mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
+        mNotificationManager.notify(MISSED_CALL_NOTIFICATION, note);
     }
 
     /**
@@ -440,12 +457,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     void cancelMissedCallNotification() {
         // reset the number of missed calls to 0.
         mNumberMissedCalls = 0;
-        mNotificationMgr.cancel(MISSED_CALL_NOTIFICATION);
+        mNotificationManager.cancel(MISSED_CALL_NOTIFICATION);
     }
 
     void notifySpeakerphone() {
         if (!mShowingSpeakerphoneIcon) {
-            mStatusBar.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0,
+            mStatusBarManager.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0,
                     mContext.getString(R.string.accessibility_speakerphone_enabled));
             mShowingSpeakerphoneIcon = true;
         }
@@ -453,7 +470,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     void cancelSpeakerphone() {
         if (mShowingSpeakerphoneIcon) {
-            mStatusBar.removeIcon("speakerphone");
+            mStatusBarManager.removeIcon("speakerphone");
             mShowingSpeakerphoneIcon = false;
         }
     }
@@ -476,7 +493,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     private void notifyMute() {
         if (!mShowingMuteIcon) {
-            mStatusBar.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0,
+            mStatusBarManager.setIcon("mute", android.R.drawable.stat_notify_call_mute, 0,
                     mContext.getString(R.string.accessibility_call_muted));
             mShowingMuteIcon = true;
         }
@@ -484,7 +501,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
     private void cancelMute() {
         if (mShowingMuteIcon) {
-            mStatusBar.removeIcon("mute");
+            mStatusBarManager.removeIcon("mute");
             mShowingMuteIcon = false;
         }
     }
@@ -590,7 +607,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
-        final PhoneApp app = PhoneApp.getInstance();
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
         final boolean hasActiveCall = mCM.hasActiveFgCall();
         final boolean hasHoldingCall = mCM.hasActiveBgCall();
@@ -610,7 +626,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // first place (see notification.fullScreenIntent below) and we can't
         // safely assume that the InCallScreen will never be in the foreground
         // when a new incoming call comes in.
-        if (app.isShowingCallScreen() && !hasRingingCall) {
+        if (mApp.isShowingCallScreen() && !hasRingingCall) {
             cancelInCall();
             return;
         }
@@ -618,7 +634,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Display the appropriate icon in the status bar,
         // based on the current phone and/or bluetooth state.
 
-        boolean enhancedVoicePrivacy = app.notifier.getVoicePrivacyState();
+        boolean enhancedVoicePrivacy = mApp.notifier.getVoicePrivacyState();
         if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
 
         if (hasRingingCall) {
@@ -631,7 +647,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             } else {
                 resId = R.drawable.stat_sys_phone_call_on_hold;
             }
-        } else if (app.showBluetoothIndication()) {
+        } else if (mApp.showBluetoothIndication()) {
             // Bluetooth is active.
             if (enhancedVoicePrivacy) {
                 resId = R.drawable.stat_sys_vp_phone_call_bluetooth;
@@ -831,18 +847,18 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 // TODO: there should be a cleaner way of avoiding this
                 // problem (see discussion in bug 3184149.)
                 Call ringingCall = mCM.getFirstActiveRingingCall();
-                if ((ringingCall.getState() == Call.State.WAITING) && !app.isShowingCallScreen()) {
+                if ((ringingCall.getState() == Call.State.WAITING) && !mApp.isShowingCallScreen()) {
                     Log.i(LOG_TAG, "updateInCallNotification: call-waiting! force relaunch...");
                     // Cancel the IN_CALL_NOTIFICATION immediately before
                     // (re)posting it; this seems to force the
                     // NotificationManager to launch the fullScreenIntent.
-                    mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
+                    mNotificationManager.cancel(IN_CALL_NOTIFICATION);
                 }
             }
         }
 
         if (DBG) log("Notifying IN_CALL_NOTIFICATION: " + notification);
-        mNotificationMgr.notify(IN_CALL_NOTIFICATION,
+        mNotificationManager.notify(IN_CALL_NOTIFICATION,
                                 notification);
 
         // Finally, refresh the mute and speakerphone notifications (since
@@ -887,7 +903,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      */
     private void cancelInCall() {
         if (DBG) log("cancelInCall()...");
-        mNotificationMgr.cancel(IN_CALL_NOTIFICATION);
+        mNotificationManager.cancel(IN_CALL_NOTIFICATION);
         mInCallResId = 0;
     }
 
@@ -962,8 +978,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 // or missing and can *never* load successfully.)
                 if (mVmNumberRetriesRemaining-- > 0) {
                     if (DBG) log("  - Retrying in " + VM_NUMBER_RETRY_DELAY_MILLIS + " msec...");
-                    PhoneApp.getInstance().notifier.sendMwiChangedDelayed(
-                            VM_NUMBER_RETRY_DELAY_MILLIS);
+                    mApp.notifier.sendMwiChangedDelayed(VM_NUMBER_RETRY_DELAY_MILLIS);
                     return;
                 } else {
                     Log.w(LOG_TAG, "NotificationMgr.updateMwi: getVoiceMailNumber() failed after "
@@ -1009,9 +1024,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             notification.defaults |= Notification.DEFAULT_SOUND;
             notification.flags |= Notification.FLAG_NO_CLEAR;
             configureLedNotification(notification);
-            mNotificationMgr.notify(VOICEMAIL_NOTIFICATION, notification);
+            mNotificationManager.notify(VOICEMAIL_NOTIFICATION, notification);
         } else {
-            mNotificationMgr.cancel(VOICEMAIL_NOTIFICATION);
+            mNotificationManager.cancel(VOICEMAIL_NOTIFICATION);
         }
     }
 
@@ -1063,11 +1078,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             notification.flags |= Notification.FLAG_ONGOING_EVENT;  // also implies FLAG_NO_CLEAR
 
-            mNotificationMgr.notify(
+            mNotificationManager.notify(
                     CALL_FORWARD_NOTIFICATION,
                     notification);
         } else {
-            mNotificationMgr.cancel(CALL_FORWARD_NOTIFICATION);
+            mNotificationManager.cancel(CALL_FORWARD_NOTIFICATION);
         }
     }
 
@@ -1092,7 +1107,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 mContext.getString(R.string.roaming_reenable_message), // expandedText
                 PendingIntent.getActivity(mContext, 0, intent, 0)); // contentIntent
 
-        mNotificationMgr.notify(
+        mNotificationManager.notify(
                 DATA_DISCONNECTED_ROAMING_NOTIFICATION,
                 notification);
     }
@@ -1102,7 +1117,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      */
     /* package */ void hideDataDisconnectedRoaming() {
         if (DBG) log("hideDataDisconnectedRoaming()...");
-        mNotificationMgr.cancel(DATA_DISCONNECTED_ROAMING_NOTIFICATION);
+        mNotificationManager.cancel(DATA_DISCONNECTED_ROAMING_NOTIFICATION);
     }
 
     /**
@@ -1134,7 +1149,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         notification.setLatestEventInfo(mContext, titleText, expandedText, pi);
 
-        mNotificationMgr.notify(SELECTED_OPERATOR_FAIL_NOTIFICATION, notification);
+        mNotificationManager.notify(SELECTED_OPERATOR_FAIL_NOTIFICATION, notification);
     }
 
     /**
@@ -1142,7 +1157,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      */
     private void cancelNetworkSelection() {
         if (DBG) log("cancelNetworkSelection()...");
-        mNotificationMgr.cancel(SELECTED_OPERATOR_FAIL_NOTIFICATION);
+        mNotificationManager.cancel(SELECTED_OPERATOR_FAIL_NOTIFICATION);
     }
 
     /**

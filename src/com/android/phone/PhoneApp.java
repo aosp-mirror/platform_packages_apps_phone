@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
-import android.app.StatusBarManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
@@ -145,6 +144,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     CallController callController;
     InCallUiState inCallUiState;
     CallNotifier notifier;
+    NotificationMgr notificationMgr;
     Ringer ringer;
     BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
@@ -196,8 +196,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private PowerManager.WakeLock mPartialWakeLock;
     private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
-    private StatusBarManager mStatusBarManager;
-    private int mStatusBarDisableCount;
     private AccelerometerListener mAccelerometerListener;
     private int mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
 
@@ -291,15 +289,15 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     // state change (since the status bar icon needs to
                     // turn blue when bluetooth is active.)
                     if (DBG) Log.d (LOG_TAG, "- updating in-call notification from handler...");
-                    NotificationMgr.getDefault().updateInCallNotification();
+                    notificationMgr.updateInCallNotification();
                     break;
 
                 case EVENT_DATA_ROAMING_DISCONNECTED:
-                    NotificationMgr.getDefault().showDataDisconnectedRoaming();
+                    notificationMgr.showDataDisconnectedRoaming();
                     break;
 
                 case EVENT_DATA_ROAMING_OK:
-                    NotificationMgr.getDefault().hideDataDisconnectedRoaming();
+                    notificationMgr.hideDataDisconnectedRoaming();
                     break;
 
                 case MMI_COMPLETE:
@@ -434,7 +432,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             mCM = CallManager.getInstance();
             mCM.registerPhone(phone);
 
-            NotificationMgr.init(this);
+            // Create the NotificationMgr singleton, which is used to display
+            // status bar icons and control other status bar behavior.
+            notificationMgr = NotificationMgr.init(this);
 
             phoneMgr = PhoneInterfaceManager.init(this, phone);
 
@@ -482,7 +482,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
 
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
             // get a handle to the service so that we can use it later when we
             // want to set the poke lock.
@@ -846,42 +845,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     ProgressDialog getPUKEntryProgressDialog() {
         return mPUKEntryProgressDialog;
-    }
-
-    /**
-     * Disables the status bar.  This is used by the phone app when in-call UI is active.
-     *
-     * Any call to this method MUST be followed (eventually)
-     * by a corresponding reenableStatusBar() call.
-     */
-    /* package */ void disableStatusBar() {
-        if (DBG) Log.d(LOG_TAG, "disable status bar");
-        synchronized (this) {
-            if (mStatusBarDisableCount++ == 0) {
-               if (DBG)  Log.d(LOG_TAG, "StatusBarManager.DISABLE_EXPAND");
-                mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
-            }
-        }
-    }
-
-    /**
-     * Re-enables the status bar after a previous disableStatusBar() call.
-     *
-     * Any call to this method MUST correspond to (i.e. be balanced with)
-     * a previous disableStatusBar() call.
-     */
-    /* package */ void reenableStatusBar() {
-        if (DBG) Log.d(LOG_TAG, "re-enable status bar");
-        synchronized (this) {
-            if (mStatusBarDisableCount > 0) {
-                if (--mStatusBarDisableCount == 0) {
-                    if (DBG) Log.d(LOG_TAG, "StatusBarManager.DISABLE_NONE");
-                    mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
-                }
-            } else {
-                Log.e(LOG_TAG, "mStatusBarDisableCount is already zero");
-            }
-        }
     }
 
     /**
@@ -1607,7 +1570,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
         if (ss != null) {
             int state = ss.getState();
-            NotificationMgr.getDefault().updateNetworkSelection(state);
+            notificationMgr.updateNetworkSelection(state);
         }
     }
 

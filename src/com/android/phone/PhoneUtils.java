@@ -237,13 +237,13 @@ public class PhoneUtils {
      */
     static boolean answerCall(Call ringing) {
         if (DBG) log("answerCall()...");
+        final PhoneApp app = PhoneApp.getInstance();
 
         // If the ringer is currently ringing and/or vibrating, stop it
         // right now (before actually answering the call.)
-        PhoneApp.getInstance().getRinger().stopRing();
+        app.getRinger().stopRing();
 
         boolean answered = false;
-        PhoneApp app = PhoneApp.getInstance();
         Phone phone = ringing.getPhone();
         boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
         BluetoothHandsfree bthf = null;
@@ -287,7 +287,7 @@ public class PhoneUtils {
                 }
 
                 //if (DBG) log("sPhone.acceptCall");
-                PhoneApp.getInstance().mCM.acceptCall(ringing);
+                app.mCM.acceptCall(ringing);
                 answered = true;
 
                 // Always reset to "unmuted" for a freshly-answered call
@@ -550,9 +550,11 @@ public class PhoneUtils {
      * @return either CALL_STATUS_DIALED or CALL_STATUS_FAILED
      */
     public static int placeCall(Context context, Phone phone,
-            String number, Uri contactRef, boolean isEmergencyCall, 
+            String number, Uri contactRef, boolean isEmergencyCall,
             Uri gatewayUri) {
         if (DBG) log("placeCall '" + number + "' GW:'" + gatewayUri + "'");
+        final PhoneApp app = PhoneApp.getInstance();
+
         boolean useGateway = false;
         if (null != gatewayUri &&
             !isEmergencyCall &&
@@ -582,7 +584,7 @@ public class PhoneUtils {
         }
 
         try {
-            connection = PhoneApp.getInstance().mCM.dial(phone, numberToDial);
+            connection = app.mCM.dial(phone, numberToDial);
         } catch (CallStateException ex) {
             Log.e(LOG_TAG, "Exception dialing ", ex);
             connection = null;
@@ -608,7 +610,6 @@ public class PhoneUtils {
                 status = CALL_STATUS_FAILED;
             }
         } else {
-            PhoneApp app = PhoneApp.getInstance();
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 updateCdmaCallStateOnNewOutgoingCall(app);
             }
@@ -903,6 +904,7 @@ public class PhoneUtils {
     static void displayMMIComplete(final Phone phone, Context context, final MmiCode mmiCode,
             Message dismissCallbackMessage,
             AlertDialog previousAlert) {
+        final PhoneApp app = PhoneApp.getInstance();
         CharSequence text;
         int title = 0;  // title for the progress dialog, if needed.
         MmiCode.State state = mmiCode.getState();
@@ -929,7 +931,7 @@ public class PhoneUtils {
                 text = context.getText(R.string.mmiCancelled);
                 break;
             case COMPLETE:
-                if (PhoneApp.getInstance().getPUKEntryActivity() != null) {
+                if (app.getPUKEntryActivity() != null) {
                     // if an attempt to unPUK the device was made, we specify
                     // the title and the message here.
                     title = com.android.internal.R.string.PinMmi;
@@ -954,7 +956,6 @@ public class PhoneUtils {
 
         // Check to see if a UI exists for the PUK activation.  If it does
         // exist, then it indicates that we're trying to unblock the PUK.
-        PhoneApp app = PhoneApp.getInstance();
         if ((app.getPUKEntryActivity() != null) && (state == MmiCode.State.COMPLETE)) {
             if (DBG) log("displaying PUK unblocking progress dialog.");
 
@@ -1277,7 +1278,6 @@ public class PhoneUtils {
      */
     static CallerInfoToken startGetCallerInfo(Context context, Call call,
             CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
-        PhoneApp app = PhoneApp.getInstance();
         Connection conn = null;
         int phoneType = call.getPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
@@ -1630,7 +1630,7 @@ public class PhoneUtils {
         // you're in a 3-way call, all we can do is display the "generic"
         // state of the UI.)  So as far as the in-call UI is concerned,
         // Conference corresponds to generic display.
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
         int phoneType = call.getPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             CdmaPhoneCallState.PhoneCallState state = app.cdmaPhoneCallState.getCurrentCallState();
@@ -1672,6 +1672,8 @@ public class PhoneUtils {
      * This is just a wrapper around the ACTION_DIAL intent.
      */
     static void startNewCall(final CallManager cm) {
+        final PhoneApp app = PhoneApp.getInstance();
+
         // Sanity-check that this is OK given the current state of the phone.
         if (!okToAddCall(cm)) {
             Log.w(LOG_TAG, "startNewCall: can't add a new call in the current state");
@@ -1684,7 +1686,7 @@ public class PhoneUtils {
             setMuteInternal(cm.getActiveFgCall().getPhone(), true);
             // Inform the phone app that this mute state was NOT done
             // voluntarily by the User.
-            PhoneApp.getInstance().setRestoreMuteOnInCallResume(true);
+            app.setRestoreMuteOnInCallResume(true);
         }
 
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -1695,11 +1697,12 @@ public class PhoneUtils {
         // InCallScreen / PhoneUtils.
         intent.putExtra(ADD_CALL_MODE_KEY, true);
 
-        PhoneApp.getInstance().startActivity(intent);
+        app.startActivity(intent);
     }
 
     static void turnOnSpeaker(Context context, boolean flag, boolean store) {
         if (DBG) log("turnOnSpeaker(flag=" + flag + ", store=" + store + ")...");
+        final PhoneApp app = PhoneApp.getInstance();
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         audioManager.setSpeakerphoneOn(flag);
@@ -1708,16 +1711,15 @@ public class PhoneUtils {
             sIsSpeakerEnabled = flag;
         }
         if (flag) {
-            NotificationMgr.getDefault().notifySpeakerphone();
+            app.notificationMgr.notifySpeakerphone();
         } else {
-            NotificationMgr.getDefault().cancelSpeakerphone();
+            app.notificationMgr.cancelSpeakerphone();
         }
 
         // We also need to make a fresh call to PhoneApp.updateWakeState()
         // any time the speaker state changes, since the screen timeout is
         // sometimes different depending on whether or not the speaker is
         // in use.
-        PhoneApp app = PhoneApp.getInstance();
         app.updateWakeState();
 
         // Update the Proximity sensor based on speaker state
@@ -1830,6 +1832,7 @@ public class PhoneUtils {
      */
     private static void setMuteInternal(Phone phone, boolean muted) {
         if (DBG) log("setMuteInternal: " + muted);
+        final PhoneApp app = PhoneApp.getInstance();
         Context context = phone.getContext();
         boolean routeToAudioManager =
             context.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
@@ -1841,7 +1844,7 @@ public class PhoneUtils {
         } else {
             phone.setMute(muted);
         }
-        NotificationMgr.getDefault().updateMuteNotification();
+        app.notificationMgr.updateMuteNotification();
     }
 
     /**
@@ -1849,7 +1852,7 @@ public class PhoneUtils {
      * foreground call
      */
     static boolean getMute() {
-        PhoneApp app = PhoneApp.getInstance();
+        final PhoneApp app = PhoneApp.getInstance();
 
         boolean routeToAudioManager =
             app.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
@@ -1910,6 +1913,7 @@ public class PhoneUtils {
      */
     /* package */ static boolean handleHeadsetHook(Phone phone, KeyEvent event) {
         if (DBG) log("handleHeadsetHook()..." + event.getAction() + " " + event.getRepeatCount());
+        final PhoneApp app = PhoneApp.getInstance();
 
         // If the phone is totally idle, we ignore HEADSETHOOK events
         // (and instead let them fall through to the media player.)
@@ -1941,11 +1945,12 @@ public class PhoneUtils {
                     || (phoneType == Phone.PHONE_TYPE_SIP)) {
                 if (hasActiveCall && hasHoldingCall) {
                     if (DBG) log("handleHeadsetHook: ringing (both lines in use) ==> answer!");
-                    answerAndEndActive(PhoneApp.getInstance().mCM, phone.getRingingCall());
+                    answerAndEndActive(app.mCM, phone.getRingingCall());
                 } else {
                     if (DBG) log("handleHeadsetHook: ringing ==> answer!");
-                    answerCall(phone.getRingingCall());  // Automatically holds the current active call,
-                                        // if there is one
+                    // answerCall() will automatically hold the current
+                    // active call, if there is one.
+                    answerCall(phone.getRingingCall());
                 }
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
@@ -1954,7 +1959,7 @@ public class PhoneUtils {
             // No incoming ringing call.
             if (event.isLongPress()) {
                 if (DBG) log("handleHeadsetHook: longpress -> hangup");
-                hangup(PhoneApp.getInstance().mCM);
+                hangup(app.mCM);
             }
             else if (event.getAction() == KeyEvent.ACTION_UP &&
                      event.getRepeatCount() == 0) {
