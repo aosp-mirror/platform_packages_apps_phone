@@ -321,8 +321,9 @@ public class NetworkSetting extends PreferenceActivity
     private void displayNetworkQueryFailed(int error) {
         String status = getResources().getString(R.string.network_query_error);
 
-        NotificationMgr.getDefault().postTransientNotification(
-                        NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
+        final PhoneApp app = PhoneApp.getInstance();
+        app.notificationMgr.postTransientNotification(
+                NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
     }
 
     private void displayNetworkSelectionFailed(Throwable ex) {
@@ -337,15 +338,17 @@ public class NetworkSetting extends PreferenceActivity
             status = getResources().getString(R.string.connect_later);
         }
 
-        NotificationMgr.getDefault().postTransientNotification(
-                        NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
+        final PhoneApp app = PhoneApp.getInstance();
+        app.notificationMgr.postTransientNotification(
+                NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
     }
 
     private void displayNetworkSelectionSucceeded() {
         String status = getResources().getString(R.string.registration_done);
 
-        NotificationMgr.getDefault().postTransientNotification(
-                        NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
+        final PhoneApp app = PhoneApp.getInstance();
+        app.notificationMgr.postTransientNotification(
+                NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
 
         mHandler.postDelayed(new Runnable() {
             public void run() {

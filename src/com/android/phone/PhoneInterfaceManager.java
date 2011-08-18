@@ -584,7 +584,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public void cancelMissedCallsNotification() {
         enforceModifyPermission();
-        NotificationMgr.getDefault().cancelMissedCallNotification();
+        mApp.notificationMgr.cancelMissedCallNotification();
     }
 
     public int getCallState() {
