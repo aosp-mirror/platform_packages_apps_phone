@@ -465,9 +465,19 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         note.setLatestEventInfo(mContext, mContext.getText(titleResId), expandedText,
                 PendingIntent.getActivity(mContext, 0, callLogIntent, 0));
         note.flags |= Notification.FLAG_AUTO_CANCEL;
+        // This intent will be called when the notification is dismissed.
+        // It will take care of clearing the list of missed calls.
+        note.deleteIntent = createClearMissedCallsIntent();
 
         configureLedNotification(note);
         mNotificationManager.notify(MISSED_CALL_NOTIFICATION, note);
+    }
+
+    /** Returns an intent to be invoked when the missed call notification is cleared. */
+    private PendingIntent createClearMissedCallsIntent() {
+        Intent intent = new Intent(mContext, ClearMissedCallsService.class);
+        intent.setAction(ClearMissedCallsService.ACTION_CLEAR_MISSED_CALLS);
+        return PendingIntent.getService(mContext, 0, intent, 0);
     }
 
     /**

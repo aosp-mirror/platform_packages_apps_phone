@@ -265,6 +265,9 @@
         <!-- service to handle network query requests sent to RIL -->
         <service android:name="NetworkQueryService" />
 
+        <!-- clearing of missed call notifications  -->
+        <service android:name="ClearMissedCallsService" />
+
         <activity android:name="NetworkSetting"
                 android:label="@string/networks"
                 android:configChanges="orientation|screenSize|keyboardHidden"
