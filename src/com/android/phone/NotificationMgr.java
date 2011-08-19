@@ -166,14 +166,18 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      *   - Disabling notification alerts (audible or vibrating)
      *     while a phone call is active
      *
+     *   - Disabling navigation via the system bar (the "soft buttons" at
+     *     the bottom of the screen on devices with no hard buttons)
+     *
      * We control these features through a single point of control to make
      * sure that the various StatusBarManager.disable() calls don't
      * interfere with each other.
      */
     public class StatusBarHelper {
-        // Current desired state of the status bar
+        // Current desired state of status bar / system bar behavior
         private boolean mIsNotificationEnabled = true;
         private boolean mIsExpandedViewEnabled = true;
+        private boolean mIsSystemBarNavigationEnabled = true;
 
         private StatusBarHelper () {
         }
@@ -206,6 +210,21 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         /**
+         * Enables or disables the navigation via the system bar (the
+         * "soft buttons" at the bottom of the screen)
+         *
+         * (This feature is disabled while an incoming call is ringing,
+         * because it's easy to accidentally touch the system bar while
+         * pulling the phone out of your pocket.)
+         */
+        public void enableSystemBarNavigation(boolean enable) {
+            if (mIsSystemBarNavigationEnabled != enable) {
+                mIsSystemBarNavigationEnabled = enable;
+                updateStatusBar();
+            }
+        }
+
+        /**
          * Updates the status bar to reflect the current desired state.
          */
         private void updateStatusBar() {
@@ -214,12 +233,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (!mIsExpandedViewEnabled) {
                 state |= StatusBarManager.DISABLE_EXPAND;
             }
-
             if (!mIsNotificationEnabled) {
                 state |= StatusBarManager.DISABLE_NOTIFICATION_ALERTS;
             }
+            if (!mIsSystemBarNavigationEnabled) {
+                state |= StatusBarManager.DISABLE_NAVIGATION;
+            }
 
-            if (DBG) log("updating status bar state: " + state);
+            if (DBG) log("updateStatusBar: state = 0x" + Integer.toHexString(state));
             mStatusBarManager.disable(state);
         }
     }

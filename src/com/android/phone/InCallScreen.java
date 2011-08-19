@@ -832,6 +832,11 @@ public class InCallScreen extends Activity
         mApp.notificationMgr.statusBarHelper.enableExpandedView(true);
         // ...and the in-call notification too:
         mApp.notificationMgr.updateInCallNotification();
+        // ...and *always* reset the system bar back to its normal state
+        // when leaving the in-call UI.
+        // (While we're the foreground activity, we disable navigation in
+        // some call states; see InCallTouchUi.updateState().)
+        mApp.notificationMgr.statusBarHelper.enableSystemBarNavigation(true);
 
         // Unregister for broadcast intents.  (These affect the visible UI
         // of the InCallScreen, so we only care about them while we're in the
