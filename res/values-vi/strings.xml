@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: sắp xếp lại."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Từ chối Tùy chọn Dịch vụ."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: thử sắp xếp lại."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Lỗi truy cập."</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: Lỗi truy cập."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Bị chặn trước."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Chỉ có thể thực hiện cuộc gọi Khẩn cấp."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Số không hợp lệ"</string>
@@ -161,7 +161,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Số thư thoại đã thay đổi."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Thay đổi số thư thoại không thành công."\n"Hãy liên hệ với nhà cung cấp dịch vụ của bạn nếu sự cố vẫn tiếp diễn."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Thay đổi số chuyển tiếp không thành công."\n"Hãy liên hệ với nhà cung cấp dịch vụ của bạn nếu sự cố này vẫn tiếp diễn."</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Không thể truy xuất và lưu cài đặt số chuyển tiếp hiện tại."\n"Bạn vẫn muốn chuyển sang nhà cung cấp mới?"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Không thể truy xuất và lưu cài đặt số chuyển tiếp hiện tại."\n"Bạn vẫn muốn chuyển sang nhà cung cấp mới?"</string>
     <string name="no_change" msgid="3186040086622435212">"Không thay đổi nào được thực hiện."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chọn dịch vụ thư thoại"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Nhà cung cấp dịch vụ của tôi"</string>
@@ -644,11 +644,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Đang không nhận cuộc gọi"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Đăng ký tài khoản đã dừng do không có kết nối Internet"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Đăng ký tài khoản đã dừng do không có kết nối Wi-Fi"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"Đăng ký tài khoản không thành công"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Đăng ký tài khoản không thành công"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Đang nhận cuộc gọi"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Đăng ký tài khoản không thành công: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); sẽ thử sau"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Đăng ký tài khoản không thành công: tên người dùng hoặc mật khẩu không chính xác"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Đăng ký tài khoản không thành công: vui lòng kiểm tra tên máy chủ"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Đăng ký tài khoản không thành công: tên người dùng hoặc mật khẩu không chính xác"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Đăng ký tài khoản không thành công: vui lòng kiểm tra tên máy chủ"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Tài khoản này hiện đang được ứng dụng <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> sử dụng"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Chi tiết tài khoản SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Chi tiết tài khoản SIP"</string>

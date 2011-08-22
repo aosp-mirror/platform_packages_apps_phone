@@ -68,7 +68,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: agiza upya."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Kataa Chaguo la Huduma."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: jaribu agizo tena."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: Imeshindwa kufikia."</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: Imeshindwa kufikia."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Imeopolewa mapema."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Simu za dharura tu ndizo zinazowezekana."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Nambari Batili"</string>
@@ -247,7 +247,7 @@
     <skip />
     <string name="vm_change_failed" msgid="6912718596496220653">"Mabadiliko ya nambari ya barua za sauti hayakufanikiwa. "\n"Tafadhali wasiliana na mtoa huduma wako ikiwa tatizo hili litaendelea."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Mabadiliko ya namba hayakufanikiwa"\n"Tafadhali wasiliana na mtoa huduma wako kama tatizo hili litaendelea."</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Imeshindwa kuepua na kuhifadhi mipangilio ya sasa ya kupitisha simu kwingine. "\n"Unataka kubadili kwa mtoa huduma mpya hata hivyo?"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Imeshindwa kuepua na kuhifadhi mipangilio ya sasa ya kupitisha simu kwingine. "\n"Unataka kubadili kwa mtoa huduma mpya hata hivyo?"</string>
     <!-- no translation found for no_change (3186040086622435212) -->
     <skip />
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chagua huduma ya barua ya sauti"</string>
@@ -843,11 +843,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Haipokeai simu"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Usajili wa akaunti umesimamishwa kwa sababu hakuna muunganisho wa Mtandao"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Usajili wa akaunti umekomeshwa kwa sababu hakuna muunganisho wa mtandao-hewa"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"Usajili wa akaunti umeshindikana"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Usajili wa akaunti umeshindikana"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Inapokea simu"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Usajili wa akaunti umeshindikana: <xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>; nitajaribu baadaye"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Kusajili kwa akaunti kumeshindikana: jina lamtumiaji lisilohalali au nenosiri"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Usajili wa akaunti umeshindikana: tafadhali kagua jina la seva"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Kusajili kwa akaunti kumeshindikana: jina lamtumiaji lisilohalali au nenosiri"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Usajili wa akaunti umeshindikana: tafadhali kagua jina la seva"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Akaunti hii inatumika kwa sasa na programu ya <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Maelezo ya akaunti ya SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Maelezo ya akaunti ya SIP"</string>

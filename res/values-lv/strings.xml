@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: pārkārtošana."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: pakalpojuma opcija ir noraidīta."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: atkārtotu mēģinājumu kārtība."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: piekļuves kļūme."</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: piekļuves kļūme."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: iegūts ātrāk."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Iespējami ir tikai ārkārtas zvani."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Nederīgs numurs"</string>
@@ -161,7 +161,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Balss pasta numurs ir mainīts."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Balss pasta numura maiņa nebija veiksmīga."\n"Lūdzu, sazinieties ar mobilo sakaru operatoru, ja šī problēma joprojām pastāv."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Pāradresācijas numura maiņa nebija veiksmīga."\n"Lūdzu, sazinieties ar mobilo sakaru operatoru, ja šī problēma joprojām pastāv."</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Neizdevās izgūt un saglabāt pašreizējā pāradresācijas numura iestatījumus."\n"Vai joprojām vēlaties pārslēgt uz jauno nodrošinātāju?"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Neizdevās izgūt un saglabāt pašreizējā pāradresācijas numura iestatījumus."\n"Vai joprojām vēlaties pārslēgt uz jauno nodrošinātāju?"</string>
     <string name="no_change" msgid="3186040086622435212">"Izmaiņas netika veiktas."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Izvēlieties balss pasta pakalpojumu"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mans mobilo sakaru operators"</string>
@@ -224,7 +224,9 @@
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) no <xliff:g id="USED_2">%3$s</xliff:g> perioda maksimuma"\n"Nākamais periods sākas pēc <xliff:g id="USED_3">%4$d</xliff:g> dienas(-ām) (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) no <xliff:g id="USED_2">%3$s</xliff:g> perioda maksimuma"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> maksimums ir pārsniegts"\n"Datu ātrums ir samazināts līdz <xliff:g id="USED_1">%2$d</xliff:g> Kb/s."</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% no cikla ir pagājis(-uši)"\n"Nākamais periods sākas pēc <xliff:g id="USED_1">%2$d</xliff:g> dienas(-ām) (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <!-- String.format failed for translation -->
+    <!-- no translation found for throttle_time_frame_subtext (7732763021560399960) -->
+    <skip />
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datu ātrums tiek samazināts līdz <xliff:g id="USED">%1$d</xliff:g> Kb/s, ja ir pārsniegts datu lietojuma ierobežojums."</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Papildinformācija par mobilo sakaru operatora mobilā tīkla datu lietošanas politiku"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Šūnu apraides īsziņa"</string>
@@ -644,11 +646,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Zvani netiek saņemti"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Konta reģistrācija tika apturēta, jo nav interneta savienojuma"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Konta reģistrācija tika apturēta, jo nav Wi-Fi savienojuma"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"Konta reģistrācija neizdevās"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Konta reģistrācija neizdevās"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Notiek zvanu saņemšana"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"Konta reģistrācija neizdevās: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); vēlāk tiks mēģināts vēlreiz"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"Konta reģistrācija neizdevās: nepareizs lietotājvārds vai parole"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"Konta reģistrācija neizdevās: lūdzu, pārbaudiet servera nosaukumu"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Konta reģistrācija neizdevās: nepareizs lietotājvārds vai parole"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Konta reģistrācija neizdevās: lūdzu, pārbaudiet servera nosaukumu"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Šis konts pašlaik tiek izmantots lietojumprogrammā <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Dati par SIP kontu"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Dati par SIP kontu"</string>

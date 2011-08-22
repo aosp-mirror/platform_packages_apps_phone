@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA：重新排序。"</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA：服务选项拒绝。"</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA：重拨顺序。"</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA：无法接入。"</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA：无法接入。"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA：优先抢占。"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"只能拨打紧急呼救电话。"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"号码无效"</string>
@@ -161,7 +161,7 @@
     <string name="vm_changed" msgid="380744030726254139">"语音信箱号码已更改。"</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"语音信箱号码更改失败。"\n"如果问题依然存在，请与您的运营商联系。"</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"转接号码更改失败。"\n"如果问题依然存在，请与您的运营商联系。"</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"检索和保存当前转接号码设置失败。"\n"您仍然想要切换到新的服务提供商吗？"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"检索和保存当前转接号码设置失败。"\n"您仍然想要切换到新的服务提供商吗？"</string>
     <string name="no_change" msgid="3186040086622435212">"未做任何更改。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"选择语音信箱服务"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"我的运营商"</string>
@@ -644,11 +644,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"不接听电话"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"由于未连接至互联网，帐户注册已停止"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"因无 Wi-Fi 连接，已停止注册帐户。"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"帐户注册失败"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"帐户注册失败"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"接听电话"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"帐户注册失败：（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）；系统会在稍后重试"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"帐户注册失败：用户名或密码不正确"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"帐户注册失败：请检查服务器名称"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"帐户注册失败：用户名或密码不正确"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"帐户注册失败：请检查服务器名称"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"<xliff:g id="ACCOUNT_OWNER">%s</xliff:g> 应用程序当前正在使用该帐户"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP 帐户详情"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP 帐户详情"</string>

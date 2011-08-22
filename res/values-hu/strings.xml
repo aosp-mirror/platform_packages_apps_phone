@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: újrarendezés."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: szolgáltatás-beállítás elutasítása."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: ismétlési sorrend."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: hozzáférési hiba."</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: hozzáférési hiba."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: megakadályozva."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Csak segélyhívás lehetséges."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Érvénytelen szám"</string>
@@ -161,7 +161,7 @@
     <string name="vm_changed" msgid="380744030726254139">"A postafiók száma módosítva."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Nem sikerült módosítani a postafiók számát."\n"Ha a probléma nem szűnik meg, lépjen kapcsolatba mobilszolgáltatójával."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Nem sikerült módosítani a hívásátirányítást."\n"Ha a probléma nem szűnik meg, lépjen kapcsolatba mobilszolgáltatójával."</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"Nem sikerült lekérni és elmenteni a jelenlegi hívásátirányítási beállításokat."\n"Mégis átvált az új szolgáltatóra?"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Nem sikerült lekérni és elmenteni a jelenlegi hívásátirányítási beállításokat."\n"Mégis átvált az új szolgáltatóra?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nem történt változtatás."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Válassza ki a hangposta-szolgáltatást"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Saját szolgáltatóm"</string>
@@ -644,11 +644,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Nem fogad hívásokat"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"A fiók regisztrálása leállt, mert nincs internetkapcsolat"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"A fiók regisztrálása leállt, mert nincs Wi-Fi kapcsolat"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"A fiók regisztrálása nem sikerült"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"A fiók regisztrálása nem sikerült"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Hívások fogadása"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"A fiók regisztrálása nem sikerült: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); próbálja meg újra később"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"A fiók regisztrálása nem sikerült: helytelen a felhasználónév vagy a jelszó"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"A fiók regisztrálása nem sikerült: kérjük, ellenőrizze a szerver nevét"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"A fiók regisztrálása nem sikerült: helytelen a felhasználónév vagy a jelszó"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"A fiók regisztrálása nem sikerült: kérjük, ellenőrizze a szerver nevét"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Ezt a fiókot jelenleg a(z) <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> alkalmazás használja."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP-fiók részletei"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP-fiók részletei"</string>

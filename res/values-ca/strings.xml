@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: torna a ordenar."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: rebuig d\'opció de servei."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: ordre de reintents."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="2844306027616452215">"CDMA: error d\'accés."</string>
+    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: error d\'accés."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: invalidat."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Només es poden fer trucades d\'emergència."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Número no vàlid"</string>
@@ -161,7 +161,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Número del correu de veu canviat."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"No s\'ha pogut canviar el número del correu de veu."\n"Contacteu amb l\'operador si el problema continua."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"No s\'ha pogut canviar el número de desviament de trucades."\n"Contacteu amb l\'operador si el problema continua."</string>
-    <string name="fw_get_in_vm_failed" msgid="6776365552098929353">"No s\'ha pogut recuperar i desar la configuració de número de desviament de trucades actual."\n"Voleu canviar al proveïdor nou de totes maneres?"</string>
+    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No s\'ha pogut recuperar i desar la configuració de número de desviament de trucades actual."\n"Voleu canviar al proveïdor nou de totes maneres?"</string>
     <string name="no_change" msgid="3186040086622435212">"No s\'ha fet cap canvi."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Trieu un servei de correu de veu"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"El meu operador"</string>
@@ -644,11 +644,12 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"No s\'estan rebent trucades"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"S\'ha aturat el registre del compte perquè no hi ha connexió a Internet"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"S\'ha aturat el registre del compte perquè no hi ha una connexió Wi-Fi"</string>
-    <string name="registration_status_not_running" msgid="272678962440371182">"S\'ha produït un error en el registre del compte"</string>
+    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"S\'ha produït un error en el registre del compte"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Recepció de trucades"</string>
-    <string name="registration_status_failed_try_later" msgid="3045686593819835879">"S\'ha produït un error al registre del compte: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); es tornarà a provar més tard"</string>
-    <string name="registration_status_invalid_credentials" msgid="1830368411591265203">"S\'ha produït un error en el registre del compte: nom d\'usuari o contrasenya incorrectes"</string>
-    <string name="registration_status_server_unreachable" msgid="8173553259218123653">"S\'ha produït un error en el registre del compte: verifica el nom del servidor"</string>
+    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
+    <skip />
+    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"S\'ha produït un error en el registre del compte: nom d\'usuari o contrasenya incorrectes"</string>
+    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"S\'ha produït un error en el registre del compte: verifica el nom del servidor"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"L\'aplicació <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> està utilitzant aquest compte actualment"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Detalls del compte SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Detalls del compte SIP"</string>
