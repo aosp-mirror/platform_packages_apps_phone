@@ -488,7 +488,8 @@ public class BluetoothHeadsetService extends Service {
                 adjustOtherHeadsetPriorities(device);
             }
             try {
-                mBluetoothService.sendConnectionStateChange(device, state, prevState);
+                mBluetoothService.sendConnectionStateChange(device, BluetoothProfile.HEADSET,
+                                                            state, prevState);
             } catch (RemoteException e) {
                 Log.e(TAG, "sendConnectionStateChange: exception");
             }
