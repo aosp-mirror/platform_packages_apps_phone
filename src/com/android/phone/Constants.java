@@ -129,6 +129,7 @@ public class Constants {
 
     public static final String SCHEME_SIP = "sip";
     public static final String SCHEME_SMS = "sms";
+    public static final String SCHEME_SMSTO = "smsto";
     public static final String SCHEME_TEL = "tel";
     public static final String SCHEME_VOICEMAIL = "voicemail";
 
