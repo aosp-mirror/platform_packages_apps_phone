@@ -822,7 +822,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         if (DBG) log("- Updating expanded view: line 2 '" + /*expandedViewLine2*/ "xxxxxxx" + "'");
-        contentView.setTextViewText(R.id.text2, expandedViewLine2);
+        contentView.setTextViewText(R.id.title, expandedViewLine2);
         notification.contentView = contentView;
 
         // TODO: We also need to *update* this notification in some cases,
