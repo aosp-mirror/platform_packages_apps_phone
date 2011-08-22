@@ -25,17 +25,9 @@
          that are shown just above the main in-call button cluster. -->
     <dimen name="upper_buttons_top_margin">280dp</dimen>
 
-    <!-- Amount of vertical space to reserve for the in-call button cluster
-         at the bottom of the screen.
-         This is used as the bottom margin for the "call info container"
-         of the in-call UI, to prevent the call info from overlapping with
-         the button cluster.
-
-         This value is used during most call states.  However, if an
-         incoming call is ringing, we use in_call_control_height_incoming
-         instead since the incoming-call widget takes up more vertical
-         space than the regular button cluster. -->
-    <dimen name="in_call_button_cluster_height">130dp</dimen>
+    <!-- Margin between the bottom of the "call card" photo
+         and the top of the in-call button cluster. -->
+    <dimen name="in_call_touch_ui_upper_margin">2dp</dimen>
 
     <!-- Amount of vertical space to reserve for the MultiWaveView widget
          while an incoming call is ringing.
@@ -57,11 +49,14 @@
     <dimen name="call_state_label_right_padding">10dp</dimen>
     <dimen name="call_state_label_top_bottom_padding">5dp</dimen>
 
-    <!-- Button height for the main row of in-call buttons. -->
-    <dimen name="in_call_button_height">50dip</dimen>
+    <!-- Height of the main row of in-call buttons. -->
+    <dimen name="in_call_button_height">76dip</dimen>
 
-    <!-- Button height for the in-call "End" button. -->
-    <dimen name="in_call_end_button_height">60dip</dimen>
+    <!-- Width of buttons in the main row of in-call buttons. -->
+    <dimen name="in_call_button_width">64dip</dimen>
+
+    <!-- Height of the in-call "End" button. -->
+    <dimen name="in_call_end_button_height">74dip</dimen>
 
     <!-- Padding at the left and right edges of the incall_touch_ui button
          cluster.  This padding is necessary because we can't allow the

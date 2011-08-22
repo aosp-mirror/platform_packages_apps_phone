@@ -169,9 +169,8 @@
 
     <!-- Buttons in the main "button row" of the in-call onscreen touch UI. -->
     <style name="InCallButton">
-        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_width">@dimen/in_call_button_width</item>
         <item name="android:layout_height">@dimen/in_call_button_height</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/btn_dial</item>
     </style>
 

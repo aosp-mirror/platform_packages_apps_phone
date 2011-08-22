@@ -86,6 +86,7 @@ public class InCallTouchUi extends FrameLayout
     private ImageButton mAudioButton;
     private ImageButton mHoldButton;
     private ImageButton mSwapButton;
+    private View mHoldSwapSpacer;
     //
     private ViewGroup mExtraButtonRow;
     private ViewGroup mCdmaMergeButtonContainer;
@@ -174,6 +175,7 @@ public class InCallTouchUi extends FrameLayout
         mHoldButton.setOnClickListener(this);
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
+        mHoldSwapSpacer = mInCallControls.findViewById(R.id.holdSwapSpacer);
 
         // TODO: Back when these buttons had text labels, we changed
         // the label of mSwapButton for CDMA as follows:
@@ -491,12 +493,26 @@ public class InCallTouchUi extends FrameLayout
             mSwapButton.setEnabled(true);
             mHoldButton.setVisibility(View.GONE);
         } else {
-            // Neither "Hold" nor "Swap" is available.  (This happens in
-            // some transient states.)  Just show the "Hold" button in a
-            // disabled state.
-            mHoldButton.setVisibility(View.VISIBLE);
-            mHoldButton.setEnabled(false);
-            mSwapButton.setVisibility(View.GONE);
+            // Neither "Hold" nor "Swap" is available.  This can happen for two
+            // reasons:
+            //   (1) this is a transient state on a device that *can*
+            //       normally hold or swap, or
+            //   (2) this device just doesn't have the concept of hold/swap.
+            //
+            // In case (1), show the "Hold" button in a disabled state.  In case
+            // (2), remove the button entirely.  (This means that the button row
+            // will only have 4 buttons on some devices.)
+
+            if (inCallControlState.supportsHold) {
+                mHoldButton.setVisibility(View.VISIBLE);
+                mHoldButton.setEnabled(false);
+                mSwapButton.setVisibility(View.GONE);
+                mHoldSwapSpacer.setVisibility(View.VISIBLE);
+            } else {
+                mHoldButton.setVisibility(View.GONE);
+                mSwapButton.setVisibility(View.GONE);
+                mHoldSwapSpacer.setVisibility(View.GONE);
+            }
         }
         if (inCallControlState.canSwap && inCallControlState.canHold) {
             // Uh oh, the InCallControlState thinks that Swap *and* Hold
@@ -694,25 +710,28 @@ public class InCallTouchUi extends FrameLayout
         // Based on the visibility state of our internal widgets, return
         // how much vertical space we actually need for the touch controls
         // at the bottom of the screen.
-
-        // Note that the value we return is based on constants like
-        // in_call_button_cluster_height or in_call_incoming_call_widget_height,
-        // *not* the true height in pixels of any actual UI element.
-
         int height;
+
+        // TODO: Rather than using dimens.xml values here, could we just ask
+        // the relevant widgets what their actual heights are?
 
         if (mIncomingCallWidget.getVisibility() == View.VISIBLE) {
             // Incoming call is ringing.
             height = (int) getResources().getDimension(R.dimen.in_call_incoming_call_widget_height);
         } else {
             // Normal in-call button cluster is visible.
-            height = (int) getResources().getDimension(R.dimen.in_call_button_cluster_height);
-
-            // Also, we need to reserve even more vertical space when the
-            // InCallTouchUi widget's "extra button row" is visible.
+            // Add up the vertical space consumed by the various rows of buttons.
+            height = 0;
+            // - The main row of buttons:
+            height += (int) getResources().getDimension(R.dimen.in_call_button_height);
+            // - The End button:
+            height += (int) getResources().getDimension(R.dimen.in_call_end_button_height);
+            // - The InCallTouchUi widget's "extra button row", if visible:
             if (mExtraButtonRow.getVisibility() == View.VISIBLE) {
                 height += (int) getResources().getDimension(R.dimen.in_call_button_height);
             }
+            //- And an extra bit of margin:
+            height += (int) getResources().getDimension(R.dimen.in_call_touch_ui_upper_margin);
         }
         return height;
     }

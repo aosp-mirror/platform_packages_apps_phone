@@ -17,8 +17,13 @@
 <!-- XML resource file for the *children* of a CallCard used in the Phone app.
      The CallCard itself is a subclass of FrameLayout, and its (single)
      child is the LinearLayout found here.  (In the CallCard constructor,
-     we inflate this file and add it as a child.) -->
+     we inflate this file and add it as a child.)
 
+     Note that the CallCard is technically the size of the full screen (since
+     our parent container is full-screen, and the layout_width and layout_height
+     here are both "match_parent"), but we manually adjust its bottom margin
+     in CallCard.updateCallInfoLayout() to make sure it doesn't overlap with
+     the onscreen buttons from incall_touch_ui.xml. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/call_info_container"
     android:layout_width="match_parent"

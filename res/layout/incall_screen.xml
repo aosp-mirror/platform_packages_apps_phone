@@ -29,6 +29,11 @@
          hide the CallCard.
          So let's just get rid of it, and call setVisibility()
          directly on the CallCard. -->
+    <!-- Note that the CallCard is technically the size of the full screen
+         (since layout_width and layout_height are both "match_parent" here) but
+         we manually adjust its bottom margin in CallCard.updateCallInfoLayout()
+         to make sure it doesn't overlap with the onscreen buttons from
+         incall_touch_ui.xml. -->
     <RelativeLayout android:id="@+id/inCallPanel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -168,10 +168,11 @@
                 android:paddingRight="@dimen/button_cluster_side_padding"
                 >
 
-                <!-- This row should always have exactly 5 buttons.  If a button
-                     isn't available, we leave it visible but disabled, rather than
-                     making it GONE, since it would look bad for the remaining
-                     buttons to jump around.
+                <!-- This row has either 4 or 5 buttons, depending on
+                     whether the device supports "Hold" (i.e. 4 buttons on
+                     CDMA devices, 5 buttons on GSM devices.)  The buttons
+                     are interspersed with 'layout_weight="1"' placeholder
+                     views so that they'll be spaced evenly in both cases.
 
                      But note there are a couple of *pairs* of buttons that share a
                      single "slot", namely Hold/Swap and Add/Merge.  For these, the
@@ -179,12 +180,22 @@
                      point exactly one of the pair is VISIBLE and the other is
                      GONE. -->
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+
                 <!-- "Dialpad" -->
                 <ImageButton android:id="@+id/dialpadButton"
                     style="@style/InCallButton"
                     android:src="@drawable/ic_dialpad_holo_dark"
                     android:contentDescription="@string/onscreenShowDialpadText"
                     />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
 
                 <!-- "Audio": brings up a PopupMenu letting you switch
                      between speaker / bluetooth / earpiece. -->
@@ -205,12 +216,22 @@
                     android:contentDescription="@string/onscreenAudioText"
                     />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+
                 <!-- "Mute" -->
                 <ImageButton android:id="@+id/muteButton"
                     style="@style/InCallButton"
                     android:src="@drawable/ic_mute_holo_dark"
                     android:contentDescription="@string/onscreenMuteText"
                     />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
 
                 <!-- This slot is either "Hold" or "Swap", depending on
                      the state of the call.   One or the other of these
@@ -227,6 +248,11 @@
                     android:src="@drawable/ic_incall_switch_holo_dark"
                     android:contentDescription="@string/onscreenSwapCallsText"
                     />
+
+                <View android:id="@+id/holdSwapSpacer"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
 
                 <!-- This slot is either "Add" or "Merge", depending on
                      the state of the call.  One or the other of these
@@ -246,6 +272,11 @@
                     android:src="@drawable/ic_merge_holo_dark"
                     android:contentDescription="@string/onscreenMergeCallsText"
                     />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
