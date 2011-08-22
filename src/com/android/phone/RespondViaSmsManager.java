@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -290,18 +289,10 @@ public class RespondViaSmsManager {
         if (DBG) log("sendText: number "
                      + phoneNumber + ", message '" + message + "'");
 
-        // TODO: This code should use the new
-        //   com.android.mms.intent.action.SENDTO_NO_CONFIRMATION
-        // intent once change https://android-git.corp.google.com/g/114664
-        // gets checked in.
-        // But use the old-school SmsManager API for now.
-
-        final SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNumber,
-                                   null /* scAddress; null means "use default" */,
-                                   message,
-                                   null /* sentIntent */,
-                                   null /* deliveryIntent */);
+        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
+        Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        mInCallScreen.startService(intent);
     }
 
     /**
@@ -310,11 +301,10 @@ public class RespondViaSmsManager {
     private void launchSmsCompose(String phoneNumber) {
         if (DBG) log("launchSmsCompose: number " + phoneNumber);
 
-        // TODO: confirm with SMS guys that this is the correct intent to use.
         Uri uri = Uri.fromParts(Constants.SCHEME_SMS, phoneNumber, null);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
-        if (DBG) log("- Launching SMS compose UI: " + intent);
+        if (DBG) log("- Launching SMS compose UI: " + intent);  // STOPSHIP: disable logging of PII
         mInCallScreen.startActivity(intent);
 
         // TODO: One open issue here: if the user selects "Custom message"
