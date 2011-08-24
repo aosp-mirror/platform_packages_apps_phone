@@ -586,8 +586,15 @@ public class PhoneUtils {
         try {
             connection = app.mCM.dial(phone, numberToDial);
         } catch (CallStateException ex) {
-            Log.e(LOG_TAG, "Exception dialing ", ex);
-            connection = null;
+            // CallStateException means a new outgoing call is not currently
+            // possible: either no more call slots exist, or there's another
+            // call already in the process of dialing or ringing.
+            Log.w(LOG_TAG, "Exception from app.mCM.dial()", ex);
+            return CALL_STATUS_FAILED;
+
+            // Note that it's possible for CallManager.dial() to return
+            // null *without* throwing an exception; that indicates that
+            // we dialed an MMI (see below).
         }
 
         int phoneType = phone.getPhoneType();
