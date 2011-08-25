@@ -101,6 +101,11 @@ public class InCallTouchUi extends FrameLayout
     // Time of the most recent "answer" or "reject" action (see updateState())
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
 
+    // Parameters for the MultiWaveView "ping" animation; see triggerPing().
+    private static boolean ENABLE_PING_ON_RING_EVENTS = false;
+    private static boolean ENABLE_PING_AUTO_REPEAT = true;
+    private static long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
+
     private static final int INCOMING_CALL_WIDGET_PING = 101;
     private Handler mHandler = new Handler() {
             @Override
@@ -112,7 +117,7 @@ public class InCallTouchUi extends FrameLayout
                 switch (msg.what) {
                     case INCOMING_CALL_WIDGET_PING:
                         if (DBG) log("INCOMING_CALL_WIDGET_PING...");
-                        if (mIncomingCallWidget != null) mIncomingCallWidget.ping();
+                        triggerPing();
                         break;
                     default:
                         Log.wtf(LOG_TAG, "mHandler: unexpected message: " + msg);
@@ -932,11 +937,51 @@ public class InCallTouchUi extends FrameLayout
      * Handles an incoming RING event from the telephony layer.
      */
     public void onIncomingRing() {
-        // Each RING from the telephony layer triggers a "ping" animation
-        // of the MultiWaveView widget.  (The intent here is to make the
-        // pinging appear to be synchronized with the ringtone, although
-        // that only works for non-looping ringtones.)
-        if (mIncomingCallWidget != null) mIncomingCallWidget.ping();
+        if (ENABLE_PING_ON_RING_EVENTS) {
+            // Each RING from the telephony layer triggers a "ping" animation
+            // of the MultiWaveView widget.  (The intent here is to make the
+            // pinging appear to be synchronized with the ringtone, although
+            // that only works for non-looping ringtones.)
+            triggerPing();
+        }
+    }
+
+    /**
+     * Runs a single "ping" animation of the MultiWaveView widget,
+     * or do nothing if the MultiWaveView widget is no longer visible.
+     *
+     * Also, if ENABLE_PING_AUTO_REPEAT is true, schedule the next ping as
+     * well (but again, only if the MultiWaveView widget is still visible.)
+     */
+    public void triggerPing() {
+        if ((mIncomingCallWidget != null)
+            && (mIncomingCallWidget.getVisibility() == View.VISIBLE)) {
+
+            mIncomingCallWidget.ping();
+
+            if (ENABLE_PING_AUTO_REPEAT) {
+                // Schedule the next ping.  (ENABLE_PING_AUTO_REPEAT mode
+                // allows the ping animation to repeat much faster than in
+                // the ENABLE_PING_ON_RING_EVENTS case, since telephony RING
+                // events come fairly slowly (about 3 seconds apart.))
+
+                // No need to check here if the call is still ringing, by
+                // the way, since we hide mIncomingCallWidget as soon as the
+                // ringing stops, or if the user answers.  (And at that
+                // point, any future triggerPing() call will be a no-op.)
+
+                // TODO: Rather than having a separate timer here, maybe try
+                // having these pings synchronized with the vibrator (see
+                // VibratorThread in Ringer.java; we'd just need to get
+                // events routed from there to here, probably via the
+                // PhoneApp instance.)  (But watch out: make sure pings
+                // still work even if the Vibrate setting is turned off!)
+
+                mHandler.sendEmptyMessageDelayed(
+                    INCOMING_CALL_WIDGET_PING,
+                    PING_AUTO_REPEAT_DELAY_MSEC);
+            }
+        }
     }
 
     /**
