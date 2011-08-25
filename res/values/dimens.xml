@@ -50,13 +50,14 @@
     <dimen name="call_state_label_top_bottom_padding">5dp</dimen>
 
     <!-- Height of the main row of in-call buttons. -->
-    <dimen name="in_call_button_height">76dip</dimen>
+    <dimen name="in_call_button_height">76dp</dimen>
 
-    <!-- Width of buttons in the main row of in-call buttons. -->
-    <dimen name="in_call_button_width">64dip</dimen>
+    <!-- Width of buttons in the main row of in-call buttons.
+         NOTE these buttons are wider on some devices; see values-w360dp/dimens.xml -->
+    <dimen name="in_call_button_width">56dp</dimen>
 
     <!-- Height of the in-call "End" button. -->
-    <dimen name="in_call_end_button_height">74dip</dimen>
+    <dimen name="in_call_end_button_height">74dp</dimen>
 
     <!-- Padding at the left and right edges of the incall_touch_ui button
          cluster.  This padding is necessary because we can't allow the
@@ -76,8 +77,8 @@
 
 
     <!-- Dimensions for Emergency Dialer and dialpad inside the in-call screen -->
-    <dimen name="dialpad_horizontal_margin">4dip</dimen>
-    <dimen name="dialpad_vertical_margin">2dip</dimen>
+    <dimen name="dialpad_horizontal_margin">4dp</dimen>
+    <dimen name="dialpad_vertical_margin">2dp</dimen>
     <dimen name="dialpad_digits_text_size">35sp</dimen>
     <!-- Just used in landscape mode -->
     <dimen name="emergency_dialer_digits_height">0px</dimen>
@@ -90,6 +91,6 @@
          it doesn't cover up the "call banner" or any onscreen buttons.
            TODO: Integrate the badge more smoothly into the call banner,
          rather than using an overlay element at all (bug 5045539). -->
-    <dimen name="provider_overlay_top_margin">160dip</dimen>
+    <dimen name="provider_overlay_top_margin">160dp</dimen>
 
 </resources>
