@@ -83,7 +83,7 @@ public class CallCard extends FrameLayout
 
     // The main block of info about the "primary" or "active" call,
     // including photo / name / phone number / etc.
-    private ImageView mPhoto;
+    private InCallContactPhoto mPhoto;
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
@@ -94,7 +94,7 @@ public class CallCard extends FrameLayout
     // two lines are in use.
     private TextView mSecondaryCallName;
     private TextView mSecondaryCallStatus;
-    private ImageView mSecondaryCallPhoto;
+    private InCallContactPhoto mSecondaryCallPhoto;
 
     // Onscreen hint for the incoming call RotarySelector widget.
     private int mIncomingCallWidgetHintTextResId;
@@ -165,7 +165,10 @@ public class CallCard extends FrameLayout
         mTextColorCallTypeSip = getResources().getColor(R.color.incall_callTypeSip);
 
         // "Caller info" area, including photo / name / phone numbers / etc
-        mPhoto = (ImageView) findViewById(R.id.photo);
+        mPhoto = (InCallContactPhoto) findViewById(R.id.photo);
+        ImageView inset = (ImageView) findViewById(R.id.insetPhoto);
+        mPhoto.setInsetImageView(inset);
+
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
@@ -175,7 +178,7 @@ public class CallCard extends FrameLayout
         // Secondary info area, for the background ("on hold") call
         mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
         mSecondaryCallStatus = (TextView) findViewById(R.id.secondaryCallStatus);
-        mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
+        mSecondaryCallPhoto = (InCallContactPhoto) findViewById(R.id.secondaryCallPhoto);
     }
 
     /**

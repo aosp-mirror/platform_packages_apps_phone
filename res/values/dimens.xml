@@ -68,6 +68,12 @@
     <dimen name="button_cluster_side_padding">20dp</dimen>
 
 
+    <!-- Contact photo dimensions -->
+    <dimen name="contact_photo_inset_width">144dp</dimen>
+    <dimen name="contact_photo_inset_height">144dp</dimen>
+    <dimen name="contact_photo_inset_left_margin">30dp</dimen>
+
+
     <!-- Dimensions for OTA Call Card -->
     <dimen name="otabase_layout_marginTop">30dp</dimen>
     <dimen name="otabase_minHeight">270dp</dimen>

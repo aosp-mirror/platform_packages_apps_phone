@@ -87,7 +87,7 @@
      -->
 
         <!-- Contact photo for call_info_1 -->
-        <ImageView android:id="@+id/photo"
+        <com.android.phone.InCallContactPhoto android:id="@+id/photo"
                    android:layout_alignParentTop="true"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
@@ -95,6 +95,40 @@
                    android:scaleType="centerCrop"
                    android:contentDescription="@string/contactPhoto"
                    />
+
+        <!-- "Inset" photo used with "id/photo" above:
+               When the contact photo is a lo-res thumbnail, id/photo
+             contains a scaled-up but *blurred* version of the photo, and
+             *this* ImageView is overlaid on top as a smaller, unblurred
+             inset.  (See InCallContactPhoto.java.)
+               The vertical LinearLayout here is used to position the inset
+             about 2/3 of the way toward the bottom of the main photo; this
+             makes sure that it won't be covered up by the call banner. -->
+        <LinearLayout android:id="@+id/insetContainer"
+                      android:layout_alignTop="@id/photo"
+                      android:layout_alignBottom="@id/photo"
+                      android:layout_alignParentLeft="true"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                />
+            <ImageView android:id="@+id/insetPhoto"
+                android:layout_width="@dimen/contact_photo_inset_width"
+                android:layout_height="@dimen/contact_photo_inset_height"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="@dimen/contact_photo_inset_left_margin"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
 
         <!-- "Call Banner" for call #1, the foregound or ringing call.
 
@@ -231,7 +265,7 @@
         >
 
         <!-- Contact photo for call_info #2 -->
-        <ImageView android:id="@+id/secondaryCallPhoto"
+        <com.android.phone.InCallContactPhoto android:id="@+id/secondaryCallPhoto"
                    android:layout_alignParentTop="true"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
@@ -239,6 +273,9 @@
                    android:scaleType="centerCrop"
                    android:contentDescription="@string/onHold"
                    />
+        <!-- For now, at least, there's no "inset" photo used with
+             "id/secondaryCallPhoto".  (That's the "on hold" call anyway,
+             so it's fine for it to be entirely blurry...) -->
 
         <!-- call_banner for call_info #2 -->
         <!-- Note this is much simpler than the call banner used
