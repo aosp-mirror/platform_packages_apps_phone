@@ -188,9 +188,10 @@
                     android:layout_height="match_parent" />
 
                 <!-- "Dialpad" -->
-                <ImageButton android:id="@+id/dialpadButton"
-                    style="@style/InCallButton"
-                    android:src="@drawable/ic_dialpad_holo_dark"
+                <!-- This is a "compound button": it has checked and unchecked states. -->
+                <ToggleButton android:id="@+id/dialpadButton"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_dialpad"
                     android:contentDescription="@string/onscreenShowDialpadText"
                     />
 
@@ -224,9 +225,10 @@
                     android:layout_height="match_parent" />
 
                 <!-- "Mute" -->
-                <ImageButton android:id="@+id/muteButton"
-                    style="@style/InCallButton"
-                    android:src="@drawable/ic_mute_holo_dark"
+                <!-- This is a "compound button": it has checked and unchecked states. -->
+                <ToggleButton android:id="@+id/muteButton"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_mute"
                     android:contentDescription="@string/onscreenMuteText"
                     />
 
@@ -239,9 +241,10 @@
                      the state of the call.   One or the other of these
                      must always be set to GONE. -->
                 <!-- "Hold" -->
-                <ImageButton android:id="@+id/holdButton"
-                    style="@style/InCallButton"
-                    android:src="@drawable/ic_hold_pause_holo_dark"
+                <!-- This is a "compound button": it has checked and unchecked states. -->
+                <ToggleButton android:id="@+id/holdButton"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_hold"
                     android:contentDescription="@string/onscreenHoldText"
                     />
                 <!-- "Swap" (or "Manage calls" in some CDMA states) -->

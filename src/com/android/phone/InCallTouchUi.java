@@ -17,7 +17,6 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -32,12 +31,10 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Phone;
@@ -81,10 +78,10 @@ public class InCallTouchUi extends FrameLayout
     private ImageButton mAddButton;
     private ImageButton mMergeButton;
     private ImageButton mEndButton;
-    private ImageButton mDialpadButton;
-    private ImageButton mMuteButton;
+    private CompoundButton mDialpadButton;
+    private CompoundButton mMuteButton;
     private ImageButton mAudioButton;
-    private ImageButton mHoldButton;
+    private CompoundButton mHoldButton;
     private ImageButton mSwapButton;
     private View mHoldSwapSpacer;
     //
@@ -102,9 +99,9 @@ public class InCallTouchUi extends FrameLayout
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
 
     // Parameters for the MultiWaveView "ping" animation; see triggerPing().
-    private static boolean ENABLE_PING_ON_RING_EVENTS = false;
-    private static boolean ENABLE_PING_AUTO_REPEAT = true;
-    private static long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
+    private static final boolean ENABLE_PING_ON_RING_EVENTS = false;
+    private static final boolean ENABLE_PING_AUTO_REPEAT = true;
+    private static final long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
 
     private static final int INCOMING_CALL_WIDGET_PING = 101;
     private Handler mHandler = new Handler() {
@@ -170,13 +167,13 @@ public class InCallTouchUi extends FrameLayout
         mMergeButton.setOnClickListener(this);
         mEndButton = (ImageButton) mInCallControls.findViewById(R.id.endButton);
         mEndButton.setOnClickListener(this);
-        mDialpadButton = (ImageButton) mInCallControls.findViewById(R.id.dialpadButton);
+        mDialpadButton = (CompoundButton) mInCallControls.findViewById(R.id.dialpadButton);
         mDialpadButton.setOnClickListener(this);
-        mMuteButton = (ImageButton) mInCallControls.findViewById(R.id.muteButton);
+        mMuteButton = (CompoundButton) mInCallControls.findViewById(R.id.muteButton);
         mMuteButton.setOnClickListener(this);
         mAudioButton = (ImageButton) mInCallControls.findViewById(R.id.audioButton);
         mAudioButton.setOnClickListener(this);
-        mHoldButton = (ImageButton) mInCallControls.findViewById(R.id.holdButton);
+        mHoldButton = (CompoundButton) mInCallControls.findViewById(R.id.holdButton);
         mHoldButton.setOnClickListener(this);
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
@@ -451,26 +448,11 @@ public class InCallTouchUi extends FrameLayout
         // "Dialpad": Enabled only when it's OK to use the dialpad in the
         // first place.
         mDialpadButton.setEnabled(inCallControlState.dialpadEnabled);
-        //
-        if (inCallControlState.dialpadVisible) {
-            // Show the "hide dialpad" state.
-            // TODO: no asset for this yet; this is a temporary placeholder.
-            mDialpadButton.setImageResource(R.drawable.ic_in_call_touch_dialpad_close);
-        } else {
-            // Show the "show dialpad" state.
-            mDialpadButton.setImageResource(R.drawable.ic_dialpad_holo_dark);
-        }
+        mDialpadButton.setChecked(inCallControlState.dialpadVisible);
 
         // "Mute"
         mMuteButton.setEnabled(inCallControlState.canMute);
-        if (inCallControlState.muteIndicatorOn) {
-            // We're currently muted, so the button means "unmute".
-            // TODO: no asset for the "unmute" state yet
-            mMuteButton.setImageResource(R.drawable.ic_mute_holo_dark);
-        } else {
-            // The button means "mute".
-            mMuteButton.setImageResource(R.drawable.ic_mute_holo_dark);
-        }
+        mMuteButton.setChecked(inCallControlState.muteIndicatorOn);
 
         // "Audio": You're allowed to bring up the PopupMenu as long
         // as either Speaker or Bluetooth are available.
@@ -485,14 +467,8 @@ public class InCallTouchUi extends FrameLayout
         if (inCallControlState.canHold) {
             mHoldButton.setVisibility(View.VISIBLE);
             mHoldButton.setEnabled(true);
+            mHoldButton.setChecked(inCallControlState.onHold);
             mSwapButton.setVisibility(View.GONE);
-            if (inCallControlState.onHold) {
-                // The button means "unhold" in this state.
-                mHoldButton.setImageResource(R.drawable.ic_play_holo_dark);
-            } else {
-                // The button means "hold" in this state.
-                mHoldButton.setImageResource(R.drawable.ic_hold_pause_holo_dark);
-            }
         } else if (inCallControlState.canSwap) {
             mSwapButton.setVisibility(View.VISIBLE);
             mSwapButton.setEnabled(true);
@@ -511,6 +487,7 @@ public class InCallTouchUi extends FrameLayout
             if (inCallControlState.supportsHold) {
                 mHoldButton.setVisibility(View.VISIBLE);
                 mHoldButton.setEnabled(false);
+                mHoldButton.setChecked(false);
                 mSwapButton.setVisibility(View.GONE);
                 mHoldSwapSpacer.setVisibility(View.VISIBLE);
             } else {
