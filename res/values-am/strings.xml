@@ -68,7 +68,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA:ዳግምስርዓትአስይዝ።"</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: የአገልግሎት አማራጭ አትቀበል።"</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA:ትዕዛዝ ዳግም ሞክር።"</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA፡መድረስ ታውኳል"</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA፤ መዳረሻ ስኬታማ አልነበረም፡፡"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: አስቀድሞ ያዘ።"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"የአደጋ ጊዜ ጥሪዎች ብቻ የሚቻሉ ናቸው።"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"ትክክል ያልሆነ ቁጠር"</string>
@@ -93,8 +93,7 @@
     <skip />
     <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
     <skip />
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"ባለ ገመድ የጆሮ ማዳመጫ"</string>
     <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
     <skip />
     <string name="wait_prompt_str" msgid="7601815427707856238">"የሚከተሉትንድምፆች ላክ?"\n</string>
@@ -247,7 +246,7 @@
     <skip />
     <string name="vm_change_failed" msgid="6912718596496220653">"የድምፅ መልዕክት ቁጠር ለውጥ አልተሳካም።"\n"እባክዎ ይህ ችግር ከቀጠለ የድምጽ ተያያዥ ሞደምዎን ያግኙ።"</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"የአስተላላፊ ቁጥር ለውጥ አልተሳካም። "\n" እባክዎ ይህ ችግር ከቀጠለ የድምጽ ተያያዥ ሞደምዎን ያግኙ።"</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"  የአሁኑን ማስተላለፊያ ቁጥር ቅንብሮች ማሰቀመጥ እናሰርስሮ ማውጣት አልተሳካም።"\n" ለማንኛውም ወደ አዲሱ አቅራቢ ለመቀየር ይፈልጋሉ?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንጅቶችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም፡፡"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
     <!-- no translation found for no_change (3186040086622435212) -->
     <skip />
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"የድምፅ መልዕክት አገልግሎት ምረጥ"</string>
@@ -843,12 +842,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"ጥሪዎች አይቀበልም"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"የበይነመረብ ተያያዥነት ስለሌለ የመለያ ምዝገባ ቆሟል"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"ምንም የWi-Fi  ተያያዥ ስለሌለ የመለያ ምዝገባ ቆሟል"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"የመለያ ምዝገባ አልተሳካም"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"የመለያ ምዝገባ ስኬታማ አልነበረም"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"ጥሪዎች በመቀበል ላይ"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"የመለያ ምዝገባ አልተሳካም፡ የተሳሳተ ተጠቃሚ ስም ወይም ይለፍ ቃል"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"የመለያ ምዝገባ አልተሳካም፡ እባክዎ የአገልጋዩን ስም ይመልከቱ"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"የመለያ ምዝገባ ስኬታማ አልነበረም፤ (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>)፣ ኋላ ላይ እንደገና ይሞከራል"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"የመለያ ምዝገባ ስኬታማ አልነበረም፤ የተሳሳተ ተጠቃሚ ስም ወይም ይለፍ ቃል"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"የመለያ ምዝገባ ስኬታማ አልነበረም፤ የአገልጋዩን ስም ትክክለኛነት አረጋግጥ"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"ይህ መለያ በአሁኑ ጊዜ በ<xliff:g id="ACCOUNT_OWNER">%s</xliff:g> ትግበራ ጥቅም ላይ ነው።"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP መለያ ዝርዝሮች"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP መለያ ዝርዝሮች"</string>
@@ -902,8 +900,7 @@
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
     <skip />
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"ለ <xliff:g id="PHONE_NUMBER">%s</xliff:g> የተላከ መልዕክት"</string>
     <!-- no translation found for description_image_button_one (5502718871331943463) -->
     <skip />
     <!-- no translation found for description_image_button_two (4903738528222924522) -->

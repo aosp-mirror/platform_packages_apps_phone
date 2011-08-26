@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: riordinamento."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: rifiuto opzione di servizio."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: riprova ordinamento."</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: accesso non riuscito."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: accesso non riuscito."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: annullato."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Sono possibili solo chiamate di emergenza."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Numero non valido"</string>
@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Numero segreteria modificato."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Modifica del numero di segreteria non riuscita."\n"Se il problema persiste, contattare l\'operatore di telefonia."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Modifica del numero di inoltro non riuscita."\n"Se il problema persiste, contattare l\'operatore di telefonia."</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Recupero e salvataggio impostazioni numero di deviazione attuale non riusciti."\n"Passare comunque al nuovo provider?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Recupero e salvataggio delle impostazioni correnti dei numeri di deviazione non riusciti. "\n"Passare comunque al nuovo fornitore?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nessuna modifica effettuata."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Scegli il servizio di segreteria"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Il mio gestore"</string>
@@ -647,12 +647,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Ricezione chiamate non attiva"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Registrazione account interrotta per mancanza di una connessione a Internet"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Registrazione account interrotta per mancanza di una connessione Wi-Fi"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Registrazione account non riuscita"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"Registrazione account non riuscita"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Ricezione chiamate attiva"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Registrazione account non riuscita: password o nome utente errato"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Registrazione account non riuscita: verifica il nome del server"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Registrazione account non riuscita: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); più tardi verrà eseguito un nuovo tentativo"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Registrazione account non riuscita: password o nome utente errato"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Registrazione account non riuscita: verifica il nome del server"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Questo account è attualmente utilizzato dall\'applicazione <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Dettagli account SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Dettagli account SIP"</string>

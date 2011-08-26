@@ -66,8 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Konferans görüşmesini yönet"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Hoparlör"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Mobil cihaz kulaklığı"</string>
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Kablolu kulaklık"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Şu zil sesleri gönderilsin mi?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Zil Sesleri Gönderiliyor"\n</string>
@@ -516,7 +515,7 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Çağrıları birleştir"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Değiştir"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Aramaları yönet"</string>
-    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Konferansı yönetin"</string>
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Konferansı yönet"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Ses"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"İçe aktar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Tümünü içe aktar"</string>
@@ -693,8 +692,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Hızlı kısa msj yanıtlrnı düznl"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Hızlı SMS yanıtı"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Mesaj, <xliff:g id="PHONE_NUMBER">%s</xliff:g> numaralı telefona gönderildi."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"bir"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"iki"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"üç"</string>

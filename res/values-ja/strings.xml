@@ -66,8 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"グループ通話オプション"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"スピーカー"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"携帯端末のイヤホン"</string>
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"有線ヘッドセット"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"次の番号を送信しますか？"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"番号を送信中"\n</string>
@@ -227,12 +226,12 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"サイクルの٪<xliff:g id="USED_0">%1$d</xliff:g>を経過"\n"次の期間は<xliff:g id="USED_1">%2$d</xliff:g>日で始まります（<xliff:g id="USED_2">%3$s</xliff:g>）"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"データ利用制限を超えると、転送速度が<xliff:g id="USED">%1$d</xliff:g>Kb/秒まで低下します"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"携帯通信会社のモバイルネットワークデータ利用ポリシーの詳細"</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"セルブロードキャストSMS"</string>
-    <string name="cell_broadcast_sms" msgid="5584192824053625842">"セルブロードキャストSMS"</string>
-    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"セルブロードキャストSMS"</string>
-    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"セルブロードキャストSMSは有効になっています"</string>
-    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"セルブロードキャストSMSは無効になっています"</string>
-    <string name="cb_sms_settings" msgid="651715019785107312">"セルブロードキャストSMS設定"</string>
+    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"エリアメールSMS"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"エリアメールSMS"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"エリアメールSMS"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"エリアメールSMSは有効になっています"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"エリアメールSMSは無効になっています"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"エリアメールSMS設定"</string>
     <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"緊急ブロードキャスト"</string>
     <string name="emergency_broadcast_enable" msgid="2645980025414010211">"緊急ブロードキャストは有効になっています"</string>
     <string name="emergency_broadcast_disable" msgid="3665199821267569426">"緊急ブロードキャストは無効になっています"</string>
@@ -693,8 +692,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"クイックテキスト返信を編集"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"クイックテキスト返信"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"<xliff:g id="PHONE_NUMBER">%s</xliff:g>にメッセージを送信しました。"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"1"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"2"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"3"</string>

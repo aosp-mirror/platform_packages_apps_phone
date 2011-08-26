@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA : retrier"</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA : rejet de l\'option de service"</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA : nouvelle tentative de tri"</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA : échec de l\'accès"</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA : échec de l\'accès."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA : anticipé"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Services d\'urgence uniquement"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Numéro incorrect"</string>
@@ -66,8 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Gérer la conférence téléphonique"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Haut-parleur"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Écouteur du combiné"</string>
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Écouteurs filaires"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Envoyer les tonalités suivantes ?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Envoi des tonalités"\n</string>
@@ -161,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Le numéro de messagerie vocale a été modifié."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Échec de la modification du numéro de messagerie vocale."\n"Si le problème persiste, veuillez contacter votre opérateur."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Échec de la modification du numéro de transfert."\n"Si le problème persiste, veuillez contacter votre opérateur."</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Échec de la récupération et de l\'enregistrement des paramètres actuels du numéro de transfert."\n"Voulez-vous tout de même changer d\'opérateur ?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Impossible de récupérer et d\'enregistrer les paramètres actuels du numéro de transfert."\n"Voulez-vous tout de même changer de fournisseur ?"</string>
     <string name="no_change" msgid="3186040086622435212">"Aucune modification n\'a été apportée."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Choisissez un service de messagerie vocale."</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mon opérateur"</string>
@@ -644,12 +643,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Réception d\'appels impossible"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"L\'enregistrement du compte a été interrompu, car il n\'y a pas de connexion Internet."</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"L\'enregistrement du compte a été interrompu car il n\'y a pas de connexion Wi-Fi."</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"L\'enregistrement du compte a échoué."</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"Échec de l\'enregistrement du compte."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Réception d\'appels"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Échec de l\'enregistrement du compte : nom d\'utilisateur ou mot de passe incorrect"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"L\'enregistrement du compte a échoué. Veuillez vérifier le nom du serveur."</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Échec de l\'enregistrement du compte : <xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>. Une nouvelle tentative sera effectuée ultérieurement."</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Échec de l\'enregistrement du compte : nom d\'utilisateur ou mot de passe incorrect."</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Échec de l\'enregistrement du compte : veuillez vérifier le nom du serveur."</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Ce compte est actuellement utilisé par l\'application <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Infos du compte SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Détails du compte SIP"</string>
@@ -693,8 +691,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Modifier réponses rapides SMS"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Réponse rapide par SMS"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Message envoyé à <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"un"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"deux"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"trois"</string>
