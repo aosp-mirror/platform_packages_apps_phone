@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: reordonaţi."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: opţiune serviciu respinsă."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: încercaţi din nou comanda."</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: acces eşuat."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: Acces eşuat."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: anticipat."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Sunt posibile doar apelurile de urgenţă."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Număr nevalid"</string>
@@ -66,8 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Gestionaţi teleconferinţa"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Difuzor"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Casca dispozitivului"</string>
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Cască cu fir"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Trimiteţi următoarele tonuri?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Se trimit tonuri"\n</string>
@@ -161,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Număr mesagerie vocală modificat."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Schimbarea numărului mesageriei vocale a eşuat."\n"Contactaţi operatorul dvs. în caz că această problemă persistă."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Schimbarea numărului de redirecţionare a eşuat."\n"Contactaţi-vă operatorul dacă această problemă persistă."</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Eroare la recuperarea şi salvarea setărilor curente ale numărului de redirecţionare."\n"Doriţi să comutaţi oricum către un nou furnizor de servicii?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Nu s-au putut prelua şi salva setările curente ale numărului de redirecţionare."\n"Doriţi să comutaţi oricum către un nou furnizor de servicii?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nicio schimbare efectuată."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Alegeţi serviciul de mesagerie vocală"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Operatorul meu"</string>
@@ -644,12 +643,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Nu se primesc apeluri"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Înregistrarea contului s-a oprit, deoarece nu există conexiune la internet"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Înregistrarea contului s-a oprit, deoarece nu există conexiune Wi-Fi"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Înregistrarea contului a eşuat"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"Înregistrarea contului nu a reuşit"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Primire apeluri"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Înregistrarea contului a eşuat: nume de utilizator sau parolă incorecte"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Înregistrarea contului a eşuat: verificaţi numele serverului"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Înregistrarea contului nu a reuşit: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se va încerca mai târziu"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Înregistrarea contului nu a reuşit: nume de utilizator sau parolă incorecte"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Înregistrarea contului nu a reuşit: verificaţi numele serverului"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Acest cont este utilizat în prezent de aplicaţia <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Detalii cont SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Detalii cont SIP"</string>
@@ -693,8 +691,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Editaţi răspunsuri text rapide"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Răspuns text rapid"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Mesajul a fost trimis la <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"unu"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"doi"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"trei"</string>

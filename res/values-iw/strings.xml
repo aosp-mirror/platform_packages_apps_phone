@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"נתונים סלולריים"</string>
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"נתוני נייד"</string>
     <string name="phoneAppLabel" product="default" msgid="906161039445636857">"טלפון"</string>
     <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"חייגן חירום"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"טלפון"</string>
@@ -64,14 +64,10 @@
     <string name="mmiCancelled" msgid="2771923949751842276">"קוד MMI מבוטל"</string>
     <string name="cancel" msgid="5044513931633602634">"ביטול"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"נהל שיחת ועידה"</string>
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_speaker" msgid="27649582100085266">"רמקול"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"אוזניה"</string>
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"אוזניות קוויות"</string>
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"לשלוח את הצלילים הבאים?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"שולח צלילים"\n</string>
     <string name="send_button" msgid="4106860097497818751">"שלח"</string>
@@ -129,17 +125,17 @@
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"מושבת"</string>
     <string name="labelCFB" msgid="218938523102207587">"העבר כשלא פנוי"</string>
     <string name="messageCFB" msgid="3711089705936187129">"מספר כאשר לא פנוי"</string>
-    <string name="sum_cfb_enabled" msgid="5984198104833116690">"העברה אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"מעביר אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"מושבת"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר הטלפון תפוס."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"העבר כשאין מענה"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"מספר לחיוג כשאין מענה"</string>
-    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"העברה אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"מעביר אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"מושבת"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר אין מענה בטלפון."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"העבר כשלא ניתן להשיג"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"המספר לחיוג כשלא ניתן להשיג"</string>
-    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"העברה אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"מעביר אל <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"מושבת"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"הספק שלך לא תומך בהשבתה של העברת שיחות כאשר לא ניתן להשיג את הטלפון."</string>
     <string name="updating_title" msgid="6146755386174019046">"הגדרות שיחה"</string>
@@ -379,7 +375,7 @@
     <item msgid="7494167883478914080">"0"</item>
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
-    <string name="cdma_activate_device" msgid="3793805892364814518">"הפעל התקן"</string>
+    <string name="cdma_activate_device" msgid="3793805892364814518">"הפעל מכשיר"</string>
     <string name="cdma_lte_data_service" msgid="4255018217292548962">"הגדר שירות נתונים"</string>
     <string name="fdn" msgid="7878832555095183202">"מספרי חיוג קבועים"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"רשימת FDN"</string>
@@ -519,9 +515,8 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"מזג שיחות"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"החלף"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"נהל שיחות"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"נהל"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"נהל ועידה"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"אודיו"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"ייבא"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"ייבא הכל"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"מייבא אנשי קשר מ-SIM"</string>
@@ -689,7 +684,7 @@
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"שלח תמיד"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"חיוג קולי אינו נתמך"</string>
     <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"אני לא יכול לדבר עכשיו. מה קורה?"</string>
-    <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"אני מיד אתקשר אליך."</string>
+    <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"אני מיד חוזר אליך."</string>
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"אני אתקשר אליך יותר מאוחר."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"אני לא יכול לדבר עכשיו. תתקשר אלי מאוחר יותר?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"הודעה מותאמת אישית..."</string>
@@ -697,9 +692,8 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"עריכת תגובות טקסט מהירות"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"תגובת טקסט מהירה"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
-    <string name="description_image_button_one" msgid="5502718871331943463">"אחד"</string>
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"הודעה נשלחה אל <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
+    <string name="description_image_button_one" msgid="5502718871331943463">"אחת"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"שתיים"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"שלוש"</string>
     <string name="description_image_button_four" msgid="1697520001239289074">"ארבע"</string>
@@ -711,7 +705,7 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"כוכבית"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"אפס"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"סולמית"</string>
-    <string name="description_search_button" msgid="239929880630534731">"חיפוש"</string>
+    <string name="description_search_button" msgid="239929880630534731">"חפש"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"חייג"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"Backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"רמקול מופעל."</string>

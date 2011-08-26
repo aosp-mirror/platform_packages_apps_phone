@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: Beställ igen."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: Tillval av tjänst avvisat."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: Beställ igen."</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: Åtkomstfel."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: Åtkomstfel."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: Flyttat."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"Det går bara att ringa nödsamtal."</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"Ogiltigt nummer"</string>
@@ -66,8 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Hantera konferenssamtal"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Högtalare"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Telefonlur"</string>
-    <!-- no translation found for audio_mode_wired_headset (1465350758489175975) -->
-    <skip />
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Trådanslutet headset"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Skickar signaler"\n</string>
@@ -161,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Det gick inte att ändra numret till röstbrevlådan."\n"Kontakta operatören om problemet kvarstår."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Det gick inte att ändra numret för vidarebefordran."\n"Kontakta operatören om problemet kvarstår."</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Det gick inte att hämta och spara det aktuella numret för vidarebefordran. "\n"Vill du byta till den nya leverantören i alla fall?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Det gick inte att hämta och spara inställningarna för numret för vidarebefordran."\n"Vill du byta till den nya operatören istället?"</string>
     <string name="no_change" msgid="3186040086622435212">"Du har inte gjort några ändringar."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Välj tjänst för röstbrevlådan"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min operatör"</string>
@@ -650,12 +649,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Tar inte emot samtal"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Kontoregistreringen avbröts eftersom det inte finns någon Internetanslutning"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Kontoregistreringen avbröts eftersom det inte finns någon WiFi-anslutning"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"Det gick inte att registrera kontot"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"Det gick inte att registrera kontot"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Tar emot samtal"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Det gick inte att registrera kontot: felaktigt användarnamn eller lösenord"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Det gick inte att registrera kontot. Kontrollera servernamnet"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Det gick inte att registrera kontot: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); försöker igen senare"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Det gick inte att registrera kontot: felaktigt användarnamn eller lösenord"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Det gick inte att registrera kontot. Kontrollera servernamnet"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Kontot används för närvarande i appen <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Information om SIP-kontot"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Information om SIP-kontot"</string>
@@ -699,8 +697,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Redigera snabbsvar via SMS"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Snabbsvar via SMS"</string>
-    <!-- no translation found for respond_via_sms_confirmation_format (7229149977515784269) -->
-    <skip />
+    <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Meddelandet har skickats till <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"ett"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"två"</string>
     <string name="description_image_button_three" msgid="5570985408463782329">"tre"</string>
