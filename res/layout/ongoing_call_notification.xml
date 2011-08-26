@@ -43,7 +43,7 @@
     <ImageView android:id="@+id/icon"
         android:layout_width="@android:dimen/notification_large_icon_width"
         android:layout_height="@android:dimen/notification_large_icon_width"
-        android:background="@*android:drawable/notify_panel_notification_icon_bg"
+        android:background="@*android:drawable/notify_panel_notification_icon_bg_tile"
         android:scaleType="center"
         />
 <!-- status_bar_latest_event_content_large_icon.xml -->
