@@ -21,6 +21,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.internal.telephony.ITelephony;
 import com.android.phone.Constants;
 
 /**
@@ -42,8 +45,6 @@ public class CallDialTest extends Activity implements View.OnClickListener {
     // UI elements
     private TextView mLabel;
     private EditText mNumber;
-    private Button mCallButton;
-    private Button mDialButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,10 @@ public class CallDialTest extends Activity implements View.OnClickListener {
         mNumber = (EditText) findViewById(R.id.number);
         mNumber.setText("6505551234");  // Preload it with something useful
 
-        mCallButton = (Button) findViewById(R.id.callButton);
-        mCallButton.setOnClickListener(this);
-
-        mDialButton = (Button) findViewById(R.id.dialButton);
-        mDialButton.setOnClickListener(this);
+        ((Button) findViewById(R.id.callButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.dialButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.itelephonyCallButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.itelephonyDialButton)).setOnClickListener(this);
     }
 
     @Override
@@ -93,8 +93,16 @@ public class CallDialTest extends Activity implements View.OnClickListener {
                 log("onClick: DIAL...");
                 fireIntent(Intent.ACTION_DIAL);
                 break;
+            case R.id.itelephonyCallButton:
+                log("onClick: ITelephony.call()...");
+                doITelephonyCall();
+                break;
+            case R.id.itelephonyDialButton:
+                log("onClick: ITelephony.dial()...");
+                doITelephonyDial();
+                break;
             default:
-                Log.w(LOG_TAG, "onClick: unexpected View: " + view);
+                Log.wtf(LOG_TAG, "onClick: unexpected View: " + view);
                 break;
         }
     }
@@ -136,6 +144,42 @@ public class CallDialTest extends Activity implements View.OnClickListener {
         } catch (Exception e) {
             Log.w(LOG_TAG, "testCall: Unexpected exception from startActivity(): " + e);
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void doITelephonyCall() {
+        log("doITelephonyCall()...");
+
+        // Get a phone number from the EditText widget
+        String number = mNumber.getText().toString();
+        log("==> number: '" + number + "'");
+
+        try {
+            ITelephony phone = ITelephony.Stub.asInterface(ServiceManager.checkService("phone"));
+            log("- phone: " + phone);
+            log("- calling call()...");
+            phone.call(number);
+            log("  Done.");
+        } catch (RemoteException ex) {
+            Log.w(LOG_TAG, "RemoteException!", ex);
+        }
+    }
+
+    private void doITelephonyDial() {
+        log("doITelephonyDial()...");
+
+        // Get a phone number from the EditText widget
+        String number = mNumber.getText().toString();
+        log("==> number: '" + number + "'");
+
+        try {
+            ITelephony phone = ITelephony.Stub.asInterface(ServiceManager.checkService("phone"));
+            log("- phone: " + phone);
+            log("- calling dial()...");
+            phone.dial(number);
+            log("  Done.");
+        } catch (RemoteException ex) {
+            Log.w(LOG_TAG, "RemoteException!", ex);
         }
     }
 

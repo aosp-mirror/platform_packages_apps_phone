@@ -55,6 +55,8 @@ public class OutgoingCallBroadcaster extends Activity
     private static final String TAG = "OutgoingCallBroadcaster";
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    // Do not check in with VDBG = true, since that may write PII to the system log.
+    private static final boolean VDBG = false;
 
     public static final String ACTION_SIP_SELECT_PHONE = "com.android.phone.SIP_SELECT_PHONE";
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
@@ -111,8 +113,7 @@ public class OutgoingCallBroadcaster extends Activity
             // placed.)
 
             number = getResultData();
-            // STOPSHIP: disable this log message before ship (PII)
-            if (DBG) Log.v(TAG, "- got number from resultData: '" + number + "'");
+            if (VDBG) Log.v(TAG, "- got number from resultData: '" + number + "'");
 
             final PhoneApp app = PhoneApp.getInstance();
 
@@ -189,9 +190,8 @@ public class OutgoingCallBroadcaster extends Activity
             number = PhoneNumberUtils.stripSeparators(number);
 
             if (DBG) Log.v(TAG, "doReceive: proceeding with call...");
-            // STOPSHIP: disable these two log messages before ship (PII):
-            if (DBG) Log.v(TAG, "- uri: " + uri);
-            if (DBG) Log.v(TAG, "- actual number to dial: '" + number + "'");
+            if (VDBG) Log.v(TAG, "- uri: " + uri);
+            if (VDBG) Log.v(TAG, "- actual number to dial: '" + number + "'");
 
             startSipCallOptionHandler(context, intent, uri, number);
         }
@@ -230,11 +230,12 @@ public class OutgoingCallBroadcaster extends Activity
      */
     private void startSipCallOptionHandler(Context context, Intent intent,
             Uri uri, String number) {
-        // Verbose debugging.  Do not check in with this enabled (PII).
-        // Log.i(TAG, "startSipCallOptionHandler...");
-        // Log.i(TAG, "- intent: " + intent);
-        // Log.i(TAG, "- uri: " + uri);
-        // Log.i(TAG, "- number: " + number);
+        if (VDBG) {
+            Log.i(TAG, "startSipCallOptionHandler...");
+            Log.i(TAG, "- intent: " + intent);
+            Log.i(TAG, "- uri: " + uri);
+            Log.i(TAG, "- number: " + number);
+        }
 
         // Create a copy of the original CALL intent that started the whole
         // outgoing-call sequence.  This intent will ultimately be passed to

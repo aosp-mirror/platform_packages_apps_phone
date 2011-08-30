@@ -61,7 +61,8 @@ public class CallController extends Handler {
     private static final String TAG = "CallController";
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
-    private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
+    // Do not check in with VDBG = true, since that may write PII to the system log.
+    private static final boolean VDBG = false;
 
     /** The singleton CallController instance. */
     private static CallController sInstance;
@@ -139,8 +140,7 @@ public class CallController extends Handler {
 
             default:
                 Log.wtf(TAG, "handleMessage: unexpected code: " + msg);
-                // STOPSHIP: remove throw after initial testing, replace with "break;"
-                throw new IllegalStateException("handleMessage: unexpected code: " + msg);
+                break;
         }
     }
 
@@ -204,11 +204,11 @@ public class CallController extends Handler {
 
         String scheme = uri.getScheme();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, mApp);
-        if (DBG) {
+        if (VDBG) {
             log("- action: " + action);
             log("- uri: " + uri);
             log("- scheme: " + scheme);
-            log("- number: " + number);  // STOPSHIP: don't log number (PII)
+            log("- number: " + number);
         }
 
         // This method should only be used with the various flavors of CALL
@@ -330,7 +330,7 @@ public class CallController extends Handler {
 
         try {
             number = getInitialNumber(intent);
-            if (DBG) log("- actual number to dial: '" + number + "'");  // STOPSHIP: don't log PII
+            if (VDBG) log("- actual number to dial: '" + number + "'");
 
             // find the phone first
             // TODO Need a way to determine which phone to place the call
@@ -638,7 +638,7 @@ public class CallController extends Handler {
             String actualNumberToDial =
                     intent.getStringExtra(OutgoingCallBroadcaster.EXTRA_ACTUAL_NUMBER_TO_DIAL);
             if (VDBG) log("==> got EXTRA_ACTUAL_NUMBER_TO_DIAL; returning '"
-                          + actualNumberToDial + "'");  // STOPSHIP: don't log number (PII)
+                          + actualNumberToDial + "'");
             return actualNumberToDial;
         }
 

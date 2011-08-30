@@ -276,11 +276,6 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setClassName(mApp, PhoneApp.getCallScreenClassName());
-
-        // STOPSHIP: The ACTION_CALL intent needs to go to the
-        // OutgoingCallBroadcaster nowadays, not the InCallScreen!
-
         mApp.startActivity(intent);
     }
 

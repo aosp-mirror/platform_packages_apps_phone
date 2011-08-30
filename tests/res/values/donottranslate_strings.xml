@@ -22,4 +22,6 @@
     <string name="callDialTestLabel">CALL/DIAL test</string>
     <string name="callCommand">CALL</string>
     <string name="dialCommand">DIAL</string>
+    <string name="itelephonyCallCommand">ITelephony.call()</string>
+    <string name="itelephonyDialCommand">ITelephony.dial()</string>
 </resources>

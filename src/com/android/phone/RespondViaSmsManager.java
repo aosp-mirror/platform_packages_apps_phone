@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -48,9 +49,10 @@ import java.util.Arrays;
  */
 public class RespondViaSmsManager {
     private static final String TAG = "RespondViaSmsManager";
-    private static final boolean DBG = true;
-    // STOPSHIP: reduce DBG to
-    //       (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean DBG =
+            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    // Do not check in with VDBG = true, since that may write PII to the system log.
+    private static final boolean VDBG = false;
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -134,7 +136,7 @@ public class RespondViaSmsManager {
         // chooses a response.)
 
         Connection c = ringingCall.getLatestConnection();
-        if (DBG) log("- connection: " + c);
+        if (VDBG) log("- connection: " + c);
 
         if (c == null) {
             // Uh oh -- the "ringingCall" doesn't have any connections any more.
@@ -154,7 +156,7 @@ public class RespondViaSmsManager {
         // first place.)
 
         String phoneNumber = c.getAddress();
-        if (DBG) log("- phoneNumber: " + phoneNumber);  // STOPSHIP: don't log PII
+        if (VDBG) log("- phoneNumber: " + phoneNumber);
         lv.setOnItemClickListener(new RespondViaSmsItemClickListener(phoneNumber));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mInCallScreen)
@@ -199,7 +201,7 @@ public class RespondViaSmsManager {
                                 long id) {
             if (DBG) log("RespondViaSmsItemClickListener.onItemClick(" + position + ")...");
             String message = (String) parent.getItemAtPosition(position);
-            if (DBG) log("- message: '" + message + "'");
+            if (VDBG) log("- message: '" + message + "'");
 
             // The "Custom" choice is a special case.
             // (For now, it's guaranteed to be the last item.)
@@ -285,9 +287,8 @@ public class RespondViaSmsManager {
      * Sends a text message without any interaction from the user.
      */
     private void sendText(String phoneNumber, String message) {
-        // STOPSHIP: disable all logging of PII (everywhere in this file)
-        if (DBG) log("sendText: number "
-                     + phoneNumber + ", message '" + message + "'");
+        if (VDBG) log("sendText: number "
+                      + phoneNumber + ", message '" + message + "'");
 
         Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
         Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
@@ -299,12 +300,12 @@ public class RespondViaSmsManager {
      * Brings up the standard SMS compose UI.
      */
     private void launchSmsCompose(String phoneNumber) {
-        if (DBG) log("launchSmsCompose: number " + phoneNumber);
+        if (VDBG) log("launchSmsCompose: number " + phoneNumber);
 
         Uri uri = Uri.fromParts(Constants.SCHEME_SMS, phoneNumber, null);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
-        if (DBG) log("- Launching SMS compose UI: " + intent);  // STOPSHIP: disable logging of PII
+        if (VDBG) log("- Launching SMS compose UI: " + intent);
         mInCallScreen.startActivity(intent);
 
         // TODO: One open issue here: if the user selects "Custom message"
@@ -381,8 +382,8 @@ public class RespondViaSmsManager {
         // Preference.OnPreferenceChangeListener implementation
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (DBG) log("onPreferenceChange: key = " + preference.getKey());
-            if (DBG) log("  preference = '" + preference + "'");
-            if (DBG) log("  newValue = '" + newValue + "'");
+            if (VDBG) log("  preference = '" + preference + "'");
+            if (VDBG) log("  newValue = '" + newValue + "'");
 
             EditTextPreference pref = (EditTextPreference) preference;
 
