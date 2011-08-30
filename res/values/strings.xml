@@ -1586,4 +1586,11 @@
     <!-- Content description of the call muted notification icon for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_call_muted">Call muted.</string>
 
+    <!-- Description of the answer target in the Slide unlock screen of Phone. [CHAR LIMIT=NONE] -->
+    <string name="description_target_answer">Answer</string>
+    <!-- Description of the send_sms target in the Slide unlock screen of Phone. [CHAR LIMIT=NONE] -->
+    <string name="description_target_send_sms">Send SMS</string>
+    <!-- Description of the decline on target in the Slide unlock screen. [CHAR LIMIT=NONE] -->
+    <string name="description_target_decline">Decline</string>
+
 </resources>

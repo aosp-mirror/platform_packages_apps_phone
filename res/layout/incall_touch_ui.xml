@@ -38,6 +38,8 @@
         android:visibility="gone"
 
         android:targetDrawables="@array/incall_targets"
+        android:targetDescriptions="@array/incall_target_descriptions"
+        android:directionDescriptions="@array/incall_direction_descriptions"
         android:handleDrawable="@drawable/ic_in_call_touch_handle"
         android:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
         android:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"

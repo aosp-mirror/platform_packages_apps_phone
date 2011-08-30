@@ -55,5 +55,19 @@
         <item>@null</item>"
     </array>
 
+    <array name="incall_target_descriptions">
+        <item>@string/description_target_answer</item>
+        <item>@string/description_target_send_sms</item>
+        <item>@string/description_target_decline</item>
+        <item>@null</item>"
+    </array>
+
+    <array name="incall_direction_descriptions">
+        <item>@*android:string/description_direction_right</item>
+        <item>@*android:string/description_direction_up</item>
+        <item>@*android:string/description_direction_left</item>
+        <item>@null</item>
+    </array>
+
 </resources>
 
