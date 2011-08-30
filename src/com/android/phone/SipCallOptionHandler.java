@@ -97,8 +97,8 @@ public class SipCallOptionHandler extends Activity implements
         if (!OutgoingCallBroadcaster.ACTION_SIP_SELECT_PHONE.equals(action)) {
             Log.wtf(TAG, "onCreate: got intent action '" + action + "', expected "
                     + OutgoingCallBroadcaster.ACTION_SIP_SELECT_PHONE);
-            // STOPSHIP: remove this throw before ship (but leave the Log.wtf())
-            throw new IllegalArgumentException("Unexpected intent action '" + action + "'");
+            finish();
+            return;
         }
 
         // mIntent is a copy of the original CALL intent that started the
