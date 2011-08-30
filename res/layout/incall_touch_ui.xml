@@ -200,22 +200,16 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
 
-                <!-- "Audio": brings up a PopupMenu letting you switch
-                     between speaker / bluetooth / earpiece. -->
-                <!-- "ic_more_indicator_holo_dark" is the little triangle
-                     that indicates that this isn't a plain button, but
-                     will instead pop up a menu. -->
-                <!-- TODO: it's wrong to set ic_more_indicator_holo_dark
-                     as the android:background here, since that overrides
-                     the "@drawable/btn_dial" background that comes from
-                     the InCallButton style, which means we don't get the
-                     "blue background when pressed" effect.  The more
-                     indicator probably needs to go into a separate layer
-                     somewhere. -->
-                <ImageButton android:id="@+id/audioButton"
-                    style="@style/InCallButton"
-                    android:src="@drawable/ic_sound_holo_dark"
-                    android:background="@drawable/ic_more_indicator_holo_dark"
+
+                <!-- "Audio mode" -->
+                <!-- This is a multi-mode button that can behave either like a
+                     simple "compound button" with two states *or* like an
+                     action button that brings up a popup menu; see
+                     btn_compound_audio.xml and InCallTouchUi.updateAudioButton()
+                     for the full details. -->
+                <ToggleButton android:id="@+id/audioButton"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_audio"
                     android:contentDescription="@string/onscreenAudioText"
                     />
 

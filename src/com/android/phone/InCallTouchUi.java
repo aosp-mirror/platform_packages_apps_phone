@@ -17,6 +17,8 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -80,7 +82,7 @@ public class InCallTouchUi extends FrameLayout
     private ImageButton mEndButton;
     private CompoundButton mDialpadButton;
     private CompoundButton mMuteButton;
-    private ImageButton mAudioButton;
+    private CompoundButton mAudioButton;
     private CompoundButton mHoldButton;
     private ImageButton mSwapButton;
     private View mHoldSwapSpacer;
@@ -171,7 +173,7 @@ public class InCallTouchUi extends FrameLayout
         mDialpadButton.setOnClickListener(this);
         mMuteButton = (CompoundButton) mInCallControls.findViewById(R.id.muteButton);
         mMuteButton.setOnClickListener(this);
-        mAudioButton = (ImageButton) mInCallControls.findViewById(R.id.audioButton);
+        mAudioButton = (CompoundButton) mInCallControls.findViewById(R.id.audioButton);
         mAudioButton.setOnClickListener(this);
         mHoldButton = (CompoundButton) mInCallControls.findViewById(R.id.holdButton);
         mHoldButton.setOnClickListener(this);
@@ -355,7 +357,7 @@ public class InCallTouchUi extends FrameLayout
                 break;
 
             case R.id.audioButton:
-                showAudioModePopup();
+                handleAudioButtonClick();
                 break;
 
             default:
@@ -454,11 +456,8 @@ public class InCallTouchUi extends FrameLayout
         mMuteButton.setEnabled(inCallControlState.canMute);
         mMuteButton.setChecked(inCallControlState.muteIndicatorOn);
 
-        // "Audio": You're allowed to bring up the PopupMenu as long
-        // as either Speaker or Bluetooth are available.
-        boolean enableAudioModePopup =
-                inCallControlState.speakerEnabled || inCallControlState.bluetoothEnabled;
-        mAudioButton.setEnabled(enableAudioModePopup);
+        // "Audio"
+        updateAudioButton(inCallControlState);
 
         // "Hold" / "Swap":
         // These two buttons occupy the same space onscreen, so at any
@@ -545,6 +544,129 @@ public class InCallTouchUi extends FrameLayout
             mExtraButtonRow.setVisibility(View.VISIBLE);
         } else {
             mExtraButtonRow.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Updates the onscreen "Audio mode" button based on the current state.
+     *
+     * - If bluetooth is available, this button's function is to bring up the
+     *   "Audio mode" popup (which provides a 3-way choice between earpiece /
+     *   speaker / bluetooth).  So it should look like a regular action button,
+     *   but should also have the small "more_indicator" triangle that indicates
+     *   that a menu will pop up.
+     *
+     * - If speaker (but not bluetooth) is available, this button should look like
+     *   a regular toggle button (and indicate the current speaker state.)
+     *
+     * - If even speaker isn't available, disable the button entirely.
+     */
+    private void updateAudioButton(InCallControlState inCallControlState) {
+        if (DBG) log("updateAudioButton()...");
+
+        // The various layers of artwork for this button come from
+        // btn_compound_audio.xml.  Keep track of which layers we want to be
+        // visible:
+        //
+        // - This selector shows the blue bar below the button icon when
+        //   this button is a toggle *and* it's currently "checked".
+        boolean showToggleStateIndication = false;
+        //
+        // - This is visible if the popup menu is enabled:
+        boolean showMoreIndicator = false;
+        //
+        // - Foreground icons for the button.  Exactly one of these is enabled:
+        boolean showSpeakerIcon = false;
+        boolean showHandsetIcon = false;
+        boolean showBluetoothIcon = false;
+
+        if (inCallControlState.bluetoothEnabled) {
+            if (DBG) log("- updateAudioButton: 'popup menu action button' mode...");
+
+            mAudioButton.setEnabled(true);
+
+            // The audio button is NOT a toggle in this state.  (And its
+            // setChecked() state is irrelevant since we completely hide the
+            // btn_compound_background layer anyway.)
+
+            // Update desired layers:
+            showMoreIndicator = true;
+            if (inCallControlState.bluetoothIndicatorOn) {
+                showBluetoothIcon = true;
+            } else if (inCallControlState.speakerOn) {
+                showSpeakerIcon = true;
+            } else {
+                showHandsetIcon = true;
+                // TODO: if a wired headset is plugged in, that takes precedence
+                // over the handset earpiece.  If so, maybe we should show some
+                // sort of "wired headset" icon here instead of the "handset
+                // earpiece" icon.  (Still need an asset for that, though.)
+            }
+        } else if (inCallControlState.speakerEnabled) {
+            if (DBG) log("- updateAudioButton: 'speaker toggle' mode...");
+
+            mAudioButton.setEnabled(true);
+
+            // The audio button *is* a toggle in this state, and indicates the
+            // current state of the speakerphone.
+            mAudioButton.setChecked(inCallControlState.speakerOn);
+
+            // Update desired layers:
+            showToggleStateIndication = true;
+            showSpeakerIcon = true;
+        } else {
+            if (DBG) log("- updateAudioButton: disabled...");
+
+            // The audio button is a toggle in this state, but that's mostly
+            // irrelevant since it's always disabled and unchecked.
+            mAudioButton.setEnabled(false);
+            mAudioButton.setChecked(false);
+
+            // Update desired layers:
+            showToggleStateIndication = true;
+            showSpeakerIcon = true;
+        }
+
+        // Finally, update the drawable layers (see btn_compound_audio.xml).
+
+        // Constants used below with Drawable.setAlpha():
+        final int HIDDEN = 0;
+        final int VISIBLE = 255;
+
+        LayerDrawable layers = (LayerDrawable) mAudioButton.getBackground();
+        if (DBG) log("- 'layers' drawable: " + layers);
+
+        layers.findDrawableByLayerId(R.id.compoundBackgroundItem)
+                .setAlpha(showToggleStateIndication ? VISIBLE : HIDDEN);
+
+        layers.findDrawableByLayerId(R.id.moreIndicatorItem)
+                .setAlpha(showMoreIndicator ? VISIBLE : HIDDEN);
+
+        layers.findDrawableByLayerId(R.id.bluetoothItem)
+                .setAlpha(showBluetoothIcon ? VISIBLE : HIDDEN);
+
+        layers.findDrawableByLayerId(R.id.handsetItem)
+                .setAlpha(showHandsetIcon ? VISIBLE : HIDDEN);
+
+        layers.findDrawableByLayerId(R.id.speakerphoneItem)
+                .setAlpha(showSpeakerIcon ? VISIBLE : HIDDEN);
+    }
+
+    /**
+     * Handles a click on the "Audio mode" button.
+     * - If bluetooth is available, bring up the "Audio mode" popup
+     *   (which provides a 3-way choice between earpiece / speaker / bluetooth).
+     * - If bluetooth is *not* available, just toggle between earpiece and
+     *   speaker, with no popup at all.
+     */
+    private void handleAudioButtonClick() {
+        InCallControlState inCallControlState = mInCallScreen.getUpdatedInCallControlState();
+        if (inCallControlState.bluetoothEnabled) {
+            if (DBG) log("- handleAudioButtonClick: 'popup menu' mode...");
+            showAudioModePopup();
+        } else {
+            if (DBG) log("- handleAudioButtonClick: 'speaker toggle' mode...");
+            mInCallScreen.toggleSpeaker();
         }
     }
 
