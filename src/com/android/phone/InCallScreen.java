@@ -3839,10 +3839,16 @@ public class InCallScreen extends Activity
         // current telephony state, and that it's allowed on the current
         // device in the first place.)
 
-        // The touch UI is NOT available if:
-        // - we're in some InCallScreenMode other than NORMAL
-        //   (like CALL_ENDED or one of the OTA modes)
-        return (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL);
+        // The touch UI is available in the following InCallScreenModes:
+        // - NORMAL (obviously)
+        // - CALL_ENDED (which is intended to look mostly the same as
+        //               a normal in-call state, even though the in-call
+        //               buttons are mostly disabled)
+        // and is hidden in any of the other modes, like MANAGE_CONFERENCE
+        // or one of the OTA modes (which use totally different UIs.)
+
+        return ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
+                || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED));
     }
 
     /**

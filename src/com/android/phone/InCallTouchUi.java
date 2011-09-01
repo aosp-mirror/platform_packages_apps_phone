@@ -444,8 +444,8 @@ public class InCallTouchUi extends FrameLayout
             }
         }
 
-        // "End call": this button has no state and it's always enabled.
-        mEndButton.setEnabled(true);
+        // "End call"
+        mEndButton.setEnabled(inCallControlState.canEndCall);
 
         // "Dialpad": Enabled only when it's OK to use the dialpad in the
         // first place.

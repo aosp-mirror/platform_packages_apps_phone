@@ -56,6 +56,8 @@ public class InCallControlState {
     //
     public boolean canAddCall;
     //
+    public boolean canEndCall;
+    //
     public boolean canSwap;
     public boolean canMerge;
     //
@@ -94,6 +96,7 @@ public class InCallControlState {
      * the Phone.
      */
     public void update() {
+        Phone.State state = mCM.getState();  // coarse-grained voice call state
         final Call fgCall = mCM.getActiveFgCall();
         final Call.State fgCallState = fgCall.getState();
         final boolean hasActiveForegroundCall = (fgCallState == Call.State.ACTIVE);
@@ -116,6 +119,10 @@ public class InCallControlState {
         // "Add call":
         canAddCall = PhoneUtils.okToAddCall(mCM);
 
+        // "End call": always enabled unless the phone is totally idle,
+        // e.g. during the "Call ended" state we show briefly after a disconnect.
+        canEndCall = (state != Phone.State.IDLE);
+
         // Swap / merge calls
         canSwap = PhoneUtils.okToSwapCalls(mCM);
         canMerge = PhoneUtils.okToMergeCalls(mCM);
@@ -129,9 +136,9 @@ public class InCallControlState {
             bluetoothIndicatorOn = false;
         }
 
-        // "Speaker": always enabled.
+        // "Speaker": always enabled unless the phone is totally idle.
         // The current speaker state comes from the AudioManager.
-        speakerEnabled = true;
+        speakerEnabled = (state != Phone.State.IDLE);
         speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen);
 
         // "Mute": only enabled when the foreground call is ACTIVE.
@@ -186,6 +193,7 @@ public class InCallControlState {
         log("  manageConferenceVisible: " + manageConferenceVisible);
         log("  manageConferenceEnabled: " + manageConferenceEnabled);
         log("  canAddCall: " + canAddCall);
+        log("  canEndCall: " + canEndCall);
         log("  canSwap: " + canSwap);
         log("  canMerge: " + canMerge);
         log("  bluetoothEnabled: " + bluetoothEnabled);
