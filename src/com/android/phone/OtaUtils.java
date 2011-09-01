@@ -1294,19 +1294,18 @@ public class OtaUtils {
                 .setTitle(R.string.ota_skip_activation_dialog_title)
                 .setMessage(R.string.ota_skip_activation_dialog_message)
                 .setPositiveButton(
-                    R.string.ota_skip_activation_dialog_skip_label,
+                    android.R.string.ok,
+                    // "OK" means "skip activation".
                     new AlertDialog.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             otaSkipActivation();
                         }
                     })
                 .setNegativeButton(
-                    R.string.ota_skip_activation_dialog_continue_label,
-                    new AlertDialog.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            otaPerformActivation();
-                        }
-                    })
+                    android.R.string.cancel,
+                    // "Cancel" means just dismiss the dialog.
+                    // Don't actually start an activation call.
+                    null)
                 .setOnKeyListener(keyListener)
                 .create();
         mOtaWidgetData.otaSkipConfirmationDialog.show();
