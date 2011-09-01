@@ -2316,9 +2316,7 @@ public class BluetoothHandsfree {
                             if (ringingCall.isRinging()) {
                                 // Hangup the active call and then answer call waiting call.
                                 if (VDBG) log("CHLD:1 Callwaiting Answer call");
-                                PhoneUtils.hangup(PhoneApp.getInstance().mCM);
-                                PhoneUtils.answerCall(ringingCall);
-                                PhoneUtils.setMute(false);
+                                PhoneUtils.hangupRingingAndActive(phone);
                             } else {
                                 // If there is no Call waiting then just hangup
                                 // the active call. In CDMA this mean that the complete
