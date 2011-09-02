@@ -29,7 +29,8 @@
     android:layout_height="match_parent"
     >
 
-    <!-- (1) incomingCallWidget: the UI displayed while an incoming call is ringing. -->
+    <!-- (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
+             See InCallTouchUi.showIncomingCallWidget(). -->
     <com.android.internal.widget.multiwaveview.MultiWaveView
         android:id="@+id/incomingCallWidget"
         android:layout_width="match_parent"
@@ -37,9 +38,9 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
 
-        android:targetDrawables="@array/incall_targets"
-        android:targetDescriptions="@array/incall_target_descriptions"
-        android:directionDescriptions="@array/incall_direction_descriptions"
+        android:targetDrawables="@array/incoming_call_widget_3way_targets"
+        android:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
+        android:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
         android:handleDrawable="@drawable/ic_in_call_touch_handle"
         android:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
         android:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"

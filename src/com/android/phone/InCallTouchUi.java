@@ -59,9 +59,9 @@ public class InCallTouchUi extends FrameLayout
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // Incoming call widget targets
-    private static final int ANSWER_CALL_ID = 0;
-    private static final int SEND_SMS_ID = 1;
-    private static final int DECLINE_CALL_ID = 2;
+    private static final int ANSWER_CALL_ID = 0;  // drag right
+    private static final int SEND_SMS_ID = 1;  // drag up
+    private static final int DECLINE_CALL_ID = 2;  // drag left
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -154,7 +154,7 @@ public class InCallTouchUi extends FrameLayout
 
         // Look up the various UI elements.
 
-        // "Dial-to-answer" widget for incoming calls.
+        // "Drag-to-answer" widget for incoming calls.
         mIncomingCallWidget = (MultiWaveView) findViewById(R.id.incomingCallWidget);
         mIncomingCallWidget.setOnTriggerListener(this);
 
@@ -299,7 +299,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         if (showIncomingCallControls) {
-            showIncomingCallWidget();
+            showIncomingCallWidget(ringingCall);
 
             // On devices with a system bar (soft buttons at the bottom of
             // the screen), disable navigation while the incoming-call UI
@@ -941,7 +941,7 @@ public class InCallTouchUi extends FrameLayout
     /**
      * Shows the incoming call widget and cancels any animation that may be fading it out.
      */
-    private void showIncomingCallWidget() {
+    private void showIncomingCallWidget(Call ringingCall) {
         if (DBG) log("showIncomingCallWidget()...");
 
         Animation anim = mIncomingCallWidget.getAnimation();
@@ -949,26 +949,36 @@ public class InCallTouchUi extends FrameLayout
             anim.reset();
             mIncomingCallWidget.clearAnimation();
         }
+
+        // Update the MultiWaveView widget's targets based on the state of
+        // the ringing call.  (Specifically, we need to disable the
+        // "respond via SMS" option for certain types of calls, like SIP
+        // addresses or numbers with blocked caller-id.)
+
+        boolean allowRespondViaSms = RespondViaSmsManager.allowRespondViaSmsForCall(ringingCall);
+        if (allowRespondViaSms) {
+            // The MultiWaveView widget is allowed to have all 3 choices:
+            // Answer, Decline, and Respond via SMS.
+            mIncomingCallWidget.setTargetResources(R.array.incoming_call_widget_3way_targets);
+            mIncomingCallWidget.setTargetDescriptionsResourceId(
+                    R.array.incoming_call_widget_3way_target_descriptions);
+            mIncomingCallWidget.setDirectionDescriptionsResourceId(
+                    R.array.incoming_call_widget_3way_direction_descriptions);
+        } else {
+            // You only get two choices: Answer or Decline.
+            mIncomingCallWidget.setTargetResources(R.array.incoming_call_widget_2way_targets);
+            mIncomingCallWidget.setTargetDescriptionsResourceId(
+                    R.array.incoming_call_widget_2way_target_descriptions);
+            mIncomingCallWidget.setDirectionDescriptionsResourceId(
+                    R.array.incoming_call_widget_2way_direction_descriptions);
+        }
+
+        // Watch out: be sure to call reset() and setVisibility() *after*
+        // updating the target resources, since otherwise the MultiWaveView
+        // widget will make the targets visible initially (even before you
+        // touch the widget.)
         mIncomingCallWidget.reset(false);
         mIncomingCallWidget.setVisibility(View.VISIBLE);
-
-        // TODO: need to reconfigure the MultiWaveView widget
-        // at this point based on the state of the ringing call.
-        // Specifically, we probably need to disable the "respond via SMS"
-        // option in a few cases:
-        //
-        // - if the ringing call's getAddress() is blank, or not a valid
-        //   phone number
-        //
-        // - if the ringing call's getAddress() is a SIP address rather
-        //   than a PSTN number.  (Or do we really need to disable this
-        //   feature for SIP addresses?  Could there be some SIP-specific
-        //   equivalent to sending a text?)
-        //
-        // - if the ringing call's getNumberPresentation() is anything
-        //   other than PRESENTATION_ALLOWED
-        //
-        // (any other cases?)
 
         // Finally, manually trigger a "ping" animation.
         //

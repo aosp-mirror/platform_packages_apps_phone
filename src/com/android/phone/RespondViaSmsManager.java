@@ -33,6 +33,8 @@ import android.os.SystemProperties;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -440,7 +442,6 @@ public class RespondViaSmsManager {
                                        res.getString(R.string.respond_via_sms_canned_response_4));
         return responses;
     }
-
     // TODO: Don't call loadCannedResponses() from the UI thread.
     //
     // We should either (1) kick off a background task when the call first
@@ -464,6 +465,88 @@ public class RespondViaSmsManager {
     //   foreground; this way we won't steal any CPU away from the caller-id
     //   query.  Maybe do it from InCallScreen.onResume()?
     //   Or InCallTouchUi.showIncomingCallWidget()?
+
+    /**
+     * @return true if the "Respond via SMS" feature should be enabled
+     * for the specified incoming call.
+     *
+     * The general rule is that we *do* allow "Respond via SMS" except for
+     * the few (relatively rare) cases where we know for sure it won't
+     * work, namely:
+     *   - a bogus or blank incoming number
+     *   - a call from a SIP address
+     *   - a "call presentation" that doesn't allow the number to be revealed
+     *
+     * In all other cases, we allow the user to respond via SMS.
+     *
+     * Note that this behavior isn't perfect; for example we have no way
+     * to detect whether the incoming call is from a landline (with most
+     * networks at least), so we still enable this feature even though
+     * SMSes to that number will silently fail.
+     */
+    public static boolean allowRespondViaSmsForCall(Call ringingCall) {
+        if (DBG) log("allowRespondViaSmsForCall(" + ringingCall + ")...");
+
+        // First some basic sanity checks:
+        if (ringingCall == null) {
+            Log.w(TAG, "allowRespondViaSmsForCall: null ringingCall!");
+            return false;
+        }
+        if (!ringingCall.isRinging()) {
+            // The call is in some state other than INCOMING or WAITING!
+            // (This should almost never happen, but it *could*
+            // conceivably happen if the ringing call got disconnected by
+            // the network just *after* we got it from the CallManager.)
+            Log.w(TAG, "allowRespondViaSmsForCall: ringingCall not ringing! state = "
+                  + ringingCall.getState());
+            return false;
+        }
+        Connection conn = ringingCall.getLatestConnection();
+        if (conn == null) {
+            // The call doesn't have any connections!  (Again, this can
+            // happen if the ringing call disconnects at the exact right
+            // moment, but should almost never happen in practice.)
+            Log.w(TAG, "allowRespondViaSmsForCall: null Connection!");
+            return false;
+        }
+
+        // Check the incoming number:
+        final String number = conn.getAddress();
+        if (DBG) log("- number: '" + number + "'");
+        if (TextUtils.isEmpty(number)) {
+            Log.w(TAG, "allowRespondViaSmsForCall: no incoming number!");
+            return false;
+        }
+        if (PhoneNumberUtils.isUriNumber(number)) {
+            // The incoming number is actually a URI (i.e. a SIP address),
+            // not a regular PSTN phone number, and we can't send SMSes to
+            // SIP addresses.
+            // (TODO: That might still be possible eventually, though.  Is
+            // there some SIP-specific equivalent to sending a text message?)
+            Log.i(TAG, "allowRespondViaSmsForCall: incoming 'number' is a SIP address.");
+            return false;
+        }
+
+        // Finally, check the "call presentation":
+        int presentation = conn.getNumberPresentation();
+        if (DBG) log("- presentation: " + presentation);
+        if (presentation == Connection.PRESENTATION_RESTRICTED) {
+            // PRESENTATION_RESTRICTED means "caller-id blocked".
+            // The user isn't allowed to see the number in the first
+            // place, so obviously we can't let you send an SMS to it.
+            Log.i(TAG, "allowRespondViaSmsForCall: PRESENTATION_RESTRICTED.");
+            return false;
+        }
+
+        // TODO: with some carriers (in certain countries) you *can* actually
+        // tell whether a given number is a mobile phone or not.  So in that
+        // case we could potentially return false here if the incoming call is
+        // from a land line.
+
+        // If none of the above special cases apply, it's OK to enable the
+        // "Respond via SMS" feature.
+        return true;
+    }
 
 
     private static void log(String msg) {
