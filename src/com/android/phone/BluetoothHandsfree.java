@@ -894,7 +894,9 @@ public class BluetoothHandsfree {
 
                     // We are only concerned about Connected sinks to suspend and resume
                     // them. We can safely ignore SINK_STATE_CHANGE for other devices.
-                    if (mA2dpDevice != null && !device.equals(mA2dpDevice)) return;
+                    if (device == null || (mA2dpDevice != null && !device.equals(mA2dpDevice))) {
+                        return;
+                    }
 
                     synchronized (BluetoothHandsfree.this) {
                         mA2dpState = state;
