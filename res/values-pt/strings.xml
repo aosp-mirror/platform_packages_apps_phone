@@ -645,8 +645,7 @@
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Registro da conta interrompido porque não há conexão Wi-Fi"</string>
     <string name="registration_status_not_running" msgid="3826034902272084289">"Falha no registro da conta"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Chamadas recebidas"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Falha no registro da conta: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Nova tentativa mais tarde"</string>
     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Falha no registro da conta: nome de usuário ou senha incorretos"</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Falha no registro da conta: verifique o nome do servidor"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Esta conta está sendo usada pelo aplicativo <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
@@ -710,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Viva-voz ativado."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Chamada sem áudio."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

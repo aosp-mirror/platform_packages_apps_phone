@@ -709,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Η ανοικτή συνομιλία ενεργοποιήθηκε."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Η κλήση τέθηκε σε σίγαση."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

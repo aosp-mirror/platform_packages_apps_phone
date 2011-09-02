@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: 順序が変更されました。"</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: サービスオプションが拒否されました。"</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: 再試行の順序。"</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: アクセスできませんでした。"</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: アクセスできませんでした。"</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: 取得済みです。"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"緊急通報のみ可能です。"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"番号が無効です"</string>
@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"ボイスメールの番号が変更されました。"</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"ボイスメールの番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"転送先番号を変更できませんでした。"\n"問題が解決しない場合は携帯通信会社に問い合わせてください。"</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"現在の転送先番号設定の取得と保存ができませんでした。"\n"別の通信事業者に切り替えますか？"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"現在の転送先番号設定の取得と保存ができませんでした。"\n"別の携帯通信会社に切り替えますか？"</string>
     <string name="no_change" msgid="3186040086622435212">"変更されていません。"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"ボイスメールサービスを選択"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"携帯通信会社"</string>
@@ -643,12 +643,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"通話着信OFF"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"インターネットに接続されていないため、アカウント登録処理が中断されました"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Wi-Fi接続されていないため登録処理を中断しました。"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"アカウントを登録できませんでした"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"アカウントを登録できませんでした"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"通話着信ON"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"アカウントを登録できませんでした: ユーザー名かパスワードが正しくありません"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"アカウントを登録できませんでした。サーバー名を確認してください。"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"アカウントを登録できませんでした（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）。後ほど再試行します。"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"アカウントを登録できませんでした: ユーザー名かパスワードが正しくありません"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"アカウントを登録できませんでした: サーバー名を確認してください"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"このアカウントは現在<xliff:g id="ACCOUNT_OWNER">%s</xliff:g>アプリで使用されています"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIPアカウントの詳細"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIPアカウントの詳細"</string>
@@ -710,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"バックスペース"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"スピーカーが有効です。"</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"通話がミュートされています。"</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

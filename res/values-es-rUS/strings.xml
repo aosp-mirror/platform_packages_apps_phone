@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Número de correo de voz cambiado."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"No se ha realizado correctamente el cambio del buzón de voz. "\n"Comunícate con tu proveedor si el problema continúa."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"No se ha realizado correctamente el cambio del número de desvío. "\n"Comunícate con tu proveedor si el problema continúa."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No se pudo recuperar ni guardar la configuración del número actual de reenvío."\n"¿Deseas cambiar de proveedor de todas maneras?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No se pudo recuperar ni guardar la configuración del número actual de reenvío."\n"¿Deseas cambiar de proveedor de todos modos?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se realizaron cambios."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Elegir servicio de buzón de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mi proveedor"</string>
@@ -645,7 +645,7 @@
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Se detuvo el registro de la cuenta porque no hay conexión Wi-Fi"</string>
     <string name="registration_status_not_running" msgid="3826034902272084289">"La cuenta no se registró correctamente."</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Recibiendo llamadas"</string>
-    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"La cuenta no se registró correctamente: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se hará un intento más adelante."</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"La cuenta no se registró correctamente: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se intentará de nuevo más adelante."</string>
     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"La cuenta no se registró correctamente: nombre de usuario o contraseña incorrectos."</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"La cuenta no se registró correctamente: verifica el nombre del servidor."</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Esta cuenta está siendo usada por la aplicación <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
@@ -709,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"retroceso"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Altavoz habilitado"</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Llamada silenciada"</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

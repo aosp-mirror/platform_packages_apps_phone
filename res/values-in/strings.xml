@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Nomor kotak pesan berubah."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Perubahan nomor kotak pesan tidak berhasil."\n"Harap hubungi operator jika masalah tetap ada."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Perubahan penerusan nomor gagal."\n"Harap hubungi operator Anda jika masalah tetap ada."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Tidak dapat mengambil dan menyimpan setelan nomor telepon penerusan saat ini."\n"Beralih ke operator baru?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Tidak dapat mengambil dan menyimpan setelan nomor telepon penerusan saat ini."\n"Tetap beralih ke operator baru?"</string>
     <string name="no_change" msgid="3186040086622435212">"Tidak ada perubahan yang dilakukan."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Pilih layanan kotak pesan"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Operator Anda"</string>
@@ -645,7 +645,7 @@
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Pendaftaran akun berhenti karena tidak ada sambungan Wi-Fi"</string>
     <string name="registration_status_not_running" msgid="3826034902272084289">"Pendaftaran akun gagal"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Menerima panggilan"</string>
-    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Pendaftaran akun gagal: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); akan mencoba nanti"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Pendaftaran akun gagal: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); akan mencoba lagi nanti"</string>
     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Pendaftaran akun gagal: nama pengguna atau sandi salah"</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Pendaftaran akun gagal: periksa nama server"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Saat ini akun ini digunakan oleh aplikasi <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
@@ -709,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Pengeras suara ponsel diaktifkan."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Panggilan disenyapkan."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

@@ -66,7 +66,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Administrer konferansesamtale"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Høyttaler"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Telefonens øreplugg"</string>
-    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Kabelbasert hodetelefon"</string>
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Hodetelefon med kabel"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"Send disse tonene?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Sender ringetoner"\n</string>
@@ -715,4 +715,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"tilbaketast"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Høyttaler er aktivert."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Samtalelyd er kuttet."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>
