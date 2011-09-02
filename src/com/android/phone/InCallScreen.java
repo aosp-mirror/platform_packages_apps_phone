@@ -482,6 +482,12 @@ public class InCallScreen extends Activity
         }
         getWindow().addFlags(flags);
 
+        // Also put the system bar (if present on this device) into
+        // "lights out" mode any time we're the foreground activity.
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        getWindow().setAttributes(params);
+
         setPhone(mApp.phone);  // Sets mPhone
 
         mCM =  mApp.mCM;
