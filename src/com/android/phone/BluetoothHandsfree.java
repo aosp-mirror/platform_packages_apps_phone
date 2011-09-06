@@ -85,9 +85,9 @@ public class BluetoothHandsfree {
     private int mAudioState;
 
     private ServiceState mServiceState;
-    private HeadsetBase mHeadset;  // null when not connected
+    private HeadsetBase mHeadset;
     private BluetoothHeadset mBluetoothHeadset;
-    private int mHeadsetType;
+    private int mHeadsetType;   // TYPE_UNKNOWN when not connected
     private boolean mAudioPossible;
     private BluetoothSocket mConnectedSco;
 
@@ -206,7 +206,8 @@ public class BluetoothHandsfree {
         mContext = context;
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         boolean bluetoothCapable = (mAdapter != null);
-        mHeadset = null;  // nothing connected yet
+        mHeadset = null;
+        mHeadsetType = TYPE_UNKNOWN; // nothing connected yet
         if (bluetoothCapable) {
             mAdapter.getProfileProxy(mContext, mProfileListener,
                                      BluetoothProfile.A2DP);
@@ -538,7 +539,7 @@ public class BluetoothHandsfree {
     }
 
     private boolean isHeadsetConnected() {
-        if (mHeadset == null) {
+        if (mHeadset == null || mHeadsetType == TYPE_UNKNOWN) {
             return false;
         }
         return mHeadset.isConnected();
@@ -586,7 +587,7 @@ public class BluetoothHandsfree {
         // terminateScoUsingVirtualVoiceCall() does the check
         terminateScoUsingVirtualVoiceCall();
 
-        mHeadset = null;
+        mHeadsetType = TYPE_UNKNOWN;
         stopDebug();
         resetAtState();
     }
@@ -662,6 +663,12 @@ public class BluetoothHandsfree {
         private int    mRingingType;
         private boolean mIgnoreRing = false;
         private boolean mStopRing = false;
+
+        // current or last call start timestamp
+        private long mCallStartTime = 0;
+        // time window to reconnect remotely-disconnected SCO
+        // in mili-seconds
+        private static final int RETRY_SCO_TIME_WINDOW = 1000;
 
         private static final int SERVICE_STATE_CHANGED = 1;
         private static final int PRECISE_CALL_STATE_CHANGED = 2;
@@ -942,7 +949,7 @@ public class BluetoothHandsfree {
         private synchronized void updateSignalState(Intent intent) {
             // NOTE this function is called by the BroadcastReceiver mStateReceiver after intent
             // ACTION_SIGNAL_STRENGTH_CHANGED and by the DebugThread mDebugThread
-            if (mHeadset == null) {
+            if (!isHeadsetConnected()) {
                 return;
             }
 
@@ -1049,6 +1056,7 @@ public class BluetoothHandsfree {
             case ALERTING:
                 callsetup = 3;
                 // Open the SCO channel for the outgoing call.
+                mCallStartTime = System.currentTimeMillis();
                 audioOn();
                 mAudioPossible = true;
                 break;
@@ -1099,6 +1107,7 @@ public class BluetoothHandsfree {
                 if (call == 1) {
                     // This means that a call has transitioned from NOT ACTIVE to ACTIVE.
                     // Switch on audio.
+                    mCallStartTime = System.currentTimeMillis();
                     audioOn();
                 }
                 mCall = call;
@@ -1238,6 +1247,7 @@ public class BluetoothHandsfree {
                     mStopRing = false;
 
                     if ((mLocalBrsf & BRSF_AG_IN_BAND_RING) != 0x0) {
+                        mCallStartTime = System.currentTimeMillis();
                         audioOn();
                     }
                     result.addResult(ring());
@@ -1340,7 +1350,8 @@ public class BluetoothHandsfree {
         private void scoClosed() {
             // sync on mUserWantsAudio change
             synchronized(BluetoothHandsfree.this) {
-                if (mUserWantsAudio) {
+                if (mUserWantsAudio &&
+                    System.currentTimeMillis() - mCallStartTime < RETRY_SCO_TIME_WINDOW) {
                     Message msg = mHandler.obtainMessage(SCO_CONNECTION_CHECK);
                     mHandler.sendMessage(msg);
                 }
