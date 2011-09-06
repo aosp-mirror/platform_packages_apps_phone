@@ -96,53 +96,13 @@
                    android:contentDescription="@string/contactPhoto"
                    />
 
-        <!-- "Inset" photo used with "id/photo" above:
-               When the contact photo is a lo-res thumbnail, id/photo
-             contains a scaled-up but *blurred* version of the photo, and
-             *this* ImageView is overlaid on top as a smaller, unblurred
-             inset.  (See InCallContactPhoto.java.)
-               The vertical LinearLayout here is used to position the inset
-             about 2/3 of the way toward the bottom of the main photo; this
-             makes sure that it won't be covered up by the call banner. -->
-        <LinearLayout android:id="@+id/insetContainer"
-                      android:layout_alignTop="@id/photo"
-                      android:layout_alignBottom="@id/photo"
-                      android:layout_alignParentLeft="true"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      >
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                />
-            <ImageView android:id="@+id/insetPhoto"
-                android:layout_width="@dimen/contact_photo_inset_width"
-                android:layout_height="@dimen/contact_photo_inset_height"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="@dimen/contact_photo_inset_left_margin"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
         <!-- "Call Banner" for call #1, the foregound or ringing call.
-
-             The "call banner" is a block of mostly textual info about
-             a single call, including the contact name, phone number,
-             call time counter, and other status info.  This block of
-             info is shown as a "banner" overlaid across the top of
-             contact photo.
-
-             This element gets either layout_alignParentTop or
-             layout_alignParentBottom alignment, depending on the phone
-             state (see updateCallInfoLayout().) -->
-
+             The "call banner" is a block of info about a single call,
+             including the contact name, phone number, call time counter,
+             and other status info.  This info is shown as a "banner"
+             overlaid across the top of contact photo. -->
         <RelativeLayout android:id="@+id/call_banner_1"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/call_banner_height"
@@ -154,14 +114,16 @@
             >
 
             <!-- Name (or the phone number, if we don't have a name to display). -->
+            <!-- The right padding here is to make sure that ultra-long names
+                 won't overlap the elapsed time indication. -->
             <TextView android:id="@+id/name"
                       android:layout_alignParentTop="true"
                       android:layout_alignParentLeft="true"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge"
-                      android:textStyle="bold"
-                      android:textSize="20sp"
+                      android:paddingRight="50sp"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/incall_call_banner_text_color"
                       android:singleLine="true"
                       />
 
@@ -172,35 +134,32 @@
                           android:layout_height="wrap_content"
                           android:orientation="horizontal"
                           >
-                <TextView android:id="@+id/label"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:textSize="18sp"
-                          android:textColor="?android:attr/textColorSecondary"
-                          android:singleLine="true"
-                          android:layout_marginRight="6dip"
-                          />
                 <TextView android:id="@+id/phoneNumber"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:textSize="18sp"
-                          android:textColor="?android:attr/textColorSecondary"
+                          android:textColor="@color/incall_call_banner_text_color"
                           android:singleLine="true"
+                          />
+                <TextView android:id="@+id/label"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:textColor="@color/incall_call_banner_text_color"
+                          android:textAllCaps="true"
+                          android:singleLine="true"
+                          android:layout_marginLeft="6dip"
                           />
             </LinearLayout>
 
             <!-- Elapsed time indication for a call in progress. -->
-            <!-- TODO: This needs to go somewhere else -->
             <TextView android:id="@+id/elapsedTime"
-                      android:layout_below="@id/name"
                       android:layout_alignParentRight="true"
+                      android:layout_centerVertical="true"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textSize="15sp"
-                      android:textStyle="bold"
+                      android:textColor="@color/incall_call_banner_text_color"
                       android:singleLine="true"
                       />
 
@@ -211,25 +170,40 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textAppearance="?android:attr/textAppearanceSmall"
-                      android:textSize="16sp"
-                      android:textColor="?android:attr/textColorSecondary"
+                      android:textColor="@color/incall_call_banner_text_color"
                       android:maxLines="1"
                       android:ellipsize="end"
                       />
 
-            <!-- Social status -->
+            <!-- Social status (currently unused) -->
             <TextView android:id="@+id/socialStatus"
                       android:layout_below="@id/callTypeLabel"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textAppearance="?android:attr/textAppearanceSmall"
-                      android:textSize="16sp"
-                      android:textColor="?android:attr/textColorSecondary"
+                      android:textColor="@color/incall_call_banner_text_color"
                       android:maxLines="2"
                       android:ellipsize="end"
                       />
 
         </RelativeLayout>  <!-- End of call_banner for call_info #1. -->
+
+        <!-- "Inset" photo used with "id/photo" above:
+               When the contact photo is a lo-res thumbnail, id/photo
+             contains a scaled-up but *blurred* version of the photo, and
+             *this* ImageView is overlaid on top as a smaller, unblurred
+             inset.  (See InCallContactPhoto.java.)
+               The top of the inset is vertically aligned with the bottom
+             of the call banner.  (Note that means that in states where the
+             "call state label" is visible, the label (see below) will overlap
+             the top of the inset photo.)  -->
+        <ImageView android:id="@+id/insetPhoto"
+            android:layout_below="@id/call_banner_1"
+            android:layout_width="@dimen/contact_photo_inset_width"
+            android:layout_height="@dimen/contact_photo_inset_height"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="@dimen/contact_photo_inset_left_margin"
+            />
 
         <!-- The "call state label": In some states, this shows a special
              indication like "Dialing" or "Incoming call" or "Call ended".
@@ -242,12 +216,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/call_banner_1"
             android:gravity="right"
-            android:paddingTop="@dimen/call_banner_top_bottom_padding"
-            android:paddingBottom="@dimen/call_banner_top_bottom_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingRight="@dimen/call_banner_side_padding"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/incall_call_banner_text_color"
+            android:textAllCaps="true"
             android:background="@color/incall_call_state_label_background"
             android:visibility="gone"
             />
@@ -297,8 +271,7 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textStyle="bold"
-                      android:textSize="14sp"
+                      android:textColor="@color/incall_call_banner_text_color"
                       android:singleLine="true"
                       />
             <!-- TODO: possibly also add a label + number field below the name? -->
@@ -311,8 +284,9 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/onHold"
-                      android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:textSize="14sp"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      android:textColor="@color/incall_call_banner_text_color"
+                      android:textAllCaps="true"
                       android:singleLine="true"
                       />
 

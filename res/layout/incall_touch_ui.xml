@@ -29,13 +29,27 @@
     android:layout_height="match_parent"
     >
 
-    <!-- (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
-             See InCallTouchUi.showIncomingCallWidget(). -->
+    <!--
+        (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
+            See InCallTouchUi.showIncomingCallWidget().
+
+            Layout notes:
+            - Use an opaque black background since we need to cover up
+              a bit of the bottom of the contact photo
+            - The verticalOffset value gets us a little extra space above
+              the topmost "Respond by SMS" icon
+            - The negative layout_marginBottom shifts us slightly downward;
+              we're already aligned with the bottom of the screen, but we
+              don't have an icon in the downward direction so the whole
+              bottom area of this widget is just wasted space.
+    -->
     <com.android.internal.widget.multiwaveview.MultiWaveView
         android:id="@+id/incomingCallWidget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/upper_buttons_top_margin"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-50dp"
+        android:background="@android:color/black"
         android:visibility="gone"
 
         android:targetDrawables="@array/incoming_call_widget_3way_targets"
@@ -51,7 +65,7 @@
         android:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
         android:feedbackCount="3"
         android:horizontalOffset="0dip"
-        android:verticalOffset="60dip"
+        android:verticalOffset="20dip"
         />
 
     <!--

@@ -245,43 +245,22 @@ public class CallCard extends FrameLayout
      */
     private void updateCallInfoLayout(Phone.State state) {
         boolean ringing = (state == Phone.State.RINGING);
+        if (DBG) log("updateCallInfoLayout()...  ringing = " + ringing);
 
         // Based on the current state, update the overall
-        // CallCard layout in a couple of ways:
+        // CallCard layout:
 
-        // (1) Update the bottom margin of mCallInfoContainer to make sure
-        //     we don't overlap with the InCallTouchUi widget (the touchable
-        //     controls on the bottom part of the screen.)
-        //
-        //     We have to do this dynamically since the InCallTouchUi widget
-        //     can get taller or shorter depending on the call state.
-        //     (In particular, mCallInfoContainer needs to shrink
-        //     significantly while an incoming call is ringing, since the
-        //     incoming-call widget takes up more vertical space than the
-        //     regular in-call button cluster.)
-        //
-        // TODO: Animate this value for the RINGING -> OFFHOOK transition.
+        // - Update the bottom margin of mCallInfoContainer to make sure
+        //   the call info area won't overlap with the touchable
+        //   controls on the bottom part of the screen.
 
         int reservedVerticalSpace = mInCallScreen.getInCallTouchUi().getTouchUiHeight();
         ViewGroup.MarginLayoutParams callInfoLp =
                 (ViewGroup.MarginLayoutParams) mCallInfoContainer.getLayoutParams();
         callInfoLp.bottomMargin = reservedVerticalSpace;  // Equivalent to setting
                                                           // android:layout_marginBottom in XML
+        if (DBG) log("  ==> callInfoLp.bottomMargin: " + reservedVerticalSpace);
         mCallInfoContainer.setLayoutParams(callInfoLp);
-
-        // (2) Normally, the "call banner" is overlaid across the top of
-        //     the contact photo.  But when ringing, move the banner down to
-        //     the bottom of the photo; this makes it more centered on the
-        //     screen, and closer to the incoming-call widget.
-        //
-        //     Note that while ringing, we only ever display info about one
-        //     call (i.e. the "primary call"), even if two lines are in use.
-
-        RelativeLayout.LayoutParams bannerLp =
-                (RelativeLayout.LayoutParams) mPrimaryCallBanner.getLayoutParams();
-        bannerLp.addRule(RelativeLayout.ALIGN_PARENT_TOP, ringing ? 0 : RelativeLayout.TRUE);
-        bannerLp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, ringing ? RelativeLayout.TRUE : 0);
-        mPrimaryCallBanner.setLayoutParams(bannerLp);
     }
 
     /**

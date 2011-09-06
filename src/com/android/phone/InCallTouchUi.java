@@ -238,7 +238,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
-        if (DBG) log("- updateState: CallManager state is " + state);
+        if (DBG) log("updateState: current state = " + state);
 
         boolean showIncomingCallControls = false;
         boolean showInCallControls = false;
@@ -292,13 +292,16 @@ public class InCallTouchUi extends FrameLayout
         }
 
         if (showInCallControls) {
+            if (DBG) log("- updateState: showing in-call controls...");
             updateInCallControls(cm);
             mInCallControls.setVisibility(View.VISIBLE);
         } else {
+            if (DBG) log("- updateState: HIDING in-call controls...");
             mInCallControls.setVisibility(View.GONE);
         }
 
         if (showIncomingCallControls) {
+            if (DBG) log("- updateState: showing incoming call widget...");
             showIncomingCallWidget(ringingCall);
 
             // On devices with a system bar (soft buttons at the bottom of
@@ -310,6 +313,7 @@ public class InCallTouchUi extends FrameLayout
             // out of your pocket.
             mApp.notificationMgr.statusBarHelper.enableSystemBarNavigation(false);
         } else {
+            if (DBG) log("- updateState: HIDING incoming call widget...");
             hideIncomingCallWidget();
 
             // The system bar is allowed to work normally in regular
@@ -805,38 +809,37 @@ public class InCallTouchUi extends FrameLayout
      * (The CallCard uses this measurement to determine how big
      * the main "contact photo" area can be.)
      *
-     * Watch out: the value we return is based on the current visibility state
-     * of our internal widgets.  So be sure to call updateState() *before*
-     * calling this method, since that's the place that actually sets the
-     * visibility of the relevant widgets.
+     * NOTE that this returns the "canonical height" of the main in-call
+     * button cluster, which may not match the amount of vertical space
+     * actually used.  Specifically:
+     *
+     *   - If an incoming call is ringing, the button cluster isn't
+     *     visible at all.  (And the MultiWaveView widget is actually
+     *     much taller than the button cluster.)
+     *
+     *   - If the InCallTouchUi widget's "extra button row" is visible
+     *     (in some rare phone states) the button cluster will actually
+     *     be slightly taller than the "canonical height".
+     *
+     * In either of these cases, we allow the bottom edge of the contact
+     * photo to be covered up by whatever UI is actually onscreen.
      */
     public int getTouchUiHeight() {
-        // Based on the visibility state of our internal widgets, return
-        // how much vertical space we actually need for the touch controls
-        // at the bottom of the screen.
-        int height;
+        // Add up the vertical space consumed by the various rows of buttons.
+        int height = 0;
 
-        // TODO: Rather than using dimens.xml values here, could we just ask
-        // the relevant widgets what their actual heights are?
+        // - The main row of buttons:
+        height += (int) getResources().getDimension(R.dimen.in_call_button_height);
 
-        if (mIncomingCallWidget.getVisibility() == View.VISIBLE) {
-            // Incoming call is ringing.
-            height = (int) getResources().getDimension(R.dimen.in_call_incoming_call_widget_height);
-        } else {
-            // Normal in-call button cluster is visible.
-            // Add up the vertical space consumed by the various rows of buttons.
-            height = 0;
-            // - The main row of buttons:
-            height += (int) getResources().getDimension(R.dimen.in_call_button_height);
-            // - The End button:
-            height += (int) getResources().getDimension(R.dimen.in_call_end_button_height);
-            // - The InCallTouchUi widget's "extra button row", if visible:
-            if (mExtraButtonRow.getVisibility() == View.VISIBLE) {
-                height += (int) getResources().getDimension(R.dimen.in_call_button_height);
-            }
-            //- And an extra bit of margin:
-            height += (int) getResources().getDimension(R.dimen.in_call_touch_ui_upper_margin);
-        }
+        // - The End button:
+        height += (int) getResources().getDimension(R.dimen.in_call_end_button_height);
+
+        // - Note we *don't* consider the InCallTouchUi widget's "extra
+        //   button row" here.
+
+        //- And an extra bit of margin:
+        height += (int) getResources().getDimension(R.dimen.in_call_touch_ui_upper_margin);
+
         return height;
     }
 
@@ -1063,33 +1066,54 @@ public class InCallTouchUi extends FrameLayout
      * well (but again, only if the MultiWaveView widget is still visible.)
      */
     public void triggerPing() {
-        if ((mIncomingCallWidget != null)
-            && (mIncomingCallWidget.getVisibility() == View.VISIBLE)) {
+        if (DBG) log("triggerPing: mIncomingCallWidget = " + mIncomingCallWidget);
 
-            mIncomingCallWidget.ping();
+        if (!mInCallScreen.isForegroundActivity()) {
+            // InCallScreen has been dismissed; no need to run a ping *or*
+            // schedule another one.
+            log("- triggerPing: InCallScreen no longer in foreground; ignoring...");
+            return;
+        }
 
-            if (ENABLE_PING_AUTO_REPEAT) {
-                // Schedule the next ping.  (ENABLE_PING_AUTO_REPEAT mode
-                // allows the ping animation to repeat much faster than in
-                // the ENABLE_PING_ON_RING_EVENTS case, since telephony RING
-                // events come fairly slowly (about 3 seconds apart.))
+        if (mIncomingCallWidget == null) {
+            // This shouldn't happen; the MultiWaveView widget should
+            // always be present in our layout file.
+            Log.w(LOG_TAG, "- triggerPing: null mIncomingCallWidget!");
+            return;
+        }
 
-                // No need to check here if the call is still ringing, by
-                // the way, since we hide mIncomingCallWidget as soon as the
-                // ringing stops, or if the user answers.  (And at that
-                // point, any future triggerPing() call will be a no-op.)
+        if (DBG) log("- triggerPing: mIncomingCallWidget visibility = "
+                     + mIncomingCallWidget.getVisibility());
 
-                // TODO: Rather than having a separate timer here, maybe try
-                // having these pings synchronized with the vibrator (see
-                // VibratorThread in Ringer.java; we'd just need to get
-                // events routed from there to here, probably via the
-                // PhoneApp instance.)  (But watch out: make sure pings
-                // still work even if the Vibrate setting is turned off!)
+        if (mIncomingCallWidget.getVisibility() != View.VISIBLE) {
+            if (DBG) log("- triggerPing: mIncomingCallWidget no longer visible; ignoring...");
+            return;
+        }
 
-                mHandler.sendEmptyMessageDelayed(
-                    INCOMING_CALL_WIDGET_PING,
-                    PING_AUTO_REPEAT_DELAY_MSEC);
-            }
+        // Ok, run a ping (and schedule the next one too, if desired...)
+
+        mIncomingCallWidget.ping();
+
+        if (ENABLE_PING_AUTO_REPEAT) {
+            // Schedule the next ping.  (ENABLE_PING_AUTO_REPEAT mode
+            // allows the ping animation to repeat much faster than in
+            // the ENABLE_PING_ON_RING_EVENTS case, since telephony RING
+            // events come fairly slowly (about 3 seconds apart.))
+
+            // No need to check here if the call is still ringing, by
+            // the way, since we hide mIncomingCallWidget as soon as the
+            // ringing stops, or if the user answers.  (And at that
+            // point, any future triggerPing() call will be a no-op.)
+
+            // TODO: Rather than having a separate timer here, maybe try
+            // having these pings synchronized with the vibrator (see
+            // VibratorThread in Ringer.java; we'd just need to get
+            // events routed from there to here, probably via the
+            // PhoneApp instance.)  (But watch out: make sure pings
+            // still work even if the Vibrate setting is turned off!)
+
+            mHandler.sendEmptyMessageDelayed(INCOMING_CALL_WIDGET_PING,
+                                             PING_AUTO_REPEAT_DELAY_MSEC);
         }
     }
 

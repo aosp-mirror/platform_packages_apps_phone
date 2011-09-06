@@ -1571,7 +1571,8 @@ public class InCallScreen extends Activity
      * Something has changed in the phone's state.  Update the UI.
      */
     private void onPhoneStateChanged(AsyncResult r) {
-        if (DBG) log("onPhoneStateChanged()...");
+        Phone.State state = mCM.getState();
+        if (DBG) log("onPhoneStateChanged: current state = " + state);
 
         // There's nothing to do here if we're not the foreground activity.
         // (When we *do* eventually come to the foreground, we'll do a
@@ -2150,6 +2151,12 @@ public class InCallScreen extends Activity
      */
     private void updateScreen() {
         if (DBG) log("updateScreen()...");
+        final InCallScreenMode inCallScreenMode = mApp.inCallUiState.inCallScreenMode;
+        if (VDBG) {
+            Phone.State state = mCM.getState();
+            log("  - phone state = " + state);
+            log("  - inCallScreenMode = " + inCallScreenMode);
+        }
 
         // Don't update anything if we're not in the foreground (there's
         // no point updating our UI widgets since we're not visible!)
@@ -2160,8 +2167,6 @@ public class InCallScreen extends Activity
             if (DBG) log("- updateScreen: not the foreground Activity! Bailing out...");
             return;
         }
-
-        final InCallScreenMode inCallScreenMode = mApp.inCallUiState.inCallScreenMode;
 
         if (inCallScreenMode == InCallScreenMode.OTA_NORMAL) {
             if (DBG) log("- updateScreen: OTA call state NORMAL...");

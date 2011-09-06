@@ -21,10 +21,6 @@
          the call info area. -->
     <dimen name="call_banner_height">80dp</dimen>
 
-    <!-- Top margin for the "upper buttons" like Hold / Swap / Merge
-         that are shown just above the main in-call button cluster. -->
-    <dimen name="upper_buttons_top_margin">280dp</dimen>
-
     <!-- Margin between the bottom of the "call card" photo
          and the top of the in-call button cluster. -->
     <dimen name="in_call_touch_ui_upper_margin">2dp</dimen>
@@ -41,9 +37,9 @@
     <dimen name="in_call_incoming_call_widget_height">260dp</dimen>
 
     <!-- Padding at the left and right edges of the "call banner". -->
-    <dimen name="call_banner_side_padding">10dp</dimen>
+    <dimen name="call_banner_side_padding">24dp</dimen>
     <!-- Padding at the top and bottom edges of the "call banner". -->
-    <dimen name="call_banner_top_bottom_padding">10dp</dimen>
+    <dimen name="call_banner_top_bottom_padding">16dp</dimen>
 
     <!-- Padding for the "call state label" at the bottom of the banner. -->
     <dimen name="call_state_label_right_padding">10dp</dimen>
@@ -69,9 +65,9 @@
 
 
     <!-- Contact photo dimensions -->
-    <dimen name="contact_photo_inset_width">144dp</dimen>
-    <dimen name="contact_photo_inset_height">144dp</dimen>
-    <dimen name="contact_photo_inset_left_margin">30dp</dimen>
+    <dimen name="contact_photo_inset_width">180dp</dimen>
+    <dimen name="contact_photo_inset_height">180dp</dimen>
+    <dimen name="contact_photo_inset_left_margin">0dp</dimen>
 
 
     <!-- Dimensions for OTA Call Card -->

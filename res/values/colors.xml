@@ -21,7 +21,8 @@
     <!-- In-call UI -->
     <color name="incall_callTypeSip">#99CE3F</color> <!-- green -->
     <color name="incall_call_banner_background">#A0000000</color> <!-- semitransparent black -->
-    <color name="incall_call_state_label_background">#A0808080</color> <!-- semitransparent grey -->
+    <color name="incall_call_state_label_background">#8033b5e5</color> <!-- semitransparent blueish grey -->
+    <color name="incall_call_banner_text_color">#FFFFFF</color> <!-- white -->
 
     <!-- DTMF Dialer -->
     <color name="dtmf_dialer_display_text">#FFFFFF</color> <!-- white -->
