@@ -19,8 +19,9 @@
     android:id="@+id/incall_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     >
+    <!-- TODO: re-enable android:animateLayoutChanges="true"
+         in the above FrameLayout (bug 5262542) -->
 
     <!-- inCallPanel: container for the CallCard. -->
     <!-- TODO: This RelativeLayout is useless since it only has
