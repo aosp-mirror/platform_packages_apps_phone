@@ -519,7 +519,7 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Llamada a tres"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Cambiar"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Administrar llamadas"</string>
-    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Administ conferencia"</string>
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Administrar conferencia"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar todos"</string>
@@ -649,7 +649,7 @@
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Se ha detenido el registro de cuenta porque no hay conexión WiFi."</string>
     <string name="registration_status_not_running" msgid="3826034902272084289">"Error al registrar la cuenta"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Recibiendo llamadas"</string>
-    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Error al registrar la cuenta: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>): inténtalo de nuevo más tarde."</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Error al registrar la cuenta: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); inténtalo de nuevo más tarde."</string>
     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Error al registrar la cuenta: nombre de usuario o contraseña incorrectos"</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Error al registrar la cuenta: comprueba el nombre del servidor."</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"La aplicación <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> está utilizando actualmente esta cuenta."</string>
@@ -713,4 +713,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"retroceder un espacio"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Altavoz habilitado"</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Llamada silenciada"</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

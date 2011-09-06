@@ -50,7 +50,7 @@
     <string name="callFailed_cdma_reorder" msgid="5605791471418711552">"CDMA: دستور مجدد."</string>
     <string name="callFailed_cdma_SO_reject" msgid="8969174256492763555">"CDMA: رد گزینه سرویس."</string>
     <string name="callFailed_cdma_retryOrder" msgid="5848488692485148804">"CDMA: دستور را دوباره انجام دهید."</string>
-    <!-- outdated translation 2844306027616452215 -->     <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: خطای دسترسی."</string>
+    <string name="callFailed_cdma_accessFailure" msgid="715977130417624962">"CDMA: دسترسی ناموفق است."</string>
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: ممانعت شد."</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"فقط تماس های اضطراری امکان پذیر است"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"شماره نامعتبر"</string>
@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"شماره پست صوتی تغییر کرد."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"تغییر شماره پست صوتی ناموفق بود. "\n"در صورت بروز مجدد مشکل، با شرکت مخابراتی خود تماس بگیرید."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"تغییر شماره هدایت تماس ناموفق بود."\n"در صورت بروز مجدد مشکل، با شرکت مخابراتی خود تماس بگیرید."</string>
-    <!-- outdated translation 6776365552098929353 -->     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"تنظیمات شماره هدایت فعلی بازیابی و ذخیره نشد."\n"آیا با این وجود می خواهید به ارائه دهنده جدید بروید؟"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"نمی‌توان تنظیمات هدایت شماره فعلی را بازیابی و ذخیره کرد."\n"به هر حال به ارائه دهنده جدید تغییر کند؟"</string>
     <string name="no_change" msgid="3186040086622435212">"تغییری انجام نشده است."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"انتخاب سرویس پست صوتی"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"شرکت مخابراتی من"</string>
@@ -643,12 +643,11 @@
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"تماس دریافتی موجود نیست"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"ثبت حساب به دلیل عدم وجود اتصال اینترنتی متوقف شد"</string>
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"ثبت حساب به دلیل عدم وجود اتصال Wi-Fi متوقف شد"</string>
-    <!-- outdated translation 272678962440371182 -->     <string name="registration_status_not_running" msgid="3826034902272084289">"قسمت ثبت حساب"</string>
+    <string name="registration_status_not_running" msgid="3826034902272084289">"ثبت حساب ناموفق بود"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"دریافت تماس ها"</string>
-    <!-- no translation found for registration_status_failed_try_later (5214474354451220581) -->
-    <skip />
-    <!-- outdated translation 1830368411591265203 -->     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"ثبت حساب انجام نشد: نام کاربری یا رمز ورود نادرست"</string>
-    <!-- outdated translation 8173553259218123653 -->     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"ثبت حساب انجام نشد: لطفاً نام سرور را بررسی کنید"</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"ثبت حساب ناموفق بود: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>)، بعداً امتحان می‌شود"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"ثبت حساب ناموفق بود: نام کاربری یا گذرواژه نادرست"</string>
+    <string name="registration_status_server_unreachable" msgid="9138794150602726009">"ثبت حساب ناموفق بود: نام سرور را بررسی کنید"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"این حساب هم اکنون توسط <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> درحال استفاده است"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"جزئیات حساب SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"جزئیات حساب SIP"</string>
@@ -710,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"Backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"تلفن آیفون‌دار فعال شد."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"تماس نادیده گرفته شد."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>

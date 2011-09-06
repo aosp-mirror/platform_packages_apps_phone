@@ -646,7 +646,7 @@
     <string name="registration_status_not_running" msgid="3826034902272084289">"Nesėkminga paskyros registracija"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Gaunami skambučiai"</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Paskyros registracija nepavyko: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); bus bandoma vėliau"</string>
-    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Paskyros registracija nepavyko: neteisingas naudotojo vardas arba slaptažodis"</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Paskyros registracija nepavyko: netinkamas naudotojo vardas arba slaptažodis"</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Nesėkminga paskyros registracija: patikrinkite serverio pavadinimą"</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Šią paskyrą šiuo metu naudoja programa „<xliff:g id="ACCOUNT_OWNER">%s</xliff:g>“"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Išsami SIP paskyros informacija"</string>
@@ -709,4 +709,10 @@
     <string name="description_delete_button" msgid="4015842181592283903">"naikinimo klavišas"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Garsiakalbis įgalintas."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Skambutis nutildytas."</string>
+    <!-- no translation found for description_target_answer (7205604197797472471) -->
+    <skip />
+    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
+    <skip />
+    <!-- no translation found for description_target_decline (4789834364389731957) -->
+    <skip />
 </resources>
