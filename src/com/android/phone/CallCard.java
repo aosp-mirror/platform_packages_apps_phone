@@ -183,7 +183,7 @@ public class CallCard extends LinearLayout
 
         mApplication = PhoneApp.getInstance();
 
-        mCallTime = new CallTime(this);
+        mCallTime = new CallTime(this, context);
 
         // create a new object to track the state for the photo.
         mPhotoTracker = new ContactsAsyncHelper.ImageTracker();
