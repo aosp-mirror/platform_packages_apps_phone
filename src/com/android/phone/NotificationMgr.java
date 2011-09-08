@@ -495,7 +495,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         mNotificationManager.cancel(MISSED_CALL_NOTIFICATION);
     }
 
-    void notifySpeakerphone() {
+    private void notifySpeakerphone() {
         if (!mShowingSpeakerphoneIcon) {
             mStatusBarManager.setIcon("speakerphone", android.R.drawable.stat_sys_speakerphone, 0,
                     mContext.getString(R.string.accessibility_speakerphone_enabled));
@@ -503,7 +503,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
     }
 
-    void cancelSpeakerphone() {
+    private void cancelSpeakerphone() {
         if (mShowingSpeakerphoneIcon) {
             mStatusBarManager.removeIcon("speakerphone");
             mShowingSpeakerphoneIcon = false;
@@ -511,17 +511,56 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     /**
-     * Calls either notifySpeakerphone() or cancelSpeakerphone() based on
-     * the actual current state of the speaker.
+     * Shows or hides the "speakerphone" notification in the status bar,
+     * based on the actual current state of the speaker.
+     *
+     * If you already know the current speaker state (e.g. if you just
+     * called AudioManager.setSpeakerphoneOn() yourself) then you should
+     * directly call {@link updateSpeakerNotification(boolean)} instead.
+     *
+     * (But note that the status bar icon is *never* shown while the in-call UI
+     * is active; it only appears if you bail out to some other activity.)
      */
-    void updateSpeakerNotification() {
+    public void updateSpeakerNotification() {
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        boolean showNotification =
+                (mPhone.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn();
 
-        if ((mPhone.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn()) {
-            if (DBG) log("updateSpeakerNotification: speaker ON");
+        if (DBG) log(showNotification
+                     ? "updateSpeakerNotification: speaker ON"
+                     : "updateSpeakerNotification: speaker OFF (or not offhook)");
+
+        updateSpeakerNotification(showNotification);
+    }
+
+    /**
+     * Shows or hides the "speakerphone" notification in the status bar.
+     *
+     * @param showNotification if true, call notifySpeakerphone();
+     *                         if false, call cancelSpeakerphone().
+     *
+     * Use {@link updateSpeakerNotification()} to update the status bar
+     * based on the actual current state of the speaker.
+     *
+     * (But note that the status bar icon is *never* shown while the in-call UI
+     * is active; it only appears if you bail out to some other activity.)
+     */
+    public void updateSpeakerNotification(boolean showNotification) {
+        if (DBG) log("updateSpeakerNotification(" + showNotification + ")...");
+
+        // Regardless of the value of the showNotification param, suppress
+        // the status bar icon if the the InCallScreen is the foreground
+        // activity, since the in-call UI already provides an onscreen
+        // indication of the speaker state.  (This reduces clutter in the
+        // status bar.)
+        if (mApp.isShowingCallScreen()) {
+            cancelSpeakerphone();
+            return;
+        }
+
+        if (showNotification) {
             notifySpeakerphone();
         } else {
-            if (DBG) log("updateSpeakerNotification: speaker OFF (or not offhook)");
             cancelSpeakerphone();
         }
     }
@@ -542,10 +581,22 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     }
 
     /**
-     * Calls either notifyMute() or cancelMute() based on
-     * the actual current mute state of the Phone.
+     * Shows or hides the "mute" notification in the status bar,
+     * based on the current mute state of the Phone.
+     *
+     * (But note that the status bar icon is *never* shown while the in-call UI
+     * is active; it only appears if you bail out to some other activity.)
      */
     void updateMuteNotification() {
+        // Suppress the status bar icon if the the InCallScreen is the
+        // foreground activity, since the in-call UI already provides an
+        // onscreen indication of the mute state.  (This reduces clutter
+        // in the status bar.)
+        if (mApp.isShowingCallScreen()) {
+            cancelMute();
+            return;
+        }
+
         if ((mCM.getState() == Phone.State.OFFHOOK) && PhoneUtils.getMute()) {
             if (DBG) log("updateMuteNotification: MUTED");
             notifyMute();
@@ -663,6 +714,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // when a new incoming call comes in.
         if (mApp.isShowingCallScreen() && !hasRingingCall) {
             cancelInCall();
+            // Suppress the mute and speaker status bar icons too
+            // (also to reduce clutter in the status bar.)
+            cancelSpeakerphone();
+            cancelMute();
             return;
         }
 
@@ -1091,7 +1146,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setClassName("com.android.phone",
                         "com.android.phone.CallFeaturesSetting");
-
 
                 notification = new Notification(
                         R.drawable.stat_sys_phone_call_forward,  // icon
