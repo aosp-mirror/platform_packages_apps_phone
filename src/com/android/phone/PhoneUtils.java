@@ -1710,18 +1710,17 @@ public class PhoneUtils {
     static void turnOnSpeaker(Context context, boolean flag, boolean store) {
         if (DBG) log("turnOnSpeaker(flag=" + flag + ", store=" + store + ")...");
         final PhoneApp app = PhoneApp.getInstance();
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audioManager.setSpeakerphoneOn(flag);
+
         // record the speaker-enable value
         if (store) {
             sIsSpeakerEnabled = flag;
         }
-        if (flag) {
-            app.notificationMgr.notifySpeakerphone();
-        } else {
-            app.notificationMgr.cancelSpeakerphone();
-        }
+
+        // Update the status bar icon
+        app.notificationMgr.updateSpeakerNotification(flag);
 
         // We also need to make a fresh call to PhoneApp.updateWakeState()
         // any time the speaker state changes, since the screen timeout is
