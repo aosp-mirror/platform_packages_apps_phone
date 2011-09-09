@@ -28,8 +28,20 @@ import android.util.Log;
 import android.view.WindowManager;
 
 /**
- * Helper class to listen for some magic character sequences
+ * Helper class to listen for some magic dialpad character sequences
  * that are handled specially by the Phone app.
+ *
+ * Note the Contacts app also handles these sequences too, so there's a
+ * separate version of this class under apps/Contacts.
+ *
+ * In fact, the most common use case for these special sequences is typing
+ * them from the regular "Dialer" used for outgoing calls, which is part
+ * of the contacts app; see DialtactsActivity and DialpadFragment.
+ * *This* version of SpecialCharSequenceMgr is used for only a few
+ * relatively obscure places in the UI:
+ * - The "SIM network unlock" PIN entry screen (see
+ *   IccNetworkDepersonalizationPanel.java)
+ * - The emergency dialer (see EmergencyDialer.java).
  *
  * TODO: there's lots of duplicated code between this class and the
  * corresponding class under apps/Contacts.  Let's figure out a way to
@@ -217,8 +229,9 @@ public class SpecialCharSequenceMgr {
                 .setMessage(deviceId)
                 .setPositiveButton(R.string.ok, null)
                 .setCancelable(false)
-                .show();
+                .create();
         alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
+        alert.show();
     }
 
     private static void log(String msg) {
