@@ -124,7 +124,7 @@
                     >
                     <ImageButton android:id="@+id/manageConferenceButton"
                         style="@style/InCallButton"
-                        android:src="@drawable/ic_manage_holo_dark"
+                        android:src="@drawable/ic_groups_holo_dark"
                         android:contentDescription="@string/onscreenManageConferenceText"
                         />
                     <TextView
