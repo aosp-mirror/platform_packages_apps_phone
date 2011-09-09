@@ -572,10 +572,17 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     public boolean onOptionsItemSelected(MenuItem item) {
         final int itemId = item.getItemId();
         if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
-            Intent intent = new Intent(Intent.ACTION_MAIN);
+            // Commenting out "logical up" capability. This is a workaround for issue 5278083.
+            //
+            // Settings app may not launch this activity via UP_ACTIVITY_CLASS but the other
+            // Activity that looks exactly same as UP_ACTIVITY_CLASS ("SubSettings" Activity).
+            // At that moment, this Activity launches UP_ACTIVITY_CLASS on top of the Activity.
+            // which confuses users.
+            // TODO: introduce better mechanism for "up" capability here.
+            /*Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setClassName(UP_ACTIVITY_PACKAGE, UP_ACTIVITY_CLASS);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            startActivity(intent);*/
             finish();
             return true;
         }
