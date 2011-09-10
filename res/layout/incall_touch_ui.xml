@@ -25,6 +25,7 @@
      Exactly one of these is visible at any given moment.
      -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:prvandroid="http://schemas.android.com/apk/prv/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -52,20 +53,20 @@
         android:background="@android:color/black"
         android:visibility="gone"
 
-        android:targetDrawables="@array/incoming_call_widget_3way_targets"
-        android:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
-        android:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
-        android:handleDrawable="@drawable/ic_in_call_touch_handle"
-        android:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
-        android:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
-        android:snapMargin="@*android:dimen/multiwaveview_snap_margin"
-        android:hitRadius="@*android:dimen/multiwaveview_hit_radius"
-        android:vibrationDuration="20"
-        android:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
-        android:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
-        android:feedbackCount="3"
-        android:horizontalOffset="0dip"
-        android:verticalOffset="20dip"
+        prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
+        prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
+        prvandroid:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
+        prvandroid:handleDrawable="@drawable/ic_in_call_touch_handle"
+        prvandroid:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
+        prvandroid:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
+        prvandroid:snapMargin="@*android:dimen/multiwaveview_snap_margin"
+        prvandroid:hitRadius="@*android:dimen/multiwaveview_hit_radius"
+        prvandroid:vibrationDuration="20"
+        prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
+        prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
+        prvandroid:feedbackCount="3"
+        prvandroid:horizontalOffset="0dip"
+        prvandroid:verticalOffset="20dip"
         />
 
     <!--
