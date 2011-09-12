@@ -333,7 +333,7 @@
     <item msgid="1268081943590316978">"2"</item>
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
-    <string name="prefer_2g" msgid="8442550937280449639">"Utilizar sólo redes 2G"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Utilizar solo redes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorrar batería"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Selección de sistema"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Cambiar modo de itinerancia CDMA"</string>
@@ -713,10 +713,7 @@
     <string name="description_delete_button" msgid="4015842181592283903">"retroceder un espacio"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Altavoz habilitado"</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Llamada silenciada"</string>
-    <!-- no translation found for description_target_answer (7205604197797472471) -->
-    <skip />
-    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
-    <skip />
-    <!-- no translation found for description_target_decline (4789834364389731957) -->
-    <skip />
+    <string name="description_target_answer" msgid="7205604197797472471">"Responder"</string>
+    <string name="description_target_send_sms" msgid="2098326025587950144">"Enviar SMS"</string>
+    <string name="description_target_decline" msgid="4789834364389731957">"Rechazar"</string>
 </resources>
