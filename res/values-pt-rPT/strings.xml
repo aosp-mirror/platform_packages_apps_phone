@@ -31,7 +31,7 @@
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Sem resposta, tempo limite excedido"</string>
     <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Servidor inacessível"</string>
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Número incontactável"</string>
-    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Nome de utilizador ou palavra-passe incorrectos"</string>
+    <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Nome de utilizador ou palavra-passe incorretos"</string>
     <string name="callFailed_out_of_network" msgid="6485167392133436262">"Chamada efectuada de fora da rede"</string>
     <string name="callFailed_server_error" msgid="5717915213586193217">"Erro do servidor. Tente novamente mais tarde."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Sem sinal"</string>
@@ -709,10 +709,7 @@
     <string name="description_delete_button" msgid="4015842181592283903">"retrocesso"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Alta voz ativada."</string>
     <string name="accessibility_call_muted" msgid="2776111226185342220">"Chamada sem som."</string>
-    <!-- no translation found for description_target_answer (7205604197797472471) -->
-    <skip />
-    <!-- no translation found for description_target_send_sms (2098326025587950144) -->
-    <skip />
-    <!-- no translation found for description_target_decline (4789834364389731957) -->
-    <skip />
+    <string name="description_target_answer" msgid="7205604197797472471">"Atender"</string>
+    <string name="description_target_send_sms" msgid="2098326025587950144">"Enviar SMS"</string>
+    <string name="description_target_decline" msgid="4789834364389731957">"Recusar"</string>
 </resources>
