@@ -846,7 +846,8 @@ public class CallNotifier extends Handler
 
         if (fgPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             Connection c = fgPhone.getForegroundCall().getLatestConnection();
-            if ((c != null) && (PhoneNumberUtils.isEmergencyNumber(c.getAddress()))) {
+            if ((c != null) && (PhoneNumberUtils.isLocalEmergencyNumber(c.getAddress(),
+                                                                        mApplication))) {
                 if (VDBG) log("onPhoneStateChanged: it is an emergency call.");
                 Call.State callState = fgPhone.getForegroundCall().getState();
                 if (mEmergencyTonePlayerVibrator == null) {
@@ -1146,7 +1147,8 @@ public class CallNotifier extends Handler
             final long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
             final Phone phone = c.getCall().getPhone();
-
+            final boolean isEmergencyNumber =
+                    PhoneNumberUtils.isLocalEmergencyNumber(number, mApplication);
             // Set the "type" to be displayed in the call log (see constants in CallLog.Calls)
             final int callLogType;
             if (c.isIncoming()) {
@@ -1172,7 +1174,7 @@ public class CallNotifier extends Handler
                 final int presentation = getPresentation(c, ci);
 
                 if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-                    if ((PhoneNumberUtils.isEmergencyNumber(number))
+                    if ((isEmergencyNumber)
                             && (mCurrentEmergencyToneState != EMERGENCY_TONE_OFF)) {
                         if (mEmergencyTonePlayerVibrator != null) {
                             mEmergencyTonePlayerVibrator.stop();
@@ -1191,7 +1193,6 @@ public class CallNotifier extends Handler
                 // Don't call isOtaSpNumber() on phones that don't support OTASP.
                 final boolean isOtaspNumber = TelephonyCapabilities.supportsOtasp(phone)
                         && phone.isOtaSpNumber(number);
-                final boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
 
                 // Don't log emergency numbers if the device doesn't allow it,
                 // and never log OTASP calls.
@@ -1251,7 +1252,7 @@ public class CallNotifier extends Handler
 
             if (((mPreviousCdmaCallState == Call.State.DIALING)
                     || (mPreviousCdmaCallState == Call.State.ALERTING))
-                    && (!PhoneNumberUtils.isEmergencyNumber(number))
+                    && (!isEmergencyNumber)
                     && (cause != Connection.DisconnectCause.INCOMING_MISSED )
                     && (cause != Connection.DisconnectCause.NORMAL)
                     && (cause != Connection.DisconnectCause.LOCAL)

@@ -60,11 +60,10 @@ import com.android.internal.telephony.cdma.CdmaConnection;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.sip.SipPhone;
 
-
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Misc utilities for the Phone app.
@@ -1971,7 +1970,8 @@ public class PhoneUtils {
                      event.getRepeatCount() == 0) {
                 Connection c = phone.getForegroundCall().getLatestConnection();
                 // If it is NOT an emg #, toggle the mute state. Otherwise, ignore the hook.
-                if (c != null && !PhoneNumberUtils.isEmergencyNumber(c.getAddress())) {
+                if (c != null && !PhoneNumberUtils.isLocalEmergencyNumber(c.getAddress(),
+                                                                          PhoneApp.getInstance())) {
                     if (getMute()) {
                         if (DBG) log("handleHeadsetHook: UNmuting...");
                         setMute(false);
