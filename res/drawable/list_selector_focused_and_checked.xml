@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<!-- Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,13 +14,7 @@
      limitations under the License.
 -->
 
-<!-- Background resource for digit buttons in the various dialpads
-     used by the phone app (see dialpad.xml), and for various buttons
-     in the in-call UI (see incall_touch_ui.xml and the "InCallButton" style.) -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-        android:drawable="@drawable/btn_dial_pressed" />
-    <item android:state_focused="true"
-        android:drawable="@drawable/btn_dial_selected" />
-    <!-- no default drawable -->
-</selector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/ic_active_state_dialer_holo_dark" />
+    <item android:drawable="@drawable/list_focused_holo" />
+</layer-list>
