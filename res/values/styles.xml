@@ -171,7 +171,7 @@
     <style name="InCallButton">
         <item name="android:layout_width">@dimen/in_call_button_width</item>
         <item name="android:layout_height">@dimen/in_call_button_height</item>
-        <item name="android:background">@drawable/btn_dial</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <!-- "Compound button" variation of InCallButton.
@@ -189,7 +189,7 @@
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">@dimen/in_call_end_button_height</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/btn_dial</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <!-- Text label drawn alongside buttons in the "extra button row" of
@@ -223,7 +223,7 @@
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/btn_dial</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:soundEffectsEnabled">false</item>
     </style>
 
