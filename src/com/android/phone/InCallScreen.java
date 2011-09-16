@@ -491,6 +491,7 @@ public class InCallScreen extends Activity
         setPhone(mApp.phone);  // Sets mPhone
 
         mCM =  mApp.mCM;
+        log("- onCreate: phone state = " + mCM.getState());
 
         mBluetoothHandsfree = mApp.getBluetoothHandsfree();
         if (VDBG) log("- mBluetoothHandsfree: " + mBluetoothHandsfree);
@@ -1067,7 +1068,7 @@ public class InCallScreen extends Activity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (DBG) log("onNewIntent: intent=" + intent);
+        log("onNewIntent: intent = " + intent + ", phone state = " + mCM.getState());
 
         // We're being re-launched with a new Intent.  Since it's possible for a
         // single InCallScreen instance to persist indefinitely (even if we
@@ -2545,12 +2546,10 @@ public class InCallScreen extends Activity
     }
 
     private void onHoldClick() {
-        if (VDBG) log("onHoldClick()...");
-
         final boolean hasActiveCall = mCM.hasActiveFgCall();
         final boolean hasHoldingCall = mCM.hasActiveBgCall();
-        if (VDBG) log("- hasActiveCall = " + hasActiveCall
-                      + ", hasHoldingCall = " + hasHoldingCall);
+        log("onHoldClick: hasActiveCall = " + hasActiveCall
+            + ", hasHoldingCall = " + hasHoldingCall);
         boolean newHoldState;
         boolean holdButtonEnabled;
         if (hasActiveCall && !hasHoldingCall) {
@@ -2583,13 +2582,13 @@ public class InCallScreen extends Activity
      * wired headset.)
      */
     public void toggleSpeaker() {
-        if (VDBG) log("toggleSpeaker()...");
-
         // TODO: Turning on the speaker seems to enable the mic
         //   whether or not the "mute" feature is active!
         // Not sure if this is an feature of the telephony API
         //   that I need to handle specially, or just a bug.
         boolean newSpeakerState = !PhoneUtils.isSpeakerOn(this);
+        log("toggleSpeaker(): newSpeakerState = " + newSpeakerState);
+
         if (newSpeakerState && isBluetoothAvailable() && isBluetoothAudioConnected()) {
             disconnectBluetoothAudio();
         }
@@ -2605,8 +2604,8 @@ public class InCallScreen extends Activity
      * onMuteClick is called only when there is a foreground call
      */
     private void onMuteClick() {
-        if (VDBG) log("onMuteClick()...");
         boolean newMuteState = !PhoneUtils.getMute();
+        log("onMuteClick(): newMuteState = " + newMuteState);
         PhoneUtils.setMute(newMuteState);
     }
 
@@ -2666,7 +2665,7 @@ public class InCallScreen extends Activity
      * we can get rid of toggleBluetooth() and toggleSpeaker().
      */
     public void switchInCallAudio(InCallAudioMode newMode) {
-        if (DBG) log("switchInCallAudio: new mode = " + newMode);
+        log("switchInCallAudio: new mode = " + newMode);
         switch (newMode) {
             case SPEAKER:
                 if (!PhoneUtils.isSpeakerOn(this)) {
@@ -3294,7 +3293,7 @@ public class InCallScreen extends Activity
      * ringing or waiting call.
      */
     private void internalAnswerCall() {
-        // if (DBG) log("internalAnswerCall()...");
+        log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
@@ -3377,7 +3376,7 @@ public class InCallScreen extends Activity
      * @see RespondViaSmsManager
      */
     private void internalRespondViaSms() {
-        if (DBG) log("internalRespondViaSms()...");
+        log("internalRespondViaSms()...");
         if (VDBG) PhoneUtils.dumpCallManager();
 
         if (mRespondViaSmsManager == null) {
@@ -3401,7 +3400,7 @@ public class InCallScreen extends Activity
      * Hang up the current active call.
      */
     private void internalHangup() {
-        if (DBG) log("internalHangup()...");
+        log("internalHangup()...");
         PhoneUtils.hangup(mCM);
     }
 
