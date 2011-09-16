@@ -181,7 +181,7 @@ public class CallController extends Handler {
      *      it's visible.
      */
     public void placeCall(Intent intent) {
-        if (DBG) log("placeCall()...  intent = " + intent);
+        log("placeCall()...  intent = " + intent);
         if (VDBG) log("                extras = " + intent.getExtras());
 
         final InCallUiState inCallUiState = mApp.inCallUiState;

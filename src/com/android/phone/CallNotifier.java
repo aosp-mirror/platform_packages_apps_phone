@@ -231,7 +231,7 @@ public class CallNotifier extends Handler
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case PHONE_NEW_RINGING_CONNECTION:
-                if (DBG) log("RINGING... (new)");
+                log("RINGING... (new)");
                 onNewRingingConnection((AsyncResult) msg.obj);
                 mSilentRingerRequested = false;
                 break;
@@ -387,7 +387,7 @@ public class CallNotifier extends Handler
      */
     private void onNewRingingConnection(AsyncResult r) {
         Connection c = (Connection) r.result;
-        if (DBG) log("onNewRingingConnection(): " + c);
+        log("onNewRingingConnection(): state = " + mCM.getState() + ", conn = { " + c + " }");
         Call ringing = c.getCall();
         Phone phone = ringing.getPhone();
 
@@ -702,7 +702,7 @@ public class CallNotifier extends Handler
      * @see NotificationMgr.updateNotificationAndLaunchIncomingCallUi()
      */
     private void showIncomingCall() {
-        if (DBG) log("showIncomingCall()...");
+        log("showIncomingCall()...  phone state = " + mCM.getState());
 
         // Before bringing up the "incoming call" UI, force any system
         // dialogs (like "recent tasks" or the power dialog) to close first.
@@ -990,7 +990,7 @@ public class CallNotifier extends Handler
         mVoicePrivacyState = false;
         Connection c = (Connection) r.result;
         if (c != null) {
-            Log.d(LOG_TAG, "onDisconnect: cause = " + c.getDisconnectCause()
+            log("onDisconnect: cause = " + c.getDisconnectCause()
                   + ", incoming = " + c.isIncoming()
                   + ", date = " + c.getCreateTime());
         } else {
