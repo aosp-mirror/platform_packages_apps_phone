@@ -119,9 +119,12 @@ public class InCallControlState {
         // "Add call":
         canAddCall = PhoneUtils.okToAddCall(mCM);
 
-        // "End call": always enabled unless the phone is totally idle,
-        // e.g. during the "Call ended" state we show briefly after a disconnect.
-        canEndCall = (state != Phone.State.IDLE);
+        // "End call": always enabled.
+        // We keep this button enabled even in states where it's technically not
+        // needed, like during the brief "Call ended" state, where the phone is
+        // IDLE.  (See InCallScreen.internalHangup() for the handling of that
+        // case.)
+        canEndCall = true;
 
         // Swap / merge calls
         canSwap = PhoneUtils.okToSwapCalls(mCM);
