@@ -367,7 +367,7 @@ public class CallController extends Handler {
             return CallStatusCode.NO_PHONE_NUMBER_SUPPLIED;
         }
 
-        boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
+        boolean isEmergencyNumber = PhoneNumberUtils.isLocalEmergencyNumber(number, mApp);
         boolean isEmergencyIntent = Intent.ACTION_CALL_EMERGENCY.equals(intent.getAction());
 
         if (isEmergencyNumber && !isEmergencyIntent) {

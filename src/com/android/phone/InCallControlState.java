@@ -147,7 +147,9 @@ public class InCallControlState {
         // emergency callback mode (ECM) is active.
         Connection c = fgCall.getLatestConnection();
         boolean isEmergencyCall = false;
-        if (c != null) isEmergencyCall = PhoneNumberUtils.isEmergencyNumber(c.getAddress());
+        if (c != null) isEmergencyCall =
+                PhoneNumberUtils.isLocalEmergencyNumber(c.getAddress(),
+                                                        fgCall.getPhone().getContext());
         boolean isECM = PhoneUtils.isPhoneInEcm(fgCall.getPhone());
         if (isEmergencyCall || isECM) {  // disable "Mute" item
             canMute = false;
