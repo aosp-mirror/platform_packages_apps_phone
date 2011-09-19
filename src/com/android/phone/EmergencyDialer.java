@@ -44,6 +44,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+
 /**
  * EmergencyDialer is a special dialer that is used ONLY for dialing emergency calls.
  *
@@ -487,7 +488,7 @@ public class EmergencyDialer extends Activity
      */
     void placeCall() {
         mLastNumber = mDigits.getText().toString();
-        if (PhoneNumberUtils.isEmergencyNumber(mLastNumber)) {
+        if (PhoneNumberUtils.isLocalEmergencyNumber(mLastNumber, this)) {
             if (DBG) Log.d(LOG_TAG, "placing call to " + mLastNumber);
 
             // place the call if it is a valid number
@@ -509,7 +510,6 @@ public class EmergencyDialer extends Activity
             showDialog(BAD_EMERGENCY_NUMBER_DIALOG);
         }
     }
-
 
     /**
      * Plays the specified tone for TONE_LENGTH_MS milliseconds.

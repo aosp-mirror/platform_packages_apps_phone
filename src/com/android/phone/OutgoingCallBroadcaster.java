@@ -33,6 +33,7 @@ import android.util.Log;
 
 import com.android.internal.telephony.Phone;
 
+
 /**
  * OutgoingCallBroadcaster receives CALL and CALL_PRIVILEGED Intents, and
  * broadcasts the ACTION_NEW_OUTGOING_CALL intent which allows other
@@ -167,7 +168,7 @@ public class OutgoingCallBroadcaster extends Activity
                     && (app.phone.isOtaSpNumber(number))) {
                 if (DBG) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
                 return;
-            } else if (PhoneNumberUtils.isEmergencyNumber(number)) {
+            } else if (PhoneNumberUtils.isLocalEmergencyNumber(number, context)) {
                 Log.w(TAG, "Cannot modify outgoing call to emergency number " + number + ".");
                 return;
             }
@@ -348,7 +349,7 @@ public class OutgoingCallBroadcaster extends Activity
             }
         }
         final boolean emergencyNumber =
-                (number != null) && PhoneNumberUtils.isEmergencyNumber(number);
+                (number != null) && PhoneNumberUtils.isLocalEmergencyNumber(number, this);
 
         boolean callNow;
 
