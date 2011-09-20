@@ -825,7 +825,7 @@ public class InCallScreen extends Activity
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)
                 && mCM.getState() != Phone.State.RINGING) {
-            if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
+            log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
             endInCallScreenSession();
         }
 
@@ -979,7 +979,7 @@ public class InCallScreen extends Activity
      * not be in an old state.
      */
     public void endInCallScreenSession() {
-        if (DBG) log("endInCallScreenSession()...");
+        if (DBG) log("endInCallScreenSession()... phone state = " + mCM.getState());
         endInCallScreenSession(false);
     }
 
@@ -991,7 +991,7 @@ public class InCallScreen extends Activity
      *        @see finish()
      */
     private void endInCallScreenSession(boolean forceFinish) {
-        if (DBG) log("endInCallScreenSession(" + forceFinish + ")...");
+        log("endInCallScreenSession(" + forceFinish + ")...  phone state = " + mCM.getState());
         if (forceFinish) {
             Log.i(LOG_TAG, "endInCallScreenSession(): FORCING a call to super.finish()!");
             super.finish();  // Call super.finish() rather than our own finish() method,
@@ -2399,7 +2399,7 @@ public class InCallScreen extends Activity
      * nothing, and instead stay here on the InCallScreen.
      */
     private void delayedCleanupAfterDisconnect() {
-        if (VDBG) log("delayedCleanupAfterDisconnect()...  Phone state = " + mCM.getState());
+        log("delayedCleanupAfterDisconnect()...  Phone state = " + mCM.getState());
 
         // Clean up any connections in the DISCONNECTED state.
         //
@@ -2413,7 +2413,6 @@ public class InCallScreen extends Activity
         // connections still in that state.]
         mCM.clearDisconnected();
 
-
         // There are two cases where we should *not* exit the InCallScreen:
         //   (1) Phone is still in use
         // or
@@ -2423,7 +2422,7 @@ public class InCallScreen extends Activity
         boolean stayHere = phoneIsInUse() || mApp.inCallUiState.isProgressIndicationActive();
 
         if (stayHere) {
-            if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
+            log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
         } else {
             // Phone is idle!  We should exit the in-call UI now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
@@ -3400,8 +3399,52 @@ public class InCallScreen extends Activity
      * Hang up the current active call.
      */
     private void internalHangup() {
-        log("internalHangup()...");
+        Phone.State state = mCM.getState();
+        log("internalHangup()...  phone state = " + state);
+
+        // Regardless of the phone state, issue a hangup request.
+        // (If the phone is already idle, this call will presumably have no
+        // effect (but also see the note below.))
         PhoneUtils.hangup(mCM);
+
+        // If the user just hung up the only active call, we'll eventually exit
+        // the in-call UI after the following sequence:
+        // - When the hangup() succeeds, we'll get a DISCONNECT event from
+        //   the telephony layer (see onDisconnect()).
+        // - We immediately switch to the "Call ended" state (see the "delayed
+        //   bailout" code path in onDisconnect()) and also post a delayed
+        //   DELAYED_CLEANUP_AFTER_DISCONNECT message.
+        // - When the DELAYED_CLEANUP_AFTER_DISCONNECT message comes in (see
+        //   delayedCleanupAfterDisconnect()) we do some final cleanup, and exit
+        //   this activity unless the phone is still in use (i.e. if there's
+        //   another call, or something else going on like an active MMI
+        //   sequence.)
+
+        if (state == Phone.State.IDLE) {
+            // The user asked us to hang up, but the phone was (already) idle!
+            Log.w(LOG_TAG, "internalHangup(): phone is already IDLE!");
+
+            // This is rare, but can happen in a few cases:
+            // (a) If the user quickly double-taps the "End" button.  In this case
+            //   we'll see that 2nd press event during the brief "Call ended"
+            //   state (where the phone is IDLE), or possibly even before the
+            //   radio has been able to respond to the initial hangup request.
+            // (b) More rarely, this can happen if the user presses "End" at the
+            //   exact moment that the call ends on its own (like because of the
+            //   other person hanging up.)
+            // (c) Finally, this could also happen if we somehow get stuck here on
+            //   the InCallScreen with the phone truly idle, perhaps due to a
+            //   bug where we somehow *didn't* exit when the phone became idle
+            //   in the first place.
+
+            // TODO: as a "safety valve" for case (c), consider immediately
+            // bailing out of the in-call UI right here.  (The user can always
+            // bail out by pressing Home, of course, but they'll probably try
+            // pressing End first.)
+            //
+            //    Log.i(LOG_TAG, "internalHangup(): phone is already IDLE!  Bailing out...");
+            //    endInCallScreenSession();
+        }
     }
 
     /**
