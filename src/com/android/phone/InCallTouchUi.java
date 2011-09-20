@@ -88,10 +88,9 @@ public class InCallTouchUi extends FrameLayout
     private View mHoldSwapSpacer;
     //
     private ViewGroup mExtraButtonRow;
-    private ViewGroup mCdmaMergeButtonContainer;
-    private ImageButton mCdmaMergeButton;
-    private ViewGroup mManageConferenceButtonContainer;
-    private ImageButton mManageConferenceButton;
+    private ViewGroup mCdmaMergeButton;
+    private ViewGroup mManageConferenceButton;
+    private ImageButton mManageConferenceButtonImage;
 
     // "Audio mode" PopupMenu
     private PopupMenu mAudioModePopup;
@@ -197,16 +196,17 @@ public class InCallTouchUi extends FrameLayout
 
         // Buttons shown on the "extra button row", only visible in certain (rare) states.
         mExtraButtonRow = (ViewGroup) mInCallControls.findViewById(R.id.extraButtonRow);
-        mCdmaMergeButtonContainer =
-                (ViewGroup) mInCallControls.findViewById(R.id.cdmaMergeButtonContainer);
+        // The two "buttons" here (mCdmaMergeButton and mManageConferenceButton)
+        // are actually layouts containing an icon and a text label side-by-side.
         mCdmaMergeButton =
-                (ImageButton) mInCallControls.findViewById(R.id.cdmaMergeButton);
+                (ViewGroup) mInCallControls.findViewById(R.id.cdmaMergeButton);
         mCdmaMergeButton.setOnClickListener(this);
-        mManageConferenceButtonContainer =
-                (ViewGroup) mInCallControls.findViewById(R.id.manageConferenceButtonContainer);
+        //
         mManageConferenceButton =
-                (ImageButton) mInCallControls.findViewById(R.id.manageConferenceButton);
+                (ViewGroup) mInCallControls.findViewById(R.id.manageConferenceButton);
         mManageConferenceButton.setOnClickListener(this);
+        mManageConferenceButtonImage =
+                (ImageButton) mInCallControls.findViewById(R.id.manageConferenceButtonImage);
 
         // Add a custom OnTouchListener to manually shrink the "hit
         // target" of some buttons.
@@ -514,10 +514,10 @@ public class InCallTouchUi extends FrameLayout
         boolean showCdmaMerge =
                 (phoneType == Phone.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
         if (showCdmaMerge) {
-            mCdmaMergeButtonContainer.setVisibility(View.VISIBLE);
+            mCdmaMergeButton.setVisibility(View.VISIBLE);
             showExtraButtonRow = true;
         } else {
-            mCdmaMergeButtonContainer.setVisibility(View.GONE);
+            mCdmaMergeButton.setVisibility(View.GONE);
         }
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             if (inCallControlState.canSwap && inCallControlState.canMerge) {
@@ -534,11 +534,11 @@ public class InCallTouchUi extends FrameLayout
         // "Manage conference" (used only on GSM devices)
         // This button and its label are shown or hidden together.
         if (inCallControlState.manageConferenceVisible) {
-            mManageConferenceButtonContainer.setVisibility(View.VISIBLE);
+            mManageConferenceButton.setVisibility(View.VISIBLE);
             showExtraButtonRow = true;
-            mManageConferenceButton.setEnabled(inCallControlState.manageConferenceEnabled);
+            mManageConferenceButtonImage.setEnabled(inCallControlState.manageConferenceEnabled);
         } else {
-            mManageConferenceButtonContainer.setVisibility(View.GONE);
+            mManageConferenceButton.setVisibility(View.GONE);
         }
 
         // Finally, update the "extra button row": It's displayed above the
