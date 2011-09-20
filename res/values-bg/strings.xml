@@ -97,7 +97,7 @@
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Настройки за обаждане с GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Настройки за обаждане в CDMА"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Имена на точката за достъп"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Имена на точки за достъп"</string>
     <string name="settings_label" msgid="3876743539816984008">"Настройки на мрежата"</string>
     <string name="voicemail" msgid="8693759337917898954">"Гласова поща"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
@@ -582,7 +582,7 @@
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Отхвърляне"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Настройки на гласовата поща"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;не е зададен&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Услуги на гласовата поща"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Услуга за гласова поща"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Настройки за „<xliff:g id="PROVIDER_NAME">%s</xliff:g>“"</string>
     <string name="other_settings" msgid="3672912580359716394">"Други настройки за обаждане"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Набиране"</string>
