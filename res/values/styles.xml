@@ -195,8 +195,10 @@
     <!-- Text label drawn alongside buttons in the "extra button row" of
          the in-call onscreen touch UI. -->
     <style name="InCallExtraRowButtonLabel">
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/incall_call_banner_text_color</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
