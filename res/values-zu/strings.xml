@@ -75,7 +75,7 @@
     <string name="pause_prompt_no" msgid="6686238803236884877">"Cha"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Buyisela uhlamvu olugqamile ngolu"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Inombolo engekho yomyalezo wezwi"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"Ayikho inombolo yomyalezo wezwi egcinwe ekhadini le-SIM."</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Ayikho inombolo yomlayezo wezwi egcinwe ekhadini le-SIM."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Engeza inombolo"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Iyalayisha..."</string>
     <string name="enterPin" msgid="4753300834213388397">"Thayipha ikhodi ye-PIN ukuze uvule ikhadi le-SIM"</string>
@@ -93,14 +93,14 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Icela ukuvula inethiwekhi..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Isicelo sokuvula inethiwekhi asiphumelelanga."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Ukuvula inethiwekhi kuphumelele."</string>
-    <string name="imei" msgid="8552502717594321281">"I-IMEI"</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"I-MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Izilungiselelo zekholi ze-GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Izilungiselelo zekholi ye-CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Amagama Endawo Yokungena"</string>
     <string name="settings_label" msgid="3876743539816984008">"Izilungiselelo zenethiwekhi"</string>
     <string name="voicemail" msgid="8693759337917898954">"Umyalezo wezwi"</string>
-    <string name="voicemail_abbreviated" msgid="2215592488517217448">"I-VM:"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"Imisebenzi yenethiwekhi"</string>
     <string name="call_settings" msgid="6112441768261754562">"Izilungiselelo zocingo"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Izilungiselelo ezengeziwe"</string>
@@ -125,17 +125,17 @@
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Akusebenzi"</string>
     <string name="labelCFB" msgid="218938523102207587">"Dlulisa uma imatasa"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Bala uma imatasa"</string>
-    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Idlulisela ku <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"Idlulisela ku-<xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Kuvaliwe"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Isiphathi sakho asisekeli ukuvimbela ukudlulisa ucingo lapho ifoni yakho imatasa."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Dlulisa uma ungaphendulwa"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Bala uma ingaphendula"</string>
-    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Idlulisela ku <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Idlulisela ku-<xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Valiwe"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Isiphathi sakho asisekeli ukuvimbela ukudlulisa ucigo lapho ifoni yakho ingaphenduli."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Dlulisa uma ingatholakali"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Inombolo uma ingatholakali"</string>
-    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Idlulisela ku <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Idlulisela ku-<xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Kuvaliwe"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Isiphathi sakho asisekeli ukuvimbela ukudlulisela ucingo lapho ifoni yakho ingafinyeleleki."</string>
     <string name="updating_title" msgid="6146755386174019046">"Izilungiselelo zocingo"</string>
@@ -479,7 +479,7 @@
     <string name="notification_ongoing_call_format" msgid="227216462548540316">"Ucingo lwamanje <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Ibambile"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Ikholi engenayo"</string>
-    <string name="notification_voicemail_title" msgid="8933468752045550523">"Umyalezo wezwi omusha"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"Umlayezo wezwi omusha"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Umyalezo wezwi omusha (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Dayela <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Inombolo yomyalezo wezwi ayaziwa"</string>
