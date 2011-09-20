@@ -509,7 +509,7 @@
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Dialpad"</string>
     <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Sembunyikan"</string>
     <string name="onscreenSpeakerText" msgid="9013795366801657948">"Pengeras suara"</string>
-    <string name="onscreenMuteText" msgid="5011369181754261374">"Bisukan"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"Bungkam"</string>
     <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Tambahkan panggilan"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Gabungkan panggilan"</string>
@@ -604,7 +604,7 @@
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Mengelola akun dan status panggilan internet (ISP)"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Terima panggilan masuk"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Mengurangi masa pakai baterai"</string>
-    <string name="sip_call_options" msgid="7128315120104066133">"Konfigurasi opsi paggilan"</string>
+    <string name="sip_call_options" msgid="7128315120104066133">"Konfigurasikan opsi panggilan"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Gunakan panggilan internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Gunakan panggilan internet (Wi-Fi saja)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Untuk semua panggilan ketika jaringan data tersedia"</string>

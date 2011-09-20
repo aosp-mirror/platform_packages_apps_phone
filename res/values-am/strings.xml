@@ -16,49 +16,31 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for phoneAppLabel (8576272342240415145) -->
-    <skip />
-    <!-- no translation found for phoneAppLabel (906161039445636857) -->
-    <skip />
-    <!-- no translation found for emergencyDialerIconLabel (7812140032168171053) -->
-    <skip />
-    <!-- no translation found for phoneIconLabel (2331230813161304895) -->
-    <skip />
-    <!-- no translation found for fdnListLabel (8630418672279521003) -->
-    <skip />
-    <!-- no translation found for unknown (6878797917991465859) -->
-    <skip />
-    <!-- no translation found for private_num (6713286113000232309) -->
-    <skip />
+    <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"የተንቀሳቃሽ ስልክ ውሂብ"</string>
+    <string name="phoneAppLabel" product="default" msgid="906161039445636857">"ስልክ"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"የአደጋ ጊዜደዋይ"</string>
+    <string name="phoneIconLabel" msgid="2331230813161304895">"ስልክ"</string>
+    <string name="fdnListLabel" msgid="8630418672279521003">"የFDN ዝርዝር"</string>
+    <string name="unknown" msgid="6878797917991465859">"ያልታወቀ"</string>
+    <string name="private_num" msgid="6713286113000232309">"የግል ቁጥር"</string>
     <string name="payphone" msgid="1931775086311769314">"የክፍያ ስልክ"</string>
-    <!-- no translation found for onHold (9035493194749959955) -->
-    <skip />
-    <!-- no translation found for ongoing (8300874342848721367) -->
-    <skip />
-    <!-- no translation found for callFailed_userBusy (8851106999809294904) -->
-    <skip />
-    <!-- no translation found for callFailed_congestion (8737761615702718375) -->
-    <skip />
+    <string name="onHold" msgid="9035493194749959955">"ያዝናቆይ"</string>
+    <string name="ongoing" msgid="8300874342848721367">"የአሁን ጥሪ"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"መስመሩ ተይዟል"</string>
+    <string name="callFailed_congestion" msgid="8737761615702718375">"አውታረመረብ ተይዟል"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"ምንም ምላሽ የለም፣ ጊዜው አልቋል"</string>
     <string name="callFailed_server_unreachable" msgid="2133506577423869729">"አገልጋይ አይደረስበትም"</string>
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"ቁጥር አይደረስበትም"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"የተሳሳየ ተጠቃሚ ስም እና ይለፍ ቃል"</string>
     <string name="callFailed_out_of_network" msgid="6485167392133436262">"ከአውታረ መረብ ውጪ  የተደወለ"</string>
     <string name="callFailed_server_error" msgid="5717915213586193217">"የአግልጋይ ስህተት፣ እባክዎ በድጋሚ ቆይተው ይሞክሩ።"</string>
-    <!-- no translation found for callFailed_noSignal (1889803273616031933) -->
-    <skip />
-    <!-- no translation found for callFailed_limitExceeded (4958065157970101491) -->
-    <skip />
-    <!-- no translation found for callFailed_powerOff (2766035859391549713) -->
-    <skip />
-    <!-- no translation found for callFailed_simError (5652345589458834655) -->
-    <skip />
-    <!-- no translation found for callFailed_outOfService (4825791466557236225) -->
-    <skip />
-    <!-- no translation found for callFailed_fdn_only (2850204579765430641) -->
-    <skip />
-    <!-- no translation found for callFailed_cb_enabled (3057131228725500761) -->
-    <skip />
+    <string name="callFailed_noSignal" msgid="1889803273616031933">"ምንም አመልካች የለም"</string>
+    <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM ወሰንአልፏል"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"ሬዲዮ ጠፍቷል"</string>
+    <string name="callFailed_simError" msgid="5652345589458834655">"ምንም SIM ፣ ወይም የSIM ስህተት የለም"</string>
+    <string name="callFailed_outOfService" msgid="4825791466557236225">"ከአገልግሎት መስጫ ክልል ውጪ"</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"ወጪ ጥሪዎች በFDN ተከልክለዋል።"</string>
+    <string name="callFailed_cb_enabled" msgid="3057131228725500761">"የጥሪ ክልከላበርቶ ወጪ ጥሪ ማድረግ አይችሉም።"</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"ሁሉም ጥሪዎች በመድረሻ መቆጣጠሪያ የተከለከሉ ናቸው።"</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"የአደጋ ጊዜ ጥሪዎች በድረስ መቆጣጠሪያተከልክልዋል።"</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"መደበኛ ጥሪዎች በድረስ መቆጣጠሪያ ተከልክልዋል።"</string>
@@ -72,236 +54,145 @@
     <string name="callFailed_cdma_preempted" msgid="1097095321180029879">"CDMA: አስቀድሞ ያዘ።"</string>
     <string name="callFailed_cdma_notEmergency" msgid="2347377816822720761">"የአደጋ ጊዜ ጥሪዎች ብቻ የሚቻሉ ናቸው።"</string>
     <string name="callFailed_unobtainable_number" msgid="7886274717456712105">"ትክክል ያልሆነ ቁጠር"</string>
-    <!-- no translation found for confCall (1904840547188336828) -->
-    <skip />
+    <string name="confCall" msgid="1904840547188336828">"የስብሰባ ጥሪ"</string>
     <string name="call_lost" msgid="317670617901479594">"ጥሪ ተቋርጣል።"</string>
     <string name="retry" msgid="8462986804300767852">"እንደገና ሞክር"</string>
     <string name="call_lost_title" msgid="6696949678847938515">"ጥሪ ተቋርጣል"</string>
-    <!-- no translation found for ok (3811371167865772377) -->
-    <skip />
-    <!-- no translation found for mmiStarted (6347869857061147003) -->
-    <skip />
-    <!-- no translation found for ussdRunning (485588686340541690) -->
-    <skip />
-    <!-- no translation found for mmiCancelled (2771923949751842276) -->
-    <skip />
-    <!-- no translation found for cancel (5044513931633602634) -->
-    <skip />
-    <!-- no translation found for manageConferenceLabel (4691922394301969053) -->
-    <skip />
-    <!-- no translation found for audio_mode_speaker (27649582100085266) -->
-    <skip />
-    <!-- no translation found for audio_mode_earpiece (4156527186373869107) -->
-    <skip />
+    <string name="ok" msgid="3811371167865772377">"እሺ"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"የMMI ኮድ ጀምሯል"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"የUSSD ኮድ አሂድ ላይ ነው..."</string>
+    <string name="mmiCancelled" msgid="2771923949751842276">"የMMI ኮድ ቀርቷል"</string>
+    <string name="cancel" msgid="5044513931633602634">"ይቅር"</string>
+    <string name="manageConferenceLabel" msgid="4691922394301969053">"የስብሰባስልክ ጥሪ አደራጅ"</string>
+    <string name="audio_mode_speaker" msgid="27649582100085266">"ድምጽ ማጉያ"</string>
+    <string name="audio_mode_earpiece" msgid="4156527186373869107">"የስልክ እጀታ ጆሮማዳመጫ"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"ባለ ገመድ የጆሮ ማዳመጫ"</string>
-    <!-- no translation found for audio_mode_bluetooth (3047641300848211128) -->
-    <skip />
+    <string name="audio_mode_bluetooth" msgid="3047641300848211128">"ብሉቱዝ"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"የሚከተሉትንድምፆች ላክ?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"ድምፆች በመላክ ላይ"\n</string>
-    <!-- no translation found for send_button (4106860097497818751) -->
-    <skip />
+    <string name="send_button" msgid="4106860097497818751">" ላክ"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"አዎ"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"አይ"</string>
-    <!-- no translation found for wild_prompt_str (1585989144582892543) -->
-    <skip />
-    <!-- no translation found for no_vm_number (4164780423805688336) -->
-    <skip />
-    <!-- no translation found for no_vm_number_msg (1300729501030053828) -->
-    <skip />
-    <!-- no translation found for add_vm_number_str (4676479471644687453) -->
-    <skip />
-    <!-- no translation found for dialer_emptyListWorking (6022498519770859790) -->
-    <skip />
-    <!-- no translation found for enterPin (4753300834213388397) -->
-    <skip />
-    <!-- no translation found for pinUnlocked (3260617001055506794) -->
-    <skip />
+    <string name="wild_prompt_str" msgid="1585989144582892543">"የልቅ ምልክትተካ"</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"የድምፅመልዕክት ቁጥርአመለጠ"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"በSIM ካርዱ ላይምንም የድምፅመልዕክት ቁጥር አልከተቀመጠም።"</string>
+    <string name="add_vm_number_str" msgid="4676479471644687453">"ቁጥር አክል"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"በመስቀል ላይ…"</string>
+    <string name="enterPin" msgid="4753300834213388397">"SIM ካርድ ለማስከፈት PUK ኮድ ተይብ።"</string>
+    <string name="pinUnlocked" msgid="3260617001055506794">"SIM ተከፍቷል"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"አዲስSIM PIN ኮድ"</string>
     <string name="verifyNewPin" msgid="2593629913010458867">"ለማረጋገጥ አዲስ SIM PIN ኮድ እንደገና ተይብ"</string>
-    <!-- no translation found for verifyFailed (3875778795754857903) -->
-    <skip />
+    <string name="verifyFailed" msgid="3875778795754857903">"ያስገቡዋቸው የSIM PINኦች  አይዛመዱም።እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="enterPuk" msgid="6144749655582862324">"SIM ካርድ ለማስከፈት PUK ኮድ ተይብ"</string>
-    <!-- no translation found for badPuk (3213017898690275965) -->
-    <skip />
-    <!-- no translation found for buttonTxtContinue (863271214384739936) -->
-    <skip />
-    <!-- no translation found for puk_unlocked (2284912838477558454) -->
-    <skip />
+    <string name="badPuk" msgid="3213017898690275965">"የተሳሳተ PUK ኮድ!"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"ቀጥል"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"የSIM ካርድዎ አልታገደም። ስልክዎ በመከፈት ላይነው..."</string>
     <string name="label_ndp" msgid="780479633159517250">"የSIM አውታረመረብ መክፈቻ PIN"</string>
-    <!-- no translation found for sim_ndp_unlock_text (683628237760543009) -->
-    <skip />
-    <!-- no translation found for sim_ndp_dismiss_text (1604823375752456947) -->
-    <skip />
-    <!-- no translation found for requesting_unlock (6412629401033249351) -->
-    <skip />
-    <!-- no translation found for unlock_failed (6490531697031504225) -->
-    <skip />
-    <!-- no translation found for unlock_success (6770085622238180152) -->
-    <skip />
-    <!-- no translation found for imei (8552502717594321281) -->
-    <skip />
+    <string name="sim_ndp_unlock_text" msgid="683628237760543009">"ክፈት"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"አጥፋ"</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"አውታረመረብ ለማስከፈት በመጠየቅ ላይ..."</string>
+    <string name="unlock_failed" msgid="6490531697031504225">"የአውታረ መረብ ክፈትጥየቃአል ተሳካም።"</string>
+    <string name="unlock_success" msgid="6770085622238180152">"የአውታረ መረብክፈት ተሳክቷል።"</string>
+    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"የGSM  ጥሪ ቅንብሮች"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA የጥሪ ቅንብሮች"</string>
-    <!-- no translation found for apn_settings (9043423184895642077) -->
-    <skip />
-    <!-- no translation found for settings_label (3876743539816984008) -->
-    <skip />
-    <!-- no translation found for voicemail (8693759337917898954) -->
-    <skip />
-    <!-- no translation found for voicemail_abbreviated (2215592488517217448) -->
-    <skip />
+    <string name="apn_settings" msgid="9043423184895642077">"የድረስ ነጥብ ስም"</string>
+    <string name="settings_label" msgid="3876743539816984008">"የአውታረመረብ ቅንብሮች"</string>
+    <string name="voicemail" msgid="8693759337917898954">"የድምፅ መልዕክት"</string>
+    <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"የአውታረ መረብ ትእምርተ ከዋኝ"</string>
-    <!-- no translation found for call_settings (6112441768261754562) -->
-    <skip />
+    <string name="call_settings" msgid="6112441768261754562">"የጥሪ ቅንብሮች"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"ተጨማሪ ቅንብሮች"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"ተጨማሪGSM ጥሪ ቅንብሮች"</string>
     <string name="additional_cdma_call_settings" msgid="8628958775721886909">"ተጨማሪCDMA ጥሪ ቅንብሮች"</string>
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"ተጨማሪCDMA ጥሪ ቅንብሮችብቻ"</string>
     <string name="labelNwService" msgid="4699970172021870983">"የአውታረ መረብአገልግሎት ቅንብሮች"</string>
-    <!-- no translation found for labelCallerId (3888899447379069198) -->
-    <skip />
-    <!-- no translation found for sum_hide_caller_id (1071407020290873782) -->
-    <skip />
-    <!-- no translation found for sum_show_caller_id (6768534125447290401) -->
-    <skip />
-    <!-- no translation found for sum_default_caller_id (1954518825510901365) -->
-    <skip />
-    <!-- no translation found for labelCW (6120513814915920200) -->
-    <skip />
+    <string name="labelCallerId" msgid="3888899447379069198">"የደዋይ ID"</string>
+    <string name="sum_hide_caller_id" msgid="1071407020290873782">"በወጪ ጥሪዎች ላይ ቁጥርተደብቋል"</string>
+    <string name="sum_show_caller_id" msgid="6768534125447290401">"በወጪ ጥሪዎች ላይ ቁጥር ታይቷል"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"በወጪ ጥሪዎች ቁጥሬን ለማሳየት የነባሪ ከዋኝቅንብሮችን ተጠቀም"</string>
+    <string name="labelCW" msgid="6120513814915920200">"ጥሪ በመጠበቅ ላይ"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"በደውል ጊዜ፣ገቢ ደውሎችን አሳውቀኝ"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"በደውል ጊዜ፣ገቢ ደውሎችን አሳውቀኝ"</string>
-    <!-- no translation found for call_forwarding_settings (3378927671091537173) -->
-    <skip />
-    <!-- no translation found for labelCF (2574386948026924737) -->
-    <skip />
-    <!-- no translation found for labelCFU (8147177368148660600) -->
-    <skip />
-    <!-- no translation found for messageCFU (3560082430662923687) -->
-    <skip />
-    <!-- no translation found for sum_cfu_enabled_indicator (4014187342724130197) -->
-    <skip />
-    <!-- no translation found for sum_cfu_enabled (2450052502198827927) -->
-    <skip />
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"የጥሪ በማስላለፍ ላይ ቅንብሮች"</string>
+    <string name="labelCF" msgid="2574386948026924737">"ጥሪ ማስተላለፍ"</string>
+    <string name="labelCFU" msgid="8147177368148660600">"ሁልጊዜ አስተላልፍ"</string>
+    <string name="messageCFU" msgid="3560082430662923687">"ሁልጊዜ ይህን ቁጥር ተጠቀም"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"ሁሉንም ጥሪዎች በማስተላለፍ ላይ"</string>
+    <string name="sum_cfu_enabled" msgid="2450052502198827927">"ሁሉንም ጥሪዎች ወደ<xliff:g id="PHONENUMBER">{0}</xliff:g> አስተለልፍ"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"ቁጥር የለም"</string>
-    <!-- no translation found for sum_cfu_disabled (3698472522160364904) -->
-    <skip />
-    <!-- no translation found for labelCFB (218938523102207587) -->
-    <skip />
-    <!-- no translation found for messageCFB (3711089705936187129) -->
-    <skip />
-    <!-- no translation found for sum_cfb_enabled (5984198104833116690) -->
-    <skip />
-    <!-- no translation found for sum_cfb_disabled (227440009979537651) -->
-    <skip />
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"ቦዝኗል"</string>
+    <string name="labelCFB" msgid="218938523102207587">"ሲያዝ አስተላልፍ"</string>
+    <string name="messageCFB" msgid="3711089705936187129">"ቁጥሩ ሲያዝ"</string>
+    <string name="sum_cfb_enabled" msgid="5984198104833116690">"ወደ <xliff:g id="PHONENUMBER">{0}</xliff:g>በማስተላለፍ ላይ"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"ቦዝኗል"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"ስልክዎ ስራ ሲበዛበት የድምጽ ተያያዥ ሞደምዎ የጥሪ-ማስተላለፍ ማንቂያውን አይደግፍም።"</string>
-    <!-- no translation found for labelCFNRy (3646316323834351390) -->
-    <skip />
-    <!-- no translation found for messageCFNRy (672317899884380374) -->
-    <skip />
-    <!-- no translation found for sum_cfnry_enabled (6955775691317662910) -->
-    <skip />
-    <!-- no translation found for sum_cfnry_disabled (8422350929957344729) -->
-    <skip />
+    <string name="labelCFNRy" msgid="3646316323834351390">"ከልተነሳ አስላልፍ"</string>
+    <string name="messageCFNRy" msgid="672317899884380374">"ቁጥሩ ሳይነሳ"</string>
+    <string name="sum_cfnry_enabled" msgid="6955775691317662910">"ወደ <xliff:g id="PHONENUMBER">{0}</xliff:g>በማስተላለፍ ላይ"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"ቦዝኗል"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"ስልክዎ ስራ ሲበዛበት የድምጽ ተያያዥ ሞደምዎ የጥሪ-ማስተላለፍ ማንቂያውን አይደግፍም።"</string>
-    <!-- no translation found for labelCFNRc (47183615370850000) -->
-    <skip />
-    <!-- no translation found for messageCFNRc (6380695421020295119) -->
-    <skip />
-    <!-- no translation found for sum_cfnrc_enabled (7010898346095497421) -->
-    <skip />
-    <!-- no translation found for sum_cfnrc_disabled (7222141261321276464) -->
-    <skip />
+    <string name="labelCFNRc" msgid="47183615370850000">"ሳይገኝአስተላልፍ"</string>
+    <string name="messageCFNRc" msgid="6380695421020295119">"ቁጥሩሳይገኝ"</string>
+    <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"ወደ <xliff:g id="PHONENUMBER">{0}</xliff:g>በማስተላለፍ ላይ"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"ቦዝኗል"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"ስልክዎ ሳይደረስበት የድምጽ ተያያዥ ሞደምዎ የጥሪ-ማስተላለፍ ማንቂያውን አይደግፍም።"</string>
-    <!-- no translation found for updating_title (6146755386174019046) -->
-    <skip />
-    <!-- no translation found for error_updating_title (7970259216988931777) -->
-    <skip />
-    <!-- no translation found for reading_settings (1920291699287055284) -->
-    <skip />
-    <!-- no translation found for updating_settings (8171225533884883252) -->
-    <skip />
+    <string name="updating_title" msgid="6146755386174019046">"የጥሪ ቅንብሮች"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"የጥሪ ቅንብሮች ስህተት"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"ቅንብሮች በማንበብ ላይ..."</string>
+    <string name="updating_settings" msgid="8171225533884883252">"ቅንብሮችን በማዘመን ላይ…"</string>
     <string name="reverting_settings" msgid="4752151682666912828">"ቅንብሮችን በማህደር ላይ..."</string>
     <string name="response_error" msgid="6674110501330139405">"ከአውታረ መረብ ያልተጠበቀ ምላሽ"</string>
     <string name="exception_error" msgid="7027667130619518211">"አውታረ መረብ ወይም SIM ካርድ ስህተት።"</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"በቋሚ መደወያ ቁጥሮች ላይ ብቻ ክወናዎች ተፈቅደዋል።"</string>
-    <!-- no translation found for radio_off_error (6717116288405111269) -->
-    <skip />
-    <!-- no translation found for close_dialog (2365884406356986917) -->
-    <skip />
-    <!-- no translation found for enable (1059008390636773574) -->
-    <skip />
-    <!-- no translation found for disable (7274240979164762320) -->
-    <skip />
-    <!-- no translation found for change_num (239476305819844391) -->
-    <skip />
+    <string name="radio_off_error" msgid="6717116288405111269">"እባክዎ እነዚህን ቅንብሮች ከማየትዎ በፊት ሬዲዮዎን ያብሩ።"</string>
+    <string name="close_dialog" msgid="2365884406356986917">"እሺ"</string>
+    <string name="enable" msgid="1059008390636773574">"አንቃ"</string>
+    <string name="disable" msgid="7274240979164762320">"አቦዝን"</string>
+    <string name="change_num" msgid="239476305819844391">"አዘምን"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"ነባሪ አውታረመረብ"</item>
     <item msgid="7876195870037833661">"ቁጥር ደብቅ"</item>
     <item msgid="1108394741608734023">"ቁጥርአሳይ"</item>
   </string-array>
-    <!-- no translation found for vm_save_number (4579969432544566719) -->
-    <skip />
-    <!-- no translation found for vm_changed (380744030726254139) -->
-    <skip />
+    <string name="vm_save_number" msgid="4579969432544566719">"የድምፅመልዕክት ቁጥር አስቀምጥ"</string>
+    <string name="vm_changed" msgid="380744030726254139">"የድምፅ መልዕክት ቁጥርተለውጧል።"</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"የድምፅ መልዕክት ቁጠር ለውጥ አልተሳካም።"\n"እባክዎ ይህ ችግር ከቀጠለ የድምጽ ተያያዥ ሞደምዎን ያግኙ።"</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"የአስተላላፊ ቁጥር ለውጥ አልተሳካም። "\n" እባክዎ ይህ ችግር ከቀጠለ የድምጽ ተያያዥ ሞደምዎን ያግኙ።"</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንጅቶችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም፡፡"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
-    <!-- no translation found for no_change (3186040086622435212) -->
-    <skip />
+    <string name="no_change" msgid="3186040086622435212">"ምንም ለውጥ አልተደረገም።"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"የድምፅ መልዕክት አገልግሎት ምረጥ"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"ድምጸ ተያያዥ ሞደም"</string>
-    <!-- no translation found for mobile_networks (5540397602919106177) -->
-    <skip />
-    <!-- no translation found for label_available (1181658289009300430) -->
-    <skip />
-    <!-- no translation found for load_networks_progress (5230707536168902952) -->
-    <skip />
-    <!-- no translation found for empty_networks_list (4249426905018815316) -->
-    <skip />
-    <!-- no translation found for search_networks (1601136049300882441) -->
-    <skip />
-    <!-- no translation found for network_query_error (6828516148953325006) -->
-    <skip />
-    <!-- no translation found for register_on_network (9055203954040805084) -->
-    <skip />
-    <!-- no translation found for not_allowed (3540496123717833833) -->
-    <skip />
+    <string name="mobile_networks" msgid="5540397602919106177">"የተንቀሳቃሽ ስልክ አውታረ መረብ ቅንብሮች"</string>
+    <string name="label_available" msgid="1181658289009300430">"የሚገኙ አውታረመረቦች"</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"በመፈለግ ላይ…"</string>
+    <string name="empty_networks_list" msgid="4249426905018815316">"ምንም አውታረመረብ አልተገኘም።"</string>
+    <string name="search_networks" msgid="1601136049300882441">"አውታረመረቦች ፈልግ"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"አውታረ መረቦች በመፈለግ ላይ ስህተት"</string>
+    <string name="register_on_network" msgid="9055203954040805084">"በ<xliff:g id="NETWORK">%s</xliff:g> ላይ በመመዝገብ ላይ..."</string>
+    <string name="not_allowed" msgid="3540496123717833833">"የSIM ካርድዎወደዚህ አውታረመረብ ተያያዥ አይፈቅድም።"</string>
     <string name="connect_later" msgid="500090982903469816">"በዚህ ሰዓት እዚህ አውታረ መረብ ላይ ለመያያዝ አልተቻለም። እባክዎ ትንሽ ቆይተው እንደገና ይሞክሩ።"</string>
-    <!-- no translation found for registration_done (495135664535876612) -->
-    <skip />
-    <!-- no translation found for sum_carrier_select (6526225502314751575) -->
-    <skip />
-    <!-- no translation found for sum_search_networks (2921092249873272715) -->
-    <skip />
-    <!-- no translation found for select_automatically (8615980695510888796) -->
-    <skip />
-    <!-- no translation found for sum_select_automatically (8460954604521755275) -->
-    <skip />
+    <string name="registration_done" msgid="495135664535876612">"በአውታረ መረብ ላይ የተመዘገበ።"</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"የአውታረመረብ ከዋኝ ምረጥ"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"የሚገኙ አውታረመረቦች በሙሉ ፈልግ"</string>
+    <string name="select_automatically" msgid="8615980695510888796">"በራስ ሰር ምረጥ"</string>
+    <string name="sum_select_automatically" msgid="8460954604521755275">"በራስሰር ተመራጭ አውታረ መረብ ምረጥ"</string>
     <string name="register_automatically" msgid="6272031189219101172">"ራስ ሰር ምዝገባ...."</string>
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"የአውታረ መረብ ሁነታ"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"የአውታረመረቡንመከወኛ ሁነታ ለውጥ"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"ተመራጭ  የአውታረ መረብ ሁነታ"</string>
-    <!-- no translation found for preferred_network_mode_wcdma_perf_summary (8521677230113533809) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_only_summary (3352445413437453511) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_wcdma_only_summary (2836897236221063413) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_gsm_wcdma_summary (3161255745326408587) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_cdma_summary (3175690187294334241) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_cdma_evdo_summary (8332063064712726618) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_cdma_only_summary (1309770926198634150) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_evdo_only_summary (8472220691721269155) -->
-    <skip />
-    <!-- no translation found for preferred_network_mode_lte_cdma_summary (3722647806454528426) -->
-    <skip />
+    <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"ተመራጭ የአውታረመረብ ፡WCDMA ሁነታ ተመራጭ"</string>
+    <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"ተመራጭ የአውታረመረብ ፡GSM ሁነታ ብቻ"</string>
+    <string name="preferred_network_mode_wcdma_only_summary" msgid="2836897236221063413">"ተመራጭ የአውታረመረብ ፡WCDMA ሁነታ ብቻ"</string>
+    <string name="preferred_network_mode_gsm_wcdma_summary" msgid="3161255745326408587">"ተመራጭ የአውታረመረብ ፡GSM/WCDMA   ሁነታ"</string>
+    <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"ተመራጭ የአውታረመረብ ፡CDMA ሁነታ"</string>
+    <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"ተመራጭ የአውታረመረብ ፡CDMA/EvDo ሁነታ"</string>
+    <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"ተመራጭ የአውታረመረብ ፡CDMA  ሁነታ ብቻ"</string>
+    <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"ተመራጭ የአውታረመረብ ፡EvDo ሁነታ  ብቻ"</string>
+    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"ተመራጭ የአውታረመረብ ፡LTE / CDMA ሁነታ"</string>
   <string-array name="preferred_network_mode_choices">
-    <!-- outdated translation 2987674222882365152 -->     <item msgid="5886604709726177211">"ግሎባል"</item>
+    <item msgid="5886604709726177211">"LTE / CDMA"</item>
     <item msgid="3273348576277144124">"EvDo ብቻ"</item>
     <item msgid="454610224530856274">"CDMA  ያለ EvDo"</item>
     <item msgid="8928247118825616081">"CDMA/EvDo ራስ"</item>
@@ -310,20 +201,17 @@
     <item msgid="5714714953966979187">"GSM ብቻ"</item>
     <item msgid="4775796025725908913">"GSM / WCDMA ተመራጭ"</item>
   </string-array>
-    <!-- no translation found for preferred_network_mode_choices_lte:0 (7345284701413565429) -->
-    <!-- no translation found for preferred_network_mode_choices_lte:1 (5541716989029928208) -->
+  <string-array name="preferred_network_mode_choices_lte">
+    <item msgid="7345284701413565429">"LTE / CDMA"</item>
+    <item msgid="5541716989029928208">"CDMA"</item>
+  </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"ውሂብ ነቅቷል"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"በተንቀሳቃሽ ስልክ አውታረ መረብ ላይ የውሂብ መድረስ አንቃ"</string>
-    <!-- no translation found for roaming (8871412572928323707) -->
-    <skip />
-    <!-- no translation found for roaming_enable (7331106985174381987) -->
-    <skip />
-    <!-- no translation found for roaming_disable (1843417228755568110) -->
-    <skip />
-    <!-- no translation found for roaming_reenable_message (6973894869473170666) -->
-    <skip />
-    <!-- no translation found for roaming_warning (7820963598559553967) -->
-    <skip />
+    <string name="roaming" msgid="8871412572928323707">"ውሂብ በእንቅስቃሴ ላይ"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"በእንቅስቃሴ ላይ ሲሆን ወደ ውሂብ አገልግሎቶች ተያያዝ"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"በእንቅስቃሴ ላይ ሲሆን ወደ ውሂብ አገልግሎቶች ተያያዝ"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"የውሂብዎ ተያያዥነት ጠፍቷል ምክንያቱም የቤትዎን አውታረመረብ በእንቅስቃሴ ላይ አጥፋተው በመተዎ ነው።"</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"የእንቅስቃሴ ላይ ውሂብ ይፈቀድ? ላቅ ያለ የእንቅስቃሴ ላይ ክፍያ ሊያክሉ ይችላሉ!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS አማራጮች"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA አማራጮች"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"የውሂብ አጠቃቀም"</string>
@@ -441,8 +329,7 @@
     <item msgid="1268081943590316978">"2"</item>
     <item msgid="4469871047641902607">"3"</item>
   </string-array>
-    <!-- no translation found for prefer_2g (8442550937280449639) -->
-    <skip />
+    <string name="prefer_2g" msgid="8442550937280449639">"የ2G  አውታረመረቦችን ብቻ ተጠቀም"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"ባትሪ ይቆጥባል"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"የሥርዓት ምርጫ"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"የCDMA በእንቅስቃሴ ላይሁነታ  ለውጥ"</string>
@@ -489,30 +376,20 @@
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
     <string name="cdma_activate_device" msgid="3793805892364814518">"መሣሪያ አግብር"</string>
-    <!-- no translation found for cdma_lte_data_service (4255018217292548962) -->
-    <skip />
+    <string name="cdma_lte_data_service" msgid="4255018217292548962">"የውሂብ አግልግሎት አዋቅር"</string>
     <string name="fdn" msgid="7878832555095183202">"በቋሚነት የሚደወልባቸው  ቁጥሮች"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"FDN ዝርዝር"</string>
-    <!-- no translation found for fdn_activation (2156479741307463576) -->
-    <skip />
-    <!-- no translation found for fdn_enabled (5238109009915521240) -->
-    <skip />
-    <!-- no translation found for fdn_disabled (4700049736675368279) -->
-    <skip />
-    <!-- no translation found for enable_fdn (3740191529180493851) -->
-    <skip />
-    <!-- no translation found for disable_fdn (7944020890722540616) -->
-    <skip />
-    <!-- no translation found for change_pin2 (2153563695382176676) -->
-    <skip />
+    <string name="fdn_activation" msgid="2156479741307463576">"የFDN አግብር"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"የቋሚ መደወያቁጥሮች ነቅተዋል"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"የቋሚ መደወያቁጥሮች ቦዝነዋል"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"FDN አንቃ"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"FDN አቦዝን"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"PIN2  ለውጥ"</string>
     <string name="enable_fdn_ok" msgid="7215588870329688132">"FDN አታስችል"</string>
     <string name="disable_fdn_ok" msgid="5727046928930740173">"FDN አታስችል"</string>
-    <!-- no translation found for sum_fdn (1959399454900272878) -->
-    <skip />
-    <!-- no translation found for sum_fdn_change_pin (6666549734792827932) -->
-    <skip />
-    <!-- no translation found for sum_fdn_manage_list (8431088265332628316) -->
-    <skip />
+    <string name="sum_fdn" msgid="1959399454900272878">"የቋሚ መደወያቁጥሮችአደራጅ"</string>
+    <string name="sum_fdn_change_pin" msgid="6666549734792827932">"ለFDN ድረስ PIN ለውጥ"</string>
+    <string name="sum_fdn_manage_list" msgid="8431088265332628316">"የስልክ ቁጥር ዝርዝር አደራጅ"</string>
     <string name="voice_privacy" msgid="7803023024169078619">"የድምፅብሕትውነት"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"የተሻሻለውን የብሕትውነት ሁነታ አስችል"</string>
     <string name="tty_mode_title" msgid="3171521903490559138">"TTY ሁነታ"</string>
@@ -521,20 +398,13 @@
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"TTY  ሁነት አዘጋጅ"</string>
     <string name="auto_retry_mode_title" msgid="1478311108889330757">"ራስዳግም ሞክር"</string>
     <string name="auto_retry_mode_summary" msgid="4921028586041909574">"ራስ ድጋሚ አስጀምር ሁነታ አስችል"</string>
-    <!-- no translation found for menu_add (1882023737425114762) -->
-    <skip />
-    <!-- no translation found for menu_edit (7143003705504672374) -->
-    <skip />
-    <!-- no translation found for menu_delete (3977150783449642851) -->
-    <skip />
-    <!-- no translation found for get_pin2 (1198225482542827652) -->
-    <skip />
-    <!-- no translation found for name (7329028332786872378) -->
-    <skip />
-    <!-- no translation found for number (7905950798349903858) -->
-    <skip />
-    <!-- no translation found for save (4094274636321939086) -->
-    <skip />
+    <string name="menu_add" msgid="1882023737425114762">"እውቅያዎች አክል"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"እውቅያ አርትዕ"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"እውቅያ ሰርዝ"</string>
+    <string name="get_pin2" msgid="1198225482542827652">"PIN2 አስገባ"</string>
+    <string name="name" msgid="7329028332786872378">"ስም"</string>
+    <string name="number" msgid="7905950798349903858">"ቁጥር"</string>
+    <string name="save" msgid="4094274636321939086">"አስቀምጥ"</string>
     <string name="add_fdn_contact" msgid="2481915899633353976">"ቋሚ ተደዋይ ቁጥር አክል"</string>
     <string name="adding_fdn_contact" msgid="7627379633721940991">"ቋሚ ተደዋይ ቁጥሮችን ማከል"</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"ቋሚ መደወያ ቁጥር ታክሏል።"</string>
@@ -546,157 +416,92 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"ቋሚ መደወያ ቁጥር ተሰርዟል።"</string>
     <string name="pin2_invalid" msgid="7176360264228076810">"FDN አልነቃም፡ የተሳሳተ PIN አስገብተዋል።"</string>
     <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN አልነቃም፡ ቁጥር ከ 20 አሀዝ መብለጥ አይችልም።"</string>
-    <!-- no translation found for simContacts_emptyLoading (2203331234764498011) -->
-    <skip />
-    <!-- no translation found for simContacts_empty (5270660846489561932) -->
-    <skip />
-    <!-- no translation found for simContacts_title (1861472842524839921) -->
-    <skip />
-    <!-- no translation found for enable_pin (5422767284133234860) -->
-    <skip />
-    <!-- no translation found for change_pin (9174186126330785343) -->
-    <skip />
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"ከSIM ካርድ ላይ በማንበብ ላይ..."</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"በ SIM ካርድዎ ላይ ዕውቂያዎች የሉም።"</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"ለማስገባት ዕውቂያዎች ምረጥ"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"SIM PIN አንቃ/አቦዝን"</string>
+    <string name="change_pin" msgid="9174186126330785343">"የSIM PIN ለውጥ"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM PIN:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"የድሮ PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"አዲስPIN"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"አዲስ PIN አረጋግጥ"</string>
-    <!-- no translation found for badPin (4154316827946559447) -->
-    <skip />
-    <!-- no translation found for mismatchPin (5974597541268042785) -->
-    <skip />
-    <!-- no translation found for invalidPin (5981171102258684792) -->
-    <skip />
-    <!-- no translation found for disable_sim_pin (3992926931620188855) -->
-    <skip />
-    <!-- no translation found for enable_sim_pin (5803702443844458831) -->
-    <skip />
-    <!-- no translation found for enable_in_progress (3695303775100109650) -->
-    <skip />
-    <!-- no translation found for enable_pin_ok (8077439615296694284) -->
-    <skip />
-    <!-- no translation found for disable_pin_ok (8552428316206928913) -->
-    <skip />
-    <!-- no translation found for pin_failed (6597695909685242127) -->
-    <skip />
-    <!-- no translation found for pin_changed (9000716792724195093) -->
-    <skip />
+    <string name="badPin" msgid="4154316827946559447">"የተየቡት የድሮ PIN ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="mismatchPin" msgid="5974597541268042785">"ያስገቡዋቸው PINኦች  አይዛመዱም።እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="invalidPin" msgid="5981171102258684792">"ከ4 እስከ 8 ቁጥሮች የያዘ PIN ተይብ"</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"የSIM PIN አቦዝን"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"SIM PIN አንቃ"</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"እባክዎ ይጠብቁ…"</string>
+    <string name="enable_pin_ok" msgid="8077439615296694284">"SIM PIN ነቅቷል"</string>
+    <string name="disable_pin_ok" msgid="8552428316206928913">"SIM PIN ቦዝኗል"</string>
+    <string name="pin_failed" msgid="6597695909685242127">"የተየቡት  PIN  የተሳሳተ ነበር።"</string>
+    <string name="pin_changed" msgid="9000716792724195093">"SIM PIN በተሳካ ተለውጧል"</string>
     <string name="puk_requested" msgid="3898394204193202803">"የተሳሳተይለፍ ቃል፣SIM ተቆልፏል! PUK2 ይጠየቃል።"</string>
     <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2"</string>
-    <!-- no translation found for oldPin2Label (8559146795026261502) -->
-    <skip />
-    <!-- no translation found for newPin2Label (4573956902204349054) -->
-    <skip />
-    <!-- no translation found for confirmPin2Label (8100319484454787708) -->
-    <skip />
+    <string name="oldPin2Label" msgid="8559146795026261502">"የድሮ PIN2"</string>
+    <string name="newPin2Label" msgid="4573956902204349054">"አዲስPIN2"</string>
+    <string name="confirmPin2Label" msgid="8100319484454787708">"አዲስ PIN አረጋግጥ"</string>
     <string name="badPuk2" msgid="4072035207011308856">"የተየቡት PUK2 ኮድ ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
-    <!-- no translation found for badPin2 (515218795152422178) -->
-    <skip />
-    <!-- no translation found for mismatchPin2 (4177060915600342718) -->
-    <skip />
-    <!-- no translation found for invalidPin2 (8237110107480395938) -->
-    <skip />
-    <!-- no translation found for invalidPuk2 (1290977391033057871) -->
-    <skip />
-    <!-- no translation found for pin2_changed (2670422162555916562) -->
-    <skip />
-    <!-- no translation found for label_puk2_code (302845876240219560) -->
-    <skip />
-    <!-- no translation found for fdn_enable_puk2_requested (2608836967081385948) -->
-    <skip />
-    <!-- no translation found for puk2_requested (5863580927788820813) -->
-    <skip />
-    <!-- no translation found for doneButton (2859593360997984240) -->
-    <skip />
-    <!-- no translation found for caller_manage_header (3231519674734638786) -->
-    <skip />
-    <!-- no translation found for caller_manage_manage_done_text (8093934725536733856) -->
-    <skip />
-    <!-- no translation found for sim_missing_continueView_text (4199689081742026077) -->
-    <skip />
-    <!-- no translation found for sim_missing_msg_text (6803619600564142188) -->
-    <skip />
-    <!-- no translation found for sim_unlock_dismiss_text (8292343981739813597) -->
-    <skip />
-    <!-- no translation found for sim_unlock_unlock_text (6328406783399256930) -->
-    <skip />
-    <!-- no translation found for sim_unlock_status_text (1919609683384607179) -->
-    <skip />
-    <!-- no translation found for voicemail_settings_number_label (8524164258691887790) -->
-    <skip />
-    <!-- no translation found for card_title_dialing (5769417478498348054) -->
-    <skip />
+    <string name="badPin2" msgid="515218795152422178">"የተየቡት የድሮ PIN2 ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="mismatchPin2" msgid="4177060915600342718">"ያስገቡት PIN2 አይዛመድም። እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="invalidPin2" msgid="8237110107480395938">"ከ4 እስከ 8 ቁጥሮች የሆኑPIN2 ተይብ።"</string>
+    <string name="invalidPuk2" msgid="1290977391033057871">"8 ቁጥሮች የሆኑ PUK2  ተይብ።"</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"PIN2 በተሳካ ተለውጧል"</string>
+    <string name="label_puk2_code" msgid="302845876240219560">"የPUK2 ኮድ ተይብ"</string>
+    <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"የተሳሳተ የይለፍ ቃል፣ እባክዎ  PIN2 ይለውጡ እና ድጋሚ ይሞክሩ!"</string>
+    <string name="puk2_requested" msgid="5863580927788820813">"የተሳሳተይለፍ ቃል፣SIM ተቆልፏል! PUK2 ተጠይቋል።"</string>
+    <string name="doneButton" msgid="2859593360997984240">"ተከናውኗል"</string>
+    <string name="caller_manage_header" msgid="3231519674734638786">"የስብሰባ ጥሪ<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
+    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"ወደ ጥሪ ተመለስ"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"ያለSIM ካርድ ቀጥል"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"ምንም SIM ካርድ አልተገኘም።እባክዎ ወደ ስልኩ SIM ካርድ ያስገቡ።"</string>
+    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"አጥፋ"</string>
+    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"ክፈት"</string>
+    <string name="sim_unlock_status_text" msgid="1919609683384607179">"PIN በማረጋገጥ ላይ…"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"የድምፅ መልዕክት ቁጥር"</string>
+    <string name="card_title_dialing" msgid="5769417478498348054">"በመደወል ላይ"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"እንደገና በመሞከር ላይ"</string>
-    <!-- no translation found for card_title_conf_call (1162980346189744501) -->
-    <skip />
-    <!-- no translation found for card_title_incoming_call (7364539451234646909) -->
-    <skip />
+    <string name="card_title_conf_call" msgid="1162980346189744501">"የስብሰባ ጥሪ"</string>
+    <string name="card_title_incoming_call" msgid="7364539451234646909">"ገቢ ጥሪ"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"CDMA ጥሪ በመጠበቅ ላይ"</string>
-    <!-- no translation found for card_title_call_ended (5544730338889702298) -->
-    <skip />
-    <!-- no translation found for card_title_on_hold (821463117892339942) -->
-    <skip />
+    <string name="card_title_call_ended" msgid="5544730338889702298">"ጥሪ አብቅቷል"</string>
+    <string name="card_title_on_hold" msgid="821463117892339942">"ያዝናቆይ"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"በመዝጋት ላይ"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"ጥሪ ላይ"</string>
-    <!-- no translation found for card_title_my_phone_number (112428362494434191) -->
-    <skip />
-    <!-- no translation found for notification_missedCallTitle (7554385905572364535) -->
-    <skip />
-    <!-- no translation found for notification_missedCallsTitle (1361677948941502522) -->
-    <skip />
-    <!-- no translation found for notification_missedCallsMsg (4575787816055205600) -->
-    <skip />
-    <!-- no translation found for notification_missedCallTicker (504686252427747209) -->
-    <skip />
-    <!-- no translation found for notification_ongoing_call_format (227216462548540316) -->
-    <skip />
-    <!-- no translation found for notification_on_hold (3480694969511790465) -->
-    <skip />
+    <string name="card_title_my_phone_number" msgid="112428362494434191">"ቁጥሬ<xliff:g id="MY_PHONE_NUMBER">%s</xliff:g> ነው"</string>
+    <string name="notification_missedCallTitle" msgid="7554385905572364535">"ያመለጠጥሪ"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"ያመለጡ ጥሪዎች"</string>
+    <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> ያመለጡ ጥሪዎች"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"ከ<xliff:g id="MISSED_CALL_FROM">%s</xliff:g> ያመለጠ ጥሪ"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"የአሁን ጥሪ (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_on_hold" msgid="3480694969511790465">"ያዝናቆይ"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"ገቢ ጥሪ"</string>
-    <!-- no translation found for notification_voicemail_title (8933468752045550523) -->
-    <skip />
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"አዲስ የድምፅ መልዕክት"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"አዲስ የድምፅ መልዕክት<xliff:g id="COUNT">%d</xliff:g>"</string>
-    <!-- no translation found for notification_voicemail_text_format (4447323569453981685) -->
-    <skip />
-    <!-- no translation found for notification_voicemail_no_vm_number (760963466895609716) -->
-    <skip />
+    <string name="notification_voicemail_text_format" msgid="4447323569453981685">"ደውል <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"የማይታወቅ የድምፅ መልዕክት ቁጥር"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"ምንም አገልግሎት የለም"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"የተመረጠ አውታረመረብ(<xliff:g id="OPERATOR_NAME">%s</xliff:g>) የለም"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"ለመደወል፣ መጀመሪያየአውሮፕላኑን ሁነታ አጥፋ።"</string>
-    <!-- no translation found for incall_error_emergency_only (4678640422710818317) -->
-    <skip />
+    <string name="incall_error_emergency_only" msgid="4678640422710818317">"በአውታረ መረቡ ላይ አልተመዘገበም።"</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"የተንቀሳቃሽ አደራጅ የለም።"</string>
-    <!-- no translation found for incall_error_no_phone_number_supplied (4197432103471807739) -->
-    <skip />
-    <!-- no translation found for incall_error_call_failed (4313552620858880999) -->
-    <skip />
-    <!-- no translation found for incall_status_dialed_mmi (3672498861336189563) -->
-    <skip />
+    <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"ጥሪ አልተላከም፣ ትክክለኛ ቁጥር አልገባም።"</string>
+    <string name="incall_error_call_failed" msgid="4313552620858880999">"ጥሪ አልተላከም።"</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"የMMI sequence…"</string>
     <string name="incall_status_dialed_fc" msgid="1632879988662225263">"የኮድቅደም ተከተልባህሪይ ማስጀመር..."</string>
-    <!-- no translation found for incall_error_supp_service_unknown (2991054870745666038) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_switch (3503552565745872241) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_separate (914362338192301746) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_transfer (2509871374644921632) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_conference (2505727299596357312) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_reject (7055164130563826216) -->
-    <skip />
-    <!-- no translation found for incall_error_supp_service_hangup (7417583238334762737) -->
-    <skip />
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"የማይደገፍ አገልግሎት።"</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"ጥሪዎችን ለመቀያየር አልተቻለም።"</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"ጥሪዎችን ለመለየት አልተቻለም።"</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"ጥሪዎችን ለመስደድ አልተቻለም።"</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"ለስብሰባ ጥሪዎች አልተቻለም።"</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"ጥሪ አለመቀበል አልተቻለም።"</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"ጥሪ(ዎችን) ለመተው አልተቻለም።"</string>
     <string name="incall_call_type_label_sip" msgid="2310958283037924371">"የበይነመረብ  ጥሪ"</string>
-    <!-- no translation found for emergency_enable_radio_dialog_title (4627849966634578257) -->
-    <skip />
+    <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"የአደጋ ጊዜ ጥሪ"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"ሬዲዮ ክፈት"</string>
-    <!-- no translation found for emergency_enable_radio_dialog_retry (3724423402363063736) -->
-    <skip />
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"ከአገልግሎት መስጫ ክልል ውጪ፣ ድጋሚ በመሞከር ላይ..."</string>
     <string name="dial_emergency_error" msgid="8362624131726575194">"ጥሪ አልተላከም፣<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> የአደጋ ጊዜ ቁጥር አይደለም!"</string>
-    <!-- no translation found for dial_emergency_empty_error (5048645338094088229) -->
-    <skip />
-    <!-- no translation found for dialerKeyboardHintText (9192914825413747792) -->
-    <skip />
+    <string name="dial_emergency_empty_error" msgid="5048645338094088229">"ጥሪ አልተላከም፣እባክዎ የአደጋ ጊዜ ቁጥር ይደውሉ።"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"ለመደወል የሰሌዳ ቁልፍ ተጠቀም"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"የድምፅ ቁልፍ ሰሌዳን ንካ"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"ያዝ"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"አትያዝ"</string>
@@ -710,15 +515,11 @@
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"ጥሪዎችን አዋህድ"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"ማገላበጥ"</string>
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"ጥሪዎችን አደራጅ"</string>
-    <!-- outdated translation 6952581578445378981 -->     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"አዸራጅ"</string>
-    <!-- no translation found for onscreenAudioText (1710087112800041743) -->
-    <skip />
-    <!-- no translation found for importSimEntry (6614358325359736031) -->
-    <skip />
-    <!-- no translation found for importAllSimEntries (1503181169636198673) -->
-    <skip />
-    <!-- no translation found for importingSimContacts (7374056215462575769) -->
-    <skip />
+    <string name="onscreenManageConferenceText" msgid="6485935856534311346">"ስብሰባ አደራጅ"</string>
+    <string name="onscreenAudioText" msgid="1710087112800041743">"ኦዲዮ"</string>
+    <string name="importSimEntry" msgid="6614358325359736031">"አስመጣ"</string>
+    <string name="importAllSimEntries" msgid="1503181169636198673">"ሁሉንም አስመጣ"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"የSIM ዕውቂያዎች አስመጣ"</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"ከዕውቂያዎች አስገባ"</string>
     <string name="hac_mode_title" msgid="8740268574688743289">"ማዳመጫ መርጃዎች"</string>
     <string name="hac_mode_summary" msgid="6833851160514929341">"የመስሚያ መርጃ ተጓዳኝአብራ"</string>
@@ -878,63 +679,36 @@
     <string name="no_internet_available" msgid="1100564991026313234">"የበይነ መረብ ጥሪ ለማድረግ፣ የበይነ መረብ መጀመሪያ ተያያዥነት ይመልከቱ"</string>
     <string name="no_wifi_available" msgid="3389743006886634541">"ለአውታረ መረብ(የገመድ አልባ &amp; አውታረ መረብ ቅንብሮችን ይጠቀሙ) ጥሪዎች ወደ Wi-Fi አውታረ መረብ መያያዝ አለብዎ።"</string>
     <string name="no_voip" msgid="8901474054537199865">"የበይነ መረብ ጥሪ አይደገፍም"</string>
-    <!-- no translation found for sip_system_decide (368030746310423471) -->
-    <skip />
-    <!-- no translation found for sip_always_send_keepalive (8192080724632877132) -->
-    <skip />
+    <string name="sip_system_decide" msgid="368030746310423471">"ራስ ሰር"</string>
+    <string name="sip_always_send_keepalive" msgid="8192080724632877132">"ሁልጊዜ ላክ"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"የድምፅ ጥሪ አይታገዝም"</string>
-    <!-- no translation found for respond_via_sms_canned_response_1 (2461606462788380215) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_2 (4074450431532859214) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_3 (3496079065723960450) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_canned_response_4 (1698989243040062190) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_custom_message (4911568567889429624) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title (1536749776778961959) -->
-    <skip />
-    <!-- no translation found for respond_via_sms_setting_title_2 (3833620364648464308) -->
-    <skip />
+    <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"አሁን ማውራት አልችልም። ሰላም ነው?"</string>
+    <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"ወዲያው መልሼ እደውላለሁ።"</string>
+    <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"ኋላ እደውላለሁ።"</string>
+    <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"አሁን ማውራት አልችልም። ትንሽ ቆይተው ይደውሉ?"</string>
+    <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"ብጁ መልዕክት..."</string>
+    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"ፈጣን የፅሁፍ ምላሾች"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"የፈጣን ፅሁፍ ምላሽ አርትዕ"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
-    <!-- no translation found for respond_via_sms_edittext_dialog_title (6599747960789214769) -->
-    <skip />
+    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"ፈጣን የፅሁፍ ምላሾች"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"ለ <xliff:g id="PHONE_NUMBER">%s</xliff:g> የተላከ መልዕክት"</string>
-    <!-- no translation found for description_image_button_one (5502718871331943463) -->
-    <skip />
-    <!-- no translation found for description_image_button_two (4903738528222924522) -->
-    <skip />
-    <!-- no translation found for description_image_button_three (5570985408463782329) -->
-    <skip />
-    <!-- no translation found for description_image_button_four (1697520001239289074) -->
-    <skip />
-    <!-- no translation found for description_image_button_five (3450276493026943454) -->
-    <skip />
-    <!-- no translation found for description_image_button_six (2070376172268675300) -->
-    <skip />
-    <!-- no translation found for description_image_button_seven (1757351311199993371) -->
-    <skip />
-    <!-- no translation found for description_image_button_eight (4734693919020613227) -->
-    <skip />
-    <!-- no translation found for description_image_button_nine (5568534122590597040) -->
-    <skip />
-    <!-- no translation found for description_image_button_star (1976280813017254462) -->
-    <skip />
-    <!-- no translation found for description_image_button_zero (4211255756866893605) -->
-    <skip />
-    <!-- no translation found for description_image_button_pound (1716041284529917866) -->
-    <skip />
-    <!-- no translation found for description_search_button (239929880630534731) -->
-    <skip />
-    <!-- no translation found for description_dial_button (7459705245418435351) -->
-    <skip />
-    <!-- no translation found for description_delete_button (4015842181592283903) -->
-    <skip />
-    <!-- no translation found for accessibility_speakerphone_enabled (1988512040421036359) -->
-    <skip />
-    <!-- no translation found for accessibility_call_muted (2776111226185342220) -->
-    <skip />
+    <string name="description_image_button_one" msgid="5502718871331943463">"አንድ"</string>
+    <string name="description_image_button_two" msgid="4903738528222924522">"ሁለት"</string>
+    <string name="description_image_button_three" msgid="5570985408463782329">"ሦስት"</string>
+    <string name="description_image_button_four" msgid="1697520001239289074">"አራት"</string>
+    <string name="description_image_button_five" msgid="3450276493026943454">"አምስት"</string>
+    <string name="description_image_button_six" msgid="2070376172268675300">"ስድስት"</string>
+    <string name="description_image_button_seven" msgid="1757351311199993371">"ሰባት"</string>
+    <string name="description_image_button_eight" msgid="4734693919020613227">"ስምንት"</string>
+    <string name="description_image_button_nine" msgid="5568534122590597040">"ዘጠኝ"</string>
+    <string name="description_image_button_star" msgid="1976280813017254462">"ኮከብ"</string>
+    <string name="description_image_button_zero" msgid="4211255756866893605">"ዜሮ"</string>
+    <string name="description_image_button_pound" msgid="1716041284529917866">"ፓውንድ"</string>
+    <string name="description_search_button" msgid="239929880630534731">"ፈልግ"</string>
+    <string name="description_dial_button" msgid="7459705245418435351">"ደውል"</string>
+    <string name="description_delete_button" msgid="4015842181592283903">"የኋሊት ደምሳሽ"</string>
+    <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"የስልክ ድምፅ ማጉያ ነቅቷል።"</string>
+    <string name="accessibility_call_muted" msgid="2776111226185342220">"ጥሪ ፀጥ  ብሏል"</string>
     <string name="description_target_answer" msgid="7205604197797472471">"መልስ"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"SMS ላክ"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"አትቀበል"</string>
