@@ -1004,9 +1004,13 @@ public class InCallTouchUi extends FrameLayout
     }
 
     /**
-     * Handles state changes of the incoming-call widget.  While the user
-     * is dragging one of the handles, we display an onscreen hint; see
-     * CallCard.getRotateWidgetHint().
+     * Handles state changes of the incoming-call widget.
+     *
+     * In previous releases (where we used a SlidingTab widget) we would
+     * display an onscreen hint depending on which "handle" the user was
+     * dragging.  But we now use a MultiWaveView widget, which has only
+     * one handle, so for now we don't display a hint at all (see the TODO
+     * comment below.)
      */
     public void onGrabbedStateChange(View v, int grabbedState) {
         if (mInCallScreen != null) {
@@ -1017,6 +1021,7 @@ public class InCallTouchUi extends FrameLayout
             int hintTextResId, hintColorResId;
             switch (grabbedState) {
                 case MultiWaveView.OnTriggerListener.NO_HANDLE:
+                case MultiWaveView.OnTriggerListener.CENTER_HANDLE:
                     hintTextResId = 0;
                     hintColorResId = 0;
                     break;
