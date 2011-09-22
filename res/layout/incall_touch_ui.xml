@@ -124,7 +124,10 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     >
+                    <!-- The entire LinearLayout here is clickable, so we don't
+                         care about clicks on the ImageButton itself. -->
                     <ImageButton android:id="@+id/manageConferenceButtonImage"
+                        android:clickable="false"
                         style="@style/InCallButton"
                         android:src="@drawable/ic_groups_holo_dark"
                         android:contentDescription="@string/onscreenManageConferenceText"
@@ -145,7 +148,10 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     >
+                    <!-- The entire LinearLayout here is clickable, so we don't
+                         care about clicks on the ImageButton itself. -->
                     <ImageButton android:id="@+id/cdmaMergeButtonImage"
+                        android:clickable="false"
                         style="@style/InCallButton"
                         android:src="@drawable/ic_merge_holo_dark"
                         android:contentDescription="@string/onscreenMergeCallsText"
