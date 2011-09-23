@@ -16,6 +16,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.phone"
+        coreApp="true"
         android:sharedUserId="android.uid.phone"
         android:sharedUserLabel="@string/phoneAppLabel"
 >
