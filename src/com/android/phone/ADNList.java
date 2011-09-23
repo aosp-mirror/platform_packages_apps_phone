@@ -22,10 +22,12 @@ import static android.view.Window.PROGRESS_VISIBILITY_ON;
 import android.app.ListActivity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Window;
 import android.widget.CursorAdapter;
@@ -160,10 +162,18 @@ public class ADNList extends ListActivity {
 
     private void displayProgress(boolean flag) {
         if (DBG) log("displayProgress: " + flag);
-        mEmptyText.setText(flag ? R.string.simContacts_emptyLoading: R.string.simContacts_empty);
+
+        mEmptyText.setText(flag ? R.string.simContacts_emptyLoading:
+            (isAirplaneModeOn(this) ? R.string.simContacts_airplaneMode :
+                R.string.simContacts_empty));
         getWindow().setFeatureInt(
                 Window.FEATURE_INDETERMINATE_PROGRESS,
                 flag ? PROGRESS_VISIBILITY_ON : PROGRESS_VISIBILITY_OFF);
+    }
+
+    private static boolean isAirplaneModeOn(Context context) {
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     private class QueryHandler extends AsyncQueryHandler {
