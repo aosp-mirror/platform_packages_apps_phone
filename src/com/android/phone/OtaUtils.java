@@ -134,7 +134,8 @@ public class OtaUtils {
     private Context mContext;
     private PhoneApp mApplication;
     private OtaWidgetData mOtaWidgetData;
-    private ViewGroup mInCallPanel;
+    private ViewGroup mInCallPanel;  // Container for the CallCard
+    private ViewGroup mInCallTouchUi;  // UI controls for regular calls
     private CallCard mCallCard;
 
     // The DTMFTwelveKeyDialer instance.   We create this in
@@ -217,6 +218,7 @@ public class OtaUtils {
      */
     public void updateUiWidgets(InCallScreen inCallScreen,
                                 ViewGroup inCallPanel,
+                                ViewGroup inCallTouchUi,
                                 CallCard callCard) {
         if (DBG) log("updateUiWidgets()...  mInCallScreen = " + mInCallScreen);
 
@@ -231,6 +233,7 @@ public class OtaUtils {
 
         mInCallScreen = inCallScreen;
         mInCallPanel = inCallPanel;
+        mInCallTouchUi = inCallTouchUi;
         mCallCard = callCard;
         mOtaWidgetData = new OtaWidgetData();
 
@@ -254,6 +257,7 @@ public class OtaUtils {
     public void clearUiWidgets() {
         mInCallScreen = null;
         mInCallPanel = null;
+        mInCallTouchUi = null;
         mCallCard = null;
         mOtaWidgetData = null;
     }
@@ -566,7 +570,6 @@ public class OtaUtils {
         // NOTE we still need to call OtaUtils.updateUiWidgets() once the
         // InCallScreen instance is ready; see InCallScreen.checkOtaspStateOnResume()
 
-
         // Make sure the InCallScreen knows that it needs to switch into OTASP mode.
         //
         // NOTE in gingerbread and earlier, we used to do
@@ -583,6 +586,21 @@ public class OtaUtils {
         // TODO(OTASP): note app.inCallUiState.inCallScreenMode and
         // app.cdmaOtaInCallScreenUiState.state are mostly redundant.  Combine them.
         app.inCallUiState.inCallScreenMode = InCallUiState.InCallScreenMode.OTA_NORMAL;
+
+        // TODO(OTASP / bug 5092031): we ideally should call
+        // otaShowListeningScreen() here to make sure that the DTMF dialpad
+        // becomes visible at the start of the "*228" call:
+        //
+        //  // ...and get the OTASP-specific UI into the right state.
+        //  app.otaUtils.otaShowListeningScreen();
+        //  if (app.otaUtils.mInCallScreen != null) {
+        //      app.otaUtils.mInCallScreen.requestUpdateScreen();
+        //  }
+        //
+        // But this doesn't actually work; the call to otaShowListeningScreen()
+        // *doesn't* actually bring up the listening screen, since the
+        // cdmaOtaConfigData.otaShowListeningScreen config parameter hasn't been
+        // initialized (we haven't run readXmlSettings() yet at this point!)
 
         // Also, since the OTA call is now just starting, clear out
         // the "committed" flag in app.cdmaOtaProvisionData.
@@ -726,7 +744,7 @@ public class OtaUtils {
             // Initiate the outgoing call:
             mApplication.callController.placeCall(newIntent);
 
-            // ...and get the in-call UI into the right state.
+            // ...and get the OTASP-specific UI into the right state.
             otaShowListeningScreen();
             mInCallScreen.requestUpdateScreen();
         }
@@ -1106,6 +1124,7 @@ public class OtaUtils {
         }
 
         if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
+        if (mInCallTouchUi != null) mInCallTouchUi.setVisibility(View.GONE);
         if (mCallCard != null) mCallCard.hideCallCardElements();
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
@@ -1144,6 +1163,10 @@ public class OtaUtils {
      *
      * This is called from the InCallScreen when the screen needs to be
      * refreshed (and thus is only ever used in interactive mode.)
+     *
+     * Since this is called as part of the InCallScreen.updateScreen() sequence,
+     * this method does *not* post an mInCallScreen.requestUpdateScreen()
+     * request.
      */
     public void otaShowProperScreen() {
         if (DBG) log("otaShowProperScreen()...");
@@ -1158,6 +1181,9 @@ public class OtaUtils {
                     + mApplication.cdmaOtaScreenState.otaScreenState);
             if (mInCallPanel != null) {
                 mInCallPanel.setVisibility(View.GONE);
+            }
+            if (mInCallTouchUi != null) {
+                mInCallTouchUi.setVisibility(View.GONE);
             }
             if (mApplication.cdmaOtaScreenState.otaScreenState
                     == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
@@ -1434,6 +1460,7 @@ public class OtaUtils {
 
         if (mInteractive && (mOtaWidgetData != null)) {
             if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
+            if (mInCallTouchUi != null) mInCallTouchUi.setVisibility(View.VISIBLE);
             if (mCallCard != null) mCallCard.hideCallCardElements();
 
             // Free resources from the DTMFTwelveKeyDialer instance we created
