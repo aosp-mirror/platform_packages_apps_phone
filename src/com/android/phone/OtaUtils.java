@@ -84,6 +84,10 @@ public class OtaUtils {
     public static final String ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING =
             "com.android.phone.PERFORM_VOICELESS_CDMA_PROVISIONING";
 
+    // Intent action to display the InCallScreen in the OTASP "activation" state.
+    public static final String ACTION_DISPLAY_ACTIVATION_SCREEN =
+            "com.android.phone.DISPLAY_ACTIVATION_SCREEN";
+
     // boolean voiceless provisioning extra that enables a "don't show this again" checkbox
     // the user can check to never see the activity upon bootup again
     public static final String EXTRA_VOICELESS_PROVISIONING_OFFER_DONTSHOW =
@@ -344,7 +348,7 @@ public class OtaUtils {
         // There are two ways to start OTASP on voice-capable devices:
         //
         // (1) via the PERFORM_CDMA_PROVISIONING intent
-        //     - this is triggered by the  "Activate device" button in settings,
+        //     - this is triggered by the "Activate device" button in settings,
         //       or can be launched automatically upon boot if the device
         //       thinks it needs to be provisioned.
         //     - the intent is handled by InCallScreenShowActivation.onCreate(),
@@ -365,65 +369,24 @@ public class OtaUtils {
         //       CallController.placeCall()).  The InCallScreen notices that
         //       OTASP is active and shows the correct UI.
 
-        // TODO(OTASP): but for now, use the behavior of scenario (2) in all
-        // cases, since there's still some InCallScreen cleanup necessary to get
-        // scenario (1) to work.
-        //
-        // But ultimately the code here needs to bring up the InCallScreen in
-        // the special "activate" state (see OtaUtils.otaShowActivateScreen()),
-        // where we won't actually make the call till the user presses the
-        // "Activate" button.
-        //
-        // So simply place an outgoing call to the special OTASP number:
-        Intent newIntent = new Intent(Intent.ACTION_CALL);
-        newIntent.setData(Uri.fromParts(Constants.SCHEME_TEL, OTASP_NUMBER, null));
+        // Here, we start sequence (1):
+        // Do NOT immediately start the call.  Instead, bring up the InCallScreen
+        // in the special "activate" state (see OtaUtils.otaShowActivateScreen()).
+        // We won't actually make the call until the user presses the "Activate"
+        // button.
 
-        Log.i(LOG_TAG, "startInteractiveOtasp: placing call: " + newIntent);
-        app.callController.placeCall(newIntent);
+        Intent activationScreenIntent = new Intent().setClass(context, InCallScreen.class)
+                .setAction(ACTION_DISPLAY_ACTIVATION_SCREEN);
 
+        // We're about to start the OTASP sequence, so create and initialize the
+        // OtaUtils instance.  (This needs to happen before bringing up the
+        // InCallScreen.)
+        OtaUtils.setupOtaspCall(activationScreenIntent);
 
-        // TODO(OTASP): still need more cleanup to simplify the mApp.cdma*State objects.
-        //
-        // Here's some possibly-redundant code that might still need to
-        // happen as part of this sequence:
-        //
-        // (1) Original block of code from InCallScreen.checkIsOtaCall(), when
-        // handling ACTION_PERFORM_CDMA_PROVISIONING:
-        //
-        //        if (action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING)) {
-        //            if (DBG) log("checkIsOtaCall action = ACTION_PERFORM_CDMA_PROVISIONING");
-        //            if (!mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed) {
-        //                if (DBG) log("ACTION_PERFORM_CDMA_PROVISIONING not handled before");
-        //                mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
-        //                mApp.cdmaOtaScreenState.otaScreenState =
-        //                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
-        //            }
-        //            isOtaCall = true;
-        //        }
-        //
-        // (2) Similar block originally from InCallScreen.internalResolveIntent():
-        //
-        //        // The ACTION_PERFORM_CDMA_PROVISIONING intent tells us to launch
-        //        // the CDMA OTASP call.  (Note: on non-voice-capable devices, this
-        //        // intent is handled by the OtaUtils class without involving the
-        //        // InCallScreen at all.)
-        //        //
-        //        // TODO: This needs to be handled by the CallController, not here
-        //        // (see bug 4194458).  This action should probably have its own
-        //        // receiver somewhere else in the phone app, and call the
-        //        // CallController API from there.
-        //        if ((action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING))
-        //                && (TelephonyCapabilities.supportsOtasp(mPhone))) {
-        //            setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
-        //            if ((mApp.cdmaOtaProvisionData != null)
-        //                    && (!mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed)) {
-        //                mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
-        //                mApp.cdmaOtaScreenState.otaScreenState =
-        //                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
-        //            }
-        //            return;
-        //
-        //        }
+        // And bring up the InCallScreen...
+        Log.i(LOG_TAG, "startInteractiveOtasp: launching InCallScreen in 'activate' state: "
+              + activationScreenIntent);
+        context.startActivity(activationScreenIntent);
     }
 
     /**

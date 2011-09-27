@@ -1141,6 +1141,28 @@ public class InCallScreen extends Activity
             return;
         }
 
+        if (action.equals(OtaUtils.ACTION_DISPLAY_ACTIVATION_SCREEN)) {
+            // Bring up the in-call UI in the OTASP-specific "activate" state;
+            // see OtaUtils.startInteractiveOtasp().  Note that at this point
+            // the OTASP call has not been started yet; we won't actually make
+            // the call until the user presses the "Activate" button.
+
+            if (!TelephonyCapabilities.supportsOtasp(mPhone)) {
+                throw new IllegalStateException(
+                    "Received ACTION_DISPLAY_ACTIVATION_SCREEN intent on non-OTASP-capable device: "
+                    + intent);
+            }
+
+            setInCallScreenMode(InCallScreenMode.OTA_NORMAL);
+            if ((mApp.cdmaOtaProvisionData != null)
+                && (!mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed)) {
+                mApp.cdmaOtaProvisionData.isOtaCallIntentProcessed = true;
+                mApp.cdmaOtaScreenState.otaScreenState =
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION;
+            }
+            return;
+        }
+
         // Various intent actions that should no longer come here directly:
         if (action.equals(OtaUtils.ACTION_PERFORM_CDMA_PROVISIONING)) {
             // This intent is now handled by the InCallScreenShowActivation
