@@ -4213,7 +4213,7 @@ public class InCallScreen extends Activity
             // (This call has no effect if the UI widgets have already been set up.
             // It only really matters  the very first time that the InCallScreen instance
             // is onResume()d after starting an OTASP call.)
-            mApp.otaUtils.updateUiWidgets(this, mInCallPanel, mCallCard);
+            mApp.otaUtils.updateUiWidgets(this, mInCallPanel, mInCallTouchUi, mCallCard);
 
             // Also update the InCallScreenMode based on the cdmaOtaInCallScreenState.
 
