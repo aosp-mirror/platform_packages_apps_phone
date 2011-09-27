@@ -47,6 +47,7 @@ import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.telephony.ServiceState;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -643,8 +644,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * handle this intent.  (In particular there may be no "Call log" at
      * all on on non-voice-capable devices.)
      */
-    static Intent createCallLogIntent() {
-        Intent  intent = new Intent(Intent.ACTION_VIEW, null);
+    /* package */ static Intent createCallLogIntent() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, null);
         intent.setType("vnd.android.cursor.dir/calls");
         return intent;
     }
@@ -1697,6 +1698,48 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     10*1000 /* 10 sec */);
         } catch (RemoteException ex) {
             // System process is dead.
+        }
+    }
+
+    /**
+     * "Call origin" may be used by Contacts app to specify where the phone call comes from.
+     * Currently, the only permitted value for this extra is {@link #ALLOWED_EXTRA_CALL_ORIGIN}.
+     * Any other value will be ignored, to make sure that malicious apps can't trick the in-call
+     * UI into launching some random other app after a call ends.
+     *
+     * TODO: make this more generic. Note that we should let the "origin" specify its package
+     * while we are now assuming it is "com.android.contacts"
+     */
+    public static final String EXTRA_CALL_ORIGIN = "com.android.phone.CALL_ORIGIN";
+    private static final String DEFAULT_CALL_ORIGIN_PACKAGE = "com.android.contacts";
+    private static final String ALLOWED_EXTRA_CALL_ORIGIN =
+            "com.android.contacts.activities.DialtactsActivity";
+
+    public void setLatestActiveCallOrigin(String callOrigin) {
+        inCallUiState.latestActiveCallOrigin = callOrigin;
+    }
+
+    /**
+     * @return Intent which will be used when in-call UI is shown and the phone call is hang up.
+     * By default CallLog screen will be introduced, but the destination may change depending on
+     * its latest call origin state.
+     */
+    public Intent createPhoneEndIntentUsingCallOrigin() {
+        if (TextUtils.equals(inCallUiState.latestActiveCallOrigin, ALLOWED_EXTRA_CALL_ORIGIN)) {
+            if (VDBG) Log.d(LOG_TAG, "Valid latestActiveCallOrigin("
+                    + inCallUiState.latestActiveCallOrigin + ") was found. "
+                    + "Go back to the previous screen.");
+            // Right now we just launch the Activity which launched in-call UI. Note that we're
+            // assuming the origin is from "com.android.contacts", which may be incorrect in the
+            // future.
+            final Intent intent = new Intent();
+            intent.setClassName(DEFAULT_CALL_ORIGIN_PACKAGE, inCallUiState.latestActiveCallOrigin);
+            return intent;
+        } else {
+            if (VDBG) Log.d(LOG_TAG, "Current latestActiveCallOrigin ("
+                    + inCallUiState.latestActiveCallOrigin + ") is not valid. "
+                    + "Just use CallLog as a default destination.");
+            return PhoneApp.createCallLogIntent();
         }
     }
 }

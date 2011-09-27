@@ -371,6 +371,19 @@ public class InCallUiState {
         providerAddress = null;
     }
 
+    /**
+     * "Call origin" of the most recent phone call.
+     *
+     * Watch out: right now this is only used to determine where the user should go after the phone
+     * call. See also {@link InCallScreen} for more detail. There is *no* specific specification
+     * about how this variable will be used.
+     *
+     * @see PhoneApp#setLatestActiveCallOrigin(String)
+     * @see PhoneApp#createPhoneEndIntentUsingCallOrigin()
+     *
+     * TODO: we should determine some public behavior for this variable.
+     */
+    String latestActiveCallOrigin;
 
     //
     // Debugging
@@ -395,5 +408,6 @@ public class InCallUiState {
         } else {
             Log.d(TAG, "  - provider overlay: none");
         }
+        Log.d(TAG, "  - latestActiveCallOrigin: " + latestActiveCallOrigin);
     }
 }

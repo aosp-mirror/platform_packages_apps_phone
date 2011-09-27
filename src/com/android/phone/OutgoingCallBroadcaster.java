@@ -484,6 +484,15 @@ public class OutgoingCallBroadcaster extends Activity
             // case here too (most likely by just doing nothing at all.)
         }
 
+        final String callOrigin = intent.getStringExtra(PhoneApp.EXTRA_CALL_ORIGIN);
+        if (callOrigin != null) {
+            if (DBG) Log.v(TAG, "Call origin is passed (" + callOrigin + ")");
+            PhoneApp.getInstance().setLatestActiveCallOrigin(callOrigin);
+        } else {
+            if (DBG) Log.v(TAG, "Call origin is not passed. Reset current one.");
+            PhoneApp.getInstance().setLatestActiveCallOrigin(null);
+        }
+
         Intent broadcastIntent = new Intent(Intent.ACTION_NEW_OUTGOING_CALL);
         if (number != null) {
             broadcastIntent.putExtra(Intent.EXTRA_PHONE_NUMBER, number);
@@ -491,7 +500,6 @@ public class OutgoingCallBroadcaster extends Activity
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, uri.toString());
-
         if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                              null,  // scheduler
