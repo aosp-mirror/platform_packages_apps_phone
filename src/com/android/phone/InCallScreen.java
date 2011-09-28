@@ -2488,9 +2488,12 @@ public class InCallScreen extends Activity
                         && (mLastDisconnectCause != Connection.DisconnectCause.INCOMING_REJECTED)
                         && !isPhoneStateRestricted()
                         && PhoneApp.sVoiceCapable) {
-                    if (VDBG) log("- Show Call Log after disconnect...");
-                    final Intent intent = PhoneApp.createCallLogIntent();
+                    final Intent intent = mApp.createPhoneEndIntentUsingCallOrigin();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    if (VDBG) {
+                        log("- Show Call Log (or Dialtacts) after disconnect. Current intent: "
+                                + intent);
+                    }
                     try {
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
@@ -2511,6 +2514,9 @@ public class InCallScreen extends Activity
 
                 endInCallScreenSession();
             }
+
+            // Reset the call origin when the session ends and this in-call UI is being finished.
+            mApp.setLatestActiveCallOrigin(null);
         }
     }
 
@@ -3355,6 +3361,9 @@ public class InCallScreen extends Activity
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
+
+            // Call origin is valid only with outgoing calls. Disable it on incoming calls.
+            mApp.setLatestActiveCallOrigin(null);
         }
     }
 
