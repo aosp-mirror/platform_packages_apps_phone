@@ -1413,6 +1413,7 @@ public class CallNotifier extends Handler
         public static final int TONE_UNOBTAINABLE_NUMBER = 14;
 
         // The tone volume relative to other sounds in the stream
+        private static final int TONE_RELATIVE_VOLUME_EMERGENCY = 100;
         private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
         private static final int TONE_RELATIVE_VOLUME_LOPRI = 50;
 
@@ -1946,6 +1947,7 @@ public class CallNotifier extends Handler
 
         private ToneGenerator mToneGenerator;
         private Vibrator mEmgVibrator;
+        private int mInCallVolume;
 
         /**
          * constructor
@@ -1964,8 +1966,12 @@ public class CallNotifier extends Handler
                     (ringerMode == AudioManager.RINGER_MODE_NORMAL)) {
                 log("EmergencyTonePlayerVibrator.start(): emergency tone...");
                 mToneGenerator = new ToneGenerator (AudioManager.STREAM_VOICE_CALL,
-                        InCallTonePlayer.TONE_RELATIVE_VOLUME_HIPRI);
+                        InCallTonePlayer.TONE_RELATIVE_VOLUME_EMERGENCY);
                 if (mToneGenerator != null) {
+                    mInCallVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+                    mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                            mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                            0);
                     mToneGenerator.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK);
                     mCurrentEmergencyToneState = EMERGENCY_TONE_ALERT;
                 }
@@ -1989,6 +1995,9 @@ public class CallNotifier extends Handler
                     && (mToneGenerator != null)) {
                 mToneGenerator.stopTone();
                 mToneGenerator.release();
+                mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                        mInCallVolume,
+                        0);
             } else if ((mCurrentEmergencyToneState == EMERGENCY_TONE_VIBRATE)
                     && (mEmgVibrator != null)) {
                 mEmgVibrator.cancel();
