@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Lendo a partir do cartão SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Não há contatos no seu cartão SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Selecione os contatos a serem importados"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Para importar contatos do cartão SIM, desative o modo para avião."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Ativar/desativar PIN do SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Alterar PIN do SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN do SIM:"</string>

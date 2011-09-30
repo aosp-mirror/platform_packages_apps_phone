@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIMカードから読み取り中..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIMカードに連絡先がありません。"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"インポートする連絡先の選択"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"連絡先をSIMカードからインポートするには、機内モードをオフにしてください。"</string>
     <string name="enable_pin" msgid="5422767284133234860">"SIM PINの有効/無効"</string>
     <string name="change_pin" msgid="9174186126330785343">"SIM PINの変更"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM PIN:"</string>

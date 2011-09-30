@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"جارٍ القراءة من بطاقة SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"ليس هناك جهات اتصال على بطاقة SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"حدد جهات اتصال لاستيرادها"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"لاستيراد جهات الاتصال من بطاقة SIM، الرجاء إيقاف وضع الطائرة."</string>
     <string name="enable_pin" msgid="5422767284133234860">"تمكين/تعطيل رقم التعريف الشخصي لبطاقة SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"تغيير رقم التعريف الشخصي لبطاقة SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"رقم التعريف الشخصي لبطاقة SIM:"</string>

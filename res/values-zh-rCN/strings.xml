@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"正在从 SIM 卡读取..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIM 卡上无联系人。"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"选择要导入的联系人"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"要从 SIM 卡导入联系人，请先关闭飞行模式。"</string>
     <string name="enable_pin" msgid="5422767284133234860">"启用/禁用 SIM 卡 PIN"</string>
     <string name="change_pin" msgid="9174186126330785343">"更改 SIM 卡 PIN"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM 卡 PIN："</string>

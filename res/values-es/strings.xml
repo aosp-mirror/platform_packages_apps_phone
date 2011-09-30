@@ -423,6 +423,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leyendo desde tarjeta SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"No hay ningún contacto en la tarjeta SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleccionar contactos para importar"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Para importar contactos de la tarjeta SIM, desactiva el modo avión."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Habilitar/inhabilitar PIN de tarjeta SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Cambiar PIN de tarjeta SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN de tarjeta SIM:"</string>
@@ -479,7 +480,7 @@
     <string name="notification_ongoing_call_format" msgid="227216462548540316">"Llamada actual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"En espera"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Llamada entrante"</string>
-    <string name="notification_voicemail_title" msgid="8933468752045550523">"Buzón de voz nuevo"</string>
+    <string name="notification_voicemail_title" msgid="8933468752045550523">"Nuevo mensaje de voz"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Buzón de voz nuevo (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Marcar <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número del buzón de voz desconocido"</string>

@@ -160,7 +160,7 @@
     <string name="vm_changed" msgid="380744030726254139">"Номер голосовой почты изменен."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Не удалось изменить номер голосовой почты."\n"Если проблема не будет решена, свяжитесь со своим оператором."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Не удалось изменить номер переадресации вызовов."\n"Если проблема не будет решена, свяжитесь со своим оператором."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Не удалось извлечь и сохранить текущие настройки переадресации."\n"Все равно сменить провайдера?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Не удалось сохранить текущие настройки переадресации."\n"Все равно сменить провайдера?"</string>
     <string name="no_change" msgid="3186040086622435212">"Номер не изменен."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Выберите службу голосовой почты"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Мой оператор"</string>
@@ -421,6 +421,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Считывание с SIM-карты…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"На SIM-карте нет контактов."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Выберите контакты для импорта"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Чтобы импортировать контакты с SIM-карты, отключите режим полета."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Включить/отключить запрос PIN SIM-карты"</string>
     <string name="change_pin" msgid="9174186126330785343">"Изменить PIN SIM-карты"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN SIM-карты:"</string>
@@ -647,8 +648,8 @@
     <string name="registration_status_no_wifi_data" msgid="6698550648571450078">"Регистрация прервана – отсутствует подключение Wi-Fi"</string>
     <string name="registration_status_not_running" msgid="3826034902272084289">"Не удалось зарегистрировать аккаунт"</string>
     <string name="registration_status_done" msgid="6434927607037752239">"Вызовы принимаются"</string>
-    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Не удалось зарегистрировать аккаунт (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); повторная попытка будет предпринята позже."</string>
-    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Не удалось зарегистрировать аккаунт. Неверные имя пользователя или пароль."</string>
+    <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Не удалось зарегистрировать аккаунт (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>). Новая попытка будет предпринята позже."</string>
+    <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Не удалось зарегистрировать аккаунт. Неверное имя пользователя или пароль."</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Не удалось зарегистрировать аккаунт. Неверное имя сервера."</string>
     <string name="third_party_account_summary" msgid="1069915789382987226">"Этим аккаунтом сейчас пользуется приложение <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Настройки SIP-аккаунта"</string>
