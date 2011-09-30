@@ -419,13 +419,14 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"ከSIM ካርድ ላይ በማንበብ ላይ..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"በ SIM ካርድዎ ላይ ዕውቂያዎች የሉም።"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"ለማስገባት ዕውቂያዎች ምረጥ"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"ከሲም ካርድ ላይ ዕውቂያዎችን ለማስመጣት፣ የአይሮፕላን ሁኔታን እባክህ አጥፋ፡፡"</string>
     <string name="enable_pin" msgid="5422767284133234860">"SIM PIN አንቃ/አቦዝን"</string>
     <string name="change_pin" msgid="9174186126330785343">"የSIM PIN ለውጥ"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM PIN:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"የድሮ PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"አዲስPIN"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"አዲስ PIN አረጋግጥ"</string>
-    <string name="badPin" msgid="4154316827946559447">"የተየቡት የድሮ PIN ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="badPin" msgid="4154316827946559447">"የተየቡት የድሮ PIN ትክክል አይደለም። እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="mismatchPin" msgid="5974597541268042785">"ያስገቡዋቸው PINኦች  አይዛመዱም።እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="invalidPin" msgid="5981171102258684792">"ከ4 እስከ 8 ቁጥሮች የያዘ PIN ተይብ"</string>
     <string name="disable_sim_pin" msgid="3992926931620188855">"የSIM PIN አቦዝን"</string>
@@ -441,7 +442,7 @@
     <string name="newPin2Label" msgid="4573956902204349054">"አዲስPIN2"</string>
     <string name="confirmPin2Label" msgid="8100319484454787708">"አዲስ PIN አረጋግጥ"</string>
     <string name="badPuk2" msgid="4072035207011308856">"የተየቡት PUK2 ኮድ ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
-    <string name="badPin2" msgid="515218795152422178">"የተየቡት የድሮ PIN2 ትክክል አይደለም።እባክዎ እንደገና ይሞክሩ።"</string>
+    <string name="badPin2" msgid="515218795152422178">"የተየቡት የድሮ PIN2 ትክክል አይደለም። እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="mismatchPin2" msgid="4177060915600342718">"ያስገቡት PIN2 አይዛመድም። እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="invalidPin2" msgid="8237110107480395938">"ከ4 እስከ 8 ቁጥሮች የሆኑPIN2 ተይብ።"</string>
     <string name="invalidPuk2" msgid="1290977391033057871">"8 ቁጥሮች የሆኑ PUK2  ተይብ።"</string>

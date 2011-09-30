@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Извършва се четене на данни от SIM картата…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Няма контакти в SIM картата ви."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Избиране на контакти за импортиране"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"За да импортирате контакти от SIM картата, моля, изключете самолетния режим."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Активиране/деактивиране на PIN за SIM карта"</string>
     <string name="change_pin" msgid="9174186126330785343">"Промяна на PIN за SIM карта"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN код за SIM карта:"</string>
