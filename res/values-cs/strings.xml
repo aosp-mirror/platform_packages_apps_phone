@@ -419,6 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Čtení z karty SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Na kartě SIM nejsou žádné kontakty."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Vybrat kontakty pro import"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Chcete-li importovat kontakty z karty SIM, vypněte prosím režim V letadle."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Povolit nebo zakázat kód PIN karty SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Změnit kód PIN karty SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"Kód PIN karty SIM:"</string>

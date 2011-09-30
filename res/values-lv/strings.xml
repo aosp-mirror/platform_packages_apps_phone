@@ -421,6 +421,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Notiek lasīšana no SIM kartes..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIM kartē nav nevienas kontaktpersonas."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Importējamo kontaktpersonu atlasīšana"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Lai importētu kontaktinformāciju no SIM kartes, lūdzu, izslēdziet lidmašīnas režīmu."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Iespējot/atspējot SIM PIN"</string>
     <string name="change_pin" msgid="9174186126330785343">"SIM PIN mainīšana"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM PIN:"</string>

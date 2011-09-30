@@ -425,6 +425,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leser fra SIM-kort…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Ingen kontakter på SIM-kortet."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Velg kontakter som skal importeres"</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Du må slå av flymodus for å importere kontakter fra SIM-kortet."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Slå av/på PIN-kode for SIM-kort"</string>
     <string name="change_pin" msgid="9174186126330785343">"Endre PIN-kode for SIM-kort"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM-kortets PIN-kode:"</string>
