@@ -75,16 +75,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         >
-     <!-- TODO: I'd *like* to set
-             android:animateLayoutChanges="true"
-          on the above RelativeLayout, so that the "callStateLabel"
-          will have nice fade-in and fade-out animations when
-          it comes and goes depending on the phone state.
-            But if I do that, it (mysteriously) causes the contact photo for
-          the background call to disappear right after doing "add call"
-          and making a 2nd outgoing call.  (Although if you then "swap
-          calls", both photos are drawn correctly.)
-     -->
 
         <!-- Contact photo for call_info_1 -->
         <com.android.phone.InCallContactPhoto android:id="@+id/photo"
