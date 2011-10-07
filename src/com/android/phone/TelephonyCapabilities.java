@@ -55,8 +55,7 @@ public class TelephonyCapabilities {
                 return false;
             }
         } else if (phoneType == Phone.PHONE_TYPE_SIP) {
-            // TODO: confirm SipPhone supports this
-            return true;
+            return false;
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
