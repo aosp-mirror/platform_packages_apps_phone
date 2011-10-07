@@ -3747,13 +3747,15 @@ public class InCallScreen extends Activity
         //
 
         if (isDialerOpened()) {
-            mInCallPanel.setVisibility(View.GONE);
+            if (VDBG) log("- updateDialpadVisibility: dialpad open, hide mInCallPanel...");
+            CallCard.Fade.hide(mInCallPanel, View.GONE);
         } else {
             // Dialpad is dismissed; bring back the CallCard if
             // it's supposed to be visible.
             if ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
                 || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED)) {
-                mInCallPanel.setVisibility(View.VISIBLE);
+                if (VDBG) log("- updateDialpadVisibility: dialpad dismissed, show mInCallPanel...");
+                CallCard.Fade.show(mInCallPanel);
             }
         }
     }

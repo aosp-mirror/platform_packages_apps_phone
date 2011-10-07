@@ -21,4 +21,7 @@
     <item type="id" name="incomingCallAnswer" />
     <item type="id" name="incomingCallReject" />
     <item type="id" name="incomingCallRespondViaSms" />
+
+    <!-- View tag ID used by CallCard.Fade -->
+    <item type="id" name="fadeState" />
 </resources>

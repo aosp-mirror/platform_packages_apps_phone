@@ -615,7 +615,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     // be "show" and "hide".
     public boolean isOpened() {
         // Return whether or not the dialer view is visible.
-        return mDialerView.getVisibility() == View.VISIBLE;
+        // (Note that if we're in the middle of a fade-out animation, that
+        // also counts as "not visible" even though mDialerView itself is
+        // technically still VISIBLE.)
+        return ((mDialerView.getVisibility() == View.VISIBLE)
+                && !CallCard.Fade.isFadingOut(mDialerView));
     }
 
     /**
@@ -629,8 +633,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         if (!isOpened()) {
             // Make the dialer view visible.
-            // TODO: add a fade-in animation if "animate" is true?
-            mDialerView.setVisibility(View.VISIBLE);
+            if (animate) {
+                CallCard.Fade.show(mDialerView);
+            } else {
+                mDialerView.setVisibility(View.VISIBLE);
+            }
             onDialerOpen();
         }
     }
@@ -646,8 +653,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         if (isOpened()) {
             // Hide the dialer view.
-            // TODO: add a fade-out animation if "animate" is true?
-            mDialerView.setVisibility(View.GONE);
+            if (animate) {
+                CallCard.Fade.hide(mDialerView, View.GONE);
+            } else {
+                mDialerView.setVisibility(View.GONE);
+            }
             onDialerClose();
         }
     }
