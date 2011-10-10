@@ -419,8 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"קורא מכרטיס SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"אין אנשי קשר בכרטיס ה-SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"בחר אנשי קשר ליבוא"</string>
-    <!-- no translation found for simContacts_airplaneMode (8221701142387137660) -->
-    <skip />
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"כדי לייבא אנשי קשר מכרטיס ה-SIM, כבה מצב טיסה."</string>
     <string name="enable_pin" msgid="5422767284133234860">"הפוך לפעיל/השבת PIN של SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"שנה PIN של SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN של SIM:"</string>
@@ -689,10 +688,10 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"אני אתקשר אליך יותר מאוחר."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"אני לא יכול לדבר עכשיו. תתקשר אלי מאוחר יותר?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"הודעה מותאמת אישית..."</string>
-    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"תגובות טקסט מהירות"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"עריכת תגובות טקסט מהירות"</string>
+    <!-- outdated translation 1536749776778961959 -->     <string name="respond_via_sms_setting_title" msgid="3754000371039709383">"תגובות טקסט מהירות"</string>
+    <!-- outdated translation 3833620364648464308 -->     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"עריכת תגובות טקסט מהירות"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
-    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"תגובת טקסט מהירה"</string>
+    <!-- outdated translation 6599747960789214769 -->     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"תגובת טקסט מהירה"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"הודעה נשלחה אל <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"אחת"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"שתיים"</string>

@@ -128,7 +128,7 @@
     <string name="sum_cfb_enabled" msgid="5984198104833116690">"ወደ <xliff:g id="PHONENUMBER">{0}</xliff:g>በማስተላለፍ ላይ"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"ቦዝኗል"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"ስልክዎ ስራ ሲበዛበት የድምጽ ተያያዥ ሞደምዎ የጥሪ-ማስተላለፍ ማንቂያውን አይደግፍም።"</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"ከልተነሳ አስላልፍ"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"ካልተነሳ አስላልፍ"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"ቁጥሩ ሳይነሳ"</string>
     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"ወደ <xliff:g id="PHONENUMBER">{0}</xliff:g>በማስተላለፍ ላይ"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"ቦዝኗል"</string>
@@ -473,7 +473,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"ያመለጡ ጥሪዎች"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> ያመለጡ ጥሪዎች"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"ከ<xliff:g id="MISSED_CALL_FROM">%s</xliff:g> ያመለጠ ጥሪ"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"የአሁን ጥሪ (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call_format" msgid="227216462548540316">"የአሁኑ ጥሪ (<xliff:g id="DURATION">%s</xliff:g>)"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"ያዝናቆይ"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"ገቢ ጥሪ"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"አዲስ የድምፅ መልዕክት"</string>
@@ -688,10 +688,10 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"ኋላ እደውላለሁ።"</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"አሁን ማውራት አልችልም። ትንሽ ቆይተው ይደውሉ?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"ብጁ መልዕክት..."</string>
-    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"ፈጣን የፅሁፍ ምላሾች"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"የፈጣን ፅሁፍ ምላሽ አርትዕ"</string>
+    <string name="respond_via_sms_setting_title" msgid="3754000371039709383">"ፈጣን ምላሾች"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"ፈጣን ምላሾች አርትዕ"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
-    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"ፈጣን የፅሁፍ ምላሾች"</string>
+    <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"ፈጣን ምላሽ"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"ለ <xliff:g id="PHONE_NUMBER">%s</xliff:g> የተላከ መልዕክት"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"አንድ"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"ሁለት"</string>
