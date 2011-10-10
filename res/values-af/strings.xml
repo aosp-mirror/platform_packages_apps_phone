@@ -692,10 +692,10 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Ek bel jou later."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Kan nie nou praat nie. Bel my later?"</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Gepasmaakte boodskap..."</string>
-    <string name="respond_via_sms_setting_title" msgid="1536749776778961959">"Vinnige teksantwoord"</string>
-    <string name="respond_via_sms_setting_title_2" msgid="3833620364648464308">"Redigeer vinnige teksrespons"</string>
+    <string name="respond_via_sms_setting_title" msgid="3754000371039709383">"Vinnige antwoorde"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"Redigeer vinnige antwoorde"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
-    <string name="respond_via_sms_edittext_dialog_title" msgid="6599747960789214769">"Vinnige teksantwoord"</string>
+    <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"Vinnige antwoord"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Boodskap gestuur na <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"een"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"twee"</string>
