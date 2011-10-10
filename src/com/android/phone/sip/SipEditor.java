@@ -223,12 +223,7 @@ public class SipEditor extends PreferenceActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: // See ActionBar#setDisplayHomeAsUpEnabled()
-                Intent intent = new Intent(this, SipSettings.class);
-                intent.setAction(Intent.ACTION_MAIN);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                return true;
+                // This time just work as "back" or "save" capability.
             case MENU_SAVE:
                 validateAndSetResult();
                 return true;
