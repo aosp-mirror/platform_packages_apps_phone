@@ -96,7 +96,7 @@ public class InCallControlState {
      * the Phone.
      */
     public void update() {
-        Phone.State state = mCM.getState();  // coarse-grained voice call state
+        final Phone.State state = mCM.getState();  // coarse-grained voice call state
         final Call fgCall = mCM.getActiveFgCall();
         final Call.State fgCallState = fgCall.getState();
         final boolean hasActiveForegroundCall = (fgCallState == Call.State.ACTIVE);
@@ -183,6 +183,18 @@ public class InCallControlState {
             boolean okToHold = hasActiveForegroundCall && !hasHoldingCall;
             boolean okToUnhold = onHold;
             canHold = okToHold || okToUnhold;
+        } else if (hasHoldingCall && (fgCallState == Call.State.IDLE)) {
+            // Even when foreground phone device doesn't support hold/unhold, phone devices
+            // for background holding calls may do.
+            //
+            // If the foreground call is ACTIVE,  we should turn on "swap" button instead.
+            final Call bgCall = mCM.getFirstActiveBgCall();
+            if (bgCall != null &&
+                    TelephonyCapabilities.supportsHoldAndUnhold(bgCall.getPhone())) {
+                supportsHold = true;
+                onHold = true;
+                canHold = true;
+            }
         } else {
             // This device has no concept of "putting a call on hold."
             supportsHold = false;
