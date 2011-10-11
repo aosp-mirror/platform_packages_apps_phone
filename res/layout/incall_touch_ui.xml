@@ -79,9 +79,6 @@
                     android:layout_alignParentTop="true"
                     android:visibility="gone"
                     >
-        <!-- TODO: re-enable android:animateLayoutChanges="true"
-             in the above RelativeLayout (bug 5262542) -->
-
         <!-- DTMF dialpad shown in the upper part of the screen
              (above the main cluster of buttons.) -->
         <ViewStub android:id="@+id/dtmf_twelve_key_dialer_stub"

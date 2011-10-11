@@ -20,9 +20,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <!-- TODO: re-enable android:animateLayoutChanges="true"
-         in the above FrameLayout (bug 5262542) -->
-
     <!-- inCallPanel: container for the CallCard. -->
     <!-- TODO: This RelativeLayout is useless since it only has
          one child.  And the only reason it's here is so we can
