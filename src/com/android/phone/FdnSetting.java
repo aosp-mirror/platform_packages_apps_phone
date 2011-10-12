@@ -19,6 +19,8 @@ package com.android.phone;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -369,6 +371,7 @@ public class FdnSetting extends PreferenceActivity
         displayPinChangeDialog(0, false);
         mOldPin = mNewPin = "";
         mIsPuk2Locked = false;
+        mButtonEnableFDN.setEnabled(true);
     }
 
     /**
@@ -380,6 +383,7 @@ public class FdnSetting extends PreferenceActivity
         displayPinChangeDialog(0, false);
         mOldPin = mNewPin = mPuk2 = "";
         mIsPuk2Locked = true;
+        mButtonEnableFDN.setEnabled(false);
     }
 
     /**
@@ -436,18 +440,6 @@ public class FdnSetting extends PreferenceActivity
 
         mButtonChangePin2.setOnPinEnteredListener(this);
 
-        // Only reset the pin change dialog if we're not in the middle of changing it.
-        if (icicle == null) {
-            resetPinChangeState();
-        } else {
-            mIsPuk2Locked = icicle.getBoolean(SKIP_OLD_PIN_KEY);
-            mPinChangeState = icicle.getInt(PIN_CHANGE_STATE_KEY);
-            mOldPin = icicle.getString(OLD_PIN_KEY);
-            mNewPin = icicle.getString(NEW_PIN_KEY);
-            mButtonChangePin2.setDialogMessage(icicle.getString(DIALOG_MESSAGE_KEY));
-            mButtonChangePin2.setText(icicle.getString(DIALOG_PIN_ENTRY_KEY));
-        }
-
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             // android.R.id.home will be triggered in onOptionsItemSelected()
@@ -460,20 +452,33 @@ public class FdnSetting extends PreferenceActivity
         super.onResume();
         mPhone = PhoneApp.getPhone();
         updateEnableFDN();
+
+        SharedPreferences prefs = getPreferences(0);
+        mIsPuk2Locked = prefs.getBoolean(SKIP_OLD_PIN_KEY, false);
+        mPinChangeState = prefs.getInt(PIN_CHANGE_STATE_KEY, PIN_CHANGE_OLD);
+        mOldPin = prefs.getString(OLD_PIN_KEY, null);
+        mNewPin = prefs.getString(NEW_PIN_KEY, null);
+        mButtonChangePin2.setDialogMessage(prefs.getString(DIALOG_MESSAGE_KEY, null));
+        mButtonChangePin2.setText(prefs.getString(DIALOG_PIN_ENTRY_KEY, null));
+
+        if (mIsPuk2Locked) {
+            mButtonEnableFDN.setEnabled(false);
+        }
+
+        displayPinChangeDialog(0, false);
     }
 
-    /**
-     * Save the state of the pin change.
-     */
     @Override
-    protected void onSaveInstanceState(Bundle out) {
-        super.onSaveInstanceState(out);
-        out.putBoolean(SKIP_OLD_PIN_KEY, mIsPuk2Locked);
-        out.putInt(PIN_CHANGE_STATE_KEY, mPinChangeState);
-        out.putString(OLD_PIN_KEY, mOldPin);
-        out.putString(NEW_PIN_KEY, mNewPin);
-        out.putString(DIALOG_MESSAGE_KEY, mButtonChangePin2.getDialogMessage().toString());
-        out.putString(DIALOG_PIN_ENTRY_KEY, mButtonChangePin2.getText());
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor editor = getPreferences(0).edit();
+        editor.putBoolean(SKIP_OLD_PIN_KEY, mIsPuk2Locked);
+        editor.putInt(PIN_CHANGE_STATE_KEY, mPinChangeState);
+        editor.putString(OLD_PIN_KEY, mOldPin);
+        editor.putString(NEW_PIN_KEY, mNewPin);
+        editor.putString(DIALOG_MESSAGE_KEY, mButtonChangePin2.getDialogMessage().toString());
+        editor.putString(DIALOG_PIN_ENTRY_KEY, mButtonChangePin2.getText());
+        editor.commit();
     }
 
     @Override
