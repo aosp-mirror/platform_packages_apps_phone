@@ -36,7 +36,7 @@
         android:textSize="@dimen/dialpad_digits_text_size"
         android:freezesText="true"
         android:background="@drawable/dialpad_background"
-        android:textColor="@color/dialer_button_text"
+        android:textColor="?android:attr/textColorPrimary"
         android:focusableInTouchMode="false" />
 
     <!-- Keypad section -->
