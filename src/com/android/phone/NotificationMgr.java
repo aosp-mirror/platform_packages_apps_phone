@@ -238,9 +238,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             }
             if (!mIsSystemBarNavigationEnabled) {
                 // Disable *all* possible navigation via the system bar.
-                // DISABLE_NAVIGATION covers "Home" and "Recents",
-                // and DISABLE_BACK covers the "Back" button.
-                state |= StatusBarManager.DISABLE_NAVIGATION;
+                state |= StatusBarManager.DISABLE_HOME;
+                state |= StatusBarManager.DISABLE_RECENT;
                 state |= StatusBarManager.DISABLE_BACK;
             }
 
