@@ -61,6 +61,14 @@ public class InCallContactPhoto extends ImageView {
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = false;
 
+    /**
+     * If true, enable the "blur + inset" special effect for lo-res
+     * images.  (This flag provides a quick way to disable this class
+     * entirely; if false, InCallContactPhoto instances will behave just
+     * like plain old ImageViews.)
+     */
+    private static final boolean ENABLE_BLUR_INSET_EFFECT = false;
+
     private Drawable mPreviousImageDrawable;
     private ImageView mInsetImageView;
 
@@ -135,7 +143,11 @@ public class InCallContactPhoto extends ImageView {
                 if (VDBG) log("  - config: " + inputBitmap.getConfig());
                 if (VDBG) log("  - byte count: " + inputBitmap.getByteCount());
 
-                if (inputBitmap == null) {
+                if (!ENABLE_BLUR_INSET_EFFECT) {
+                    if (DBG) log("- blur+inset disabled; no special effect.");
+                    // ...and leave blurredBitmapDrawable = null so that we'll
+                    // fall back to the regular ImageView behavior (see below.)
+                } else if (inputBitmap == null) {
                     Log.w(TAG, "setImageDrawable: null bitmap from inputDrawable.getBitmap()!");
                     // ...and leave blurredBitmapDrawable = null so that we'll
                     // fall back to the regular ImageView behavior (see below.)
