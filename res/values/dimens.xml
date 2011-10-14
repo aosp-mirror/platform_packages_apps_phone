@@ -95,4 +95,10 @@
          rather than using an overlay element at all (bug 5045539). -->
     <dimen name="provider_overlay_top_margin">160dp</dimen>
 
+    <!-- Layout weight values for dialpad screen. These layouts will be used in one
+         LinearLayout (dialpad_fragment.xml), configuring dialpad screen's vertical
+         ratio. -->
+    <integer name="dialpad_layout_weight_digits">20</integer>
+    <integer name="dialpad_layout_weight_dialpad">65</integer>
+    <integer name="dialpad_layout_weight_additional_buttons">15</integer>
 </resources>
