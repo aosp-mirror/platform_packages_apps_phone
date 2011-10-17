@@ -701,17 +701,30 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             log("  - hasHoldingCall = " + hasHoldingCall);
         }
 
-        // Suppress the in-call notification if the the InCallScreen is the
+        // Suppress the in-call notification if the InCallScreen is the
         // foreground activity, since it's already obvious that you're on a
         // call.  (The status bar icon is needed only if you navigate *away*
         // from the in-call UI.)
+        boolean suppressNotification = mApp.isShowingCallScreen();
+
+        // ...except for a couple of cases where we *never* suppress the
+        // notification:
         //
-        // But *never* do this if there's an incoming ringing call: We need the
-        // in-call notification to actually launch the incoming call UI in the
-        // first place (see notification.fullScreenIntent below) and we can't
-        // safely assume that the InCallScreen will never be in the foreground
-        // when a new incoming call comes in.
-        if (mApp.isShowingCallScreen() && !hasRingingCall) {
+        //   - If there's an incoming ringing call: always show the
+        //     notification, since the in-call notification is what actually
+        //     launches the incoming call UI in the first place (see
+        //     notification.fullScreenIntent below.)  This makes sure that we'll
+        //     correctly handle the case where a new incoming call comes in but
+        //     the InCallScreen is already in the foreground.
+        if (hasRingingCall) suppressNotification = false;
+
+        //   - If "voice privacy" mode is active: always show the notification,
+        //     since that's the only "voice privacy" indication we have.
+        boolean enhancedVoicePrivacy = mApp.notifier.getVoicePrivacyState();
+        if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
+        if (enhancedVoicePrivacy) suppressNotification = false;
+
+        if (suppressNotification) {
             cancelInCall();
             // Suppress the mute and speaker status bar icons too
             // (also to reduce clutter in the status bar.)
@@ -723,8 +736,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Display the appropriate icon in the status bar,
         // based on the current phone and/or bluetooth state.
 
-        boolean enhancedVoicePrivacy = mApp.notifier.getVoicePrivacyState();
-        if (DBG) log("updateInCallNotification: enhancedVoicePrivacy = " + enhancedVoicePrivacy);
 
         if (hasRingingCall) {
             // There's an incoming ringing call.

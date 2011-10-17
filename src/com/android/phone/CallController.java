@@ -249,9 +249,9 @@ public class CallController extends Handler {
         }
 
         CallStatusCode status = placeCallInternal(intent);
-        if (DBG) log("==> placeCall(): status from placeCallInternal(): " + status);
 
         if (status == CallStatusCode.SUCCESS) {
+            if (DBG) log("==> placeCall(): success from placeCallInternal(): " + status);
             // There's no "error condition" that needs to be displayed to
             // the user, so clear out the InCallUiState's "pending call
             // status code".
@@ -261,11 +261,11 @@ public class CallController extends Handler {
             // enable the proximity sensor
             mApp.setBeginningCall(true);
         } else {
+            log("==> placeCall(): failure code from placeCallInternal(): " + status);
             // Handle the various error conditions that can occur when
             // initiating an outgoing call, typically by directing the
             // InCallScreen to display a diagnostic message (via the
             // "pending call status code" flag.)
-            if (DBG) log("- placeCall: failure when initiating outgoing call: " + status);
             handleOutgoingCallError(status);
         }
 
@@ -425,6 +425,7 @@ public class CallController extends Handler {
             } else {
                 // Otherwise, just return the (non-SUCCESS) status code
                 // back to our caller.
+                if (DBG) log("==> placeCallInternal(): non-success status: " + okToCallStatus);
                 return okToCallStatus;
             }
         }
