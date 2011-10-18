@@ -690,10 +690,10 @@
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Я перезвоню вам позже."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Не могу говорить. Позвоните позже."</string>
     <string name="respond_via_sms_custom_message" msgid="4911568567889429624">"Собственное сообщение..."</string>
-    <!-- outdated translation 1536749776778961959 -->     <string name="respond_via_sms_setting_title" msgid="3754000371039709383">"Шаблоны SMS-ответов"</string>
-    <!-- outdated translation 3833620364648464308 -->     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"Изменение шаблона SMS-ответа"</string>
+    <string name="respond_via_sms_setting_title" msgid="3754000371039709383">"Быстрые ответы"</string>
+    <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"Быстрые ответы"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
-    <!-- outdated translation 6599747960789214769 -->     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"Шаблон SMS-ответа"</string>
+    <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"Быстрый ответ"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Сообщение отправлено на номер <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"один"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"два"</string>
