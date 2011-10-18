@@ -33,7 +33,7 @@
          android:layout_height="0px"
          android:layout_weight="1">
         <ImageButton android:id="@+id/one" style="@style/DialpadButtonStyle"
-            android:src="@drawable/dial_num_1"
+            android:src="@drawable/dial_num_1_no_vm"
             android:contentDescription="@string/description_image_button_one" />
         <ImageButton android:id="@+id/two" style="@style/DialpadButtonStyle"
             android:src="@drawable/dial_num_2"
@@ -78,7 +78,7 @@
             android:src="@drawable/dial_num_star"
             android:contentDescription="@string/description_image_button_star" />
         <ImageButton android:id="@+id/zero" style="@style/DialpadButtonStyle"
-            android:src="@drawable/dial_num_0"
+            android:src="@drawable/dial_num_0_no_plus"
             android:contentDescription="@string/description_image_button_zero" />
         <ImageButton android:id="@+id/pound" style="@style/DialpadButtonStyle"
             android:src="@drawable/dial_num_pound"
