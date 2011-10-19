@@ -104,14 +104,12 @@
             >
 
             <!-- Name (or the phone number, if we don't have a name to display). -->
-            <!-- The right padding here is to make sure that ultra-long names
-                 won't overlap the elapsed time indication. -->
             <TextView android:id="@+id/name"
                       android:layout_alignParentTop="true"
                       android:layout_alignParentLeft="true"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:paddingRight="50sp"
+                      android:paddingRight="@dimen/call_banner_name_number_right_padding"
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:textColor="@color/incall_call_banner_text_color"
                       android:singleLine="true"
@@ -122,6 +120,7 @@
                           android:layout_below="@id/name"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:paddingRight="@dimen/call_banner_name_number_right_padding"
                           android:orientation="horizontal"
                           >
                 <TextView android:id="@+id/phoneNumber"
