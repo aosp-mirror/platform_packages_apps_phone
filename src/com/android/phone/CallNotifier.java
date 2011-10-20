@@ -1119,7 +1119,8 @@ public class CallNotifier extends Handler
             } else if (cause == Connection.DisconnectCause.CDMA_DROP) {
                 if (DBG) log("- need to play CDMA_DROP tone!");
                 toneToPlay = InCallTonePlayer.TONE_CDMA_DROP;
-            } else if (cause == Connection.DisconnectCause.OUT_OF_SERVICE) {
+            } else if (cause == Connection.DisconnectCause.OUT_OF_SERVICE || cause == Connection.DisconnectCause.ICC_ERROR) {
+                // ICC_ERROR is SIM removal during call
                 if (DBG) log("- need to play OUT OF SERVICE tone!");
                 toneToPlay = InCallTonePlayer.TONE_OUT_OF_SERVICE;
             } else if (cause == Connection.DisconnectCause.UNOBTAINABLE_NUMBER) {
