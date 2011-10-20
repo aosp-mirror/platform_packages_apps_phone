@@ -53,6 +53,7 @@ import android.util.Log;
  */
 public class InCallUiState {
     private static final String TAG = "InCallUiState";
+    private static final boolean DBG = false;
 
     /** The singleton InCallUiState instance. */
     private static InCallUiState sInstance;
@@ -206,6 +207,8 @@ public class InCallUiState {
      * that we need to display to the user.
      */
     public boolean hasPendingCallStatusCode() {
+        if (DBG) log("hasPendingCallStatusCode() ==> "
+                     + (mPendingCallStatusCode != CallStatusCode.SUCCESS));
         return (mPendingCallStatusCode != CallStatusCode.SUCCESS);
     }
 
@@ -214,6 +217,7 @@ public class InCallUiState {
      * that we need to display to the user.
      */
     public CallStatusCode getPendingCallStatusCode() {
+        if (DBG) log("getPendingCallStatusCode() ==> " + mPendingCallStatusCode);
         return mPendingCallStatusCode;
     }
 
@@ -221,6 +225,7 @@ public class InCallUiState {
      * Sets the pending "error status indication" code.
      */
     public void setPendingCallStatusCode(CallStatusCode status) {
+        if (DBG) log("setPendingCallStatusCode( " + status + " )...");
         if (mPendingCallStatusCode != CallStatusCode.SUCCESS) {
             // Uh oh: mPendingCallStatusCode is already set to some value
             // other than SUCCESS (which indicates that there was some kind of
@@ -244,6 +249,7 @@ public class InCallUiState {
      * because of a previous call status code.)
      */
     public void clearPendingCallStatusCode() {
+        if (DBG) log("clearPendingCallStatusCode()...");
         mPendingCallStatusCode = CallStatusCode.SUCCESS;
     }
 
@@ -390,24 +396,28 @@ public class InCallUiState {
     //
 
     public void dumpState() {
-        Log.d(TAG, "dumpState():");
-        Log.d(TAG, "  - showDialpad: " + showDialpad);
+        log("dumpState():");
+        log("  - showDialpad: " + showDialpad);
         if (hasPendingCallStatusCode()) {
-            Log.d(TAG, "  - status indication is pending!");
-            Log.d(TAG, "    - pending call status code = " + mPendingCallStatusCode);
+            log("  - status indication is pending!");
+            log("    - pending call status code = " + mPendingCallStatusCode);
         } else {
-            Log.d(TAG, "  - pending call status code: none");
+            log("  - pending call status code: none");
         }
-        Log.d(TAG, "  - progressIndication: " + progressIndication);
+        log("  - progressIndication: " + progressIndication);
         if (providerOverlayVisible) {
-            Log.d(TAG, "  - provider overlay VISIBLE: "
+            log("  - provider overlay VISIBLE: "
                   + providerLabel + " / "
                   + providerIcon  + " / "
                   + providerGatewayUri + " / "
                   + providerAddress);
         } else {
-            Log.d(TAG, "  - provider overlay: none");
+            log("  - provider overlay: none");
         }
-        Log.d(TAG, "  - latestActiveCallOrigin: " + latestActiveCallOrigin);
+        log("  - latestActiveCallOrigin: " + latestActiveCallOrigin);
+    }
+
+    private static void log(String msg) {
+        Log.d(TAG, msg);
     }
 }
