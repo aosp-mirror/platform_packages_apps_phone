@@ -109,7 +109,8 @@ public class Constants {
         CDMA_CALL_LOST,
 
         /**
-         * This status indicates that InCallScreen needs to display the
+         * This status indicates that the call was placed successfully,
+         * but additionally, the InCallScreen needs to display the
          * "Exiting ECM" dialog.
          *
          * (Details: "Emergency callback mode" is a CDMA-specific concept

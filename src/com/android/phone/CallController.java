@@ -250,23 +250,37 @@ public class CallController extends Handler {
 
         CallStatusCode status = placeCallInternal(intent);
 
-        if (status == CallStatusCode.SUCCESS) {
-            if (DBG) log("==> placeCall(): success from placeCallInternal(): " + status);
-            // There's no "error condition" that needs to be displayed to
-            // the user, so clear out the InCallUiState's "pending call
-            // status code".
-            inCallUiState.clearPendingCallStatusCode();
+        switch (status) {
+            // Call was placed successfully:
+            case SUCCESS:
+            case EXITED_ECM:
+                if (DBG) log("==> placeCall(): success from placeCallInternal(): " + status);
 
-            // Notify the phone app that a call is beginning so it can
-            // enable the proximity sensor
-            mApp.setBeginningCall(true);
-        } else {
-            log("==> placeCall(): failure code from placeCallInternal(): " + status);
-            // Handle the various error conditions that can occur when
-            // initiating an outgoing call, typically by directing the
-            // InCallScreen to display a diagnostic message (via the
-            // "pending call status code" flag.)
-            handleOutgoingCallError(status);
+                if (status == CallStatusCode.EXITED_ECM) {
+                    // Call succeeded, but we also need to tell the
+                    // InCallScreen to show the "Exiting ECM" warning.
+                    inCallUiState.setPendingCallStatusCode(CallStatusCode.EXITED_ECM);
+                } else {
+                    // Call succeeded.  There's no "error condition" that
+                    // needs to be displayed to the user, so clear out the
+                    // InCallUiState's "pending call status code".
+                    inCallUiState.clearPendingCallStatusCode();
+                }
+
+                // Notify the phone app that a call is beginning so it can
+                // enable the proximity sensor
+                mApp.setBeginningCall(true);
+                break;
+
+            default:
+                // Any other status code is a failure.
+                log("==> placeCall(): failure code from placeCallInternal(): " + status);
+                // Handle the various error conditions that can occur when
+                // initiating an outgoing call, typically by directing the
+                // InCallScreen to display a diagnostic message (via the
+                // "pending call status code" flag.)
+                handleOutgoingCallError(status);
+                break;
         }
 
         // Finally, regardless of whether we successfully initiated the
@@ -497,10 +511,10 @@ public class CallController extends Handler {
                 // dial a non-emergency number, that automatically
                 // *cancels* ECM.  So warn the user about it.
                 // (See InCallScreen.showExitingECMDialog() for more info.)
+                boolean exitedEcm = false;
                 if (PhoneUtils.isPhoneInEcm(phone) && !isEmergencyNumber) {
                     Log.i(TAG, "About to exit ECM because of an outgoing non-emergency call");
-                    // Tell the InCallScreen to show the "Exiting ECM" warning.
-                    inCallUiState.setPendingCallStatusCode(CallStatusCode.EXITED_ECM);
+                    exitedEcm = true;  // this will cause us to return EXITED_ECM from this method
                 }
 
                 if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
@@ -528,7 +542,12 @@ public class CallController extends Handler {
                     }
                 }
 
-                return CallStatusCode.SUCCESS;
+                // Success!
+                if (exitedEcm) {
+                    return CallStatusCode.EXITED_ECM;
+                } else {
+                    return CallStatusCode.SUCCESS;
+                }
 
             case PhoneUtils.CALL_STATUS_DIALED_MMI:
                 if (DBG) log("placeCall: specified number was an MMI code: '" + number + "'.");
