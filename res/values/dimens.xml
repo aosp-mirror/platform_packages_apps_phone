@@ -45,6 +45,11 @@
     <dimen name="call_state_label_right_padding">10dp</dimen>
     <dimen name="call_state_label_top_bottom_padding">5dp</dimen>
 
+    <!-- Right padding for name and number fields in the call banner.
+         This padding is used to ensure that ultra-long names or
+         numbers won't overlap the elapsed time indication. -->
+    <dimen name="call_banner_name_number_right_padding">50sp</dimen>
+
     <!-- Height of the main row of in-call buttons. -->
     <dimen name="in_call_button_height">76dp</dimen>
 
