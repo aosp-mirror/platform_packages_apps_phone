@@ -54,6 +54,7 @@ public class SipEditor extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
     private static final int MENU_SAVE = Menu.FIRST;
     private static final int MENU_DISCARD = Menu.FIRST + 1;
+    private static final int MENU_REMOVE = Menu.FIRST + 2;
 
     private static final String TAG = SipEditor.class.getSimpleName();
     private static final String KEY_PROFILE = "profile";
@@ -173,20 +174,9 @@ public class SipEditor extends PreferenceActivity
         }
 
         if (p == null) {
-            findViewById(R.id.add_remove_account_bar)
-                    .setVisibility(View.GONE);
             screen.setTitle(R.string.sip_edit_new_title);
-        } else {
-            mRemoveButton =
-                    (Button)findViewById(R.id.add_remove_account_button);
-            mRemoveButton.setText(getString(R.string.remove_sip_account));
-            mRemoveButton.setOnClickListener(
-                    new android.view.View.OnClickListener() {
-                        public void onClick(View v) {
-                            setRemovedProfileAndFinish();
-                        }
-                    });
         }
+
         mAdvancedSettings = new AdvancedSettings();
         mPrimaryAccountSelector = new PrimaryAccountSelector(p);
 
@@ -213,10 +203,19 @@ public class SipEditor extends PreferenceActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add(0, MENU_SAVE, 0, R.string.sip_menu_save)
-                .setIcon(android.R.drawable.ic_menu_save);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         menu.add(0, MENU_DISCARD, 0, R.string.sip_menu_discard)
-                .setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        menu.add(0, MENU_REMOVE, 0, R.string.remove_sip_account)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem removeMenu = menu.findItem(MENU_REMOVE);
+        removeMenu.setVisible(mOldProfile != null);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -231,6 +230,11 @@ public class SipEditor extends PreferenceActivity
             case MENU_DISCARD:
                 finish();
                 return true;
+
+            case MENU_REMOVE: {
+                setRemovedProfileAndFinish();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
