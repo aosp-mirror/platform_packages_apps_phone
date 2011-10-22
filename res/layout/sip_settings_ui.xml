@@ -30,28 +30,4 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
     />
 
-    <LinearLayout android:id="@+id/add_remove_account_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@android:drawable/bottom_bar">
-
-        <View
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <Button android:id="@+id/add_remove_account_button"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_marginTop="5dip"
-            android:text="@string/add_sip_account" />
-
-        <View
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
 </LinearLayout>

@@ -468,7 +468,8 @@
                   android:name=".sip.SipSettings"
                   android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                   android:launchMode="singleTop"
-                  android:configChanges="orientation|screenSize|keyboardHidden">
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.sip.NOTIFY" />
@@ -476,7 +477,8 @@
         </activity>
         <activity android:name=".sip.SipEditor"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge"
-                android:configChanges="orientation|screenSize|keyboardHidden">
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity android:name=".SipCallOptionHandler"
                 android:theme="@android:style/Theme.Holo.NoActionBar"
