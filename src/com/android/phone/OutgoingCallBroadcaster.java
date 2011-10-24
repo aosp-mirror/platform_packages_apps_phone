@@ -461,6 +461,17 @@ public class OutgoingCallBroadcaster extends Activity
             // EXTRA_ALREADY_CALLED extra.)
         }
 
+        // Remember the call origin so that users will be able to see an appropriate screen
+        // after the phone call. This should affect both phone calls and SIP calls.
+        final String callOrigin = intent.getStringExtra(PhoneApp.EXTRA_CALL_ORIGIN);
+        if (callOrigin != null) {
+            if (DBG) Log.v(TAG, "Call origin is passed (" + callOrigin + ")");
+            PhoneApp.getInstance().setLatestActiveCallOrigin(callOrigin);
+        } else {
+            if (DBG) Log.v(TAG, "Call origin is not passed. Reset current one.");
+            PhoneApp.getInstance().setLatestActiveCallOrigin(null);
+        }
+
         // For now, SIP calls will be processed directly without a
         // NEW_OUTGOING_CALL broadcast.
         //
@@ -482,15 +493,6 @@ public class OutgoingCallBroadcaster extends Activity
             // TODO: if there's ever a way for SIP calls to trigger a
             // "callNow=true" case (see above), we'll need to handle that
             // case here too (most likely by just doing nothing at all.)
-        }
-
-        final String callOrigin = intent.getStringExtra(PhoneApp.EXTRA_CALL_ORIGIN);
-        if (callOrigin != null) {
-            if (DBG) Log.v(TAG, "Call origin is passed (" + callOrigin + ")");
-            PhoneApp.getInstance().setLatestActiveCallOrigin(callOrigin);
-        } else {
-            if (DBG) Log.v(TAG, "Call origin is not passed. Reset current one.");
-            PhoneApp.getInstance().setLatestActiveCallOrigin(null);
         }
 
         Intent broadcastIntent = new Intent(Intent.ACTION_NEW_OUTGOING_CALL);
