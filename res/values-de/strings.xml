@@ -206,7 +206,7 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Daten aktiviert"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetze aktivieren"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetz aktivieren"</string>
     <string name="roaming" msgid="8871412572928323707">"Daten-Roaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Bei Roaming mit Datendienst verbinden"</string>
@@ -214,10 +214,10 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM-/UMTS-Optionen"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-Optionen"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"Datennutzung"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Datenverbrauch"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"Datenrichtlinien des Mobilfunkanbieters"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Im aktuellen Zeitraum verwendete Daten"</string>
-    <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum der Datennutzung"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum des Datenverbrauchs"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Richtlinien zur Datenrate"</string>
     <string name="throttle_help" msgid="243651091785169900">"Weitere Informationen"</string>
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>."\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_3">%4$d</xliff:g> Tagen (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
