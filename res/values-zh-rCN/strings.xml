@@ -97,7 +97,7 @@
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM 通话设置"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA 通话设置"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"接入点名称"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"接入点名称 (APN)"</string>
     <string name="settings_label" msgid="3876743539816984008">"网络设置"</string>
     <string name="voicemail" msgid="8693759337917898954">"语音信箱"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"语音信箱："</string>

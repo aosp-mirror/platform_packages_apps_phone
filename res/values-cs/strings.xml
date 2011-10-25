@@ -205,7 +205,7 @@
     <item msgid="7345284701413565429">"LTE / CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Datové přenosy aktivovány"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Dat. přenosy aktivovány"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Aktivuje datový přístup prostřednictvím mobilní sítě"</string>
     <string name="roaming" msgid="8871412572928323707">"Datové služby při roamingu"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Datové služby se mohou připojovat při roamingu"</string>
