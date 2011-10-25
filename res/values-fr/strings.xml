@@ -174,7 +174,7 @@
     <string name="not_allowed" msgid="3540496123717833833">"Votre carte SIM ne vous autorise pas à vous connecter à ce réseau."</string>
     <string name="connect_later" msgid="500090982903469816">"Impossible de se connecter au réseau pour l\'instant. Veuillez réessayer ultérieurement."</string>
     <string name="registration_done" msgid="495135664535876612">"Enregistré sur le réseau."</string>
-    <string name="sum_carrier_select" msgid="6526225502314751575">"Choisir un opérateur réseau"</string>
+    <string name="sum_carrier_select" msgid="6526225502314751575">"Choisir un opérateur de réseau"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Chercher tous les réseaux disponibles"</string>
     <string name="select_automatically" msgid="8615980695510888796">"Sélection automatique"</string>
     <string name="sum_select_automatically" msgid="8460954604521755275">"Sélectionner automatiquement"</string>
@@ -214,7 +214,7 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Autoriser l\'itinérance des données ? Des frais d\'itinérance importants peuvent s\'appliquer !"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Options GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Options CDMA"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"Utilisation des données"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Consommation des données"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"Règles de l\'opérateur en matière de données"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Données utilisées sur la période en cours"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Période d\'utilisation des données"</string>

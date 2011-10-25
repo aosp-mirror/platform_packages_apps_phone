@@ -86,7 +86,7 @@
     <string name="enterPuk" msgid="6144749655582862324">"Digita il codice PUK per sbloccare la SIM"</string>
     <string name="badPuk" msgid="3213017898690275965">"Codice PUK errato."</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Continua"</string>
-    <string name="puk_unlocked" msgid="2284912838477558454">"La SIM è stata sbloccata. Sblocco del telefono in corso..."</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"La SIM è stata sbloccata. Sblocco del telefono..."</string>
     <string name="label_ndp" msgid="780479633159517250">"PIN sblocco rete SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Sblocca"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Chiudi"</string>
@@ -410,13 +410,13 @@
     <string name="number" msgid="7905950798349903858">"Numero"</string>
     <string name="save" msgid="4094274636321939086">"Salva"</string>
     <string name="add_fdn_contact" msgid="2481915899633353976">"Aggiungi numero selezione fissa"</string>
-    <string name="adding_fdn_contact" msgid="7627379633721940991">"Aggiunta numero selezione fissa in corso..."</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"Aggiunta numero selezione fissa..."</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"Numero di selezione fissa aggiunto."</string>
     <string name="edit_fdn_contact" msgid="7976936035587081480">"Modifica numero selezione fissa"</string>
-    <string name="updating_fdn_contact" msgid="8370929876849803600">"Aggiornamento numero selezione fissa in corso..."</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"Aggiornamento numero selezione fissa..."</string>
     <string name="fdn_contact_updated" msgid="5497828782609005017">"Numero di selezione fissa aggiornato."</string>
     <string name="delete_fdn_contact" msgid="6668958073074151717">"Elimina numero selezione fissa"</string>
-    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Eliminazione numero selezione fissa in corso..."</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"Eliminazione numero selezione fissa..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Numero di selezione fissa eliminato."</string>
     <string name="pin2_invalid" msgid="7176360264228076810">"FDN non aggiornato: il PIN inserito non è corretto."</string>
     <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN non aggiornato: il numero non superare 20 cifre."</string>
@@ -464,7 +464,7 @@
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autenticazione PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numero segreteria"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Chiamata in corso"</string>
-    <string name="card_title_redialing" msgid="4831412164303596395">"Nuovo tentativo in corso"</string>
+    <string name="card_title_redialing" msgid="4831412164303596395">"Nuovo tentativo"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Audioconferenza"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Chiamata in arrivo"</string>
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Chiamata CDMA in attesa"</string>
@@ -581,7 +581,7 @@
     <item quantity="other" msgid="3489076611710869904">"L\'azione selezionata non è disponibile in modalità di richiamata di emergenza. Il telefono sarà in questa modalità per <xliff:g id="COUNT">%s</xliff:g> minuti. Uscire ora?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"L\'azione selezionata non è disponibile in modalità di chiamata di emergenza"</string>
-    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Uscita dalla modalità di richiamata di emergenza in corso"</string>
+    <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Uscita dalla modalità di richiamata di emergenza"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sì"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignora"</string>
@@ -630,8 +630,8 @@
     <string name="add_sip_account" msgid="5904858426290097611">"Aggiungi account"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"Rimuovi account"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"Account SIP"</string>
-    <string name="saving_account" msgid="7468818916695729968">"Salvataggio dell\'account in corso..."</string>
-    <string name="removing_account" msgid="5569334415898924904">"Rimozione dell\'account in corso..."</string>
+    <string name="saving_account" msgid="7468818916695729968">"Salvataggio dell\'account..."</string>
+    <string name="removing_account" msgid="5569334415898924904">"Rimozione dell\'account..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Salva"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Ignora"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Chiudi il profilo"</string>
@@ -642,8 +642,8 @@
     <string name="primary_account_summary" msgid="7339564526372623187">"Utilizzato per le chiamate in uscita"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Impostazioni avanzate"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Account principale. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
-    <string name="registration_status_checking_status" msgid="3381868307694056727">"Controllo stato in corso..."</string>
-    <string name="registration_status_registering" msgid="7115694971025999516">"Registrazione in corso..."</string>
+    <string name="registration_status_checking_status" msgid="3381868307694056727">"Controllo stato..."</string>
+    <string name="registration_status_registering" msgid="7115694971025999516">"Registrazione..."</string>
     <string name="registration_status_still_trying" msgid="1471733478935862864">"Tentativo ancora in corso..."</string>
     <string name="registration_status_not_receiving" msgid="5011399017106466965">"Ricezione chiamate non attiva"</string>
     <string name="registration_status_no_data" msgid="8279587001454092132">"Registrazione account interrotta per mancanza di una connessione a Internet"</string>
