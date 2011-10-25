@@ -206,7 +206,7 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Daten aktiviert"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetze aktivieren"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetz aktivieren"</string>
     <string name="roaming" msgid="8871412572928323707">"Daten-Roaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Bei Roaming mit Datendienst verbinden"</string>
@@ -214,10 +214,10 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM-/UMTS-Optionen"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-Optionen"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"Datennutzung"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Datenverbrauch"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"Datenrichtlinien des Mobilfunkanbieters"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Im aktuellen Zeitraum verwendete Daten"</string>
-    <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum der Datennutzung"</string>
+    <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum des Datenverbrauchs"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Richtlinien zur Datenrate"</string>
     <string name="throttle_help" msgid="243651091785169900">"Weitere Informationen"</string>
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>."\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_3">%4$d</xliff:g> Tagen (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
@@ -539,7 +539,7 @@
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Netzwerknachricht"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Ihr Telefon aktivieren"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Zur Aktivierung Ihres Telefondienstes muss ein spezieller Anruf getätigt werden. "\n\n"Wählen Sie \"Aktivieren\" und befolgen Sie die Anweisungen zur Aktivierung Ihres Telefons."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Zur Aktivierung Ihres Telefondienstes muss ein spezieller Anruf getätigt werden. "\n\n"Wählen Sie \"Aktivieren\" und folgen Sie der Anleitung zur Aktivierung Ihres Telefons."</string>
     <string name="ota_touch_activate_new" msgid="4508197891732183852">"Wählen Sie \"Aktivieren\", um über einen speziellen Anruf Ihr Telefon beim Mobilfunknetz Ihres Anbieters zu aktivieren. Anschließend können Sie Anrufe tätigen und sich mit mobilen Datennetzwerken verbinden."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Aktivierung überspringen?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Wenn Sie die Aktivierung überspringen, können Sie keine Anrufe tätigen oder sich mit mobilen Datennetzwerken verbinden (Sie können sich allerdings mit WLAN-Netzwerken verbinden). Bis Sie Ihr Telefon aktivieren, werden Sie bei jedem Einschalten zur Aktivierung aufgefordert."</string>
@@ -548,7 +548,7 @@
     <string name="ota_activate" msgid="1368528132525626264">"Aktivieren"</string>
     <string name="ota_title_activate_success" msgid="3344632328991980578">"Telefon ist aktiviert!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problem mit der Aktivierung"</string>
-    <string name="ota_listen" msgid="162923839877584937">"Folgen Sie den Anweisungen bis Sie hören, dass die Aktivierung abgeschlossen ist."</string>
+    <string name="ota_listen" msgid="162923839877584937">"Folgen Sie der Anleitung bis Sie hören, dass die Aktivierung abgeschlossen ist."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Tastatur"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Lautspr."</string>
     <string name="ota_progress" msgid="4644512049143969504">"Bitte warten Sie, während Ihr Telefon programmiert wird."</string>

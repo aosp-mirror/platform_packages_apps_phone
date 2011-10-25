@@ -207,11 +207,11 @@
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"已啟用資料"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"啟用 Google 行動服務網路的資料存取"</string>
-    <string name="roaming" msgid="8871412572928323707">"資料漫遊"</string>
+    <string name="roaming" msgid="8871412572928323707">"漫遊服務"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫遊時連線到資料傳輸服務"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"漫遊時連線到資料傳輸服務"</string>
     <string name="roaming_reenable_message" msgid="6973894869473170666">"由於您不在主要網路蓋涵範圍，而且已關閉資料傳輸漫遊服務，資料連線已中斷。"</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"要允許資料漫遊嗎？您可能會需要支付龐大漫遊費用！"</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"要允許漫遊服務嗎？您可能會需要支付龐大漫遊費用！"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 選項"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 選項"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"資料用量"</string>
