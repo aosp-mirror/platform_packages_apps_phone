@@ -206,7 +206,7 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"已启用数据"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"启用移动网络的数据访问功能"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"允许通过移动网络存取数据"</string>
     <string name="roaming" msgid="8871412572928323707">"数据漫游"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫游时连接到数据服务"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"漫游时连接到数据服务"</string>
@@ -214,7 +214,7 @@
     <string name="roaming_warning" msgid="7820963598559553967">"是否允许数据漫游？这可能产生大量漫游费！"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 选项"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 选项"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"数据使用情况"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"流量使用情况"</string>
     <string name="throttle_settings_title" msgid="2761975408383706589">"运营商流量政策"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"当前时段使用的数据"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"数据使用时段"</string>

@@ -60,7 +60,7 @@
     <string name="call_lost_title" msgid="6696949678847938515">"שיחה אבדה"</string>
     <string name="ok" msgid="3811371167865772377">"אישור"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"קוד MMI הופעל"</string>
-    <string name="ussdRunning" msgid="485588686340541690">"קוד USSD פועל???"</string>
+    <string name="ussdRunning" msgid="485588686340541690">"קוד USSD פועל…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"קוד MMI מבוטל"</string>
     <string name="cancel" msgid="5044513931633602634">"ביטול"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"נהל שיחת ועידה"</string>
@@ -671,8 +671,8 @@
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;לא הוגדר&gt;"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;זהה לשם משתמש&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;אופציונלי&gt;"</string>
-    <string name="advanced_settings_show" msgid="4668880308290857597">"??? גע כדי להציג את הכל"</string>
-    <string name="advanced_settings_hide" msgid="217398292824758079">"??? גע כדי להסתיר את הכל"</string>
+    <string name="advanced_settings_show" msgid="4668880308290857597">"▷ גע כדי להציג את הכל"</string>
+    <string name="advanced_settings_hide" msgid="217398292824758079">"▽ גע כדי להסתיר את הכל"</string>
     <string name="empty_alert" msgid="8177828109581557940">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> הוא שדה חובה, אין אפשרות להשאיר אותו ריק"</string>
     <string name="not_a_valid_port" msgid="5750410768271782606">"מספר היציאה צריך להיות בין 1000 ל-65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"אין חיבור לאינטרנט"</string>
