@@ -74,8 +74,8 @@
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Ja"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Nein"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Platzhalter ersetzen durch"</string>
-    <string name="no_vm_number" msgid="4164780423805688336">"Fehlende Mailboxnummer"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"Auf der SIM-Karte ist keine Mailboxnummer gespeichert."</string>
+    <string name="no_vm_number" msgid="4164780423805688336">"Fehlende Mailbox-Nummer"</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Auf der SIM-Karte ist keine Mailbox-Nummer gespeichert."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Nummer hinzufügen"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Wird geladen..."</string>
     <string name="enterPin" msgid="4753300834213388397">"Geben Sie zum Entsperren der SIM-Karte den PIN-Code ein."</string>
@@ -156,9 +156,9 @@
     <item msgid="7876195870037833661">"Rufnummer unterdrücken"</item>
     <item msgid="1108394741608734023">"Rufnummer anzeigen"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Mailboxnummer speichern"</string>
+    <string name="vm_save_number" msgid="4579969432544566719">"Mailbox-Nummer speichern"</string>
     <string name="vm_changed" msgid="380744030726254139">"Mailboxnummer geändert."</string>
-    <string name="vm_change_failed" msgid="6912718596496220653">"Die Mailboxnummer konnte nicht geändert werden."\n"Kontaktieren Sie Ihren Netzbetreiber, wenn dieses Problem weiterhin besteht."</string>
+    <string name="vm_change_failed" msgid="6912718596496220653">"Die Mailbox-Nummer konnte nicht geändert werden."\n"Kontaktieren Sie Ihren Netzbetreiber, wenn dieses Problem weiterhin besteht."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Die Weiterleitungsnummer konnte nicht geändert werden."\n"Kontaktieren Sie Ihren Netzbetreiber, wenn dieses Problem weiterhin besteht."</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Die aktuellen Einstellungen der Weiterleitungsnummern konnten nicht abgerufen und gespeichert werden."\n"Möchten Sie trotzdem zum neuen Anbieter wechseln?"</string>
     <string name="no_change" msgid="3186040086622435212">"Es wurden keine Änderungen vorgenommen."</string>
@@ -220,10 +220,14 @@
     <string name="throttle_time_frame" msgid="1915198770363734685">"Zeitraum des Datenverbrauchs"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Richtlinien zur Datenrate"</string>
     <string name="throttle_help" msgid="243651091785169900">"Weitere Informationen"</string>
-    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>."\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_3">%4$d</xliff:g> Tagen (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
-    <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> Prozent) des maximalen Zeitraums von <xliff:g id="USED_2">%3$s</xliff:g>"</string>
+    <!-- String.format failed for translation -->
+    <!-- no translation found for throttle_status_subtext (1657318943142085170) -->
+    <skip />
+    <!-- String.format failed for translation -->
+    <!-- no translation found for throttle_data_usage_subtext (6029276011123694701) -->
+    <skip />
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Maximum von <xliff:g id="USED_0">%1$s</xliff:g> wurde überschritten."\n"Datenrate wurde auf <xliff:g id="USED_1">%2$d</xliff:g> kbit/s reduziert."</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> Prozent des Zyklus sind verstrichen. "\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_1">%2$d</xliff:g> Tagen (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g> % des Zyklus sind verstrichen. "\n"Der nächste Zeitraum beginnt in <xliff:g id="USED_1">%2$d</xliff:g> Tagen (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datenrate wird auf <xliff:g id="USED">%1$d</xliff:g> kbit/s reduziert, wenn Datennutzungslimit überschritten wird."</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Weitere Informationen über die Richtlinien Ihres Mobilfunkanbieters zur Nutzung der Mobilfunknetzdaten"</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
