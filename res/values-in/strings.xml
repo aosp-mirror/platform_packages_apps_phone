@@ -207,11 +207,11 @@
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Data diaktifkan"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Aktifkan akses data pada jaringan Seluler"</string>
-    <string name="roaming" msgid="8871412572928323707">"Data roaming"</string>
+    <string name="roaming" msgid="8871412572928323707">"Roaming data"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Sambungkan ke layanan data ketika roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Sambungkan ke layanan data ketika roaming"</string>
-    <string name="roaming_reenable_message" msgid="6973894869473170666">"Anda telah kehilangan konektivitas data karena data roaming pada jaringan utama Anda biarkan dalam keadaan mati."</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"Izinkan data roaming? Anda mungkin dikenai tarif jelajah yang tinggi!"</string>
+    <string name="roaming_reenable_message" msgid="6973894869473170666">"Anda telah kehilangan konektivitas data karena Anda meninggalkan jaringan asal dalam keadaan roaming data dimatikan."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Izinkan roaming data? Anda mungkin dikenai tarif jelajah yang tinggi!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opsi GSM//UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opsi CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Penggunaan data"</string>
