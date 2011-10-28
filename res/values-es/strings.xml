@@ -323,7 +323,7 @@
     <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Preferencias de red GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (modo automático)"</item>
-    <item msgid="8912042051809329533">"Sólo WCDMA"</item>
+    <item msgid="8912042051809329533">"Solo WCDMA"</item>
     <item msgid="8776934131146642662">"Solo GSM"</item>
     <item msgid="4684679567848300935">"GSM/WCDA (preferencia de WCDMA)"</item>
   </string-array>
@@ -360,7 +360,7 @@
     <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Preferencias de red CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Sólo CDMA"</item>
+    <item msgid="6143696847467859795">"Solo CDMA"</item>
     <item msgid="2683555124647197574">"Solo EvDo"</item>
   </string-array>
   <string-array name="cdma_network_preferences_values">
