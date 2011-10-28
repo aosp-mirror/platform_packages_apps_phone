@@ -68,7 +68,7 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares con cable"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"¿Deseas enviar los siguientes tonos?"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"¿Quieres enviar los siguientes tonos?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Enviando tonos"\n</string>
     <string name="send_button" msgid="4106860097497818751">"Enviar"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Sí"</string>
@@ -323,7 +323,7 @@
     <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Preferencias de red GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (modo automático)"</item>
-    <item msgid="8912042051809329533">"Sólo WCDMA"</item>
+    <item msgid="8912042051809329533">"Solo WCDMA"</item>
     <item msgid="8776934131146642662">"Solo GSM"</item>
     <item msgid="4684679567848300935">"GSM/WCDA (preferencia de WCDMA)"</item>
   </string-array>
@@ -360,7 +360,7 @@
     <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Preferencias de red CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Sólo CDMA"</item>
+    <item msgid="6143696847467859795">"Solo CDMA"</item>
     <item msgid="2683555124647197574">"Solo EvDo"</item>
   </string-array>
   <string-array name="cdma_network_preferences_values">
@@ -573,12 +573,12 @@
     <item quantity="other" msgid="3122217344579273583">"Ninguna conexión de datos durante <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minuto. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Deseas salir ahora?"</item>
-    <item quantity="other" msgid="3231879566243957821">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minutos. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Deseas salir ahora?"</item>
+    <item quantity="one" msgid="2181569650640386253">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minuto. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Quieres salir?"</item>
+    <item quantity="other" msgid="3231879566243957821">"El teléfono permanecerá en modo de devolución de llamada de emergencia durante <xliff:g id="COUNT">%s</xliff:g> minutos. Mientras este modo esté activo, no se podrá utilizar ninguna aplicación que utilice una conexión de datos. ¿Quieres salir?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="8939225905428421722">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. ¿Deseas salir ahora?"</item>
-    <item quantity="other" msgid="3489076611710869904">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. ¿Deseas salir ahora?"</item>
+    <item quantity="one" msgid="8939225905428421722">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minuto. ¿Quieres salir?"</item>
+    <item quantity="other" msgid="3489076611710869904">"La acción seleccionada no está disponible en el modo de devolución de llamada de emergencia. El teléfono permanecerá en este modo durante <xliff:g id="COUNT">%s</xliff:g> minutos. ¿Quieres salir?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="2334477874583086142">"La acción seleccionada no está disponible en modo de llamada de emergencia."</string>
     <string name="progress_dialog_exiting_ecm" msgid="8751952246695857820">"Saliendo del modo de devolución de llamada de emergencia"</string>

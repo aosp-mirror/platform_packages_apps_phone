@@ -211,7 +211,7 @@
     <string name="roaming_enable" msgid="7331106985174381987">"เชื่อมต่อบริการข้อมูลขณะโรมมิ่ง"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"เชื่อมต่อบริการข้อมูลขณะโรมมิ่ง"</string>
     <string name="roaming_reenable_message" msgid="6973894869473170666">"การเชื่อมต่อข้อมูลของคุณหายไปเนื่องจากคุณออกจากเครือข่ายที่บ้านโดยปิดการโรมมิ่งข้อมูลไว้"</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"อนุญาตให้โรมมิ่งข้อมูลหรือไม่ อาจมีค่าใช้จ่ายในการโรมมิ่งจำนวนมาก!"</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"การเปิดโรมมิ่งข้อมูลอาจทำให้คุณเสียค่าใช้จ่ายมาก!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"ตัวเลือก GSM//UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"ตัวเลือก CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"การใช้ข้อมูล"</string>

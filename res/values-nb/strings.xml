@@ -575,8 +575,8 @@
     <item quantity="other" msgid="3122217344579273583">"Ingen datatilkobling i <xliff:g id="COUNT">%s</xliff:g> minutter"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
-    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen programmer med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
+    <item quantity="one" msgid="2181569650640386253">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen apper med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
+    <item quantity="other" msgid="3231879566243957821">"Telefonen vil være i modusen nødsamtale-tilbakeringing i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen apper med datatilkobling kan brukes når telefonen er i denne modusen. Vil du avslutte?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="8939225905428421722">"Den valgte handlingen er ikke tilgjengelig i modusen nødsamtale-tilbakeringing. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutt. Vil du avslutte?"</item>
@@ -655,7 +655,7 @@
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Kontoregistrering mislyktes: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); prøver på nytt senere"</string>
     <string name="registration_status_invalid_credentials" msgid="85887803757211092">"Kontoregistrering mislyktes: feil brukernavn eller passord"</string>
     <string name="registration_status_server_unreachable" msgid="9138794150602726009">"Kontoregistrering mislyktes: kontroller tjenernavnet"</string>
-    <string name="third_party_account_summary" msgid="1069915789382987226">"Denne kontoen er for øyeblikket i bruk av programmet <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
+    <string name="third_party_account_summary" msgid="1069915789382987226">"Denne kontoen er for øyeblikket i bruk av appen <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Kontoinnstillinger for SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Kontoinnstillinger for SIP"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Tjener"</string>

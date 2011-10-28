@@ -600,7 +600,7 @@
     <string name="goPrivate" msgid="865837794424530980">"przejdź do rozmowy prywatnej"</string>
     <string name="selectContact" msgid="781975788478987237">"wybierz kontakt"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Dzwonienie przez internet"</string>
-    <string name="sip_accounts" msgid="2097054001288457163">"Konta do połączeń przez internet (SIP)"</string>
+    <string name="sip_accounts" msgid="2097054001288457163">"Konta do połączeń SIP"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Konta"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Zarządzaj kontami do połączeń przez internet (SIP)"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Odbieraj przychodzące"</string>
@@ -608,7 +608,7 @@
     <string name="sip_call_options" msgid="7128315120104066133">"Konfiguruj opcje połączenia"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Dzwoń przez internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Dzwoń przez internet (tylko Wi-Fi)"</string>
-    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Przy wszystkich połączeniach, gdy sieć transmisji danych jest dostępna"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Wszystkie połączenia, gdy transmisja danych jest dostępna"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Tylko internetowe"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pytaj przy każdym połączeniu"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Wszystkie połączenia"</string>

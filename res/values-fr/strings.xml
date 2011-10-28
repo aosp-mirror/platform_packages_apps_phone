@@ -123,7 +123,7 @@
     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Transfert de tous les appels vers <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Numéro indisponible"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Désactivé"</string>
-    <string name="labelCFB" msgid="218938523102207587">"Transf. si ligne occupée"</string>
+    <string name="labelCFB" msgid="218938523102207587">"Transférer si ligne occupée"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Numéro de renvoi lorsque la ligne est occupée"</string>
     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Transfert vers <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Désactivé"</string>
@@ -133,7 +133,7 @@
     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Transfert vers <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Désactivé"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Votre opérateur ne prend pas en charge la désactivation du transfert d\'appel lorsque votre téléphone ne répond pas."</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Transf. si injoignable"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Transférer si injoignable"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Numéro de renvoi si injoignable"</string>
     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Transfert vers <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Désactivé"</string>
@@ -152,7 +152,7 @@
     <string name="disable" msgid="7274240979164762320">"Désactiver"</string>
     <string name="change_num" msgid="239476305819844391">"Mettre à jour"</string>
   <string-array name="clir_display_values">
-    <item msgid="5560134294467334594">"Réseau par défaut"</item>
+    <item msgid="5560134294467334594">"Valeur par défaut"</item>
     <item msgid="7876195870037833661">"Masquer le numéro"</item>
     <item msgid="1108394741608734023">"Afficher le numéro"</item>
   </string-array>
@@ -466,7 +466,7 @@
     <string name="card_title_cdma_call_waiting" msgid="4532445524811272644">"Appel CDMA en attente"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Fin de l\'appel"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"En attente"</string>
-    <string name="card_title_hanging_up" msgid="3999101620995182450">"Fin d\'appel"</string>
+    <string name="card_title_hanging_up" msgid="3999101620995182450">"Fin de l\'appel.."</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Appel en cours"</string>
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Mon numéro est le <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Appel manqué"</string>
