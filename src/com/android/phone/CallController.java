@@ -367,17 +367,25 @@ public class CallController extends Handler {
             return CallStatusCode.NO_PHONE_NUMBER_SUPPLIED;
         }
 
+
+        // Sanity-check that ACTION_CALL_EMERGENCY is used if and only if
+        // this is a call to an emergency number
+        // (This is just a sanity-check; this policy *should* really be
+        // enforced in OutgoingCallBroadcaster.onCreate(), which is the
+        // main entry point for the CALL and CALL_* intents.)
         boolean isEmergencyNumber = PhoneNumberUtils.isLocalEmergencyNumber(number, mApp);
+        boolean isPotentialEmergencyNumber =
+                PhoneNumberUtils.isPotentialLocalEmergencyNumber(number, mApp);
         boolean isEmergencyIntent = Intent.ACTION_CALL_EMERGENCY.equals(intent.getAction());
 
-        if (isEmergencyNumber && !isEmergencyIntent) {
+        if (isPotentialEmergencyNumber && !isEmergencyIntent) {
             Log.e(TAG, "Non-CALL_EMERGENCY Intent " + intent
-                    + " attempted to call emergency number " + number
+                    + " attempted to call potential emergency number " + number
                     + ".");
             return CallStatusCode.CALL_FAILED;
-        } else if (!isEmergencyNumber && isEmergencyIntent) {
+        } else if (!isPotentialEmergencyNumber && isEmergencyIntent) {
             Log.e(TAG, "Received CALL_EMERGENCY Intent " + intent
-                    + " with non-emergency number " + number
+                    + " with non-potential-emergency number " + number
                     + " -- failing call.");
             return CallStatusCode.CALL_FAILED;
         }
