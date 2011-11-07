@@ -719,6 +719,7 @@
     <string name="sum_fdn_change_pin">Change PIN for FDN access</string>
     <!-- Call settings, FDN screen, setting option name -->
     <string name="sum_fdn_manage_list">Manage phone number list</string>
+    <!-- Voice privacy on CDMA is an added layer of voice encryption. Theoretically, it would be harder to break in to a phone call with this feature enabled. -->
     <string name="voice_privacy">Voice privacy</string>
     <string name="voice_privacy_summary">Enable enhanced privacy mode</string>
     <string name="tty_mode_title">TTY mode</string>
