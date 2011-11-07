@@ -101,7 +101,7 @@
     <string name="settings_label" msgid="3876743539816984008">"Netzwerkeinstellungen"</string>
     <string name="voicemail" msgid="8693759337917898954">"Mailbox"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"MB:"</string>
-    <string name="networks" msgid="8873030692174541976">"Netzbetreiber"</string>
+    <string name="networks" msgid="8873030692174541976">"Mobilfunkanbieter"</string>
     <string name="call_settings" msgid="6112441768261754562">"Anrufeinstellungen"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Zusätzliche Einstellungen"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Zusätzliche Anrufeinstellungen nur für GSM"</string>
