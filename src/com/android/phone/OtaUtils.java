@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyProperties;
 import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 
 import android.app.Activity;
@@ -31,6 +32,8 @@ import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.SystemProperties;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -147,7 +150,13 @@ public class OtaUtils {
     // ("otaDtmfDialerView") that comes from otacall_card.xml.
     private DTMFTwelveKeyDialer mOtaCallCardDtmfDialer;
 
-    private static boolean mIsWizardMode = true;
+    private static boolean sIsWizardMode = true;
+
+    // How many times do we retry maybeDoOtaCall() if the LTE state is not known yet,
+    // and how long do we wait between retries
+    private static final int OTA_CALL_LTE_RETRIES_MAX = 5;
+    private static final int OTA_CALL_LTE_RETRY_PERIOD = 3000;
+    private static int sOtaCallLteRetries = 0;
 
     // In "interactive mode", the OtaUtils object is tied to an
     // InCallScreen instance, where we display a bunch of UI specific to
@@ -297,6 +306,18 @@ public class OtaUtils {
         }
         phone.unregisterForSubscriptionInfoReady(handler);
 
+        if (getLteOnCdmaMode(context) == Phone.LTE_ON_CDMA_UNKNOWN) {
+            if (sOtaCallLteRetries < OTA_CALL_LTE_RETRIES_MAX) {
+                if (DBG) log("maybeDoOtaCall: LTE state still unknown: retrying");
+                handler.sendEmptyMessageDelayed(request, OTA_CALL_LTE_RETRY_PERIOD);
+                sOtaCallLteRetries++;
+                return false;
+            } else {
+                Log.w(LOG_TAG, "maybeDoOtaCall: LTE state still unknown: giving up");
+                return true;
+            }
+        }
+
         boolean phoneNeedsActivation = phone.needsOtaServiceProvisioning();
         if (DBG) log("phoneNeedsActivation is set to " + phoneNeedsActivation);
 
@@ -305,12 +326,12 @@ public class OtaUtils {
         if (DBG) log("otaShowActivationScreen: " + otaShowActivationScreen);
 
         // Run the OTASP call in "interactive" mode only if
-        // this is a "voice capable" device.
-        if (PhoneApp.sVoiceCapable) {
+        // this is a non-LTE "voice capable" device.
+        if (PhoneApp.sVoiceCapable && getLteOnCdmaMode(context) == Phone.LTE_ON_CDMA_FALSE) {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
-                mIsWizardMode = false;
+                sIsWizardMode = false;
 
                 if (DBG) Log.d(LOG_TAG, "==> Starting interactive CDMA provisioning...");
                 OtaUtils.startInteractiveOtasp(context);
@@ -727,7 +748,7 @@ public class OtaUtils {
             if (DBG) log("otaShowActivateScreen(): show activation screen");
             if (!isDialerOpened()) {
                 otaScreenInitialize();
-                mOtaWidgetData.otaSkipButton.setVisibility(mIsWizardMode ?
+                mOtaWidgetData.otaSkipButton.setVisibility(sIsWizardMode ?
                         View.VISIBLE : View.INVISIBLE);
                 mOtaWidgetData.otaTextActivate.setVisibility(View.VISIBLE);
                 mOtaWidgetData.callCardOtaButtonsActivate.setVisibility(View.VISIBLE);
@@ -1579,6 +1600,19 @@ public class OtaUtils {
             default:
                 return "<unknown status" + status + ">";
         }
+    }
+
+    private static int getLteOnCdmaMode(Context context) {
+        final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(
+                Context.TELEPHONY_SERVICE);
+        // If the telephony manager is not available yet, or if it doesn't know the answer yet,
+        // try falling back on the system property that may or may not be there
+        if (telephonyManager == null
+                || telephonyManager.getLteOnCdmaMode() == Phone.LTE_ON_CDMA_UNKNOWN) {
+            return SystemProperties.getInt(TelephonyProperties.PROPERTY_LTE_ON_CDMA_DEVICE,
+                    Phone.LTE_ON_CDMA_UNKNOWN);
+        }
+        return telephonyManager.getLteOnCdmaMode();
     }
 
     private static void log(String msg) {
