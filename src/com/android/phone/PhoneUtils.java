@@ -2347,8 +2347,7 @@ public class PhoneUtils {
     private static void activateSpeakerIfDocked(Phone phone) {
         if (DBG) log("activateSpeakerIfDocked()...");
 
-        if (PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_DESK ||
-                PhoneApp.mDockState == Intent.EXTRA_DOCK_STATE_CAR) {
+        if (PhoneApp.mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
             if (DBG) log("activateSpeakerIfDocked(): In a dock -> may need to turn on speaker.");
             PhoneApp app = PhoneApp.getInstance();
             BluetoothHandsfree bthf = app.getBluetoothHandsfree();
