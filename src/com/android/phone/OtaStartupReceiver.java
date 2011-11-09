@@ -21,12 +21,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
+
+import com.android.internal.telephony.Phone;
+
 import android.util.Log;
 
 /*
@@ -38,6 +43,7 @@ public class OtaStartupReceiver extends BroadcastReceiver {
     private static final String TAG = "OtaStartupReceiver";
     private static final boolean DBG = true;
     private static final int MIN_READY = 10;
+    private static final int SERVICE_STATE_CHANGED = 11;
     private Context mContext;
 
     /**
@@ -60,10 +66,33 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case MIN_READY:
-                Log.v(TAG, "Attempting OtaActivation from handler, mOtaspMode=" + mOtaspMode);
-                OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
+                case MIN_READY:
+                    Log.v(TAG, "Attempting OtaActivation from handler, mOtaspMode=" + mOtaspMode);
+                    OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
+                    break;
+                case SERVICE_STATE_CHANGED: {
+                    ServiceState state = (ServiceState) ((AsyncResult) msg.obj).result;
+                    if (DBG) Log.d(TAG, "onServiceStateChanged()...  new state = " + state);
+
+                    // Possible service states:
+                    // - STATE_IN_SERVICE        // Normal operation
+                    // - STATE_OUT_OF_SERVICE    // Still searching for an operator to register to,
+                    //                           // or no radio signal
+                    // - STATE_EMERGENCY_ONLY    // Phone is locked; only emergency numbers are allowed
+                    // - STATE_POWER_OFF         // Radio is explicitly powered off (airplane mode)
+
+                    // Once we reach STATE_IN_SERVICE
+                    // it's finally OK to start OTA provisioning
+                    if (state.getState() == ServiceState.STATE_IN_SERVICE) {
+                        if (DBG) Log.d(TAG, "call OtaUtils.maybeDoOtaCall after network is available");
+                        Phone phone = PhoneApp.getPhone();
+                        phone.unregisterForServiceStateChanged(this);
+                        OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
+                    }
+                    break;
+                }
             }
+
         }
     };
 
@@ -92,6 +121,15 @@ public class OtaStartupReceiver extends BroadcastReceiver {
 
         if (shouldPostpone(context)) {
             if (DBG) Log.d(TAG, "Postponing OTASP until wizard runs");
+            return;
+        }
+
+        // Delay OTA provisioning if network is not available yet
+        PhoneApp app = PhoneApp.getInstance();
+        Phone phone = PhoneApp.getPhone();
+        if (app.mCM.getServiceState() != ServiceState.STATE_IN_SERVICE) {
+            if (DBG) Log.w(TAG, "Network is not ready. Registering to receive notification.");
+            phone.registerForServiceStateChanged(mHandler, SERVICE_STATE_CHANGED, null);
             return;
         }
 
