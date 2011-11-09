@@ -168,7 +168,11 @@ public class OutgoingCallBroadcaster extends Activity
                     && (app.phone.isOtaSpNumber(number))) {
                 if (DBG) Log.v(TAG, "Call is active, a 2nd OTA call cancelled -- returning.");
                 return;
-            } else if (PhoneNumberUtils.isLocalEmergencyNumber(number, context)) {
+            } else if (PhoneNumberUtils.isPotentialLocalEmergencyNumber(number, context)) {
+                // Just like 3rd-party apps aren't allowed to place emergency
+                // calls via the ACTION_CALL intent, we also don't allow 3rd
+                // party apps to use the NEW_OUTGOING_CALL broadcast to rewrite
+                // an outgoing call into an emergency number.
                 Log.w(TAG, "Cannot modify outgoing call to emergency number " + number + ".");
                 return;
             }
@@ -348,9 +352,11 @@ public class OutgoingCallBroadcaster extends Activity
                 number = PhoneNumberUtils.stripSeparators(number);
             }
         }
-        final boolean emergencyNumber =
-                (number != null) && PhoneNumberUtils.isLocalEmergencyNumber(number, this);
 
+        // If true, this flag will indicate that the current call is a special kind
+        // of call (most likely an emergency number) that 3rd parties aren't allowed
+        // to intercept or affect in any way.  (In that case, we start the call
+        // immediately rather than going through the NEW_OUTGOING_CALL sequence.)
         boolean callNow;
 
         if (getClass().getName().equals(intent.getComponent().getClassName())) {
@@ -363,10 +369,36 @@ public class OutgoingCallBroadcaster extends Activity
             }
         }
 
+        // Check whether or not this is an emergency number, in order to
+        // enforce the restriction that only the CALL_PRIVILEGED and
+        // CALL_EMERGENCY intents are allowed to make emergency calls.
+        //
+        // (Note that the ACTION_CALL check below depends on the result of
+        // isPotentialLocalEmergencyNumber() rather than just plain
+        // isLocalEmergencyNumber(), to be 100% certain that we *don't*
+        // allow 3rd party apps to make emergency calls by passing in an
+        // "invalid" number like "9111234" that isn't technically an
+        // emergency number but might still result in an emergency call
+        // with some networks.)
+        final boolean isExactEmergencyNumber =
+                (number != null) && PhoneNumberUtils.isLocalEmergencyNumber(number, this);
+        final boolean isPotentialEmergencyNumber =
+                (number != null) && PhoneNumberUtils.isPotentialLocalEmergencyNumber(number, this);
+        if (VDBG) {
+            Log.v(TAG, "- Checking restrictions for number '" + number + "':");
+            Log.v(TAG, "    isExactEmergencyNumber     = " + isExactEmergencyNumber);
+            Log.v(TAG, "    isPotentialEmergencyNumber = " + isPotentialEmergencyNumber);
+        }
+
         /* Change CALL_PRIVILEGED into CALL or CALL_EMERGENCY as needed. */
         // TODO: This code is redundant with some code in InCallScreen: refactor.
         if (Intent.ACTION_CALL_PRIVILEGED.equals(action)) {
-            action = emergencyNumber
+            // We're handling a CALL_PRIVILEGED intent, so we know this request came
+            // from a trusted source (like the built-in dialer.)  So even a number
+            // that's *potentially* an emergency number can safely be promoted to
+            // CALL_EMERGENCY (since we *should* allow you to dial "91112345" from
+            // the dialer if you really want to.)
+            action = isPotentialEmergencyNumber
                     ? Intent.ACTION_CALL_EMERGENCY
                     : Intent.ACTION_CALL;
             if (DBG) Log.v(TAG, "- updating action from CALL_PRIVILEGED to " + action);
@@ -374,9 +406,10 @@ public class OutgoingCallBroadcaster extends Activity
         }
 
         if (Intent.ACTION_CALL.equals(action)) {
-            if (emergencyNumber) {
-                Log.w(TAG, "Cannot call emergency number " + number
-                        + " with CALL Intent " + intent + ".");
+            if (isPotentialEmergencyNumber) {
+                Log.w(TAG, "Cannot call potential emergency number '" + number
+                        + "' with CALL Intent " + intent + ".");
+                Log.i(TAG, "Launching default dialer instead...");
 
                 Intent invokeFrameworkDialer = new Intent();
 
@@ -403,8 +436,10 @@ public class OutgoingCallBroadcaster extends Activity
             // above), or else it really is an CALL_EMERGENCY intent that
             // came directly from some other app (e.g. the EmergencyDialer
             // activity built in to the Phone app.)
-            if (!emergencyNumber) {
-                Log.w(TAG, "Cannot call non-emergency number " + number
+            // Make sure it's at least *possible* that this is really an
+            // emergency number.
+            if (!isPotentialEmergencyNumber) {
+                Log.w(TAG, "Cannot call non-potential-emergency number " + number
                         + " with EMERGENCY_CALL Intent " + intent + ".");
                 finish();
                 return;
