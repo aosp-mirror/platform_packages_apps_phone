@@ -365,8 +365,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     // If the phone is docked/undocked during a call, and no wired or BT headset
                     // is connected: turn on/off the speaker accordingly.
                     boolean inDockMode = false;
-                    if (mDockState == Intent.EXTRA_DOCK_STATE_DESK ||
-                            mDockState == Intent.EXTRA_DOCK_STATE_CAR) {
+                    if (mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
                         inDockMode = true;
                     }
                     if (VDBG) Log.d(LOG_TAG, "received EVENT_DOCK_STATE_CHANGED. Phone inDock = "
