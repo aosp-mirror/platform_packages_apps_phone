@@ -335,7 +335,7 @@
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"Alterar o modo de roaming cdma"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Seleccionar sistema"</string>
   <string-array name="cdma_system_select_choices">
-    <item msgid="176474317493999285">"Apenas casa"</item>
+    <item msgid="176474317493999285">"Apenas redes domésticas"</item>
     <item msgid="1205664026446156265">"Automático"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modo de Roaming CDMA"</string>
