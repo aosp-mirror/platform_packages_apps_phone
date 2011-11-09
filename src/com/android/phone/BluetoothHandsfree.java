@@ -38,6 +38,8 @@ import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -172,6 +174,7 @@ public class BluetoothHandsfree {
     // Voice Recognition - true if Voice Recognition is active, false otherwise
     private boolean mVoiceRecognitionStarted;
 
+    private HandsfreeMessageHandler mHandler;
 
     public static String typeToString(int type) {
         switch (type) {
@@ -238,6 +241,10 @@ public class BluetoothHandsfree {
             mLocalBrsf |= BRSF_AG_VOICE_RECOG;
         }
 
+        HandlerThread thread = new HandlerThread("BluetoothHandsfreeHandler");
+        thread.start();
+        Looper looper = thread.getLooper();
+        mHandler = new HandsfreeMessageHandler(looper);
         mBluetoothPhoneState = new BluetoothPhoneState();
         mUserWantsAudio = true;
         mVirtualCallStarted = false;
@@ -674,8 +681,6 @@ public class BluetoothHandsfree {
         private static final int PRECISE_CALL_STATE_CHANGED = 2;
         private static final int RING = 3;
         private static final int PHONE_CDMA_CALL_WAITING = 4;
-        private static final int BATTERY_CHANGED = 5;
-        private static final int SIGNAL_STRENGTH_CHANGED = 6;
 
         private Handler mStateChangeHandler = new Handler() {
             @Override
@@ -698,12 +703,6 @@ public class BluetoothHandsfree {
                         connection = (Connection) ((AsyncResult) msg.obj).result;
                     }
                     handlePreciseCallStateChange(sendUpdate(), connection);
-                    break;
-                case BATTERY_CHANGED:
-                    updateBatteryState((Intent) msg.obj);
-                    break;
-                case SIGNAL_STRENGTH_CHANGED:
-                    updateSignalState((Intent) msg.obj);
                     break;
                 }
             }
@@ -882,13 +881,13 @@ public class BluetoothHandsfree {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
-                    Message msg = mStateChangeHandler.obtainMessage(BATTERY_CHANGED, intent);
-                    mStateChangeHandler.sendMessage(msg);
+                    Message msg = mHandler.obtainMessage(BATTERY_CHANGED, intent);
+                    mHandler.sendMessage(msg);
                 } else if (intent.getAction().equals(
                             TelephonyIntents.ACTION_SIGNAL_STRENGTH_CHANGED)) {
-                    Message msg = mStateChangeHandler.obtainMessage(SIGNAL_STRENGTH_CHANGED,
+                    Message msg = mHandler.obtainMessage(SIGNAL_STRENGTH_CHANGED,
                                                                     intent);
-                    mStateChangeHandler.sendMessage(msg);
+                    mHandler.sendMessage(msg);
                 } else if (intent.getAction().equals(
                     BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)) {
                     int state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE,
@@ -1365,8 +1364,14 @@ public class BluetoothHandsfree {
     private static final int MESSAGE_CHECK_PENDING_SCO = 6;
     private static final int SCO_AUDIO_STATE = 7;
     private static final int SCO_CONNECTION_CHECK = 8;
+    private static final int BATTERY_CHANGED = 9;
+    private static final int SIGNAL_STRENGTH_CHANGED = 10;
 
-    private final Handler mHandler = new Handler() {
+    private final class HandsfreeMessageHandler extends Handler {
+        private HandsfreeMessageHandler(Looper looper) {
+            super(looper);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             synchronized (BluetoothHandsfree.this) {
@@ -1418,11 +1423,16 @@ public class BluetoothHandsfree {
                         }
                     }
                     break;
+                case BATTERY_CHANGED:
+                    mBluetoothPhoneState.updateBatteryState((Intent) msg.obj);
+                    break;
+                case SIGNAL_STRENGTH_CHANGED:
+                    mBluetoothPhoneState.updateSignalState((Intent) msg.obj);
+                    break;
                 }
             }
         }
-    };
-
+    }
 
     private synchronized void setAudioState(int state, BluetoothDevice device) {
         if (VDBG) log("setAudioState(" + state + ")");
