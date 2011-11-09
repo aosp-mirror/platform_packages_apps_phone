@@ -648,9 +648,15 @@ public class OtaUtils {
                 break;
 
             case Phone.CDMA_OTA_PROVISION_STATUS_COMMITTED:
-                if (DBG) log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
-                updateOtaspProgress();
-                mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
+                if (mApplication.cdmaOtaScreenState.otaScreenState !=
+                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED) {
+                    if (DBG) {
+                        log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
+                    }
+                    updateOtaspProgress();
+                    mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
+                }
+
                 break;
 
             case Phone.CDMA_OTA_PROVISION_STATUS_SPL_UNLOCKED:
@@ -663,8 +669,11 @@ public class OtaUtils {
             case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STARTED:
             case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_STOPPED:
             case Phone.CDMA_OTA_PROVISION_STATUS_OTAPA_ABORTED:
-                if (DBG) log("onOtaProvisionStatusChanged(): change to ProgressScreen");
-                updateOtaspProgress();
+                // Only update progress when OTA call is in normal state
+                if (getCdmaOtaInCallScreenUiState() == CdmaOtaInCallScreenUiState.State.NORMAL) {
+                    if (DBG) log("onOtaProvisionStatusChanged(): change to ProgressScreen");
+                    updateOtaspProgress();
+                }
                 break;
 
             default:
