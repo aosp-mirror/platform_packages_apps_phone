@@ -37,7 +37,7 @@
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Mangler signal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-grense nådd"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Radioen er av"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"Ingen SIM-kort eller SIM-kortfeil"</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"Ikke noe SIM-kort eller SIM-kortfeil"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Utenfor dekningsområde"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Utgående samtaler er begrenset til faste nummer."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Du kan ikke foreta utgående anrop når samtalesperre er på."</string>
@@ -45,11 +45,11 @@
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nødsamtaler er begrenset av tilgangskontroll."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Vanlige samtaler er begrenset av tilgangskontroll."</string>
     <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefonen er låst til varmstart."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: Samtalen ble droppet"</string>
+    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: Samtalen ble stanset"</string>
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: Samtalen ble avskåret"</string>
     <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: Omordnet"</string>
     <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: Tjenestevalg avslått"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: forsøk ny rekkefølge"</string>
+    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: Forsøk ny rekkefølge"</string>
     <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: Tilgang mislyktes"</string>
     <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: Ble kommet i forkjøpet."</string>
     <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Kun nødsamtaler er mulig."</string>
@@ -57,7 +57,7 @@
     <string name="confCall" msgid="1904840547188336828">"Telefonmøte"</string>
     <string name="call_lost" msgid="317670617901479594">"Samtalen er mistet."</string>
     <string name="retry" msgid="8462986804300767852">"Prøv på nytt"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"Samtale mistet"</string>
+    <string name="call_lost_title" msgid="4826329882281926987">"Samtalen ble mistet"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI-kode påbegynt"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD-kode kjører…"</string>
@@ -79,10 +79,10 @@
     <string name="add_vm_number_str" msgid="4676479471644687453">"Legg til nummer"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Laster…"</string>
     <string name="enterPin" msgid="4753300834213388397">"Skriv inn PIN-kode for å låse opp SIM-kortet."</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"SIM-kort ikke låst."</string>
+    <string name="pinUnlocked" msgid="5327174700273303795">"SIM-kortet er låst opp."</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Ny PIN-kode for SIM-kort"</string>
     <string name="verifyNewPin" msgid="4240729999990403607">"Skriv inn den nye personlige koden for SIM-kortet på nytt for å bekrefte."</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"De personlige kodene for SIM-kortet du anga, samsvarer ikke. Prøv på nytt."</string>
+    <string name="verifyFailed" msgid="8198903469256987323">"De personlige kodene for SIM-kortet du skrev inn, samsvarer ikke. Prøv på nytt."</string>
     <string name="enterPuk" msgid="6488567874689634521">"Skriv inn PUK-kode for å låse opp SIM-kortet."</string>
     <string name="badPuk" msgid="4218469693062880152">"Feil PUK-kode."</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Fortsett"</string>
@@ -146,7 +146,7 @@
     <string name="response_error" msgid="6674110501330139405">"Uventet svar fra nettverket."</string>
     <string name="exception_error" msgid="7027667130619518211">"Nettverks- eller SIM-kort-feil."</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"Handlingene kan kun utføres på numre med anropsbegrensning."</string>
-    <string name="radio_off_error" msgid="2304459933248513376">"Slå på radioen før du viser disse innstillingene."</string>
+    <string name="radio_off_error" msgid="2304459933248513376">"Slå på radioen før du ser på disse innstillingene."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktiver"</string>
     <string name="disable" msgid="7274240979164762320">"Deaktiver"</string>
@@ -407,7 +407,7 @@
     <string name="menu_add" msgid="1882023737425114762">"Legg til kontakt"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Rediger kontakt"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Fjern kontakt"</string>
-    <string name="get_pin2" msgid="8204677063922225311">"Angi PIN2"</string>
+    <string name="get_pin2" msgid="8204677063922225311">"Skriv inn PIN2"</string>
     <string name="name" msgid="7329028332786872378">"Navn"</string>
     <string name="number" msgid="7905950798349903858">"Num,er"</string>
     <string name="save" msgid="4094274636321939086">"Lagre"</string>
@@ -421,7 +421,7 @@
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"Sletter programmert telefonnummer ..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Programmert telefonnummer er slettet."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN er ikke oppdatert fordi du skrev inn feil PIN-kode."</string>
-    <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN ble ikke oppdatert fordi antallet ikke kan overstige 20 sifre."</string>
+    <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN ble ikke oppdatert fordi tallet ikke kan overstige 20 sifre."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leser fra SIM-kort…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Ingen kontakter på SIM-kortet."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Velg kontakter som skal importeres"</string>
@@ -432,35 +432,35 @@
     <string name="oldPinLabel" msgid="5287773661246368314">"Gammel PIN-kode"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Ny PIN-kode"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"Bekreft ny PIN-kode"</string>
-    <string name="badPin" msgid="8955102849303984935">"Den gamle personlige koden du anga, er feil. Prøv på nytt."</string>
-    <string name="mismatchPin" msgid="5923253370683071889">"De personlige kodene du anga, stemmer ikke overens. Prøv på nytt."</string>
+    <string name="badPin" msgid="8955102849303984935">"Den gamle personlige koden du skrev inn, er feil. Prøv på nytt."</string>
+    <string name="mismatchPin" msgid="5923253370683071889">"De personlige kodene du skrev inn, stemmer ikke overens. Prøv på nytt."</string>
     <string name="invalidPin" msgid="5981171102258684792">"Skriv inn en PIN-kode som er fra 4 til 8 siffer."</string>
     <string name="disable_sim_pin" msgid="3992926931620188855">"Slå av PIN-kode for SIM-kort"</string>
     <string name="enable_sim_pin" msgid="5803702443844458831">"Slå på PIN-kode for SIM-kort"</string>
     <string name="enable_in_progress" msgid="3695303775100109650">"Vent litt…"</string>
     <string name="enable_pin_ok" msgid="9166061915030865848">"Personlig kode for SIM-kort aktivert."</string>
     <string name="disable_pin_ok" msgid="5596999379593924850">"Personlig kode for SIM-kort deaktivert."</string>
-    <string name="pin_failed" msgid="2298841192582192277">"Den personlige koden du anga, er feil."</string>
+    <string name="pin_failed" msgid="2298841192582192277">"Den personlige koden du skrev inn, er feil."</string>
     <string name="pin_changed" msgid="4365538014588501049">"Personlig kode for SIM-kort er endret."</string>
     <string name="puk_requested" msgid="3898394204193202803">"Galt passord, SIM-kortet er låst! Skriv inn PUK2-koden."</string>
     <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2-kode"</string>
     <string name="oldPin2Label" msgid="8559146795026261502">"Gammel PIN2-kode"</string>
     <string name="newPin2Label" msgid="4573956902204349054">"Ny PIN2-kode"</string>
     <string name="confirmPin2Label" msgid="8100319484454787708">"Bekreft ny PIN2-kode"</string>
-    <string name="badPuk2" msgid="4851734468010000418">"PUK2-koden du anga, er feil. Prøv på nytt."</string>
-    <string name="badPin2" msgid="1041576234483629991">"Den gamle personlige koden (PIN2) du anga, er feil. Prøv på nytt."</string>
-    <string name="mismatchPin2" msgid="523029155918113440">"PIN2-kodene du anga, stemmer ikke overens. Prøv på nytt."</string>
+    <string name="badPuk2" msgid="4851734468010000418">"PUK2-koden du skrev inn, er feil. Prøv på nytt."</string>
+    <string name="badPin2" msgid="1041576234483629991">"Den gamle personlige koden (PIN2) du skrev inn, er feil. Prøv på nytt."</string>
+    <string name="mismatchPin2" msgid="523029155918113440">"PIN2-kodene du skrev inn, stemmer ikke overens. Prøv på nytt."</string>
     <string name="invalidPin2" msgid="8237110107480395938">"Skriv inn en PIN2-kode som er mellom 4 og 8 siffer."</string>
     <string name="invalidPuk2" msgid="1290977391033057871">"Skriv inn en PUK2-kode som er 8 siffer."</string>
     <string name="pin2_changed" msgid="1639666438836544393">"Personlig kode (PIN2) er endret"</string>
     <string name="label_puk2_code" msgid="302845876240219560">"Skriv inn PUk2-kode"</string>
     <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Passordet er feil. Endre PIN2 og prøv på nytt."</string>
-    <string name="puk2_requested" msgid="8909278021238716877">"Feil passord, SIM-kortet er låst. Bruk PUK2 for å låse opp."</string>
+    <string name="puk2_requested" msgid="8909278021238716877">"Feil passord – SIM-kortet er låst. Bruk PUK2 for å låse opp."</string>
     <string name="doneButton" msgid="2859593360997984240">"Ferdig"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Telefonmøte <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Tilbake til samtale"</string>
     <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Fortsett uten SIM-kort"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Finner ingen SIM-kort. Sett inn et SIM-kort i telefonen."</string>
+    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Finner ikke noe SIM-kort. Sett inn et SIM-kort i telefonen."</string>
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Skjul"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Lås opp"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Godkjenner PIN-kode…"</string>
@@ -575,12 +575,12 @@
     <item quantity="other" msgid="3122217344579273583">"Ingen datatilkobling i <xliff:g id="COUNT">%s</xliff:g> minutter"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"Telefonen vil være i nødsamtalemodus i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen apper som bruker en datatilkobling, kan brukes i denne modusen. Vil du avslutte nå?"</item>
-    <item quantity="other" msgid="8617116564023933114">"Telefonen vil være i nødsamtalesmodus i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen apper som bruker en datatilkobling, kan brukes i denne modusen. Vil du avslutte nå?"</item>
+    <item quantity="one" msgid="8060210887681426682">"Telefonen kommer til å være i nødsamtalemodus i <xliff:g id="COUNT">%s</xliff:g> minutt. Ingen apper som bruker en datatilkobling, kan brukes i denne modusen. Vil du avslutte nå?"</item>
+    <item quantity="other" msgid="8617116564023933114">"Telefonen kommer til å være i nødsamtalesmodus i <xliff:g id="COUNT">%s</xliff:g> minutter. Ingen apper som bruker en datatilkobling, kan brukes i denne modusen. Vil du avslutte nå?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="2585506997024726599">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutt(er). Vil du avslutte nå?"</item>
-    <item quantity="other" msgid="6115622137771382224">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen vil være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutter. Vil du avslutte nå?"</item>
+    <item quantity="one" msgid="2585506997024726599">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen kommer til å være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutt(er). Vil du avslutte nå?"</item>
+    <item quantity="other" msgid="6115622137771382224">"Den valgte handlingen er ikke tilgjengelig i nødsamtalemodus. Telefonen kommer til å være i denne modusen i <xliff:g id="COUNT">%s</xliff:g> minutter. Vil du avslutte nå?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="1886723687211887104">"Den valgte handlingen er ikke mulig under en nødsamtale."</string>
     <string name="progress_dialog_exiting_ecm" msgid="4835734101617817074">"Avslutter modusen nødsamtale-tilbakeringing"</string>
@@ -654,7 +654,7 @@
     <string name="registration_status_done" msgid="884630717456439280">"Mottar anrop."</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Kontoregistrering mislyktes: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); prøver på nytt senere"</string>
     <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"Kontoregistrering mislyktes: feil brukernavn eller passord."</string>
-    <string name="registration_status_server_unreachable" msgid="5733421582468991276">"Kontoregistrering mislyktes: kontroller tjenernavnet."</string>
+    <string name="registration_status_server_unreachable" msgid="5733421582468991276">"Kontoregistrering mislyktes: Kontroller tjenernavnet."</string>
     <string name="third_party_account_summary" msgid="2532526738862533028">"Denne kontoen er for øyeblikket i bruk av appen <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Kontoinnstillinger for SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Kontoinnstillinger for SIP"</string>
@@ -679,7 +679,7 @@
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Valgfritt&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"Trykk for å vise alle"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"Trykk for å skjule alle"</string>
-    <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> er obligatorisk, feltet kan ikke være tomt."</string>
+    <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> er obligatorisk. Feltet kan ikke være tomt."</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"Portnummeret må være mellom 1000 og 65534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Ingen Internett-tilkobling"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen Wi-Fi-tilkobling"</string>

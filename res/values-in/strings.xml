@@ -132,7 +132,7 @@
     <string name="messageCFNRy" msgid="672317899884380374">"Nomor ketika tidak dapat dihubungi"</string>
     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Dinonaktifkan"</string>
-    <string name="disable_cfnry_forbidden" msgid="4308233959150658058">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel tidak menerima panggilan."</string>
+    <string name="disable_cfnry_forbidden" msgid="4308233959150658058">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel tidak menjawab panggilan."</string>
     <string name="labelCFNRc" msgid="47183615370850000">"Teruskan ketika tidak dapat dihubungi"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Nomor ketika tidak dapat dihubungi"</string>
     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
@@ -146,7 +146,7 @@
     <string name="response_error" msgid="6674110501330139405">"Tanggapan tak terduga dari jaringan."</string>
     <string name="exception_error" msgid="7027667130619518211">"Kesalahan jaringan atau kartu SIM."</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"Operasi hanya diizinkan pada nomor panggilan tetap."</string>
-    <string name="radio_off_error" msgid="2304459933248513376">"Nyalakan radio sebelum melihat setelan ini."</string>
+    <string name="radio_off_error" msgid="2304459933248513376">"Keluar dari mode pesawat sebelum melihat setelan ini."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktifkan"</string>
     <string name="disable" msgid="7274240979164762320">"Nonaktifkan"</string>
@@ -158,7 +158,7 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Simpan nomor kotak pesan"</string>
     <string name="vm_changed" msgid="380744030726254139">"Nomor kotak pesan berubah."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Tidak dapat mengubah nomor kotak pesan."\n"Hubungi operator Anda jika masalah ini terus berlanjut."</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Tidak dapat mengubah nomor pesan suara."\n"Hubungi operator Anda jika masalah ini terus berlanjut."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Tidak dapat mengubah nomor penerusan."\n"Hubungi operator Anda jika masalah ini terus berlanjut."</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Tidak dapat mengambil dan menyimpan setelan nomor telepon penerusan saat ini."\n"Tetap beralih ke operator baru?"</string>
     <string name="no_change" msgid="3186040086622435212">"Tidak ada perubahan yang dilakukan."</string>
@@ -199,7 +199,7 @@
     <item msgid="7148247646407324800">"GSM/WCDMA otomatis"</item>
     <item msgid="5189164180446264504">"WCDMA saja"</item>
     <item msgid="5714714953966979187">"GSM saja"</item>
-    <item msgid="8508331239546115206">"GSM/WCDMA yang disukai"</item>
+    <item msgid="8508331239546115206">"GSM/WCDMA lebih disukai"</item>
   </string-array>
   <string-array name="preferred_network_mode_choices_lte">
     <item msgid="7002474529872452266">"LTE/CDMA"</item>
@@ -343,7 +343,7 @@
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Mode roaming CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Jaringan asal saja"</item>
-    <item msgid="6778172599293570356">"Jaringan berafiliasi"</item>
+    <item msgid="6778172599293570356">"Jaringan terafiliasi"</item>
     <item msgid="9084516288544591576">"Jaringan mana pun"</item>
   </string-array>
   <string-array name="cdma_roaming_mode_values">
@@ -554,7 +554,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Tunggu sampai ponsel selesai diprogram."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Pemrograman gagal"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Ponsel Anda sekarang diaktifkan. Mungkin dibutuhkan waktu hingga 15 menit sampai layanan dimulai."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Ponsel Anda tidak aktif. "\n"Anda mungkin perlu menemukan area dengan cakupan yang lebih baik (di dekat jendela, atau di luar). "\n\n"Coba lagi atau hubungi layanan pelanggan untuk opsi lainnya."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Ponsel Anda tidak aktif. "\n"Anda mungkin perlu menemukan area dengan cakupan yang lebih baik (di dekat jendela atau di luar). "\n\n"Coba lagi atau hubungi layanan pelanggan untuk opsi lainnya."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"KEGAGALAN SPC BERLEBIH"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Kembali"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Coba lagi"</string>
@@ -569,8 +569,8 @@
     <item quantity="other" msgid="3122217344579273583">"Tidak ada sambungan data selama <xliff:g id="COUNT">%s</xliff:g> menit"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, tidak ada apl yang menggunakan sambungan data yang dapat digunakan. Apakah Anda ingin keluar sekarang?"</item>
-    <item quantity="other" msgid="8617116564023933114">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, tidak ada aplikasi yang menggunakan sambungan data yang dapat digunakan. Apakah Anda ingin keluar sekarang?"</item>
+    <item quantity="one" msgid="8060210887681426682">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, apl yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
+    <item quantity="other" msgid="8617116564023933114">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, apl yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"Tindakan yang dipilih tidak tersedia saat berada dalam mode Panggil Balik Darurat. Ponsel akan berada dalam mode ini selama <xliff:g id="COUNT">%s</xliff:g> menit. Apakah Anda ingin keluar sekarang?"</item>
@@ -617,7 +617,7 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Lakukan panggilan"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Gunakan akun panggilan internet"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Selalu gunakan untuk melakukan panggilan internet"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Anda dapat mengubah akun pemanggil internet mana yang digunakan jika tidak diubah dari Telepon &gt; Setelan &gt; Setelan panggilan internet &gt; Layar akun."</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Anda dapat mengubah akun pemanggil internet mana yang digunakan secara bawaan dari layar Telepon &gt; Setelan &gt; Setelan panggilan internet &gt; Akun."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"Paggilan ponsel"</string>
     <string name="internet_phone" msgid="1147922660195095810">"Panggilan internet"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Tidak ada akun panggilan internet"</string>

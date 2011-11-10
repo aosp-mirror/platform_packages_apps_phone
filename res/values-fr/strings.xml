@@ -47,9 +47,9 @@
     <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA : téléphone déverrouillé jusqu\'au prochain redémarrage"</string>
     <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA : appel abandonné"</string>
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA : appel intercepté"</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA : réorganiser"</string>
+    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA : nouvelle requête"</string>
     <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA : rejet de l\'option de service"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA : nouvelle tentative d\'organisation"</string>
+    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA : requête de nouvelle tentative"</string>
     <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA : échec de l\'accès"</string>
     <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA : anticipé"</string>
     <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Seuls les appels d\'urgence peuvent être effectués."</string>
@@ -306,8 +306,8 @@
     <string name="eo_enable" msgid="8623559062015685813">"Option \"Offres d\'emploi\" activée"</string>
     <string name="eo_disable" msgid="3863812478090907609">"Option \"Offres d\'emploi\" désactivée"</string>
     <string name="enable_disable_mhh" msgid="908214593528968522">"Médecine, services de santé et hôpitaux"</string>
-    <string name="mhh_enable" msgid="5544500632306446815">"Option \"Médecine, services de santé et hôpitaux\" activée."</string>
-    <string name="mhh_disable" msgid="8998210550117117437">"Option \"Médecine, services de santé et hôpitaux\" désactivée."</string>
+    <string name="mhh_enable" msgid="5544500632306446815">"Option \"Médecine, services de santé et hôpitaux\" activée"</string>
+    <string name="mhh_disable" msgid="8998210550117117437">"Option \"Médecine, services de santé et hôpitaux\" désactivée"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Technologies"</string>
     <string name="technology_news_enable" msgid="7995209394210455181">"Option \"Nouvelles technologies\" activée"</string>
     <string name="technology_news_disable" msgid="5483490380561851946">"Option \"Technologies\" désactivée"</string>
@@ -390,7 +390,7 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Gérer la liste de numéros autorisés"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Modifier le code PIN pour l\'accès aux numéros autorisés"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Gérer la liste des numéros de téléphone"</string>
-    <string name="voice_privacy" msgid="3776841382844614716">"Confidentialité Google Voice"</string>
+    <string name="voice_privacy" msgid="3776841382844614716">"Confidentialité voix"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Activer le mode de confidentialité amélioré"</string>
     <string name="tty_mode_title" msgid="3171521903490559138">"Mode TTY"</string>
     <string name="tty_mode_summary" msgid="5057244302665817977">"Activer le mode TTY"</string>

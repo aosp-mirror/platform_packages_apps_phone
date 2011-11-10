@@ -47,7 +47,7 @@
     <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: 전원을 껐다 켤 때까지 휴대전화가 잠깁니다."</string>
     <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: 전화가 끊겼습니다."</string>
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: 통화를 가로채기 당했습니다."</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: 순서를 재지정합니다."</string>
+    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: Reorder 오류"</string>
     <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: 서비스 옵션이 거부되었습니다."</string>
     <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: 명령을 다시 시도합니다."</string>
     <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: 액세스하지 못했습니다."</string>

@@ -537,7 +537,7 @@
     <item msgid="899650777817315681">"Normálna"</item>
     <item msgid="2883365539347850535">"Dlhé"</item>
   </string-array>
-    <string name="network_message" msgid="4483886461245213802">"Správa siete"</string>
+    <string name="network_message" msgid="4483886461245213802">"Informácia siete"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivujte svoj telefón"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Telefónnu službu je potrebné aktivovať uskutočnením mimoriadneho hovoru. "\n\n"Stlačte tlačidlo Aktivovať a aktivujte telefón podľa poskytnutých pokynov."</string>
     <string name="ota_touch_activate_new" msgid="4508197891732183852">"Dotknite sa tlačidla Aktivovať. Uskutočníte tak mimoriadny hovor, ktorým telefón aktivujete v mobilnej sieti svojho operátora. Budete tak môcť volať a pripájať sa k mobilným dátovým sieťam."</string>
@@ -569,8 +569,8 @@
     <item quantity="other" msgid="3122217344579273583">"Žiadne dátové pripojenie po dobu <xliff:g id="COUNT">%s</xliff:g> min"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"Telefón bude v režime spätného núdzového volania po dobu <xliff:g id="COUNT">%s</xliff:g> min. V tomto režime nie je možné používať žiadne aplikácie používajúce dátové pripojenie. Chcete ho ukončiť?"</item>
-    <item quantity="other" msgid="8617116564023933114">"Telefón bude v režime spätného núdzového volania po dobu <xliff:g id="COUNT">%s</xliff:g> min. V tomto režime nie je možné používať žiadne aplikácie používajúce dátové pripojenie. Chcete ho ukončiť?"</item>
+    <item quantity="one" msgid="8060210887681426682">"Telefón bude v režime spätného núdzového volania počas <xliff:g id="COUNT">%s</xliff:g> min. V tomto režime nie je možné používať žiadne aplikácie používajúce dátové pripojenie. Chcete ho ukončiť?"</item>
+    <item quantity="other" msgid="8617116564023933114">"Telefón bude v režime spätného núdzového volania počas <xliff:g id="COUNT">%s</xliff:g> min. V tomto režime nie je možné používať žiadne aplikácie používajúce dátové pripojenie. Chcete ho ukončiť?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"Vybratá akcia nie je k dispozícii v režime Tiesňového spätného volania. Telefón v ňom bude <xliff:g id="COUNT">%s</xliff:g> min. Chcete ho ukončiť?"</item>
@@ -677,8 +677,8 @@
     <string name="not_a_valid_port" msgid="4796149266434630292">"Číslo portu by malo byť od 1 000 do 65 534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Žiadne pripojenie k Internetu"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Pripojenie Wi-Fi nie je k dispozícii"</string>
-    <string name="no_internet_available" msgid="7877142631803238549">"Ak chcete uskutočniť internetový hovor, skontrolujte, či ste pripojení k internetu."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Ak chcete uskutočniť internetový hovor, musíte byť pripojení k sieti Wi-Fi (použite sekciu Nastavenia bezdrôtového pripojenia a siete)."</string>
+    <string name="no_internet_available" msgid="7877142631803238549">"Ak chcete uskutočniť internetový hovor, skontrolujte, či máte pripojenie k internetu."</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Ak chcete uskutočniť internetový hovor, musíte mať pripojenie k sieti Wi-Fi (použite sekciu Nastavenia bezdrôtového pripojenia a siete)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetové hovory nie sú podporované"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automatické"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Vždy odoslať"</string>

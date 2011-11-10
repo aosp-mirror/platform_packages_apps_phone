@@ -127,7 +127,7 @@
     <string name="messageCFB" msgid="3711089705936187129">"Átirányítási szám, ha foglalt"</string>
     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfb_disabled" msgid="227440009979537651">"Letiltva"</string>
-    <string name="disable_cfb_forbidden" msgid="3506984333877998061">"Szolgáltatója nem támogatja a hívásátirányítás letiltását a telefon foglaltsága közben."</string>
+    <string name="disable_cfb_forbidden" msgid="3506984333877998061">"Szolgáltatója nem támogatja a hívásátirányítás letiltását, ha a  telefon foglalt."</string>
     <string name="labelCFNRy" msgid="3646316323834351390">"Átirányítás, ha nem válaszol"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Átirányítási szám, ha nem válaszol"</string>
     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
@@ -137,7 +137,7 @@
     <string name="messageCFNRc" msgid="6380695421020295119">"Átirányítási szám, ha nem elérhető"</string>
     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Átirányítás ide: <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Kikapcsolva"</string>
-    <string name="disable_cfnrc_forbidden" msgid="5646361343094064333">"Szolgáltatója nem támogatja a hívásátirányítás letiltását, ha a telefon nem elérhető."</string>
+    <string name="disable_cfnrc_forbidden" msgid="5646361343094064333">"Szolgáltatója nem támogatja a hívásátirányítás letiltását, ha a telefon nem érhető el."</string>
     <string name="updating_title" msgid="6146755386174019046">"Hívásbeállítások"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Hiba a hívásbeállításokban"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Beállítások olvasása..."</string>
@@ -390,7 +390,7 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Fix hívószámok kezelése"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"PIN-kód módosítása az FDN eléréséhez"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Telefonszámok listájának kezelése"</string>
-    <string name="voice_privacy" msgid="3776841382844614716">"Hangadatvédelem"</string>
+    <string name="voice_privacy" msgid="3776841382844614716">"Adatvédelem"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Fokozott adatvédelmi mód engedélyezése"</string>
     <string name="tty_mode_title" msgid="3171521903490559138">"TTY-mód"</string>
     <string name="tty_mode_summary" msgid="5057244302665817977">"TTY-mód bekapcsolása"</string>
@@ -419,7 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Beolvasás a SIM-kártyáról..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Nincsenek névjegyek a SIM-kártyán."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Válassza ki az importálni kívánt névjegyeket"</string>
-    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"A névjegyek SIM-kártyáról való importálásához először kapcsolja ki a repülős üzemmódot."</string>
+    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"A névjegyek SIM kártyáról való importálásához először kapcsolja ki a repülőgépes üzemmódot."</string>
     <string name="enable_pin" msgid="5422767284133234860">"SIM-kártya PIN-kódjának be-/kikapcsolása"</string>
     <string name="change_pin" msgid="9174186126330785343">"SIM-kártya PIN-kódjának módosítása"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"SIM-kártya PIN-kódja:"</string>
@@ -569,8 +569,8 @@
     <item quantity="other" msgid="3122217344579273583">"<xliff:g id="COUNT">%s</xliff:g> perce nincs adatkapcsolat"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"A telefon <xliff:g id="COUNT">%s</xliff:g> percig Sürgősségi visszahívás módban lesz. Ebben az üzemmódban nem használhatóak az adatkapcsolatot használó alkalmazások. Szeretne most kilépni?"</item>
-    <item quantity="other" msgid="8617116564023933114">"A telefon <xliff:g id="COUNT">%s</xliff:g> percig Sürgősségi visszahívás módban lesz. Ebben az üzemmódban nem használhatóak az adatkapcsolatot használó alkalmazások. Szeretne most kilépni?"</item>
+    <item quantity="one" msgid="8060210887681426682">"A telefon <xliff:g id="COUNT">%s</xliff:g> percig Sürgősségi visszahívás módban lesz. Ebben az üzemmódban nem használhatók az adatkapcsolatot használó alkalmazások. Szeretne most kilépni?"</item>
+    <item quantity="other" msgid="8617116564023933114">"A telefon <xliff:g id="COUNT">%s</xliff:g> percig Sürgősségi visszahívás módban lesz. Ebben az üzemmódban nem használhatók az adatkapcsolatot használó alkalmazások. Szeretne most kilépni?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"A kiválasztott művelet nem áll rendelkezésre Sürgősségi visszahívás módban. A telefon <xliff:g id="COUNT">%s</xliff:g> percig lesz ebben a módban. Szeretne most kilépni?"</item>

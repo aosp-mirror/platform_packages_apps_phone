@@ -199,7 +199,7 @@
     <item msgid="7148247646407324800">"GSM/WCDMA tự động"</item>
     <item msgid="5189164180446264504">"Chỉ WCDMA"</item>
     <item msgid="5714714953966979187">"Chỉ GSM"</item>
-    <item msgid="8508331239546115206">"GSM/WCDMA được ưu thích"</item>
+    <item msgid="8508331239546115206">"GSM/WCDMA được ưa thích"</item>
   </string-array>
   <string-array name="preferred_network_mode_choices_lte">
     <item msgid="7002474529872452266">"LTE/CDMA"</item>
@@ -307,7 +307,7 @@
     <string name="eo_disable" msgid="3863812478090907609">"Đã vô hiệu hoá Cơ hội Nghề nghiệp"</string>
     <string name="enable_disable_mhh" msgid="908214593528968522">"Y tế, Sức khoẻ và Bệnh viện"</string>
     <string name="mhh_enable" msgid="5544500632306446815">"Đã bật Y tế, Sức khoẻ và Bệnh viện"</string>
-    <string name="mhh_disable" msgid="8998210550117117437">"Đã vô hiệu hóa Y tế, Sức khoẻ và Bệnh viện"</string>
+    <string name="mhh_disable" msgid="8998210550117117437">"Đã tắt Y tế, Sức khoẻ và Bệnh viện"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Tin tức Công nghệ"</string>
     <string name="technology_news_enable" msgid="7995209394210455181">"Đã bật Tin tức Công nghệ"</string>
     <string name="technology_news_disable" msgid="5483490380561851946">"Đã vô hiệu hoá Tin tức Công nghệ"</string>
@@ -501,7 +501,7 @@
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"Đang bật radio..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Ngoài vùng dịch vụ, đang thử lại..."</string>
     <string name="dial_emergency_error" msgid="7969515493359619960">"Cuộc gọi không được gửi đi. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> không phải là số khẩn cấp!"</string>
-    <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Cuộc gọi không được gửi đi. hãy quay số số khẩn cấp!"</string>
+    <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Cuộc gọi không được gửi đi. Hãy quay số số khẩn cấp!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Sử dụng bàn phím để quay số"</string>
     <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Bộ tạo xung từ bàn phím"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Giữ"</string>

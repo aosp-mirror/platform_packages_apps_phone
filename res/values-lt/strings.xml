@@ -574,7 +574,7 @@
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"Skambinant pagalbos telefonu pasirinkto veiksmo atlikti nepavyks. Šiuo režimu telefonas veiks <xliff:g id="COUNT">%s</xliff:g> min. Ar norite šį režimą išjungti dabar?"</item>
-    <item quantity="other" msgid="6115622137771382224">"Skambinant pagalbos telefonu pasirinkto veiksmo atlikti nepavyks. Šiuo režimu telefonas veiks <xliff:g id="COUNT">%s</xliff:g> min. Ar norite šį režimą išjungti dabar?"</item>
+    <item quantity="other" msgid="6115622137771382224">"Skambinant atgalinio pagalbos numerio režimu pasirinkto veiksmo atlikti nepavyks. Šiuo režimu telefonas veiks <xliff:g id="COUNT">%s</xliff:g> min. Ar norite šį režimą išjungti dabar?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="1886723687211887104">"Skambinant pagalbos numeriu pasirinkto veiksmo atlikti nepavyks."</string>
     <string name="progress_dialog_exiting_ecm" msgid="4835734101617817074">"Išeinama iš atgalinio skambinimo pagalbos numeriu režimo"</string>
@@ -678,7 +678,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Nėra interneto ryšio"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Nėra „Wi-Fi“ ryšio"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Jei norite skambinti internetu, pirmiausia patikrinkite interneto ryšį."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Jei norite skambinti internetu, turite būti prisijungę prie „Wi-Fi“ ryšio tinklo (naudokite nustatymus „Belaidis ir tinklas“)"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Jei norite skambinti internetu, turite būti prisijungę prie „Wi-Fi“ ryšio tinklo (naudokite nustatymus „Belaidis ir tinklas“)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Skambinimas internetu nepalaikomas"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automatinis"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Visada siųsti"</string>

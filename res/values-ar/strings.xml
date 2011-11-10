@@ -37,7 +37,7 @@
     <string name="callFailed_noSignal" msgid="1889803273616031933">"لا إشارة"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"تم تعدي حد ACM"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"تم إيقاف اللاسلكي"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"لا تتوفر بطاقة SIM أو حدث خطأ في بطاقة SIM"</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"لا تتوفر بطاقة SIM أو حدث خطأ في البطاقة"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"خارج نطاق الخدمة"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"يتم تقييد المكالمات الصادرة بواسطة FDN."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"لا يمكنك إجراء مكالمات صادرة أثناء تشغيل حظر المكالمات."</string>
@@ -415,7 +415,7 @@
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"جارٍ حذف رقم الاتصال الثابت..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"تم حذف رقم الاتصال الثابت."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"لم يتم تحديث FDN لأنك كتبت رقم تعريف شخصي غير صحيح."</string>
-    <string name="fdn_invalid_number" msgid="1494755047900009147">"لم يتم تحديث FDN نظرًا لأنه يتعذر تجاوز العدد 20 رقمًا."</string>
+    <string name="fdn_invalid_number" msgid="1494755047900009147">"لم يتم تحديث FDN لأن العدد لا يمكن أن يتجاوز 20 رقمًا."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"جارٍ القراءة من بطاقة SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"ليس هناك جهات اتصال على بطاقة SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"حدد جهات اتصال لاستيرادها"</string>
@@ -617,11 +617,11 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"إجراء اتصال"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"استخدام حساب الاتصال عبر الإنترنت:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"الاستخدام دومًا لإجراء مكالمات عبر الإنترنت"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"يمكنك تغيير حساب الاتصال بالإنترنت الذي تريد استخدامه افتراضيًا من الهاتف &gt; إعدادات &gt; إعدادات الاتصال بالإنترنت &gt; شاشة الحسابات."</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"يمكنك تغيير حساب مكالمات الإنترنت الذي تريد استخدامه افتراضيًا من الهاتف &gt; إعدادات &gt; إعدادات مكالمات لإنترنت &gt; شاشة الحسابات."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"اتصال عبر هاتف خلوي"</string>
     <string name="internet_phone" msgid="1147922660195095810">"مكالمة عبر الإنترنت"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"ليس هناك حساب اتصال عبر الإنترنت"</string>
-    <string name="no_sip_account_found" msgid="724325811961769997">"لا توجد حسابات اتصال عبر الإنترنت على هذا الهاتف. هل تريد إضافة حساب الآن؟"</string>
+    <string name="no_sip_account_found" msgid="724325811961769997">"لا توجد حسابات مكالمات الإنترنت على هذا الهاتف. هل تريد إضافة حساب الآن؟"</string>
     <string name="sip_menu_add" msgid="8757508498518881500">"إضافة"</string>
     <string name="add_sip_account" msgid="5904858426290097611">"إضافة حساب"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"إزالة الحساب"</string>
@@ -641,7 +641,7 @@
     <string name="registration_status_checking_status" msgid="3381868307694056727">"جارٍ فحص الحالة..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"جارٍ التسجيل..."</string>
     <string name="registration_status_still_trying" msgid="3185581992666091911">"لا تزال المحاولة مستمرة..."</string>
-    <string name="registration_status_not_receiving" msgid="4185572774980557758">"عدم استلام اتصالات."</string>
+    <string name="registration_status_not_receiving" msgid="4185572774980557758">"عدم استلام مكالمات."</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"توقف تسجيل الحساب نظرًا لعدم توفر اتصال بالإنترنت."</string>
     <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"توقف تسجيل الحساب نظرًا لعدم توفر اتصال Wi-Fi."</string>
     <string name="registration_status_not_running" msgid="4824867184446232131">"لم يتم تسجيل الحساب بنجاح."</string>
@@ -677,7 +677,7 @@
     <string name="not_a_valid_port" msgid="4796149266434630292">"يجب أن يكون رقم المنفذ ما بين 1000 و65534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"لا يوجد اتصال بالإنترنت"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"ليس هناك اتصال Wi-Fi"</string>
-    <string name="no_internet_available" msgid="7877142631803238549">"لإجراء اتصالٍ عبر الإنترنت، تحقق من اتصالك بالإنترنت أولاً."</string>
+    <string name="no_internet_available" msgid="7877142631803238549">"لإجراء مكالمة إنترنت، تحقق من اتصالك بالإنترنت أولاً."</string>
     <string name="no_wifi_available" msgid="1225073547318465713">"يلزمك الاتصال بشبكة Wi-Fi لإجراء مكالمات عبر الإنترنت (استخدم إعدادات اللاسلكي والشبكة)."</string>
     <string name="no_voip" msgid="8901474054537199865">"الاتصال عبر الإنترنت غير معتمد"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"تلقائي"</string>
