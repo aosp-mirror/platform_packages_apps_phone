@@ -32,12 +32,12 @@
     <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Сервер недоступний"</string>
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Номер недоступний"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Неправ. ім\'я корист-ча чи пароль"</string>
-    <string name="callFailed_out_of_network" msgid="8740943329772180507">"Виклик з-поза меж мережі"</string>
+    <string name="callFailed_out_of_network" msgid="8740943329772180507">"Виклик із-поза меж мережі"</string>
     <string name="callFailed_server_error" msgid="5717915213586193217">"Помилка сервера. Спроб. пізніше."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Немає сигналу"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Перевищено ліміт ACM"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Вимк. радіо"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"SIM-карта відсутня чи помилка SIM-карти"</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"Помилка SIM-карти або SIM-карта відсутня"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Поза межами дії служби"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Вихідні дзвінки обмежено FDN."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Ви не можете здійснювати вихідні виклики, коли ввімкнено заборону викликів."</string>
@@ -48,8 +48,8 @@
     <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: виклик роз’єднано"</string>
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: виклик перехоплено"</string>
     <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: зміна порядку"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: відмова вибору служби"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: замовлення на повтор"</string>
+    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: відмова параметра служби"</string>
+    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: порядок повторення"</string>
     <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: доступ не отримано"</string>
     <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: позачерговий виклик"</string>
     <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Дозволено лише екстрені виклики."</string>
@@ -307,7 +307,7 @@
     <string name="eo_disable" msgid="3863812478090907609">"Кар\'єрні можливості вимкнено"</string>
     <string name="enable_disable_mhh" msgid="908214593528968522">"Медицина, здоров’я та лікарні"</string>
     <string name="mhh_enable" msgid="5544500632306446815">"Медицина, здоров’я та лікарні – увімкнено"</string>
-    <string name="mhh_disable" msgid="8998210550117117437">"Медицина, здоров’я та лікарні - вимкнено"</string>
+    <string name="mhh_disable" msgid="8998210550117117437">"Медицина, здоров’я та лікарні – вимкнено"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Новини технології"</string>
     <string name="technology_news_enable" msgid="7995209394210455181">"Новини техніки увімкнено"</string>
     <string name="technology_news_disable" msgid="5483490380561851946">"Новини технологій"</string>

@@ -49,9 +49,9 @@
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: llamada interceptada"</string>
     <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: reordenamiento"</string>
     <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: rechazo de la opción de servicio"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: orden de reintento"</string>
+    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: reintentar orden"</string>
     <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: acceso incorrecto"</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: adelantada"</string>
+    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: reemplazada"</string>
     <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Solo pueden realizarse llamadas de emergencia."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"El número no es válido."</string>
     <string name="confCall" msgid="1904840547188336828">"Llamada en conferencia"</string>
@@ -172,7 +172,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Error al buscar redes."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Registrando en <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed" msgid="5613353860205691579">"Tu tarjeta SIM no permite una conexión con esta red."</string>
-    <string name="connect_later" msgid="2308119155752343975">"No se puede establecer un conexión con esta red en este momento. Vuelve a intentarlo más adelante."</string>
+    <string name="connect_later" msgid="2308119155752343975">"No se puede establecer una conexión con la red en este momento. Vuelve a intentarlo más adelante."</string>
     <string name="registration_done" msgid="495135664535876612">"Registrado en la red."</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"Elige un proveedor de red."</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Buscar todas las redes disponibles"</string>
@@ -332,14 +332,14 @@
     <string name="prefer_2g" msgid="8442550937280449639">"Utilizar sólo redes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Ahorra batería"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Sistema seleccionado"</string>
-    <string name="cdma_system_select_summary" msgid="60460043745797517">"Cambiar el modo CDMA itinerancia"</string>
+    <string name="cdma_system_select_summary" msgid="60460043745797517">"Cambiar el modo itinerancia CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Sistema seleccionado"</string>
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Página principal solamente"</item>
     <item msgid="1205664026446156265">"Automático"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modo de roaming CDMA"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Cambiar el modo CDMA itinerancia"</string>
+    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Cambiar el modo itinerancia CDMA"</string>
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Modo de roaming CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Redes domésticas únicamente"</item>
@@ -397,7 +397,7 @@
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Modo TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Establecer modo de TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Reintento automático"</string>
-    <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Habilitar el modo Reintento automático"</string>
+    <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Habilitar el modo de reintento automático"</string>
     <string name="menu_add" msgid="1882023737425114762">"Agregar contacto"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Editar contacto"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Eliminar contacto"</string>
@@ -419,7 +419,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leyendo la tarjeta SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"No hay contactos en tu tarjeta SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleccionar contactos para importar"</string>
-    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Para importar contactos de la tarjeta SIM, desactiva primero el modo Avión."</string>
+    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Para importar contactos de la tarjeta SIM, desactiva primero el modo de avión."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Habilitar/inhabilitar PIN de SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Cambiar PIN de SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN de SIM:"</string>
@@ -463,7 +463,7 @@
     <string name="card_title_redialing" msgid="4831412164303596395">"Intentando nuevamente"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Llamada en conferencia"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Llamada entrante"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"Llamada en espera CDMA"</string>
+    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"Llamada en espera de CDMA"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Llamada finalizada"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"En espera"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Colgando"</string>
@@ -551,7 +551,7 @@
     <string name="ota_listen" msgid="162923839877584937">"Sigue las instrucciones habladas hasta que escuches que la activación se completó."</string>
     <string name="ota_dialpad" msgid="3530900997110658409">"Teclado numérico"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Altavoces"</string>
-    <string name="ota_progress" msgid="3420314892609254729">"Aguarda mientras el teléfono se programa."</string>
+    <string name="ota_progress" msgid="3420314892609254729">"Aguarda mientras se programa el teléfono."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programación incorrecta"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Ahora tu teléfono se encuentra activado. Puede tomar hasta unos 15 minutos para que comience el servicio."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"No se activó tu teléfono. "\n"Puede que tengas que trasladarte hasta un área con mejor cobertura (cerca de una ventana o afuera). "\n\n"Vuelve a intentarlo o llama al servicio de atención al cliente para más opciones."</string>
@@ -569,15 +569,15 @@
     <item quantity="other" msgid="3122217344579273583">"Sin conexión de datos por <xliff:g id="COUNT">%s</xliff:g> minutos"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"El teléfono permanecerá en el modo Llamada de retorno de emergencia <xliff:g id="COUNT">%s</xliff:g> minuto. Mientras el teléfono se encuentre en este modo, no se podrá usar ninguna aplicación que requiera de una conexión de datos. ¿Deseas salir ahora?"</item>
-    <item quantity="other" msgid="8617116564023933114">"El teléfono permanecerá en el modo Llamada de retorno de emergencia <xliff:g id="COUNT">%s</xliff:g> minutos. Mientras el teléfono se encuentre en este modo, no se podrá usar ninguna aplicación que requiera de una conexión de datos. ¿Deseas salir ahora?"</item>
+    <item quantity="one" msgid="8060210887681426682">"El teléfono permanecerá en el modo de llamada de retorno de emergencia <xliff:g id="COUNT">%s</xliff:g> minuto. Mientras el teléfono se encuentre en este modo, no se podrá usar ninguna aplicación que requiera de una conexión de datos. ¿Deseas salir ahora?"</item>
+    <item quantity="other" msgid="8617116564023933114">"El teléfono permanecerá en el modo de llamada de retorno de emergencia <xliff:g id="COUNT">%s</xliff:g> minutos. Mientras el teléfono se encuentre en este modo, no se podrá usar ninguna aplicación que requiera de una conexión de datos. ¿Deseas salir ahora?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="2585506997024726599">"La acción seleccionada no está disponible cuando el teléfono se encuentra en el modo Llamada de retorno de emergencia. El teléfono permanecerá en este modo <xliff:g id="COUNT">%s</xliff:g> minuto. ¿Deseas salir ahora?"</item>
-    <item quantity="other" msgid="6115622137771382224">"La acción seleccionada no está disponible cuando el teléfono se encuentra en el modo Llamada de retorno de emergencia. El teléfono permanecerá en este modo <xliff:g id="COUNT">%s</xliff:g> minutos. ¿Deseas salir ahora?"</item>
+    <item quantity="one" msgid="2585506997024726599">"La acción seleccionada no está disponible cuando el teléfono se encuentra en el modo de llamada de retorno de emergencia. El teléfono permanecerá en este modo <xliff:g id="COUNT">%s</xliff:g> minuto. ¿Deseas salir ahora?"</item>
+    <item quantity="other" msgid="6115622137771382224">"La acción seleccionada no está disponible cuando el teléfono se encuentra en el modo de llamada de retorno de emergencia. El teléfono permanecerá en este modo <xliff:g id="COUNT">%s</xliff:g> minutos. ¿Deseas salir ahora?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="1886723687211887104">"La acción seleccionada no está disponible durante una llamada de emergencia."</string>
-    <string name="progress_dialog_exiting_ecm" msgid="4835734101617817074">"Saliendo del modo Llamada de retorno de emergencia"</string>
+    <string name="progress_dialog_exiting_ecm" msgid="4835734101617817074">"Saliendo del modo de llamada de retorno de emergencia"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sí"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Descartar"</string>
@@ -617,7 +617,7 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Haz una llamada"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Usa la cuenta de llamadas por Internet:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Usar siempre para realizar llamadas por Internet"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Para cambiar la cuenta de llamadas por Internet predeterminada, ve a Teléfono &gt; Configuración &gt; Configuración de llamadas por Internet &gt; Cuentas."</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Para cambiar la cuenta de llamadas por Internet predeterminada, ve a Teléfono &gt; Configuración &gt; Configuraciones de llamada de Internet &gt; Cuentas."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"Llamada de teléfono celular"</string>
     <string name="internet_phone" msgid="1147922660195095810">"llamada por Internet"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Sin cuenta de llamadas por Internet"</string>
@@ -643,7 +643,7 @@
     <string name="registration_status_still_trying" msgid="3185581992666091911">"Intento en curso..."</string>
     <string name="registration_status_not_receiving" msgid="4185572774980557758">"No se están recibiendo llamadas."</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"Se detuvo el registro de cuenta porque no hay conexión a Internet."</string>
-    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"Se detuvo el registro de la cuenta porque no existe una conexión Wi-Fi."</string>
+    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"Se detuvo el registro de la cuenta porque no hay conexión Wi-Fi."</string>
     <string name="registration_status_not_running" msgid="4824867184446232131">"La cuenta no se registró correctamente."</string>
     <string name="registration_status_done" msgid="884630717456439280">"Recibiendo llamadas."</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"La cuenta no se registró correctamente: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se intentará de nuevo más adelante."</string>
@@ -678,7 +678,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"No hay conexión a Internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"No hay conexión Wi-Fi"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Para realizar una llamada por Internet, primero verifica tu conexión a Internet."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Tienes que conectarte a una red Wi-Fi para realizar y recibir llamadas por Internet (usa la configuración Redes inalámbricas &amp; redes)."</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Tienes que conectarte a una red Wi-Fi para realizar y recibir llamadas por Internet (usa la configuración de Conexiones inalámbricas y redes)."</string>
     <string name="no_voip" msgid="8901474054537199865">"No admite llamadas por Internet"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automático"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Enviar mensajes siempre"</string>

@@ -210,7 +210,7 @@
     <string name="roaming" msgid="8871412572928323707">"数据漫游"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫游时连接到数据服务"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"漫游时连接到数据服务"</string>
-    <string name="roaming_reenable_message" msgid="8913735676127858115">"网络连接已断开，因为您已离开本地网络并已关闭流量漫游。"</string>
+    <string name="roaming_reenable_message" msgid="8913735676127858115">"数据连接已断开，因为您已离开本地网络并已关闭数据漫游。"</string>
     <string name="roaming_warning" msgid="7820963598559553967">"是否允许数据漫游？这可能产生大量漫游费！"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 选项"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 选项"</string>
