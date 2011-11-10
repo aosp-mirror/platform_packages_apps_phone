@@ -81,7 +81,7 @@
     <string name="enterPin" msgid="4753300834213388397">"Taipkan kod PIN untuk membuka kunci kad SIM."</string>
     <string name="pinUnlocked" msgid="5327174700273303795">"SIM dibukakan kuncinya."</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Kod PIN SIM baru"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Taipkan kod PIN SIM baru sekali lagi untuk mengesahkan."</string>
+    <string name="verifyNewPin" msgid="4240729999990403607">"Taipkan kod PIN SIM baharu sekali lagi untuk mengesahkan."</string>
     <string name="verifyFailed" msgid="8198903469256987323">"Pin SIM yang anda taipkan tidak sepadan. Cuba lagi."</string>
     <string name="enterPuk" msgid="6488567874689634521">"Taipkan kod PUK untuk membuka kunci kad SIM."</string>
     <string name="badPuk" msgid="4218469693062880152">"Kod PUK tidak betul."</string>
@@ -569,8 +569,8 @@
     <item quantity="other" msgid="3122217344579273583">"Tiada sambungan data selama <xliff:g id="COUNT">%s</xliff:g> minit"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"Telefon akan berada dalam mod Panggilan Balik Kecemasan untuk <xliff:g id="COUNT">%s</xliff:g> minit. Semasa dalam mod ini tiada aplikasi yang menggunakan sambungan data boleh digunakan. Adakah anda mahu keluar sekarang?"</item>
-    <item quantity="other" msgid="8617116564023933114">"Telefon akan berada dalam mod Panggilan Balik Kecemasan untuk <xliff:g id="COUNT">%s</xliff:g> minit. Semasa dalam mod ini tiada aplikasi yang menggunakan sambungan data boleh digunakan. Adakah anda mahu keluar sekarang?"</item>
+    <item quantity="one" msgid="8060210887681426682">"Telefon akan berada dalam mod Panggilan Balik Kecemasan untuk <xliff:g id="COUNT">%s</xliff:g> minit. Semasa dalam mod ini tiada sebarang aplikasi yang menggunakan sambungan data boleh digunakan. Adakah anda mahu keluar sekarang?"</item>
+    <item quantity="other" msgid="8617116564023933114">"Telefon akan berada dalam mod Panggilan Balik Kecemasan untuk <xliff:g id="COUNT">%s</xliff:g> minit. Semasa dalam mod ini tiada sebarang aplikasi yang menggunakan sambungan data boleh digunakan. Adakah anda mahu keluar sekarang?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"Tindakan yang dipilih tidak tersedia dalam mod Panggilan Balik Kecemasan. Telefon akan berada dalam mod ini untuk <xliff:g id="COUNT">%s</xliff:g> minit. Adakah anda mahu keluar sekarang?"</item>
@@ -674,7 +674,7 @@
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Sentuh untuk menunjukkan semua"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Sentuh untuk sembunyikan semua"</string>
     <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> diperlukan dan tidak boleh dibiarkan kosong."</string>
-    <string name="not_a_valid_port" msgid="4796149266434630292">"Nombor port harus berada dalam 1000 dan 65534."</string>
+    <string name="not_a_valid_port" msgid="4796149266434630292">"Nombor port harus berada dalam lingkungan 1000 dan 65534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Tiada sambungan Internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Tiada sambungan Wi-Fi"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Untuk membuat panggilan Internet, semak sambungan Internet anda terlebih dahulu."</string>

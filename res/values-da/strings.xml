@@ -396,7 +396,7 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Administrer faste opkaldsnumre"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Skift PIN-kode for at få adgang til faste opkald."</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Administrer telefonnummerliste"</string>
-    <string name="voice_privacy" msgid="3776841382844614716">"Fortrolighed for Voice"</string>
+    <string name="voice_privacy" msgid="3776841382844614716">"Privat talekommunikation"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Aktiver øget fortrolighedstilstand"</string>
     <string name="tty_mode_title" msgid="3171521903490559138">"TTY-tilstand"</string>
     <string name="tty_mode_summary" msgid="5057244302665817977">"Aktiver TTY-tilstand"</string>

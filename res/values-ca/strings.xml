@@ -570,10 +570,10 @@
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
     <item quantity="one" msgid="8060210887681426682">"El telèfon estarà en mode de devolució de trucades d\'emergència durant <xliff:g id="COUNT">%s</xliff:g> minut. Mentre estigui en aquest mode, no es podran utilitzar aplicacions que utilitzin una connexió de dades. En vols sortir ara?"</item>
-    <item quantity="other" msgid="8617116564023933114">"El telèfon estarà en mode de devolució de trucades d\'emergència durant <xliff:g id="COUNT">%s</xliff:g> minuts. Mentre estigui en aquest mode, no es podran utilitzar aplicacions que utilitzin una conexió de dades. En vols sortir ara?"</item>
+    <item quantity="other" msgid="8617116564023933114">"El telèfon estarà en mode de devolució de trucades d\'emergència durant <xliff:g id="COUNT">%s</xliff:g> minuts. Mentre estigui en aquest mode, no es podran utilitzar aplicacions que utilitzin una connexió de dades. En vols sortir ara?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
-    <item quantity="one" msgid="2585506997024726599">"L\'acció seleccionada no està disponible mentre estiguis en mode de devolució de trucades d\'emergència. El telèfon estarà en aquest mode durant <xliff:g id="COUNT">%s</xliff:g> minut. En vols sortir ara?"</item>
+    <item quantity="one" msgid="2585506997024726599">"L\'acció seleccionada no està disponible mentre estiguis en mode de devolució de trucades d\'emergència. El telèfon estarà en aquest mode durant <xliff:g id="COUNT">%s</xliff:g> minuts. En vols sortir ara?"</item>
     <item quantity="other" msgid="6115622137771382224">"L\'acció seleccionada no està disponible mentre estiguis en mode de devolució de trucades d\'emergència. El telèfon estarà en aquest mode durant <xliff:g id="COUNT">%s</xliff:g> minuts. En vols sortir ara?"</item>
   </plurals>
     <string name="alert_dialog_in_ecm_call" msgid="1886723687211887104">"L\'acció seleccionada no està disponible en una trucada d\'emergència."</string>

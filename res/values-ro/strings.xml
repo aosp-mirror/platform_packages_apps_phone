@@ -37,7 +37,7 @@
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Niciun semnal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Limită ACM depăşită"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Radio oprit"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"Nu există un card SIM sau a apărut o eroare de SIM"</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"Nu există SIM sau eroare de SIM"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"În afara ariei de acoperire"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Apelurile trimise sunt restricţionate de FDN."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Nu puteţi efectua apeluri de ieşire în timp ce blocarea apelurilor este activă."</string>
@@ -158,7 +158,7 @@
   </string-array>
     <string name="vm_save_number" msgid="4579969432544566719">"Salvaţi"</string>
     <string name="vm_changed" msgid="380744030726254139">"Număr mesagerie vocală modificat."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Nu s-a putut schimba numărul de mesagerie vocală."\n"Contactaţi operatorul dvs. în cazul în care această problemă persistă."</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Nu s-a putut schimba numărul de mesagerie vocală."\n"Contactaţi operatorul în cazul în care această problemă persistă."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Nu s-a putut schimba numărul de redirecţionare."\n"Contactaţi operatorul dvs. în cazul în care această problemă persistă."</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Nu s-au putut prelua şi salva setările actuale ale numărului de redirecţionare."\n"Doriţi să comutaţi oricum către un nou furnizor de servicii?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nicio schimbare efectuată."</string>
@@ -554,7 +554,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Aşteptaţi, telefonul dvs. se programează."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programarea nu a reuşit"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Telefonul dvs. este acum activat. Poate să dureze până la 15 minute până la pornirea serviciului."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Telefonul dvs. nu s-a activat. "\n"Vă recomandăm să găsiţi o arie cu acoperire mai bună (lângă fereastră sau afară). "\n\n"Încercaţi din nou sau apelaţi serviciul pentru clienţi, pentru mai multe opţiuni."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Telefonul dvs. nu s-a activat. "\n"Vă recomandăm să găsiţi o zonă cu acoperire mai bună (lângă fereastră sau afară). "\n\n"Pentru mai multe opţiuni, încercaţi din nou sau apelaţi serviciul pentru clienţi."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"ERORI DE DEPĂŞIRE SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Înapoi"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Încercaţi din nou"</string>
@@ -647,7 +647,7 @@
     <string name="registration_status_not_running" msgid="4824867184446232131">"Înregistrarea contului nu a reuşit."</string>
     <string name="registration_status_done" msgid="884630717456439280">"Se primesc apeluri."</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Înregistrarea contului nu a reuşit: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); se va încerca mai târziu"</string>
-    <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"Înregistrarea contului nu a reuşit: nume de utilizator sau parolă incorecte."</string>
+    <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"Înregistrarea contului nu a reuşit: nume de utilizator sau parolă incorectă."</string>
     <string name="registration_status_server_unreachable" msgid="5733421582468991276">"Înregistrarea contului nu a reuşit: verificaţi numele serverului."</string>
     <string name="third_party_account_summary" msgid="2532526738862533028">"Acest cont este utilizat în prezent de aplicaţia <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Detalii cont SIP"</string>
@@ -678,7 +678,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Nu există conexiune la internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Nu există conexiune Wi-Fi"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Pentru a efectua un apel prin internet, verificaţi mai întâi conexiunea la internet."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Trebuie să fiţi conectat(ă) la o reţea Wi-Fi pentru a efectua apeluri prin internet (utilizaţi setările pentru Wireless şi reţea)."</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Trebuie să fiţi conectat(ă) la o reţea Wi-Fi pentru a efectua apeluri prin internet (utilizaţi setările pentru Reţele wireless)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Apelarea prin internet neacceptată"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automat"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Se trimite întotdeauna"</string>

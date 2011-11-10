@@ -40,7 +40,7 @@
     <string name="callFailed_simError" msgid="4476360200030635828">"SIM kart yok veya SIM hatası"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Hizmet alanı dışında"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Giden çağrılar SAN tarafından kısıtlandı."</string>
-    <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Çağrı engelleme açıkken giden çağrı yapamazsınız."</string>
+    <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Çağrı engelleme açıkken arama yapamazsınız"</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Tüm çağrılar erişim denetimi tarafından kısıtlandı."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Acil durum çağrıları erişim denetimi tarafından kısıtlandı."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Normal çağrılar erişim denetimi tarafından kısıtlanmış."</string>
