@@ -399,6 +399,12 @@ public class OtaUtils {
         Intent activationScreenIntent = new Intent().setClass(context, InCallScreen.class)
                 .setAction(ACTION_DISPLAY_ACTIVATION_SCREEN);
 
+        // Watch out: in the scenario where OTASP gets triggered from the
+        // BOOT_COMPLETED broadcast (see OtaStartupReceiver.java), we might be
+        // running in the PhoneApp's context right now.
+        // So the FLAG_ACTIVITY_NEW_TASK flag is required here.
+        activationScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         // We're about to start the OTASP sequence, so create and initialize the
         // OtaUtils instance.  (This needs to happen before bringing up the
         // InCallScreen.)
