@@ -178,6 +178,12 @@ public class BluetoothHeadsetService extends Service {
                                               info.mSocketFd, info.mRfcommChan,
                                               null);
                     headset.disconnect();
+                    try {
+                        mBluetoothService.notifyIncomingConnection(info.mRemoteDevice.getAddress(),
+                                                                   true);
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "notifyIncomingConnection", e);
+                    }
                     return;
                 }
 
@@ -197,7 +203,7 @@ public class BluetoothHeadsetService extends Service {
 
                     try {
                         mBluetoothService.notifyIncomingConnection(
-                            info.mRemoteDevice.getAddress());
+                           info.mRemoteDevice.getAddress(), false);
                     } catch (RemoteException e) {
                         Log.e(TAG, "notifyIncomingConnection");
                     }
@@ -224,7 +230,7 @@ public class BluetoothHeadsetService extends Service {
 
                     try {
                         mBluetoothService.notifyIncomingConnection(
-                            info.mRemoteDevice.getAddress());
+                            info.mRemoteDevice.getAddress(), false);
                     } catch (RemoteException e) {
                         Log.e(TAG, "notifyIncomingConnection");
                     }
