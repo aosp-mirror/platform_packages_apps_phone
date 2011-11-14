@@ -33,7 +33,7 @@
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Nummer nicht erreichbar"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Ungültiger Nutzername oder ungültiges Passwort"</string>
     <string name="callFailed_out_of_network" msgid="6485167392133436262">"Anruf außerhalb des Netzwerks"</string>
-    <string name="callFailed_server_error" msgid="5717915213586193217">"Serverfehler. Bitte versuchen Sie es später noch einmal."</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Serverfehler. Bitte versuchen Sie es später erneut."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Kein Signal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-Grenzwert überschritten"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Mobilfunkverbindung aus"</string>
