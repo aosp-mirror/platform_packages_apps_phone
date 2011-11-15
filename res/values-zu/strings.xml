@@ -560,10 +560,10 @@
     <string name="ota_successful" msgid="1880780692887077407">"Ifoni yakho manje iyasebenza. Kungase kuthathe amaminithi angu-15 ukuze insizakalo iqale."</string>
     <string name="ota_unsuccessful" msgid="623361244652068739">"Ifoni yakho ayizange isebenze. "\n"Kungase kudingeke ukuba uthole indawo enenethiwekhi (eduze kwefasitela, noma ngaphandle)."\n\n"Zama futhi noma shayela insizakalo yekhasimende ukutholo okunye okukhethwayo."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"FINYELELA UKWEHLULEKA KWE-SPC"</string>
-    <string name="ota_call_end" msgid="4537279738134612388">"Phindela emuva"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Emuva"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Zama futhi"</string>
     <string name="ota_next" msgid="3904945374358235910">"Okulandelayo"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Phindela emuva"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Emuva"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmPhuma Kwingxoxo"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Ingene Kwimdoi Yokuphinda Ukushayela Okuphuthumayo"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Imodi Yokuphinda Ukushayela Okuphuthumayo"</string>
