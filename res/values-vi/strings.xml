@@ -68,16 +68,16 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Tai nghe ĐTDĐ"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Tai nghe có dây"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"Gửi các âm sau?"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Gửi các âm sau?"\n</string>
     <string name="pause_prompt_str" msgid="341477243019906241">"Đang gửi Âm"\n</string>
-    <string name="send_button" msgid="4106860097497818751">"Gửi"</string>
+    <string name="send_button" msgid="4106860097497818751">"Gửi"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Có"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Không"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Thay thế ký tự tự do với"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Thiếu số thư thoại"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Không có số thư thoại nào được lưu trữ trên thẻ SIM."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Thêm số điện thoại"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Đang tải…"</string>
+    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Đang tải…"</string>
     <string name="enterPin" msgid="4753300834213388397">"Nhập mã PIN để mở khoá thẻ SIM."</string>
     <string name="pinUnlocked" msgid="3260617001055506794">"Đã mở khoá SIM"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Mã PIN mới của SIM"</string>
@@ -85,7 +85,7 @@
     <string name="verifyFailed" msgid="3875778795754857903">"Mã PIN của SIM bạn đã nhập không khớp. Vui lòng thử lại."</string>
     <string name="enterPuk" msgid="6144749655582862324">"Nhập mã PUK để mở khoá thẻ SIM."</string>
     <string name="badPuk" msgid="3213017898690275965">"Mã PUK không chính xác!"</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Tiếp tục"</string>
+    <string name="buttonTxtContinue" msgid="863271214384739936">"Tiếp tục"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Thẻ SIM của bạn đã được bỏ chặn. Điện thoại của bạn đang mở khoá…"</string>
     <string name="label_ndp" msgid="780479633159517250">"Mã PIM mở khoá mạng SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Mở khoá"</string>
@@ -99,7 +99,7 @@
     <string name="labelCDMAMore" msgid="1630676740428229339">"Cài đặt cuộc gọi CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Tên Điểm Truy cập"</string>
     <string name="settings_label" msgid="3876743539816984008">"Cài đặt mạng"</string>
-    <string name="voicemail" msgid="8693759337917898954">"Thư thoại"</string>
+    <string name="voicemail" msgid="8693759337917898954">"Thư thoại"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"Thư thoại:"</string>
     <string name="networks" msgid="8873030692174541976">"Nhà cung cấp dịch vụ mạng"</string>
     <string name="call_settings" msgid="6112441768261754562">"Cài đặt cuộc gọi"</string>
@@ -150,19 +150,19 @@
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Bật"</string>
     <string name="disable" msgid="7274240979164762320">"Vô hiệu hoá"</string>
-    <string name="change_num" msgid="239476305819844391">"Cập nhật"</string>
+    <string name="change_num" msgid="239476305819844391">"Cập nhật"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"Mặc định mạng"</item>
     <item msgid="7876195870037833661">"Ẩn số"</item>
     <item msgid="1108394741608734023">"Hiển thị số"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Lưu số thư thoại"</string>
-    <string name="vm_changed" msgid="380744030726254139">"Số thư thoại đã thay đổi."</string>
+    <string name="vm_save_number" msgid="4579969432544566719">"Lưu số thư thoại"</string>
+    <string name="vm_changed" msgid="380744030726254139">"Số thư thoại đã thay đổi."</string>
     <string name="vm_change_failed" msgid="6912718596496220653">"Thay đổi số thư thoại không thành công."\n"Hãy liên hệ với nhà cung cấp dịch vụ của bạn nếu sự cố vẫn tiếp diễn."</string>
     <string name="fw_change_failed" msgid="4437005899675054038">"Thay đổi số chuyển tiếp không thành công."\n"Hãy liên hệ với nhà cung cấp dịch vụ của bạn nếu sự cố này vẫn tiếp diễn."</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Không thể truy xuất và lưu cài đặt số chuyển tiếp hiện tại."\n"Bạn vẫn muốn chuyển sang nhà cung cấp mới?"</string>
     <string name="no_change" msgid="3186040086622435212">"Không thay đổi nào được thực hiện."</string>
-    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chọn dịch vụ thư thoại"</string>
+    <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chọn dịch vụ thư thoại"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Nhà cung cấp dịch vụ của tôi"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Cài đặt mạng di động"</string>
     <string name="label_available" msgid="1181658289009300430">"Mạng khả dụng"</string>
@@ -180,7 +180,7 @@
     <string name="sum_select_automatically" msgid="8460954604521755275">"Tự động chọn mạng ưu thích"</string>
     <string name="register_automatically" msgid="6272031189219101172">"Đăng ký tự động..."</string>
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Chế độ Mạng"</string>
-    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Thay đổi chế độ hoạt động của mạng"</string>
+    <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Thay đổi chế độ hoạt động của mạng"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Chế độ mạng được ưu thích"</string>
     <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"Chế độ mạng được ưa thích: ưu tiên WCDMA"</string>
     <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"Chế độ mạng được ưa thích: chỉ GSM"</string>
@@ -261,12 +261,12 @@
     <string name="list_language_summary" msgid="8109546531071241601">"Chọn ngôn ngữ tin tức"</string>
   <string-array name="list_language_entries">
     <item msgid="6137851079727305485">"Tiếng Anh"</item>
-    <item msgid="1151988412809572526">"Tiếng Pháp"</item>
-    <item msgid="577840534704312665">"Tiếng Tây Ban Nha"</item>
-    <item msgid="8385712091143148180">"Tiếng Nhật"</item>
-    <item msgid="1858401628368130638">"Tiếng Hàn"</item>
+    <item msgid="1151988412809572526">"Tiếng Pháp"</item>
+    <item msgid="577840534704312665">"Tiếng Tây Ban Nha"</item>
+    <item msgid="8385712091143148180">"Tiếng Nhật"</item>
+    <item msgid="1858401628368130638">"Tiếng Hàn"</item>
     <item msgid="1933212028684529632">"Tiếng Trung"</item>
-    <item msgid="1908428006803639064">"Tiếng Do Thái"</item>
+    <item msgid="1908428006803639064">"Tiếng Do Thái"</item>
   </string-array>
   <string-array name="list_language_values">
     <item msgid="1804908636436467150">"1"</item>
@@ -332,14 +332,14 @@
     <string name="prefer_2g" msgid="8442550937280449639">"Chỉ sử dụng mạng 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Tiết kiệm pin"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Chọn hệ thống"</string>
-    <string name="cdma_system_select_summary" msgid="2528661990595284707">"Thay đổi chế độ chuyển vùng cdma"</string>
+    <string name="cdma_system_select_summary" msgid="2528661990595284707">"Thay đổi chế độ chuyển vùng cdma"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Chọn hệ thống"</string>
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Chỉ nhà riêng"</item>
     <item msgid="1205664026446156265">"Tự động"</item>
   </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Chế độ Chuyển vùng CDMA"</string>
-    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Thay đổi chế độ chuyển vùng cdma"</string>
+    <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"Thay đổi chế độ chuyển vùng cdma"</string>
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Chế độ chuyển vùng CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="6024072766548865002">"Chỉ Mạng gia đình"</item>
@@ -384,7 +384,7 @@
     <string name="fdn_disabled" msgid="4700049736675368279">"Số Quay Định sẵn bị vô hiệu hoá"</string>
     <string name="enable_fdn" msgid="3740191529180493851">"Bật FDN"</string>
     <string name="disable_fdn" msgid="7944020890722540616">"Vô hiệu hoá FDN"</string>
-    <string name="change_pin2" msgid="2153563695382176676">"Thay đổi mã PIN2"</string>
+    <string name="change_pin2" msgid="2153563695382176676">"Thay đổi mã PIN2"</string>
     <string name="enable_fdn_ok" msgid="7215588870329688132">"Vô hiệu hoá FDN"</string>
     <string name="disable_fdn_ok" msgid="5727046928930740173">"Bật FDN"</string>
     <string name="sum_fdn" msgid="1959399454900272878">"Quản lý Số Quay định sẵn"</string>
@@ -399,7 +399,7 @@
     <string name="auto_retry_mode_title" msgid="1478311108889330757">"Tự động Thử lại"</string>
     <string name="auto_retry_mode_summary" msgid="4921028586041909574">"Bật chế độ Tự động Thử lại"</string>
     <string name="menu_add" msgid="1882023737425114762">"Thêm liên hệ"</string>
-    <string name="menu_edit" msgid="7143003705504672374">"Chỉnh sửa liên hệ"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"Chỉnh sửa liên hệ"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Xoá liên hệ"</string>
     <string name="get_pin2" msgid="1198225482542827652">"Nhập mã PIN2"</string>
     <string name="name" msgid="7329028332786872378">"Tên"</string>
@@ -408,7 +408,7 @@
     <string name="add_fdn_contact" msgid="2481915899633353976">"Thêm số quay định sẵn"</string>
     <string name="adding_fdn_contact" msgid="7627379633721940991">"Đang thêm số quay định sẵn…"</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"Đã thêm số quay định sẵn."</string>
-    <string name="edit_fdn_contact" msgid="7976936035587081480">"Chỉnh sửa số quay định sẵn"</string>
+    <string name="edit_fdn_contact" msgid="7976936035587081480">"Chỉnh sửa số quay định sẵn"</string>
     <string name="updating_fdn_contact" msgid="8370929876849803600">"Đang cập nhật số quay định sẵn..."</string>
     <string name="fdn_contact_updated" msgid="5497828782609005017">"Đã cập nhật số quay định sẵn."</string>
     <string name="delete_fdn_contact" msgid="6668958073074151717">"Xoá số quay định sẵn"</string>
@@ -421,7 +421,7 @@
     <string name="simContacts_title" msgid="1861472842524839921">"Chọn danh bạ để nhập"</string>
     <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Để nhập địa chỉ liên hệ từ thẻ SIM, vui lòng tắt chế độ trên Máy bay."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Bật/vô hiệu hoá mã PIN của SIM"</string>
-    <string name="change_pin" msgid="9174186126330785343">"Thay đổi mã PIN của SIM"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Thay đổi mã PIN của SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"Mã PIN của SIM:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"Mã PIN cũ"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Mã PIN Mới"</string>
@@ -453,12 +453,12 @@
     <string name="doneButton" msgid="2859593360997984240">"Xong"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Cuộc gọi hội nghị <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Quay lại cuộc gọi"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Tiếp tục mà không có thẻ SIM"</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Tiếp tục mà không có thẻ SIM"</string>
     <string name="sim_missing_msg_text" msgid="6803619600564142188">"Không tìm thấy thẻ SIM nào. Hãy lắp thẻ SIM vào điện thoại."</string>
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Loại bỏ"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Mở khoá"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Đang xác thực mã PIN…"</string>
-    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Số thư thoại"</string>
+    <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Số thư thoại"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Đang quay số"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Đang thử lại"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Cuộc gọi hội nghị"</string>
@@ -479,7 +479,7 @@
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Thư thoại mới"</string>
     <string name="notification_voicemail_title_count" msgid="4366360747660929916">"Thư thoại mới (<xliff:g id="COUNT">%d</xliff:g>)"</string>
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Quay số <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
-    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Số thư thoại không xác định"</string>
+    <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Số thư thoại không xác định"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Không có dịch vụ nào"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Mạng được chọn (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) không khả dụng"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Để thực hiện cuộc gọi, trước tiên, hãy tắt chế độ trên Máy bay."</string>
@@ -583,7 +583,7 @@
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Loại bỏ"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Cài đặt thư thoại"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;chưa được đặt&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Dịch vụ thư thoại"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Dịch vụ thư thoại"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Cài đặt cho <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Cài đặt cuộc gọi khác"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Quay số"</string>
@@ -601,7 +601,7 @@
     <string name="selectContact" msgid="781975788478987237">"chọn địa chỉ liên hệ"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Cài đặt cuộc gọi qua Internet"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Tài khoản gọi qua Internet (SIP)"</string>
-    <string name="sip_accounts_title" msgid="1212889069281054570">"Tài khoản"</string>
+    <string name="sip_accounts_title" msgid="1212889069281054570">"Tài khoản"</string>
     <string name="sip_accounts_summary" msgid="6812629993146552527">"Quản lý tài khoản và trạng thái gọi qua Internet (SIP)"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Nhận cuộc gọi đến"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Giảm tuổi thọ pin"</string>
@@ -632,8 +632,8 @@
     <string name="sip_menu_discard" msgid="524075892158789701">"Hủy"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Đóng tiểu sử"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
-    <string name="close_profile" msgid="6886968271423155284">"Đóng"</string>
-    <string name="primary_account" msgid="2229538308291934245">"Chính"</string>
+    <string name="close_profile" msgid="6886968271423155284">"Đóng"</string>
+    <string name="primary_account" msgid="2229538308291934245">"Chính"</string>
     <string name="primary_account_title" msgid="5694267218020951531">"Đặt tài khoản này làm tài khoản chính của tôi"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"Được sử dụng cho các cuộc gọi đi"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"Cài đặt nâng cao"</string>
