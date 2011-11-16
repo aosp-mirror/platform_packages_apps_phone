@@ -47,6 +47,7 @@ public class ClearMissedCallsService extends IntentService {
             // Clear the list of new missed calls.
             ContentValues values = new ContentValues();
             values.put(Calls.NEW, 0);
+            values.put(Calls.IS_READ, 1);
             StringBuilder where = new StringBuilder();
             where.append(Calls.NEW);
             where.append(" = 1 AND ");
