@@ -538,7 +538,7 @@
     <string name="dtmf_tones_title" msgid="3866923093113274152">"Amathoni e-DTMF"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Hlela ubude bamathoni e-DTMF"</string>
   <string-array name="dtmf_tone_entries">
-    <item msgid="899650777817315681">"Kuvamile"</item>
+    <item msgid="899650777817315681">"Jwayelekile"</item>
     <item msgid="2883365539347850535">"Kude"</item>
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Umyalezo Wenethiwekhi"</string>
@@ -586,7 +586,7 @@
     <string name="alert_dialog_no" msgid="1476091437797628703">"Cha"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Susa"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Izilungiselelo zemeyili yezwi"</string>
-    <string name="voicemail_number_not_set" msgid="1604580506447265808">"&lt;ayihleliwe&gt;"</string>
+    <string name="voicemail_number_not_set" msgid="1604580506447265808">"ayisethiwe"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Insizakalo yemeyili yezwi"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Izilungiselelo ze-<xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ezinye izilungiselelo zekholi"</string>
@@ -672,7 +672,7 @@
     <string name="advanced_settings" msgid="8350631795335495338">"Izilungiselelo zokuzikhethela"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Igama lomsebenzisi lokufakazela ubuqiniso"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"Igama lomsebenzisi elisetshenziselwa ukufakazela ubuqiniso"</string>
-    <string name="default_preference_summary" msgid="868766740121667450">"&lt;Ayihleliwe&gt;"</string>
+    <string name="default_preference_summary" msgid="868766740121667450">"Ayisethiwe"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Kufana njengegama lomsebenzisi&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Okokuzikhethela&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Thinta ukubonisa konke"</string>
