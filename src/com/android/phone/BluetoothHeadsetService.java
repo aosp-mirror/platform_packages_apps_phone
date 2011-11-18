@@ -43,8 +43,8 @@ import android.provider.Settings;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Provides Bluetooth Headset and Handsfree profile, as a service in
@@ -71,7 +71,7 @@ public class BluetoothHeadsetService extends Service {
     private PowerManager mPowerManager;
     private BluetoothAudioGateway mAg;
     private BluetoothHandsfree mBtHandsfree;
-    private HashMap<BluetoothDevice, BluetoothRemoteHeadset> mRemoteHeadsets;
+    private ConcurrentHashMap<BluetoothDevice, BluetoothRemoteHeadset> mRemoteHeadsets;
     private BluetoothDevice mAudioConnectedDevice;
 
     @Override
@@ -93,7 +93,7 @@ public class BluetoothHeadsetService extends Service {
             throw new RuntimeException("Bluetooth service not available");
         }
         mBluetoothService = IBluetooth.Stub.asInterface(b);
-        mRemoteHeadsets = new HashMap<BluetoothDevice, BluetoothRemoteHeadset>();
+        mRemoteHeadsets = new ConcurrentHashMap<BluetoothDevice, BluetoothRemoteHeadset>();
    }
 
    private class BluetoothRemoteHeadset {
@@ -878,32 +878,30 @@ public class BluetoothHeadsetService extends Service {
         }
 
         public boolean setAudioState(BluetoothDevice device, int state) {
-            synchronized (BluetoothHeadsetService.this) {
-                int prevState = mRemoteHeadsets.get(device).mAudioState;
-                mRemoteHeadsets.get(device).mAudioState = state;
-                if (state == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
-                    mAudioConnectedDevice = device;
-                } else if (state == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
-                    mAudioConnectedDevice = null;
-                }
-                Intent intent = new Intent(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
-                intent.putExtra(BluetoothHeadset.EXTRA_STATE, state);
-                intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, prevState);
-                intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-                sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
-                if (DBG) log("AudioStateIntent: " + device + " State: " + state
-                  + " PrevState: " + prevState);
-                return true;
+            // mRemoteHeadsets handles put/get concurrency by itself
+            int prevState = mRemoteHeadsets.get(device).mAudioState;
+            mRemoteHeadsets.get(device).mAudioState = state;
+            if (state == BluetoothHeadset.STATE_AUDIO_CONNECTED) {
+                mAudioConnectedDevice = device;
+            } else if (state == BluetoothHeadset.STATE_AUDIO_DISCONNECTED) {
+                mAudioConnectedDevice = null;
             }
+            Intent intent = new Intent(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
+            intent.putExtra(BluetoothHeadset.EXTRA_STATE, state);
+            intent.putExtra(BluetoothHeadset.EXTRA_PREVIOUS_STATE, prevState);
+            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+            sendBroadcast(intent, android.Manifest.permission.BLUETOOTH);
+            if (DBG) log("AudioStateIntent: " + device + " State: " + state
+                         + " PrevState: " + prevState);
+            return true;
         }
 
         public int getAudioState(BluetoothDevice device) {
-            synchronized (BluetoothHeadsetService.this) {
-                BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
-                if (headset == null) return BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
+            // mRemoteHeadsets handles put/get concurrency by itself
+            BluetoothRemoteHeadset headset = mRemoteHeadsets.get(device);
+            if (headset == null) return BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
 
-                return headset.mAudioState;
-           }
+            return headset.mAudioState;
        }
     };
 
