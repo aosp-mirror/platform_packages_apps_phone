@@ -654,13 +654,13 @@ public class OtaUtils {
                 break;
 
             case Phone.CDMA_OTA_PROVISION_STATUS_COMMITTED:
+                if (DBG) {
+                    log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
+                }
+                mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
                 if (mApplication.cdmaOtaScreenState.otaScreenState !=
-                        CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED) {
-                    if (DBG) {
-                        log("onOtaProvisionStatusChanged(): DONE, isOtaCallCommitted set to true");
-                    }
+                    CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED) {
                     updateOtaspProgress();
-                    mApplication.cdmaOtaProvisionData.isOtaCallCommitted = true;
                 }
 
                 break;
