@@ -26,7 +26,7 @@
     <string name="payphone" msgid="1931775086311769314">"Simu ya kulipia"</string>
     <string name="onHold" msgid="9035493194749959955">"Inangoja"</string>
     <string name="ongoing" msgid="8300874342848721367">"Simu ya sasa"</string>
-    <string name="callFailed_userBusy" msgid="8851106999809294904">"Simu inapigwa"</string>
+    <string name="callFailed_userBusy" msgid="8851106999809294904">"Simu inatumika"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Mtandao unatumika"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Hakuna jibu, muda umekwisha"</string>
     <string name="callFailed_server_unreachable" msgid="2133506577423869729">"Seva haiwezi kufikiwa"</string>
