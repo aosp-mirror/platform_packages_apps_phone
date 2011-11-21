@@ -1374,14 +1374,23 @@ public class BluetoothHandsfree {
 
         @Override
         public void handleMessage(Message msg) {
-            synchronized (BluetoothHandsfree.this) {
-                switch (msg.what) {
-                case SCO_CLOSED:
+            switch (msg.what) {
+            case SCO_CLOSED:
+                synchronized (BluetoothHandsfree.this) {
+                    // synchronized
+                    // Make atomic against audioOn, userWantsAudioOn
+                    // TODO finer lock to decouple from other call flow such as
+                    //      mWaitingForCallStart change
+
                     audioOff();
                     // notify mBluetoothPhoneState that the SCO channel has closed
                     mBluetoothPhoneState.scoClosed();
-                    break;
-                case CHECK_CALL_STARTED:
+                }
+                break;
+            case CHECK_CALL_STARTED:
+                synchronized (BluetoothHandsfree.this) {
+                    // synchronized
+                    // Protect test/change of mWaitingForCallStart
                     if (mWaitingForCallStart) {
                         mWaitingForCallStart = false;
                         Log.e(TAG, "Timeout waiting for call to start");
@@ -1390,46 +1399,54 @@ public class BluetoothHandsfree {
                             mStartCallWakeLock.release();
                         }
                     }
-                    break;
-                case CHECK_VOICE_RECOGNITION_STARTED:
+                }
+                break;
+            case CHECK_VOICE_RECOGNITION_STARTED:
+                synchronized (BluetoothHandsfree.this) {
+                    // synchronized
+                    // Protect test/change of mWaitingForVoiceRecognition
                     if (mWaitingForVoiceRecognition) {
                         mWaitingForVoiceRecognition = false;
                         Log.e(TAG, "Timeout waiting for voice recognition to start");
                         sendURC("ERROR");
                     }
-                    break;
-                case MESSAGE_CHECK_PENDING_SCO:
+                }
+                break;
+            case MESSAGE_CHECK_PENDING_SCO:
+                synchronized (BluetoothHandsfree.this) {
+                    // synchronized
+                    // Protect test/change of mPendingSco
                     if (mPendingSco && isA2dpMultiProfile()) {
                         Log.w(TAG, "Timeout suspending A2DP for SCO (mA2dpState = " +
                                 mA2dpState + "). Starting SCO anyway");
                         connectScoThread();
                         mPendingSco = false;
                     }
-                    break;
-                case SCO_AUDIO_STATE:
-                    BluetoothDevice device = (BluetoothDevice) msg.obj;
-                    if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_CONNECTING) {
-                        setAudioState(BluetoothHeadset.STATE_AUDIO_DISCONNECTED, device);
-                    }
-                    break;
-                case SCO_CONNECTION_CHECK:
-                    synchronized (mBluetoothPhoneState) {
-                        // synchronized on mCall change
-                        if (mBluetoothPhoneState.mCall == 1) {
-                            // Sometimes, the SCO channel is torn down by HF with no reason.
-                            // Because we are still in active call, reconnect SCO.
-                            // audioOn does nothing if the SCO is already on.
-                            audioOn();
-                        }
-                    }
-                    break;
-                case BATTERY_CHANGED:
-                    mBluetoothPhoneState.updateBatteryState((Intent) msg.obj);
-                    break;
-                case SIGNAL_STRENGTH_CHANGED:
-                    mBluetoothPhoneState.updateSignalState((Intent) msg.obj);
-                    break;
                 }
+                break;
+            case SCO_AUDIO_STATE:
+                BluetoothDevice device = (BluetoothDevice) msg.obj;
+                if (getAudioState(device) == BluetoothHeadset.STATE_AUDIO_CONNECTING) {
+                    setAudioState(BluetoothHeadset.STATE_AUDIO_DISCONNECTED, device);
+                }
+                break;
+            case SCO_CONNECTION_CHECK:
+                synchronized (mBluetoothPhoneState) {
+                    // synchronized on mCall change
+                    if (mBluetoothPhoneState.mCall == 1) {
+                        // Sometimes, the SCO channel is torn down by HF with no reason.
+                        // Because we are still in active call, reconnect SCO.
+                        // audioOn does nothing if the SCO is already on.
+                        audioOn();
+                    }
+                }
+                break;
+            case BATTERY_CHANGED:
+                mBluetoothPhoneState.updateBatteryState((Intent) msg.obj);
+                break;
+            case SIGNAL_STRENGTH_CHANGED:
+                mBluetoothPhoneState.updateSignalState((Intent) msg.obj);
+                break;
             }
         }
     }
