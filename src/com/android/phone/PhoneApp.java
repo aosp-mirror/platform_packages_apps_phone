@@ -811,6 +811,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         mInCallScreen = inCallScreen;
     }
 
+    InCallScreen getInCallScreen() {
+        return mInCallScreen;
+    }
+
     /**
      * @return true if the in-call UI is running as the foreground
      * activity.  (In other words, from the perspective of the
