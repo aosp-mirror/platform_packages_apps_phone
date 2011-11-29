@@ -450,7 +450,7 @@
     <string name="mismatchPin2" msgid="523029155918113440">"Ama-PIN2s owathayiphile akafani. Zama futhi."</string>
     <string name="invalidPin2" msgid="8237110107480395938">"Thayipha i-PIN2 enezinombolo ezingu-4 kuya kwezingu-8."</string>
     <string name="invalidPuk2" msgid="1290977391033057871">"Thayipha i-PUK2 enezinombolo ezingu-8."</string>
-    <string name="pin2_changed" msgid="1639666438836544393">"I-PIN2 ishintshwe ngokuphumelelayo"</string>
+    <string name="pin2_changed" msgid="1639666438836544393">"I-PIN2 ishintshwe ngempumelelo."</string>
     <string name="label_puk2_code" msgid="302845876240219560">"Thayipha ikhodi ye-PUK2"</string>
     <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Iphasiwedi ayilungile, sicela ushintshe i-PIN2 bese uzama futhi!"</string>
     <string name="puk2_requested" msgid="8909278021238716877">"Iphasiwedi ayilungile, i-SIM ivaliwe! Kudingena i-PUK2."</string>
@@ -538,7 +538,7 @@
     <string name="dtmf_tones_title" msgid="5163153771291340803">"Amathoni e-DTMF"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Hlela ubude bamathoni e-DTMF"</string>
   <string-array name="dtmf_tone_entries">
-    <item msgid="899650777817315681">"Kuvamile"</item>
+    <item msgid="899650777817315681">"Jwayelekile"</item>
     <item msgid="2883365539347850535">"Kude"</item>
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Umlayezo Wenethiwekhi"</string>
@@ -560,10 +560,10 @@
     <string name="ota_successful" msgid="1880780692887077407">"Ifoni yakho manje iyasebenza. Kungase kuthathe amaminithi angu-15 ukuze insizakalo iqale."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"Ifoni yakho ayizange isebenze. "\n"Kungase kudingeke ukuba uthole indawo enenethiwekhi (eduze kwefasitela, noma ngaphandle)."\n\n"Zama futhi noma shayela insizakalo yekhasimende ukutholo okunye okukhethwayo."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"FINYELELA UKWEHLULEKA KWE-SPC"</string>
-    <string name="ota_call_end" msgid="4537279738134612388">"Phindela emuva"</string>
+    <string name="ota_call_end" msgid="4537279738134612388">"Emuva"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Zama futhi"</string>
     <string name="ota_next" msgid="3904945374358235910">"Okulandelayo"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Phindela emuva"</string>
+    <string name="ota_back" msgid="2190038043403850052">"Emuva"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmPhuma Kwingxoxo"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Ingene Kwimdoi Yokuphinda Ukushayela Okuphuthumayo"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Imodi Yokuphinda Ukushayela Okuphuthumayo"</string>
@@ -672,7 +672,7 @@
     <string name="advanced_settings" msgid="8350631795335495338">"Izilungiselelo zokuzikhethela"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Igama lomsebenzisi lokufakazela ubuqiniso"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"Igama lomsebenzisi elisetshenziselwa ukufakazela ubuqiniso"</string>
-    <string name="default_preference_summary" msgid="868766740121667450">"&lt;Ayihleliwe&gt;"</string>
+    <string name="default_preference_summary" msgid="868766740121667450">"Ayisethiwe"</string>
     <string name="display_name_summary" msgid="8636377460518225523">"&lt;Kufana njengegama lomsebenzisi&gt;"</string>
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Okokuzikhethela&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Thinta ukubonisa konke"</string>
