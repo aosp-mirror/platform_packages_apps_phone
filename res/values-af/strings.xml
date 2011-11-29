@@ -539,7 +539,7 @@
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Stel die lengte van STMF-tone in"</string>
   <string-array name="dtmf_tone_entries">
     <item msgid="899650777817315681">"Normaal"</item>
-    <item msgid="2883365539347850535">"Lang/lank"</item>
+    <item msgid="2883365539347850535">"Lank"</item>
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Netwerkboodskap"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktiveer jou foon"</string>

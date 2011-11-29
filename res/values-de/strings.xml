@@ -33,7 +33,7 @@
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Nummer nicht erreichbar"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Ungültiger Nutzername oder ungültiges Passwort"</string>
     <string name="callFailed_out_of_network" msgid="8740943329772180507">"Anruf außerhalb des Netzwerks"</string>
-    <string name="callFailed_server_error" msgid="5717915213586193217">"Serverfehler. Bitte versuchen Sie es später noch einmal."</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Serverfehler. Bitte versuchen Sie es später erneut."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Kein Signal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM-Grenzwert überschritten"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Mobilfunkverbindung aus"</string>
@@ -82,7 +82,7 @@
     <string name="pinUnlocked" msgid="5327174700273303795">"SIM-Karte entsperrt"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Neuer PIN-Code der SIM-Karte"</string>
     <string name="verifyNewPin" msgid="4240729999990403607">"Neuen PIN-Code für SIM-Karte zur Bestätigung erneut eingeben"</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"Die eingegebenen PIN-Codes für die SIM-Karte stimmen nicht überein. Bitte versuchen Sie es noch einmal."</string>
+    <string name="verifyFailed" msgid="8198903469256987323">"Die eingegebenen PIN-Codes für die SIM-Karte stimmen nicht überein. Bitte versuchen Sie es erneut."</string>
     <string name="enterPuk" msgid="6488567874689634521">"Geben Sie zum Entsperren der SIM-Karte den PUK-Code ein."</string>
     <string name="badPuk" msgid="4218469693062880152">"Falscher PUK-Code"</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Fortfahren"</string>
@@ -172,7 +172,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"Fehler bei der Netzwerksuche"</string>
     <string name="register_on_network" msgid="9055203954040805084">"Registrierung in <xliff:g id="NETWORK">%s</xliff:g> läuft..."</string>
     <string name="not_allowed" msgid="5613353860205691579">"Ihre SIM-Karte unterstützt keine Verbindung mit diesem Netzwerk."</string>
-    <string name="connect_later" msgid="2308119155752343975">"Momentan kann keine Verbindung zu diesem Netzwerk aufgebaut werden. Bitte versuchen Sie es später noch einmal."</string>
+    <string name="connect_later" msgid="2308119155752343975">"Momentan kann keine Verbindung zu diesem Netzwerk aufgebaut werden. Bitte versuchen Sie es später erneut."</string>
     <string name="registration_done" msgid="495135664535876612">"In Netzwerk registriert."</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"Mobilfunkanbieter auswählen"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Nach allen verfügbaren Netzwerken suchen"</string>
@@ -430,8 +430,8 @@
     <string name="oldPinLabel" msgid="5287773661246368314">"Alte PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Neue PIN"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"Neue PIN bestätigen"</string>
-    <string name="badPin" msgid="8955102849303984935">"Die eingegebene alte PIN ist nicht korrekt. Bitte versuchen Sie es noch einmal."</string>
-    <string name="mismatchPin" msgid="5923253370683071889">"Die eingegebenen PIN-Codes stimmen nicht überein. Bitte versuchen Sie es noch einmal."</string>
+    <string name="badPin" msgid="8955102849303984935">"Die eingegebene alte PIN ist nicht korrekt. Bitte versuchen Sie es erneut."</string>
+    <string name="mismatchPin" msgid="5923253370683071889">"Die eingegebenen PIN-Codes stimmen nicht überein. Bitte versuchen Sie es erneut."</string>
     <string name="invalidPin" msgid="5981171102258684792">"Geben Sie eine 4- bis 8-stellige PIN ein."</string>
     <string name="disable_sim_pin" msgid="3992926931620188855">"PIN-Abfrage für SIM-Karte deaktivieren"</string>
     <string name="enable_sim_pin" msgid="5803702443844458831">"PIN-Abfrage für SIM-Karte aktivieren"</string>
@@ -445,14 +445,14 @@
     <string name="oldPin2Label" msgid="8559146795026261502">"Alte PIN2"</string>
     <string name="newPin2Label" msgid="4573956902204349054">"Neue PIN2"</string>
     <string name="confirmPin2Label" msgid="8100319484454787708">"Neue PIN2 bestätigen"</string>
-    <string name="badPuk2" msgid="4851734468010000418">"Der eingegebene PUK2 ist falsch. Bitte versuchen Sie es noch einmal."</string>
-    <string name="badPin2" msgid="1041576234483629991">"Die von Ihnen eingegebene alte PIN2 ist nicht korrekt. Bitte versuchen Sie es noch einmal."</string>
-    <string name="mismatchPin2" msgid="523029155918113440">"Die eingegebenen PIN2-Codes stimmen nicht überein. Bitte versuchen Sie es noch einmal."</string>
+    <string name="badPuk2" msgid="4851734468010000418">"Der eingegebene PUK2 ist falsch. Bitte versuchen Sie es erneut."</string>
+    <string name="badPin2" msgid="1041576234483629991">"Die von Ihnen eingegebene alte PIN2 ist nicht korrekt. Bitte versuchen Sie es erneut."</string>
+    <string name="mismatchPin2" msgid="523029155918113440">"Die eingegebenen PIN2-Codes stimmen nicht überein. Bitte versuchen Sie es erneut."</string>
     <string name="invalidPin2" msgid="8237110107480395938">"Geben Sie eine 4- bis 8-stellige PIN2 ein."</string>
     <string name="invalidPuk2" msgid="1290977391033057871">"Geben Sie einen 8-stelligen PUK2 ein."</string>
     <string name="pin2_changed" msgid="1639666438836544393">"PIN2 geändert"</string>
     <string name="label_puk2_code" msgid="302845876240219560">"PUK2 eingeben"</string>
-    <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Passwort falsch. Ändern Sie die PIN2 und versuchen Sie es noch einmal."</string>
+    <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Passwort falsch. Ändern Sie die PIN2 und versuchen Sie es erneut."</string>
     <string name="puk2_requested" msgid="8909278021238716877">"Passwort falsch, SIM-Karte gesperrt. Eingabe des PUK2 erforderlich."</string>
     <string name="doneButton" msgid="2859593360997984240">"Fertig"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Telefonkonferenz <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
