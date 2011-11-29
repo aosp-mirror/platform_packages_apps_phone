@@ -122,21 +122,21 @@
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Chuyển tiếp tất cả cuộc gọi"</string>
     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Chuyển tiếp tất cả cuộc gọi tới <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Số không có"</string>
-    <string name="sum_cfu_disabled" msgid="3698472522160364904">"Đã vô hiệu hóa"</string>
+    <string name="sum_cfu_disabled" msgid="3698472522160364904">"Đã tắt"</string>
     <string name="labelCFB" msgid="218938523102207587">"Chuyển tiếp khi bận"</string>
     <string name="messageCFB" msgid="3711089705936187129">"Số khi bận"</string>
     <string name="sum_cfb_enabled" msgid="5984198104833116690">"Chuyển tiếp tới <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
-    <string name="sum_cfb_disabled" msgid="227440009979537651">"Đã vô hiệu hóa"</string>
+    <string name="sum_cfb_disabled" msgid="227440009979537651">"Đã tắt"</string>
     <string name="disable_cfb_forbidden" msgid="4524424437001441832">"Nhà cung cấp dịch vụ của bạn không hỗ trợ vô hiệu hóa chuyển tiếp cuộc gọi khi điện thoại của bạn bận."</string>
-    <string name="labelCFNRy" msgid="3646316323834351390">"Chuyển tiếp khi không được trả lời"</string>
+    <string name="labelCFNRy" msgid="3646316323834351390">"Chuyển tiếp khi không trả lời"</string>
     <string name="messageCFNRy" msgid="672317899884380374">"Số khi không được trả lời"</string>
     <string name="sum_cfnry_enabled" msgid="6955775691317662910">"Chuyển tiếp tới <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
-    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Đã vô hiệu hóa"</string>
+    <string name="sum_cfnry_disabled" msgid="8422350929957344729">"Đã tắt"</string>
     <string name="disable_cfnry_forbidden" msgid="7041605706777677935">"Nhà cung cấp dịch vụ của bạn không hỗ trợ vô hiệu hóa chuyển tiếp cuộc gọi khi điện thoại của bạn không trả lời."</string>
-    <string name="labelCFNRc" msgid="47183615370850000">"Chuyển tiếp khi không thể truy cập được"</string>
+    <string name="labelCFNRc" msgid="47183615370850000">"Chuyển tiếp khi không thể kết nối"</string>
     <string name="messageCFNRc" msgid="6380695421020295119">"Số khi không thể truy cập được"</string>
     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Chuyển tiếp tới <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
-    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Đã vô hiệu hóa"</string>
+    <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Đã tắt"</string>
     <string name="disable_cfnrc_forbidden" msgid="1093527570652781997">"Nhà cung cấp dịch vụ của bạn không hỗ trợ vô hiệu hóa chuyển tiếp cuộc gọi khi điện thoại của bạn không thể truy cập được."</string>
     <string name="updating_title" msgid="6146755386174019046">"Cài đặt cuộc gọi"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"Lỗi cài đặt cuộc gọi"</string>
@@ -280,7 +280,7 @@
     <string name="list_language_dtitle" msgid="5442908726538951934">"Ngôn ngữ"</string>
     <string name="enable_disable_local_weather" msgid="986967454867219114">"Thời tiết Địa phương"</string>
     <string name="local_weather_enable" msgid="6199315114382448922">"Đã bật Thời tiết Địa phương"</string>
-    <string name="local_weather_disable" msgid="2510158089142626480">"Đã tắt Thời tiết Địa phương"</string>
+    <string name="local_weather_disable" msgid="2510158089142626480">"Đã tắt Thời tiết địa phương"</string>
     <string name="enable_disable_atr" msgid="8339572391278872343">"Báo cáo Lưu lượng truy cập của Khu vực"</string>
     <string name="atr_enable" msgid="5541757457789181799">"Đã bật Báo cáo Lưu lượng truy cập của Khu vực"</string>
     <string name="atr_disable" msgid="7085558154727596455">"Đã vô hiệu hóa Báo cáo Lưu lượng truy cập của Khu vực"</string>
@@ -301,16 +301,16 @@
     <string name="advertisements_disable" msgid="8350985908788707935">"Đã vô hiệu hóa quảng cáo"</string>
     <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Tin tức Chứng khoán"</string>
     <string name="stock_quotes_enable" msgid="4384802470887170543">"Đã bật Tin tức Chứng khoán"</string>
-    <string name="stock_quotes_disable" msgid="4781450084565594998">"Đã vô hiệu hóa Tin tức Chứng khóan"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Đã tắt Tin tức chứng khoán"</string>
     <string name="enable_disable_eo" msgid="4863043263443942494">"Cơ hội Nghề nghiệp"</string>
     <string name="eo_enable" msgid="8623559062015685813">"Đã bật Cơ hội Nghề nghiệp"</string>
-    <string name="eo_disable" msgid="3863812478090907609">"Đã vô hiệu hóa Cơ hội Nghề nghiệp"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Đã tắt Cơ hội nghề nghiệp"</string>
     <string name="enable_disable_mhh" msgid="5698783743098373681">"Y tế, Sức khoẻ và Bệnh viện"</string>
     <string name="mhh_enable" msgid="3949276822735205799">"Đã bật Y tế, Sức khoẻ và Bệnh viện"</string>
     <string name="mhh_disable" msgid="4834280270664925123">"Đã vô hiệu hóa Y tế, Sức khoẻ và Bệnh viện"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Tin tức Công nghệ"</string>
     <string name="technology_news_enable" msgid="7995209394210455181">"Đã bật Tin tức Công nghệ"</string>
-    <string name="technology_news_disable" msgid="5483490380561851946">"Đã vô hiệu hóa Tin tức Công nghệ"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Đã tắt Tin tức công nghệ"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Nhiều danh mục"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Đã bật nhiều danh mục"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Đã vô hiệu hóa nhiều danh mục"</string>
@@ -563,7 +563,7 @@
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Đã vào Chế độ Gọi lại Khẩn cấp"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Chế độ Gọi lại Khẩn cấp"</string>
-    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Đã vô hiệu hóa kết nối mạng"</string>
+    <string name="phone_in_ecm_call_notification_text" msgid="4611608947314729773">"Đã tắt kết nối mạng"</string>
   <plurals name="phone_in_ecm_notification_time">
     <item quantity="one" msgid="4866221796252472622">"Không có kết nối dữ liệu trong <xliff:g id="COUNT">%s</xliff:g> phút"</item>
     <item quantity="other" msgid="3122217344579273583">"Không có kết nối dữ liệu trong <xliff:g id="COUNT">%s</xliff:g> phút"</item>

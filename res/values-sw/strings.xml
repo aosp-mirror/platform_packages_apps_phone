@@ -75,15 +75,15 @@
     <string name="pause_prompt_no" msgid="6686238803236884877">"Hapana"</string>
     <string name="wild_prompt_str" msgid="1585989144582892543">"Badilisha herufi ngeni na"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Nambari ya sauti inayokosekana"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"Hakuna nambari ya ujumbe wa sauti iliyohifadhiwa katika kadi ya SIM."</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Hakuna nambari ya ujumbe wa sauti iliyohifadhiwa katika SIM kadi."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Ongeza nambari"</string>
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Inapakia…"</string>
-    <string name="enterPin" msgid="4753300834213388397">"Andika msimbo wa PUK ili kufungua kadi ya SIM."</string>
+    <string name="enterPin" msgid="4753300834213388397">"Andika msimbo wa PUK ili kufungua SIM kadi."</string>
     <string name="pinUnlocked" msgid="3260617001055506794">"SIM imefunguliwa"</string>
     <string name="enterNewPin" msgid="5311243769004752401">"Msimbo mpya wa PIN ya SIM"</string>
     <string name="verifyNewPin" msgid="2593629913010458867">"Andika tena msimbo mpya wa PIN ya SIM ili kuthibitisha"</string>
     <string name="verifyFailed" msgid="3875778795754857903">"Manenosiri ya pili uliyoweka hayaoani. Tafadhali jaribu tena."</string>
-    <string name="enterPuk" msgid="6144749655582862324">"Andika msimbo wa PUK ili kufungua kadi ya SIM"</string>
+    <string name="enterPuk" msgid="6144749655582862324">"Andika msimbo wa PUK ili kufungua SIM kadi"</string>
     <string name="badPuk" msgid="3213017898690275965">"Msimbo wa PUK sio sahihi!"</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Endelea"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Kadi yako ya simu imefunguliwa. Simu yangu inafungua…."</string>
@@ -144,7 +144,7 @@
     <string name="updating_settings" msgid="8171225533884883252">"Inaboresha mipangilio…"</string>
     <string name="reverting_settings" msgid="4752151682666912828">"Inageuza mipangilio..."</string>
     <string name="response_error" msgid="6674110501330139405">"Jibu lisilotarajiwa kutoka kwa mtandao."</string>
-    <string name="exception_error" msgid="7027667130619518211">"Hitilafu ya Mtandao au kadi ya SIM"</string>
+    <string name="exception_error" msgid="7027667130619518211">"Hitilafu ya Mtandao au SIM kadi"</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"Uendeshaji unaruhusiwa tu kwa namba za upigaji simu za kudumu."</string>
     <string name="radio_off_error" msgid="6717116288405111269">"Tafadhaali fungua redio kabla ya kutazama mipangilio hii."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Sawa"</string>
@@ -416,10 +416,10 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Nambari ya upigaji simu uliobanwa imefutwa"</string>
     <string name="pin2_invalid" msgid="7176360264228076810">"FDN haijasasishwa. Uliingiza PIN isiyo sahihi."</string>
     <string name="fdn_invalid_number" msgid="9193130794297997290">"FDN haijasasishwa: nambari haiwezi kuzidisha dijiti 20."</string>
-    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Inasoma kutoka kwa kadi ya SIM"</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Inasoma kutoka kwa SIM kadi"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Hakuna anwani kwenye kadi yako ya SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Chagua anwani za kuagiza"</string>
-    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Kuleta wasiliani kutoka kwa kadi ya SIM tafadhali zima modi ya Ndege."</string>
+    <string name="simContacts_airplaneMode" msgid="8221701142387137660">"Kuleta wasiliani kutoka kwa SIM kadi tafadhali zima modi ya Ndege."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Wezesha/lemaza nenosiri la SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Badilisha nenosiri la SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN ya SIM:"</string>
@@ -453,8 +453,8 @@
     <string name="doneButton" msgid="2859593360997984240">"Kwisha"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Simu ya kongamano <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Rudi nyuma upige simu"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Endelea bila ya kadi ya SIM"</string>
-    <string name="sim_missing_msg_text" msgid="6803619600564142188">"Hakuna kadi ya SIM iliyopatikana. Tafadhali weka kadi ya SIM kwa simu."</string>
+    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Endelea bila ya SIM kadi"</string>
+    <string name="sim_missing_msg_text" msgid="6803619600564142188">"Hakuna SIM kadi iliyopatikana. Tafadhali weka SIM kadi kwa simu."</string>
     <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Kataa"</string>
     <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Fungua"</string>
     <string name="sim_unlock_status_text" msgid="1919609683384607179">"Inathibitisha nenosiri...."</string>
