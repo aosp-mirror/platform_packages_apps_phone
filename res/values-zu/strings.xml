@@ -450,7 +450,7 @@
     <string name="mismatchPin2" msgid="4177060915600342718">"Ama-PIN2 owafakile awafani. Sicela uzame futhi."</string>
     <string name="invalidPin2" msgid="8237110107480395938">"Thayipha i-PIN2 enezinombolo ezingu-4 kuya kwezingu-8."</string>
     <string name="invalidPuk2" msgid="1290977391033057871">"Thayipha i-PUK2 enezinombolo ezingu-8."</string>
-    <string name="pin2_changed" msgid="2670422162555916562">"I-PIN2 ishintshwe ngokuphumelelayo"</string>
+    <string name="pin2_changed" msgid="2670422162555916562">"I-PIN2 ishintshwe ngempumelelo"</string>
     <string name="label_puk2_code" msgid="302845876240219560">"Thayipha ikhodi ye-PUK2"</string>
     <string name="fdn_enable_puk2_requested" msgid="2608836967081385948">"Iphasiwedi ayilungile, sicela ushintshe i-PIN2 bese uzama futhi!"</string>
     <string name="puk2_requested" msgid="5863580927788820813">"Iphasiwedi ayilungile, i-SIM ivaliwe! Kudingena i-PUK2."</string>
