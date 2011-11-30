@@ -280,7 +280,7 @@ public class OutgoingCallBroadcaster extends Activity
         // The exact behavior depends on the intent's data:
         //
         // - The most typical is a tel: URI, which we handle by starting the
-        //   NEW_OUTGOING_CALL broadcast.  That broadcast eventually triggeres
+        //   NEW_OUTGOING_CALL broadcast.  That broadcast eventually triggers
         //   the sequence OutgoingCallReceiver -> SipCallOptionHandler ->
         //   InCallScreen.
         //
@@ -462,9 +462,9 @@ public class OutgoingCallBroadcaster extends Activity
         // as well.
         PhoneApp.getInstance().wakeUpScreen();
 
-        /* If number is null, we're probably trying to call a non-existent voicemail number,
-         * send an empty flash or something else is fishy.  Whatever the problem, there's no
-         * number, so there's no point in allowing apps to modify the number. */
+        // If number is null, we're probably trying to call a non-existent voicemail number,
+        // send an empty flash or something else is fishy.  Whatever the problem, there's no
+        // number, so there's no point in allowing apps to modify the number.
         if (number == null || TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
@@ -504,7 +504,7 @@ public class OutgoingCallBroadcaster extends Activity
             PhoneApp.getInstance().setLatestActiveCallOrigin(callOrigin);
         } else {
             if (DBG) Log.v(TAG, "Call origin is not passed. Reset current one.");
-            PhoneApp.getInstance().setLatestActiveCallOrigin(null);
+            PhoneApp.getInstance().resetLatestActiveCallOrigin();
         }
 
         // For now, SIP calls will be processed directly without a

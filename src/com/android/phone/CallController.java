@@ -167,7 +167,7 @@ public class CallController extends Handler {
      *      (2) as the "intent" parameter.
      *
      *  (4) Here in CallController.placeCall() we read the phone number or SIP
-     *      address out of the intent and actually initate the call, and
+     *      address out of the intent and actually initiate the call, and
      *      simultaneously launch the InCallScreen to display the in-call UI.
      *
      *  (5) We handle various errors by directing the InCallScreen to
