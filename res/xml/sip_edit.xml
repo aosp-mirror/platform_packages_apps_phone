@@ -24,7 +24,8 @@
         android:dialogTitle="@string/username_title"
         android:summary="@string/default_preference_summary"
         android:persistent="false"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:inputType="textNoSuggestions"/>
 
     <EditTextPreference
         android:key="@string/password"
@@ -41,7 +42,8 @@
         android:dialogTitle="@string/domain_address_title"
         android:summary="@string/default_preference_summary"
         android:persistent="false"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:inputType="textNoSuggestions"/>
 
     <CheckBoxPreference
         android:key="@string/set_primary"
