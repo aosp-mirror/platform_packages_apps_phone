@@ -160,15 +160,15 @@ public class ADNList extends ListActivity {
                     mCursor, COLUMN_NAMES, VIEW_NAMES);
     }
 
-    private void displayProgress(boolean flag) {
-        if (DBG) log("displayProgress: " + flag);
+    private void displayProgress(boolean loading) {
+        if (DBG) log("displayProgress: " + loading);
 
-        mEmptyText.setText(flag ? R.string.simContacts_emptyLoading:
+        mEmptyText.setText(loading ? R.string.simContacts_emptyLoading:
             (isAirplaneModeOn(this) ? R.string.simContacts_airplaneMode :
                 R.string.simContacts_empty));
         getWindow().setFeatureInt(
                 Window.FEATURE_INDETERMINATE_PROGRESS,
-                flag ? PROGRESS_VISIBILITY_ON : PROGRESS_VISIBILITY_OFF);
+                loading ? PROGRESS_VISIBILITY_ON : PROGRESS_VISIBILITY_OFF);
     }
 
     private static boolean isAirplaneModeOn(Context context) {
@@ -187,11 +187,13 @@ public class ADNList extends ListActivity {
             mCursor = c;
             setAdapter();
             displayProgress(false);
+
+            // Cursor is refreshed and inherited classes may have menu items depending on it.
+            invalidateOptionsMenu();
         }
 
         @Override
-        protected void onInsertComplete(int token, Object cookie,
-                                        Uri uri) {
+        protected void onInsertComplete(int token, Object cookie, Uri uri) {
             if (DBG) log("onInsertComplete: requery");
             reQuery();
         }
