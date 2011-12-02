@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (c) 2012, Code Aurora Forum. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1031,7 +1032,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // Activate a couple of special Notification features if an
         // incoming call is ringing:
-        if (hasRingingCall) {
+        if (hasRingingCall || hasActiveCall) {
             if (DBG) log("- Using hi-pri notification for ringing call!");
 
             // This is a high-priority event that should be shown even if the
