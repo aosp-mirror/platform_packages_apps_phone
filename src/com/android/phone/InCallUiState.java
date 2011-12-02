@@ -391,6 +391,12 @@ public class InCallUiState {
      */
     String latestActiveCallOrigin;
 
+    /**
+     * Timestamp for "Call origin". This will be used to preserve when the call origin was set.
+     * {@link android.os.SystemClock#elapsedRealtime()} will be used.
+     */
+    long latestActiveCallOriginTimeStamp;
+
     //
     // Debugging
     //

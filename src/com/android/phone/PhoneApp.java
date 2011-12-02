@@ -1713,9 +1713,52 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final String DEFAULT_CALL_ORIGIN_PACKAGE = "com.android.contacts";
     private static final String ALLOWED_EXTRA_CALL_ORIGIN =
             "com.android.contacts.activities.DialtactsActivity";
+    /**
+     * Used to determine if the preserved call origin is fresh enough.
+     */
+    private static final long CALL_ORIGIN_EXPIRATION_MILLIS = 30 * 1000;
 
     public void setLatestActiveCallOrigin(String callOrigin) {
         inCallUiState.latestActiveCallOrigin = callOrigin;
+        if (callOrigin != null) {
+            inCallUiState.latestActiveCallOriginTimeStamp = SystemClock.elapsedRealtime();
+        } else {
+            inCallUiState.latestActiveCallOriginTimeStamp = 0;
+        }
+    }
+
+    /**
+     * Reset call origin depending on its timestamp.
+     *
+     * See if the current call origin preserved by the app is fresh enough or not. If it is,
+     * previous call origin will be used as is. If not, call origin will be reset.
+     *
+     * This will be effective especially for 3rd party apps which want to bypass phone calls with
+     * their own telephone lines. In that case Phone app may finish the phone call once and make
+     * another for the external apps, which will drop call origin information in Intent.
+     * Even in that case we are sure the second phone call should be initiated just after the first
+     * phone call, so here we restore it from the previous information iff the second call is done
+     * fairly soon.
+     */
+    public void resetLatestActiveCallOrigin() {
+        final long callOriginTimestamp = inCallUiState.latestActiveCallOriginTimeStamp;
+        final long currentTimestamp = SystemClock.elapsedRealtime();
+        if (VDBG) {
+            Log.d(LOG_TAG, "currentTimeMillis: " + currentTimestamp
+                    + ", saved timestamp for call origin: " + callOriginTimestamp);
+        }
+        if (inCallUiState.latestActiveCallOriginTimeStamp > 0
+                && (currentTimestamp - callOriginTimestamp < CALL_ORIGIN_EXPIRATION_MILLIS)) {
+            if (VDBG) {
+                Log.d(LOG_TAG, "Resume previous call origin (" +
+                        inCallUiState.latestActiveCallOrigin + ")");
+            }
+            // Do nothing toward call origin itself but update the timestamp just in case.
+            inCallUiState.latestActiveCallOriginTimeStamp = currentTimestamp;
+        } else {
+            if (VDBG) Log.d(LOG_TAG, "Drop previous call origin and set the current one to null");
+            setLatestActiveCallOrigin(null);
+        }
     }
 
     /**
