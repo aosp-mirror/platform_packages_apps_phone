@@ -104,7 +104,7 @@ public class EditFdnContactScreen extends Activity {
         setTitle(mAddContact ?
                 R.string.add_fdn_contact : R.string.edit_fdn_contact);
 
-        mDataBusy = false;
+        displayProgress(false);
     }
 
     /**
