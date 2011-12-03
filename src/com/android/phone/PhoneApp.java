@@ -1443,19 +1443,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 if (VDBG) Log.d(LOG_TAG, "- reason: "
                                 + intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
 
-                // The "data disconnected due to roaming" notification is
-                // visible if you've lost data connectivity because you're
-                // roaming and you have the "data roaming" feature turned off.
-                boolean disconnectedDueToRoaming = false;
-                if ("DISCONNECTED".equals(intent.getStringExtra(Phone.STATE_KEY))) {
-                    String reason = intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY);
-                    if (Phone.REASON_ROAMING_ON.equals(reason)) {
-                        // We just lost our data connection, and the reason
-                        // is that we started roaming.  This implies that
-                        // the user has data roaming turned off.
-                        disconnectedDueToRoaming = true;
-                    }
-                }
+                // The "data disconnected due to roaming" notification is shown
+                // if (a) you have the "data roaming" feature turned off, and
+                // (b) you just lost data connectivity because you're roaming.
+                boolean disconnectedDueToRoaming =
+                        !phone.getDataRoamingEnabled()
+                        && "DISCONNECTED".equals(intent.getStringExtra(Phone.STATE_KEY))
+                        && Phone.REASON_ROAMING_ON.equals(
+                            intent.getStringExtra(Phone.STATE_CHANGE_REASON_KEY));
                 mHandler.sendEmptyMessage(disconnectedDueToRoaming
                                           ? EVENT_DATA_ROAMING_DISCONNECTED
                                           : EVENT_DATA_ROAMING_OK);
