@@ -794,4 +794,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public int getLteOnCdmaMode() {
         return mPhone.getLteOnCdmaMode();
     }
+
+    /**
+     * Return true if an ICC card is valid
+     *
+     * @hide
+     */
+    public boolean isIccCardValid() {
+        return mPhone.getIccCard().isIccCardValid();
+    }
 }
