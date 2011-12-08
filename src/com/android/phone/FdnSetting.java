@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
  *
+ * Not a Contribution, Apache license notifications and license are retained
+ * for attribution purposes only
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,6 +19,9 @@
 
 package com.android.phone;
 
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,12 +32,14 @@ import android.os.Message;
 import android.util.Log;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.telephony.MSimTelephonyManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.android.internal.telephony.CommandException;
-import com.android.internal.telephony.Phone;
+import static com.android.internal.telephony.MSimConstants.SUBSCRIPTION_KEY;
 
 /**
  * FDN settings UI for the Phone app.
@@ -57,9 +65,11 @@ public class FdnSetting extends PreferenceActivity
     // Preference is handled solely in xml.
     private static final String BUTTON_FDN_ENABLE_KEY = "button_fdn_enable_key";
     private static final String BUTTON_CHANGE_PIN2_KEY = "button_change_pin2_key";
+    private static final String BUTTON_FDN_KEY = "button_fdn_list_key";
 
     private EditPinPreference mButtonEnableFDN;
     private EditPinPreference mButtonChangePin2;
+    private PreferenceScreen mSubscriptionPrefFDN;
 
     // State variables
     private String mOldPin;
@@ -84,6 +94,8 @@ public class FdnSetting extends PreferenceActivity
     // size limits for the pin.
     private static final int MIN_PIN_LENGTH = 4;
     private static final int MAX_PIN_LENGTH = 8;
+
+    private int mSubscription = 0;
 
     /**
      * Delegate to the respective handlers.
@@ -282,6 +294,22 @@ public class FdnSetting extends PreferenceActivity
                                 a.show();
                             } else {
                                 // set the correct error message depending upon the state.
+                                // TODO DSDS
+/*
+                                if (mPinChangeState == PIN_CHANGE_PUK) {
+                                    if (mPhone.getIccCard().getIccPuk2Blocked()) {
+                                        Log.d(LOG_TAG,"PUK2 Blocked while changing PIN2.Options"
+                                                 + "'Enable FDN' & 'Change PIN2' disabled");
+                                        displayMessage(R.string.puk2_blocked);
+                                        mButtonEnableFDN.setEnabled(false);
+                                        mButtonChangePin2.setEnabled(false);
+                                    } else {
+                                        displayMessage(R.string.badPuk2);
+                                    }
+                                } else {
+                                    displayMessage(R.string.badPin2);
+                                }
+*/
                                 // Reset the state depending upon or knowledge of the PUK state.
                                 if (!mIsPuk2Locked) {
                                     displayMessage(R.string.badPin2);
@@ -406,24 +434,46 @@ public class FdnSetting extends PreferenceActivity
      * Reflect the updated FDN state in the UI.
      */
     private void updateEnableFDN() {
-        if (mPhone.getIccCard().getIccFdnEnabled()) {
-            mButtonEnableFDN.setTitle(R.string.enable_fdn_ok);
-            mButtonEnableFDN.setSummary(R.string.fdn_enabled);
-            mButtonEnableFDN.setDialogTitle(R.string.disable_fdn);
-        } else {
-            mButtonEnableFDN.setTitle(R.string.disable_fdn_ok);
-            mButtonEnableFDN.setSummary(R.string.fdn_disabled);
-            mButtonEnableFDN.setDialogTitle(R.string.enable_fdn);
+        //TODO DSDS
+//        if (mPhone.getIccCard().getIccFdnAvailable()) {
+            if (mPhone.getIccCard().getIccFdnEnabled()) {
+                mButtonEnableFDN.setTitle(R.string.enable_fdn_ok);
+                mButtonEnableFDN.setSummary(R.string.fdn_enabled);
+                mButtonEnableFDN.setDialogTitle(R.string.disable_fdn);
+            } else {
+                mButtonEnableFDN.setTitle(R.string.disable_fdn_ok);
+                mButtonEnableFDN.setSummary(R.string.fdn_disabled);
+                mButtonEnableFDN.setDialogTitle(R.string.enable_fdn);
+            }
+/*        } else {
+            // Disable FDN Settings since FDN service is unavailable.
+            mButtonEnableFDN.setEnabled(false);
+            mButtonChangePin2.setEnabled(false);
+            mButtonEnableFDN.setSummary(R.string.fdn_unavailable);
+            mButtonChangePin2.setSummary(R.string.fdn_unavailable);
+            displayMessage(R.string.fdn_unavailable);
         }
+*/
     }
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        addPreferencesFromResource(R.xml.fdn_setting);
+        if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
+            addPreferencesFromResource(R.xml.msim_fdn_setting);
+        } else {
+            addPreferencesFromResource(R.xml.fdn_setting);
+        }
 
-        mPhone = PhoneApp.getPhone();
+        // getting selected subscription
+        mSubscription = getIntent().getIntExtra(SUBSCRIPTION_KEY,
+                PhoneApp.getInstance().getDefaultSubscription());
+        Log.d(LOG_TAG, "Getting FDNSetting subscription =" + mSubscription);
+        mPhone = PhoneApp.getInstance().getPhone(mSubscription);
+
+        mSubscriptionPrefFDN  = (PreferenceScreen) findPreference(BUTTON_FDN_KEY);
+        mSubscriptionPrefFDN.getIntent().putExtra(SUBSCRIPTION_KEY, mSubscription);
 
         //get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
@@ -458,8 +508,10 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneApp.getInstance().getPhone(mSubscription);
         updateEnableFDN();
+        //TODO DSDS
+//        checkPin2StatusAndUpdateFdnScreen();
     }
 
     /**
@@ -489,5 +541,23 @@ public class FdnSetting extends PreferenceActivity
     private void log(String msg) {
         Log.d(LOG_TAG, "FdnSetting: " + msg);
     }
+
+    //TODO DSDS
+/*
+    private void checkPin2StatusAndUpdateFdnScreen() {
+        if (mPhone.getIccCard().getIccPuk2Blocked()) {
+            Log.d(LOG_TAG,"PUK2 is Blocked.Disabling Enable FDN,Change PIN2");
+            displayMessage(R.string.puk2_blocked);
+            mButtonEnableFDN.setEnabled(false);
+            mButtonChangePin2.setEnabled(false);
+        } else if (mPhone.getIccCard().getIccPin2Blocked()) {
+            Log.d(LOG_TAG,"PIN2 is Blocked");
+            resetPinChangeStateForPUK2();
+        } else {
+            Log.d(LOG_TAG,"PUK2/PIN2 is not Blocked");
+            resetPinChangeState();
+        }
+    }
+*/
 }
 

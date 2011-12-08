@@ -158,7 +158,7 @@ public class EmergencyCallHelper extends Handler {
 
         // Wake lock to make sure the processor doesn't go to sleep midway
         // through the emergency call sequence.
-        PowerManager pm = (PowerManager) mApp.getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) mApp.mContext.getSystemService(Context.POWER_SERVICE);
         mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         // Acquire with a timeout, just to be sure we won't hold the wake
         // lock forever even if a logic bug (in this class) causes us to
@@ -346,18 +346,18 @@ public class EmergencyCallHelper extends Handler {
 
         // If airplane mode is on, we turn it off the same way that the
         // Settings activity turns it off.
-        if (Settings.System.getInt(mApp.getContentResolver(),
+        if (Settings.System.getInt(mApp.mContext.getContentResolver(),
                                    Settings.System.AIRPLANE_MODE_ON, 0) > 0) {
             if (DBG) log("==> Turning off airplane mode...");
 
             // Change the system setting
-            Settings.System.putInt(mApp.getContentResolver(),
+            Settings.System.putInt(mApp.mContext.getContentResolver(),
                                    Settings.System.AIRPLANE_MODE_ON, 0);
 
             // Post the intent
             Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
             intent.putExtra("state", false);
-            mApp.sendBroadcast(intent);
+            mApp.mContext.sendBroadcast(intent);
         } else {
             // Otherwise, for some strange reason the radio is off
             // (even though the Settings database doesn't think we're
@@ -385,10 +385,12 @@ public class EmergencyCallHelper extends Handler {
         // airplane mode" sequence from the beginning again!)
 
         registerForDisconnect();  // Get notified when this call disconnects
+        int sub = mApp.getVoiceSubscriptionInService();
+        Phone phone = mApp.getPhone(sub);
 
         if (DBG) log("- placing call to '" + mNumber + "'...");
-        int callStatus = PhoneUtils.placeCall(mApp,
-                                              mPhone,
+        int callStatus = PhoneUtils.placeCall(mApp.mContext,
+                                              phone,
                                               mNumber,
                                               null,  // contactUri
                                               true,  // isEmergencyCall

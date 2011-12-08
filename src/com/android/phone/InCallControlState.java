@@ -173,7 +173,7 @@ public class InCallControlState {
         dialpadVisible = mInCallScreen.isDialerOpened();
 
         // "Hold:
-        if (TelephonyCapabilities.supportsHoldAndUnhold(fgCall.getPhone())) {
+        if (TelephonyCapabilities.supportsHoldAndUnhold(mCM.getPhoneInCall())) {
             // This phone has the concept of explicit "Hold" and "Unhold" actions.
             supportsHold = true;
             // "On hold" means that there's a holding call and

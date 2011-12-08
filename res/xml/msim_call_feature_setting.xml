@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+     Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
+        android:title="@string/call_settings">
+
+    <!-- target class is com.android.phone.MultiSimSetting -->
+    <PreferenceScreen
+        android:key="button_call_independent_serv"
+        android:title="@string/callind_multi_sim"
+        android:persistent="false">
+
+        <intent android:action="android.intent.action.MAIN"
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.SelectSubscription" />
+
+    </PreferenceScreen>
+
+  <PreferenceCategory android:key="button_misc_category_key"
+        android:title="@string/other_settings"
+        android:persistent="false" />
+
+  <CheckBoxPreference
+      android:key="button_play_dtmf_tone"
+      android:title="@string/dtmf_tone_enable_title"
+      android:persistent="false"
+      android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="button_auto_retry_key"
+        android:title="@string/auto_retry_mode_title"
+        android:persistent="false"
+        android:summary="@string/auto_retry_mode_summary"/>
+
+    <ListPreference
+        android:key="button_tty_mode_key"
+        android:title="@string/tty_mode_option_title"
+        android:summary="@string/tty_mode_option_summary"
+        android:persistent="false"
+        android:entries="@array/tty_mode_entries"
+        android:entryValues="@array/tty_mode_values"/>
+
+     <CheckBoxPreference
+        android:key="button_hac_key"
+        android:title="@string/hac_mode_title"
+        android:persistent="true"
+        android:summary="@string/hac_mode_summary"/>
+
+    <ListPreference
+        android:key="button_dtmf_settings"
+        android:title="@string/dtmf_tones_title"
+        android:summary="@string/dtmf_tones_summary"
+        android:entries="@array/dtmf_tone_entries"
+        android:entryValues="@array/dtmf_tone_values"/>
+
+</PreferenceScreen>

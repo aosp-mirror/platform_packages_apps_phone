@@ -95,7 +95,7 @@ public class CallCard extends LinearLayout
     /** Container for info about the current call(s) */
     private ViewGroup mCallInfoContainer;
     /** Primary "call info" block (the foreground or ringing call) */
-    private ViewGroup mPrimaryCallInfo;
+    protected ViewGroup mPrimaryCallInfo;
     /** "Call banner" for the primary call */
     private ViewGroup mPrimaryCallBanner;
     /** Secondary "call info" block (the background "on hold" call) */
@@ -144,7 +144,7 @@ public class CallCard extends LinearLayout
     private int mIncomingCallWidgetHintTextResId;
     private int mIncomingCallWidgetHintColorResId;
 
-    private CallTime mCallTime;
+    protected CallTime mCallTime;
 
     // Track the state for the photo.
     private ContactsAsyncHelper.ImageTracker mPhotoTracker;
@@ -483,14 +483,14 @@ public class CallCard extends LinearLayout
             case DIALING:
             case ALERTING:
                 // Stop getting timer ticks from a previous call
-                mCallTime.cancelTimer();
+                cancelTimer(call);
 
                 break;
 
             case INCOMING:
             case WAITING:
                 // Stop getting timer ticks from a previous call
-                mCallTime.cancelTimer();
+                cancelTimer(call);
 
                 break;
 
@@ -646,6 +646,11 @@ public class CallCard extends LinearLayout
         // or updateDisplayForConference().)
     }
 
+    protected void cancelTimer(Call call) {
+        //parameter "call" is ignored.
+        mCallTime.cancelTimer();
+    }
+
     /**
      * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
      * refreshes the CallCard data when it called.
@@ -707,7 +712,7 @@ public class CallCard extends LinearLayout
             //
             // TODO: may be nice to update the image view again once the newer one
             // is available on contacts database.
-            PhoneUtils.sendViewNotificationAsync(mApplication, mLoadingPersonUri);
+            PhoneUtils.sendViewNotificationAsync(mApplication.mContext, mLoadingPersonUri);
         } else {
             // This should not happen while we need some verbose info if it happens..
             Log.w(LOG_TAG, "Person Uri isn't available while Image is successfully loaded.");
@@ -947,6 +952,8 @@ public class CallCard extends LinearLayout
             return;
         }
 
+        Phone phone = call.getPhone();
+        boolean showSecondaryCallInfo = false;
         Call.State state = call.getState();
         switch (state) {
             case HOLDING:
@@ -993,7 +1000,7 @@ public class CallCard extends LinearLayout
                 // CDMA: This is because in CDMA when the user originates the second call,
                 // although the Foreground call state is still ACTIVE in reality the network
                 // put the first call on hold.
-                if (mApplication.phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
+                if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
                     showSecondaryCallInfo();
 
                     List<Connection> connections = call.getConnections();

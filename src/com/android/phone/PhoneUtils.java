@@ -1,5 +1,9 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (c) 2011-2012 Code Aurora Forum. All rights reserved.
+ *
+ * Not a Contribution, Apache license notifications and license are retained
+ * for attribution purposes only
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -315,11 +319,11 @@ public class PhoneUtils {
                 // - the phone call is the first in-coming call,
                 // - we did not activate speaker by ourselves during the process above, and
                 // - Bluetooth headset is not in use.
-                if (isRealIncomingCall && !speakerActivated && isSpeakerOn(app)
+                if (isRealIncomingCall && !speakerActivated && isSpeakerOn(app.mContext)
                         && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
                     // This is not an error but might cause users' confusion. Add log just in case.
                     Log.i(LOG_TAG, "Forcing speaker off due to new incoming call...");
-                    turnOnSpeaker(app, false, true);
+                    turnOnSpeaker(app.mContext, false, true);
                 }
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
@@ -737,11 +741,11 @@ public class PhoneUtils {
 
             // See also similar logic in answerCall().
             final BluetoothHandsfree bluetoothHandsfree = app.getBluetoothHandsfree();
-            if (initiallyIdle && !speakerActivated && isSpeakerOn(app)
+            if (initiallyIdle && !speakerActivated && isSpeakerOn(app.mContext)
                     && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
                 // This is not an error but might cause users' confusion. Add log just in case.
                 Log.i(LOG_TAG, "Forcing speaker off when initiating a new outgoing call...");
-                PhoneUtils.turnOnSpeaker(app, false, true);
+                PhoneUtils.turnOnSpeaker(app.mContext, false, true);
             }
         }
 
@@ -1857,7 +1861,7 @@ public class PhoneUtils {
         // InCallScreen / PhoneUtils.
         intent.putExtra(ADD_CALL_MODE_KEY, true);
         try {
-            app.startActivity(intent);
+            app.mContext.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             // This is rather rare but possible.
             // Note: this method is used even when the phone is encrypted. At that moment
@@ -2029,10 +2033,10 @@ public class PhoneUtils {
         final PhoneApp app = PhoneApp.getInstance();
 
         boolean routeToAudioManager =
-            app.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+            app.mContext.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
         if (routeToAudioManager) {
             AudioManager audioManager =
-                (AudioManager) app.getSystemService(Context.AUDIO_SERVICE);
+                (AudioManager) app.mContext.getSystemService(Context.AUDIO_SERVICE);
             return audioManager.isMicrophoneMute();
         } else {
             return app.mCM.getMute();
@@ -2049,7 +2053,7 @@ public class PhoneUtils {
     /* package */ static void setAudioMode(CallManager cm) {
         if (DBG) Log.d(LOG_TAG, "setAudioMode()..." + cm.getState());
 
-        Context context = PhoneApp.getInstance();
+        Context context = PhoneApp.getInstance().mContext;
         AudioManager audioManager = (AudioManager)
                 context.getSystemService(Context.AUDIO_SERVICE);
         int modeBefore = audioManager.getMode();
@@ -2139,8 +2143,8 @@ public class PhoneUtils {
                      event.getRepeatCount() == 0) {
                 Connection c = phone.getForegroundCall().getLatestConnection();
                 // If it is NOT an emg #, toggle the mute state. Otherwise, ignore the hook.
-                if (c != null && !PhoneNumberUtils.isLocalEmergencyNumber(c.getAddress(),
-                                                                          PhoneApp.getInstance())) {
+                if (c != null && !PhoneNumberUtils.isLocalEmergencyNumber(
+                         c.getAddress(), PhoneApp.getInstance().mContext)) {
                     if (getMute()) {
                         if (DBG) log("handleHeadsetHook: UNmuting...");
                         setMute(false);
@@ -2208,7 +2212,7 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToSwapCalls(CallManager cm) {
-        int phoneType = cm.getDefaultPhone().getPhoneType();
+        int phoneType = cm.getFgPhone().getPhoneType();
         if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
             // CDMA: "Swap" is enabled only when the phone reaches a *generic*.
             // state by either accepting a Call Waiting or by merging two calls
@@ -2560,19 +2564,20 @@ public class PhoneUtils {
      * @param number the phone number, or SIP address.
      */
     public static Phone pickPhoneBasedOnNumber(CallManager cm,
-            String scheme, String number, String primarySipUri) {
+            String scheme, String number, String primarySipUri, int subscription) {
         if (DBG) {
             log("pickPhoneBasedOnNumber: scheme " + scheme
                     + ", number " + toLogSafePhoneNumber(number)
                     + ", sipUri "
-                    + (primarySipUri != null ? Uri.parse(primarySipUri).toSafeString() : "null"));
+                    + (primarySipUri != null ? Uri.parse(primarySipUri).toSafeString() : "null")
+                    + ", subscription" + subscription);
         }
 
         if (primarySipUri != null) {
             Phone phone = getSipPhoneFromUri(cm, primarySipUri);
             if (phone != null) return phone;
         }
-        return cm.getDefaultPhone();
+        return PhoneApp.getPhone(subscription);
     }
 
     public static Phone getSipPhoneFromUri(CallManager cm, String target) {
@@ -2601,9 +2606,11 @@ public class PhoneUtils {
     private static boolean sVoipSupported = false;
     static {
         PhoneApp app = PhoneApp.getInstance();
-        sVoipSupported = SipManager.isVoipSupported(app)
-                && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
-                && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        sVoipSupported = SipManager.isVoipSupported(app.mContext)
+                && app.mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_built_in_sip_phone)
+                && app.mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
     }
 
     /**

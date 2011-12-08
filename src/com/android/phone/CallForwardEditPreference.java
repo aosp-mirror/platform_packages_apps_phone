@@ -43,7 +43,6 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
     public CallForwardEditPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        phone = PhoneApp.getPhone();
         mSummaryOnTemplate = this.getSummaryOn();
 
         TypedArray a = context.obtainStyledAttributes(attrs,
@@ -61,7 +60,12 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
         this(context, null);
     }
 
-    void init(TimeConsumingPreferenceListener listener, boolean skipReading) {
+    void init(TimeConsumingPreferenceListener listener, boolean skipReading, int subscription) {
+
+        // getting selected subscription
+        if (DBG) Log.d(LOG_TAG, "Getting CallForwardEditPreference subscription =" + subscription);
+        phone = PhoneApp.getPhone(subscription);
+
         tcpListener = listener;
         if (!skipReading) {
             phone.getCallForwardingOption(reason,

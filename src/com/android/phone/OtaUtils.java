@@ -48,6 +48,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import static com.android.internal.telephony.MSimConstants.SUBSCRIPTION_KEY;
+
 /**
  * Handles all OTASP Call related logic and UI functionality.
  * The InCallScreen interacts with this class to perform an OTASP Call.
@@ -361,7 +363,6 @@ public class OtaUtils {
      */
     public static void startInteractiveOtasp(Context context) {
         if (DBG) log("startInteractiveOtasp()...");
-        PhoneApp app = PhoneApp.getInstance();
 
         // There are two ways to start OTASP on voice-capable devices:
         //
@@ -395,6 +396,8 @@ public class OtaUtils {
 
         Intent activationScreenIntent = new Intent().setClass(context, InCallScreen.class)
                 .setAction(ACTION_DISPLAY_ACTIVATION_SCREEN);
+        activationScreenIntent.putExtra(SUBSCRIPTION_KEY,
+                PhoneApp.getInstance().getDefaultSubscription());
 
         // Watch out: in the scenario where OTASP gets triggered from the
         // BOOT_COMPLETED broadcast (see OtaStartupReceiver.java), we might be
@@ -442,7 +445,7 @@ public class OtaUtils {
         // TODO(InCallScreen redesign): This should probably go through
         // the CallController, rather than directly calling
         // PhoneUtils.placeCall().
-        Phone phone = PhoneApp.getPhone();
+        Phone phone = PhoneApp.getInstance().getPhone();
         String number = OTASP_NUMBER_NON_INTERACTIVE;
         Log.i(LOG_TAG, "startNonInteractiveOtasp: placing call to '" + number + "'...");
         int callStatus = PhoneUtils.placeCall(context,
@@ -707,6 +710,7 @@ public class OtaUtils {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory (Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(SUBSCRIPTION_KEY, mApplication.getDefaultSubscription());
         mContext.startActivity(intent);
         return;
     }
@@ -736,6 +740,7 @@ public class OtaUtils {
             // Place an outgoing call to the special OTASP number:
             Intent newIntent = new Intent(Intent.ACTION_CALL);
             newIntent.setData(Uri.fromParts(Constants.SCHEME_TEL, OTASP_NUMBER, null));
+            newIntent.putExtra(SUBSCRIPTION_KEY, mApplication.getDefaultSubscription());
 
             // Initiate the outgoing call:
             mApplication.callController.placeCall(newIntent);
