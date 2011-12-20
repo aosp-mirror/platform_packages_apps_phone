@@ -148,8 +148,8 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
     // arg1: action -- register vs. disable
     // arg2: get vs. set for the preceding request
     private class MyHandler extends Handler {
-        private static final int MESSAGE_GET_CF = 0;
-        private static final int MESSAGE_SET_CF = 1;
+        static final int MESSAGE_GET_CF = 0;
+        static final int MESSAGE_SET_CF = 1;
 
         @Override
         public void handleMessage(Message msg) {
