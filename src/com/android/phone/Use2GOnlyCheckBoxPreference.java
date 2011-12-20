@@ -63,8 +63,8 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
 
     private class MyHandler extends Handler {
 
-        private static final int MESSAGE_GET_PREFERRED_NETWORK_TYPE = 0;
-        private static final int MESSAGE_SET_PREFERRED_NETWORK_TYPE = 1;
+        static final int MESSAGE_GET_PREFERRED_NETWORK_TYPE = 0;
+        static final int MESSAGE_SET_PREFERRED_NETWORK_TYPE = 1;
 
         @Override
         public void handleMessage(Message msg) {

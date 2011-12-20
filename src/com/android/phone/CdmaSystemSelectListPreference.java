@@ -96,8 +96,8 @@ public class CdmaSystemSelectListPreference extends ListPreference {
 
     private class MyHandler extends Handler {
 
-        private static final int MESSAGE_GET_ROAMING_PREFERENCE = 0;
-        private static final int MESSAGE_SET_ROAMING_PREFERENCE = 1;
+        static final int MESSAGE_GET_ROAMING_PREFERENCE = 0;
+        static final int MESSAGE_SET_ROAMING_PREFERENCE = 1;
 
         @Override
         public void handleMessage(Message msg) {
