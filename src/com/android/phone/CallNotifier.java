@@ -1414,19 +1414,19 @@ public class CallNotifier extends Handler
         public static final int TONE_UNOBTAINABLE_NUMBER = 14;
 
         // The tone volume relative to other sounds in the stream
-        private static final int TONE_RELATIVE_VOLUME_EMERGENCY = 100;
-        private static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
-        private static final int TONE_RELATIVE_VOLUME_LOPRI = 50;
+        static final int TONE_RELATIVE_VOLUME_EMERGENCY = 100;
+        static final int TONE_RELATIVE_VOLUME_HIPRI = 80;
+        static final int TONE_RELATIVE_VOLUME_LOPRI = 50;
 
         // Buffer time (in msec) to add on to tone timeout value.
         // Needed mainly when the timeout value for a tone is the
         // exact duration of the tone itself.
-        private static final int TONE_TIMEOUT_BUFFER = 20;
+        static final int TONE_TIMEOUT_BUFFER = 20;
 
         // The tone state
-        private static final int TONE_OFF = 0;
-        private static final int TONE_ON = 1;
-        private static final int TONE_STOPPED = 2;
+        static final int TONE_OFF = 0;
+        static final int TONE_ON = 1;
+        static final int TONE_STOPPED = 2;
 
         InCallTonePlayer(int toneId) {
             super();

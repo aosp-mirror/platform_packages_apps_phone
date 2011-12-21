@@ -60,8 +60,8 @@ public class CdmaVoicePrivacyCheckBoxPreference extends CheckBoxPreference {
 
 
     private class MyHandler extends Handler {
-        private static final int MESSAGE_GET_VP = 0;
-        private static final int MESSAGE_SET_VP = 1;
+        static final int MESSAGE_GET_VP = 0;
+        static final int MESSAGE_SET_VP = 1;
 
         @Override
         public void handleMessage(Message msg) {
