@@ -165,7 +165,7 @@
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chagua huduma ya barua ya sauti"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mtoa huduma wangu"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Mipangilio ya mtandao wa simu"</string>
-    <string name="label_available" msgid="1181658289009300430">"Mitandao zinazopatikana"</string>
+    <string name="label_available" msgid="1181658289009300430">"Mitandao inayopatikana"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Inatafuta…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Hakuna mitandao iliyopatikana."</string>
     <string name="search_networks" msgid="1601136049300882441">"Tafuta mitandao"</string>
