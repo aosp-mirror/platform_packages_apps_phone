@@ -739,20 +739,13 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         if (hasRingingCall) {
             // There's an incoming ringing call.
-            resId = R.drawable.stat_sys_phone_call_ringing;
+            resId = R.drawable.stat_sys_phone_call;
         } else if (!hasActiveCall && hasHoldingCall) {
             // There's only one call, and it's on hold.
             if (enhancedVoicePrivacy) {
                 resId = R.drawable.stat_sys_vp_phone_call_on_hold;
             } else {
                 resId = R.drawable.stat_sys_phone_call_on_hold;
-            }
-        } else if (mApp.showBluetoothIndication()) {
-            // Bluetooth is active.
-            if (enhancedVoicePrivacy) {
-                resId = R.drawable.stat_sys_vp_phone_call_bluetooth;
-            } else {
-                resId = R.drawable.stat_sys_phone_call_bluetooth;
             }
         } else {
             if (enhancedVoicePrivacy) {
