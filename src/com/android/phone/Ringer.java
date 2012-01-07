@@ -30,6 +30,7 @@ import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
@@ -51,7 +52,7 @@ public class Ringer {
     private static Ringer sInstance;
 
     // Uri for the ringtone.
-    Uri mCustomRingtoneUri;
+    Uri mCustomRingtoneUri = Settings.System.DEFAULT_RINGTONE_URI;
 
     Ringtone mRingtone;
     Vibrator mVibrator = new Vibrator();

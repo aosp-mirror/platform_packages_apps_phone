@@ -575,7 +575,7 @@ public class CallNotifier extends Handler
             }
         }
         if (shouldStartQuery) {
-            // create a custom ringer using the default ringer first
+            // Reset the ringtone to the default first.
             mRinger.setCustomRingtoneUri(Settings.System.DEFAULT_RINGTONE_URI);
 
             // query the callerinfo to try to get the ringer.
