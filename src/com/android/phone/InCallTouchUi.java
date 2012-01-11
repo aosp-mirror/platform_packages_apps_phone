@@ -17,13 +17,14 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,13 +38,13 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.multiwaveview.MultiWaveView;
 import com.android.internal.widget.multiwaveview.MultiWaveView.OnTriggerListener;
-import com.android.internal.telephony.CallManager;
-
 
 /**
  * In-call onscreen touch UI elements, used on some platforms.
@@ -52,7 +53,7 @@ import com.android.internal.telephony.CallManager;
  * non-touch-sensitive parts of the in-call UI (i.e. the call card).
  */
 public class InCallTouchUi extends FrameLayout
-        implements View.OnClickListener, OnTriggerListener,
+        implements View.OnClickListener, View.OnLongClickListener, OnTriggerListener,
         PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
     private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
@@ -164,20 +165,27 @@ public class InCallTouchUi extends FrameLayout
         // Main cluster of buttons:
         mAddButton = (ImageButton) mInCallControls.findViewById(R.id.addButton);
         mAddButton.setOnClickListener(this);
+        mAddButton.setOnLongClickListener(this);
         mMergeButton = (ImageButton) mInCallControls.findViewById(R.id.mergeButton);
         mMergeButton.setOnClickListener(this);
+        mMergeButton.setOnLongClickListener(this);
         mEndButton = (ImageButton) mInCallControls.findViewById(R.id.endButton);
         mEndButton.setOnClickListener(this);
         mDialpadButton = (CompoundButton) mInCallControls.findViewById(R.id.dialpadButton);
         mDialpadButton.setOnClickListener(this);
+        mDialpadButton.setOnLongClickListener(this);
         mMuteButton = (CompoundButton) mInCallControls.findViewById(R.id.muteButton);
         mMuteButton.setOnClickListener(this);
+        mMuteButton.setOnLongClickListener(this);
         mAudioButton = (CompoundButton) mInCallControls.findViewById(R.id.audioButton);
         mAudioButton.setOnClickListener(this);
+        mAudioButton.setOnLongClickListener(this);
         mHoldButton = (CompoundButton) mInCallControls.findViewById(R.id.holdButton);
         mHoldButton.setOnClickListener(this);
+        mHoldButton.setOnLongClickListener(this);
         mSwapButton = (ImageButton) mInCallControls.findViewById(R.id.swapButton);
         mSwapButton.setOnClickListener(this);
+        mSwapButton.setOnLongClickListener(this);
         mHoldSwapSpacer = mInCallControls.findViewById(R.id.holdSwapSpacer);
 
         // TODO: Back when these buttons had text labels, we changed
@@ -340,7 +348,7 @@ public class InCallTouchUi extends FrameLayout
         }
     }
 
-    // View.OnClickListener implementation
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (DBG) log("onClick(View " + view + ", id " + id + ")...");
@@ -370,6 +378,37 @@ public class InCallTouchUi extends FrameLayout
         }
     }
 
+    @Override
+    public boolean onLongClick(View view) {
+        final int id = view.getId();
+        if (DBG) log("onLongClick(View " + view + ", id " + id + ")...");
+
+        switch (id) {
+            case R.id.addButton:
+            case R.id.mergeButton:
+            case R.id.dialpadButton:
+            case R.id.muteButton:
+            case R.id.holdButton:
+            case R.id.swapButton:
+            case R.id.audioButton: {
+                final CharSequence description = view.getContentDescription();
+                if (!TextUtils.isEmpty(description)) {
+                    // Show description as ActionBar's menu buttons do.
+                    // See also ActionMenuItemView#onLongClick() for the original implementation.
+                    final Toast cheatSheet =
+                            Toast.makeText(view.getContext(), description, Toast.LENGTH_SHORT);
+                    cheatSheet.setGravity(
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, view.getHeight());
+                    cheatSheet.show();
+                }
+                return true;
+            }
+            default:
+                Log.w(LOG_TAG, "onLongClick() with unexpected View " + view + ". Ignoring it.");
+                break;
+        }
+        return false;
+    }
     /**
      * Updates the enabledness and "checked" state of the buttons on the
      * "inCallControls" panel, based on the current telephony state.

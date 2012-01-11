@@ -55,7 +55,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
     private CallManager mCM;
     private ToneGenerator mToneGenerator;
-    private Object mToneGeneratorLock = new Object();
+    private final Object mToneGeneratorLock = new Object();
 
     // indicate if we want to enable the local tone playback.
     private boolean mLocalToneEnabled;
