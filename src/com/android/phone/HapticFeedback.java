@@ -127,7 +127,16 @@ public class HapticFeedback {
         if (!mEnabled || !mSettingEnabled) {
             return;
         }
-        mVibrator.vibrate(mHapticPattern, NO_REPEAT);
+        // System-wide configuration may return different styles of haptic feedback pattern.
+        // - an array with one value implies "one-shot vibration"
+        // - an array with multiple values implies "pattern vibration"
+        // We need to switch methods to call depending on the difference.
+        // See also PhoneWindowManager#performHapticFeedbackLw() for another example.
+        if (mHapticPattern != null && mHapticPattern.length == 1) {
+            mVibrator.vibrate(mHapticPattern[0]);
+        } else {
+            mVibrator.vibrate(mHapticPattern, NO_REPEAT);
+        }
     }
 
     /**
