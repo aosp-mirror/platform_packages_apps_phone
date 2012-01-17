@@ -519,7 +519,7 @@ public class OtaUtils {
         // the magic OTASP numbers.
         String number;
         try {
-            number = CallController.getInitialNumber(intent);
+            number = PhoneUtils.getInitialNumber(intent);
         } catch (PhoneUtils.VoiceMailNumberMissingException ex) {
             // This was presumably a "voicemail:" intent, so it's
             // obviously not an OTASP number.
