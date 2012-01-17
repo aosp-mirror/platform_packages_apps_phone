@@ -76,7 +76,8 @@ public class InCallTouchUi extends FrameLayout
 
     // UI containers / elements
     private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
-    private View mInCallControls;  // UI elements while on a regular call
+    /** UI elements while on a regular call (bottom buttons, DTMF dialpad) */
+    private View mInCallControls;
     //
     private ImageButton mAddButton;
     private ImageButton mMergeButton;
@@ -239,7 +240,7 @@ public class InCallTouchUi extends FrameLayout
      * Updates the visibility and/or state of our UI elements, based on
      * the current state of the phone.
      */
-    void updateState(CallManager cm) {
+    /* package */ void updateState(CallManager cm) {
         if (mInCallScreen == null) {
             log("- updateState: mInCallScreen has been destroyed; bailing out...");
             return;
@@ -274,9 +275,11 @@ public class InCallTouchUi extends FrameLayout
             }
 
             // Ugly hack to cover up slow response from the radio:
-            // if we attempted to answer or reject an incoming call
-            // within the last 500 msec, *don't* show the incoming call
+            // if we get an updateState() call immediately after answering/rejecting a call
+            // (via onTrigger()), *don't* show the incoming call
             // UI even if the phone is still in the RINGING state.
+            // This covers up a slow response from the radio for some actions.
+            // To detect that situation, we are using "500 msec" heuristics.
             long now = SystemClock.uptimeMillis();
             if (now < mLastIncomingCallActionTime + 500) {
                 log("updateState: Too soon after last action; not drawing!");
@@ -413,7 +416,7 @@ public class InCallTouchUi extends FrameLayout
      * Updates the enabledness and "checked" state of the buttons on the
      * "inCallControls" panel, based on the current telephony state.
      */
-    void updateInCallControls(CallManager cm) {
+    private void updateInCallControls(CallManager cm) {
         int phoneType = cm.getActiveFgCall().getPhone().getPhoneType();
 
         // Note we do NOT need to worry here about cases where the entire
@@ -801,6 +804,7 @@ public class InCallTouchUi extends FrameLayout
     }
 
     // PopupMenu.OnMenuItemClickListener implementation; see showAudioModePopup()
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (DBG) log("- onMenuItemClick: " + item);
         if (DBG) log("  id: " + item.getItemId());
@@ -837,6 +841,7 @@ public class InCallTouchUi extends FrameLayout
     // This gets called when the PopupMenu gets dismissed for *any* reason, like
     // the user tapping outside its bounds, or pressing Back, or selecting one
     // of the menu items.
+    @Override
     public void onDismiss(PopupMenu menu) {
         if (DBG) log("- onDismiss: " + menu);
         mAudioModePopupVisible = false;
@@ -887,10 +892,12 @@ public class InCallTouchUi extends FrameLayout
     // MultiWaveView.OnTriggerListener implementation
     //
 
+    @Override
     public void onGrabbed(View v, int handle) {
 
     }
 
+    @Override
     public void onReleased(View v, int handle) {
 
     }
@@ -900,8 +907,9 @@ public class InCallTouchUi extends FrameLayout
      * We get this callback from the incoming call widget
      * when the user triggers an action.
      */
+    @Override
     public void onTrigger(View v, int whichHandle) {
-        if (DBG) log("onDialTrigger(whichHandle = " + whichHandle + ")...");
+        if (DBG) log("onTrigger(whichHandle = " + whichHandle + ")...");
 
         // On any action by the user, hide the widget:
         hideIncomingCallWidget();
@@ -962,15 +970,15 @@ public class InCallTouchUi extends FrameLayout
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setDuration(IN_CALL_WIDGET_TRANSITION_TIME);
         anim.setAnimationListener(new AnimationListener() {
-
+            @Override
             public void onAnimationStart(Animation animation) {
 
             }
-
+            @Override
             public void onAnimationRepeat(Animation animation) {
 
             }
-
+            @Override
             public void onAnimationEnd(Animation animation) {
                 // hide the incoming call UI.
                 mIncomingCallWidget.clearAnimation();
@@ -1051,6 +1059,7 @@ public class InCallTouchUi extends FrameLayout
      * one handle, so for now we don't display a hint at all (see the TODO
      * comment below.)
      */
+    @Override
     public void onGrabbedStateChange(View v, int grabbedState) {
         if (mInCallScreen != null) {
             // Look up the hint based on which handle is currently grabbed.
@@ -1165,7 +1174,7 @@ public class InCallTouchUi extends FrameLayout
      * OnTouchListener used to shrink the "hit target" of some onscreen
      * buttons.
      */
-    class SmallerHitTargetTouchListener implements View.OnTouchListener {
+    private class SmallerHitTargetTouchListener implements View.OnTouchListener {
         /**
          * Width of the allowable "hit target" as a percentage of
          * the total width of this button.
@@ -1203,6 +1212,7 @@ public class InCallTouchUi extends FrameLayout
          *         the "smaller hit target", which will prevent the actual
          *         button from handling these events.)
          */
+        @Override
         public boolean onTouch(View v, MotionEvent event) {
             // if (DBG) log("SmallerHitTargetTouchListener: " + v + ", event " + event);
 
