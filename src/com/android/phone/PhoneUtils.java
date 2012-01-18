@@ -231,10 +231,10 @@ public class PhoneUtils {
      * @return true if we answered the call, or false if there wasn't
      *         actually a ringing incoming call, or some other error occurred.
      *
-     * @see answerAndEndHolding()
-     * @see answerAndEndActive()
+     * @see #answerAndEndHolding(CallManager, Call)
+     * @see #answerAndEndActive(CallManager, Call)
      */
-    static boolean answerCall(Call ringing) {
+    /* package */ static boolean answerCall(Call ringing) {
         log("answerCall(" + ringing + ")...");
         final PhoneApp app = PhoneApp.getInstance();
 
@@ -242,10 +242,10 @@ public class PhoneUtils {
         // right now (before actually answering the call.)
         app.getRinger().stopRing();
 
+        final Phone phone = ringing.getPhone();
+        final boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
         boolean answered = false;
-        Phone phone = ringing.getPhone();
-        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
-        BluetoothHandsfree bthf = null;
+        BluetoothHandsfree bluetoothhandsfree = null;
 
         if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -278,9 +278,9 @@ public class PhoneUtils {
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        bthf = app.getBluetoothHandsfree();
-                        if (bthf != null) {
-                            bthf.cdmaSetSecondCallState(true);
+                        bluetoothhandsfree = app.getBluetoothHandsfree();
+                        if (bluetoothhandsfree != null) {
+                            bluetoothhandsfree.cdmaSetSecondCallState(true);
                         }
                     }
                 }
@@ -303,8 +303,8 @@ public class PhoneUtils {
                     // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
                     app.cdmaPhoneCallState.setCurrentCallState(
                             app.cdmaPhoneCallState.getPreviousCallState());
-                    if (bthf != null) {
-                        bthf.cdmaSetSecondCallState(false);
+                    if (bluetoothhandsfree != null) {
+                        bluetoothhandsfree.cdmaSetSecondCallState(false);
                     }
                 }
             }
@@ -484,7 +484,20 @@ public class PhoneUtils {
 
     }
 
-    static boolean answerAndEndActive(CallManager cm, Call ringing) {
+    /**
+     * Answers the incoming call specified by "ringing", and ends the currently active phone call.
+     *
+     * This method is useful when's there's an incoming call which we cannot manage with the
+     * current call. e.g. when you are having a phone call with CDMA network and has received
+     * a SIP call, then we won't expect our telephony can manage those phone calls simultaneously.
+     * Note that some types of network may allow multiple phone calls at once; GSM allows to hold
+     * an ongoing phone call, so we don't need to end the active call. The caller of this method
+     * needs to check if the network allows multiple phone calls or not.
+     *
+     * @see #answerCall(Call)
+     * @see InCallScreen#internalAnswerCall()
+     */
+    /* package */ static boolean answerAndEndActive(CallManager cm, Call ringing) {
         if (DBG) log("answerAndEndActive()...");
 
         // Unlike the answerCall() method, we *don't* need to stop the
@@ -496,7 +509,7 @@ public class PhoneUtils {
         // hanging up the active call also accepts the waiting call
         // while active call and waiting call are from the same phone
         // i.e. both from GSM phone
-        if ( !hangupActiveCall(cm.getActiveFgCall())) {
+        if (!hangupActiveCall(cm.getActiveFgCall())) {
             Log.w(LOG_TAG, "end active call failed!");
             return false;
         }
@@ -2459,9 +2472,12 @@ public class PhoneUtils {
         return null;
     }
 
+    /**
+     * Returns true when the given call is in INCOMING state and there's no foreground phone call,
+     * meaning the call is the first real incoming call the phone is having.
+     */
     public static boolean isRealIncomingCall(Call.State state) {
         return (state == Call.State.INCOMING && !PhoneApp.getInstance().mCM.hasActiveFgCall());
-
     }
 
     private static boolean sVoipSupported = false;
