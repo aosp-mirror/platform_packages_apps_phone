@@ -176,7 +176,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     CallNotifier notifier;
     NotificationMgr notificationMgr;
     Ringer ringer;
-    BluetoothHandsfree mBtHandsfree;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
     int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
@@ -363,7 +362,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     phoneState = mCM.getState();
                     // Do not change speaker state if phone is not off hook
                     if (phoneState == PhoneConstants.State.OFFHOOK) {
-                        if (mBtHandsfree == null || !mBtHandsfree.isAudioOn()) {
+                        //TODO(BT):  Add check for SCO is not on.
+                        if (false) {
                             if (!isHeadsetPlugged()) {
                                 // if the state is "not connected", restore the speaker state.
                                 PhoneUtils.restoreSpeakerMode(getApplicationContext());
@@ -417,9 +417,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                             + inDockMode);
 
                     phoneState = mCM.getState();
+                    //TODO(BT): Update for BT SCO here.
+                    boolean isScoOn = false;
                     if (phoneState == PhoneConstants.State.OFFHOOK &&
                             !isHeadsetPlugged() &&
-                            !(mBtHandsfree != null && mBtHandsfree.isAudioOn())) {
+                            !isScoOn) {
                         PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
                         updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     }
@@ -500,11 +502,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             if (BluetoothAdapter.getDefaultAdapter() != null) {
                 // Start BluetoothHandsree even if device is not voice capable.
                 // The device can still support VOIP.
-                mBtHandsfree = BluetoothHandsfree.init(this, mCM);
-                startService(new Intent(this, BluetoothHeadsetService.class));
+                // TODO(BT): Start new service if needed.
             } else {
                 // Device is not bluetooth capable
-                mBtHandsfree = null;
             }
 
             ringer = Ringer.init(this);
@@ -561,7 +561,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // asynchronous events from the telephony layer (like
             // launching the incoming-call UI when an incoming call comes
             // in.)
-            notifier = CallNotifier.init(this, phone, ringer, mBtHandsfree, new CallLogAsync());
+            // TODO(BT): Instead of passing null below, pass what CallNotifier needs.
+            notifier = CallNotifier.init(this, phone, ringer, null, new CallLogAsync());
 
             // register for ICC status
             IccCard sim = phone.getIccCard();
@@ -694,10 +695,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     Ringer getRinger() {
         return ringer;
-    }
-
-    BluetoothHandsfree getBluetoothHandsfree() {
-        return mBtHandsfree;
     }
 
     /**
@@ -1308,9 +1305,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // turn proximity sensor off and turn screen on immediately if
                 // we are using a headset, the keyboard is open, or the device
                 // is being held in a horizontal position.
+                //TODO(BT): Fix isScoOn below.
+                boolean isScoOn = false;
                 boolean screenOnImmediately = (isHeadsetPlugged()
                             || PhoneUtils.isSpeakerOn(this)
-                            || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
+                            || isScoOn
                             || mIsHardKeyboardOpen);
 
                 // We do not keep the screen off when the user is outside in-call screen and we are
@@ -1478,9 +1477,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
-        if (mBtHandsfree != null) {
-            mBtHandsfree.updateBtHandsfreeAfterRadioTechnologyChange();
-        }
+
+        //TODO(BT): Check if things are to be updated after radio tech change.
+        //
         if (mInCallScreen != null) {
             mInCallScreen.updateAfterRadioTechnologyChange();
         }

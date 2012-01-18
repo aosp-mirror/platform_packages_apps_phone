@@ -253,7 +253,8 @@ public class PhoneUtils {
         final Phone phone = ringing.getPhone();
         final boolean phoneIsCdma = (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA);
         boolean answered = false;
-        BluetoothHandsfree bluetoothHandsfree = null;
+        Phone phone = ringing.getPhone();
+        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
 
         if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -286,10 +287,7 @@ public class PhoneUtils {
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        bluetoothHandsfree = app.getBluetoothHandsfree();
-                        if (bluetoothHandsfree != null) {
-                            bluetoothHandsfree.cdmaSetSecondCallState(true);
-                        }
+                        // TODO(BT): Handle multiple calls on CDMA network.
                     }
                 }
 
@@ -328,9 +326,7 @@ public class PhoneUtils {
                     // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
                     app.cdmaPhoneCallState.setCurrentCallState(
                             app.cdmaPhoneCallState.getPreviousCallState());
-                    if (bluetoothHandsfree != null) {
-                        bluetoothHandsfree.cdmaSetSecondCallState(false);
-                    }
+                    //TODO(BT): Handle change in cdma second call.
                 }
             }
         }
@@ -2521,9 +2517,10 @@ public class PhoneUtils {
         if (PhoneApp.mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
             if (DBG) log("activateSpeakerIfDocked(): In a dock -> may need to turn on speaker.");
             PhoneApp app = PhoneApp.getInstance();
-            BluetoothHandsfree bthf = app.getBluetoothHandsfree();
 
-            if (!app.isHeadsetPlugged() && !(bthf != null && bthf.isAudioOn())) {
+            //TODO(BT): Fix scoOn variable below.
+            boolean scoOn = false;
+            if (!app.isHeadsetPlugged() && !scoOn) {
                 turnOnSpeaker(phone.getContext(), true, true);
                 activated = true;
             }
