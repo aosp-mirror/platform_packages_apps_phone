@@ -3622,7 +3622,11 @@ public class InCallScreen extends Activity
                 break;
 
             case NORMAL:
-                mInCallPanel.setVisibility(View.VISIBLE);
+                if (isDialerOpened()) {
+                    mInCallPanel.setVisibility(View.GONE);
+                } else {
+                    mInCallPanel.setVisibility(View.VISIBLE);
+                }
                 mManageConferenceUtils.setPanelVisible(false);
                 mManageConferenceUtils.stopConferenceTime();
                 break;
