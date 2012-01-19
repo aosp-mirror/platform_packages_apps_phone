@@ -316,7 +316,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     /**
      * Our own handler to take care of the messages from the phone state changes
      */
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -407,7 +407,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Dialer code that runs when the dialer is brought up.
      * This includes layout changes, etc, and just prepares the dialer model for use.
      */
-    private void onDialerOpen() {
+    private void onDialerOpen(boolean animate) {
         if (DBG) log("onDialerOpen()...");
 
         // Any time the dialer is open, listen for "disconnect" events (so
@@ -419,7 +419,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         PhoneApp.getInstance().updateWakeState();
 
         // Give the InCallScreen a chance to do any necessary UI updates.
-        mInCallScreen.onDialerOpen();
+        if (mInCallScreen != null) {
+            mInCallScreen.onDialerOpen(animate);
+        } else {
+            Log.e(LOG_TAG, "InCallScreen object was null during onDialerOpen()");
+        }
     }
 
     /**
@@ -467,7 +471,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Dialer code that runs when the dialer is closed.
      * This releases resources acquired when we start the dialer.
      */
-    private void onDialerClose() {
+    private void onDialerClose(boolean animate) {
         if (DBG) log("onDialerClose()...");
 
         // reset back to a short delay for the poke lock.
@@ -478,7 +482,9 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         // Give the InCallScreen a chance to do any necessary UI updates.
         if (mInCallScreen != null) {
-            mInCallScreen.onDialerClose();
+            mInCallScreen.onDialerClose(animate);
+        } else {
+            Log.e(LOG_TAG, "InCallScreen object was null during onDialerClose()");
         }
     }
 
@@ -584,6 +590,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     /**
      * Implements View.OnKeyListener for the DTMF buttons.  Enables dialing with trackball/dpad.
      */
+    @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         // if (DBG) log("onKey:  keyCode " + keyCode + ", view " + v);
 
@@ -608,11 +615,23 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     }
 
     /**
-     * @return true if the dialer is currently visible onscreen.
+     * Returns true if the dialer is in "open" state, meaning it is already visible *and* it
+     * isn't fading out. Note that during fade-out animation the View will return VISIBLE but
+     * will become GONE soon later, so you would want to use this method instead of
+     * {@link View#getVisibility()}.
+     *
+     * Fade-in animation, on the other hand, will set the View's visibility VISIBLE soon after
+     * the request, so we don't need to take care much of it. In other words,
+     * {@link #openDialer(boolean)} soon makes the visibility VISIBLE and thus this method will
+     * return true just after the method call.
+     *
+     * Note: during the very early stage of "open" state, users may not see the dialpad yet because
+     * of its fading-in animation, while they will see it shortly anyway. Similarly, during the
+     * early stage of "closed" state (opposite of "open" state), users may still see the dialpad
+     * due to fading-out animation, but it will vanish shortly and thus we can treat it as "closed",
+     * or "not open". To make the transition clearer, we call the state "open", not "shown" nor
+     * "visible".
      */
-    // TODO: clean up naming inconsistency of "opened" vs. "visible".
-    // This should be called isVisible(), and open/closeDialer() should
-    // be "show" and "hide".
     public boolean isOpened() {
         // Return whether or not the dialer view is visible.
         // (Note that if we're in the middle of a fade-out animation, that
@@ -626,7 +645,13 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Forces the dialer into the "open" state.
      * Does nothing if the dialer is already open.
      *
+     * The "open" state includes the state the dialer is fading in.
+     * {@link InCallScreen#onDialerOpen(boolean)} will change visibility state and do
+     * actual animation.
+     *
      * @param animate if true, open the dialer with an animation.
+     *
+     * @see #isOpened
      */
     public void openDialer(boolean animate) {
         if (DBG) log("openDialer()...");
@@ -638,7 +663,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             } else {
                 mDialerView.setVisibility(View.VISIBLE);
             }
-            onDialerOpen();
+            onDialerOpen(animate);
         }
     }
 
@@ -646,7 +671,12 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Forces the dialer into the "closed" state.
      * Does nothing if the dialer is already closed.
      *
+     * {@link InCallScreen#onDialerOpen(boolean)} will change visibility state and do
+     * actual animation.
+     *
      * @param animate if true, close the dialer with an animation.
+     *
+     * @see #isOpened
      */
     public void closeDialer(boolean animate) {
         if (DBG) log("closeDialer()...");
@@ -658,7 +688,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             } else {
                 mDialerView.setVisibility(View.GONE);
             }
-            onDialerClose();
+            onDialerClose(animate);
         }
     }
 
