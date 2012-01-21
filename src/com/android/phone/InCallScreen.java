@@ -571,9 +571,8 @@ public class InCallScreen extends Activity
         // prevent the device from going to sleep.
         mApp.setIgnoreTouchUserActivity(true);
 
-        // Disable the status bar "window shade" the entire time we're on
-        // the in-call screen.
-        mApp.notificationMgr.statusBarHelper.enableExpandedView(false);
+        updateExpandedViewState();
+
         // ...and update the in-call notification too, since the status bar
         // icon needs to be hidden while we're the foreground activity:
         mApp.notificationMgr.updateInCallNotification();
@@ -835,8 +834,8 @@ public class InCallScreen extends Activity
         // sure they won't still be around when we get back here.
         dismissAllDialogs();
 
-        // Re-enable the status bar (which we disabled in onResume().)
-        mApp.notificationMgr.statusBarHelper.enableExpandedView(true);
+        updateExpandedViewState();
+
         // ...and the in-call notification too:
         mApp.notificationMgr.updateInCallNotification();
         // ...and *always* reset the system bar back to its normal state
@@ -1604,6 +1603,8 @@ public class InCallScreen extends Activity
             if (DBG) log("onPhoneStateChanged: Activity not in foreground! Bailing out...");
             return;
         }
+
+        updateExpandedViewState();
 
         // Update the onscreen UI.
         // We use requestUpdateScreen() here (which posts a handler message)
@@ -4474,6 +4475,25 @@ public class InCallScreen extends Activity
         // already in the foreground.)
         if (mRespondViaSmsManager != null) {
             mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
+        }
+    }
+
+    /**
+     * Enables or disables the status bar "window shade" based on the current situation.
+     */
+    private void updateExpandedViewState() {
+        if (mIsForegroundActivity) {
+            if (mApp.proximitySensorModeEnabled()) {
+                // We should not enable notification's expanded view on RINGING state.
+                mApp.notificationMgr.statusBarHelper.enableExpandedView(
+                        mCM.getState() != Phone.State.RINGING);
+            } else {
+                // If proximity sensor is unavailable on the device, disable it to avoid false
+                // touches toward notifications.
+                mApp.notificationMgr.statusBarHelper.enableExpandedView(false);
+            }
+        } else {
+            mApp.notificationMgr.statusBarHelper.enableExpandedView(true);
         }
     }
 
