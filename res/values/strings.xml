@@ -189,16 +189,96 @@
     <!-- network depersonalization -->
     <!-- Label text for PIN entry widget on SIM Network Depersonalization panel -->
     <string name="label_ndp">SIM network unlock PIN</string>
-    <!-- Button label on SIM Network Depersonalization panel -->
+    <!-- Label text for PIN entry widget on SIM Network Subset Depersonalization panel -->
+    <string name="label_nsdp">SIM network subset unlock PIN</string>
+    <!-- Label text for PIN entry widget on SIM Corporate Depersonalization panel -->
+    <string name="label_cdp">SIM corporate unlock PIN</string>
+    <!-- Label text for PIN entry widget on SIM Service Provider Depersonalization panel -->
+    <string name="label_spdp">SIM service provider unlock PIN</string>
+    <!-- Label text for PIN entry widget on SIM SIM Depersonalization panel -->
+    <string name="label_sdp">SIM SIM unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM Network1 Depersonalization panel -->
+    <string name="label_rn1dp">RUIM network1 unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM Network2 Depersonalization panel -->
+    <string name="label_rn2dp">RUIM network2 unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM Hrpd Depersonalization panel -->
+    <string name="label_rhrpd">RUIM hrpd unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM Corporate Depersonalization panel -->
+    <string name="label_rcdp">RUIM corporate unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM Service Provider Depersonalization panel -->
+    <string name="label_rspdp">RUIM service provider unlock PIN</string>
+    <!-- Label text for PIN entry widget on RUIM RUIM Depersonalization panel -->
+    <string name="label_rdp">RUIM RUIM unlock PIN</string>
+    <!-- Button label on SIM Depersonalization panel -->
     <string name="sim_ndp_unlock_text">Unlock</string>
-    <!-- Button label on SIM Network Depersonalization panel -->
+    <!-- Button label on SIM Depersonalization panel -->
     <string name="sim_ndp_dismiss_text">Dismiss</string>
     <!-- Status message displayed on SIM Network Depersonalization panel -->
-    <string name="requesting_unlock">Requesting network unlock\u2026</string>
+    <string name="requesting_nw_unlock">Requesting SIM network unlock\u2026</string>
+    <!-- Status message displayed on SIM Network Subset Depersonalization panel -->
+    <string name="requesting_nw_subset_unlock">Requesting SIM network subset unlock\u2026</string>
+    <!-- Status message displayed on SIM Service Provider Depersonalization panel -->
+    <string name="requesting_sp_unlock">Requesting SIM service provider unlock\u2026</string>
+    <!-- Status message displayed on SIM Corporate Depersonalization panel -->
+    <string name="requesting_corporate_unlock">Requesting SIM corporate unlock\u2026</string>
+    <!-- Status message displayed on SIM SIM Depersonalization panel -->
+    <string name="requesting_sim_unlock">Requesting SIM SIM unlock\u2026</string>
+    <!-- Status message displayed on RUIM Network1 Depersonalization panel -->
+    <string name="requesting_rnw1_unlock">Requesting RUIM network1 unlock\u2026</string>
+    <!-- Status message displayed on RUIM Network2 Depersonalization panel -->
+    <string name="requesting_rnw2_unlock">Requesting RUIM network2 unlock\u2026</string>
+    <!-- Status message displayed on RUIM Hrpd Depersonalization panel -->
+    <string name="requesting_rhrpd_unlock">Requesting RUIM hrpd unlock\u2026</string>
+    <!-- Status message displayed on RUIM Service Provider Depersonalization panel -->
+    <string name="requesting_rsp_unlock">Requesting RUIM service provider unlock\u2026</string>
+    <!-- Status message displayed on RUIM Corporate Depersonalization panel -->
+    <string name="requesting_rc_unlock">Requesting RUIM corporate unlock\u2026</string>
+    <!-- Status message displayed on RUIM RUIM Depersonalization panel -->
+    <string name="requesting_ruim_unlock">Requesting RUIM RUIM unlock\u2026</string>
     <!-- Error message displayed on SIM Network Depersonalization panel -->
-    <string name="unlock_failed">Network unlock request unsuccessful.</string>
+    <string name="nw_unlock_failed">SIM Network unlock request unsuccessful.</string>
+    <!-- Error message displayed on SIM Network Subset Depersonalization panel -->
+    <string name="nw_subset_unlock_failed">SIM Network Subset unlock request unsuccessful.</string>
+    <!-- Error message displayed on SIM Service Provider Depersonalization panel -->
+    <string name="sp_unlock_failed">SIM Service Provider unlock request unsuccessful.</string>
+    <!-- Error message displayed on SIM Corporate Depersonalization panel -->
+    <string name="corporate_unlock_failed">SIM Corporate unlock request unsuccessful.</string>
+    <!-- Error message displayed on SIM SIM Depersonalization panel -->
+    <string name="sim_unlock_failed">SIM SIM unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM Network1 Depersonalization panel -->
+    <string name="rnw1_unlock_failed">RUIM Network1 unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM Network2 Depersonalization panel -->
+    <string name="rnw2_unlock_failed">RUIM Network2 unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM Hrpd Depersonalization panel -->
+    <string name="rhrpd_unlock_failed">RUIM Hrpd unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM Service Provider Depersonalization panel -->
+    <string name="rsp_unlock_failed">RUIM Service Provider unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM Corporate Depersonalization panel -->
+    <string name="rc_unlock_failed">RUIM Corporate unlock request unsuccessful.</string>
+    <!-- Error message displayed on RUIM RUIM Depersonalization panel -->
+    <string name="ruim_unlock_failed">RUIM RUIM unlock request unsuccessful.</string>
     <!-- Success message displayed on SIM Network Depersonalization panel -->
-    <string name="unlock_success">Network unlock successful.</string>
+    <string name="nw_unlock_success">SIM Network unlock successful.</string>
+    <!-- Success message displayed on SIM Network Subset Depersonalization panel -->
+    <string name="nw_subset_unlock_success">SIM Network Subset unlock successful.</string>
+    <!-- Success message displayed on SIM Service Provider Depersonalization panel -->
+    <string name="sp_unlock_success">SIM Service Provider unlock successful.</string>
+    <!-- Success message displayed on SIM Corporate Depersonalization panel -->
+    <string name="corporate_unlock_success">SIM Corporate unlock successful.</string>
+    <!-- Success message displayed on SIM SIM Depersonalization panel -->
+    <string name="sim_unlock_success">SIM SIM unlock successful.</string>
+    <!-- Success message displayed on RUIM Network1 Depersonalization panel -->
+    <string name="rnw1_unlock_success">RUIM Network1 unlock successful.</string>
+    <!-- Success message displayed on RUIM Network2 Depersonalization panel -->
+    <string name="rnw2_unlock_success">RUIM Network2 unlock successful.</string>
+    <!-- Success message displayed on RUIM Hrpd Depersonalization panel -->
+    <string name="rhrpd_unlock_success">RUIM Hrpd unlock successful.</string>
+    <!-- Success message displayed on RUIM Service Provider Depersonalization panel -->
+    <string name="rsp_unlock_success">RUIM Service Provider unlock successful.</string>
+    <!-- Success message displayed on RUIM Corporate Depersonalization panel -->
+    <string name="rc_unlock_success">RUIM Corporate unlock successful.</string>
+    <!-- Success message displayed on RUIM RUIM Depersonalization panel -->
+    <string name="ruim_unlock_success">RUIM RUIM unlock successful.</string>
 
     <!-- Title for the dialog used to display the user's IMEI number -->
     <string name="imei">IMEI</string>
