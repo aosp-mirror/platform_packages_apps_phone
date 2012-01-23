@@ -464,7 +464,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:label="@string/sip_settings"
+        <activity android:label="Sip Settings"
                   android:name=".sip.SipSettings"
                   android:theme="@android:style/Theme.Holo.DialogWhenLarge"
                   android:launchMode="singleTop"
