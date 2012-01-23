@@ -699,7 +699,7 @@ public class CallNotifier extends Handler
      * the ringer and/or vibrator are started separately (see the various
      * calls to Ringer.ring() in this class.)
      *
-     * @see NotificationMgr.updateNotificationAndLaunchIncomingCallUi()
+     * @see NotificationMgr#updateNotificationAndLaunchIncomingCallUi()
      */
     private void showIncomingCall() {
         log("showIncomingCall()...  phone state = " + mCM.getState());

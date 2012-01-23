@@ -3321,7 +3321,7 @@ public class InCallScreen extends Activity
      * ringing or waiting call.
      */
     private void internalAnswerCall() {
-        log("internalAnswerCall()...");
+        if (DBG) log("internalAnswerCall()...");
         // if (DBG) PhoneUtils.dumpCallState(mPhone);
 
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
@@ -3365,7 +3365,8 @@ public class InCallScreen extends Activity
                 } else {
                     PhoneUtils.answerCall(ringing);
                 }
-            }else if (phoneType == Phone.PHONE_TYPE_GSM){
+            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                if (DBG) log("internalAnswerCall: answering (GSM)...");
                 // GSM: this is usually just a wrapper around
                 // PhoneUtils.answerCall(), *but* we also need to do
                 // something special for the "both lines in use" case.

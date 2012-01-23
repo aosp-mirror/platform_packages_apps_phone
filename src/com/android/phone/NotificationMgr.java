@@ -515,12 +515,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      *
      * If you already know the current speaker state (e.g. if you just
      * called AudioManager.setSpeakerphoneOn() yourself) then you should
-     * directly call {@link updateSpeakerNotification(boolean)} instead.
+     * directly call {@link #updateSpeakerNotification(boolean)} instead.
      *
      * (But note that the status bar icon is *never* shown while the in-call UI
      * is active; it only appears if you bail out to some other activity.)
      */
-    public void updateSpeakerNotification() {
+    private void updateSpeakerNotification() {
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         boolean showNotification =
                 (mPhone.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn();
@@ -648,7 +648,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * update or cancel the in-call notification based on the current
      * phone state.
      *
-     * @see updateInCallNotification()
+     * @see #updateInCallNotification(boolean)
      */
     public void updateNotificationAndLaunchIncomingCallUi() {
         // Set allowFullScreenIntent=true to indicate that we *should*
@@ -662,7 +662,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * status bar notification based on the current telephony state, or
      * cancels the notification if the phone is totally idle.
      *
-     * @param allowLaunchInCallScreen If true, *and* an incoming call is
+     * @param allowFullScreenIntent If true, *and* an incoming call is
      *   ringing, the notification will include a "fullScreenIntent"
      *   pointing at the InCallScreen (which will cause the InCallScreen
      *   to be launched.)
@@ -965,6 +965,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
      * refreshes the contentView when called.
      */
+    @Override
     public void onQueryComplete(int token, Object cookie, CallerInfo ci){
         if (DBG) log("CallerInfo query complete (for NotificationMgr), "
                      + "updating in-call notification..");
