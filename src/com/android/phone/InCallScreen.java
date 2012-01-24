@@ -27,8 +27,8 @@ import android.bluetooth.BluetoothProfile;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -66,7 +66,6 @@ import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.phone.Constants.CallStatusCode;
 import com.android.phone.InCallUiState.InCallScreenMode;
-import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 
 import java.util.List;
@@ -199,10 +198,10 @@ public class InCallScreen extends Activity
     private boolean mBluetoothConnectionPending;
     private long mBluetoothConnectionRequestTime;
 
-    // Main in-call UI ViewGroups
+    /** Main in-call UI ViewGroups, showing avatar icon, etc. */
     private ViewGroup mInCallPanel;
 
-    // Main in-call UI elements:
+    /** Main in-call UI elements, which should be inside {@link #mInCallPanel} */
     private CallCard mCallCard;
 
     // UI controls:
@@ -588,9 +587,9 @@ public class InCallScreen extends Activity
 
         // Update the onscreen dialpad state to match the InCallUiState.
         if (inCallUiState.showDialpad) {
-            showDialpadInternal(false);  // no "opening" animation
+            openDialpadInternal(false);  // no "opening" animation
         } else {
-            hideDialpadInternal(false);  // no "closing" animation
+            closeDialpadInternal(false);  // no "closing" animation
         }
         //
         // TODO: also need to load inCallUiState.dialpadDigits into the dialpad
@@ -1286,7 +1285,7 @@ public class InCallScreen extends Activity
         // in-call UI:
 
         if (mDialer.isOpened()) {
-            hideDialpadInternal(true);  // do the "closing" animation
+            closeDialpadInternal(true);  // do the "closing" animation
             return;
         }
 
@@ -2043,18 +2042,21 @@ public class InCallScreen extends Activity
         mWaitPromptDialog = new AlertDialog.Builder(this)
                 .setMessage(buf.toString())
                 .setPositiveButton(R.string.pause_prompt_yes,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (DBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
-                            c.proceedAfterWaitChar();
-                        }
-                    })
-                .setNegativeButton(R.string.pause_prompt_no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (DBG) log("handle POST_DIAL_CANCELED!");
-                            c.cancelPostDial();
-                        }
-                    })
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (DBG) log("handle WAIT_PROMPT_CONFIRMED, proceed...");
+                                c.proceedAfterWaitChar();
+                            }
+                        })
+                .setNegativeButton(R.string.pause_prompt_no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (DBG) log("handle POST_DIAL_CANCELED!");
+                                c.cancelPostDial();
+                            }
+                        })
                 .create();
         mWaitPromptDialog.getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
@@ -2135,6 +2137,7 @@ public class InCallScreen extends Activity
                 .setPositiveButton(
                         R.string.send_button,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 if (VDBG) log("handle WILD_PROMPT_CHAR_ENTERED, proceed...");
                                 String replacement = null;
@@ -2148,6 +2151,7 @@ public class InCallScreen extends Activity
                         })
                 .setOnCancelListener(
                         new DialogInterface.OnCancelListener() {
+                            @Override
                             public void onCancel(DialogInterface dialog) {
                                 if (VDBG) log("handle POST_DIAL_CANCELED!");
                                 c.cancelPostDial();
@@ -2172,6 +2176,9 @@ public class InCallScreen extends Activity
      * some other thread, or if you just want to "post a request" for the screen
      * to be updated (rather than doing it synchronously), call
      * requestUpdateScreen() instead.
+     *
+     * Right now this method will update UI visibility immediately, with no animation.
+     * TODO: have animate flag here and use it anywhere possible.
      */
     private void updateScreen() {
         if (DBG) log("updateScreen()...");
@@ -2193,18 +2200,21 @@ public class InCallScreen extends Activity
         }
 
         if (inCallScreenMode == InCallScreenMode.OTA_NORMAL) {
-            if (DBG) log("- updateScreen: OTA call state NORMAL...");
+            if (DBG) log("- updateScreen: OTA call state NORMAL (NOT updating in-call UI)...");
+            mInCallPanel.setVisibility(View.GONE);
             if (mApp.otaUtils != null) {
-                if (DBG) log("- updateScreen: mApp.otaUtils is not null, call otaShowProperScreen");
                 mApp.otaUtils.otaShowProperScreen();
+            } else {
+                Log.w(LOG_TAG, "OtaUtils object is null, not showing any screen for that.");
             }
-            return;
+            return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.OTA_ENDED) {
-            if (DBG) log("- updateScreen: OTA call ended state ...");
+            if (DBG) log("- updateScreen: OTA call ended state (NOT updating in-call UI)...");
+            mInCallPanel.setVisibility(View.GONE);
             // Wake up the screen when we get notification, good or bad.
             mApp.wakeUpScreen();
             if (mApp.cdmaOtaScreenState.otaScreenState
-                == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
+                    == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
                 if (DBG) log("- updateScreen: OTA_STATUS_ACTIVATION");
                 if (mApp.otaUtils != null) {
                     if (DBG) log("- updateScreen: mApp.otaUtils is not null, "
@@ -2218,11 +2228,12 @@ public class InCallScreen extends Activity
                     mApp.otaUtils.otaShowSuccessFailure();
                 }
             }
-            return;
+            return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
             if (DBG) log("- updateScreen: manage conference mode (NOT updating in-call UI)...");
+            mInCallPanel.setVisibility(View.GONE);
             updateManageConferencePanelIfNecessary();
-            return;
+            return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.CALL_ENDED) {
             if (DBG) log("- updateScreen: call ended state...");
             // Continue with the rest of updateScreen() as usual, since we do
@@ -2236,7 +2247,28 @@ public class InCallScreen extends Activity
         // space the InCallTouchUi widget needs.
         updateInCallTouchUi();
         mCallCard.updateState(mCM);
-        updateDialpadVisibility();
+
+        // If an incoming call is ringing, make sure the dialpad is
+        // closed.  (We do this to make sure we're not covering up the
+        // "incoming call" UI.)
+        if (mCM.getState() == Phone.State.RINGING && mDialer.isOpened()) {
+            Log.i(LOG_TAG, "During RINGING state we force hiding dialpad.");
+            closeDialpadInternal(false);  // don't do the "closing" animation
+
+            // Also, clear out the "history" of DTMF digits you may have typed
+            // into the previous call (so you don't see the previous call's
+            // digits if you answer this call and then bring up the dialpad.)
+            //
+            // TODO: it would be more precise to do this when you *answer* the
+            // incoming call, rather than as soon as it starts ringing, but
+            // the InCallScreen doesn't keep enough state right now to notice
+            // that specific transition in onPhoneStateChanged().
+            mDialer.clearDigits();
+        }
+        // Now that we're sure DTMF dialpad is in an appropriate state, reflect
+        // the dialpad state into InCallPanel.
+        updateInCallPanelVisibilityPerDialerState(false);
+
         updateProviderOverlay();
         updateProgressIndication();
 
@@ -2533,6 +2565,7 @@ public class InCallScreen extends Activity
      * buttons managed by OtaUtils.java.  *Most* in-call controls are handled by
      * the handleOnscreenButtonClick() method, via the InCallTouchUi widget.
      */
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (VDBG) log("onClick(View " + view + ", id " + id + ")...");
@@ -2602,7 +2635,7 @@ public class InCallScreen extends Activity
         // enough.)
 
         // Also, any time we hold or unhold, force the DTMF dialpad to close.
-        hideDialpadInternal(true);  // do the "closing" animation
+        closeDialpadInternal(true);  // do the "closing" animation
     }
 
     /**
@@ -2745,19 +2778,22 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Handle a click on the "Show/Hide dialpad" button.
+     * Handle a click on the "Open/Close dialpad" button.
+     *
+     * @see DTMFTwelveKeyDialer#openDialer(boolean)
+     * @see DTMFTwelveKeyDialer#closeDialer(boolean)
      */
-    private void onShowHideDialpad() {
-        if (VDBG) log("onShowHideDialpad()...");
+    private void onOpenCloseDialpad() {
+        if (VDBG) log("onOpenCloseDialpad()...");
         if (mDialer.isOpened()) {
-            hideDialpadInternal(true);  // do the "closing" animation
+            closeDialpadInternal(true);  // do the "closing" animation
         } else {
-            showDialpadInternal(true);  // do the "opening" animation
+            openDialpadInternal(true);  // do the "opening" animation
         }
     }
 
-    // Internal wrapper around DTMFTwelveKeyDialer.openDialer()
-    private void showDialpadInternal(boolean animate) {
+    /** Internal wrapper around {@link DTMFTwelveKeyDialer#openDialer(boolean)} */
+    private void openDialpadInternal(boolean animate) {
         mDialer.openDialer(animate);
         // And update the InCallUiState (so that we'll restore the dialpad
         // to the correct state if we get paused/resumed).
@@ -2765,7 +2801,7 @@ public class InCallScreen extends Activity
     }
 
     // Internal wrapper around DTMFTwelveKeyDialer.closeDialer()
-    private void hideDialpadInternal(boolean animate) {
+    private void closeDialpadInternal(boolean animate) {
         mDialer.closeDialer(animate);
         // And update the InCallUiState (so that we'll restore the dialpad
         // to the correct state if we get paused/resumed).
@@ -2801,7 +2837,7 @@ public class InCallScreen extends Activity
                 internalHangup();
                 break;
             case R.id.dialpadButton:
-                onShowHideDialpad();
+                onOpenCloseDialpad();
                 break;
             case R.id.muteButton:
                 onMuteClick();
@@ -3518,7 +3554,7 @@ public class InCallScreen extends Activity
         // Any time we swap calls, force the DTMF dialpad to close.
         // (We want the regular in-call UI to be visible right now, so the
         // user can clearly see which call is now in the foreground.)
-        hideDialpadInternal(true);  // do the "closing" animation
+        closeDialpadInternal(true);  // do the "closing" animation
 
         // Also, clear out the "history" of DTMF digits you typed, to make
         // sure you don't see digits from call #1 while call #2 is active.
@@ -3604,31 +3640,13 @@ public class InCallScreen extends Activity
                 mManageConferenceUtils.startConferenceTime(
                         SystemClock.elapsedRealtime() - callDuration);
 
-                mInCallPanel.setVisibility(View.GONE);
-
                 // No need to close the dialer here, since the Manage
                 // Conference UI will just cover it up anyway.
 
                 break;
 
             case CALL_ENDED:
-                // Display the CallCard (in the "Call ended" state)
-                // and hide all other UI.
-
-                mManageConferenceUtils.setPanelVisible(false);
-                mManageConferenceUtils.stopConferenceTime();
-
-                // Make sure the CallCard (which is a child of mInCallPanel) is visible.
-                mInCallPanel.setVisibility(View.VISIBLE);
-
-                break;
-
             case NORMAL:
-                if (isDialerOpened()) {
-                    mInCallPanel.setVisibility(View.GONE);
-                } else {
-                    mInCallPanel.setVisibility(View.VISIBLE);
-                }
                 mManageConferenceUtils.setPanelVisible(false);
                 mManageConferenceUtils.stopConferenceTime();
                 break;
@@ -3636,13 +3654,11 @@ public class InCallScreen extends Activity
             case OTA_NORMAL:
                 mApp.otaUtils.setCdmaOtaInCallScreenUiState(
                         OtaUtils.CdmaOtaInCallScreenUiState.State.NORMAL);
-                mInCallPanel.setVisibility(View.GONE);
                 break;
 
             case OTA_ENDED:
                 mApp.otaUtils.setCdmaOtaInCallScreenUiState(
                         OtaUtils.CdmaOtaInCallScreenUiState.State.ENDED);
-                mInCallPanel.setVisibility(View.GONE);
                 break;
 
             case UNDEFINED:
@@ -3682,7 +3698,6 @@ public class InCallScreen extends Activity
                     log("WARNING: Setting mode to UNDEFINED but phone is OFFHOOK,"
                             + " skip cleanOtaScreen.");
                 }
-                mInCallPanel.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -3748,55 +3763,47 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates the visibility of the DTMF dialpad (and its onscreen
-     * "handle", if applicable), based on the current state of the phone
-     * and/or the current InCallScreenMode.
+     * Updates {@link #mInCallPanel}'s visibility state per DTMF dialpad visibility. They
+     * cannot be shown simultaneously and thus we should reflect DTMF dialpad visibility into
+     * another.
+     *
+     * Note: During OTA calls or users' managing conference calls, we should *not* call this method
+     * but manually manage both visibility.
+     *
+     * @see #updateScreen()
      */
-    private void updateDialpadVisibility() {
-        //
-        // (1) The dialpad itself:
-        //
-        // If an incoming call is ringing, make sure the dialpad is
-        // closed.  (We do this to make sure we're not covering up the
-        // "incoming call" UI, and especially to make sure that the "touch
-        // lock" overlay won't appear.)
-        if (mCM.getState() == Phone.State.RINGING) {
-            hideDialpadInternal(false);  // don't do the "closing" animation
-
-            // Also, clear out the "history" of DTMF digits you may have typed
-            // into the previous call (so you don't see the previous call's
-            // digits if you answer this call and then bring up the dialpad.)
-            //
-            // TODO: it would be more precise to do this when you *answer* the
-            // incoming call, rather than as soon as it starts ringing, but
-            // the InCallScreen doesn't keep enough state right now to notice
-            // that specific transition in onPhoneStateChanged().
-            mDialer.clearDigits();
-        }
-
-        //
-        // (2) The main in-call panel (containing the CallCard):
-        //
+    private void updateInCallPanelVisibilityPerDialerState(boolean animate) {
         // We need to hide the CallCard (which is a
         // child of mInCallPanel) while the dialpad is visible.
-        //
-
         if (isDialerOpened()) {
-            if (VDBG) log("- updateDialpadVisibility: dialpad open, hide mInCallPanel...");
-            CallCard.Fade.hide(mInCallPanel, View.GONE);
+            if (VDBG) {
+                log("- updateInCallPanelVisibilityPerDialerState(animate="
+                        + animate + "): dialpad open, hide mInCallPanel...");
+            }
+            if (animate) {
+                CallCard.Fade.hide(mInCallPanel, View.GONE);
+            } else {
+                mInCallPanel.setVisibility(View.GONE);
+            }
         } else {
-            // Dialpad is dismissed; bring back the CallCard if
-            // it's supposed to be visible.
+            // Dialpad is dismissed; bring back the CallCard if it's supposed to be visible.
             if ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
                 || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED)) {
-                if (VDBG) log("- updateDialpadVisibility: dialpad dismissed, show mInCallPanel...");
-                CallCard.Fade.show(mInCallPanel);
+                if (VDBG) {
+                    log("- updateInCallPanelVisibilityPerDialerState(animate="
+                            + animate + "): dialpad dismissed, show mInCallPanel...");
+                }
+                if (animate) {
+                    CallCard.Fade.show(mInCallPanel);
+                } else {
+                    mInCallPanel.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
 
     /**
-     * @return true if the DTMF dialpad is currently visible.
+     * @see DTMFTwelveKeyDialer#isOpened()
      */
     /* package */ boolean isDialerOpened() {
         return (mDialer != null && mDialer.isOpened());
@@ -3804,16 +3811,16 @@ public class InCallScreen extends Activity
 
     /**
      * Called any time the DTMF dialpad is opened.
-     * @see DTMFTwelveKeyDialer.onDialerOpen()
+     * @see DTMFTwelveKeyDialer#openDialer(boolean)
      */
-    /* package */ void onDialerOpen() {
+    /* package */ void onDialerOpen(boolean animate) {
         if (DBG) log("onDialerOpen()...");
 
         // Update the in-call touch UI.
         updateInCallTouchUi();
 
-        // Update any other onscreen UI elements that depend on the dialpad.
-        updateDialpadVisibility();
+        // Update InCallPanel UI, which depends on the dialpad.
+        updateInCallPanelVisibilityPerDialerState(animate);
 
         // This counts as explicit "user activity".
         mApp.pokeUserActivity();
@@ -3830,9 +3837,9 @@ public class InCallScreen extends Activity
 
     /**
      * Called any time the DTMF dialpad is closed.
-     * @see DTMFTwelveKeyDialer.onDialerClose()
+     * @see DTMFTwelveKeyDialer#closeDialer(boolean)
      */
-    /* package */ void onDialerClose() {
+    /* package */ void onDialerClose(boolean animate) {
         if (DBG) log("onDialerClose()...");
 
         // OTA-specific cleanup upon closing the dialpad.
@@ -3849,9 +3856,8 @@ public class InCallScreen extends Activity
         // Update the in-call touch UI.
         updateInCallTouchUi();
 
-        // Update the visibility of the dialpad itself (and any other
-        // onscreen UI elements that depend on it.)
-        updateDialpadVisibility();
+        // Update InCallPanel UI, which depends on the dialpad.
+        updateInCallPanelVisibilityPerDialerState(animate);
 
         // This counts as explicit "user activity".
         mApp.pokeUserActivity();
