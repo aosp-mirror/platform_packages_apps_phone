@@ -3099,7 +3099,7 @@ public class InCallScreen extends Activity
 
         mCallLostDialog = new AlertDialog.Builder(this)
                 .setMessage(R.string.call_lost)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIconAttribute(android.R.attr.alertDialogIcon)
                 .create();
         mCallLostDialog.show();
     }

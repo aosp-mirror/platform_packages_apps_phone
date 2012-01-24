@@ -224,7 +224,7 @@ public class SipCallOptionHandler extends Activity implements
         case DIALOG_SELECT_PHONE_TYPE:
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.pick_outgoing_call_phone_type)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setSingleChoiceItems(R.array.phone_type_values, -1, this)
                     .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
@@ -233,7 +233,7 @@ public class SipCallOptionHandler extends Activity implements
         case DIALOG_SELECT_OUTGOING_SIP_PHONE:
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.pick_outgoing_sip_phone)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setSingleChoiceItems(getProfileNameArray(), -1, this)
                     .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
@@ -244,7 +244,7 @@ public class SipCallOptionHandler extends Activity implements
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.no_sip_account_found_title)
                     .setMessage(R.string.no_sip_account_found)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setPositiveButton(R.string.sip_menu_add, this)
                     .setNegativeButton(android.R.string.cancel, this)
                     .setOnCancelListener(this)
@@ -257,7 +257,7 @@ public class SipCallOptionHandler extends Activity implements
                                        : R.string.no_internet_available_title)
                     .setMessage(wifiOnly ? R.string.no_wifi_available
                                          : R.string.no_internet_available)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setPositiveButton(android.R.string.ok, this)
                     .setOnCancelListener(this)
                     .create();
@@ -265,7 +265,7 @@ public class SipCallOptionHandler extends Activity implements
         case DIALOG_NO_VOIP:
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.no_voip)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setPositiveButton(android.R.string.ok, this)
                     .setOnCancelListener(this)
                     .create();
