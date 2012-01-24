@@ -32,6 +32,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+
+import static com.android.internal.telephony.MSimConstants.SUBSCRIPTION_KEY;
 
 
 /**
@@ -59,6 +63,7 @@ public class OutgoingCallBroadcaster extends Activity
     // Do not check in with VDBG = true, since that may write PII to the system log.
     private static final boolean VDBG = false;
 
+    private int mSubscription;
     public static final String ACTION_SIP_SELECT_PHONE = "com.android.phone.SIP_SELECT_PHONE";
     public static final String EXTRA_ALREADY_CALLED = "android.phone.extra.ALREADY_CALLED";
     public static final String EXTRA_ORIGINAL_URI = "android.phone.extra.ORIGINAL_URI";
@@ -248,6 +253,7 @@ public class OutgoingCallBroadcaster extends Activity
 
         Intent newIntent = new Intent(Intent.ACTION_CALL, uri);
         newIntent.putExtra(EXTRA_ACTUAL_NUMBER_TO_DIAL, number);
+        newIntent.putExtra(SUBSCRIPTION_KEY, mSubscription);
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, newIntent);
 
         // Finally, launch the SipCallOptionHandler, with the copy of the
@@ -342,6 +348,8 @@ public class OutgoingCallBroadcaster extends Activity
             return;
         }
 
+        mSubscription = PhoneApp.getInstance().getVoiceSubscription();
+        intent.putExtra(SUBSCRIPTION_KEY, mSubscription);
         String action = intent.getAction();
         String number = PhoneNumberUtils.getNumberFromIntent(intent, this);
         // Check the number, don't convert for sip uri
@@ -422,6 +430,7 @@ public class OutgoingCallBroadcaster extends Activity
                                                    "com.android.contacts.DialtactsActivity");
                 invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
                 invokeFrameworkDialer.setData(intent.getData());
+                invokeFrameworkDialer.putExtra(SUBSCRIPTION_KEY, mSubscription);
 
                 if (DBG) Log.v(TAG, "onCreate(): calling startActivity for Dialer: "
                                + invokeFrameworkDialer);
@@ -429,6 +438,9 @@ public class OutgoingCallBroadcaster extends Activity
                 finish();
                 return;
             }
+            intent.putExtra(SUBSCRIPTION_KEY, mSubscription);
+            Log.d(TAG, "for non emergency call,sub is  :" + mSubscription);
+
             callNow = false;
         } else if (Intent.ACTION_CALL_EMERGENCY.equals(action)) {
             // ACTION_CALL_EMERGENCY case: this is either a CALL_PRIVILEGED
@@ -444,6 +456,9 @@ public class OutgoingCallBroadcaster extends Activity
                 finish();
                 return;
             }
+            int sub = PhoneApp.getInstance().getVoiceSubscriptionInService();
+            intent.putExtra(SUBSCRIPTION_KEY, sub);
+            Log.d(TAG, "Attempting emergency call on sub :" + sub);
             callNow = true;
         } else {
             Log.e(TAG, "Unhandled Intent " + intent + ".");
@@ -468,12 +483,13 @@ public class OutgoingCallBroadcaster extends Activity
         if (number == null || TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
-                PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
+                PhoneUtils.sendEmptyFlash(PhoneApp.getInstance().getPhone());
                 finish();
                 return;
             } else {
                 Log.i(TAG, "onCreate: null or empty number, setting callNow=true...");
                 callNow = true;
+                intent.putExtra(SUBSCRIPTION_KEY, mSubscription);
             }
         }
 
@@ -535,6 +551,7 @@ public class OutgoingCallBroadcaster extends Activity
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, uri.toString());
+        broadcastIntent.putExtra(SUBSCRIPTION_KEY, mSubscription);
         if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                              null,  // scheduler
