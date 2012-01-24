@@ -438,7 +438,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("startDialerSession()... this = " + this);
 
         // see if we need to play local tones.
-        if (PhoneApp.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
+        if (PhoneApp.getInstance().mContext.getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
             mLocalToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
                     Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
         } else {

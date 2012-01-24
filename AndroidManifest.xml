@@ -494,5 +494,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="SetSubscription"
+            android:label="@string/set_subscription"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

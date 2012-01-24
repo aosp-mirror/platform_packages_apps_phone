@@ -1868,10 +1868,10 @@ public class PhoneUtils {
         final PhoneApp app = PhoneApp.getInstance();
 
         boolean routeToAudioManager =
-            app.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
+            app.mContext.getResources().getBoolean(R.bool.send_mic_mute_to_AudioManager);
         if (routeToAudioManager) {
             AudioManager audioManager =
-                (AudioManager) app.getSystemService(Context.AUDIO_SERVICE);
+                (AudioManager) app.mContext.getSystemService(Context.AUDIO_SERVICE);
             return audioManager.isMicrophoneMute();
         } else {
             return app.mCM.getMute();
@@ -1888,7 +1888,7 @@ public class PhoneUtils {
     /* package */ static void setAudioMode(CallManager cm) {
         if (DBG) Log.d(LOG_TAG, "setAudioMode()..." + cm.getState());
 
-        Context context = PhoneApp.getInstance();
+        Context context = PhoneApp.getInstance().mContext;
         AudioManager audioManager = (AudioManager)
                 context.getSystemService(Context.AUDIO_SERVICE);
         int modeBefore = audioManager.getMode();
@@ -2047,7 +2047,7 @@ public class PhoneUtils {
      * state of the Phone.
      */
     /* package */ static boolean okToSwapCalls(CallManager cm) {
-        int phoneType = cm.getDefaultPhone().getPhoneType();
+        int phoneType = cm.getFgPhone().getPhoneType();
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             // CDMA: "Swap" is enabled only when the phone reaches a *generic*.
             // state by either accepting a Call Waiting or by merging two calls
@@ -2387,15 +2387,16 @@ public class PhoneUtils {
      * @param number the phone number, or SIP address.
      */
     public static Phone pickPhoneBasedOnNumber(CallManager cm,
-            String scheme, String number, String primarySipUri) {
+            String scheme, String number, String primarySipUri, int subscription) {
         if (DBG) log("pickPhoneBasedOnNumber: scheme " + scheme
-                + ", number " + number + ", sipUri " + primarySipUri);
+                + ", number " + number + ", sipUri " + primarySipUri
+                + ", subscription" + subscription);
 
         if (primarySipUri != null) {
             Phone phone = getSipPhoneFromUri(cm, primarySipUri);
             if (phone != null) return phone;
         }
-        return cm.getDefaultPhone();
+        return PhoneApp.getInstance().getPhone(subscription);
     }
 
     public static Phone getSipPhoneFromUri(CallManager cm, String target) {
@@ -2421,9 +2422,11 @@ public class PhoneUtils {
     private static boolean sVoipSupported = false;
     static {
         PhoneApp app = PhoneApp.getInstance();
-        sVoipSupported = SipManager.isVoipSupported(app)
-                && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
-                && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        sVoipSupported = SipManager.isVoipSupported(app.mContext)
+                && app.mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_built_in_sip_phone)
+                && app.mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
     }
 
     /**
