@@ -245,7 +245,7 @@ public class PhoneUtils {
         final Phone phone = ringing.getPhone();
         final boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
         boolean answered = false;
-        BluetoothHandsfree bluetoothhandsfree = null;
+        BluetoothHandsfree bluetoothHandsfree = null;
 
         if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -278,12 +278,14 @@ public class PhoneUtils {
                         // If a BluetoothHandsfree is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        bluetoothhandsfree = app.getBluetoothHandsfree();
-                        if (bluetoothhandsfree != null) {
-                            bluetoothhandsfree.cdmaSetSecondCallState(true);
+                        bluetoothHandsfree = app.getBluetoothHandsfree();
+                        if (bluetoothHandsfree != null) {
+                            bluetoothHandsfree.cdmaSetSecondCallState(true);
                         }
                     }
                 }
+
+                final boolean isRealIncomingCall = isRealIncomingCall(ringing.getState());
 
                 //if (DBG) log("sPhone.acceptCall");
                 app.mCM.acceptCall(ringing);
@@ -295,7 +297,22 @@ public class PhoneUtils {
                 setAudioMode();
 
                 // Check is phone in any dock, and turn on speaker accordingly
-                activateSpeakerIfDocked(phone);
+                final boolean speakerActivated = activateSpeakerIfDocked(phone);
+
+                // When answering a phone call, the user will move the phone near to her/his ear
+                // and start conversation, without checking its speaker status. If some other
+                // application turned on the speaker mode before the call and didn't turn it off,
+                // Phone app would need to be responsible for the speaker phone.
+                // Here, we turn off the speaker if
+                // - the phone call is the first in-coming call,
+                // - we did not activate speaker by ourselves during the process above, and
+                // - Bluetooth headset is not in use.
+                if (isRealIncomingCall && !speakerActivated && isSpeakerOn(app)
+                        && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
+                    // This is not an error but might cause users' confusion. Add log just in case.
+                    Log.i(LOG_TAG, "Forcing speaker off due to new incoming call...");
+                    turnOnSpeaker(app, false, true);
+                }
             } catch (CallStateException ex) {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
 
@@ -303,8 +320,8 @@ public class PhoneUtils {
                     // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
                     app.cdmaPhoneCallState.setCurrentCallState(
                             app.cdmaPhoneCallState.getPreviousCallState());
-                    if (bluetoothhandsfree != null) {
-                        bluetoothhandsfree.cdmaSetSecondCallState(false);
+                    if (bluetoothHandsfree != null) {
+                        bluetoothHandsfree.cdmaSetSecondCallState(false);
                     }
                 }
             }
@@ -603,6 +620,10 @@ public class PhoneUtils {
             numberToDial = number;
         }
 
+        // Remember if the phone state was in IDLE state before this call.
+        // After calling CallManager#dial(), getState() will return different state.
+        final boolean initiallyIdle = app.mCM.getState() == Phone.State.IDLE;
+
         try {
             connection = app.mCM.dial(phone, numberToDial);
         } catch (CallStateException ex) {
@@ -695,7 +716,16 @@ public class PhoneUtils {
 
             if (DBG) log("about to activate speaker");
             // Check is phone in any dock, and turn on speaker accordingly
-            activateSpeakerIfDocked(phone);
+            final boolean speakerActivated = activateSpeakerIfDocked(phone);
+
+            // See also similar logic in answerCall().
+            final BluetoothHandsfree bluetoothHandsfree = app.getBluetoothHandsfree();
+            if (initiallyIdle && !speakerActivated && isSpeakerOn(app)
+                    && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
+                // This is not an error but might cause users' confusion. Add log just in case.
+                Log.i(LOG_TAG, "Forcing speaker off when initiating a new outgoing call...");
+                PhoneUtils.turnOnSpeaker(app, false, true);
+            }
         }
 
         return status;
@@ -1774,7 +1804,14 @@ public class PhoneUtils {
         app.startActivity(intent);
     }
 
-    static void turnOnSpeaker(Context context, boolean flag, boolean store) {
+    /**
+     * Turns on/off speaker.
+     *
+     * @param context Context
+     * @param flag True when speaker should be on. False otherwise.
+     * @param store True when the settings should be stored in the device.
+     */
+    /* package */ static void turnOnSpeaker(Context context, boolean flag, boolean store) {
         if (DBG) log("turnOnSpeaker(flag=" + flag + ", store=" + store + ")...");
         final PhoneApp app = PhoneApp.getInstance();
 
@@ -2402,10 +2439,12 @@ public class PhoneUtils {
     * Check if the phone is in a car dock or desk dock.
     * If yes, turn on the speaker, when no wired or BT headsets are connected.
     * Otherwise do nothing.
+    * @return true if activated
     */
-    private static void activateSpeakerIfDocked(Phone phone) {
+    private static boolean activateSpeakerIfDocked(Phone phone) {
         if (DBG) log("activateSpeakerIfDocked()...");
 
+        boolean activated = false;
         if (PhoneApp.mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
             if (DBG) log("activateSpeakerIfDocked(): In a dock -> may need to turn on speaker.");
             PhoneApp app = PhoneApp.getInstance();
@@ -2413,8 +2452,10 @@ public class PhoneUtils {
 
             if (!app.isHeadsetPlugged() && !(bthf != null && bthf.isAudioOn())) {
                 turnOnSpeaker(phone.getContext(), true, true);
+                activated = true;
             }
         }
+        return activated;
     }
 
 
