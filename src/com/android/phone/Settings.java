@@ -161,7 +161,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 new AlertDialog.Builder(this).setMessage(
                         getResources().getString(R.string.roaming_warning))
                         .setTitle(android.R.string.dialog_alert_title)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
                         .setPositiveButton(android.R.string.yes, this)
                         .setNegativeButton(android.R.string.no, this)
                         .show()
