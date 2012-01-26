@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAACZH////c\u003d",
+        "filename": "src/com/android/phone/DTMFBroadcastReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "fix all the copyright dates for new files - 2012?",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////Y\u003d",
+        "filename": "src/com/android/phone/DTMFBroadcastReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "This could be an inner class of DTMFSenderService.  Often we have a classes listeners/receivers in the same file for containment.  Do you think this class would be used elsewhere?",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////U\u003d",
+        "filename": "src/com/android/phone/DTMFSenderService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "We already do DTMF tones as part of the dialer app.  I\u0027m not familiar with it, but do we need to recreate all of this or is there some other existing code we could leverage?  If that code exists in the app and not the framework, perhaps we should modify it to use this new service.",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA9n///MA\u003d",
         "filename": "src/com/android/phone/DTMFSenderService.java",
         "patchSetId": 2
@@ -13,6 +64,91 @@
       "writtenOn": "2010-11-23T02:15:32Z",
       "side": 1,
       "message": "The length of dtmf tone will not be On/Off million second as API\nspecified. The start/stopDtmf cmd will be executed in ril/modem side and both can be queued up in between, therefore the tone length can be either shorten or lengthen than API specified.\n\nWhen calling sendDtmf(), you just put the DTMF_START request into the\nqueue. The RIL may or may not get it right way. Similar happens to\nstopDtmf(). So the sleep(dtmfOn) between sendDtmf and stopDtmf defines\nthe period between putting DTMF requests in QUEUE rather than the\nperiod of start and stop the tone. That is why I said \"the tone length\ncan be either shorten or lengthen than API specified\".\n\nWe need clearly document this API clearly so that developers know the on/off time is not guaranteed but as best effort.",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////E\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "should we pass the call we want to do this on?  This is implying the current foreground call, but there\u0027s alot of async stuff happening and it may not be the same call soon..",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////Q\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////M\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////I\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "perhaps need a \"isCallPlayingDTMF\" and a DTMF state from the PhoneStateListener to keep from stepping on toes?",
+      "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACZH////A\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1002609
+      },
+      "writtenOn": "2012-01-26T18:14:14Z",
+      "side": 1,
+      "message": "Do we need a new DTMFSenderService or could we use the existing async channel to send this request?",
       "revId": "c93fe34de2f1f3bead6274c8e2f6f522d754d3b0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
