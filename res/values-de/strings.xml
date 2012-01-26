@@ -166,7 +166,7 @@
     <string name="voicemail_default" msgid="5902099213882352338">"Mein Netzbetreiber"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"Einstellungen für Mobilfunknetze"</string>
     <string name="label_available" msgid="1181658289009300430">"Verfügbare Netzwerke"</string>
-    <string name="load_networks_progress" msgid="5230707536168902952">"Suchvorgang läuft...."</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"Suche läuft..."</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Keine Netzwerke gefunden"</string>
     <string name="search_networks" msgid="1601136049300882441">"Netzwerke suchen"</string>
     <string name="network_query_error" msgid="6828516148953325006">"Fehler bei der Netzwerksuche"</string>
