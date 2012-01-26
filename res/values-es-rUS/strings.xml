@@ -44,7 +44,7 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Todas las llamadas están restringidas por control de acceso."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Las llamadas de emergencia están restringidas por control de acceso."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Las llamadas normales están restringidas por control de acceso."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: teléfono bloqueado hasta el ciclo de activación."</string>
+    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: dispositivo bloqueado hasta el ciclo de activación."</string>
     <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: llamada interrumpida"</string>
     <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: llamada interceptada"</string>
     <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: reordenamiento"</string>
@@ -80,14 +80,14 @@
     <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Cargando…"</string>
     <string name="enterPin" msgid="4753300834213388397">"Escribe el código PIN para desbloquear la tarjeta SIM:"</string>
     <string name="pinUnlocked" msgid="5327174700273303795">"Se desbloqueó la tarjeta SIM."</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"Nuevo Código de PIN de SIM"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Para confirmar, vuelve a ingresar el nuevo código PIN de la tarjeta SIM."</string>
+    <string name="enterNewPin" msgid="5311243769004752401">"Nuevo código de PIN de tarjeta SIM"</string>
+    <string name="verifyNewPin" msgid="4240729999990403607">"Vuelve a ingresar el código PIN nuevo de la tarjeta SIM para confirmarlo."</string>
     <string name="verifyFailed" msgid="8198903469256987323">"Los PIN de tarjeta SIM que ingresaste no coinciden. Vuelve a intentarlo."</string>
     <string name="enterPuk" msgid="6488567874689634521">"Ingresa el código PUK para desbloquear la tarjeta SIM."</string>
     <string name="badPuk" msgid="4218469693062880152">"Código PUK incorrecto"</string>
     <string name="buttonTxtContinue" msgid="863271214384739936">"Continuar"</string>
-    <string name="puk_unlocked" msgid="2284912838477558454">"Tu tarjeta SIM ha sido desbloqueada. Tu teléfono está desbloqueando..."</string>
-    <string name="label_ndp" msgid="780479633159517250">"PIN de desbloqueo de red SIM"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"Tu tarjeta SIM ha sido desbloqueada. Tu dispositivo está desbloqueando..."</string>
+    <string name="label_ndp" msgid="780479633159517250">"PIN de desbloqueo de red de tarjeta SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Desbloquear"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Descartar"</string>
     <string name="requesting_unlock" msgid="6412629401033249351">"Solicitando desbloqueo de red..."</string>
@@ -97,7 +97,7 @@
     <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Config. de llam. GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Configuración de llamadas de CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Nombres de puntos de acc."</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Nombres de puntos de acceso"</string>
     <string name="settings_label" msgid="3876743539816984008">"Configuración de red"</string>
     <string name="voicemail" msgid="8693759337917898954">"Correo de voz"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"Correo de voz:"</string>
@@ -148,7 +148,7 @@
     <string name="fdn_only_error" msgid="7079583506377602000">"Sólo se permiten operaciones a números de marcación fija."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Enciende la radio antes de ver esta configuración."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Aceptar"</string>
-    <string name="enable" msgid="1059008390636773574">"Habilitar"</string>
+    <string name="enable" msgid="1059008390636773574">"Activar"</string>
     <string name="disable" msgid="7274240979164762320">"Desactivar"</string>
     <string name="change_num" msgid="239476305819844391">"Actualizar"</string>
   <string-array name="clir_display_values">
@@ -205,11 +205,11 @@
     <item msgid="7002474529872452266">"LTE/CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Datos habilitados"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Habilitar acceso a datos para red móvil"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Usar paquete de datos"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Activar acceso a datos para red móvil"</string>
     <string name="roaming" msgid="8871412572928323707">"Roaming de datos"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"Conectarse a servicios de datos en el roaming"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"Conectarse a servicios de datos en el roaming"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Conectar a servicios de datos en roaming"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Conectar a servicios de datos en roaming"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"Perdiste la conectividad de datos porque se desactivó la itinerancia de datos de tu red doméstica."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"¿Deseas permitir el roaming de datos? Ten en cuenta que podrás incurrir en gastos significativos."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opciones de GSM/UMTS"</string>
@@ -382,7 +382,7 @@
     <string name="fdn_activation" msgid="2156479741307463576">"Activación de NMF"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Los números de marcación fija están activados"</string>
     <string name="fdn_disabled" msgid="4700049736675368279">"Los números de marcación fija (NMF) están desactivados"</string>
-    <string name="enable_fdn" msgid="3740191529180493851">"Habilitar NMF"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Activar NMF"</string>
     <string name="disable_fdn" msgid="7944020890722540616">"Desactivar NMF"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Cambiar PIN2"</string>
     <string name="enable_fdn_ok" msgid="7215588870329688132">"Desactivar NMF"</string>
@@ -397,7 +397,7 @@
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Modo TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Establecer modo de TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Reintento automático"</string>
-    <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Habilitar el modo de reintento automático"</string>
+    <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Activar el modo de reintento automático"</string>
     <string name="menu_add" msgid="1882023737425114762">"Agregar contacto"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Editar contacto"</string>
     <string name="menu_delete" msgid="3977150783449642851">"Eliminar contacto"</string>
@@ -420,20 +420,20 @@
     <string name="simContacts_empty" msgid="5270660846489561932">"No hay contactos en tu tarjeta SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleccionar contactos para importar"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Para importar contactos de la tarjeta SIM, desactiva primero el modo de avión."</string>
-    <string name="enable_pin" msgid="5422767284133234860">"Habilitar/inhabilitar PIN de SIM"</string>
-    <string name="change_pin" msgid="9174186126330785343">"Cambiar PIN de SIM"</string>
-    <string name="enter_pin_text" msgid="8532615714751931951">"PIN de SIM:"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Activar/desactivar PIN de tarjeta SIM"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Cambiar PIN de tarjeta SIM"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"PIN de tarjeta SIM:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"PIN anterior"</string>
     <string name="newPinLabel" msgid="207488227285336897">"PIN nuevo"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"Confirmar PIN nuevo"</string>
     <string name="badPin" msgid="8955102849303984935">"El antiguo PIN que ingresaste es incorrecto. Vuelve a intentarlo."</string>
     <string name="mismatchPin" msgid="5923253370683071889">"Los PIN que ingresaste no coinciden. Vuelve a intentarlo."</string>
     <string name="invalidPin" msgid="5981171102258684792">"Escribe un PIN que tenga de 4 a 8 números."</string>
-    <string name="disable_sim_pin" msgid="3992926931620188855">"Desactivar PIN de SIM"</string>
-    <string name="enable_sim_pin" msgid="5803702443844458831">"Habilitar PIN de SIM"</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"Desactivar PIN de tarjeta SIM"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"Activar PIN de tarjeta SIM"</string>
     <string name="enable_in_progress" msgid="3695303775100109650">"Espera, por favor..."</string>
-    <string name="enable_pin_ok" msgid="9166061915030865848">"Se inhabilitó el PIN de la tarjeta SIM."</string>
-    <string name="disable_pin_ok" msgid="5596999379593924850">"Se inhabilitó el PIN de la tarjeta SIM."</string>
+    <string name="enable_pin_ok" msgid="9166061915030865848">"Se activó el código PIN de la tarjeta SIM."</string>
+    <string name="disable_pin_ok" msgid="5596999379593924850">"Se desactivó el PIN de la tarjeta SIM."</string>
     <string name="pin_failed" msgid="2298841192582192277">"El PIN que ingresaste era incorrecto."</string>
     <string name="pin_changed" msgid="4365538014588501049">"El PIN de la tarjeta SIM se modificó correctamente."</string>
     <string name="puk_requested" msgid="3898394204193202803">"Contraseña incorrecta. La tarjeta SIM está bloqueada. Se solicitó PUK2."</string>
@@ -482,7 +482,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número de correo de voz desconocido"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Sin servicio"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"La red seleccionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) no está disponible"</string>
-    <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero desactive el modo Airplane."</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero debes desactivar el modo de avión."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"No registrado en la red."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"La red móvil no está disponible."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Llamada no enviada. No se ingresó un número válido."</string>
@@ -503,7 +503,7 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"No se realizó la llamada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> no es un número de emergencia."</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"No se realizó la llamada. Marca un número de emergencia."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilizar teclado para marcar"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado de tonos del teléfono"</string>
+    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Teclado de tonos del dispositivo"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Retener"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"No retener"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Finalizar"</string>
@@ -525,7 +525,7 @@
     <string name="hac_mode_title" msgid="8740268574688743289">"Ayudas auditivas"</string>
     <string name="hac_mode_summary" msgid="6833851160514929341">"Activar compatibilidad de ayuda auditiva"</string>
   <string-array name="tty_mode_entries">
-    <item msgid="512950011423868021">"TTY apagado"</item>
+    <item msgid="512950011423868021">"TTY desactivado"</item>
     <item msgid="3971695875449640648">"TTY total"</item>
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
