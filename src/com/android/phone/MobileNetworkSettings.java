@@ -53,12 +53,9 @@ import android.view.MenuItem;
  * you reach it from the "Wireless & Networks" section of the main
  * Settings app.  It's not part of the "Call settings" hierarchy that's
  * available from the Phone app (see CallFeaturesSetting for that.)
- *
- * TODO: Rename this to be "NetworkSettings.java" to be more clear.
- * (But be careful in case the Settings app has any hardwired references
- * to this class name...)
  */
-public class Settings extends PreferenceActivity implements DialogInterface.OnClickListener,
+public class MobileNetworkSettings extends PreferenceActivity
+        implements DialogInterface.OnClickListener,
         DialogInterface.OnDismissListener, Preference.OnPreferenceChangeListener{
 
     // debug data
