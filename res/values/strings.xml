@@ -1597,4 +1597,7 @@
     <!-- Description of the decline on target in the Slide unlock screen. [CHAR LIMIT=NONE] -->
     <string name="description_target_decline">Decline</string>
 
+    <!-- Setting option name to pick ringtone (a list dialog comes up). [CHAR LIMIT=30] -->
+    <string name="ringtone_title" msgid="5379026328015343686">Phone ringtone</string>
+
 </resources>
