@@ -253,9 +253,9 @@
 
         <!-- "Mobile network settings" screen, used on both
              non-voice-capable tablets and regular phone devices. -->
-        <activity android:name="Settings"
-                android:label="@string/settings_label"
-                android:theme="@style/Theme.Settings">
+        <activity android:name="MobileNetworkSettings"
+            android:label="@string/settings_label"
+            android:theme="@style/Theme.Settings">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -263,6 +263,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity-alias android:name="Settings"
+            android:targetActivity="MobileNetworkSettings" />
 
         <!-- networks setting -->
         <!-- service to handle network query requests sent to RIL -->

@@ -83,7 +83,9 @@ import java.util.Map;
  * is from the package com.android.contacts.
  *
  * For the "Mobile network settings" screen under the main Settings app,
- * see apps/Phone/src/com/android/phone/Settings.java.
+ * See {@link MobileNetworkSettings}.
+ *
+ * @see com.android.phone.MobileNetworkSettings
  */
 public class CallFeaturesSetting extends PreferenceActivity
         implements DialogInterface.OnClickListener,
