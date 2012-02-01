@@ -351,6 +351,8 @@ public class OutgoingCallBroadcaster extends Activity
                 number = PhoneNumberUtils.convertKeypadLettersToDigits(number);
                 number = PhoneNumberUtils.stripSeparators(number);
             }
+        } else {
+            Log.w(TAG, "The number obtained from Intent is null.");
         }
 
         // If true, this flag will indicate that the current call is a special kind
@@ -398,9 +400,13 @@ public class OutgoingCallBroadcaster extends Activity
             // that's *potentially* an emergency number can safely be promoted to
             // CALL_EMERGENCY (since we *should* allow you to dial "91112345" from
             // the dialer if you really want to.)
-            action = isPotentialEmergencyNumber
-                    ? Intent.ACTION_CALL_EMERGENCY
-                    : Intent.ACTION_CALL;
+            if (isPotentialEmergencyNumber) {
+                Log.i(TAG, "ACTION_CALL_PRIVILEGED is used while the number is a potential"
+                        + " emergency number. Use ACTION_CALL_EMERGENCY as an action instead.");
+                action = Intent.ACTION_CALL_EMERGENCY;
+            } else {
+                action = Intent.ACTION_CALL;
+            }
             if (DBG) Log.v(TAG, "- updating action from CALL_PRIVILEGED to " + action);
             intent.setAction(action);
         }
@@ -465,7 +471,7 @@ public class OutgoingCallBroadcaster extends Activity
         // If number is null, we're probably trying to call a non-existent voicemail number,
         // send an empty flash or something else is fishy.  Whatever the problem, there's no
         // number, so there's no point in allowing apps to modify the number.
-        if (number == null || TextUtils.isEmpty(number)) {
+        if (TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
                 PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
@@ -482,7 +488,7 @@ public class OutgoingCallBroadcaster extends Activity
             // that 3rd parties aren't allowed to intercept or affect in any way.
             // So initiate the outgoing call immediately.
 
-            if (DBG) Log.v(TAG, "onCreate(): callNow case! Calling placeCall(): " + intent);
+            Log.i(TAG, "onCreate(): callNow case! Calling placeCall(): " + intent);
 
             // Initiate the outgoing call, and simultaneously launch the
             // InCallScreen to display the in-call UI:
