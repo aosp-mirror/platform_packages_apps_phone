@@ -713,4 +713,7 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Trả lời"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Gửi SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Từ chối"</string>
+    <!-- no translation found for ringtone_title (6374978286202084684) -->
+    <!-- no translation found for ringtone_title (5379026328015343686) -->
+    <skip />
 </resources>
