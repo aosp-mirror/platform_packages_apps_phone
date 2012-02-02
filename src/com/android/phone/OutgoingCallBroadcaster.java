@@ -543,6 +543,9 @@ public class OutgoingCallBroadcaster extends Activity
         PhoneUtils.checkAndCopyPhoneProviderExtras(intent, broadcastIntent);
         broadcastIntent.putExtra(EXTRA_ALREADY_CALLED, callNow);
         broadcastIntent.putExtra(EXTRA_ORIGINAL_URI, uri.toString());
+        // Need to raise foreground in-call UI as soon as possible while allowing 3rd party app
+        // to intercept the outgoing call.
+        broadcastIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                              null,  // scheduler
