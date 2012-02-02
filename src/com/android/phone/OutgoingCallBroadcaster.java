@@ -25,11 +25,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemProperties;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.internal.telephony.Phone;
 
@@ -77,10 +82,31 @@ public class OutgoingCallBroadcaster extends Activity
      * TODO: Keep in sync with the string defined in TwelveKeyDialer.java in Contacts app
      * until this is replaced with the ITelephony API.
      */
-    public static final String EXTRA_SEND_EMPTY_FLASH = "com.android.phone.extra.SEND_EMPTY_FLASH";
+    public static final String EXTRA_SEND_EMPTY_FLASH =
+            "com.android.phone.extra.SEND_EMPTY_FLASH";
 
     // Dialog IDs
     private static final int DIALOG_NOT_VOICE_CAPABLE = 1;
+
+    /** Note message codes < 100 are reserved for the PhoneApp. */
+    private static final int EVENT_OUTGOING_CALL_TIMEOUT = 101;
+    private static final int OUTGOING_CALL_TIMEOUT_THRESHOLD = 2000; // msec
+    /**
+     * ProgressBar object with "spinner" style, which will be shown if we take more than
+     * {@link #EVENT_OUTGOING_CALL_TIMEOUT} msec to handle the incoming Intent.
+     */
+    private ProgressBar mWaitingSpinner;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == EVENT_OUTGOING_CALL_TIMEOUT) {
+                Log.i(TAG, "Outgoing call takes too long. Showing the spinner.");
+                mWaitingSpinner.setVisibility(View.VISIBLE);
+            } else {
+                Log.wtf(TAG, "Unknown message id: " + msg.what);
+            }
+        }
+    };
 
     /**
      * OutgoingCallReceiver finishes NEW_OUTGOING_CALL broadcasts, starting
@@ -90,8 +116,10 @@ public class OutgoingCallBroadcaster extends Activity
     public class OutgoingCallReceiver extends BroadcastReceiver {
         private static final String TAG = "OutgoingCallReceiver";
 
+        @Override
         public void onReceive(Context context, Intent intent) {
             doReceive(context, intent);
+            if (DBG) Log.v(TAG, "OutgoingCallReceiver is going to finish the Activity itself.");
             finish();
         }
 
@@ -258,54 +286,195 @@ public class OutgoingCallBroadcaster extends Activity
         selectPhoneIntent.setClass(context, SipCallOptionHandler.class);
         selectPhoneIntent.putExtra(EXTRA_NEW_CALL_INTENT, newIntent);
         selectPhoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (DBG) Log.v(TAG, "startSipCallOptionHandler(): " +
-                "calling startActivity: " + selectPhoneIntent);
+        if (DBG) {
+            Log.v(TAG, "startSipCallOptionHandler(): " +
+                    "calling startActivity: " + selectPhoneIntent);
+        }
         context.startActivity(selectPhoneIntent);
         // ...and see SipCallOptionHandler.onCreate() for the next step of the sequence.
     }
 
+    /**
+     * Runnable used when the device isn't "voice-capable". See also handleNonVoiceCapable().
+     */
+    private class NonVoiceCapableRunnable implements Runnable {
+        private final Intent mIntent;
+
+        public NonVoiceCapableRunnable(Intent intent) {
+            mIntent = intent;
+        }
+
+        @Override
+        public void run() {
+            if (DBG) Log.v(TAG, "call handleNonVoiceCapable() with Intent = " + mIntent);
+            handleNonVoiceCapable(mIntent);
+        }
+    }
+
+    /**
+     * Runnable used when a given Intent requests an empty Flash message for CDMA networks.
+     *
+     * @see #EXTRA_SEND_EMPTY_FLASH
+     */
+    private class SendFlashRunnable implements Runnable {
+        @Override
+        public void run() {
+            if (DBG) Log.v(TAG, "send an empty flash request");
+            PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
+            finish();
+        }
+    }
+
+    /**
+     * Runnable launching another Activity using a given Intent. This will also call
+     * {@link Activity#finish()} just after that.
+     */
+    private class StartActivityRunnable implements Runnable {
+        private final Intent mIntent;
+
+        /**
+         * @param intent Intent for {@link Activity#startActivity(Intent)}
+         */
+        public StartActivityRunnable(Intent intent) {
+            mIntent = intent;
+        }
+
+        @Override
+        public void run() {
+            if (DBG) Log.v(TAG, "call startActivity() with Intent = " + mIntent);
+            startActivity(mIntent);
+            finish();
+        }
+    }
+
+    /**
+     * Runnable calling {@link Activity#sendOrderedBroadcast(Intent, String)} with a given
+     * Intent (it is presumably NEW_OUTGOING_CALL broadcast). With the broadcast 3rd party
+     * providers are able to intercept the phone call request.
+     *
+     * At the end of the broadcast {@link OutgoingCallReceiver#onReceive(Context, Intent)}, which
+     * will call {@link Activity#finish()} for this whole sequence.
+     */
+    private class DoOrderedBroadcastRunnable implements Runnable {
+        private final Intent mIntent;
+        private final String mInitialData;
+
+        /**
+         * @param intent Used as a first argument of
+         * {@link Activity#sendOrderedBroadcast(Intent, String, BroadcastReceiver, Handler, int,
+         * String, Bundle)}
+         * @param initialData Used as a 6th argument of
+         * {@link Activity#sendOrderedBroadcast(Intent, String, BroadcastReceiver, Handler, int,
+         * String, Bundle)}
+         */
+        public DoOrderedBroadcastRunnable(Intent intent, String initialData) {
+            mIntent = intent;
+            mInitialData = initialData;
+        }
+
+        @Override
+        public void run() {
+            if (DBG) {
+                Log.v(TAG, "sendOrderedBroadcast() with Intent = " + mIntent
+                        + ", InitialData = " + mInitialData);
+            }
+            sendOrderedBroadcast(
+                    mIntent,
+                    PERMISSION,
+                    new OutgoingCallReceiver(), // resultReceiver
+                    null,                       // scheduler
+                    Activity.RESULT_OK,          // initialCode
+                    mInitialData,                // initialData: initial value for the result data
+                    null);                      // initialExtras
+        }
+    }
+
+    /**
+     * Runnable calling
+     * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
+     * with given Intent, Uri, and String.
+     *
+     * Note: For SIP calls we're not using {@link Activity#sendOrderedBroadcast(Intent, String,
+     * BroadcastReceiver, Handler, int, String, Bundle)} right now.
+     */
+    private class StartSipCallOptionHandlerRunnable implements Runnable {
+        private final Intent mIntent;
+        private final Uri mUri;
+        private final String mNumber;
+
+        /**
+         * @param intent First argument of
+         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
+         * @param uri Second argument of
+         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
+         * @param number Third argument of
+         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
+         */
+        public StartSipCallOptionHandlerRunnable(Intent intent, Uri uri, String number) {
+            mIntent = intent;
+            mUri = uri;
+            mNumber = number;
+        }
+
+        @Override
+        public void run() {
+            if (DBG) Log.v(TAG, "startSipCallOptionHandler() with Intent = " + mIntent);
+            startSipCallOptionHandler(OutgoingCallBroadcaster.this, mIntent, mUri, mNumber);
+            finish();
+        }
+    }
+
+    /**
+     * Used to handle "timeout" of outgoing call broadcast.
+     *
+     * When the device is really busy and takes more than
+     * {@link OutgoingCallBroadcaster#EVENT_OUTGOING_CALL_TIMEOUT} msec to determine the correct
+     * behavior for the CALL request, we starts showing "wait a bit more" spinner so that users
+     * won't be confused with the black screen shown by OutgonigCallBroadcaster.
+     */
+    private class OutgoingCallHandleTask extends AsyncTask<Intent, Void, Runnable> {
+        @Override
+        protected Runnable doInBackground(Intent... params) {
+            return processIntent(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Runnable runnable) {
+            mHandler.removeMessages(EVENT_OUTGOING_CALL_TIMEOUT);
+            if (DBG) Log.v(TAG, "AsyncTask finished. Runnable = " + runnable);
+            if (runnable != null) {
+                runnable.run();
+            } else {
+                finish();
+            }
+        }
+    }
+
+    /**
+     * This method is the single point of entry for the CALL intent, which is used (by built-in
+     * apps like Contacts / Dialer, as well as 3rd-party apps) to initiate an outgoing voice call.
+     *
+     * After doing very basic sanity checks, this launches an AsyncTask deciding what exact
+     * action should be taken for the incoming intent. The Activity then starts showing a temporary
+     * black screen, with which users will wait for the AsyncTask's result.
+     *
+     * So that we can prepare for unexpected delay by the AsyncTask, this method also sets a timer,
+     * which will show "waiting" spinner if AsyncTask is so slow (after waiting for
+     * {@link #OUTGOING_CALL_TIMEOUT_THRESHOLD} msec).
+     */
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
-        // This method is the single point of entry for the CALL intent,
-        // which is used (by built-in apps like Contacts / Dialer, as well
-        // as 3rd-party apps) to initiate an outgoing voice call.
-        //
-        // We also handle two related intents which are only used internally:
-        // CALL_PRIVILEGED (which can come from built-in apps like contacts /
-        // voice dialer / bluetooth), and CALL_EMERGENCY (from the
-        // EmergencyDialer that's reachable from the lockscreen.)
-        //
-        // The exact behavior depends on the intent's data:
-        //
-        // - The most typical is a tel: URI, which we handle by starting the
-        //   NEW_OUTGOING_CALL broadcast.  That broadcast eventually triggers
-        //   the sequence OutgoingCallReceiver -> SipCallOptionHandler ->
-        //   InCallScreen.
-        //
-        // - Or, with a sip: URI we skip the NEW_OUTGOING_CALL broadcast and
-        //   go directly to SipCallOptionHandler, which then leads to the
-        //   InCallScreen.
-        //
-        // - voicemail: URIs take the same path as regular tel: URIs.
-        //
-        // Other special cases:
-        //
-        // - Outgoing calls are totally disallowed on non-voice-capable
-        //   devices (see handleNonVoiceCapable()).
-        //
-        // - A CALL intent with the EXTRA_SEND_EMPTY_FLASH extra (and
-        //   presumably no data at all) means "send an empty flash" (which
-        //   is only meaningful on CDMA devices while a call is already
-        //   active.)
+        setContentView(R.layout.outgoing_call_broadcaster);
+        mWaitingSpinner = (ProgressBar) findViewById(R.id.spinner);
 
         Intent intent = getIntent();
-        final Configuration configuration = getResources().getConfiguration();
-
-        if (DBG) Log.v(TAG, "onCreate: this = " + this + ", icicle = " + icicle);
-        if (DBG) Log.v(TAG, " - getIntent() = " + intent);
-        if (DBG) Log.v(TAG, " - configuration = " + configuration);
+        if (DBG) {
+            final Configuration configuration = getResources().getConfiguration();
+            Log.v(TAG, "onCreate: this = " + this + ", icicle = " + icicle);
+            Log.v(TAG, " - getIntent() = " + intent);
+            Log.v(TAG, " - configuration = " + configuration);
+        }
 
         if (icicle != null) {
             // A non-null icicle means that this activity is being
@@ -334,12 +503,65 @@ public class OutgoingCallBroadcaster extends Activity
             return;
         }
 
+        // Start AsyncTask and exit onCreate() immediately, letting the system to show an empty
+        // screen until the task being done.
+        startAsyncTaskWithTimeout(intent);
+    }
+
+    private void startAsyncTaskWithTimeout(Intent intent) {
+        if (DBG) Log.v(TAG, " - start executing AsyncTask");
+        // Starts asynchronous work and let the Activity show black screen.
+        new OutgoingCallHandleTask().execute(intent);
+        // When we notice the async task is slower than usual, we will allow the Activity to
+        // do something additional (e.g. show "wait for a moment" spinner).
+        mHandler.sendEmptyMessageDelayed(EVENT_OUTGOING_CALL_TIMEOUT,
+                OUTGOING_CALL_TIMEOUT_THRESHOLD);
+    }
+
+    /**
+     * Decides what action should be taken toward a given Intent which should come from
+     * {@link #onCreate(Bundle)}. This method will be called from a background thread.
+     *
+     * This method will handle three kinds of actions:
+     *
+     * - CALL (action for usual outgoing voice calls)
+     * - CALL_PRIVILEGED (can come from built-in apps like contacts / voice dialer / bluetooth)
+     * - CALL_EMERGENCY (from the EmergencyDialer that's reachable from the lockscreen.)
+     *
+     * The exact behavior depends on the intent's data:
+     *
+     * - The most typical is a tel: URI, which we handle by starting the
+     *   NEW_OUTGOING_CALL broadcast.  That broadcast eventually triggers
+     *   the sequence OutgoingCallReceiver -> SipCallOptionHandler ->
+     *   InCallScreen.
+     *
+     * - Or, with a sip: URI we skip the NEW_OUTGOING_CALL broadcast and
+     *   go directly to SipCallOptionHandler, which then leads to the
+     *   InCallScreen.
+     *
+     * - voicemail: URIs take the same path as regular tel: URIs.
+     *
+     * Other special cases:
+     *
+     * - Outgoing calls are totally disallowed on non-voice-capable
+     *   devices (see handleNonVoiceCapable()).
+     *
+     * - A CALL intent with the EXTRA_SEND_EMPTY_FLASH extra (and
+     *   presumably no data at all) means "send an empty flash" (which
+     *   is only meaningful on CDMA devices while a call is already
+     *   active.)
+     *
+     * @return Runnable to be executed in the foreground thread. Null if we want to call
+     * {@link #finish()} immediately.
+     */
+    private Runnable processIntent(Intent intent) {
+        if (DBG) Log.v(TAG, "processIntent() = " + intent);
+        final Configuration configuration = getResources().getConfiguration();
+
         // Outgoing phone calls are only allowed on "voice-capable" devices.
         if (!PhoneApp.sVoiceCapable) {
-            handleNonVoiceCapable(intent);
-            // No need to finish() here; handleNonVoiceCapable() will do
-            // that if necessary.
-            return;
+            Log.i(TAG, "This device is detected as non-voice-capable device.");
+            return new NonVoiceCapableRunnable(intent);
         }
 
         String action = intent.getAction();
@@ -387,9 +609,9 @@ public class OutgoingCallBroadcaster extends Activity
         final boolean isPotentialEmergencyNumber =
                 (number != null) && PhoneNumberUtils.isPotentialLocalEmergencyNumber(number, this);
         if (VDBG) {
-            Log.v(TAG, "- Checking restrictions for number '" + number + "':");
-            Log.v(TAG, "    isExactEmergencyNumber     = " + isExactEmergencyNumber);
-            Log.v(TAG, "    isPotentialEmergencyNumber = " + isPotentialEmergencyNumber);
+            Log.v(TAG, " - Checking restrictions for number '" + number + "':");
+            Log.v(TAG, "     isExactEmergencyNumber     = " + isExactEmergencyNumber);
+            Log.v(TAG, "     isPotentialEmergencyNumber = " + isPotentialEmergencyNumber);
         }
 
         /* Change CALL_PRIVILEGED into CALL or CALL_EMERGENCY as needed. */
@@ -407,7 +629,7 @@ public class OutgoingCallBroadcaster extends Activity
             } else {
                 action = Intent.ACTION_CALL;
             }
-            if (DBG) Log.v(TAG, "- updating action from CALL_PRIVILEGED to " + action);
+            if (DBG) Log.v(TAG, " - updating action from CALL_PRIVILEGED to " + action);
             intent.setAction(action);
         }
 
@@ -431,9 +653,7 @@ public class OutgoingCallBroadcaster extends Activity
 
                 if (DBG) Log.v(TAG, "onCreate(): calling startActivity for Dialer: "
                                + invokeFrameworkDialer);
-                startActivity(invokeFrameworkDialer);
-                finish();
-                return;
+                return new StartActivityRunnable(invokeFrameworkDialer);
             }
             callNow = false;
         } else if (Intent.ACTION_CALL_EMERGENCY.equals(action)) {
@@ -447,14 +667,12 @@ public class OutgoingCallBroadcaster extends Activity
             if (!isPotentialEmergencyNumber) {
                 Log.w(TAG, "Cannot call non-potential-emergency number " + number
                         + " with EMERGENCY_CALL Intent " + intent + ".");
-                finish();
-                return;
+                return null;
             }
             callNow = true;
         } else {
             Log.e(TAG, "Unhandled Intent " + intent + ".");
-            finish();
-            return;
+            return null;
         }
 
         // Make sure the screen is turned on.  This is probably the right
@@ -474,9 +692,7 @@ public class OutgoingCallBroadcaster extends Activity
         if (TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
-                PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
-                finish();
-                return;
+                return new SendFlashRunnable();
             } else {
                 Log.i(TAG, "onCreate: null or empty number, setting callNow=true...");
                 callNow = true;
@@ -506,10 +722,10 @@ public class OutgoingCallBroadcaster extends Activity
         // after the phone call. This should affect both phone calls and SIP calls.
         final String callOrigin = intent.getStringExtra(PhoneApp.EXTRA_CALL_ORIGIN);
         if (callOrigin != null) {
-            if (DBG) Log.v(TAG, "Call origin is passed (" + callOrigin + ")");
+            if (DBG) Log.v(TAG, " - Call origin is passed (" + callOrigin + ")");
             PhoneApp.getInstance().setLatestActiveCallOrigin(callOrigin);
         } else {
-            if (DBG) Log.v(TAG, "Call origin is not passed. Reset current one.");
+            if (DBG) Log.v(TAG, " - Call origin is not passed. Reset current one.");
             PhoneApp.getInstance().resetLatestActiveCallOrigin();
         }
 
@@ -525,11 +741,8 @@ public class OutgoingCallBroadcaster extends Activity
         // a plain address, whether it could be a tel: URI, etc.)
         Uri uri = intent.getData();
         String scheme = uri.getScheme();
-        if (Constants.SCHEME_SIP.equals(scheme)
-                || PhoneNumberUtils.isUriNumber(number)) {
-            startSipCallOptionHandler(this, intent, uri, number);
-            finish();
-            return;
+        if (Constants.SCHEME_SIP.equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
+            return new StartSipCallOptionHandlerRunnable(intent, uri, number);
 
             // TODO: if there's ever a way for SIP calls to trigger a
             // "callNow=true" case (see above), we'll need to handle that
@@ -546,12 +759,8 @@ public class OutgoingCallBroadcaster extends Activity
         // Need to raise foreground in-call UI as soon as possible while allowing 3rd party app
         // to intercept the outgoing call.
         broadcastIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        if (DBG) Log.v(TAG, "Broadcasting intent: " + broadcastIntent + ".");
-        sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
-                             null,  // scheduler
-                             Activity.RESULT_OK,  // initialCode
-                             number,  // initialData: initial value for the result data
-                             null);  // initialExtras
+        if (DBG) Log.v(TAG, " - Broadcasting intent: " + broadcastIntent + ".");
+        return new DoOrderedBroadcastRunnable(broadcastIntent, number);
     }
 
     @Override
@@ -633,23 +842,27 @@ public class OutgoingCallBroadcaster extends Activity
         return dialog;
     }
 
-    // DialogInterface.OnClickListener implementation
+    /** DialogInterface.OnClickListener implementation */
+    @Override
     public void onClick(DialogInterface dialog, int id) {
         // DIALOG_NOT_VOICE_CAPABLE is the only dialog we ever use (so far
         // at least), and its only button is "OK".
         finish();
     }
 
-    // DialogInterface.OnCancelListener implementation
+    /** DialogInterface.OnCancelListener implementation */
+    @Override
     public void onCancel(DialogInterface dialog) {
         // DIALOG_NOT_VOICE_CAPABLE is the only dialog we ever use (so far
         // at least), and canceling it is just like hitting "OK".
         finish();
     }
 
-    // Implement onConfigurationChanged() purely for debugging purposes,
-    // to make sure that the android:configChanges element in our manifest
-    // is working properly.
+    /**
+     * Implement onConfigurationChanged() purely for debugging purposes,
+     * to make sure that the android:configChanges element in our manifest
+     * is working properly.
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
