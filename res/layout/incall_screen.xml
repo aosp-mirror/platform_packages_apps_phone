@@ -74,35 +74,4 @@
               android:layout_height="match_parent"
               />
 
-    <!-- Overlay for the "Calling via ..." provider badge, which is
-         displayed for a few seconds at the start of any outgoing call
-         using a gateway provider (see InCallScreen.updateProviderOverlay()). -->
-    <LinearLayout android:id="@+id/inCallProviderOverlay"
-        android:background="@drawable/dialog_bg_calling_via"
-        android:layout_width="match_parent"
-        android:layout_height="88dip"
-        android:layout_marginTop="@dimen/provider_overlay_top_margin"
-        android:layout_gravity="top"
-        android:gravity="center"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-         <ImageView android:id="@+id/callingViaIcon"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            />
-        <TextView android:id="@+id/callingVia"
-            android:text="@string/calling_via_template"
-            android:layout_weight="1"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:gravity="center"
-            />
-        <View
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            />
-    </LinearLayout>
-
 </FrameLayout>

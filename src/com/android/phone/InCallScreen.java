@@ -124,8 +124,8 @@ public class InCallScreen extends Activity
     // post dial string yet to be send out to the n/w
     private static final int PAUSE_PROMPT_DIALOG_TIMEOUT = 2000;  //msec
 
-    // Amount of time that we display the provider's overlay if applicable.
-    private static final int PROVIDER_OVERLAY_TIMEOUT = 5000;  // msec
+    // Amount of time that we display the provider info if applicable.
+    private static final int PROVIDER_INFO_TIMEOUT = 5000;  // msec
 
     // These are values for the settings of the auto retry mode:
     // 0 = disabled
@@ -152,7 +152,7 @@ public class InCallScreen extends Activity
     private static final int REQUEST_CLOSE_SPC_ERROR_NOTICE = 118;
     private static final int REQUEST_CLOSE_OTA_FAILURE_NOTICE = 119;
     private static final int EVENT_PAUSE_DIALOG_COMPLETE = 120;
-    private static final int EVENT_HIDE_PROVIDER_OVERLAY = 121;  // Time to remove the overlay.
+    private static final int EVENT_HIDE_PROVIDER_INFO = 121;  // Time to remove the info.
     private static final int REQUEST_UPDATE_SCREEN = 122;
     private static final int PHONE_INCOMING_RING = 123;
     private static final int PHONE_NEW_RINGING_CONNECTION = 124;
@@ -404,11 +404,12 @@ public class InCallScreen extends Activity
                     }
                     break;
 
-                case EVENT_HIDE_PROVIDER_OVERLAY:
-                    mApp.inCallUiState.providerOverlayVisible = false;
-                    updateProviderOverlay();  // Clear the overlay.
+                case EVENT_HIDE_PROVIDER_INFO:
+                    mApp.inCallUiState.providerInfoVisible = false;
+                    if (mCallCard != null) {
+                        mCallCard.updateState(mCM);
+                    }
                     break;
-
                 case REQUEST_UPDATE_SCREEN:
                     updateScreen();
                     break;
@@ -532,15 +533,17 @@ public class InCallScreen extends Activity
     }
 
      private BluetoothProfile.ServiceListener mBluetoothProfileServiceListener =
-        new BluetoothProfile.ServiceListener() {
-        public void onServiceConnected(int profile, BluetoothProfile proxy) {
-            mBluetoothHeadset = (BluetoothHeadset) proxy;
-            if (VDBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
-        }
+             new BluetoothProfile.ServiceListener() {
+         @Override
+         public void onServiceConnected(int profile, BluetoothProfile proxy) {
+             mBluetoothHeadset = (BluetoothHeadset) proxy;
+             if (VDBG) log("- Got BluetoothHeadset: " + mBluetoothHeadset);
+         }
 
-        public void onServiceDisconnected(int profile) {
-            mBluetoothHeadset = null;
-        }
+         @Override
+         public void onServiceDisconnected(int profile) {
+             mBluetoothHeadset = null;
+         }
     };
 
     /**
@@ -776,11 +779,11 @@ public class InCallScreen extends Activity
 
         mIsForegroundActivity = false;
 
-        // Force a clear of the provider overlay' frame. Since the
-        // overlay is removed using a timed message, it is
+        // Force a clear of the provider info frame. Since the
+        // frame is removed using a timed message, it is
         // possible we missed it if the prev call was interrupted.
-        mApp.inCallUiState.providerOverlayVisible = false;
-        updateProviderOverlay();
+        mApp.inCallUiState.providerInfoVisible = false;
+        mCallCard.updateState(mCM);
 
         // A safety measure to disable proximity sensor in case call failed
         // and the telephony state did not change.
@@ -2269,7 +2272,6 @@ public class InCallScreen extends Activity
         // the dialpad state into InCallPanel.
         updateInCallPanelVisibilityPerDialerState(false);
 
-        updateProviderOverlay();
         updateProgressIndication();
 
         // Forcibly take down all dialog if an incoming call is ringing.
@@ -2880,45 +2882,6 @@ public class InCallScreen extends Activity
         // (But this isn't a big deal since updateInCallTouchUi() is pretty
         // cheap anyway...)
         updateInCallTouchUi();
-    }
-
-    /**
-     * Update the network provider's overlay based on the value of
-     * InCallUiState.providerOverlayVisible.
-     * If false the overlay is hidden otherwise it is shown.  A
-     * delayed message is posted to take the overalay down after
-     * PROVIDER_OVERLAY_TIMEOUT. This ensures the user will see the
-     * overlay even if the call setup phase is very short.
-     */
-    private void updateProviderOverlay() {
-        final InCallUiState inCallUiState = mApp.inCallUiState;
-
-        if (VDBG) log("updateProviderOverlay: " + inCallUiState.providerOverlayVisible);
-
-        ViewGroup overlay = (ViewGroup) findViewById(R.id.inCallProviderOverlay);
-
-        if (inCallUiState.providerOverlayVisible) {
-            CharSequence template = getText(R.string.calling_via_template);
-            CharSequence text = TextUtils.expandTemplate(template,
-                                                         inCallUiState.providerLabel,
-                                                         inCallUiState.providerAddress);
-
-            TextView message = (TextView) findViewById(R.id.callingVia);
-            message.setText(text);
-
-            ImageView image = (ImageView) findViewById(R.id.callingViaIcon);
-            image.setImageDrawable(inCallUiState.providerIcon);
-
-            overlay.setVisibility(View.VISIBLE);
-
-            // Remove any zombie messages and then send a message to
-            // self to remove the overlay after some time.
-            mHandler.removeMessages(EVENT_HIDE_PROVIDER_OVERLAY);
-            Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_OVERLAY);
-            mHandler.sendMessageDelayed(msg, PROVIDER_OVERLAY_TIMEOUT);
-        } else {
-            overlay.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -4506,5 +4469,20 @@ public class InCallScreen extends Activity
 
     private void log(String msg) {
         Log.d(LOG_TAG, msg);
+    }
+
+    /**
+     * Requests to remove provider info frame after having
+     * {@link #PROVIDER_INFO_TIMEOUT}) msec delay.
+     */
+    /* package */ void requestRemoveProviderInfoWithDelay() {
+        // Remove any zombie messages and then send a message to
+        // self to remove the provider info after some time.
+        mHandler.removeMessages(EVENT_HIDE_PROVIDER_INFO);
+        Message msg = Message.obtain(mHandler, EVENT_HIDE_PROVIDER_INFO);
+        mHandler.sendMessageDelayed(msg, PROVIDER_INFO_TIMEOUT);
+        if (DBG) {
+            log("Requested to remove provider info after " + PROVIDER_INFO_TIMEOUT + " msec.");
+        }
     }
 }

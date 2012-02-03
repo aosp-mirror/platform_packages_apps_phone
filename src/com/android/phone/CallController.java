@@ -243,9 +243,9 @@ public class CallController extends Handler {
         // overlay and route the call.  The overlay will be
         // displayed when the InCallScreen becomes visible.
         if (PhoneUtils.hasPhoneProviderExtras(intent)) {
-            inCallUiState.setProviderOverlayInfo(intent);
+            inCallUiState.setProviderInfo(intent);
         } else {
-            inCallUiState.clearProviderOverlayInfo();
+            inCallUiState.clearProviderInfo();
         }
 
         CallStatusCode status = placeCallInternal(intent);

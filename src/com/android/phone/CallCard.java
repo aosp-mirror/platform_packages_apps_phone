@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -33,18 +34,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.CallManager;
 
 import java.util.List;
 
@@ -75,6 +74,15 @@ public class CallCard extends FrameLayout
     private ViewGroup mPrimaryCallInfo;  // "Call info" block #1 (the foreground or ringing call)
     private ViewGroup mPrimaryCallBanner;  // "Call banner" for the primary call
     private ViewGroup mSecondaryCallInfo;  // "Call info" block #2 (the background "on hold" call)
+
+    /**
+     * Container for both provider info and call state. This will take care of showing/hiding
+     * animation for those views.
+     */
+    private ViewGroup mSecondaryInfoContainer;
+    private ViewGroup mProviderInfo;
+    private TextView mProviderLabel;
+    private TextView mProviderAddress;
 
     // "Call state" widgets
     private TextView mCallStateLabel;
@@ -135,18 +143,18 @@ public class CallCard extends FrameLayout
         if (DBG) log("- Density: " + mDensity);
     }
 
-    void setInCallScreenInstance(InCallScreen inCallScreen) {
+    /* package */ void setInCallScreenInstance(InCallScreen inCallScreen) {
         mInCallScreen = inCallScreen;
     }
 
+    @Override
     public void onTickForCallTimeElapsed(long timeElapsed) {
         // While a call is in progress, update the elapsed time shown
         // onscreen.
         updateElapsedTimeWidget(timeElapsed);
     }
 
-    /* package */
-    void stopTimer() {
+    /* package */ void stopTimer() {
         mCallTime.cancelTimer();
     }
 
@@ -160,6 +168,11 @@ public class CallCard extends FrameLayout
         mPrimaryCallInfo = (ViewGroup) findViewById(R.id.call_info_1);
         mPrimaryCallBanner = (ViewGroup) findViewById(R.id.call_banner_1);
         mSecondaryCallInfo = (ViewGroup) findViewById(R.id.call_info_2);
+
+        mSecondaryInfoContainer = (ViewGroup) findViewById(R.id.secondary_info_container);
+        mProviderInfo = (ViewGroup) findViewById(R.id.providerInfo);
+        mProviderLabel = (TextView) findViewById(R.id.providerLabel);
+        mProviderAddress = (TextView) findViewById(R.id.providerAddress);
         mCallStateLabel = (TextView) findViewById(R.id.callStateLabel);
         mElapsedTime = (TextView) findViewById(R.id.elapsedTime);
 
@@ -187,7 +200,7 @@ public class CallCard extends FrameLayout
      * Updates the state of all UI elements on the CallCard, based on the
      * current state of the phone.
      */
-    void updateState(CallManager cm) {
+    /* package */ void updateState(CallManager cm) {
         if (DBG) log("updateState(" + cm + ")...");
 
         // Update the onscreen UI based on the current state of the phone.
@@ -553,6 +566,7 @@ public class CallCard extends FrameLayout
      * Implemented for CallerInfoAsyncQuery.OnQueryCompleteListener interface.
      * refreshes the CallCard data when it called.
      */
+    @Override
     public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
         if (DBG) log("onQueryComplete: token " + token + ", cookie " + cookie + ", ci " + ci);
 
@@ -600,6 +614,7 @@ public class CallCard extends FrameLayout
      * Implemented for ContactsAsyncHelper.OnImageLoadCompleteListener interface.
      * make sure that the call state is reflected after the image is loaded.
      */
+    @Override
     public void onImageLoadComplete(int token, Object cookie, ImageView iView,
             boolean imagePresent){
         if (cookie != null) {
@@ -689,19 +704,40 @@ public class CallCard extends FrameLayout
             callStateLabel = getECMCardTitle(context, phone);
         }
 
-        if (DBG) log("==> callStateLabel: '" + callStateLabel
-                     + "', bluetoothIconId = " + bluetoothIconId);
+        final InCallUiState inCallUiState = mApplication.inCallUiState;
+        if (DBG) {
+            log("==> callStateLabel: '" + callStateLabel
+                    + "', bluetoothIconId = " + bluetoothIconId
+                    + ", providerInfoVisible = " + inCallUiState.providerInfoVisible);
+        }
 
-        // Update (or hide) the onscreen widget:
-        if (TextUtils.isEmpty(callStateLabel)) {
-            // When hiding, do a smooth fade-out animation.
-            Fade.hide(mCallStateLabel, View.GONE);
+        // Animation will be done by mCallerDetail's LayoutTransition, but in some cases, we don't
+        // want that.
+        // - DIALING: This is at the beginning of the phone call.
+        // - DISCONNECTING, DISCONNECTED: Screen will disappear soon; we have no time for animation.
+        final boolean skipAnimation = (state == Call.State.DIALING
+                || state == Call.State.DISCONNECTING
+                || state == Call.State.DISCONNECTED);
+        LayoutTransition layoutTransition = null;
+        if (skipAnimation) {
+            // Evict LayoutTransition object to skip animation.
+            layoutTransition = mSecondaryInfoContainer.getLayoutTransition();
+            mSecondaryInfoContainer.setLayoutTransition(null);
+        }
+
+        if (inCallUiState.providerInfoVisible) {
+            mProviderInfo.setVisibility(View.VISIBLE);
+            mProviderLabel.setText(context.getString(R.string.calling_via_template,
+                    inCallUiState.providerLabel));
+            mProviderAddress.setText(inCallUiState.providerAddress);
+
+            mInCallScreen.requestRemoveProviderInfoWithDelay();
         } else {
-            // ... but when becoming visible, never animate (mainly to be
-            // sure you don't see a fade-in at the very beginning of a
-            // call.)
-            mCallStateLabel.setVisibility(View.VISIBLE);
+            mProviderInfo.setVisibility(View.GONE);
+        }
 
+        if (!TextUtils.isEmpty(callStateLabel)) {
+            mCallStateLabel.setVisibility(View.VISIBLE);
             mCallStateLabel.setText(callStateLabel);
 
             // ...and display the icon too if necessary.
@@ -712,6 +748,12 @@ public class CallCard extends FrameLayout
                 // Clear out any icons
                 mCallStateLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
+        } else {
+            mCallStateLabel.setVisibility(View.GONE);
+        }
+        if (skipAnimation) {
+            // Restore LayoutTransition object to recover animation.
+            mSecondaryInfoContainer.setLayoutTransition(layoutTransition);
         }
 
         // ...and update the elapsed time widget too.
@@ -1352,22 +1394,6 @@ public class CallCard extends FrameLayout
     }
 
     /**
-     * Sets the left and right margins of the specified ViewGroup (whose
-     * LayoutParams object which must inherit from
-     * ViewGroup.MarginLayoutParams.)
-     *
-     * TODO: Is there already a convenience method like this somewhere?
-     */
-    private void setSideMargins(ViewGroup vg, int margin) {
-        ViewGroup.MarginLayoutParams lp =
-                (ViewGroup.MarginLayoutParams) vg.getLayoutParams();
-        // Equivalent to setting android:layout_marginLeft/Right in XML
-        lp.leftMargin = margin;
-        lp.rightMargin = margin;
-        vg.setLayoutParams(lp);
-    }
-
-    /**
      * Returns the special card title used in emergency callback mode (ECM),
      * which shows your own phone number.
      */
@@ -1553,6 +1579,7 @@ public class CallCard extends FrameLayout
                 view.animate().cancel();
                 view.animate().setDuration(DURATION);
                 view.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
+                        @Override
                         public void onAnimationEnd(Animator animation) {
                             view.setAlpha(1);
                             view.setVisibility(visibility);
