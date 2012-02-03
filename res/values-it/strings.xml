@@ -591,7 +591,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Impostazioni per <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Altre impostazioni chiamate"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Componi"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Chiamata in corso tramite ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Trascina a destra per rispondere"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Trascina a sinistra per disattivare la suoneria"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Trascina a sinistra per rifiutare"</string>
@@ -717,7 +718,5 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Rispondi"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Invia SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Rifiuta"</string>
-    <!-- no translation found for ringtone_title (6374978286202084684) -->
-    <!-- no translation found for ringtone_title (5379026328015343686) -->
-    <skip />
+    <string name="ringtone_title" msgid="6374978286202084684">"Suoneria telefono"</string>
 </resources>

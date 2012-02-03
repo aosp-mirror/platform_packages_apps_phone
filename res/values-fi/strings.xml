@@ -591,7 +591,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>-asetukset"</string>
     <string name="other_settings" msgid="3672912580359716394">"Muut puheluasetukset"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Soita"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Soitetaan palvelun ^1"\n<b>"kautta (numero ^2"</b>")"</string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Vastaa vetämällä oikealle"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Hiljennä soittoääni vetämällä vasemmalle"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Kiellä puhelu vetämällä vasemmalle"</string>

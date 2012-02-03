@@ -587,7 +587,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Nastavenia poskytovateľa „<xliff:g id="PROVIDER_NAME">%s</xliff:g>“"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ďalšie nastavenia hovorov"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Vytočiť"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Volanie prostredníctvom ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Pretiahnutím doprava hovor prijmete"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Pretiahnutím doľava stlmíte vyzváňanie"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Pretiahnutím doľava hovor odmietnete"</string>

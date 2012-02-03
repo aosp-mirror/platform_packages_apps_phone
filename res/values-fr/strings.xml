@@ -587,7 +587,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Paramètres pour <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Autres paramètres d\'appel"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Composer"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Appel via ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Déplacer vers la droite pour répondre"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Déplacer vers la gauche pour passer en mode silencieux"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Déplacer vers la gauche pour refuser"</string>
