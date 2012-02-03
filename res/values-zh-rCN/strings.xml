@@ -587,7 +587,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>的设置"</string>
     <string name="other_settings" msgid="3672912580359716394">"其他通话设置"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"拨打"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"通过 ^1"\n<b>"^2"</b>" 呼叫"</string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"向右拖动以接听"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"向左拖动以使振铃器静音"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"向左拖动以拒绝"</string>

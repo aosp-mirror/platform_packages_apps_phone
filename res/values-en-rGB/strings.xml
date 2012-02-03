@@ -587,7 +587,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Settings for <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Other call settings"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Dial"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Calling via ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Drag right to answer"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Drag left to silence ringer"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Drag left to decline"</string>
@@ -713,7 +714,5 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Answer"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Send SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Decline"</string>
-    <!-- no translation found for ringtone_title (6374978286202084684) -->
-    <!-- no translation found for ringtone_title (5379026328015343686) -->
-    <skip />
+    <string name="ringtone_title" msgid="6374978286202084684">"Phone ringtone"</string>
 </resources>

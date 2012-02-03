@@ -587,7 +587,8 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Подешавања за <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Друга подешавања позива"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Позови"</string>
-    <string name="calling_via_template" msgid="7374498518104190489">"Позивање преко ^1"\n<b>"^2"</b></string>
+    <!-- no translation found for calling_via_template (4839419581866928142) -->
+    <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Превуците удесно да бисте одговорили"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Превлачите налево да бисте утишали звоно"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Превуците налево да бисте одбили"</string>
