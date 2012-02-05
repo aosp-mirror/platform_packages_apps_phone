@@ -15,8 +15,6 @@
 -->
 
 <resources>
-    <!-- Dialer -->
-    <color name="dialer_matchHighlight">#EECF6A</color>
 
     <!-- In-call UI -->
     <color name="incall_callTypeSip">#99CE3F</color> <!-- green -->
