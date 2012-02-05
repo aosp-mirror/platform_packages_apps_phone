@@ -3919,29 +3919,6 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * @return true if it's OK to display the in-call touch UI, given the
-     * current state of the InCallScreen.
-     */
-    /* package */ boolean okToShowInCallTouchUi() {
-        // Note that this method is concerned only with the internal state
-        // of the InCallScreen.  (The InCallTouchUi widget has separate
-        // logic to make sure it's OK to display the touch UI given the
-        // current telephony state, and that it's allowed on the current
-        // device in the first place.)
-
-        // The touch UI is available in the following InCallScreenModes:
-        // - NORMAL (obviously)
-        // - CALL_ENDED (which is intended to look mostly the same as
-        //               a normal in-call state, even though the in-call
-        //               buttons are mostly disabled)
-        // and is hidden in any of the other modes, like MANAGE_CONFERENCE
-        // or one of the OTA modes (which use totally different UIs.)
-
-        return ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
-                || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED));
-    }
-
-    /**
      * @return true if we're in restricted / emergency dialing only mode.
      */
     public boolean isPhoneStateRestricted() {
