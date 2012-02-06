@@ -587,8 +587,7 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Teenusepakkuja <xliff:g id="PROVIDER_NAME">%s</xliff:g> seaded"</string>
     <string name="other_settings" msgid="3672912580359716394">"Muud kõneseaded"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Vali"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Kõne edastab <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Vastamiseks lohistage paremale"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Helina vaigistamiseks lohistage vasakule"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Keeldumiseks lohistage vasakule"</string>
@@ -714,7 +713,5 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Vastamine"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"SMS-i saatmine"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Keeldumine"</string>
-    <!-- no translation found for ringtone_title (6374978286202084684) -->
-    <!-- no translation found for ringtone_title (5379026328015343686) -->
-    <skip />
+    <string name="ringtone_title" msgid="6374978286202084684">"Telefonihelin"</string>
 </resources>
