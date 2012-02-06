@@ -591,8 +591,7 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Configuración de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Otras opciones de llamada"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Llamar"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Llamada a través de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Arrastrar a la derecha para responder"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"Arrastrar a la izquierda para silenciar el timbre"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Arrastrar a la izquierda para rechazar"</string>

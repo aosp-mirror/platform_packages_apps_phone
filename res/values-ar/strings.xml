@@ -587,8 +587,7 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"إعدادات \"<xliff:g id="PROVIDER_NAME">%s</xliff:g>\""</string>
     <string name="other_settings" msgid="3672912580359716394">"إعدادات الاتصال الأخرى"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"طلب"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"الاتصال عبر <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"اسحب لليسار للإجابة"</string>
     <string name="slide_to_silence" msgid="2224982696981131553">"اسحب لليمين لجعل الرنين صامتًا"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"اسحب لليمين للرفض"</string>
@@ -714,7 +713,5 @@
     <string name="description_target_answer" msgid="7205604197797472471">"رد"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"إرسال رسائل قصيرة SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"رفض"</string>
-    <!-- no translation found for ringtone_title (6374978286202084684) -->
-    <!-- no translation found for ringtone_title (5379026328015343686) -->
-    <skip />
+    <string name="ringtone_title" msgid="6374978286202084684">"نغمة رنين الهاتف"</string>
 </resources>
