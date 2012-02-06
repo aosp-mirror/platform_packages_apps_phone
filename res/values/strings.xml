@@ -81,34 +81,12 @@
     <string name="callFailed_dsac_restricted_emergency">Emergency calls are restricted by access control.</string>
     <!-- In-call screen: call failure reason (Normal call denied because domain specific access control is on)-->
     <string name="callFailed_dsac_restricted_normal">Normal calls are restricted by access control.</string>
-    <!-- In-call screen: call failure reason (Phone is locked until next power cycle)-->
-    <string name="callFailed_cdma_lockedUntilPowerCycle">CDMA: Phone locked until power cycle.</string>
-    <!-- In-call screen: call failure reason (CDMA: call dropped)-->
-    <string name="callFailed_cdma_drop">CDMA: Call dropped</string>
-    <!-- In-call screen: call failure reason (CDMA: call intercepted)-->
-    <string name="callFailed_cdma_intercept">CDMA: Call intercepted</string>
-    <!-- In-call screen: call failure reason (CDMA reorder)-->
-    <string name="callFailed_cdma_reorder">CDMA: Reorder</string>
-    <!-- In-call screen: call failure reason (CDMA: Service Option Reject)-->
-    <string name="callFailed_cdma_SO_reject">CDMA: Service option reject</string>
-    <!-- In-call screen: call failure reason (CDMA: retry order)-->
-    <string name="callFailed_cdma_retryOrder">CDMA: Retry order</string>
-    <!-- In-call screen: call failure reason (CDMA: Access failure)-->
-    <string name="callFailed_cdma_accessFailure">CDMA: Access unsuccessful</string>
-    <!-- In-call screen: call failure reason (CDMA: Preempted)-->
-    <string name="callFailed_cdma_preempted">CDMA: Preempted</string>
-    <!-- In-call screen: call failure reason (Only Emergency calls are possible)-->
-    <string name="callFailed_cdma_notEmergency">Only emergency calls are possible.</string>
     <!-- In-call screen: call failure reason (Dialed number doesn't exist) -->
     <string name="callFailed_unobtainable_number">Invalid number</string>
     <!-- In-call screen: status label for a conference call -->
     <string name="confCall">Conference call</string>
     <!-- In-call screen: call lost dialog text -->
     <string name="call_lost">Call has been lost.</string>
-    <!-- In-call screen: auto retry  -->
-    <string name="retry">Retry</string>
-    <!-- In-call screen: call lost title of dialog -->
-    <string name="call_lost_title">Call lost</string>
 
     <!-- Positive button label ("OK") used in several dialogs in the phone UI [CHAR LIMIT=10] -->
     <string name="ok">OK</string>
@@ -163,27 +141,6 @@
     <!-- Button label on the "Missing voicemail number" dialog -->
     <string name="add_vm_number_str">Add number</string>
 
-    <!-- Placeholder text displayed while loading a list of phone numbers
-         into the dialer UI -->
-    <string name="dialer_emptyListWorking">Loading\u2026</string>
-
-    <!-- SIM PIN strings -->
-    <!-- Instructional text on SIM PIN unlock panel -->
-    <string name="enterPin">Type PIN code to unlock SIM card.</string>
-    <!-- Success message displayed on SIM PIN unlock panel -->
-    <string name="pinUnlocked">SIM unlocked.</string>
-    <!-- Label for PIN entry widget on SIM PIN unlock panel -->
-    <string name="enterNewPin">New SIM PIN code</string>
-    <!-- Label for PIN entry widget on SIM PIN unlock panel -->
-    <string name="verifyNewPin">Type new SIM PIN code again to confirm.</string>
-    <!-- Error message displayed on SIM PIN unlock panel -->
-    <string name="verifyFailed">The SIM PINs you typed don\'t match. Try again.</string>
-    <!-- Instructional text on SIM PIN unlock panel -->
-    <string name="enterPuk">Type PUK code to unlock SIM card.</string>
-    <!-- Error message displayed on SIM PIN unlock panel -->
-    <string name="badPuk">Incorrect PUK code.</string>
-    <!-- Button label on SIM PIN unlock panel -->
-    <string name="buttonTxtContinue">Continue</string>
     <!-- Status message displayed on SIM PIN unlock panel -->
     <string name="puk_unlocked">Your SIM card has been unblocked. Your phone is unlocking\u2026</string>
     <!-- network depersonalization -->
@@ -345,9 +302,7 @@
         <item><xliff:g>SHOW</xliff:g></item>
     </string-array>
 
-    <!-- voicemail setting strings -->
-    <!-- Call settings screen, Label used in "Save voicemail number" dialog -->
-    <string name="vm_save_number">Save voicemail number</string>
+    <!-- voicemail setting strings --><skip/>
     <!-- Call settings screen, Set voicemail number dialog text -->
     <string name="vm_changed">Voicemail number changed.</string>
     <!-- Call settings screen, Set voicemail number dialog text -->
@@ -363,7 +318,7 @@
     <!-- Call settings screen, "Voicemail" screen, default option - My Carrier -->
     <string name="voicemail_default">My carrier</string>
 
-    <!-- networks setting strings -->
+    <!-- networks setting strings --><skip/>
     <!-- Mobile network settings screen title -->
     <string name="mobile_networks">Mobile network settings</string>
     <!-- Available networks screen title/heading -->
@@ -465,8 +420,6 @@
 
     <!-- Screen option on the mobile network settings to go into data usage settings -->
     <string name="throttle_data_usage">Data usage</string>
-    <!-- Title for the data usage settings screen -->
-    <string name="throttle_settings_title">Carrier data policy</string>
     <!-- Data usage settings screen option for checking the current usage -->
     <string name="throttle_current_usage">Data used in current period</string>
     <!-- Data usage settings screen option for time frame-->
@@ -487,9 +440,6 @@
     <string name="throttle_rate_subtext">Data rate reduced to <xliff:g id="used">%1$d</xliff:g> Kb/s if data use limit is exceeded</string>
 
     <string name="throttle_help_subtext">More information about your carrier\'s mobile network data use policy</string>
-
-    <!-- Cell broadcast SMS strings -->
-    <string name="cdma_cell_broadcast_sms">Cell Broadcast SMS</string>
 
     <string name="cell_broadcast_sms">Cell Broadcast SMS</string>
 
@@ -603,9 +553,6 @@
     <string name="multi_category_disable">Multi-category disabled</string>
 
     <!-- GSM/UMTS Options strings -->
-    <string name="gsm_umts_network_preferences_title">GSM/UMTS Network Preferences</string>
-    <string name="gsm_umts_network_preferneces_summary">Not implemented yet</string>
-    <string name="gsm_umts_network_preferences_dialogtitle">GSM/UMTS network preferences</string>
     <string-array name="gsm_umts_network_preferences_choices">
         <item>GSM/WCDMA (auto mode)</item>
         <item>WCDMA only</item>
@@ -649,9 +596,6 @@
     </string-array>
 
     <!-- CDMA Options strings -->
-    <string name="cdma_roaming_mode_title">CDMA Roaming Mode</string>
-    <string name="cdma_roaming_mode_summary">Change the CDMA roaming mode</string>
-    <string name="cdma_roaming_mode_dialogtitle">CDMA roaming mode</string>
     <string-array name="cdma_roaming_mode_choices">
         <item>Home networks only</item>
         <item>Affiliated networks</item>
@@ -662,9 +606,6 @@
         <item>"1"</item>
         <item>"2"</item>
     </string-array>
-    <string name="cdma_network_preferences_title">CDMA network preferences</string>
-    <string name="cdma_network_preferneces_summary">Not implemented yet</string>
-    <string name="cdma_network_preferences_dialogtitle">CDMA network preferences</string>
     <string-array name="cdma_network_preferences_choices">
         <item>CDMA/EvDo</item>
         <item>CDMA only</item>
@@ -858,18 +799,6 @@
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
     <string name="fake_phone_activity_placeCall_text">Fake Incoming Call</string>
 
-    <!-- Button label on "SIM Missing" screen -->
-    <string name="sim_missing_continueView_text">Continue without SIM card</string>
-    <!-- Message displayed on "SIM Missing" screen -->
-    <string name="sim_missing_msg_text">No SIM card found. Insert a SIM card into the phone.</string>
-
-    <!-- Button label on "SIM Unlock" screen -->
-    <string name="sim_unlock_dismiss_text">Dismiss</string>
-    <!-- Button label on "SIM Unlock" screen -->
-    <string name="sim_unlock_unlock_text">Unlock</string>
-    <!-- Progress message displayed on "SIM Unlock" screen -->
-    <string name="sim_unlock_status_text">Authenticating PIN\u2026</string>
-
     <!-- Call settings screen, Set voicemail dialog title -->
     <string name="voicemail_settings_number_label">Voicemail number</string>
 
@@ -882,8 +811,6 @@
     <string name="card_title_conf_call">Conference call</string>
     <!-- In-call screen: status label for an incoming call -->
     <string name="card_title_incoming_call">Incoming call</string>
-    <!-- In-call screen: status label for an cdma call waiting -->
-    <string name="card_title_cdma_call_waiting">CDMA callwaiting </string>
     <!-- In-call screen: status label displayed briefly after a call ends -->
     <string name="card_title_call_ended">Call ended</string>
     <!-- In-call screen: status label for call that's on hold -->
@@ -943,8 +870,6 @@
     <string name="incall_error_call_failed">Call not sent.</string>
     <!-- In-call screen: status message displayed in a dialog when starting an MMI -->
     <string name="incall_status_dialed_mmi">Starting MMI sequence\u2026</string>
-    <!-- In-call screen: status message displayed in a dialog when starting a feature code -->
-    <string name="incall_status_dialed_fc">Starting feature code sequence\u2026</string>
     <!-- In-call screen: message displayed in an error dialog -->
     <string name="incall_error_supp_service_unknown">Unsupported service.</string>
     <!-- In-call screen: message displayed in an error dialog -->
@@ -979,11 +904,6 @@
     <!-- Displayed in the text entry box in the dialer when in landscape mode to guide the user
          to dial using the physical keyboard -->
     <string name="dialerKeyboardHintText">Use keyboard to dial</string>
-
-    <!-- Hint text displayed in the "digits" field at the top of the
-         in-call DTMF dialpad.  (This hint reminds the user that the
-         dialpad is there to generate tones, not to add a new call.) -->
-    <string name="dtmfDialpadHintText">Touch tone keypad</string>
 
     <!-- Text for the onscreen "Hold" button -->
     <string name="onscreenHoldText">Hold</string>
@@ -1048,9 +968,6 @@
         <item>3</item>
     </string-array>
 
-    <!-- Label for ERI text widget, shown in list of all gadgets -->
-    <string name="eri_text_label">ERI text</string>
-
     <!-- Dtmf tones settings -->
     <!-- Title for the DTMF Tones options displayed in Call Settings -->
     <string name="dtmf_tones_title">DTMF tones</string>
@@ -1077,16 +994,12 @@
     <string name="ota_touch_activate">A special call needs to be made to activate your phone service.
     \n\nAfter pressing \u201CActivate\u201D, listen to the instructions provided to activate your phone.</string>
 
-    <!-- Message displayed on the OTA activation screen -->
-    <string name="ota_touch_activate_new">Touch \u201CActivate\u201D to place a special call that activates your phone on your carrier\'s mobile network, so you can place calls and connect to mobile data networks.</string>
     <!-- Title of skip activation dialog -->
     <string name="ota_skip_activation_dialog_title">Skip activation\?</string>
     <!-- Message displayed in skip activation dialog  -->
     <string name="ota_skip_activation_dialog_message">If you skip activation, you can\'t place calls or connect to mobile data networks (though you can connect to Wi-Fi networks). Until you activate your phone, you are asked to activate it each time you turn it on.</string>
     <!-- Label shown on dialog button that allows the user to skip activation -->
     <string name="ota_skip_activation_dialog_skip_label">Skip</string>
-    <!-- Label shown on dialog button that continues with activation -->
-    <string name="ota_skip_activation_dialog_continue_label">Activate</string>
 
     <!-- Button label within the OTA activation screen -->
     <string name="ota_activate">Activate</string>
@@ -1099,8 +1012,6 @@
          enough room for the dialpad. [CHAR LIMIT=80] -->
     <string name="ota_listen">Follow the spoken instructions until you hear that activation is complete.</string>
 
-    <!-- Button label within the OTA listen screen -->
-    <string name="ota_dialpad">Keypad</string>
     <!-- Button label within the OTA listen screen -->
     <string name="ota_speaker">Speaker</string>
     <!-- String to be displayed on OTA listen screen once user has selected the
@@ -1122,8 +1033,6 @@
     <string name="ota_try_again">Try again</string>
     <!-- Button label shown on OTA screens that have a next screen -->
     <string name="ota_next">Next</string>
-    <!-- Button label shown on OTA screens to go back to the previous screen -->
-    <string name="ota_back">Back</string>
 
     <!-- Emergency Callback Mode (ECM) -->
     <string name="ecm_exit_dialog">EcmExitDialog</string>
@@ -1195,16 +1104,8 @@
     <eat-comment />
     <!-- Incoming call hint: drag the tab right to answer -->
     <string name="slide_to_answer">Drag right to answer</string>
-    <!-- Incoming call hint: drag the tab left to silence ringer -->
-    <string name="slide_to_silence">Drag left to silence ringer</string>
     <!-- Incoming call hint: drag the tab left to decline the incoming call -->
     <string name="slide_to_decline">Drag left to decline</string>
-    <!-- Incoming call hint: drag the tab right to answer and hold the active call -->
-    <string name="slide_to_answer_and_hold">Drag right to answer and\nhold active call</string>
-    <!-- Incoming call hint: drag the tab right to answer and end the active call -->
-    <string name="slide_to_answer_and_end_active">Drag right to answer and\nend active call</string>
-    <!-- Incoming call hint: drag the tab right to answer and end the call on hold -->
-    <string name="slide_to_answer_and_end_onhold">Drag right to answer and\nend call on hold</string>
 
     <!-- Incoming call hint shown on tab (must be kept very short): answer incoming call -->
     <string name="slide_to_answer_hint">Answer</string>
@@ -1227,14 +1128,10 @@
     <string name="sip_accounts">Internet calling (SIP) accounts</string>
     <!-- Title displayed SIP account settings in the sip settings category. [CHAR LIMIT=NONE] -->
     <string name="sip_accounts_title">Accounts</string>
-    <!-- The Sip Account Settings's summary. [CHAR LIMIT=NONE] -->
-    <string name="sip_accounts_summary">Manage Internet calling (SIP) accounts and status</string>
     <!-- Title displayed for the button of receiving incoming SIP calls flag. Enabled for receiving calls. [CHAR LIMIT=NONE] -->
     <string name="sip_receive_calls">Receive incoming calls</string>
     <!-- Help user to understand that it will require more battery usage if the 'receiving incoming call' is enabled. [CHAR LIMIT=NONE] -->
     <string name="sip_receive_calls_summary">Reduces battery life</string>
-    <!-- Title for the button of configuring the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
-    <string name="sip_call_options">Set up call options</string>
     <!-- Title for the dialog of selecting the way we handle an outgoing call. [CHAR LIMIT=NONE] -->
     <string name="sip_call_options_title">Use Internet calling</string>
     <!-- Title for the dialog of selecting the way we handle an outgoing call (Wi-Fi only). [CHAR LIMIT=NONE] -->
@@ -1248,11 +1145,6 @@
     <string name="sip_call_options_entry_3">Ask for each call</string>
     <!-- Item of the Internet call (Wi-Fi only) option dialog: for routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
     <string name="sip_call_options_wifi_only_entry_1">For all calls</string>
-
-    <!-- Title for enabling the auto registration for all sip accounts.  [CHAR LIMIT=NONE] -->
-    <string name="auto_reg">Auto-registration</string>
-    <!-- Title for enabling the routing all outgoing calls via SIP. [CHAR LIMIT=NONE] -->
-    <string name="call_priority">Outgoing call via SIP</string>
 
     <!-- Title of the dialog to select the phone type for the outgoing call. [CHAR LIMIT=NONE] -->
     <string name ="pick_outgoing_call_phone_type">Place call</string>
@@ -1302,14 +1194,6 @@
     <!-- Title of the button to show in a alert dialog. [CHAR LIMIT=NONE] -->
     <string name="close_profile">Close</string>
 
-    <!-- Text of the account type. 'Primary' means the account is the one for sending all outgoing calls through. [CHAR LIMIT=NONE] -->
-    <string name="primary_account">Primary</string>
-    <!-- Title of the account type checkbox. Once the box is checked, the account will be the only 'primary' one among the accounts. [CHAR LIMIT=NONE] -->
-    <string name="primary_account_title">Make this my primary account</string>
-    <!-- Summary text of the account type checkbox. [CHAR LIMIT=NONE] -->
-    <string name="primary_account_summary">Used for outbound calls</string>
-    <!-- Title of the advanced settings button. The button will show the advanced settings of a SIP account in the SIP editor [CHAR LIMIT=NONE] -->
-    <string name="advanced_settings_title">Advanced settings</string>
     <!-- Summary of a SIP account in the list of SIP accounts, consists of primary account status and registration status. This string indicates that this SIP account is a primary account and the string placeholder is the registration status, which will be one of the strings with name starting with "registration_status_" below. [CHAR LIMIT=NONE] -->
     <string name="primary_account_summary_with">Primary account. <xliff:g id="registration_status" example="Registering...">%s</xliff:g></string>
     <!-- Text of Internet-call registration status, checking current registration status with SIP service [CHAR LIMIT=NONE] -->
@@ -1357,14 +1241,6 @@
     <string name="port_title">Port number</string>
     <!-- Text of the transport type preference. [CHAR LIMIT=NONE] -->
     <string name="transport_title">Transport type</string>
-    <!-- Text of the keepalive preference. [CHAR LIMIT=NONE] -->
-    <string name="send_keepalive_title">Send keep-alive</string>
-    <!-- Text of the keepalive preference summary. [CHAR LIMIT=NONE] -->
-    <string name="send_keepalive_summary">Send SIP keep-alive messages</string>
-    <!-- Text of the auto registration preference. [CHAR LIMIT=NONE] -->
-    <string name="auto_registration_title">Auto-registration</string>
-    <!-- Text of the auto registration preference summary. [CHAR LIMIT=NONE] -->
-    <string name="auto_registration_summary">Register the profile automatically</string>
     <!-- Text of the set-primary preference. Simplified from "Make this my primary account". [CHAR LIMIT=NONE] -->
     <string name="set_primary_title">Set as primary account</string>
     <!-- Text of the set-primary preference summary. [CHAR LIMIT=NONE] -->
@@ -1429,7 +1305,6 @@
     <string translatable="false" name="port">Port</string>
     <string translatable="false" name="transport">Protocol</string>
     <string translatable="false" name="send_keepalive">SendKeepAlive</string>
-    <string translatable="false" name="auto_registration">AutoRegistration</string>
     <string translatable="false" name="set_primary">SetPrimary</string>
     <string translatable="false" name="advanced_settings_container">advanced settings container</string>
     <string translatable="false" name="auth_username">AuthUserName</string>
