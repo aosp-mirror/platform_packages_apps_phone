@@ -25,25 +25,10 @@
          and the top of the in-call button cluster. -->
     <dimen name="in_call_touch_ui_upper_margin">2dp</dimen>
 
-    <!-- Amount of vertical space to reserve for the MultiWaveView widget
-         while an incoming call is ringing.
-         This is used as the bottom margin for the "call info container"
-         of the in-call UI while an incoming call is ringing, to prevent
-         the call info from overlapping with the incoming-call widget.
-
-         The incoming-call widget takes up more vertical space than the
-         regular in-call button cluster, so this value is larger than
-         in_call_control_height_active. -->
-    <dimen name="in_call_incoming_call_widget_height">260dp</dimen>
-
     <!-- Padding at the left and right edges of the "call banner". -->
     <dimen name="call_banner_side_padding">24dp</dimen>
     <!-- Padding at the top and bottom edges of the "call banner". -->
     <dimen name="call_banner_top_bottom_padding">16dp</dimen>
-
-    <!-- Padding for the "call state label" at the bottom of the banner. -->
-    <dimen name="call_state_label_right_padding">10dp</dimen>
-    <dimen name="call_state_label_top_bottom_padding">5dp</dimen>
 
     <!-- Right padding for name and number fields in the call banner.
          This padding is used to ensure that ultra-long names or
@@ -76,8 +61,6 @@
 
 
     <!-- Dimensions for OTA Call Card -->
-    <dimen name="otabase_layout_marginTop">30dp</dimen>
-    <dimen name="otabase_minHeight">270dp</dimen>
     <dimen name="otaactivate_layout_marginTop">10dp</dimen>
     <dimen name="otalistenprogress_layout_marginTop">5dp</dimen>
     <dimen name="otasuccessfail_layout_marginTop">10dp</dimen>
