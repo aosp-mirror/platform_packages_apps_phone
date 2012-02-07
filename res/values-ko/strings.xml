@@ -44,20 +44,9 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"모든 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"긴급 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"일반 전화가 액세스 제어에 의해 제한되어 있습니다."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: 전원을 껐다 켤 때까지 휴대전화가 잠깁니다."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: 전화가 끊겼습니다."</string>
-    <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: 통화를 가로채기 당했습니다."</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: Reorder 오류"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: 서비스 옵션이 거부되었습니다."</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: 명령을 다시 시도합니다."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: 액세스하지 못했습니다."</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: 선 점유되었습니다."</string>
-    <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"긴급 통화만 가능합니다."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"잘못된 번호입니다."</string>
     <string name="confCall" msgid="1904840547188336828">"다자간 통화"</string>
     <string name="call_lost" msgid="317670617901479594">"통화가 끊겼습니다."</string>
-    <string name="retry" msgid="8462986804300767852">"다시 시도"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"통화가 끊어졌습니다."</string>
     <string name="ok" msgid="3811371167865772377">"확인"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI 코드 시작됨"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD 코드 실행 중..."</string>
@@ -77,15 +66,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"음성사서함 번호 없음"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"SIM 카드에 저장된 음성사서함 번호가 없습니다."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"번호 추가"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"로드 중..."</string>
-    <string name="enterPin" msgid="4753300834213388397">"SIM 카드의 잠금을 해제하려면 PIN 코드를 입력하세요."</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"SIM 잠금해제됨"</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"새 SIM PIN 코드"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"확인을 위해 새 SIM PIN 코드 다시 입력"</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"입력한 SIM PIN이 일치하지 않습니다. 다시 시도해 주세요."</string>
-    <string name="enterPuk" msgid="6488567874689634521">"SIM 카드의 잠금을 해제하려면 PUK 코드를 입력"</string>
-    <string name="badPuk" msgid="4218469693062880152">"PUK 코드가 잘못되었습니다."</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"계속"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"SIM 카드의 잠금이 해제되었습니다. 휴대전화의 잠금해제 중..."</string>
     <string name="label_ndp" msgid="780479633159517250">"SIM 네트워크 잠금해제 PIN"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"잠금해제"</string>
@@ -156,7 +136,6 @@
     <item msgid="7876195870037833661">"발신자 표시 제한"</item>
     <item msgid="1108394741608734023">"발신자 표시"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"음성사서함 번호 저장"</string>
     <string name="vm_changed" msgid="380744030726254139">"음성사서함 번호가 변경되었습니다."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"음성사서함 번호를 변경하지 못했습니다."\n"문제가 계속되면 이동통신사에 문의하세요."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"착신전환할 번호를 변경하지 못했습니다."\n"문제가 계속되면 이동통신사에 문의하세요."</string>
@@ -215,7 +194,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 옵션"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 옵션"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"데이터 사용"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"이동통신사 데이터 정책"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"현재 데이터 사용량"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"데이터 사용 기간"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"데이터 속도 정책"</string>
@@ -226,7 +204,6 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"주기의 <xliff:g id="USED_0">%1$d</xliff:g>٪ 경과"\n"다음 기간은 <xliff:g id="USED_1">%2$d</xliff:g>일 후에 시작(<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"데이터 사용량 제한을 초과하면 데이터 속도는 <xliff:g id="USED">%1$d</xliff:g>Kb/s로 줄어듭니다."</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"이동통신사의 모바일 네트워크 데이터 사용 정책에 대한 자세한 정보"</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"셀 브로드캐스트 SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"셀 브로드캐스트 SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"셀 브로드캐스트 SMS"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"셀 브로드캐스트 SMS 사용"</string>
@@ -314,9 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"다중 카테고리"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"다중 카테고리 사용"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"다중 카테고리 사용 중지"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"GSM/UMTS 네트워크 환경설정"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="8922047952217067405">"아직 구현되지 않음"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"GSM/UMTS 네트워크 환경설정"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA(자동 모드)"</item>
     <item msgid="8912042051809329533">"WCDMA 전용"</item>
@@ -338,9 +312,6 @@
     <item msgid="176474317493999285">"집 전용"</item>
     <item msgid="1205664026446156265">"자동"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA 로밍 모드"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"CDMA 로밍 모드 변경"</string>
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA 로밍 모드"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"홈 네트워크 전용"</item>
     <item msgid="6778172599293570356">"소속된 네트워크"</item>
@@ -351,9 +322,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="7715358106877998893">"CDMA 네트워크 환경설정"</string>
-    <string name="cdma_network_preferneces_summary" msgid="1318109196141265414">"아직 구현되지 않음"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"CDMA 네트워크 환경설정"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"CDMA 전용"</item>
@@ -453,17 +421,11 @@
     <string name="doneButton" msgid="2859593360997984240">"완료"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"다자간 통화 <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"통화로 돌아가기"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"SIM 카드 없이 계속"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"SIM 카드가 없습니다. 휴대전화에 SIM 카드를 삽입하세요."</string>
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"취소"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"잠금해제"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"PIN을 인증하는 중..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"음성사서함 번호"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"전화 거는 중"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"다시 시도 중"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"다자간 통화"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"수신전화"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"CDMA 통화 대기"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"통화 종료됨"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"대기 중"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"전화 끊는 중"</string>
@@ -488,7 +450,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"잘못된 번호를 입력했으므로 전화를 걸지 못했습니다."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"전화를 걸지 못했습니다."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"MMI 시퀀스 시작 중..."</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"기능 코드 시퀀스 시작 중..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"지원되지 않는 서비스입니다."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"통화를 전환할 수 없습니다."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"통화를 분리할 수 없습니다."</string>
@@ -503,7 +464,6 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g>은(는) 긴급 번호가 아니므로 전화를 걸지 못했습니다."</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"전화를 걸지 못했습니다. 비상 전화번호로 전화를 걸어 보세요."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"키보드를 사용하여 전화걸기"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"터치톤 키패드"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"대기"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"대기 해제"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"종료"</string>
@@ -530,7 +490,6 @@
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"ERI 텍스트"</string>
     <string name="dtmf_tones_title" msgid="5163153771291340803">"DTMF 신호음"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"DTMF 신호음 길이 설정"</string>
   <string-array name="dtmf_tone_entries">
@@ -540,16 +499,13 @@
     <string name="network_message" msgid="4483886461245213802">"네트워크 메시지"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"전화 활성화"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"전화 서비스를 활성화하려면 특수 통화를 해야 합니다. "\n\n"\'활성화\'를 누른 다음 지시사항을 듣고 전화를 활성화하세요."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"\'활성화\'를 터치하면 이동통신사의 모바일 네트워크에서 휴대전화를 활성화하는 특수 통화가 걸리며 모바일 데이터 네트워크에 연결할 수 있습니다."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"활성화를 건너뛰시겠습니까?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"활성화를 건너뛰면 Wi-Fi 네트워크에는 연결할 수 있지만 전화를 걸거나 모바일 데이터 네트워크에 연결할 수 없습니다. 휴대전화를 활성화할 때까지 휴대전화를 켤 때마다 활성화하라는 메시지가 표시됩니다."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"건너뛰기"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"활성화"</string>
     <string name="ota_activate" msgid="1368528132525626264">"활성화"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"전화가 활성화되었습니다."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"활성화 문제"</string>
     <string name="ota_listen" msgid="162923839877584937">"활성화가 완료되었다는 메시지를 들을 때까지 음성 안내를 따르세요."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"키패드"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"스피커"</string>
     <string name="ota_progress" msgid="3420314892609254729">"전화가 프로그래밍되는 동안 기다려 주세요."</string>
     <string name="ota_failure" msgid="4311299546379674378">"프로그래밍 실패"</string>
@@ -559,7 +515,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"뒤로"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"다시 시도"</string>
     <string name="ota_next" msgid="3904945374358235910">"다음"</string>
-    <string name="ota_back" msgid="2190038043403850052">"뒤로"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"긴급 콜백 모드 시작"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"긴급 콜백 모드"</string>
@@ -587,14 +542,9 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 설정"</string>
     <string name="other_settings" msgid="3672912580359716394">"기타 통화 설정"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"전화걸기"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>을(를) 통해 걸려온 전화"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"응답하려면 오른쪽으로 드래그"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"벨소리 장치를 무음 모드로 전환하려면 왼쪽으로 드래그"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"거부하려면 왼쪽으로 드래그"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"응답하고"\n"현재 통화를 보류하려면 오른쪽으로 드래그"</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"응답하고"\n"현재 통화를 종료하려면 오른쪽으로 드래그"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"응답하고"\n"보류 중인 통화를 종료하려면 오른쪽으로 드래그"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"응답"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"거부"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"연락처 사진"</string>
@@ -603,18 +553,14 @@
     <string name="sip_settings" msgid="6699045718560859691">"인터넷 통화 설정"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"인터넷 전화(SIP) 계정"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"계정"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"인터넷 전화(SIP) 계정 및 상태 관리"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"수신전화 받기"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"배터리가 빨리 방전될 수 있습니다."</string>
-    <string name="sip_call_options" msgid="7237609583952681738">"통화 옵션 설정"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"인터넷 전화 사용"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"인터넷 통화 사용(Wi-Fi 전용)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"데이터 네트워크 사용 가능 시 모든 통화에 사용"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"인터넷 통화 전용"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"통화할 때마다 묻기"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"모든 통화에 사용"</string>
-    <string name="auto_reg" msgid="8150163311655081599">"자동 등록"</string>
-    <string name="call_priority" msgid="8374917577270504387">"SIP 발신 통화"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"발신 전화 유형"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"인터넷 전화 계정 사용:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"인터넷 전화를 걸 때 항상 사용"</string>
@@ -634,10 +580,6 @@
     <string name="alert_dialog_close" msgid="7759635137627626235">"프로필 닫기"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"확인"</string>
     <string name="close_profile" msgid="6886968271423155284">"닫기"</string>
-    <string name="primary_account" msgid="2229538308291934245">"기본"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"내 기본 계정으로 설정"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"발신 전화에 사용됨"</string>
-    <string name="advanced_settings_title" msgid="8846648727128452293">"고급 설정"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"기본 계정. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"상태 확인 중..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"등록 중..."</string>
@@ -660,10 +602,6 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"발신 프록시 주소"</string>
     <string name="port_title" msgid="5952939408078626657">"포트 번호"</string>
     <string name="transport_title" msgid="8253139511847746640">"전송 유형"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"연결 유지 메시지 보내기"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"SIP 연결 유지 메시지 보내기"</string>
-    <string name="auto_registration_title" msgid="3586777375420122154">"자동 등록"</string>
-    <string name="auto_registration_summary" msgid="2522794041206619280">"프로필 자동 등록"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"기본 계정으로 설정"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"발신 전화에 사용됨"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"설정(선택사항)"</string>

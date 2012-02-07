@@ -54,30 +54,10 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Tut ils cloms èn limitads entras ina controlla d\'access."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Ils cloms d\'urgenza èn limitads d\'ina controlla d\'access."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Ils cloms normals èn limitads entras la controlla d\'access."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: il telefonin è bloccà enfin ch\'el vegn reavià."</string>
-    <!-- no translation found for callFailed_cdma_drop (2628819987370217277) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_intercept (4402162647178248074) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_reorder (3354097562073631253) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_SO_reject (7209070539869012725) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_retryOrder (6853691881113318457) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_accessFailure (5633551534069408682) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_preempted (4498121918546278457) -->
-    <skip />
-    <!-- no translation found for callFailed_cdma_notEmergency (8413151095736599960) -->
-    <skip />
     <!-- no translation found for callFailed_unobtainable_number (4736290912891155067) -->
     <skip />
     <string name="confCall" msgid="1904840547188336828">"Conferenza da telefon"</string>
     <string name="call_lost" msgid="317670617901479594">"Il clom è ì a perder."</string>
-    <string name="retry" msgid="8462986804300767852">"Empruvar danovamain"</string>
-    <!-- no translation found for call_lost_title (4826329882281926987) -->
-    <skip />
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Il code IHM è vegnì lantschà."</string>
     <string name="ussdRunning" msgid="485588686340541690">"Execuziun dal code USSD..."</string>
@@ -104,20 +84,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"Numer da mailbox mancant"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Sin la carta SIM n\'è nagin numer da mailbox memorisà."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Agiuntar in numer"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Chargiar…"</string>
-    <string name="enterPin" msgid="4753300834213388397">"Endatai in code PIN per debloccar la carta SIM."</string>
-    <!-- no translation found for pinUnlocked (5327174700273303795) -->
-    <skip />
-    <string name="enterNewPin" msgid="5311243769004752401">"Nov code PIN da la carta SIM"</string>
-    <!-- no translation found for verifyNewPin (4240729999990403607) -->
-    <skip />
-    <!-- no translation found for verifyFailed (8198903469256987323) -->
-    <skip />
-    <!-- no translation found for enterPuk (6488567874689634521) -->
-    <skip />
-    <!-- no translation found for badPuk (4218469693062880152) -->
-    <skip />
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Vinavant"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Vossa carta SIM è vegnida debloccada. Voss telefonin vegn debloccà..."</string>
     <string name="label_ndp" msgid="780479633159517250">"Code PIN da debloccaziun da la rait SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Debloccar"</string>
@@ -197,7 +163,6 @@
     <item msgid="7876195870037833661">"Zuppentar il numer"</item>
     <item msgid="1108394741608734023">"Mussar il numer"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Memorisar il numer da mailbox"</string>
     <string name="vm_changed" msgid="380744030726254139">"Midà il numer da la mailbox."</string>
     <!-- no translation found for vm_change_failed (3352934863246208918) -->
     <skip />
@@ -267,7 +232,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opziuns GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opziuns CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Utilisaziun da datas"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Reglas dal gestiunari areguard las datas"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Datas utilisadas en la perioda actuala"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Perioda d\'utilisaziun da datas"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Reglas davart la sveltezza da transmissiun da datas"</string>
@@ -278,7 +242,6 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ dal ciclus èn passads."\n"La proxima perioda cumenza en <xliff:g id="USED_1">%2$d</xliff:g> dis (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Reducì la sveltezza da transfer da datas a <xliff:g id="USED">%1$d</xliff:g> kbit/s sche la limita d\'utilisaziun da datas è surpassada."</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Ulteriuras infurmaziuns davart las reglas da Voss gestiunari da la rait mobila concernent l\'utilisaziun da datas en sia rait."</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS Cell Broadcast"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS Cell Broadcast"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"SMS Cell Broadcast activà"</string>
@@ -369,10 +332,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multicategorias"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Multicategorias activadas"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Multicategorias deactivadas"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Preferenzas da rait GSM/UMTS"</string>
-    <!-- no translation found for gsm_umts_network_preferneces_summary (8922047952217067405) -->
-    <skip />
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Preferenzas da rait GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (modus automatic)"</item>
     <item msgid="8912042051809329533">"Mo WCDMA"</item>
@@ -395,10 +354,6 @@
     <item msgid="176474317493999285">"Mo raits domesticas"</item>
     <item msgid="1205664026446156265">"Automaticamain"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Modus da roaming CDMA"</string>
-    <!-- no translation found for cdma_roaming_mode_summary (6136511164956075071) -->
-    <skip />
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Modus da roaming CDMA"</string>
     <!-- no translation found for cdma_roaming_mode_choices:0 (8383263321386840733) -->
     <!-- no translation found for cdma_roaming_mode_choices:1 (6778172599293570356) -->
     <!-- no translation found for cdma_roaming_mode_choices:2 (9084516288544591576) -->
@@ -407,11 +362,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <!-- no translation found for cdma_network_preferences_title (7715358106877998893) -->
-    <skip />
-    <!-- no translation found for cdma_network_preferneces_summary (1318109196141265414) -->
-    <skip />
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Preferenzas rait CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Mo CDMA"</item>
@@ -533,19 +483,11 @@
     <string name="doneButton" msgid="2859593360997984240">"Finì"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Conferenza da telefon <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Enavos al clom"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Cuntinuar senza carta SIM"</string>
-    <!-- no translation found for sim_missing_msg_text (5498791446150637087) -->
-    <skip />
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Serrar"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Debloccar"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Autentificaziun dal PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numer da la mailbox"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Telefonar..."</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Nova emprova"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Conferenza da telefon"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Clom entrant"</string>
-    <!-- no translation found for card_title_cdma_call_waiting (2565629287885373568) -->
-    <skip />
     <string name="card_title_call_ended" msgid="5544730338889702298">"Finì il telefon"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Clom spetgant"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Pender si"</string>
@@ -571,7 +513,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Betg telefonà. Il numer cumponì n\'è betg valid."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Il clom n\'è betg vegnì exequì."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Iniziar la sequenza MMI..."</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Lantschar la sequenza da codes da funcziun..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Quest servetsch na vegn betg sustegnì."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Impussibel da midar tranter cloms."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Impussibel da separar il clom."</string>
@@ -589,7 +530,6 @@
     <!-- no translation found for dial_emergency_empty_error (5556166819619323893) -->
     <skip />
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilisai la tastatura per cumponer il numer"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Tastas sonoras"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Far spetgar"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Reprender"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Serrar"</string>
@@ -618,7 +558,6 @@
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"Text ERI"</string>
     <!-- no translation found for dtmf_tones_title (5163153771291340803) -->
     <skip />
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Definir la durada dals tuns DTMF"</string>
@@ -630,17 +569,14 @@
     <skip />
     <string name="ota_title_activate" msgid="8616918561356194398">"Activar Voss telefonin"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Vus stuais far in clom spezial per activar il servetsch da telefon. "\n\n"Smatgai sin «Activar» e tadlai las instrucziuns che As permettan dad activar Voss telefonin."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Smatgai sin Activar per exequir in clom spezial che vegn ad activar Voss telefon sin la rait mobila da Voss gestiunari da la rait. Silsuenter pudais Vus telefonar ed As connectar a raits da datas mobilas."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Sursiglir l\'activaziun?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Sche Vus cuntinuais senza activar Voss telefonin na pudais Vus ni telefonar, ni As connectar ad ina rait da datas mobilas. La connexiun ad ina rait WLAN resta dentant pussaivla. Vus vegnis dumandads dad activar il telefonin mintga giada cura che Vus al mettais en funcziun."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Sursiglir"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Activar"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Activar"</string>
     <!-- no translation found for ota_title_activate_success (6570240212263372046) -->
     <skip />
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problem cun l\'activaziun"</string>
     <string name="ota_listen" msgid="162923839877584937">"Suandai las instrucziuns a bucca enfin che Vus udis che l\'activaziun è cumpletta."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"Tastatura"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Autpledader"</string>
     <!-- no translation found for ota_progress (3420314892609254729) -->
     <skip />
@@ -653,7 +589,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"Enavos"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Reempruvar"</string>
     <string name="ota_next" msgid="3904945374358235910">"Vinavant"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Enavos"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Modus da clom enavos d\'urgenza è activà"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Modus da clom enavos d\'urgenza"</string>
@@ -683,11 +618,7 @@
     <!-- no translation found for calling_via_template (4839419581866928142) -->
     <skip />
     <string name="slide_to_answer" msgid="255903188611244476">"Spustar a dretga per respunder"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"Spustar a sanestra per deactivar il tun da scalin"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Spustar a sanestra per refusar"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Spustar a dretga per respunder e"\n"far spetgar il clom actual."</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Spustar a dretga per respunder ed"\n"interrumper il clom actual"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Spustar a dretga per respunder ed"\n"interrumper il clom spetgant"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Resposta"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Refusar"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto dal contact"</string>
@@ -698,12 +629,8 @@
     <skip />
     <!-- no translation found for sip_accounts_title (1212889069281054570) -->
     <skip />
-    <!-- no translation found for sip_accounts_summary (6812629993146552527) -->
-    <skip />
     <string name="sip_receive_calls" msgid="5635685570889971559">"Retschaiver cloms entrants"</string>
     <!-- no translation found for sip_receive_calls_summary (8403613238633679184) -->
-    <skip />
-    <!-- no translation found for sip_call_options (7237609583952681738) -->
     <skip />
     <!-- no translation found for sip_call_options_title (27433718808839672) -->
     <skip />
@@ -716,10 +643,6 @@
     <!-- no translation found for sip_call_options_entry_3 (7474809001402649185) -->
     <skip />
     <!-- no translation found for sip_call_options_wifi_only_entry_1 (7423523864471650069) -->
-    <skip />
-    <!-- no translation found for auto_reg (8150163311655081599) -->
-    <skip />
-    <!-- no translation found for call_priority (8374917577270504387) -->
     <skip />
     <!-- no translation found for pick_outgoing_call_phone_type (5622916534828338675) -->
     <skip />
@@ -755,11 +678,6 @@
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <!-- no translation found for close_profile (6886968271423155284) -->
     <skip />
-    <string name="primary_account" msgid="2229538308291934245">"Primar"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Definir quest conto sco mes conto primar"</string>
-    <!-- no translation found for primary_account_summary (7339564526372623187) -->
-    <skip />
-    <string name="advanced_settings_title" msgid="8846648727128452293">"Parameters avanzads"</string>
     <!-- no translation found for primary_account_summary_with (1633960536212343187) -->
     <skip />
     <!-- no translation found for registration_status_checking_status (3381868307694056727) -->
@@ -801,11 +719,6 @@
     <skip />
     <!-- no translation found for transport_title (8253139511847746640) -->
     <skip />
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Trametter keep-alive"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Trametter messadis SIP keep-alive"</string>
-    <!-- no translation found for auto_registration_title (3586777375420122154) -->
-    <skip />
-    <string name="auto_registration_summary" msgid="2522794041206619280">"Registrar automaticamain il profil"</string>
     <!-- no translation found for set_primary_title (5351892327447571451) -->
     <skip />
     <!-- no translation found for set_primary_summary (2219064654523258577) -->

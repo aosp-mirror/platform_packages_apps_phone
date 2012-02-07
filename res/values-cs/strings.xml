@@ -44,20 +44,9 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Všechny hovory jsou omezeny řízením přístupu."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Tísňová volání jsou omezena řízením přístupu."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Běžné hovory jsou omezeny řízením přístupu."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefon uzamčen do dalšího cyklu nabíjení."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: Hovor přerušen"</string>
-    <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: Hovor zadržen"</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: Přeuspořádání"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: Odmítnutí možnosti služby"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: Pořadí opakování"</string>
-    <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: Chyba přístupu"</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: Zabráněno"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Jsou možná jen tísňová volání."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Neplatné číslo"</string>
     <string name="confCall" msgid="1904840547188336828">"Konferenční hovor"</string>
     <string name="call_lost" msgid="317670617901479594">"Hovor byl ztracen."</string>
-    <string name="retry" msgid="8462986804300767852">"Zkusit znovu"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"Hovor byl ztracen"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Kód MMI byl spuštěn"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Kód USSD je spuštěn..."</string>
@@ -77,15 +66,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"Chybí číslo hlasové schránky"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Na kartě SIM není uloženo žádné číslo hlasové schránky."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Přidat číslo"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Načítání..."</string>
-    <string name="enterPin" msgid="4753300834213388397">"Kartu SIM odblokujete zadáním kódu PIN:"</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"Karta SIM byla odemknuta."</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"Nový kód PIN karty SIM"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Potvrďte nový kód PIN karty SIM."</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"Zadané kódy PIN karty SIM se neshodují. Zkuste to znovu."</string>
-    <string name="enterPuk" msgid="6488567874689634521">"Kartu SIM odblokujete zadáním kódu PUK."</string>
-    <string name="badPuk" msgid="4218469693062880152">"Zadaný kód PUK není správný."</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Pokračovat"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"Karta SIM byla odblokována. Telefon se odblokovává..."</string>
     <string name="label_ndp" msgid="780479633159517250">"Kód PIN odblokování sítě pro kartu SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Odemknout"</string>
@@ -156,7 +136,6 @@
     <item msgid="7876195870037833661">"Skrýt číslo"</item>
     <item msgid="1108394741608734023">"Zobrazit číslo"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Uložit číslo hlasové schránky"</string>
     <string name="vm_changed" msgid="380744030726254139">"Číslo hlasové schránky bylo změněno."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"Číslo hlasové schránky se nepodařilo změnit."\n"Pokud problém přetrvá, obraťte se na operátora."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Číslo pro přesměrování se nepodařilo změnit."\n"Pokud tento problém přetrvá, obraťte se na operátora."</string>
@@ -215,7 +194,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Možnosti GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Možnosti CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Využití dat"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Zásady operátora pro data"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Data využitá v aktuálním období"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Období využití dat"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Zásady pro přenosovou rychlost"</string>
@@ -226,7 +204,6 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"Uplynulo <xliff:g id="USED_0">%1$d</xliff:g>٪ cyklu"\n"Počet dní do začátku dalšího období: <xliff:g id="USED_1">%2$d</xliff:g> (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"V případě překročení limitu využití dat se přenosová rychlost sníží na <xliff:g id="USED">%1$d</xliff:g> kb/s"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Další informace o zásadách využití dat v mobilní síti vašeho mobilního operátora"</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"SMS Cell Broadcast"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS Cell Broadcast"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS Cell Broadcast"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"SMS Cell Broadcast povoleny"</string>
@@ -314,9 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Více kategorií"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Více kategorií povoleno"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Více kategorií zakázáno"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Nastavení sítě GSM/UMTS"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="8922047952217067405">"Zatím neimplementováno"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Nastavení sítě GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (automatický režim)"</item>
     <item msgid="8912042051809329533">"Pouze WCDMA"</item>
@@ -338,9 +312,6 @@
     <item msgid="176474317493999285">"Pouze plocha"</item>
     <item msgid="1205664026446156265">"Automaticky"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Režim roamingu CDMA"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Změnit režim roamingu CDMA"</string>
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Režim roamingu CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Pouze domovské sítě"</item>
     <item msgid="6778172599293570356">"Partnerské sítě"</item>
@@ -351,9 +322,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="7715358106877998893">"Nastavení sítě CDMA"</string>
-    <string name="cdma_network_preferneces_summary" msgid="1318109196141265414">"Zatím neimplementováno"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Nastavení sítě CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Pouze CDMA"</item>
@@ -453,17 +421,11 @@
     <string name="doneButton" msgid="2859593360997984240">"Hotovo"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Konferenční hovor <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Zpět k hovoru"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Pokračovat bez karty SIM"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Karta SIM nebyla nalezena. Vložte do telefonu kartu SIM."</string>
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Zavřít"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Odemknout"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Ověřování kódu PIN..."</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Číslo hlasové schránky"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Vytáčení"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Nový pokus"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Konferenční hovor"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Příchozí hovor"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"Čekající hovor CDMA"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Hovor ukončen"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Přidržený hovor"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Zavěšování"</string>
@@ -488,7 +450,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Hovor nelze spojit, nebylo zadáno platné číslo."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Hovor nebyl spojen."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Spouštění sekvence MMI..."</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Spouštění sekvence kódu funkce…"</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Nepodporovaná služba."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Hovory nelze přepnout."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Hovor nelze oddělit."</string>
@@ -503,7 +464,6 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"Hovor nelze spojit, <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> není číslo nouzového volání."</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Hovor nebyl spojen. Vytočte prosím číslo tísňového volání."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Číslo vytočíte pomocí klávesnice."</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Tónová klávesnice"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Přidržet"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Pokračovat"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Ukončit"</string>
@@ -530,7 +490,6 @@
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"Text ERI"</string>
     <string name="dtmf_tones_title" msgid="5163153771291340803">"Tóny DTMF"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Nastavit délku tónů DTMF"</string>
   <string-array name="dtmf_tone_entries">
@@ -540,16 +499,13 @@
     <string name="network_message" msgid="4483886461245213802">"Zpráva sítě"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivujte svůj telefon"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"K aktivaci telefonní služby je potřeba uskutečnit speciální hovor. "\n\n"Stiskněte tlačítko Aktivovat a aktivujte telefon podle pokynů, které vám budou sděleny."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Dotkněte se tlačítka Aktivovat. Uskutečníte tak zvláštní hovor, kterým telefon aktivujete v mobilní síti svého operátora, abyste mohli volat a připojovat se k mobilním datovým sítím."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Přeskočit aktivaci?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Pokud přeskočíte aktivaci, nemůžete volat ani se připojovat k mobilním datovým sítím (můžete se ale připojit k sítím WiFi). Dokud svůj telefon neaktivujete, bude se zobrazovat výzva k aktivaci při každém zapnutí."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Přeskočit"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktivovat"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivovat"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Telefon je aktivován."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problém s aktivací"</string>
     <string name="ota_listen" msgid="162923839877584937">"Postupujte podle hlasových pokynů, dokud nebudete informováni o dokončení aktivace."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"Klávesnice"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Hlasitě"</string>
     <string name="ota_progress" msgid="3420314892609254729">"Počkejte prosím, než bude telefon naprogramován."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programování se nezdařilo"</string>
@@ -559,7 +515,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"Zpět"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Zkuste to znovu"</string>
     <string name="ota_next" msgid="3904945374358235910">"Další"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Zpět"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"Dialog ukončení režimu tísňového zpětného volání"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Byl aktivován režim tísňového zpětného volání"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Režim tísňového zpětného volání"</string>
@@ -587,14 +542,9 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Nastavení pro poskytovatele <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Další nastavení hovorů"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Vytočit"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Volání prostřednictvím poskytovatele <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Přetažením doprava hovor přijmete"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"Přetažením doleva ztlumíte vyzvánění"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Přetažením doleva hovor odmítnete"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Přetažením doprava hovor přijmete"\n"a aktivní přidržíte"</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Přetažením doprava hovor přijmete"\n"a aktivní ukončíte"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Přetažením doprava hovor přijmete"\n"a přidržený ukončíte"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Přijmout"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Odmítnout"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"fotografie kontaktu"</string>
@@ -603,18 +553,14 @@
     <string name="sip_settings" msgid="6699045718560859691">"Nastavení internetových hovorů"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Účty pro internetové hovory (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Účty"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"Správa a stav účtů pro internetové hovory"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Přijímat příchozí hovory"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Snižuje výdrž baterie"</string>
-    <string name="sip_call_options" msgid="7237609583952681738">"Nastavit možnosti volání"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Použít internetový hovor"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Použít internetový hovor (pouze s připojením Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Pro všechny hovory, pokud je k dispozici datová síť"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Pouze pro internetové hovory"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pokaždé se zeptat"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Pro všechny hovory"</string>
-    <string name="auto_reg" msgid="8150163311655081599">"Automatická registrace"</string>
-    <string name="call_priority" msgid="8374917577270504387">"Odchozí hovory pomocí protokolu SIP"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Uskutečnit hovor"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Použít účet pro internetové hovory:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Vždy používat pro internetové hovory"</string>
@@ -634,10 +580,6 @@
     <string name="alert_dialog_close" msgid="7759635137627626235">"Zavřít profil"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <string name="close_profile" msgid="6886968271423155284">"Zavřít"</string>
-    <string name="primary_account" msgid="2229538308291934245">"Primární"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Nastavit tento účet jako primární"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"Použito pro odchozí hovory"</string>
-    <string name="advanced_settings_title" msgid="8846648727128452293">"Upřesnit nastavení"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Primární účet. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Kontrola stavu..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"Registrace..."</string>
@@ -660,10 +602,6 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Adresa odchozího serveru proxy"</string>
     <string name="port_title" msgid="5952939408078626657">"Číslo portu"</string>
     <string name="transport_title" msgid="8253139511847746640">"Typ přenosu"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Odesílat zprávy pro zachování připojení"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Odesílat zprávy protokolu SIP pro zachování připojení"</string>
-    <string name="auto_registration_title" msgid="3586777375420122154">"Automatická registrace"</string>
-    <string name="auto_registration_summary" msgid="2522794041206619280">"Automaticky zaregistrovat profil"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Nastavit jako primární účet"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Použito pro odchozí hovory"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Nepovinná nastavení"</string>

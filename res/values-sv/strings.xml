@@ -44,20 +44,9 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Alla samtal begränsas av åtkomstkontroll."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Nödsamtal begränsas av åtkomstkontroll."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Vanliga samtal begränsas av åtkomstkontroll."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Telefonen är låst till kall omstart."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: samtalet gick förlorat"</string>
-    <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: samtalet hänvisades"</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: beställ igen"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: tillval av tjänst avvisades"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: beställ igen."</string>
-    <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: åtkomstfel"</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: flyttat"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Det går bara att ringa nödsamtal."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Ogiltigt nummer"</string>
     <string name="confCall" msgid="1904840547188336828">"Konferenssamtal"</string>
     <string name="call_lost" msgid="317670617901479594">"Samtal har försvunnit."</string>
-    <string name="retry" msgid="8462986804300767852">"Försök igen"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"Samtalet bröts"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI-kod körs"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD-kod körs…"</string>
@@ -77,15 +66,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"Nummer till röstbrevlåda saknas"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"Det finns inget nummer till röstbrevlådan sparat på SIM-kortet."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Lägg till nummer"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Läser in…"</string>
-    <string name="enterPin" msgid="4753300834213388397">"Ange PIN-kod för att låsa upp SIM-kortet."</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"SIM-kortet är upplåst."</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"Ny PIN-kod för SIM-kort"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Bekräfta genom att ange SIM-kortets nya PIN-kod igen."</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"PIN-koderna som du angav för SIM-kortet matchar inte. Försök igen."</string>
-    <string name="enterPuk" msgid="6488567874689634521">"Ange PUK-kod för att låsa upp SIM-kortet."</string>
-    <string name="badPuk" msgid="4218469693062880152">"Felaktig PUK-kod."</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Fortsätt"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"SIM-kortets spärr har tagits bort. Låser upp telefonen…"</string>
     <string name="label_ndp" msgid="780479633159517250">"PIN-kod för upplåsning av SIM-nätverk"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Lås upp"</string>
@@ -156,7 +136,6 @@
     <item msgid="7876195870037833661">"Dölj nummer"</item>
     <item msgid="1108394741608734023">"Visa nummer"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Spara nummer till röstbrevlåda"</string>
     <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"Det gick inte att ändra numret till röstbrevlådan."\n"Kontakta operatören om problemet kvarstår."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Det gick inte att ändra numret för vidarebefordran."\n"Kontakta din operatör om problemet kvarstår."</string>
@@ -215,7 +194,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Alternativ för GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-alternativ"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Dataanvändning"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Operatörens datapolicy"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Använda data under nuvarande period"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Dataanvändningsperiod"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Datahastighetspolicy"</string>
@@ -232,7 +210,6 @@
     <skip />
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Datahastigheten sänks till <xliff:g id="USED">%1$d</xliff:g> kbit/s om dataanvändningsgränsen överskrids"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Mer information om operatörens dataanvändningspolicy för mobilnätverket"</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast SMS"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast SMS"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast SMS"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Cell Broadcast SMS aktiverat"</string>
@@ -320,9 +297,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multi-kategori"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Multikategori aktiverad"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Multikategori inaktiverad"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Nätverksinställningar för GSM/UMTS"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="8922047952217067405">"Inte implementerad än"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Nätverksinställningar för GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (autoläge)"</item>
     <item msgid="8912042051809329533">"Endast WCDMA"</item>
@@ -344,9 +318,6 @@
     <item msgid="176474317493999285">"Endast hemma"</item>
     <item msgid="1205664026446156265">"Automatiskt"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-roamingläge"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Ändra CDMA-roamingläge"</string>
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-roamingläge"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Endast hemnätverk"</item>
     <item msgid="6778172599293570356">"Anslutna nätverk"</item>
@@ -357,9 +328,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="7715358106877998893">"Nätverksinställningar för CDMA"</string>
-    <string name="cdma_network_preferneces_summary" msgid="1318109196141265414">"Inte implementerad än"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Nätverksinställningar för CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Endast CDMA"</item>
@@ -459,17 +427,11 @@
     <string name="doneButton" msgid="2859593360997984240">"Färdig"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Konferenssamtal <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Tillbaka till samtal"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Fortsätt utan SIM-kort"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Inget SIM-kort hittades. Sätt i ett SIM-kort i mobilen."</string>
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Ta bort permanent"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Lås upp"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Verifierar PIN-kod…"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Nummer till röstbrevlåda"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Ringer"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Försöker igen"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Konferenssamtal"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Inkommande samtal"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"CDMA-samtal väntar"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Samtal avslutat"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Parkerat"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Lägger på"</string>
@@ -494,7 +456,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Samtalet har inte skickats. Du måste ange ett giltigt nummer."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Samtalet har inte skickats."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Startar sekvens för MMI-kod…"</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Startar sekvens för funktionskod..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Inget stöd för tjänsten."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Det gick inte att växla mellan samtal."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Det gick inte att koppla isär samtalen."</string>
@@ -509,7 +470,6 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"Samtalet har inte skickats. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> är inte ett nödsamtalsnummer!"</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Samtalet har inte skickats. Ring ett nödsamtalsnummer!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Använd tangentbordet om du vill ringa"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Knappsats för tonval"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Parkera"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Ta bort parkering"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Avsluta"</string>
@@ -536,7 +496,6 @@
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"ERI-text"</string>
     <string name="dtmf_tones_title" msgid="5163153771291340803">"DTMF-signaler"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Ange längd på DTMF-signaler"</string>
   <string-array name="dtmf_tone_entries">
@@ -546,16 +505,13 @@
     <string name="network_message" msgid="4483886461245213802">"Nätverksmeddelande"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivera telefonen"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Du måste ringa ett särskilt samtal för att aktivera telefontjänsten. "\n\n" Tryck på \"Aktivera\" och lyssna på instruktionerna om hur du aktiverar telefonen."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Tryck på Aktivera för att ringa ett speciellt samtal som aktiverar din telefon i operatörens mobila nätverk, så att du kan ringa och ansluta till mobila datanätverk."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Vill du hoppa över aktiveringen?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Om du hoppar över aktiveringen kan du inte ringa samtal eller ansluta till mobila datanätverk (men du kan ansluta till WiFi-nätverk). Du kommer att påminnas om att aktivera telefonen varje gång du sätter på den, tills du har aktiverat den."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Hoppa över"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktivera"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivera"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Telefonen är aktiverad."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problem med aktivering"</string>
     <string name="ota_listen" msgid="162923839877584937">"Följ de talade instruktionerna tills du här att aktiveringen är slutförd."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"Knappsats"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Högtalare"</string>
     <string name="ota_progress" msgid="3420314892609254729">"Vänta medan mobilen programmeras."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Det gick inte att programmera"</string>
@@ -565,7 +521,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"Tillbaka"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Försök igen"</string>
     <string name="ota_next" msgid="3904945374358235910">"Nästa"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Tillbaka"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Starta läget Återuppringning vid nödsamtal"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Läget Återuppringning vid nödsamtal"</string>
@@ -593,14 +548,9 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Inställningar för <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Övriga samtalsinställningar"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Ring"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Ringer via <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Tryck och dra till höger om du vill svara"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"Tryck och dra till vänster för tyst signal"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Tryck och dra till vänster om du vill avvisa"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Tryck och dra till höger om du vill svara och"\n"parkera det aktiva samtalet"</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Tryck och dra till höger om du vill svara och"\n"avsluta det aktiva samtalet"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Tryck och dra till höger om du vill svara och"\n"avsluta det parkerade samtalet"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Svara"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Avvisa"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"kontaktbild"</string>
@@ -609,18 +559,14 @@
     <string name="sip_settings" msgid="6699045718560859691">"Inställningar för Internetsamtal"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Konton för Internetsamtal (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Konton"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"Hantera konton och status för Internetsamtal (SIP)"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Ta emot inkommande samtal"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Sänker batteriförbrukningen"</string>
-    <string name="sip_call_options" msgid="7237609583952681738">"Konfigurera samtalsalternativ"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Använd Internetsamtal"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Använd Internetsamtal (endast WiFi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"För alla samtal när datanätverk är tillgängligt"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Endast för Internetsamtal"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Fråga för varje samtal"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"För alla samtal"</string>
-    <string name="auto_reg" msgid="8150163311655081599">"Automatisk registrering"</string>
-    <string name="call_priority" msgid="8374917577270504387">"Utgående samtal via SIP"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Ring samtal"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Använd detta konto för Internetsamtal:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Använd för alla Internetsamtal"</string>
@@ -640,10 +586,6 @@
     <string name="alert_dialog_close" msgid="7759635137627626235">"Stäng profilen"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <string name="close_profile" msgid="6886968271423155284">"Stäng"</string>
-    <string name="primary_account" msgid="2229538308291934245">"Primärt"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Gör det här till mitt primära konto"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"Används för utgående samtal"</string>
-    <string name="advanced_settings_title" msgid="8846648727128452293">"Avancerade inställningar"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Primärt konto. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Kontrollerar status..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"Registrerar ..."</string>
@@ -666,10 +608,6 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Utgående proxyadress"</string>
     <string name="port_title" msgid="5952939408078626657">"Portnummer"</string>
     <string name="transport_title" msgid="8253139511847746640">"Transporttyp"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Skicka \"behåll aktiv\""</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Skicka SIP-meddelanden om \"behåll aktiv\""</string>
-    <string name="auto_registration_title" msgid="3586777375420122154">"Automatisk registrering"</string>
-    <string name="auto_registration_summary" msgid="2522794041206619280">"Registrera profilen automatiskt"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Använd som primärt konto"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Används för utgående samtal"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Valfria inställningar"</string>
