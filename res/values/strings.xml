@@ -1241,6 +1241,8 @@
     <string name="port_title">Port number</string>
     <!-- Text of the transport type preference. [CHAR LIMIT=NONE] -->
     <string name="transport_title">Transport type</string>
+    <!-- Text of the keepalive preference. [CHAR LIMIT=NONE] -->
+    <string name="send_keepalive_title">Send keep-alive</string>
     <!-- Text of the set-primary preference. Simplified from "Make this my primary account". [CHAR LIMIT=NONE] -->
     <string name="set_primary_title">Set as primary account</string>
     <!-- Text of the set-primary preference summary. [CHAR LIMIT=NONE] -->
