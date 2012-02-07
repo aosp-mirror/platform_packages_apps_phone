@@ -44,20 +44,9 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Все вызовы запрещены настройками доступа."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Экстренные вызовы запрещены настройками доступа."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Обычные вызовы запрещены настройками доступа."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: телефон заблокирован до следующего включения."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: вызов сброшен"</string>
-    <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: вызов перехвачен"</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: возобновить"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: не принят параметр службы"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: порядок дозвона"</string>
-    <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: не удалось получить доступ"</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: зарезервировано"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Возможны только экстренные вызовы."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Неверный номер"</string>
     <string name="confCall" msgid="1904840547188336828">"Конференц-вызов"</string>
     <string name="call_lost" msgid="317670617901479594">"Вызов был утрачен."</string>
-    <string name="retry" msgid="8462986804300767852">"Повторить попытку"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"Звонок прервался"</string>
     <string name="ok" msgid="3811371167865772377">"ОК"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Код MMI запущен"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Выполняется запрос USSD…"</string>
@@ -77,15 +66,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"Не указан номер голосовой почты"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"На SIM-карте нет ни одного номера голосовой почты."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Добавить номер"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Идет загрузка…"</string>
-    <string name="enterPin" msgid="4753300834213388397">"Чтобы разблокировать SIM-карту, введите PIN."</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"SIM-карта разблокирована."</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"Новый PIN SIM-карты"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Подтвердите новый PIN-код SIM-карты."</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"Введенные PIN-коды SIM-карты не совпадают. Повторите попытку."</string>
-    <string name="enterPuk" msgid="6488567874689634521">"Введите код PUK, чтобы разблокировать SIM-карту."</string>
-    <string name="badPuk" msgid="4218469693062880152">"Код PUK указан неверно."</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Продолжить"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"SIM-карта разблокирована. Осуществляется разблокировка телефона..."</string>
     <string name="label_ndp" msgid="780479633159517250">"PIN для разблокировки сети SIM-карты"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Разблокировать"</string>
@@ -156,7 +136,6 @@
     <item msgid="7876195870037833661">"Скрыть номер"</item>
     <item msgid="1108394741608734023">"Показывать номер"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Сохранить номер голосовой почты"</string>
     <string name="vm_changed" msgid="380744030726254139">"Номер голосовой почты изменен."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"Не удалось изменить номер голосовой почты."\n"Если проблема не будет решена, обратитесь к оператору связи."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Не удалось изменить номер переадресации."\n"Если проблема не будет решена, обратитесь к оператору связи."</string>
@@ -215,7 +194,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"Параметры GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Параметры CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Передача данных"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Политика передачи данных оператора связи"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Передача данных в текущем периоде"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Время передачи данных"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Скорость передачи данных"</string>
@@ -228,7 +206,6 @@
     <skip />
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Превышение лимита снижает скорость передачи данных до <xliff:g id="USED">%1$d</xliff:g> кбит/с"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Подробнее о политике передачи данных вашего оператора мобильной связи..."</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Широковещательные SMS-службы"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Широковещательные SMS-службы"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Широковещательные SMS-службы"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Широковещательные SMS-службы включены"</string>
@@ -316,9 +293,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Подборка из нескольких категорий"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Подборка из нескольких категорий включена"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Подборка из нескольких категорий отключена"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Параметры сети GSM/UMTS"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="8922047952217067405">"Пока не реализовано"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Настройки сети GSM/UMTS"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (автоматический режим)"</item>
     <item msgid="8912042051809329533">"Только WCDMA"</item>
@@ -340,9 +314,6 @@
     <item msgid="176474317493999285">"Только домашняя"</item>
     <item msgid="1205664026446156265">"Автоматически"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"Режим роуминга CDMA"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Изменить режим роуминга CDMA"</string>
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"Режим роуминга CDMA"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Только домашние сети"</item>
     <item msgid="6778172599293570356">"Аффилированные сети"</item>
@@ -353,9 +324,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="7715358106877998893">"Параметры сети CDMA"</string>
-    <string name="cdma_network_preferneces_summary" msgid="1318109196141265414">"Пока не реализовано"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"Настройки сети CDMA"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Только CDMA"</item>
@@ -455,17 +423,11 @@
     <string name="doneButton" msgid="2859593360997984240">"Готово"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Конференц-вызов: <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Вернуться к вызову"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Продолжить без SIM-карты"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Установите SIM-карту в телефон."</string>
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Закрыть"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Разблокировать"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Проверка PIN…"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Номер голосовой почты"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Набор номера"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Повторная попытка"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Конференц-вызов"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Входящий вызов"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"CDMA callwaiting"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Вызов завершен"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Ждет ответа"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Завершение разговора"</string>
@@ -490,7 +452,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Вызов не осуществляется, действительный номер телефона не указан."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Вызов не осуществляется."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Запуск последовательности MMI..."</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Запуск последовательности кодов функций..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Услуга не поддерживается."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Не удается переключить вызовы."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Не удалось разделить вызов."</string>
@@ -505,7 +466,6 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"Вызов не выполнен. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> – не номер экстренной службы."</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Вызов не выполнен. Наберите номер."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Используйте клавиатуру для набора номера"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Тональная клавиатура"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Удерживать"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Снять удержание"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Завершить"</string>
@@ -532,7 +492,6 @@
     <item msgid="1937509904407445684">"Телетайп с возможностью слышать собеседника"</item>
     <item msgid="5644925873488772224">"Телетайп с возможностью передачи голоса"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"Текст ERI"</string>
     <string name="dtmf_tones_title" msgid="5163153771291340803">"DTMF-сигналы"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Настроить длительность тональных сигналов DTMF"</string>
   <string-array name="dtmf_tone_entries">
@@ -542,16 +501,13 @@
     <string name="network_message" msgid="4483886461245213802">"Сообщение сети"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Активировать телефон"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Необходим специальный звонок для активации службы телефона. "\n\n"После нажатия кнопки \"Активировать\" прослушайте инструкции по активации телефона."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Нажмите “Активировать”, чтобы позвонить на специальный номер для активации телефона в сети оператора мобильной связи. После этого вы сможете совершать вызовы и подключаться к мобильным сетям передачи данных."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Пропустить активацию?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Если вы пропустите активацию, вы не сможете совершать вызовы и подключаться к мобильным сетям передачи данных (хотя вы сможете подключаться к сетям Wi-Fi). Пока вы не активируете свой телефон, запрос активации будет отображаться при каждом его включении."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Пропустить"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Активировать"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Активировать"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Телефон активирован."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Неполадки при активации"</string>
     <string name="ota_listen" msgid="162923839877584937">"Следуйте голосовым инструкциям, пока вам не сообщат, что активация завершена."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"Клавиатура"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Динамик"</string>
     <string name="ota_progress" msgid="3420314892609254729">"Дождитесь завершения программирования."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Сбой при программировании"</string>
@@ -561,7 +517,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"Назад"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Повторите попытку"</string>
     <string name="ota_next" msgid="3904945374358235910">"Далее"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Назад"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"ДиалогВыходаРАЭВ"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Телефон переведен в режим экстренных обратных вызовов"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Режим экстренных обратных вызовов"</string>
@@ -589,14 +544,9 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Настройки (<xliff:g id="PROVIDER_NAME">%s</xliff:g>)"</string>
     <string name="other_settings" msgid="3672912580359716394">"Другие настройки вызовов"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Набор номера"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Звонок через <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Перетащите вкладку вправо, чтобы ответить"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"Перетащите вкладку влево, чтобы отключить звонок"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Перетащите вкладку влево, чтобы отклонить вызов"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Перетащите вкладку вправо, чтобы ответить,"\n"удерживая активный вызов"</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Перетащите вкладку вправо, чтобы ответить,"\n"завершив активный вызов"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Перетащите вкладку вправо, чтобы ответить,"\n"завершив удерживаемый вызов"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Ответить"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Отклонить"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"фотография контакта"</string>
@@ -605,18 +555,14 @@
     <string name="sip_settings" msgid="6699045718560859691">"Настройки интернет-телефонии"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Аккаунты интернет-телефонии (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Аккаунты"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"Управление аккаунтами и состоянием интернет-вызовов (SIP)"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Принимать входящие"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Повышает расход заряда батареи"</string>
-    <string name="sip_call_options" msgid="7237609583952681738">"Настроить параметры вызовов"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Использовать Интернет"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Использовать интернет-соединение (Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Для всех вызовов при возможности передачи данных"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Только для интернет-вызовов"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Спрашивать для каждого вызова"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Для всех вызовов"</string>
-    <string name="auto_reg" msgid="8150163311655081599">"Автоматическая регистрация"</string>
-    <string name="call_priority" msgid="8374917577270504387">"Исходящий вызов через SIP"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Исходящий вызов"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Аккаунт для интернет-вызовов:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Использовать для всех интернет-вызовов"</string>
@@ -636,10 +582,6 @@
     <string name="alert_dialog_close" msgid="7759635137627626235">"Закройте профиль"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"ОК"</string>
     <string name="close_profile" msgid="6886968271423155284">"Закрыть"</string>
-    <string name="primary_account" msgid="2229538308291934245">"Основной"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Сделать этот аккаунт основным"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"Использовать этот аккаунт по умолчанию для исходящих вызовов"</string>
-    <string name="advanced_settings_title" msgid="8846648727128452293">"Расширенные настройки"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Основной аккаунт. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Проверка состояния..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"Регистрация..."</string>
@@ -662,10 +604,6 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Адрес прокси-сервера"</string>
     <string name="port_title" msgid="5952939408078626657">"Номер порта"</string>
     <string name="transport_title" msgid="8253139511847746640">"Протокол"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Отправлять keep-alive"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Отправлять сообщения keep-alive"</string>
-    <string name="auto_registration_title" msgid="3586777375420122154">"Автоматическая регистрация"</string>
-    <string name="auto_registration_summary" msgid="2522794041206619280">"Регистрировать профиль автоматически"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Основной аккаунт"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Использовать этот аккаунт по умолчанию для исходящих вызовов"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Расширенные настройки"</string>

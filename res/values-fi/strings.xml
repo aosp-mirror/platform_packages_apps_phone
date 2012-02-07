@@ -44,20 +44,9 @@
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Käyttörajoitus rajoittaa kaikki puhelut"</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Käyttörajoitus rajoittaa hätäpuhelut."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Käyttörajoitus rajoittaa normaalit puhelut."</string>
-    <string name="callFailed_cdma_lockedUntilPowerCycle" msgid="775483211928061084">"CDMA: Puhelin lukittu seuraavaan käynnistykseen saakka."</string>
-    <string name="callFailed_cdma_drop" msgid="2628819987370217277">"CDMA: Puhelu katkesi"</string>
-    <string name="callFailed_cdma_intercept" msgid="4402162647178248074">"CDMA: Puhelu katkaistu"</string>
-    <string name="callFailed_cdma_reorder" msgid="3354097562073631253">"CDMA: Uudelleentilaus"</string>
-    <string name="callFailed_cdma_SO_reject" msgid="7209070539869012725">"CDMA: Palveluasetus hylätty"</string>
-    <string name="callFailed_cdma_retryOrder" msgid="6853691881113318457">"CDMA: Tilauksen uudelleenyritys"</string>
-    <string name="callFailed_cdma_accessFailure" msgid="5633551534069408682">"CDMA: Käyttö epäonnistui"</string>
-    <string name="callFailed_cdma_preempted" msgid="4498121918546278457">"CDMA: Ehkäisty"</string>
-    <string name="callFailed_cdma_notEmergency" msgid="8413151095736599960">"Vain hätäpuhelut ovat mahdollisia."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Virheellinen numero"</string>
     <string name="confCall" msgid="1904840547188336828">"Puhelinneuvottelu"</string>
     <string name="call_lost" msgid="317670617901479594">"Puhelu katkesi."</string>
-    <string name="retry" msgid="8462986804300767852">"Yritä uudelleen"</string>
-    <string name="call_lost_title" msgid="4826329882281926987">"Puhelu katkesi"</string>
     <string name="ok" msgid="3811371167865772377">"OK"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI-koodi aloitettu"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD-koodi käytössä..."</string>
@@ -77,15 +66,6 @@
     <string name="no_vm_number" msgid="4164780423805688336">"Puhelinvastaajan numero puuttuu"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"SIM-kortille ei ole tallennettu puhelinvastaajan numeroa."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Lisää numero"</string>
-    <string name="dialer_emptyListWorking" msgid="6022498519770859790">"Ladataan…"</string>
-    <string name="enterPin" msgid="4753300834213388397">"Poista SIM-kortin lukitus antamalla PIN-koodi."</string>
-    <string name="pinUnlocked" msgid="5327174700273303795">"SIM-kortin lukitus poistettu."</string>
-    <string name="enterNewPin" msgid="5311243769004752401">"Uusi SIM-kortin PIN-koodi"</string>
-    <string name="verifyNewPin" msgid="4240729999990403607">"Vahvista antamalla uusi SIM-kortin PIN-koodi uudelleen."</string>
-    <string name="verifyFailed" msgid="8198903469256987323">"Antamasi SIM-kortin PIN-koodit eivät täsmää. Yritä uudelleen."</string>
-    <string name="enterPuk" msgid="6488567874689634521">"Poista SIM-kortin lukitus antamalla PUK-koodi."</string>
-    <string name="badPuk" msgid="4218469693062880152">"Virheellinen PUK-koodi."</string>
-    <string name="buttonTxtContinue" msgid="863271214384739936">"Jatka"</string>
     <string name="puk_unlocked" msgid="2284912838477558454">"SIM-korttisi esto on purettu. Puhelimen lukitusta poistetaan..."</string>
     <string name="label_ndp" msgid="780479633159517250">"SIM-verkko, PIN-koodin lukituksen poisto"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Poista lukitus"</string>
@@ -156,7 +136,6 @@
     <item msgid="7876195870037833661">"Piilota numero"</item>
     <item msgid="1108394741608734023">"Näytä numero"</item>
   </string-array>
-    <string name="vm_save_number" msgid="4579969432544566719">"Tallenna puhelinvastaajan numero"</string>
     <string name="vm_changed" msgid="380744030726254139">"Puhelinvastaajan numero muutettiin."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"Vastaajapalvelun numeron vaihtaminen epäonnistui."\n"Ota yhteyttä operaattoriin, jos ongelma jatkuu."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Soitonsiirtonumeron vaihtaminen epäonnistui."\n"Ota yhteyttä operaattoriin, jos ongelma jatkuu."</string>
@@ -215,7 +194,6 @@
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS-asetukset"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-asetukset"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Tietojen käyttö"</string>
-    <string name="throttle_settings_title" msgid="2761975408383706589">"Operaattorin tiedonsiirtokäytäntö"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Nykyisellä jaksolla käytetyt tiedot"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Tietojen käyttöjakso"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Tiedonsiirtonopeuskäytäntö"</string>
@@ -230,7 +208,6 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ kierrosta valmis"\n"Seuraava jakso alkaa <xliff:g id="USED_1">%2$d</xliff:g> päivän kuluttua (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Tiedonsiirtonopeus vähennetään nopeuteen <xliff:g id="USED">%1$d</xliff:g> kt/s, jos tiedonkäyttöraja ylitetään"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Lisätietoja operaattorisi mobiiliverkon tietojenkäyttökäytännöstä"</string>
-    <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"Cell Broadcast -tekstiviesti"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"Cell Broadcast -tekstiviesti"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"Cell Broadcast -tekstiviesti"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Cell Broadcast -tekstiviestit käytössä"</string>
@@ -318,9 +295,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Useat luokat"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Useat luokat käytössä"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Useat luokat pois käytöstä"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"GSM/UMTS-verkkoasetukset"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="8922047952217067405">"Ei vielä käytössä"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"GSM/UMTS-verkkoasetukset"</string>
   <string-array name="gsm_umts_network_preferences_choices">
     <item msgid="935612021902787683">"GSM/WCDMA (automaattinen tila)"</item>
     <item msgid="8912042051809329533">"Vain WCDMA"</item>
@@ -342,9 +316,6 @@
     <item msgid="176474317493999285">"Vain kotipuhelin"</item>
     <item msgid="1205664026446156265">"Automaattinen"</item>
   </string-array>
-    <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-roaming-tila"</string>
-    <string name="cdma_roaming_mode_summary" msgid="6136511164956075071">"Vaihda CDMA-roaming-tila"</string>
-    <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-roaming-tila"</string>
   <string-array name="cdma_roaming_mode_choices">
     <item msgid="8383263321386840733">"Vain kotiverkot"</item>
     <item msgid="6778172599293570356">"Yhteisverkot"</item>
@@ -355,9 +326,6 @@
     <item msgid="6007798728227141997">"1"</item>
     <item msgid="4039511109802141047">"2"</item>
   </string-array>
-    <string name="cdma_network_preferences_title" msgid="7715358106877998893">"CDMA-verkkoasetukset"</string>
-    <string name="cdma_network_preferneces_summary" msgid="1318109196141265414">"Ei vielä käytössä"</string>
-    <string name="cdma_network_preferences_dialogtitle" msgid="4548860809290455653">"CDMA-verkkoasetukset"</string>
   <string-array name="cdma_network_preferences_choices">
     <item msgid="3711054371631487248">"CDMA/EvDo"</item>
     <item msgid="6143696847467859795">"Vain CDMA"</item>
@@ -457,17 +425,11 @@
     <string name="doneButton" msgid="2859593360997984240">"Valmis"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Puhelinneuvottelu <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Palaa puheluun"</string>
-    <string name="sim_missing_continueView_text" msgid="4199689081742026077">"Jatka ilman SIM-korttia"</string>
-    <string name="sim_missing_msg_text" msgid="5498791446150637087">"Ei SIM-korttia. Aseta puhelimeen SIM-kortti."</string>
-    <string name="sim_unlock_dismiss_text" msgid="8292343981739813597">"Hylkää"</string>
-    <string name="sim_unlock_unlock_text" msgid="6328406783399256930">"Poista lukitus"</string>
-    <string name="sim_unlock_status_text" msgid="1919609683384607179">"Varmennetaan PIN-koodia…"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Puhelinvastaajan numero"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Soitetaan"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Yritetään uudelleen"</string>
     <string name="card_title_conf_call" msgid="1162980346189744501">"Puhelinneuvottelu"</string>
     <string name="card_title_incoming_call" msgid="7364539451234646909">"Uusi puhelu"</string>
-    <string name="card_title_cdma_call_waiting" msgid="2565629287885373568">"CDMA-puhelu jonossa"</string>
     <string name="card_title_call_ended" msgid="5544730338889702298">"Puhelu loppui"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"Pidossa"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Katkaistaan"</string>
@@ -492,7 +454,6 @@
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Puhelua ei soitettu, et antanut kelvollista numeroa."</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Puhelua ei soitettu."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Aloitetaan MMI-koodisekvenssiä..."</string>
-    <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Aloitetaan ominaisuuden koodisekvenssiä..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Palvelua ei tueta."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Puhelujen vaihto epäonnistui."</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Puhelun erottaminen epäonnistui."</string>
@@ -507,7 +468,6 @@
     <string name="dial_emergency_error" msgid="7969515493359619960">"Puhelua ei soitettu. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> ei ole hätänumero!"</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Puhelua ei soitettu. Valitse hätänumero!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Valitse numero näppäimistöstä"</string>
-    <string name="dtmfDialpadHintText" msgid="2153335217920679451">"Kosketa ääninäppäimistöä"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Pitoon"</string>
     <string name="onscreenUnholdText" msgid="5033582269005230794">"Poista pidosta"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Loppu"</string>
@@ -534,7 +494,6 @@
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
   </string-array>
-    <string name="eri_text_label" msgid="4326942349915331461">"ERI-teksti"</string>
     <string name="dtmf_tones_title" msgid="5163153771291340803">"DTMF-äänet"</string>
     <string name="dtmf_tones_summary" msgid="3351820372864020331">"Aseta DTMF-äänien pituus"</string>
   <string-array name="dtmf_tone_entries">
@@ -544,16 +503,13 @@
     <string name="network_message" msgid="4483886461245213802">"Verkkoviesti"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivoi puhelin"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Sinun täytyy soittaa erityinen puhelu aktivoidaksesi puhelimesi palvelun. "\n\n"Paina Aktivoi ja aktivoi puhelimesi kuulemiesi ohjeiden avulla."</string>
-    <string name="ota_touch_activate_new" msgid="4508197891732183852">"Voit aktivoida puhelimesi operaattorisi mobiiliverkossa soittaaksesi puheluita ja muodostaaksesi yhteyden mobiiliverkkoihin koskettamalla Aktivoi."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ohitetaanko aktivointi?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Jos ohitat aktivoinnin, et voi soittaa puheluita etkä muodostaa verkkoyhteyttä (voit tosin muodostaa yhteyden wifi-verkkoihin). Sinua pyydetään aktivoimaan puhelimesi aina kun käynnistät sen siihen saakka, että aktivoit sen."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ohita"</string>
-    <string name="ota_skip_activation_dialog_continue_label" msgid="4343765820509664362">"Aktivoi"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivoi"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Puhelin aktivoitu."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Aktivointiongelma"</string>
     <string name="ota_listen" msgid="162923839877584937">"Kuuntele ohjeita ja toimi niiden mukaan, kunnes aktivointi on valmis."</string>
-    <string name="ota_dialpad" msgid="3530900997110658409">"Näppäimistö"</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Kaiutin"</string>
     <string name="ota_progress" msgid="3420314892609254729">"Odota, että puhelinta ohjelmoidaan."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Ohjelmointi epäonnistui"</string>
@@ -563,7 +519,6 @@
     <string name="ota_call_end" msgid="4537279738134612388">"Takaisin"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Yritä uudelleen"</string>
     <string name="ota_next" msgid="3904945374358235910">"Seuraava"</string>
-    <string name="ota_back" msgid="2190038043403850052">"Takaisin"</string>
     <string name="ecm_exit_dialog" msgid="4448531867763097533">"EcmExitDialog"</string>
     <string name="phone_entered_ecm_text" msgid="6266424252578731203">"Käytössä hätäpuhelujen takaisinsoittotila"</string>
     <string name="phone_in_ecm_notification_title" msgid="3226896828951687085">"Hätäpuhelujen takaisinsoittotila"</string>
@@ -591,14 +546,9 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>-asetukset"</string>
     <string name="other_settings" msgid="3672912580359716394">"Muut puheluasetukset"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Soita"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Käytetään operaattoria <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Vastaa vetämällä oikealle"</string>
-    <string name="slide_to_silence" msgid="2224982696981131553">"Hiljennä soittoääni vetämällä vasemmalle"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Kiellä puhelu vetämällä vasemmalle"</string>
-    <string name="slide_to_answer_and_hold" msgid="9212596323067601245">"Vastaa vetämällä oikealle ja"\n"aseta aktiivinen puhelu pitoon"</string>
-    <string name="slide_to_answer_and_end_active" msgid="6473719408670133380">"Vastaa vetämällä oikealle ja"\n"lopeta aktiivinen puhelu"</string>
-    <string name="slide_to_answer_and_end_onhold" msgid="638748048960663506">"Vastaa vetämällä oikealle ja"\n"lopeta pidossa oleva puhelu"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Vastaa"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Hylkää"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"yhteyshenkilön valokuva"</string>
@@ -607,18 +557,14 @@
     <string name="sip_settings" msgid="6699045718560859691">"Internetpuheluiden asetukset"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Internetpuhelutilit (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Tilit"</string>
-    <string name="sip_accounts_summary" msgid="6812629993146552527">"Hallinnoi internetpuheluiden (SIP) tilejä ja tilaa"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Vastaanota saapuvia puheluita"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Vähentää akun käyttöikää"</string>
-    <string name="sip_call_options" msgid="7237609583952681738">"Aseta puheluasetukset"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Käytä internetpuheluita"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Käytä internetpuheluita (vain wifi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Kaikki puhelut, kun verkko on käytettävissä"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Vain internetpuhelut"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Kysy aina"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Kaikki puhelut"</string>
-    <string name="auto_reg" msgid="8150163311655081599">"Automaattinen rekisteröityminen"</string>
-    <string name="call_priority" msgid="8374917577270504387">"Lähtevät puhelut SIP:n kautta"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Soita puhelu"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Käytä seuraavaa internetpuhelutiliä:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Käytä aina internetpuheluille"</string>
@@ -638,10 +584,6 @@
     <string name="alert_dialog_close" msgid="7759635137627626235">"Sulje profiili"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <string name="close_profile" msgid="6886968271423155284">"Sulje"</string>
-    <string name="primary_account" msgid="2229538308291934245">"Ensisijainen"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"Aseta tämä ensisijaiseksi tilikseni"</string>
-    <string name="primary_account_summary" msgid="7339564526372623187">"Käytetään lähteviin puheluihin"</string>
-    <string name="advanced_settings_title" msgid="8846648727128452293">"Lisäasetukset"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Ensisijainen tili. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Tarkistetaan tilaa..."</string>
     <string name="registration_status_registering" msgid="4288401139400232968">"Rekisteröidään..."</string>
@@ -664,10 +606,6 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Lähettävän välityspalvelimen osoite"</string>
     <string name="port_title" msgid="5952939408078626657">"Porttinumero"</string>
     <string name="transport_title" msgid="8253139511847746640">"Kuljetustyyppi"</string>
-    <string name="send_keepalive_title" msgid="7533342573918645113">"Lähetä tarkistusviesti"</string>
-    <string name="send_keepalive_summary" msgid="9038969409950960640">"Lähetä SIP-tarkistusviestejä"</string>
-    <string name="auto_registration_title" msgid="3586777375420122154">"Automaattinen rekisteröityminen"</string>
-    <string name="auto_registration_summary" msgid="2522794041206619280">"Rekisteröi profiili automaattisesti"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Aseta ensisijaiseksi tiliksi"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Käytetään lähteviin puheluihin"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Valinnaiset asetukset"</string>
