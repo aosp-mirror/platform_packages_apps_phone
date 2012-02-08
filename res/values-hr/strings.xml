@@ -542,8 +542,7 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Postavke za <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ostale postavke poziva"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Biraj"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Pozivanje putem operatera <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Povucite udesno za odgovor"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Povucite ulijevo za odbijanje"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Odgovor"</string>
@@ -603,6 +602,7 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Odlazna proxy adresa"</string>
     <string name="port_title" msgid="5952939408078626657">"Broj porta"</string>
     <string name="transport_title" msgid="8253139511847746640">"Vrsta transporta"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Pošalji postavke keep-alive"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Postavi kao primarni račun"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Upotrebljava se za odlazne pozive"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Izborne postavke"</string>

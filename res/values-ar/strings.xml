@@ -602,6 +602,7 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"عنوان وكيل صادر"</string>
     <string name="port_title" msgid="5952939408078626657">"رقم المنفذ"</string>
     <string name="transport_title" msgid="8253139511847746640">"نوع النقل"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"إرسال رسالة للتحقق من الاتصال"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"تعيين كحساب أساسي"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"مستخدمة للمكالمات الصادرة"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"الإعدادات الاختيارية"</string>

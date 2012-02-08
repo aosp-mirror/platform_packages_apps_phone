@@ -602,6 +602,7 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"ที่อยู่พร็อกซีขาออก"</string>
     <string name="port_title" msgid="5952939408078626657">"หมายเลขพอร์ต"</string>
     <string name="transport_title" msgid="8253139511847746640">"ประเภทการส่งผ่านข้อมูล"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"ส่งแบบ keep-alive"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"ตั้งค่าเป็นบัญชีหลัก"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"ใช้สำหรับการโทรออก"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"การตั้งค่าที่เป็นตัวเลือก"</string>
