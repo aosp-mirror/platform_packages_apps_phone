@@ -884,12 +884,6 @@ public class OtaUtils {
         if (mApplication.cdmaOtaScreenState.otaspResultCodePendingIntent == null) {
             Log.w(LOG_TAG, "updateNonInteractiveOtaSuccessFailure: "
                   + "null otaspResultCodePendingIntent!");
-            // This *should* never happen, since SetupWizard always passes this
-            // PendingIntent along with the ACTION_PERFORM_CDMA_PROVISIONING
-            // intent.
-            // (But if this happens it's not a fatal error, it just means that
-            // our original caller has no way of finding out whether the OTASP
-            // call ultimately failed or succeeded...)
             return;
         }
 
@@ -1572,16 +1566,18 @@ public class OtaUtils {
             otaScreenState = OtaScreenState.OTA_STATUS_UNDEFINED;
         }
 
-        // PendingIntent used to report an OTASP result status code back
-        // to our caller.
-        //
-        // Our caller (presumably SetupWizard) creates this PendingIntent,
-        // pointing back at itself, and passes it along as an extra with the
-        // ACTION_PERFORM_CDMA_PROVISIONING intent.  Then, when there's an
-        // OTASP result to report, we send that PendingIntent back, adding an
-        // extra called EXTRA_OTASP_RESULT_CODE to indicate the result.
-        //
-        // Possible result values are the OTASP_RESULT_* constants.
+        /**
+         * {@link PendingIntent} used to report an OTASP result status code
+         * back to our caller. Can be null.
+         *
+         * Our caller (presumably SetupWizard) may create this PendingIntent,
+         * pointing back at itself, and passes it along as an extra with the
+         * ACTION_PERFORM_CDMA_PROVISIONING intent.  Then, when there's an
+         * OTASP result to report, we send that PendingIntent back, adding an
+         * extra called EXTRA_OTASP_RESULT_CODE to indicate the result.
+         *
+         * Possible result values are the OTASP_RESULT_* constants.
+         */
         public PendingIntent otaspResultCodePendingIntent;
     }
 
