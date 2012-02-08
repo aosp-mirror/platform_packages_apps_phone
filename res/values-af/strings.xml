@@ -607,6 +607,7 @@
     <string name="proxy_address_title" msgid="4828301345351614273">"Uitgaande-instaan-adres"</string>
     <string name="port_title" msgid="5952939408078626657">"Poortnommer"</string>
     <string name="transport_title" msgid="8253139511847746640">"Vervoertipe"</string>
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Stuur lewendighou"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Stel as primêre rekening"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Gebruik vir uitgaande oproepe"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Opsionele instellings"</string>
@@ -657,7 +658,5 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Antwoord"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Stuur SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Wys af"</string>
-    <!-- no translation found for ringtone_title (6374978286202084684) -->
-    <!-- no translation found for ringtone_title (5379026328015343686) -->
-    <skip />
+    <string name="ringtone_title" msgid="6374978286202084684">"Foon-luitoon"</string>
 </resources>

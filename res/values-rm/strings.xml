@@ -719,6 +719,7 @@
     <skip />
     <!-- no translation found for transport_title (8253139511847746640) -->
     <skip />
+    <string name="send_keepalive_title" msgid="7533342573918645113">"Trametter keep-alive"</string>
     <!-- no translation found for set_primary_title (5351892327447571451) -->
     <skip />
     <!-- no translation found for set_primary_summary (2219064654523258577) -->
