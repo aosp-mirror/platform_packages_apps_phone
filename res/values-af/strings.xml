@@ -546,8 +546,7 @@
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Instellings vir <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ander oproepinstellings"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Bel"</string>
-    <!-- no translation found for calling_via_template (4839419581866928142) -->
-    <skip />
+    <string name="calling_via_template" msgid="4839419581866928142">"Bel via <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="slide_to_answer" msgid="255903188611244476">"Trek regs om te antwoord"</string>
     <string name="slide_to_decline" msgid="7342094219435077069">"Trek links om af te wys"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Antwoord"</string>
