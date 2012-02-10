@@ -229,7 +229,7 @@
     <!-- no translation found for throttle_time_frame_subtext (7732763021560399960) -->
     <skip />
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Isilinganiso sedatha sehliselwe ku-<xliff:g id="USED">%1$d</xliff:g> ama-Kb uma ukusebenzisa umkhawulo wedatha ufinyelelwe"</string>
-    <string name="throttle_help_subtext" msgid="5217706521499010816">"Okunye ukwaziswa mayelana nenqubomgomo yokusebenzisa idatha yenethiwekhi yesiphathi sakho sefoni."</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"Olunye ulwazi mayelana nenqubomgomo yokusebenzisa idatha yenethiwekhi yesiphathi sakho sefoni."</string>
     <string name="cdma_cell_broadcast_sms" msgid="7898475142527341808">"I-SMS Yokusakaza Iseli"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"I-SMS Yokusakaza Iseli"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"I-SMS Yokusakaza ngeSeli"</string>
