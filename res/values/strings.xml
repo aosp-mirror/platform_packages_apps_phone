@@ -708,6 +708,12 @@
     <string name="pin2_invalid">FDN wasn\'t updated because you typed an incorrect PIN.</string>
     <!-- FDN settings: error message displayed in a popup (toast) -->
     <string name="fdn_invalid_number">FDN wasn\'t updated because the number can\'t exceed 20 digits.</string>
+    <!-- FDN settings: error message displayed in a popup (toast), when the entered
+         FDN number was inappropriate, OR, PIN2 the user entered was incorrect.
+         Because of API restriction, there's no way to determine which is the exact
+         cause of the failure.
+         [CHAR LIMIT=NONE] -->
+    <string name="pin2_or_fdn_invalid">FDN wasn\'t updated. The PIN2 was incorrect, or the phone number was rejected.</string>
 
     <!-- ADN related strings -->
     <!-- Placeholder text displayed while loading the list of SIM contacts -->

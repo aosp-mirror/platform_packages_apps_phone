@@ -23,36 +23,35 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Pin2 entry screen.
  */
-public class GetPin2Screen extends Activity {
+public class GetPin2Screen extends Activity implements TextView.OnEditorActionListener {
     private static final String LOG_TAG = PhoneApp.LOG_TAG;
 
     private EditText mPin2Field;
+    private Button mOkButton;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         setContentView(R.layout.get_pin2_screen);
-        setupView();
-    }
 
-    /**
-     * Reflect the changes in the layout that force the user to open
-     * the keyboard. 
-     */
-    private void setupView() {
         mPin2Field = (EditText) findViewById(R.id.pin);
-        if (mPin2Field != null) {
-            mPin2Field.setKeyListener(DigitsKeyListener.getInstance());
-            mPin2Field.setMovementMethod(null);
-            mPin2Field.setOnClickListener(mClicked);
-        }
+        mPin2Field.setKeyListener(DigitsKeyListener.getInstance());
+        mPin2Field.setMovementMethod(null);
+        mPin2Field.setOnEditorActionListener(this);
+
+        mOkButton = (Button) findViewById(R.id.ok);
+        mOkButton.setOnClickListener(mClicked);
     }
 
     private String getPin2() {
@@ -72,7 +71,17 @@ public class GetPin2Screen extends Activity {
         finish();
     }
 
-    private View.OnClickListener mClicked = new View.OnClickListener() {
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            mOkButton.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    private final View.OnClickListener mClicked = new View.OnClickListener() {
+        @Override
         public void onClick(View v) {
             if (TextUtils.isEmpty(mPin2Field.getText())) {
                 return;
