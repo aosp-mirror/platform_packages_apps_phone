@@ -45,6 +45,7 @@ import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
 import com.android.internal.widget.multiwaveview.MultiWaveView;
 import com.android.internal.widget.multiwaveview.MultiWaveView.OnTriggerListener;
+import com.android.phone.InCallUiState.InCallScreenMode;
 
 /**
  * In-call onscreen touch UI elements, used on some platforms.
@@ -76,6 +77,8 @@ public class InCallTouchUi extends FrameLayout
 
     // UI containers / elements
     private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
+    private boolean mShowInCallControlsDuringHidingAnimation;
+
     /** UI elements while on a regular call (bottom buttons, DTMF dialpad) */
     private View mInCallControls;
     //
@@ -260,8 +263,7 @@ public class InCallTouchUi extends FrameLayout
         // layer rejects the ringing call while the FG call is dialing/alerting,
         // but the incoming call *does* briefly exist in the DISCONNECTING or
         // DISCONNECTED state.
-        if ((ringingCall.getState() != Call.State.IDLE)
-                && !fgCallState.isDialing()) {
+        if ((ringingCall.getState() != Call.State.IDLE) && !fgCallState.isDialing()) {
             // A phone call is ringing *or* call waiting.
 
             // Watch out: even if the phone state is RINGING, it's
@@ -287,20 +289,31 @@ public class InCallTouchUi extends FrameLayout
             }
         } else {
             // Ok, show the regular in-call touch UI (with some exceptions):
-            if (mInCallScreen.okToShowInCallTouchUi()) {
+            if (okToShowInCallControls()) {
                 showInCallControls = true;
             } else {
                 if (DBG) log("- updateState: NOT OK to show touch UI; disabling...");
             }
         }
 
-        // Update visibility and state of the incoming call controls or
-        // the normal in-call controls.
-
+        // In usual cases we don't allow showing both incoming call controls and in-call controls.
+        //
+        // There's one exception: if this call is during fading-out animation for the incoming
+        // call controls, we need to show both for smoother transition.
         if (showIncomingCallControls && showInCallControls) {
             throw new IllegalStateException(
                 "'Incoming' and 'in-call' touch controls visible at the same time!");
         }
+        if (mShowInCallControlsDuringHidingAnimation) {
+            if (DBG) {
+                log("- updateState: FORCE showing in-call controls during incoming call widget"
+                        + " being hidden with animation");
+            }
+            showInCallControls = true;
+        }
+
+        // Update visibility and state of the incoming call controls or
+        // the normal in-call controls.
 
         if (showInCallControls) {
             if (DBG) log("- updateState: showing in-call controls...");
@@ -349,6 +362,25 @@ public class InCallTouchUi extends FrameLayout
             // it's not visible.
             dismissAudioModePopup();  // safe even if not active
         }
+    }
+
+    private boolean okToShowInCallControls() {
+        // Note that this method is concerned only with the internal state
+        // of the InCallScreen.  (The InCallTouchUi widget has separate
+        // logic to make sure it's OK to display the touch UI given the
+        // current telephony state, and that it's allowed on the current
+        // device in the first place.)
+
+        // The touch UI is available in the following InCallScreenModes:
+        // - NORMAL (obviously)
+        // - CALL_ENDED (which is intended to look mostly the same as
+        //               a normal in-call state, even though the in-call
+        //               buttons are mostly disabled)
+        // and is hidden in any of the other modes, like MANAGE_CONFERENCE
+        // or one of the OTA modes (which use totally different UIs.)
+
+        return ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
+                || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED));
     }
 
     @Override
@@ -422,7 +454,7 @@ public class InCallTouchUi extends FrameLayout
         // Note we do NOT need to worry here about cases where the entire
         // in-call touch UI is disabled, like during an OTA call or if the
         // dtmf dialpad is up.  (That's handled by updateState(), which
-        // calls InCallScreen.okToShowInCallTouchUi().)
+        // calls okToShowInCallControls().)
         //
         // If we get here, it *is* OK to show the in-call touch UI, so we
         // now need to update the enabledness and/or "checked" state of
@@ -911,8 +943,11 @@ public class InCallTouchUi extends FrameLayout
     public void onTrigger(View v, int whichHandle) {
         if (DBG) log("onTrigger(whichHandle = " + whichHandle + ")...");
 
-        // On any action by the user, hide the widget:
-        hideIncomingCallWidget();
+        if (mInCallScreen == null) {
+            Log.wtf(LOG_TAG, "onTrigger(" + whichHandle
+                    + ") from incoming-call widget, but null mInCallScreen!");
+            return;
+        }
 
         // ...and also prevent it from reappearing right away.
         // (This covers up a slow response from the radio for some
@@ -925,15 +960,12 @@ public class InCallTouchUi extends FrameLayout
         // click" handler (even though the UI elements aren't actually
         // buttons; see InCallScreen.handleOnscreenButtonClick().)
 
-        if (mInCallScreen == null) {
-            Log.wtf(LOG_TAG, "onTrigger(" + whichHandle
-                    + ") from incoming-call widget, but null mInCallScreen!");
-            return;
-        }
+        mShowInCallControlsDuringHidingAnimation = false;
         switch (whichHandle) {
             case ANSWER_CALL_ID:
                 if (DBG) log("ANSWER_CALL_ID: answer!");
                 mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallAnswer);
+                mShowInCallControlsDuringHidingAnimation = true;
                 break;
 
             case SEND_SMS_ID:
@@ -950,6 +982,12 @@ public class InCallTouchUi extends FrameLayout
                 Log.wtf(LOG_TAG, "onDialTrigger: unexpected whichHandle value: " + whichHandle);
                 break;
         }
+
+        // On any action by the user, hide the widget.
+        //
+        // If requested above (i.e. if mShowInCallControlsDuringHidingAnimation is set to true),
+        // in-call controls will start being shown too.
+        hideIncomingCallWidget();
 
         // Regardless of what action the user did, be sure to clear out
         // the hint text we were displaying while the user was dragging.
@@ -972,17 +1010,22 @@ public class InCallTouchUi extends FrameLayout
         anim.setAnimationListener(new AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                if (mShowInCallControlsDuringHidingAnimation) {
+                    if (DBG) log("IncomingCallWidget's hiding animation started");
+                    updateInCallControls(mApp.mCM);
+                    mInCallControls.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
             @Override
             public void onAnimationEnd(Animation animation) {
+                if (DBG) log("IncomingCallWidget's hiding animation ended");
                 // hide the incoming call UI.
                 mIncomingCallWidget.clearAnimation();
                 mIncomingCallWidget.setVisibility(View.GONE);
+                mShowInCallControlsDuringHidingAnimation = false;
             }
         });
         mIncomingCallWidget.startAnimation(anim);
