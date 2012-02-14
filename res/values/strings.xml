@@ -293,7 +293,7 @@
         <item>Show number</item>
     </string-array>
     <!-- Phone settings: Internal keys used for Caller ID preference values.  DO NOT TRANSLATE. -->
-    <string-array name="clir_values">
+    <string-array name="clir_values" translatable="false">
         <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
         <item><xliff:g>DEFAULT</xliff:g></item>
         <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
@@ -793,11 +793,11 @@
     <string name="caller_manage_manage_done_text">Back to call</string>
 
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_phoneNumber_text">(650) 555-1234</string>
+    <string name="fake_phone_activity_phoneNumber_text" translatable="false">(650) 555-1234</string>
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_infoText_text">Incoming phone number</string>
+    <string name="fake_phone_activity_infoText_text" translatable="false">Incoming phone number</string>
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_placeCall_text">Fake Incoming Call</string>
+    <string name="fake_phone_activity_placeCall_text" translatable="false">Fake Incoming Call</string>
 
     <!-- Call settings screen, Set voicemail dialog title -->
     <string name="voicemail_settings_number_label">Voicemail number</string>
@@ -979,7 +979,7 @@
       <item>Long</item>
     </string-array>
     <!-- Do not translate. -->
-    <string-array name="dtmf_tone_values">
+    <string-array name="dtmf_tone_values" translatable="false">
        <item>0</item>
        <item>1</item>
     </string-array>

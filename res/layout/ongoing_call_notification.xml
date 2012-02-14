@@ -28,6 +28,8 @@
      - uses Chronometer instead of TextView for "@+id/text1"
      - adds "android:" (for public assets) or "*android:" (for private assets) to
        each @dimen/@drawable.
+     - removes ImageView inside @+id/line3, since its id ("@+id/icon") conflicts with
+       the other ImageView's id
 
      TODO: Consider updating Notification.Builder to allow you to specify an arbitrary
      (remotable) view for each line, rather than just setContentTitle() / setContentText().
@@ -103,7 +105,7 @@
             android:gravity="center"
             android:paddingLeft="8dp"
             />
-        <ImageView android:id="@+id/icon"
+        <!-- <ImageView android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -111,7 +113,7 @@
             android:scaleType="center"
             android:paddingLeft="8dp"
             android:visibility="gone"
-            />
+            /> -->
     </LinearLayout>
     <ProgressBar
         android:id="@android:id/progress"
