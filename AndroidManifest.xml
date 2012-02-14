@@ -135,7 +135,7 @@
         </activity>
 
         <activity android:name="OutgoingCallBroadcaster"
-                android:theme="@android:style/Theme.NoDisplay"
+                android:theme="@android:style/Theme.Holo.NoActionBar"
                 android:permission="android.permission.CALL_PHONE"
                 android:configChanges="orientation|screenSize|keyboardHidden">
             <!-- CALL action intent filters, for the various ways
