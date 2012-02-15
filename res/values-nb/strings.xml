@@ -553,7 +553,7 @@
     <string name="slide_to_decline" msgid="7342094219435077069">"Dra mot venstre for å avslå"</string>
     <string name="slide_to_answer_hint" msgid="4901042355463593903">"Svar"</string>
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"Ikke del"</string>
-    <string name="contactPhoto" msgid="4713193418046639466">"kontaktens bilde"</string>
+    <string name="contactPhoto" msgid="4713193418046639466">"kontaktbilde"</string>
     <string name="goPrivate" msgid="865837794424530980">"aktiver privat samtale"</string>
     <string name="selectContact" msgid="781975788478987237">"velg kontakt"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Innstillinger for Internett-anrop"</string>
