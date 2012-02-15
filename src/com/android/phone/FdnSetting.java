@@ -16,9 +16,6 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.CommandException;
-import com.android.internal.telephony.Phone;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,6 +28,9 @@ import android.preference.PreferenceScreen;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.android.internal.telephony.CommandException;
+import com.android.internal.telephony.Phone;
 
 /**
  * FDN settings UI for the Phone app.

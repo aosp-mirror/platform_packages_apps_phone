@@ -65,8 +65,7 @@ public class DeleteFdnContactScreen extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (DBG) log("onActivityResult");
 
         switch (requestCode) {
