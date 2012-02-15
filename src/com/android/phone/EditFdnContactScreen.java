@@ -115,8 +115,7 @@ public class EditFdnContactScreen extends Activity {
      * Also, process the results from the contact picker.
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (DBG) log("onActivityResult request:" + requestCode + " result:" + resultCode);
 
         switch (requestCode) {
@@ -376,6 +375,7 @@ public class EditFdnContactScreen extends Activity {
     }
 
     private View.OnClickListener mClicked = new View.OnClickListener() {
+        @Override
         public void onClick(View v) {
             if (mPinFieldContainer.getVisibility() != View.VISIBLE) {
                 return;
@@ -397,6 +397,7 @@ public class EditFdnContactScreen extends Activity {
 
     View.OnFocusChangeListener mOnFocusChangeHandler =
             new View.OnFocusChangeListener() {
+        @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 TextView textView = (TextView) v;
@@ -415,8 +416,7 @@ public class EditFdnContactScreen extends Activity {
         }
 
         @Override
-        protected void onInsertComplete(int token, Object cookie,
-                                        Uri uri) {
+        protected void onInsertComplete(int token, Object cookie, Uri uri) {
             if (DBG) log("onInsertComplete");
             displayProgress(false);
             handleResult(uri != null, false);

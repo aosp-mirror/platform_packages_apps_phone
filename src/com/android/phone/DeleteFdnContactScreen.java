@@ -150,6 +150,7 @@ public class DeleteFdnContactScreen extends Activity {
         }
 
         mHandler.postDelayed(new Runnable() {
+            @Override
             public void run() {
                 finish();
             }
@@ -166,13 +167,15 @@ public class DeleteFdnContactScreen extends Activity {
         protected void onQueryComplete(int token, Object cookie, Cursor c) {
         }
 
-        protected void onInsertComplete(int token, Object cookie,
-                                        Uri uri) {
+        @Override
+        protected void onInsertComplete(int token, Object cookie, Uri uri) {
         }
 
+        @Override
         protected void onUpdateComplete(int token, Object cookie, int result) {
         }
 
+        @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
             if (DBG) log("onDeleteComplete");
             displayProgress(false);

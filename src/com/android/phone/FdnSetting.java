@@ -22,7 +22,6 @@ import com.android.internal.telephony.Phone;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,6 +81,7 @@ public class FdnSetting extends PreferenceActivity
     /**
      * Delegate to the respective handlers.
      */
+    @Override
     public void onPinEntered(EditPinPreference preference, boolean positiveResult) {
         if (preference == mButtonEnableFDN) {
             toggleFDNEnable(positiveResult);
@@ -200,7 +200,7 @@ public class FdnSetting extends PreferenceActivity
     /**
      * Handler for asynchronous replies from the sim.
      */
-    private Handler mFDNHandler = new Handler() {
+    private final Handler mFDNHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -274,6 +274,7 @@ public class FdnSetting extends PreferenceActivity
     /**
      * Cancel listener for the PUK2 request alert dialog.
      */
+    @Override
     public void onCancel(DialogInterface dialog) {
         // set the state of the preference and then display the dialog.
         mPinChangeState = PIN_CHANGE_PUK;
@@ -352,10 +353,10 @@ public class FdnSetting extends PreferenceActivity
      * @param isPuk Boolean indicating whether we are to treat
      * the pin input as a puk.
      */
-    private boolean validatePin(String pin, boolean isPUK) {
+    private boolean validatePin(String pin, boolean isPuk) {
 
         // for pin, we have 4-8 numbers, or puk, we use only 8.
-        int pinMinimum = isPUK ? MAX_PIN_LENGTH : MIN_PIN_LENGTH;
+        int pinMinimum = isPuk ? MAX_PIN_LENGTH : MIN_PIN_LENGTH;
 
         // check validity
         if (pin == null || pin.length() < pinMinimum || pin.length() > MAX_PIN_LENGTH) {
