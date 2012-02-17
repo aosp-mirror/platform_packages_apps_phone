@@ -19,7 +19,7 @@ package com.android.phone;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
+import android.bluetooth.IBluetoothHeadsetPhone;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -255,6 +255,7 @@ public class PhoneUtils {
         boolean answered = false;
         Phone phone = ringing.getPhone();
         boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
+        IBluetoothHeadsetPhone btPhone = null;
 
         if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
@@ -284,10 +285,17 @@ public class PhoneUtils {
                         // drops off
                         app.cdmaPhoneCallState.setAddCallMenuStateAfterCallWaiting(true);
 
-                        // If a BluetoothHandsfree is valid we need to set the second call state
+                        // If a BluetoothPhoneService is valid we need to set the second call state
                         // so that the Bluetooth client can update the Call state correctly when
                         // a call waiting is answered from the Phone.
-                        // TODO(BT): Handle multiple calls on CDMA network.
+                        btPhone = app.getBluetoothPhoneService();
+                        if (btPhone != null) {
+                            try {
+                                btPhone.cdmaSetSecondCallState(true);
+                            } catch (RemoteException e) {
+                                Log.e(LOG_TAG, Log.getStackTraceString(new Throwable()));
+                            }
+                        }
                     }
                 }
 
@@ -323,10 +331,16 @@ public class PhoneUtils {
                 Log.w(LOG_TAG, "answerCall: caught " + ex, ex);
 
                 if (phoneIsCdma) {
-                    // restore the cdmaPhoneCallState and bthf.cdmaSetSecondCallState:
+                    // restore the cdmaPhoneCallState and btPhone.cdmaSetSecondCallState:
                     app.cdmaPhoneCallState.setCurrentCallState(
                             app.cdmaPhoneCallState.getPreviousCallState());
-                    //TODO(BT): Handle change in cdma second call.
+                    if (btPhone != null) {
+                        try {
+                            btPhone.cdmaSetSecondCallState(false);
+                        } catch (RemoteException e) {
+                            Log.e(LOG_TAG, Log.getStackTraceString(new Throwable()));
+                        }
+                    }
                 }
             }
         }
@@ -2518,9 +2532,7 @@ public class PhoneUtils {
             if (DBG) log("activateSpeakerIfDocked(): In a dock -> may need to turn on speaker.");
             PhoneApp app = PhoneApp.getInstance();
 
-            //TODO(BT): Fix scoOn variable below.
-            boolean scoOn = false;
-            if (!app.isHeadsetPlugged() && !scoOn) {
+            if (!app.isHeadsetPlugged() && !app.isBluetoothHeadsetAudioOn()) {
                 turnOnSpeaker(phone.getContext(), true, true);
                 activated = true;
             }

@@ -433,10 +433,10 @@
             </intent-filter>
         </activity>
 
-        <!-- bluetooth headset service -->
-        <service android:name="BluetoothHeadsetService">
+        <!-- bluetooth phone service -->
+        <service android:name="BluetoothPhoneService">
             <intent-filter>
-                <action android:name="android.bluetooth.IBluetoothHeadset" />
+                <action android:name="android.bluetooth.IBluetoothHeadsetPhone" />
             </intent-filter>
         </service>
 

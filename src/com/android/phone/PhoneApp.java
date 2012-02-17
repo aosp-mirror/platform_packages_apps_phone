@@ -24,6 +24,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.IBluetoothHeadsetPhone;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -31,6 +32,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -90,7 +92,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      *
      * ***** DO NOT SUBMIT WITH DBG_LEVEL > 0 *************
      */
-    /* package */ static final int DBG_LEVEL = 0;
+    /* package */ static final int DBG_LEVEL = 2;
 
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
@@ -176,6 +178,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     CallNotifier notifier;
     NotificationMgr notificationMgr;
     Ringer ringer;
+    IBluetoothHeadsetPhone mBluetoothPhone;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
     int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
@@ -361,17 +364,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
                     phoneState = mCM.getState();
                     // Do not change speaker state if phone is not off hook
-                    if (phoneState == PhoneConstants.State.OFFHOOK) {
-                        //TODO(BT):  Add check for SCO is not on.
-                        if (false) {
-                            if (!isHeadsetPlugged()) {
-                                // if the state is "not connected", restore the speaker state.
-                                PhoneUtils.restoreSpeakerMode(getApplicationContext());
-                            } else {
-                                // if the state is "connected", force the speaker off without
-                                // storing the state.
-                                PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
-                            }
+                    if (phoneState == PhoneConstants.State.OFFHOOK && !isBluetoothHeadsetAudioOn()) {
+                        if (!isHeadsetPlugged()) {
+                            // if the state is "not connected", restore the speaker state.
+                            PhoneUtils.restoreSpeakerMode(getApplicationContext());
+                        } else {
+                            // if the state is "connected", force the speaker off without
+                            // storing the state.
+                            PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
                         }
                     }
                     // Update the Proximity sensor based on headset state
@@ -417,11 +417,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                             + inDockMode);
 
                     phoneState = mCM.getState();
-                    //TODO(BT): Update for BT SCO here.
-                    boolean isScoOn = false;
                     if (phoneState == PhoneConstants.State.OFFHOOK &&
-                            !isHeadsetPlugged() &&
-                            !isScoOn) {
+                        !isHeadsetPlugged() && !isBluetoothHeadsetAudioOn()) {
                         PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
                         updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     }
@@ -500,11 +497,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
 
             if (BluetoothAdapter.getDefaultAdapter() != null) {
-                // Start BluetoothHandsree even if device is not voice capable.
+                // Start BluetoothPhoneService even if device is not voice capable.
                 // The device can still support VOIP.
-                // TODO(BT): Start new service if needed.
+                startService(new Intent(this, BluetoothPhoneService.class));
+                bindService(new Intent(this, BluetoothPhoneService.class),
+                            mBluetoothPhoneConnection, 0);
             } else {
                 // Device is not bluetooth capable
+                mBluetoothPhone = null;
             }
 
             ringer = Ringer.init(this);
@@ -561,8 +561,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // asynchronous events from the telephony layer (like
             // launching the incoming-call UI when an incoming call comes
             // in.)
-            // TODO(BT): Instead of passing null below, pass what CallNotifier needs.
-            notifier = CallNotifier.init(this, phone, ringer, null, new CallLogAsync());
+            notifier = CallNotifier.init(this, phone, ringer, new CallLogAsync());
 
             // register for ICC status
             IccCard sim = phone.getIccCard();
@@ -695,6 +694,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     Ringer getRinger() {
         return ringer;
+    }
+
+    IBluetoothHeadsetPhone getBluetoothPhoneService() {
+        return mBluetoothPhone;
+    }
+
+    boolean isBluetoothHeadsetAudioOn() {
+        return (mBluetoothHeadsetAudioState != BluetoothHeadset.STATE_AUDIO_DISCONNECTED);
     }
 
     /**
@@ -1305,12 +1312,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // turn proximity sensor off and turn screen on immediately if
                 // we are using a headset, the keyboard is open, or the device
                 // is being held in a horizontal position.
-                //TODO(BT): Fix isScoOn below.
-                boolean isScoOn = false;
                 boolean screenOnImmediately = (isHeadsetPlugged()
-                            || PhoneUtils.isSpeakerOn(this)
-                            || isScoOn
-                            || mIsHardKeyboardOpen);
+                                               || PhoneUtils.isSpeakerOn(this)
+                                               || isBluetoothHeadsetAudioOn()
+                                               || mIsHardKeyboardOpen);
+                // We do not keep the screen off when we are horizontal, but we do not force it
+                // on when we become horizontal until the proximity sensor goes negative.
+                boolean horizontal = (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
 
                 // We do not keep the screen off when the user is outside in-call screen and we are
                 // horizontal, but we do not force it on when we become horizontal until the
@@ -1477,9 +1485,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
-
-        //TODO(BT): Check if things are to be updated after radio tech change.
-        //
+        if (mBluetoothPhone != null) {
+            try {
+                mBluetoothPhone.updateBtHandsfreeAfterRadioTechnologyChange();
+            } catch (RemoteException e) {
+                Log.e(LOG_TAG, Log.getStackTraceString(new Throwable()));
+            }
+        }
         if (mInCallScreen != null) {
             mInCallScreen.updateAfterRadioTechnologyChange();
         }
@@ -2004,4 +2016,20 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             return PhoneApp.createCallLogIntent();
         }
     }
+
+    /** Service connection */
+    private final ServiceConnection mBluetoothPhoneConnection = new ServiceConnection() {
+
+        /** Handle the task of binding the local object to the service */
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.i(LOG_TAG, "Headset phone created, binding local service.");
+            mBluetoothPhone = IBluetoothHeadsetPhone.Stub.asInterface(service);
+        }
+
+        /** Handle the task of cleaning up the local binding */
+        public void onServiceDisconnected(ComponentName className) {
+            Log.i(LOG_TAG, "Headset phone disconnected, cleaning local binding.");
+            mBluetoothPhone = null;
+        }
+    };
 }
