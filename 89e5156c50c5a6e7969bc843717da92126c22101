@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADB3///+s\u003d",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-02-17T21:41:53Z",
+      "side": 1,
+      "message": "Wrap to 100 columns",
+      "revId": "89e5156c50c5a6e7969bc843717da92126c22101",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
