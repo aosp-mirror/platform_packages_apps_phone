@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,6 +57,9 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final int CMD_ANSWER_RINGING_CALL = 4;
     private static final int CMD_END_CALL = 5;  // not used yet
     private static final int CMD_SILENCE_RINGER = 6;
+    private static final int CMD_START_DTMF = 7;
+    private static final int CMD_STOP_DTMF = 8;
+    private static final int CMD_SEND_DTMF = 9;
 
     /** The singleton instance. */
     private static PhoneInterfaceManager sInstance;
@@ -162,6 +165,39 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         request.notifyAll();
                     }
                     break;
+
+                case CMD_START_DTMF:
+                {
+                    request = (MainThreadRequest) msg.obj;
+                    DtmfData arg = (DtmfData)request.argument;
+                    request.result = mCM.startDtmf(arg.dtmfTargetAddress, arg.dtmfChar);
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                    break;
+                }
+
+                case CMD_STOP_DTMF:
+                {
+                    request = (MainThreadRequest) msg.obj;
+                    String arg = (String)request.argument;
+                    request.result = mCM.stopDtmf(arg);
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                    break;
+                }
+
+                case CMD_SEND_DTMF:
+                {
+                    request = (MainThreadRequest) msg.obj;
+                    DtmfData arg = (DtmfData)request.argument;
+                    request.result = mCM.sendDtmf(arg.dtmfTargetAddress, arg.dtmfChar);
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                    break;
+                }
 
                 default:
                     Log.w(LOG_TAG, "MainThreadHandler: unexpected message code: " + msg.what);
@@ -793,5 +829,60 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      */
     public int getLteOnCdmaMode() {
         return mPhone.getLteOnCdmaMode();
+    }
+
+    /**
+     * Starts sending a DTMF tone to the specified target address.
+     * @param address has to be the address of the active and
+     * foreground call.
+     * @param c the telephone key code of the DTMF tone to send.
+     * Only characters '0' - '9', '*' and '#' may be sent, invalid characters
+     * will be ignored.
+     * @return status code for DTMF tone start.
+     *
+     * @see TelephonyManager#startDtmf(String, char)
+     */
+    public int startDtmf(String address, char c) {
+        enforceCallPermission();
+        return (Integer) sendRequest(CMD_START_DTMF, new DtmfData(address, c));
+    }
+
+    /**
+     * Stops sending a DTMF tone to the specified target address.
+     * @param address has to be the address of the active and
+     * foreground call.
+     * @return status code for DTMF tone stop.
+     *
+     * @see TelephonyManager#stopDtmf(String)
+     */
+    public int stopDtmf(String address) {
+        enforceCallPermission();
+        return (Integer) sendRequest(CMD_STOP_DTMF, address);
+    }
+
+    /**
+     * Sends a DTMF tone to the specified target address.
+     * @param address has to be the address of the active and
+     * foreground call.
+     * @param c the telephone key code of the DTMF tone to send.
+     * Only characters '0' - '9', '*' and '#' may be sent, invalid characters
+     * will be ignored.
+     * @return status code for DTMF tone send.
+     *
+     * @see TelephonyManager#sendDtmf(String, char)
+     */
+    public int sendDtmf(String address, char c) {
+        enforceCallPermission();
+        return (Integer) sendRequest(CMD_SEND_DTMF, new DtmfData(address, c));
+    }
+
+    private class DtmfData {
+        public char dtmfChar;
+        public String dtmfTargetAddress;
+
+        public DtmfData(String address, char c) {
+            this.dtmfTargetAddress = address;
+            this.dtmfChar = c;
+        }
     }
 }
