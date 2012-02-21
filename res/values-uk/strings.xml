@@ -717,7 +717,7 @@
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вібросигнал"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Завжди"</item>
-    <item msgid="1595097872875714252">"Лише в беззвуч. реж."</item>
+    <item msgid="1595097872875714252">"Лише в беззвучному режимі"</item>
     <item msgid="1458182414036878616">"Ніколи"</item>
   </string-array>
 </resources>
