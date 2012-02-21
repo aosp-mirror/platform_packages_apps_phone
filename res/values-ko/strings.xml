@@ -718,6 +718,6 @@
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"항상"</item>
     <item msgid="1595097872875714252">"무음 시에만"</item>
-    <item msgid="1458182414036878616">"사용 안함"</item>
+    <item msgid="1458182414036878616">"안함"</item>
   </string-array>
 </resources>

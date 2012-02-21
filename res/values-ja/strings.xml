@@ -716,8 +716,8 @@
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"バイブレーション"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"バイブレーション"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
-    <item msgid="468237575962916558">"常に使用"</item>
-    <item msgid="1595097872875714252">"マナーモード時のみ"</item>
+    <item msgid="468237575962916558">"常時"</item>
+    <item msgid="1595097872875714252">"マナーモード設定時のみ"</item>
     <item msgid="1458182414036878616">"使用しない"</item>
   </string-array>
 </resources>

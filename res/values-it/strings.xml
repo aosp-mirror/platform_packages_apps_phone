@@ -721,7 +721,7 @@
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibrazione"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Sempre"</item>
-    <item msgid="1595097872875714252">"Solo in modalità silenziosa"</item>
+    <item msgid="1595097872875714252">"Solo in modalità Silenzioso"</item>
     <item msgid="1458182414036878616">"Mai"</item>
   </string-array>
 </resources>

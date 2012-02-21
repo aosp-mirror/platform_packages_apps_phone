@@ -718,6 +718,6 @@
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"始终"</item>
     <item msgid="1595097872875714252">"仅在静音时"</item>
-    <item msgid="1458182414036878616">"一律不"</item>
+    <item msgid="1458182414036878616">"永不"</item>
   </string-array>
 </resources>

@@ -718,6 +718,6 @@
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Luôn luôn"</item>
     <item msgid="1595097872875714252">"Chỉ khi ở chế độ im lặng"</item>
-    <item msgid="1458182414036878616">"Chưa bao giờ"</item>
+    <item msgid="1458182414036878616">"Không bao giờ"</item>
   </string-array>
 </resources>
