@@ -719,7 +719,7 @@
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вибросигнал"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Всегда"</item>
-    <item msgid="1595097872875714252">"Только в режиме без звука"</item>
+    <item msgid="1595097872875714252">"Только в тихом режиме"</item>
     <item msgid="1458182414036878616">"Никогда"</item>
   </string-array>
 </resources>

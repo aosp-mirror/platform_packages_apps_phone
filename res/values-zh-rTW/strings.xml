@@ -720,8 +720,8 @@
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"震動"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"震動"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
-    <item msgid="468237575962916558">"一律"</item>
-    <item msgid="1595097872875714252">"靜音時才啟用"</item>
-    <item msgid="1458182414036878616">"永遠不要"</item>
+    <item msgid="468237575962916558">"一律啟用"</item>
+    <item msgid="1595097872875714252">"僅在靜音時啟用"</item>
+    <item msgid="1458182414036878616">"永不啟用"</item>
   </string-array>
 </resources>

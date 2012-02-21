@@ -718,6 +718,6 @@
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Selalu"</item>
     <item msgid="1595097872875714252">"Hanya saat senyap"</item>
-    <item msgid="1458182414036878616">"Tidak pernah"</item>
+    <item msgid="1458182414036878616">"Tidak Pernah"</item>
   </string-array>
 </resources>
