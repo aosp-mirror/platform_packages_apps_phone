@@ -1002,12 +1002,10 @@ public class CallNotifier extends Handler
         if ((c != null) && (c.getCall().getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
             autoretrySetting = android.provider.Settings.System.getInt(mApplication.
                     getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
-        }
 
-        // Stop any signalInfo tone being played when a call gets ended
-        stopSignalInfoTone();
+            // Stop any signalInfo tone being played when a call gets ended
+            stopSignalInfoTone();
 
-        if ((c != null) && (c.getCall().getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA)) {
             // Resetting the CdmaPhoneCallState members
             mApplication.cdmaPhoneCallState.resetCdmaPhoneCallState();
 
