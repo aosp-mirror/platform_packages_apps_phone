@@ -39,6 +39,7 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -154,11 +155,13 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String BUTTON_FDN_KEY   = "button_fdn_key";
     private static final String BUTTON_RESPOND_VIA_SMS_KEY   = "button_respond_via_sms_key";
 
-    private static final String BUTTON_RINGTONE_KEY = "button_ringtone_key";
-    private static final String BUTTON_DTMF_KEY     = "button_dtmf_settings";
-    private static final String BUTTON_RETRY_KEY    = "button_auto_retry_key";
-    private static final String BUTTON_TTY_KEY      = "button_tty_mode_key";
-    private static final String BUTTON_HAC_KEY      = "button_hac_key";
+    private static final String BUTTON_RINGTONE_KEY    = "button_ringtone_key";
+    private static final String BUTTON_VIBRATE_ON_RING = "button_vibrate_on_ring";
+    private static final String BUTTON_PLAY_DTMF_TONE  = "button_play_dtmf_tone";
+    private static final String BUTTON_DTMF_KEY        = "button_dtmf_settings";
+    private static final String BUTTON_RETRY_KEY       = "button_auto_retry_key";
+    private static final String BUTTON_TTY_KEY         = "button_tty_mode_key";
+    private static final String BUTTON_HAC_KEY         = "button_hac_key";
 
     private static final String BUTTON_GSM_UMTS_OPTIONS = "button_gsm_more_expand_key";
     private static final String BUTTON_CDMA_OPTIONS = "button_cdma_more_expand_key";
@@ -239,6 +242,9 @@ public class CallFeaturesSetting extends PreferenceActivity
     };
 
     private Preference mRingtonePreference;
+    private CheckBoxPreference mVibrateOnRing;
+    /** Whether dialpad plays DTMF tone or not. */
+    private CheckBoxPreference mPlayDtmfTone;
     private CheckBoxPreference mButtonAutoRetry;
     private CheckBoxPreference mButtonHAC;
     private ListPreference mButtonDTMF;
@@ -452,6 +458,9 @@ public class CallFeaturesSetting extends PreferenceActivity
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mSubMenuVoicemailSettings) {
             return true;
+        } else if (preference == mPlayDtmfTone) {
+            Settings.System.putInt(getContentResolver(), Settings.System.DTMF_TONE_WHEN_DIALING,
+                    mPlayDtmfTone.isChecked() ? 1 : 0);
         } else if (preference == mButtonDTMF) {
             return true;
         } else if (preference == mButtonTTY) {
@@ -488,7 +497,9 @@ public class CallFeaturesSetting extends PreferenceActivity
      */
     @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
-        if (preference == mButtonDTMF) {
+        if (preference == mVibrateOnRing) {
+            setPhoneVibrateSettingValue((Boolean) objValue);
+        } else if (preference == mButtonDTMF) {
             int index = mButtonDTMF.findIndexOfValue((String) objValue);
             Settings.System.putInt(mPhone.getContext().getContentResolver(),
                     Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, index);
@@ -1424,6 +1435,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         mRingtonePreference = findPreference(BUTTON_RINGTONE_KEY);
+        mVibrateOnRing = (CheckBoxPreference) findPreference(BUTTON_VIBRATE_ON_RING);
+        mPlayDtmfTone = (CheckBoxPreference) findPreference(BUTTON_PLAY_DTMF_TONE);
         mButtonDTMF = (ListPreference) findPreference(BUTTON_DTMF_KEY);
         mButtonAutoRetry = (CheckBoxPreference) findPreference(BUTTON_RETRY_KEY);
         mButtonHAC = (CheckBoxPreference) findPreference(BUTTON_HAC_KEY);
@@ -1437,6 +1450,19 @@ public class CallFeaturesSetting extends PreferenceActivity
             mVoicemailNotificationVibrateWhen.setOnPreferenceChangeListener(this);
 
             initVoiceMailProviders();
+        }
+
+        if (mVibrateOnRing != null) {
+            if (((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+                mVibrateOnRing.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mVibrateOnRing);
+            }
+        }
+
+        if (mPlayDtmfTone != null) {
+            mPlayDtmfTone.setChecked(Settings.System.getInt(getContentResolver(),
+                    Settings.System.DTMF_TONE_WHEN_DIALING, 1) != 0);
         }
 
         if (mButtonDTMF != null) {
@@ -1617,6 +1643,12 @@ public class CallFeaturesSetting extends PreferenceActivity
                 if (pref != sipSettings) pref.setEnabled(false);
             }
             return;
+        }
+
+        if (mVibrateOnRing != null) {
+            final int vibrateMode =
+                    mAudioManager.getVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER);
+            mVibrateOnRing.setChecked(vibrateMode == AudioManager.VIBRATE_SETTING_ON);
         }
 
         if (mButtonDTMF != null) {
@@ -1958,6 +1990,18 @@ public class CallFeaturesSetting extends PreferenceActivity
     private String getCurrentVoicemailProviderKey() {
         final String key = mVoicemailProviders.getValue();
         return (key != null) ? key : DEFAULT_VM_PROVIDER_KEY;
+    }
+
+    /**
+     * Put the audio system into the correct vibrate setting
+     */
+    private void setPhoneVibrateSettingValue(boolean vibeOnRing) {
+        // If vibrate-on-ring is checked, use VIBRATE_SETTING_ON
+        // Otherwise vibrate is off when ringer is silent
+        int vibrateMode = vibeOnRing ? AudioManager.VIBRATE_SETTING_ON
+                : AudioManager.VIBRATE_SETTING_ONLY_SILENT;
+        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, vibrateMode);
+        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_NOTIFICATION, vibrateMode);
     }
 
     @Override

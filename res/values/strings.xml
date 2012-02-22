@@ -1504,4 +1504,13 @@
 
     <!-- Setting option name to pick ringtone (a list dialog comes up). [CHAR LIMIT=30] -->
     <string name="ringtone_title" msgid="5379026328015343686">Phone ringtone</string>
+
+    <!-- Setting option name to enable or disable vibration when ringing
+         the phone.
+         [CHAR LIMIT=40] -->
+    <string name="vibrate_on_ring_title">Vibrate when ringing</string>
+
+    <!-- Setting option name to enable or disable DTMF tone sound
+         [CHAR LIMIT=40] -->
+    <string name="dtmf_tone_enable_title">Dial pad touch tones</string>
 </resources>

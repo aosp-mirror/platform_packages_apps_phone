@@ -24,6 +24,18 @@
            android:persistent="false"
            android:ringtoneType="ringtone" />
 
+    <CheckBoxPreference
+           android:key="button_vibrate_on_ring"
+           android:title="@string/vibrate_on_ring_title"
+           android:persistent="false"
+           android:defaultValue="false" />
+
+    <CheckBoxPreference
+           android:key="button_play_dtmf_tone"
+           android:title="@string/dtmf_tone_enable_title"
+           android:persistent="false"
+           android:defaultValue="true" />
+
     <PreferenceScreen
         android:key="button_fdn_key"
         android:title="@string/fdn"
