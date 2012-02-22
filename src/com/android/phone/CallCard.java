@@ -23,7 +23,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.pim.ContactsAsyncHelper;
 import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -58,6 +57,9 @@ public class CallCard extends FrameLayout
                    ContactsAsyncHelper.OnImageLoadCompleteListener {
     private static final String LOG_TAG = "CallCard";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+
+    private static final int TOKEN_UPDATE_PHOTO_FOR_CALL_STATE = 0;
+    private static final int TOKEN_DO_NOTHING = 1;
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -615,10 +617,22 @@ public class CallCard extends FrameLayout
      * make sure that the call state is reflected after the image is loaded.
      */
     @Override
-    public void onImageLoadComplete(int token, Object cookie, ImageView iView,
-            boolean imagePresent){
-        if (cookie != null) {
-            updatePhotoForCallState((Call) cookie);
+    public void onImageLoadComplete(int token, Object cookie, ImageView iView, Drawable result) {
+        // Note: previously ContactsAsyncHelper has done this job.
+        // TODO: We will need fade-in animation. See issue 5236130.
+        if (result != null) {
+            showImage(iView, result);
+        } else {
+            showImage(iView, R.drawable.picture_unknown);
+        }
+
+        if (token == TOKEN_UPDATE_PHOTO_FOR_CALL_STATE) {
+            if (cookie != null) {
+                updatePhotoForCallState((Call) cookie);
+            } else {
+                // Cookie must be specified by a caller of updateImageViewWithContactPhotoAsync().
+                Log.wtf(LOG_TAG, "Cookie became null when photo is being loaded correctly.");
+            }
         }
     }
 
@@ -1152,10 +1166,17 @@ public class CallCard extends FrameLayout
         } else if (info != null && info.photoResource != 0){
             showImage(mPhoto, info.photoResource);
         } else if (!showCachedImage(mPhoto, info)) {
-            // Load the image with a callback to update the image state.
-            // Use the default unknown picture while the query is running.
-            ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
-                info, 0, this, call, getContext(), mPhoto, personUri, R.drawable.picture_unknown);
+            if (personUri == null) {
+                Log.w(LOG_TAG, "personPri is null. Just use Unknown picture.");
+                showImage(mPhoto, R.drawable.picture_unknown);
+            } else {
+                showImage(mPhoto, R.drawable.picture_unknown);
+                // Load the image with a callback to update the image state.
+                // When the load is finished, onImageLoadComplete() will be called.
+                ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
+                        info, TOKEN_UPDATE_PHOTO_FOR_CALL_STATE,
+                        this, call, getContext(), mPhoto, personUri);
+            }
         }
 
         if (displayNumber != null && !call.isGeneric()) {
@@ -1335,15 +1356,24 @@ public class CallCard extends FrameLayout
                 //   3. If the load request has not been made [DISPLAY_DEFAULT], start the
                 //      request and note that it has started by updating photo state with
                 //      [DISPLAY_IMAGE].
-                // Load requests started in (3) use a placeholder image of -1 to hide the
-                // image by default.  Please refer to CallerInfoAsyncQuery.java for cases
-                // where CallerInfo.photoResource may be set.
                 if (photoImageResource == 0) {
                     if (!PhoneUtils.isConferenceCall(call)) {
                         if (!showCachedImage(mPhoto, ci) && (mPhotoTracker.getPhotoState() ==
                                 ContactsAsyncHelper.ImageTracker.DISPLAY_DEFAULT)) {
-                            ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(ci,
-                                    getContext(), mPhoto, mPhotoTracker.getPhotoUri(), -1);
+                            Uri photoUri = mPhotoTracker.getPhotoUri();
+                            if (photoUri == null) {
+                                Log.w(LOG_TAG, "photoUri became null. Show default avatar icon");
+                                showImage(mPhoto, R.drawable.picture_unknown);
+                            } else {
+                                if (DBG) {
+                                    log("start asynchronous load inside updatePhotoForCallState()");
+                                }
+                                // Make it invisible for a moment
+                                mPhoto.setVisibility(View.INVISIBLE);
+                                ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(ci,
+                                        TOKEN_DO_NOTHING, this, null, getContext(), mPhoto,
+                                        photoUri);
+                            }
                             mPhotoTracker.setPhotoState(
                                     ContactsAsyncHelper.ImageTracker.DISPLAY_IMAGE);
                         }
