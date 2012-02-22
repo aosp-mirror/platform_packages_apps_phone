@@ -1027,6 +1027,14 @@ public class BluetoothHandsfree {
                 switch (mPhoneState) {
                 case IDLE:
                     mUserWantsAudio = true;  // out of call - reset state
+
+                    // Add some delay so that end of call (e.g BUSY) tones can
+                    // be played before the SCO path is closed.
+                    try {
+                        Thread.sleep(5000); // 5 seconds
+                    } catch (InterruptedException e) {
+                        Log.w(TAG, "Thread interrupts current active sleep");
+                    }
                     audioOff();
                     break;
                 default:
