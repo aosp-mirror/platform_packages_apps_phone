@@ -783,7 +783,6 @@ public class InCallScreen extends Activity
         // frame is removed using a timed message, it is
         // possible we missed it if the prev call was interrupted.
         mApp.inCallUiState.providerInfoVisible = false;
-        mCallCard.updateState(mCM);
 
         // A safety measure to disable proximity sensor in case call failed
         // and the telephony state did not change.
