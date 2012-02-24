@@ -16,35 +16,26 @@
 
 <!-- In-call Phone UI; see InCallScreen.java. -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- inCallPanel: container for the CallCard. -->
-    <!-- TODO: This RelativeLayout is useless since it only has
-         one child.  And the only reason it's here is so we can
-         setVisibility(View.GONE) on it when we want to entirely
-         hide the CallCard.
-         So let's just get rid of it, and call setVisibility()
-         directly on the CallCard. -->
-    <!-- Note that the CallCard is technically the size of the full screen
+    <!-- The "Call Card", which displays info about the currently
+         active phone call(s) on the device.  See call_card.xml.
+
+         Note that the CallCard is technically the size of the full screen
          (since layout_width and layout_height are both "match_parent" here) but
          we manually adjust its bottom margin in CallCard.updateCallInfoLayout()
          to make sure it doesn't overlap with the onscreen buttons from
          incall_touch_ui.xml. -->
-    <RelativeLayout android:id="@+id/inCallPanel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
-        <!-- The "Call Card", which displays info about the currently
-             active phone call(s) on the device.  See call_card.xml. -->
-        <com.android.phone.CallCard android:id="@+id/callCard"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    />
-    </RelativeLayout>  <!-- End of inCallPanel -->
+    <include
+        layout="@layout/call_card"
+        android:id="@+id/callCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <!-- In-call onscreen touch controls; see InCallTouchUi.java.
          This widget contains the cluster of buttons shown at the bottom
          of the in-call screen, and also the DTMF dialpad (which, when
          visible, covers the upper part of the screen too.) -->
-    <com.android.phone.InCallTouchUi
+    <include layout="@layout/incall_touch_ui"
         android:id="@+id/inCallTouchUi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

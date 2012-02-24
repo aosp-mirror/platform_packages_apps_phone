@@ -33,13 +33,12 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.internal.telephony.Call;
@@ -57,7 +56,7 @@ import java.util.List;
  * cards, each representing the state of a current "call" (ie. an active call,
  * a call on hold, or an incoming call.)
  */
-public class CallCard extends FrameLayout
+public class CallCard extends LinearLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
                    ContactsAsyncHelper.OnImageLoadCompleteListener {
     private static final String LOG_TAG = "CallCard";
@@ -159,13 +158,6 @@ public class CallCard extends FrameLayout
         if (DBG) log("CallCard constructor...");
         if (DBG) log("- this = " + this);
         if (DBG) log("- context " + context + ", attrs " + attrs);
-
-        // Inflate the contents of this CallCard, and add it (to ourself) as a child.
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(
-                R.layout.call_card,  // resource
-                this,                // root
-                true);
 
         mApplication = PhoneApp.getInstance();
 

@@ -25,7 +25,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -129,21 +128,12 @@ public class InCallTouchUi extends FrameLayout
             }
         };
 
-
     public InCallTouchUi(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (DBG) log("InCallTouchUi constructor...");
         if (DBG) log("- this = " + this);
         if (DBG) log("- context " + context + ", attrs " + attrs);
-
-        // Inflate our contents, and add it (to ourself) as a child.
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(
-                R.layout.incall_touch_ui,  // resource
-                this,                      // root
-                true);
-
         mApp = PhoneApp.getInstance();
     }
 

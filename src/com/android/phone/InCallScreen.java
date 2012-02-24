@@ -199,10 +199,7 @@ public class InCallScreen extends Activity
     private boolean mBluetoothConnectionPending;
     private long mBluetoothConnectionRequestTime;
 
-    /** Main in-call UI ViewGroups, showing avatar icon, etc. */
-    private ViewGroup mInCallPanel;
-
-    /** Main in-call UI elements, which should be inside {@link #mInCallPanel} */
+    /** Main in-call UI elements. */
     private CallCard mCallCard;
 
     // UI controls:
@@ -714,7 +711,7 @@ public class InCallScreen extends Activity
         } else if (TelephonyCapabilities.supportsOtasp(mPhone)) {
             if (inCallUiState.inCallScreenMode == InCallScreenMode.OTA_NORMAL ||
                     inCallUiState.inCallScreenMode == InCallScreenMode.OTA_ENDED) {
-                if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
+                if (mCallCard != null) mCallCard.setVisibility(View.GONE);
                 updateScreen();
                 return;
             }
@@ -1211,8 +1208,6 @@ public class InCallScreen extends Activity
 
         // Have the WindowManager filter out touch events that are "too fat".
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES);
-
-        mInCallPanel = (ViewGroup) findViewById(R.id.inCallPanel);
 
         // Initialize the CallCard.
         mCallCard = (CallCard) findViewById(R.id.callCard);
@@ -2215,7 +2210,7 @@ public class InCallScreen extends Activity
 
         if (inCallScreenMode == InCallScreenMode.OTA_NORMAL) {
             if (DBG) log("- updateScreen: OTA call state NORMAL (NOT updating in-call UI)...");
-            mInCallPanel.setVisibility(View.GONE);
+            mCallCard.setVisibility(View.GONE);
             if (mApp.otaUtils != null) {
                 mApp.otaUtils.otaShowProperScreen();
             } else {
@@ -2224,7 +2219,7 @@ public class InCallScreen extends Activity
             return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.OTA_ENDED) {
             if (DBG) log("- updateScreen: OTA call ended state (NOT updating in-call UI)...");
-            mInCallPanel.setVisibility(View.GONE);
+            mCallCard.setVisibility(View.GONE);
             // Wake up the screen when we get notification, good or bad.
             mApp.wakeUpScreen();
             if (mApp.cdmaOtaScreenState.otaScreenState
@@ -2245,7 +2240,7 @@ public class InCallScreen extends Activity
             return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.MANAGE_CONFERENCE) {
             if (DBG) log("- updateScreen: manage conference mode (NOT updating in-call UI)...");
-            mInCallPanel.setVisibility(View.GONE);
+            mCallCard.setVisibility(View.GONE);
             updateManageConferencePanelIfNecessary();
             return;  // Return without updating in-call UI.
         } else if (inCallScreenMode == InCallScreenMode.CALL_ENDED) {
@@ -2280,8 +2275,8 @@ public class InCallScreen extends Activity
             mDialer.clearDigits();
         }
         // Now that we're sure DTMF dialpad is in an appropriate state, reflect
-        // the dialpad state into InCallPanel.
-        updateInCallPanelVisibilityPerDialerState(false);
+        // the dialpad state into CallCard
+        updateCallCardVisibilityPerDialerState(false);
 
         updateProgressIndication();
 
@@ -3599,7 +3594,7 @@ public class InCallScreen extends Activity
                 mManageConferenceUtils.updateManageConferencePanel(connections);
 
                 // The "Manage conference" UI takes up the full main frame,
-                // replacing the inCallPanel and CallCard PopupWindow.
+                // replacing the CallCard PopupWindow.
                 mManageConferenceUtils.setPanelVisible(true);
 
                 // Start the chronometer.
@@ -3737,7 +3732,7 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Updates {@link #mInCallPanel}'s visibility state per DTMF dialpad visibility. They
+     * Updates {@link #mCallCard}'s visibility state per DTMF dialpad visibility. They
      * cannot be shown simultaneously and thus we should reflect DTMF dialpad visibility into
      * another.
      *
@@ -3746,31 +3741,30 @@ public class InCallScreen extends Activity
      *
      * @see #updateScreen()
      */
-    private void updateInCallPanelVisibilityPerDialerState(boolean animate) {
-        // We need to hide the CallCard (which is a
-        // child of mInCallPanel) while the dialpad is visible.
+    private void updateCallCardVisibilityPerDialerState(boolean animate) {
+        // We need to hide the CallCard while the dialpad is visible.
         if (isDialerOpened()) {
             if (VDBG) {
-                log("- updateInCallPanelVisibilityPerDialerState(animate="
-                        + animate + "): dialpad open, hide mInCallPanel...");
+                log("- updateCallCardVisibilityPerDialerState(animate="
+                        + animate + "): dialpad open, hide mCallCard...");
             }
             if (animate) {
-                CallCard.Fade.hide(mInCallPanel, View.GONE);
+                CallCard.Fade.hide(mCallCard, View.GONE);
             } else {
-                mInCallPanel.setVisibility(View.GONE);
+                mCallCard.setVisibility(View.GONE);
             }
         } else {
             // Dialpad is dismissed; bring back the CallCard if it's supposed to be visible.
             if ((mApp.inCallUiState.inCallScreenMode == InCallScreenMode.NORMAL)
                 || (mApp.inCallUiState.inCallScreenMode == InCallScreenMode.CALL_ENDED)) {
                 if (VDBG) {
-                    log("- updateInCallPanelVisibilityPerDialerState(animate="
-                            + animate + "): dialpad dismissed, show mInCallPanel...");
+                    log("- updateCallCardVisibilityPerDialerState(animate="
+                            + animate + "): dialpad dismissed, show mCallCard...");
                 }
                 if (animate) {
-                    CallCard.Fade.show(mInCallPanel);
+                    CallCard.Fade.show(mCallCard);
                 } else {
-                    mInCallPanel.setVisibility(View.VISIBLE);
+                    mCallCard.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -3793,8 +3787,8 @@ public class InCallScreen extends Activity
         // Update the in-call touch UI.
         updateInCallTouchUi();
 
-        // Update InCallPanel UI, which depends on the dialpad.
-        updateInCallPanelVisibilityPerDialerState(animate);
+        // Update CallCard UI, which depends on the dialpad.
+        updateCallCardVisibilityPerDialerState(animate);
 
         // This counts as explicit "user activity".
         mApp.pokeUserActivity();
@@ -3830,8 +3824,8 @@ public class InCallScreen extends Activity
         // Update the in-call touch UI.
         updateInCallTouchUi();
 
-        // Update InCallPanel UI, which depends on the dialpad.
-        updateInCallPanelVisibilityPerDialerState(animate);
+        // Update CallCard UI, which depends on the dialpad.
+        updateCallCardVisibilityPerDialerState(animate);
 
         // This counts as explicit "user activity".
         mApp.pokeUserActivity();
@@ -4238,7 +4232,7 @@ public class InCallScreen extends Activity
             // (This call has no effect if the UI widgets have already been set up.
             // It only really matters  the very first time that the InCallScreen instance
             // is onResume()d after starting an OTASP call.)
-            mApp.otaUtils.updateUiWidgets(this, mInCallPanel, mInCallTouchUi, mCallCard);
+            mApp.otaUtils.updateUiWidgets(this, mInCallTouchUi, mCallCard);
 
             // Also update the InCallScreenMode based on the cdmaOtaInCallScreenState.
 

@@ -141,7 +141,6 @@ public class OtaUtils {
     private Context mContext;
     private PhoneApp mApplication;
     private OtaWidgetData mOtaWidgetData;
-    private ViewGroup mInCallPanel;  // Container for the CallCard
     private ViewGroup mInCallTouchUi;  // UI controls for regular calls
     private CallCard mCallCard;
 
@@ -230,9 +229,7 @@ public class OtaUtils {
      * InCallScreen.onResume().)
      */
     public void updateUiWidgets(InCallScreen inCallScreen,
-                                ViewGroup inCallPanel,
-                                ViewGroup inCallTouchUi,
-                                CallCard callCard) {
+            ViewGroup inCallTouchUi, CallCard callCard) {
         if (DBG) log("updateUiWidgets()...  mInCallScreen = " + mInCallScreen);
 
         if (!mInteractive) {
@@ -245,7 +242,6 @@ public class OtaUtils {
         }
 
         mInCallScreen = inCallScreen;
-        mInCallPanel = inCallPanel;
         mInCallTouchUi = inCallTouchUi;
         mCallCard = callCard;
         mOtaWidgetData = new OtaWidgetData();
@@ -269,7 +265,6 @@ public class OtaUtils {
      */
     public void clearUiWidgets() {
         mInCallScreen = null;
-        mInCallPanel = null;
         mInCallTouchUi = null;
         mCallCard = null;
         mOtaWidgetData = null;
@@ -1116,9 +1111,12 @@ public class OtaUtils {
             return;
         }
 
-        if (mInCallPanel != null) mInCallPanel.setVisibility(View.GONE);
         if (mInCallTouchUi != null) mInCallTouchUi.setVisibility(View.GONE);
-        if (mCallCard != null) mCallCard.hideCallCardElements();
+        if (mCallCard != null) {
+            mCallCard.setVisibility(View.GONE);
+            // TODO: try removing this.
+            mCallCard.hideCallCardElements();
+        }
 
         mOtaWidgetData.otaTitle.setText(R.string.ota_title_activate);
         mOtaWidgetData.otaTextActivate.setVisibility(View.GONE);
@@ -1172,11 +1170,11 @@ public class OtaUtils {
         if ((mInCallScreen != null) && mInCallScreen.isForegroundActivity()) {
             if (DBG) log("otaShowProperScreen(): InCallScreen in foreground, currentstate = "
                     + mApplication.cdmaOtaScreenState.otaScreenState);
-            if (mInCallPanel != null) {
-                mInCallPanel.setVisibility(View.GONE);
-            }
             if (mInCallTouchUi != null) {
                 mInCallTouchUi.setVisibility(View.GONE);
+            }
+            if (mCallCard != null) {
+                mCallCard.setVisibility(View.GONE);
             }
             if (mApplication.cdmaOtaScreenState.otaScreenState
                     == CdmaOtaScreenState.OtaScreenState.OTA_STATUS_ACTIVATION) {
@@ -1452,9 +1450,11 @@ public class OtaUtils {
         mApplication.cdmaOtaInCallScreenUiState.state = State.UNDEFINED;
 
         if (mInteractive && (mOtaWidgetData != null)) {
-            if (mInCallPanel != null) mInCallPanel.setVisibility(View.VISIBLE);
             if (mInCallTouchUi != null) mInCallTouchUi.setVisibility(View.VISIBLE);
-            if (mCallCard != null) mCallCard.hideCallCardElements();
+            if (mCallCard != null) {
+                mCallCard.setVisibility(View.VISIBLE);
+                mCallCard.hideCallCardElements();
+            }
 
             // Free resources from the DTMFTwelveKeyDialer instance we created
             // in initOtaInCallScreen().

@@ -24,7 +24,7 @@
        (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
      Exactly one of these is visible at any given moment.
      -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.phone.InCallTouchUi xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:prvandroid="http://schemas.android.com/apk/prv/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -48,7 +48,7 @@
         android:id="@+id/incomingCallWidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="center|bottom"
         android:layout_marginBottom="-46dp"
         android:background="@android:color/black"
         android:visibility="gone"
@@ -76,7 +76,6 @@
     <RelativeLayout android:id="@+id/inCallControls"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
                     android:visibility="gone"
                     >
         <!-- DTMF dialpad shown in the upper part of the screen
@@ -305,4 +304,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</com.android.phone.InCallTouchUi>
