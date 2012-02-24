@@ -295,172 +295,10 @@ public class OutgoingCallBroadcaster extends Activity
     }
 
     /**
-     * Runnable used when the device isn't "voice-capable". See also handleNonVoiceCapable().
-     */
-    private class NonVoiceCapableRunnable implements Runnable {
-        private final Intent mIntent;
-
-        public NonVoiceCapableRunnable(Intent intent) {
-            mIntent = intent;
-        }
-
-        @Override
-        public void run() {
-            if (DBG) Log.v(TAG, "call handleNonVoiceCapable() with Intent = " + mIntent);
-            handleNonVoiceCapable(mIntent);
-        }
-    }
-
-    /**
-     * Runnable used when a given Intent requests an empty Flash message for CDMA networks.
-     *
-     * @see #EXTRA_SEND_EMPTY_FLASH
-     */
-    private class SendFlashRunnable implements Runnable {
-        @Override
-        public void run() {
-            if (DBG) Log.v(TAG, "send an empty flash request");
-            PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
-            finish();
-        }
-    }
-
-    /**
-     * Runnable launching another Activity using a given Intent. This will also call
-     * {@link Activity#finish()} just after that.
-     */
-    private class StartActivityRunnable implements Runnable {
-        private final Intent mIntent;
-
-        /**
-         * @param intent Intent for {@link Activity#startActivity(Intent)}
-         */
-        public StartActivityRunnable(Intent intent) {
-            mIntent = intent;
-        }
-
-        @Override
-        public void run() {
-            if (DBG) Log.v(TAG, "call startActivity() with Intent = " + mIntent);
-            startActivity(mIntent);
-            finish();
-        }
-    }
-
-    /**
-     * Runnable calling {@link Activity#sendOrderedBroadcast(Intent, String)} with a given
-     * Intent (it is presumably NEW_OUTGOING_CALL broadcast). With the broadcast 3rd party
-     * providers are able to intercept the phone call request.
-     *
-     * At the end of the broadcast {@link OutgoingCallReceiver#onReceive(Context, Intent)}, which
-     * will call {@link Activity#finish()} for this whole sequence.
-     */
-    private class DoOrderedBroadcastRunnable implements Runnable {
-        private final Intent mIntent;
-        private final String mInitialData;
-
-        /**
-         * @param intent Used as a first argument of
-         * {@link Activity#sendOrderedBroadcast(Intent, String, BroadcastReceiver, Handler, int,
-         * String, Bundle)}
-         * @param initialData Used as a 6th argument of
-         * {@link Activity#sendOrderedBroadcast(Intent, String, BroadcastReceiver, Handler, int,
-         * String, Bundle)}
-         */
-        public DoOrderedBroadcastRunnable(Intent intent, String initialData) {
-            mIntent = intent;
-            mInitialData = initialData;
-        }
-
-        @Override
-        public void run() {
-            if (DBG) {
-                Log.v(TAG, "sendOrderedBroadcast() with Intent = " + mIntent
-                        + ", InitialData = " + mInitialData);
-            }
-            sendOrderedBroadcast(
-                    mIntent,
-                    PERMISSION,
-                    new OutgoingCallReceiver(), // resultReceiver
-                    null,                       // scheduler
-                    Activity.RESULT_OK,          // initialCode
-                    mInitialData,                // initialData: initial value for the result data
-                    null);                      // initialExtras
-        }
-    }
-
-    /**
-     * Runnable calling
-     * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
-     * with given Intent, Uri, and String.
-     *
-     * Note: For SIP calls we're not using {@link Activity#sendOrderedBroadcast(Intent, String,
-     * BroadcastReceiver, Handler, int, String, Bundle)} right now.
-     */
-    private class StartSipCallOptionHandlerRunnable implements Runnable {
-        private final Intent mIntent;
-        private final Uri mUri;
-        private final String mNumber;
-
-        /**
-         * @param intent First argument of
-         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
-         * @param uri Second argument of
-         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
-         * @param number Third argument of
-         * {@link OutgoingCallBroadcaster#startSipCallOptionHandler(Context, Intent, Uri, String)}
-         */
-        public StartSipCallOptionHandlerRunnable(Intent intent, Uri uri, String number) {
-            mIntent = intent;
-            mUri = uri;
-            mNumber = number;
-        }
-
-        @Override
-        public void run() {
-            if (DBG) Log.v(TAG, "startSipCallOptionHandler() with Intent = " + mIntent);
-            startSipCallOptionHandler(OutgoingCallBroadcaster.this, mIntent, mUri, mNumber);
-            finish();
-        }
-    }
-
-    /**
-     * Used to handle "timeout" of outgoing call broadcast.
-     *
-     * When the device is really busy and takes more than
-     * {@link OutgoingCallBroadcaster#EVENT_OUTGOING_CALL_TIMEOUT} msec to determine the correct
-     * behavior for the CALL request, we starts showing "wait a bit more" spinner so that users
-     * won't be confused with the black screen shown by OutgonigCallBroadcaster.
-     */
-    private class OutgoingCallHandleTask extends AsyncTask<Intent, Void, Runnable> {
-        @Override
-        protected Runnable doInBackground(Intent... params) {
-            return processIntent(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Runnable runnable) {
-            mHandler.removeMessages(EVENT_OUTGOING_CALL_TIMEOUT);
-            if (DBG) Log.v(TAG, "AsyncTask finished. Runnable = " + runnable);
-            if (runnable != null) {
-                runnable.run();
-            } else {
-                finish();
-            }
-        }
-    }
-
-    /**
      * This method is the single point of entry for the CALL intent, which is used (by built-in
      * apps like Contacts / Dialer, as well as 3rd-party apps) to initiate an outgoing voice call.
      *
-     * After doing very basic sanity checks, this launches an AsyncTask deciding what exact
-     * action should be taken for the incoming intent. The Activity then starts showing a temporary
-     * black screen, with which users will wait for the AsyncTask's result.
      *
-     * So that we can prepare for unexpected delay by the AsyncTask, this method also sets a timer,
-     * which will show "waiting" spinner if AsyncTask is so slow (after waiting for
-     * {@link #OUTGOING_CALL_TIMEOUT_THRESHOLD} msec).
      */
     @Override
     protected void onCreate(Bundle icicle) {
@@ -503,24 +341,21 @@ public class OutgoingCallBroadcaster extends Activity
             return;
         }
 
-        // Start AsyncTask and exit onCreate() immediately, letting the system to show an empty
-        // screen until the task being done.
-        startAsyncTaskWithTimeout(intent);
-    }
-
-    private void startAsyncTaskWithTimeout(Intent intent) {
-        if (DBG) Log.v(TAG, " - start executing AsyncTask");
-        // Starts asynchronous work and let the Activity show black screen.
-        new OutgoingCallHandleTask().execute(intent);
-        // When we notice the async task is slower than usual, we will allow the Activity to
-        // do something additional (e.g. show "wait for a moment" spinner).
+        // Set a timer so that we can prepare for unexpected delay introduced by the following
+        // sequence (especially around broadcast). If it takes too much time, the timer will show
+        // "waiting" spinner.
         mHandler.sendEmptyMessageDelayed(EVENT_OUTGOING_CALL_TIMEOUT,
                 OUTGOING_CALL_TIMEOUT_THRESHOLD);
+        processIntent(intent);
+
+        // isFinishing() return false when 1. broadcast is still ongoing, or 2. dialog is being
+        // shown. Otherwise finish() is called inside processIntent(), is isFinishing() here will
+        // return true.
+        if (DBG) Log.v(TAG, "At the end of onCreate(). isFinishing(): " + isFinishing());
     }
 
     /**
-     * Decides what action should be taken toward a given Intent which should come from
-     * {@link #onCreate(Bundle)}. This method will be called from a background thread.
+     * Interprets a given Intent and starts something relevant to the Intent.
      *
      * This method will handle three kinds of actions:
      *
@@ -551,17 +386,18 @@ public class OutgoingCallBroadcaster extends Activity
      *   is only meaningful on CDMA devices while a call is already
      *   active.)
      *
-     * @return Runnable to be executed in the foreground thread. Null if we want to call
-     * {@link #finish()} immediately.
      */
-    private Runnable processIntent(Intent intent) {
-        if (DBG) Log.v(TAG, "processIntent() = " + intent);
+    private void processIntent(Intent intent) {
+        if (DBG) {
+            Log.v(TAG, "processIntent() = " + intent + ", thread: " + Thread.currentThread());
+        }
         final Configuration configuration = getResources().getConfiguration();
 
         // Outgoing phone calls are only allowed on "voice-capable" devices.
         if (!PhoneApp.sVoiceCapable) {
             Log.i(TAG, "This device is detected as non-voice-capable device.");
-            return new NonVoiceCapableRunnable(intent);
+            handleNonVoiceCapable(intent);
+            return;
         }
 
         String action = intent.getAction();
@@ -653,7 +489,9 @@ public class OutgoingCallBroadcaster extends Activity
 
                 if (DBG) Log.v(TAG, "onCreate(): calling startActivity for Dialer: "
                                + invokeFrameworkDialer);
-                return new StartActivityRunnable(invokeFrameworkDialer);
+                startActivity(invokeFrameworkDialer);
+                finish();
+                return;
             }
             callNow = false;
         } else if (Intent.ACTION_CALL_EMERGENCY.equals(action)) {
@@ -666,13 +504,16 @@ public class OutgoingCallBroadcaster extends Activity
             // emergency number.
             if (!isPotentialEmergencyNumber) {
                 Log.w(TAG, "Cannot call non-potential-emergency number " + number
-                        + " with EMERGENCY_CALL Intent " + intent + ".");
-                return null;
+                        + " with EMERGENCY_CALL Intent " + intent + "."
+                        + " Finish the Activity immediately.");
+                finish();
+                return;
             }
             callNow = true;
         } else {
-            Log.e(TAG, "Unhandled Intent " + intent + ".");
-            return null;
+            Log.e(TAG, "Unhandled Intent " + intent + ". Finish the Activity immediately.");
+            finish();
+            return;
         }
 
         // Make sure the screen is turned on.  This is probably the right
@@ -692,7 +533,9 @@ public class OutgoingCallBroadcaster extends Activity
         if (TextUtils.isEmpty(number)) {
             if (intent.getBooleanExtra(EXTRA_SEND_EMPTY_FLASH, false)) {
                 Log.i(TAG, "onCreate: SEND_EMPTY_FLASH...");
-                return new SendFlashRunnable();
+                PhoneUtils.sendEmptyFlash(PhoneApp.getPhone());
+                finish();
+                return;
             } else {
                 Log.i(TAG, "onCreate: null or empty number, setting callNow=true...");
                 callNow = true;
@@ -742,7 +585,10 @@ public class OutgoingCallBroadcaster extends Activity
         Uri uri = intent.getData();
         String scheme = uri.getScheme();
         if (Constants.SCHEME_SIP.equals(scheme) || PhoneNumberUtils.isUriNumber(number)) {
-            return new StartSipCallOptionHandlerRunnable(intent, uri, number);
+            Log.i(TAG, "The requested number was detected as SIP call.");
+            startSipCallOptionHandler(this, intent, uri, number);
+            finish();
+            return;
 
             // TODO: if there's ever a way for SIP calls to trigger a
             // "callNow=true" case (see above), we'll need to handle that
@@ -760,7 +606,11 @@ public class OutgoingCallBroadcaster extends Activity
         // to intercept the outgoing call.
         broadcastIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         if (DBG) Log.v(TAG, " - Broadcasting intent: " + broadcastIntent + ".");
-        return new DoOrderedBroadcastRunnable(broadcastIntent, number);
+        sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
+                null,  // scheduler
+                Activity.RESULT_OK,  // initialCode
+                number,  // initialData: initial value for the result data
+                null);  // initialExtras
     }
 
     @Override
