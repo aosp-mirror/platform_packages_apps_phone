@@ -429,7 +429,7 @@
         </activity>
 
         <!-- bluetooth headset service -->
-        <service android:name="BluetoothHeadsetService">
+        <service android:name="BluetoothHeadsetService" android:exported="false">
             <intent-filter>
                 <action android:name="android.bluetooth.IBluetoothHeadset" />
             </intent-filter>

@@ -15,11 +15,7 @@
 -->
 
 <!-- In-call Phone UI; see InCallScreen.java. -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/incall_screen"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- inCallPanel: container for the CallCard. -->
     <!-- TODO: This RelativeLayout is useless since it only has
          one child.  And the only reason it's here is so we can
@@ -74,4 +70,4 @@
               android:layout_height="match_parent"
               />
 
-</FrameLayout>
+</merge>
