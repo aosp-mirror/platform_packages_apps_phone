@@ -469,6 +469,11 @@ public class InCallTouchUi extends FrameLayout
         // buttons need to be visible.
         boolean showExtraButtonRow = false;
 
+        if (DBG) {
+            log("updateInCallControls()...");
+            inCallControlState.dumpState();
+        }
+
         // "Add" / "Merge":
         // These two buttons occupy the same space onscreen, so at any
         // given point exactly one of them must be VISIBLE and the other
@@ -623,6 +628,37 @@ public class InCallTouchUi extends FrameLayout
         } else {
             mExtraButtonRow.setVisibility(View.GONE);
         }
+
+        if (DBG) {
+            log("At the end of updateInCallControls().");
+            dumpBottomButtonState();
+        }
+    }
+
+    private void dumpBottomButtonState() {
+        log(" - dialpad: " + getButtonState(mDialpadButton));
+        log(" - speaker: " + getButtonState(mAudioButton));
+        log(" - mute: " + getButtonState(mMuteButton));
+        log(" - hold: " + getButtonState(mHoldButton));
+        log(" - swap: " + getButtonState(mSwapButton));
+        log(" - add: " + getButtonState(mAddButton));
+        log(" - merge: " + getButtonState(mMergeButton));
+        log(" - cdmaMerge: " + getButtonState(mCdmaMergeButton));
+        log(" - swap: " + getButtonState(mSwapButton));
+        log(" - manageConferenceButton: " + getButtonState(mManageConferenceButton));
+    }
+
+    private static String getButtonState(View view) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("visibility: " + (view.getVisibility() == View.VISIBLE ? "VISIBLE"
+                : view.getVisibility() == View.INVISIBLE ? "INVISIBLE" : "GONE"));
+        if (view instanceof ImageButton) {
+            builder.append(", enabled: " + ((ImageButton) view).isEnabled());
+        } else if (view instanceof CompoundButton) {
+            builder.append(", enabled: " + ((CompoundButton) view).isEnabled());
+            builder.append(", checked: " + ((CompoundButton) view).isChecked());
+        }
+        return builder.toString();
     }
 
     /**
