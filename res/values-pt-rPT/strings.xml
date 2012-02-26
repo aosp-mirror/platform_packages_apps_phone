@@ -205,7 +205,7 @@
     <item msgid="7345284701413565429">"LTE/CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Dados activados"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Dados ativados"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Activar acesso a dados através de rede móvel"</string>
     <string name="roaming" msgid="8871412572928323707">"Roaming de dados"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Ligar a serviços de dados em roaming"</string>
@@ -246,17 +246,17 @@
     <string name="sports_news_settings" msgid="7649399631270052835">"Notícias Desportivas"</string>
     <string name="entertainment_news_settings" msgid="5051153952959405035">"Notícias de Entretenimento"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"Local"</string>
-    <string name="local_enable" msgid="6370463247609136359">"Notícias locais activadas"</string>
-    <string name="local_disable" msgid="4405691986943795798">"Notícias locais desactivadas"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Notícias locais ativadas"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Notícias locais desativadas"</string>
     <string name="enable_disable_regional" msgid="4905652414535565872">"Regional"</string>
-    <string name="regional_enable" msgid="4434680415437834759">"Notícias regionais activadas"</string>
-    <string name="regional_disable" msgid="5359325527213850077">"Notícias regionais desactivadas"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Notícias regionais ativadas"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Notícias regionais desativadas"</string>
     <string name="enable_disable_national" msgid="236278090206880734">"Nacional"</string>
-    <string name="national_enable" msgid="1172443648912246952">"Notícias nacionais activadas"</string>
-    <string name="national_disable" msgid="326018148178601166">"Notícias nacionais desactivadas"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Notícias nacionais ativadas"</string>
+    <string name="national_disable" msgid="326018148178601166">"Notícias nacionais desativadas"</string>
     <string name="enable_disable_international" msgid="7535348799604565592">"Internacional"</string>
-    <string name="international_enable" msgid="5855356769925044927">"Notícias internacionais activadas"</string>
-    <string name="international_disable" msgid="2850648591041088931">"Notícias internacionais desactivadas"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Notícias internacionais ativadas"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Notícias internacionais desativadas"</string>
     <string name="list_language_title" msgid="2841683501919760043">"Idioma"</string>
     <string name="list_language_summary" msgid="8109546531071241601">"Seleccionar o idioma das notícias"</string>
   <string-array name="list_language_entries">
@@ -282,14 +282,14 @@
     <string name="local_weather_enable" msgid="6199315114382448922">"Informação Meteorológica Local activada"</string>
     <string name="local_weather_disable" msgid="2510158089142626480">"Informação meteorológica local desactivada"</string>
     <string name="enable_disable_atr" msgid="8339572391278872343">"Relatórios de Tráfego de Área"</string>
-    <string name="atr_enable" msgid="5541757457789181799">"Relatórios de Tráfego de Área activados"</string>
-    <string name="atr_disable" msgid="7085558154727596455">"Relatórios de Tráfego de Área desactivados"</string>
+    <string name="atr_enable" msgid="5541757457789181799">"Relatórios de Tráfego de Área ativados"</string>
+    <string name="atr_disable" msgid="7085558154727596455">"Relatórios de Tráfego de Área desativados"</string>
     <string name="enable_disable_lafs" msgid="668189073721277199">"Horários de Voos do Aeroporto Local"</string>
-    <string name="lafs_enable" msgid="2791978667205137052">"Horários de Voos do Aeroporto Local activados"</string>
-    <string name="lafs_disable" msgid="2391212397725495350">"Horários de Voos do Aeroporto Local desactivados"</string>
+    <string name="lafs_enable" msgid="2791978667205137052">"Horários de Voos do Aeroporto Local ativados"</string>
+    <string name="lafs_disable" msgid="2391212397725495350">"Horários de Voos do Aeroporto Local desativados"</string>
     <string name="enable_disable_restaurants" msgid="6240381945336814024">"Restaurantes"</string>
-    <string name="restaurants_enable" msgid="5137657479469118847">"Restaurantes activados"</string>
-    <string name="restaurants_disable" msgid="3678480270938424092">"Restaurantes desactivados"</string>
+    <string name="restaurants_enable" msgid="5137657479469118847">"Restaurantes ativados"</string>
+    <string name="restaurants_disable" msgid="3678480270938424092">"Restaurantes desativados"</string>
     <string name="enable_disable_lodgings" msgid="1822029172658551202">"Alojamentos"</string>
     <string name="lodgings_enable" msgid="3230042508992850322">"Alojamento activado"</string>
     <string name="lodgings_disable" msgid="3387879742320682391">"Alojamento desactivado"</string>
@@ -297,20 +297,20 @@
     <string name="retail_directory_enable" msgid="3280626290436111496">"Lista de Retalho activada"</string>
     <string name="retail_directory_disable" msgid="6479739816662879027">"Lista de Retalho desactivada"</string>
     <string name="enable_disable_advertisements" msgid="5999495926176182128">"Anúncios"</string>
-    <string name="advertisements_enable" msgid="2050305021264683786">"Anúncios activados"</string>
-    <string name="advertisements_disable" msgid="8350985908788707935">"Anúncios desactivados"</string>
+    <string name="advertisements_enable" msgid="2050305021264683786">"Anúncios ativados"</string>
+    <string name="advertisements_disable" msgid="8350985908788707935">"Anúncios desativados"</string>
     <string name="enable_disable_stock_quotes" msgid="6397810445293533603">"Cotações de Acções"</string>
-    <string name="stock_quotes_enable" msgid="4384802470887170543">"Cotações de acções activadas"</string>
-    <string name="stock_quotes_disable" msgid="4781450084565594998">"Cotações de Acções desactivadas"</string>
+    <string name="stock_quotes_enable" msgid="4384802470887170543">"Cotações de acções ativadas"</string>
+    <string name="stock_quotes_disable" msgid="4781450084565594998">"Cotações de Acções desativadas"</string>
     <string name="enable_disable_eo" msgid="4863043263443942494">"Oportunidades de Emprego"</string>
-    <string name="eo_enable" msgid="8623559062015685813">"Oportunidades de Emprego activadas"</string>
-    <string name="eo_disable" msgid="3863812478090907609">"Oportunidades de Emprego desactivadas"</string>
+    <string name="eo_enable" msgid="8623559062015685813">"Oportunidades de Emprego ativadas"</string>
+    <string name="eo_disable" msgid="3863812478090907609">"Oportunidades de Emprego desativadas"</string>
     <string name="enable_disable_mhh" msgid="5698783743098373681">"Clínica, Saúde e Hospital"</string>
     <string name="mhh_enable" msgid="3949276822735205799">"Clínica, Saúde e Hospital activado"</string>
     <string name="mhh_disable" msgid="4834280270664925123">"Clínica, Saúde e Hospital desactivado"</string>
     <string name="enable_disable_technology_news" msgid="3517184627114999149">"Notícias de Tecnologia"</string>
-    <string name="technology_news_enable" msgid="7995209394210455181">"Notícias de Tecnologia activadas"</string>
-    <string name="technology_news_disable" msgid="5483490380561851946">"Notícias de Tecnologia desactivadas"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Notícias de Tecnologia ativadas"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Notícias de Tecnologia desativadas"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Categoria múltipla"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Categoria múltipla activada"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Modo de categorias múltiplas desactivado"</string>
@@ -380,8 +380,8 @@
     <string name="fdn" msgid="7878832555095183202">"Números de marcação fixa (FDN)"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Lista de números de marcação fixa (FDN)"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activação de FDN"</string>
-    <string name="fdn_enabled" msgid="5238109009915521240">"Os números de marcação fixa estão activados"</string>
-    <string name="fdn_disabled" msgid="4700049736675368279">"Os números de marcação fixa estão desactivados"</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Os números de marcação fixa estão ativados"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Os números de marcação fixa estão desativados"</string>
     <string name="enable_fdn" msgid="3740191529180493851">"Activar FDN"</string>
     <string name="disable_fdn" msgid="7944020890722540616">"Desactivar FDN"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Alterar PIN2"</string>
