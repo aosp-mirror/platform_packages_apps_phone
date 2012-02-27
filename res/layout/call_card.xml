@@ -217,12 +217,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAllCaps="true"
                     android:textColor="@color/incall_call_banner_text_color" />
                 <TextView android:id="@+id/providerAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAllCaps="true"
                     android:textColor="@color/incall_call_banner_text_color" />
             </LinearLayout>
 
