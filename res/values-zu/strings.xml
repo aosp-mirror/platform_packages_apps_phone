@@ -493,7 +493,7 @@
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Ikholi ayithunyelwanga."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Iqalisa ukulandelana kwe-MMI..."</string>
     <string name="incall_status_dialed_fc" msgid="1632879988662225263">"Ukuqalisa ukulandelana kwekhodi yesici..."</string>
-    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Insizakalo engasekelwe."</string>
+    <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Isevisi engasekelwe."</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Ayikwazi ukushintsha izincingo"</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Ayikwazi ukwehlukanisa ucingo."</string>
     <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Ayikwazi ukudlulisa ucingo."</string>
@@ -543,7 +543,7 @@
   </string-array>
     <string name="network_message" msgid="5673682885938122239">"Umyalezo Wenethiwekhi"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Yenza ifoni yakho isebenze"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Ikholi ekhethekile kumele yenziwe ukuze wenze insizakalo yefoni yakho isebenze."\n\n"Emva kokucindezela \"Yenza kusebenze\", lalela iziqondiso ezinikeziwe ukwenza ifoni yakho isebenze."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Ikholi ekhethekile kumele yenziwe ukuze wenze isevisi yefoni yakho isebenze."\n\n"Emva kokucindezela \"Yenza kusebenze\", lalela iziqondiso ezinikeziwe ukwenza ifoni yakho isebenze."</string>
     <string name="ota_touch_activate_new" msgid="4508197891732183852">"Thinta \"Yenza kusebenze\" ukwenza ucingo olukhethekile olwenza ifoni yakho isebenze kwinethiwekhi yefoni yesiphathi, ngakho ke ungenza amakholi bese uxhuma kumanethiwekhi edatha yefoni."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Yeqa ukwenza kusebenze?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Uma weqa ukwenza kusebenze, awukwazi ukwenza izincingo noma xhuma kumanethiwekhi edatha yefoni (nakuba ungakwazi ukuxhuma kumanethiwekhi e-Wi-Fi). Kuze kube yilapho wenza ifoni yakho isebenze, ucelwa ukuba wenze isebenze"</string>
@@ -557,8 +557,8 @@
     <string name="ota_speaker" msgid="6904589278542719647">"Isipikha"</string>
     <string name="ota_progress" msgid="4644512049143969504">"Sicela ulinde ngenkathi ifoni ihlelwa."</string>
     <string name="ota_failure" msgid="8600027551822478181">"Ukuhlela Akuphumelelanga"</string>
-    <string name="ota_successful" msgid="1880780692887077407">"Ifoni yakho manje iyasebenza. Kungase kuthathe amaminithi angu-15 ukuze insizakalo iqale."</string>
-    <string name="ota_unsuccessful" msgid="623361244652068739">"Ifoni yakho ayizange isebenze. "\n"Kungase kudingeke ukuba uthole indawo enenethiwekhi (eduze kwefasitela, noma ngaphandle)."\n\n"Zama futhi noma shayela insizakalo yekhasimende ukutholo okunye okukhethwayo."</string>
+    <string name="ota_successful" msgid="1880780692887077407">"Ifoni yakho manje iyasebenza. Kungase kuthathe amaminithi angu-15 ukuze isevisi iqale."</string>
+    <string name="ota_unsuccessful" msgid="623361244652068739">"Ifoni yakho ayizange isebenze. "\n"Kungase kudingeke ukuba uthole indawo enenethiwekhi (eduze kwefasitela, noma ngaphandle)."\n\n"Zama futhi noma shayela isevisi yekhasimende ukutholo okunye okukhethwayo."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"FINYELELA UKWEHLULEKA KWE-SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Emuva"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Zama futhi"</string>
@@ -587,7 +587,7 @@
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Susa"</string>
     <string name="voicemail_settings" msgid="2288633492587133022">"Izilungiselelo zemeyili yezwi"</string>
     <string name="voicemail_number_not_set" msgid="1604580506447265808">"ayisethiwe"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Insizakalo yemeyili yezwi"</string>
+    <string name="voicemail_provider" msgid="6299679757491942924">"Isevisi yemeyili yezwi"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Izilungiselelo ze-<xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ezinye izilungiselelo zekholi"</string>
     <string name="dial_button_label" msgid="5551611636419190229">"Dayela"</string>
