@@ -15,6 +15,4 @@
 -->
 <resources>
     <dimen name="emergency_dialer_digits_height">66dip</dimen>
-    <dimen name="emergency_dialer_digits_margin_bottom">69dip</dimen>
-    <dimen name="emergency_dialer_digits_text_size">28sp</dimen>
 </resources>
