@@ -17,16 +17,15 @@
 <!-- The screen shown during CALL intent being handled. If the process is
      unexpectedly slow, we'll make the spinner VISIBLE, to notify users
      the black screen is intentional. -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/outgoing_call_broadcaster"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:layout_height="match_parent">
     <ProgressBar
         android:id="@+id/spinner"
         style="@android:style/Widget.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:visibility="gone"/>
-</RelativeLayout>
+</FrameLayout>
