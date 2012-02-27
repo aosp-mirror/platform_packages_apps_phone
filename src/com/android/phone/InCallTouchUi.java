@@ -1069,9 +1069,11 @@ public class InCallTouchUi extends FrameLayout
 
         Animation anim = mIncomingCallWidget.getAnimation();
         if (anim != null) {
+            anim.cancel();
             anim.reset();
             mIncomingCallWidget.clearAnimation();
         }
+        mIncomingCallWidget.setAlpha(1.0f);
 
         // Update the MultiWaveView widget's targets based on the state of
         // the ringing call.  (Specifically, we need to disable the
