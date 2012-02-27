@@ -14,11 +14,7 @@
      limitations under the License.
 -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/adnRoot"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,4 +27,4 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
     />
-</FrameLayout>
+</merge>
