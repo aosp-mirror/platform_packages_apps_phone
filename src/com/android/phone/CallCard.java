@@ -21,8 +21,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -32,6 +36,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -60,6 +65,12 @@ public class CallCard extends FrameLayout
 
     private static final int TOKEN_UPDATE_PHOTO_FOR_CALL_STATE = 0;
     private static final int TOKEN_DO_NOTHING = 1;
+
+    /**
+     * Duration for animations in msec, which can be used with
+     * {@link ViewPropertyAnimator#setDuration(long)} for example.
+     */
+    private static final int ANIMATION_DURATION = 250;
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -102,6 +113,12 @@ public class CallCard extends FrameLayout
     private TextView mCallTypeLabel;
     private TextView mSocialStatus;
 
+    /**
+     * Uri being used to load contact photo for mPhoto. Will be null when nothing is being loaded,
+     * or a photo is already loaded.
+     */
+    private Uri mLoadingPersonUri;
+
     // Info about the "secondary" call, which is the "call on hold" when
     // two lines are in use.
     private TextView mSecondaryCallName;
@@ -119,6 +136,22 @@ public class CallCard extends FrameLayout
 
     // Cached DisplayMetrics density.
     private float mDensity;
+
+    private static final int MESSAGE_DELAY = 500; // msec
+    private static final int MESSAGE_SHOW_UNKNOWN_PHOTO = 101;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_SHOW_UNKNOWN_PHOTO:
+                    showImage(mPhoto, R.drawable.picture_unknown);
+                    break;
+                default:
+                    Log.wtf(LOG_TAG, "mHandler: unexpected message: " + msg);
+                    break;
+            }
+        }
+    };
 
     public CallCard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -618,6 +651,9 @@ public class CallCard extends FrameLayout
      */
     @Override
     public void onImageLoadComplete(int token, Object cookie, ImageView iView, Drawable result) {
+        mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
+        mLoadingPersonUri = null;
+
         // Note: previously ContactsAsyncHelper has done this job.
         // TODO: We will need fade-in animation. See issue 5236130.
         if (result != null) {
@@ -1162,6 +1198,7 @@ public class CallCard extends FrameLayout
         // for cases where CallerInfo.photoResource may be set.  We can also avoid
         // the image load step if the image data is cached.
         if (isTemporary && (info == null || !info.isCachedPhotoCurrent)) {
+            mPhoto.setTag(null);
             mPhoto.setVisibility(View.INVISIBLE);
         } else if (info != null && info.photoResource != 0){
             showImage(mPhoto, info.photoResource);
@@ -1169,13 +1206,30 @@ public class CallCard extends FrameLayout
             if (personUri == null) {
                 Log.w(LOG_TAG, "personPri is null. Just use Unknown picture.");
                 showImage(mPhoto, R.drawable.picture_unknown);
+            } else if (personUri.equals(mLoadingPersonUri)) {
+                if (DBG) {
+                    log("The requested Uri (" + personUri + ") is being loaded already."
+                            + " Ignoret the duplicate load request.");
+                }
             } else {
-                showImage(mPhoto, R.drawable.picture_unknown);
+                // Remember which person's photo is being loaded right now so that we won't issue
+                // unnecessary load request multiple times, which will mess up animation around
+                // the contact photo.
+                mLoadingPersonUri = personUri;
+
+                // Forget the drawable previously used.
+                mPhoto.setTag(null);
+                // Show empty screen for a moment.
+                mPhoto.setVisibility(View.INVISIBLE);
                 // Load the image with a callback to update the image state.
                 // When the load is finished, onImageLoadComplete() will be called.
                 ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
                         info, TOKEN_UPDATE_PHOTO_FOR_CALL_STATE,
                         this, call, getContext(), mPhoto, personUri);
+                // If the image load is too slow, we show a default avatar icon afterward.
+                // If it is fast enough, this message will be canceled on onImageLoadComplete().
+                mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
+                mHandler.sendEmptyMessageDelayed(MESSAGE_SHOW_UNKNOWN_PHOTO, MESSAGE_DELAY);
             }
         }
 
@@ -1368,6 +1422,7 @@ public class CallCard extends FrameLayout
                                 if (DBG) {
                                     log("start asynchronous load inside updatePhotoForCallState()");
                                 }
+                                mPhoto.setTag(null);
                                 // Make it invisible for a moment
                                 mPhoto.setVisibility(View.INVISIBLE);
                                 ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(ci,
@@ -1413,14 +1468,35 @@ public class CallCard extends FrameLayout
 
     /** Helper function to display the resource in the imageview AND ensure its visibility.*/
     private static final void showImage(ImageView view, int resource) {
-        view.setImageResource(resource);
-        view.setVisibility(View.VISIBLE);
+        showImage(view, view.getContext().getResources().getDrawable(resource));
     }
 
     /** Helper function to display the drawable in the imageview AND ensure its visibility.*/
     private static final void showImage(ImageView view, Drawable drawable) {
-        view.setImageDrawable(drawable);
-        view.setVisibility(View.VISIBLE);
+        Resources res = view.getContext().getResources();
+        Drawable current = (Drawable) view.getTag();
+
+        if (current == null) {
+            if (DBG) log("Start fade-in animation for " + view);
+            view.setImageDrawable(drawable);
+            CallCard.Fade.show(view);
+            view.setTag(drawable);
+        } else {
+            if (!current.equals(drawable)) {
+                if (DBG) {
+                    log("Start transition animation for " + view + " (from "
+                            + current + " to " + drawable);
+                }
+                Drawable[] layers = new Drawable[2];
+                layers[0] = current;
+                layers[1] = drawable;
+                TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
+                view.setImageDrawable(transitionDrawable);
+                transitionDrawable.startTransition(ANIMATION_DURATION);
+                view.setTag(drawable);
+            }
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -1547,7 +1623,6 @@ public class CallCard extends FrameLayout
      */
     public static class Fade {
         private static final boolean FADE_DBG = false;
-        private static final long DURATION = 250;  // msec
 
         // View tag that's set during the fade-out animation; see hide() and
         // isFadingOut().
@@ -1573,7 +1648,7 @@ public class CallCard extends FrameLayout
 
                 view.setAlpha(0);
                 view.setVisibility(View.VISIBLE);
-                view.animate().setDuration(DURATION);
+                view.animate().setDuration(ANIMATION_DURATION);
                 view.animate().alpha(1);
                 if (FADE_DBG) log("Fade: ==> SHOW " + view
                                   + " DONE.  Set visibility = " + View.VISIBLE);
@@ -1607,7 +1682,7 @@ public class CallCard extends FrameLayout
                 view.setTag(FADE_STATE_KEY, FADING_OUT);
 
                 view.animate().cancel();
-                view.animate().setDuration(DURATION);
+                view.animate().setDuration(ANIMATION_DURATION);
                 view.animate().alpha(0f).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
