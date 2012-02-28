@@ -23,15 +23,13 @@ import android.os.Message;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.method.DialerKeyListener;
-import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
@@ -110,16 +108,35 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         mDisplayMap.put(R.id.star, '*');
     }
 
-    // EditText field used to display the DTMF digits sent so far.
-    // Note this is null in some modes (like during the CDMA OTA call,
-    // where there's no onscreen "digits" display.)
+    /** EditText field used to display the DTMF digits sent so far.
+        Note this is null in some modes (like during the CDMA OTA call,
+        where there's no onscreen "digits" display.) */
     private EditText mDialpadDigits;
 
     // InCallScreen reference.
     private InCallScreen mInCallScreen;
 
-    // The DTMFTwelveKeyDialerView we use to display the dialpad.
+    /**
+     * The DTMFTwelveKeyDialerView we use to display the dialpad.
+     *
+     * Only one of mDialerView or mDialerStub will have a legitimate object; the other one will be
+     * null at that moment. Either of following scenarios will occur:
+     *
+     * - If the constructor with {@link DTMFTwelveKeyDialerView} is called, mDialerView will
+     *   obtain that object, and mDialerStub will be null. mDialerStub won't be used in this case.
+     *
+     * - If the constructor with {@link ViewStub} is called, mDialerView will be null at that
+     *   moment, and mDialerStub will obtain the ViewStub object.
+     *   When the dialer is required by the user (i.e. until {@link #openDialer(boolean)} being
+     *   called), mDialerStub will inflate the dialer, and make mDialerStub itself null.
+     *   mDialerStub won't be used afterward.
+     */
     private DTMFTwelveKeyDialerView mDialerView;
+
+    /**
+     * {@link ViewStub} holding {@link DTMFTwelveKeyDialerView}. See the comments for mDialerView.
+     */
+    private ViewStub mDialerStub;
 
     // KeyListener used with the "dialpad digits" EditText widget.
     private DTMFKeyListener mDialerKeyListener;
@@ -339,13 +356,13 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
 
     /**
-     * DTMFTwelveKeyDialer constructor.
+     * DTMFTwelveKeyDialer constructor with {@link DTMFTwelveKeyDialerView}
      *
      * @param parent the InCallScreen instance that owns us.
      * @param dialerView the DTMFTwelveKeyDialerView we should use to display the dialpad.
      */
     public DTMFTwelveKeyDialer(InCallScreen parent,
-                               DTMFTwelveKeyDialerView dialerView) {
+                                DTMFTwelveKeyDialerView dialerView) {
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
@@ -362,27 +379,58 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("- Got passed-in mDialerView: " + mDialerView);
 
         if (mDialerView != null) {
-            mDialerView.setDialer(this);
-
-            // In the normal in-call DTMF dialpad, mDialpadDigits is an
-            // EditText used to display the digits the user has typed so
-            // far.  But some other modes (like the OTA call) have no
-            // "digits" display at all, in which case mDialpadDigits will
-            // be null.
-            mDialpadDigits = (EditText) mDialerView.findViewById(R.id.dtmfDialerField);
-            if (mDialpadDigits != null) {
-                mDialerKeyListener = new DTMFKeyListener();
-                mDialpadDigits.setKeyListener(mDialerKeyListener);
-
-                // remove the long-press context menus that support
-                // the edit (copy / paste / select) functions.
-                mDialpadDigits.setLongClickable(false);
-            }
-
-            // Hook up touch / key listeners for the buttons in the onscreen
-            // keypad.
-            setupKeypad(mDialerView);
+            setupDialerView();
         }
+    }
+
+    /**
+     * DTMFTwelveKeyDialer constructor with {@link ViewStub}.
+     *
+     * When the dialer is required for the first time (e.g. when {@link #openDialer(boolean)} is
+     * called), the object will inflate the ViewStub by itself, assuming the ViewStub will return
+     * {@link DTMFTwelveKeyDialerView} on {@link ViewStub#inflate()}.
+     *
+     * @param parent the InCallScreen instance that owns us.
+     * @param dialerStub ViewStub which will return {@link DTMFTwelveKeyDialerView} on
+     * {@link ViewStub#inflate()}.
+     */
+    public DTMFTwelveKeyDialer(InCallScreen parent, ViewStub dialerStub) {
+        if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
+
+        mInCallScreen = parent;
+        mCM = PhoneApp.getInstance().mCM;
+
+        mDialerStub = dialerStub;
+        if (DBG) log("- Got passed-in mDialerStub: " + mDialerStub);
+
+        // At this moment mDialerView is still null. We delay calling setupDialerView().
+    }
+
+    /**
+     * Prepare the dialer view and relevant variables.
+     */
+    private void setupDialerView() {
+        if (DBG) log("setupDialerView()");
+        mDialerView.setDialer(this);
+
+        // In the normal in-call DTMF dialpad, mDialpadDigits is an
+        // EditText used to display the digits the user has typed so
+        // far.  But some other modes (like the OTA call) have no
+        // "digits" display at all, in which case mDialpadDigits will
+        // be null.
+        mDialpadDigits = (EditText) mDialerView.findViewById(R.id.dtmfDialerField);
+        if (mDialpadDigits != null) {
+            mDialerKeyListener = new DTMFKeyListener();
+            mDialpadDigits.setKeyListener(mDialerKeyListener);
+
+            // remove the long-press context menus that support
+            // the edit (copy / paste / select) functions.
+            mDialpadDigits.setLongClickable(false);
+        }
+
+        // Hook up touch / key listeners for the buttons in the onscreen
+        // keypad.
+        setupKeypad(mDialerView);
     }
 
     /**
@@ -510,7 +558,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public boolean onDialerKeyDown(KeyEvent event) {
         if (DBG) log("Notifying dtmf key down.");
-        return mDialerKeyListener.onKeyDown(event);
+        if (mDialerKeyListener != null) {
+            return mDialerKeyListener.onKeyDown(event);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -518,7 +570,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public boolean onDialerKeyUp(KeyEvent event) {
         if (DBG) log("Notifying dtmf key up.");
-        return mDialerKeyListener.onKeyUp(event);
+        if (mDialerKeyListener != null) {
+            return mDialerKeyListener.onKeyUp(event);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -637,7 +693,8 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         // (Note that if we're in the middle of a fade-out animation, that
         // also counts as "not visible" even though mDialerView itself is
         // technically still VISIBLE.)
-        return ((mDialerView.getVisibility() == View.VISIBLE)
+        return (mDialerView != null
+                &&(mDialerView.getVisibility() == View.VISIBLE)
                 && !CallCard.Fade.isFadingOut(mDialerView));
     }
 
@@ -655,6 +712,13 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public void openDialer(boolean animate) {
         if (DBG) log("openDialer()...");
+
+        if (mDialerView == null && mDialerStub != null) {
+            if (DBG) log("Dialer isn't ready. Inflate it from ViewStub.");
+            mDialerView = (DTMFTwelveKeyDialerView) mDialerStub.inflate();
+            setupDialerView();
+            mDialerStub = null;
+        }
 
         if (!isOpened()) {
             // Make the dialer view visible.

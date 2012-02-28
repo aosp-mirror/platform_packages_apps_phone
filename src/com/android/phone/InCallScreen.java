@@ -210,7 +210,6 @@ public class InCallScreen extends Activity
 
     // DTMF Dialer controller and its view:
     private DTMFTwelveKeyDialer mDialer;
-    private DTMFTwelveKeyDialerView mDialerView;
 
     private EditText mWildPromptText;
 
@@ -1224,19 +1223,8 @@ public class InCallScreen extends Activity
         mManageConferenceUtils = new ManageConferenceUtils(this, mCM);
 
         // The DTMF Dialpad.
-        // TODO: Don't inflate this until the first time it's needed.
-        ViewStub stub = (ViewStub)findViewById(R.id.dtmf_twelve_key_dialer_stub);
-        stub.inflate();
-        mDialerView = (DTMFTwelveKeyDialerView) findViewById(R.id.dtmf_twelve_key_dialer_view);
-        if (DBG) log("- Found dialerView: " + mDialerView);
-
-        // Sanity-check that (regardless of the device) at least the
-        // dialer view is present:
-        if (mDialerView == null) {
-            Log.e(LOG_TAG, "onCreate: couldn't find dialerView", new IllegalStateException());
-        }
-        // Finally, create the DTMFTwelveKeyDialer instance.
-        mDialer = new DTMFTwelveKeyDialer(this, mDialerView);
+        ViewStub stub = (ViewStub) findViewById(R.id.dtmf_twelve_key_dialer_stub);
+        mDialer = new DTMFTwelveKeyDialer(this, stub);
         mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
     }
 
