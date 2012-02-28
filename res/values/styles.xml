@@ -53,39 +53,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.DialerLine1" parent="@android:style/TextAppearance.Widget.Button">
-        <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/dialer_button_text</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.DialerLine2" parent="@android:style/TextAppearance.Widget.Button">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/dialer_button_text</item>
-    </style>
-
-    <style name="TextAppearance.EmergencyDialerLine1" parent="@android:style/TextAppearance.Widget.Button">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textColor">#ffffff</item>
-    </style>
-
-    <style name="TextAppearance.EmergencyDialerLine2" parent="@android:style/TextAppearance.Widget.Button">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#ffffff</item>
-    </style>
-
     <!-- Preference Style for the phone number preferences -->
     <style name="EditPhoneNumberPreference">
         <item name="enableButtonText">@string/enable</item>
         <item name="disableButtonText">@string/disable</item>
         <item name="changeNumButtonText">@string/change_num</item>
         <item name="confirmMode">activation</item>
-    </style>
-
-    <style name="TextAppearance.EriWidget">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <!-- OTA Call Card styles -->

@@ -552,20 +552,6 @@
     <string name="multi_category_enable">Multi-category enabled</string>
     <string name="multi_category_disable">Multi-category disabled</string>
 
-    <!-- GSM/UMTS Options strings -->
-    <string-array name="gsm_umts_network_preferences_choices">
-        <item>GSM/WCDMA (auto mode)</item>
-        <item>WCDMA only</item>
-        <item>GSM only</item>
-        <item>GSM/WCDA (WCDMA preferred)</item>
-    </string-array>
-    <string-array name="gsm_umts_network_preferences_values">
-        <item>"0"</item>
-        <item>"1"</item>
-        <item>"2"</item>
-        <item>"3"</item>
-    </string-array>
-
     <!-- Mobile network settings screen, setting option name -->
     <string name="prefer_2g">Use only 2G networks</string>
     <!-- Mobile network settings screen, setting summary text -->
@@ -595,27 +581,6 @@
         <item>"2"</item>
     </string-array>
 
-    <!-- CDMA Options strings -->
-    <string-array name="cdma_roaming_mode_choices">
-        <item>Home networks only</item>
-        <item>Affiliated networks</item>
-        <item>Any network</item>
-    </string-array>
-    <string-array name="cdma_roaming_mode_values">
-        <item>"0"</item>
-        <item>"1"</item>
-        <item>"2"</item>
-    </string-array>
-    <string-array name="cdma_network_preferences_choices">
-        <item>CDMA/EvDo</item>
-        <item>CDMA only</item>
-        <item>EvDo only</item>
-    </string-array>
-    <string-array name="cdma_network_preferences_values">
-        <item>"0"</item>
-        <item>"1"</item>
-        <item>"2"</item>
-    </string-array>
     <string name="cdma_subscription_title">CDMA subscription</string>
     <string name="cdma_subscription_summary">Change between RUIM/SIM and NV</string>
     <string name="cdma_subscription_dialogtitle">subscription</string>
@@ -663,8 +628,6 @@
     <!-- Voice privacy on CDMA is an added layer of voice encryption. Theoretically, it would be harder to break in to a phone call with this feature enabled. -->
     <string name="voice_privacy">Voice privacy</string>
     <string name="voice_privacy_summary">Enable enhanced privacy mode</string>
-    <string name="tty_mode_title">TTY mode</string>
-    <string name="tty_mode_summary">Enable TTY mode</string>
     <string name="tty_mode_option_title">TTY mode</string>
     <string name="tty_mode_option_summary">Set TTY mode</string>
     <string name="auto_retry_mode_title">Auto-retry</string>
@@ -1098,25 +1061,9 @@
     <!-- Title displayed above settings coming after voicemail in the call features screen -->
     <string name="other_settings">Other call settings</string>
 
-    <!-- Label for onscreen "Dial" button used in the EmergencyDialer -->
-    <string name="dial_button_label">Dial</string>
-
     <!-- Title displayed in the overlay when a call is placed using a 3rd party provider.
          [CHAR LIMIT=40] -->
     <string name="calling_via_template">Calling via <xliff:g id="provider_name">%s</xliff:g></string>
-
-    <!-- Onscreen hints used for various states of the SlidingTab
-         widget used for incoming calls. -->
-    <eat-comment />
-    <!-- Incoming call hint: drag the tab right to answer -->
-    <string name="slide_to_answer">Drag right to answer</string>
-    <!-- Incoming call hint: drag the tab left to decline the incoming call -->
-    <string name="slide_to_decline">Drag left to decline</string>
-
-    <!-- Incoming call hint shown on tab (must be kept very short): answer incoming call -->
-    <string name="slide_to_answer_hint">Answer</string>
-    <!-- Incoming call hint shown on tab (must be kept very short): decline incoming call -->
-    <string name="slide_to_decline_hint">Decline</string>
 
     <!-- Use this as a default to describe the contact photo; currently for screen readers through accessibility. -->
     <string name="contactPhoto">contact photo</string>

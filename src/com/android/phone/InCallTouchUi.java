@@ -1153,17 +1153,6 @@ public class InCallTouchUi extends FrameLayout
                     hintTextResId = 0;
                     hintColorResId = 0;
                     break;
-                // TODO: MultiWaveView only has one handle. MultiWaveView could send an event
-                // indicating that a snap (but not release) happened. Could be used to show text
-                // when user hovers over an item.
-                //        case SlidingTab.OnTriggerListener.LEFT_HANDLE:
-                //            hintTextResId = R.string.slide_to_answer;
-                //            hintColorResId = R.color.incall_textConnected;  // green
-                //            break;
-                //        case SlidingTab.OnTriggerListener.RIGHT_HANDLE:
-                //            hintTextResId = R.string.slide_to_decline;
-                //            hintColorResId = R.color.incall_textEnded;  // red
-                //            break;
                 default:
                     Log.e(LOG_TAG, "onGrabbedStateChange: unexpected grabbedState: "
                           + grabbedState);
