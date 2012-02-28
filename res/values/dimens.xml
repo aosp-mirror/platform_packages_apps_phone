@@ -30,6 +30,9 @@
     <!-- Padding at the top and bottom edges of the "call banner". -->
     <dimen name="call_banner_top_bottom_padding">16dp</dimen>
 
+    <!-- Padding at the top and bottom edges of the "provider information" -->
+    <dimen name="provider_info_top_bottom_padding">8dp</dimen>
+
     <!-- Right padding for name and number fields in the call banner.
          This padding is used to ensure that ultra-long names or
          numbers won't overlap the elapsed time indication. -->
