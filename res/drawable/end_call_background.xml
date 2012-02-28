@@ -14,6 +14,14 @@
      limitations under the License.
 -->
 
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/endcall_background_texture"
-    android:tileMode="repeat" />
+<!-- Layers used to render the "end call" button. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+            android:src="@drawable/endcall_background_texture"
+            android:tileMode="repeat" />
+    </item>
+
+    <!-- The standard "compound button" background. -->
+    <item android:drawable="@drawable/btn_compound_background" />
+</layer-list>
