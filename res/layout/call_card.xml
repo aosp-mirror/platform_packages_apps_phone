@@ -77,7 +77,7 @@
         >
 
         <!-- Contact photo for call_info_1 -->
-        <com.android.phone.InCallContactPhoto android:id="@+id/photo"
+        <ImageView android:id="@+id/photo"
                    android:layout_alignParentTop="true"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
@@ -177,23 +177,6 @@
 
         </RelativeLayout>  <!-- End of call_banner for call_info #1. -->
 
-        <!-- "Inset" photo used with "id/photo" above:
-               When the contact photo is a lo-res thumbnail, id/photo
-             contains a scaled-up but *blurred* version of the photo, and
-             *this* ImageView is overlaid on top as a smaller, unblurred
-             inset.  (See InCallContactPhoto.java.)
-               The top of the inset is vertically aligned with the bottom
-             of the call banner.  (Note that means that in states where the
-             "call state label" is visible, the label (see below) will overlap
-             the top of the inset photo.)  -->
-        <ImageView android:id="@+id/insetPhoto"
-            android:layout_below="@id/call_banner_1"
-            android:layout_width="@dimen/contact_photo_inset_width"
-            android:layout_height="@dimen/contact_photo_inset_height"
-            android:scaleType="centerCrop"
-            android:layout_marginLeft="@dimen/contact_photo_inset_left_margin"
-            />
-
         <LinearLayout android:id="@+id/secondary_info_container"
             android:layout_below="@id/call_banner_1"
             android:layout_width="match_parent"
@@ -256,7 +239,7 @@
         >
 
         <!-- Contact photo for call_info #2 -->
-        <com.android.phone.InCallContactPhoto android:id="@+id/secondaryCallPhoto"
+        <ImageView android:id="@+id/secondaryCallPhoto"
                    android:layout_alignParentTop="true"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
