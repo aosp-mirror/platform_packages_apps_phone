@@ -110,7 +110,7 @@ public class CallCard extends LinearLayout
     private TextView mPhoneNumber;
     private TextView mLabel;
     private TextView mCallTypeLabel;
-    private TextView mSocialStatus;
+    // private TextView mSocialStatus;
 
     /**
      * Uri being used to load contact photo for mPhoto. Will be null when nothing is being loaded,
@@ -215,7 +215,7 @@ public class CallCard extends LinearLayout
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
         mCallTypeLabel = (TextView) findViewById(R.id.callTypeLabel);
-        mSocialStatus = (TextView) findViewById(R.id.socialStatus);
+        // mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
         // Secondary info area, for the background ("on hold") call
         mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
@@ -1071,8 +1071,8 @@ public class CallCard extends LinearLayout
         String displayNumber = null;
         String label = null;
         Uri personUri = null;
-        String socialStatusText = null;
-        Drawable socialStatusBadge = null;
+        // String socialStatusText = null;
+        // Drawable socialStatusBadge = null;
 
         if (info != null) {
             // It appears that there is a small change in behaviour with the
@@ -1241,7 +1241,7 @@ public class CallCard extends LinearLayout
 
         // Other text fields:
         updateCallTypeLabel(call);
-        updateSocialStatus(socialStatusText, socialStatusBadge, call);  // Currently unused
+        // updateSocialStatus(socialStatusText, socialStatusBadge, call);  // Currently unused
     }
 
     private String getPresentationString(int presentation) {
@@ -1297,7 +1297,7 @@ public class CallCard extends LinearLayout
 
         // Other text fields:
         updateCallTypeLabel(call);
-        updateSocialStatus(null, null, null);  // socialStatus is never visible in this state
+        // updateSocialStatus(null, null, null);  // socialStatus is never visible in this state
 
         // TODO: for a GSM conference call, since we do actually know who
         // you're talking to, consider also showing names / numbers /
@@ -1536,7 +1536,7 @@ public class CallCard extends LinearLayout
      * Updates the "social status" label with the specified text and
      * (optional) badge.
      */
-    private void updateSocialStatus(String socialStatusText,
+    /*private void updateSocialStatus(String socialStatusText,
                                     Drawable socialStatusBadge,
                                     Call call) {
         // The socialStatus field is *only* visible while an incoming call
@@ -1553,7 +1553,7 @@ public class CallCard extends LinearLayout
         } else {
             mSocialStatus.setVisibility(View.GONE);
         }
-    }
+    }*/
 
     /**
      * Hides the top-level UI elements of the call card:  The "main
@@ -1593,7 +1593,7 @@ public class CallCard extends LinearLayout
         dispatchPopulateAccessibilityEvent(event, mName);
         dispatchPopulateAccessibilityEvent(event, mPhoneNumber);
         dispatchPopulateAccessibilityEvent(event, mLabel);
-        dispatchPopulateAccessibilityEvent(event, mSocialStatus);
+        // dispatchPopulateAccessibilityEvent(event, mSocialStatus);
         dispatchPopulateAccessibilityEvent(event, mSecondaryCallName);
         dispatchPopulateAccessibilityEvent(event, mSecondaryCallStatus);
         dispatchPopulateAccessibilityEvent(event, mSecondaryCallPhoto);
