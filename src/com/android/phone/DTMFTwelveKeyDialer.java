@@ -1022,7 +1022,6 @@ public class DTMFTwelveKeyDialer implements
                 mDTMFQueue.add(new Character(dtmfDigit));
             } else {
                 String dtmfStr = Character.toString(dtmfDigit);
-                Log.i(LOG_TAG, "dtmfsent = " + dtmfStr);
                 mPhone.sendBurstDtmf(dtmfStr, 0, 0, mHandler.obtainMessage(DTMF_SEND_CNF));
                 // Set flag to indicate wait for Telephony confirmation.
                 mDTMFBurstCnfPending = true;
