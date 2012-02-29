@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+import android.view.ViewStub;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,10 +83,14 @@ public class CallCard extends LinearLayout
     private PhoneApp mApplication;
 
     // Top-level subviews of the CallCard
-    private ViewGroup mCallInfoContainer;  // Container for info about the current call(s)
-    private ViewGroup mPrimaryCallInfo;  // "Call info" block #1 (the foreground or ringing call)
-    private ViewGroup mPrimaryCallBanner;  // "Call banner" for the primary call
-    private ViewGroup mSecondaryCallInfo;  // "Call info" block #2 (the background "on hold" call)
+    /** Container for info about the current call(s) */
+    private ViewGroup mCallInfoContainer;
+    /** Primary "call info" block (the foreground or ringing call) */
+    private ViewGroup mPrimaryCallInfo;
+    /** "Call banner" for the primary call */
+    private ViewGroup mPrimaryCallBanner;
+    /** Secondary "call info" block (the background "on hold" call) */
+    private ViewStub mSecondaryCallInfo;
 
     /**
      * Container for both provider info and call state. This will take care of showing/hiding
@@ -121,7 +126,6 @@ public class CallCard extends LinearLayout
     // Info about the "secondary" call, which is the "call on hold" when
     // two lines are in use.
     private TextView mSecondaryCallName;
-    private TextView mSecondaryCallStatus;
     private ImageView mSecondaryCallPhoto;
 
     // Onscreen hint for the incoming call RotarySelector widget.
@@ -192,9 +196,8 @@ public class CallCard extends LinearLayout
         if (DBG) log("CallCard onFinishInflate(this = " + this + ")...");
 
         mCallInfoContainer = (ViewGroup) findViewById(R.id.call_info_container);
-        mPrimaryCallInfo = (ViewGroup) findViewById(R.id.call_info_1);
-        mPrimaryCallBanner = (ViewGroup) findViewById(R.id.call_banner_1);
-        mSecondaryCallInfo = (ViewGroup) findViewById(R.id.call_info_2);
+        mPrimaryCallInfo = (ViewGroup) findViewById(R.id.primary_call_info);
+        mPrimaryCallBanner = (ViewGroup) findViewById(R.id.primary_call_banner);
 
         mSecondaryInfoContainer = (ViewGroup) findViewById(R.id.secondary_info_container);
         mProviderInfo = (ViewGroup) findViewById(R.id.providerInfo);
@@ -216,9 +219,7 @@ public class CallCard extends LinearLayout
         // mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
         // Secondary info area, for the background ("on hold") call
-        mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
-        mSecondaryCallStatus = (TextView) findViewById(R.id.secondaryCallStatus);
-        mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
+        mSecondaryCallInfo = (ViewStub) findViewById(R.id.secondary_call_info);
     }
 
     /**
@@ -336,15 +337,15 @@ public class CallCard extends LinearLayout
             if ((mApplication.cdmaPhoneCallState.getCurrentCallState()
                     == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
                     && mApplication.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
-                displayOnHoldCallStatus(cm, fgCall);
+                displaySecondaryCallStatus(cm, fgCall);
             } else {
                 //This is required so that even if a background call is not present
                 // we need to clean up the background call area.
-                displayOnHoldCallStatus(cm, bgCall);
+                displaySecondaryCallStatus(cm, bgCall);
             }
         } else if ((phoneType == Phone.PHONE_TYPE_GSM)
                 || (phoneType == Phone.PHONE_TYPE_SIP)) {
-            displayOnHoldCallStatus(cm, bgCall);
+            displaySecondaryCallStatus(cm, bgCall);
         }
     }
 
@@ -364,7 +365,7 @@ public class CallCard extends LinearLayout
         // the current ongoing call and/or the current call on hold.
         // (Since the caller-id info for the incoming call totally trumps
         // any info about the current call(s) in progress.)
-        displayOnHoldCallStatus(cm, null);
+        displaySecondaryCallStatus(cm, null);
     }
 
     /**
@@ -379,7 +380,7 @@ public class CallCard extends LinearLayout
         if (DBG) log("updateNoCall()...");
 
         displayMainCallStatus(cm, null);
-        displayOnHoldCallStatus(cm, null);
+        displaySecondaryCallStatus(cm, null);
     }
 
     /**
@@ -842,7 +843,7 @@ public class CallCard extends LinearLayout
      * Or, clear out the "on hold" box if the specified call
      * is null or idle.
      */
-    private void displayOnHoldCallStatus(CallManager cm, Call call) {
+    private void displaySecondaryCallStatus(CallManager cm, Call call) {
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
 
         if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
@@ -850,7 +851,6 @@ public class CallCard extends LinearLayout
             return;
         }
 
-        boolean showSecondaryCallInfo = false;
         Call.State state = call.getState();
         switch (state) {
             case HOLDING:
@@ -860,6 +860,7 @@ public class CallCard extends LinearLayout
                 // Note this case occurs only on GSM devices.  (On CDMA,
                 // the "call on hold" is actually the 2nd connection of
                 // that ACTIVE call; see the ACTIVE case below.)
+                showSecondaryCallInfo();
 
                 if (PhoneUtils.isConferenceCall(call)) {
                     if (DBG) log("==> conference call.");
@@ -889,8 +890,6 @@ public class CallCard extends LinearLayout
                     }
                 }
 
-                showSecondaryCallInfo = true;
-
                 break;
 
             case ACTIVE:
@@ -898,6 +897,8 @@ public class CallCard extends LinearLayout
                 // although the Foreground call state is still ACTIVE in reality the network
                 // put the first call on hold.
                 if (mApplication.phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                    showSecondaryCallInfo();
+
                     List<Connection> connections = call.getConnections();
                     if (connections.size() > 2) {
                         // This means that current Mobile Originated call is the not the first 3-Way
@@ -940,12 +941,10 @@ public class CallCard extends LinearLayout
                             showImage(mSecondaryCallPhoto, R.drawable.picture_unknown);
                         }
                     }
-                    showSecondaryCallInfo = true;
-
                 } else {
                     // We shouldn't ever get here at all for non-CDMA devices.
                     Log.w(LOG_TAG, "displayOnHoldCallStatus: ACTIVE state on non-CDMA device");
-                    showSecondaryCallInfo = false;
+                    mSecondaryCallInfo.setVisibility(View.GONE);
                 }
                 break;
 
@@ -953,12 +952,20 @@ public class CallCard extends LinearLayout
                 // There's actually no call on hold.  (Presumably this call's
                 // state is IDLE, since any other state is meaningless for the
                 // background call.)
-                showSecondaryCallInfo = false;
+                mSecondaryCallInfo.setVisibility(View.GONE);
                 break;
         }
+    }
 
-        // Show or hide the entire "secondary call" info area.
-        mSecondaryCallInfo.setVisibility(showSecondaryCallInfo ? View.VISIBLE : View.GONE);
+    private void showSecondaryCallInfo() {
+        // This will call ViewStub#inflate() when needed.
+        mSecondaryCallInfo.setVisibility(View.VISIBLE);
+        if (mSecondaryCallName == null) {
+            mSecondaryCallName = (TextView) findViewById(R.id.secondaryCallName);
+        }
+        if (mSecondaryCallPhoto == null) {
+            mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
+        }
     }
 
     private String getCallFailedString(Call call) {
@@ -1592,9 +1599,12 @@ public class CallCard extends LinearLayout
         dispatchPopulateAccessibilityEvent(event, mPhoneNumber);
         dispatchPopulateAccessibilityEvent(event, mLabel);
         // dispatchPopulateAccessibilityEvent(event, mSocialStatus);
-        dispatchPopulateAccessibilityEvent(event, mSecondaryCallName);
-        dispatchPopulateAccessibilityEvent(event, mSecondaryCallStatus);
-        dispatchPopulateAccessibilityEvent(event, mSecondaryCallPhoto);
+        if (mSecondaryCallName != null) {
+            dispatchPopulateAccessibilityEvent(event, mSecondaryCallName);
+        }
+        if (mSecondaryCallPhoto != null) {
+            dispatchPopulateAccessibilityEvent(event, mSecondaryCallPhoto);
+        }
         return true;
     }
 
