@@ -23,10 +23,15 @@ import android.app.StatusBarManager;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -34,6 +39,7 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
@@ -43,12 +49,12 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
-import com.android.internal.telephony.CallManager;
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -778,9 +784,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (DBG) log("- Updating status bar icon: resId = " + resId);
         mInCallResId = resId;
 
-        // The icon in the expanded view is the same as in the status bar.
-        int expandedViewIcon = mInCallResId;
-
         // Even if both lines are in use, we only show a single item in
         // the expanded Notifications UI.  It's labeled "Ongoing call"
         // (or "On hold" if there's only one call, and it's on hold.)
@@ -822,7 +825,55 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // the current Connection.
         RemoteViews contentView = new RemoteViews(mContext.getPackageName(),
                                                    R.layout.ongoing_call_notification);
-        contentView.setImageViewResource(R.id.icon, expandedViewIcon);
+
+        // Update icon on the left of the notification.
+        // - If it is directly available from CallerInfo, we'll just use that.
+        // - If it is not, use the same icon as in the status bar.
+        CallerInfo callerInfo = null;
+        if (currentConn != null) {
+            Object o = currentConn.getUserData();
+            if (o instanceof CallerInfo) {
+                callerInfo = (CallerInfo) o;
+            } else if (o instanceof PhoneUtils.CallerInfoToken) {
+                callerInfo = ((PhoneUtils.CallerInfoToken) o).currentInfo;
+            } else {
+                Log.w(LOG_TAG, "CallerInfo isn't available while Call object is available.");
+            }
+        }
+        if (callerInfo != null) {
+            // In most cases, the user will see the notification after CallerInfo is already
+            // available, and the Drawable coming from ContactProvider will be BitmapDrawable.
+            // So, we can just rely on setImageViewBitmap() for most of the cases.
+            //
+            // If we failed to do that, we need to use other ways which may cause StrictMode
+            // violation.
+            if (callerInfo.isCachedPhotoCurrent
+                    && (callerInfo.cachedPhoto instanceof BitmapDrawable)) {
+                if (DBG) log("- BitmapDrawable found for large icon");
+                Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
+                contentView.setImageViewBitmap(R.id.icon, bitmap);
+            } else if (callerInfo.person_id > 0) {
+                if (DBG) log("- BitmapDrawable not found for large icon. Use Uri");
+                Uri uri = ContentUris.withAppendedId(Contacts.CONTENT_URI,
+                        callerInfo.person_id);
+                contentView.setImageViewUri(R.id.icon, uri);
+            } else if (callerInfo.photoResource > 0) {
+                if (DBG) {
+                    log("- BitmapDrawable nor person Id not found for large icon."
+                            + " Use photoResource");
+                }
+                contentView.setImageViewResource(R.id.icon, callerInfo.photoResource);
+            } else {
+                if (DBG) {
+                    log("- No useful resource found for large icon."
+                            + " Use the same icon as in the status bar.");
+                }
+                contentView.setImageViewResource(R.id.icon, mInCallResId);
+            }
+        } else {
+            if (DBG) log("- CallerInfo not found. Use the same icon as in the status bar.");
+            contentView.setImageViewResource(R.id.icon, mInCallResId);
+        }
 
         // if the connection is valid, then build what we need for the
         // first line of notification information, and start the chronometer.
