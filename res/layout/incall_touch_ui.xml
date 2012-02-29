@@ -92,74 +92,19 @@
                       android:orientation="vertical"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:layout_alignParentBottom="true"
-                      >
+                      android:layout_alignParentBottom="true">
 
             <!-- Row 1, the "extra button row": A couple of relatively rare
                  buttons used only in certain call states.
                  Most of the time this whole row is GONE.
                  For now, at least, there's only ever one button visible here
                  at a time, so this can be a simple FrameLayout. -->
-            <FrameLayout android:id="@+id/extraButtonRow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dialpad_background_opaque"
-                android:paddingLeft="@dimen/button_cluster_side_padding"
-                android:paddingRight="@dimen/button_cluster_side_padding"
-                >
-                <!-- The buttons here have a text label floating off to the side
-                     (which is necessary because these buttons are used only in
-                     a few rare states, and the meaning of the icon might not be
-                     obvious.)  The entire row (button + text) is clickable. -->
-
-                <!-- "Manage conference" -->
-                <!-- This button is used only on GSM devices, during a conference call. -->
-                <LinearLayout android:id="@+id/manageConferenceButton"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    >
-                    <!-- The entire LinearLayout here is clickable, so we don't
-                         care about clicks on the ImageButton itself. -->
-                    <ImageButton android:id="@+id/manageConferenceButtonImage"
-                        android:clickable="false"
-                        style="@style/InCallButton"
-                        android:src="@drawable/ic_groups_holo_dark"
-                        android:contentDescription="@string/onscreenManageConferenceText"
-                        />
-                    <TextView android:id="@+id/manageConferenceButtonLabel"
-                        style="@style/InCallExtraRowButtonLabel"
-                        android:text="@string/onscreenManageConferenceText"
-                        />
-                </LinearLayout>
-
-                <!-- CDMA-specific "Merge" -->
-                <!-- This button is used only on CDMA devices, where we can't use
-                     the Merge button in the main button row (because the "Add Call"
-                     button might need to be enabled at the same time.) -->
-                <LinearLayout android:id="@+id/cdmaMergeButton"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    >
-                    <!-- The entire LinearLayout here is clickable, so we don't
-                         care about clicks on the ImageButton itself. -->
-                    <ImageButton android:id="@+id/cdmaMergeButtonImage"
-                        android:clickable="false"
-                        style="@style/InCallButton"
-                        android:src="@drawable/ic_merge_holo_dark"
-                        android:contentDescription="@string/onscreenMergeCallsText"
-                        />
-                    <TextView android:id="@+id/cdmaMergeButtonLabel"
-                        style="@style/InCallExtraRowButtonLabel"
-                        android:text="@string/onscreenMergeCallsText"
-                        />
-                </LinearLayout>
-
-            </FrameLayout>
-
+            <ViewStub android:id="@+id/extraButtonRow"
+                      android:layout="@layout/extra_button_row"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="@dimen/button_cluster_side_padding"
+                      android:paddingRight="@dimen/button_cluster_side_padding" />
 
             <!-- Row 2: The "End call" button. -->
             <ImageButton android:id="@+id/endButton"
