@@ -162,21 +162,12 @@
 
 
             <!-- Row 2: The "End call" button. -->
-            <!-- This is in its own LinearLayout purely so that the whole row
-                 can have a background drawable distinct from the image itself. -->
-            <LinearLayout
-                android:orientation="horizontal"
+            <ImageButton android:id="@+id/endButton"
+                style="@style/InCallEndButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:src="@drawable/ic_end_call"
                 android:background="@drawable/end_call_background"
-                >
-                <ImageButton android:id="@+id/endButton"
-                    style="@style/InCallEndButton"
-                    android:layout_width="match_parent"
-                    android:src="@drawable/ic_end_call"
-                    android:contentDescription="@string/onscreenEndCallText"
-                    />
-            </LinearLayout>
+                android:contentDescription="@string/onscreenEndCallText" />
 
             <!-- Row 3: The main batch of in-call buttons:
                     Dialpad / Audio mode / Mute / Hold / Add call
