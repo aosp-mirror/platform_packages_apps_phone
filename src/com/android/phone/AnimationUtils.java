@@ -40,7 +40,7 @@ public class AnimationUtils {
      * Duration for animations in msec, which can be used with
      * {@link ViewPropertyAnimator#setDuration(long)} for example.
      */
-    private static final int ANIMATION_DURATION = 250;
+    public static final int ANIMATION_DURATION = 250;
 
     private AnimationUtils() {
     }

@@ -19,10 +19,12 @@
      This layout is a fullscreen overlay, drawn on top of the
      non-touch-sensitive parts of the in-call UI (i.e. the call card).
 
-     The top-level View here is a FrameLayout with 2 children:
-       (1) incomingCallWidget: the UI displayed while an incoming call is ringing
-       (2) inCallControls: the widgets visible while a regular call (or calls) is in progress
-     Exactly one of these is visible at any given moment.
+     The top-level View here is a InCallTouchUi (FrameLayout) with 2 children:
+       (1) inCallControls: the widgets visible while a regular call (or calls) is in progress
+       (2) incomingCallWidget: the UI displayed while an incoming call is ringing
+     In usual cases, one of these is visible at any given moment.
+     One exception is when incomingCallWidget is fading-out. At that moment, we show
+     inCallControls beneath incomingCallWidget for smoother transition.
      -->
 <com.android.phone.InCallTouchUi xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:prvandroid="http://schemas.android.com/apk/prv/res/android"
@@ -31,46 +33,7 @@
     >
 
     <!--
-        (1) incomingCallWidget: the UI displayed while an incoming call is ringing.
-            See InCallTouchUi.showIncomingCallWidget().
-
-            Layout notes:
-            - Use an opaque black background since we need to cover up
-              a bit of the bottom of the contact photo
-            - The verticalOffset value gets us a little extra space above
-              the topmost "Respond by SMS" icon
-            - The negative layout_marginBottom shifts us slightly downward;
-              we're already aligned with the bottom of the screen, but we
-              don't have an icon in the downward direction so the whole
-              bottom area of this widget is just wasted space.
-    -->
-    <com.android.internal.widget.multiwaveview.MultiWaveView
-        android:id="@+id/incomingCallWidget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="-46dp"
-        android:background="@android:color/black"
-        android:visibility="gone"
-
-        prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
-        prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
-        prvandroid:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
-        prvandroid:handleDrawable="@drawable/ic_in_call_touch_handle"
-        prvandroid:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
-        prvandroid:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
-        prvandroid:snapMargin="@*android:dimen/multiwaveview_snap_margin"
-        prvandroid:hitRadius="@*android:dimen/multiwaveview_hit_radius"
-        prvandroid:vibrationDuration="20"
-        prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
-        prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
-        prvandroid:feedbackCount="3"
-        prvandroid:horizontalOffset="0dip"
-        prvandroid:verticalOffset="20dip"
-        />
-
-    <!--
-        (2) inCallControls: the widgets visible while a regular call
+        (1) inCallControls: the widgets visible while a regular call
         (or calls) is in progress
     -->
     <RelativeLayout android:id="@+id/inCallControls"
@@ -239,5 +202,44 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <!--
+        (2) incomingCallWidget: the UI displayed while an incoming call is ringing.
+            See InCallTouchUi.showIncomingCallWidget().
+
+            Layout notes:
+            - Use an opaque black background since we need to cover up
+              a bit of the bottom of the contact photo
+            - The verticalOffset value gets us a little extra space above
+              the topmost "Respond by SMS" icon
+            - The negative layout_marginBottom shifts us slightly downward;
+              we're already aligned with the bottom of the screen, but we
+              don't have an icon in the downward direction so the whole
+              bottom area of this widget is just wasted space.
+    -->
+    <com.android.internal.widget.multiwaveview.MultiWaveView
+        android:id="@+id/incomingCallWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="-46dp"
+        android:background="@android:color/black"
+        android:visibility="gone"
+
+        prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
+        prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
+        prvandroid:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
+        prvandroid:handleDrawable="@drawable/ic_in_call_touch_handle"
+        prvandroid:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
+        prvandroid:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
+        prvandroid:snapMargin="@*android:dimen/multiwaveview_snap_margin"
+        prvandroid:hitRadius="@*android:dimen/multiwaveview_hit_radius"
+        prvandroid:vibrationDuration="20"
+        prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
+        prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
+        prvandroid:feedbackCount="3"
+        prvandroid:horizontalOffset="0dip"
+        prvandroid:verticalOffset="20dip"
+        />
 
 </com.android.phone.InCallTouchUi>
