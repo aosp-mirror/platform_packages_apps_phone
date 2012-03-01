@@ -41,10 +41,6 @@
     <!-- Height of the main row of in-call buttons. -->
     <dimen name="in_call_button_height">76dp</dimen>
 
-    <!-- Width of buttons in the main row of in-call buttons.
-         NOTE these buttons are wider on some devices; see values-w360dp/dimens.xml -->
-    <dimen name="in_call_button_width">56dp</dimen>
-
     <!-- Height of the in-call "End" button. -->
     <dimen name="in_call_end_button_height">74dp</dimen>
 

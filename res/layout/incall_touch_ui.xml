@@ -139,10 +139,8 @@
                      point exactly one of the pair is VISIBLE and the other is
                      GONE. -->
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                <!-- Separator between left padding and 1st button -->
+                <View style="@style/VerticalSeparator" />
 
                 <!-- "Dialpad" -->
                 <!-- This is a "compound button": it has checked and unchecked states. -->
@@ -152,11 +150,8 @@
                     android:contentDescription="@string/onscreenShowDialpadText"
                     />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
-
+                <!-- Separator between 1st and 2nd button -->
+                <View style="@style/VerticalSeparator" />
 
                 <!-- "Audio mode" -->
                 <!-- This is a multi-mode button that can behave either like a
@@ -170,10 +165,8 @@
                     android:contentDescription="@string/onscreenAudioText"
                     />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                <!-- Separator between 2nd and 3rd button -->
+                <View style="@style/VerticalSeparator" />
 
                 <!-- "Mute" -->
                 <!-- This is a "compound button": it has checked and unchecked states. -->
@@ -183,10 +176,8 @@
                     android:contentDescription="@string/onscreenMuteText"
                     />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                <!-- Separator between 3rd and 4th button -->
+                <View style="@style/VerticalSeparator" />
 
                 <!-- This slot is either "Hold" or "Swap", depending on
                      the state of the call.   One or the other of these
@@ -205,10 +196,9 @@
                     android:contentDescription="@string/onscreenSwapCallsText"
                     />
 
+                <!-- Separator between 4th and 5th button (if 5th exists) -->
                 <View android:id="@+id/holdSwapSpacer"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                      style="@style/VerticalSeparator" />
 
                 <!-- This slot is either "Add" or "Merge", depending on
                      the state of the call.  One or the other of these
@@ -229,10 +219,8 @@
                     android:contentDescription="@string/onscreenMergeCallsText"
                     />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
+                <!-- Separator between 4th (or 5th) button and right padding -->
+                <View style="@style/VerticalSeparator" />
 
             </LinearLayout>
 
