@@ -3737,7 +3737,7 @@ public class InCallScreen extends Activity
                         + animate + "): dialpad open, hide mCallCard...");
             }
             if (animate) {
-                CallCard.Fade.hide(mCallCard, View.GONE);
+                AnimationUtils.Fade.hide(mCallCard, View.GONE);
             } else {
                 mCallCard.setVisibility(View.GONE);
             }
@@ -3750,7 +3750,7 @@ public class InCallScreen extends Activity
                             + animate + "): dialpad dismissed, show mCallCard...");
                 }
                 if (animate) {
-                    CallCard.Fade.show(mCallCard);
+                    AnimationUtils.Fade.show(mCallCard);
                 } else {
                     mCallCard.setVisibility(View.VISIBLE);
                 }

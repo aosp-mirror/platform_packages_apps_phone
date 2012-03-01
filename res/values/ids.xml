@@ -22,6 +22,6 @@
     <item type="id" name="incomingCallReject" />
     <item type="id" name="incomingCallRespondViaSms" />
 
-    <!-- View tag ID used by CallCard.Fade -->
+    <!-- View tag ID used by AnimationUtils.Fade -->
     <item type="id" name="fadeState" />
 </resources>
