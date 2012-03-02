@@ -16,6 +16,8 @@
 
 package com.android.phone;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
@@ -30,6 +32,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewStub;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -56,7 +59,6 @@ import com.android.phone.InCallUiState.InCallScreenMode;
 public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, View.OnLongClickListener, OnTriggerListener,
         PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
-    private static final int IN_CALL_WIDGET_TRANSITION_TIME = 250; // in ms
     private static final String LOG_TAG = "InCallTouchUi";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
@@ -77,10 +79,12 @@ public class InCallTouchUi extends FrameLayout
 
     // UI containers / elements
     private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
-    private boolean mShowInCallControlsDuringHidingAnimation;
+    private boolean mIncomingCallWidgetIsFadingOut;
 
     /** UI elements while on a regular call (bottom buttons, DTMF dialpad) */
     private View mInCallControls;
+    private boolean mShowInCallControlsDuringHidingAnimation;
+
     //
     private ImageButton mAddButton;
     private ImageButton mMergeButton;
@@ -1041,7 +1045,7 @@ public class InCallTouchUi extends FrameLayout
     private void hideIncomingCallWidget() {
         if (DBG) log("hideIncomingCallWidget()...");
         if (mIncomingCallWidget.getVisibility() != View.VISIBLE
-                || mIncomingCallWidget.getAnimation() != null) {
+                || mIncomingCallWidgetIsFadingOut) {
             // Widget is already hidden or in the process of being hidden
             return;
         }
@@ -1050,11 +1054,13 @@ public class InCallTouchUi extends FrameLayout
         log("Start hiding IncomingCallWidget");
 
         // Hide the incoming call screen with a transition
-        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-        anim.setDuration(IN_CALL_WIDGET_TRANSITION_TIME);
-        anim.setAnimationListener(new AnimationListener() {
+        mIncomingCallWidgetIsFadingOut = true;
+        ViewPropertyAnimator animator = mIncomingCallWidget.animate();
+        animator.cancel();
+        animator.setDuration(AnimationUtils.ANIMATION_DURATION);
+        animator.setListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(Animator animation) {
                 if (mShowInCallControlsDuringHidingAnimation) {
                     if (DBG) log("IncomingCallWidget's hiding animation started");
                     updateInCallControls(mApp.mCM);
@@ -1062,18 +1068,16 @@ public class InCallTouchUi extends FrameLayout
                 }
             }
             @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-            @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animator animation) {
                 if (DBG) log("IncomingCallWidget's hiding animation ended");
-                // hide the incoming call UI.
-                mIncomingCallWidget.clearAnimation();
+                mIncomingCallWidget.setAlpha(1);
                 mIncomingCallWidget.setVisibility(View.GONE);
+                mIncomingCallWidget.animate().setListener(null);
                 mShowInCallControlsDuringHidingAnimation = false;
+                mIncomingCallWidgetIsFadingOut = false;
             }
         });
-        mIncomingCallWidget.startAnimation(anim);
+        animator.alpha(0f);
     }
 
     /**
