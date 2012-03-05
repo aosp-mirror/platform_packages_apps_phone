@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multi-kategori"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Multi-kategori diaktifkan"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Multi-kategori dinonaktifkan"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM /WCDMA (mode otomatis)"</item>
-    <item msgid="8912042051809329533">"WCDMA saja"</item>
-    <item msgid="8776934131146642662">"GSM saja"</item>
-    <item msgid="4684679567848300935">"GSM/WCDMA (WCDMA yang disukai)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Jaringan 2G saja"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Menghemat baterai"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Pilih sistem"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Utama saja"</item>
     <item msgid="1205664026446156265">"Otomatis"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Jaringan asal saja"</item>
-    <item msgid="6778172599293570356">"Jaringan terafiliasi"</item>
-    <item msgid="9084516288544591576">"Jaringan mana pun"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"CDMA saja"</item>
-    <item msgid="2683555124647197574">"EvDo saja"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"Langganan CDMA"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Ubah antara RUIM/SIM dan NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Kelola daftar nomor telepon"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Privasi suara"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Aktifkan mode privasi yang ditingkatkan"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Mode TTY"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Aktifkan mode TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Mode TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Setel Mode TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Coba lagi otomatis"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Nomor panggilan tetap dihapus."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN tidak diperbarui karena Anda memasukkan PIN yang salah."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN tidak diperbarui karena nomor tersebut tidak boleh melebihi 20 digit."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN tidak diperbarui. PIN2 salah, atau nomor telepon ditolak."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Membaca dari kartu SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Tidak ada data kenalan pada Kartu SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Pilih kenalan untuk diimpor"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Layanan kotak pesan"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Setelan untuk <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Setelan panggilan lainnya"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Panggil"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Memanggil via <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Seret kanan untuk menjawab"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Seret kiri untuk menolak"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Jawab"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Tolak"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto kenalan"</string>
     <string name="goPrivate" msgid="865837794424530980">"aktifkan pribadi"</string>
     <string name="selectContact" msgid="781975788478987237">"pilih kenalan"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Menjawab"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Mengirim SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Menolak"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Getar"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Getar"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Selalu"</item>
+    <item msgid="1595097872875714252">"Hanya saat senyap"</item>
+    <item msgid="1458182414036878616">"Tidak Pernah"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Nada dering ponsel"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Bergetar saat berdering"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Nada sentuh dial pad"</string>
 </resources>

@@ -295,18 +295,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Useat luokat"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Useat luokat käytössä"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Useat luokat pois käytöstä"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (automaattinen tila)"</item>
-    <item msgid="8912042051809329533">"Vain WCDMA"</item>
-    <item msgid="8776934131146642662">"Vain GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (ensisijainen: WCDMA)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Käytä vain 2G-verkkoja"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Säästää akkua"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Valitse järjestelmä"</string>
@@ -315,26 +303,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Vain kotipuhelin"</item>
     <item msgid="1205664026446156265">"Automaattinen"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Vain kotiverkot"</item>
-    <item msgid="6778172599293570356">"Yhteisverkot"</item>
-    <item msgid="9084516288544591576">"Kaikki verkot"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Vain CDMA"</item>
-    <item msgid="2683555124647197574">"Vain EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"CDMA-tilaus"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Vaihda RUIM/SIM- ja NV-tilojen välillä"</string>
@@ -364,8 +332,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Hallinnoi puhelinnumeroluetteloa"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Voicen tietosuoja"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Ota parannettu tietosuojatila käyttöön"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"TTY-tila"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Ota TTY-tila käyttöön"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-tila"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Aseta TTY-tila"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Automaattinen uudelleenyritys"</string>
@@ -388,6 +354,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Sallittu numero poistettu."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"Sallittuja numeroita ei päivitetty, koska annoit väärän PIN-koodin."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"Sallittuja numeroita ei päivitetty, sillä numerossa voi olla enintään 20 merkkiä."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN-numeroa ei päivitetty. PIN2 on virheellinen tai puhelinnumero hylättiin."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Luetaan SIM-korttia…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIM-kortilla ei ole yhteystietoja."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Valitse tuotavat yhteystiedot"</string>
@@ -545,12 +512,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Puhelinvastaajapalvelu"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>-asetukset"</string>
     <string name="other_settings" msgid="3672912580359716394">"Muut puheluasetukset"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Soita"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Käytetään operaattoria <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Vastaa vetämällä oikealle"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Kiellä puhelu vetämällä vasemmalle"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Vastaa"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Hylkää"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"yhteyshenkilön valokuva"</string>
     <string name="goPrivate" msgid="865837794424530980">"muuta yksityiseksi"</string>
     <string name="selectContact" msgid="781975788478987237">"valitse yhteystieto"</string>
@@ -657,5 +619,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Vastaa"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Lähetä tekstiviesti"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Hylkää"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Värinä"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Värinä"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Aina"</item>
+    <item msgid="1595097872875714252">"Vain äänettömässä tilassa"</item>
+    <item msgid="1458182414036878616">"Ei koskaan"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Puhelimen soittoääni"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Värinä ja soittoääni"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Valintanäppäimien näppäinäänet"</string>
 </resources>

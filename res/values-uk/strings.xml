@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Мультикатегорія"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Мультикатегорію увімкн."</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Мультикатегорію вимкнено"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (автом. режим)"</item>
-    <item msgid="8912042051809329533">"Лише WCDMA"</item>
-    <item msgid="8776934131146642662">"Лише GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (рекоменд. WCDMA)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Викор. лише мережі 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Економ. батарею"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Вибір системи"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Лише Головна"</item>
     <item msgid="1205664026446156265">"Автоматично"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Лише домашні мережі"</item>
-    <item msgid="6778172599293570356">"Пов’язані мережі"</item>
-    <item msgid="9084516288544591576">"Будь-яка мережа"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Лише CDMA"</item>
-    <item msgid="2683555124647197574">"Лише EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"Підписка CDMA"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Змінити RUIM/SIM-карту на NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Керув. списком номерів тел."</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Конфіденційність Voice"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Увімкн. режим розшир. конфіденц."</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Режим TTY"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Увімк. режим TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Режим TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Устан. режим TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Автоповтор"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Номер фікс. набору видалено."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"Фіксований номер (FDN) не оновлено, оскільки введено неправильний PIN-код."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"Фіксований номер (FDN) не оновлено, оскільки кількість цифр не може перевищувати 20."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"Фіксований номер (FDN) не оновлено. PIN2-код неправильний або номер телефону відхилено."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Читання з SIM-карти…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"У SIM-карті немає контактів."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Виберіть контакти для імпорту"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Служба голос. пошти"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Налашт-ння для <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Інші налашт-ння виклику"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Набрати"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Виклик здійснюється за допомогою <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Перетяг. впр., щоб відп."</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Пертягн. вліво, щоб відх."</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Відповісти"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Відхилити"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"фото контакта"</string>
     <string name="goPrivate" msgid="865837794424530980">"конфіденц."</string>
     <string name="selectContact" msgid="781975788478987237">"вибрати контакт"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Відповісти"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Надіслати SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Відхилити"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Вібросигнал"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вібросигнал"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Завжди"</item>
+    <item msgid="1595097872875714252">"Лише в беззвучному режимі"</item>
+    <item msgid="1458182414036878616">"Ніколи"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Сигнал дзвінка телефону"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Вібрувати під час дзвінка"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Звук клавіш"</string>
 </resources>

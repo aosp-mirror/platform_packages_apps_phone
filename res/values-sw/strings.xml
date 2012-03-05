@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Kategoria anuwai"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Kategoria anuwai imewezeshwa"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Kategoria anuwai imelemazwa"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (gumzo kioto)"</item>
-    <item msgid="8912042051809329533">"WCDMA tu"</item>
-    <item msgid="8776934131146642662">"GSM tu"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA inapendelewa)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Tumia mitandao ya 2g peke yake"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Huokoa betri"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Chagua mfumo"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Nyumbani tu"</item>
     <item msgid="1205664026446156265">"Otomatiki"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Mitandao ya nyumbani tu"</item>
-    <item msgid="6778172599293570356">"Mitandao husika"</item>
-    <item msgid="9084516288544591576">"Mtandao wowote"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"CDMA tu"</item>
-    <item msgid="2683555124647197574">"EvDo tu"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"Usajili wa CDMA"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Badilisha kati ya RUIM/SIM na NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Dhibiti orodha ya nambari ya simu"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Faragha ya sauti"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Wezesha gumzo ya faragha iliyoboreshwa"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Hali ya TTY"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Wezesha gumzo ya TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Hali ya TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Weka hali ya TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Jaribu tena Kiotomatiki"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Nambari ya upigaji simu uliobanwa imefutwa"</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN haikusasishwa kwa sababu uliweka PIN isiyo sahihi."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN haikusasishwa kwa sababu namba haiwezi kuzidisha herufi 20."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN haikusasishwa. PIN2 haikuwa sahihi, au namba ya simu ilikataliwa."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Inasoma kutoka kwa SIM kadi"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Hakuna anwani kwenye kadi yako ya SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Chagua anwani za kuagiza"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Huduma ya barua ya sauti"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Mipangilio ya <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Mipangilio mingine ya simu"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Piga"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Kupiga simu kupitia <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Kokota kulia ili kujibu"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Kokota kushoto kukataa"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Jibu"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Kataa"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"picha ya anwani"</string>
     <string name="goPrivate" msgid="865837794424530980">"nenda kwa faragha"</string>
     <string name="selectContact" msgid="781975788478987237">"chagua anwani"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Jibu"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Tuma SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Kataa"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Mtetemo"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Mtetemo"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Daima"</item>
+    <item msgid="1595097872875714252">"Ikiwa kimya tu"</item>
+    <item msgid="1458182414036878616">"Kamwe"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Mlio wa simu"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Tetema wakati wa kuita"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Toni za mguso wa pedi ya kupiga"</string>
 </resources>

@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"बहु-श्रेणी"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"बहु-श्रेणी सक्षम की गई"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"बहु-श्रेणी अक्षम की गई"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (स्वतः मोड)"</item>
-    <item msgid="8912042051809329533">"केवल WCDMA"</item>
-    <item msgid="8776934131146642662">"केवल GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA पसंदीदा)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"केवल 2G नेटवर्क का उपयोग करें"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"बैटरी बचाता है"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"सिस्टम चयन"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"केवल होम"</item>
     <item msgid="1205664026446156265">"स्वचालित"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"केवल होम नेटवर्क"</item>
-    <item msgid="6778172599293570356">"संबद्ध नेटवर्क"</item>
-    <item msgid="9084516288544591576">"कोई भी नेटवर्क"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"केवल CDMA"</item>
-    <item msgid="2683555124647197574">"केवल EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"CDMA सदस्यता"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"RUIM/सिम और NV के बीच बदलें"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"फ़ोन नंबर सूची प्रबंधित करें"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"ध्वनि गोपनीयता"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"उन्नत गोपनीयता मोड सक्षम करें"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"TTY मोड"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"TTY मोड सक्षम करें"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY मोड"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"TTY मोड सेट करें"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"स्वतः पुन: प्रयास"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"फ़िक्स्ड डायलिंग नंबर हटाया गया."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN अपडेट नहीं किया गया था क्योंकि आपने गलत पिन लिखा है."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN अपडेट नहीं था क्योंकि नंबर में 20 से अधिक अंक नहीं हो सकते."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN अपडेट नहीं किया गया था. PIN2 गलत था, या फ़ोन नंबर अस्वीकृत था."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"सिम कार्ड से पढ़ रहा है…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"आपके सिम कार्ड पर कोई संपर्क नहीं है."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"आयात करने के लिए संपर्कों का चयन करें"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"ध्वनिमेल सेवा"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> के लिए सेटिंग"</string>
     <string name="other_settings" msgid="3672912580359716394">"अन्य कॉल सेटिंग"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"डायल करें"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> के माध्यम से कॉल किया जा रहा है"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"उत्तर देने के लिए दाएं खींचें"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"अस्वीकार करने के लिए बाएं खींचें"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"उत्तर दें"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"अस्वीकारें"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"संपर्क का फ़ोटो"</string>
     <string name="goPrivate" msgid="865837794424530980">"निजी हो जाएं"</string>
     <string name="selectContact" msgid="781975788478987237">"संपर्क का चयन करें"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"उत्तर"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"SMS भेजें"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"अस्वीकार करें"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"कंपन करें"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"कंपन करें"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"हमेशा"</item>
+    <item msgid="1595097872875714252">"केवल मौन होने पर"</item>
+    <item msgid="1458182414036878616">"कभी नहीं"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"फ़ोन रिंगटोन"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"रिंग आने पर कंपन करें"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"डायल पैड स्पर्श टोन"</string>
 </resources>

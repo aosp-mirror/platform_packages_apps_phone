@@ -293,18 +293,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Vairākas kategorijas"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Vairāku kategoriju režīms ir iespējots."</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Vairāku kategoriju režīms ir atspējots."</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (automātiskais režīms)"</item>
-    <item msgid="8912042051809329533">"Tikai WCDMA"</item>
-    <item msgid="8776934131146642662">"Tikai GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (ieteicams WCDMA)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Izmantot tikai 2G tīklus"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Ietaupa akumulatora jaudu"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Sistēmas atlasīšana"</string>
@@ -313,26 +301,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Tikai mājās"</item>
     <item msgid="1205664026446156265">"Automātiski"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Tikai mājas tīkli"</item>
-    <item msgid="6778172599293570356">"Saistītie tīkli"</item>
-    <item msgid="9084516288544591576">"Jebkurš tīkls"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Tikai CDMA"</item>
-    <item msgid="2683555124647197574">"Tikai EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"CDMA abonements"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Mainīt no RUIM/SIM uz NV un otrādi"</string>
@@ -362,8 +330,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Pārvaldīt tālruņa numuru sarakstu"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Balss konfidencialitāte"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Iespējot uzlabotās konfidencialitātes režīmu"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Teletaipa režīms"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Iespējot teletaipa režīmu"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Teletaipa režīms"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Iestatīt teletaipa režīmu"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Automātisks atkārtots mēģinājums"</string>
@@ -386,6 +352,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Fiksētais numuru sastādīšanas numurs ir atspējots."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN nav atjaunināts, jo tika ievadīts nepareizs PIN."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN netika atjaunināts, jo numurā nedrīkst būt vairāk par 20 cipariem."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN netika atjaunināts. Ievadītais PIN2 nebija pareizs, vai tālruņa numurs tika noraidīts."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Notiek lasīšana no SIM kartes..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"SIM kartē nav nevienas kontaktpersonas."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Importējamo kontaktpersonu atlasīšana"</string>
@@ -543,12 +510,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Balss pasta pakalpojums"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> iestatījumi"</string>
     <string name="other_settings" msgid="3672912580359716394">"Citi zvanu iestatījumi"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Sastādīt numuru"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Zvans, ko nodrošina <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Velciet pa labi, lai atbildētu"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Velciet pa kreisi, lai noraidītu"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Atbildēt"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Noraidīt"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"kontaktpersonas fotoattēls"</string>
     <string name="goPrivate" msgid="865837794424530980">"pārslēgt uz privāto režīmu"</string>
     <string name="selectContact" msgid="781975788478987237">"atlasīt kontaktpersonu"</string>
@@ -655,5 +617,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Atbildēt"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Sūtīt īsziņu"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Noraidīt"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibrozvans"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibrozvans"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Vienmēr"</item>
+    <item msgid="1595097872875714252">"Tikai klusuma režīmā"</item>
+    <item msgid="1458182414036878616">"Nekad"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Tālruņa zvana signāls"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrēt zvanot"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Num. sast. tastatūras piesk. signāli"</string>
 </resources>

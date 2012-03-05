@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Више категорија"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Омогућено је више категорија"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Онемогућено је више категорија"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (аутоматски режим)"</item>
-    <item msgid="8912042051809329533">"Само WCDMA"</item>
-    <item msgid="8776934131146642662">"Само GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA има приоритет)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Користи само 2G мреже"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Чува батерију"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Избор система"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Само почетна"</item>
     <item msgid="1205664026446156265">"Аутоматски"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Само кућне мреже"</item>
-    <item msgid="6778172599293570356">"Сродне мреже"</item>
-    <item msgid="9084516288544591576">"Било која мрежа"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Само CDMA"</item>
-    <item msgid="2683555124647197574">"Само EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"CDMA пријава"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Промени између RUIM/SIM и NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Управљање листе телефонских бројева"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Приватност гласа"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Омогући побољшан режим приватности"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"TTY режим"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Омогући TTY режим"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY режим"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Подеси TTY режим"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Аутоматски поновни покушај"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Избрисан је број за фиксно бирање."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"Број за фиксно бирање није ажуриран јер сте унели нетачан PIN кôд."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"Број за фиксно бирање није ажуриран јер број не сме да премашује 20 цифара."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN није ажуриран. PIN2 је нетачан или је број телефона одбачен."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Читање са SIM картице…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Нема контаката на SIM картици."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Избор контаката за увоз"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Услуга говорне поште"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Подешавања за <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Друга подешавања позива"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Позови"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Позивање преко добављача <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Превуците удесно да бисте одговорили"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Превуците налево да бисте одбили"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Одговори"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Одбиј"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"фотографија контакта"</string>
     <string name="goPrivate" msgid="865837794424530980">"иди на приватно"</string>
     <string name="selectContact" msgid="781975788478987237">"изаберите контакт"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Одговори"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Пошаљи SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Одбиј"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Вибрација"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вибрација"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Увек"</item>
+    <item msgid="1595097872875714252">"Само у нечујном режиму"</item>
+    <item msgid="1458182414036878616">"Никада"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Мелодија звона телефона"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Вибрирај када звони"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Тонови при додиру нумеричке тастатуре"</string>
 </resources>

@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multikategooria"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Multi-kategooria lubatud"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Multikategooria keelatud"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (automaatrežiim)"</item>
-    <item msgid="8912042051809329533">"Ainult WCDMA"</item>
-    <item msgid="8776934131146642662">"Ainult GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA eelistatud)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Kasuta ainult 2G-võrke"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Säästab akut"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Süsteemi valik"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Ainult kodus"</item>
     <item msgid="1205664026446156265">"Automaatne"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Ainult koduvõrgud"</item>
-    <item msgid="6778172599293570356">"Seotud võrgud"</item>
-    <item msgid="9084516288544591576">"Kõik võrgud"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Ainult CDMA"</item>
-    <item msgid="2683555124647197574">"Ainult EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"CDMA-tellimus"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"RUIM-i/SIM-i ja NV vahetamine"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Telefoninumbrite loendi haldamine"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Häälvestluse privaatsus"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Luba täiendatud privaatsusrežiim"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"TTY-režiim"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Luba TTY-režiim"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"TTY-režiim"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Määra TTY-režiim"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Automaatkatse"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Fikseeritud valimisnumber kustutatud."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN-i ei värskendatud, sest sisestasite vale PIN-koodi."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN-i ei värskendatud, sest number ei tohi olla pikem kui 20 kohta."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN-i ei värskendatud. PIN2 oli vale või lükati telefoninumber tagasi."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIM-kaardilt lugemine ..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Teie SIM-kaardil pole ühtegi kontakti."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Valige imporditavad kontaktid"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Kõnepostiteenus"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Teenusepakkuja <xliff:g id="PROVIDER_NAME">%s</xliff:g> seaded"</string>
     <string name="other_settings" msgid="3672912580359716394">"Muud kõneseaded"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Vali"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Kõne edastab <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Vastamiseks lohistage paremale"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Keeldumiseks lohistage vasakule"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Vasta"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Keeldu"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"kontakti foto"</string>
     <string name="goPrivate" msgid="865837794424530980">"aktiveeri privaatrežiim"</string>
     <string name="selectContact" msgid="781975788478987237">"vali kontakt"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Vastamine"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"SMS-i saatmine"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Keeldumine"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibreerimine"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibreerimine"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Alati"</item>
+    <item msgid="1595097872875714252">"Ainult hääletus režiimis"</item>
+    <item msgid="1458182414036878616">"Mitte kunagi"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Telefonihelin"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibreerimine helina ajal"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Valimisklahvistiku puutetoonid"</string>
 </resources>

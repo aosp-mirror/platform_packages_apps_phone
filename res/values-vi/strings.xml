@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Nhiều danh mục"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Đã bật nhiều danh mục"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Đã vô hiệu hóa nhiều danh mục"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (chế độ tự động)"</item>
-    <item msgid="8912042051809329533">"Chỉ WCDMA"</item>
-    <item msgid="8776934131146642662">"Chỉ GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (WCDMA được ưu thích)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Chỉ sử dụng mạng 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Tiết kiệm pin"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Chọn hệ thống"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Chỉ nhà riêng"</item>
     <item msgid="1205664026446156265">"Tự động"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Chỉ Mạng gia đình"</item>
-    <item msgid="6778172599293570356">"Mạng liên kết"</item>
-    <item msgid="9084516288544591576">"Mạng bất kỳ"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Chỉ CDMA"</item>
-    <item msgid="2683555124647197574">"Chỉ EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"Đăng ký CDMA"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Thay đổi giữa RUIM/SIM và NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Quản lý danh sách số điện thoại"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Bảo mật của Voice"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Bật chế độ bảo mật tăng cường"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Chế độ TTY"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Bật chế độ TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Chế độ TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Đặt chế độ TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Tự động thử lại"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Đã thêm số quay định sẵn."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN không được cập nhật do bạn đã nhập PIN không chính xác."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN chưa được cập nhật do số đã vượt quá 20 chữ số."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN không được cập nhật. Mã PIN2 không đúng hoặc số điện thoại đã bị từ chối."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Đang đọc từ thẻ SIM…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Không có danh bạ trên thẻ SIM của bạn."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Chọn danh bạ để nhập"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Dịch vụ thư thoại"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Cài đặt cho <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Cài đặt cuộc gọi khác"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Quay số"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Gọi điện qua <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Kéo sang phải để trả lời"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Kéo sang trái để từ chối"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Trả lời"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Từ chối"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"ảnh liên hệ"</string>
     <string name="goPrivate" msgid="865837794424530980">"chuyển thành riêng tư"</string>
     <string name="selectContact" msgid="781975788478987237">"chọn địa chỉ liên hệ"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Trả lời"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Gửi SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Từ chối"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Rung"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Rung"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Luôn luôn"</item>
+    <item msgid="1595097872875714252">"Chỉ khi ở chế độ im lặng"</item>
+    <item msgid="1458182414036878616">"Không bao giờ"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Nhạc chuông điện thoại"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Rung khi đổ chuông"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Âm chạm bàn phím số"</string>
 </resources>

@@ -291,18 +291,6 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multicategoria"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Multicategoria activada"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Multicategoria desactivada"</string>
-  <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (mode automàtic)"</item>
-    <item msgid="8912042051809329533">"Només WCDMA"</item>
-    <item msgid="8776934131146642662">"Només GSM"</item>
-    <item msgid="4684679567848300935">"GSM/WCDA (preferència: WCDMA)"</item>
-  </string-array>
-  <string-array name="gsm_umts_network_preferences_values">
-    <item msgid="117293148930527265">"0"</item>
-    <item msgid="2264578612775462302">"1"</item>
-    <item msgid="1268081943590316978">"2"</item>
-    <item msgid="4469871047641902607">"3"</item>
-  </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Utilitza només les xarxes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Estalvia bateria"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Selecció del sistema"</string>
@@ -311,26 +299,6 @@
   <string-array name="cdma_system_select_choices">
     <item msgid="176474317493999285">"Només local"</item>
     <item msgid="1205664026446156265">"Automàtic"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_choices">
-    <item msgid="8383263321386840733">"Només xarxes locals"</item>
-    <item msgid="6778172599293570356">"Xarxes afiliades"</item>
-    <item msgid="9084516288544591576">"Qualsevol xarxa"</item>
-  </string-array>
-  <string-array name="cdma_roaming_mode_values">
-    <item msgid="2549203161367380954">"0"</item>
-    <item msgid="6007798728227141997">"1"</item>
-    <item msgid="4039511109802141047">"2"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_choices">
-    <item msgid="3711054371631487248">"CDMA/EvDo"</item>
-    <item msgid="6143696847467859795">"Només CDMA"</item>
-    <item msgid="2683555124647197574">"Només EvDo"</item>
-  </string-array>
-  <string-array name="cdma_network_preferences_values">
-    <item msgid="5584048199290030331">"0"</item>
-    <item msgid="5741268642513143762">"1"</item>
-    <item msgid="419525200910932450">"2"</item>
   </string-array>
     <string name="cdma_subscription_title" msgid="1162564010076763284">"Subscripció CDMA"</string>
     <string name="cdma_subscription_summary" msgid="2530890766115781140">"Canvia entre RUIM/SIM i NV"</string>
@@ -360,8 +328,6 @@
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Gestiona la llista de números de telèfon"</string>
     <string name="voice_privacy" msgid="3776841382844614716">"Privadesa de veu"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Activa el mode de privadesa millorat"</string>
-    <string name="tty_mode_title" msgid="3171521903490559138">"Mode TTY"</string>
-    <string name="tty_mode_summary" msgid="5057244302665817977">"Activa el mode TTY"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Mode TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Defineix el mode TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Reintent automàtic"</string>
@@ -384,6 +350,7 @@
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Número de marcatge fix suprimit."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN no s\'ha actualitzat ja que has escrit un PIN incorrecte."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN no s\'ha actualitzat ja que el nombre no pot excedir els 20 dígits."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"El número FDN no s\'ha actualitzat. El PIN2 no és correcte o bé s\'ha rebutjat el número de telèfon."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"S\'està llegint de la targeta SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"No hi ha cap contacte a la targeta SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleccioneu contactes per importar-los"</string>
@@ -541,12 +508,7 @@
     <string name="voicemail_provider" msgid="6299679757491942924">"Servei de correu de veu"</string>
     <string name="voicemail_settings_for" msgid="9018656268027893088">"Configuració de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Altres opcions de configuració de trucades"</string>
-    <string name="dial_button_label" msgid="5551611636419190229">"Marca"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Trucada mitjançant <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="slide_to_answer" msgid="255903188611244476">"Arrossegueu-ho cap a la dreta per respondre"</string>
-    <string name="slide_to_decline" msgid="7342094219435077069">"Arrossegueu-ho cap a l\'esquerra per rebutjar-la"</string>
-    <string name="slide_to_answer_hint" msgid="4901042355463593903">"Respon"</string>
-    <string name="slide_to_decline_hint" msgid="4484576372463030324">"Rebutja"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto de contacte"</string>
     <string name="goPrivate" msgid="865837794424530980">"passa a privat"</string>
     <string name="selectContact" msgid="781975788478987237">"selecciona el contacte"</string>
@@ -653,5 +615,14 @@
     <string name="description_target_answer" msgid="7205604197797472471">"Resposta"</string>
     <string name="description_target_send_sms" msgid="2098326025587950144">"Envia SMS"</string>
     <string name="description_target_decline" msgid="4789834364389731957">"Rebutja"</string>
+    <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibra"</string>
+    <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibra"</string>
+  <string-array name="voicemail_notification_vibrate_when_entries">
+    <item msgid="468237575962916558">"Sempre"</item>
+    <item msgid="1595097872875714252">"Només quan està en silenci"</item>
+    <item msgid="1458182414036878616">"Mai"</item>
+  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"To del telèfon"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibra  quan soni"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tons en tocar el teclat per marcar"</string>
 </resources>
