@@ -113,8 +113,8 @@
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Número mostrado en llamadas salientes"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Utilizar la configuración de operador predeterminada para mostrar mi número en las llamadas salientes"</string>
     <string name="labelCW" msgid="6120513814915920200">"Llamada en espera"</string>
-    <string name="sum_cw_enabled" msgid="8083061901633671397">"Informarme de las llamadas entrantes durante las llamadas"</string>
-    <string name="sum_cw_disabled" msgid="3648693907300104575">"Informarme de las llamadas entrantes durante las llamadas"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Notificarme de llamadas entrantes durante una llamada"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Notificarme de las llamadas entrantes durante las llamadas"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Ajustes de desvío de llamada"</string>
     <string name="labelCF" msgid="2574386948026924737">"Desvío de llamada"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Siempre"</string>

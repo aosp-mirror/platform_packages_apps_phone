@@ -634,7 +634,7 @@
     <string name="alert_dialog_ok" msgid="3580379406983564080">"ይሁን"</string>
     <string name="close_profile" msgid="6886968271423155284">"ዝጋ"</string>
     <string name="primary_account" msgid="2229538308291934245">"ቀዳሚ"</string>
-    <string name="primary_account_title" msgid="5694267218020951531">"ይህን የኔን ቀዳሚ መለያ አድርግ"</string>
+    <string name="primary_account_title" msgid="5694267218020951531">"ይህን የእኔን ቀዳሚ መለያ አድርግ"</string>
     <string name="primary_account_summary" msgid="7339564526372623187">"ለወደ ውጪ ጥሪዎች ይጠቅማል"</string>
     <string name="advanced_settings_title" msgid="8846648727128452293">"የላቁ ቅንብሮች"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"ቀዳሚ መለያ፡<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
