@@ -792,8 +792,8 @@ public class CallNotifier extends Handler
         // listens for phone state changes itself.
         mApplication.updateBluetoothIndication(false);
 
-        // Update the proximity sensor mode (on devices that have a
-        // proximity sensor).
+
+        // Update the phone state and other sensor/lock.
         mApplication.updatePhoneState(state);
 
         if (state == Phone.State.OFFHOOK) {

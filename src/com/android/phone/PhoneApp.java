@@ -38,12 +38,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
 import android.os.LocalPowerManager;
+import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.os.UpdateLock;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.telephony.ServiceState;
@@ -186,7 +188,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private boolean mBeginningCall;
 
     // Last phone state seen by updatePhoneState()
-    Phone.State mLastPhoneState = Phone.State.IDLE;
+    private Phone.State mLastPhoneState = Phone.State.IDLE;
 
     private WakeState mWakeState = WakeState.SLEEP;
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
@@ -199,6 +201,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private KeyguardManager mKeyguardManager;
     private AccelerometerListener mAccelerometerListener;
     private int mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
+
+    private UpdateLock mUpdateLock;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -487,6 +491,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // want to set the poke lock.
             mPowerManagerService = IPowerManager.Stub.asInterface(
                     ServiceManager.getService("power"));
+
+            // Get UpdateLock to suppress system-update related events (e.g. dialog show-up)
+            // during phone calls.
+            mUpdateLock = new UpdateLock("phone");
+
+            if (DBG) Log.d(LOG_TAG, "onCreate: mUpdateLock: " + mUpdateLock);
 
             // Create the CallController singleton, which is the interface
             // to the telephony layer for user-initiated telephony functionality
@@ -1230,12 +1240,15 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /**
      * Notifies the phone app when the phone state changes.
-     * Currently used only for proximity sensor support.
+     *
+     * This method will updates various states inside Phone app (e.g. proximity sensor mode,
+     * accelerometer listener state, update-lock state, etc.)
      */
     /* package */ void updatePhoneState(Phone.State state) {
         if (state != mLastPhoneState) {
             mLastPhoneState = state;
             updateProximitySensorMode(state);
+            updateUpdateLock(state);
             if (mAccelerometerListener != null) {
                 // use accelerometer to augment proximity sensor when in call
                 mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
@@ -1256,6 +1269,33 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /* package */ Phone.State getPhoneState() {
         return mLastPhoneState;
+    }
+
+    /**
+     * Acquires or releases {@link UpdateLock} using a given Phone.
+     * OFFHOOK and RINGING will request to acquire the lock while IDLE will request to release it.
+     *
+     * This method must be called from main thread.
+     */
+    private void updateUpdateLock(Phone.State state) {
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            Log.wtf(LOG_TAG, "updateUpdateLock() was called outside the main thread.");
+        }
+
+        boolean acquireLock = state != Phone.State.IDLE;
+        // UpdateLock is a recursive lock, while we may get "acquire" request twice and
+        // "release" request once for a single call (RINGING + OFFHOOK and IDLE).
+        // We need to manually ensure the lock is just acquired once for each (and this will
+        // prevent other possible buggy situations too).
+        if (acquireLock) {
+            if (!mUpdateLock.isHeld()) {
+                mUpdateLock.acquire();
+            }
+        } else {
+            if (mUpdateLock.isHeld()) {
+                mUpdateLock.release();
+            }
+        }
     }
 
     /**
