@@ -620,6 +620,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     /**
      * Implemented for the TouchListener, process the touch events.
      */
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         int viewId = v.getId();
 
@@ -833,6 +834,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (!mToneMap.containsKey(c)) {
             return;
         }
+
+        if (!mInCallScreen.okToDialDTMFTones()) {
+            return;
+        }
+
         // Read the settings as it may be changed by the user during the call
         Phone phone = mCM.getFgPhone();
         mShortTone = TelephonyCapabilities.useShortDtmfTones(phone, phone.getContext());
@@ -893,6 +899,9 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Stops the local tone based on the phone type.
      */
     public void stopTone() {
+        // We do not rely on InCallScreen#okToDialDTMFTones() here since it is ok to stop tones
+        // without starting them.
+
         if (!mShortTone) {
             if (DBG) log("stopping remote tone.");
             mCM.stopDtmf();
