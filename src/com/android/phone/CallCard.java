@@ -795,7 +795,8 @@ public class CallCard extends LinearLayout
         switch (state) {
             case ACTIVE:
             case DISCONNECTING:
-                mElapsedTime.setVisibility(View.VISIBLE);
+                // Show the time with fade-in animation.
+                AnimationUtils.Fade.show(mElapsedTime);
                 long duration = CallTime.getCallDuration(call);  // msec
                 updateElapsedTimeWidget(duration / 1000);
                 // Also see onTickForCallTimeElapsed(), which updates this
@@ -806,28 +807,26 @@ public class CallCard extends LinearLayout
                 // In the "Call ended" state, leave the mElapsedTime widget
                 // visible, but don't touch it (so we continue to see the
                 // elapsed time of the call that just ended.)
-                mElapsedTime.setVisibility(View.VISIBLE);
+                // Check visibility to keep possible fade-in animation.
+                if (mElapsedTime.getVisibility() != View.VISIBLE) {
+                    mElapsedTime.setVisibility(View.VISIBLE);
+                }
                 break;
 
             default:
                 // In all other states (DIALING, INCOMING, HOLDING, etc.),
                 // the "elapsed time" is meaningless, so don't show it.
-                mElapsedTime.setVisibility(View.INVISIBLE);
+                AnimationUtils.Fade.hide(mElapsedTime, View.INVISIBLE);
                 break;
         }
     }
 
     /**
      * Updates mElapsedTime based on the specified number of seconds.
-     * A timeElapsed value of zero means to not show an elapsed time at all.
      */
     private void updateElapsedTimeWidget(long timeElapsed) {
         // if (DBG) log("updateElapsedTimeWidget: " + timeElapsed);
-        if (timeElapsed == 0) {
-            mElapsedTime.setText("");
-        } else {
-            mElapsedTime.setText(DateUtils.formatElapsedTime(timeElapsed));
-        }
+        mElapsedTime.setText(DateUtils.formatElapsedTime(timeElapsed));
     }
 
     /**
