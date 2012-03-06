@@ -467,7 +467,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"ስልክዎን ያግብሩ"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"የስልክዎን አገለግሎት ለማግበር ልዩ ጥሪ ያስፈልጋል።"\n\n"  \"አግብር\" ከተጫኑ በኋላ ስልክዎን ለማግበር የቀረቡትን መመሪያዎች ያዳምጡ።"</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"አግብር ይዝለል?"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"ማግበር ካዘለሉ፣ ጥሪ ማድረግ ወይም ተንቀሳቃሽ ስልክ ውሂብ አውታረ መረብ(በWi-Fi አውታረ መረቦች ማያያዝ ቢችሉም እንኳ) ማያያዝ አይችሉም። ስልክዎን እስኪያገብሩ ድረስ፣ ባበሩት ቁጥር እንዲያገብሩት ይጠየቃሉ።"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"ማግበር ካዘለሉ፣ ጥሪ ማድረግ ወይም ተንቀሳቃሽ ስልክ ውሂብ አውታረ መረብ(በWi-Fi አውታረ መረቦች ማያያዝ ቢችሉም እንኳን ) ማያያዝ አይችሉም። ስልክዎን እስኪያገብሩ ድረስ፣ ባበሩት ቁጥር እንዲያገብሩት ይጠየቃሉ።"</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"ዝለል"</string>
     <string name="ota_activate" msgid="1368528132525626264">"አግብር"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"ስልክ አግብረሃል!"</string>
