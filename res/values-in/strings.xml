@@ -75,27 +75,27 @@
     <string name="unlock_success" msgid="6770085622238180152">"Jaringan berhasil dibuka."</string>
     <string name="imei" msgid="8552502717594321281">"IMEI"</string>
     <string name="meid" msgid="66004808679046045">"MEID"</string>
-    <string name="labelGSMMore" msgid="5930842194056092106">"Setelan panggilan GSM"</string>
-    <string name="labelCDMAMore" msgid="1630676740428229339">"Setelan panggilan CDMA"</string>
+    <string name="labelGSMMore" msgid="5930842194056092106">"Pengaturan panggilan GSM"</string>
+    <string name="labelCDMAMore" msgid="1630676740428229339">"Pengaturan panggilan CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Access Point Names (Nama Titik Akses)"</string>
-    <string name="settings_label" msgid="3876743539816984008">"Setelan jaringan"</string>
+    <string name="settings_label" msgid="3876743539816984008">"Pengaturan jaringan"</string>
     <string name="voicemail" msgid="8693759337917898954">"Kotak Pesan"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
     <string name="networks" msgid="8873030692174541976">"Operator jaringan"</string>
-    <string name="call_settings" msgid="6112441768261754562">"Setelan panggilan"</string>
-    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Setelan tambahan"</string>
-    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Setelan panggilan khusus GSM tambahan"</string>
-    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Setelan panggilan CDMA tambahan"</string>
-    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Setelan panggilan khusus CDMA tambahan"</string>
-    <string name="labelNwService" msgid="4699970172021870983">"Setelan layanan jaringan"</string>
+    <string name="call_settings" msgid="6112441768261754562">"Pengaturan panggilan"</string>
+    <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Pengaturan tambahan"</string>
+    <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Pengaturan panggilan khusus GSM tambahan"</string>
+    <string name="additional_cdma_call_settings" msgid="8628958775721886909">"Pengaturan panggilan CDMA tambahan"</string>
+    <string name="sum_cdma_call_settings" msgid="284753265979035549">"Pengaturan panggilan khusus CDMA tambahan"</string>
+    <string name="labelNwService" msgid="4699970172021870983">"Pengaturan layanan jaringan"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Nomor Penelepon"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Nomor disembunyikan selama panggilan keluar"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Nomor ditampilkan selama panggilan keluar"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"Gunakan setelan operator bawaan untuk menampilkan nomor saya pada panggilan keluar"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"Gunakan pengaturan operator bawaan untuk menampilkan nomor saya pada panggilan keluar"</string>
     <string name="labelCW" msgid="6120513814915920200">"Nada tunggu"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Selama panggilan, beritahukan panggilan masuk kepada saya"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Selama panggilan, beritahukan panggilan masuk kepada saya"</string>
-    <string name="call_forwarding_settings" msgid="3378927671091537173">"Setelan penerusan panggilan"</string>
+    <string name="call_forwarding_settings" msgid="3378927671091537173">"Pengaturan penerusan panggilan"</string>
     <string name="labelCF" msgid="2574386948026924737">"Penerusan panggilan"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Selalu teruskan"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Selalu gunakan nomor ini"</string>
@@ -118,32 +118,32 @@
     <string name="sum_cfnrc_enabled" msgid="7010898346095497421">"Meneruskan ke <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Dinonaktifkan"</string>
     <string name="disable_cfnrc_forbidden" msgid="5646361343094064333">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel tidak dapat dijangkau."</string>
-    <string name="updating_title" msgid="6146755386174019046">"Setelan panggilan"</string>
-    <string name="error_updating_title" msgid="7970259216988931777">"Galat setelan panggilan"</string>
-    <string name="reading_settings" msgid="1920291699287055284">"Membaca setelan…"</string>
-    <string name="updating_settings" msgid="8171225533884883252">"Memperbarui setelan…"</string>
-    <string name="reverting_settings" msgid="4752151682666912828">"Mengembalikan setelan..."</string>
+    <string name="updating_title" msgid="6146755386174019046">"Pengaturan panggilan"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Galat pengaturan panggilan"</string>
+    <string name="reading_settings" msgid="1920291699287055284">"Membaca pengaturan…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"Memperbarui pengaturan…"</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"Mengembalikan pengaturan..."</string>
     <string name="response_error" msgid="6674110501330139405">"Tanggapan tak terduga dari jaringan."</string>
     <string name="exception_error" msgid="7027667130619518211">"Kesalahan jaringan atau kartu SIM."</string>
     <string name="fdn_only_error" msgid="7079583506377602000">"Operasi hanya diizinkan pada nomor panggilan tetap."</string>
-    <string name="radio_off_error" msgid="2304459933248513376">"Keluar dari mode pesawat sebelum melihat setelan ini."</string>
+    <string name="radio_off_error" msgid="2304459933248513376">"Keluar dari mode pesawat sebelum melihat pengaturan ini."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktifkan"</string>
     <string name="disable" msgid="7274240979164762320">"Nonaktifkan"</string>
     <string name="change_num" msgid="239476305819844391">"Perbarui"</string>
   <string-array name="clir_display_values">
-    <item msgid="5560134294467334594">"Setelan bawaan jaringan"</item>
+    <item msgid="5560134294467334594">"Pengaturan bawaan jaringan"</item>
     <item msgid="7876195870037833661">"Sembunyikan nomor"</item>
     <item msgid="1108394741608734023">"Tampilkan nomor"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Nomor kotak pesan berubah."</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"Tidak dapat mengubah nomor pesan suara."\n"Hubungi operator Anda jika masalah ini terus berlanjut."</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"Tidak dapat mengubah nomor penerusan."\n"Hubungi operator Anda jika masalah ini terus berlanjut."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Tidak dapat mengambil dan menyimpan setelan nomor telepon penerusan saat ini."\n"Tetap beralih ke operator baru?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Tidak dapat mengambil dan menyimpan pengaturan nomor telepon penerusan saat ini."\n"Tetap beralih ke operator baru?"</string>
     <string name="no_change" msgid="3186040086622435212">"Tidak ada perubahan yang dilakukan."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Pilih layanan kotak pesan"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Operator Anda"</string>
-    <string name="mobile_networks" msgid="5540397602919106177">"Setelan jaringan seluler"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Pengaturan jaringan seluler"</string>
     <string name="label_available" msgid="1181658289009300430">"Jaringan yang tersedia"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Menelusuri…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Jaringan tidak ditemukan."</string>
@@ -206,9 +206,9 @@
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Informasi selengkapnya tentang kebijakan penggunaan data jaringan seluler operator Anda"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS Siaran Sel"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"SMS Siaran Sel"</string>
-    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Setelan SMS Siaran Sel diaktifkan"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"Pengaturan SMS Siaran Sel diaktifkan"</string>
     <string name="cell_bc_sms_disable" msgid="3398365088309408749">"SMS Siaran Sel dinonaktifkan"</string>
-    <string name="cb_sms_settings" msgid="651715019785107312">"Setelan SMS Siaran Sel"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"Pengaturan SMS Siaran Sel"</string>
     <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"Siaran Darurat"</string>
     <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Siaran Darurat diaktifkan"</string>
     <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Siaran Darurat dinonaktifkan"</string>
@@ -503,16 +503,16 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ya"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Tidak"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Tolak"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Setelan kotak pesan"</string>
+    <string name="voicemail_settings" msgid="2288633492587133022">"Pengaturan kotak pesan"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Tidak disetel&gt;"</string>
     <string name="voicemail_provider" msgid="6299679757491942924">"Layanan kotak pesan"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"Setelan untuk <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="other_settings" msgid="3672912580359716394">"Setelan panggilan lainnya"</string>
+    <string name="voicemail_settings_for" msgid="9018656268027893088">"Pengaturan untuk <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="other_settings" msgid="3672912580359716394">"Pengaturan panggilan lainnya"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Memanggil via <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto kenalan"</string>
     <string name="goPrivate" msgid="865837794424530980">"aktifkan pribadi"</string>
     <string name="selectContact" msgid="781975788478987237">"pilih kenalan"</string>
-    <string name="sip_settings" msgid="6699045718560859691">"Setelan panggilan internet"</string>
+    <string name="sip_settings" msgid="6699045718560859691">"Pengaturan panggilan internet"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Akun panggilan internet (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Akun"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Terima panggilan masuk"</string>
@@ -526,7 +526,7 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Lakukan panggilan"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Gunakan akun panggilan internet"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Selalu gunakan untuk melakukan panggilan internet"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Anda dapat mengubah akun pemanggil internet mana yang digunakan secara bawaan dari layar Telepon &gt; Setelan &gt; Setelan panggilan internet &gt; Akun."</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"Anda dapat mengubah akun pemanggil internet mana yang digunakan secara bawaan dari layar Telepon &gt; Pengaturan &gt; Pengaturan panggilan internet &gt; Akun."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"Paggilan ponsel"</string>
     <string name="internet_phone" msgid="1147922660195095810">"Panggilan internet"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Tidak ada akun panggilan internet"</string>
@@ -567,7 +567,7 @@
     <string name="send_keepalive_title" msgid="7533342573918645113">"Kirim keep-alive"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Setel sebagai akun utama"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"Digunakan untuk panggilan keluar"</string>
-    <string name="advanced_settings" msgid="8350631795335495338">"Setelan opsional"</string>
+    <string name="advanced_settings" msgid="8350631795335495338">"Pengaturan opsional"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Nama pengguna autentikasi"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"Nama pengguna yang digunakan untuk autentikasi"</string>
     <string name="default_preference_summary" msgid="868766740121667450">"&lt;Tidak disetel&gt;"</string>
@@ -580,7 +580,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Tidak ada sambungan internet"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Tidak ada sambungan Wi-Fi"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Untuk melakukan panggilan internet, periksalah sambungan internet Anda terlebih dulu."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Anda perlu tersambung ke jaringan Wi-Fi untuk panggilan internet (gunakan setelan Nirkabel &amp; Jaringan)"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Anda perlu tersambung ke jaringan Wi-Fi untuk panggilan internet (gunakan pengaturan Nirkabel &amp; Jaringan)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Panggilan internet tidak didukung"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Otomatis"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Selalu kirim"</string>
