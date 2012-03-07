@@ -3822,7 +3822,7 @@ public class InCallScreen extends Activity
     /**
      * Determines when we can dial DTMF tones.
      */
-    private boolean okToDialDTMFTones() {
+    /* package */ boolean okToDialDTMFTones() {
         final boolean hasRingingCall = mCM.hasActiveRingingCall();
         final Call.State fgCallState = mCM.getActiveFgCallState();
 
@@ -3855,9 +3855,9 @@ public class InCallScreen extends Activity
      *      dialpad" onscreen button; see InCallControlState.dialpadEnabled.)
      */
     /* package */ boolean okToShowDialpad() {
-        // The dialpad is available only when it's OK to dial DTMF
-        // tones given the current state of the current call.
-        return okToDialDTMFTones();
+        // Very similar to okToDialDTMFTones(), but allow DIALING here.
+        final Call.State fgCallState = mCM.getActiveFgCallState();
+        return okToDialDTMFTones() || (fgCallState == Call.State.DIALING);
     }
 
     /**
