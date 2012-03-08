@@ -555,13 +555,13 @@ public class BluetoothPhoneService extends Service {
                 // to ACTIVE/HOLDING based on the mCdmaIsSecondCallActive flag. This way the
                 // CLCC result will allow BT devices to enable the swap or merge options
                 if (index == 0) { // For the 1st active connection
-                    state = mCdmaIsSecondCallActive ? CALL_STATE_ONHOLD : CALL_STATE_ACTIVE;
+                    state = mCdmaIsSecondCallActive ? CALL_STATE_HELD : CALL_STATE_ACTIVE;
                 } else { // for the 2nd active connection
-                    state = mCdmaIsSecondCallActive ? CALL_STATE_ACTIVE : CALL_STATE_ONHOLD;
+                    state = mCdmaIsSecondCallActive ? CALL_STATE_ACTIVE : CALL_STATE_HELD;
                 }
                 break;
             case HOLDING:
-                state = CALL_STATE_ONHOLD;
+                state = CALL_STATE_HELD;
                 break;
             case DIALING:
                 state = CALL_STATE_DIALING;
@@ -775,13 +775,13 @@ public class BluetoothPhoneService extends Service {
     };
 
     // match up with bthf_call_state_t of bt_hf.h
-    final static int CALL_STATE_IDLE = 0;
-    final static int CALL_STATE_INCOMING = 1;
+    final static int CALL_STATE_ACTIVE = 0;
+    final static int CALL_STATE_HELD = 1;
     final static int CALL_STATE_DIALING = 2;
     final static int CALL_STATE_ALERTING = 3;
-    final static int CALL_STATE_WAITING = 4;
-    final static int CALL_STATE_ACTIVE = 5;
-    final static int CALL_STATE_ONHOLD = 6;
+    final static int CALL_STATE_INCOMING = 4;
+    final static int CALL_STATE_WAITING = 5;
+    final static int CALL_STATE_IDLE = 6;
 
     // match up with bthf_chld_type_t of bt_hf.h
     final static int CHLD_TYPE_RELEASEHELD = 0;
@@ -811,7 +811,7 @@ public class BluetoothPhoneService extends Service {
         case ACTIVE:
             return CALL_STATE_ACTIVE;
         case HOLDING:
-            return CALL_STATE_ONHOLD;
+            return CALL_STATE_HELD;
         case DIALING:
             return CALL_STATE_DIALING;
         case ALERTING:
