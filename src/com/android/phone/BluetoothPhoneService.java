@@ -58,14 +58,13 @@ public class BluetoothPhoneService extends Service {
 
     private Call.State mForegroundCallState;
     private Call.State mRingingCallState;
+    private CallNumber mRingNumber;
     // number of active calls
     int mNumActive;
     // number of background (held) calls
     int mNumHeld;
 
     private boolean mRoam = false;
-
-    private CallNumber mCallNumber;
 
     // CDMA specific flag used in context with BT devices having display capabilities
     // to show which Caller is active. This state might not be always true as in CDMA
@@ -102,7 +101,7 @@ public class BluetoothPhoneService extends Service {
         mRingingCallState = Call.State.IDLE;
         mNumActive = 0;
         mNumHeld = 0;
-        mCallNumber = new CallNumber("", 0);;
+        mRingNumber = new CallNumber("", 0);;
         mRoam = false;
 
         updateServiceState(mCM.getDefaultPhone().getServiceState());
@@ -152,8 +151,9 @@ public class BluetoothPhoneService extends Service {
     private static final int PRECISE_CALL_STATE_CHANGED = 2;
     private static final int PHONE_CDMA_CALL_WAITING = 3;
     private static final int LIST_CURRENT_CALLS = 4;
-    private static final int CDMA_SWAP_SECOND_CALL_STATE = 5;
-    private static final int CDMA_SET_SECOND_CALL_STATE = 6;
+    private static final int QUERY_PHONE_STATE = 5;
+    private static final int CDMA_SWAP_SECOND_CALL_STATE = 6;
+    private static final int CDMA_SET_SECOND_CALL_STATE = 7;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -174,6 +174,9 @@ public class BluetoothPhoneService extends Service {
                     break;
                 case LIST_CURRENT_CALLS:
                     handleListCurrentCalls();
+                    break;
+                case QUERY_PHONE_STATE:
+                    handleQueryPhoneState();
                     break;
                 case CDMA_SWAP_SECOND_CALL_STATE:
                     handleCdmaSwapSecondCallState();
@@ -219,54 +222,32 @@ public class BluetoothPhoneService extends Service {
         int oldNumHeld = mNumHeld;
         Call.State oldRingingCallState = mRingingCallState;
         Call.State oldForegroundCallState = mForegroundCallState;
-        CallNumber oldCallNumber = mCallNumber;
+        CallNumber oldRingNumber = mRingNumber;
 
         Call foregroundCall = mCM.getActiveFgCall();
-        Call.State foregroundCallState = foregroundCall.getState();
-        if (foregroundCallState != mForegroundCallState) {
-            mForegroundCallState = foregroundCallState;
-        }
+        mForegroundCallState = foregroundCall.getState();
+        mNumActive = (mForegroundCallState == Call.State.ACTIVE) ? 1 : 0;
 
-        // get background call state
-        int numHeld;
         if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
-            numHeld = getNumHeldCdma();
+            mNumHeld = getNumHeldCdma();
             // TODO(BT) CDMA phone, handle mCdmaCallsSwapped,
         } else {
-            numHeld = getNumHeldUmts();
-        }
-        if (numHeld != mNumHeld) {
-            mNumHeld = numHeld;
+            mNumHeld = getNumHeldUmts();
         }
 
-        // get ringing call state
         Call ringingCall = mCM.getFirstActiveRingingCall();
-        Call.State ringingCallState = ringingCall.getState();
+        mRingingCallState = ringingCall.getState();
+        mRingNumber = getCallNumber(connection, ringingCall);
 
-        // now see which has changed
-        Call changedCall;
-        Call.State changedCallState;
-        if (ringingCallState != mRingingCallState) {
-            changedCallState = mRingingCallState = ringingCallState;
-            changedCall = ringingCall;
-        } else {
-            // use foreground call state and number for non ringing call
-            // state change case
-            changedCallState = foregroundCallState;
-            changedCall = foregroundCall;
-        }
-
-        mNumActive = (foregroundCallState == Call.State.ACTIVE) ? 1 : 0;
-        mCallNumber = getCallNumber(connection, changedCall);
         if (mNumActive != oldNumActive || mNumHeld != oldNumHeld ||
             mRingingCallState != oldRingingCallState ||
             mForegroundCallState != oldForegroundCallState ||
-            !mCallNumber.equalTo(oldCallNumber)) {
-                if (mBluetoothHeadset != null) {
-                    mBluetoothHeadset.phoneStateChanged(mNumActive, mNumHeld,
-                        convertCallState(mRingingCallState, mForegroundCallState),
-                        mCallNumber.mNumber, mCallNumber.mType);
-                }
+            !mRingNumber.equalTo(oldRingNumber)) {
+            if (mBluetoothHeadset != null) {
+                mBluetoothHeadset.phoneStateChanged(mNumActive, mNumHeld,
+                    convertCallState(mRingingCallState, mForegroundCallState),
+                    mRingNumber.mNumber, mRingNumber.mType);
+            }
         }
     }
 
@@ -286,6 +267,14 @@ public class BluetoothPhoneService extends Service {
         // end the result
         // when index is 0, other parameter does not matter
         mBluetoothHeadset.clccResponse(0, 0, 0, 0, false, "", 0);
+    }
+
+    private void handleQueryPhoneState() {
+        if (mBluetoothHeadset != null) {
+            mBluetoothHeadset.phoneStateChanged(mNumActive, mNumHeld,
+                convertCallState(mRingingCallState, mForegroundCallState),
+                mRingNumber.mNumber, mRingNumber.mType);
+        }
     }
 
     private int getNumHeldUmts() {
@@ -754,6 +743,12 @@ public class BluetoothPhoneService extends Service {
 
         public boolean listCurrentCalls() {
             Message msg = Message.obtain(mHandler, LIST_CURRENT_CALLS);
+            mHandler.sendMessage(msg);
+            return true;
+        }
+
+        public boolean queryPhoneState() {
+            Message msg = Message.obtain(mHandler, QUERY_PHONE_STATE);
             mHandler.sendMessage(msg);
             return true;
         }
