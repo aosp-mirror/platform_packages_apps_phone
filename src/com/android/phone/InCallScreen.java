@@ -884,6 +884,13 @@ public class InCallScreen extends Activity
         if (DBG) log("onStop: state = " + state);
 
         if (state == Phone.State.IDLE) {
+            if (mRespondViaSmsManager != null && mRespondViaSmsManager.isShowingPopup()) {
+                // This means that the user has been opening the "Respond via SMS" dialog even
+                // after the incoming call hanging up, and the screen finally went background.
+                // In that case we just close the dialog and exit the whole in-call screen.
+                mRespondViaSmsManager.dismissPopup();
+            }
+
             // when OTA Activation, OTA Success/Failure dialog or OTA SPC
             // failure dialog is running, do not destroy inCallScreen. Because call
             // is already ended and dialog will not get redrawn on slider event.
@@ -1780,24 +1787,27 @@ public class InCallScreen extends Activity
                  || (cause == Connection.DisconnectCause.INCOMING_REJECTED))
                 && currentlyIdle;
 
+        boolean showingQuickResponseDialog =
+                mRespondViaSmsManager != null && mRespondViaSmsManager.isShowingPopup();
+
         // Note: we also do some special handling for the case when a call
         // disconnects with cause==OUT_OF_SERVICE while making an
         // emergency call from airplane mode.  That's handled by
         // EmergencyCallHelper.onDisconnect().
 
-        // TODO: one more case where we *shouldn't* bail out immediately:
-        // If the disconnect event was from an incoming ringing call, but
-        // the "Respond via SMS" popup is visible onscreen.  (In this
-        // case, we let the popup stay up even after the incoming call
-        // stops ringing, to give people extra time to choose a response.)
-        //
-        // But watch out: if we allow the popup to stay onscreen even
-        // after the incoming call disconnects, then we'll *also* have to
-        // forcibly dismiss it if the InCallScreen gets paused in that
-        // state (like by the user pressing Power or the screen timing
-        // out).
+        if (bailOutImmediately && showingQuickResponseDialog) {
+            if (DBG) log("- onDisconnect: Respond-via-SMS dialog is still being displayed...");
 
-        if (bailOutImmediately) {
+            // Do *not* exit the in-call UI yet!
+            // If the call was an incoming call that was missed *and* the user is using
+            // quick response screen, we keep showing the screen for a moment, assuming the
+            // user wants to reply the call anyway.
+            //
+            // For this case, we will exit the screen when:
+            // - the message is sent (RespondViaSmsManager)
+            // - the message is canceled (RespondViaSmsManager), or
+            // - when the whole in-call UI becomes background (onPause())
+        } else if (bailOutImmediately) {
             if (DBG) log("- onDisconnect: bailOutImmediately...");
 
             // Exit the in-call UI!

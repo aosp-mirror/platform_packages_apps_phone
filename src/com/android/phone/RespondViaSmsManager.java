@@ -18,6 +18,7 @@ package com.android.phone;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.Phone;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -183,6 +184,10 @@ public class RespondViaSmsManager {
         }
     }
 
+    public boolean isShowingPopup() {
+        return mPopup != null && mPopup.isShowing();
+    }
+
     /**
      * OnItemClickListener for the "Respond via SMS" popup.
      */
@@ -197,6 +202,7 @@ public class RespondViaSmsManager {
         /**
          * Handles the user selecting an item from the popup.
          */
+        @Override
         public void onItemClick(AdapterView<?> parent,  // The ListView
                                 View view,  // The TextView that was clicked
                                 int position,
@@ -245,7 +251,17 @@ public class RespondViaSmsManager {
             // So reject the call now.
             mInCallScreen.hangupRingingCall();
 
-            PhoneApp.getInstance().dismissCallScreen();
+            dismissPopup();
+
+            final Phone.State state = PhoneApp.getInstance().mCM.getState();
+            if (state == Phone.State.IDLE) {
+                // There's no other phone call to interact. Exit the entire in-call screen.
+                PhoneApp.getInstance().dismissCallScreen();
+            } else {
+                // The user is still in the middle of other phone calls, so we should keep the
+                // in-call screen.
+                mInCallScreen.requestUpdateScreen();
+            }
         }
     }
 
@@ -260,28 +276,39 @@ public class RespondViaSmsManager {
          * Handles the user canceling the popup, either by touching
          * outside the popup or by pressing Back.
          */
+        @Override
         public void onCancel(DialogInterface dialog) {
             if (DBG) log("RespondViaSmsCancelListener.onCancel()...");
 
-            // If the user cancels the popup, this presumably means that
-            // they didn't actually mean to bring up the "Respond via SMS"
-            // UI in the first place (and instead want to go back to the
-            // state where they can either answer or reject the call.)
-            // So restart the ringer and bring back the regular incoming
-            // call UI.
+            dismissPopup();
 
-            // This will have no effect if the incoming call isn't still ringing.
-            PhoneApp.getInstance().notifier.restartRinger();
+            final Phone.State state = PhoneApp.getInstance().mCM.getState();
+            if (state == Phone.State.IDLE) {
+                // This means the incoming call is already hung up when the user chooses not to
+                // use "Respond via SMS" feature. Let's just exit the whole in-call screen.
+                PhoneApp.getInstance().dismissCallScreen();
+            } else {
 
-            // We hid the MultiWaveView widget way back in
-            // InCallTouchUi.onTrigger(), when the user first selected
-            // the "SMS" trigger.
-            //
-            // To bring it back, just force the entire InCallScreen to
-            // update itself based on the current telephony state.
-            // (Assuming the incoming call is still ringing, this will
-            // cause the incoming call widget to reappear.)
-            mInCallScreen.requestUpdateScreen();
+                // If the user cancels the popup, this presumably means that
+                // they didn't actually mean to bring up the "Respond via SMS"
+                // UI in the first place (and instead want to go back to the
+                // state where they can either answer or reject the call.)
+                // So restart the ringer and bring back the regular incoming
+                // call UI.
+
+                // This will have no effect if the incoming call isn't still ringing.
+                PhoneApp.getInstance().notifier.restartRinger();
+
+                // We hid the MultiWaveView widget way back in
+                // InCallTouchUi.onTrigger(), when the user first selected
+                // the "SMS" trigger.
+                //
+                // To bring it back, just force the entire InCallScreen to
+                // update itself based on the current telephony state.
+                // (Assuming the incoming call is still ringing, this will
+                // cause the incoming call widget to reappear.)
+                mInCallScreen.requestUpdateScreen();
+            }
         }
     }
 
@@ -382,6 +409,7 @@ public class RespondViaSmsManager {
         }
 
         // Preference.OnPreferenceChangeListener implementation
+        @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (DBG) log("onPreferenceChange: key = " + preference.getKey());
             if (VDBG) log("  preference = '" + preference + "'");
