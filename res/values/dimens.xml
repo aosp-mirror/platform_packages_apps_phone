@@ -44,6 +44,12 @@
     <!-- Height of the in-call "End" button. -->
     <dimen name="in_call_end_button_height">74dp</dimen>
 
+    <!-- Width of buttons in the extra button row. -->
+    <dimen name="extra_row_button_width">56dp</dimen>
+
+    <!-- Height of buttons in the extra button row. -->
+    <dimen name="extra_row_button_height">@dimen/in_call_button_height</dimen>
+
     <!-- Padding at the left and right edges of the incall_touch_ui button
          cluster.  This padding is necessary because we can't allow the
          buttons to be very close to the edges of the screen, due to the
