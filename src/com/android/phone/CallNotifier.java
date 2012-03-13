@@ -401,12 +401,6 @@ public class CallNotifier extends Handler
             return;
         }
 
-        if (c == null) {
-            Log.w(LOG_TAG, "CallNotifier.onNewRingingConnection(): null connection!");
-            // Should never happen, but if it does just bail out and do nothing.
-            return;
-        }
-
         if (!c.isRinging()) {
             Log.i(LOG_TAG, "CallNotifier.onNewRingingConnection(): connection not ringing!");
             // This is a very strange case: an incoming call that stopped
@@ -943,6 +937,7 @@ public class CallNotifier extends Handler
      * class itself, it is assumed that we have been waiting for the ringtone
      * and direct to voicemail settings to update.
      */
+    @Override
     public void onQueryComplete(int token, Object cookie, CallerInfo ci) {
         if (cookie instanceof Long) {
             if (VDBG) log("CallerInfo query complete, posting missed call notification");
@@ -1808,7 +1803,7 @@ public class CallNotifier extends Handler
      * CDMA call-waiting call.
      *
      * This method is safe to call from any thread.
-     * @see onCdmaCallWaitingReject()
+     * @see #onCdmaCallWaitingReject()
      */
     /* package */ void sendCdmaCallWaitingReject() {
         sendEmptyMessage(CDMA_CALL_WAITING_REJECT);
@@ -1819,7 +1814,7 @@ public class CallNotifier extends Handler
      * and finally calls Hangup on the Call Waiting connection.
      *
      * This method should be called only from the UI thread.
-     * @see sendCdmaCallWaitingReject()
+     * @see #sendCdmaCallWaitingReject()
      */
     private void onCdmaCallWaitingReject() {
         final Call ringingCall = mCM.getFirstActiveRingingCall();
@@ -2048,7 +2043,7 @@ public class CallNotifier extends Handler
      * Apply the Call Name Presentation (CNAP) transform in the connection on the number.
      *
      * @param conn The phone connection.
-     * @param info The CallerInfo. Maybe null.
+     * @param callerInfo The CallerInfo. Maybe null.
      * @return the phone number.
      */
     private String getLogNumber(Connection conn, CallerInfo callerInfo) {
@@ -2114,7 +2109,7 @@ public class CallNotifier extends Handler
      * get it from the connection.
      *
      * @param conn The phone connection.
-     * @param info The CallerInfo. Maybe null.
+     * @param callerInfo The CallerInfo. Maybe null.
      * @return The presentation to use in the logs.
      */
     private int getPresentation(Connection conn, CallerInfo callerInfo) {
