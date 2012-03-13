@@ -96,7 +96,7 @@ public class AnimationUtils {
          * @param view The view to be hidden
          * @param visibility The value to which the view's visibility will be
          *                   set after it fades out.
-         * Must be either View.VISIBLE or View.INVISIBLE.
+         *                   Must be either View.INVISIBLE or View.GONE.
          */
         public static void hide(final View view, final int visibility) {
             if (FADE_DBG) log("Fade: HIDE view " + view + "...");
