@@ -29,12 +29,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/button_cluster_side_padding"
+        android:paddingRight="@dimen/button_cluster_side_padding"
         android:background="?android:attr/selectableItemBackground">
         <!-- The entire LinearLayout here is clickable, so we don't
              care about clicks on the ImageButton itself. -->
         <ImageButton android:id="@+id/manageConferenceButtonImage"
             android:clickable="false"
-            style="@style/InCallButton"
+            style="@style/InCallExtraRowButton"
             android:src="@drawable/ic_groups_holo_dark"
             android:contentDescription="@string/onscreenManageConferenceText" />
         <TextView android:id="@+id/manageConferenceButtonLabel"
@@ -50,12 +52,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/button_cluster_side_padding"
+        android:paddingRight="@dimen/button_cluster_side_padding"
         android:background="?android:attr/selectableItemBackground">
         <!-- The entire LinearLayout here is clickable, so we don't
              care about clicks on the ImageButton itself. -->
         <ImageButton android:id="@+id/cdmaMergeButtonImage"
             android:clickable="false"
-            style="@style/InCallButton"
+            style="@style/InCallExtraRowButton"
             android:src="@drawable/ic_merge_holo_dark"
             android:contentDescription="@string/onscreenMergeCallsText" />
         <TextView android:id="@+id/cdmaMergeButtonLabel"

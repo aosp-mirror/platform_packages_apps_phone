@@ -133,6 +133,13 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
+    <!-- Buttons in extra button row. -->
+    <style name="InCallExtraRowButton">
+        <item name="android:layout_width">@dimen/extra_row_button_width</item>
+        <item name="android:layout_height">@dimen/extra_row_button_height</item>
+        <item name="android:background">@null</item>
+    </style>
+
     <!-- Text label drawn alongside buttons in the "extra button row" of
          the in-call onscreen touch UI. -->
     <style name="InCallExtraRowButtonLabel">

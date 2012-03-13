@@ -65,9 +65,7 @@
             <ViewStub android:id="@+id/extraButtonRow"
                       android:layout="@layout/extra_button_row"
                       android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:paddingLeft="@dimen/button_cluster_side_padding"
-                      android:paddingRight="@dimen/button_cluster_side_padding" />
+                      android:layout_height="wrap_content" />
 
             <!-- Row 2: The "End call" button. -->
             <ImageButton android:id="@+id/endButton"
