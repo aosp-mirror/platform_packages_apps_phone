@@ -500,5 +500,11 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="CallerInfoCacheUpdateReceiver">
+            <intent-filter>
+                <action android:name="com.android.phone.UPDATE_CALLER_INFO_CACHE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
