@@ -398,6 +398,20 @@ public class InCallUiState {
      */
     long latestActiveCallOriginTimeStamp;
 
+    /**
+     * Flag forcing Phone app to show in-call UI even when there's no phone call and thus Phone
+     * is in IDLE state. This will be turned on only when:
+     *
+     * - the last phone call is hung up, and
+     * - the screen is being turned off in the middle of in-call UI (and thus when the screen being
+     *   turned on in-call UI is expected to be the next foreground activity)
+     *
+     * At that moment whole UI should show "previously disconnected phone call" for a moment and
+     * exit itself. {@link InCallScreen#onPause()} will turn this off and prevent possible weird
+     * cases which may happen with that exceptional case.
+     */
+    boolean showAlreadyDisconnectedState;
+
     //
     // Debugging
     //

@@ -255,22 +255,32 @@ public class CallCard extends LinearLayout
             // The normal "foreground call" code path handles both cases.
             updateForegroundCall(cm);
         } else {
-            // We don't have any DISCONNECTED calls, which means
-            // that the phone is *truly* idle.
-            //
-            // It's very rare to be on the InCallScreen at all in this
-            // state, but it can happen in some cases:
-            // - A stray onPhoneStateChanged() event came in to the
-            //   InCallScreen *after* it was dismissed.
-            // - We're allowed to be on the InCallScreen because
-            //   an MMI or USSD is running, but there's no actual "call"
-            //   to display.
-            // - We're displaying an error dialog to the user
-            //   (explaining why the call failed), so we need to stay on
-            //   the InCallScreen so that the dialog will be visible.
-            //
-            // In these cases, put the callcard into a sane but "blank" state:
-            updateNoCall(cm);
+            // We don't have any DISCONNECTED calls, which means that the phone
+            // is *truly* idle.
+            if (mApplication.inCallUiState.showAlreadyDisconnectedState) {
+                // showAlreadyDisconnectedState implies the phone call is disconnected
+                // and we want to show the disconnected phone call for a moment.
+                //
+                // This happens when a phone call ends while the screen is off,
+                // which means the user had no chance to see the last status of
+                // the call. We'll turn off showAlreadyDisconnectedState flag
+                // and bail out of the in-call screen soon.
+                updateAlreadyDisconnected(cm);
+            } else {
+                // It's very rare to be on the InCallScreen at all in this
+                // state, but it can happen in some cases:
+                // - A stray onPhoneStateChanged() event came in to the
+                //   InCallScreen *after* it was dismissed.
+                // - We're allowed to be on the InCallScreen because
+                //   an MMI or USSD is running, but there's no actual "call"
+                //   to display.
+                // - We're displaying an error dialog to the user
+                //   (explaining why the call failed), so we need to stay on
+                //   the InCallScreen so that the dialog will be visible.
+                //
+                // In these cases, put the callcard into a sane but "blank" state:
+                updateNoCall(cm);
+            }
         }
     }
 
@@ -359,6 +369,34 @@ public class CallCard extends LinearLayout
         // the current ongoing call and/or the current call on hold.
         // (Since the caller-id info for the incoming call totally trumps
         // any info about the current call(s) in progress.)
+        displaySecondaryCallStatus(cm, null);
+    }
+
+    /**
+     * Updates the UI for the state where an incoming call is just disconnected while we want to
+     * show the screen for a moment.
+     *
+     * This case happens when the whole in-call screen is in background when phone calls are hanged
+     * up, which means there's no way to determine which call was the last call finished. Right now
+     * this method simply shows the previous primary call status with a photo, closing the
+     * secondary call status. In most cases (including conference call or misc call happening in
+     * CDMA) this behaves right.
+     *
+     * If there were two phone calls both of which were hung up but the primary call was the
+     * first, this would behave a bit odd (since the first one still appears as the
+     * "last disconnected").
+     */
+    private void updateAlreadyDisconnected(CallManager cm) {
+        // For the foreground call, we manually set up every component based on previous state.
+        mPrimaryCallInfo.setVisibility(View.VISIBLE);
+        mSecondaryInfoContainer.setLayoutTransition(null);
+        mProviderInfo.setVisibility(View.GONE);
+        mCallStateLabel.setVisibility(View.VISIBLE);
+        mCallStateLabel.setText(mContext.getString(R.string.card_title_call_ended));
+        mElapsedTime.setVisibility(View.VISIBLE);
+        mCallTime.cancelTimer();
+
+        // Just hide it.
         displaySecondaryCallStatus(cm, null);
     }
 
@@ -797,10 +835,7 @@ public class CallCard extends LinearLayout
             case DISCONNECTING:
                 // Show the time with fade-in animation.
                 AnimationUtils.Fade.show(mElapsedTime);
-                long duration = CallTime.getCallDuration(call);  // msec
-                updateElapsedTimeWidget(duration / 1000);
-                // Also see onTickForCallTimeElapsed(), which updates this
-                // widget once per second while the call is active.
+                updateElapsedTimeWidget(call);
                 break;
 
             case DISCONNECTED:
@@ -819,6 +854,19 @@ public class CallCard extends LinearLayout
                 AnimationUtils.Fade.hide(mElapsedTime, View.INVISIBLE);
                 break;
         }
+    }
+
+    /**
+     * Updates mElapsedTime based on the given {@link Call} object's information.
+     *
+     * @see CallTime#getCallDuration(Call)
+     * @see Connection#getDurationMillis()
+     */
+    /* package */ void updateElapsedTimeWidget(Call call) {
+        long duration = CallTime.getCallDuration(call);  // msec
+        updateElapsedTimeWidget(duration / 1000);
+        // Also see onTickForCallTimeElapsed(), which updates this
+        // widget once per second while the call is active.
     }
 
     /**

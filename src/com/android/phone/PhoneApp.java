@@ -754,6 +754,30 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         return mInCallScreen.isForegroundActivity();
     }
 
+    /**
+     * @return true if the in-call UI is running as the foreground activity, or,
+     * it went to background due to screen being turned off. This might be useful
+     * to determine if the in-call screen went to background because of other
+     * activities, or its proximity sensor state or manual power-button press.
+     *
+     * Here are some examples.
+     *
+     * - If you want to know if the activity is in foreground or screen is turned off
+     *   from the in-call UI (i.e. though it is not "foreground" anymore it will become
+     *   so after screen being turned on), check
+     *   {@link #isShowingCallScreenForProximity()} is true or not.
+     *   {@link #updateProximitySensorMode(com.android.internal.telephony.Phone.State)} is
+     *   doing this.
+     *
+     * - If you want to know if the activity is not in foreground just because screen
+     *   is turned off (not due to other activity's interference), check
+     *   {@link #isShowingCallScreen()} is false *and* {@link #isShowingCallScreenForProximity()}
+     *   is true. InCallScreen#onDisconnect() is doing this check.
+     *
+     * @see #isShowingCallScreen()
+     *
+     * TODO: come up with better naming..
+     */
     boolean isShowingCallScreenForProximity() {
         if (mInCallScreen == null) return false;
         return mInCallScreen.isForegroundActivityForProximity();
@@ -1240,6 +1264,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
     }
 
+    @Override
     public void orientationChanged(int orientation) {
         mOrientation = orientation;
         updateProximitySensorMode(mCM.getState());

@@ -565,6 +565,11 @@ public class InCallScreen extends Activity
         mIsForegroundActivity = true;
         mIsForegroundActivityForProximity = true;
 
+        // The flag shouldn't be turned on when there are actual phone calls.
+        if (mCM.hasActiveFgCall() || mCM.hasActiveBgCall() || mCM.hasActiveRingingCall()) {
+            mApp.inCallUiState.showAlreadyDisconnectedState = false;
+        }
+
         final InCallUiState inCallUiState = mApp.inCallUiState;
         if (VDBG) inCallUiState.dumpState();
 
@@ -767,6 +772,22 @@ public class InCallScreen extends Activity
         }
 
         Profiler.profileViewCreate(getWindow(), InCallScreen.class.getName());
+
+        // This means the screen is shown even though there's no connection, which only happens
+        // when the phone call has hung up while the screen is turned off at that moment.
+        // We want to show "disconnected" state with photos with appropriate elapsed time for
+        // the finished phone call.
+        if (mApp.inCallUiState.showAlreadyDisconnectedState) {
+            // if (DBG) {
+            log("onResume(): detected \"show already disconnected state\" situation."
+                    + " set up DELAYED_CLEANUP_AFTER_DISCONNECT message with "
+                    + CALL_ENDED_LONG_DELAY + " msec delay.");
+            //}
+            mHandler.removeMessages(DELAYED_CLEANUP_AFTER_DISCONNECT);
+            mHandler.sendEmptyMessageDelayed(DELAYED_CLEANUP_AFTER_DISCONNECT,
+                    CALL_ENDED_LONG_DELAY);
+        }
+
         if (VDBG) log("onResume() done.");
     }
 
@@ -778,6 +799,8 @@ public class InCallScreen extends Activity
         super.onPause();
 
         if (mPowerManager.isScreenOn()) {
+            // Set to false when the screen went background *not* by screen turned off. Probably
+            // the user bailed out of the in-call screen (by pressing BACK, HOME, etc.)
             mIsForegroundActivityForProximity = false;
         }
         mIsForegroundActivity = false;
@@ -786,6 +809,10 @@ public class InCallScreen extends Activity
         // frame is removed using a timed message, it is
         // possible we missed it if the prev call was interrupted.
         mApp.inCallUiState.providerInfoVisible = false;
+
+        // "show-already-disconnected-state" should be effective just during the first wake-up.
+        // We should never allow it to stay true after that.
+        mApp.inCallUiState.showAlreadyDisconnectedState = false;
 
         // A safety measure to disable proximity sensor in case call failed
         // and the telephony state did not change.
@@ -1020,10 +1047,19 @@ public class InCallScreen extends Activity
         setInCallScreenMode(InCallScreenMode.UNDEFINED);
     }
 
+    /**
+     * True when this Activity is in foreground (between onResume() and onPause()).
+     */
     /* package */ boolean isForegroundActivity() {
         return mIsForegroundActivity;
     }
 
+    /**
+     * Returns true when the Activity is in foreground (between onResume() and onPause()),
+     * or, is in background due to user's bailing out of the screen, not by screen turning off.
+     *
+     * @see #isForegroundActivity()
+     */
     /* package */ boolean isForegroundActivityForProximity() {
         return mIsForegroundActivityForProximity;
     }
@@ -1649,7 +1685,8 @@ public class InCallScreen extends Activity
     private void onDisconnect(AsyncResult r) {
         Connection c = (Connection) r.result;
         Connection.DisconnectCause cause = c.getDisconnectCause();
-        if (DBG) log("onDisconnect: connection '" + c + "', cause = " + cause);
+        if (DBG) log("onDisconnect: connection '" + c + "', cause = " + cause
+                + ", showing screen: " + mApp.isShowingCallScreen());
 
         boolean currentlyIdle = !phoneIsInUse();
         int autoretrySetting = AUTO_RETRY_OFF;
@@ -1743,7 +1780,7 @@ public class InCallScreen extends Activity
         // conference call there's no "call ended" state at all; in that
         // case we blow away any DISCONNECTED connections right now to make sure
         // the UI updates instantly to reflect the current state.]
-        Call call = c.getCall();
+        final Call call = c.getCall();
         if (call != null) {
             // We only care about situation of a single caller
             // disconnecting from a conference call.  In that case, the
@@ -1890,6 +1927,37 @@ public class InCallScreen extends Activity
                     if (DBG) PhoneUtils.dumpCallState(mPhone);
                     return;
                 }
+            }
+
+            // This is onDisconnect() request from the last phone call; no available call anymore.
+            //
+            // When the in-call UI is in background *because* the screen is turned off (unlike the
+            // other case where the other activity is being shown), we wake up the screen and
+            // show "DISCONNECTED" state once, with appropriate elapsed time. After showing that
+            // we *must* bail out of the screen again, showing screen lock if needed.
+            //
+            // See also comments for isForegroundActivityForProximity()
+            //
+            // TODO: Consider moving this to CallNotifier. This code assumes the InCallScreen
+            // never gets destroyed. For this exact case, it works (since InCallScreen won't be
+            // destroyed), while technically this isn't right; Activity may be destroyed when
+            // in background.
+            if (currentlyIdle && !isForegroundActivity() && isForegroundActivityForProximity()) {
+                log("Force waking up the screen to let users see \"disconnected\" state");
+                if (call != null) {
+                    mCallCard.updateElapsedTimeWidget(call);
+                }
+                // This variable will be kept true until the next InCallScreen#onPause(), which
+                // forcibly turns it off regardless of the situation (for avoiding unnecessary
+                // confusion around this special case).
+                mApp.inCallUiState.showAlreadyDisconnectedState = true;
+
+                // Finally request wake-up..
+                mApp.wakeUpScreen();
+
+                // InCallScreen#onResume() will set DELAYED_CLEANUP_AFTER_DISCONNECT message,
+                // so skip the following section.
+                return;
             }
 
             // Finally, arrange for delayedCleanupAfterDisconnect() to get
@@ -2373,8 +2441,10 @@ public class InCallScreen extends Activity
         // happening in the background.
         boolean showProgressIndication = mApp.inCallUiState.isProgressIndicationActive();
 
+        boolean showScreenEvenAfterDisconnect = mApp.inCallUiState.showAlreadyDisconnectedState;
+
         if (mCM.hasActiveFgCall() || mCM.hasActiveBgCall() || mCM.hasActiveRingingCall()
-                || hasPendingMmiCodes || showProgressIndication) {
+                || hasPendingMmiCodes || showProgressIndication || showScreenEvenAfterDisconnect) {
             if (VDBG) log("syncWithPhoneState: it's ok to be here; update the screen...");
             updateScreen();
             return SyncWithPhoneStateStatus.SUCCESS;
