@@ -118,6 +118,7 @@ public class OutgoingCallBroadcaster extends Activity
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            mHandler.removeMessages(EVENT_OUTGOING_CALL_TIMEOUT);
             doReceive(context, intent);
             if (DBG) Log.v(TAG, "OutgoingCallReceiver is going to finish the Activity itself.");
             finish();
@@ -341,11 +342,6 @@ public class OutgoingCallBroadcaster extends Activity
             return;
         }
 
-        // Set a timer so that we can prepare for unexpected delay introduced by the following
-        // sequence (especially around broadcast). If it takes too much time, the timer will show
-        // "waiting" spinner.
-        mHandler.sendEmptyMessageDelayed(EVENT_OUTGOING_CALL_TIMEOUT,
-                OUTGOING_CALL_TIMEOUT_THRESHOLD);
         processIntent(intent);
 
         // isFinishing() return false when 1. broadcast is still ongoing, or 2. dialog is being
@@ -606,6 +602,13 @@ public class OutgoingCallBroadcaster extends Activity
         // to intercept the outgoing call.
         broadcastIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         if (DBG) Log.v(TAG, " - Broadcasting intent: " + broadcastIntent + ".");
+
+        // Set a timer so that we can prepare for unexpected delay introduced by the broadcast.
+        // If it takes too much time, the timer will show "waiting" spinner.
+        // This message will be removed when OutgoingCallReceiver#onReceive() is called before the
+        // timeout.
+        mHandler.sendEmptyMessageDelayed(EVENT_OUTGOING_CALL_TIMEOUT,
+                OUTGOING_CALL_TIMEOUT_THRESHOLD);
         sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
                 null,  // scheduler
                 Activity.RESULT_OK,  // initialCode
