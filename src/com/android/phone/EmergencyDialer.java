@@ -106,6 +106,7 @@ public class EmergencyDialer extends Activity
 
     // close activity when screen turns off
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 finish();
@@ -115,15 +116,17 @@ public class EmergencyDialer extends Activity
 
     private String mLastNumber; // last number we tried to dial. Used to restore error dialog.
 
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // Do nothing
     }
 
+    @Override
     public void onTextChanged(CharSequence input, int start, int before, int changeCount) {
         // Do nothing
     }
 
-
+    @Override
     public void afterTextChanged(Editable input) {
         // Check for special sequences, in particular the "**04" or "**05"
         // sequences that allow you to enter PIN or PUK-related codes.
@@ -295,6 +298,7 @@ public class EmergencyDialer extends Activity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
+            // Happen when there's a "Call" hard button.
             case KeyEvent.KEYCODE_CALL: {
                 if (TextUtils.isEmpty(mDigits.getText().toString())) {
                     // if we are adding a call from the InCallScreen and the phone
@@ -317,10 +321,14 @@ public class EmergencyDialer extends Activity
         mDigits.onKeyDown(keyCode, event);
     }
 
+    @Override
     public boolean onKey(View view, int keyCode, KeyEvent event) {
         switch (view.getId()) {
             case R.id.digits:
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                // Happen when "Done" button of the IME is pressed. This can happen when this
+                // Activity is forced into landscape mode due to a desk dock.
+                if (keyCode == KeyEvent.KEYCODE_ENTER
+                        && event.getAction() == KeyEvent.ACTION_UP) {
                     placeCall();
                     return true;
                 }
@@ -329,6 +337,7 @@ public class EmergencyDialer extends Activity
         return false;
     }
 
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.one: {
@@ -412,6 +421,7 @@ public class EmergencyDialer extends Activity
     /**
      * called for long touch events
      */
+    @Override
     public boolean onLongClick(View view) {
         int id = view.getId();
         switch (id) {
@@ -486,7 +496,7 @@ public class EmergencyDialer extends Activity
     /**
      * place the call, but check to make sure it is a viable number.
      */
-    void placeCall() {
+    private void placeCall() {
         mLastNumber = mDigits.getText().toString();
         if (PhoneNumberUtils.isLocalEmergencyNumber(mLastNumber, this)) {
             if (DBG) Log.d(LOG_TAG, "placing call to " + mLastNumber);
