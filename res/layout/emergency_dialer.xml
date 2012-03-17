@@ -24,25 +24,67 @@
     android:layout_marginRight="@dimen/dialpad_horizontal_margin">
 
     <!-- Text field above the keypad where the digits are displayed -->
-    <!-- TODO: Use a textAppearance to control the display of the number -->
-    <EditText android:id="@+id/digits"
+    <LinearLayout
+        android:id="@+id/digits_container"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="@integer/dialpad_layout_weight_digits"
         android:layout_marginTop="@dimen/dialpad_vertical_margin"
         android:gravity="center"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:textSize="@dimen/dialpad_digits_text_size"
-        android:freezesText="true"
-        android:background="@drawable/dialpad_background"
-        android:textColor="?android:attr/textColorPrimary"
-        android:focusableInTouchMode="false" />
+        android:background="@drawable/dialpad_background" >
+
+        <EditText
+            android:id="@+id/digits"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:scrollHorizontally="true"
+            android:textAppearance="@style/DialtactsDigitsTextAppearance"
+            android:focusableInTouchMode="false"
+            android:nextFocusRight="@+id/deleteButton"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="56dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:state_enabled="false"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/description_delete_button"
+            android:src="@drawable/ic_dial_action_delete" />
+    </LinearLayout>
 
     <!-- Keypad section -->
     <include layout="@layout/dialpad" />
 
-    <!-- Horizontal row of buttons beneath the dialpad (Search + DialButton + Delete.) -->
-    <include layout="@layout/dialpad_additional_buttons" />
+    <View
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/dialpad_vertical_margin"
+       android:background="#66000000"/>
+
+    <!-- In usual dialpad we set some padding between this button and the
+         left/right edges. Here, we don't do that just for simplicitly. -->
+    <FrameLayout
+        android:id="@+id/dialButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="@integer/dialpad_layout_weight_additional_buttons"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/dialpad_background">
+
+        <ImageButton
+            android:id="@+id/dialButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:state_enabled="false"
+            android:background="@drawable/btn_call"
+            android:contentDescription="@string/description_dial_button"
+            android:src="@drawable/ic_dial_action_call" />
+
+    </FrameLayout>
 
 </LinearLayout>

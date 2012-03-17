@@ -25,13 +25,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -90,8 +87,6 @@ public class EmergencyDialer extends Activity
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
     EditText mDigits;
-    // If mVoicemailDialAndDeleteRow is null, mDialButton and mDelete are also null.
-    private View mAdditionalButtons;
     private View mDialButton;
     private View mDelete;
 
@@ -170,23 +165,18 @@ public class EmergencyDialer extends Activity
             setupKeypad();
         }
 
-        mAdditionalButtons = findViewById(R.id.dialpadAdditionalButtons);
+        mDelete = findViewById(R.id.deleteButton);
+        mDelete.setOnClickListener(this);
+        mDelete.setOnLongClickListener(this);
+
+        mDialButton = findViewById(R.id.dialButton);
 
         // Check whether we should show the onscreen "Dial" button and co.
         Resources res = getResources();
         if (res.getBoolean(R.bool.config_show_onscreen_dial_button)) {
-            // Make sure it is disabled.
-            mAdditionalButtons.findViewById(R.id.searchButton).setEnabled(false);
-
-            mDialButton = mAdditionalButtons.findViewById(R.id.dialButton);
             mDialButton.setOnClickListener(this);
-
-            mDelete = mAdditionalButtons.findViewById(R.id.deleteButton);
-            mDelete.setOnClickListener(this);
-            mDelete.setOnLongClickListener(this);
         } else {
-            mAdditionalButtons.setVisibility(View.GONE); // It's VISIBLE by default
-            mAdditionalButtons = null;
+            mDialButton.setVisibility(View.GONE);
         }
 
         if (icicle != null) {
@@ -597,11 +587,9 @@ public class EmergencyDialer extends Activity
      * Update the enabledness of the "Dial" and "Backspace" buttons if applicable.
      */
     private void updateDialAndDeleteButtonStateEnabledAttr() {
-        if (null != mAdditionalButtons) {
-            final boolean notEmpty = mDigits.length() != 0;
+        final boolean notEmpty = mDigits.length() != 0;
 
-            mDialButton.setEnabled(notEmpty);
-            mDelete.setEnabled(notEmpty);
-        }
+        mDialButton.setEnabled(notEmpty);
+        mDelete.setEnabled(notEmpty);
     }
 }

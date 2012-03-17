@@ -195,4 +195,13 @@
     <style name="OutgoingCallBroadcasterTheme" parent="@android:style/Theme.Holo.NoActionBar">
         <item name="android:windowBackground">@android:color/black</item>
     </style>
+
+    <style name="DialtactsDigitsTextAppearance">
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/dialpad_digits_text_size</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:editable">true</item>
+        <item name="android:cursorVisible">false</item>
+    </style>
 </resources>
