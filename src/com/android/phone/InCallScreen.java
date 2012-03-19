@@ -871,6 +871,14 @@ public class InCallScreen extends Activity
         // clear the dismiss keyguard flag so we are back to the default state
         // when we next resume
         updateKeyguardPolicy(false);
+
+        // See also PhoneApp#updatePhoneState(), which takes care of all the other release() calls.
+        if (mApp.getUpdateLock().isHeld() && mApp.getPhoneState() == Phone.State.IDLE) {
+            if (DBG) {
+                log("Release UpdateLock on onPause() because there's no active phone call.");
+            }
+            mApp.getUpdateLock().release();
+        }
     }
 
     @Override

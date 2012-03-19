@@ -1248,7 +1248,29 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         if (state != mLastPhoneState) {
             mLastPhoneState = state;
             updateProximitySensorMode(state);
-            updateUpdateLock(state);
+
+            // Try to acquire or release UpdateLock.
+            //
+            // Watch out: we don't release the lock here when the screen is still in foreground.
+            // At that time InCallScreen will release it on onPause().
+            if (state != Phone.State.IDLE) {
+                // UpdateLock is a recursive lock, while we may get "acquire" request twice and
+                // "release" request once for a single call (RINGING + OFFHOOK and IDLE).
+                // We need to manually ensure the lock is just acquired once for each (and this
+                // will prevent other possible buggy situations too).
+                if (!mUpdateLock.isHeld()) {
+                    mUpdateLock.acquire();
+                }
+            } else {
+                if (!isShowingCallScreen()) {
+                    if (!mUpdateLock.isHeld()) {
+                        mUpdateLock.release();
+                    }
+                } else {
+                    // For this case InCallScreen will take care of the release() call.
+                }
+            }
+
             if (mAccelerometerListener != null) {
                 // use accelerometer to augment proximity sensor when in call
                 mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
@@ -1272,30 +1294,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     }
 
     /**
-     * Acquires or releases {@link UpdateLock} using a given Phone.
-     * OFFHOOK and RINGING will request to acquire the lock while IDLE will request to release it.
-     *
-     * This method must be called from main thread.
+     * Returns UpdateLock object.
      */
-    private void updateUpdateLock(Phone.State state) {
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            Log.wtf(LOG_TAG, "updateUpdateLock() was called outside the main thread.");
-        }
-
-        boolean acquireLock = state != Phone.State.IDLE;
-        // UpdateLock is a recursive lock, while we may get "acquire" request twice and
-        // "release" request once for a single call (RINGING + OFFHOOK and IDLE).
-        // We need to manually ensure the lock is just acquired once for each (and this will
-        // prevent other possible buggy situations too).
-        if (acquireLock) {
-            if (!mUpdateLock.isHeld()) {
-                mUpdateLock.acquire();
-            }
-        } else {
-            if (mUpdateLock.isHeld()) {
-                mUpdateLock.release();
-            }
-        }
+    /* package */ UpdateLock getUpdateLock() {
+        return mUpdateLock;
     }
 
     /**
