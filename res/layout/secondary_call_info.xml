@@ -25,11 +25,24 @@
 
     <!-- Contact photo for call_info #2 -->
     <ImageView android:id="@+id/secondaryCallPhoto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top|center_horizontal"
         android:scaleType="centerCrop"
         android:contentDescription="@string/onHold" />
+
+    <!-- Overlaps secondary photo when the secondary call is in HOLD state.
+
+         TODO: We could do better. See equivalent in primary xml. -->
+    <View android:id="@+id/dim_effect_for_secondary_photo"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentTop="true"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/on_hold_dim_effect"
+         android:visibility="gone" />
 
     <!-- Name (or the phone number, if we don't have a name to display). -->
     <TextView android:id="@+id/secondaryCallName"

@@ -105,6 +105,8 @@ public class CallCard extends LinearLayout
     // The main block of info about the "primary" or "active" call,
     // including photo / name / phone number / etc.
     private ImageView mPhoto;
+    private View mPhotoDimEffect;
+
     private TextView mName;
     private TextView mPhoneNumber;
     private TextView mLabel;
@@ -121,6 +123,7 @@ public class CallCard extends LinearLayout
     // two lines are in use.
     private TextView mSecondaryCallName;
     private ImageView mSecondaryCallPhoto;
+    private View mSecondaryCallPhotoDimEffect;
 
     // Onscreen hint for the incoming call RotarySelector widget.
     private int mIncomingCallWidgetHintTextResId;
@@ -205,6 +208,7 @@ public class CallCard extends LinearLayout
 
         // "Caller info" area, including photo / name / phone numbers / etc
         mPhoto = (ImageView) findViewById(R.id.photo);
+        mPhotoDimEffect = findViewById(R.id.dim_effect_for_primary_photo);
 
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
@@ -931,6 +935,7 @@ public class CallCard extends LinearLayout
                     }
                 }
 
+                AnimationUtils.Fade.show(mSecondaryCallPhotoDimEffect);
                 break;
 
             case ACTIVE:
@@ -988,6 +993,8 @@ public class CallCard extends LinearLayout
                     Log.w(LOG_TAG, "displayOnHoldCallStatus: ACTIVE state on non-CDMA device");
                     mSecondaryCallInfo.setVisibility(View.GONE);
                 }
+
+                AnimationUtils.Fade.hide(mSecondaryCallPhotoDimEffect, View.GONE);
                 break;
 
             default:
@@ -1007,6 +1014,9 @@ public class CallCard extends LinearLayout
         }
         if (mSecondaryCallPhoto == null) {
             mSecondaryCallPhoto = (ImageView) findViewById(R.id.secondaryCallPhoto);
+        }
+        if (mSecondaryCallPhotoDimEffect == null) {
+            mSecondaryCallPhotoDimEffect = findViewById(R.id.dim_effect_for_secondary_photo);
         }
     }
 
@@ -1270,6 +1280,15 @@ public class CallCard extends LinearLayout
                 mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
                 mHandler.sendEmptyMessageDelayed(MESSAGE_SHOW_UNKNOWN_PHOTO, MESSAGE_DELAY);
             }
+        }
+
+        // If the phone call is on hold, show it with darker status.
+        // Right now we achieve it by overlaying opaque View.
+        // Note: See also layout file about why so and what is the other possibilities.
+        if (call.getState() == Call.State.HOLDING) {
+            AnimationUtils.Fade.show(mPhotoDimEffect);
+        } else {
+            AnimationUtils.Fade.hide(mPhotoDimEffect, View.GONE);
         }
 
         if (displayNumber != null && !call.isGeneric()) {
