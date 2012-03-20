@@ -327,6 +327,8 @@ public class CallController extends Handler {
         // manageable chunks.
 
         final InCallUiState inCallUiState = mApp.inCallUiState;
+        final Uri uri = intent.getData();
+        final String scheme = (uri != null) ? uri.getScheme() : null;
         String number;
         Phone phone = null;
 
@@ -352,8 +354,6 @@ public class CallController extends Handler {
             // or by number, i.e. for international,
             // or by user selection, i.e., dialog query,
             // or any of combinations
-            Uri uri = intent.getData();
-            String scheme = (uri != null) ? uri.getScheme() : null;
             String sipPhoneUri = intent.getStringExtra(
                     OutgoingCallBroadcaster.EXTRA_SIP_PHONE_URI);
             phone = PhoneUtils.pickPhoneBasedOnNumber(mCM, scheme, number, sipPhoneUri);
@@ -496,11 +496,13 @@ public class CallController extends Handler {
                             CdmaOtaScreenState.OtaScreenState.OTA_STATUS_LISTENING;
                 }
 
-                // Any time we initiate a call, force the DTMF dialpad to
-                // close.  (We want to make sure the user can see the regular
+                boolean voicemailUriSpecified = scheme != null && scheme.equals("voicemail");
+                // When voicemail is requested most likely the user wants to open
+                // dialpad immediately, so we show it in the first place.
+                // Otherwise we want to make sure the user can see the regular
                 // in-call UI while the new call is dialing, and when it
                 // first gets connected.)
-                inCallUiState.showDialpad = false;
+                inCallUiState.showDialpad = voicemailUriSpecified;
 
                 // Also, in case a previous call was already active (i.e. if
                 // we just did "Add call"), clear out the "history" of DTMF
