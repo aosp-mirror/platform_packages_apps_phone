@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.provider.ContactsContract.CommonDataKinds.Callable;
@@ -91,22 +92,48 @@ public class CallerInfoCache {
     }
 
     private class CacheAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private PowerManager.WakeLock mWakeLock;
+
+        /**
+         * Call {@link PowerManager.WakeLock#acquire} and call {@link AsyncTask#execute(Object...)},
+         * guaranteeing the lock is held during the asynchronous task.
+         */
+        public void acquireWakeLockAndExecute() {
+            // Prepare a separate partial WakeLock than what PhoneApp has so to avoid
+            // unnecessary conflict.
+            PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOG_TAG);
+            mWakeLock.acquire();
+            execute();
+        }
+
         @Override
-         protected Void doInBackground(Void... params) {
-             if (DBG) log("Start refreshing cache.");
-             refreshCacheEntry();
-             return null;
-         }
+        protected Void doInBackground(Void... params) {
+            if (DBG) log("Start refreshing cache.");
+            refreshCacheEntry();
+            return null;
+        }
 
-         @Override
-         protected void onPostExecute(Void result) {
-             if (DBG) {
-                 log("Finished refreshing cache. Set next interval ("
-                         + CACHE_REFRESH_INTERVAL + " msec later)");
-             }
+        @Override
+        protected void onPostExecute(Void result) {
+            if (VDBG) log("CacheAsyncTask#onPostExecute()");
+            super.onPostExecute(result);
+            releaseWakeLock();
+        }
 
-             mCacheAsyncTask = null;
-         }
+        @Override
+        protected void onCancelled(Void result) {
+            if (VDBG) log("CacheAsyncTask#onCanceled()");
+            super.onCancelled(result);
+            releaseWakeLock();
+        }
+
+        private void releaseWakeLock() {
+            if (mWakeLock != null && mWakeLock.isHeld()) {
+                mWakeLock.release();
+            }
+        }
     }
 
     private final Context mContext;
@@ -152,7 +179,7 @@ public class CallerInfoCache {
             mCacheAsyncTask.cancel(true);
         }
         mCacheAsyncTask = new CacheAsyncTask();
-        mCacheAsyncTask.execute();
+        mCacheAsyncTask.acquireWakeLockAndExecute();
     }
 
     /**
