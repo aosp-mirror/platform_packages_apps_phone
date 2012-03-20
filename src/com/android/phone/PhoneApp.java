@@ -146,6 +146,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     Phone phone;
     CallController callController;
     InCallUiState inCallUiState;
+    CallerInfoCache callerInfoCache;
     CallNotifier notifier;
     NotificationMgr notificationMgr;
     Ringer ringer;
@@ -505,6 +506,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // ...and also the InCallUiState instance, used by the CallController to
             // keep track of some "persistent state" of the in-call UI.
             inCallUiState = InCallUiState.init(this);
+
+            // Create the CallerInfoCache singleton, which remembers custom ring tone and
+            // send-to-voicemail settings.
+            //
+            // The asynchronous caching will start just after this call.
+            callerInfoCache = CallerInfoCache.init(this);
 
             // Create the CallNotifer singleton, which handles
             // asynchronous events from the telephony layer (like

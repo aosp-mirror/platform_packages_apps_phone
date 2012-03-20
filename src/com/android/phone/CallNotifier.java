@@ -17,21 +17,22 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
-import com.android.internal.telephony.cdma.CdmaCallWaitingNotification;
-import com.android.internal.telephony.cdma.SignalToneUtil;
-import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaDisplayInfoRec;
-import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
-import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.cdma.CdmaCallWaitingNotification;
+import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaDisplayInfoRec;
+import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
+import com.android.internal.telephony.cdma.SignalToneUtil;
 
 import android.app.ActivityManagerNative;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +47,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.EventLog;
 import android.util.Log;
-
 
 /**
  * Phone app module that listens for phone state changes and various other
@@ -266,16 +266,7 @@ public class CallNotifier extends Handler
                 break;
 
             case RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT:
-                // CallerInfo query is taking too long!  But we can't wait
-                // any more, so start ringing NOW even if it means we won't
-                // use the correct custom ringtone.
-                Log.w(LOG_TAG, "CallerInfo query took too long; manually starting ringer");
-
-                // In this case we call onCustomRingQueryComplete(), just
-                // like if the query had completed normally.  (But we're
-                // going to get the default ringtone, since we never got
-                // the chance to call Ringer.setCustomRingtoneUri()).
-                onCustomRingQueryComplete();
+                onCustomRingtoneQueryTimeout((String) msg.obj);
                 break;
 
             case PHONE_MWI_CHANGED:
@@ -583,7 +574,11 @@ public class CallNotifier extends Handler
                 onQueryComplete(0, this, cit.currentInfo);
             } else {
                 if (VDBG) log("- Starting query, posting timeout message.");
-                sendEmptyMessageDelayed(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT,
+
+                // Phone number (via getAddress()) is stored in the message to remember which
+                // number is actually used for the look up.
+                sendMessageDelayed(
+                        Message.obtain(this, RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT, c.getAddress()),
                         RINGTONE_QUERY_WAIT_TIME);
             }
             // The call to showIncomingCall() will happen after the
@@ -946,7 +941,7 @@ public class CallNotifier extends Handler
                     ci.phoneLabel, ((Long) cookie).longValue());
         } else if (cookie instanceof CallNotifier) {
             if (VDBG) log("CallerInfo query complete (for CallNotifier), "
-                          + "updating state for incoming call..");
+                    + "updating state for incoming call..");
 
             // get rid of the timeout messages
             removeMessages(RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT);
@@ -978,6 +973,50 @@ public class CallNotifier extends Handler
                 onCustomRingQueryComplete();
             }
         }
+    }
+
+    /**
+     * Called when asynchronous CallerInfo query is taking too long (more than
+     * {@link #RINGTONE_QUERY_WAIT_TIME} msec), but we cannot wait any more.
+     *
+     * This looks up in-memory fallback cache and use it when available. If not, it just calls
+     * {@link #onCustomRingQueryComplete()} with default ringtone ("Send to voicemail" flag will
+     * be just ignored).
+     *
+     * @param number The phone number used for the async query. This method will take care of
+     * formatting or normalization of the number.
+     */
+    private void onCustomRingtoneQueryTimeout(String number) {
+        // First of all, this case itself should be rare enough, though we cannot avoid it in
+        // some situations (e.g. IPC is slow due to system overload, database is in sync, etc.)
+        Log.w(LOG_TAG, "CallerInfo query took too long; look up local fallback cache.");
+
+        // This method is intentionally verbose for now to detect possible bad side-effect for it.
+        // TODO: Remove the verbose log when it looks stable and reliable enough.
+
+        final CallerInfoCache.CacheEntry entry =
+                mApplication.callerInfoCache.getCacheEntry(number);
+        if (entry != null) {
+            if (entry.sendToVoicemail) {
+                log("send to voicemail flag detected (in fallback cache). hanging up.");
+                PhoneUtils.hangupRingingCall(mCM.getFirstActiveRingingCall());
+                return;
+            }
+
+            if (entry.customRingtone != null) {
+                log("custom ringtone found (in fallback cache), setting up ringer: "
+                        + entry.customRingtone);
+                this.mRinger.setCustomRingtoneUri(Uri.parse(entry.customRingtone));
+            }
+        } else {
+            // In this case we call onCustomRingQueryComplete(), just
+            // like if the query had completed normally.  (But we're
+            // going to get the default ringtone, since we never got
+            // the chance to call Ringer.setCustomRingtoneUri()).
+            log("Failed to find fallback cache. Use default ringer tone.");
+        }
+
+        onCustomRingQueryComplete();
     }
 
     private void onDisconnect(AsyncResult r) {
