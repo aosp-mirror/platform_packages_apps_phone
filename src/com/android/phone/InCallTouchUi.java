@@ -699,7 +699,8 @@ public class InCallTouchUi extends FrameLayout
         boolean showMoreIndicator = false;
         //
         // - Foreground icons for the button.  Exactly one of these is enabled:
-        boolean showSpeakerIcon = false;
+        boolean showSpeakerOnIcon = false;
+        boolean showSpeakerOffIcon = false;
         boolean showHandsetIcon = false;
         boolean showBluetoothIcon = false;
 
@@ -717,7 +718,7 @@ public class InCallTouchUi extends FrameLayout
             if (inCallControlState.bluetoothIndicatorOn) {
                 showBluetoothIcon = true;
             } else if (inCallControlState.speakerOn) {
-                showSpeakerIcon = true;
+                showSpeakerOnIcon = true;
             } else {
                 showHandsetIcon = true;
                 // TODO: if a wired headset is plugged in, that takes precedence
@@ -736,7 +737,9 @@ public class InCallTouchUi extends FrameLayout
 
             // Update desired layers:
             showToggleStateIndication = true;
-            showSpeakerIcon = true;
+
+            showSpeakerOnIcon = inCallControlState.speakerOn;
+            showSpeakerOffIcon = !inCallControlState.speakerOn;
         } else {
             if (DBG) log("- updateAudioButton: disabled...");
 
@@ -747,7 +750,7 @@ public class InCallTouchUi extends FrameLayout
 
             // Update desired layers:
             showToggleStateIndication = true;
-            showSpeakerIcon = true;
+            showSpeakerOffIcon = true;
         }
 
         // Finally, update the drawable layers (see btn_compound_audio.xml).
@@ -771,8 +774,11 @@ public class InCallTouchUi extends FrameLayout
         layers.findDrawableByLayerId(R.id.handsetItem)
                 .setAlpha(showHandsetIcon ? VISIBLE : HIDDEN);
 
-        layers.findDrawableByLayerId(R.id.speakerphoneItem)
-                .setAlpha(showSpeakerIcon ? VISIBLE : HIDDEN);
+        layers.findDrawableByLayerId(R.id.speakerphoneOnItem)
+                .setAlpha(showSpeakerOnIcon ? VISIBLE : HIDDEN);
+
+        layers.findDrawableByLayerId(R.id.speakerphoneOffItem)
+                .setAlpha(showSpeakerOffIcon ? VISIBLE : HIDDEN);
     }
 
     /**
