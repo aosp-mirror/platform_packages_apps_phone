@@ -331,30 +331,13 @@ public class RespondViaSmsManager {
     private void launchSmsCompose(String phoneNumber) {
         if (VDBG) log("launchSmsCompose: number " + phoneNumber);
 
-        Uri uri = Uri.fromParts(Constants.SCHEME_SMS, phoneNumber, null);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
+        Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
+        intent.putExtra("exit_on_sent", true);
+        intent.putExtra("showUI", true);
 
         if (VDBG) log("- Launching SMS compose UI: " + intent);
-        mInCallScreen.startActivity(intent);
-
-        // TODO: One open issue here: if the user selects "Custom message"
-        // for an incoming call while the device was locked, and the user
-        // does *not* have a secure keyguard set, we bring up the
-        // non-secure keyguard at this point :-(
-        // Instead, we should immediately go to the SMS compose UI.
-        //
-        // I *believe* the fix is for the SMS compose activity to set the
-        // FLAG_DISMISS_KEYGUARD window flag (which will cause the
-        // keyguard to be dismissed *only* if it is not a secure lock
-        // keyguard.)
-        //
-        // But it there an equivalent way for me to accomplish that here,
-        // without needing to change the SMS app?
-        //
-        // In any case, I'm pretty sure the SMS UI should *not* to set
-        // FLAG_SHOW_WHEN_LOCKED, since we do want the force the user to
-        // enter their lock pattern or PIN at this point if they have a
-        // secure keyguard set.
+        mInCallScreen.startService(intent);
     }
 
 
