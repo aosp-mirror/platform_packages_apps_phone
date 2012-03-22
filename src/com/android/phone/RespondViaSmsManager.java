@@ -99,6 +99,10 @@ public class RespondViaSmsManager {
 
     public void setInCallScreenInstance(InCallScreen inCallScreen) {
         mInCallScreen = inCallScreen;
+
+        // Prefetch shared preferences to make the first canned response lookup faster
+        // (and to prevent StrictMode violation)
+        mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
     /**
@@ -112,9 +116,6 @@ public class RespondViaSmsManager {
         ListView lv = new ListView(mInCallScreen);
 
         // Refresh the array of "canned responses".
-        // TODO: don't do this here in the UI thread!  (This lookup is very
-        // cheap, but it's still a StrictMode violation.  See the TODO comment
-        // following loadCannedResponses() for more info.)
         mCannedResponses = loadCannedResponses();
 
         // Build the list: start with the canned responses, but manually add
@@ -428,7 +429,7 @@ public class RespondViaSmsManager {
      * This method does disk I/O (reading the SharedPreferences file)
      * so don't call it from the main thread.
      *
-     * @see RespondViaSmsManager$Settings
+     * @see RespondViaSmsManager.Settings
      */
     private String[] loadCannedResponses() {
         if (DBG) log("loadCannedResponses()...");
@@ -453,29 +454,6 @@ public class RespondViaSmsManager {
                                        res.getString(R.string.respond_via_sms_canned_response_4));
         return responses;
     }
-    // TODO: Don't call loadCannedResponses() from the UI thread.
-    //
-    // We should either (1) kick off a background task when the call first
-    // starts ringing (probably triggered from the InCallScreen
-    // onNewRingingConnection() method) which would run loadCannedResponses()
-    // and stash the result away in mCannedResponses, or (2) use an
-    // OnSharedPreferenceChangeListener to listen for changes to this
-    // SharedPreferences instance, and use that to kick off the background task.
-    //
-    // In either case:
-    //
-    // - Make sure we recover sanely if mCannedResponses is still null when it's
-    //   actually time to show the popup (i.e. if the background task was too
-    //   slow, or if the background task never got started for some reason)
-    //
-    // - Make sure that all setting and getting of mCannedResponses happens
-    //   inside a synchronized block
-    //
-    // - If we kick off the background task when the call first starts ringing,
-    //   consider delaying that until the incoming-call UI actually comes to the
-    //   foreground; this way we won't steal any CPU away from the caller-id
-    //   query.  Maybe do it from InCallScreen.onResume()?
-    //   Or InCallTouchUi.showIncomingCallWidget()?
 
     /**
      * @return true if the "Respond via SMS" feature should be enabled

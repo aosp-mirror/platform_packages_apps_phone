@@ -604,9 +604,7 @@ public class InCallScreen extends Activity
         // come to the foreground; it only ever comes up in response to
         // the user selecting the "SMS" option from the incoming call
         // widget.)
-        if (mRespondViaSmsManager != null) {
-            mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
-        }
+        mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
 
         // Display an error / diagnostic indication if necessary.
         //
@@ -719,11 +717,8 @@ public class InCallScreen extends Activity
         // InCallScreen is now active.
         EventLog.writeEvent(EventLogTags.PHONE_UI_ENTER);
 
-        // Update the poke lock and wake lock when we move to
-        // the foreground.
-        //
-        // But we need to do something special if we're coming
-        // to the foreground while an incoming call is ringing:
+        // Coming to the foreground while in an incoming call is ringing.
+        // We need to do something special.
         if (mCM.getState() == Phone.State.RINGING) {
             // If the phone is ringing, we *should* already be holding a
             // full wake lock (which we would have acquired before
@@ -756,6 +751,8 @@ public class InCallScreen extends Activity
             // but let's do this just to be safe:
             mApp.preventScreenOn(false);
         }
+        // Update the poke lock and wake lock when we move to the foreground.
+        // This will be no-op when prox sensor is effective.
         mApp.updateWakeState();
 
         // Restore the mute state if the last mute state change was NOT
@@ -892,7 +889,7 @@ public class InCallScreen extends Activity
         if (DBG) log("onStop: state = " + state);
 
         if (state == Phone.State.IDLE) {
-            if (mRespondViaSmsManager != null && mRespondViaSmsManager.isShowingPopup()) {
+            if (mRespondViaSmsManager.isShowingPopup()) {
                 // This means that the user has been opening the "Respond via SMS" dialog even
                 // after the incoming call hanging up, and the screen finally went background.
                 // In that case we just close the dialog and exit the whole in-call screen.
@@ -938,9 +935,7 @@ public class InCallScreen extends Activity
         if (mInCallTouchUi != null) {
             mInCallTouchUi.setInCallScreenInstance(null);
         }
-        if (mRespondViaSmsManager != null) {
-            mRespondViaSmsManager.setInCallScreenInstance(null);
-        }
+        mRespondViaSmsManager.setInCallScreenInstance(null);
 
         mDialer.clearInCallScreenReference();
         mDialer = null;
@@ -3451,11 +3446,6 @@ public class InCallScreen extends Activity
         log("internalRespondViaSms()...");
         if (VDBG) PhoneUtils.dumpCallManager();
 
-        if (mRespondViaSmsManager == null) {
-            throw new IllegalStateException(
-                "got internalRespondViaSms(), but mRespondViaSmsManager was never initialized");
-        }
-
         // In the rare case when multiple calls are ringing, the UI policy
         // it to always act on the first ringing call.
         Call ringingCall = mCM.getFirstActiveRingingCall();
@@ -4411,14 +4401,20 @@ public class InCallScreen extends Activity
 
     /**
      * Handles a "new ringing connection" event from the telephony layer.
+     *
+     * This event comes in right at the start of the incoming-call sequence,
+     * exactly once per incoming call.
+     *
+     * Watch out: this won't be called if InCallScreen isn't ready yet,
+     * which typically happens for the first incoming phone call (even before
+     * the possible first outgoing call).
      */
     private void onNewRingingConnection() {
         if (DBG) log("onNewRingingConnection()...");
 
-        // This event comes in right at the start of the incoming-call
-        // sequence, exactly once per incoming call.  We use this event to
-        // reset any incoming-call-related UI elements that might have
-        // been left in an inconsistent state after a prior incoming call.
+        // We use this event to reset any incoming-call-related UI elements
+        // that might have been left in an inconsistent state after a prior
+        // incoming call.
         // (Note we do this whether or not we're the foreground activity,
         // since this event comes in *before* we actually get launched to
         // display the incoming-call UI.)
@@ -4431,9 +4427,7 @@ public class InCallScreen extends Activity
         // need it here too, to make sure the popup gets reset in the case
         // where a call-waiting call comes in while the InCallScreen is
         // already in the foreground.)
-        if (mRespondViaSmsManager != null) {
-            mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
-        }
+        mRespondViaSmsManager.dismissPopup();  // safe even if already dismissed
     }
 
     /**
