@@ -80,9 +80,15 @@
                 android:gravity="center" />
     </item>
 
-    <!-- Speakerphone is active -->
-    <item android:id="@+id/speakerphoneItem">
+    <!-- Speakerphone icon showing 'speaker on' state -->
+    <item android:id="@+id/speakerphoneOnItem">
         <bitmap android:src="@drawable/ic_sound_speakerphone_holo_dark"
+                android:gravity="center" />
+    </item>
+
+    <!-- Speakerphone icon showing 'speaker off' state -->
+    <item android:id="@+id/speakerphoneOffItem">
+        <bitmap android:src="@drawable/ic_sound_off_speakerphone_holo_dark"
                 android:gravity="center" />
     </item>
 
@@ -92,15 +98,6 @@
     <!--
         <item android:id="@+id/soundItem">
             <bitmap android:src="@drawable/ic_sound_holo_dark"
-                    android:gravity="center" />
-        </item>
-    -->
-
-    <!-- Speakerphone with no audio waves coming out -->
-    <!-- TODO: is this actually needed for any possible state of the UI? -->
-    <!--
-        <item android:id="@+id/soundOffItem">
-            <bitmap android:src="@drawable/ic_sound_off_speakerphone_holo_dark"
                     android:gravity="center" />
         </item>
     -->
