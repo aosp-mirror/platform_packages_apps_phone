@@ -192,9 +192,23 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private Phone.State mLastPhoneState = Phone.State.IDLE;
 
     private WakeState mWakeState = WakeState.SLEEP;
+
+    /**
+     * Timeout setting used by PokeLock.
+     *
+     * This variable won't be effective when proximity sensor is available in the device.
+     *
+     * @see ScreenTimeoutDuration
+     */
     private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
+    /**
+     * Used to set/unset {@link LocalPowerManager#POKE_LOCK_IGNORE_TOUCH_EVENTS} toward PokeLock.
+     *
+     * This variable won't be effective when proximity sensor is available in the device.
+     */
     private boolean mIgnoreTouchUserActivity = false;
-    private IBinder mPokeLockToken = new Binder();
+    private final IBinder mPokeLockToken = new Binder();
+
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
     private PowerManager.WakeLock mPartialWakeLock;
@@ -869,28 +883,27 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /**
      * Controls how quickly the screen times out.
      *
+     * This is no-op when the device supports proximity sensor.
+     *
      * The poke lock controls how long it takes before the screen powers
      * down, and therefore has no immediate effect when the current
      * WakeState (see {@link PhoneApp#requestWakeState}) is FULL.
      * If we're in a state where the screen *is* allowed to turn off,
      * though, the poke lock will determine the timeout interval (long or
      * short).
-     *
-     * @param shortPokeLock tells the device the timeout duration to use
-     * before going to sleep
-     * {@link com.android.server.PowerManagerService#SHORT_KEYLIGHT_DELAY}.
      */
     /* package */ void setScreenTimeout(ScreenTimeoutDuration duration) {
         if (VDBG) Log.d(LOG_TAG, "setScreenTimeout(" + duration + ")...");
+
+        // stick with default timeout if we are using the proximity sensor
+        if (proximitySensorModeEnabled()) {
+            return;
+        }
 
         // make sure we don't set the poke lock repeatedly so that we
         // avoid triggering the userActivity calls in
         // PowerManagerService.setPokeLock().
         if (duration == mScreenTimeoutDuration) {
-            return;
-        }
-        // stick with default timeout if we are using the proximity sensor
-        if (proximitySensorModeEnabled()) {
             return;
         }
         mScreenTimeoutDuration = duration;
@@ -903,6 +916,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * current "ignore user activity on touch" flag.
      */
     private void updatePokeLock() {
+        // Caller must take care of the check. This block is purely for safety.
+        if (proximitySensorModeEnabled()) {
+            Log.wtf(LOG_TAG, "PokeLock should not be used when proximity sensor is available on"
+                    + " the device.");
+            return;
+        }
+
         // This is kind of convoluted, but the basic thing to remember is
         // that the poke lock just sends a message to the screen to tell
         // it to stay on for a while.
@@ -1118,6 +1138,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * Sets or clears the flag that tells the PowerManager that touch
      * (and cheek) events should NOT be considered "user activity".
      *
+     * This method is no-op when proximity sensor is available on the device.
+     *
      * Since the in-call UI is totally insensitive to touch in most
      * states, we set this flag whenever the InCallScreen is in the
      * foreground.  (Otherwise, repeated unintentional touches could
@@ -1129,6 +1151,11 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     /* package */ void setIgnoreTouchUserActivity(boolean ignore) {
         if (VDBG) Log.d(LOG_TAG, "setIgnoreTouchUserActivity(" + ignore + ")...");
+        // stick with default timeout if we are using the proximity sensor
+        if (proximitySensorModeEnabled()) {
+            return;
+        }
+
         mIgnoreTouchUserActivity = ignore;
         updatePokeLock();
     }
