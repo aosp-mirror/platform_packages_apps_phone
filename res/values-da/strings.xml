@@ -372,7 +372,7 @@
     <string name="invalidPin" msgid="5981171102258684792">"Indtast en PIN-kode på mellem 4 og 8 tal."</string>
     <string name="disable_sim_pin" msgid="3992926931620188855">"Deaktiver PIN-kode til SIM-kort"</string>
     <string name="enable_sim_pin" msgid="5803702443844458831">"Aktiver PIN-kode til SIM-kort"</string>
-    <string name="enable_in_progress" msgid="3695303775100109650">"Vent ..."</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"Vent..."</string>
     <string name="enable_pin_ok" msgid="9166061915030865848">"Pinkoden til SIM-kortet blev aktiveret."</string>
     <string name="disable_pin_ok" msgid="5596999379593924850">"Pinkoden til SIM-kortet er deaktiveret."</string>
     <string name="pin_failed" msgid="2298841192582192277">"Den indtastede pinkode var forkert."</string>
