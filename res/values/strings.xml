@@ -193,6 +193,8 @@
     <string name="labelNwService">Network service settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="labelCallerId">Caller ID</string>
+    <!-- Additional call settings screen, setting summary text when the setting is being loaded [CHAR LIMIT=30] -->
+    <string name="sum_loading_settings">Loading settings\u2026</string>
     <!-- Additional call settings screen, setting summary text when Caller ID is hidden -->
     <string name="sum_hide_caller_id">Number hidden in outgoing calls</string>
     <!-- Additional call settings screen, setting summary text when Caller ID is shown -->
