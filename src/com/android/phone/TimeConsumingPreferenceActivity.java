@@ -117,10 +117,12 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         mIsForeground = false;
     }
 
+    @Override
     public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
     }
 
+    @Override
     public void onStarted(Preference preference, boolean reading) {
         if (DBG) dumpState();
         if (DBG) Log.d(LOG_TAG, "onStarted, preference=" + preference.getKey()
@@ -137,6 +139,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
 
     }
 
+    @Override
     public void onFinished(Preference preference, boolean reading) {
         if (DBG) dumpState();
         if (DBG) Log.d(LOG_TAG, "onFinished, preference=" + preference.getKey()
@@ -152,6 +155,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         }
     }
 
+    @Override
     public void onError(Preference preference, int error) {
         if (DBG) dumpState();
         if (DBG) Log.d(LOG_TAG, "onError, preference=" + preference.getKey() + ", error=" + error);
@@ -161,6 +165,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         }
     }
 
+    @Override
     public void onException(Preference preference, CommandException exception) {
         if (exception.getCommandError() == CommandException.Error.FDN_CHECK_FAILURE) {
             onError(preference, FDN_CHECK_FAILURE);
@@ -169,6 +174,8 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
             onError(preference, EXCEPTION_ERROR);
         }
     }
+
+    @Override
     public void onCancel(DialogInterface dialog) {
         if (DBG) dumpState();
         finish();
@@ -184,7 +191,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
         }
     }
 
-    void dumpState() {
+    /* package */ void dumpState() {
         Log.d(LOG_TAG, "dumpState begin");
         for (String key : mBusyList) {
             Log.d(LOG_TAG, "mBusyList: key=" + key);
