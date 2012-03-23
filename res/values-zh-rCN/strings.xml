@@ -491,8 +491,8 @@
     <item quantity="other" msgid="3122217344579273583">"持续 <xliff:g id="COUNT">%s</xliff:g> 分钟没有数据连接"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"手机在 <xliff:g id="COUNT">%s</xliff:g> 分钟内都会处于紧急回拨模式下，此模式下无法使用需要联网的应用程序。您要立即退出吗？"</item>
-    <item quantity="other" msgid="8617116564023933114">"手机在 <xliff:g id="COUNT">%s</xliff:g> 分钟内都会处于紧急回拨模式下，此模式下无法使用需要联网的应用程序。要立即退出吗？"</item>
+    <item quantity="one" msgid="8060210887681426682">"手机在 <xliff:g id="COUNT">%s</xliff:g> 分钟内都会处于紧急回拨模式下，此模式下无法使用需要联网的应用。您要立即退出吗？"</item>
+    <item quantity="other" msgid="8617116564023933114">"手机在 <xliff:g id="COUNT">%s</xliff:g> 分钟内都会处于紧急回拨模式下，此模式下无法使用需要联网的应用。要立即退出吗？"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"无法在紧急回拨模式下执行所选操作，而手机在 <xliff:g id="COUNT">%s</xliff:g> 分钟内都会处于此模式下。要立即退出吗？"</item>
@@ -554,7 +554,7 @@
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"帐户注册失败：（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）；系统会在稍后重试"</string>
     <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"帐户注册失败：用户名或密码有误。"</string>
     <string name="registration_status_server_unreachable" msgid="5733421582468991276">"帐户注册失败：请检查服务器名称。"</string>
-    <string name="third_party_account_summary" msgid="2532526738862533028">"“<xliff:g id="ACCOUNT_OWNER">%s</xliff:g>”应用程序当前正在使用此帐户。"</string>
+    <string name="third_party_account_summary" msgid="2532526738862533028">"“<xliff:g id="ACCOUNT_OWNER">%s</xliff:g>”应用当前正在使用此帐户。"</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP 帐户详情"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP 帐户详情"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"服务器"</string>

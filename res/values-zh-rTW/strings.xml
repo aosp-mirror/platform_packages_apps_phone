@@ -185,7 +185,7 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"已啟用資料"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"啟用 Google 行動服務網路的資料存取"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"啟用行動數據服務網路"</string>
     <string name="roaming" msgid="8871412572928323707">"漫遊服務"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫遊時連線到資料傳輸服務"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"漫遊時連線到資料傳輸服務"</string>
