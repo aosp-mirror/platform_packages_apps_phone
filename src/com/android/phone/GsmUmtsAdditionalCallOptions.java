@@ -21,7 +21,7 @@ public class GsmUmtsAdditionalCallOptions extends
     private CLIRListPreference mCLIRButton;
     private CallWaitingCheckBoxPreference mCWButton;
 
-    private ArrayList<Preference> mPreferences = new ArrayList<Preference> ();
+    private final ArrayList<Preference> mPreferences = new ArrayList<Preference>();
     private int mInitIndex= 0;
 
     @Override
@@ -81,6 +81,14 @@ public class GsmUmtsAdditionalCallOptions extends
             }
         }
         super.onFinished(preference, reading);
+        preference.setEnabled(true);
+    }
+
+    @Override
+    public void onError(Preference preference, int error) {
+        super.onError(preference, error);
+        // Not sure we really want to enable this, but for backward compatibility..
+        preference.setEnabled(true);
     }
 
     @Override
