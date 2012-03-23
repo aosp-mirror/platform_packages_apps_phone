@@ -190,6 +190,7 @@ public class CallerInfoCache {
         if (DBG) log("setRepeatingCacheUpdateAlarm");
 
         Intent intent = new Intent(CallerInfoCacheUpdateReceiver.ACTION_UPDATE_CALLER_INFO_CACHE);
+        intent.setClass(mContext, CallerInfoCacheUpdateReceiver.class);
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
