@@ -120,6 +120,7 @@ public class InCallScreen extends Activity
     // "long" value is for calls ended by the remote caller.
     private static final int CALL_ENDED_SHORT_DELAY =  200;  // msec
     private static final int CALL_ENDED_LONG_DELAY = 2000;  // msec
+    private static final int CALL_ENDED_EXTRA_LONG_DELAY = 5000;  // msec
 
     // Amount of time that we display the PAUSE alert Dialog showing the
     // post dial string yet to be send out to the n/w
@@ -1891,12 +1892,19 @@ public class InCallScreen extends Activity
             // called after a short interval (during which we display the
             // "call ended" state.)  At that point, if the
             // Phone is idle, we'll finish out of this activity.
-            int callEndedDisplayDelay =
-                    (cause == Connection.DisconnectCause.LOCAL)
-                    ? CALL_ENDED_SHORT_DELAY : CALL_ENDED_LONG_DELAY;
+            final int callEndedDisplayDelay;
+            switch (cause) {
+                // When the local user hanged up the call, it is ok to dismiss the screen soon.
+                // When the peer hanged up the call, we should wait a bit longer.
+                // If the call was disconnected by the other error cases, we should wait even
+                // longer, assuming the local user wants to confirm the disconnect reason.
+                case LOCAL: callEndedDisplayDelay = CALL_ENDED_SHORT_DELAY; break;
+                case NORMAL: callEndedDisplayDelay = CALL_ENDED_LONG_DELAY; break;
+                default: callEndedDisplayDelay = CALL_ENDED_EXTRA_LONG_DELAY; break;
+            }
             mHandler.removeMessages(DELAYED_CLEANUP_AFTER_DISCONNECT);
             mHandler.sendEmptyMessageDelayed(DELAYED_CLEANUP_AFTER_DISCONNECT,
-                                             callEndedDisplayDelay);
+                    callEndedDisplayDelay);
         }
 
         // Remove 3way timer (only meaningful for CDMA)
