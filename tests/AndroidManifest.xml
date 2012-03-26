@@ -48,6 +48,14 @@
             </intent-filter>
         </activity>
 
+        <service android:name="SendInstantTextTestService"
+                 android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE" >
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+            </intent-filter>
+        </service>
     </application>
 
     <!--

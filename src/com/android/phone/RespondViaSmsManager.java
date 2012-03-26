@@ -16,19 +16,23 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.Call;
-import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneConstants;
-
+import android.app.ActivityManager;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.pm.ServiceInfo;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemProperties;
@@ -36,19 +40,35 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.internal.telephony.Call;
+import com.android.internal.telephony.Connection;
+import com.android.internal.telephony.PhoneConstants;
+import com.google.android.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
- * Helper class to manage the "Respond via SMS" feature for incoming calls.
+ * Helper class to manage the "Respond via Message" feature for incoming calls.
  *
  * @see InCallScreen.internalRespondViaSms()
  */
@@ -58,6 +78,11 @@ public class RespondViaSmsManager {
             (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     // Do not check in with VDBG = true, since that may write PII to the system log.
     private static final boolean VDBG = false;
+
+    private static final String PERMISSION_SEND_RESPOND_VIA_MESSAGE =
+            "android.permission.SEND_RESPOND_VIA_MESSAGE";
+
+    private int mIconSize = -1;
 
     /**
      * Reference to the InCallScreen activity that owns us.  This may be
@@ -74,7 +99,15 @@ public class RespondViaSmsManager {
      * showRespondViaSmsPopup() yet, or if the popup was visible once but
      * then got dismissed.
      */
-    private Dialog mPopup;
+    private Dialog mCannedResponsePopup;
+
+    /**
+     * The popup dialog allowing the user to chose which app handles respond-via-sms.
+     *
+     * An AlertDialog showing the Resolve-App UI resource from the framework wchih we then fill in
+     * with the appropriate data set. Can be null when not visible.
+     */
+    private Dialog mPackageSelectionPopup;
 
     /** The array of "canned responses"; see loadCannedResponses(). */
     private String[] mCannedResponses;
@@ -91,9 +124,8 @@ public class RespondViaSmsManager {
     private static final String KEY_CANNED_RESPONSE_PREF_2 = "canned_response_pref_2";
     private static final String KEY_CANNED_RESPONSE_PREF_3 = "canned_response_pref_3";
     private static final String KEY_CANNED_RESPONSE_PREF_4 = "canned_response_pref_4";
-
-    private static final String ACTION_SENDTO_NO_CONFIRMATION =
-            "com.android.mms.intent.action.SENDTO_NO_CONFIRMATION";
+    private static final String KEY_PREFERRED_PACKAGE = "preferred_package_pref";
+    private static final String KEY_INSTANT_TEXT_DEFAULT_COMPONENT = "instant_text_def_component";
 
     /**
      * RespondViaSmsManager constructor.
@@ -180,26 +212,31 @@ public class RespondViaSmsManager {
                 .setCancelable(true)
                 .setOnCancelListener(new RespondViaSmsCancelListener())
                 .setView(lv);
-        mPopup = builder.create();
-        mPopup.show();
+        mCannedResponsePopup = builder.create();
+        mCannedResponsePopup.show();
     }
 
     /**
-     * Dismiss the "Respond via SMS" popup if it's visible.
+     * Dismiss currently visible popups.
      *
      * This is safe to call even if the popup is already dismissed, and
      * even if you never called showRespondViaSmsPopup() in the first
      * place.
      */
     public void dismissPopup() {
-        if (mPopup != null) {
-            mPopup.dismiss();  // safe even if already dismissed
-            mPopup = null;
+        if (mCannedResponsePopup != null) {
+            mCannedResponsePopup.dismiss();  // safe even if already dismissed
+            mCannedResponsePopup = null;
+        }
+        if (mPackageSelectionPopup != null) {
+            mPackageSelectionPopup.dismiss();
+            mPackageSelectionPopup = null;
         }
     }
 
     public boolean isShowingPopup() {
-        return mPopup != null && mPopup.isShowing();
+        return (mCannedResponsePopup != null && mCannedResponsePopup.isShowing())
+                || (mPackageSelectionPopup != null && mPackageSelectionPopup.isShowing());
     }
 
     /**
@@ -230,54 +267,13 @@ public class RespondViaSmsManager {
             if (position == (parent.getCount() - 1)) {
                 // Take the user to the standard SMS compose UI.
                 launchSmsCompose(mPhoneNumber);
+                onPostMessageSent();
             } else {
-                // Send the selected message immediately with no user interaction.
-                sendText(mPhoneNumber, message);
-
-                // ...and show a brief confirmation to the user (since
-                // otherwise it's hard to be sure that anything actually
-                // happened.)
-                final Resources res = mInCallScreen.getResources();
-                String formatString = res.getString(R.string.respond_via_sms_confirmation_format);
-                String confirmationMsg = String.format(formatString, mPhoneNumber);
-                Toast.makeText(mInCallScreen,
-                               confirmationMsg,
-                               Toast.LENGTH_LONG).show();
-
-                // TODO: If the device is locked, this toast won't actually ever
-                // be visible!  (That's because we're about to dismiss the call
-                // screen, which means that the device will return to the
-                // keyguard.  But toasts aren't visible on top of the keyguard.)
-                // Possible fixes:
-                // (1) Is it possible to allow a specific Toast to be visible
-                //     on top of the keyguard?
-                // (2) Artifically delay the dismissCallScreen() call by 3
-                //     seconds to allow the toast to be seen?
-                // (3) Don't use a toast at all; instead use a transient state
-                //     of the InCallScreen (perhaps via the InCallUiState
-                //     progressIndication feature), and have that state be
-                //     visible for 3 seconds before calling dismissCallScreen().
-            }
-
-            // At this point the user is done dealing with the incoming call, so
-            // there's no reason to keep it around.  (It's also confusing for
-            // the "incoming call" icon in the status bar to still be visible.)
-            // So reject the call now.
-            mInCallScreen.hangupRingingCall();
-
-            dismissPopup();
-
-            final PhoneConstants.State state = PhoneGlobals.getInstance().mCM.getState();
-            if (state == PhoneConstants.State.IDLE) {
-                // There's no other phone call to interact. Exit the entire in-call screen.
-                PhoneGlobals.getInstance().dismissCallScreen();
-            } else {
-                // The user is still in the middle of other phone calls, so we should keep the
-                // in-call screen.
-                mInCallScreen.requestUpdateScreen();
+                sendTextToDefaultActivity(mPhoneNumber, message);
             }
         }
     }
+
 
     /**
      * OnCancelListener for the "Respond via SMS" popup.
@@ -326,14 +322,285 @@ public class RespondViaSmsManager {
         }
     }
 
+    private void sendTextToDefaultActivity(String phoneNumber, String message) {
+        if (DBG) log("sendTextToDefaultActivity()...");
+        final PackageManager packageManager = mInCallScreen.getPackageManager();
+
+        // Check to see if the default component to receive this intent is already saved
+        // and check to see if it still has the corrent permissions.
+        final SharedPreferences prefs = mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME,
+                Context.MODE_PRIVATE);
+        final String flattenedName = prefs.getString(KEY_INSTANT_TEXT_DEFAULT_COMPONENT, null);
+        if (flattenedName != null) {
+            if (DBG) log("Default package was found." + flattenedName);
+
+            final ComponentName componentName = ComponentName.unflattenFromString(flattenedName);
+            ServiceInfo serviceInfo = null;
+            try {
+                serviceInfo = packageManager.getServiceInfo(componentName, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w(TAG, "Default service does not have permission.");
+            }
+
+            if (serviceInfo != null &&
+                    PERMISSION_SEND_RESPOND_VIA_MESSAGE.equals(serviceInfo.permission)) {
+                sendTextAndExit(phoneNumber, message, componentName, false);
+                return;
+            } else {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.remove(KEY_INSTANT_TEXT_DEFAULT_COMPONENT);
+                editor.apply();
+            }
+        }
+
+        final ArrayList<ComponentName> componentsWithPermission =
+            getPackagesWithInstantTextPermission();
+
+        final int size = componentsWithPermission.size();
+        if (size == 0) {
+            Log.e(TAG, "No appropriate package receiving the Intent. Don't send anything");
+            onPostMessageSent();
+        } else if (size == 1) {
+            sendTextAndExit(phoneNumber, message, componentsWithPermission.get(0), false);
+        } else {
+            showPackageSelectionDialog(phoneNumber, message, componentsWithPermission);
+        }
+    }
+
+    /**
+     * Queries the System to determine what packages contain services that can handle the instant
+     * text response Action AND have permissions to do so.
+     */
+    private ArrayList<ComponentName> getPackagesWithInstantTextPermission() {
+        PackageManager packageManager = mInCallScreen.getPackageManager();
+
+        ArrayList<ComponentName> componentsWithPermission = Lists.newArrayList();
+
+        // Get list of all services set up to handle the Instant Text intent.
+        final List<ResolveInfo> infos = packageManager.queryIntentServices(
+                getInstantTextIntent("", null, null), 0);
+
+        // Collect all the valid services
+        for (ResolveInfo resolveInfo : infos) {
+            final ServiceInfo serviceInfo = resolveInfo.serviceInfo;
+            if (serviceInfo == null) {
+                Log.w(TAG, "Ignore package without proper service.");
+                continue;
+            }
+
+            // A Service is valid only if it requires the permission
+            // PERMISSION_SEND_RESPOND_VIA_MESSAGE
+            if (PERMISSION_SEND_RESPOND_VIA_MESSAGE.equals(serviceInfo.permission)) {
+                componentsWithPermission.add(new ComponentName(serviceInfo.packageName,
+                    serviceInfo.name));
+            }
+        }
+
+        return componentsWithPermission;
+    }
+
+    private void showPackageSelectionDialog(String phoneNumber, String message,
+            List<ComponentName> components) {
+        if (DBG) log("showPackageSelectionDialog()...");
+
+        dismissPopup();
+
+        BaseAdapter adapter = new PackageSelectionAdapter(mInCallScreen, components);
+
+        PackageClickListener clickListener =
+                new PackageClickListener(phoneNumber, message, components);
+
+        final CharSequence title = mInCallScreen.getResources().getText(
+                com.android.internal.R.string.whichApplication);
+        LayoutInflater inflater =
+                (LayoutInflater) mInCallScreen.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        final View view = inflater.inflate(com.android.internal.R.layout.always_use_checkbox, null);
+        final CheckBox alwaysUse = (CheckBox) view.findViewById(
+                com.android.internal.R.id.alwaysUse);
+        alwaysUse.setText(com.android.internal.R.string.alwaysUse);
+        alwaysUse.setOnCheckedChangeListener(clickListener);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mInCallScreen)
+                .setTitle(title)
+                .setCancelable(true)
+                .setOnCancelListener(new RespondViaSmsCancelListener())
+                .setAdapter(adapter, clickListener)
+                .setView(view);
+        mPackageSelectionPopup = builder.create();
+        mPackageSelectionPopup.show();
+    }
+
+    private class PackageSelectionAdapter extends BaseAdapter {
+        private final LayoutInflater mInflater;
+        private final List<ComponentName> mComponents;
+
+        public PackageSelectionAdapter(Context context, List<ComponentName> components) {
+            mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mComponents = components;
+        }
+
+        @Override
+        public int getCount() {
+            return mComponents.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mComponents.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = mInflater.inflate(
+                        com.android.internal.R.layout.resolve_list_item, parent, false);
+            }
+
+            final ComponentName component = mComponents.get(position);
+            final String packageName = component.getPackageName();
+            final PackageManager packageManager = mInCallScreen.getPackageManager();
+
+            // Set the application label
+            final TextView text = (TextView) convertView.findViewById(
+                    com.android.internal.R.id.text1);
+            final TextView text2 = (TextView) convertView.findViewById(
+                    com.android.internal.R.id.text2);
+
+            // Reset any previous values
+            text.setText("");
+            text2.setVisibility(View.GONE);
+            try {
+                final ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
+                final CharSequence label = packageManager.getApplicationLabel(appInfo);
+                if (label != null) {
+                    text.setText(label);
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w(TAG, "Failed to load app label because package was not found.");
+            }
+
+            // Set the application icon
+            final ImageView icon = (ImageView) convertView.findViewById(android.R.id.icon);
+            Drawable drawable = null;
+            try {
+                drawable = mInCallScreen.getPackageManager().getApplicationIcon(packageName);
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w(TAG, "Failed to load icon because it wasn't found.");
+            }
+            if (drawable == null) {
+                drawable = mInCallScreen.getPackageManager().getDefaultActivityIcon();
+            }
+            icon.setImageDrawable(drawable);
+            ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) icon.getLayoutParams();
+            lp.width = lp.height = getIconSize();
+
+            return convertView;
+        }
+
+    }
+
+    private class PackageClickListener implements DialogInterface.OnClickListener,
+            CompoundButton.OnCheckedChangeListener {
+        /** Phone number to send the SMS to. */
+        final private String mPhoneNumber;
+        final private String mMessage;
+        final private List<ComponentName> mComponents;
+        private boolean mMakeDefault = false;
+
+        public PackageClickListener(String phoneNumber, String message,
+                List<ComponentName> components) {
+            mPhoneNumber = phoneNumber;
+            mMessage = message;
+            mComponents = components;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            ComponentName component = mComponents.get(which);
+            sendTextAndExit(mPhoneNumber, mMessage, component, mMakeDefault);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            Log.i(TAG, "mMakeDefault : " + isChecked);
+            mMakeDefault = isChecked;
+        }
+    }
+
+    private void sendTextAndExit(String phoneNumber, String message, ComponentName component,
+            boolean setDefaultComponent) {
+        // Send the selected message immediately with no user interaction.
+        sendText(phoneNumber, message, component);
+
+        if (setDefaultComponent) {
+            final SharedPreferences prefs = mInCallScreen.getSharedPreferences(
+                    SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+            prefs.edit()
+                    .putString(KEY_INSTANT_TEXT_DEFAULT_COMPONENT, component.flattenToString())
+                    .apply();
+        }
+
+        // ...and show a brief confirmation to the user (since
+        // otherwise it's hard to be sure that anything actually
+        // happened.)
+        final Resources res = mInCallScreen.getResources();
+        final String formatString = res.getString(R.string.respond_via_sms_confirmation_format);
+        final String confirmationMsg = String.format(formatString, phoneNumber);
+        Toast.makeText(mInCallScreen,
+                       confirmationMsg,
+                       Toast.LENGTH_LONG).show();
+
+        // TODO: If the device is locked, this toast won't actually ever
+        // be visible!  (That's because we're about to dismiss the call
+        // screen, which means that the device will return to the
+        // keyguard.  But toasts aren't visible on top of the keyguard.)
+        // Possible fixes:
+        // (1) Is it possible to allow a specific Toast to be visible
+        //     on top of the keyguard?
+        // (2) Artifically delay the dismissCallScreen() call by 3
+        //     seconds to allow the toast to be seen?
+        // (3) Don't use a toast at all; instead use a transient state
+        //     of the InCallScreen (perhaps via the InCallUiState
+        //     progressIndication feature), and have that state be
+        //     visible for 3 seconds before calling dismissCallScreen().
+
+        onPostMessageSent();
+    }
+
     /**
      * Sends a text message without any interaction from the user.
      */
-    private void sendText(String phoneNumber, String message) {
+    private void sendText(String phoneNumber, String message, ComponentName component) {
         if (VDBG) log("sendText: number "
                       + phoneNumber + ", message '" + message + "'");
 
-        mInCallScreen.startService(getInstantTextIntent(phoneNumber, message));
+        mInCallScreen.startService(getInstantTextIntent(phoneNumber, message, component));
+    }
+
+    private void onPostMessageSent() {
+        // At this point the user is done dealing with the incoming call, so
+        // there's no reason to keep it around.  (It's also confusing for
+        // the "incoming call" icon in the status bar to still be visible.)
+        // So reject the call now.
+        mInCallScreen.hangupRingingCall();
+
+        dismissPopup();
+
+        final PhoneConstants.State state = PhoneGlobals.getInstance().mCM.getState();
+        if (state == PhoneConstants.State.IDLE) {
+            // There's no other phone call to interact. Exit the entire in-call screen.
+            PhoneGlobals.getInstance().dismissCallScreen();
+        } else {
+            // The user is still in the middle of other phone calls, so we should keep the
+            // in-call screen.
+            mInCallScreen.requestUpdateScreen();
+        }
     }
 
     /**
@@ -342,7 +609,7 @@ public class RespondViaSmsManager {
     private void launchSmsCompose(String phoneNumber) {
         if (VDBG) log("launchSmsCompose: number " + phoneNumber);
 
-        Intent intent = getInstantTextIntent(phoneNumber, null);
+        Intent intent = getInstantTextIntent(phoneNumber, null, null);
 
         if (VDBG) log("- Launching SMS compose UI: " + intent);
         mInCallScreen.startService(intent);
@@ -353,16 +620,21 @@ public class RespondViaSmsManager {
      * @param message Can be null. If message is null, the returned Intent will be configured to
      * launch the SMS compose UI. If non-null, the returned Intent will cause the specified message
      * to be sent with no interaction from the user.
+     * @param component The component that should handle this intent.
      * @return Service Intent for the instant response.
      */
-    private static Intent getInstantTextIntent(String phoneNumber, String message) {
-        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
-        Intent intent = new Intent(ACTION_SENDTO_NO_CONFIRMATION, uri);
+    private static Intent getInstantTextIntent(String phoneNumber, String message,
+            ComponentName component) {
+        final Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
+        Intent intent = new Intent(TelephonyManager.ACTION_RESPOND_VIA_MESSAGE, uri);
         if (message != null) {
             intent.putExtra(Intent.EXTRA_TEXT, message);
         } else {
             intent.putExtra("exit_on_sent", true);
             intent.putExtra("showUI", true);
+        }
+        if (component != null) {
+            intent.setComponent(component);
         }
         return intent;
     }
@@ -438,11 +710,29 @@ public class RespondViaSmsManager {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             final int itemId = item.getItemId();
-            if (itemId == android.R.id.home) {  // See ActionBar#setDisplayHomeAsUpEnabled()
-                CallFeaturesSetting.goUpToTopLevelSetting(this);
-                return true;
+            switch (itemId) {
+                case android.R.id.home:
+                    // See ActionBar#setDisplayHomeAsUpEnabled()
+                    CallFeaturesSetting.goUpToTopLevelSetting(this);
+                    return true;
+                case R.id.respond_via_message_reset:
+                    // Reset the preferences settings
+                    SharedPreferences prefs = getSharedPreferences(
+                            SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.remove(KEY_INSTANT_TEXT_DEFAULT_COMPONENT);
+                    editor.apply();
+
+                    return true;
+                default:
             }
             return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.respond_via_message_settings_menu, menu);
+            return super.onCreateOptionsMenu(menu);
         }
     }
 
@@ -459,9 +749,8 @@ public class RespondViaSmsManager {
     private String[] loadCannedResponses() {
         if (DBG) log("loadCannedResponses()...");
 
-        SharedPreferences prefs =
-                mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME,
-                                                   Context.MODE_PRIVATE);
+        SharedPreferences prefs = mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME,
+                Context.MODE_PRIVATE);
         final Resources res = mInCallScreen.getResources();
 
         String[] responses = new String[NUM_CANNED_RESPONSES];
@@ -553,7 +842,7 @@ public class RespondViaSmsManager {
         }
 
         // Allow the feature only when there's a destination for it.
-        if (context.getPackageManager().resolveService(getInstantTextIntent(number, null) , 0)
+        if (context.getPackageManager().resolveService(getInstantTextIntent(number, null, null) , 0)
                 == null) {
             return false;
         }
@@ -566,6 +855,16 @@ public class RespondViaSmsManager {
         // If none of the above special cases apply, it's OK to enable the
         // "Respond via SMS" feature.
         return true;
+    }
+
+    private int getIconSize() {
+      if (mIconSize < 0) {
+          final ActivityManager am =
+              (ActivityManager) mInCallScreen.getSystemService(Context.ACTIVITY_SERVICE);
+          mIconSize = am.getLauncherLargeIconSize();
+      }
+
+      return mIconSize;
     }
 
 

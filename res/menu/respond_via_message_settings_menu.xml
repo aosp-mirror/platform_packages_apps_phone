@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!-- Copyright (C) 2012 Google Inc.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,16 +14,8 @@
      limitations under the License.
 -->
 
-<resources>
-    <!-- Application label -->
-    <string name="app_name">PhoneAppTests</string>
-
-    <!-- Strings for the CallDialTest activity -->
-    <string name="callDialTestLabel">CALL/DIAL test</string>
-    <string name="callCommand">CALL</string>
-    <string name="dialCommand">DIAL</string>
-    <string name="itelephonyCallCommand">ITelephony.call()</string>
-    <string name="itelephonyDialCommand">ITelephony.dial()</string>
-
-    <string name="instant_text_back_content">message: %s, Uri: %s, </string>
-</resources>
+<!-- Menu for Respond-via-Message settings screen. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/respond_via_message_reset"
+          android:title="@string/respond_via_sms_menu_reset_default_activity" />
+</menu>
