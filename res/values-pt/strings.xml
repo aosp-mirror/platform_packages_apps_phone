@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configurações adicionais somente de chamada CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Configurações do serviço de rede"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"ID da chamada"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número oculto nas chamadas enviadas"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Número exibido nas chamadas enviadas"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Usar configurações padrão da operadora para exibir meu número em chamadas efetuadas"</string>

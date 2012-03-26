@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"अतिरिक्त केवल CDMA कॉल सेटिंग"</string>
     <string name="labelNwService" msgid="4699970172021870983">"नेटवर्क सेवा सेटिंग"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"कॉलर आईडी"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"आउटगोइंग कॉल में छुपे नंबर"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"आउटगोइंग कॉल में प्रदर्शित किया गया नंबर"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"आउटगोइंग कॉल में मेरा नंबर दिखाने के लिए डिफ़ॉल्ट ऑपरेटर सेटिंग का उपयोग करें"</string>

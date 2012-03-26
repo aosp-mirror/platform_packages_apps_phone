@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"その他のCDMA専用通話設定"</string>
     <string name="labelNwService" msgid="4699970172021870983">"ネットワークサービス設定"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"発信者番号"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"発信時に番号を通知しない"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"発信時に番号を通知する"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"発信者番号表示に通信事業者のデフォルト値を使用する"</string>

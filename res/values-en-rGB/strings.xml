@@ -89,6 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Additional CDMA-only call settings"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Network service settings"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Caller ID"</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Loading settings…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Number hidden in outgoing calls"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Number displayed in outgoing calls"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Use default operator settings to display my number in outgoing calls"</string>

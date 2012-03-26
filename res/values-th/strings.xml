@@ -89,6 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"การตั้งค่าการโทรเฉพาะ CDMA เพิ่มเติม"</string>
     <string name="labelNwService" msgid="4699970172021870983">"การตั้งค่าบริการเครือข่าย"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"หมายเลขผู้โทร"</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"กำลังโหลดการตั้งค่า…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"หมายเลขที่ซ่อนในสายโทรออก"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"หมายเลขที่แสดงในสายโทรออก"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"ใช้การตั้งค่าเริ่มต้นของผู้ให้บริการเพื่อแสดงหมายเลขของฉันขณะโทรออก"</string>

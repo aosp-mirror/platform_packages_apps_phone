@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Papildomi tik CDMA nustatymai"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Tinklo paslaugos nustatymai"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Skambintojo ID"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Numeris paslėptas išeinančiuose skambučiuose"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Numeris pateikiamas išeinančiuose skambučiuose"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Naudoti numatytuosius nustatymus, kad išeinančiuose skambučiuose būtų pateikiamas mano numeris"</string>

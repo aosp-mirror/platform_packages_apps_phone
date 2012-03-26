@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"其他 CDMA 僅限通話設定"</string>
     <string name="labelNwService" msgid="4699970172021870983">"網路服務設定"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"本機號碼"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"隱藏本機號碼"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"撥出電話時顯示本機號碼"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"使用預設值，在撥出電話時顯示本機號碼"</string>

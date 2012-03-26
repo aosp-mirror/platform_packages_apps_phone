@@ -89,6 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Izilungiselelo zekholi ezengeziwe ze-CDMA kuphela"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Izilungiselelo zensizakalo yenethiwekhi"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"I-ID yomshayeli"</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Ilayisha izilungiselelo..."</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Inombolo ifihliwe kwizincingo eziphumayo"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Inombolo iboniswe kwizincingo eziphumayo"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Sebenzisa izilungiselelo zo-opheretha ezimisiwe ukubonisa inombolo yami ezincingweni eziphumayo"</string>

@@ -89,6 +89,8 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"CDMA 전용 통화 설정 추가"</string>
     <string name="labelNwService" msgid="4699970172021870983">"네트워크 서비스 설정"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"발신자 ID"</string>
+    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
+    <skip />
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"발신자 표시 제한"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"발신전화의 번호 표시"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"기본 사업자 설정을 사용하여 발신전화에 내 번호 표시"</string>
