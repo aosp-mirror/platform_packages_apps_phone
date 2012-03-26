@@ -506,18 +506,17 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonTTY) {
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
-            final String currentProviderKey = getCurrentVoicemailProviderKey();
             final String newProviderKey = (String)objValue;
-            // TODO: use DBG again, after fixing issue 5345699
-            /*if (DBG) */ log("VM provider changes to " + newProviderKey + " from " +
-                    mPreviousVMProviderKey);
+            if (DBG) {
+                log("Voicemail Provider changes from \"" + mPreviousVMProviderKey
+                    + "\" to \"" + newProviderKey + "\".");
+            }
+            // If previous provider key and the new one is same, we don't need to handle it.
             if (mPreviousVMProviderKey.equals(newProviderKey)) {
-                if (DBG) log("No change ");
+                if (DBG) log("No change is made toward VM provider setting.");
                 return true;
             }
             updateVMPreferenceWidgets(newProviderKey);
-
-            mPreviousVMProviderKey = currentProviderKey;
 
             final VoiceMailProviderSettings newProviderSettings =
                     loadSettingsForVoiceMailProvider(newProviderKey);
@@ -609,18 +608,24 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (mPreviousVMProviderKey != null) {
             if (mVMChangeCompletedSuccessfully || mFwdChangesRequireRollback) {
                 // we have to revert with carrier
+                if (DBG) {
+                    log("Needs to rollback."
+                            + " mVMChangeCompletedSuccessfully=" + mVMChangeCompletedSuccessfully
+                            + ", mFwdChangesRequireRollback=" + mFwdChangesRequireRollback);
+                }
+
                 showDialogIfForeground(VOICEMAIL_REVERTING_DIALOG);
-                VoiceMailProviderSettings prevSettings =
+                final VoiceMailProviderSettings prevSettings =
                         loadSettingsForVoiceMailProvider(mPreviousVMProviderKey);
-                // This will cause a crash anyway. We just want to see why null may come here.
-                // issue 5345699
                 if (prevSettings == null) {
+                    // prevSettings never becomes null since it should be already loaded!
                     Log.e(LOG_TAG, "VoiceMailProviderSettings for the key \""
                             + mPreviousVMProviderKey + "\" becomes null, which is unexpected.");
-                    // TODO: use DBG here after fixing issue 5345699
-                    Log.e(LOG_TAG,
-                            "mVMChangeCompletedSuccessfully: " + mVMChangeCompletedSuccessfully
-                            + ", mFwdChangesRequireRollback: " + mFwdChangesRequireRollback);
+                    if (DBG) {
+                        Log.e(LOG_TAG,
+                                "mVMChangeCompletedSuccessfully: " + mVMChangeCompletedSuccessfully
+                                + ", mFwdChangesRequireRollback: " + mFwdChangesRequireRollback);
+                    }
                 }
                 if (mVMChangeCompletedSuccessfully) {
                     mNewVMNumber = prevSettings.voicemailNumber;
@@ -1207,7 +1212,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (success) {
             if (DBG) log("change VM success!");
             handleVMAndFwdSetSuccess(MSG_VM_OK);
-            updateVoiceNumberField();
         } else {
             if (fwdFailure) {
                 Log.w(LOG_TAG, "Failed to change fowarding setting. Reason: " + exceptionMessage);
@@ -1219,6 +1223,13 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
     }
 
+    /**
+     * Called when Voicemail Provider or its forwarding settings failed. Rolls back partly made
+     * changes to those settings and show "failure" dialog.
+     *
+     * @param msgId Message ID used for the specific error case. {@link #MSG_FW_SET_EXCEPTION} or
+     * {@link #MSG_VM_EXCEPTION}
+     */
     private void handleVMOrFwdSetError(int msgId) {
         if (mChangingVMorFwdDueToProviderChange) {
             mVMOrFwdSetError = msgId;
@@ -1231,16 +1242,28 @@ public class CallFeaturesSetting extends PreferenceActivity
         updateVoiceNumberField();
     }
 
-    private void handleVMAndFwdSetSuccess(int msgId) {
+    /**
+     * Called when Voicemail Provider and its forwarding settings were successfully finished.
+     * This updates a bunch of variables and show "success" dialog.
+     */
+    private void handleVMAndFwdSetSuccess(int msg) {
+        if (DBG) {
+            log("handleVMAndFwdSetSuccess(). current voicemail provider key: "
+                    + getCurrentVoicemailProviderKey());
+        }
+        mPreviousVMProviderKey = getCurrentVoicemailProviderKey();
         mChangingVMorFwdDueToProviderChange = false;
-        showVMDialog(msgId);
+        showVMDialog(msg);
+        updateVoiceNumberField();
     }
 
-    /*
-     * Methods used to sync UI state with that of the network
+    /**
+     * Update the voicemail number from what we've recorded on the sim.
      */
-    // update the voicemail number from what we've recorded on the sim.
     private void updateVoiceNumberField() {
+        if (DBG) {
+            log("updateVoiceNumberField(). mSubMenuVoicemailSettings=" + mSubMenuVoicemailSettings);
+        }
         if (mSubMenuVoicemailSettings == null) {
             return;
         }
@@ -1251,7 +1274,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         mSubMenuVoicemailSettings.setPhoneNumber(mOldVmNumber);
         final String summary = (mOldVmNumber.length() > 0) ? mOldVmNumber :
-            getString(R.string.voicemail_number_not_set);
+                getString(R.string.voicemail_number_not_set);
         mSubMenuVoicemailSettings.setSummary(summary);
     }
 
