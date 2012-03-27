@@ -33,11 +33,11 @@
     <string name="callFailed_number_unreachable" msgid="7632566442515734778">"Nomor tidak dapat dijangkau"</string>
     <string name="callFailed_invalid_credentials" msgid="8226835346196775378">"Nama pengguna atau sandi salah"</string>
     <string name="callFailed_out_of_network" msgid="8740943329772180507">"Dipanggil dari luar jaringan"</string>
-    <string name="callFailed_server_error" msgid="5717915213586193217">"Galat Server: Coba lagi nanti."</string>
+    <string name="callFailed_server_error" msgid="5717915213586193217">"Kesalahan Server: Coba lagi nanti."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Tidak ada sinyal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"ACM melebihi batas"</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Radio mati"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"Tidak ada SIM atau galat SIM"</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"Tidak ada SIM atau kesalahan SIM"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Di luar area layanan"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Panggilan keluar dibatasi oleh FDN."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Anda tidak dapat melakukan panggilan keluar sewaktu pemblokiran panggilan aktif."</string>
@@ -121,7 +121,7 @@
     <string name="sum_cfnrc_disabled" msgid="7222141261321276464">"Dinonaktifkan"</string>
     <string name="disable_cfnrc_forbidden" msgid="5646361343094064333">"Operator Anda tidak mendukung penonaktifan penerusan panggilan ketika ponsel tidak dapat dijangkau."</string>
     <string name="updating_title" msgid="6146755386174019046">"Setelan panggilan"</string>
-    <string name="error_updating_title" msgid="7970259216988931777">"Galat setelan panggilan"</string>
+    <string name="error_updating_title" msgid="7970259216988931777">"Kesalahan setelan panggilan"</string>
     <string name="reading_settings" msgid="1920291699287055284">"Membaca setelan…"</string>
     <string name="updating_settings" msgid="8171225533884883252">"Memperbarui setelan…"</string>
     <string name="reverting_settings" msgid="4752151682666912828">"Mengembalikan setelan..."</string>
@@ -150,7 +150,7 @@
     <string name="load_networks_progress" msgid="5230707536168902952">"Menelusuri…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Jaringan tidak ditemukan."</string>
     <string name="search_networks" msgid="1601136049300882441">"Telusuri jaringan"</string>
-    <string name="network_query_error" msgid="6828516148953325006">"Galat ketika menelusuri jaringan."</string>
+    <string name="network_query_error" msgid="6828516148953325006">"Kesalahan ketika menelusuri jaringan."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Mendaftarkan pada <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed" msgid="5613353860205691579">"Kartu SIM Anda tidak mengizinkan sambungan ke jaringan ini."</string>
     <string name="connect_later" msgid="2308119155752343975">"Tidak dapat terhubung ke jaringan ini sekarang. Coba lagi nanti."</string>

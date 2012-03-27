@@ -89,8 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Altre impostazioni chiamata solo CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Impostazioni servizio di rete"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"ID chiamante"</string>
-    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
-    <skip />
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Caricamento impostazioni…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Numero nascosto per chiamate in uscita"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Numero visualizzato in chiamate in uscita"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Usa impostazioni operatore per visualizzare il mio numero in chiamate in uscita"</string>
