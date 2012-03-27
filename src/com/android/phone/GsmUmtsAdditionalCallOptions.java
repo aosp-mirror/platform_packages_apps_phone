@@ -81,14 +81,6 @@ public class GsmUmtsAdditionalCallOptions extends
             }
         }
         super.onFinished(preference, reading);
-        preference.setEnabled(true);
-    }
-
-    @Override
-    public void onError(Preference preference, int error) {
-        super.onError(preference, error);
-        // Not sure we really want to enable this, but for backward compatibility..
-        preference.setEnabled(true);
     }
 
     @Override
