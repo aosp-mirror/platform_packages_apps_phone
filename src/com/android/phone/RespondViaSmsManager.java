@@ -100,9 +100,11 @@ public class RespondViaSmsManager {
     public void setInCallScreenInstance(InCallScreen inCallScreen) {
         mInCallScreen = inCallScreen;
 
-        // Prefetch shared preferences to make the first canned response lookup faster
-        // (and to prevent StrictMode violation)
-        mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        if (mInCallScreen != null) {
+            // Prefetch shared preferences to make the first canned response lookup faster
+            // (and to prevent StrictMode violation)
+            mInCallScreen.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        }
     }
 
     /**
