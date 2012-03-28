@@ -25,7 +25,8 @@
         phone:serviceClass="voice"
         phone:reason="unconditional"
         android:singleLine="true"
-        android:autoText="false"/>
+        android:autoText="false"
+        android:enabled="false" />
 
     <!-- See note on com.android.phone.EditPreference above -->
     <com.android.phone.CallForwardEditPreference
@@ -41,7 +42,8 @@
         phone:reason="busy"
         android:dependency="button_cfu_key"
         android:singleLine="true"
-        android:autoText="false"/>
+        android:autoText="false"
+        android:enabled="false" />
 
     <!-- See note on com.android.phone.EditPreference above -->
     <com.android.phone.CallForwardEditPreference
@@ -57,7 +59,8 @@
         phone:reason="no_reply"
         android:dependency="button_cfu_key"
         android:singleLine="true"
-        android:autoText="false"/>
+        android:autoText="false"
+        android:enabled="false" />
 
     <!-- See note on com.android.phone.EditPreference above -->
     <com.android.phone.CallForwardEditPreference
@@ -73,5 +76,6 @@
         phone:reason="not_reachable"
         android:dependency="button_cfu_key"
         android:singleLine="true"
-        android:autoText="false"/>
+        android:autoText="false"
+        android:enabled="false" />
 </PreferenceScreen>
