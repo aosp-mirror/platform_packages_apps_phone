@@ -89,8 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Mipangilio ya ziada ya simu ya CDMA tu"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Mipangilio ya huduma ya mtandao"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Kitambulisho cha mpigaji SIM"</string>
-    <!-- no translation found for sum_loading_settings (1826692909391168620) -->
-    <skip />
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Inapakia mipangilio..."</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Nambari imefichwa kwa simu unayopiga"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Namba inaonekana kwa simu zinazopigwa"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Tumia mipangilio ya kiendesha chaguo-msingi kuonyesha namba kwa simu zinazopigwa"</string>
