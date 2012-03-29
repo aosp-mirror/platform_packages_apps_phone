@@ -25,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -37,7 +36,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.android.internal.telephony.Phone;
-
+import com.android.internal.telephony.TelephonyCapabilities;
 
 /**
  * OutgoingCallBroadcaster receives CALL and CALL_PRIVILEGED Intents, and

@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.phone.OtaUtils.CdmaOtaInCallScreenUiState.State;
 

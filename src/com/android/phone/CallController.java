@@ -18,6 +18,7 @@ package com.android.phone;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.phone.Constants.CallStatusCode;
 import com.android.phone.InCallUiState.InCallScreenMode;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
@@ -32,7 +33,6 @@ import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-
 
 /**
  * Phone app module in charge of "call control".

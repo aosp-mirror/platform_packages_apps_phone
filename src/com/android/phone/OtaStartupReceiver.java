@@ -31,6 +31,7 @@ import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyCapabilities;
 
 import android.util.Log;
 
@@ -139,30 +140,30 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         if (DBG) Log.d(TAG, "call OtaUtils.maybeDoOtaCall");
         OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
     }
-    
+
     /**
-     * On devices that provide a phone initialization wizard (such as Google Setup Wizard), we 
+     * On devices that provide a phone initialization wizard (such as Google Setup Wizard), we
      * allow delaying CDMA OTA setup so it can be done in a single wizard. The wizard is responsible
-     * for (1) disabling itself once it has been run and/or (2) setting the 'device_provisioned' 
+     * for (1) disabling itself once it has been run and/or (2) setting the 'device_provisioned'
      * flag to something non-zero and (3) calling the OTA Setup with the action below.
-     * 
+     *
      * NB: Typical phone initialization wizards will install themselves as the homescreen
-     * (category "android.intent.category.HOME") with a priority higher than the default.  
+     * (category "android.intent.category.HOME") with a priority higher than the default.
      * The wizard should set 'device_provisioned' when it completes, disable itself with the
      * PackageManager.setComponentEnabledSetting() and then start home screen.
-     * 
+     *
      * @return true if setup will be handled by wizard, false if it should be done now.
      */
     private boolean shouldPostpone(Context context) {
         Intent intent = new Intent("android.intent.action.DEVICE_INITIALIZATION_WIZARD");
-        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent, 
+        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
         boolean provisioned = Settings.Secure.getInt(context.getContentResolver(),
                 Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
         String mode = SystemProperties.get("ro.setupwizard.mode", "REQUIRED");
         boolean runningSetupWizard = "REQUIRED".equals(mode) || "OPTIONAL".equals(mode);
         if (DBG) {
-            Log.v(TAG, "resolvInfo = " + resolveInfo + ", provisioned = " + provisioned 
+            Log.v(TAG, "resolvInfo = " + resolveInfo + ", provisioned = " + provisioned
                     + ", runningSetupWizard = " + runningSetupWizard);
         }
         return resolveInfo != null && !provisioned && runningSetupWizard;

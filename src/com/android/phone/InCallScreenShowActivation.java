@@ -24,6 +24,7 @@ import android.os.SystemProperties;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyCapabilities;
 
 /**
  * Invisible activity that handles the com.android.phone.PERFORM_CDMA_PROVISIONING intent.
