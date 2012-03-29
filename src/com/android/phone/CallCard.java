@@ -965,7 +965,8 @@ public class CallCard extends LinearLayout
                         boolean forceGenericPhoto = false;
                         if (info != null && info.numberPresentation !=
                                 Connection.PRESENTATION_ALLOWED) {
-                            name = getPresentationString(info.numberPresentation);
+                            name = PhoneUtils.getPresentationString(
+                                    getContext(), info.numberPresentation);
                             forceGenericPhoto = true;
                         }
                         mSecondaryCallName.setText(name);
@@ -1157,13 +1158,13 @@ public class CallCard extends LinearLayout
                 if (TextUtils.isEmpty(number)) {
                     // No name *or* number!  Display a generic "unknown" string
                     // (or potentially some other default based on the presentation.)
-                    displayName =  getPresentationString(presentation);
+                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
                     if (DBG) log("  ==> no name *or* number! displayName = " + displayName);
                 } else if (presentation != Connection.PRESENTATION_ALLOWED) {
                     // This case should never happen since the network should never send a phone #
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
-                    displayName = getPresentationString(presentation);
+                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
                     if (DBG) log("  ==> presentation not allowed! displayName = " + displayName);
                 } else if (!TextUtils.isEmpty(info.cnapName)) {
                     // No name, but we do have a valid CNAP name, so use that.
@@ -1200,7 +1201,7 @@ public class CallCard extends LinearLayout
                     // This case should never happen since the network should never send a name
                     // AND a restricted presentation. However we leave it here in case of weird
                     // network behavior
-                    displayName = getPresentationString(presentation);
+                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
                     if (DBG) log("  ==> valid name, but presentation not allowed!"
                                  + " displayName = " + displayName);
                 } else {
@@ -1215,7 +1216,7 @@ public class CallCard extends LinearLayout
             if (DBG) log("- got personUri: '" + personUri
                          + "', based on info.person_id: " + info.person_id);
         } else {
-            displayName =  getPresentationString(presentation);
+            displayName = PhoneUtils.getPresentationString(getContext(), presentation);
         }
 
         if (call.isGeneric()) {
@@ -1288,16 +1289,6 @@ public class CallCard extends LinearLayout
         // Other text fields:
         updateCallTypeLabel(call);
         // updateSocialStatus(socialStatusText, socialStatusBadge, call);  // Currently unused
-    }
-
-    private String getPresentationString(int presentation) {
-        String name = getContext().getString(R.string.unknown);
-        if (presentation == Connection.PRESENTATION_RESTRICTED) {
-            name = getContext().getString(R.string.private_num);
-        } else if (presentation == Connection.PRESENTATION_PAYPHONE) {
-            name = getContext().getString(R.string.payphone);
-        }
-        return name;
     }
 
     /**

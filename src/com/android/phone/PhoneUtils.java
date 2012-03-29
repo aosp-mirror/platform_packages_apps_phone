@@ -2563,6 +2563,16 @@ public class PhoneUtils {
         }
     }
 
+    public static String getPresentationString(Context context, int presentation) {
+        String name = context.getString(R.string.unknown);
+        if (presentation == Connection.PRESENTATION_RESTRICTED) {
+            name = context.getString(R.string.private_num);
+        } else if (presentation == Connection.PRESENTATION_PAYPHONE) {
+            name = context.getString(R.string.payphone);
+        }
+        return name;
+    }
+
     //
     // General phone and call state debugging/testing code
     //
