@@ -33,6 +33,7 @@ import android.widget.EditText;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyCapabilities;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -841,7 +842,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         // Read the settings as it may be changed by the user during the call
         Phone phone = mCM.getFgPhone();
-        mShortTone = TelephonyCapabilities.useShortDtmfTones(phone, phone.getContext());
+        mShortTone = PhoneUtils.useShortDtmfTones(phone, phone.getContext());
 
         if (DBG) log("startDtmfTone()...");
 

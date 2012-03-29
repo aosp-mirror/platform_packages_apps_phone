@@ -23,7 +23,7 @@ import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.CallManager;
-
+import com.android.internal.telephony.TelephonyCapabilities;
 
 /**
  * Helper class to keep track of enabledness, visibility, and "on/off"

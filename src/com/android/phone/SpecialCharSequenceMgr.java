@@ -27,6 +27,8 @@ import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.android.internal.telephony.TelephonyCapabilities;
+
 /**
  * Helper class to listen for some magic dialpad character sequences
  * that are handled specially by the Phone app.
