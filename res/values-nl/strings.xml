@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Instellingen terugzetten..."</string>
     <string name="response_error" msgid="6674110501330139405">"Onverwachte reactie van netwerk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Netwerk- of SIM-kaartfout."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Bewerkingen zijn alleen toegestaan voor vaste nummers."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"De instelling \'Vaste nummers\' in uw app Telefoon is ingeschakeld. Hierdoor werken sommige oproepgerelateerde functies niet."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Schakel de radio in voordat u deze instellingen bekijkt."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Inschakelen"</string>

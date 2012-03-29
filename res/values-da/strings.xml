@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Tilbagefører indstillinger …"</string>
     <string name="response_error" msgid="6674110501330139405">"Uventet svar fra netværk."</string>
     <string name="exception_error" msgid="7027667130619518211">"Fejl på netværk eller SIM-kort."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Du kan kun foretage handlinger med dine faste opkaldsnumre."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"Din telefons appindstilling Faste opkaldsnumre er slået til. Som et resultat heraf fungerer nogle opkaldsrelaterede funktioner ikke."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Tænd radioen, inden du får vist disse indstillinger."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktiver"</string>

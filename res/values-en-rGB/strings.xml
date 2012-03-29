@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Reverting settings…"</string>
     <string name="response_error" msgid="6674110501330139405">"Unexpected response from network."</string>
     <string name="exception_error" msgid="7027667130619518211">"Network or SIM card error."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Operations are only allowed on fixed dialling numbers."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"Your Phone app\'s Fixed Dialing Numbers setting is turned on. As a result, some call-related features aren\'t working."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Please turn on the radio before viewing these settings."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Enable"</string>

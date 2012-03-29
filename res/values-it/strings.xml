@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Annullamento impostazioni..."</string>
     <string name="response_error" msgid="6674110501330139405">"Risposta imprevista dalla rete."</string>
     <string name="exception_error" msgid="7027667130619518211">"Errore di rete o della SIM."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Operazioni consentite solo sui numeri di selezione fissa."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"L\'impostazione relativa ai numeri di selezione fissa dell\'applicazione sul tuo telefono è attiva. Di conseguenza, alcune funzioni legate alle chiamate non funzionano."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Attiva il segnale cellulare per visualizzare queste impostazioni."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Attiva"</string>

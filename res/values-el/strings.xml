@@ -89,7 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Πρόσθετες ρυθμίσεις κλήσης μόνο CDMA"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Ρυθμίσεις υπηρεσίας δικτύου"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"Αναγνώριση κλήσης"</string>
-    <string name="sum_loading_settings" msgid="1826692909391168620">"Φόρτωση ρυθμίσεων..."</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Φόρτωση ρυθμίσεων…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Απόκρυψη αριθμού στις εξερχόμενες κλήσεις"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Αριθμός που προβάλλεται στις εξερχόμενες κλήσεις"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Χρήση των προεπιλεγμένων ρυθμίσεων της εταιρείας για την προβολή του αριθμού μου στις εξερχόμενες κλήσεις"</string>
@@ -126,7 +126,8 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Επαναφορά ρυθμίσεων…"</string>
     <string name="response_error" msgid="6674110501330139405">"Μη αναμενόμενη απάντηση από το δίκτυο."</string>
     <string name="exception_error" msgid="7027667130619518211">"Σφάλμα δικτύου ή κάρτας SIM."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Οι λειτουργίες επιτρέπονται μόνο για καθορισμένους αριθμούς κλήσης."</string>
+    <!-- no translation found for fdn_check_failure (18200614306525434) -->
+    <skip />
     <string name="radio_off_error" msgid="2304459933248513376">"Πριν προβάλετε αυτές τις ρυθμίσεις, ενεργοποιήστε τον πομπό."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Ενεργοποίηση"</string>

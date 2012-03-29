@@ -89,7 +89,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"Configuración de llamadas de CDMA adicionales únicamente"</string>
     <string name="labelNwService" msgid="4699970172021870983">"Configuración de servicios de red"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"ID de llamada entrante"</string>
-    <string name="sum_loading_settings" msgid="1826692909391168620">"Cargando la configuración..."</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"Cargando la configuración…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"Número escondido en llamadas salientes"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Número visualizado en llamadas salientes"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Utilizar configuración del operador predeterminada para visualizar mi número en las llamadas salientes"</string>
@@ -126,7 +126,8 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Revirtiendo configuraciones..."</string>
     <string name="response_error" msgid="6674110501330139405">"Respuesta inesperada de la red."</string>
     <string name="exception_error" msgid="7027667130619518211">"Error en la red o en la tarjeta SIM."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Sólo se permiten operaciones a números de marcación fija."</string>
+    <!-- no translation found for fdn_check_failure (18200614306525434) -->
+    <skip />
     <string name="radio_off_error" msgid="2304459933248513376">"Enciende la radio antes de ver esta configuración."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Aceptar"</string>
     <string name="enable" msgid="1059008390636773574">"Activar"</string>

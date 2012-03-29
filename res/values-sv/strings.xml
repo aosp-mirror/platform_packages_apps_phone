@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Återställer inställningarna…"</string>
     <string name="response_error" msgid="6674110501330139405">"Oväntat svar från nätverket."</string>
     <string name="exception_error" msgid="7027667130619518211">"Nätverks- eller SIM-kortsfel."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Endast fasta nummer kan användas."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"Inställningen Fasta nummer i mobilappen är aktiverad. Därför fungerar inte vissa samtalsfunktioner."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Sätt på radion innan du visar inställningarna."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Aktivera"</string>

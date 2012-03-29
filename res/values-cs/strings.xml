@@ -126,7 +126,8 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Probíhá vrácení předchozích nastavení…"</string>
     <string name="response_error" msgid="6674110501330139405">"Neočekávaná odpověď sítě."</string>
     <string name="exception_error" msgid="7027667130619518211">"Došlo k chybě sítě nebo karty SIM."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"Operace lze provádět pouze na povolená telefonní čísla."</string>
+    <!-- no translation found for fdn_check_failure (18200614306525434) -->
+    <skip />
     <string name="radio_off_error" msgid="2304459933248513376">"Před zobrazením těchto nastavení prosím zapněte bezdrátový modul."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Povolit"</string>

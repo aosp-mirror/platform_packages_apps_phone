@@ -126,7 +126,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"מאחזר הגדרות הקודמות…"</string>
     <string name="response_error" msgid="6674110501330139405">"תגובה לא צפויה מהרשת."</string>
     <string name="exception_error" msgid="7027667130619518211">"שגיאת רשת או שגיאה של כרטיס SIM."</string>
-    <string name="fdn_only_error" msgid="7079583506377602000">"הפעולות מותרות רק במספרי חיוג קבועים."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"הגדרת מספרי החיוג הקבועים של יישום הטלפון שלך מופעלת. כתוצאה מכך, חלק מהתכונות הקשורות לשיחות לא פועלות."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"הפעל את הרדיו לפני ההצגה של הגדרות אלה."</string>
     <string name="close_dialog" msgid="2365884406356986917">"אישור"</string>
     <string name="enable" msgid="1059008390636773574">"הפעל"</string>
