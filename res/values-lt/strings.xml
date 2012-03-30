@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Pateikiama užklausa atrakinti tinklą..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Nesėkminga tinklo atrakinimo užklausa."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Tinklas sėkmingai atrakintas."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM skambinimo nustatymai"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA skambučio nustatymai"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Prieigos taškų pavadinimai"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Grąžinami nustatymai…"</string>
     <string name="response_error" msgid="6674110501330139405">"Netikėtas atsakas iš tinklo."</string>
     <string name="exception_error" msgid="7027667130619518211">"Tinklo ar SIM kortelės klaida."</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"Įjungtas jūsų telefono programos fiksuotojo rinkimo numerių nustatymas. Todėl neveikia kai kurios su skambinimu susijusios funkcijos."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Prieš žiūrėdami šiuos nustatymus, įjunkite radiją."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Gerai"</string>
     <string name="enable" msgid="1059008390636773574">"Įgalinti"</string>
@@ -434,13 +431,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Nepaskambinta. Surinkite pagalbos numerį!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Naudokite klaviatūrą ir rinkite numerius"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Sulaikyti"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Panaikinti sulaikymą"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Pabaiga"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Numerio rinkimo klaviatūra"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Slėpti"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Garsiakalbis"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Nutildyti"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Pridėti skambutį"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Sujungti skambučius"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Apkeisti"</string>

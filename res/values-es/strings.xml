@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Solicitando desbloqueo de red..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"La solicitud de desbloqueo de red no se ha realizado correctamente."</string>
     <string name="unlock_success" msgid="6770085622238180152">"El desbloqueo de red se ha realizado correctamente."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Ajustes de llamadas GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Ajustes de llamadas CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"APN"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Restableciendo configuración…"</string>
     <string name="response_error" msgid="6674110501330139405">"Respuesta inesperada de la red"</string>
     <string name="exception_error" msgid="7027667130619518211">"Error en la tarjeta SIM o en la red."</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"La opción de marcación fija de la aplicación Teléfono está activada. Por ello, algunas funciones relacionadas con las llamadas no funcionan correctamente."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Para ver esta configuración, debes activar la señal móvil."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Aceptar"</string>
     <string name="enable" msgid="1059008390636773574">"Habilitar"</string>
@@ -438,13 +435,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"La llamada no se ha enviado. Marca un número de emergencia."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Utilizar teclado para marcar"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Retener"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Soltar"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Finalizar"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Teclado"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Ocultar"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Altavoz"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Silenciar"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Añadir llamada"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Llamada a tres"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Cambiar"</string>

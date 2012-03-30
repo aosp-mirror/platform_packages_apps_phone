@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Meminta dibukakan kunci rangkaian..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Permintaan dibukakan kunci rangkaian tidak berjaya."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Berjaya membuka kunci rangkaian."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Tetapan panggilan GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Tetapan panggilan CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Nama Titik Capaian"</string>
@@ -434,13 +432,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Panggilan tidak dihantar. Dail nombor kecemasan!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Gunakan papan kekunci untuk mendail"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Tunda"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Nyahtunda"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Tamat"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Pad dail"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Sembunyikan"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Pembesar suara"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Redam"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Tambah panggilan"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Gabung panggilan"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Silih"</string>

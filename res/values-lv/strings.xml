@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Notiek tīkla atbloķēšanas pieprasīšana..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Tīkla atbloķēšanas pieprasījums nav veiksmīgs."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Tīkla atbloķēšana bija veiksmīga."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM zvanu iestatījumi"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA zvanu iestatījumi"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Piekļuves punktu nosaukumi"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Notiek iestatījumu atsaukšana..."</string>
     <string name="response_error" msgid="6674110501330139405">"Neparedzēta atbilde no tīkla."</string>
     <string name="exception_error" msgid="7027667130619518211">"Tīkla vai SIM kartes kļūda."</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"Jūsu tālrunī ir ieslēgta fiksēto numuru sastādīšanas lietotne. Tādēļ dažas zvanu funkcijas nav pieejamas."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Pirms šo iestatījumu skatīšanas ieslēdziet radio."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Labi"</string>
     <string name="enable" msgid="1059008390636773574">"Iespējot"</string>
@@ -436,13 +433,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Zvans nav nosūtīts. Ievadiet ārkārtas izsaukuma numuru."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Izmantojiet tastatūru, lai sastādītu numuru."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Aizturēt"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Noņemt aizturēšanu"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Beigt"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Numuru sastādīšanas tastatūra"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Slēpt"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Skaļrunis"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Izslēgt skaņu"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Pievienot zvanu"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Sapludināt zvanus"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Mainīt"</string>

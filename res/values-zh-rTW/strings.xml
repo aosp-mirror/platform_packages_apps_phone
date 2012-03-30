@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"要求解鎖網路中..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"網路解鎖失敗。"</string>
     <string name="unlock_success" msgid="6770085622238180152">"網路解鎖成功。"</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM 通話設定"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA 通話設定"</string>
     <string name="apn_settings" msgid="9043423184895642077">"存取點名稱 (APN)"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"正在還原設定..."</string>
     <string name="response_error" msgid="6674110501330139405">"網路傳回非預期回應。"</string>
     <string name="exception_error" msgid="7027667130619518211">"網路或 SIM 卡錯誤。"</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"您的「手機」應用程式已開啟「固定撥號」設定，導致部分撥號相關功能無法正常運作。"</string>
     <string name="radio_off_error" msgid="2304459933248513376">"查看這些設定前，請先開啟無線電。"</string>
     <string name="close_dialog" msgid="2365884406356986917">"確定"</string>
     <string name="enable" msgid="1059008390636773574">"啟用"</string>
@@ -438,13 +435,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"未送出通話要求，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"使用鍵盤撥號"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"保留"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"取消保留"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"結束"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"撥號鍵盤"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"隱藏"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"擴音"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"靜音"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"藍牙"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"新增通話"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"合併通話"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"切換"</string>

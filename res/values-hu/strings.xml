@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Függetlenítés kérése..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"A hálózatzárolás feloldására vonatkozó kérelem sikertelen volt."</string>
     <string name="unlock_success" msgid="6770085622238180152">"A függetlenítés sikerült."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM-hívásbeállítások"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA-hívásbeállítások"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Hozzáférési pontok nevei"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Beállítások visszaállítása..."</string>
     <string name="response_error" msgid="6674110501330139405">"Nem várt válasz a hálózattól."</string>
     <string name="exception_error" msgid="7027667130619518211">"Hálózati vagy SIM-kártya hiba."</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"Telefonja alkalmazásának Fix hívószámok beállítása be van kapcsolva. Ennek eredményeként bizonyos hívásfunkciók nem működnek."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Kapcsolja be a rádiót a beállítások megtekintése előtt."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Engedélyezés"</string>
@@ -434,13 +431,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"A hívás nem indítható. Tárcsázzon egy segélyhívó számot!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"A tárcsázáshoz használja a billentyűzetet"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Tartás"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Tartás feloldása"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Befejezés"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tárcsázó"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Elrejtés"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Hangszóró"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Lezárás"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Hívás hozzáadása"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Hívások egyesítése"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Csere"</string>

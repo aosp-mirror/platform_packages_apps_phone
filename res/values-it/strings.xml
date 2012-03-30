@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Richiesta sblocco rete..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Richiesta di sblocco della rete respinta."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Sblocco della rete riuscito."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Imp. chiamate GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Impostazioni di chiamata CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Nomi punti di accesso"</string>
@@ -437,13 +435,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Chiamata non inviata. Componi un numero di emergenza."</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Usa tastiera"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"In attesa"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Riprendi"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Tastierino"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Nascondi"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Vivavoce"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"No audio"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Aggiungi"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Unisci"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Scambia"</string>

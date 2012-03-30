@@ -73,8 +73,6 @@
     <string name="requesting_unlock" msgid="6412629401033249351">"Đang yêu cầu mở khóa mạng..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Yêu cầu mở khóa mạng không thành công."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Mở khóa mạng thành công."</string>
-    <string name="imei" msgid="8552502717594321281">"IMEI"</string>
-    <string name="meid" msgid="66004808679046045">"MEID"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Cài đặt cuộc gọi GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Cài đặt cuộc gọi CDMA"</string>
     <string name="apn_settings" msgid="9043423184895642077">"Tên Điểm Truy cập"</string>
@@ -126,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Đang hoàn nguyên cài đặt…"</string>
     <string name="response_error" msgid="6674110501330139405">"Phản hồi không mong muốn từ mạng."</string>
     <string name="exception_error" msgid="7027667130619518211">"Lỗi mạng hoặc thẻ SIM."</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"Cài đặt Số quay định sẵn trên ứng dụng điện thoại được bật. Do đó, một số tính năng có liên quan đến cuộc gọi không hoạt động."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Hãy bật radio trước khi xem những cài đặt này."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Bật"</string>
@@ -434,13 +431,9 @@
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Cuộc gọi không được gửi đi. Hãy quay số số khẩn cấp!"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Sử dụng bàn phím để quay số"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Giữ"</string>
-    <string name="onscreenUnholdText" msgid="5033582269005230794">"Bỏ giữ"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Kết thúc"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Bàn phím số"</string>
-    <string name="onscreenHideDialpadText" msgid="2572388822571686252">"Ẩn"</string>
-    <string name="onscreenSpeakerText" msgid="9013795366801657948">"Loa"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Tắt tiếng"</string>
-    <string name="onscreenBluetoothText" msgid="2479639597725504499">"Bluetooth"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Thêm cuộc gọi"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Hợp nhất cuộc gọi"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"Hoán đổi"</string>
