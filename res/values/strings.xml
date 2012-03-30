@@ -873,20 +873,12 @@
 
     <!-- Text for the onscreen "Hold" button -->
     <string name="onscreenHoldText">Hold</string>
-    <!-- Text for the onscreen "Hold" button in the "Unhold" state -->
-    <string name="onscreenUnholdText">Unhold</string>
     <!-- Text for the onscreen "End call" button -->
     <string name="onscreenEndCallText">End</string>
     <!-- Text for the onscreen "Show Dialpad" button -->
     <string name="onscreenShowDialpadText">Dialpad</string>
-    <!-- Text for the onscreen "Hide Dialpad" button -->
-    <string name="onscreenHideDialpadText">Hide</string>
-    <!-- Text for the onscreen "Speaker" button -->
-    <string name="onscreenSpeakerText">Speaker</string>
     <!-- Text for the onscreen "Mute" button -->
     <string name="onscreenMuteText">Mute</string>
-    <!-- Text for the onscreen "Bluetooth" button -->
-    <string name="onscreenBluetoothText">Bluetooth</string>
     <!-- Text for the onscreen "Add call" button -->
     <string name="onscreenAddCallText">Add call</string>
     <!-- Text for the onscreen "Merge calls" button -->
