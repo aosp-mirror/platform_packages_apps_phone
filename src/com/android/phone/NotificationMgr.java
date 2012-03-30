@@ -29,9 +29,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -841,38 +840,53 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 Log.w(LOG_TAG, "CallerInfo isn't available while Call object is available.");
             }
         }
+        boolean largeIconWasSet = false;
         if (callerInfo != null) {
             // In most cases, the user will see the notification after CallerInfo is already
             // available, and the Drawable coming from ContactProvider will be BitmapDrawable.
             // So, we can just rely on setImageViewBitmap() for most of the cases.
-            //
-            // If we failed to do that, we need to use other ways which may cause StrictMode
-            // violation.
-            if (callerInfo.isCachedPhotoCurrent
-                    && (callerInfo.cachedPhoto instanceof BitmapDrawable)) {
-                if (DBG) log("- BitmapDrawable found for large icon");
-                Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
-                contentView.setImageViewBitmap(R.id.icon, bitmap);
-            } else if (callerInfo.person_id > 0) {
-                if (DBG) log("- BitmapDrawable not found for large icon. Use Uri");
-                Uri uri = ContentUris.withAppendedId(Contacts.CONTENT_URI,
-                        callerInfo.person_id);
-                contentView.setImageViewUri(R.id.icon, uri);
-            } else if (callerInfo.photoResource > 0) {
+            if (callerInfo.isCachedPhotoCurrent) {
+                if (callerInfo.cachedPhoto instanceof BitmapDrawable) {
+                    if (DBG) log("- BitmapDrawable found for large icon");
+                    Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
+                    contentView.setImageViewBitmap(R.id.icon, bitmap);
+                    largeIconWasSet = true;
+                } else {
+                    if (DBG) {
+                        log("- Drawable was found but it wasn't BitmapDrawable ("
+                                + callerInfo.cachedPhoto + "). Ignore it.");
+                    }
+                }
+            }
+
+            if (!largeIconWasSet && callerInfo.photoResource > 0) {
                 if (DBG) {
                     log("- BitmapDrawable nor person Id not found for large icon."
-                            + " Use photoResource");
+                            + " Use photoResource: " + callerInfo.photoResource);
                 }
-                contentView.setImageViewResource(R.id.icon, callerInfo.photoResource);
-            } else {
-                if (DBG) {
-                    log("- No useful resource found for large icon."
-                            + " Use the same icon as in the status bar.");
+                Drawable drawable =
+                        mContext.getResources().getDrawable(callerInfo.photoResource);
+                if (drawable instanceof BitmapDrawable) {
+                    Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
+                    contentView.setImageViewBitmap(R.id.icon, bitmap);
+                    largeIconWasSet = true;
+                } else {
+                    if (DBG) {
+                        log("- PhotoResource was found but it didn't return BitmapDrawable."
+                                + " Ignore it");
+                    }
                 }
-                contentView.setImageViewResource(R.id.icon, mInCallResId);
             }
         } else {
             if (DBG) log("- CallerInfo not found. Use the same icon as in the status bar.");
+        }
+
+        // Failed to fetch Bitmap. Let's use default ones for the large icon on left.
+        if (!largeIconWasSet) {
+            if (DBG) {
+                log("- No useful Bitmap was found for the photo."
+                        + " Use the same icon as in the status bar.");
+            }
             contentView.setImageViewResource(R.id.icon, mInCallResId);
         }
 
