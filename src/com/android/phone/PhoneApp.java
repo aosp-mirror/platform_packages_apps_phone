@@ -558,7 +558,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
             intentFilter.addAction(Intent.ACTION_DOCK_EVENT);
-            intentFilter.addAction(Intent.ACTION_BATTERY_LOW);
             intentFilter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED);
             intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
@@ -1567,9 +1566,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 if (VDBG) Log.d(LOG_TAG, "    name: " + intent.getStringExtra("name"));
                 mIsHeadsetPlugged = (intent.getIntExtra("state", 0) == 1);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_WIRED_HEADSET_PLUG, 0));
-            } else if (action.equals(Intent.ACTION_BATTERY_LOW)) {
-                if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_BATTERY_LOW");
-                notifier.sendBatteryLow();  // Play a warning tone if in-call
             } else if ((action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)) &&
                     (mPUKEntryActivity != null)) {
                 // if an attempt to un-PUK-lock the device was made, while we're

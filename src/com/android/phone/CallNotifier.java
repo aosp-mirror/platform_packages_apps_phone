@@ -134,13 +134,12 @@ public class CallNotifier extends Handler
 
     // Events generated internally:
     private static final int PHONE_MWI_CHANGED = 21;
-    private static final int PHONE_BATTERY_LOW = 22;
-    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 23;
-    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 24;
-    private static final int DISPLAYINFO_NOTIFICATION_DONE = 25;
-    private static final int EVENT_OTA_PROVISION_CHANGE = 26;
-    private static final int CDMA_CALL_WAITING_REJECT = 27;
-    private static final int UPDATE_IN_CALL_NOTIFICATION = 28;
+    private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 22;
+    private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 23;
+    private static final int DISPLAYINFO_NOTIFICATION_DONE = 24;
+    private static final int EVENT_OTA_PROVISION_CHANGE = 25;
+    private static final int CDMA_CALL_WAITING_REJECT = 26;
+    private static final int UPDATE_IN_CALL_NOTIFICATION = 27;
 
     // Emergency call related defines:
     private static final int EMERGENCY_TONE_OFF = 0;
@@ -272,10 +271,6 @@ public class CallNotifier extends Handler
 
             case PHONE_MWI_CHANGED:
                 onMwiChanged(mApplication.phone.getMessageWaitingIndicator());
-                break;
-
-            case PHONE_BATTERY_LOW:
-                onBatteryLow();
                 break;
 
             case PHONE_CDMA_CALL_WAITING:
@@ -1375,23 +1370,6 @@ public class CallNotifier extends Handler
     }
 
     /**
-     * Posts a PHONE_BATTERY_LOW event, causing us to play a warning
-     * tone if the user is in-call.
-     */
-    /* package */ void sendBatteryLow() {
-        Message message = Message.obtain(this, PHONE_BATTERY_LOW);
-        sendMessage(message);
-    }
-
-    private void onBatteryLow() {
-        if (DBG) log("onBatteryLow()...");
-
-        // A "low battery" warning tone is now played by
-        // StatusBarPolicy.updateBattery().
-    }
-
-
-    /**
      * Helper class to play tones through the earpiece (or speaker / BT)
      * during a call, using the ToneGenerator.
      *
@@ -1416,17 +1394,16 @@ public class CallNotifier extends Handler
         public static final int TONE_CALL_WAITING = 1;
         public static final int TONE_BUSY = 2;
         public static final int TONE_CONGESTION = 3;
-        public static final int TONE_BATTERY_LOW = 4;
-        public static final int TONE_CALL_ENDED = 5;
-        public static final int TONE_VOICE_PRIVACY = 6;
-        public static final int TONE_REORDER = 7;
-        public static final int TONE_INTERCEPT = 8;
-        public static final int TONE_CDMA_DROP = 9;
-        public static final int TONE_OUT_OF_SERVICE = 10;
-        public static final int TONE_REDIAL = 11;
-        public static final int TONE_OTA_CALL_END = 12;
-        public static final int TONE_RING_BACK = 13;
-        public static final int TONE_UNOBTAINABLE_NUMBER = 14;
+        public static final int TONE_CALL_ENDED = 4;
+        public static final int TONE_VOICE_PRIVACY = 5;
+        public static final int TONE_REORDER = 6;
+        public static final int TONE_INTERCEPT = 7;
+        public static final int TONE_CDMA_DROP = 8;
+        public static final int TONE_OUT_OF_SERVICE = 9;
+        public static final int TONE_REDIAL = 10;
+        public static final int TONE_OTA_CALL_END = 11;
+        public static final int TONE_RING_BACK = 12;
+        public static final int TONE_UNOBTAINABLE_NUMBER = 13;
 
         // The tone volume relative to other sounds in the stream
         static final int TONE_RELATIVE_VOLUME_EMERGENCY = 100;
@@ -1484,15 +1461,7 @@ public class CallNotifier extends Handler
                     toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
                     toneLengthMillis = 4000;
                     break;
-                case TONE_BATTERY_LOW:
-                    // For now, use ToneGenerator.TONE_PROP_ACK (two quick
-                    // beeps).  TODO: is there some other ToneGenerator
-                    // tone that would be more appropriate here?  Or
-                    // should we consider adding a new custom tone?
-                    toneType = ToneGenerator.TONE_PROP_ACK;
-                    toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
-                    toneLengthMillis = 1000;
-                    break;
+
                 case TONE_CALL_ENDED:
                     toneType = ToneGenerator.TONE_PROP_PROMPT;
                     toneVolume = TONE_RELATIVE_VOLUME_HIPRI;
@@ -1647,7 +1616,7 @@ public class CallNotifier extends Handler
             //
             // (But watch out: do NOT do this if the phone is in use,
             // since some of our tones get played *during* a call (like
-            // CALL_WAITING and BATTERY_LOW) and we definitely *don't*
+            // CALL_WAITING) and we definitely *don't*
             // want to reset the audio mode / speaker / bluetooth after
             // playing those!
             // This call is really here for use with tones that get played
