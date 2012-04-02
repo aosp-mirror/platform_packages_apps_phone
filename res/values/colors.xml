@@ -30,4 +30,7 @@
 
     <!-- Put on top of each photo, implying 80% darker than usual. -->
     <color name="on_hold_dim_effect">#cc000000</color>
+
+    <!-- Used with some smaller texts in manage conference screen. -->
+    <color name="manage_conference_secondary_text_color">#888888</color>
 </resources>

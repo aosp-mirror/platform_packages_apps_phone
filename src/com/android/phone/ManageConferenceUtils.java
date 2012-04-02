@@ -82,7 +82,7 @@ public class ManageConferenceUtils {
 
     // "Manage conference" UI elements and state
     private ViewGroup mManageConferencePanel;
-    private Button mButtonManageConferenceDone;
+    private View mButtonManageConferenceDone;
     private ViewGroup[] mConferenceCallList;
     private int mNumCallersInConference;
     private Chronometer mConferenceTime;
@@ -126,7 +126,7 @@ public class ManageConferenceUtils {
                         (ViewGroup) mInCallScreen.findViewById(viewGroupIdList[i]);
             }
 
-            mButtonManageConferenceDone = (Button) mInCallScreen.findViewById(R.id.manage_done);
+            mButtonManageConferenceDone = mInCallScreen.findViewById(R.id.manage_done);
             mButtonManageConferenceDone.setOnClickListener(mInCallScreen);
         }
     }
@@ -215,9 +215,8 @@ public class ManageConferenceUtils {
             mConferenceCallList[i].setVisibility(View.VISIBLE);
 
             // get the relevant children views
-            ImageButton endButton = (ImageButton) mConferenceCallList[i].findViewById(
-                    R.id.conferenceCallerDisconnect);
-            ImageButton separateButton = (ImageButton) mConferenceCallList[i].findViewById(
+            View endButton = mConferenceCallList[i].findViewById(R.id.conferenceCallerDisconnect);
+            View separateButton = mConferenceCallList[i].findViewById(
                     R.id.conferenceCallerSeparate);
             TextView nameTextView = (TextView) mConferenceCallList[i].findViewById(
                     R.id.conferenceCallerName);
