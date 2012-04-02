@@ -449,6 +449,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // Get the default phone
             phone = PhoneFactory.getDefaultPhone();
 
+            // Start TelephonyDebugService After the default phone is created.
+            Intent intent = new Intent(this, TelephonyDebugService.class);
+            startService(intent);
+
             mCM = CallManager.getInstance();
             mCM.registerPhone(phone);
 

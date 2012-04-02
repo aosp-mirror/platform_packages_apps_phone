@@ -448,6 +448,9 @@
         <service android:name="EmergencyCallbackModeService">
         </service>
 
+        <!-- service to dump telephony information -->
+        <service android:name="TelephonyDebugService" />
+
         <activity android:name="EmergencyCallbackModeExitDialog"
             android:excludeFromRecents="true"
             android:label="@string/ecm_exit_dialog"
