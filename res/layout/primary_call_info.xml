@@ -23,12 +23,44 @@
 
     <!-- Contact photo for primary call info -->
     <ImageView android:id="@+id/photo"
+         android:layout_alignParentLeft="true"
          android:layout_alignParentTop="true"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:gravity="top|center_horizontal"
          android:scaleType="centerCrop"
          android:contentDescription="@string/contactPhoto" />
+
+    <!-- Used when the phone call is on hold, dimming the primary photo
+
+         Note: Theoretically it is possible to achieve this effect using
+         Drawable#setColorFilter().
+
+         But watch out: we also use cross fade between primary and
+         secondary photo, which may interfere with the dim effect with
+         setColorFilter(). To try it out, use GSM phones and do multiple
+         calls.
+
+         Detail: during the cross-fade effect we are currently using
+         TransitionDrawable. TransitionDrawable#setColorFilter() will call
+         the equivalent method for *both* drawables which are shared by
+         the two ImageViews. If we set setColorFilter() for "on hold" effect
+         during the cross-fade, *both* primary and secondary photos become
+         dim.
+
+         Theoretically it can be avoided (by copying drawable, or carefully
+         calling setColorFilter() conditionally. But it doesn't bang for the
+         buck for now.
+
+         TODO: try that. It may be smoother with slower devices.
+      -->
+    <View android:id="@+id/dim_effect_for_primary_photo"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentTop="true"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/on_hold_dim_effect"
+         android:visibility="gone" />
 
     <!-- "Call Banner" for primary call, the foregound or ringing call.
          The "call banner" is a block of info about a single call,
