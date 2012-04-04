@@ -94,13 +94,17 @@ public class CallFeaturesSetting extends PreferenceActivity
         EditPhoneNumberPreference.OnDialogClosedListener,
         EditPhoneNumberPreference.GetDefaultNumberListener{
 
-    // intent action to bring up voice mail settings
+    /**
+     * Intent action to bring up Voicemail Provider settings.
+     *
+     * @see #IGNORE_PROVIDER_EXTRA
+     */
     public static final String ACTION_ADD_VOICEMAIL =
-        "com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL";
+            "com.android.phone.CallFeaturesSetting.ADD_VOICEMAIL";
     // intent action sent by this activity to a voice mail provider
     // to trigger its configuration UI
     public static final String ACTION_CONFIGURE_VOICEMAIL =
-        "com.android.phone.CallFeaturesSetting.CONFIGURE_VOICEMAIL";
+            "com.android.phone.CallFeaturesSetting.CONFIGURE_VOICEMAIL";
     // Extra put in the return from VM provider config containing voicemail number to set
     public static final String VM_NUMBER_EXTRA = "com.android.phone.VoicemailNumber";
     // Extra put in the return from VM provider config containing call forwarding number to set
@@ -134,8 +138,11 @@ public class CallFeaturesSetting extends PreferenceActivity
     // Key identifying the default vocie mail provider
     public static final String DEFAULT_VM_PROVIDER_KEY = "";
 
-    // Extra put into ACTION_ADD_VOICEMAIL call to indicate which provider
-    // to remove from the list of providers presented to the user
+    /**
+     * String Extra put into ACTION_ADD_VOICEMAIL call to indicate which provider should be hidden
+     * in the list of providers presented to the user. This allows a provider which is being
+     * disabled (e.g. GV user logging out) to force the user to pick some other provider.
+     */
     public static final String IGNORE_PROVIDER_EXTRA = "com.android.phone.ProviderToIgnore";
 
     // debug data
@@ -419,10 +426,10 @@ public class CallFeaturesSetting extends PreferenceActivity
      * They key in this map is package name + activity name.
      * We always add an entry for the default provider with a key of empty
      * string and intent value of null.
-     * @see #initVoiceMailProviders.
+     * @see #initVoiceMailProviders()
      */
     private final Map<String, VoiceMailProvider> mVMProvidersData =
-        new HashMap<String, VoiceMailProvider>();
+            new HashMap<String, VoiceMailProvider>();
 
     /** string to hold old voicemail number as it is being updated. */
     private String mOldVmNumber;
@@ -497,6 +504,10 @@ public class CallFeaturesSetting extends PreferenceActivity
      */
     @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
+        if (DBG) {
+            log("onPreferenceChange(). preferenece: \"" + preference + "\""
+                    + ", value: \"" + objValue + "\"");
+        }
         if (preference == mVibrateOnRing) {
             setPhoneVibrateSettingValue((Boolean) objValue);
         } else if (preference == mButtonDTMF) {
@@ -506,7 +517,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonTTY) {
             handleTTYChange(preference, objValue);
         } else if (preference == mVoicemailProviders) {
-            final String newProviderKey = (String)objValue;
+            final String newProviderKey = (String) objValue;
             if (DBG) {
                 log("Voicemail Provider changes from \"" + mPreviousVMProviderKey
                     + "\" to \"" + newProviderKey + "\".");
@@ -1441,7 +1452,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        if (DBG) log("Creating activity");
+        if (DBG) log("onCreate(). Intent: " + getIntent());
         mPhone = PhoneApp.getPhone();
 
         addPreferencesFromResource(R.xml.call_feature_setting);
@@ -1560,6 +1571,10 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (icicle == null) {
             if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL) &&
                     mVoicemailProviders != null) {
+                if (DBG) {
+                    log("ACTION_ADD_VOICEMAIL Intent is thrown. current VM data size: "
+                            + mVMProvidersData.size());
+                }
                 if (mVMProvidersData.size() > 1) {
                     simulatePreferenceClick(mVoicemailProviders);
                 } else {
@@ -1774,7 +1789,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     /**
      * Updates the look of the VM preference widgets based on current VM provider settings.
      * Note that the provider name is loaded form the found activity via loadLabel in
-     * initVoiceMailProviders in order for it to be localizable.
+     * {@link #initVoiceMailProviders()} in order for it to be localizable.
      */
     private void updateVMPreferenceWidgets(String currentProviderSetting) {
         final String key = currentProviderSetting;
@@ -1812,22 +1827,21 @@ public class CallFeaturesSetting extends PreferenceActivity
      * In case we are called with ACTION_ADD_VOICEMAIL intent the intent may have
      * an extra string called IGNORE_PROVIDER_EXTRA with "package.activityName" of the provider
      * which should be hidden when we bring up the list of possible VM providers to choose.
-     * This allows a provider which is being disabled (e.g. GV user logging out) to force the user
-     * to pick some other provider.
      */
     private void initVoiceMailProviders() {
+        if (DBG) log("initVoiceMailProviders()");
         mPerProviderSavedVMNumbers =
-            this.getApplicationContext().getSharedPreferences(
-                VM_NUMBERS_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                this.getApplicationContext().getSharedPreferences(
+                        VM_NUMBERS_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         String providerToIgnore = null;
         if (getIntent().getAction().equals(ACTION_ADD_VOICEMAIL)) {
-            if (DBG) log("ACTION_ADD_VOICEMAIL");
             if (getIntent().hasExtra(IGNORE_PROVIDER_EXTRA)) {
                 providerToIgnore = getIntent().getStringExtra(IGNORE_PROVIDER_EXTRA);
             }
-            if (DBG) log("providerToIgnore=" + providerToIgnore);
+            if (DBG) log("Found ACTION_ADD_VOICEMAIL. providerToIgnore=" + providerToIgnore);
             if (providerToIgnore != null) {
+                // IGNORE_PROVIDER_EXTRA implies we want to remove the choice from the list.
                 deleteSettingsForVoicemailProvider(providerToIgnore);
             }
         }
@@ -1851,17 +1865,21 @@ public class CallFeaturesSetting extends PreferenceActivity
             final ResolveInfo ri= resolveInfos.get(i);
             final ActivityInfo currentActivityInfo = ri.activityInfo;
             final String key = makeKeyForActivity(currentActivityInfo);
-            if (DBG) log("Loading " + key);
             if (key.equals(providerToIgnore)) {
-                if (DBG) log("Ignoring " + key);
+                if (DBG) log("Ignoring key: " + key);
                 len--;
                 continue;
             }
+            if (DBG) log("Loading key: " + key);
             final String nameForDisplay = ri.loadLabel(pm).toString();
             Intent providerIntent = new Intent();
             providerIntent.setAction(ACTION_CONFIGURE_VOICEMAIL);
             providerIntent.setClassName(currentActivityInfo.packageName,
                     currentActivityInfo.name);
+            if (DBG) {
+                log("Store loaded VoiceMailProvider. key: " + key
+                        + " -> name: " + nameForDisplay + ", intent: " + providerIntent);
+            }
             mVMProvidersData.put(
                     key,
                     new VoiceMailProvider(nameForDisplay, providerIntent));
@@ -1885,10 +1903,17 @@ public class CallFeaturesSetting extends PreferenceActivity
             entryIdx++;
         }
 
+        // ListPreference is now updated.
         mVoicemailProviders.setEntries(entries);
         mVoicemailProviders.setEntryValues(values);
 
+        // Remember the current Voicemail Provider key as a "previous" key. This will be used
+        // when we fail to update Voicemail Provider, which requires rollback.
+        // We will update this when the VM Provider setting is successfully updated.
         mPreviousVMProviderKey = getCurrentVoicemailProviderKey();
+        if (DBG) log("Set up the first mPreviousVMProviderKey: " + mPreviousVMProviderKey);
+
+        // Finally update the preference texts.
         updateVMPreferenceWidgets(mPreviousVMProviderKey);
     }
 
