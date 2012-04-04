@@ -19,8 +19,8 @@ package com.android.phone;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +49,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
+import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.CallStateException;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
@@ -59,7 +60,6 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.internal.telephony.cdma.CdmaConnection;
-import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.sip.SipPhone;
 
 import java.util.ArrayList;
@@ -1777,14 +1777,14 @@ public class PhoneUtils {
      * Launch the Dialer to start a new call.
      * This is just a wrapper around the ACTION_DIAL intent.
      */
-    static void startNewCall(final CallManager cm) {
+    /* package */ static boolean startNewCall(final CallManager cm) {
         final PhoneApp app = PhoneApp.getInstance();
 
         // Sanity-check that this is OK given the current state of the phone.
         if (!okToAddCall(cm)) {
             Log.w(LOG_TAG, "startNewCall: can't add a new call in the current state");
             dumpCallManager();
-            return;
+            return false;
         }
 
         // if applicable, mute the call while we're showing the add call UI.
@@ -1802,8 +1802,17 @@ public class PhoneUtils {
         // it that we're going through the "add call" option from the
         // InCallScreen / PhoneUtils.
         intent.putExtra(ADD_CALL_MODE_KEY, true);
+        try {
+            app.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // This is rather rare but possible.
+            // Note: this method is used even when the phone is encrypted. At that moment
+            // the system may not find any Activity which can accept this Intent.
+            Log.e(LOG_TAG, "Activity for adding calls isn't found.");
+            return false;
+        }
 
-        app.startActivity(intent);
+        return true;
     }
 
     /**

@@ -158,10 +158,22 @@ public class CallLogAsync {
             for (int i = 0; i < count; i++) {
                 AddCallArgs c = callList[i];
 
-                // May block.
-                result[i] = Calls.addCall(
-                    c.ci, c.context, c.number, c.presentation,
-                    c.callType, c.timestamp, c.durationInSec);
+                try {
+                    // May block.
+                    result[i] = Calls.addCall(
+                            c.ci, c.context, c.number, c.presentation,
+                            c.callType, c.timestamp, c.durationInSec);
+                } catch (Exception e) {
+                    // This must be very rare but may happen in legitimate cases.
+                    // e.g. If the phone is encrypted and thus write request fails, it may
+                    // cause some kind of Exception (right now it is IllegalArgumentException, but
+                    // might change).
+                    //
+                    // We don't want to crash the whole process just because of that.
+                    // Let's just ignore it and leave logs instead.
+                    Log.e(TAG, "Exception raised during adding CallLog entry: " + e);
+                    result[i] = null;
+                }
             }
             return result;
         }
