@@ -148,6 +148,20 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     public static final String ACTION_HANG_UP_ONGOING_CALL =
             "com.android.phone.ACTION_HANG_UP_ONGOING_CALL";
 
+    /**
+     * Intent Action used for making a phone call from Notification bar.
+     * This is for missed call notifications.
+     */
+    public static final String ACTION_CALL_BACK_FROM_NOTIFICATION =
+            "com.android.phone.ACTION_CALL_BACK_FROM_NOTIFICATION";
+
+    /**
+     * Intent Action used for sending a SMS from notification bar.
+     * This is for missed call notifications.
+     */
+    public static final String ACTION_SEND_SMS_FROM_NOTIFICATION =
+            "com.android.phone.ACTION_SEND_SMS_FROM_NOTIFICATION";
+
     private static PhoneApp sMe;
 
     // A few important fields we expose to the rest of the package
@@ -724,6 +738,21 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     /* package */ static PendingIntent createHangUpOngoingCallPendingIntent(Context context) {
         Intent intent = new Intent(PhoneApp.ACTION_HANG_UP_ONGOING_CALL, null,
+                context, NotificationBroadcastReceiver.class);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+
+    /* package */ static PendingIntent getCallBackPendingIntent(Context context, String number) {
+        Intent intent = new Intent(ACTION_CALL_BACK_FROM_NOTIFICATION,
+                Uri.fromParts(Constants.SCHEME_TEL, number, null),
+                context, NotificationBroadcastReceiver.class);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+
+    /* package */ static PendingIntent getSendSmsFromNotificationPendingIntent(
+            Context context, String number) {
+        Intent intent = new Intent(ACTION_SEND_SMS_FROM_NOTIFICATION,
+                Uri.fromParts(Constants.SCHEME_SMSTO, number, null),
                 context, NotificationBroadcastReceiver.class);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
@@ -1701,12 +1730,43 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            // TODO: use "if (VDBG)" here.
+            Log.d(LOG_TAG, "Broadcast from Notification: " + action);
+
             if (action.equals(ACTION_HANG_UP_ONGOING_CALL)) {
                 PhoneUtils.hangup(PhoneApp.getInstance().mCM);
+            } else if (action.equals(ACTION_CALL_BACK_FROM_NOTIFICATION)) {
+                // Collapse the expanded notification and the notification item itself.
+                closeSystemDialogs(context);
+                clearMissedCallNotification(context);
+
+                Intent callIntent = new Intent(Intent.ACTION_CALL_PRIVILEGED, intent.getData());
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                context.startActivity(callIntent);
+            } else if (action.equals(ACTION_SEND_SMS_FROM_NOTIFICATION)) {
+                // Collapse the expanded notification and the notification item itself.
+                closeSystemDialogs(context);
+                clearMissedCallNotification(context);
+
+                Intent smsIntent = new Intent(Intent.ACTION_SENDTO, intent.getData());
+                smsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(smsIntent);
             } else {
                 Log.w(LOG_TAG, "Received hang-up request from notification,"
                         + " but there's no call the system can hang up.");
             }
+        }
+
+        private void closeSystemDialogs(Context context) {
+            Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            context.sendBroadcast(intent);
+        }
+
+        private void clearMissedCallNotification(Context context) {
+            Intent clearIntent = new Intent(context, ClearMissedCallsService.class);
+            clearIntent.setAction(ClearMissedCallsService.ACTION_CLEAR_MISSED_CALLS);
+            context.startService(clearIntent);
         }
     }
 
