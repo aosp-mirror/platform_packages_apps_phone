@@ -124,8 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"正在恢复设置..."</string>
     <string name="response_error" msgid="6674110501330139405">"网络响应异常。"</string>
     <string name="exception_error" msgid="7027667130619518211">"网络或 SIM 卡出错。"</string>
-    <!-- no translation found for fdn_check_failure (18200614306525434) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="18200614306525434">"拨号应用的固定拨号设置已启用。因此，部分与拨号相关的功能将不能正常使用。"</string>
     <string name="radio_off_error" msgid="2304459933248513376">"请先开启无线装置，然后再查看这些设置。"</string>
     <string name="close_dialog" msgid="2365884406356986917">"确定"</string>
     <string name="enable" msgid="1059008390636773574">"启用"</string>

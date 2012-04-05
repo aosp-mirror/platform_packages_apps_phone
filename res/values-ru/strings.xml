@@ -124,7 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Возврат к предыдущим настройкам…"</string>
     <string name="response_error" msgid="6674110501330139405">"Неожиданный отклик сети."</string>
     <string name="exception_error" msgid="7027667130619518211">"Ошибка сети или SIM-карты."</string>
-    <string name="fdn_check_failure" msgid="18200614306525434">"Настройки разрешенных номеров для приложений вашего телефона включены. В результате некоторые функции вызовов недоступны."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"Разрешенные номера в приложении \"Телефон\" включены. В результате некоторые функции вызовов недоступны."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Чтобы увидеть настройки, включите приемопередатчик."</string>
     <string name="close_dialog" msgid="2365884406356986917">"ОК"</string>
     <string name="enable" msgid="1059008390636773574">"Включить"</string>
