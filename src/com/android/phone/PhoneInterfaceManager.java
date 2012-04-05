@@ -29,6 +29,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.ServiceManager;
 import android.telephony.NeighboringCellInfo;
+import android.telephony.CellInfo;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -648,6 +649,22 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return (List <NeighboringCellInfo>) cells;
     }
 
+
+    public List<CellInfo> getAllCellInfo() {
+        try {
+            mApp.enforceCallingOrSelfPermission(
+                android.Manifest.permission.ACCESS_FINE_LOCATION, null);
+        } catch (SecurityException e) {
+            // If we have ACCESS_FINE_LOCATION permission, skip the check for ACCESS_COARSE_LOCATION
+            // A failure should throw the SecurityException from ACCESS_COARSE_LOCATION since this
+            // is the weaker precondition
+            mApp.enforceCallingOrSelfPermission(
+                android.Manifest.permission.ACCESS_COARSE_LOCATION, null);
+        }
+
+        // TODO return cell info list got from mPhone
+        return null;
+    }
 
     //
     // Internal helper methods.
