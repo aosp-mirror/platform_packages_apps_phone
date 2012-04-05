@@ -124,7 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"Revirtiendo configuraciones..."</string>
     <string name="response_error" msgid="6674110501330139405">"Respuesta inesperada de la red."</string>
     <string name="exception_error" msgid="7027667130619518211">"Error en la red o en la tarjeta SIM."</string>
-    <string name="fdn_check_failure" msgid="18200614306525434">"Está activada la configuración de los números de marcación fija de tu teléfono. Por lo tanto, algunas de las características relacionados con las llamadas no están funcionando."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"Está activada la configuración de los números de marcación fija de tu teléfono. Por lo tanto, algunas de las características relacionados con las llamadas no funcionan."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Enciende la radio antes de ver esta configuración."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Aceptar"</string>
     <string name="enable" msgid="1059008390636773574">"Activar"</string>
