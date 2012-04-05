@@ -521,5 +521,12 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".UssdService" android:exported="true">
+          <intent-filter>
+            <action android:name="android.intent.action.ussd.SEND" />
+            <data android:scheme="tel" />
+          </intent-filter>
+        </service>
+
     </application>
 </manifest>
