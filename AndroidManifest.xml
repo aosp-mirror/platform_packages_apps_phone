@@ -399,7 +399,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Data usage and throttling setting -->
+        <!-- Data usage and throttling setting for ThrottleService in framework. -->
         <activity android:name="DataUsage"
                 android:label="@string/throttle_data_usage"
                 android:theme="@android:style/Theme.Holo.DialogWhenLarge">
