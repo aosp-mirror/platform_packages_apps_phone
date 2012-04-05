@@ -494,5 +494,12 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".UssdService">
+          <intent-filter>
+            <action android:name="android.intent.action.ussd.SEND" />
+            <data android:scheme="tel" />
+          </intent-filter>
+        </service>
+
     </application>
 </manifest>
