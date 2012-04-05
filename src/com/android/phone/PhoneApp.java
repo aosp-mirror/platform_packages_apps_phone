@@ -1265,6 +1265,19 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                         (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
                 screenOnImmediately |= !isShowingCallScreenForProximity() && horizontal;
 
+                // We do not keep the screen off when dialpad is visible, we are horizontal, and
+                // the in-call screen is being shown.
+                // At that moment we're pretty sure users want to use it, instead of letting the
+                // proximity sensor turn off the screen by their hands.
+                boolean dialpadVisible = false;
+                if (mInCallScreen != null) {
+                    dialpadVisible =
+                            mInCallScreen.getUpdatedInCallControlState().dialpadEnabled
+                            && mInCallScreen.getUpdatedInCallControlState().dialpadVisible
+                            && isShowingCallScreen();
+                }
+                screenOnImmediately |= dialpadVisible && horizontal;
+
                 if (((state == Phone.State.OFFHOOK) || mBeginningCall) && !screenOnImmediately) {
                     // Phone is in use!  Arrange for the screen to turn off
                     // automatically when the sensor detects a close object.

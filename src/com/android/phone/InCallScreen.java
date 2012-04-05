@@ -2878,6 +2878,7 @@ public class InCallScreen extends Activity
         } else {
             openDialpadInternal(true);  // do the "opening" animation
         }
+        mApp.updateProximitySensorMode(mCM.getState());
     }
 
     /** Internal wrapper around {@link DTMFTwelveKeyDialer#openDialer(boolean)} */
