@@ -1277,7 +1277,14 @@ public class PhoneGlobals extends ContextWrapper
     private void onMMIComplete(AsyncResult r) {
         if (VDBG) Log.d(LOG_TAG, "onMMIComplete()...");
         MmiCode mmiCode = (MmiCode) r.result;
-        PhoneUtils.displayMMIComplete(phone, getInstance(), mmiCode, null, null);
+        if (isShowingCallScreen()) {
+            PhoneUtils.displayMMIComplete(phone, getInstance(), mmiCode, null, null);
+        } else if (mmiCode.getState() == MmiCode.State.PENDING) {
+            Intent intent = new Intent("android.intent.action.ussd.RECEIVE");
+            intent.putExtra(Intent.EXTRA_TEXT, mmiCode.getMessage().toString());
+            phone.getContext().sendBroadcast(intent);
+            if (mmiCode.isCancelable()) mmiCode.cancel();
+        }
     }
 
     private void initForNewRadioTechnology() {
