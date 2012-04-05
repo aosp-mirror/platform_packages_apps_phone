@@ -800,8 +800,8 @@
          the caller-id info from the missed call -->
     <string name="notification_missedCallTicker">Missed call from <xliff:g id="missed_call_from">%s</xliff:g></string>
     <!-- The "label" of the in-call Notification for an ongoing call, used
-         as the format string for a Chronometer widget. -->
-    <string name="notification_ongoing_call_format">Current call (<xliff:g id="duration">%s</xliff:g>)</string>
+         as the format string for a Chronometer widget. [CHAR LIMIT=60] -->
+    <string name="notification_ongoing_call">Ongoing call</string>
     <!-- The "label" of the in-call Notification for a call that's on hold -->
     <string name="notification_on_hold">On hold</string>
     <!-- The "label" of the in-call Notification for an incoming ringing call -->
@@ -822,6 +822,11 @@
     <!-- Label for the expanded "No service" notification item, including the
          operator name set by user -->
     <string name="notification_network_selection_text">Selected network (<xliff:g id="operator_name">%s</xliff:g>) unavailable</string>
+    <!-- Message for "end call" Action.
+         It is displayed in the "Ongoing call" notification, which is shown
+         when the user is outside the in-call screen while the phone call is still
+         active. [CHAR LIMIT=40] -->
+    <string name="notification_action_end_call">Hang up</string>
 
     <!-- In-call screen: call failure message displayed in an error dialog -->
     <string name="incall_error_power_off">To place a call, first turn off Airplane mode.</string>

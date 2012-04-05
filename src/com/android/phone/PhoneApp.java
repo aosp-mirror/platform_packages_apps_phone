@@ -19,6 +19,7 @@ package com.android.phone;
 import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
@@ -38,7 +39,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
 import android.os.LocalPowerManager;
-import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -139,6 +139,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         PARTIAL,
         FULL
     }
+
+    /**
+     * Intent Action used for hanging up the current call from Notification bar. This will
+     * choose first ringing call, first active call, or first background call (typically in
+     * HOLDING state).
+     */
+    public static final String ACTION_HANG_UP_ONGOING_CALL =
+            "com.android.phone.ACTION_HANG_UP_ONGOING_CALL";
 
     private static PhoneApp sMe;
 
@@ -708,6 +716,16 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         Intent intent = createInCallIntent();
         intent.putExtra(InCallScreen.SHOW_DIALPAD_EXTRA, showDialpad);
         return intent;
+    }
+
+    /**
+     * Returns PendingIntent for hanging up ongoing phone call. This will typically be used from
+     * Notification context.
+     */
+    /* package */ static PendingIntent createHangUpOngoingCallPendingIntent(Context context) {
+        Intent intent = new Intent(PhoneApp.ACTION_HANG_UP_ONGOING_CALL, null,
+                context, NotificationBroadcastReceiver.class);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     private static String getCallScreenClassName() {
@@ -1668,6 +1686,26 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: consumed");
                     abortBroadcast();
                 }
+            }
+        }
+    }
+
+    /**
+     * Accepts broadcast Intents which will be prepared by {@link NotificationMgr} and thus
+     * sent from framework's notification mechanism (which is outside Phone context).
+     * This should be visible from outside, but shouldn't be in "exported" state.
+     *
+     * TODO: If possible merge this into PhoneAppBroadcastReceiver.
+     */
+    public static class NotificationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ACTION_HANG_UP_ONGOING_CALL)) {
+                PhoneUtils.hangup(PhoneApp.getInstance().mCM);
+            } else {
+                Log.w(LOG_TAG, "Received hang-up request from notification,"
+                        + " but there's no call the system can hang up.");
             }
         }
     }

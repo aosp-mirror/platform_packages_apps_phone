@@ -510,5 +510,12 @@
             </intent-filter>
         </receiver>
 
+        <!-- BroadcastReceiver for receiving Intents from Notification mechanism. -->
+        <receiver android:name="PhoneApp$NotificationBroadcastReceiver" exported="false">
+            <intent-filter>
+                <action android:name="com.android.phone.ACTION_HANG_UP_ONGOING_CALL" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
