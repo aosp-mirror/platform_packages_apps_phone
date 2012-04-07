@@ -1418,6 +1418,9 @@
     <!-- Dialog title for the vibration settings for voice mail notifications [CHAR LIMIT=40]-->
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="8995274609647451109">Vibrate</string>
 
+    <!-- Voicemail ringtone title [CHAR LIMIT=40] -->
+    <string name="voicemail_notification_ringtone_title">Ringtone</string>
+
     <!-- The vibrate notification modes for voicemail notifications -->
     <string-array name="voicemail_notification_vibrate_when_entries">
         <!-- Always [CHAR LIMIT=40] -->

@@ -23,7 +23,6 @@ import android.app.StatusBarManager;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,8 +37,8 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
@@ -1104,6 +1103,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      */
     /* package */ void updateMwi(boolean visible) {
         if (DBG) log("updateMwi(): " + visible);
+
         if (visible) {
             int resId = android.R.drawable.stat_notify_voicemail;
 
@@ -1182,22 +1182,25 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     Uri.fromParts(Constants.SCHEME_VOICEMAIL, "", null));
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
-            Notification notification = new Notification(
-                    resId,  // icon
-                    null, // tickerText
-                    System.currentTimeMillis()  // Show the time the MWI notification came in,
-                                                // since we don't know the actual time of the
-                                                // most recent voicemail message
-                    );
-            notification.setLatestEventInfo(
-                    mContext,  // context
-                    notificationTitle,  // contentTitle
-                    notificationText,  // contentText
-                    pendingIntent  // contentIntent
-                    );
-            notification.defaults |= Notification.DEFAULT_SOUND;
-
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            Uri ringtoneUri;
+            String uriString = prefs.getString(
+                    CallFeaturesSetting.BUTTON_VOICEMAIL_NOTIFICATION_RINGTONE_KEY, null);
+            if (!TextUtils.isEmpty(uriString)) {
+                ringtoneUri = Uri.parse(uriString);
+            } else {
+                ringtoneUri = Settings.System.DEFAULT_RINGTONE_URI;
+            }
+
+            Notification.Builder builder = new Notification.Builder(mContext);
+            builder.setSmallIcon(resId)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationText)
+                    .setContentIntent(pendingIntent)
+                    .setSound(ringtoneUri);
+            Notification notification = builder.getNotification();
+
             String vibrateWhen = prefs.getString(
                     CallFeaturesSetting.BUTTON_VOICEMAIL_NOTIFICATION_VIBRATE_WHEN_KEY, "never");
             boolean vibrateAlways = vibrateWhen.equals("always");
