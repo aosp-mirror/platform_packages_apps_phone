@@ -308,9 +308,11 @@ public class InCallScreen extends Activity
 
                     break;
 
-                case PhoneApp.MMI_INITIATE:
-                    onMMIInitiate((AsyncResult) msg.obj);
-                    break;
+                // TODO: sort out MMI code (probably we should remove this method entirely).
+                // See also MMI handling code in onResume()
+                // case PhoneApp.MMI_INITIATE:
+                // onMMIInitiate((AsyncResult) msg.obj);
+                //    break;
 
                 case PhoneApp.MMI_CANCEL:
                     onMMICancel();
@@ -321,20 +323,7 @@ public class InCallScreen extends Activity
                 // a system dialog in PhoneUtils.displayMMIComplete(), we
                 // should finish the activity here to close the window.
                 case PhoneApp.MMI_COMPLETE:
-                    // Check the code to see if the request is ready to
-                    // finish, this includes any MMI state that is not
-                    // PENDING.
-                    MmiCode mmiCode = (MmiCode) ((AsyncResult) msg.obj).result;
-                    // if phone is a CDMA phone display feature code completed message
-                    int phoneType = mPhone.getPhoneType();
-                    if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                        PhoneUtils.displayMMIComplete(mPhone, mApp, mmiCode, null, null);
-                    } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-                        if (mmiCode.getState() != MmiCode.State.PENDING) {
-                            if (DBG) log("Got MMI_COMPLETE, finishing InCallScreen...");
-                            endInCallScreenSession();
-                        }
-                    }
+                    onMMIComplete((MmiCode) ((AsyncResult) msg.obj).result);
                     break;
 
                 case POST_ON_DIAL_CHARS:
@@ -772,6 +761,34 @@ public class InCallScreen extends Activity
 
         Profiler.profileViewCreate(getWindow(), InCallScreen.class.getName());
 
+        // If there's a pending MMI code, we'll show a dialog here.
+        //
+        // Note: previously we had shown the dialog when MMI_INITIATE event's coming
+        // from telephony layer, while right now we don't because the event comes
+        // too early (before in-call screen is prepared).
+        // Now we instead check pending MMI code and show the dialog here.
+        //
+        // This *may* cause some problem, e.g. when the user really quickly starts
+        // MMI sequence and calls an actual phone number before the MMI request
+        // being completed, which is rather rare.
+        //
+        // TODO: streamline this logic and have a UX in a better manner.
+        // Right now syncWithPhoneState() above will return SUCCESS based on
+        // mPhone.getPendingMmiCodes().isEmpty(), while we check it again here.
+        // Also we show pre-populated in-call UI under the dialog, which looks
+        // not great. (issue 5210375, 5545506)
+        // After cleaning them, remove commented-out MMI handling code elsewhere.
+        if (!mPhone.getPendingMmiCodes().isEmpty()) {
+            if (mMmiStartedDialog == null) {
+                MmiCode mmiCode = mPhone.getPendingMmiCodes().get(0);
+                Message message = Message.obtain(mHandler, PhoneApp.MMI_CANCEL);
+                mMmiStartedDialog = PhoneUtils.displayMMIInitiate(this, mmiCode,
+                        message, mMmiStartedDialog);
+                // mInCallScreen needs to receive MMI_COMPLETE/MMI_CANCEL event from telephony,
+                // which will dismiss the entire screen.
+            }
+        }
+
         // This means the screen is shown even though there's no connection, which only happens
         // when the phone call has hung up while the screen is turned off at that moment.
         // We want to show "disconnected" state with photos with appropriate elapsed time for
@@ -1073,7 +1090,10 @@ public class InCallScreen extends Activity
         if (!mRegisteredForPhoneStates) {
             mCM.registerForPreciseCallStateChanged(mHandler, PHONE_STATE_CHANGED, null);
             mCM.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-            mCM.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
+            // TODO: sort out MMI code (probably we should remove this method entirely).
+            // See also MMI handling code in onResume()
+            // mCM.registerForMmiInitiate(mHandler, PhoneApp.MMI_INITIATE, null);
+
             // register for the MMI complete message.  Upon completion,
             // PhoneUtils will bring up a system dialog instead of the
             // message display class in PhoneUtils.displayMMIComplete().
@@ -1985,6 +2005,8 @@ public class InCallScreen extends Activity
     /**
      * Brings up the "MMI Started" dialog.
      */
+    /* TODO: sort out MMI code (probably we should remove this method entirely). See also
+       MMI handling code in onResume()
     private void onMMIInitiate(AsyncResult r) {
         if (VDBG) log("onMMIInitiate()...  AsyncResult r = " + r);
 
@@ -2010,13 +2032,12 @@ public class InCallScreen extends Activity
         Message message = Message.obtain(mHandler, PhoneApp.MMI_CANCEL);
         mMmiStartedDialog = PhoneUtils.displayMMIInitiate(this, mmiCode,
                                                           message, mMmiStartedDialog);
-    }
+    }*/
 
     /**
      * Handles an MMI_CANCEL event, which is triggered by the button
      * (labeled either "OK" or "Cancel") on the "MMI Started" dialog.
-     * @see onMMIInitiate
-     * @see PhoneUtils.cancelMmiCode
+     * @see PhoneUtils#cancelMmiCode(Phone)
      */
     private void onMMICancel() {
         if (VDBG) log("onMMICancel()...");
@@ -2034,7 +2055,30 @@ public class InCallScreen extends Activity
         // partially-constructed state as soon as the "MMI Started" dialog
         // gets dismissed.  So let's forcibly bail out right now.
         if (DBG) log("onMMICancel: finishing InCallScreen...");
+        dismissAllDialogs();
         endInCallScreenSession();
+    }
+
+    /**
+     * Handles an MMI_COMPLETE event, which is triggered by telephony,
+     * implying MMI
+     */
+    private void onMMIComplete(MmiCode mmiCode) {
+        // Check the code to see if the request is ready to
+        // finish, this includes any MMI state that is not
+        // PENDING.
+
+        // if phone is a CDMA phone display feature code completed message
+        int phoneType = mPhone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
+            PhoneUtils.displayMMIComplete(mPhone, mApp, mmiCode, null, null);
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            if (mmiCode.getState() != MmiCode.State.PENDING) {
+                if (DBG) log("Got MMI_COMPLETE, finishing InCallScreen...");
+                dismissAllDialogs();
+                endInCallScreenSession();
+            }
+        }
     }
 
     /**
