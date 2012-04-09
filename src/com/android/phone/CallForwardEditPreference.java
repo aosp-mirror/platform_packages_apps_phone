@@ -15,6 +15,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 
 import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
 
@@ -24,6 +25,13 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
 
     private static final String SRC_TAGS[]       = {"{0}"};
     private CharSequence mSummaryOnTemplate;
+    /**
+     * Remembers which button was clicked by a user. If no button is clicked yet, this should have
+     * {@link DialogInterface#BUTTON_NEGATIVE}, meaning "cancel".
+     *
+     * TODO: consider removing this variable and having getButtonClicked() in
+     * EditPhoneNumberPreference instead.
+     */
     private int mButtonClicked;
     private int mServiceClass;
     private MyHandler mHandler = new MyHandler();
@@ -68,6 +76,13 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
     }
 
     @Override
+    protected void onBindDialogView(View view) {
+        // default the button clicked to be the cancel button.
+        mButtonClicked = DialogInterface.BUTTON_NEGATIVE;
+        super.onBindDialogView(view);
+    }
+
+    @Override
     public void onClick(DialogInterface dialog, int which) {
         super.onClick(dialog, which);
         mButtonClicked = which;
@@ -79,6 +94,8 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
 
         if (DBG) Log.d(LOG_TAG, "mButtonClicked=" + mButtonClicked
                 + ", positiveResult=" + positiveResult);
+        // Ignore this event if the user clicked the cancel button, or if the dialog is dismissed
+        // without any button being pressed (back button press or click event outside the dialog).
         if (this.mButtonClicked != DialogInterface.BUTTON_NEGATIVE) {
             int action = (isToggled() || (mButtonClicked == DialogInterface.BUTTON_POSITIVE)) ?
                     CommandsInterface.CF_ACTION_REGISTRATION :
