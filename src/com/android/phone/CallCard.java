@@ -1632,6 +1632,12 @@ public class CallCard extends LinearLayout
     // get pronounced by a screen reader, for example.)
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            dispatchPopulateAccessibilityEvent(event, mName);
+            dispatchPopulateAccessibilityEvent(event, mPhoneNumber);
+            return true;
+        }
+
         dispatchPopulateAccessibilityEvent(event, mCallStateLabel);
         dispatchPopulateAccessibilityEvent(event, mPhoto);
         dispatchPopulateAccessibilityEvent(event, mName);
