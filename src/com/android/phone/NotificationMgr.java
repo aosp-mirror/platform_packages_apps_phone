@@ -798,9 +798,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
         Connection currentConn = currentCall.getEarliestConnection();
 
-        Notification notification = new Notification();
-        notification.icon = mInCallResId;
-        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+        final Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(mInCallResId).setOngoing(true);
 
         // PendingIntent that can be used to launch the InCallScreen.  The
         // system fires off this intent if the user pulls down the windowshade
@@ -810,17 +809,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         PendingIntent inCallPendingIntent =
                 PendingIntent.getActivity(mContext, 0,
                                           PhoneApp.createInCallIntent(), 0);
-        notification.contentIntent = inCallPendingIntent;
-
-        // When expanded, the "Ongoing call" notification is (visually)
-        // different from most other Notifications, so we need to use a
-        // custom view hierarchy.
-        // Our custom view, which includes an icon (either "ongoing call" or
-        // "on hold") and 2 lines of text: (1) the label (either "ongoing
-        // call" with time counter, or "on hold), and (2) the compact name of
-        // the current Connection.
-        RemoteViews contentView = new RemoteViews(mContext.getPackageName(),
-                                                   R.layout.ongoing_call_notification);
+        builder.setContentIntent(inCallPendingIntent);
 
         // Update icon on the left of the notification.
         // - If it is directly available from CallerInfo, we'll just use that.
@@ -845,7 +834,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 if (callerInfo.cachedPhoto instanceof BitmapDrawable) {
                     if (DBG) log("- BitmapDrawable found for large icon");
                     Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
-                    contentView.setImageViewBitmap(R.id.icon, bitmap);
+                    builder.setLargeIcon(bitmap);
                     largeIconWasSet = true;
                 } else {
                     if (DBG) {
@@ -864,7 +853,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                         mContext.getResources().getDrawable(callerInfo.photoResource);
                 if (drawable instanceof BitmapDrawable) {
                     Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
-                    contentView.setImageViewBitmap(R.id.icon, bitmap);
+                    builder.setLargeIcon(bitmap);
                     largeIconWasSet = true;
                 } else {
                     if (DBG) {
@@ -877,59 +866,40 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (DBG) log("- CallerInfo not found. Use the same icon as in the status bar.");
         }
 
-        // Failed to fetch Bitmap. Let's use default ones for the large icon on left.
-        if (!largeIconWasSet) {
-            if (DBG) {
-                log("- No useful Bitmap was found for the photo."
-                        + " Use the same icon as in the status bar.");
-            }
-            contentView.setImageViewResource(R.id.icon, mInCallResId);
+        // Failed to fetch Bitmap.
+        if (!largeIconWasSet && DBG) {
+            log("- No useful Bitmap was found for the photo."
+                    + " Use the same icon as in the status bar.");
         }
 
-        // if the connection is valid, then build what we need for the
-        // first line of notification information, and start the chronometer.
-        // Otherwise, don't bother and just stick with line 2.
+        // If the connection is valid, then build what we need for the
+        // content text of notification, and start the chronometer.
+        // Otherwise, don't bother and just stick with content title.
         if (currentConn != null) {
-            // Determine the "start time" of the current connection, in terms
-            // of the SystemClock.elapsedRealtime() timebase (which is what
-            // the Chronometer widget needs.)
-            //   We can't use currentConn.getConnectTime(), because (1) that's
-            // in the currentTimeMillis() time base, and (2) it's zero when
-            // the phone first goes off hook, since the getConnectTime counter
-            // doesn't start until the DIALING -> ACTIVE transition.
-            //   Instead we start with the current connection's duration,
-            // and translate that into the elapsedRealtime() timebase.
-            long callDurationMsec = currentConn.getDurationMillis();
-            long chronometerBaseTime = SystemClock.elapsedRealtime() - callDurationMsec;
-
-            // Line 1 of the expanded view (in bold text):
-            String expandedViewLine1;
+            if (DBG) log("- Updating context text and chronometer.");
             if (hasRingingCall) {
                 // Incoming call is ringing.
-                // Note this isn't a format string!  (We want "Incoming call"
-                // here, not "Incoming call (1:23)".)  But that's OK; if you
-                // call String.format() with more arguments than format
-                // specifiers, the extra arguments are ignored.
-                expandedViewLine1 = mContext.getString(R.string.notification_incoming_call);
+                builder.setContentText(mContext.getString(R.string.notification_incoming_call));
+                builder.setUsesChronometer(false);
             } else if (hasHoldingCall && !hasActiveCall) {
                 // Only one call, and it's on hold.
-                // Note this isn't a format string either (see comment above.)
-                expandedViewLine1 = mContext.getString(R.string.notification_on_hold);
+                builder.setContentText(mContext.getString(R.string.notification_on_hold));
+                builder.setUsesChronometer(false);
             } else {
-                // Normal ongoing call.
-                // Format string with a "%s" where the current call time should go.
-                expandedViewLine1 = mContext.getString(R.string.notification_ongoing_call_format);
+                // We show the elapsed time of the current call using Chronometer.
+                builder.setUsesChronometer(true);
+
+                // Determine the "start time" of the current connection.
+                //   We can't use currentConn.getConnectTime(), because (1) that's
+                // in the currentTimeMillis() time base, and (2) it's zero when
+                // the phone first goes off hook, since the getConnectTime counter
+                // doesn't start until the DIALING -> ACTIVE transition.
+                //   Instead we start with the current connection's duration,
+                // and translate that into the elapsedRealtime() timebase.
+                long callDurationMsec = currentConn.getDurationMillis();
+                builder.setWhen(System.currentTimeMillis() - callDurationMsec);
+                builder.setContentText(mContext.getString(R.string.notification_ongoing_call));
             }
-
-            if (DBG) log("- Updating expanded view: line 1 '" + /*expandedViewLine1*/ "xxxxxxx" + "'");
-
-            // Text line #1 is actually a Chronometer, not a plain TextView.
-            // We format the elapsed time of the current call into a line like
-            // "Ongoing call (01:23)".
-            contentView.setChronometer(R.id.text1,
-                                       chronometerBaseTime,
-                                       expandedViewLine1,
-                                       true);
         } else if (DBG) {
             Log.w(LOG_TAG, "updateInCallNotification: null connection, can't set exp view line 1.");
         }
@@ -960,8 +930,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         if (DBG) log("- Updating expanded view: line 2 '" + /*expandedViewLine2*/ "xxxxxxx" + "'");
-        contentView.setTextViewText(R.id.title, expandedViewLine2);
-        notification.contentView = contentView;
+        builder.setContentTitle(expandedViewLine2);
 
         // TODO: We also need to *update* this notification in some cases,
         // like when a call ends on one line but the other is still in use
@@ -976,7 +945,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             // This is a high-priority event that should be shown even if the
             // status bar is hidden or if an immersive activity is running.
-            notification.flags |= Notification.FLAG_HIGH_PRIORITY;
+            builder.setPriority(Notification.PRIORITY_HIGH);
 
             // If an immersive activity is running, we have room for a single
             // line of text in the small notification popup window.
@@ -984,7 +953,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // the incoming caller), since that's more relevant than
             // expandedViewLine1 (which is something generic like "Incoming
             // call".)
-            notification.tickerText = expandedViewLine2;
+            builder.setTicker(expandedViewLine2);
 
             if (allowFullScreenIntent) {
                 // Ok, we actually want to launch the incoming call
@@ -993,7 +962,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 // the InCallScreen to be launched immediately *unless* the
                 // current foreground activity is marked as "immersive".
                 if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
-                notification.fullScreenIntent = inCallPendingIntent;
+                builder.setFullScreenIntent(inCallPendingIntent, true);
 
                 // Ugly hack alert:
                 //
@@ -1024,11 +993,18 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     mNotificationManager.cancel(IN_CALL_NOTIFICATION);
                 }
             }
+        } else { // not ringing call
+            // TODO: use "if (DBG)" for this comment.
+            log("Will show \"hang-up\" action in the ongoing active call Notification");
+            // TODO: use better asset.
+            builder.addAction(R.drawable.ic_end_call,
+                    mContext.getText(R.string.notification_action_end_call),
+                    PhoneApp.createHangUpOngoingCallPendingIntent(mContext));
         }
 
+        Notification notification = builder.getNotification();
         if (DBG) log("Notifying IN_CALL_NOTIFICATION: " + notification);
-        mNotificationManager.notify(IN_CALL_NOTIFICATION,
-                                notification);
+        mNotificationManager.notify(IN_CALL_NOTIFICATION, notification);
 
         // Finally, refresh the mute and speakerphone notifications (since
         // some phone state changes can indirectly affect the mute and/or
