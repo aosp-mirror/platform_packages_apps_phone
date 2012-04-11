@@ -64,6 +64,8 @@ public class BluetoothPhoneService extends Service {
     // number of background (held) calls
     int mNumHeld;
 
+    long mBgndEarliestConnectionTime = 0;
+
     private boolean mRoam = false;
 
     // CDMA specific flag used in context with BT devices having display capabilities
@@ -225,14 +227,38 @@ public class BluetoothPhoneService extends Service {
         CallNumber oldRingNumber = mRingNumber;
 
         Call foregroundCall = mCM.getActiveFgCall();
+
+        if (VDBG)
+            Log.d(TAG, " handlePreciseCallStateChange: foreground: " + foregroundCall +
+                " background: " + mCM.getFirstActiveBgCall() + " ringing: " +
+                mCM.getFirstActiveRingingCall());
+
         mForegroundCallState = foregroundCall.getState();
-        mNumActive = (mForegroundCallState == Call.State.ACTIVE) ? 1 : 0;
+        /* if in transition, do not update */
+        if (mForegroundCallState == Call.State.DISCONNECTING)
+        {
+            Log.d(TAG, "handlePreciseCallStateChange. Call disconnecting, wait before update");
+        }
+        else
+            mNumActive = (mForegroundCallState == Call.State.ACTIVE) ? 1 : 0;
 
         if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             mNumHeld = getNumHeldCdma();
             // TODO(BT) CDMA phone, handle mCdmaCallsSwapped,
         } else {
             mNumHeld = getNumHeldUmts();
+        }
+
+        boolean callsSwitched = false;
+        if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA &&
+            mCdmaThreeWayCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
+            callsSwitched = mCdmaCallsSwapped;
+        } else {
+            Call backgroundCall = mCM.getFirstActiveBgCall();
+            callsSwitched =
+                (mNumHeld == 1 && ! (backgroundCall.getEarliestConnectTime() ==
+                    mBgndEarliestConnectionTime));
+            mBgndEarliestConnectionTime = backgroundCall.getEarliestConnectTime();
         }
 
         Call ringingCall = mCM.getFirstActiveRingingCall();
@@ -242,7 +268,8 @@ public class BluetoothPhoneService extends Service {
         if (mNumActive != oldNumActive || mNumHeld != oldNumHeld ||
             mRingingCallState != oldRingingCallState ||
             mForegroundCallState != oldForegroundCallState ||
-            !mRingNumber.equalTo(oldRingNumber)) {
+            !mRingNumber.equalTo(oldRingNumber) ||
+            callsSwitched) {
             if (mBluetoothHeadset != null) {
                 mBluetoothHeadset.phoneStateChanged(mNumActive, mNumHeld,
                     convertCallState(mRingingCallState, mForegroundCallState),
