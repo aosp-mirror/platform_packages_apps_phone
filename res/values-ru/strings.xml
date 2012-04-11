@@ -403,7 +403,8 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Пропущенные вызовы"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"Пропущенных вызовов: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Пропущенные вызовы от абонента <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Активный вызов (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <!-- no translation found for notification_ongoing_call (7068688957273482989) -->
+    <skip />
     <string name="notification_on_hold" msgid="3480694969511790465">"На удержании"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Входящий вызов"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Новое сообщение голосовой почты"</string>
@@ -412,6 +413,8 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Номер голосовой почты неизвестен"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Сеть не найдена"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Выбранная сеть (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) недоступна."</string>
+    <!-- no translation found for notification_action_end_call (6069460915123531620) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Перед тем как звонить, отключите режим полета."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Нет регистрации в сети."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Мобильная сеть недоступна."</string>
@@ -614,6 +617,8 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Отклонить"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Вибросигнал"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вибросигнал"</string>
+    <!-- no translation found for voicemail_notification_ringtone_title (2512535133814478358) -->
+    <skip />
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Всегда"</item>
     <item msgid="1595097872875714252">"Только в тихом режиме"</item>

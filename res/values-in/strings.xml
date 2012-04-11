@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Panggilan tak terjawab"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> panggilan tak terjawab"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Panggilan tak terjawab dari <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Panggilan saat ini <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Panggilan yang berlangsung"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Ditangguhkan"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Panggilan masuk"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Kotak pesan baru"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Nomor kotak pesan tidak dikenal"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Tidak ada layanan"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Jaringan yang dipilih (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) tidak tersedia"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Tutup"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Untuk melakukan panggilan, pertama-tama matikan mode Pesawat."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Tidak terdaftar pada jaringan."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Jaringan seluler tidak tersedia."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Menolak"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Getar"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Getar"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Nada Dering"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Selalu"</item>
     <item msgid="1595097872875714252">"Hanya saat senyap"</item>

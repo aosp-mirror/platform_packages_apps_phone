@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Αναπάντητες κλήσεις"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> αναπάντητες κλήσεις"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Αναπάντητη κλήση από <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Τρέχουσα κλήση (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Κλήση σε εξέλιξη"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Σε αναμονή"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Εισερχόμενη κλήση"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Νέο μήνυμα στον αυτόματο τηλεφωνητή"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Ο αριθμός αυτόματου τηλεφωνητή είναι άγνωστος"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Δίκτυο μη διαθέσιμο"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Επιλεγμένο δίκτυο (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) μη διαθέσιμο"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Τερματισμός κλήσης"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Για να πραγματοποιήσετε μια κλήση, απενεργοποιήστε πρώτα τη λειτουργία πτήσης."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Δεν έχετε εγγραφεί στο δίκτυο."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Το δίκτυο κινητής τηλεφωνίας δεν είναι διαθέσιμο."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Απόρριψη"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Δόνηση"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Δόνηση"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Ήχος κλήσης"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Πάντα"</item>
     <item msgid="1595097872875714252">"Μόνο στο αθόρυβο"</item>

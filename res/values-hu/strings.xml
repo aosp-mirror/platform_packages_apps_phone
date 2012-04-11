@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Nem fogadott hívások"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> nem fogadott hívás"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Nem fogadott hívás: <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Jelenlegi hívás (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Hívás folyamatban"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Tartásban"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Bejövő hívás"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Új hangposta"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"A hangposta száma ismeretlen"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nincs szolgáltatás"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"A kiválasztott hálózat (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) nem érhető el"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Hívás befejezése"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Híváskezdeményezéshez kapcsolja ki a Repülőgép üzemmódot."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Nincs regisztrálva a hálózaton."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"A mobilhálózat nem érhető el."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Elutasítás"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Rezgés"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Rezgés"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Csengőhang"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Mindig"</item>
     <item msgid="1595097872875714252">"Csak néma üzemmódban"</item>

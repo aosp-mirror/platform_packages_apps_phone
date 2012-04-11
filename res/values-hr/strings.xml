@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Propušteni pozivi"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"Broj propuštenih poziva: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Propušten poziv kontakta <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Trenutačni poziv (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Poziv u tijeku"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Na čekanju"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Dolazni poziv"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Nova govorna pošta"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Nepoznat je broj govorne pošte"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nema usluge"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Odabrana mreža (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) je onemogućena"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Prekini vezu"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Da biste uspostavili poziv, prvo isključite način rada u zrakoplovu."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Nije registrirano na mreži."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilna mreža nije dostupna."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Odbij"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibracija"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibracija"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Melodija zvona"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Uvijek"</item>
     <item msgid="1595097872875714252">"Samo ako je bešumno"</item>
