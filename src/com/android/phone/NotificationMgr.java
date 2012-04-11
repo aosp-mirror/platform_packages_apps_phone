@@ -1162,7 +1162,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (!TextUtils.isEmpty(uriString)) {
                 ringtoneUri = Uri.parse(uriString);
             } else {
-                ringtoneUri = Settings.System.DEFAULT_RINGTONE_URI;
+                ringtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
             }
 
             Notification.Builder builder = new Notification.Builder(mContext);
