@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Mga hindi nasagot na tawag"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> (na) hindi nasagot na tawag"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Hindi nasagot na tawag mula kay <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Kasalukuhang tawag (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Kasalukuyang tawag"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Naka-hold"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Papasok na tawag"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Bagong voicemail"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Hindi kilala ang numero ng voicemail"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Walang serbisyo"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Hindi available ang mga piniling network (<xliff:g id="OPERATOR_NAME">%s</xliff:g>)"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Ibaba"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Upang tumawag, paki-off ang Airplane mode."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Hindi nakarehistro sa network."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Hindi available ang mobile network."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Tanggihan"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Mag-vibrate"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Mag-vibrate"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Ringtone"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Palagi"</item>
     <item msgid="1595097872875714252">"Kapag lamang walang tunog"</item>

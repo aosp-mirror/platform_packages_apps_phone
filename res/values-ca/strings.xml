@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Trucades perdudes"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> trucades perdudes"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Trucada perduda de <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call_format" msgid="227216462548540316">"Trucada actual (<xliff:g id="DURATION">%s</xliff:g>)"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Trucada en procés"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"En espera"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Trucada entrant"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Correu de veu nou"</string>
@@ -410,6 +410,7 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Número del correu de veu desconegut"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Sense servei"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"La xarxa seleccionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) no està disponible"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Penja"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Per fer una trucada, primer apagueu el mode d\'avió."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"No registrat a la xarxa."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"La xarxa mòbil no està disponible."</string>
@@ -612,6 +613,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Rebutja"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibra"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibra"</string>
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"To"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Sempre"</item>
     <item msgid="1595097872875714252">"Només quan està en silenci"</item>
