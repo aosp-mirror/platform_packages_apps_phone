@@ -23,6 +23,7 @@ import android.app.StatusBarManager;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,17 +34,17 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.RemoteViews;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
@@ -289,14 +290,19 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     /** The projection to use when querying the phones table */
     static final String[] PHONES_PROJECTION = new String[] {
         PhoneLookup.NUMBER,
-        PhoneLookup.DISPLAY_NAME
+        PhoneLookup.DISPLAY_NAME,
+        PhoneLookup._ID
     };
 
     /**
-     * Class used to run asynchronous queries to re-populate
-     * the notifications we care about.
+     * Class used to run asynchronous queries to re-populate the notifications we care about.
+     * There are really 3 steps to this:
+     *  1. Find the list of missed calls
+     *  2. For each call, run a query to retrieve the caller's name.
+     *  3. For each caller, try obtaining photo.
      */
-    private class QueryHandler extends AsyncQueryHandler {
+    private class QueryHandler extends AsyncQueryHandler
+            implements ContactsAsyncHelper.OnImageLoadCompleteListener {
 
         /**
          * Used to store relevant fields for the Missed Call
@@ -305,7 +311,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         private class NotificationInfo {
             public String name;
             public String number;
-            public String label;
+            /**
+             * Type of the call. {@link android.provider.CallLog.Calls#INCOMING_TYPE}
+             * {@link android.provider.CallLog.Calls#OUTGOING_TYPE}, or
+             * {@link android.provider.CallLog.Calls#MISSED_TYPE}.
+             */
+            public String type;
             public long date;
         }
 
@@ -314,10 +325,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         }
 
         /**
-         * Handles the query results.  There are really 2 steps to this,
-         * similar to what happens in CallLogActivity.
-         *  1. Find the list of missed calls
-         *  2. For each call, run a query to retrieve the caller's name.
+         * Handles the query results.
          */
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
@@ -364,16 +372,38 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     if ((cursor != null) && (cookie != null)){
                         NotificationInfo n = (NotificationInfo) cookie;
 
+                        Uri personUri = null;
                         if (cursor.moveToFirst()) {
-                            // we have contacts data, get the name.
-                            if (DBG) log("contact :" + n.name + " found for phone: " + n.number);
                             n.name = cursor.getString(
                                     cursor.getColumnIndexOrThrow(PhoneLookup.DISPLAY_NAME));
+                            long person_id = cursor.getLong(
+                                    cursor.getColumnIndexOrThrow(PhoneLookup._ID));
+                            if (DBG) {
+                                log("contact :" + n.name + " found for phone: " + n.number
+                                        + ". id : " + person_id);
+                            }
+                            personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, person_id);
                         }
 
-                        // send the notification
-                        if (DBG) log("sending notification.");
-                        notifyMissedCall(n.name, n.number, n.label, n.date);
+                        if (personUri != null) {
+                            if (DBG) {
+                                log("Start obtaining picture for the missed call. Uri: "
+                                        + personUri);
+                            }
+                            // Now try to obtain a photo for this person.
+                            // ContactsAsyncHelper will do that and call onImageLoadComplete()
+                            // after that.
+                            ContactsAsyncHelper.startObtainPhotoAsync(0, this, n, mContext,
+                                    personUri);
+                        } else {
+                            if (DBG) {
+                                log("Failed to find Uri for obtaining photo."
+                                        + " Just send notification without it.");
+                            }
+                            // We couldn't find person Uri, so we're sure we cannot obtain a photo.
+                            // Call notifyMissedCall() right now.
+                            notifyMissedCall(n.name, n.number, n.type, null, n.date);
+                        }
 
                         if (DBG) log("closing contact cursor.");
                         cursor.close();
@@ -381,6 +411,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     break;
                 default:
             }
+        }
+
+        @Override
+        public void onImageLoadComplete(
+                int token, Object cookie, ImageView iView, Drawable result) {
+            if (DBG) log("Finished loading image: " + result);
+            NotificationInfo n = (NotificationInfo) cookie;
+            notifyMissedCall(n.name, n.number, n.type, result, n.date);
         }
 
         /**
@@ -391,7 +429,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             NotificationInfo n = new NotificationInfo();
             n.name = null;
             n.number = cursor.getString(cursor.getColumnIndexOrThrow(Calls.NUMBER));
-            n.label = cursor.getString(cursor.getColumnIndexOrThrow(Calls.TYPE));
+            n.type = cursor.getString(cursor.getColumnIndexOrThrow(Calls.TYPE));
             n.date = cursor.getLong(cursor.getColumnIndexOrThrow(Calls.DATE));
 
             // make sure we update the number depending upon saved values in
@@ -422,10 +460,18 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     /**
      * Displays a notification about a missed call.
      *
-     * @param nameOrNumber either the contact name, or the phone number if no contact
-     * @param label the label of the number if nameOrNumber is a name, null if it is a number
+     * @param name the contact name.
+     * @param number the phone number
+     * @param type the type of the call. {@link android.provider.CallLog.Calls#INCOMING_TYPE}
+     * {@link android.provider.CallLog.Calls#OUTGOING_TYPE}, or
+     * {@link android.provider.CallLog.Calls#MISSED_TYPE}
+     * @param drawable picture which should be used for the notification. Can be null when the
+     * picture isn't available.
+     * @param date the time when the missed call happened
      */
-    void notifyMissedCall(String name, String number, String label, long date) {
+    /* package */ void notifyMissedCall(
+            String name, String number, String type, Drawable drawable, long date) {
+
         // When the user clicks this notification, we go to the call log.
         final Intent callLogIntent = PhoneApp.createCallLogIntent();
 
@@ -436,6 +482,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (DBG) log("notifyMissedCall: non-voice-capable device, not posting notification");
             return;
         }
+        // if (DBG) {
+        log("notifyMissedCall(). name: " + name + ", number: " + number
+                + ", label: " + type + ", drawable: " + drawable
+                + ", date: " + date);
+        //  }
 
         // title resource id
         int titleResId;
@@ -468,21 +519,39 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     mNumberMissedCalls);
         }
 
-        // make the notification
-        Notification note = new Notification(
-                android.R.drawable.stat_notify_missed_call, // icon
-                mContext.getString(R.string.notification_missedCallTicker, callName), // tickerText
-                date // when
-                );
-        note.setLatestEventInfo(mContext, mContext.getText(titleResId), expandedText,
-                PendingIntent.getActivity(mContext, 0, callLogIntent, 0));
-        note.flags |= Notification.FLAG_AUTO_CANCEL;
-        // This intent will be called when the notification is dismissed.
-        // It will take care of clearing the list of missed calls.
-        note.deleteIntent = createClearMissedCallsIntent();
+        Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(android.R.drawable.stat_notify_missed_call)
+                .setTicker(mContext.getString(R.string.notification_missedCallTicker, callName))
+                .setWhen(date)
+                .setContentTitle(mContext.getText(titleResId))
+                .setContentText(expandedText)
+                .setContentIntent(PendingIntent.getActivity(mContext, 0, callLogIntent, 0))
+                .setAutoCancel(true)
+                .setDeleteIntent(createClearMissedCallsIntent());
 
-        configureLedNotification(note);
-        mNotificationManager.notify(MISSED_CALL_NOTIFICATION, note);
+        if (!TextUtils.isEmpty(number) && mNumberMissedCalls == 1) {
+            // TODO: use DBG
+            log("Add actions with the number " + number);
+
+            builder.addAction(R.drawable.ic_ab_dialer_holo_dark,
+                    mContext.getString(R.string.notification_missedCall_call_back),
+                    PhoneApp.getCallBackPendingIntent(mContext, number));
+
+            builder.addAction(R.drawable.ic_text_holo_dark,
+                    mContext.getString(R.string.notification_missedCall_message),
+                    PhoneApp.getSendSmsFromNotificationPendingIntent(mContext, number));
+
+            if (drawable instanceof BitmapDrawable) {
+                builder.setLargeIcon(((BitmapDrawable) drawable).getBitmap());
+            }
+        } else {
+            // TODO: use DBG
+            log("Suppress actions. number: " + number + ", missedCalls: " + mNumberMissedCalls);
+        }
+
+        Notification notification = builder.getNotification();
+        configureLedNotification(notification);
+        mNotificationManager.notify(MISSED_CALL_NOTIFICATION, notification);
     }
 
     /** Returns an intent to be invoked when the missed call notification is cleared. */

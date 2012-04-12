@@ -827,6 +827,14 @@
          when the user is outside the in-call screen while the phone call is still
          active. [CHAR LIMIT=40] -->
     <string name="notification_action_end_call">Hang up</string>
+    <!-- Message for "call back" Action, which is displayed in the missed call notificaiton.
+         The user will be able to call back to the person or the phone number.
+         [CHAR LIMIT=60] -->
+    <string name="notification_missedCall_call_back">Call back</string>
+    <!-- Message for "reply via sms" action, which is displayed in the missed call notification.
+         The user will be able to send text messages using the phone number.
+         [CHAR LIMIT=60] -->
+    <string name="notification_missedCall_message">Message</string>
 
     <!-- In-call screen: call failure message displayed in an error dialog -->
     <string name="incall_error_power_off">To place a call, first turn off Airplane mode.</string>

@@ -29,7 +29,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -225,9 +224,23 @@ public class ContactsAsyncHelper extends Handler {
 
     /**
      * Start an image load, attach the result to the specified CallerInfo object.
-     * Note, when the query is started, we make the ImageView INVISIBLE if the
-     * placeholderImageResource value is -1.  When we're given a valid (!= -1)
-     * placeholderImageResource value, we make sure the image is visible.
+     *
+     * @param info When non-null, its {@link CallerInfo#cachedPhoto} will be updated after
+     * the image is fetched by this method. Can be null.
+     * @param token Arbitrary integer which will be returned as the first argument of
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}
+     * @param listener Callback object, which will be called when the image is loaded by this
+     * method.
+     * @param cookie Arbitrary object the caller wants to remember.
+     * @param context Context object used to do the time-consuming operation.
+     * @param imageView ImageView which will be used for the third argument of
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}.
+     * Can be null, at which the call back will null for the argument.
+     * @param person Uri to be used to fetch the photo.
+     *
+     * TODO: merge this method into {@link #startObtainPhotoAsync(int, OnImageLoadCompleteListener,
+     * Object, Context, Uri)}, which is more clear in its meaning. Ideally, the caller should be
+     * responsible for CallerInfo and ImageView.
      */
     public static final void updateImageViewWithContactPhotoAsync(CallerInfo info, int token,
             OnImageLoadCompleteListener listener, Object cookie, Context context,
@@ -265,6 +278,30 @@ public class ContactsAsyncHelper extends Handler {
     }
 
     /**
+     * Starts an image load without having ImageView unlike
+     * {@link #updateImageViewWithContactPhotoAsync(CallerInfo, int, OnImageLoadCompleteListener,
+     * Object, Context, ImageView, Uri)}.
+     *
+     * The asynchronously obtained image will be available only via the forth argument of
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}.
+     *
+     * Note that ImageView in the call back will be null every time.
+     *
+     * @param token Arbitrary integer which will be returned as the first argument of
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}
+     * @param listener Callback object. Note that in the callback ImageView object will be null
+     * all the times.
+     * @param cookie Arbitrary object the caller wants to remember.
+     * @param context Context object used to do the time-consuming operation.
+     * @param person Uri to be used to fetch the photo
+     */
+    public static final void startObtainPhotoAsync(int token,
+            OnImageLoadCompleteListener listener, Object cookie, Context context, Uri person) {
+        updateImageViewWithContactPhotoAsync(
+                null, token, listener, cookie, context, null, person);
+    }
+
+    /**
      * Called when loading is done.
      */
     @Override
@@ -272,7 +309,6 @@ public class ContactsAsyncHelper extends Handler {
         WorkerArgs args = (WorkerArgs) msg.obj;
         switch (msg.arg1) {
             case EVENT_LOAD_IMAGE:
-                final boolean imagePresent;
                 Drawable result = null;
                 if (args.result != null) {
                     result = (Drawable) args.result;
@@ -280,9 +316,6 @@ public class ContactsAsyncHelper extends Handler {
                     if (args.info != null) {
                         args.info.cachedPhoto = result;
                     }
-                    imagePresent = true;
-                } else {
-                    imagePresent = false;
                 }
 
                 // Note that the data is cached.

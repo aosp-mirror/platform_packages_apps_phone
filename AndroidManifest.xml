@@ -515,6 +515,8 @@
         <receiver android:name="PhoneApp$NotificationBroadcastReceiver" exported="false">
             <intent-filter>
                 <action android:name="com.android.phone.ACTION_HANG_UP_ONGOING_CALL" />
+                <action android:name="com.android.phone.ACTION_CALL_BACK_FROM_NOTIFICATION" />
+                <action android:name="com.android.phone.ACTION_SEND_SMS_FROM_NOTIFICATION" />
             </intent-filter>
         </receiver>
 

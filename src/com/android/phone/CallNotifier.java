@@ -934,7 +934,7 @@ public class CallNotifier extends Handler
             if (VDBG) log("CallerInfo query complete, posting missed call notification");
 
             mApplication.notificationMgr.notifyMissedCall(ci.name, ci.phoneNumber,
-                    ci.phoneLabel, ((Long) cookie).longValue());
+                    ci.phoneLabel, ci.cachedPhoto, ((Long) cookie).longValue());
         } else if (cookie instanceof CallNotifier) {
             if (VDBG) log("CallerInfo query complete (for CallNotifier), "
                     + "updating state for incoming call..");
@@ -1888,7 +1888,7 @@ public class CallNotifier extends Handler
      */
     private void showMissedCallNotification(Connection c, final long date) {
         PhoneUtils.CallerInfoToken info =
-            PhoneUtils.startGetCallerInfo(mApplication, c, this, Long.valueOf(date));
+                PhoneUtils.startGetCallerInfo(mApplication, c, this, Long.valueOf(date));
         if (info != null) {
             // at this point, we've requested to start a query, but it makes no
             // sense to log this missed call until the query comes back.
@@ -1912,7 +1912,7 @@ public class CallNotifier extends Handler
                             ci, number, ci.numberPresentation);
                 }
                 mApplication.notificationMgr.notifyMissedCall(name, number,
-                        ci.phoneLabel, date);
+                        ci.phoneLabel, ci.cachedPhoto, date);
             }
         } else {
             // getCallerInfo() can return null in rare cases, like if we weren't
