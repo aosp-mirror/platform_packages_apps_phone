@@ -18,8 +18,10 @@ package com.android.phone;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -145,21 +147,115 @@ public class AnimationUtils {
     }
 
     /**
+     * Drawable achieving cross-fade, just like TransitionDrawable. We can have
+     * call-backs via animator object (see also {@link CrossFadeDrawable#getAnimator()}).
+     */
+    private static class CrossFadeDrawable extends LayerDrawable {
+        private final ObjectAnimator mAnimator;
+
+        public CrossFadeDrawable(Drawable[] layers) {
+            super(layers);
+            mAnimator = ObjectAnimator.ofInt(this, "crossFadeAlphaForAnimator", 0xff, 0);
+        }
+
+        private int mCrossFadeAlpha;
+
+        /** This will be used from ObjectAnimator. */
+        @SuppressWarnings("unused")
+        public void setCrossFadeAlphaForAnimator(int alpha) {
+            mCrossFadeAlpha = alpha;
+            invalidateSelf();
+        }
+
+        public ObjectAnimator getAnimator() {
+            return mAnimator;
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            Drawable first = getDrawable(0);
+            Drawable second = getDrawable(1);
+
+            if (mCrossFadeAlpha > 0) {
+                first.setAlpha(mCrossFadeAlpha);
+                first.draw(canvas);
+                first.setAlpha(255);
+            }
+
+            if (mCrossFadeAlpha < 0xff) {
+                second.setAlpha(0xff - mCrossFadeAlpha);
+                second.draw(canvas);
+                second.setAlpha(0xff);
+            }
+        }
+    }
+
+    private static CrossFadeDrawable newCrossFadeDrawable(Drawable first, Drawable second) {
+        Drawable[] layers = new Drawable[2];
+        layers[0] = first;
+        layers[1] = second;
+        return new CrossFadeDrawable(layers);
+    }
+
+    /**
      * Starts cross-fade animation using TransitionDrawable. Nothing will happen if "from" and "to"
      * are the same.
      */
-    public static void startCrossFade(ImageView imageView, Drawable from, Drawable to) {
+    public static void startCrossFade(
+            final ImageView imageView, final Drawable from, final Drawable to) {
         if (!from.equals(to)) {
             if (FADE_DBG) {
-                log("Start transition animation for " + imageView + " (from " + from + " to " + to);
+                log("Start cross-fade animation for " + imageView
+                        + "(" + Integer.toHexString(from.hashCode()) + " -> "
+                        + Integer.toHexString(to.hashCode()) + ")");
             }
+
+            CrossFadeDrawable crossFadeDrawable = newCrossFadeDrawable(from, to);
+            ObjectAnimator animator = crossFadeDrawable.getAnimator();
+            imageView.setImageDrawable(crossFadeDrawable);
+            animator.setDuration(ANIMATION_DURATION);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    if (FADE_DBG) {
+                        log("cross-fade animation start ("
+                                + Integer.toHexString(from.hashCode()) + " -> "
+                                + Integer.toHexString(to.hashCode()) + ")");
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (FADE_DBG) {
+                        log("cross-fade animation ended ("
+                                + Integer.toHexString(from.hashCode()) + " -> "
+                                + Integer.toHexString(to.hashCode()) + ")");
+                    }
+                    animation.removeAllListeners();
+                    // Workaround for issue 6300562; this will force the drawable to the
+                    // resultant one regardless of animation glitch.
+                    imageView.setImageDrawable(to);
+                }
+            });
+            animator.start();
+
+            /* We could use TransitionDrawable here, but it may cause some weird animation in
+             * some corner cases. See issue 6300562
+             * TODO: decide which to be used in the long run. TransitionDrawable is old but system
+             * one. Ours uses new animation framework and thus have callback (great for testing),
+             * while no framework support for the exact class.
+
             Drawable[] layers = new Drawable[2];
             layers[0] = from;
             layers[1] = to;
             TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
             imageView.setImageDrawable(transitionDrawable);
-            transitionDrawable.startTransition(ANIMATION_DURATION);
+            transitionDrawable.startTransition(ANIMATION_DURATION); */
             imageView.setTag(to);
+        } else {
+            if (FADE_DBG) {
+                log("*Not* start cross-fade. " + imageView);
+            }
         }
     }
 

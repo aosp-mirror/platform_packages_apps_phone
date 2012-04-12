@@ -1,0 +1,4 @@
+# Keep names that are used only by animation framework.
+-keep class ** {
+  *** *ForAnimator(...);
+}
