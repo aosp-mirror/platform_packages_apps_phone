@@ -417,6 +417,10 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Ingen dækning"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Det valgte netværk (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) er ikke tilgængeligt"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Læg på"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Slå Flytilstand fra først for at foretage et opkald."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ikke registreret på netværk."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilnetværket er ikke tilgængeligt."</string>

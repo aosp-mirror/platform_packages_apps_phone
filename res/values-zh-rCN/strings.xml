@@ -401,8 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"未接电话"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> 个未接电话"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"来自<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>的未接电话"</string>
-    <!-- no translation found for notification_ongoing_call (7068688957273482989) -->
-    <skip />
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"当前通话"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"保持"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"来电"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"新语音邮件"</string>
@@ -411,7 +410,10 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"语音信箱号码未知"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"无服务"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"所选网络（<xliff:g id="OPERATOR_NAME">%s</xliff:g>）不可用"</string>
-    <!-- no translation found for notification_action_end_call (6069460915123531620) -->
+    <string name="notification_action_end_call" msgid="6069460915123531620">"挂断"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
     <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"要进行呼叫，请先关闭飞行模式。"</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"尚未注册网络。"</string>
@@ -615,8 +617,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"拒绝"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"振动"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"振动"</string>
-    <!-- no translation found for voicemail_notification_ringtone_title (2512535133814478358) -->
-    <skip />
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"铃声"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"始终"</item>
     <item msgid="1595097872875714252">"仅在静音时"</item>

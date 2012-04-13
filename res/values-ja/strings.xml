@@ -401,8 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"不在着信"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"不在着信<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>件"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>さんからの不在着信"</string>
-    <!-- no translation found for notification_ongoing_call (7068688957273482989) -->
-    <skip />
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"通話中"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"保留中"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"通話着信"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"新しいボイスメール"</string>
@@ -411,7 +410,10 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"ボイスメールの番号が不明です"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"通信サービスなし"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"選択したネットワーク（<xliff:g id="OPERATOR_NAME">%s</xliff:g>）が利用できません"</string>
-    <!-- no translation found for notification_action_end_call (6069460915123531620) -->
+    <string name="notification_action_end_call" msgid="6069460915123531620">"通話終了"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
     <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"機内モードをOFFにしてから発信してください。"</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"ご加入の通信サービスがありません"</string>
@@ -615,8 +617,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"着信拒否"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"バイブレーション"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"バイブレーション"</string>
-    <!-- no translation found for voicemail_notification_ringtone_title (2512535133814478358) -->
-    <skip />
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"着信音"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"常時"</item>
     <item msgid="1595097872875714252">"マナーモード設定時のみ"</item>

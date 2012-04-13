@@ -411,6 +411,10 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nema usluge"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Odabrana mreža (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) je onemogućena"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Prekini vezu"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Da biste uspostavili poziv, prvo isključite način rada u zrakoplovu."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Nije registrirano na mreži."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Mobilna mreža nije dostupna."</string>

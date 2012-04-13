@@ -47,7 +47,7 @@
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Nomor tidak valid"</string>
     <string name="confCall" msgid="1904840547188336828">"Telewicara"</string>
     <string name="call_lost" msgid="317670617901479594">"Panggilan telah terputus."</string>
-    <string name="ok" msgid="3811371167865772377">"OK"</string>
+    <string name="ok" msgid="3811371167865772377">"Oke"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Kode MMI dimulai"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Kode USSD sedang berjalan…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Kode MMI dibatalkan"</string>
@@ -126,7 +126,7 @@
     <string name="exception_error" msgid="7027667130619518211">"Kesalahan jaringan atau kartu SIM."</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"Setelan Nomor Panggilan Tetap aplikasi Ponsel Anda diaktifkan. Akibatnya, beberapa fitur yang terkait dengan panggilan tidak bekerja."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Keluar dari mode pesawat sebelum melihat setelan ini."</string>
-    <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
+    <string name="close_dialog" msgid="2365884406356986917">"Oke"</string>
     <string name="enable" msgid="1059008390636773574">"Aktifkan"</string>
     <string name="disable" msgid="7274240979164762320">"Nonaktifkan"</string>
     <string name="change_num" msgid="239476305819844391">"Perbarui"</string>
@@ -410,7 +410,11 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Nomor kotak pesan tidak dikenal"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Tidak ada layanan"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Jaringan yang dipilih (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) tidak tersedia"</string>
-    <string name="notification_action_end_call" msgid="6069460915123531620">"Tutup"</string>
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Akhiri"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Untuk melakukan panggilan, pertama-tama matikan mode Pesawat."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Tidak terdaftar pada jaringan."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Jaringan seluler tidak tersedia."</string>
@@ -536,7 +540,7 @@
     <string name="sip_menu_save" msgid="5842531129356014943">"Simpan"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Hapus"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Tutup profil"</string>
-    <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"Oke"</string>
     <string name="close_profile" msgid="6886968271423155284">"Tutup"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Akun utama. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"Memeriksa status..."</string>

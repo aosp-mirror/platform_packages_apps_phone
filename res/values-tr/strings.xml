@@ -401,8 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Cevapsız çağrılar"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> cevapsız çağrı"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Cevapsız çağrı: <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <!-- no translation found for notification_ongoing_call (7068688957273482989) -->
-    <skip />
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Devam eden çağrılar"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Beklemede"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Gelen çağrı"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Yeni sesli mesaj"</string>
@@ -411,7 +410,10 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Sesli mesaj numarası bilinmiyor"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Hizmet yok"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Seçili ağ (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) kullanılamıyor"</string>
-    <!-- no translation found for notification_action_end_call (6069460915123531620) -->
+    <string name="notification_action_end_call" msgid="6069460915123531620">"Kapat"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
     <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Bir çağrı yapmak için öncelikle Uçak modunu kapatın."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Ağda kayıtlı değil."</string>
@@ -615,8 +617,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Reddet"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Titreşim"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Titreşim"</string>
-    <!-- no translation found for voicemail_notification_ringtone_title (2512535133814478358) -->
-    <skip />
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Zil sesi"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Her zaman"</item>
     <item msgid="1595097872875714252">"Yalnızca sessizken"</item>

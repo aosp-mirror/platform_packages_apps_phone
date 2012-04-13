@@ -401,8 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"تماس های بی پاسخ"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> تماس بی پاسخ"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"تماس بی پاسخ از <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <!-- no translation found for notification_ongoing_call (7068688957273482989) -->
-    <skip />
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"تماس جاری"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"در انتظار"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"تماس ورودی"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"پست صوتی جدید"</string>
@@ -411,7 +410,10 @@
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"شماره پست صوتی ناشناس"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"بدون سرویس"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"شبکه انتخابی (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) قابل دسترس نیست"</string>
-    <!-- no translation found for notification_action_end_call (6069460915123531620) -->
+    <string name="notification_action_end_call" msgid="6069460915123531620">"قطع تماس"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
     <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"برای برقراری یک تماس، ابتدا حالت هواپیما را خاموش کنید."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"در شبکه ثبت نشده است."</string>
@@ -615,8 +617,7 @@
     <string name="description_target_decline" msgid="4789834364389731957">"عدم پذیرش"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"لرزش"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"لرزش"</string>
-    <!-- no translation found for voicemail_notification_ringtone_title (2512535133814478358) -->
-    <skip />
+    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"زنگ"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"همیشه"</item>
     <item msgid="1595097872875714252">"فقط هنگام ساکت بودن"</item>

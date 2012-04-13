@@ -411,6 +411,10 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nincs szolgáltatás"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"A kiválasztott hálózat (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) nem érhető el"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Hívás befejezése"</string>
+    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
+    <skip />
+    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
+    <skip />
     <string name="incall_error_power_off" msgid="6550191216405193368">"Híváskezdeményezéshez kapcsolja ki a Repülőgép üzemmódot."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Nincs regisztrálva a hálózaton."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"A mobilhálózat nem érhető el."</string>
