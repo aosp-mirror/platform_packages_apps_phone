@@ -55,7 +55,7 @@ public class Ringer {
     Uri mCustomRingtoneUri = Settings.System.DEFAULT_RINGTONE_URI;
 
     Ringtone mRingtone;
-    Vibrator mVibrator = new Vibrator();
+    Vibrator mVibrator;
     IPowerManager mPowerManager;
     volatile boolean mContinueVibrating;
     VibratorThread mVibratorThread;
@@ -84,6 +84,7 @@ public class Ringer {
     private Ringer(Context context) {
         mContext = context;
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
+        mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     /**

@@ -89,7 +89,7 @@ public class HapticFeedback {
     public void init(Context context, boolean enabled) {
         mEnabled = enabled;
         if (enabled) {
-            mVibrator = new Vibrator();
+            mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
             if (!loadHapticSystemPattern(context.getResources())) {
                 mHapticPattern = new long[] {0, DURATION, 2 * DURATION, 3 * DURATION};
             }
