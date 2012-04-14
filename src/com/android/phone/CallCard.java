@@ -16,14 +16,12 @@
 
 package com.android.phone;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +33,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.ViewStub;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
@@ -685,6 +682,17 @@ public class CallCard extends LinearLayout
     @Override
     public void onImageLoadComplete(int token, Object cookie, ImageView iView, Drawable result) {
         mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
+        if (mLoadingPersonUri != null) {
+            // Start sending view notification after the current request being done.
+            // New image may possibly be available from the next phone calls.
+            //
+            // TODO: may be nice to update the image view again once the newer one
+            // is available on contacts database.
+            PhoneUtils.sendViewNotificationAsync(mApplication, mLoadingPersonUri);
+        } else {
+            // This should not happen while we need some verbose info if it happens..
+            Log.w(LOG_TAG, "Person Uri isn't available while Image is successfully loaded.");
+        }
         mLoadingPersonUri = null;
 
         // Note: previously ContactsAsyncHelper has done this job.
