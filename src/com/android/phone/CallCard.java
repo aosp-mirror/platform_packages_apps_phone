@@ -16,14 +16,13 @@
 
 package com.android.phone;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +34,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.ViewStub;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
@@ -683,14 +681,17 @@ public class CallCard extends LinearLayout
      * make sure that the call state is reflected after the image is loaded.
      */
     @Override
-    public void onImageLoadComplete(int token, Object cookie, ImageView iView, Drawable result) {
+    public void onImageLoadComplete(
+            int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon) {
         mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
         mLoadingPersonUri = null;
 
         // Note: previously ContactsAsyncHelper has done this job.
         // TODO: We will need fade-in animation. See issue 5236130.
-        if (result != null) {
-            showImage(iView, result);
+        if (photo != null) {
+            showImage(iView, photo);
+        } else if (photoIcon != null) {
+            showImage(iView, photoIcon);
         } else {
             showImage(iView, R.drawable.picture_unknown);
         }
@@ -1523,6 +1524,10 @@ public class CallCard extends LinearLayout
     /** Helper function to display the resource in the imageview AND ensure its visibility.*/
     private static final void showImage(ImageView view, int resource) {
         showImage(view, view.getContext().getResources().getDrawable(resource));
+    }
+
+    private static final void showImage(ImageView view, Bitmap bitmap) {
+        showImage(view, new BitmapDrawable(view.getContext().getResources(), bitmap));
     }
 
     /** Helper function to display the drawable in the imageview AND ensure its visibility.*/

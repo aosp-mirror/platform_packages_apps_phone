@@ -78,4 +78,8 @@
     <integer name="dialpad_layout_weight_digits">20</integer>
     <integer name="dialpad_layout_weight_dialpad">65</integer>
     <integer name="dialpad_layout_weight_additional_buttons">15</integer>
+
+    <!-- Dimension used to possibly down-scale high-res photo into what is suitable
+         for notification's large icon. -->
+    <dimen name="notification_icon_size">60dp</dimen>
 </resources>

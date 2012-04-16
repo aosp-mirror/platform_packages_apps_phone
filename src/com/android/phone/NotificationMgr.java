@@ -402,7 +402,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                             }
                             // We couldn't find person Uri, so we're sure we cannot obtain a photo.
                             // Call notifyMissedCall() right now.
-                            notifyMissedCall(n.name, n.number, n.type, null, n.date);
+                            notifyMissedCall(n.name, n.number, n.type, null, null, n.date);
                         }
 
                         if (DBG) log("closing contact cursor.");
@@ -415,10 +415,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         @Override
         public void onImageLoadComplete(
-                int token, Object cookie, ImageView iView, Drawable result) {
-            if (DBG) log("Finished loading image: " + result);
+                int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon) {
+            if (DBG) log("Finished loading image: " + photo);
             NotificationInfo n = (NotificationInfo) cookie;
-            notifyMissedCall(n.name, n.number, n.type, result, n.date);
+            notifyMissedCall(n.name, n.number, n.type, photo, photoIcon, n.date);
         }
 
         /**
@@ -465,12 +465,17 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * @param type the type of the call. {@link android.provider.CallLog.Calls#INCOMING_TYPE}
      * {@link android.provider.CallLog.Calls#OUTGOING_TYPE}, or
      * {@link android.provider.CallLog.Calls#MISSED_TYPE}
-     * @param drawable picture which should be used for the notification. Can be null when the
-     * picture isn't available.
+     * @param photo picture which may be used for the notification (when photoIcon is null).
+     * This also can be null when the picture itself isn't available. If photoIcon is available
+     * it should be prioritized (because this may be too huge for notification).
+     * See also {@link ContactsAsyncHelper}.
+     * @param photoIcon picture which should be used for the notification. Can be null. This is
+     * the most suitable for {@link android.app.Notification.Builder#setLargeIcon(Bitmap)}, this
+     * should be used when non-null.
      * @param date the time when the missed call happened
      */
     /* package */ void notifyMissedCall(
-            String name, String number, String type, Drawable drawable, long date) {
+            String name, String number, String type, Drawable photo, Bitmap photoIcon, long date) {
 
         // When the user clicks this notification, we go to the call log.
         final Intent callLogIntent = PhoneApp.createCallLogIntent();
@@ -482,9 +487,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (DBG) log("notifyMissedCall: non-voice-capable device, not posting notification");
             return;
         }
+
+        // STOPSHIP: must be inside DBG/VDBG block.
         // if (DBG) {
         log("notifyMissedCall(). name: " + name + ", number: " + number
-                + ", label: " + type + ", drawable: " + drawable
+                + ", label: " + type + ", photo: " + photo + ", photoIcon: " + photoIcon
                 + ", date: " + date);
         //  }
 
@@ -541,8 +548,10 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     mContext.getString(R.string.notification_missedCall_message),
                     PhoneApp.getSendSmsFromNotificationPendingIntent(mContext, number));
 
-            if (drawable instanceof BitmapDrawable) {
-                builder.setLargeIcon(((BitmapDrawable) drawable).getBitmap());
+            if (photoIcon != null) {
+                builder.setLargeIcon(photoIcon);
+            } else if (photo instanceof BitmapDrawable) {
+                builder.setLargeIcon(((BitmapDrawable) photo).getBitmap());
             }
         } else {
             // TODO: use DBG

@@ -16,11 +16,11 @@
 
 package com.android.phone;
 
-import com.android.internal.telephony.CallerInfo;
-import com.android.internal.telephony.Connection;
-
+import android.app.Notification;
 import android.content.ContentUris;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -30,6 +30,9 @@ import android.os.Message;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.android.internal.telephony.CallerInfo;
+import com.android.internal.telephony.Connection;
 
 import java.io.InputStream;
 
@@ -50,8 +53,8 @@ public class ContactsAsyncHelper extends Handler {
          *
          * @argument result Drawable object obtained by the async load. May become null.
          */
-        public void onImageLoadComplete(int token, Object cookie, ImageView iView,
-                Drawable result);
+        public void onImageLoadComplete(
+                int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon);
     }
 
     // constants
@@ -71,7 +74,8 @@ public class ContactsAsyncHelper extends Handler {
         public Context context;
         public ImageView view;
         public Uri uri;
-        public Object result;
+        public Drawable photo;
+        public Bitmap photoIcon;
         public Object cookie;
         public OnImageLoadCompleteListener listener;
         public CallerInfo info;
@@ -191,12 +195,17 @@ public class ContactsAsyncHelper extends Handler {
                     }
 
                     if (inputStream != null) {
-                        args.result = Drawable.createFromStream(inputStream, args.uri.toString());
+                        args.photo = Drawable.createFromStream(inputStream, args.uri.toString());
+
+                        // This assumes Drawable coming from contact database is usually
+                        // BitmapDrawable and thus we can have (down)scaled version of it.
+                        args.photoIcon = getPhotoIconWhenAppropriate(args.context, args.photo);
 
                         if (DBG) Log.d(LOG_TAG, "Loading image: " + msg.arg1 +
                                 " token: " + msg.what + " image URI: " + args.uri);
                     } else {
-                        args.result = null;
+                        args.photo = null;
+                        args.photoIcon = null;
                         if (DBG) Log.d(LOG_TAG, "Problem with image: " + msg.arg1 +
                                 " token: " + msg.what + " image URI: " + args.uri +
                                 ", using default image.");
@@ -210,6 +219,41 @@ public class ContactsAsyncHelper extends Handler {
             reply.arg1 = msg.arg1;
             reply.obj = msg.obj;
             reply.sendToTarget();
+        }
+
+        /**
+         * Returns a Bitmap object suitable for {@link Notification}'s large icon. This might
+         * return null when the given Drawable isn't BitmapDrawable, or if the system fails to
+         * create a scaled Bitmap for the Drawable.
+         */
+        private Bitmap getPhotoIconWhenAppropriate(Context context, Drawable photo) {
+            if (!(photo instanceof BitmapDrawable)) {
+                return null;
+            }
+            int iconSize = context.getResources()
+                    .getDimensionPixelSize(R.dimen.notification_icon_size);
+            Bitmap orgBitmap = ((BitmapDrawable) photo).getBitmap();
+            int orgWidth = orgBitmap.getWidth();
+            int orgHeight = orgBitmap.getHeight();
+            int longerEdge = orgWidth > orgHeight ? orgWidth : orgHeight;
+            // We want downscaled one only when the original icon is too big.
+            if (longerEdge > iconSize) {
+                float ratio = ((float) longerEdge) / iconSize;
+                int newWidth = (int) (orgWidth / ratio);
+                int newHeight = (int) (orgHeight / ratio);
+                // If the longer edge is much longer than the shorter edge, the latter may
+                // become 0 which will cause a crash.
+                if (newWidth <= 0 || newHeight <= 0) {
+                    Log.w(LOG_TAG, "Photo icon's width or height become 0.");
+                    return null;
+                }
+
+                // It is sure ratio >= 1.0f in any case and thus the newly created Bitmap
+                // should be smaller than the original.
+                return Bitmap.createScaledBitmap(orgBitmap, newWidth, newHeight, false);
+            } else {
+                return orgBitmap;
+            }
         }
     }
 
@@ -309,12 +353,20 @@ public class ContactsAsyncHelper extends Handler {
         WorkerArgs args = (WorkerArgs) msg.obj;
         switch (msg.arg1) {
             case EVENT_LOAD_IMAGE:
-                Drawable result = null;
-                if (args.result != null) {
-                    result = (Drawable) args.result;
+                Drawable photo = null;
+                if (args.photo != null) {
+                    photo = args.photo;
                     // make sure the cached photo data is updated.
                     if (args.info != null) {
-                        args.info.cachedPhoto = result;
+                        args.info.cachedPhoto = photo;
+                    }
+                }
+
+                Bitmap photoIcon = null;
+                if (args.photoIcon != null) {
+                    photoIcon = args.photoIcon;
+                    if (args.info != null) {
+                        args.info.cachedPhotoIcon = photoIcon;
                     }
                 }
 
@@ -328,7 +380,7 @@ public class ContactsAsyncHelper extends Handler {
                     if (DBG) Log.d(LOG_TAG, "Notifying listener: " + args.listener.toString() +
                             " image: " + args.uri + " completed");
                     args.listener.onImageLoadComplete(msg.what, args.cookie, args.view,
-                            result);
+                            photo, photoIcon);
                 }
                 break;
             default:
