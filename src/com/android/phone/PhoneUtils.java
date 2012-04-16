@@ -74,6 +74,9 @@ public class PhoneUtils {
     private static final String LOG_TAG = "PhoneUtils";
     private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
+    // Do not check in with VDBG = true, since that may write PII to the system log.
+    private static final boolean VDBG = false;
+
     /** Control stack trace for Audio Mode settings */
     private static final boolean DBG_SETAUDIOMODE_STACK = false;
 
@@ -591,7 +594,16 @@ public class PhoneUtils {
     public static int placeCall(Context context, Phone phone,
             String number, Uri contactRef, boolean isEmergencyCall,
             Uri gatewayUri) {
-        if (DBG) log("placeCall '" + number + "' GW:'" + gatewayUri + "'");
+        if (VDBG) {
+            log("placeCall()... number: '" + number + "'"
+                    + ", GW:'" + gatewayUri + "'"
+                    + ", contactRef:" + contactRef
+                    + ", isEmergencyCall: " + isEmergencyCall);
+        } else {
+            log("placeCall()... number: " + toLogSafePhoneNumber(number)
+                    + ", GW: " + (gatewayUri != null ? "non-null" : "null")
+                    + ", emergency? " + isEmergencyCall);
+        }
         final PhoneApp app = PhoneApp.getInstance();
 
         boolean useGateway = false;
@@ -621,6 +633,13 @@ public class PhoneUtils {
         } else {
             numberToDial = number;
         }
+
+        // Log the last phone number to be sent to radio layer, which will help us a lot in some
+        // circumstances (issue 5914560).
+        //
+        // STOPSHIP: remove this log after fixing some of nasty issues (issue 5914560, 6337773).
+        log("Request CallManager to dial " + numberToDial
+                + (isEmergencyCall ? "(as an emergency call)." : "."));
 
         // Remember if the phone state was in IDLE state before this call.
         // After calling CallManager#dial(), getState() will return different state.
@@ -731,6 +750,26 @@ public class PhoneUtils {
         }
 
         return status;
+    }
+
+    private static String toLogSafePhoneNumber(String number) {
+        if (VDBG) {
+            // When VDBG is true we emit PII.
+            return number;
+        }
+
+        // Do exactly same thing as Uri#toSafeString() does, which will enable us to compare
+        // sanitized phone numbers.
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < number.length(); i++) {
+            char c = number.charAt(i);
+            if (c == '-' || c == '@' || c == '.') {
+                builder.append(c);
+            } else {
+                builder.append('x');
+            }
+        }
+        return builder.toString();
     }
 
     /**
@@ -844,7 +883,7 @@ public class PhoneUtils {
 
     static void separateCall(Connection c) {
         try {
-            if (DBG) log("separateCall: " + c.getAddress());
+            if (DBG) log("separateCall: " + toLogSafePhoneNumber(c.getAddress()));
             c.separate();
         } catch (CallStateException ex) {
             Log.w(LOG_TAG, "separateCall: caught " + ex, ex);
@@ -911,7 +950,7 @@ public class PhoneUtils {
                 mNwService = null;
                 textmsg = context.getText(R.string.ussdRunning);
             }
-            if (DBG) log("Extended NW displayMMIInitiate (" + textmsg+ ")");
+            if (DBG) log("Extended NW displayMMIInitiate (" + textmsg + ")");
             pd.setMessage(textmsg);
             pd.setCancelable(false);
             pd.setIndeterminate(true);
@@ -1254,8 +1293,10 @@ public class PhoneUtils {
         if (intent.hasExtra(OutgoingCallBroadcaster.EXTRA_ACTUAL_NUMBER_TO_DIAL)) {
             String actualNumberToDial =
                     intent.getStringExtra(OutgoingCallBroadcaster.EXTRA_ACTUAL_NUMBER_TO_DIAL);
-            if (DBG) log("==> got EXTRA_ACTUAL_NUMBER_TO_DIAL; returning '"
-                          + actualNumberToDial + "'");
+            if (DBG) {
+                log("==> got EXTRA_ACTUAL_NUMBER_TO_DIAL; returning '"
+                        + toLogSafePhoneNumber(actualNumberToDial) + "'");
+            }
             return actualNumberToDial;
         }
 
@@ -1352,7 +1393,7 @@ public class PhoneUtils {
                     // querying a new CallerInfo using the connection's phone number.
                     String number = c.getAddress();
 
-                    if (DBG) log("getCallerInfo: number = " + number);
+                    if (DBG) log("getCallerInfo: number = " + toLogSafePhoneNumber(number));
 
                     if (!TextUtils.isEmpty(number)) {
                         info = CallerInfo.getCallerInfo(context, number);
@@ -1471,7 +1512,7 @@ public class PhoneUtils {
 
             if (DBG) {
                 log("PhoneUtils.startGetCallerInfo: new query for phone number...");
-                log("- number (address): " + number);
+                log("- number (address): " + toLogSafePhoneNumber(number));
                 log("- c: " + c);
                 log("- phone: " + c.getCall().getPhone());
                 int phoneType = c.getCall().getPhone().getPhoneType();
@@ -1496,7 +1537,7 @@ public class PhoneUtils {
             cit.currentInfo.numberPresentation = c.getNumberPresentation();
             cit.currentInfo.namePresentation = c.getCnapNamePresentation();
 
-            if (DBG) {
+            if (VDBG) {
                 log("startGetCallerInfo: number = " + number);
                 log("startGetCallerInfo: CNAP Info from FW(1): name="
                     + cit.currentInfo.cnapName
@@ -1535,7 +1576,9 @@ public class PhoneUtils {
 
             c.setUserData(cit);
 
-            if (DBG) log("startGetCallerInfo: query based on number: " + number);
+            if (DBG) {
+                log("startGetCallerInfo: query based on number: " + toLogSafePhoneNumber(number));
+            }
 
         } else if (userDataObject instanceof CallerInfoToken) {
             // State (2): query is executing, but has not completed.
@@ -1552,7 +1595,10 @@ public class PhoneUtils {
             } else {
                 // handling case where number/name gets updated later on by the network
                 String updatedNumber = c.getAddress();
-                if (DBG) log("startGetCallerInfo: updatedNumber initially = " + updatedNumber);
+                if (DBG) {
+                    log("startGetCallerInfo: updatedNumber initially = "
+                            + toLogSafePhoneNumber(updatedNumber));
+                }
                 if (!TextUtils.isEmpty(updatedNumber)) {
                     // Store CNAP information retrieved from the Connection
                     cit.currentInfo.cnapName =  c.getCnapName();
@@ -1565,10 +1611,17 @@ public class PhoneUtils {
                             updatedNumber, cit.currentInfo.numberPresentation);
 
                     cit.currentInfo.phoneNumber = updatedNumber;
-                    if (DBG) log("startGetCallerInfo: updatedNumber=" + updatedNumber);
-                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(2): name="
-                            + cit.currentInfo.cnapName
-                            + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                    if (DBG) {
+                        log("startGetCallerInfo: updatedNumber="
+                                + toLogSafePhoneNumber(updatedNumber));
+                    }
+                    if (VDBG) {
+                        log("startGetCallerInfo: CNAP Info from FW(2): name="
+                                + cit.currentInfo.cnapName
+                                + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                    } else if (DBG) {
+                        log("startGetCallerInfo: CNAP Info from FW(2)");
+                    }
                     // For scenarios where we may receive a valid number from the network but a
                     // restricted/unavailable presentation, we do not want to perform a contact query
                     // (see note on isFinal above). So we set isFinal to true here as well.
@@ -1592,9 +1645,13 @@ public class PhoneUtils {
                     cit.currentInfo.numberPresentation = c.getNumberPresentation();
                     cit.currentInfo.namePresentation = c.getCnapNamePresentation();
 
-                    if (DBG) log("startGetCallerInfo: CNAP Info from FW(3): name="
-                            + cit.currentInfo.cnapName
-                            + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                    if (VDBG) {
+                        log("startGetCallerInfo: CNAP Info from FW(3): name="
+                                + cit.currentInfo.cnapName
+                                + ", Name/Number Pres=" + cit.currentInfo.numberPresentation);
+                    } else if (DBG) {
+                        log("startGetCallerInfo: CNAP Info from FW(3)");
+                    }
                     cit.isFinal = true; // please see note on isFinal, above.
                 }
             }
@@ -1710,7 +1767,7 @@ public class PhoneUtils {
                 compactName = context.getString(R.string.unknown);
             }
         }
-        if (DBG) log("getCompactNameFromCallerInfo: compactName=" + compactName);
+        if (VDBG) log("getCompactNameFromCallerInfo: compactName=" + compactName);
         return compactName;
     }
 
@@ -2280,8 +2337,11 @@ public class PhoneUtils {
         // displayed/logged after this function returns based on the presentation value.
         if (ci == null || number == null) return number;
 
-        if (DBG) log("modifyForSpecialCnapCases: initially, number=" + number
-                + ", presentation=" + presentation + " ci " + ci);
+        if (DBG) {
+            log("modifyForSpecialCnapCases: initially, number="
+                    + toLogSafePhoneNumber(number)
+                    + ", presentation=" + presentation + " ci " + ci);
+        }
 
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
@@ -2308,12 +2368,17 @@ public class PhoneUtils {
                 } else if (cnapSpecialCase == Connection.PRESENTATION_UNKNOWN) {
                     number = context.getString(R.string.unknown);
                 }
-                if (DBG) log("SpecialCnap: number=" + number
-                        + "; presentation now=" + cnapSpecialCase);
+                if (DBG) {
+                    log("SpecialCnap: number=" + toLogSafePhoneNumber(number)
+                            + "; presentation now=" + cnapSpecialCase);
+                }
                 ci.numberPresentation = cnapSpecialCase;
             }
         }
-        if (DBG) log("modifyForSpecialCnapCases: returning number string=" + number);
+        if (DBG) {
+            log("modifyForSpecialCnapCases: returning number string="
+                    + toLogSafePhoneNumber(number));
+        }
         return number;
     }
 
@@ -2499,8 +2564,12 @@ public class PhoneUtils {
      */
     public static Phone pickPhoneBasedOnNumber(CallManager cm,
             String scheme, String number, String primarySipUri) {
-        if (DBG) log("pickPhoneBasedOnNumber: scheme " + scheme
-                + ", number " + number + ", sipUri " + primarySipUri);
+        if (DBG) {
+            log("pickPhoneBasedOnNumber: scheme " + scheme
+                    + ", number " + toLogSafePhoneNumber(number)
+                    + ", sipUri "
+                    + (primarySipUri != null ? Uri.parse(primarySipUri).toSafeString() : "null"));
+        }
 
         if (primarySipUri != null) {
             Phone phone = getSipPhoneFromUri(cm, primarySipUri);
