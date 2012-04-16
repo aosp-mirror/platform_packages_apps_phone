@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"부재중 통화"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"부재중 통화 <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>통"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>의 부재중 전화"</string>
-    <string name="notification_ongoing_call" msgid="7068688957273482989">"지속적인 통화"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"현재 통화"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"대기 중"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"수신 전화"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"새 음성사서함"</string>
