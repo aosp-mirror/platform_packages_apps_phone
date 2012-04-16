@@ -137,8 +137,14 @@ public class CallCard extends LinearLayout
     // Cached DisplayMetrics density.
     private float mDensity;
 
-    private static final int MESSAGE_DELAY = 500; // msec
+    /**
+     * Sent when it takes too long (MESSAGE_DELAY msec) to load a contact photo for the given
+     * person, at which we just start showing the default avatar picture instead of the person's
+     * one. Note that we will *not* cancel the ongoing query and eventually replace the avatar
+     * with the person's photo, when it is available anyway.
+     */
     private static final int MESSAGE_SHOW_UNKNOWN_PHOTO = 101;
+    private static final int MESSAGE_DELAY = 500; // msec
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
