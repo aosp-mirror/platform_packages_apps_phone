@@ -81,5 +81,5 @@
 
     <!-- Dimension used to possibly down-scale high-res photo into what is suitable
          for notification's large icon. -->
-    <dimen name="notification_icon_size">60dp</dimen>
+    <dimen name="notification_icon_size">64dp</dimen>
 </resources>

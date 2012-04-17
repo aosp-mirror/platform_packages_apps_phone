@@ -906,18 +906,25 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         boolean largeIconWasSet = false;
         if (callerInfo != null) {
             // In most cases, the user will see the notification after CallerInfo is already
-            // available, and the Drawable coming from ContactProvider will be BitmapDrawable.
-            // So, we can just rely on setImageViewBitmap() for most of the cases.
+            // available, so photo will be available from this block.
             if (callerInfo.isCachedPhotoCurrent) {
-                if (callerInfo.cachedPhoto instanceof BitmapDrawable) {
+                // .. and in that case CallerInfo's cachedPhotoIcon should also be available.
+                // If it happens not, then try using cachedPhoto, assuming Drawable coming from
+                // ContactProvider will be BitmapDrawable.
+                if (callerInfo.cachedPhotoIcon != null) {
+                    builder.setLargeIcon(callerInfo.cachedPhotoIcon);
+                    largeIconWasSet = true;
+                } else if (callerInfo.cachedPhoto instanceof BitmapDrawable) {
                     if (DBG) log("- BitmapDrawable found for large icon");
                     Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
                     builder.setLargeIcon(bitmap);
                     largeIconWasSet = true;
                 } else {
                     if (DBG) {
-                        log("- Drawable was found but it wasn't BitmapDrawable ("
-                                + callerInfo.cachedPhoto + "). Ignore it.");
+                        log("- Failed to fetch icon from CallerInfo's cached photo."
+                                + " (cachedPhotoIcon: " + callerInfo.cachedPhotoIcon
+                                + ", cachedPhoto: " + callerInfo.cachedPhoto + ")."
+                                + " Ignore it.");
                     }
                 }
             }

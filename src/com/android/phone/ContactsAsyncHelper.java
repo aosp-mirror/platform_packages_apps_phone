@@ -250,7 +250,7 @@ public class ContactsAsyncHelper extends Handler {
 
                 // It is sure ratio >= 1.0f in any case and thus the newly created Bitmap
                 // should be smaller than the original.
-                return Bitmap.createScaledBitmap(orgBitmap, newWidth, newHeight, false);
+                return Bitmap.createScaledBitmap(orgBitmap, newWidth, newHeight, true);
             } else {
                 return orgBitmap;
             }
