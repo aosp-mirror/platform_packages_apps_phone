@@ -29,7 +29,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.Connection;
@@ -37,9 +36,9 @@ import com.android.internal.telephony.Connection;
 import java.io.InputStream;
 
 /**
- * Helper class for async access of images.
+ * Helper class for loading contacts photo asynchronously.
  */
-public class ContactsAsyncHelper extends Handler {
+public class ContactsAsyncHelper {
 
     private static final boolean DBG = false;
     private static final String LOG_TAG = "ContactsAsyncHelper";
@@ -51,15 +50,43 @@ public class ContactsAsyncHelper extends Handler {
         /**
          * Called when the image load is complete.
          *
-         * @argument result Drawable object obtained by the async load. May become null.
+         * @param token Integer passed in {@link ContactsAsyncHelper#startObtainPhotoAsync(int,
+         * Context, Uri, OnImageLoadCompleteListener, Object)}.
+         * @param photo Drawable object obtained by the async load.
+         * @param photoIcon Bitmap object obtained by the async load.
+         * @param cookie Object passed in {@link ContactsAsyncHelper#startObtainPhotoAsync(int,
+         * Context, Uri, OnImageLoadCompleteListener, Object)}. Can be null iff. the original
+         * cookie is null.
          */
-        public void onImageLoadComplete(
-                int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon);
+        public void onImageLoadComplete(int token, Drawable photo, Bitmap photoIcon,
+                Object cookie);
     }
 
     // constants
     private static final int EVENT_LOAD_IMAGE = 1;
 
+    private final Handler mResultHandler = new Handler() {
+        /** Called when loading is done. */
+        @Override
+        public void handleMessage(Message msg) {
+            WorkerArgs args = (WorkerArgs) msg.obj;
+            switch (msg.arg1) {
+                case EVENT_LOAD_IMAGE:
+                    if (args.listener != null) {
+                        if (DBG) {
+                            Log.d(LOG_TAG, "Notifying listener: " + args.listener.toString() +
+                                    " image: " + args.uri + " completed");
+                        }
+                        args.listener.onImageLoadComplete(msg.what, args.photo, args.photoIcon,
+                                args.cookie);
+                    }
+                    break;
+                default:
+            }
+        }
+    };
+
+    /** Handler run on a worker thread to load photo asynchronously. */
     private static Handler sThreadHandler;
 
     /** For forcing the system to call its constructor */
@@ -72,13 +99,11 @@ public class ContactsAsyncHelper extends Handler {
 
     private static final class WorkerArgs {
         public Context context;
-        public ImageView view;
         public Uri uri;
         public Drawable photo;
         public Bitmap photoIcon;
         public Object cookie;
         public OnImageLoadCompleteListener listener;
-        public CallerInfo info;
     }
 
     /**
@@ -215,7 +240,7 @@ public class ContactsAsyncHelper extends Handler {
             }
 
             // send the reply to the enclosing class.
-            Message reply = ContactsAsyncHelper.this.obtainMessage(msg.what);
+            Message reply = ContactsAsyncHelper.this.mResultHandler.obtainMessage(msg.what);
             reply.arg1 = msg.arg1;
             reply.obj = msg.obj;
             reply.sendToTarget();
@@ -267,32 +292,26 @@ public class ContactsAsyncHelper extends Handler {
     }
 
     /**
-     * Start an image load, attach the result to the specified CallerInfo object.
+     * Starts an asynchronous image load. After finishing the load,
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Drawable, Bitmap, Object)}
+     * will be called.
      *
-     * @param info When non-null, its {@link CallerInfo#cachedPhoto} will be updated after
-     * the image is fetched by this method. Can be null.
      * @param token Arbitrary integer which will be returned as the first argument of
-     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}
-     * @param listener Callback object, which will be called when the image is loaded by this
-     * method.
-     * @param cookie Arbitrary object the caller wants to remember.
+     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Drawable, Bitmap, Object)}
      * @param context Context object used to do the time-consuming operation.
-     * @param imageView ImageView which will be used for the third argument of
-     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}.
-     * Can be null, at which the call back will null for the argument.
-     * @param person Uri to be used to fetch the photo.
-     *
-     * TODO: merge this method into {@link #startObtainPhotoAsync(int, OnImageLoadCompleteListener,
-     * Object, Context, Uri)}, which is more clear in its meaning. Ideally, the caller should be
-     * responsible for CallerInfo and ImageView.
+     * @param personUri Uri to be used to fetch the photo
+     * @param listener Callback object which will be used when the asynchronous load is done.
+     * Can be null, which means only the asynchronous load is done while there's no way to
+     * obtain the loaded photos.
+     * @param cookie Arbitrary object the caller wants to remember, which will become the
+     * fourth argument of {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Drawable,
+     * Bitmap, Object)}. Can be null, at which the callback will also has null for the argument.
      */
-    public static final void updateImageViewWithContactPhotoAsync(CallerInfo info, int token,
-            OnImageLoadCompleteListener listener, Object cookie, Context context,
-            ImageView imageView, Uri person) {
-
+    public static final void startObtainPhotoAsync(int token, Context context, Uri personUri,
+            OnImageLoadCompleteListener listener, Object cookie) {
         // in case the source caller info is null, the URI will be null as well.
         // just update using the placeholder image in this case.
-        if (person == null) {
+        if (personUri == null) {
             Log.wtf(LOG_TAG, "Uri is missing");
             return;
         }
@@ -304,10 +323,8 @@ public class ContactsAsyncHelper extends Handler {
         WorkerArgs args = new WorkerArgs();
         args.cookie = cookie;
         args.context = context;
-        args.view = imageView;
-        args.uri = person;
+        args.uri = personUri;
         args.listener = listener;
-        args.info = info;
 
         // setup message arguments
         Message msg = sThreadHandler.obtainMessage(token);
@@ -321,69 +338,5 @@ public class ContactsAsyncHelper extends Handler {
         sThreadHandler.sendMessage(msg);
     }
 
-    /**
-     * Starts an image load without having ImageView unlike
-     * {@link #updateImageViewWithContactPhotoAsync(CallerInfo, int, OnImageLoadCompleteListener,
-     * Object, Context, ImageView, Uri)}.
-     *
-     * The asynchronously obtained image will be available only via the forth argument of
-     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}.
-     *
-     * Note that ImageView in the call back will be null every time.
-     *
-     * @param token Arbitrary integer which will be returned as the first argument of
-     * {@link OnImageLoadCompleteListener#onImageLoadComplete(int, Object, ImageView, Drawable)}
-     * @param listener Callback object. Note that in the callback ImageView object will be null
-     * all the times.
-     * @param cookie Arbitrary object the caller wants to remember.
-     * @param context Context object used to do the time-consuming operation.
-     * @param person Uri to be used to fetch the photo
-     */
-    public static final void startObtainPhotoAsync(int token,
-            OnImageLoadCompleteListener listener, Object cookie, Context context, Uri person) {
-        updateImageViewWithContactPhotoAsync(
-                null, token, listener, cookie, context, null, person);
-    }
 
-    /**
-     * Called when loading is done.
-     */
-    @Override
-    public void handleMessage(Message msg) {
-        WorkerArgs args = (WorkerArgs) msg.obj;
-        switch (msg.arg1) {
-            case EVENT_LOAD_IMAGE:
-                Drawable photo = null;
-                if (args.photo != null) {
-                    photo = args.photo;
-                    // make sure the cached photo data is updated.
-                    if (args.info != null) {
-                        args.info.cachedPhoto = photo;
-                    }
-                }
-
-                Bitmap photoIcon = null;
-                if (args.photoIcon != null) {
-                    photoIcon = args.photoIcon;
-                    if (args.info != null) {
-                        args.info.cachedPhotoIcon = photoIcon;
-                    }
-                }
-
-                // Note that the data is cached.
-                if (args.info != null) {
-                    args.info.isCachedPhotoCurrent = true;
-                }
-
-                // notify the listener if it is there.
-                if (args.listener != null) {
-                    if (DBG) Log.d(LOG_TAG, "Notifying listener: " + args.listener.toString() +
-                            " image: " + args.uri + " completed");
-                    args.listener.onImageLoadComplete(msg.what, args.cookie, args.view,
-                            photo, photoIcon);
-                }
-                break;
-            default:
-        }
-    }
 }
