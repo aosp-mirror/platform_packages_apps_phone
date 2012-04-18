@@ -65,6 +65,21 @@ public class CallCard extends LinearLayout
     private static final int TOKEN_DO_NOTHING = 1;
 
     /**
+     * Used with {@link ContactsAsyncHelper#startObtainPhotoAsync(int, Context, Uri,
+     * ContactsAsyncHelper.OnImageLoadCompleteListener, Object)}
+     */
+    private static class AsyncLoadCookie {
+        public final ImageView imageView;
+        public final CallerInfo callerInfo;
+        public final Call call;
+        public AsyncLoadCookie(ImageView imageView, CallerInfo callerInfo, Call call) {
+            this.imageView = imageView;
+            this.callerInfo = callerInfo;
+            this.call = call;
+        }
+    }
+
+    /**
      * Reference to the InCallScreen activity that owns us.  This may be
      * null if we haven't been initialized yet *or* after the InCallScreen
      * activity has been destroyed.
@@ -681,28 +696,31 @@ public class CallCard extends LinearLayout
      * make sure that the call state is reflected after the image is loaded.
      */
     @Override
-    public void onImageLoadComplete(
-            int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon) {
+    public void onImageLoadComplete(int token, Drawable photo, Bitmap photoIcon, Object cookie) {
         mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
         mLoadingPersonUri = null;
+
+        AsyncLoadCookie asyncLoadCookie = (AsyncLoadCookie) cookie;
+        CallerInfo callerInfo = asyncLoadCookie.callerInfo;
+        ImageView imageView = asyncLoadCookie.imageView;
+        Call call = asyncLoadCookie.call;
+
+        callerInfo.cachedPhoto = photo;
+        callerInfo.cachedPhotoIcon = photoIcon;
+        callerInfo.isCachedPhotoCurrent = true;
 
         // Note: previously ContactsAsyncHelper has done this job.
         // TODO: We will need fade-in animation. See issue 5236130.
         if (photo != null) {
-            showImage(iView, photo);
+            showImage(imageView, photo);
         } else if (photoIcon != null) {
-            showImage(iView, photoIcon);
+            showImage(imageView, photoIcon);
         } else {
-            showImage(iView, R.drawable.picture_unknown);
+            showImage(imageView, R.drawable.picture_unknown);
         }
 
         if (token == TOKEN_UPDATE_PHOTO_FOR_CALL_STATE) {
-            if (cookie != null) {
-                updatePhotoForCallState((Call) cookie);
-            } else {
-                // Cookie must be specified by a caller of updateImageViewWithContactPhotoAsync().
-                Log.wtf(LOG_TAG, "Cookie became null when photo is being loaded correctly.");
-            }
+            updatePhotoForCallState(call);
         }
     }
 
@@ -1279,9 +1297,9 @@ public class CallCard extends LinearLayout
                 mPhoto.setVisibility(View.INVISIBLE);
                 // Load the image with a callback to update the image state.
                 // When the load is finished, onImageLoadComplete() will be called.
-                ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(
-                        info, TOKEN_UPDATE_PHOTO_FOR_CALL_STATE,
-                        this, call, getContext(), mPhoto, personUri);
+                ContactsAsyncHelper.startObtainPhotoAsync(TOKEN_UPDATE_PHOTO_FOR_CALL_STATE,
+                        getContext(), personUri, this, new AsyncLoadCookie(mPhoto, info, call));
+
                 // If the image load is too slow, we show a default avatar icon afterward.
                 // If it is fast enough, this message will be canceled on onImageLoadComplete().
                 mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
@@ -1480,9 +1498,9 @@ public class CallCard extends LinearLayout
                                 mPhoto.setTag(null);
                                 // Make it invisible for a moment
                                 mPhoto.setVisibility(View.INVISIBLE);
-                                ContactsAsyncHelper.updateImageViewWithContactPhotoAsync(ci,
-                                        TOKEN_DO_NOTHING, this, null, getContext(), mPhoto,
-                                        photoUri);
+                                ContactsAsyncHelper.startObtainPhotoAsync(TOKEN_DO_NOTHING,
+                                        getContext(), photoUri, this,
+                                        new AsyncLoadCookie(mPhoto, ci, null));
                             }
                             mPhotoTracker.setPhotoState(
                                     ContactsAsyncHelper.ImageTracker.DISPLAY_IMAGE);

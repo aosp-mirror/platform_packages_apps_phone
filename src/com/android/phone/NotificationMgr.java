@@ -393,8 +393,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                             // Now try to obtain a photo for this person.
                             // ContactsAsyncHelper will do that and call onImageLoadComplete()
                             // after that.
-                            ContactsAsyncHelper.startObtainPhotoAsync(0, this, n, mContext,
-                                    personUri);
+                            ContactsAsyncHelper.startObtainPhotoAsync(
+                                    0, mContext, personUri, this, n);
                         } else {
                             if (DBG) {
                                 log("Failed to find Uri for obtaining photo."
@@ -415,7 +415,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         @Override
         public void onImageLoadComplete(
-                int token, Object cookie, ImageView iView, Drawable photo, Bitmap photoIcon) {
+                int token, Drawable photo, Bitmap photoIcon, Object cookie) {
             if (DBG) log("Finished loading image: " + photo);
             NotificationInfo n = (NotificationInfo) cookie;
             notifyMissedCall(n.name, n.number, n.type, photo, photoIcon, n.date);
