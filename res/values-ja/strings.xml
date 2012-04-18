@@ -411,10 +411,8 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"通信サービスなし"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"選択したネットワーク（<xliff:g id="OPERATOR_NAME">%s</xliff:g>）が利用できません"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"通話終了"</string>
-    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
-    <skip />
-    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
-    <skip />
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"コールバック"</string>
+    <string name="notification_missedCall_message" msgid="3049928912736917988">"メッセージ"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"機内モードをOFFにしてから発信してください。"</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"ご加入の通信サービスがありません"</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"モバイルネットワークが利用できません。"</string>

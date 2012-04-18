@@ -401,7 +401,7 @@
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Пропуштени позиви"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"Број пропуштених позива: <xliff:g id="NUM_MISSED_CALLS">%s</xliff:g>"</string>
     <string name="notification_missedCallTicker" msgid="504686252427747209">"Пропуштен позив од: <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
-    <string name="notification_ongoing_call" msgid="7068688957273482989">"Текући позив"</string>
+    <string name="notification_ongoing_call" msgid="7068688957273482989">"Актуелни позив"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"На чекању"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Долазни позив"</string>
     <string name="notification_voicemail_title" msgid="8933468752045550523">"Нова говорна пошта"</string>
@@ -411,10 +411,8 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Нема услуге"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Изабрана мрежа (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) није доступна"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Прекини везу"</string>
-    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
-    <skip />
-    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
-    <skip />
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"Узврати позив"</string>
+    <string name="notification_missedCall_message" msgid="3049928912736917988">"Порука"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Да бисте упутили позив, прво искључите режим рада у авиону."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Није регистровано на мрежи."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Мобилна мрежа није доступна."</string>

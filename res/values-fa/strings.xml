@@ -411,10 +411,8 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"بدون سرویس"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"شبکه انتخابی (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) قابل دسترس نیست"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"قطع تماس"</string>
-    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
-    <skip />
-    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
-    <skip />
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"پاسخ تماس"</string>
+    <string name="notification_missedCall_message" msgid="3049928912736917988">"پیام"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"برای برقراری یک تماس، ابتدا حالت هواپیما را خاموش کنید."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"در شبکه ثبت نشده است."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"شبکه تلفن همراه موجود نیست."</string>

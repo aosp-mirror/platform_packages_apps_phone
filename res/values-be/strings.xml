@@ -411,10 +411,8 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Не абслугоўваецца"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"Выбраная сетка (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) недаступная"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Скончыць размову"</string>
-    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
-    <skip />
-    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
-    <skip />
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"Адказаць"</string>
+    <string name="notification_missedCall_message" msgid="3049928912736917988">"Паведамленне"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Каб зрабіць выклік, спачатку выключыце рэжым \"У самалёце\"."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"Не зарэгістраваны ў сетцы."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"Мабільная сетка недаступная."</string>

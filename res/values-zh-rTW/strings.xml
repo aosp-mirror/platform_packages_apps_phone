@@ -415,10 +415,8 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"沒有服務"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"您所選取的網路 (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) 無法使用"</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"掛斷"</string>
-    <!-- no translation found for notification_missedCall_call_back (2684890353590890187) -->
-    <skip />
-    <!-- no translation found for notification_missedCall_message (3049928912736917988) -->
-    <skip />
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"回撥"</string>
+    <string name="notification_missedCall_message" msgid="3049928912736917988">"簡訊"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"撥號前，請先關閉飛航模式。"</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"尚未註冊網路。"</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"無法使用 Google 行動服務網路。"</string>
