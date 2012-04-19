@@ -524,7 +524,7 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"ጥሪ አድርግ"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"የበየነ መረብ ጥሪ መለያ ተጠቀም፡"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"ሁልጊዜ የበይነመረብ ጥሪዎችን ለማድረግ ተጠቀም"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"የትኛውን የበየነ መረብ የመደወያ መለያ ለመጠቀም በነባሪ ከስልኩ&gt; ቅንጅቶች &gt; የበየነ መረብ ቅንጅቶች &gt; የመለያዎች ማሳያ መለወጥ ትችላለህ፡፡"</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"የትኛውን የበየነ መረብ የመደወያ መለያ ለመጠቀም በነባሪ ከስልኩ&gt; ቅንብሮች  &gt; የበየነ መረብ ቅንብሮች  &gt; የመለያዎች ማሳያ መለወጥ ትችላለህ፡፡"</string>
     <string name="pstn_phone" msgid="8782554491484326429">"የተንቀሳቃሽ ስልክ ጥሪ"</string>
     <string name="internet_phone" msgid="1147922660195095810">"የበይነመረብ  ጥሪ"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"ምንም የበይነ መረብ ጥሪ መለያ"</string>
