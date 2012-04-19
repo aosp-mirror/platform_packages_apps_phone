@@ -93,6 +93,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         Preference.OnPreferenceChangeListener,
         EditPhoneNumberPreference.OnDialogClosedListener,
         EditPhoneNumberPreference.GetDefaultNumberListener{
+    private static final String LOG_TAG = "CallFeaturesSetting";
+    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     /**
      * Intent action to bring up Voicemail Provider settings.
@@ -144,10 +146,6 @@ public class CallFeaturesSetting extends PreferenceActivity
      * disabled (e.g. GV user logging out) to force the user to pick some other provider.
      */
     public static final String IGNORE_PROVIDER_EXTRA = "com.android.phone.ProviderToIgnore";
-
-    // debug data
-    private static final String LOG_TAG = "CallFeaturesSetting";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
 
     // string constants
     private static final String NUM_PROJECTION[] = {CommonDataKinds.Phone.NUMBER};
@@ -488,10 +486,31 @@ public class CallFeaturesSetting extends PreferenceActivity
             // Update HAC Value in AudioManager
             mAudioManager.setParameter(HAC_KEY, hac != 0 ? HAC_VAL_ON : HAC_VAL_OFF);
             return true;
-        } else if (preference == mVoicemailSettings && preference.getIntent() != null) {
-            if (DBG) log("Invoking cfg intent " + preference.getIntent().getPackage());
-            this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
-            return true;
+        } else if (preference == mVoicemailSettings) {
+            if (DBG) log("onPreferenceTreeClick: Voicemail Settings Preference is clicked.");
+            if (preference.getIntent() != null) {
+                if (DBG) {
+                    log("onPreferenceTreeClick: Invoking cfg intent "
+                            + preference.getIntent().getPackage());
+                }
+
+                // onActivityResult() will be responsible for resetting some of variables.
+                this.startActivityForResult(preference.getIntent(), VOICEMAIL_PROVIDER_CFG_ID);
+                return true;
+            } else {
+                if (DBG) {
+                    log("onPreferenceTreeClick:"
+                            + " No Intent is available. Use default behavior defined in xml.");
+                }
+
+                // There's no onActivityResult(), so we need to take care of some of variables
+                // which should be reset here.
+                mPreviousVMProviderKey = DEFAULT_VM_PROVIDER_KEY;
+                mVMProviderSettingsForced = false;
+
+                // This should let the preference use default behavior in the xml.
+                return false;
+            }
         }
         return false;
     }
@@ -698,9 +717,14 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (DBG) {
+            log("onActivityResult: requestCode: " + requestCode
+                    + ", resultCode: " + resultCode
+                    + ", data: " + data);
+        }
         // there are cases where the contact picker may end up sending us more than one
         // request.  We want to ignore the request if we're not in the correct state.
-        if (requestCode ==  VOICEMAIL_PROVIDER_CFG_ID) {
+        if (requestCode == VOICEMAIL_PROVIDER_CFG_ID) {
             boolean failure = false;
 
             // No matter how the processing of result goes lets clear the flag
@@ -867,7 +891,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         mVMOrFwdSetError = 0;
         if (!key.equals(mPreviousVMProviderKey)) {
             mReadingSettingsForDefaultProvider =
-                mPreviousVMProviderKey.equals(DEFAULT_VM_PROVIDER_KEY);
+                    mPreviousVMProviderKey.equals(DEFAULT_VM_PROVIDER_KEY);
             if (DBG) log("Reading current forwarding settings");
             mForwardingReadResults = new CallForwardInfo[FORWARDING_SETTINGS_REASONS.length];
             for (int i = 0; i < FORWARDING_SETTINGS_REASONS.length; i++) {
@@ -1031,8 +1055,8 @@ public class CallFeaturesSetting extends PreferenceActivity
                             mSetOptionComplete.obtainMessage(
                                     EVENT_FORWARDING_CHANGED, fi.reason, 0));
                 }
-             }
-             showDialogIfForeground(VOICEMAIL_FWD_SAVING_DIALOG);
+            }
+            showDialogIfForeground(VOICEMAIL_FWD_SAVING_DIALOG);
         } else {
             if (DBG) log("Not touching fwd #");
             setVMNumberWithCarrier();
@@ -1802,6 +1826,9 @@ public class CallFeaturesSetting extends PreferenceActivity
          In this case we want to show the UI asking the user to select a voicemail provider as
          opposed to silently falling back to default one. */
         if (provider == null) {
+            if (DBG) {
+                log("updateVMPreferenceWidget: provider for the key \"" + key + "\" is null.");
+            }
             mVoicemailProviders.setSummary(getString(R.string.sum_voicemail_choose_provider));
             mVoicemailSettings.setSummary("");
             mVoicemailSettings.setEnabled(false);
@@ -1810,6 +1837,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             mVoicemailNotificationVibrateWhen.setEnabled(false);
             mVoicemailNotificationVibrateWhen.setSummary("");
         } else {
+            if (DBG) {
+                log("updateVMPreferenceWidget: provider for the key \"" + key + "\".."
+                        + "name: " + provider.name
+                        + ", intent: " + provider.intent);
+            }
             final String providerName = provider.name;
             mVoicemailProviders.setSummary(providerName);
             mVoicemailSettings.setSummary(getApplicationContext().getString(
@@ -1955,7 +1987,10 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
         final VoiceMailProviderSettings curSettings = loadSettingsForVoiceMailProvider(key);
         if (newSettings.equals(curSettings)) {
-            if (DBG) log("Not saving setting for " + key + " since they have not changed");
+            if (DBG) {
+                log("maybeSaveSettingsForVoicemailProvider:"
+                        + " Not saving setting for " + key + " since they have not changed");
+            }
             return;
         }
         if (DBG) log("Saving settings for " + key + ": " + newSettings.toString());
