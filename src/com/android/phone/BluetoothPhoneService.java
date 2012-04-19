@@ -242,9 +242,62 @@ public class BluetoothPhoneService extends Service {
         else
             mNumActive = (mForegroundCallState == Call.State.ACTIVE) ? 1 : 0;
 
+        Call ringingCall = mCM.getFirstActiveRingingCall();
+        mRingingCallState = ringingCall.getState();
+        mRingNumber = getCallNumber(connection, ringingCall);
+
         if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
             mNumHeld = getNumHeldCdma();
-            // TODO(BT) CDMA phone, handle mCdmaCallsSwapped,
+            PhoneApp app = PhoneApp.getInstance();
+            if (app.cdmaPhoneCallState != null) {
+                CdmaPhoneCallState.PhoneCallState currCdmaThreeWayCallState =
+                        app.cdmaPhoneCallState.getCurrentCallState();
+                CdmaPhoneCallState.PhoneCallState prevCdmaThreeWayCallState =
+                    app.cdmaPhoneCallState.getPreviousCallState();
+
+                log("CDMA call state: " + currCdmaThreeWayCallState + " prev state:" +
+                    prevCdmaThreeWayCallState);
+
+                if (mCdmaThreeWayCallState != currCdmaThreeWayCallState) {
+                    // In CDMA, the network does not provide any feedback
+                    // to the phone when the 2nd MO call goes through the
+                    // stages of DIALING > ALERTING -> ACTIVE we fake the
+                    // sequence
+                    log("CDMA 3way call state change. mNumActive: " + mNumActive +
+                        " mNumHeld: " + mNumHeld + " IsThreeWayCallOrigStateDialing: " +
+                        app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing());
+                    if ((currCdmaThreeWayCallState ==
+                            CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE)
+                                && app.cdmaPhoneCallState.IsThreeWayCallOrigStateDialing()) {
+                        // Mimic dialing, put the call on hold, alerting
+                        mBluetoothHeadset.phoneStateChanged(0, mNumHeld,
+                            convertCallState(Call.State.IDLE, Call.State.DIALING),
+                            mRingNumber.mNumber, mRingNumber.mType);
+
+                        mBluetoothHeadset.phoneStateChanged(0, mNumHeld,
+                            convertCallState(Call.State.IDLE, Call.State.ALERTING),
+                            mRingNumber.mNumber, mRingNumber.mType);
+
+                    }
+
+                    // In CDMA, the network does not provide any feedback to
+                    // the phone when a user merges a 3way call or swaps
+                    // between two calls we need to send a CIEV response
+                    // indicating that a call state got changed which should
+                    // trigger a CLCC update request from the BT client.
+                    if (currCdmaThreeWayCallState ==
+                            CdmaPhoneCallState.PhoneCallState.CONF_CALL &&
+                            prevCdmaThreeWayCallState ==
+                              CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
+                        log("CDMA 3way conf call. mNumActive: " + mNumActive +
+                            " mNumHeld: " + mNumHeld);
+                        mBluetoothHeadset.phoneStateChanged(mNumActive, mNumHeld,
+                            convertCallState(Call.State.IDLE, mForegroundCallState),
+                            mRingNumber.mNumber, mRingNumber.mType);
+                    }
+                }
+                mCdmaThreeWayCallState = currCdmaThreeWayCallState;
+            }
         } else {
             mNumHeld = getNumHeldUmts();
         }
@@ -260,10 +313,6 @@ public class BluetoothPhoneService extends Service {
                     mBgndEarliestConnectionTime));
             mBgndEarliestConnectionTime = backgroundCall.getEarliestConnectTime();
         }
-
-        Call ringingCall = mCM.getFirstActiveRingingCall();
-        mRingingCallState = ringingCall.getState();
-        mRingNumber = getCallNumber(connection, ringingCall);
 
         if (mNumActive != oldNumActive || mNumHeld != oldNumHeld ||
             mRingingCallState != oldRingingCallState ||
