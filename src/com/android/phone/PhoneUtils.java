@@ -32,11 +32,13 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.net.sip.SipManager;
 import android.os.AsyncResult;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemProperties;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -2649,6 +2651,15 @@ public class PhoneUtils {
             name = context.getString(R.string.payphone);
         }
         return name;
+    }
+
+    public static void sendViewNotificationAsync(Context context, Uri contactUri) {
+        // STOPSHIP: remove this debug log
+        Log.d(LOG_TAG, "Send view notification to Contacts (uri: " + contactUri + ")");
+        Intent intent = new Intent("com.android.contacts.VIEW_NOTIFICATION", contactUri);
+        intent.setClassName("com.android.contacts",
+                "com.android.contacts.ViewNotificationService");
+        context.startService(intent);
     }
 
     //

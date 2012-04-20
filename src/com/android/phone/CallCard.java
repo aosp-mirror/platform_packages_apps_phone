@@ -19,6 +19,7 @@ package com.android.phone;
 import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -698,6 +699,17 @@ public class CallCard extends LinearLayout
     @Override
     public void onImageLoadComplete(int token, Drawable photo, Bitmap photoIcon, Object cookie) {
         mHandler.removeMessages(MESSAGE_SHOW_UNKNOWN_PHOTO);
+        if (mLoadingPersonUri != null) {
+            // Start sending view notification after the current request being done.
+            // New image may possibly be available from the next phone calls.
+            //
+            // TODO: may be nice to update the image view again once the newer one
+            // is available on contacts database.
+            PhoneUtils.sendViewNotificationAsync(mApplication, mLoadingPersonUri);
+        } else {
+            // This should not happen while we need some verbose info if it happens..
+            Log.w(LOG_TAG, "Person Uri isn't available while Image is successfully loaded.");
+        }
         mLoadingPersonUri = null;
 
         AsyncLoadCookie asyncLoadCookie = (AsyncLoadCookie) cookie;
