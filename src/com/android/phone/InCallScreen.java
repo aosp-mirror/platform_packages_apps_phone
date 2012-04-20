@@ -1209,6 +1209,15 @@ public class InCallScreen extends Activity
                 // If SHOW_DIALPAD_EXTRA is specified, that overrides whatever
                 // the previous state of inCallUiState.showDialpad was.
                 mApp.inCallUiState.showDialpad = showDialpad;
+
+                final boolean hasActiveCall = mCM.hasActiveFgCall();
+                final boolean hasHoldingCall = mCM.hasActiveBgCall();
+
+                // There's only one line in use, AND it's on hold, at which we're sure the user
+                // wants to use the dialpad toward the exact line, so un-hold the holding line.
+                if (showDialpad && !hasActiveCall && hasHoldingCall) {
+                    PhoneUtils.switchHoldingAndActive(mCM.getFirstActiveBgCall());
+                }
             }
             // ...and in onResume() we'll update the onscreen dialpad state to
             // match the InCallUiState.
