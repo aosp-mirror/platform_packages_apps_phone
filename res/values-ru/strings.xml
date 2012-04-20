@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"Данные для мобильных устройств"</string>
     <string name="phoneAppLabel" product="default" msgid="906161039445636857">"Телефон"</string>
-    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Номера экстренных вызовов"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Экстренный вызов"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Телефон"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Разрешенные номера"</string>
     <string name="unknown" msgid="6878797917991465859">"Неизвестный абонент"</string>
