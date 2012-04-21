@@ -91,10 +91,6 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
 
             if (ar.exception == null) {
                 int type = ((int[])ar.result)[0];
-                if (type != Phone.NT_MODE_GSM_ONLY) {
-                    // Back to default
-                    type = getDefaultNetworkMode();
-                }
                 Log.i(LOG_TAG, "get preferred network type="+type);
                 setChecked(type == Phone.NT_MODE_GSM_ONLY);
                 android.provider.Settings.Global.putInt(mPhone.getContext().getContentResolver(),
