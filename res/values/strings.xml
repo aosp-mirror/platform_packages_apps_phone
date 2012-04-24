@@ -1465,4 +1465,8 @@
     <!-- Setting option name to enable or disable DTMF tone sound
          [CHAR LIMIT=40] -->
     <string name="dtmf_tone_enable_title">Dial pad touch tones</string>
+
+    <!-- Title for the category "ringtone", which is shown above ringote settings
+         [CHAR LIMIT=40] -->
+    <string name="preference_category_ringtone">Ringtone</string>
 </resources>

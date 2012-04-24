@@ -15,75 +15,52 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:phone="http://schemas.android.com/apk/res/com.android.phone"
-        android:title="@string/call_settings">
+    android:title="@string/call_settings">
 
-    <com.android.phone.DefaultRingtonePreference
-           android:key="button_ringtone_key"
-           android:title="@string/ringtone_title"
-           android:dialogTitle="@string/ringtone_title"
-           android:persistent="false"
-           android:ringtoneType="ringtone" />
-
-    <CheckBoxPreference
-           android:key="button_vibrate_on_ring"
-           android:title="@string/vibrate_on_ring_title"
-           android:persistent="false"
-           android:defaultValue="false" />
-
-    <CheckBoxPreference
-           android:key="button_play_dtmf_tone"
-           android:title="@string/dtmf_tone_enable_title"
-           android:persistent="false"
-           android:defaultValue="true" />
-
-    <PreferenceScreen
-        android:key="button_fdn_key"
-        android:title="@string/fdn"
-        android:summary="@string/sum_fdn"
+    <PreferenceCategory
+        android:key="button_ringtone_category_key"
+        android:title="@string/preference_category_ringtone"
         android:persistent="false">
 
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.FdnSetting" />
+        <com.android.phone.DefaultRingtonePreference
+            android:key="button_ringtone_key"
+            android:title="@string/ringtone_title"
+            android:dialogTitle="@string/ringtone_title"
+            android:persistent="false"
+            android:ringtoneType="ringtone" />
 
-    </PreferenceScreen>
-
-    <PreferenceScreen
-        android:key="button_respond_via_sms_key"
-        android:title="@string/respond_via_sms_setting_title"
-        android:summary="@string/respond_via_sms_setting_summary"
-        android:persistent="false">
-
-        <intent android:action="android.intent.action.MAIN"
-            android:targetPackage="com.android.phone"
-            android:targetClass="com.android.phone.RespondViaSmsManager$Settings" />
-    </PreferenceScreen>
+        <CheckBoxPreference
+            android:key="button_vibrate_on_ring"
+            android:title="@string/vibrate_on_ring_title"
+            android:persistent="false"
+            android:defaultValue="false" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="button_voicemail_category_key"
         android:title="@string/voicemail"
         android:persistent="false">
-      <ListPreference
-          android:key="button_voicemail_provider_key"
-          android:title="@string/voicemail_provider"
-          android:summary="@string/sum_voicemail_choose_provider"
-          android:defaultValue=""
-          android:persistent="true"
-      />
-      <PreferenceScreen android:key="button_voicemail_setting_key"
+        <ListPreference
+            android:key="button_voicemail_provider_key"
+            android:title="@string/voicemail_provider"
+            android:summary="@string/sum_voicemail_choose_provider"
+            android:defaultValue=""
+            android:persistent="true" />
+        <PreferenceScreen
+            android:key="button_voicemail_setting_key"
             android:title="@string/voicemail_settings"
             android:persistent="false">
 
             <!-- Note for all com.android.phone.EditPhoneNumberPreference objects
 
-           The last several attributes are for use with the EditText field
-           in the dialog.  These attributes are forwarded to that field
-           when the edittext is created.  The attributes include:
-             1. android:singleLine
-             2. android:autoText
-             3. android:background -->
+                 The last several attributes are for use with the EditText field
+                 in the dialog.  These attributes are forwarded to that field
+                 when the edittext is created.  The attributes include:
+                 1. android:singleLine
+                 2. android:autoText
+                 3. android:background -->
 
-              <com.android.phone.EditPhoneNumberPreference
+            <com.android.phone.EditPhoneNumberPreference
                 android:key="button_voicemail_key"
                 android:title="@string/voicemail_settings_number_label"
                 android:persistent="false"
@@ -91,7 +68,7 @@
                 phone:confirmMode="confirm"
                 android:singleLine="true"
                 android:autoText="false" />
-      </PreferenceScreen>
+        </PreferenceScreen>
 
       <RingtonePreference
           android:key="button_voicemail_notification_ringtone_key"
@@ -110,9 +87,36 @@
           android:dialogTitle="@string/voicemail_notification_vibarte_when_dialog_title" />
   </PreferenceCategory>
 
-  <PreferenceCategory android:key="button_misc_category_key"
-        android:title="@string/other_settings"
-        android:persistent="false" />
+  <PreferenceCategory
+      android:key="button_misc_category_key"
+      android:title="@string/other_settings"
+      android:persistent="false" />
+
+  <CheckBoxPreference
+      android:key="button_play_dtmf_tone"
+      android:title="@string/dtmf_tone_enable_title"
+      android:persistent="false"
+      android:defaultValue="true" />
+
+  <PreferenceScreen
+      android:key="button_respond_via_sms_key"
+      android:title="@string/respond_via_sms_setting_title"
+      android:summary="@string/respond_via_sms_setting_summary"
+      android:persistent="false">
+      <intent
+          android:action="android.intent.action.MAIN"
+          android:targetPackage="com.android.phone"
+          android:targetClass="com.android.phone.RespondViaSmsManager$Settings" />
+  </PreferenceScreen>
+
+  <PreferenceScreen
+      android:key="button_fdn_key"
+      android:title="@string/fdn"
+      android:persistent="false">
+      <intent android:action="android.intent.action.MAIN"
+          android:targetPackage="com.android.phone"
+          android:targetClass="com.android.phone.FdnSetting" />
+  </PreferenceScreen>
 
     <CheckBoxPreference
         android:key="button_auto_retry_key"
