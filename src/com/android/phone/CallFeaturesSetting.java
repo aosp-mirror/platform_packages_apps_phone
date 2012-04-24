@@ -1803,7 +1803,6 @@ public class CallFeaturesSetting extends PreferenceActivity
          opposed to silently falling back to default one. */
         if (provider == null) {
             mVoicemailProviders.setSummary(getString(R.string.sum_voicemail_choose_provider));
-            mVoicemailSettings.setSummary("");
             mVoicemailSettings.setEnabled(false);
             mVoicemailSettings.setIntent(null);
 
@@ -1812,8 +1811,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else {
             final String providerName = provider.name;
             mVoicemailProviders.setSummary(providerName);
-            mVoicemailSettings.setSummary(getApplicationContext().getString(
-                    R.string.voicemail_settings_for, providerName));
             mVoicemailSettings.setEnabled(true);
             mVoicemailSettings.setIntent(provider.intent);
 
