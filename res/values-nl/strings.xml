@@ -472,7 +472,7 @@
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Probleem met activeren"</string>
     <string name="ota_listen" msgid="162923839877584937">"Volg de gesproken instructies tot u hoort dat de activering is voltooid."</string>
     <string name="ota_speaker" msgid="6904589278542719647">"Luidspreker"</string>
-    <string name="ota_progress" msgid="3420314892609254729">"Wacht even totdat uw telefoon is geprogrammeerd."</string>
+    <string name="ota_progress" msgid="3420314892609254729">"Wacht een ogenblik totdat uw telefoon is geprogrammeerd."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programmeren mislukt"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Uw telefoon is nu geactiveerd. Het kan maximaal vijftien minuten duren voordat de service actief is."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"Uw telefoon is niet geactiveerd. "\n"Zoek een plek waar u betere dekking heeft (in de buurt van een raam of buiten). "\n\n"Probeer het opnieuw of bel de klantenservice voor meer opties."</string>
