@@ -492,7 +492,7 @@
                 android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity android:name=".SipCallOptionHandler"
-                android:theme="@android:style/Theme.Holo.NoActionBar"
+                android:theme="@style/OutgoingCallBroadcasterTheme"
                 android:screenOrientation="portrait"
                 android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
