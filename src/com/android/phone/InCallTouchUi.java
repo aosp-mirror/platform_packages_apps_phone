@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
@@ -34,9 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewStub;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -157,6 +156,15 @@ public class InCallTouchUi extends FrameLayout
         // "Drag-to-answer" widget for incoming calls.
         mIncomingCallWidget = (MultiWaveView) findViewById(R.id.incomingCallWidget);
         mIncomingCallWidget.setOnTriggerListener(this);
+
+        // Introduce "slide-out" animation with LayoutTransition
+        ViewGroup incomingCallWidgetContainer =
+                (ViewGroup) findViewById(R.id.incomingCallWidgetContainer);
+        LayoutTransition layoutTransition = new LayoutTransition();
+        layoutTransition.disableTransitionType(LayoutTransition.APPEARING);
+        layoutTransition.disableTransitionType(LayoutTransition.CHANGE_APPEARING);
+        layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING);
+        incomingCallWidgetContainer.setLayoutTransition(layoutTransition);
 
         // Container for the UI elements shown while on a regular call.
         mInCallControls = findViewById(R.id.inCallControls);

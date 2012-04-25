@@ -194,6 +194,9 @@
             See InCallTouchUi.showIncomingCallWidget().
 
             Layout notes:
+            - Enclose the widget itself with FrameLayout for extra "slide-out" animation
+              to the bottom of the screen. The exact animation (LayoutTransition) will be
+              set programatically.
             - Use an opaque black background since we need to cover up
               a bit of the bottom of the contact photo
             - The verticalOffset value gets us a little extra space above
@@ -203,29 +206,32 @@
               don't have an icon in the downward direction so the whole
               bottom area of this widget is just wasted space.
     -->
-    <com.android.internal.widget.multiwaveview.MultiWaveView
-        android:id="@+id/incomingCallWidget"
+    <FrameLayout
+        android:id="@+id/incomingCallWidgetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="-46dp"
-        android:background="@android:color/black"
-        android:visibility="gone"
+        android:background="@android:color/black">
+        <com.android.internal.widget.multiwaveview.MultiWaveView
+            android:id="@+id/incomingCallWidget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-46dp"
+            android:visibility="gone"
 
-        prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
-        prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
-        prvandroid:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
-        prvandroid:handleDrawable="@drawable/ic_in_call_touch_handle"
-        prvandroid:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
-        prvandroid:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
-        prvandroid:snapMargin="@*android:dimen/multiwaveview_snap_margin"
-        prvandroid:hitRadius="@*android:dimen/multiwaveview_hit_radius"
-        prvandroid:vibrationDuration="20"
-        prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
-        prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
-        prvandroid:feedbackCount="3"
-        prvandroid:horizontalOffset="0dip"
-        prvandroid:verticalOffset="20dip"
-        />
-
+            prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
+            prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
+            prvandroid:directionDescriptions="@array/incoming_call_widget_3way_direction_descriptions"
+            prvandroid:handleDrawable="@drawable/ic_in_call_touch_handle"
+            prvandroid:waveDrawable="@*android:drawable/ic_lockscreen_outerring"
+            prvandroid:outerRadius="@*android:dimen/multiwaveview_target_placement_radius"
+            prvandroid:snapMargin="@*android:dimen/multiwaveview_snap_margin"
+            prvandroid:hitRadius="@*android:dimen/multiwaveview_hit_radius"
+            prvandroid:vibrationDuration="20"
+            prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
+            prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
+            prvandroid:feedbackCount="3"
+            prvandroid:horizontalOffset="0dip"
+            prvandroid:verticalOffset="20dip" />
+    </FrameLayout>
 </com.android.phone.InCallTouchUi>
