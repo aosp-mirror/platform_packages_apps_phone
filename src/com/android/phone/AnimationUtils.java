@@ -155,14 +155,18 @@ public class AnimationUtils {
 
         public CrossFadeDrawable(Drawable[] layers) {
             super(layers);
-            mAnimator = ObjectAnimator.ofInt(this, "crossFadeAlphaForAnimator", 0xff, 0);
+            mAnimator = ObjectAnimator.ofInt(this, "crossFadeAlpha", 0xff, 0);
         }
 
         private int mCrossFadeAlpha;
 
-        /** This will be used from ObjectAnimator. */
+        /**
+         * This will be used from ObjectAnimator.
+         * Note: this method is protected by proguard.flags so that it won't be removed
+         * automatically.
+         */
         @SuppressWarnings("unused")
-        public void setCrossFadeAlphaForAnimator(int alpha) {
+        public void setCrossFadeAlpha(int alpha) {
             mCrossFadeAlpha = alpha;
             invalidateSelf();
         }
