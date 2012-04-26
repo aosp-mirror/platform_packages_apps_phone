@@ -37,7 +37,7 @@
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Není signál."</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Byl dosažen limit ACM."</string>
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Rádio je vypnuto"</string>
-    <string name="callFailed_simError" msgid="4476360200030635828">"Karta SIM chybí nebo nefunguje."</string>
+    <string name="callFailed_simError" msgid="4476360200030635828">"SIM karta chybí nebo nefunguje."</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Nepokrytá oblast."</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"Odchozí hovory jsou omezeny na povolená telefonní čísla."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Pokud je zapnuto blokování hovorů, nelze provádět odchozí hovory."</string>
@@ -64,10 +64,10 @@
     <string name="pause_prompt_no" msgid="6686238803236884877">"Ne"</string>
     <string name="wild_prompt_str" msgid="5543521676355533577">"Nahradit zástupné znaky jinými znaky"</string>
     <string name="no_vm_number" msgid="4164780423805688336">"Chybí číslo hlasové schránky"</string>
-    <string name="no_vm_number_msg" msgid="1300729501030053828">"Na kartě SIM není uloženo žádné číslo hlasové schránky."</string>
+    <string name="no_vm_number_msg" msgid="1300729501030053828">"Na SIM kartě není uloženo žádné číslo hlasové schránky."</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"Přidat číslo"</string>
-    <string name="puk_unlocked" msgid="2284912838477558454">"Karta SIM byla odblokována. Telefon se odblokovává..."</string>
-    <string name="label_ndp" msgid="780479633159517250">"Kód PIN odblokování sítě pro kartu SIM"</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"SIM karta byla odblokována. Telefon se odblokovává..."</string>
+    <string name="label_ndp" msgid="780479633159517250">"Kód PIN odblokování sítě pro SIM kartu"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Odemknout"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Zavřít"</string>
     <string name="requesting_unlock" msgid="6412629401033249351">"Žádost o odblokování sítě..."</string>
@@ -123,7 +123,7 @@
     <string name="updating_settings" msgid="8171225533884883252">"Probíhá aktualizace nastavení..."</string>
     <string name="reverting_settings" msgid="4752151682666912828">"Probíhá vrácení předchozích nastavení…"</string>
     <string name="response_error" msgid="6674110501330139405">"Neočekávaná odpověď sítě."</string>
-    <string name="exception_error" msgid="7027667130619518211">"Došlo k chybě sítě nebo karty SIM."</string>
+    <string name="exception_error" msgid="7027667130619518211">"Došlo k chybě sítě nebo SIM karty."</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"Nastavení Povolených telefonních čísel v aplikaci vašeho telefonu je zapnuto. Z tohoto důvodu nefungují některé funkce spojené s voláním."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Před zobrazením těchto nastavení prosím zapněte bezdrátový modul."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
@@ -149,7 +149,7 @@
     <string name="search_networks" msgid="1601136049300882441">"Vyhledávání sítí"</string>
     <string name="network_query_error" msgid="6828516148953325006">"Při vyhledávání sítí došlo k chybě."</string>
     <string name="register_on_network" msgid="9055203954040805084">"Probíhá registrace v síti <xliff:g id="NETWORK">%s</xliff:g>..."</string>
-    <string name="not_allowed" msgid="5613353860205691579">"Vaše karta SIM nepovoluje připojení k této síti."</string>
+    <string name="not_allowed" msgid="5613353860205691579">"Vaše SIM karta nepovoluje připojení k této síti."</string>
     <string name="connect_later" msgid="2308119155752343975">"K této síti se momentálně nelze přihlásit. Zkuste to znovu později."</string>
     <string name="registration_done" msgid="495135664535876612">"Přihlášení k síti bylo úspěšné."</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"Vybrat síťového operátora"</string>
@@ -350,27 +350,27 @@
     <string name="pin2_invalid" msgid="5470854099230755944">"Funkce Povolená telefonní čísla nebyla aktualizována, protože jste zadali chybný kód PIN."</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"Funkce Povolená telefonní čísla nebyla aktualizována, protože číslo nesmí obsahovat více než 20 číslic."</string>
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"Povolená telefonní čísla (FDN) nebyla aktualizována. Kód PIN2 byl nesprávný nebo bylo telefonní číslo odmítnuto."</string>
-    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Čtení z karty SIM..."</string>
-    <string name="simContacts_empty" msgid="5270660846489561932">"Na kartě SIM nejsou žádné kontakty."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Čtení ze SIM karty..."</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Na SIM kartě nejsou žádné kontakty."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Vybrat kontakty pro import"</string>
-    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Chcete-li importovat kontakty z karty SIM, vypněte nejprve režim V letadle."</string>
-    <string name="enable_pin" msgid="5422767284133234860">"Povolit nebo zakázat kód PIN karty SIM"</string>
-    <string name="change_pin" msgid="9174186126330785343">"Změnit kód PIN karty SIM"</string>
-    <string name="enter_pin_text" msgid="8532615714751931951">"Kód PIN karty SIM:"</string>
+    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Chcete-li importovat kontakty ze SIM karty, vypněte nejprve režim V letadle."</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Povolit nebo zakázat PIN SIM karty"</string>
+    <string name="change_pin" msgid="9174186126330785343">"Změnit PIN SIM karty"</string>
+    <string name="enter_pin_text" msgid="8532615714751931951">"PIN SIM karty:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"Původní kód PIN"</string>
     <string name="newPinLabel" msgid="207488227285336897">"Nový kód PIN"</string>
     <string name="confirmPinLabel" msgid="257597715098070206">"Potvrďte nový kód PIN"</string>
     <string name="badPin" msgid="8955102849303984935">"Původní kód PIN byl zadán nesprávně. Zkuste to znovu."</string>
     <string name="mismatchPin" msgid="5923253370683071889">"Zadané kódy PIN se neshodují. Zkuste to znovu."</string>
     <string name="invalidPin" msgid="5981171102258684792">"Zadejte kód PIN o délce 4-8 číslic."</string>
-    <string name="disable_sim_pin" msgid="3992926931620188855">"Zakázat kód PIN karty SIM"</string>
-    <string name="enable_sim_pin" msgid="5803702443844458831">"Povolit kód PIN karty SIM"</string>
+    <string name="disable_sim_pin" msgid="3992926931620188855">"Zakázat PIN SIM karty"</string>
+    <string name="enable_sim_pin" msgid="5803702443844458831">"Povolit PIN SIM karty"</string>
     <string name="enable_in_progress" msgid="3695303775100109650">"Čekejte prosím..."</string>
-    <string name="enable_pin_ok" msgid="9166061915030865848">"Kód PIN karty SIM je povolen."</string>
-    <string name="disable_pin_ok" msgid="5596999379593924850">"Kód PIN karty SIM je zakázán."</string>
+    <string name="enable_pin_ok" msgid="9166061915030865848">"PIN SIM karty je povolen."</string>
+    <string name="disable_pin_ok" msgid="5596999379593924850">"PIN SIM karty je zakázán."</string>
     <string name="pin_failed" msgid="2298841192582192277">"Zadaný kód PIN není správný."</string>
-    <string name="pin_changed" msgid="4365538014588501049">"Kód PIN karty SIM byl úspěšně změněn."</string>
-    <string name="puk_requested" msgid="3898394204193202803">"Neplatné heslo, karta SIM je zablokována. Zadejte kód PUK2."</string>
+    <string name="pin_changed" msgid="4365538014588501049">"PIN SIM karty byl úspěšně změněn."</string>
+    <string name="puk_requested" msgid="3898394204193202803">"Neplatné heslo, SIM karta je zablokována. Zadejte kód PUK2."</string>
     <string name="enter_pin2_text" msgid="8339444124477720345">"PIN2"</string>
     <string name="oldPin2Label" msgid="8559146795026261502">"Původní kód PIN2"</string>
     <string name="newPin2Label" msgid="4573956902204349054">"Nový kód PIN2"</string>
@@ -383,7 +383,7 @@
     <string name="pin2_changed" msgid="1639666438836544393">"Kód PIN2 byl úspěšně změněn."</string>
     <string name="label_puk2_code" msgid="302845876240219560">"Zadejte kód PUK2"</string>
     <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Heslo není správné. Změňte kód PIN2 a zkuste to znovu."</string>
-    <string name="puk2_requested" msgid="8909278021238716877">"Neplatné heslo, karta SIM je zablokována. Je požadován kód PUK2."</string>
+    <string name="puk2_requested" msgid="8909278021238716877">"Neplatné heslo, SIM karta je zablokována. Je požadován kód PUK2."</string>
     <string name="doneButton" msgid="2859593360997984240">"Hotovo"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Konferenční hovor <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Zpět k hovoru"</string>
@@ -445,7 +445,7 @@
     <string name="onscreenAudioText" msgid="1710087112800041743">"Zvuk"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importovat"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importovat vše"</string>
-    <string name="importingSimContacts" msgid="7374056215462575769">"Importování kontaktů z karty SIM"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"Importování kontaktů ze SIM karty"</string>
     <string name="importToFDNfromContacts" msgid="2130620207013368580">"Import z kontaktů"</string>
     <string name="hac_mode_title" msgid="8740268574688743289">"Naslouchátka"</string>
     <string name="hac_mode_summary" msgid="6833851160514929341">"Zapnout režim kompatibility s naslouchátkem"</string>
@@ -624,4 +624,6 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Vyzváněcí tón telefonu"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrace při vyzvánění"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tóny při dotyku číselníku"</string>
+    <!-- no translation found for preference_category_ringtone (9007490591910078324) -->
+    <skip />
 </resources>
