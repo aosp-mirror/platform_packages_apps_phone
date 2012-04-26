@@ -865,7 +865,7 @@ public class InCallScreen extends Activity
         // end up causing the sleep request to be ignored.
         if (mHandler.hasMessages(DELAYED_CLEANUP_AFTER_DISCONNECT)
                 && mCM.getState() != Phone.State.RINGING) {
-            log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
+            if (DBG) log("DELAYED_CLEANUP_AFTER_DISCONNECT detected, moving UI to background.");
             endInCallScreenSession();
         }
 
@@ -1044,7 +1044,9 @@ public class InCallScreen extends Activity
      *        @see finish()
      */
     private void endInCallScreenSession(boolean forceFinish) {
-        log("endInCallScreenSession(" + forceFinish + ")...  phone state = " + mCM.getState());
+        if (DBG) {
+            log("endInCallScreenSession(" + forceFinish + ")...  phone state = " + mCM.getState());
+        }
         if (forceFinish) {
             Log.i(LOG_TAG, "endInCallScreenSession(): FORCING a call to super.finish()!");
             super.finish();  // Call super.finish() rather than our own finish() method,
@@ -2589,7 +2591,7 @@ public class InCallScreen extends Activity
      * nothing, and instead stay here on the InCallScreen.
      */
     private void delayedCleanupAfterDisconnect() {
-        log("delayedCleanupAfterDisconnect()...  Phone state = " + mCM.getState());
+        if (VDBG) log("delayedCleanupAfterDisconnect()...  Phone state = " + mCM.getState());
 
         // Clean up any connections in the DISCONNECTED state.
         //
@@ -2612,7 +2614,7 @@ public class InCallScreen extends Activity
         boolean stayHere = phoneIsInUse() || mApp.inCallUiState.isProgressIndicationActive();
 
         if (stayHere) {
-            log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
+            if (DBG) log("- delayedCleanupAfterDisconnect: staying on the InCallScreen...");
         } else {
             // Phone is idle!  We should exit the in-call UI now.
             if (DBG) log("- delayedCleanupAfterDisconnect: phone is idle...");
