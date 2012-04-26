@@ -792,13 +792,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // foreground activity, since it's already obvious that you're on a
         // call.  (The status bar icon is needed only if you navigate *away*
         // from the in-call UI.)
-        //
-        // Note: we should not use isShowingCallScreen() here, since it will
-        // return false when the screen turns off during user's on the InCallScreen,
-        // which will cause a brief flicker of the icon in the status bar when
-        // the screen turns back on (due to the prox sensor, for example) while
-        // still on the InCallScreen.
-        boolean suppressNotification = mApp.isShowingCallScreenForProximity();
+        boolean suppressNotification = mApp.isShowingCallScreen();
         // if (DBG) log("- suppressNotification: initial value: " + suppressNotification);
 
         // ...except for a couple of cases where we *never* suppress the
