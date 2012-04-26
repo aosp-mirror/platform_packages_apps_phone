@@ -238,6 +238,7 @@ public class BluetoothPhoneService extends Service {
         if (mForegroundCallState == Call.State.DISCONNECTING)
         {
             Log.d(TAG, "handlePreciseCallStateChange. Call disconnecting, wait before update");
+            return;
         }
         else
             mNumActive = (mForegroundCallState == Call.State.ACTIVE) ? 1 : 0;
