@@ -1048,17 +1048,16 @@
          the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
     <string name="absent_num" translatable="false">ABSENT NUMBER</string>
 
-    <!-- Voicemail dialog title -->
-    <string name="voicemail_settings">Voicemail settings</string>
+    <!-- Preference for Voicemail service provider under "Voicemail" settings.
+         [CHAR LIMIT=40] -->
+    <string name="voicemail_provider">Service</string>
+
+    <!-- Preference for Voicemail setting of each provider.
+         [CHAR LIMIT=40] -->
+    <string name="voicemail_settings">Setup</string>
 
     <!-- String to display in voicemail number summary when no voicemail num is set -->
     <string name="voicemail_number_not_set">&lt;Not set&gt;</string>
-
-    <!-- Voicemail service pref title -->
-    <string name="voicemail_provider">Voicemail service</string>
-
-    <!-- Prefix on the voicemail settings preference. The full string will be Settings for <provider name> -->
-    <string name="voicemail_settings_for">Settings for <xliff:g id="provider_name">%s</xliff:g></string>
 
     <!-- Title displayed above settings coming after voicemail in the call features screen -->
     <string name="other_settings">Other call settings</string>
