@@ -1041,6 +1041,7 @@ public class BluetoothHandsfree {
                 break;
             case DIALING:
                 callsetup = 2;
+                audioOn();
                 mAudioPossible = true;
                 // We also need to send a Call started indication
                 // for cases where the 2nd MO was initiated was
