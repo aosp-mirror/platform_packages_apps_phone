@@ -501,10 +501,11 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"예"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"아니요"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"해제"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"음성사서함 설정"</string>
+    <!-- no translation found for voicemail_provider (5135942703327136909) -->
+    <skip />
+    <!-- no translation found for voicemail_settings (72448049107749316) -->
+    <skip />
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;설정 안됨&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"음성사서함 서비스"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> 설정"</string>
     <string name="other_settings" msgid="3672912580359716394">"기타 통화 설정"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"<xliff:g id="PROVIDER_NAME">%s</xliff:g>을(를) 통해 걸려온 전화"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"연락처 사진"</string>
@@ -624,6 +625,5 @@
     <string name="ringtone_title" msgid="6374978286202084684">"전화 벨소리"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"전화 수신 시 진동"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"다이얼패드 터치음"</string>
-    <!-- no translation found for preference_category_ringtone (9007490591910078324) -->
-    <skip />
+    <string name="preference_category_ringtone" msgid="9007490591910078324">"벨소리"</string>
 </resources>
