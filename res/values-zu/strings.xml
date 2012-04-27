@@ -505,10 +505,11 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Yebo"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Cha"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Susa"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Izilungiselelo zemeyili yezwi"</string>
+    <!-- no translation found for voicemail_provider (5135942703327136909) -->
+    <skip />
+    <!-- no translation found for voicemail_settings (72448049107749316) -->
+    <skip />
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Ayisethiwe&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Isevisi yemeyili yezwi"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"Izilungiselelo ze-<xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Ezinye izilungiselelo zekholi"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Ishaya ucingo nge <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"isithombe sothintana naye"</string>

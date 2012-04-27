@@ -501,10 +501,11 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sí"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Descartar"</string>
-    <string name="voicemail_settings" msgid="2288633492587133022">"Config. de correo de voz"</string>
+    <!-- no translation found for voicemail_provider (5135942703327136909) -->
+    <skip />
+    <!-- no translation found for voicemail_settings (72448049107749316) -->
+    <skip />
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Sin configurar&gt;"</string>
-    <string name="voicemail_provider" msgid="6299679757491942924">"Serv. de correo de voz"</string>
-    <string name="voicemail_settings_for" msgid="9018656268027893088">"Configuraciones para <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="other_settings" msgid="3672912580359716394">"Otras configuraciones de llamada"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Llamada a través de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"foto de contacto"</string>
@@ -624,6 +625,5 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Tono del dispositivo"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrar al sonar"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tonos táctiles del teclado de marcado"</string>
-    <!-- no translation found for preference_category_ringtone (9007490591910078324) -->
-    <skip />
+    <string name="preference_category_ringtone" msgid="9007490591910078324">"Tono de llamada"</string>
 </resources>
