@@ -42,9 +42,7 @@
     <string name="payphone">Pay phone</string>
     <!-- In-call screen: status label for a call that's on hold -->
     <string name="onHold">On hold</string>
-    <!-- In-call screen: status label for the current active call -->
-    <string name="ongoing">Current call</string>
-    <!-- Possible error messages with outgoing calls -->
+    <!-- Possible error messages with outgoing calls --><skip/>
     <!-- In-call screen: call failure reason (busy) -->
     <string name="callFailed_userBusy">Line busy</string>
     <!-- In-call screen: call failure reason (network congestion) -->
@@ -755,8 +753,6 @@
 
     <!-- In-call screen: status label for a conference call -->
     <string name="caller_manage_header">Conference call <xliff:g id="conf_call_time">%s</xliff:g></string>
-    <!-- In-call screen: Button label on "Manage conference" panel -->
-    <string name="caller_manage_manage_done_text">Back to call</string>
 
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
     <string name="fake_phone_activity_phoneNumber_text" translatable="false">(650) 555-1234</string>
@@ -1390,13 +1386,6 @@
          [CHAR LIMIT=NONE]
     -->
     <string name="description_image_button_pound">pound</string>
-
-    <!-- String describing the Search ImageButton
-
-         Used by AccessibilityService to announce the purpose of the button.
-         [CHAR LIMIT=NONE]
-    -->
-    <string name="description_search_button">search</string>
 
     <!-- String describing the Dial ImageButton
 
