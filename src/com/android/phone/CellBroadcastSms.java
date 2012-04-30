@@ -39,7 +39,7 @@ public class CellBroadcastSms extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener{
     // debug data
     private static final String LOG_TAG = "CellBroadcastSms";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
 
     //String keys for preference lookup
     private static final String BUTTON_ENABLE_DISABLE_BC_SMS_KEY =
@@ -85,7 +85,7 @@ public class CellBroadcastSms extends PreferenceActivity
         "button_national_general_news";
     private static final String BUTTON_INTERNATIONAL_GENERAL_NEWS_KEY =
         "button_international_general_news";
-    
+
     private static final String BUTTON_LOCAL_BF_NEWS_KEY =
         "button_local_bf_news";
     private static final String BUTTON_REGIONAL_BF_NEWS_KEY =
@@ -94,7 +94,7 @@ public class CellBroadcastSms extends PreferenceActivity
         "button_national_bf_news";
     private static final String BUTTON_INTERNATIONAL_BF_NEWS_KEY =
         "button_international_bf_news";
-    
+
     private static final String BUTTON_LOCAL_SPORTS_NEWS_KEY =
         "button_local_sports_news";
     private static final String BUTTON_REGIONAL_SPORTS_NEWS_KEY =
@@ -103,7 +103,7 @@ public class CellBroadcastSms extends PreferenceActivity
         "button_national_sports_news";
     private static final String BUTTON_INTERNATIONAL_SPORTS_NEWS_KEY =
         "button_international_sports_news";
-    
+
     private static final String BUTTON_LOCAL_ENTERTAINMENT_NEWS_KEY =
         "button_local_entertainment_news";
     private static final String BUTTON_REGIONAL_ENTERTAINMENT_NEWS_KEY =
@@ -126,9 +126,9 @@ public class CellBroadcastSms extends PreferenceActivity
 
     //UI objects
     private CheckBoxPreference mButtonBcSms;
-    
+
     private ListPreference mListLanguage;
-    
+
     private CheckBoxPreference mButtonEmergencyBroadcast;
     private CheckBoxPreference mButtonAdministrative;
     private CheckBoxPreference mButtonMaintenance;
@@ -149,29 +149,29 @@ public class CellBroadcastSms extends PreferenceActivity
     private CheckBoxPreference mButtonRegional1;
     private CheckBoxPreference mButtonNational1;
     private CheckBoxPreference mButtonInternational1;
-    
+
     private CheckBoxPreference mButtonLocal2;
     private CheckBoxPreference mButtonRegional2;
     private CheckBoxPreference mButtonNational2;
     private CheckBoxPreference mButtonInternational2;
-    
+
     private CheckBoxPreference mButtonLocal3;
     private CheckBoxPreference mButtonRegional3;
     private CheckBoxPreference mButtonNational3;
     private CheckBoxPreference mButtonInternational3;
-    
+
     private CheckBoxPreference mButtonLocal4;
     private CheckBoxPreference mButtonRegional4;
     private CheckBoxPreference mButtonNational4;
     private CheckBoxPreference mButtonInternational4;
-    
-    
+
+
     //Member variables
     private Phone mPhone;
     private MyHandler mHandler;
 
-    /** 
-     * Invoked on each preference click in this hierarchy, overrides 
+    /**
+     * Invoked on each preference click in this hierarchy, overrides
      * PreferenceActivity's implementation.  Used to make sure we track the
      * preference click events.
      */
@@ -320,7 +320,7 @@ public class CellBroadcastSms extends PreferenceActivity
 
         return true;
     }
-    
+
     public boolean onPreferenceChange(Preference preference, Object objValue) {
         if (preference == mListLanguage) {
             // set the new language to the array which will be transmitted later
@@ -378,7 +378,7 @@ public class CellBroadcastSms extends PreferenceActivity
                 BUTTON_TECHNOLOGY_NEWS_KEY);
         mButtonMultiCategory = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_MULTI_CATEGORY_KEY);
-        
+
         mButtonLocal1 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_LOCAL_GENERAL_NEWS_KEY);
         mButtonRegional1 = (CheckBoxPreference) prefSet.findPreference(
@@ -387,7 +387,7 @@ public class CellBroadcastSms extends PreferenceActivity
                 BUTTON_NATIONAL_GENERAL_NEWS_KEY);
         mButtonInternational1 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_INTERNATIONAL_GENERAL_NEWS_KEY);
-        
+
         mButtonLocal2 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_LOCAL_BF_NEWS_KEY);
         mButtonRegional2 = (CheckBoxPreference) prefSet.findPreference(
@@ -396,7 +396,7 @@ public class CellBroadcastSms extends PreferenceActivity
                 BUTTON_NATIONAL_BF_NEWS_KEY);
         mButtonInternational2 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_INTERNATIONAL_BF_NEWS_KEY);
-        
+
         mButtonLocal3 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_LOCAL_SPORTS_NEWS_KEY);
         mButtonRegional3 = (CheckBoxPreference) prefSet.findPreference(
@@ -405,7 +405,7 @@ public class CellBroadcastSms extends PreferenceActivity
                 BUTTON_NATIONAL_SPORTS_NEWS_KEY);
         mButtonInternational3 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_INTERNATIONAL_SPORTS_NEWS_KEY);
-        
+
         mButtonLocal4 = (CheckBoxPreference) prefSet.findPreference(
                 BUTTON_LOCAL_ENTERTAINMENT_NEWS_KEY);
         mButtonRegional4 = (CheckBoxPreference) prefSet.findPreference(
@@ -425,7 +425,7 @@ public class CellBroadcastSms extends PreferenceActivity
         int settingCbSms = android.provider.Settings.Secure.getInt(
                 mPhone.getContext().getContentResolver(),
                 android.provider.Settings.Secure.CDMA_CELL_BROADCAST_SMS,
-                RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED);            
+                RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED);
         mButtonBcSms.setChecked(settingCbSms == RILConstants.CDMA_CELL_BROADCAST_SMS_ENABLED);
 
         if(mButtonBcSms.isChecked()) {
@@ -464,28 +464,28 @@ public class CellBroadcastSms extends PreferenceActivity
         mButtonMhh.setEnabled(enable);
         mButtonTechnologyNews.setEnabled(enable);
         mButtonMultiCategory.setEnabled(enable);
-        
+
         mButtonLocal1.setEnabled(enable);
         mButtonRegional1.setEnabled(enable);
         mButtonNational1.setEnabled(enable);
         mButtonInternational1.setEnabled(enable);
-        
+
         mButtonLocal2.setEnabled(enable);
         mButtonRegional2.setEnabled(enable);
         mButtonNational2.setEnabled(enable);
         mButtonInternational2.setEnabled(enable);
-        
+
         mButtonLocal3.setEnabled(enable);
         mButtonRegional3.setEnabled(enable);
         mButtonNational3.setEnabled(enable);
         mButtonInternational3.setEnabled(enable);
-        
+
         mButtonLocal4.setEnabled(enable);
         mButtonRegional4.setEnabled(enable);
         mButtonNational4.setEnabled(enable);
         mButtonInternational4.setEnabled(enable);
     }
-    
+
     private void setAllCbConfigButtons(int[] configArray) {
         //These buttons are in a well defined sequence. If you want to change it,
         //be sure to map the buttons to their corresponding slot in the configArray !
@@ -588,7 +588,7 @@ public class CellBroadcastSms extends PreferenceActivity
                 Log.e(LOG_TAG, "Error! Wrong number of service categories returned from RIL");
                 return;
             }
-            
+
             //The required config values for broadcast SMS are stored in a C struct:
             //
             //  typedef struct {
@@ -608,11 +608,11 @@ public class CellBroadcastSms extends PreferenceActivity
             for(int i = 1; i < configData.length; i += NO_OF_INTS_STRUCT_1) {
                 mBSelected[configData[i]] = configData[i +2];
             }
-            
+
             //Store all values in an extra array
             mConfigDataComplete = configData;
         }
-        
+
         private static void setCbSmsBSelectedValue(boolean value, int pos) {
             if(pos < mBSelected.length) {
                 mBSelected[pos] = (value == true ? 1 : 0);
@@ -620,22 +620,22 @@ public class CellBroadcastSms extends PreferenceActivity
                 Log.e(LOG_TAG,"Error! Invalid value position.");
             }
         }
-        
+
         private static int[] getCbSmsBselectedValues() {
             return(mBSelected);
         }
-        
+
         // TODO: Change the return value to a RIL_BroadcastSMSConfig
         private static int[] getCbSmsAllValues() {
             return(mConfigDataComplete);
         }
-        
+
         private static void setCbSmsNoOfStructs(int value) {
             //Sets the size parameter, which contains the number of structs
             //that will be transmitted
             mConfigDataComplete[0] = value;
         }
-        
+
         private static void setConfigDataCompleteBSelected(boolean value, int serviceCategory) {
             //Sets the bSelected value for a specific serviceCategory
             for(int i = 1; i < mConfigDataComplete.length; i += NO_OF_INTS_STRUCT_1) {
@@ -645,18 +645,18 @@ public class CellBroadcastSms extends PreferenceActivity
                 }
             }
         }
-        
+
         private static void setConfigDataCompleteLanguage(int language) {
-            //It is only possible to set the same language for all entries 
+            //It is only possible to set the same language for all entries
             for(int i = 2; i < mConfigDataComplete.length; i += NO_OF_INTS_STRUCT_1) {
                 mConfigDataComplete[i] = language;
             }
         }
-        
+
         private static int getConfigDataLanguage() {
             int language = mConfigDataComplete[2];
             //2 is the language value of the first entry
-            //It is only possible to set the same language for all entries 
+            //It is only possible to set the same language for all entries
             if (language < 1 || language > 7) {
                 Log.e(LOG_TAG, "Error! Wrong language returned from RIL...defaulting to 1, english");
                 return 1;

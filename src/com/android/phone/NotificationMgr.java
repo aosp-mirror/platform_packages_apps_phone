@@ -69,6 +69,8 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private static final String LOG_TAG = "NotificationMgr";
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    // Do not check in with VDBG = true, since that may write PII to the system log.
+    private static final boolean VDBG = false;
 
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
@@ -488,12 +490,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
-        // STOPSHIP: must be inside DBG/VDBG block.
-        // if (DBG) {
-        log("notifyMissedCall(). name: " + name + ", number: " + number
+        if (VDBG) {
+            log("notifyMissedCall(). name: " + name + ", number: " + number
                 + ", label: " + type + ", photo: " + photo + ", photoIcon: " + photoIcon
                 + ", date: " + date);
-        //  }
+        }
 
         // title resource id
         int titleResId;

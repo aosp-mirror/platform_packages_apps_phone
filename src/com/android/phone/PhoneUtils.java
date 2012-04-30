@@ -2654,8 +2654,7 @@ public class PhoneUtils {
     }
 
     public static void sendViewNotificationAsync(Context context, Uri contactUri) {
-        // STOPSHIP: remove this debug log
-        Log.d(LOG_TAG, "Send view notification to Contacts (uri: " + contactUri + ")");
+        if (DBG) Log.d(LOG_TAG, "Send view notification to Contacts (uri: " + contactUri + ")");
         Intent intent = new Intent("com.android.contacts.VIEW_NOTIFICATION", contactUri);
         intent.setClassName("com.android.contacts",
                 "com.android.contacts.ViewNotificationService");
