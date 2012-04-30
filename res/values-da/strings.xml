@@ -25,7 +25,6 @@
     <string name="private_num" msgid="6713286113000232309">"Privat nummer"</string>
     <string name="payphone" msgid="1931775086311769314">"Betalingstelefon"</string>
     <string name="onHold" msgid="9035493194749959955">"Ventende"</string>
-    <string name="ongoing" msgid="8300874342848721367">"Aktuelt opkald"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Linjen er optaget"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Netværket er optaget"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Intet svar, timeout"</string>
@@ -392,7 +391,6 @@
     <string name="puk2_requested" msgid="8909278021238716877">"Adgangskoden er forkert. SIM-kortet er låst. PUK2-kode er påkrævet."</string>
     <string name="doneButton" msgid="2859593360997984240">"Udfør"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Telefonmøde <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Tilbage til opkald"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Voicemailnummer"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Ringer op"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Prøver igen"</string>
@@ -612,7 +610,6 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"stjerne"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"nul"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"pund"</string>
-    <string name="description_search_button" msgid="239929880630534731">"søg"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"ring op"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"tilbage"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Højttalertelefon aktiveret."</string>

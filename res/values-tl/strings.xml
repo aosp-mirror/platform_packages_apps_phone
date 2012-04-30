@@ -25,7 +25,6 @@
     <string name="private_num" msgid="6713286113000232309">"Pribadong numero"</string>
     <string name="payphone" msgid="1931775086311769314">"Pay phone"</string>
     <string name="onHold" msgid="9035493194749959955">"Naka-hold"</string>
-    <string name="ongoing" msgid="8300874342848721367">"Kasalukuyang tawag"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Abala ang linya"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Abala ang network"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"Walang pagtugon, na-time out"</string>
@@ -386,7 +385,6 @@
     <string name="puk2_requested" msgid="8909278021238716877">"Mali ang password, na-lock ang SIM. Hinihiling ang PUK2."</string>
     <string name="doneButton" msgid="2859593360997984240">"Tapos na"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Conference na tawag <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Bumalik sa tawag"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Numero ng voicemail"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Dina-dial"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"Sinusubukang muli"</string>
@@ -606,7 +604,6 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"star"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"zero"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"pound"</string>
-    <string name="description_search_button" msgid="239929880630534731">"maghanap"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"Mag-dial"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Pinapagana ang speakerphone."</string>
@@ -625,6 +622,5 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Ringtone ng telepono"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"I-vibrate kapag nagri-ring"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Mga tone ng pagpindot sa dial pad"</string>
-    <!-- no translation found for preference_category_ringtone (9007490591910078324) -->
-    <skip />
+    <string name="preference_category_ringtone" msgid="9007490591910078324">"Ringtone"</string>
 </resources>
