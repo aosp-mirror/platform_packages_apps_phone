@@ -25,7 +25,6 @@
     <string name="private_num" msgid="6713286113000232309">"निजी नंबर"</string>
     <string name="payphone" msgid="1931775086311769314">"सशुल्क फ़ोन"</string>
     <string name="onHold" msgid="9035493194749959955">"होल्ड पर"</string>
-    <string name="ongoing" msgid="8300874342848721367">"वर्तमान कॉल"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"लाइन व्यस्त"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"नेटवर्क व्यस्त"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"कोई प्रतिसाद नहीं, समयबाह्य"</string>
@@ -386,7 +385,6 @@
     <string name="puk2_requested" msgid="8909278021238716877">"पासवर्ड गलत है, सिम लॉक हो गया है. PUK2 का अनुरोध किया गया."</string>
     <string name="doneButton" msgid="2859593360997984240">"पूर्ण"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"कॉन्फ़्रेंस कॉल <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"कॉल पर वापस जाएं"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"ध्‍वनिमेल नबंर"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"डायल कर रहा है"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"पुनः प्रयास कर रहा है"</string>
@@ -606,7 +604,6 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"तारा"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"शून्‍य"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"पाउंड"</string>
-    <string name="description_search_button" msgid="239929880630534731">"खोजें"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"डायल करें"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"बैकस्पेस"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"स्‍पीकरफ़ोन सक्षम."</string>

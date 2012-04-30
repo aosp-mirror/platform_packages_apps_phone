@@ -25,7 +25,6 @@
     <string name="private_num" msgid="6713286113000232309">"私人號碼"</string>
     <string name="payphone" msgid="1931775086311769314">"公共電話"</string>
     <string name="onHold" msgid="9035493194749959955">"通話保留"</string>
-    <string name="ongoing" msgid="8300874342848721367">"目前通話"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"線路忙碌中"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"網路忙碌"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"沒有回應，已逾時"</string>
@@ -390,7 +389,6 @@
     <string name="puk2_requested" msgid="8909278021238716877">"密碼不正確，SIM 已鎖住！請輸入 PUK2。"</string>
     <string name="doneButton" msgid="2859593360997984240">"完成"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"多方通話<xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"返回通話"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"語音信箱號碼"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"撥號中"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"重試中"</string>
@@ -610,7 +608,6 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"星號"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"零"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"井字鍵"</string>
-    <string name="description_search_button" msgid="239929880630534731">"搜尋"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"撥號"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"Backspace"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"喇叭已啟用"</string>
