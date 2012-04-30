@@ -33,10 +33,10 @@ import com.android.internal.telephony.TelephonyProperties;
 public class CdmaSystemSelectListPreference extends ListPreference {
 
     private static final String LOG_TAG = "CdmaRoamingListPreference";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
 
     private Phone mPhone;
-    private MyHandler mHandler = new MyHandler();;
+    private MyHandler mHandler = new MyHandler();
 
     public CdmaSystemSelectListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);

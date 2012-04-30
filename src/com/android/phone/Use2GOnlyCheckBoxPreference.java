@@ -28,7 +28,6 @@ import com.android.internal.telephony.Phone;
 
 public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
     private static final String LOG_TAG = "Use2GOnlyCheckBoxPreference";
-    private static final boolean DBG = true;
 
     private Phone mPhone;
     private MyHandler mHandler;

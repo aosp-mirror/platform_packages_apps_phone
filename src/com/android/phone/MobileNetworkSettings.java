@@ -60,7 +60,7 @@ public class MobileNetworkSettings extends PreferenceActivity
 
     // debug data
     private static final String LOG_TAG = "NetworkSettings";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
     public static final int REQUEST_CODE_EXIT_ECM = 17;
 
     //String keys for preference lookup

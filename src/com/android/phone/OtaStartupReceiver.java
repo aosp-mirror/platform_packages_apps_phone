@@ -42,7 +42,7 @@ import android.util.Log;
  */
 public class OtaStartupReceiver extends BroadcastReceiver {
     private static final String TAG = "OtaStartupReceiver";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
     private static final int MIN_READY = 10;
     private static final int SERVICE_STATE_CHANGED = 11;
     private Context mContext;
