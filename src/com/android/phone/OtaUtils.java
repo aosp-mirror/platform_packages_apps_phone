@@ -61,7 +61,7 @@ import android.widget.ToggleButton;
  */
 public class OtaUtils {
     private static final String LOG_TAG = "OtaUtils";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
 
     public static final int OTA_SHOW_ACTIVATION_SCREEN_OFF = 0;
     public static final int OTA_SHOW_ACTIVATION_SCREEN_ON = 1;

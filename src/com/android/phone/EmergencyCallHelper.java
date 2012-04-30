@@ -47,7 +47,7 @@ import android.util.Log;
  */
 public class EmergencyCallHelper extends Handler {
     private static final String TAG = "EmergencyCallHelper";
-    private static final boolean DBG = true;
+    private static final boolean DBG = false;
 
     // Number of times to retry the call, and time between retry attempts.
     public static final int MAX_NUM_RETRIES = 6;

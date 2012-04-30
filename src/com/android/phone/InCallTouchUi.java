@@ -1056,9 +1056,6 @@ public class InCallTouchUi extends FrameLayout
             return;
         }
 
-        // Should be deleted once bug 5313580, 5810703 are resolved.
-        log("Start hiding IncomingCallWidget");
-
         // Hide the incoming call screen with a transition
         mIncomingCallWidgetIsFadingOut = true;
         ViewPropertyAnimator animator = mIncomingCallWidget.animate();
@@ -1122,11 +1119,6 @@ public class InCallTouchUi extends FrameLayout
             mIncomingCallWidget.setDirectionDescriptionsResourceId(
                     R.array.incoming_call_widget_2way_direction_descriptions);
         }
-
-        // Should be deleted once bug 5313580, 5810703 are resolved.
-        log("Start showing IncomingCallWidget. Animation: " + anim
-                + ", allowRespondViaSms: " + allowRespondViaSms
-                + ", current widiget visibility: " + mIncomingCallWidget.getVisibility());
 
         // Watch out: be sure to call reset() and setVisibility() *after*
         // updating the target resources, since otherwise the MultiWaveView
