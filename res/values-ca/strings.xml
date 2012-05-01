@@ -25,7 +25,6 @@
     <string name="private_num" msgid="6713286113000232309">"Número privat"</string>
     <string name="payphone" msgid="1931775086311769314">"Telèfon de monedes"</string>
     <string name="onHold" msgid="9035493194749959955">"En espera"</string>
-    <string name="ongoing" msgid="8300874342848721367">"Trucada actual"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"Línia ocupada"</string>
     <string name="callFailed_congestion" msgid="8737761615702718375">"Xarxa ocupada"</string>
     <string name="callFailed_timedOut" msgid="7590961703135543346">"No hi ha resposta, s\'ha esgotat el temps d\'espera"</string>
@@ -386,7 +385,6 @@
     <string name="puk2_requested" msgid="8909278021238716877">"Contrasenya incorrecta; s\'ha bloquejat la SIM. S\'ha sol·licitat el codi PUK2."</string>
     <string name="doneButton" msgid="2859593360997984240">"Fet"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Trucada de conferència <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
-    <string name="caller_manage_manage_done_text" msgid="8093934725536733856">"Torna a la trucada"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Número del correu de veu"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"S\'està marcant"</string>
     <string name="card_title_redialing" msgid="4831412164303596395">"S\'està tornant a provar"</string>
@@ -501,10 +499,8 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sí"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"No"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Omet"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"Servei"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"Configuració"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;No definit&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"Altres opcions de configuració de trucades"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Trucada mitjançant <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
@@ -606,7 +602,6 @@
     <string name="description_image_button_star" msgid="1976280813017254462">"estrella"</string>
     <string name="description_image_button_zero" msgid="4211255756866893605">"zero"</string>
     <string name="description_image_button_pound" msgid="1716041284529917866">"coixinet"</string>
-    <string name="description_search_button" msgid="239929880630534731">"cerca"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"marca"</string>
     <string name="description_delete_button" msgid="4015842181592283903">"retrocés"</string>
     <string name="accessibility_speakerphone_enabled" msgid="1988512040421036359">"Altaveu activat."</string>
