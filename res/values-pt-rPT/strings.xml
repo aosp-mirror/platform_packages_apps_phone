@@ -499,10 +499,8 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Sim"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Não"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Ignorar"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"Serviço"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"Configuração"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Não definido&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"Outras definições de chamada"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"A chamar através de <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
