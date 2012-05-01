@@ -890,9 +890,21 @@ public class CallCard extends LinearLayout
                 break;
 
             default:
-                // In all other states (DIALING, INCOMING, HOLDING, etc.),
-                // the "elapsed time" is meaningless, so don't show it.
+                // Call state here is IDLE, ACTIVE, HOLDING, DIALING, ALERTING,
+                // INCOMING, or WAITING.
+                // In all of these states, the "elapsed time" is meaningless, so
+                // don't show it.
                 AnimationUtils.Fade.hide(mElapsedTime, View.INVISIBLE);
+
+                // Additionally, in call states that can only occur at the start
+                // of a call, reset the elapsed time to be sure we won't display
+                // stale info later (like if we somehow go straight from DIALING
+                // or ALERTING to DISCONNECTED, which can actually happen in
+                // some failure cases like "line busy").
+                if ((state ==  Call.State.DIALING) || (state == Call.State.ALERTING)) {
+                    updateElapsedTimeWidget(0);
+                }
+
                 break;
         }
     }
