@@ -932,7 +932,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 Drawable drawable =
                         mContext.getResources().getDrawable(callerInfo.photoResource);
                 if (drawable instanceof BitmapDrawable) {
-                    Bitmap bitmap = ((BitmapDrawable) callerInfo.cachedPhoto).getBitmap();
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                     builder.setLargeIcon(bitmap);
                     largeIconWasSet = true;
                 } else {
