@@ -499,10 +499,8 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Taip"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Ne"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Atsisakyti"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"Paslauga"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"Sąranka"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Nenustatyta&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"Kiti skambučio nustatymai"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Skambinama naudojantis „<xliff:g id="PROVIDER_NAME">%s</xliff:g>“ paslaugomis"</string>

@@ -499,10 +499,8 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"是"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"否"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"关闭"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"服务"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"设置"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;未设置&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"其他通话设置"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"通过<xliff:g id="PROVIDER_NAME">%s</xliff:g>进行通话"</string>

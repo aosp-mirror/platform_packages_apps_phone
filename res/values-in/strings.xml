@@ -330,9 +330,9 @@
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Setel Mode TTY"</string>
     <string name="auto_retry_mode_title" msgid="4073265511427813322">"Coba lagi otomatis"</string>
     <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Aktifkan mode Coba lagi otomatis"</string>
-    <string name="menu_add" msgid="1882023737425114762">"Tambahkan kenalan"</string>
-    <string name="menu_edit" msgid="7143003705504672374">"Edit data kenalan"</string>
-    <string name="menu_delete" msgid="3977150783449642851">"Hapus kenalan"</string>
+    <string name="menu_add" msgid="1882023737425114762">"Tambahkan kontak"</string>
+    <string name="menu_edit" msgid="7143003705504672374">"Edit kontak"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"Hapus kontak"</string>
     <string name="get_pin2" msgid="8204677063922225311">"Ketik PIN2"</string>
     <string name="name" msgid="7329028332786872378">"Nama"</string>
     <string name="number" msgid="7905950798349903858">"Nomor"</string>
@@ -350,9 +350,9 @@
     <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN tidak diperbarui karena nomor tersebut tidak boleh melebihi 20 digit."</string>
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN tidak diperbarui. PIN2 salah, atau nomor telepon ditolak."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Membaca dari kartu SIM…"</string>
-    <string name="simContacts_empty" msgid="5270660846489561932">"Tidak ada data kenalan pada Kartu SIM."</string>
-    <string name="simContacts_title" msgid="1861472842524839921">"Pilih kenalan untuk diimpor"</string>
-    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Untuk mengimpor data kenalan dari kartu SIM, pertama-tama matikan mode Pesawat."</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Tidak ada kontak pada Kartu SIM."</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"Pilih kontak untuk diimpor"</string>
+    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Untuk mengimpor kontak dari kartu SIM, pertama-tama matikan mode Pesawat."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Aktifkan/nonaktifkan PIN SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Ubah PIN SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN SIM:"</string>
@@ -443,8 +443,8 @@
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Impor"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Impor semua"</string>
-    <string name="importingSimContacts" msgid="7374056215462575769">"Mengimpor kenalan dari SIM"</string>
-    <string name="importToFDNfromContacts" msgid="2130620207013368580">"Impor dari kenalan"</string>
+    <string name="importingSimContacts" msgid="7374056215462575769">"Mengimpor kontak dari SIM"</string>
+    <string name="importToFDNfromContacts" msgid="2130620207013368580">"Impor dari kontak"</string>
     <string name="hac_mode_title" msgid="8740268574688743289">"Alat bantu dengar"</string>
     <string name="hac_mode_summary" msgid="6833851160514929341">"Hidupkan kompatibilitas alat bantu dengar"</string>
   <string-array name="tty_mode_entries">
@@ -499,16 +499,14 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ya"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Tidak"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Tolak"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"Layanan"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"Penyiapan"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Tidak disetel&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"Setelan panggilan lainnya"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Memanggil via <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
-    <string name="contactPhoto" msgid="4713193418046639466">"foto kenalan"</string>
+    <string name="contactPhoto" msgid="4713193418046639466">"foto kontak"</string>
     <string name="goPrivate" msgid="865837794424530980">"aktifkan pribadi"</string>
-    <string name="selectContact" msgid="781975788478987237">"pilih kenalan"</string>
+    <string name="selectContact" msgid="781975788478987237">"pilih kontak"</string>
     <string name="sip_settings" msgid="6699045718560859691">"Setelan panggilan internet"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Akun panggilan internet (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Akun"</string>
