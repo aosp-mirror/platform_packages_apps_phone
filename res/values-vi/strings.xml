@@ -499,10 +499,8 @@
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Có"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Không"</string>
     <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Loại bỏ"</string>
-    <!-- no translation found for voicemail_provider (5135942703327136909) -->
-    <skip />
-    <!-- no translation found for voicemail_settings (72448049107749316) -->
-    <skip />
+    <string name="voicemail_provider" msgid="5135942703327136909">"Dịch vụ"</string>
+    <string name="voicemail_settings" msgid="72448049107749316">"Thiết lập"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Chưa được đặt&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"Cài đặt cuộc gọi khác"</string>
     <string name="calling_via_template" msgid="4839419581866928142">"Gọi điện qua <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
