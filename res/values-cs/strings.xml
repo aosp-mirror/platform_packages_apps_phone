@@ -533,7 +533,7 @@
     <string name="saving_account" msgid="52903398217017954">"Ukládání účtu..."</string>
     <string name="removing_account" msgid="7183999896088628100">"Odebírání účtu..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Uložit"</string>
-    <string name="sip_menu_discard" msgid="524075892158789701">"Zrušit"</string>
+    <string name="sip_menu_discard" msgid="524075892158789701">"Zahodit"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"Zavřít profil"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"OK"</string>
     <string name="close_profile" msgid="6886968271423155284">"Zavřít"</string>
