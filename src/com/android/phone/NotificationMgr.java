@@ -538,10 +538,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 .setDeleteIntent(createClearMissedCallsIntent());
 
         if (!TextUtils.isEmpty(number) && mNumberMissedCalls == 1) {
-            // TODO: use DBG
-            log("Add actions with the number " + number);
+            if (DBG) log("Add actions with the number " + number);
 
-            builder.addAction(R.drawable.ic_ab_dialer_holo_dark,
+            builder.addAction(R.drawable.stat_sys_phone_call,
                     mContext.getString(R.string.notification_missedCall_call_back),
                     PhoneApp.getCallBackPendingIntent(mContext, number));
 
@@ -555,8 +554,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 builder.setLargeIcon(((BitmapDrawable) photo).getBitmap());
             }
         } else {
-            // TODO: use DBG
-            log("Suppress actions. number: " + number + ", missedCalls: " + mNumberMissedCalls);
+            if (DBG) {
+                log("Suppress actions. number: " + number + ", missedCalls: " + mNumberMissedCalls);
+            }
         }
 
         Notification notification = builder.getNotification();
@@ -1077,7 +1077,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // TODO: use "if (DBG)" for this comment.
             log("Will show \"hang-up\" action in the ongoing active call Notification");
             // TODO: use better asset.
-            builder.addAction(R.drawable.ic_end_call,
+            builder.addAction(R.drawable.stat_sys_phone_call_end,
                     mContext.getText(R.string.notification_action_end_call),
                     PhoneApp.createHangUpOngoingCallPendingIntent(mContext));
         }
