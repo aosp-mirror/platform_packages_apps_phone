@@ -208,9 +208,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
+        android:layout_marginTop="20dip"
         android:layout_marginBottom="-46dp"
         android:background="@android:color/black"
         android:visibility="gone"
+        android:gravity="top"
 
         prvandroid:targetDrawables="@array/incoming_call_widget_3way_targets"
         prvandroid:targetDescriptions="@array/incoming_call_widget_3way_target_descriptions"
@@ -224,8 +226,6 @@
         prvandroid:leftChevronDrawable="@*android:drawable/ic_lockscreen_chevron_left"
         prvandroid:rightChevronDrawable="@*android:drawable/ic_lockscreen_chevron_right"
         prvandroid:feedbackCount="3"
-        prvandroid:horizontalOffset="0dip"
-        prvandroid:verticalOffset="20dip"
         />
 
 </com.android.phone.InCallTouchUi>
