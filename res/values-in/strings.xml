@@ -487,8 +487,8 @@
     <item quantity="other" msgid="3122217344579273583">"Tidak ada sambungan data selama <xliff:g id="COUNT">%s</xliff:g> menit"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, apl yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
-    <item quantity="other" msgid="8617116564023933114">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, apl yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
+    <item quantity="one" msgid="8060210887681426682">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, aplikasi yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
+    <item quantity="other" msgid="8617116564023933114">"Ponsel akan berada dalam mode Panggil Balik Darurat selama <xliff:g id="COUNT">%s</xliff:g> menit. Selama dalam mode ini, aplikasi yang menggunakan sambungan data tidak dapat dipakai. Apakah Anda ingin keluar sekarang?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"Tindakan yang dipilih tidak tersedia saat berada dalam mode Panggil Balik Darurat. Ponsel akan berada dalam mode ini selama <xliff:g id="COUNT">%s</xliff:g> menit. Apakah Anda ingin keluar sekarang?"</item>
@@ -549,7 +549,7 @@
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Pendaftaran akun gagal: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); akan mencoba lagi nanti"</string>
     <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"Pendaftaran akun gagal: Nama pengguna atau sandi salah."</string>
     <string name="registration_status_server_unreachable" msgid="5733421582468991276">"Pendaftaran akun gagal: Periksa nama server."</string>
-    <string name="third_party_account_summary" msgid="2532526738862533028">"Saat ini akun digunakan oleh apl <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
+    <string name="third_party_account_summary" msgid="2532526738862533028">"Saat ini akun digunakan oleh aplikasi <xliff:g id="ACCOUNT_OWNER">%s</xliff:g>."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"Detail akun SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"Detail akun SIP"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"Server"</string>
