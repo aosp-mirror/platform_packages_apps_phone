@@ -1710,6 +1710,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         if (mVibrateOnRing != null) {
+            // TODO: phone app must use its own setting for this
             final int vibrateMode =
                     mAudioManager.getVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER);
             mVibrateOnRing.setChecked(vibrateMode == AudioManager.VIBRATE_SETTING_ON);
@@ -2080,10 +2081,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     private void setPhoneVibrateSettingValue(boolean vibeOnRing) {
         // If vibrate-on-ring is checked, use VIBRATE_SETTING_ON
         // Otherwise vibrate is off when ringer is silent
+        // TODO: phone app must use its own setting for this
         int vibrateMode = vibeOnRing ? AudioManager.VIBRATE_SETTING_ON
                 : AudioManager.VIBRATE_SETTING_ONLY_SILENT;
         mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, vibrateMode);
-        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_NOTIFICATION, vibrateMode);
     }
 
     @Override
