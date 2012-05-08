@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn////8\u003d",
+        "filename": "src/com/android/phone/UssdService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-05-08T02:02:36Z",
+      "side": 1,
+      "message": "This needs to be \"Copyright 2011 The Android Open Source Project\"",
+      "revId": "96ba22898f36bced10d7d65415de28d8e8ee013d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///tU\u003d",
+        "filename": "src/com/android/phone/UssdService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-05-08T02:02:36Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary, it\u0027s recorded in the git changelog.",
+      "revId": "96ba22898f36bced10d7d65415de28d8e8ee013d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVn///+E\u003d",
+        "filename": "src/com/android/phone/UssdService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-05-08T02:02:36Z",
+      "side": 1,
+      "message": "Standard Android indentation is 4 spaces.",
+      "revId": "96ba22898f36bced10d7d65415de28d8e8ee013d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
