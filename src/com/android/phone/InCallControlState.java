@@ -119,9 +119,13 @@ public class InCallControlState {
         // "Add call":
         canAddCall = PhoneUtils.okToAddCall(mCM);
 
-        // "End call": always enabled unless the phone is totally idle,
-        // e.g. during the "Call ended" state we show briefly after a disconnect.
-        canEndCall = (mCM.hasActiveFgCall() || mCM.hasActiveBgCall());
+        // "End call": always enabled unless the phone is totally idle.
+        // Note that while the phone is ringing, the InCallTouchUi widget isn't
+        // visible at all, so the state of the End button doesn't matter.  However
+        // we *do* still set canEndCall to true in this case, purely to prevent a
+        // UI glitch when the InCallTouchUi widget first appears, immediately after
+        // answering an incoming call.
+        canEndCall = (mCM.hasActiveFgCall() || mCM.hasActiveRingingCall() || mCM.hasActiveBgCall());
 
         // Swap / merge calls
         canSwap = PhoneUtils.okToSwapCalls(mCM);
