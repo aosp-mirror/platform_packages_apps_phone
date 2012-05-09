@@ -636,13 +636,6 @@ public class PhoneUtils {
             numberToDial = number;
         }
 
-        // Log the last phone number to be sent to radio layer, which will help us a lot in some
-        // circumstances (issue 5914560).
-        //
-        // STOPSHIP: remove this log after fixing some of nasty issues (issue 5914560, 6337773).
-        log("Request CallManager to dial " + numberToDial
-                + (isEmergencyCall ? "(as an emergency call)." : "."));
-
         // Remember if the phone state was in IDLE state before this call.
         // After calling CallManager#dial(), getState() will return different state.
         final boolean initiallyIdle = app.mCM.getState() == Phone.State.IDLE;
