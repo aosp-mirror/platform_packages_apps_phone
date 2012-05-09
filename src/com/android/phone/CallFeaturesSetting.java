@@ -49,6 +49,7 @@ import android.preference.PreferenceScreen;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,7 +60,6 @@ import android.widget.ListAdapter;
 import com.android.internal.telephony.CallForwardInfo;
 import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.internal.telephony.cdma.TtyIntent;
 import com.android.phone.sip.SipSharedPreferences;
 
@@ -249,7 +249,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     };
 
     private Preference mRingtonePreference;
-    private CheckBoxPreference mVibrateOnRing;
+    private CheckBoxPreference mVibrateWhenRinging;
     /** Whether dialpad plays DTMF tone or not. */
     private CheckBoxPreference mPlayDtmfTone;
     private CheckBoxPreference mButtonAutoRetry;
@@ -529,8 +529,10 @@ public class CallFeaturesSetting extends PreferenceActivity
             log("onPreferenceChange(). preferenece: \"" + preference + "\""
                     + ", value: \"" + objValue + "\"");
         }
-        if (preference == mVibrateOnRing) {
-            setPhoneVibrateSettingValue((Boolean) objValue);
+        if (preference == mVibrateWhenRinging) {
+            boolean doVibrate = (Boolean) objValue;
+            Settings.System.putInt(mPhone.getContext().getContentResolver(),
+                    Settings.System.VIBRATE_WHEN_RINGING, doVibrate ? 1 : 0);
         } else if (preference == mButtonDTMF) {
             int index = mButtonDTMF.findIndexOfValue((String) objValue);
             Settings.System.putInt(mPhone.getContext().getContentResolver(),
@@ -1495,7 +1497,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         mRingtonePreference = findPreference(BUTTON_RINGTONE_KEY);
-        mVibrateOnRing = (CheckBoxPreference) findPreference(BUTTON_VIBRATE_ON_RING);
+        mVibrateWhenRinging = (CheckBoxPreference) findPreference(BUTTON_VIBRATE_ON_RING);
         mPlayDtmfTone = (CheckBoxPreference) findPreference(BUTTON_PLAY_DTMF_TONE);
         mButtonDTMF = (ListPreference) findPreference(BUTTON_DTMF_KEY);
         mButtonAutoRetry = (CheckBoxPreference) findPreference(BUTTON_RETRY_KEY);
@@ -1512,11 +1514,13 @@ public class CallFeaturesSetting extends PreferenceActivity
             initVoiceMailProviders();
         }
 
-        if (mVibrateOnRing != null) {
-            if (((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
-                mVibrateOnRing.setOnPreferenceChangeListener(this);
+        if (mVibrateWhenRinging != null) {
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                mVibrateWhenRinging.setOnPreferenceChangeListener(this);
             } else {
-                prefSet.removePreference(mVibrateOnRing);
+                prefSet.removePreference(mVibrateWhenRinging);
+                mVibrateWhenRinging = null;
             }
         }
 
@@ -1709,11 +1713,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             return;
         }
 
-        if (mVibrateOnRing != null) {
-            // TODO: phone app must use its own setting for this
-            final int vibrateMode =
-                    mAudioManager.getVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER);
-            mVibrateOnRing.setChecked(vibrateMode == AudioManager.VIBRATE_SETTING_ON);
+        if (mVibrateWhenRinging != null) {
+            mVibrateWhenRinging.setChecked(getVibrateWhenRinging(this));
         }
 
         if (mButtonDTMF != null) {
@@ -1742,6 +1743,21 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         lookupRingtoneName();
+    }
+
+    /**
+     * Obtain the setting for "vibrate when ringing" setting.
+     *
+     * Watch out: if the setting is missing in the device, this will try obtaining the old
+     * "vibrate on ring" setting from AudioManager, and save the previous setting to the new one.
+     */
+    public static boolean getVibrateWhenRinging(Context context) {
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator == null || !vibrator.hasVibrator()) {
+            return false;
+        }
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.VIBRATE_WHEN_RINGING, 0) != 0;
     }
 
     /**
@@ -2073,18 +2089,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private String getCurrentVoicemailProviderKey() {
         final String key = mVoicemailProviders.getValue();
         return (key != null) ? key : DEFAULT_VM_PROVIDER_KEY;
-    }
-
-    /**
-     * Put the audio system into the correct vibrate setting
-     */
-    private void setPhoneVibrateSettingValue(boolean vibeOnRing) {
-        // If vibrate-on-ring is checked, use VIBRATE_SETTING_ON
-        // Otherwise vibrate is off when ringer is silent
-        // TODO: phone app must use its own setting for this
-        int vibrateMode = vibeOnRing ? AudioManager.VIBRATE_SETTING_ON
-                : AudioManager.VIBRATE_SETTING_ONLY_SILENT;
-        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, vibrateMode);
     }
 
     @Override
