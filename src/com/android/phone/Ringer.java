@@ -197,7 +197,7 @@ public class Ringer {
 
     boolean shouldVibrate() {
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        return audioManager.shouldVibrate(AudioManager.VIBRATE_TYPE_RINGER);
+        return !(audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT);
     }
 
     /**
