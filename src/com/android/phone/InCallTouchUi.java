@@ -1119,6 +1119,16 @@ public class InCallTouchUi extends FrameLayout
                 // Note: the code which reset this animation should be responsible for
                 // alpha and visibility.
             }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mIncomingCallWidget.animate().setListener(null);
+                mShowInCallControlsDuringHidingAnimation = false;
+                mIncomingCallWidgetIsFadingOut = false;
+                mIncomingCallWidgetShouldBeReset = true;
+
+                // Note: the code which reset this animation should be responsible for
+                // alpha and visibility.
+            }
         });
         animator.alpha(0f);
     }
