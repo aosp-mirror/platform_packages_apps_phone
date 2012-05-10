@@ -71,7 +71,7 @@
             <ImageButton android:id="@+id/endButton"
                 style="@style/InCallEndButton"
                 android:layout_width="match_parent"
-                android:src="@drawable/ic_end_call"
+                android:src="@drawable/ic_dial_end_call"
                 android:background="@drawable/end_call_background"
                 android:contentDescription="@string/onscreenEndCallText" />
 
