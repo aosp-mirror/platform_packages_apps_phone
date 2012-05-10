@@ -1139,30 +1139,39 @@ public class InCallTouchUi extends FrameLayout
         // the ringing call.  (Specifically, we need to disable the
         // "respond via SMS" option for certain types of calls, like SIP
         // addresses or numbers with blocked caller-id.)
+        final boolean allowRespondViaSms =
+                RespondViaSmsManager.allowRespondViaSmsForCall(ringingCall);
+        final int targetResourceId = allowRespondViaSms
+                ? R.array.incoming_call_widget_3way_targets
+                : R.array.incoming_call_widget_2way_targets;
+        // The widget should be updated only when appropriate; if the previous choice can be reused
+        // for this incoming call, we'll just keep using it. Otherwise we'll see UI glitch
+        // everytime when this method is called during a single incoming call.
+        if (targetResourceId != mIncomingCallWidget.getTargetResourceId()) {
+            if (allowRespondViaSms) {
+                // The MultiWaveView widget is allowed to have all 3 choices:
+                // Answer, Decline, and Respond via SMS.
+                mIncomingCallWidget.setTargetResources(targetResourceId);
+                mIncomingCallWidget.setTargetDescriptionsResourceId(
+                        R.array.incoming_call_widget_3way_target_descriptions);
+                mIncomingCallWidget.setDirectionDescriptionsResourceId(
+                        R.array.incoming_call_widget_3way_direction_descriptions);
+            } else {
+                // You only get two choices: Answer or Decline.
+                mIncomingCallWidget.setTargetResources(targetResourceId);
+                mIncomingCallWidget.setTargetDescriptionsResourceId(
+                        R.array.incoming_call_widget_2way_target_descriptions);
+                mIncomingCallWidget.setDirectionDescriptionsResourceId(
+                        R.array.incoming_call_widget_2way_direction_descriptions);
+            }
 
-        boolean allowRespondViaSms = RespondViaSmsManager.allowRespondViaSmsForCall(ringingCall);
-        if (allowRespondViaSms) {
-            // The MultiWaveView widget is allowed to have all 3 choices:
-            // Answer, Decline, and Respond via SMS.
-            mIncomingCallWidget.setTargetResources(R.array.incoming_call_widget_3way_targets);
-            mIncomingCallWidget.setTargetDescriptionsResourceId(
-                    R.array.incoming_call_widget_3way_target_descriptions);
-            mIncomingCallWidget.setDirectionDescriptionsResourceId(
-                    R.array.incoming_call_widget_3way_direction_descriptions);
-        } else {
-            // You only get two choices: Answer or Decline.
-            mIncomingCallWidget.setTargetResources(R.array.incoming_call_widget_2way_targets);
-            mIncomingCallWidget.setTargetDescriptionsResourceId(
-                    R.array.incoming_call_widget_2way_target_descriptions);
-            mIncomingCallWidget.setDirectionDescriptionsResourceId(
-                    R.array.incoming_call_widget_2way_direction_descriptions);
+            // Watch out: be sure to call reset() and setVisibility() *after*
+            // updating the target resources, since otherwise the MultiWaveView
+            // widget will make the targets visible initially (even before you
+            // touch the widget.)
+            mIncomingCallWidget.reset(false);
         }
 
-        // Watch out: be sure to call reset() and setVisibility() *after*
-        // updating the target resources, since otherwise the MultiWaveView
-        // widget will make the targets visible initially (even before you
-        // touch the widget.)
-        mIncomingCallWidget.reset(false);
         mIncomingCallWidget.setVisibility(View.VISIBLE);
 
         // Finally, manually trigger a "ping" animation.
