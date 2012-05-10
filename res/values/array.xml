@@ -57,9 +57,9 @@
          - Reject (drag left)
          - Respond via SMS (drag up) -->
     <array name="incoming_call_widget_3way_targets">
-        <item>@*android:drawable/ic_lockscreen_answer</item>
-        <item>@*android:drawable/ic_lockscreen_send_sms</item>
-        <item>@*android:drawable/ic_lockscreen_decline</item>
+        <item>@drawable/ic_lockscreen_answer</item>
+        <item>@drawable/ic_lockscreen_text</item>
+        <item>@drawable/ic_lockscreen_decline</item>
         <item>@null</item>"
     </array>
     <array name="incoming_call_widget_3way_target_descriptions">
