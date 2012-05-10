@@ -268,6 +268,9 @@ public class InCallTouchUi extends FrameLayout
             // UI even if the phone is still in the RINGING state.
             // This covers up a slow response from the radio for some actions.
             // To detect that situation, we are using "500 msec" heuristics.
+            //
+            // Watch out: we should *not* rely on this behavior when "instant text response" action
+            // has been chosen. See also onTrigger() for why.
             long now = SystemClock.uptimeMillis();
             if (now < mLastIncomingCallActionTime + 500) {
                 log("updateState: Too soon after last action; not drawing!");
@@ -992,7 +995,7 @@ public class InCallTouchUi extends FrameLayout
      * when the user triggers an action.
      */
     @Override
-    public void onTrigger(View v, int whichHandle) {
+    public void onTrigger(View view, int whichHandle) {
         if (DBG) log("onTrigger(whichHandle = " + whichHandle + ")...");
 
         if (mInCallScreen == null) {
@@ -1000,11 +1003,6 @@ public class InCallTouchUi extends FrameLayout
                     + ") from incoming-call widget, but null mInCallScreen!");
             return;
         }
-
-        // ...and also prevent it from reappearing right away.
-        // (This covers up a slow response from the radio for some
-        // actions; see updateState().)
-        mLastIncomingCallActionTime = SystemClock.uptimeMillis();
 
         // The InCallScreen actually implements all of these actions.
         // Each possible action from the incoming call widget corresponds
@@ -1018,16 +1016,48 @@ public class InCallTouchUi extends FrameLayout
                 if (DBG) log("ANSWER_CALL_ID: answer!");
                 mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallAnswer);
                 mShowInCallControlsDuringHidingAnimation = true;
+
+                // ...and also prevent it from reappearing right away.
+                // (This covers up a slow response from the radio for some
+                // actions; see updateState().)
+                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
                 break;
 
             case SEND_SMS_ID:
                 if (DBG) log("SEND_SMS_ID!");
                 mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallRespondViaSms);
+
+                // Watch out: mLastIncomingCallActionTime should not be updated for this case.
+                //
+                // The variable is originally for avoiding a problem caused by delayed phone state
+                // update; RINGING state may remain just after answering/declining an incoming
+                // call, so we need to wait a bit (500ms) until we get the effective phone state.
+                // For this case, we shouldn't rely on that hack.
+                //
+                // When the user selects this case, there are two possibilities, neither of which
+                // should rely on the hack.
+                //
+                // 1. The first possibility is that, the device eventually sends one of canned
+                //    responses per the user's "send" request, and reject the call after sending it.
+                //    At that moment the code introducing the canned responses should handle the
+                //    case separately.
+                //
+                // 2. The second possibility is that, the device will show incoming call widget
+                //    again per the user's "cancel" request, where the incoming call will still
+                //    remain. At that moment the incoming call will keep its RINGING state.
+                //    The remaining phone state should never be ignored by the hack for
+                //    answering/declining calls because the RINGING state is legitimate. If we
+                //    use the hack for answer/decline cases, the user loses the incoming call
+                //    widget, until further screen update occurs afterward, which often results in
+                //    missed calls.
                 break;
 
             case DECLINE_CALL_ID:
                 if (DBG) log("DECLINE_CALL_ID: reject!");
                 mInCallScreen.handleOnscreenButtonClick(R.id.incomingCallReject);
+
+                // Same as "answer" case.
+                mLastIncomingCallActionTime = SystemClock.uptimeMillis();
                 break;
 
             default:
@@ -1081,6 +1111,16 @@ public class InCallTouchUi extends FrameLayout
                 mIncomingCallWidgetIsFadingOut = false;
                 mIncomingCallWidgetShouldBeReset = true;
             }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mIncomingCallWidget.animate().setListener(null);
+                mShowInCallControlsDuringHidingAnimation = false;
+                mIncomingCallWidgetIsFadingOut = false;
+                mIncomingCallWidgetShouldBeReset = true;
+
+                // Note: the code which reset this animation should be responsible for
+                // alpha and visibility.
+            }
         });
         animator.alpha(0f);
     }
@@ -1091,11 +1131,9 @@ public class InCallTouchUi extends FrameLayout
     private void showIncomingCallWidget(Call ringingCall) {
         if (DBG) log("showIncomingCallWidget()...");
 
-        Animation anim = mIncomingCallWidget.getAnimation();
-        if (anim != null) {
-            anim.cancel();
-            anim.reset();
-            mIncomingCallWidget.clearAnimation();
+        ViewPropertyAnimator animator = mIncomingCallWidget.animate();
+        if (animator != null) {
+            animator.cancel();
         }
         mIncomingCallWidget.setAlpha(1.0f);
 
