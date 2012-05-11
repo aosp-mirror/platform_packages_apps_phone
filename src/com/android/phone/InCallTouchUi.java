@@ -80,6 +80,7 @@ public class InCallTouchUi extends FrameLayout
     // UI containers / elements
     private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
     private boolean mIncomingCallWidgetIsFadingOut;
+    private boolean mIncomingCallWidgetShouldBeReset = true;
 
     /** UI elements while on a regular call (bottom buttons, DTMF dialpad) */
     private View mInCallControls;
@@ -1078,6 +1079,7 @@ public class InCallTouchUi extends FrameLayout
                 mIncomingCallWidget.animate().setListener(null);
                 mShowInCallControlsDuringHidingAnimation = false;
                 mIncomingCallWidgetIsFadingOut = false;
+                mIncomingCallWidgetShouldBeReset = true;
             }
         });
         animator.alpha(0f);
@@ -1127,11 +1129,16 @@ public class InCallTouchUi extends FrameLayout
                         R.array.incoming_call_widget_2way_direction_descriptions);
             }
 
+            // This will be used right after this block.
+            mIncomingCallWidgetShouldBeReset = true;
+        }
+        if (mIncomingCallWidgetShouldBeReset) {
             // Watch out: be sure to call reset() and setVisibility() *after*
             // updating the target resources, since otherwise the MultiWaveView
             // widget will make the targets visible initially (even before you
             // touch the widget.)
             mIncomingCallWidget.reset(false);
+            mIncomingCallWidgetShouldBeReset = false;
         }
 
         mIncomingCallWidget.setVisibility(View.VISIBLE);
