@@ -16,42 +16,12 @@
 <!-- Used with incoming call wigdet. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:state_enabled="true" android:state_active="false" android:state_focused="false">
-        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-            <!-- A fake circle to fix the size of this layer asset. -->
-            <item>
-                <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-                    <solid android:color="#00000000"/>
-                    <size
-                        android:width="@dimen/incoming_call_widget_circle_size"
-                        android:height="@dimen/incoming_call_widget_circle_size" />
-                </shape>
-            </item>
-            <item
-                android:top="@dimen/incoming_call_widget_asset_margin"
-                android:right="@dimen/incoming_call_widget_asset_margin"
-                android:bottom="@dimen/incoming_call_widget_asset_margin"
-                android:left="@dimen/incoming_call_widget_asset_margin"
-                android:drawable="@drawable/ic_lockscreen_decline_normal" />
-        </layer-list>
-    </item>
-
+        android:state_enabled="true" android:state_active="false" android:state_focused="false"
+        android:drawable="@drawable/ic_lockscreen_decline_normal_layer" />
     <item
-        android:state_enabled="true" android:state_active="true"  android:state_focused="false">
-        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-            <item>
-                <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-                    <solid android:color="#ff4040"/>
-                    <size android:width="@dimen/incoming_call_widget_circle_size"
-                        android:height="@dimen/incoming_call_widget_circle_size" />
-                </shape>
-            </item>
-            <item
-                android:top="@dimen/incoming_call_widget_asset_margin"
-                android:right="@dimen/incoming_call_widget_asset_margin"
-                android:bottom="@dimen/incoming_call_widget_asset_margin"
-                android:left="@dimen/incoming_call_widget_asset_margin"
-                android:drawable="@drawable/ic_lockscreen_decline_activated" />
-        </layer-list>
-    </item>
+        android:state_enabled="true" android:state_active="true"  android:state_focused="false"
+        android:drawable="@drawable/ic_lockscreen_decline_activated_layer" />
+    <item
+        android:state_enabled="true" android:state_active="false"  android:state_focused="true"
+        android:drawable="@drawable/ic_lockscreen_decline_activated_layer" />
 </selector>
