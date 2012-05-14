@@ -74,7 +74,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Entsperrung des Netzwerks nicht erfolgreich."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM-Anrufeinstellungen"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA-Anrufeinstellungen"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Zugangspunkte"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Zugangspunkte (APNs)"</string>
     <string name="settings_label" msgid="3876743539816984008">"Netzwerkeinstellungen"</string>
     <string name="voicemail" msgid="8693759337917898954">"Mailbox"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"MB:"</string>
@@ -183,7 +183,7 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Daten aktiviert"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetz aktivieren"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Datenzugriff über Mobilfunknetz"</string>
     <string name="roaming" msgid="8871412572928323707">"Daten-Roaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Bei Roaming mit Datendienst verbinden"</string>
