@@ -254,7 +254,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
 
         // PENDING: should we just silently fail if phone is offhook or ringing?
-        Phone.State state = mPhone.getState();
+        Phone.State state = mCM.getState();
         if (state != Phone.State.OFFHOOK && state != Phone.State.RINGING) {
             Intent  intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -397,7 +397,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      * @see silenceRinger
      */
     private void silenceRingerInternal() {
-        if ((mPhone.getState() == Phone.State.RINGING)
+        if ((mCM.getState() == Phone.State.RINGING)
             && mApp.notifier.isRinging()) {
             // Ringer is actually playing, so silence it.
             if (DBG) log("silenceRingerInternal: silencing...");
@@ -406,15 +406,15 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public boolean isOffhook() {
-        return (mPhone.getState() == Phone.State.OFFHOOK);
+        return (mCM.getState() == Phone.State.OFFHOOK);
     }
 
     public boolean isRinging() {
-        return (mPhone.getState() == Phone.State.RINGING);
+        return (mCM.getState() == Phone.State.RINGING);
     }
 
     public boolean isIdle() {
-        return (mPhone.getState() == Phone.State.IDLE);
+        return (mCM.getState() == Phone.State.IDLE);
     }
 
     public boolean isSimPinEnabled() {
@@ -584,7 +584,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public int getCallState() {
-        return DefaultPhoneNotifier.convertCallState(mPhone.getState());
+        return DefaultPhoneNotifier.convertCallState(mCM.getState());
     }
 
     public int getDataState() {
