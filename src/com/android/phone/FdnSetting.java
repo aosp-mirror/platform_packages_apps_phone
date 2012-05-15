@@ -23,6 +23,7 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
@@ -38,6 +39,9 @@ import com.android.internal.telephony.Phone;
  */
 public class FdnSetting extends PreferenceActivity
         implements EditPinPreference.OnPinEnteredListener, DialogInterface.OnCancelListener {
+
+    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final boolean DBG = false;
 
     private Phone mPhone;
 
@@ -60,12 +64,15 @@ public class FdnSetting extends PreferenceActivity
     // State variables
     private String mOldPin;
     private String mNewPin;
+    private String mPuk2;
     private static final int PIN_CHANGE_OLD = 0;
     private static final int PIN_CHANGE_NEW = 1;
     private static final int PIN_CHANGE_REENTER = 2;
     private static final int PIN_CHANGE_PUK = 3;
+    private static final int PIN_CHANGE_NEW_PIN_FOR_PUK = 4;
+    private static final int PIN_CHANGE_REENTER_PIN_FOR_PUK = 5;
     private int mPinChangeState;
-    private boolean mSkipOldPin;    // Indicates we know that we are PUK2 blocked.
+    private boolean mIsPuk2Locked;    // Indicates we know that we are PUK2 blocked.
 
     private static final String SKIP_OLD_PIN_KEY = "skip_old_pin_key";
     private static final String PIN_CHANGE_STATE_KEY = "pin_change_state_key";
@@ -119,9 +126,13 @@ public class FdnSetting extends PreferenceActivity
      * Attempt to change the pin.
      */
     private void updatePINChangeState(boolean positiveResult) {
+        if (DBG) log("updatePINChangeState positive=" + positiveResult
+                + " mPinChangeState=" + mPinChangeState
+                + " mSkipOldPin=" + mIsPuk2Locked);
+
         if (!positiveResult) {
             // reset the state on cancel, either to expect PUK2 or PIN2
-            if (!mSkipOldPin) {
+            if (!mIsPuk2Locked) {
                 resetPinChangeState();
             } else {
                 resetPinChangeStateForPUK2();
@@ -168,30 +179,53 @@ public class FdnSetting extends PreferenceActivity
                     mButtonChangePin2.setText("");
                     displayPinChangeDialog(R.string.mismatchPin2, true);
                 } else {
-                    // If the PIN is valid, then we either submit the change PIN request or
-                    // display the PUK2 dialog if we KNOW that we're PUK2 locked.
+                    // If the PIN is valid, then we submit the change PIN request.
                     mButtonChangePin2.setText("");
-                    if (!mSkipOldPin) {
-                        Message onComplete = mFDNHandler.obtainMessage(EVENT_PIN2_CHANGE_COMPLETE);
-                        mPhone.getIccCard().changeIccFdnPassword(mOldPin, mNewPin, onComplete);
-                    } else {
-                        mPinChangeState = PIN_CHANGE_PUK;
-                        displayPinChangeDialog();
-                    }
+                    Message onComplete = mFDNHandler.obtainMessage(
+                            EVENT_PIN2_CHANGE_COMPLETE);
+                    mPhone.getIccCard().changeIccFdnPassword(
+                            mOldPin, mNewPin, onComplete);
                 }
                 break;
             case PIN_CHANGE_PUK: {
                     // Doh! too many incorrect requests, PUK requested.
-                    // if the pin is not valid, display a message and reset the state.
-                    String puk2 = mButtonChangePin2.getText();
+                    mPuk2 = mButtonChangePin2.getText();
                     mButtonChangePin2.setText("");
-                    // make sure that the puk is valid before submitting it.
-                    if (validatePin (puk2, true)) {
-                        Message onComplete = mFDNHandler.obtainMessage(EVENT_PIN2_CHANGE_COMPLETE);
-                        mPhone.getIccCard().supplyPuk2(puk2, mNewPin, onComplete);
+                    // if the puk is not valid, display
+                    // a message and reset the state.
+                    if (validatePin (mPuk2, true)) {
+                        mPinChangeState = PIN_CHANGE_NEW_PIN_FOR_PUK;
+                        displayPinChangeDialog();
                     } else {
                         displayPinChangeDialog(R.string.invalidPuk2, true);
                     }
+                }
+                break;
+            case PIN_CHANGE_NEW_PIN_FOR_PUK:
+                mNewPin = mButtonChangePin2.getText();
+                mButtonChangePin2.setText("");
+                // if the new pin is not valid, display
+                // a message and reset the state.
+                if (validatePin (mNewPin, false)) {
+                    mPinChangeState = PIN_CHANGE_REENTER_PIN_FOR_PUK;
+                    displayPinChangeDialog();
+                } else {
+                    displayPinChangeDialog(R.string.invalidPin2, true);
+                }
+                break;
+            case PIN_CHANGE_REENTER_PIN_FOR_PUK:
+                // if the re-entered pin is not valid, display
+                // a message and reset the state.
+                if (!mNewPin.equals(mButtonChangePin2.getText())) {
+                    mPinChangeState = PIN_CHANGE_NEW_PIN_FOR_PUK;
+                    mButtonChangePin2.setText("");
+                    displayPinChangeDialog(R.string.mismatchPin2, true);
+                } else {
+                    // Both puk2 and new pin2 are ready to submit
+                    mButtonChangePin2.setText("");
+                    Message onComplete = mFDNHandler.obtainMessage(
+                            EVENT_PIN2_CHANGE_COMPLETE);
+                    mPhone.getIccCard().supplyPuk2(mPuk2, mNewPin, onComplete);
                 }
                 break;
         }
@@ -229,6 +263,8 @@ public class FdnSetting extends PreferenceActivity
                 // the error requests a PUK (usually after too many incorrect tries)
                 // Set the state accordingly.
                 case EVENT_PIN2_CHANGE_COMPLETE: {
+                        if (DBG)
+                            log("Handle EVENT_PIN2_CHANGE_COMPLETE");
                         AsyncResult ar = (AsyncResult) msg.obj;
                         if (ar.exception != null) {
                             CommandException ce = (CommandException) ar.exception;
@@ -246,23 +282,18 @@ public class FdnSetting extends PreferenceActivity
                                 a.show();
                             } else {
                                 // set the correct error message depending upon the state.
-                                if (mPinChangeState == PIN_CHANGE_PUK) {
-                                    displayMessage(R.string.badPuk2);
-                                } else {
-                                    displayMessage(R.string.badPin2);
-                                }
-
                                 // Reset the state depending upon or knowledge of the PUK state.
-                                if (!mSkipOldPin) {
+                                if (!mIsPuk2Locked) {
+                                    displayMessage(R.string.badPin2);
                                     resetPinChangeState();
                                 } else {
+                                    displayMessage(R.string.badPuk2);
                                     resetPinChangeStateForPUK2();
                                 }
                             }
                         } else {
                             // reset to normal behaviour on successful change.
                             displayMessage(R.string.pin2_changed);
-                            mSkipOldPin = false;
                             resetPinChangeState();
                         }
                     }
@@ -277,7 +308,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     public void onCancel(DialogInterface dialog) {
         // set the state of the preference and then display the dialog.
-        mPinChangeState = PIN_CHANGE_PUK;
+        resetPinChangeStateForPUK2();
         displayPinChangeDialog(0, true);
     }
 
@@ -303,9 +334,11 @@ public class FdnSetting extends PreferenceActivity
                 msgId = R.string.oldPin2Label;
                 break;
             case PIN_CHANGE_NEW:
+            case PIN_CHANGE_NEW_PIN_FOR_PUK:
                 msgId = R.string.newPin2Label;
                 break;
             case PIN_CHANGE_REENTER:
+            case PIN_CHANGE_REENTER_PIN_FOR_PUK:
                 msgId = R.string.confirmPin2Label;
                 break;
             case PIN_CHANGE_PUK:
@@ -331,19 +364,22 @@ public class FdnSetting extends PreferenceActivity
      * Reset the state of the pin change dialog.
      */
     private final void resetPinChangeState() {
+        if (DBG) log("resetPinChangeState");
         mPinChangeState = PIN_CHANGE_OLD;
         displayPinChangeDialog(0, false);
         mOldPin = mNewPin = "";
+        mIsPuk2Locked = false;
     }
 
     /**
      * Reset the state of the pin change dialog solely for PUK2 use.
      */
     private final void resetPinChangeStateForPUK2() {
-        mPinChangeState = PIN_CHANGE_NEW;
+        if (DBG) log("resetPinChangeStateForPUK2");
+        mPinChangeState = PIN_CHANGE_PUK;
         displayPinChangeDialog(0, false);
-        mOldPin = mNewPin = "";
-        mSkipOldPin = true;
+        mOldPin = mNewPin = mPuk2 = "";
+        mIsPuk2Locked = true;
     }
 
     /**
@@ -404,7 +440,7 @@ public class FdnSetting extends PreferenceActivity
         if (icicle == null) {
             resetPinChangeState();
         } else {
-            mSkipOldPin = icicle.getBoolean(SKIP_OLD_PIN_KEY);
+            mIsPuk2Locked = icicle.getBoolean(SKIP_OLD_PIN_KEY);
             mPinChangeState = icicle.getInt(PIN_CHANGE_STATE_KEY);
             mOldPin = icicle.getString(OLD_PIN_KEY);
             mNewPin = icicle.getString(NEW_PIN_KEY);
@@ -432,7 +468,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onSaveInstanceState(Bundle out) {
         super.onSaveInstanceState(out);
-        out.putBoolean(SKIP_OLD_PIN_KEY, mSkipOldPin);
+        out.putBoolean(SKIP_OLD_PIN_KEY, mIsPuk2Locked);
         out.putInt(PIN_CHANGE_STATE_KEY, mPinChangeState);
         out.putString(OLD_PIN_KEY, mOldPin);
         out.putString(NEW_PIN_KEY, mNewPin);
@@ -448,6 +484,10 @@ public class FdnSetting extends PreferenceActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void log(String msg) {
+        Log.d(LOG_TAG, "FdnSetting: " + msg);
     }
 }
 
