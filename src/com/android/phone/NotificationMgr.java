@@ -463,7 +463,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * Displays a notification about a missed call.
      *
      * @param name the contact name.
-     * @param number the phone number
+     * @param number the phone number. Note that this may be a non-callable String like "Unknown",
+     * or "Private Number", which possibly come from methods like
+     * {@link PhoneUtils#modifyForSpecialCnapCases(Context, CallerInfo, String, int)}.
      * @param type the type of the call. {@link android.provider.CallLog.Calls#INCOMING_TYPE}
      * {@link android.provider.CallLog.Calls#OUTGOING_TYPE}, or
      * {@link android.provider.CallLog.Calls#MISSED_TYPE}
@@ -537,7 +539,14 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 .setAutoCancel(true)
                 .setDeleteIntent(createClearMissedCallsIntent());
 
-        if (!TextUtils.isEmpty(number) && mNumberMissedCalls == 1) {
+        // Simple workaround for issue 6476275; refrain having actions when the given number seems
+        // not a real one but a non-number which was embedded by methods outside (like
+        // PhoneUtils#modifyForSpecialCnapCases()).
+        // TODO: consider removing equals() checks here, and modify callers of this method instead.
+        if (mNumberMissedCalls == 1
+                && !TextUtils.isEmpty(number)
+                && !TextUtils.equals(number, mContext.getString(R.string.private_num))
+                && !TextUtils.equals(number, mContext.getString(R.string.unknown))){
             if (DBG) log("Add actions with the number " + number);
 
             builder.addAction(R.drawable.stat_sys_phone_call,
