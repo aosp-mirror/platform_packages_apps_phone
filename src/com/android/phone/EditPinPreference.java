@@ -19,6 +19,7 @@ package com.android.phone;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.preference.EditTextPreference;
+import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -64,13 +65,10 @@ public class EditPinPreference extends EditTextPreference {
         setDialogLayoutResource(R.layout.pref_dialog_editpin);
         
         View dialog = super.onCreateDialogView();
-        
-        // set the transformation method and the key listener to ensure
-        // correct input and presentation of the pin / puk.
-        final EditText textfield = getEditText();
-        textfield.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        textfield.setKeyListener(DigitsKeyListener.getInstance());
-        
+
+        getEditText().setInputType(InputType.TYPE_CLASS_NUMBER |
+            InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+
         return dialog;
     }
     
