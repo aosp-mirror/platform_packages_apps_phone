@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3//+yw\u003d",
+        "filename": "src/com/android/phone/PhoneInterfaceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-05-17T20:27:56Z",
+      "side": 1,
+      "message": "Don\u0027t change the date",
+      "revId": "68d19c3b8188c454d7278b0da44e11351787a8fa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
