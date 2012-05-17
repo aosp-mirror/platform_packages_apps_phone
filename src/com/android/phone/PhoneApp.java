@@ -26,6 +26,7 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -599,13 +600,18 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             // we get these intents *before* the media player.)
             IntentFilter mediaButtonIntentFilter =
                     new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
-            //
+            // TODO verify the independent priority doesn't need to be handled thanks to the
+            //  private intent handler registration
             // Make sure we're higher priority than the media player's
             // MediaButtonIntentReceiver (which currently has the default
             // priority of zero; see apps/Music/AndroidManifest.xml.)
             mediaButtonIntentFilter.setPriority(1);
             //
             registerReceiver(mMediaButtonReceiver, mediaButtonIntentFilter);
+            // register the component so it gets priority for calls
+            AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            am.registerMediaButtonEventReceiverForCalls(new ComponentName(this.getPackageName(),
+                    MediaButtonBroadcastReceiver.class.getName()));
 
             //set the default values for the preferences in the phone.
             PreferenceManager.setDefaultValues(this, R.xml.network_setting, false);
