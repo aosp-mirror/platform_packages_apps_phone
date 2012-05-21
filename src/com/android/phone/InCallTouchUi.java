@@ -1146,7 +1146,7 @@ public class InCallTouchUi extends FrameLayout
         // "respond via SMS" option for certain types of calls, like SIP
         // addresses or numbers with blocked caller-id.)
         final boolean allowRespondViaSms =
-                RespondViaSmsManager.allowRespondViaSmsForCall(ringingCall);
+                RespondViaSmsManager.allowRespondViaSmsForCall(mInCallScreen, ringingCall);
         final int targetResourceId = allowRespondViaSms
                 ? R.array.incoming_call_widget_3way_targets
                 : R.array.incoming_call_widget_2way_targets;
