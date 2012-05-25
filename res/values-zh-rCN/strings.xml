@@ -184,11 +184,11 @@
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"已启用数据流量"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"允许通过移动网络存取数据"</string>
-    <string name="roaming" msgid="8871412572928323707">"数据漫游"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"漫游时连接到数据服务"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"漫游时连接到数据服务"</string>
-    <string name="roaming_reenable_message" msgid="8913735676127858115">"数据连接已断开，因为您已离开本地网络并已关闭数据漫游。"</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"是否允许数据漫游？这可能产生大量漫游费！"</string>
+    <string name="roaming" msgid="8871412572928323707">"移动数据网络漫游"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"漫游时连接到移动数据网络服务"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"漫游时连接到移动数据网络服务"</string>
+    <string name="roaming_reenable_message" msgid="8913735676127858115">"移动数据网络连接已断开，因为您已离开本地网络并关闭了移动数据网络漫游功能。"</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"是否要允许移动数据网络漫游？这可能产生大量漫游费！"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS 选项"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA 选项"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"流量使用情况"</string>
@@ -464,7 +464,7 @@
     <string name="ota_touch_activate" msgid="6553212803262586244">"需要拨打特别号码才能激活您的手机服务。"\n\n"在按下“激活”后，按照语音提示激活您的手机。"</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"略过激活步骤？"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"如果您略过激活步骤，就无法拨打电话或连接到移动数据网络（不过您可以连接到 Wi-Fi 网络）。如果您不激活手机，每次开机时都会收到激活提示。"</string>
-    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"略过"</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"跳过"</string>
     <string name="ota_activate" msgid="1368528132525626264">"激活"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"手机已激活。"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"激活时遇到问题"</string>

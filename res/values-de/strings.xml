@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="phoneAppLabel" product="tablet" msgid="8576272342240415145">"Mobile Daten"</string>
     <string name="phoneAppLabel" product="default" msgid="906161039445636857">"Telefon"</string>
-    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Notrufwählprogramm"</string>
+    <string name="emergencyDialerIconLabel" msgid="7812140032168171053">"Notruf"</string>
     <string name="phoneIconLabel" msgid="2331230813161304895">"Telefon"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"Anrufbegrenzung"</string>
     <string name="unknown" msgid="6878797917991465859">"Unbekannt"</string>
@@ -91,8 +91,8 @@
     <string name="sum_show_caller_id" msgid="6768534125447290401">"Nummer bei abgehenden Anrufen angezeigt"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"Standardeinst. zur Anzeige meiner Nr. bei abgehenden Anrufen verwenden"</string>
     <string name="labelCW" msgid="6120513814915920200">"Anklopfen"</string>
-    <string name="sum_cw_enabled" msgid="8083061901633671397">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
-    <string name="sum_cw_disabled" msgid="3648693907300104575">"Mich während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
+    <string name="sum_cw_enabled" msgid="8083061901633671397">"Während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
+    <string name="sum_cw_disabled" msgid="3648693907300104575">"Während eines Anrufs über eingehende Anrufe benachrichtigen"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Einstellungen"</string>
     <string name="labelCF" msgid="2574386948026924737">"Rufweiterleitung"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Immer weiterleiten"</string>
@@ -354,7 +354,7 @@
     <string name="fdn_invalid_number" msgid="1494755047900009147">"Die Anrufbegrenzung wurde nicht aktualisiert, da die Nummer maximal 20 Ziffern enthalten darf."</string>
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN wurde nicht aktualisiert. PIN2 war ungültig oder die Telefonnummer wurde abgelehnt."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIM-Karte wird ausgelesen..."</string>
-    <string name="simContacts_empty" msgid="5270660846489561932">"Keine Kontakte auf Ihrer SIM-Karte"</string>
+    <string name="simContacts_empty" msgid="5270660846489561932">"Keine Kontakte auf SIM-Karte"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Kontakte für Import auswählen"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Deaktivieren Sie zum Importieren der Kontakte von der SIM-Karte zunächst den Flugmodus."</string>
     <string name="enable_pin" msgid="5422767284133234860">"PIN-Abfrage für SIM-Karte aktivieren/deaktivieren"</string>
@@ -514,7 +514,7 @@
     <string name="sip_settings" msgid="6699045718560859691">"Einstellungen für Internetanrufe"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"Konten für Internetanrufe (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Konten"</string>
-    <string name="sip_receive_calls" msgid="5635685570889971559">"Eingeh. Anrufe annehmen"</string>
+    <string name="sip_receive_calls" msgid="5635685570889971559">"Eingehende Anrufe annehmen"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Verkürzt Akkulaufzeit"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Internetanrufe verwenden"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Internetanruf verwenden (nur WLAN)"</string>
@@ -522,12 +522,12 @@
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Nur für Internetanrufe"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Bei jedem Anruf fragen"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Für alle Anrufe"</string>
-    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Anruf tätigen"</string>
+    <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Telefonieren"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Konto für Internetanrufe verwenden:"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"Immer für Internetanrufe verwenden"</string>
     <string name="reset_my_choice_hint" msgid="5523030209803567922">"Sie können auf Ihrem Telefon unter \"Einstellungen &gt; Einstellungen für Internetanrufe\" im Bildschirm \"Konten\" einstellen, welches Konto standardmäßig für Internetanrufe verwendet werden soll."</string>
-    <string name="pstn_phone" msgid="8782554491484326429">"Handytelefonat"</string>
-    <string name="internet_phone" msgid="1147922660195095810">"Internetanruf"</string>
+    <string name="pstn_phone" msgid="8782554491484326429">"per Telefon"</string>
+    <string name="internet_phone" msgid="1147922660195095810">"per Internet"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"Kein Konto für Internetanrufe"</string>
     <string name="no_sip_account_found" msgid="724325811961769997">"Auf diesem Telefon befinden sich keine Konten für Internetanrufe. Möchten Sie jetzt ein Konto hinzufügen?"</string>
     <string name="sip_menu_add" msgid="8757508498518881500">"Hinzufügen"</string>
@@ -560,7 +560,7 @@
     <string name="username_title" msgid="2479375923477682328">"Nutzername"</string>
     <string name="password_title" msgid="3323555249068171531">"Passwort"</string>
     <string name="display_name_title" msgid="2459768196312249937">"Anzeigename"</string>
-    <string name="proxy_address_title" msgid="4828301345351614273">"Ausgehende Proxy-Adr."</string>
+    <string name="proxy_address_title" msgid="4828301345351614273">"Ausgehende Proxy-Adresse"</string>
     <string name="port_title" msgid="5952939408078626657">"Port-Nummer"</string>
     <string name="transport_title" msgid="8253139511847746640">"Transportart"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Keep-Alive senden"</string>
@@ -584,7 +584,7 @@
     <string name="sip_system_decide" msgid="368030746310423471">"Automatisch"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Immer senden"</string>
     <string name="not_voice_capable" msgid="2739898841461577811">"Sprachanruf wird nicht unterstützt."</string>
-    <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"Kann nicht sprechen. Was gibt\'s?"</string>
+    <string name="respond_via_sms_canned_response_1" msgid="2461606462788380215">"Kann jetzt nicht sprechen. Was gibt\'s?"</string>
     <string name="respond_via_sms_canned_response_2" msgid="4074450431532859214">"Ich rufe gleich zurück."</string>
     <string name="respond_via_sms_canned_response_3" msgid="3496079065723960450">"Ich rufe später zurück."</string>
     <string name="respond_via_sms_canned_response_4" msgid="1698989243040062190">"Kann jetzt nicht sprechen. Später?"</string>
