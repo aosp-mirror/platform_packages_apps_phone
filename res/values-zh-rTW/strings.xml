@@ -142,7 +142,7 @@
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"選擇語音信箱服務"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"我的服務業者"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"行動網路設定"</string>
-    <string name="label_available" msgid="1181658289009300430">"可用網路"</string>
+    <string name="label_available" msgid="1181658289009300430">"可用的網路"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"搜尋中..."</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"找不到網路。"</string>
     <string name="search_networks" msgid="1601136049300882441">"搜尋網路"</string>
@@ -152,7 +152,7 @@
     <string name="connect_later" msgid="2308119155752343975">"目前無法連上這個網路，請稍後再試。"</string>
     <string name="registration_done" msgid="495135664535876612">"註冊網路成功。"</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"選擇行動網路業者"</string>
-    <string name="sum_search_networks" msgid="2921092249873272715">"搜尋所有可用網路"</string>
+    <string name="sum_search_networks" msgid="2921092249873272715">"搜尋所有可用的網路"</string>
     <string name="select_automatically" msgid="5628402124471810174">"自動選擇"</string>
     <string name="sum_select_automatically" msgid="5614890115123292400">"自動選擇慣用網路"</string>
     <string name="register_automatically" msgid="6017849844573519637">"自動註冊..."</string>
