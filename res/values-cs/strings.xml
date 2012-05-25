@@ -74,7 +74,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Síť byla úspěšně odblokována."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Nastavení hovorů GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Nastavení hovorů CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Názvy přístupových bodů"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Názvy přístupových bodů (APN)"</string>
     <string name="settings_label" msgid="3876743539816984008">"Nastavení sítě"</string>
     <string name="voicemail" msgid="8693759337917898954">"Hlasová schránka"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"HS:"</string>
@@ -183,12 +183,12 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Dat. přenosy aktivovány"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Aktivuje datový přístup prostřednictvím mobilní sítě"</string>
-    <string name="roaming" msgid="8871412572928323707">"Datové služby při roamingu"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"Datové služby se mohou připojovat při roamingu"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"Datové služby se mohou připojovat při roamingu"</string>
-    <string name="roaming_reenable_message" msgid="8913735676127858115">"Datové připojení bylo přerušeno, protože jste opustili domovskou síť a datové služby při roamingu máte vypnuty."</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"Opravdu chcete povolit datové služby při roamingu? Vystavujete se nebezpečí vysokých poplatků."</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Aktivovat datový přístup prostřednictvím mobilní sítě"</string>
+    <string name="roaming" msgid="8871412572928323707">"Datový roaming"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Používat datové služby při roamingu"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Používat datové služby při roamingu"</string>
+    <string name="roaming_reenable_message" msgid="8913735676127858115">"Datové připojení bylo přerušeno, protože jste opustili domovskou síť a máte vypnutý datový roaming."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Opravdu chcete povolit datový roaming? Vystavujete se nebezpečí vysokých poplatků."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Možnosti GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Možnosti CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Využití dat"</string>
@@ -575,7 +575,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Žádné připojení k internetu"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Připojení Wi-Fi není k dispozici"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Chcete-li uskutečnit internetový hovor, zkontrolujte, zda jste připojeni k internetu."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Abyste mohli uskutečnit internetový hovor, musíte být připojeni k síti Wi-Fi (použijte část Nastavení bezdrátového připojení a sítě)."</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Abyste mohli uskutečnit internetový hovor, musíte být připojeni k síti Wi-Fi (použijte sekci Nastavení bezdrátového připojení a sítě)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetové hovory nejsou podporovány"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automaticky"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Odesílat vždy"</string>

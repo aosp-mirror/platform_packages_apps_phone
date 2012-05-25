@@ -318,8 +318,8 @@
     <string name="fdn" msgid="7878832555095183202">"Marcación fija"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Lista de FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"Activación de FDN"</string>
-    <string name="fdn_enabled" msgid="5238109009915521240">"Los números de marcación fija están habilitados."</string>
-    <string name="fdn_disabled" msgid="4700049736675368279">"Los números de marcación fija están inhabilitados."</string>
+    <string name="fdn_enabled" msgid="5238109009915521240">"Los números de marcación fija están habilitados"</string>
+    <string name="fdn_disabled" msgid="4700049736675368279">"Los números de marcación fija están inhabilitados"</string>
     <string name="enable_fdn" msgid="3740191529180493851">"Habilitar FDN"</string>
     <string name="disable_fdn" msgid="7944020890722540616">"Inhabilitar FDN"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Cambiar PIN2"</string>
@@ -515,7 +515,7 @@
     <string name="sip_accounts" msgid="2097054001288457163">"Cuentas (SIP) de llamadas por Internet"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Cuentas"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Recibir llamadas"</string>
-    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Permite ahorrar batería."</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Reduce la duración de la batería"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Llamadas por Internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Llamadas por Internet (Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Para todas las llamadas cuando haya redes de datos disponibles"</string>
