@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF4n////s\u003d",
+        "filename": "src/com/android/phone/PhoneApp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1003302
+      },
+      "writtenOn": "2012-05-25T22:06:59Z",
+      "side": 1,
+      "message": "This is a bit scary check for me. Does this mean the new service may interrupt the ongoing call if the IntentService is driven during the real phone call?",
+      "revId": "e830c09815dc50fa8e58521223cda1b598f84769",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
