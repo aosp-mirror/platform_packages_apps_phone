@@ -324,7 +324,7 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Umožňuje spravovat povolená telefonní čísla"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Umožňuje změnit kód PIN pro přístup k povoleným telefonním číslům"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Správa telefonního seznamu"</string>
-    <string name="voice_privacy" msgid="3776841382844614716">"Ochrana osobních údajů v hlasové poště"</string>
+    <string name="voice_privacy" msgid="3776841382844614716">"Ochrana soukromí v hlasové poště"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Povolit režim vylepšené ochrany soukromí"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Režim TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Nastavit režim TTY"</string>
