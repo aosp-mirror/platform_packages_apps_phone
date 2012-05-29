@@ -90,6 +90,8 @@ public class RespondViaSmsManager {
     private static final String KEY_CANNED_RESPONSE_PREF_3 = "canned_response_pref_3";
     private static final String KEY_CANNED_RESPONSE_PREF_4 = "canned_response_pref_4";
 
+    private static final String ACTION_SENDTO_NO_CONFIRMATION =
+            "com.android.mms.intent.action.SENDTO_NO_CONFIRMATION";
 
     /**
      * RespondViaSmsManager constructor.
@@ -322,10 +324,7 @@ public class RespondViaSmsManager {
         if (VDBG) log("sendText: number "
                       + phoneNumber + ", message '" + message + "'");
 
-        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
-        Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
-        intent.putExtra(Intent.EXTRA_TEXT, message);
-        mInCallScreen.startService(intent);
+        mInCallScreen.startService(getInstantTextIntent(phoneNumber, message));
     }
 
     /**
@@ -334,15 +333,30 @@ public class RespondViaSmsManager {
     private void launchSmsCompose(String phoneNumber) {
         if (VDBG) log("launchSmsCompose: number " + phoneNumber);
 
-        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
-        Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
-        intent.putExtra("exit_on_sent", true);
-        intent.putExtra("showUI", true);
+        Intent intent = getInstantTextIntent(phoneNumber, null);
 
         if (VDBG) log("- Launching SMS compose UI: " + intent);
         mInCallScreen.startService(intent);
     }
 
+    /**
+     * @param phoneNumber Must not be null.
+     * @param message Can be null. If message is null, the returned Intent will be configured to
+     * launch the SMS compose UI. If non-null, the returned Intent will cause the specified message
+     * to be sent with no interaction from the user.
+     * @return Service Intent for the instant response.
+     */
+    private static Intent getInstantTextIntent(String phoneNumber, String message) {
+        Uri uri = Uri.fromParts(Constants.SCHEME_SMSTO, phoneNumber, null);
+        Intent intent = new Intent(ACTION_SENDTO_NO_CONFIRMATION, uri);
+        if (message != null) {
+            intent.putExtra(Intent.EXTRA_TEXT, message);
+        } else {
+            intent.putExtra("exit_on_sent", true);
+            intent.putExtra("showUI", true);
+        }
+        return intent;
+    }
 
     /**
      * Settings activity under "Call settings" to let you manage the
@@ -475,7 +489,7 @@ public class RespondViaSmsManager {
      * networks at least), so we still enable this feature even though
      * SMSes to that number will silently fail.
      */
-    public static boolean allowRespondViaSmsForCall(Call ringingCall) {
+    public static boolean allowRespondViaSmsForCall(Context context, Call ringingCall) {
         if (DBG) log("allowRespondViaSmsForCall(" + ringingCall + ")...");
 
         // First some basic sanity checks:
@@ -526,6 +540,12 @@ public class RespondViaSmsManager {
             // The user isn't allowed to see the number in the first
             // place, so obviously we can't let you send an SMS to it.
             Log.i(TAG, "allowRespondViaSmsForCall: PRESENTATION_RESTRICTED.");
+            return false;
+        }
+
+        // Allow the feature only when there's a destination for it.
+        if (context.getPackageManager().resolveService(getInstantTextIntent(number, null) , 0)
+                == null) {
             return false;
         }
 
