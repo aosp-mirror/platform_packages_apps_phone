@@ -1083,6 +1083,9 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 }
             }
         } else { // not ringing call
+            // Make the notification prioritized over the other normal notifications.
+            builder.setPriority(Notification.PRIORITY_HIGH);
+
             // TODO: use "if (DBG)" for this comment.
             log("Will show \"hang-up\" action in the ongoing active call Notification");
             // TODO: use better asset.
