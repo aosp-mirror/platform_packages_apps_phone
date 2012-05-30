@@ -148,9 +148,9 @@ public class Ringer {
             try {
                 if (PhoneApp.getInstance().showBluetoothIndication()) {
                     mPowerManager.setAttentionLight(true, 0x000000ff);
-		} else {
+                } else {
                     mPowerManager.setAttentionLight(true, 0x00ffffff);
-		}
+                }
             } catch (RemoteException ex) {
                 // the other end of this binder call is in the system process.
             }
@@ -196,14 +196,13 @@ public class Ringer {
     }
 
     boolean shouldVibrate() {
-        // If "vibrate when ringing" is checked, vibrate.
-        if (CallFeaturesSetting.getVibrateWhenRinging(mContext)) {
-            return true;
-        }
-        // If "vibrate when ringing is not checked, we need to check ringer mode and see if
-        // the device is in the appropriate mode.
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        return audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+        int ringerMode = audioManager.getRingerMode();
+        if (CallFeaturesSetting.getVibrateWhenRinging(mContext)) {
+            return ringerMode != AudioManager.RINGER_MODE_SILENT;
+        } else {
+            return ringerMode == AudioManager.RINGER_MODE_VIBRATE;
+        }
     }
 
     /**
