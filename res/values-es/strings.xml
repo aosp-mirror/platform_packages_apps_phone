@@ -135,8 +135,8 @@
     <item msgid="1108394741608734023">"Mostrar número"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"El número del buzón de voz se ha cambiado."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"No se ha podido cambiar el número del buzón de voz."\n"Ponte en contacto con tu operador si la incidencia persiste."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"No se ha podido cambiar el número de desvío."\n"Ponte en contacto con tu operador si la incidencia persiste."</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"No se ha podido cambiar el número del buzón de voz."\n"Ponte en contacto con tu operador si el problema persiste."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"No se ha podido cambiar el número de desvío."\n"Ponte en contacto con tu operador si el problema persiste."</string>
     <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No se ha podido recuperar y guardar la configuración del número de desvío actual."\n"¿Quieres cambiar al nuevo proveedor de todos modos?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se ha realizado ningún cambio."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Seleccionar servicio de buzón de voz"</string>
