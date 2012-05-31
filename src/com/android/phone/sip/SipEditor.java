@@ -301,7 +301,7 @@ public class SipEditor extends PreferenceActivity
             public void run() {
                 new AlertDialog.Builder(SipEditor.this)
                         .setTitle(android.R.string.dialog_alert_title)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
                         .setMessage(message)
                         .setPositiveButton(R.string.alert_dialog_ok, null)
                         .show();

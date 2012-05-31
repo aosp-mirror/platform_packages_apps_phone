@@ -360,7 +360,7 @@ public class SipSettings extends PreferenceActivity {
         }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.alert_dialog_close)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIconAttribute(android.R.attr.alertDialogIcon)
                 .setPositiveButton(R.string.close_profile,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int w) {

@@ -609,7 +609,7 @@ public class OutgoingCallBroadcaster extends Activity
             case DIALOG_NOT_VOICE_CAPABLE:
                 dialog = new AlertDialog.Builder(this)
                         .setTitle(R.string.not_voice_capable)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
                         .setPositiveButton(android.R.string.ok, this)
                         .setOnCancelListener(this)
                         .create();
