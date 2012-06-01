@@ -120,7 +120,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/incall_call_banner_text_color"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:visibility="invisible" />
 
         <!-- Call type indication: a special label and/or branding
              for certain kinds of calls (like "Internet call" for a SIP call.) -->
