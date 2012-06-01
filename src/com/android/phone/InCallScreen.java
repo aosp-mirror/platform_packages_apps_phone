@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -2659,13 +2660,14 @@ public class InCallScreen extends Activity
                         && !isPhoneStateRestricted()
                         && PhoneApp.sVoiceCapable) {
                     final Intent intent = mApp.createPhoneEndIntentUsingCallOrigin();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    ActivityOptions opts = ActivityOptions.makeCustomAnimation(this,
+                            R.anim.activity_close_enter, R.anim.activity_close_exit);
                     if (VDBG) {
                         log("- Show Call Log (or Dialtacts) after disconnect. Current intent: "
                                 + intent);
                     }
                     try {
-                        startActivity(intent);
+                        startActivity(intent, opts.toBundle());
                     } catch (ActivityNotFoundException e) {
                         // Don't crash if there's somehow no "Call log" at
                         // all on this device.
