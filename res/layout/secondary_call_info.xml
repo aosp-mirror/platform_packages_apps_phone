@@ -41,7 +41,7 @@
          android:layout_alignParentTop="true"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
-         android:background="@color/on_hold_dim_effect"
+         android:background="@drawable/clickable_dim_effect"
          android:visibility="gone" />
 
     <!-- Name (or the phone number, if we don't have a name to display). -->

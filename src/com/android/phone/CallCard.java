@@ -1066,6 +1066,20 @@ public class CallCard extends LinearLayout
         }
         if (mSecondaryCallPhotoDimEffect == null) {
             mSecondaryCallPhotoDimEffect = findViewById(R.id.dim_effect_for_secondary_photo);
+            mSecondaryCallPhotoDimEffect.setOnClickListener(mInCallScreen);
+            // Add a custom OnTouchListener to manually shrink the "hit target".
+            mSecondaryCallPhotoDimEffect.setOnTouchListener(new SmallerHitTargetTouchListener());
+        }
+        mInCallScreen.updateButtonStateOutsideInCallTouchUi();
+    }
+
+    /**
+     * Method which is expected to be called from
+     * {@link InCallScreen#updateButtonStateOutsideInCallTouchUi()}.
+     */
+    /* package */ void setSecondaryCallClickable(boolean clickable) {
+        if (mSecondaryCallPhotoDimEffect != null) {
+            mSecondaryCallPhotoDimEffect.setEnabled(clickable);
         }
     }
 
