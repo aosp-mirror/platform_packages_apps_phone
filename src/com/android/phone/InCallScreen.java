@@ -2699,10 +2699,13 @@ public class InCallScreen extends Activity
      * This method handles clicks from UI elements that use the
      * InCallScreen itself as their OnClickListener.
      *
-     * Note: Currently this method is used only for a few special buttons: the
-     * mButtonManageConferenceDone "Back to call" button, and the OTASP-specific
-     * buttons managed by OtaUtils.java.  *Most* in-call controls are handled by
-     * the handleOnscreenButtonClick() method, via the InCallTouchUi widget.
+     * Note: Currently this method is used only for a few special buttons:
+     * - the mButtonManageConferenceDone "Back to call" button
+     * - the "dim" effect for the secondary call photo in CallCard as the second "swap" button
+     * - other OTASP-specific buttons managed by OtaUtils.java.
+     *
+     * *Most* in-call controls are handled by the handleOnscreenButtonClick() method, via the
+     * InCallTouchUi widget.
      */
     @Override
     public void onClick(View view) {
@@ -2715,6 +2718,12 @@ public class InCallScreen extends Activity
                 // Hide the Manage Conference panel, return to NORMAL mode.
                 setInCallScreenMode(InCallScreenMode.NORMAL);
                 requestUpdateScreen();
+                break;
+
+            case R.id.dim_effect_for_secondary_photo:
+                if (mInCallControlState.canSwap) {
+                    internalSwapCalls();
+                }
                 break;
 
             default:
@@ -4468,6 +4477,24 @@ public class InCallScreen extends Activity
             // (Or, maybe this should happen completely within the RotarySelector
             // widget, since the widget itself probably wants to keep the colored
             // arrow visible for some extra time also...)
+        }
+    }
+
+
+    /**
+     * Used when we need to update buttons outside InCallTouchUi's updateInCallControls() along
+     * with that method being called. CallCard may call this too because it doesn't have
+     * enough information to update buttons inside itself (more specifically, the class cannot
+     * obtain mInCallControllState without some side effect. See also
+     * {@link #getUpdatedInCallControlState()}. We probably don't want a method like
+     * getRawCallControlState() which returns raw intance with no side effect just for this
+     * corner case scenario)
+     *
+     * TODO: need better design for buttons outside InCallTouchUi.
+     */
+    /* package */ void updateButtonStateOutsideInCallTouchUi() {
+        if (mCallCard != null) {
+            mCallCard.setSecondaryCallClickable(mInCallControlState.canSwap);
         }
     }
 
