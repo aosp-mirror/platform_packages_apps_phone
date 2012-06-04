@@ -1084,12 +1084,15 @@ public class InCallTouchUi extends FrameLayout
      * Apply an animation to hide the incoming call widget.
      */
     private void hideIncomingCallWidget() {
-        if (DBG) log("hideIncomingCallWidget()...");
+        // if (DBG) log("hideIncomingCallWidget()...");
         if (mIncomingCallWidget.getVisibility() != View.VISIBLE
                 || mIncomingCallWidgetIsFadingOut) {
             // Widget is already hidden or in the process of being hidden
             return;
         }
+
+        // TODO: remove this once we fixed issue 6603655
+        log("hideIncomingCallWidget()");
 
         // Hide the incoming call screen with a transition
         mIncomingCallWidgetIsFadingOut = true;
@@ -1133,7 +1136,12 @@ public class InCallTouchUi extends FrameLayout
      * Shows the incoming call widget and cancels any animation that may be fading it out.
      */
     private void showIncomingCallWidget(Call ringingCall) {
-        if (DBG) log("showIncomingCallWidget()...");
+        // if (DBG) log("showIncomingCallWidget()...");
+
+        // TODO: remove this once we fixed issue 6603655
+        // TODO: wouldn't be ok to suppress this whole request if the widget is already VISIBLE
+        //       and we don't need to reset it?
+        log("showIncomingCallWidget(). widget visibility: " + mIncomingCallWidget.getVisibility());
 
         ViewPropertyAnimator animator = mIncomingCallWidget.animate();
         if (animator != null) {
