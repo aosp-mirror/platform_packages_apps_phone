@@ -512,8 +512,8 @@
     <string name="sip_accounts_title" msgid="1212889069281054570">"Účty"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Přijímat příchozí hovory"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Snižuje výdrž baterie"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Použít internetový hovor"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Použít internetový hovor (pouze s připojením Wi-Fi)"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Používat internetové volání"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Používat internetové volání (jen přes Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Pro všechny hovory, pokud je k dispozici datová síť"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Pouze pro internetové hovory"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pokaždé se zeptat"</string>
