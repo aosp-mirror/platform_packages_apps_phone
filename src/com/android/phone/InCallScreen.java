@@ -1989,13 +1989,26 @@ public class InCallScreen extends Activity
             // Phone is idle, we'll finish out of this activity.
             final int callEndedDisplayDelay;
             switch (cause) {
-                // When the local user hanged up the call, it is ok to dismiss the screen soon.
-                // When the peer hanged up the call, we should wait a bit longer.
-                // If the call was disconnected by the other error cases, we should wait even
-                // longer, assuming the local user wants to confirm the disconnect reason.
-                case LOCAL: callEndedDisplayDelay = CALL_ENDED_SHORT_DELAY; break;
-                case NORMAL: callEndedDisplayDelay = CALL_ENDED_LONG_DELAY; break;
-                default: callEndedDisplayDelay = CALL_ENDED_EXTRA_LONG_DELAY; break;
+                // When the local user hanged up the ongoing call, it is ok to dismiss the screen
+                // soon. In other cases, we show the "hung up" screen longer.
+                //
+                // - For expected reasons we will use CALL_ENDED_LONG_DELAY.
+                // -- when the peer hanged up the call
+                // -- when the local user rejects the incoming call during the other ongoing call
+                // (TODO: there may be other cases which should be in this category)
+                //
+                // - For other unexpected reasons, we will use CALL_ENDED_EXTRA_LONG_DELAY,
+                //   assuming the local user wants to confirm the disconnect reason.
+                case LOCAL:
+                    callEndedDisplayDelay = CALL_ENDED_SHORT_DELAY;
+                    break;
+                case NORMAL:
+                case INCOMING_REJECTED:
+                    callEndedDisplayDelay = CALL_ENDED_LONG_DELAY;
+                    break;
+                default:
+                    callEndedDisplayDelay = CALL_ENDED_EXTRA_LONG_DELAY;
+                    break;
             }
             mHandler.removeMessages(DELAYED_CLEANUP_AFTER_DISCONNECT);
             mHandler.sendEmptyMessageDelayed(DELAYED_CLEANUP_AFTER_DISCONNECT,
