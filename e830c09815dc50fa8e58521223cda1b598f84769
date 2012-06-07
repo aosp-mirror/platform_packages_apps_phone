@@ -16,6 +16,24 @@
       "revId": "e830c09815dc50fa8e58521223cda1b598f84769",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF6n////8\u003d",
+        "filename": "src/com/android/phone/PhoneApp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1003010
+      },
+      "writtenOn": "2012-06-07T14:48:32Z",
+      "side": 1,
+      "message": "That\u0027s intended to be avoided, the service discards requests during a phone call. That check is to prevent display of the MMI responses which are driven by the IntentService, supposed to take place outside of a phone call.",
+      "parentUuid": "AAAF4n////s\u003d",
+      "revId": "e830c09815dc50fa8e58521223cda1b598f84769",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
