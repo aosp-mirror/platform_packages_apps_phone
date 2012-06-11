@@ -389,7 +389,7 @@
     <string name="label_puk2_code" msgid="302845876240219560">"Indtast PUK2-kode"</string>
     <string name="fdn_enable_puk2_requested" msgid="4262894949634885773">"Forkert adgangskode. Skift PIN2-kode, og prøv igen."</string>
     <string name="puk2_requested" msgid="8909278021238716877">"Adgangskoden er forkert. SIM-kortet er låst. PUK2-kode er påkrævet."</string>
-    <string name="doneButton" msgid="2859593360997984240">"Udfør"</string>
+    <string name="doneButton" msgid="2859593360997984240">"Afslut"</string>
     <string name="caller_manage_header" msgid="3231519674734638786">"Telefonmøde <xliff:g id="CONF_CALL_TIME">%s</xliff:g>"</string>
     <string name="voicemail_settings_number_label" msgid="8524164258691887790">"Voicemailnummer"</string>
     <string name="card_title_dialing" msgid="5769417478498348054">"Ringer op"</string>
