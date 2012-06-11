@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGfX///5g\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-11T16:57:38Z",
+      "side": 1,
+      "message": "Please use spaces instead of tabs",
+      "revId": "24db274f647e99fb18ceea3a9281e9dc27c08a32",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
