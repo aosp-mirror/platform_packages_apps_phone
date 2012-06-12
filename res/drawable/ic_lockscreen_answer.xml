@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!-- Copyright (C) 2012 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,21 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<!-- Touch handle for the GlowPadView widget on the incoming call screen -->
+<!-- Used with incoming call wigdet. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:state_enabled="true"
-        android:state_active="false"
-        android:state_focused="false"
-        android:drawable="@drawable/ic_in_call_touch_handle_normal" />
-
-    <!-- "Pressed" state uses the same simple "ring" image as on the lockscreen -->
+        android:state_enabled="true" android:state_active="false" android:state_focused="false"
+        android:drawable="@drawable/ic_lockscreen_answer_normal_layer"/>
     <item
-        android:state_enabled="true"
-        android:state_active="true"
-        android:state_focused="false"
-        android:drawable="@*android:drawable/ic_lockscreen_handle_pressed" />
-
+        android:state_enabled="true" android:state_active="true"  android:state_focused="false"
+        android:drawable="@drawable/ic_lockscreen_answer_activated_layer" />
+   <item
+        android:state_enabled="true" android:state_active="false"  android:state_focused="true"
+        android:drawable="@drawable/ic_lockscreen_answer_activated_layer" />
 </selector>
