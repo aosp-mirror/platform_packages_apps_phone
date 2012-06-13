@@ -304,7 +304,7 @@ public class RespondViaSmsManager {
                 // This will have no effect if the incoming call isn't still ringing.
                 PhoneApp.getInstance().notifier.restartRinger();
 
-                // We hid the MultiWaveView widget way back in
+                // We hid the GlowPadView widget way back in
                 // InCallTouchUi.onTrigger(), when the user first selected
                 // the "SMS" trigger.
                 //

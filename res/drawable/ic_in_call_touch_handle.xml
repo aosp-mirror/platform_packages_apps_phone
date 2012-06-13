@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<!-- Touch handle for the MultiWaveView widget on the incoming call screen -->
+<!-- Touch handle for the GlowPadView widget on the incoming call screen -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
