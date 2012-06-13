@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGg3///+I\u003d",
+        "filename": "src/com/android/phone/BluetoothHandsfree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1010292
+      },
+      "writtenOn": "2012-06-13T07:27:06Z",
+      "side": 1,
+      "message": "Are you sure halting the main phone thread for 5 seconds is a good idea? I think sending a delayed message to the handler would be a better idea.",
+      "revId": "3f13edd29ce05f6d05b70651a285bff7d8b87841",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
