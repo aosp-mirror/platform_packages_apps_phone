@@ -18,6 +18,7 @@ package com.android.phone;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.phone.Constants.CallStatusCode;
 import com.android.phone.InCallUiState.InCallScreenMode;
@@ -527,7 +528,7 @@ public class CallController extends Handler {
                     exitedEcm = true;  // this will cause us to return EXITED_ECM from this method
                 }
 
-                if (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+                if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
                     // Start the timer for 3 Way CallerInfo
                     if (mApp.cdmaPhoneCallState.getCurrentCallState()
                             == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
@@ -713,7 +714,7 @@ public class CallController extends Handler {
                 // TODO: Rather than launching a toast from here, it would
                 // be cleaner to just set a pending call status code here,
                 // and then let the InCallScreen display the toast...
-                if (mCM.getState() == Phone.State.OFFHOOK) {
+                if (mCM.getState() == PhoneConstants.State.OFFHOOK) {
                     Toast.makeText(mApp, R.string.incall_status_dialed_mmi, Toast.LENGTH_SHORT)
                             .show();
                 }

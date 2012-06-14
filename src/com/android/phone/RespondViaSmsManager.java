@@ -19,6 +19,7 @@ package com.android.phone;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -258,8 +259,8 @@ public class RespondViaSmsManager {
 
             dismissPopup();
 
-            final Phone.State state = PhoneApp.getInstance().mCM.getState();
-            if (state == Phone.State.IDLE) {
+            final PhoneConstants.State state = PhoneApp.getInstance().mCM.getState();
+            if (state == PhoneConstants.State.IDLE) {
                 // There's no other phone call to interact. Exit the entire in-call screen.
                 PhoneApp.getInstance().dismissCallScreen();
             } else {
@@ -287,8 +288,8 @@ public class RespondViaSmsManager {
 
             dismissPopup();
 
-            final Phone.State state = PhoneApp.getInstance().mCM.getState();
-            if (state == Phone.State.IDLE) {
+            final PhoneConstants.State state = PhoneApp.getInstance().mCM.getState();
+            if (state == PhoneConstants.State.IDLE) {
                 // This means the incoming call is already hung up when the user chooses not to
                 // use "Respond via SMS" feature. Let's just exit the whole in-call screen.
                 PhoneApp.getInstance().dismissCallScreen();
@@ -535,7 +536,7 @@ public class RespondViaSmsManager {
         // Finally, check the "call presentation":
         int presentation = conn.getNumberPresentation();
         if (DBG) log("- presentation: " + presentation);
-        if (presentation == Connection.PRESENTATION_RESTRICTED) {
+        if (presentation == PhoneConstants.PRESENTATION_RESTRICTED) {
             // PRESENTATION_RESTRICTED means "caller-id blocked".
             // The user isn't allowed to see the number in the first
             // place, so obviously we can't let you send an SMS to it.

@@ -21,7 +21,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.Telephony.Intents;
+import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -148,7 +148,7 @@ public class SpecialCharSequenceMgr {
         // Secret codes are in the form *#*#<code>#*#*
         int len = input.length();
         if (len > 8 && input.startsWith("*#*#") && input.endsWith("#*#*")) {
-            Intent intent = new Intent(Intents.SECRET_CODE_ACTION,
+            Intent intent = new Intent(TelephonyIntents.SECRET_CODE_ACTION,
                     Uri.parse("android_secret_code://" + input.substring(4, len - 4)));
             context.sendBroadcast(intent);
             return true;

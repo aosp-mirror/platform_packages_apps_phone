@@ -23,6 +23,7 @@ import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
 
 /**
@@ -96,7 +97,7 @@ public class InCallControlState {
      * the Phone.
      */
     public void update() {
-        final Phone.State state = mCM.getState();  // coarse-grained voice call state
+        final PhoneConstants.State state = mCM.getState();  // coarse-grained voice call state
         final Call fgCall = mCM.getActiveFgCall();
         final Call.State fgCallState = fgCall.getState();
         final boolean hasActiveForegroundCall = (fgCallState == Call.State.ACTIVE);
@@ -142,7 +143,7 @@ public class InCallControlState {
 
         // "Speaker": always enabled unless the phone is totally idle.
         // The current speaker state comes from the AudioManager.
-        speakerEnabled = (state != Phone.State.IDLE);
+        speakerEnabled = (state != PhoneConstants.State.IDLE);
         speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen);
 
         // "Mute": only enabled when the foreground call is ACTIVE.

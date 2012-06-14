@@ -22,10 +22,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import com.android.internal.telephony.CallerInfo;
 import com.android.phone.PhoneUtils;
-import static com.android.internal.telephony.Connection.PRESENTATION_ALLOWED;
-import static com.android.internal.telephony.Connection.PRESENTATION_PAYPHONE;
-import static com.android.internal.telephony.Connection.PRESENTATION_RESTRICTED;
-import static com.android.internal.telephony.Connection.PRESENTATION_UNKNOWN;
+import static com.android.internal.telephony.PhoneConstants.PRESENTATION_ALLOWED;
+import static com.android.internal.telephony.PhoneConstants.PRESENTATION_PAYPHONE;
+import static com.android.internal.telephony.PhoneConstants.PRESENTATION_RESTRICTED;
+import static com.android.internal.telephony.PhoneConstants.PRESENTATION_UNKNOWN;
 
 // Test suite for the Caller Name Presentation (CNAP) handling.
 // See AndroidManifest.xml how to run these tests.
