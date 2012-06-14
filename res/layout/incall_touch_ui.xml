@@ -222,7 +222,6 @@
         prvandroid:outerRadius="@*android:dimen/glowpadview_target_placement_radius"
         prvandroid:outerRingDrawable="@*android:drawable/ic_lockscreen_outerring"
         prvandroid:snapMargin="@*android:dimen/glowpadview_snap_margin"
-        prvandroid:hitRadius="@*android:dimen/glowpadview_hit_radius"
         prvandroid:vibrationDuration="20"
         prvandroid:feedbackCount="1"
         prvandroid:glowRadius="@*android:dimen/glowpadview_glow_radius"
