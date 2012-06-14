@@ -18,6 +18,7 @@ package com.android.phone.sip;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.phone.R;
 import com.android.phone.SipUtil;
 
@@ -142,7 +143,7 @@ public class SipEditor extends PreferenceActivity
     public void onResume() {
         super.onResume();
         mHomeButtonClicked = false;
-        if (mCallManager.getState() != Phone.State.IDLE) {
+        if (mCallManager.getState() != PhoneConstants.State.IDLE) {
             mAdvancedSettings.show();
             getPreferenceScreen().setEnabled(false);
             if (mRemoveButton != null) mRemoveButton.setEnabled(false);

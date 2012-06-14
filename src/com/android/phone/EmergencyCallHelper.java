@@ -19,6 +19,7 @@ package com.android.phone;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.phone.Constants.CallStatusCode;
 import com.android.phone.InCallUiState.ProgressIndicationType;
 
@@ -278,7 +279,7 @@ public class EmergencyCallHelper extends Handler {
      * Handles the retry timer expiring.
      */
     private void onRetryTimeout() {
-        Phone.State phoneState = mCM.getState();
+        PhoneConstants.State phoneState = mCM.getState();
         int serviceState = mPhone.getServiceState().getState();
         if (DBG) log("onRetryTimeout():  phone state " + phoneState
                      + ", service state " + serviceState
@@ -292,7 +293,7 @@ public class EmergencyCallHelper extends Handler {
         //
         // - If the radio is still powered off, try powering it on again.
 
-        if (phoneState == Phone.State.OFFHOOK) {
+        if (phoneState == PhoneConstants.State.OFFHOOK) {
             if (DBG) log("- onRetryTimeout: Call is active!  Cleaning up...");
             cleanup();
             return;

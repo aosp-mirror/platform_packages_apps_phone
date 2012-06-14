@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.widget.multiwaveview.GlowPadView;
 import com.android.internal.widget.multiwaveview.GlowPadView.OnTriggerListener;
 import com.android.phone.InCallUiState.InCallScreenMode;
@@ -192,7 +193,7 @@ public class InCallTouchUi extends FrameLayout
         // TODO: Back when these buttons had text labels, we changed
         // the label of mSwapButton for CDMA as follows:
         //
-        //      if (PhoneApp.getPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        //      if (PhoneApp.getPhone().getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
         //          // In CDMA we use a generalized text - "Manage call", as behavior on selecting
         //          // this option depends entirely on what the current call state is.
         //          mSwapButtonLabel.setText(R.string.onscreenManageCallsText);
@@ -221,7 +222,7 @@ public class InCallTouchUi extends FrameLayout
             return;
         }
 
-        Phone.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
+        PhoneConstants.State state = cm.getState();  // IDLE, RINGING, or OFFHOOK
         if (DBG) log("updateState: current state = " + state);
 
         boolean showIncomingCallControls = false;
@@ -328,7 +329,7 @@ public class InCallTouchUi extends FrameLayout
         // end ringing) or ACTIVE (when the call is actually connected.)  In any
         // state *other* than these, the popup should not be visible.
 
-        if ((state == Phone.State.OFFHOOK)
+        if ((state == PhoneConstants.State.OFFHOOK)
             && (fgCallState == Call.State.ALERTING || fgCallState == Call.State.ACTIVE)) {
             // The audio mode popup is allowed to be visible in this state.
             // So if it's up, leave it alone.
@@ -454,13 +455,13 @@ public class InCallTouchUi extends FrameLayout
             mAddButton.setEnabled(true);
             mMergeButton.setVisibility(View.GONE);
         } else if (inCallControlState.canMerge) {
-            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+            if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                 // In CDMA "Add" option is always given to the user and the
                 // "Merge" option is provided as a button on the top left corner of the screen,
                 // we always set the mMergeButton to GONE
                 mMergeButton.setVisibility(View.GONE);
-            } else if ((phoneType == Phone.PHONE_TYPE_GSM)
-                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
+            } else if ((phoneType == PhoneConstants.PHONE_TYPE_GSM)
+                    || (phoneType == PhoneConstants.PHONE_TYPE_SIP)) {
                 mMergeButton.setVisibility(View.VISIBLE);
                 mMergeButton.setEnabled(true);
                 mAddButton.setVisibility(View.GONE);
@@ -480,8 +481,8 @@ public class InCallTouchUi extends FrameLayout
             mMergeButton.setVisibility(View.GONE);
         }
         if (inCallControlState.canAddCall && inCallControlState.canMerge) {
-            if ((phoneType == Phone.PHONE_TYPE_GSM)
-                    || (phoneType == Phone.PHONE_TYPE_SIP)) {
+            if ((phoneType == PhoneConstants.PHONE_TYPE_GSM)
+                    || (phoneType == PhoneConstants.PHONE_TYPE_SIP)) {
                 // Uh oh, the InCallControlState thinks that "Add" *and* "Merge"
                 // should both be available right now.  This *should* never
                 // happen with GSM, but if it's possible on any
@@ -489,7 +490,7 @@ public class InCallTouchUi extends FrameLayout
                 // they can both be visible at the same time...
                 Log.w(LOG_TAG, "updateInCallControls: Add *and* Merge enabled," +
                         " but can't show both!");
-            } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
+            } else if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                 // In CDMA "Add" option is always given to the user and the hence
                 // in this case both "Add" and "Merge" options would be available to user
                 if (DBG) log("updateInCallControls: CDMA: Add and Merge both enabled");
@@ -559,7 +560,7 @@ public class InCallTouchUi extends FrameLayout
             Log.w(LOG_TAG, "updateInCallControls: Hold *and* Swap enabled, but can't show both!");
         }
 
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
+        if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
             if (inCallControlState.canSwap && inCallControlState.canMerge) {
                 // Uh oh, the InCallControlState thinks that Swap *and* Merge
                 // should both be available.  This *should* never happen with
@@ -583,7 +584,7 @@ public class InCallTouchUi extends FrameLayout
         // Note that mExtraButtonRow is ViewStub, which will be inflated for the first time when
         // any of its buttons becomes visible.
         final boolean showCdmaMerge =
-                (phoneType == Phone.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
+                (phoneType == PhoneConstants.PHONE_TYPE_CDMA) && inCallControlState.canMerge;
         final boolean showExtraButtonRow =
                 showCdmaMerge || inCallControlState.manageConferenceVisible;
         if (showExtraButtonRow && !inCallControlState.dialpadVisible) {
