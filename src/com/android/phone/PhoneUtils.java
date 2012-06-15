@@ -949,7 +949,8 @@ public class PhoneUtils {
             pd.setMessage(textmsg);
             pd.setCancelable(false);
             pd.setIndeterminate(true);
-            pd.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            pd.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             pd.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
             pd.show();
             // trigger a 15 seconds timeout to clear this progress dialog
