@@ -226,12 +226,19 @@ public class InCallTouchUi extends FrameLayout
         View.OnTouchListener smallerHitTargetTouchListener = new SmallerHitTargetTouchListener();
         mEndButton.setOnTouchListener(smallerHitTargetTouchListener);
     }
+    /**
+     * Updates the visibility and/or state of our UI elements, based on
+     * the current state of the phone.
+     */
+    final void updateState(CallManager cm) {
+        updateState(cm,false);
+    }
 
     /**
      * Updates the visibility and/or state of our UI elements, based on
      * the current state of the phone.
      */
-    void updateState(CallManager cm) {
+    void updateState(CallManager cm, boolean force) {
         if (mInCallScreen == null) {
             log("- updateState: mInCallScreen has been destroyed; bailing out...");
             return;
@@ -270,7 +277,7 @@ public class InCallTouchUi extends FrameLayout
             // within the last 500 msec, *don't* show the incoming call
             // UI even if the phone is still in the RINGING state.
             long now = SystemClock.uptimeMillis();
-            if (now < mLastIncomingCallActionTime + 500) {
+            if ((!force) && (now < mLastIncomingCallActionTime + 500)) {
                 log("updateState: Too soon after last action; not drawing!");
                 showIncomingCallControls = false;
             }
