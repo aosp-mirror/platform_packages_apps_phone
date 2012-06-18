@@ -281,7 +281,7 @@ public class RespondViaSmsManager {
             // update itself based on the current telephony state.
             // (Assuming the incoming call is still ringing, this will
             // cause the incoming call widget to reappear.)
-            mInCallScreen.requestUpdateScreen();
+            mInCallScreen.requestForceUpdateScreen();
         }
     }
 
