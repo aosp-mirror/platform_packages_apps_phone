@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGw3///7s\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///8U\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGxH///7c\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2192,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///8c\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3946,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///8Y\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3950,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGxH///7g\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3983,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGw3///7w\u003d",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3998,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGxH///7Y\u003d",
+        "filename": "src/com/android/phone/InCallTouchUi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab, trailing space",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///8M\u003d",
+        "filename": "src/com/android/phone/InCallTouchUi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab, missing space after comma",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGw3///7o\u003d",
+        "filename": "src/com/android/phone/InCallTouchUi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGw3///7k\u003d",
+        "filename": "src/com/android/phone/InCallTouchUi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "missing space after comma",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGw3///7g\u003d",
+        "filename": "src/com/android/phone/InCallTouchUi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-06-19T20:52:45Z",
+      "side": 1,
+      "message": "missing spaces around operator",
+      "revId": "61585e44b591243699726a4f49c730c063995a01",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
