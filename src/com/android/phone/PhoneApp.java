@@ -110,6 +110,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final int EVENT_TTY_MODE_SET = 16;
     private static final int EVENT_START_SIP_SERVICE = 17;
 
+    private static final int MIC_HEADSET_DEVICE = 0;
+    private static final int MIC_HEADPHONE_DEVICE = 1;
+
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
     public static final int MMI_COMPLETE = 52;
@@ -244,6 +247,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private int mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
 
     private UpdateLock mUpdateLock;
+
+    // headset/headphone device state
+    private boolean mHeadsetDev = false;
+    private boolean mHeadphoneDev = false;
 
     // Broadcast receiver for various intent broadcasts (see onCreate())
     private final BroadcastReceiver mReceiver = new PhoneAppBroadcastReceiver();
@@ -1636,7 +1643,20 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
                 if (VDBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
                 if (VDBG) Log.d(LOG_TAG, "    name: " + intent.getStringExtra("name"));
-                mIsHeadsetPlugged = (intent.getIntExtra("state", 0) == 1);
+
+                //The intent elements definitin from Google:
+                //state:        0: pull out          1: plugin
+                //microphone:   0: headset device    1: microphone device
+                boolean state = (intent.getIntExtra("state", 0) == 1);
+                int micDev = intent.getIntExtra("microphone", 0);
+                if (micDev == MIC_HEADSET_DEVICE) {
+                    mHeadsetDev = state;
+                } else if (micDev == MIC_HEADPHONE_DEVICE) {
+                    mHeadphoneDev = state;
+                } else {
+                    Log.e(LOG_TAG, "Undefined ACTION_HEADSET_PLUG device!");
+                }
+                mIsHeadsetPlugged = mHeadsetDev || mHeadphoneDev;
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_WIRED_HEADSET_PLUG, 0));
             } else if ((action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)) &&
                     (mPUKEntryActivity != null)) {
