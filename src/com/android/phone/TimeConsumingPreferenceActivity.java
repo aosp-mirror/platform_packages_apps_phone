@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
@@ -103,6 +104,12 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
             return dialog;
         }
         return null;
+    }
+
+    @Override
+    protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        mIsForeground = true;
     }
 
     @Override
