@@ -987,7 +987,16 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                 // and translate that into the elapsedRealtime() timebase.
                 long callDurationMsec = currentConn.getDurationMillis();
                 builder.setWhen(System.currentTimeMillis() - callDurationMsec);
-                builder.setContentText(mContext.getString(R.string.notification_ongoing_call));
+
+                int contextTextId = R.string.notification_ongoing_call;
+
+                Call call = mCM.getActiveFgCall();
+                if (TelephonyCapabilities.canDistinguishDialingAndConnected(
+                        call.getPhone().getPhoneType()) && call.isDialingOrAlerting()) {
+                  contextTextId = R.string.notification_dialing;
+                }
+
+                builder.setContentText(mContext.getString(contextTextId));
             }
         } else if (DBG) {
             Log.w(LOG_TAG, "updateInCallNotification: null connection, can't set exp view line 1.");

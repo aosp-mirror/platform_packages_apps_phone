@@ -786,6 +786,9 @@
     <string name="card_title_my_phone_number">My number is <xliff:g id="my_phone_number">%s</xliff:g></string>
 
     <!-- Notification strings -->
+    <!-- The "label" of the in-call Notification for a dialing call, used
+         as the format string for a Chronometer widget. [CHAR LIMIT=60] -->
+    <string name="notification_dialing">Dialing</string>
     <!-- Missed call notification label, used when there's exactly one missed call -->
     <string name="notification_missedCallTitle">Missed call</string>
     <!-- Missed call notification label, used when there are two or more missed calls -->
