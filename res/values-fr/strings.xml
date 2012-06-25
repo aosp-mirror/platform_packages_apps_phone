@@ -395,6 +395,7 @@
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Fin de l\'appel.."</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Appel en cours"</string>
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Mon numéro est le <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
+    <string name="notification_dialing" msgid="2107666444937350731">"Numérotation en cours…"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Appel manqué"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Appels manqués"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> appels manqués"</string>
