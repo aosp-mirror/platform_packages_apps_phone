@@ -414,7 +414,7 @@
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Sin servicio"</string>
     <string name="notification_network_selection_text" msgid="2607085729661923269">"La red seleccionada (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) no está disponible."</string>
     <string name="notification_action_end_call" msgid="6069460915123531620">"Colgar"</string>
-    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"Volver a llamar"</string>
+    <string name="notification_missedCall_call_back" msgid="2684890353590890187">"Llamar"</string>
     <string name="notification_missedCall_message" msgid="3049928912736917988">"Mensaje"</string>
     <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero debes desactivar el modo avión."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"No se ha podido conectar a la red"</string>

@@ -395,8 +395,7 @@
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Sonlandırılıyor"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Çağrı halinde"</string>
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Numaram: <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
-    <!-- no translation found for notification_dialing (2107666444937350731) -->
-    <skip />
+    <string name="notification_dialing" msgid="2107666444937350731">"Çevriliyor"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Cevapsız çağrı"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Cevapsız çağrılar"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> cevapsız çağrı"</string>
