@@ -39,6 +39,7 @@ public class GsmUmtsAdditionalCallOptions extends
 
         if (icicle == null) {
             if (DBG) Log.d(LOG_TAG, "start to init ");
+            mIsForeground = true;
             mCLIRButton.init(this, false);
         } else {
             if (DBG) Log.d(LOG_TAG, "restore stored states");
