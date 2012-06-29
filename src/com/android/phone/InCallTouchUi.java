@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -38,10 +39,11 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import com.android.internal.telephony.Call;
-import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
-import com.android.internal.widget.multiwaveview.GlowPadView;
-import com.android.internal.widget.multiwaveview.GlowPadView.OnTriggerListener;
+import com.android.internal.widget.multiwaveview.MultiWaveView;
+import com.android.internal.widget.multiwaveview.MultiWaveView.OnTriggerListener;
+import com.android.internal.telephony.CallManager;
+
 
 /**
  * In-call onscreen touch UI elements, used on some platforms.
@@ -72,9 +74,9 @@ public class InCallTouchUi extends FrameLayout
     private PhoneApp mApp;
 
     // UI containers / elements
+    private MultiWaveView mIncomingCallWidget;  // UI used for an incoming call
     private View mInCallControls;  // UI elements while on a regular call
-    private GlowPadView mIncomingCallWidget;  // UI used for an incoming call
-
+    //
     private ImageButton mAddButton;
     private ImageButton mMergeButton;
     private ImageButton mEndButton;
@@ -97,7 +99,7 @@ public class InCallTouchUi extends FrameLayout
     // Time of the most recent "answer" or "reject" action (see updateState())
     private long mLastIncomingCallActionTime;  // in SystemClock.uptimeMillis() time base
 
-    // Parameters for the GlowPadView "ping" animation; see triggerPing().
+    // Parameters for the MultiWaveView "ping" animation; see triggerPing().
     private static final boolean ENABLE_PING_ON_RING_EVENTS = false;
     private static final boolean ENABLE_PING_AUTO_REPEAT = true;
     private static final long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
@@ -152,7 +154,7 @@ public class InCallTouchUi extends FrameLayout
         // Look up the various UI elements.
 
         // "Drag-to-answer" widget for incoming calls.
-        mIncomingCallWidget = (GlowPadView) findViewById(R.id.incomingCallWidget);
+        mIncomingCallWidget = (MultiWaveView) findViewById(R.id.incomingCallWidget);
         mIncomingCallWidget.setOnTriggerListener(this);
 
         // Container for the UI elements shown while on a regular call.
@@ -812,7 +814,7 @@ public class InCallTouchUi extends FrameLayout
      * actually used.  Specifically:
      *
      *   - If an incoming call is ringing, the button cluster isn't
-     *     visible at all.  (And the GlowPadView widget is actually
+     *     visible at all.  (And the MultiWaveView widget is actually
      *     much taller than the button cluster.)
      *
      *   - If the InCallTouchUi widget's "extra button row" is visible
@@ -843,21 +845,15 @@ public class InCallTouchUi extends FrameLayout
 
 
     //
-    // GlowPadView.OnTriggerListener implementation
+    // MultiWaveView.OnTriggerListener implementation
     //
-    @Override
+
     public void onGrabbed(View v, int handle) {
 
     }
 
-    @Override
     public void onReleased(View v, int handle) {
 
-    }
-
-    @Override
-    public void onFinishFinalAnimation() {
-        /* do nothing */
     }
 
     /**
@@ -957,13 +953,14 @@ public class InCallTouchUi extends FrameLayout
             mIncomingCallWidget.clearAnimation();
         }
 
-        // Update the GlowPadView widget's targets based on the state of
+        // Update the MultiWaveView widget's targets based on the state of
         // the ringing call.  (Specifically, we need to disable the
         // "respond via SMS" option for certain types of calls, like SIP
         // addresses or numbers with blocked caller-id.)
+
         boolean allowRespondViaSms = RespondViaSmsManager.allowRespondViaSmsForCall(ringingCall);
         if (allowRespondViaSms) {
-            // The GlowPadView widget is allowed to have all 3 choices:
+            // The MultiWaveView widget is allowed to have all 3 choices:
             // Answer, Decline, and Respond via SMS.
             mIncomingCallWidget.setTargetResources(R.array.incoming_call_widget_3way_targets);
             mIncomingCallWidget.setTargetDescriptionsResourceId(
@@ -980,7 +977,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         // Watch out: be sure to call reset() and setVisibility() *after*
-        // updating the target resources, since otherwise the GlowPadView
+        // updating the target resources, since otherwise the MultiWaveView
         // widget will make the targets visible initially (even before you
         // touch the widget.)
         mIncomingCallWidget.reset(false);
@@ -1000,7 +997,7 @@ public class InCallTouchUi extends FrameLayout
         mHandler.sendEmptyMessageDelayed(
                 INCOMING_CALL_WIDGET_PING,
                 // Visual polish: add a small delay here, to make the
-                // GlowPadView widget visible for a brief moment
+                // MultiWaveView widget visible for a brief moment
                 // *before* starting the ping animation.
                 // This value doesn't need to be very precise.
                 250 /* msec */);
@@ -1011,7 +1008,7 @@ public class InCallTouchUi extends FrameLayout
      *
      * In previous releases (where we used a SlidingTab widget) we would
      * display an onscreen hint depending on which "handle" the user was
-     * dragging.  But we now use a GlowPadView widget, which has only
+     * dragging.  But we now use a MultiWaveView widget, which has only
      * one handle, so for now we don't display a hint at all (see the TODO
      * comment below.)
      */
@@ -1023,12 +1020,12 @@ public class InCallTouchUi extends FrameLayout
             // handle means "Answer" and the right handle means "Decline".)
             int hintTextResId, hintColorResId;
             switch (grabbedState) {
-                case GlowPadView.OnTriggerListener.NO_HANDLE:
-                case GlowPadView.OnTriggerListener.CENTER_HANDLE:
+                case MultiWaveView.OnTriggerListener.NO_HANDLE:
+                case MultiWaveView.OnTriggerListener.CENTER_HANDLE:
                     hintTextResId = 0;
                     hintColorResId = 0;
                     break;
-                // TODO: GlowPadView only has one handle. GlowPadView could send an event
+                // TODO: MultiWaveView only has one handle. MultiWaveView could send an event
                 // indicating that a snap (but not release) happened. Could be used to show text
                 // when user hovers over an item.
                 //        case SlidingTab.OnTriggerListener.LEFT_HANDLE:
@@ -1059,7 +1056,7 @@ public class InCallTouchUi extends FrameLayout
     public void onIncomingRing() {
         if (ENABLE_PING_ON_RING_EVENTS) {
             // Each RING from the telephony layer triggers a "ping" animation
-            // of the GlowPadView widget.  (The intent here is to make the
+            // of the MultiWaveView widget.  (The intent here is to make the
             // pinging appear to be synchronized with the ringtone, although
             // that only works for non-looping ringtones.)
             triggerPing();
@@ -1067,11 +1064,11 @@ public class InCallTouchUi extends FrameLayout
     }
 
     /**
-     * Runs a single "ping" animation of the GlowPadView widget,
-     * or do nothing if the GlowPadView widget is no longer visible.
+     * Runs a single "ping" animation of the MultiWaveView widget,
+     * or do nothing if the MultiWaveView widget is no longer visible.
      *
      * Also, if ENABLE_PING_AUTO_REPEAT is true, schedule the next ping as
-     * well (but again, only if the GlowPadView widget is still visible.)
+     * well (but again, only if the MultiWaveView widget is still visible.)
      */
     public void triggerPing() {
         if (DBG) log("triggerPing: mIncomingCallWidget = " + mIncomingCallWidget);
@@ -1084,7 +1081,7 @@ public class InCallTouchUi extends FrameLayout
         }
 
         if (mIncomingCallWidget == null) {
-            // This shouldn't happen; the GlowPadView widget should
+            // This shouldn't happen; the MultiWaveView widget should
             // always be present in our layout file.
             Log.w(LOG_TAG, "- triggerPing: null mIncomingCallWidget!");
             return;

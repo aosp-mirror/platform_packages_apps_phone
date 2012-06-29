@@ -106,13 +106,4 @@
     <integer name="dialpad_layout_weight_digits">20</integer>
     <integer name="dialpad_layout_weight_dialpad">65</integer>
     <integer name="dialpad_layout_weight_additional_buttons">15</integer>
-
-    <!-- Circle size for incoming call widget's each item. -->
-    <dimen name="incoming_call_widget_circle_size">94dp</dimen>
-    <!-- Margin used for incoming call widget's icon for each item.
-         This should be same as "(incoming_call_widget_circle_size - icon_size)/2".
-         Right now answer/decline/reject icons have 38dp width/height.
-         So, (94 - 38)/2 ==> 28dp -->
-    <dimen name="incoming_call_widget_asset_margin">28dp</dimen>
-
 </resources>
