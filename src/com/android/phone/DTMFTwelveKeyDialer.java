@@ -851,7 +851,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             sendShortDtmfToNetwork(c);
         } else {
             // Pass as a char to be sent to network
-            Log.i(LOG_TAG, "send long dtmf for " + c);
+            if (DBG) log("send long dtmf for " + c);
             mCM.startDtmf(c);
         }
         startLocalToneIfNeeded(c);
