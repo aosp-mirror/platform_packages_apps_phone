@@ -188,7 +188,7 @@
     <string name="roaming_enable" msgid="7331106985174381987">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Bei Roaming mit Datendienst verbinden"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"Die Datenverbindung wurde unterbrochen, weil Sie Ihr privates Netzwerk verlassen haben und Daten-Roaming nicht aktiviert ist."</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"Daten-Roaming zulassen? Es können beträchtliche Roaming-Gebühren anfallen!"</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Daten-Roaming zulassen? Es können hohe Roaming-Gebühren anfallen!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM-/UMTS-Optionen"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-Optionen"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Datenverbrauch"</string>
@@ -399,7 +399,7 @@
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Auflegen"</string>
     <string name="card_title_in_call" msgid="6346543933068225205">"Anruf"</string>
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Meine Nummer lautet <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>."</string>
-    <string name="notification_dialing" msgid="2107666444937350731">"Rufaufbau..."</string>
+    <string name="notification_dialing" msgid="2107666444937350731">"Verbindung wird aufgebaut..."</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Entgangener Anruf"</string>
     <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Entgangene Anrufe"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> entgangene Anrufe"</string>
