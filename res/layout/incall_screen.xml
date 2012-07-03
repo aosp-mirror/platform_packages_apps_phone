@@ -17,8 +17,7 @@
 <!-- In-call Phone UI; see InCallScreen.java. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true">
+    android:layout_height="match_parent">
     <!-- The "Call Card", which displays info about the currently
          active phone call(s) on the device.  See call_card.xml.
 
