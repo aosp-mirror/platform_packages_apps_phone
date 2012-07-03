@@ -857,11 +857,11 @@ public class BluetoothHeadsetService extends Service {
                     setState(device, BluetoothProfile.STATE_DISCONNECTING);
 
                     HeadsetBase headset = remoteHeadset.mHeadset;
-                    if (remoteHeadset.mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
-                        headset.sendURC("+CIEV: 7,3");
-                    }
-
                     if (headset != null) {
+                        if (remoteHeadset.mHeadsetType == BluetoothHandsfree.TYPE_HANDSFREE) {
+                            headset.sendURC("+CIEV: 7,3");
+                        }
+
                         headset.disconnect();
                         headset = null;
                     }
