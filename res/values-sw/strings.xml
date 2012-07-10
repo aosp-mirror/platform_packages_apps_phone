@@ -353,7 +353,7 @@
     <string name="simContacts_empty" msgid="5270660846489561932">"Hakuna anwani kwenye kadi yako ya SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Chagua anwani za kuagiza"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Ili kuleta anwani kutoka kwa SIM kadi, kwanza zima hali ya Ndege."</string>
-    <string name="enable_pin" msgid="5422767284133234860">"Wezesha/lemaza nenosiri la SIM"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Wezesha/zima nenosiri la SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Badilisha nenosiri la SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN ya SIM:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"PIN ya zamani"</string>
