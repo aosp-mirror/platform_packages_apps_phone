@@ -119,7 +119,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     /**
      * Allowable values for the poke lock code (timeout between a user activity and the
-     * going to sleep), please refer to {@link com.android.server.PowerManagerService}
+     * going to sleep), please refer to {@link com.android.server.power.PowerManagerService}
      * for additional reference.
      *   SHORT uses the short delay for the timeout (SHORT_KEYLIGHT_DELAY, 6 sec)
      *   MEDIUM uses the medium delay for the timeout (MEDIUM_KEYLIGHT_DELAY, 15 sec)
