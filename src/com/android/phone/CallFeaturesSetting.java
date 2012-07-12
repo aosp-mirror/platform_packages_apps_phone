@@ -60,6 +60,7 @@ import android.widget.ListAdapter;
 import com.android.internal.telephony.CallForwardInfo;
 import com.android.internal.telephony.CommandsInterface;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.cdma.TtyIntent;
 import com.android.phone.sip.SipSharedPreferences;
 
@@ -876,7 +877,7 @@ public class CallFeaturesSetting extends PreferenceActivity
                 + " settings");
 
         // No fwd settings on CDMA
-        if (mPhone.getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if (mPhone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
             if (DBG) log("ignoring forwarding setting since this is CDMA phone");
             mNewFwdSettings = FWD_SETTINGS_DONT_TOUCH;
         }
@@ -1575,14 +1576,14 @@ public class CallFeaturesSetting extends PreferenceActivity
                 prefSet.removePreference(options);
 
             int phoneType = mPhone.getPhoneType();
-            if (phoneType == Phone.PHONE_TYPE_CDMA) {
+            if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                 Preference fdnButton = prefSet.findPreference(BUTTON_FDN_KEY);
                 if (fdnButton != null)
                     prefSet.removePreference(fdnButton);
                 if (!getResources().getBoolean(R.bool.config_voice_privacy_disable)) {
                     addPreferencesFromResource(R.xml.cdma_call_privacy);
                 }
-            } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                 addPreferencesFromResource(R.xml.gsm_umts_call_options);
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);

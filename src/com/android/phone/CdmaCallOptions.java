@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 
 import android.content.DialogInterface;
 import android.os.AsyncResult;
@@ -43,7 +44,7 @@ public class CdmaCallOptions extends PreferenceActivity {
         addPreferencesFromResource(R.xml.cdma_call_privacy);
 
         mButtonVoicePrivacy = (CheckBoxPreference) findPreference(BUTTON_VP_KEY);
-        if (PhoneApp.getPhone().getPhoneType() != Phone.PHONE_TYPE_CDMA
+        if (PhoneApp.getPhone().getPhoneType() != PhoneConstants.PHONE_TYPE_CDMA
                 || getResources().getBoolean(R.bool.config_voice_privacy_disable)) {
             //disable the entire screen
             getPreferenceScreen().setEnabled(false);

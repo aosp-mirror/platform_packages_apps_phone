@@ -54,7 +54,9 @@ import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneBase;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
+
 
 /**
  * NotificationManager-related utility code for the Phone app.
@@ -620,7 +622,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private void updateSpeakerNotification() {
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         boolean showNotification =
-                (mPhone.getState() == Phone.State.OFFHOOK) && audioManager.isSpeakerphoneOn();
+                (mPhone.getState() == PhoneConstants.State.OFFHOOK) && audioManager.isSpeakerphoneOn();
 
         if (DBG) log(showNotification
                      ? "updateSpeakerNotification: speaker ON"
@@ -693,7 +695,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             return;
         }
 
-        if ((mCM.getState() == Phone.State.OFFHOOK) && PhoneUtils.getMute()) {
+        if ((mCM.getState() == PhoneConstants.State.OFFHOOK) && PhoneUtils.getMute()) {
             if (DBG) log("updateMuteNotification: MUTED");
             notifyMute();
         } else {
@@ -782,7 +784,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // If the phone is idle, completely clean up all call-related
         // notifications.
-        if (mCM.getState() == Phone.State.IDLE) {
+        if (mCM.getState() == PhoneConstants.State.IDLE) {
             cancelInCall();
             cancelMute();
             cancelSpeakerphone();
