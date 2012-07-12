@@ -38,11 +38,11 @@
     <string name="callFailed_powerOff" msgid="2766035859391549713">"رادیو خاموش"</string>
     <string name="callFailed_simError" msgid="4476360200030635828">"فاقد سیم، یا خطای سیم"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"خارج از منطقه سرویس"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"تماس های خروجی توسط FDN محدود شده اند."</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"تماس های خروجی توسط FDN محدود شده‌اند."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"هنگام روشن بودن محدودیت تماس، برقراری تماس‌های خروجی امکان‌پذیر نیست."</string>
-    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"همه تماس ها توسط کنترل دسترسی محدود شده اند."</string>
-    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"تماس های اضطراری توسط کنترل دسترسی محدود شده اند."</string>
-    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"تماس های معمولی توسط کنترل دسترسی محدود شده اند."</string>
+    <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"همه تماس ها توسط کنترل دسترسی محدود شده‌اند."</string>
+    <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"تماس های اضطراری توسط کنترل دسترسی محدود شده‌اند."</string>
+    <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"تماس های معمولی توسط کنترل دسترسی محدود شده‌اند."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"شماره نامعتبر"</string>
     <string name="confCall" msgid="1904840547188336828">"تماس کنفرانسی"</string>
     <string name="call_lost" msgid="317670617901479594">"تماس قطع شد."</string>
@@ -145,8 +145,8 @@
     <string name="label_available" msgid="1181658289009300430">"شبکه های موجود"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"در حال جستجو…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"شبکه ای یافت نشد."</string>
-    <string name="search_networks" msgid="1601136049300882441">"جستجوی شبکه ها"</string>
-    <string name="network_query_error" msgid="6828516148953325006">"خطا هنگام جستجو برای شبکه ها."</string>
+    <string name="search_networks" msgid="1601136049300882441">"جستجوی شبکه‌ها"</string>
+    <string name="network_query_error" msgid="6828516148953325006">"خطا هنگام جستجو برای شبکه‌ها."</string>
     <string name="register_on_network" msgid="9055203954040805084">"در حال ثبت در <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed" msgid="5613353860205691579">"سیم کارت شما اجازه اتصال به این شبکه را نمی‌دهد."</string>
     <string name="connect_later" msgid="2308119155752343975">"اتصال به این شبکه در حال حاضر امکان پذیر نیست. بعداً دوباره امتحان کنید."</string>
@@ -185,8 +185,8 @@
     <string name="data_enabled" msgid="5972538663568715366">"داده ها فعال شدند"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"فعال کردن دسترسی داده از طریق شبکه تلفن همراه"</string>
     <string name="roaming" msgid="8871412572928323707">"رومینگ داده"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"اتصال به سرویس های داده هنگام رومینگ"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"اتصال به سرویس های داده هنگام رومینگ"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"اتصال به سرویس‌های داده هنگام رومینگ"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"اتصال به سرویس‌های داده هنگام رومینگ"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"اتصال داده خود را از دست داده‌اید، زیرا از شبکه اصلی خود خارج شدید و رومینگ داده خاموش است،"</string>
     <string name="roaming_warning" msgid="7820963598559553967">"رومینگ داده مجاز است؟ ممکن است هزینه های رومینگ زیادی برای شما در بر داشته باشد!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"گزینه های GSM/UMTS"</string>
