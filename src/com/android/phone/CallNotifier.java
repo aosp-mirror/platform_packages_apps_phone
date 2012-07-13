@@ -39,6 +39,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemProperties;
+import android.os.SystemVibrator;
 import android.os.Vibrator;
 import android.provider.CallLog.Calls;
 import android.provider.Settings;
@@ -1932,7 +1933,9 @@ public class CallNotifier extends Handler
                 new long[] { EMG_VIBRATE_LENGTH, EMG_VIBRATE_PAUSE };
 
         private ToneGenerator mToneGenerator;
-        private Vibrator mEmgVibrator;
+        // We don't rely on getSystemService(Context.VIBRATOR_SERVICE) to make sure this vibrator
+        // object will be isolated from others.
+        private Vibrator mEmgVibrator = new SystemVibrator();
         private int mInCallVolume;
 
         /**
@@ -1963,7 +1966,6 @@ public class CallNotifier extends Handler
                 }
             } else if (mIsEmergencyToneOn == EMERGENCY_TONE_VIBRATE) {
                 log("EmergencyTonePlayerVibrator.start(): emergency vibrate...");
-                mEmgVibrator = (Vibrator)mApplication.getSystemService(Context.VIBRATOR_SERVICE);
                 if (mEmgVibrator != null) {
                     mEmgVibrator.vibrate(mVibratePattern, 0);
                     mCurrentEmergencyToneState = EMERGENCY_TONE_VIBRATE;
