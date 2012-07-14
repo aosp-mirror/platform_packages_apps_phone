@@ -26,6 +26,7 @@ import android.util.Log;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.CallManager;
 
@@ -52,7 +53,7 @@ public class BluetoothPhoneService extends Service {
 
     private WakeLock mStartCallWakeLock;  // held while waiting for the intent to start call
 
-    private Phone.State mPhoneState = Phone.State.IDLE;
+    private PhoneConstants.State mPhoneState = PhoneConstants.State.IDLE;
     CdmaPhoneCallState.PhoneCallState mCdmaThreeWayCallState =
                                             CdmaPhoneCallState.PhoneCallState.IDLE;
 
@@ -247,7 +248,7 @@ public class BluetoothPhoneService extends Service {
         mRingingCallState = ringingCall.getState();
         mRingNumber = getCallNumber(connection, ringingCall);
 
-        if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA) {
+        if (mCM.getDefaultPhone().getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
             mNumHeld = getNumHeldCdma();
             PhoneApp app = PhoneApp.getInstance();
             if (app.cdmaPhoneCallState != null) {
@@ -304,7 +305,7 @@ public class BluetoothPhoneService extends Service {
         }
 
         boolean callsSwitched = false;
-        if (mCM.getDefaultPhone().getPhoneType() == Phone.PHONE_TYPE_CDMA &&
+        if (mCM.getDefaultPhone().getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA &&
             mCdmaThreeWayCallState == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
             callsSwitched = mCdmaCallsSwapped;
         } else {
@@ -334,9 +335,9 @@ public class BluetoothPhoneService extends Service {
 
         // TODO(BT) handle virtual call
 
-        if (phoneType == Phone.PHONE_TYPE_CDMA) {
+        if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
             listCurrentCallsCdma();
-        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+        } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
             listCurrentCallsGsm();
         } else {
             Log.e(TAG, "Unexpected phone type: " + phoneType);
@@ -723,7 +724,7 @@ public class BluetoothPhoneService extends Service {
                     return PhoneUtils.hangupHoldingCall(backgroundCall);
                 }
             } else if (chld == CHLD_TYPE_RELEASEACTIVE_ACCEPTHELD) {
-                if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                     if (ringingCall.isRinging()) {
                         // Hangup the active call and then answer call waiting call.
                         if (VDBG) log("CHLD:1 Callwaiting Answer call");
@@ -736,7 +737,7 @@ public class BluetoothPhoneService extends Service {
                         PhoneUtils.hangup(PhoneApp.getInstance().mCM);
                     }
                     return true;
-                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                     // Hangup active call, answer held call
                     return PhoneUtils.answerAndEndActive(PhoneApp.getInstance().mCM, ringingCall);
                 } else {
@@ -744,7 +745,7 @@ public class BluetoothPhoneService extends Service {
                     return false;
                 }
             } else if (chld == CHLD_TYPE_HOLDACTIVE_ACCEPTHELD) {
-                if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                     // For CDMA, the way we switch to a new incoming call is by
                     // calling PhoneUtils.answerCall(). switchAndHoldActive() won't
                     // properly update the call state within telephony.
@@ -768,7 +769,7 @@ public class BluetoothPhoneService extends Service {
                     }
                     Log.e(TAG, "CDMA fail to do hold active and accept held");
                     return false;
-                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                     PhoneUtils.switchHoldingAndActive(backgroundCall);
                     return true;
                 } else {
@@ -776,7 +777,7 @@ public class BluetoothPhoneService extends Service {
                     return false;
                 }
             } else if (chld == CHLD_TYPE_ADDHELDTOCONF) {
-                if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                     CdmaPhoneCallState.PhoneCallState state =
                         PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState();
                     // For CDMA, we need to check if the call is in THRWAY_ACTIVE state
@@ -792,7 +793,7 @@ public class BluetoothPhoneService extends Service {
                     }
                     Log.e(TAG, "GSG no call to add conference");
                     return false;
-                } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+                } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                     if (mCM.hasActiveFgCall() && mCM.hasActiveBgCall()) {
                         PhoneUtils.mergeCalls();
                         return true;
