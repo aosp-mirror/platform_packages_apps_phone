@@ -1316,9 +1316,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                                                || PhoneUtils.isSpeakerOn(this)
                                                || isBluetoothHeadsetAudioOn()
                                                || mIsHardKeyboardOpen);
-                // We do not keep the screen off when we are horizontal, but we do not force it
-                // on when we become horizontal until the proximity sensor goes negative.
-                boolean horizontal = (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
 
                 // We do not keep the screen off when the user is outside in-call screen and we are
                 // horizontal, but we do not force it on when we become horizontal until the

@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.IBluetoothHeadsetPhone;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -253,8 +254,6 @@ public class PhoneUtils {
         final Phone phone = ringing.getPhone();
         final boolean phoneIsCdma = (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA);
         boolean answered = false;
-        Phone phone = ringing.getPhone();
-        boolean phoneIsCdma = (phone.getPhoneType() == Phone.PHONE_TYPE_CDMA);
         IBluetoothHeadsetPhone btPhone = null;
 
         if (phoneIsCdma) {
@@ -296,7 +295,7 @@ public class PhoneUtils {
                                 Log.e(LOG_TAG, Log.getStackTraceString(new Throwable()));
                             }
                         }
-                    }
+                  }
                 }
 
                 final boolean isRealIncomingCall = isRealIncomingCall(ringing.getState());
@@ -322,7 +321,7 @@ public class PhoneUtils {
                 // - we did not activate speaker by ourselves during the process above, and
                 // - Bluetooth headset is not in use.
                 if (isRealIncomingCall && !speakerActivated && isSpeakerOn(app)
-                        && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
+                        && !app.isBluetoothHeadsetAudioOn()) {
                     // This is not an error but might cause users' confusion. Add log just in case.
                     Log.i(LOG_TAG, "Forcing speaker off due to new incoming call...");
                     turnOnSpeaker(app, false, true);
@@ -746,9 +745,8 @@ public class PhoneUtils {
             final boolean speakerActivated = activateSpeakerIfDocked(phone);
 
             // See also similar logic in answerCall().
-            final BluetoothHandsfree bluetoothHandsfree = app.getBluetoothHandsfree();
             if (initiallyIdle && !speakerActivated && isSpeakerOn(app)
-                    && !(bluetoothHandsfree != null && bluetoothHandsfree.isAudioOn())) {
+                    && !app.isBluetoothHeadsetAudioOn()) {
                 // This is not an error but might cause users' confusion. Add log just in case.
                 Log.i(LOG_TAG, "Forcing speaker off when initiating a new outgoing call...");
                 PhoneUtils.turnOnSpeaker(app, false, true);
