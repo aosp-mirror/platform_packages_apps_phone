@@ -229,9 +229,9 @@
     <string name="enable_disable_national" msgid="236278090206880734">"ملی"</string>
     <string name="national_enable" msgid="1172443648912246952">"اخبار ملی فعال شد"</string>
     <string name="national_disable" msgid="326018148178601166">"اخبار ملی غیر فعال شد"</string>
-    <string name="enable_disable_international" msgid="7535348799604565592">"بین المللی"</string>
-    <string name="international_enable" msgid="5855356769925044927">"اخبار بین المللی فعال شد"</string>
-    <string name="international_disable" msgid="2850648591041088931">"اخبار بین المللی غیر فعال شد"</string>
+    <string name="enable_disable_international" msgid="7535348799604565592">"بین‌المللی"</string>
+    <string name="international_enable" msgid="5855356769925044927">"اخبار بین‌المللی فعال شد"</string>
+    <string name="international_disable" msgid="2850648591041088931">"اخبار بین‌المللی غیر فعال شد"</string>
     <string name="list_language_title" msgid="2841683501919760043">"زبان"</string>
     <string name="list_language_summary" msgid="8109546531071241601">"انتخاب زبان اخبار"</string>
   <string-array name="list_language_entries">
@@ -504,7 +504,7 @@
     <string name="voicemail_settings" msgid="72448049107749316">"تنظیم"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;تنظیم نشده&gt;"</string>
     <string name="other_settings" msgid="3672912580359716394">"سایر تنظیمات تماس"</string>
-    <string name="calling_via_template" msgid="4839419581866928142">"فراخوانی از طریق <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
+    <string name="calling_via_template" msgid="4839419581866928142">"تماس از طریق <xliff:g id="PROVIDER_NAME">%s</xliff:g>"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"عکس مخاطب"</string>
     <string name="goPrivate" msgid="865837794424530980">"برو به خصوصی"</string>
     <string name="selectContact" msgid="781975788478987237">"انتخاب حساب"</string>
