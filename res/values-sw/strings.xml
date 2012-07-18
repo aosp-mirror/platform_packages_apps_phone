@@ -69,7 +69,7 @@
     <string name="label_ndp" msgid="780479633159517250">"PIN ya kufungua mtandao wa SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Fungua"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Kataa"</string>
-    <string name="requesting_unlock" msgid="6412629401033249351">"Inaomba nywila ya mtandao…."</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"Inaomba mtandao ufunguliwe…."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Ombi la kufungua mtandao halijafaulu."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Umefaulu kufungua mtandao."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Mipangilio ya simu ya GSM"</string>
