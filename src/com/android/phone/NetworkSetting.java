@@ -287,7 +287,7 @@ public class NetworkSetting extends PreferenceActivity
                 default:
                     // reinstate the cancelablity of the dialog.
                     dialog.setMessage(getResources().getString(R.string.load_networks_progress));
-                    dialog.setCancelable(true);
+                    dialog.setCanceledOnTouchOutside(false);
                     dialog.setOnCancelListener(this);
                     break;
             }
