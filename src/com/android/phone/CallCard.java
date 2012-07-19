@@ -445,7 +445,7 @@ public class CallCard extends LinearLayout
      * (ie. the stuff in the primaryCallInfo block) based on the specified Call.
      */
     private void displayMainCallStatus(CallManager cm, Call call) {
-        if (DBG) log("displayMainCallStatus(call " + call + ")...");
+        log("displayMainCallStatus(call " + call + ")...");
 
         if (call == null) {
             // There's no call to display, presumably because the phone is idle.
@@ -455,7 +455,7 @@ public class CallCard extends LinearLayout
         mPrimaryCallInfo.setVisibility(View.VISIBLE);
 
         Call.State state = call.getState();
-        if (DBG) log("  - call.state: " + call.getState());
+        log("  - call.state: " + call.getState());
 
         switch (state) {
             case ACTIVE:

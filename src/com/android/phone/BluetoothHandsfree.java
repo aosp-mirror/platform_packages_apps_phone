@@ -2357,13 +2357,13 @@ public class BluetoothHandsfree {
                         if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                             if (ringingCall.isRinging()) {
                                 // Hangup the active call and then answer call waiting call.
-                                if (VDBG) log("CHLD:1 Callwaiting Answer call");
+                                log("CHLD:1 Callwaiting Answer call");
                                 PhoneUtils.hangupRingingAndActive(phone);
                             } else {
                                 // If there is no Call waiting then just hangup
                                 // the active call. In CDMA this mean that the complete
                                 // call session would be ended
-                                if (VDBG) log("CHLD:1 Hangup Call");
+                                log("CHLD:1 Hangup Call");
                                 PhoneUtils.hangup(PhoneApp.getInstance().mCM);
                             }
                             return new AtCommandResult(AtCommandResult.OK);
@@ -2387,7 +2387,7 @@ public class BluetoothHandsfree {
                             // If the Phone state is already in CONF_CALL then we simply send
                             // a flash cmd by calling switchHoldingAndActive()
                             if (ringingCall.isRinging()) {
-                                if (VDBG) log("CHLD:2 Callwaiting Answer call");
+                                log("CHLD:2 Callwaiting Answer call");
                                 PhoneUtils.answerCall(ringingCall);
                                 PhoneUtils.setMute(false);
                                 // Setting the second callers state flag to TRUE (i.e. active)
@@ -2395,7 +2395,7 @@ public class BluetoothHandsfree {
                             } else if (PhoneApp.getInstance().cdmaPhoneCallState
                                     .getCurrentCallState()
                                     == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
-                                if (VDBG) log("CHLD:2 Swap Calls");
+                                log("CHLD:2 Swap Calls");
                                 PhoneUtils.switchHoldingAndActive(backgroundCall);
                                 // Toggle the second callers active state flag
                                 cdmaSwapSecondCallState();
@@ -2413,7 +2413,7 @@ public class BluetoothHandsfree {
                                 PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState();
                             // For CDMA, we need to check if the call is in THRWAY_ACTIVE state
                             if (state == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
-                                if (VDBG) log("CHLD:3 Merge Calls");
+                                log("CHLD:3 Merge Calls");
                                 PhoneUtils.mergeCalls();
                             } else if (state == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                                 // State is CONF_CALL already and we are getting a merge call

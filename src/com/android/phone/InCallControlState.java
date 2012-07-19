@@ -204,7 +204,7 @@ public class InCallControlState {
             canHold = false;
         }
 
-        if (DBG) dumpState();
+        dumpState();
     }
 
     public void dumpState() {
