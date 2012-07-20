@@ -47,7 +47,7 @@
     <string name="confCall" msgid="1904840547188336828">"تماس کنفرانسی"</string>
     <string name="call_lost" msgid="317670617901479594">"تماس قطع شد."</string>
     <string name="ok" msgid="3811371167865772377">"تأیید"</string>
-    <string name="mmiStarted" msgid="6347869857061147003">"کد MMI راه اندازی شد"</string>
+    <string name="mmiStarted" msgid="6347869857061147003">"کد MMI راه‌اندازی شد"</string>
     <string name="ussdRunning" msgid="485588686340541690">"در حال اجرای کد USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"کد MMI لغو شد"</string>
     <string name="cancel" msgid="5044513931633602634">"لغو"</string>
@@ -124,7 +124,7 @@
     <string name="response_error" msgid="6674110501330139405">"پاسخ پیش‌بینی نشده از شبکه."</string>
     <string name="exception_error" msgid="7027667130619518211">"خطای شبکه یا سیم کارت."</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"تنظیم اعداد شماره‌گیری ثابت برنامه‌های تلفن شما غیرفعال است. درنتیجه، برخی از ویژگی‌های مربوط به تماس کار نمی‌کند."</string>
-    <string name="radio_off_error" msgid="2304459933248513376">"قبل از مشاهده این تنظیمات، رادیو را روشن کنید."</string>
+    <string name="radio_off_error" msgid="2304459933248513376">"قبل از مشاهدهٔ این تنظیمات، رادیو را روشن کنید."</string>
     <string name="close_dialog" msgid="2365884406356986917">"تأیید"</string>
     <string name="enable" msgid="1059008390636773574">"فعال کردن"</string>
     <string name="disable" msgid="7274240979164762320">"غیرفعال کردن"</string>
@@ -149,7 +149,7 @@
     <string name="network_query_error" msgid="6828516148953325006">"خطا هنگام جستجو برای شبکه‌ها."</string>
     <string name="register_on_network" msgid="9055203954040805084">"در حال ثبت در <xliff:g id="NETWORK">%s</xliff:g>..."</string>
     <string name="not_allowed" msgid="5613353860205691579">"سیم کارت شما اجازه اتصال به این شبکه را نمی‌دهد."</string>
-    <string name="connect_later" msgid="2308119155752343975">"اتصال به این شبکه در حال حاضر امکان پذیر نیست. بعداً دوباره امتحان کنید."</string>
+    <string name="connect_later" msgid="2308119155752343975">"اتصال به این شبکه در حال حاضر امکان‌پذیر نیست. بعداً دوباره امتحان کنید."</string>
     <string name="registration_done" msgid="495135664535876612">"در شبکه ثبت شد."</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"انتخاب یک اپراتور شبکه"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"جستجوی همه شبکه‌های موجود"</string>
@@ -310,7 +310,7 @@
     <item msgid="6043847456049107742">"1"</item>
   </string-array>
     <string name="cdma_activate_device" msgid="3793805892364814518">"فعال کردن دستگاه"</string>
-    <string name="cdma_lte_data_service" msgid="4255018217292548962">"راه اندازی سرویس داده"</string>
+    <string name="cdma_lte_data_service" msgid="4255018217292548962">"راه‌اندازی سرویس داده"</string>
     <string name="fdn" msgid="7878832555095183202">"شماره‌های شماره گیری ثابت"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"لیست FDN"</string>
     <string name="fdn_activation" msgid="2156479741307463576">"فعال کردن FDN"</string>
@@ -419,19 +419,19 @@
     <string name="incall_error_call_failed" msgid="4313552620858880999">"تماس ارسال نشد."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"شروع ترتیب MMI..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"سرویس پشتیبانی نشده."</string>
-    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"تغییر وضعیت تماس‌ها امکان پذیر نیست."</string>
-    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"تفکیک تماس امکان پذیر نیست."</string>
-    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"انتقال تماس امکان پذیر نیست."</string>
-    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"تماس‌های کنفرانسی امکان پذیر نیست."</string>
-    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"رد کردن تماس امکان پذیر نیست."</string>
-    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"آزاد کردن تماس(ها) امکان پذیر نیست."</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"تغییر وضعیت تماس‌ها امکان‌پذیر نیست."</string>
+    <string name="incall_error_supp_service_separate" msgid="914362338192301746">"تفکیک تماس امکان‌پذیر نیست."</string>
+    <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"انتقال تماس امکان‌پذیر نیست."</string>
+    <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"تماس‌های کنفرانسی امکان‌پذیر نیست."</string>
+    <string name="incall_error_supp_service_reject" msgid="7055164130563826216">"رد کردن تماس امکان‌پذیر نیست."</string>
+    <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"آزاد کردن تماس(ها) امکان‌پذیر نیست."</string>
     <string name="incall_call_type_label_sip" msgid="2310958283037924371">"تماس اینترنتی"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"تماس اضطراری"</string>
     <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"در حال روشن کردن رادیو..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"خارج از منطقه سرویس، در حال امتحان مجدد..."</string>
     <string name="dial_emergency_error" msgid="7969515493359619960">"تماس ارسال نشد. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> یک شماره اضطراری نیست!"</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"تماس ارسال نشد، لطفاً یک شماره اضطراری را شماره‌گیری کنید!"</string>
-    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"استفاده از صفحه کلید برای شماره گیری"</string>
+    <string name="dialerKeyboardHintText" msgid="9192914825413747792">"استفاده از صفحه‌کلید برای شماره گیری"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"نگهداشت"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"پایان"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"دکمه‌های شماره گیری"</string>
@@ -473,7 +473,7 @@
     <string name="ota_speaker" msgid="6904589278542719647">"بلندگو"</string>
     <string name="ota_progress" msgid="3420314892609254729">"هنگام برنامه‌ریزی تلفن خود، منتظر بمانید."</string>
     <string name="ota_failure" msgid="4311299546379674378">"برنامه‌ریزی ناموفق"</string>
-    <string name="ota_successful" msgid="1880780692887077407">"گوشی شما در حال حاضر فعال است. راه اندازی سرویس ممکن است ۱۵ دقیقه طول بکشد."</string>
+    <string name="ota_successful" msgid="1880780692887077407">"گوشی شما در حال حاضر فعال است. راه‌اندازی سرویس ممکن است ۱۵ دقیقه طول بکشد."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"تلفن شما فعال نشد. "\n"ممکن است لازم باشد منطقه‌ای با پوشش بهتر (در نزدیکی پنجره، یا خارج از ساختمان) پیدا کنید. "\n\n"دوباره امتحان کنید یا برای اطلاع از گزینه‌های بیشتر، با سرویس مشتری تماس بگیرید."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"خطاهای SPC بسیار زیاد"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"برگشت"</string>
