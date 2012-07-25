@@ -663,8 +663,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION, null);
         }
 
-        // TODO return cell info list got from mPhone
-        return null;
+        return mPhone.getAllCellInfo();
     }
 
     //
