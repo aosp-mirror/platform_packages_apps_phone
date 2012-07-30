@@ -96,6 +96,7 @@
             <provider android:name="IccProvider"
                       android:authorities="icc"
                       android:multiprocess="true"
+                      android:exported="true"
                       android:readPermission="android.permission.READ_CONTACTS"
                       android:writePermission="android.permission.WRITE_CONTACTS" />
 
