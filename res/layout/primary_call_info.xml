@@ -68,7 +68,7 @@
          and other status info.  This info is shown as a "banner"
          overlaid across the top of contact photo. -->
     <RelativeLayout android:id="@+id/primary_call_banner"
-        android:layout_alignParentTop="true"
+        style="@style/PrimaryCallInfoPrimaryCallBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/call_banner_height"
@@ -137,7 +137,7 @@
     </RelativeLayout>  <!-- End of call_banner -->
 
     <LinearLayout android:id="@+id/secondary_info_container"
-        android:layout_below="@id/primary_call_banner"
+        style="@style/PrimaryCallInfoSecondaryInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"

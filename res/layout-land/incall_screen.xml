@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2007 The Android Open Source Project
+<!-- Copyright (C) 2012 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,31 +16,48 @@
 
 <!-- In-call Phone UI; see InCallScreen.java. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/landscape_incall_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- The "Call Card", which displays info about the currently
-         active phone call(s) on the device.  See call_card.xml.
-
-         Note that the CallCard is technically the size of the full screen
-         (since layout_width and layout_height are both "match_parent" here) but
-         we manually adjust its bottom margin in CallCard.updateCallInfoLayout()
-         to make sure it doesn't overlap with the onscreen buttons from
-         incall_touch_ui.xml. -->
-    <include
-        layout="@layout/call_card"
-        android:id="@+id/callCard"
+         active phone call(s) on the device.  See call_card.xml. -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:background="@drawable/background_dial_holo_dark">
+        <include
+            layout="@layout/call_card"
+            android:id="@+id/callCard"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <!-- Note: This center margin is repeated in layout-land/incall_touch_ui
+             Both layouts need to have this margin to be aligned correctly. -->
+        <View
+            android:layout_width="@dimen/dialpad_center_margin"
+            android:layout_weight="0"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <!-- In-call onscreen touch controls; see InCallTouchUi.java.
-         This widget contains the cluster of buttons shown at the bottom
+         This widget contains the cluster of buttons shown at the right
          of the in-call screen, and also the DTMF dialpad (which, when
-         visible, covers the upper part of the screen too.) -->
-    <include layout="@layout/incall_touch_ui"
+         visible, covers the contact picture/call_card on the left half of the screen) -->
+
+    <ViewStub
+        android:id="@+id/inCallTouchUiStub"
+        android:layout="@layout/incall_touch_ui"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
+    <ViewStub
+        android:id="@+id/inCallTouchUiCdmaStub"
+        android:layout="@layout/incall_touch_ui_cdma"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <!-- ViewStub for OTASP-related UI elements (for the CDMA "activation"
          call.)  Note that this ViewStub provides the *entire* OTASP
@@ -50,8 +67,7 @@
     <ViewStub android:id="@+id/otaCallCardStub"
               android:layout="@layout/otacall_card"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              />
+              android:layout_height="match_parent" />
 
     <!-- The "Manage conference" UI.  This panel is displayed (and covers up
          the entire normal in-call UI) when the user clicks "Manage conference"
@@ -59,7 +75,6 @@
     <ViewStub android:id="@+id/manageConferencePanelStub"
               android:layout="@layout/manage_conference_panel"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              />
+              android:layout_height="match_parent" />
 
 </FrameLayout>

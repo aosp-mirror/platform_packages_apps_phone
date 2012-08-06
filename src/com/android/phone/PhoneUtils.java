@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -2801,5 +2802,13 @@ public class PhoneUtils {
         }
 
         Log.d(LOG_TAG, "############## END dumpCallManager() ###############");
+    }
+
+    /**
+     * @return if the context is in landscape orientation.
+     */
+    public static boolean isLandscape(Context context) {
+        return context.getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

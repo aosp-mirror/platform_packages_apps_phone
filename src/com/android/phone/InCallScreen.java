@@ -491,6 +491,13 @@ public class InCallScreen extends Activity
         // Inflate everything in incall_screen.xml and add it to the screen.
         setContentView(R.layout.incall_screen);
 
+        // If in landscape, then one of the ViewStubs (instead of <include>) is used for the
+        // incall_touch_ui, because CDMA and GSM button layouts are noticeably different.
+        final ViewStub touchUiStub = (ViewStub) findViewById(
+                mPhone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA
+                ? R.id.inCallTouchUiCdmaStub : R.id.inCallTouchUiStub);
+        if (touchUiStub != null) touchUiStub.inflate();
+
         initInCallScreen();
 
         registerForPhoneStates();
@@ -4516,11 +4523,12 @@ public class InCallScreen extends Activity
     /**
      * Manually handle configuration changes.
      *
-     * We specify android:configChanges="orientation|keyboardHidden|uiMode" in
-     * our manifest to make sure the system doesn't destroy and re-create us
-     * due to the above config changes.  Instead, this method will be called,
-     * and should manually rebuild the onscreen UI to keep it in sync with the
-     * current configuration.
+     * Originally android:configChanges was set to "orientation|keyboardHidden|uiMode"
+     * in order "to make sure the system doesn't destroy and re-create us due to the
+     * above config changes". However it is currently set to "keyboardHidden" since
+     * the system needs to handle rotation when inserted into a compatible cardock.
+     * Even without explicitly handling orientation and uiMode, the app still runs
+     * and does not drop the call when rotated.
      *
      */
     public void onConfigurationChanged(Configuration newConfig) {
