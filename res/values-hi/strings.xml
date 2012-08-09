@@ -233,7 +233,7 @@
     <string name="international_enable" msgid="5855356769925044927">"अंतर्राष्ट्रीय समाचार सक्षम किए गए"</string>
     <string name="international_disable" msgid="2850648591041088931">"अंतर्राष्ट्रीय समाचार अक्षम किए गए"</string>
     <string name="list_language_title" msgid="2841683501919760043">"भाषा"</string>
-    <string name="list_language_summary" msgid="8109546531071241601">"समाचार भाषा का चयन करें"</string>
+    <string name="list_language_summary" msgid="8109546531071241601">"समाचार भाषा को चुनें"</string>
   <string-array name="list_language_entries">
     <item msgid="6137851079727305485">"अंग्रेज़ी"</item>
     <item msgid="1151988412809572526">"फ़्रांसीसी"</item>
@@ -351,7 +351,7 @@
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN अपडेट नहीं किया गया था. PIN2 गलत था, या फ़ोन नंबर अस्वीकृत था."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"सिम कार्ड से पढ़ रहा है…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"आपके सिम कार्ड पर कोई संपर्क नहीं है."</string>
-    <string name="simContacts_title" msgid="1861472842524839921">"आयात करने के लिए संपर्कों का चयन करें"</string>
+    <string name="simContacts_title" msgid="1861472842524839921">"आयात करने के लिए संपर्कों को चुनें"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"सिम कार्ड से संपर्क आयात करने के लिए, पहले हवाई जहाज़ मोड बंद करें."</string>
     <string name="enable_pin" msgid="5422767284133234860">"सिम पिन सक्षम/अक्षम करें"</string>
     <string name="change_pin" msgid="9174186126330785343">"सिम पिन बदलें"</string>
@@ -507,7 +507,7 @@
     <string name="calling_via_template" msgid="4839419581866928142">"<xliff:g id="PROVIDER_NAME">%s</xliff:g> के माध्यम से कॉल किया जा रहा है"</string>
     <string name="contactPhoto" msgid="4713193418046639466">"संपर्क का फ़ोटो"</string>
     <string name="goPrivate" msgid="865837794424530980">"निजी हो जाएं"</string>
-    <string name="selectContact" msgid="781975788478987237">"संपर्क का चयन करें"</string>
+    <string name="selectContact" msgid="781975788478987237">"संपर्क को चुनें"</string>
     <string name="sip_settings" msgid="6699045718560859691">"इंटरनेट कॉल सेटिंग"</string>
     <string name="sip_accounts" msgid="2097054001288457163">"इंटरनेट कॉलिंग (SIP) खाते"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"खाते"</string>
