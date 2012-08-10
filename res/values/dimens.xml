@@ -41,7 +41,7 @@
     <!-- Height of the main row of in-call buttons. -->
     <dimen name="in_call_button_height">76dp</dimen>
 
-    <!-- Height of the in-call "End" button. -->
+    <!-- Height of the in-call "End" button. Match with Contact's dimens/call_button_height -->
     <dimen name="in_call_end_button_height">74dp</dimen>
 
     <!-- Width of buttons in the extra button row. -->
@@ -69,8 +69,12 @@
     <dimen name="dialpad_horizontal_margin">4dp</dimen>
     <dimen name="dialpad_vertical_margin">2dp</dimen>
     <dimen name="dialpad_digits_text_size">35sp</dimen>
+
     <!-- Just used in landscape mode -->
     <dimen name="emergency_dialer_digits_height">0px</dimen>
+    <dimen name="dialpad_center_margin">3dp</dimen>
+    <dimen name="dialpad_button_margin">3dp</dimen>
+
 
     <!-- Layout weight values for dialpad screen. These layouts will be used in one
          LinearLayout (dialpad_fragment.xml), configuring dialpad screen's vertical

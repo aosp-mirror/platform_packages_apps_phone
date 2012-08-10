@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!-- Copyright (C) 2012 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,9 +13,19 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-    <dimen name="emergency_dialer_digits_height">66dip</dimen>
 
-    <!-- Height of the "call banner" overlay on bottom of the call_card -->
-    <dimen name="call_banner_height">@dimen/in_call_end_button_height</dimen>
+<resources>
+    <style name="PrimaryCallInfoPrimaryCallBanner">
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+    <style name="PrimaryCallInfoSecondaryInfoContainer">
+        <item name="android:layout_above">@id/primary_call_banner</item>
+    </style>
+
+    <style name="SecondaryCallInfoSecondaryCallName">
+        <item name="android:layout_gravity">bottom|left</item>
+    </style>
+    <style name="SecondaryCallInfoSecondaryCallStatus">
+        <item name="android:layout_gravity">bottom|right</item>
+    </style>
 </resources>

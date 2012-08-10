@@ -41,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.Call;
@@ -207,9 +208,11 @@ public class InCallTouchUi extends FrameLayout
         // Buttons shown on the "extra button row", only visible in certain (rare) states.
         mExtraButtonRow = (ViewStub) mInCallControls.findViewById(R.id.extraButtonRow);
 
-        // Add a custom OnTouchListener to manually shrink the "hit target".
-        View.OnTouchListener smallerHitTargetTouchListener = new SmallerHitTargetTouchListener();
-        mEndButton.setOnTouchListener(smallerHitTargetTouchListener);
+        // If in PORTRAIT, add a custom OnTouchListener to shrink the "hit target".
+        if (!PhoneUtils.isLandscape(this.getContext())) {
+            mEndButton.setOnTouchListener(new SmallerHitTargetTouchListener());
+        }
+
     }
 
     /**
@@ -523,10 +526,12 @@ public class InCallTouchUi extends FrameLayout
             mHoldButton.setEnabled(true);
             mHoldButton.setChecked(inCallControlState.onHold);
             mSwapButton.setVisibility(View.GONE);
+            mHoldSwapSpacer.setVisibility(View.VISIBLE);
         } else if (inCallControlState.canSwap) {
             mSwapButton.setVisibility(View.VISIBLE);
             mSwapButton.setEnabled(true);
             mHoldButton.setVisibility(View.GONE);
+            mHoldSwapSpacer.setVisibility(View.VISIBLE);
         } else {
             // Neither "Hold" nor "Swap" is available.  This can happen for two
             // reasons:
@@ -1177,6 +1182,16 @@ public class InCallTouchUi extends FrameLayout
             // touch the widget.)
             mIncomingCallWidget.reset(false);
             mIncomingCallWidgetShouldBeReset = false;
+        }
+
+        // On an incoming call, if the layout is landscape, then align the "incoming call" text
+        // to the left, because the incomingCallWidget (black background with glowing ring)
+        // is aligned to the right and would cover the "incoming call" text.
+        // Note that callStateLabel is within CallCard, outside of the context of InCallTouchUi
+        if (PhoneUtils.isLandscape(this.getContext())) {
+            TextView callStateLabel = (TextView) mIncomingCallWidget
+                    .getRootView().findViewById(R.id.callStateLabel);
+            if (callStateLabel != null) callStateLabel.setGravity(Gravity.LEFT);
         }
 
         mIncomingCallWidget.setVisibility(View.VISIBLE);

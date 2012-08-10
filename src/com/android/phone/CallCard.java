@@ -33,6 +33,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -255,8 +256,12 @@ public class CallCard extends LinearLayout
         Call fgCall = cm.getActiveFgCall();
         Call bgCall = cm.getFirstActiveBgCall();
 
-        // Update the overall layout of the onscreen elements.
-        updateCallInfoLayout(state);
+        // Update the overall layout of the onscreen elements, if in PORTRAIT.
+        // Portrait uses a programatically altered layout, whereas landscape uses layout xml's.
+        // Landscape view has the views side by side, so no shifting of the picture is needed
+        if (!PhoneUtils.isLandscape(this.getContext())) {
+            updateCallInfoLayout(state);
+        }
 
         // If the FG call is dialing/alerting, we should display for that call
         // and ignore the ringing call. This case happens when the telephony
@@ -866,6 +871,14 @@ public class CallCard extends LinearLayout
             }
         } else {
             mCallStateLabel.setVisibility(View.GONE);
+            // Gravity is aligned left when receiving an incoming call in landscape.
+            // In that rare case, the gravity needs to be reset to the right.
+            // Also, setText("") is used since there is a delay in making the view GONE,
+            // so the user will otherwise see the text jump to the right side before disappearing.
+            if(mCallStateLabel.getGravity() != Gravity.RIGHT) {
+                mCallStateLabel.setText("");
+                mCallStateLabel.setGravity(Gravity.RIGHT);
+            }
         }
         if (skipAnimation) {
             // Restore LayoutTransition object to recover animation.

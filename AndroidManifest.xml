@@ -142,7 +142,7 @@
         <activity android:name="OutgoingCallBroadcaster"
                 android:theme="@style/OutgoingCallBroadcasterTheme"
                 android:permission="android.permission.CALL_PHONE"
-                android:screenOrientation="portrait"
+                android:screenOrientation="nosensor"
                 android:configChanges="orientation|screenSize|keyboardHidden">
             <!-- CALL action intent filters, for the various ways
                  of initiating an outgoing call. -->
@@ -198,6 +198,7 @@
 
         <activity-alias android:name="PrivilegedOutgoingCallBroadcaster"
                 android:targetActivity="OutgoingCallBroadcaster"
+                android:screenOrientation="nosensor"
                 android:permission="android.permission.CALL_PRIVILEGED">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
@@ -240,8 +241,8 @@
             android:label="@string/phoneIconLabel"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboardHidden"
             android:exported="false">
         </activity>
 
@@ -494,7 +495,7 @@
         </activity>
         <activity android:name=".SipCallOptionHandler"
                 android:theme="@style/SipCallOptionHandlerTheme"
-                android:screenOrientation="portrait"
+                android:screenOrientation="nosensor"
                 android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
 

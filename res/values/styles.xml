@@ -238,4 +238,18 @@
         <item name="android:editable">true</item>
         <item name="android:cursorVisible">false</item>
     </style>
+
+    <style name="PrimaryCallInfoPrimaryCallBanner">
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+    <style name="PrimaryCallInfoSecondaryInfoContainer">
+        <item name="android:layout_below">@id/primary_call_banner</item>
+    </style>
+
+    <style name="SecondaryCallInfoSecondaryCallName">
+        <item name="android:layout_gravity">top|left</item>
+    </style>
+    <style name="SecondaryCallInfoSecondaryCallStatus">
+        <item name="android:layout_gravity">top|right</item>
+    </style>
 </resources>
