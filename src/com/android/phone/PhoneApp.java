@@ -237,6 +237,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private boolean mIgnoreTouchUserActivity = false;
     private final IBinder mPokeLockToken = new Binder();
 
+    private PowerManager mPowerManager;
     private IPowerManager mPowerManagerService;
     private PowerManager.WakeLock mWakeLock;
     private PowerManager.WakeLock mPartialWakeLock;
@@ -510,18 +511,18 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             ringer = Ringer.init(this);
 
             // before registering for phone state changes
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+            mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            mWakeLock = mPowerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK
                     | PowerManager.ACQUIRE_CAUSES_WAKEUP,
                     LOG_TAG);
             // lock used to keep the processor awake, when we don't care for the display.
-            mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+            mPartialWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
             // Wake lock used to control proximity sensor behavior.
-            if ((pm.getSupportedWakeLockFlags()
-                 & PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK) != 0x0) {
-                mProximityWakeLock =
-                        pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
+            if (mPowerManager.isWakeLockLevelSupported(
+                    PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK)) {
+                mProximityWakeLock = mPowerManager.newWakeLock(
+                        PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
             }
             if (DBG) Log.d(LOG_TAG, "onCreate: mProximityWakeLock: " + mProximityWakeLock);
 
@@ -1113,11 +1114,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         synchronized (this) {
             if (mWakeState == WakeState.SLEEP) {
                 if (DBG) Log.d(LOG_TAG, "pulse screen lock");
-                try {
-                    mPowerManagerService.userActivityWithForce(SystemClock.uptimeMillis(), false, true);
-                } catch (RemoteException ex) {
-                    // Ignore -- the system process is dead.
-                }
+                mPowerManager.wakeUp(SystemClock.uptimeMillis());
             }
         }
     }
@@ -1256,11 +1253,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     /* package */ void pokeUserActivity() {
         if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");
-        try {
-            mPowerManagerService.userActivity(SystemClock.uptimeMillis(), false);
-        } catch (RemoteException e) {
-            Log.w(LOG_TAG, "mPowerManagerService.userActivity() failed: " + e);
-        }
+        mPowerManager.userActivity(SystemClock.uptimeMillis(), false);
     }
 
     /**
