@@ -272,7 +272,8 @@ public class BluetoothPhoneService extends Service {
                 log("CDMA call state: " + currCdmaThreeWayCallState + " prev state:" +
                     prevCdmaThreeWayCallState);
 
-                if (mCdmaThreeWayCallState != currCdmaThreeWayCallState) {
+                if ((mBluetoothHeadset != null) &&
+                    (mCdmaThreeWayCallState != currCdmaThreeWayCallState)) {
                     // In CDMA, the network does not provide any feedback
                     // to the phone when the 2nd MO call goes through the
                     // stages of DIALING > ALERTING -> ACTIVE we fake the
