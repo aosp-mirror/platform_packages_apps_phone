@@ -153,8 +153,8 @@
     <string name="registration_done" msgid="495135664535876612">"नेटवर्क पर पंजीकृत."</string>
     <string name="sum_carrier_select" msgid="3494252551249882718">"कोई नेटवर्क ऑपरेटर चुनें"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"सभी उपलब्ध नेटवर्क खोजें"</string>
-    <string name="select_automatically" msgid="5628402124471810174">"स्वचालित रूप से चुनें"</string>
-    <string name="sum_select_automatically" msgid="5614890115123292400">"पसंदीदा नेटवर्क स्वचालित रूप से चुनें"</string>
+    <string name="select_automatically" msgid="5628402124471810174">"अपने आप चुनें"</string>
+    <string name="sum_select_automatically" msgid="5614890115123292400">"पसंदीदा नेटवर्क अपने आप चुनें"</string>
     <string name="register_automatically" msgid="6017849844573519637">"स्वचालित पंजीकरण..."</string>
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"नेटवर्क मोड"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"नेटवर्क संचालन मोड बदलें"</string>
