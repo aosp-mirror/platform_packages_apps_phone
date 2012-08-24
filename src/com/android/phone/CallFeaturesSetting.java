@@ -118,9 +118,9 @@ public class CallFeaturesSetting extends PreferenceActivity
     // choose another VM provider
     public static final String SIGNOUT_EXTRA = "com.android.phone.Signout";
     //Information about logical "up" Activity
-    private static final String UP_ACTIVITY_PACKAGE = "com.android.contacts";
+    private static final String UP_ACTIVITY_PACKAGE = "com.android.dialer";
     private static final String UP_ACTIVITY_CLASS =
-            "com.android.contacts.activities.DialtactsActivity";
+            "com.android.dialer.DialtactsActivity";
 
     // Used to tell the saving logic to leave forwarding number as is
     public static final CallForwardInfo[] FWD_SETTINGS_DONT_TOUCH = null;

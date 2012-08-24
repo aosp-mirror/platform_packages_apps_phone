@@ -1932,9 +1932,9 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      * while we are now assuming it is "com.android.contacts"
      */
     public static final String EXTRA_CALL_ORIGIN = "com.android.phone.CALL_ORIGIN";
-    private static final String DEFAULT_CALL_ORIGIN_PACKAGE = "com.android.contacts";
+    private static final String DEFAULT_CALL_ORIGIN_PACKAGE = "com.android.dialer";
     private static final String ALLOWED_EXTRA_CALL_ORIGIN =
-            "com.android.contacts.activities.DialtactsActivity";
+            "com.android.dialer.DialtactsActivity";
     /**
      * Used to determine if the preserved call origin is fresh enough.
      */
@@ -1994,7 +1994,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     + inCallUiState.latestActiveCallOrigin + ") was found. "
                     + "Go back to the previous screen.");
             // Right now we just launch the Activity which launched in-call UI. Note that we're
-            // assuming the origin is from "com.android.contacts", which may be incorrect in the
+            // assuming the origin is from "com.android.dialer", which may be incorrect in the
             // future.
             final Intent intent = new Intent();
             intent.setClassName(DEFAULT_CALL_ORIGIN_PACKAGE, inCallUiState.latestActiveCallOrigin);

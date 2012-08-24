@@ -478,8 +478,8 @@ public class OutgoingCallBroadcaster extends Activity
                 // use the java resolver to find the dialer class (as
                 // opposed to a Context which look up known android
                 // packages only)
-                invokeFrameworkDialer.setClassName("com.android.contacts",
-                                                   "com.android.contacts.DialtactsActivity");
+                invokeFrameworkDialer.setClassName("com.android.dialer",
+                                                   "com.android.dialer.DialtactsActivity");
                 invokeFrameworkDialer.setAction(Intent.ACTION_DIAL);
                 invokeFrameworkDialer.setData(intent.getData());
 
