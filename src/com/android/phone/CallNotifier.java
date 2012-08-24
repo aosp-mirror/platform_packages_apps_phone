@@ -29,6 +29,7 @@ import com.android.internal.telephony.cdma.CdmaCallWaitingNotification;
 import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaDisplayInfoRec;
 import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.cdma.SignalToneUtil;
+import com.android.phone.common.CallLogAsync;
 
 import android.app.ActivityManagerNative;
 import android.bluetooth.BluetoothAdapter;

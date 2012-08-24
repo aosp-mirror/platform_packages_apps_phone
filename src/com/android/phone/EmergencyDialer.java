@@ -41,6 +41,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.android.phone.common.HapticFeedback;
+
 
 /**
  * EmergencyDialer is a special dialer that is used ONLY for dialing emergency calls.
