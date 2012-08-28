@@ -295,6 +295,7 @@ public class EditFdnContactScreen extends Activity {
     private void updateContact() {
         if (DBG) log("updateContact");
 
+        final String name = getNameFromTextField();
         final String number = PhoneNumberUtils.convertAndStrip(getNumberFromTextField());
 
         if (!isValidNumber(number)) {
@@ -306,7 +307,7 @@ public class EditFdnContactScreen extends Activity {
         ContentValues bundle = new ContentValues();
         bundle.put("tag", mName);
         bundle.put("number", mNumber);
-        bundle.put("newTag", number);
+        bundle.put("newTag", name);
         bundle.put("newNumber", number);
         bundle.put("pin2", mPin2);
 
