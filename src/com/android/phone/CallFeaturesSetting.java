@@ -486,6 +486,12 @@ public class CallFeaturesSetting extends PreferenceActivity
 
             // Update HAC Value in AudioManager
             mAudioManager.setParameter(HAC_KEY, hac != 0 ? HAC_VAL_ON : HAC_VAL_OFF);
+
+            // Update HAC icon in status bar
+            Intent hacModeChanged = new Intent(HacIntent.HAC_ENABLED_CHANGE_ACTION);
+            hacModeChanged.putExtra(HacIntent.HAC_ENABLED, mButtonHAC.isChecked());
+            sendBroadcast(hacModeChanged);
+
             return true;
         } else if (preference == mVoicemailSettings) {
             if (DBG) log("onPreferenceTreeClick: Voicemail Settings Preference is clicked.");

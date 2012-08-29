@@ -56,6 +56,7 @@ import android.view.KeyEvent;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.HacIntent;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.MmiCode;
@@ -662,6 +663,12 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
+
+            if (hac != 0) {
+                Intent hacModeChanged = new Intent(HacIntent.HAC_ENABLED_CHANGE_ACTION);
+                hacModeChanged.putExtra(HacIntent.HAC_ENABLED, true);
+                phone.getContext().sendBroadcast(hacModeChanged);
+            }
         }
    }
 
