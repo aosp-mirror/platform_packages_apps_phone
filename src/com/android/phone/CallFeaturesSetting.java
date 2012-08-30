@@ -39,6 +39,7 @@ import android.os.AsyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.UserHandle;
 import android.os.Vibrator;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -1799,7 +1800,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             updatePreferredTtyModeSummary(buttonTtyMode);
             Intent ttyModeChanged = new Intent(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION);
             ttyModeChanged.putExtra(TtyIntent.TTY_PREFFERED_MODE, buttonTtyMode);
-            sendBroadcast(ttyModeChanged);
+            sendBroadcastAsUser(ttyModeChanged, UserHandle.ALL);
         }
     }
 

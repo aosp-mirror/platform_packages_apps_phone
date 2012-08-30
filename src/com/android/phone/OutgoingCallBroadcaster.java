@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.os.UserHandle;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -609,7 +610,8 @@ public class OutgoingCallBroadcaster extends Activity
         // timeout.
         mHandler.sendEmptyMessageDelayed(EVENT_OUTGOING_CALL_TIMEOUT,
                 OUTGOING_CALL_TIMEOUT_THRESHOLD);
-        sendOrderedBroadcast(broadcastIntent, PERMISSION, new OutgoingCallReceiver(),
+        sendOrderedBroadcastAsUser(broadcastIntent, UserHandle.OWNER,
+                PERMISSION, new OutgoingCallReceiver(),
                 null,  // scheduler
                 Activity.RESULT_OK,  // initialCode
                 number,  // initialData: initial value for the result data

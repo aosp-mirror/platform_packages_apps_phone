@@ -29,6 +29,7 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.telephony.ServiceState;
 import android.util.Log;
@@ -357,7 +358,7 @@ public class EmergencyCallHelper extends Handler {
             // Post the intent
             Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
             intent.putExtra("state", false);
-            mApp.sendBroadcast(intent);
+            mApp.sendBroadcastAsUser(intent, UserHandle.ALL);
         } else {
             // Otherwise, for some strange reason the radio is off
             // (even though the Settings database doesn't think we're
