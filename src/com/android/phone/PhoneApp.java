@@ -49,6 +49,7 @@ import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UpdateLock;
+import android.os.UserHandle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.telephony.ServiceState;
@@ -1769,7 +1770,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
         private void closeSystemDialogs(Context context) {
             Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-            context.sendBroadcast(intent);
+            context.sendBroadcastAsUser(intent, UserHandle.ALL);
         }
 
         private void clearMissedCallNotification(Context context) {
@@ -1879,7 +1880,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
             Intent ttyModeChanged = new Intent(TtyIntent.TTY_ENABLED_CHANGE_ACTION);
             ttyModeChanged.putExtra("ttyEnabled", ttymode != Phone.TTY_MODE_OFF);
-            sendBroadcast(ttyModeChanged);
+            sendBroadcastAsUser(ttyModeChanged, UserHandle.ALL);
 
             String audioTtyMode;
             switch (ttymode) {
