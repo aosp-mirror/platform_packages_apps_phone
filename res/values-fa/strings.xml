@@ -561,7 +561,7 @@
     <string name="port_title" msgid="5952939408078626657">"شماره درگاه"</string>
     <string name="transport_title" msgid="8253139511847746640">"نوع حمل و نقل"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"ارسال حفظ اتصال"</string>
-    <string name="set_primary_title" msgid="5351892327447571451">"تنظیم به عنوان حساب اصلی"</string>
+    <string name="set_primary_title" msgid="5351892327447571451">"تنظیم به‌عنوان حساب اصلی"</string>
     <string name="set_primary_summary" msgid="2219064654523258577">"برای تماس‌های خارج از محدوده استفاده شد"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"تنظیمات اختیاری"</string>
     <string name="auth_username_title" msgid="851473016307947120">"نام کاربری تأیید اعتبار"</string>
