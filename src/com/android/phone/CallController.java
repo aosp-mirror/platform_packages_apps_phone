@@ -504,6 +504,12 @@ public class CallController extends Handler {
                 // first gets connected.)
                 inCallUiState.showDialpad = voicemailUriSpecified;
 
+                // For voicemails, we add context text to let the user know they
+                // are dialing their voicemail.
+                // TODO: This is only set here and becomes problematic when swapping calls
+                inCallUiState.dialpadContextText = voicemailUriSpecified ?
+                    phone.getVoiceMailAlphaTag() : "";
+
                 // Also, in case a previous call was already active (i.e. if
                 // we just did "Add call"), clear out the "history" of DTMF
                 // digits you typed, to make sure it doesn't persist from the

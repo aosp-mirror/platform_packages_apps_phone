@@ -585,8 +585,10 @@ public class InCallScreen extends Activity
         } else {
             closeDialpadInternal(false);  // no "closing" animation
         }
-        //
-        // TODO: also need to load inCallUiState.dialpadDigits into the dialpad
+
+        // Reset the dialpad context
+        // TODO: Dialpad digits should be set here as well (once they are saved)
+        mDialer.setDialpadContext(inCallUiState.dialpadContextText);
 
         // If there's a "Respond via SMS" popup still around since the
         // last time we were the foreground activity, make sure it's not
@@ -2401,20 +2403,31 @@ public class InCallScreen extends Activity
         // If an incoming call is ringing, make sure the dialpad is
         // closed.  (We do this to make sure we're not covering up the
         // "incoming call" UI.)
-        if (mCM.getState() == Phone.State.RINGING && mDialer.isOpened()) {
-            Log.i(LOG_TAG, "During RINGING state we force hiding dialpad.");
-            closeDialpadInternal(false);  // don't do the "closing" animation
+        if (mCM.getState() == Phone.State.RINGING) {
+            if (mDialer.isOpened()) {
+              Log.i(LOG_TAG, "During RINGING state we force hiding dialpad.");
+              closeDialpadInternal(false);  // don't do the "closing" animation
+            }
 
-            // Also, clear out the "history" of DTMF digits you may have typed
-            // into the previous call (so you don't see the previous call's
-            // digits if you answer this call and then bring up the dialpad.)
+            // At this point, we are guranteed that the dialer is closed.
+            // This means that it is safe to clear out the "history" of DTMF digits
+            // you may have typed into the previous call (so you don't see the
+            // previous call's digits if you answer this call and then bring up the
+            // dialpad.)
             //
             // TODO: it would be more precise to do this when you *answer* the
             // incoming call, rather than as soon as it starts ringing, but
             // the InCallScreen doesn't keep enough state right now to notice
             // that specific transition in onPhoneStateChanged().
+            // TODO: This clears out the dialpad context as well so when a second
+            // call comes in while a voicemail call is happening, the voicemail
+            // dialpad will no longer have the "Voice Mail" context. It's a small
+            // case so not terribly bad, but we need to maintain a better
+            // call-to-callstate mapping before we can fix this.
             mDialer.clearDigits();
         }
+
+
         // Now that we're sure DTMF dialpad is in an appropriate state, reflect
         // the dialpad state into CallCard
         updateCallCardVisibilityPerDialerState(false);
