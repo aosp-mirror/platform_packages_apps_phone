@@ -1190,15 +1190,22 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         // Force the screen to be on if the phone is ringing or dialing,
         // or if we're displaying the "Call ended" UI for a connection in
         // the "disconnected" state.
+        // However, if the phone is disconnected while the user is in the
+        // middle of selecting a quick response message, we should not force
+        // the screen to be on.
         //
         boolean isRinging = (state == PhoneConstants.State.RINGING);
         boolean isDialing = (phone.getForegroundCall().getState() == Call.State.DIALING);
+        boolean showingQuickResponseDialog = (mInCallScreen != null) &&
+                mInCallScreen.isQuickResponseDialogShowing();
         boolean showingDisconnectedConnection =
                 PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
-        boolean keepScreenOn = isRinging || isDialing || showingDisconnectedConnection;
+        boolean keepScreenOn = isRinging || isDialing ||
+                (showingDisconnectedConnection && !showingQuickResponseDialog);
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
                        + " (isRinging " + isRinging
                        + ", isDialing " + isDialing
+                       + ", showingQuickResponse " + showingQuickResponseDialog
                        + ", showingDisc " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
