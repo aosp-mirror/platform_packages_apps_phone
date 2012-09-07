@@ -145,6 +145,14 @@ public class InCallUiState {
      */
     String dialpadDigits;
 
+    /**
+     * The contact/dialed number information shown in the DTMF digits text
+     * when the user has not yet typed any digits.
+     *
+     * Currently only used for displaying "Voice Mail" since voicemail calls
+     * start directly in the dialpad view.
+     */
+    String dialpadContextText;
 
     //
     // (3) Error / diagnostic indications
@@ -419,6 +427,7 @@ public class InCallUiState {
     public void dumpState() {
         log("dumpState():");
         log("  - showDialpad: " + showDialpad);
+        log("    - dialpadContextText: " + dialpadContextText);
         if (hasPendingCallStatusCode()) {
             log("  - status indication is pending!");
             log("    - pending call status code = " + mPendingCallStatusCode);
