@@ -23,7 +23,9 @@ import android.os.Message;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.method.DialerKeyListener;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -824,6 +826,32 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         if (mDialpadDigits != null) {
             mDialpadDigits.setText("");
+        }
+
+        setDialpadContext("");
+    }
+
+    /**
+     * Set the context text (hint) to show in the dialpad Digits EditText.
+     *
+     * This is currently only used for displaying a value for "Voice Mail"
+     * calls since they default to the dialpad and we want to give users better
+     * context when they dial voicemail.
+     *
+     * TODO: Is there value in extending this functionality for all contacts
+     * and not just Voice Mail calls?
+     * TODO: This should include setting the digits as well as the context
+     * once we start saving the digits properly...and properly in this case
+     * ideally means moving some of processDtmf() out of this class.
+     */
+    public void setDialpadContext(String contextValue) {
+        if (mDialpadDigits != null) {
+            if (contextValue == null) {
+              contextValue = "";
+            }
+            final SpannableString hint = new SpannableString(contextValue);
+            hint.setSpan(new RelativeSizeSpan(0.8f), 0, hint.length(), 0);
+            mDialpadDigits.setHint(hint);
         }
     }
 
