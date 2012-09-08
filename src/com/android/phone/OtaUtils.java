@@ -35,6 +35,7 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.os.UserHandle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -707,7 +708,7 @@ public class OtaUtils {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory (Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        mContext.startActivityAsUser(intent, UserHandle.CURRENT);
         return;
     }
 
