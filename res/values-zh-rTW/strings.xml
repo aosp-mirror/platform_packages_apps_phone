@@ -196,7 +196,9 @@
     <string name="throttle_time_frame" msgid="1915198770363734685">"資料使用量週期"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"資料傳輸速率政策"</string>
     <string name="throttle_help" msgid="243651091785169900">"瞭解更多資訊"</string>
-    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g> ％)，週期上限為 <xliff:g id="USED_2">%3$s</xliff:g>"\n"下一週期會在 <xliff:g id="USED_3">%4$d</xliff:g> 天內開始 (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <!-- String.format failed for translation -->
+    <!-- no translation found for throttle_status_subtext (1657318943142085170) -->
+    <skip />
     <!-- String.format failed for translation -->
     <!-- no translation found for throttle_data_usage_subtext (6029276011123694701) -->
     <skip />
