@@ -54,7 +54,7 @@ import java.util.Arrays;
 public class RespondViaSmsManager {
     private static final String TAG = "RespondViaSmsManager";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     // Do not check in with VDBG = true, since that may write PII to the system log.
     private static final boolean VDBG = false;
 
@@ -259,10 +259,10 @@ public class RespondViaSmsManager {
 
             dismissPopup();
 
-            final PhoneConstants.State state = PhoneApp.getInstance().mCM.getState();
+            final PhoneConstants.State state = PhoneGlobals.getInstance().mCM.getState();
             if (state == PhoneConstants.State.IDLE) {
                 // There's no other phone call to interact. Exit the entire in-call screen.
-                PhoneApp.getInstance().dismissCallScreen();
+                PhoneGlobals.getInstance().dismissCallScreen();
             } else {
                 // The user is still in the middle of other phone calls, so we should keep the
                 // in-call screen.
@@ -288,11 +288,11 @@ public class RespondViaSmsManager {
 
             dismissPopup();
 
-            final PhoneConstants.State state = PhoneApp.getInstance().mCM.getState();
+            final PhoneConstants.State state = PhoneGlobals.getInstance().mCM.getState();
             if (state == PhoneConstants.State.IDLE) {
                 // This means the incoming call is already hung up when the user chooses not to
                 // use "Respond via SMS" feature. Let's just exit the whole in-call screen.
-                PhoneApp.getInstance().dismissCallScreen();
+                PhoneGlobals.getInstance().dismissCallScreen();
             } else {
 
                 // If the user cancels the popup, this presumably means that
@@ -303,7 +303,7 @@ public class RespondViaSmsManager {
                 // call UI.
 
                 // This will have no effect if the incoming call isn't still ringing.
-                PhoneApp.getInstance().notifier.restartRinger();
+                PhoneGlobals.getInstance().notifier.restartRinger();
 
                 // We hid the GlowPadView widget way back in
                 // InCallTouchUi.onTrigger(), when the user first selected

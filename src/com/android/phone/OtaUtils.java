@@ -142,7 +142,7 @@ public class OtaUtils {
 
     private InCallScreen mInCallScreen;
     private Context mContext;
-    private PhoneApp mApplication;
+    private PhoneGlobals mApplication;
     private OtaWidgetData mOtaWidgetData;
     private ViewGroup mInCallTouchUi;  // UI controls for regular calls
     private CallCard mCallCard;
@@ -215,7 +215,7 @@ public class OtaUtils {
      */
     public OtaUtils(Context context, boolean interactive) {
         if (DBG) log("OtaUtils constructor...");
-        mApplication = PhoneApp.getInstance();
+        mApplication = PhoneGlobals.getInstance();
         mContext = context;
         mInteractive = interactive;
     }
@@ -283,7 +283,7 @@ public class OtaUtils {
      * @return true if we were able to launch Ota activity or it's not required; false otherwise
      */
     public static boolean maybeDoOtaCall(Context context, Handler handler, int request) {
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         Phone phone = app.phone;
 
         if (ActivityManager.isRunningInTestHarness()) {
@@ -325,7 +325,7 @@ public class OtaUtils {
 
         // Run the OTASP call in "interactive" mode only if
         // this is a non-LTE "voice capable" device.
-        if (PhoneApp.sVoiceCapable && getLteOnCdmaMode(context) == PhoneConstants.LTE_ON_CDMA_FALSE) {
+        if (PhoneGlobals.sVoiceCapable && getLteOnCdmaMode(context) == PhoneConstants.LTE_ON_CDMA_FALSE) {
             if (phoneNeedsActivation
                     && (otaShowActivationScreen == OTA_SHOW_ACTIVATION_SCREEN_ON)) {
                 app.cdmaOtaProvisionData.isOtaCallIntentProcessed = false;
@@ -362,7 +362,7 @@ public class OtaUtils {
      */
     public static void startInteractiveOtasp(Context context) {
         if (DBG) log("startInteractiveOtasp()...");
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
 
         // There are two ways to start OTASP on voice-capable devices:
         //
@@ -427,7 +427,7 @@ public class OtaUtils {
      */
     public static int startNonInteractiveOtasp(Context context) {
         if (DBG) log("startNonInteractiveOtasp()...");
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
 
         if (app.otaUtils != null) {
             // An OtaUtils instance already exists, presumably from a previous OTASP call.
@@ -443,7 +443,7 @@ public class OtaUtils {
         // TODO(InCallScreen redesign): This should probably go through
         // the CallController, rather than directly calling
         // PhoneUtils.placeCall().
-        Phone phone = PhoneApp.getPhone();
+        Phone phone = PhoneGlobals.getPhone();
         String number = OTASP_NUMBER_NON_INTERACTIVE;
         Log.i(LOG_TAG, "startNonInteractiveOtasp: placing call to '" + number + "'...");
         int callStatus = PhoneUtils.placeCall(context,
@@ -486,7 +486,7 @@ public class OtaUtils {
      */
     public static boolean isOtaspCallIntent(Intent intent) {
         if (DBG) log("isOtaspCallIntent(" + intent + ")...");
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         Phone phone = app.mCM.getDefaultPhone();
 
         if (intent == null) {
@@ -542,7 +542,7 @@ public class OtaUtils {
      */
     public static void setupOtaspCall(Intent intent) {
         if (DBG) log("setupOtaspCall(): preparing for OTASP call to " + intent);
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
 
         if (app.otaUtils != null) {
             // An OtaUtils instance already exists, presumably from a prior OTASP call.

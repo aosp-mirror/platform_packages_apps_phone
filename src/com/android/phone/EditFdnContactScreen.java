@@ -51,7 +51,7 @@ import android.widget.Toast;
  * Activity to let the user add or edit an FDN contact.
  */
 public class EditFdnContactScreen extends Activity {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
     private static final boolean DBG = false;
 
     // Menu item codes

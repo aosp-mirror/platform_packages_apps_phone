@@ -64,7 +64,7 @@ public class SipCallOptionHandler extends Activity implements
         CompoundButton.OnCheckedChangeListener {
     static final String TAG = "SipCallOptionHandler";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     static final int DIALOG_SELECT_PHONE_TYPE = 0;
     static final int DIALOG_SELECT_OUTGOING_SIP_PHONE = 1;
@@ -147,7 +147,7 @@ public class SipCallOptionHandler extends Activity implements
         Uri uri = mIntent.getData();
         String scheme = uri.getScheme();
         mNumber = PhoneNumberUtils.getNumberFromIntent(mIntent, this);
-        boolean isInCellNetwork = PhoneApp.getInstance().phoneMgr.isRadioOn();
+        boolean isInCellNetwork = PhoneGlobals.getInstance().phoneMgr.isRadioOn();
         boolean isKnownCallScheme = Constants.SCHEME_TEL.equals(scheme)
                 || Constants.SCHEME_SIP.equals(scheme);
         boolean isRegularCall = Constants.SCHEME_TEL.equals(scheme)
@@ -351,7 +351,7 @@ public class SipCallOptionHandler extends Activity implements
     }
 
     private void createSipPhoneIfNeeded(SipProfile p) {
-        CallManager cm = PhoneApp.getInstance().mCM;
+        CallManager cm = PhoneGlobals.getInstance().mCM;
         if (PhoneUtils.getSipPhoneFromUri(cm, p.getUriString()) != null) return;
 
         // Create the phone since we can not find it in CallManager
@@ -392,7 +392,7 @@ public class SipCallOptionHandler extends Activity implements
                     return;
                 } else {
                     // Woo hoo -- it's finally OK to initiate the outgoing call!
-                    PhoneApp.getInstance().callController.placeCall(mIntent);
+                    PhoneGlobals.getInstance().callController.placeCall(mIntent);
                 }
                 finish();
             }

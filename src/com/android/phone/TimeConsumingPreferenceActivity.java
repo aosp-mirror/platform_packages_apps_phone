@@ -24,7 +24,7 @@ public class TimeConsumingPreferenceActivity extends PreferenceActivity
                         implements TimeConsumingPreferenceListener,
                         DialogInterface.OnCancelListener {
     private static final String LOG_TAG = "TimeConsumingPreferenceActivity";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private class DismissOnClickListener implements DialogInterface.OnClickListener {
         @Override

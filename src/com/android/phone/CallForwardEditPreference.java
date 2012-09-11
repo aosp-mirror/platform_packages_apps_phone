@@ -21,7 +21,7 @@ import static com.android.phone.TimeConsumingPreferenceActivity.RESPONSE_ERROR;
 
 public class CallForwardEditPreference extends EditPhoneNumberPreference {
     private static final String LOG_TAG = "CallForwardEditPreference";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private static final String SRC_TAGS[]       = {"{0}"};
     private CharSequence mSummaryOnTemplate;
@@ -43,7 +43,7 @@ public class CallForwardEditPreference extends EditPhoneNumberPreference {
     public CallForwardEditPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        phone = PhoneApp.getPhone();
+        phone = PhoneGlobals.getPhone();
         mSummaryOnTemplate = this.getSummaryOn();
 
         TypedArray a = context.obtainStyledAttributes(attrs,
