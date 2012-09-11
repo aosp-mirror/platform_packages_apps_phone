@@ -4654,4 +4654,11 @@ public class InCallScreen extends Activity
             log("Requested to remove provider info after " + PROVIDER_INFO_TIMEOUT + " msec.");
         }
     }
+
+    /**
+     * Indicates whether or not the QuickResponseDialog is currently showing in the call screen
+     */
+    public boolean isQuickResponseDialogShowing() {
+        return mRespondViaSmsManager != null && mRespondViaSmsManager.isShowingPopup();
+    }
 }
