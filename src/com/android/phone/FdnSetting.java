@@ -40,7 +40,7 @@ import com.android.internal.telephony.Phone;
 public class FdnSetting extends PreferenceActivity
         implements EditPinPreference.OnPinEnteredListener, DialogInterface.OnCancelListener {
 
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
     private static final boolean DBG = false;
 
     private Phone mPhone;
@@ -423,7 +423,7 @@ public class FdnSetting extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.fdn_setting);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
 
         //get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
@@ -458,7 +458,7 @@ public class FdnSetting extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         updateEnableFDN();
     }
 

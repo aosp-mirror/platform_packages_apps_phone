@@ -29,7 +29,7 @@ import android.os.Bundle;
  * Base class for ICC-related panels in the Phone UI.
  */
 public class IccPanel extends Dialog {
-    protected static final String TAG = PhoneApp.LOG_TAG;
+    protected static final String TAG = PhoneGlobals.LOG_TAG;
 
     private StatusBarManager mStatusBarManager;
 
@@ -65,7 +65,7 @@ public class IccPanel extends Dialog {
         // TODO: we shouldn't need the mStatusBarManager calls here either,
         // once this dialog gets moved into the framework and becomes a truly
         // full-screen UI.
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         mStatusBarManager = (StatusBarManager) app.getSystemService(Context.STATUS_BAR_SERVICE);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

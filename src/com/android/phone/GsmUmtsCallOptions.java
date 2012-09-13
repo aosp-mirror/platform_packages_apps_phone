@@ -27,7 +27,7 @@ import com.android.internal.telephony.PhoneConstants;
 
 public class GsmUmtsCallOptions extends PreferenceActivity {
     private static final String LOG_TAG = "GsmUmtsCallOptions";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -35,7 +35,7 @@ public class GsmUmtsCallOptions extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.gsm_umts_call_options);
 
-        if (PhoneApp.getPhone().getPhoneType() != PhoneConstants.PHONE_TYPE_GSM) {
+        if (PhoneGlobals.getPhone().getPhoneType() != PhoneConstants.PHONE_TYPE_GSM) {
             //disable the entire screen
             getPreferenceScreen().setEnabled(false);
         }

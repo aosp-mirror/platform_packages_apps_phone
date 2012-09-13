@@ -42,7 +42,7 @@ import com.android.internal.telephony.TelephonyCapabilities;
 public class InCallScreenShowActivation extends Activity {
     private static final String LOG_TAG = "InCallScreenShowActivation";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -56,7 +56,7 @@ public class InCallScreenShowActivation extends Activity {
             Log.d(LOG_TAG, "      - extras = " + extras);
         }
 
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         Phone phone = app.getPhone();
         if (!TelephonyCapabilities.supportsOtasp(phone)) {
             Log.w(LOG_TAG, "CDMA Provisioning not supported on this device");
@@ -69,7 +69,7 @@ public class InCallScreenShowActivation extends Activity {
 
             // On voice-capable devices, we perform CDMA provisioning in
             // "interactive" mode by directly launching the InCallScreen.
-            boolean interactiveMode = PhoneApp.sVoiceCapable;
+            boolean interactiveMode = PhoneGlobals.sVoiceCapable;
             Log.d(LOG_TAG, "ACTION_PERFORM_CDMA_PROVISIONING (interactiveMode = "
                   + interactiveMode + ")...");
 

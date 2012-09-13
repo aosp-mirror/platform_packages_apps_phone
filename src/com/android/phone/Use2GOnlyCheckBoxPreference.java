@@ -42,7 +42,7 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
 
     public Use2GOnlyCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         mHandler = new MyHandler();
         mPhone.getPreferredNetworkType(
                 mHandler.obtainMessage(MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));

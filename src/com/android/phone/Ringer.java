@@ -41,7 +41,7 @@ import com.android.internal.telephony.Phone;
 public class Ringer {
     private static final String LOG_TAG = "Ringer";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     private static final int PLAY_RING_ONCE = 1;
     private static final int STOP_RING = 3;
@@ -149,7 +149,7 @@ public class Ringer {
 
         synchronized (this) {
             try {
-                if (PhoneApp.getInstance().showBluetoothIndication()) {
+                if (PhoneGlobals.getInstance().showBluetoothIndication()) {
                     mPowerManager.setAttentionLight(true, 0x000000ff);
                 } else {
                     mPowerManager.setAttentionLight(true, 0x00ffffff);

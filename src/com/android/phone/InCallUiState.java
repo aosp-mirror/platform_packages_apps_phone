@@ -393,8 +393,8 @@ public class InCallUiState {
      * call. See also {@link InCallScreen} for more detail. There is *no* specific specification
      * about how this variable will be used.
      *
-     * @see PhoneApp#setLatestActiveCallOrigin(String)
-     * @see PhoneApp#createPhoneEndIntentUsingCallOrigin()
+     * @see PhoneGlobals#setLatestActiveCallOrigin(String)
+     * @see PhoneGlobals#createPhoneEndIntentUsingCallOrigin()
      *
      * TODO: we should determine some public behavior for this variable.
      */

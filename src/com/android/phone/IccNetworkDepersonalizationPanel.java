@@ -39,7 +39,7 @@ import com.android.internal.telephony.Phone;
 /**
  * "SIM network unlock" PIN entry screen.
  *
- * @see PhoneApp.EVENT_SIM_NETWORK_LOCKED
+ * @see PhoneGlobals.EVENT_SIM_NETWORK_LOCKED
  *
  * TODO: This UI should be part of the lock screen, not the
  * phone app (see bug 1804111).
@@ -148,7 +148,7 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
         mStatusPanel = (LinearLayout) findViewById(R.id.status_panel);
         mStatusText = (TextView) findViewById(R.id.status_text);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
     }
 
     @Override
