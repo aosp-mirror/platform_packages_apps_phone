@@ -42,7 +42,7 @@ import com.android.internal.telephony.TelephonyCapabilities;
  */
 public class InCallControlState {
     private static final String LOG_TAG = "InCallControlState";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private InCallScreen mInCallScreen;
     private CallManager mCM;

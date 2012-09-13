@@ -41,7 +41,7 @@ import java.util.List;
 public class ManageConferenceUtils {
     private static final String LOG_TAG = "ManageConferenceUtils";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     /**
      * CallerInfoAsyncQuery.OnQueryCompleteListener implementation.
@@ -232,7 +232,7 @@ public class ManageConferenceUtils {
                     @Override
                     public void onClick(View v) {
                         endConferenceConnection(i, connection);
-                        PhoneApp.getInstance().pokeUserActivity();
+                        PhoneGlobals.getInstance().pokeUserActivity();
                     }
                 };
             endButton.setOnClickListener(endThisConnection);
@@ -242,7 +242,7 @@ public class ManageConferenceUtils {
                         @Override
                         public void onClick(View v) {
                             separateConferenceConnection(i, connection);
-                            PhoneApp.getInstance().pokeUserActivity();
+                            PhoneGlobals.getInstance().pokeUserActivity();
                         }
                     };
                 separateButton.setOnClickListener(separateThisConnection);

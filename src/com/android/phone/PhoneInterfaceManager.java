@@ -50,7 +50,7 @@ import java.util.ArrayList;
  */
 public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final String LOG_TAG = "PhoneInterfaceManager";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // Message codes used with mMainThreadHandler
     private static final int CMD_HANDLE_PIN_MMI = 1;
@@ -63,7 +63,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     /** The singleton instance. */
     private static PhoneInterfaceManager sInstance;
 
-    PhoneApp mApp;
+    PhoneGlobals mApp;
     Phone mPhone;
     CallManager mCM;
     MainThreadHandler mMainThreadHandler;
@@ -213,7 +213,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      * Initialize the singleton PhoneInterfaceManager instance.
      * This is only done once, at startup, from PhoneApp.onCreate().
      */
-    /* package */ static PhoneInterfaceManager init(PhoneApp app, Phone phone) {
+    /* package */ static PhoneInterfaceManager init(PhoneGlobals app, Phone phone) {
         synchronized (PhoneInterfaceManager.class) {
             if (sInstance == null) {
                 sInstance = new PhoneInterfaceManager(app, phone);
@@ -225,10 +225,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     /** Private constructor; @see init() */
-    private PhoneInterfaceManager(PhoneApp app, Phone phone) {
+    private PhoneInterfaceManager(PhoneGlobals app, Phone phone) {
         mApp = app;
         mPhone = phone;
-        mCM = PhoneApp.getInstance().mCM;
+        mCM = PhoneGlobals.getInstance().mCM;
         mMainThreadHandler = new MainThreadHandler();
         publish();
     }
@@ -283,7 +283,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     private boolean showCallScreenInternal(boolean specifyInitialDialpadState,
                                            boolean initialDialpadState) {
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             // Never allow the InCallScreen to appear on data-only devices.
             return false;
         }
@@ -295,9 +295,9 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         try {
             Intent intent;
             if (specifyInitialDialpadState) {
-                intent = PhoneApp.createInCallIntent(initialDialpadState);
+                intent = PhoneGlobals.createInCallIntent(initialDialpadState);
             } else {
-                intent = PhoneApp.createInCallIntent();
+                intent = PhoneGlobals.createInCallIntent();
             }
             try {
                 mApp.startActivity(intent);
@@ -420,7 +420,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public boolean isSimPinEnabled() {
         enforceReadPermission();
-        return (PhoneApp.getInstance().isSimPinEnabled());
+        return (PhoneGlobals.getInstance().isSimPinEnabled());
     }
 
     public boolean supplyPin(String pin) {

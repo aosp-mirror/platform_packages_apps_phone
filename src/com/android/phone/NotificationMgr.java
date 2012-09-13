@@ -65,12 +65,12 @@ import com.android.internal.telephony.TelephonyCapabilities;
  * framework's NotificationManager, and is used to display status bar
  * icons and control other status bar-related behavior.
  *
- * @see PhoneApp.notificationMgr
+ * @see PhoneGlobals.notificationMgr
  */
 public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteListener{
     private static final String LOG_TAG = "NotificationMgr";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     // Do not check in with VDBG = true, since that may write PII to the system log.
     private static final boolean VDBG = false;
 
@@ -95,7 +95,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     /** The singleton NotificationMgr instance. */
     private static NotificationMgr sInstance;
 
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
     private Phone mPhone;
     private CallManager mCM;
 
@@ -133,7 +133,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * Private constructor (this is a singleton).
      * @see init()
      */
-    private NotificationMgr(PhoneApp app) {
+    private NotificationMgr(PhoneGlobals app) {
         mApp = app;
         mContext = app;
         mNotificationManager =
@@ -155,7 +155,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
      * PhoneApp's public "notificationMgr" field, which is why there's no
      * getInstance() method here.
      */
-    /* package */ static NotificationMgr init(PhoneApp app) {
+    /* package */ static NotificationMgr init(PhoneGlobals app) {
         synchronized (NotificationMgr.class) {
             if (sInstance == null) {
                 sInstance = new NotificationMgr(app);
@@ -484,12 +484,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             String name, String number, String type, Drawable photo, Bitmap photoIcon, long date) {
 
         // When the user clicks this notification, we go to the call log.
-        final Intent callLogIntent = PhoneApp.createCallLogIntent();
+        final Intent callLogIntent = PhoneGlobals.createCallLogIntent();
 
         // Never display the missed call notification on non-voice-capable
         // devices, even if the device does somehow manage to get an
         // incoming call.
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             if (DBG) log("notifyMissedCall: non-voice-capable device, not posting notification");
             return;
         }
@@ -553,11 +553,11 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
             builder.addAction(R.drawable.stat_sys_phone_call,
                     mContext.getString(R.string.notification_missedCall_call_back),
-                    PhoneApp.getCallBackPendingIntent(mContext, number));
+                    PhoneGlobals.getCallBackPendingIntent(mContext, number));
 
             builder.addAction(R.drawable.ic_text_holo_dark,
                     mContext.getString(R.string.notification_missedCall_message),
-                    PhoneApp.getSendSmsFromNotificationPendingIntent(mContext, number));
+                    PhoneGlobals.getSendSmsFromNotificationPendingIntent(mContext, number));
 
             if (photoIcon != null) {
                 builder.setLargeIcon(photoIcon);
@@ -777,7 +777,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // Never display the "ongoing call" notification on
         // non-voice-capable devices, even if the phone is actually
         // offhook (like during a non-interactive OTASP call.)
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             if (DBG) log("- non-voice-capable device; suppressing notification.");
             return;
         }
@@ -892,7 +892,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         // call (see the "fullScreenIntent" field below).
         PendingIntent inCallPendingIntent =
                 PendingIntent.getActivity(mContext, 0,
-                                          PhoneApp.createInCallIntent(), 0);
+                                          PhoneGlobals.createInCallIntent(), 0);
         builder.setContentIntent(inCallPendingIntent);
 
         // Update icon on the left of the notification.
@@ -1102,7 +1102,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // TODO: use better asset.
             builder.addAction(R.drawable.stat_sys_phone_call_end,
                     mContext.getText(R.string.notification_action_end_call),
-                    PhoneApp.createHangUpOngoingCallPendingIntent(mContext));
+                    PhoneGlobals.createHangUpOngoingCallPendingIntent(mContext));
         }
 
         Notification notification = builder.getNotification();

@@ -41,7 +41,7 @@ public class CdmaSystemSelectListPreference extends ListPreference {
     public CdmaSystemSelectListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         mHandler = new MyHandler();
         mPhone.queryCdmaRoamingPreference(
                 mHandler.obtainMessage(MyHandler.MESSAGE_GET_ROAMING_PREFERENCE));

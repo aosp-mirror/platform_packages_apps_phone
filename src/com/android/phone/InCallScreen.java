@@ -85,8 +85,8 @@ public class InCallScreen extends Activity
     private static final String LOG_TAG = "InCallScreen";
 
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
-    private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean VDBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     /**
      * Intent extra used to specify whether the DTMF dialpad should be
@@ -189,7 +189,7 @@ public class InCallScreen extends Activity
 
     private boolean mRegisteredForPhoneStates;
 
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
     private CallManager mCM;
 
     // TODO: need to clean up all remaining uses of mPhone.
@@ -317,7 +317,7 @@ public class InCallScreen extends Activity
                 // onMMIInitiate((AsyncResult) msg.obj);
                 //    break;
 
-                case PhoneApp.MMI_CANCEL:
+                case PhoneGlobals.MMI_CANCEL:
                     onMMICancel();
                     break;
 
@@ -325,7 +325,7 @@ public class InCallScreen extends Activity
                 // since the message display class has been replaced with
                 // a system dialog in PhoneUtils.displayMMIComplete(), we
                 // should finish the activity here to close the window.
-                case PhoneApp.MMI_COMPLETE:
+                case PhoneGlobals.MMI_COMPLETE:
                     onMMIComplete((MmiCode) ((AsyncResult) msg.obj).result);
                     break;
 
@@ -449,7 +449,7 @@ public class InCallScreen extends Activity
         super.onCreate(icicle);
 
         // Make sure this is a voice-capable device.
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             // There should be no way to ever reach the InCallScreen on a
             // non-voice-capable device, since this activity is not exported by
             // our manifest, and we explicitly disable any other external APIs
@@ -460,7 +460,7 @@ public class InCallScreen extends Activity
             return;
         }
 
-        mApp = PhoneApp.getInstance();
+        mApp = PhoneGlobals.getInstance();
         mApp.setInCallScreenInstance(this);
 
         // set this flag so this activity will stay in front of the keyguard
@@ -780,7 +780,7 @@ public class InCallScreen extends Activity
         if (!mPhone.getPendingMmiCodes().isEmpty()) {
             if (mMmiStartedDialog == null) {
                 MmiCode mmiCode = mPhone.getPendingMmiCodes().get(0);
-                Message message = Message.obtain(mHandler, PhoneApp.MMI_CANCEL);
+                Message message = Message.obtain(mHandler, PhoneGlobals.MMI_CANCEL);
                 mMmiStartedDialog = PhoneUtils.displayMMIInitiate(this, mmiCode,
                         message, mMmiStartedDialog);
                 // mInCallScreen needs to receive MMI_COMPLETE/MMI_CANCEL event from telephony,
@@ -1100,7 +1100,7 @@ public class InCallScreen extends Activity
             // message display class in PhoneUtils.displayMMIComplete().
             // We'll listen for that message too, so that we can finish
             // the activity at the same time.
-            mCM.registerForMmiComplete(mHandler, PhoneApp.MMI_COMPLETE, null);
+            mCM.registerForMmiComplete(mHandler, PhoneGlobals.MMI_COMPLETE, null);
             mCM.registerForCallWaiting(mHandler, PHONE_CDMA_CALL_WAITING, null);
             mCM.registerForPostDialCharacter(mHandler, POST_ON_DIAL_CHARS, null);
             mCM.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
@@ -2686,7 +2686,7 @@ public class InCallScreen extends Activity
                 if ((mLastDisconnectCause != Connection.DisconnectCause.INCOMING_MISSED)
                         && (mLastDisconnectCause != Connection.DisconnectCause.INCOMING_REJECTED)
                         && !isPhoneStateRestricted()
-                        && PhoneApp.sVoiceCapable) {
+                        && PhoneGlobals.sVoiceCapable) {
                     final Intent intent = mApp.createPhoneEndIntentUsingCallOrigin();
                     ActivityOptions opts = ActivityOptions.makeCustomAnimation(this,
                             R.anim.activity_close_enter, R.anim.activity_close_exit);

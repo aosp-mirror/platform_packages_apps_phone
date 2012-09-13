@@ -63,7 +63,7 @@ public class CdmaDisplayInfo {
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
         sDisplayInfoDialog.show();
-        PhoneApp.getInstance().wakeUpScreen();
+        PhoneGlobals.getInstance().wakeUpScreen();
 
     }
 

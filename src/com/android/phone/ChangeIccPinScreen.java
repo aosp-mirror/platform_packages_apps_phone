@@ -42,7 +42,7 @@ import com.android.internal.telephony.Phone;
  * "Change ICC PIN" UI for the Phone app.
  */
 public class ChangeIccPinScreen extends Activity {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
     private static final boolean DBG = false;
 
     private static final int EVENT_PIN_CHANGED = 100;
@@ -91,7 +91,7 @@ public class ChangeIccPinScreen extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
 
         resolveIntent();
 

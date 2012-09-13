@@ -29,7 +29,7 @@ public class ClearMissedCallsService extends IntentService {
     public static final String ACTION_CLEAR_MISSED_CALLS =
             "com.android.phone.intent.CLEAR_MISSED_CALLS";
 
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
 
     public ClearMissedCallsService() {
         super(ClearMissedCallsService.class.getSimpleName());
@@ -38,7 +38,7 @@ public class ClearMissedCallsService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApp = PhoneApp.getInstance();
+        mApp = PhoneGlobals.getInstance();
     }
 
     @Override
