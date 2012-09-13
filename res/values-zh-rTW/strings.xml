@@ -48,7 +48,7 @@
     <string name="call_lost" msgid="317670617901479594">"電話已斷線。"</string>
     <string name="ok" msgid="3811371167865772377">"確定"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI 碼開始執行"</string>
-    <string name="ussdRunning" msgid="485588686340541690">"USSD 碼執行中..."</string>
+    <string name="ussdRunning" msgid="485588686340541690">"正在執行 USSD 碼…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI 碼已取消"</string>
     <string name="cancel" msgid="5044513931633602634">"取消"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"管理會議通話"</string>
@@ -65,11 +65,11 @@
     <string name="no_vm_number" msgid="4164780423805688336">"遺失語音信箱號碼"</string>
     <string name="no_vm_number_msg" msgid="1300729501030053828">"SIM 卡中未儲存語音信箱號碼。"</string>
     <string name="add_vm_number_str" msgid="4676479471644687453">"新增號碼"</string>
-    <string name="puk_unlocked" msgid="2284912838477558454">"您的 SIM 卡已解鎖。正在解鎖手機中..."</string>
+    <string name="puk_unlocked" msgid="2284912838477558454">"您的 SIM 卡已解鎖。正在解鎖手機中…"</string>
     <string name="label_ndp" msgid="780479633159517250">"SIM 網路解鎖 PIN"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"解除鎖定"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"關閉"</string>
-    <string name="requesting_unlock" msgid="6412629401033249351">"要求解鎖網路中..."</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"正在要求解除網路鎖定…"</string>
     <string name="unlock_failed" msgid="6490531697031504225">"網路解鎖失敗。"</string>
     <string name="unlock_success" msgid="6770085622238180152">"網路解鎖成功。"</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM 通話設定"</string>
@@ -86,7 +86,7 @@
     <string name="sum_cdma_call_settings" msgid="284753265979035549">"其他 CDMA 僅限通話設定"</string>
     <string name="labelNwService" msgid="4699970172021870983">"網路服務設定"</string>
     <string name="labelCallerId" msgid="3888899447379069198">"本機號碼"</string>
-    <string name="sum_loading_settings" msgid="1826692909391168620">"正在載入設定..."</string>
+    <string name="sum_loading_settings" msgid="1826692909391168620">"正在載入設定…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"隱藏本機號碼"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"撥出電話時顯示本機號碼"</string>
     <string name="sum_default_caller_id" msgid="1954518825510901365">"使用預設值，在撥出電話時顯示本機號碼"</string>
@@ -118,9 +118,9 @@
     <string name="disable_cfnrc_forbidden" msgid="5646361343094064333">"您的行動通訊業者不支援手機無收訊時停用轉接功能。"</string>
     <string name="updating_title" msgid="6146755386174019046">"通話設定"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"通話設定錯誤"</string>
-    <string name="reading_settings" msgid="1920291699287055284">"讀取設定中..."</string>
-    <string name="updating_settings" msgid="8171225533884883252">"更新設定中..."</string>
-    <string name="reverting_settings" msgid="4752151682666912828">"正在還原設定..."</string>
+    <string name="reading_settings" msgid="1920291699287055284">"正在讀取設定…"</string>
+    <string name="updating_settings" msgid="8171225533884883252">"更新設定中…"</string>
+    <string name="reverting_settings" msgid="4752151682666912828">"正在還原設定…"</string>
     <string name="response_error" msgid="6674110501330139405">"網路傳回非預期回應。"</string>
     <string name="exception_error" msgid="7027667130619518211">"網路或 SIM 卡錯誤。"</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"您的「手機」應用程式已開啟「固定撥號」設定，導致部分撥號相關功能無法正常運作。"</string>
@@ -143,11 +143,11 @@
     <string name="voicemail_default" msgid="5902099213882352338">"我的服務業者"</string>
     <string name="mobile_networks" msgid="5540397602919106177">"行動網路設定"</string>
     <string name="label_available" msgid="1181658289009300430">"可用的網路"</string>
-    <string name="load_networks_progress" msgid="5230707536168902952">"搜尋中..."</string>
+    <string name="load_networks_progress" msgid="5230707536168902952">"搜尋中…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"找不到網路。"</string>
     <string name="search_networks" msgid="1601136049300882441">"搜尋網路"</string>
     <string name="network_query_error" msgid="6828516148953325006">"搜尋網路時發生錯誤。"</string>
-    <string name="register_on_network" msgid="9055203954040805084">"正在註冊 <xliff:g id="NETWORK">%s</xliff:g>..."</string>
+    <string name="register_on_network" msgid="9055203954040805084">"正在註冊 <xliff:g id="NETWORK">%s</xliff:g>…"</string>
     <string name="not_allowed" msgid="5613353860205691579">"您的 SIM 卡無法連上這個網路。"</string>
     <string name="connect_later" msgid="2308119155752343975">"目前無法連上這個網路，請稍後再試。"</string>
     <string name="registration_done" msgid="495135664535876612">"註冊網路成功。"</string>
@@ -155,7 +155,7 @@
     <string name="sum_search_networks" msgid="2921092249873272715">"搜尋所有可用的網路"</string>
     <string name="select_automatically" msgid="5628402124471810174">"自動選擇"</string>
     <string name="sum_select_automatically" msgid="5614890115123292400">"自動選擇慣用網路"</string>
-    <string name="register_automatically" msgid="6017849844573519637">"自動註冊..."</string>
+    <string name="register_automatically" msgid="6017849844573519637">"自動註冊…"</string>
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"網路模式"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"變更網路操作模式"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"優先網路模式"</string>
@@ -344,18 +344,18 @@
     <string name="number" msgid="7905950798349903858">"號碼"</string>
     <string name="save" msgid="4094274636321939086">"儲存"</string>
     <string name="add_fdn_contact" msgid="2481915899633353976">"新增固定撥號"</string>
-    <string name="adding_fdn_contact" msgid="7627379633721940991">"正在新增固定撥號..."</string>
+    <string name="adding_fdn_contact" msgid="7627379633721940991">"正在新增固定撥號…"</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"已新增固定撥號。"</string>
     <string name="edit_fdn_contact" msgid="7976936035587081480">"編輯固定撥號"</string>
-    <string name="updating_fdn_contact" msgid="8370929876849803600">"正在更新固定撥號..."</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"正在更新固定撥號…"</string>
     <string name="fdn_contact_updated" msgid="5497828782609005017">"固定撥號已更新。"</string>
     <string name="delete_fdn_contact" msgid="6668958073074151717">"刪除固定撥號"</string>
-    <string name="deleting_fdn_contact" msgid="5669163206349319969">"正在刪除固定撥號..."</string>
+    <string name="deleting_fdn_contact" msgid="5669163206349319969">"正在刪除固定撥號…"</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"已刪除固定撥號。"</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"您所輸入的 PIN 不正確，因此未更新 FDN。"</string>
     <string name="fdn_invalid_number" msgid="1494755047900009147">"號碼超過 20 位數的上限，因此未更新 FDN。"</string>
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"未更新 FDN。可能是因為 PIN2 碼不正確或電話號碼遭拒。"</string>
-    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"從 SIM 卡讀取中..."</string>
+    <string name="simContacts_emptyLoading" msgid="2203331234764498011">"正在從 SIM 卡讀取…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"您的 SIM 卡上沒有聯絡人。"</string>
     <string name="simContacts_title" msgid="1861472842524839921">"選取要匯入的聯絡人"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"如要從 SIM 卡匯入聯絡人，請先關閉「飛行」模式。"</string>
@@ -370,7 +370,7 @@
     <string name="invalidPin" msgid="5981171102258684792">"輸入 4 至 8 個數字的 PIN。"</string>
     <string name="disable_sim_pin" msgid="3992926931620188855">"停用 SIM PIN"</string>
     <string name="enable_sim_pin" msgid="5803702443844458831">"啟用 SIM PIN"</string>
-    <string name="enable_in_progress" msgid="3695303775100109650">"請稍候..."</string>
+    <string name="enable_in_progress" msgid="3695303775100109650">"請稍候…"</string>
     <string name="enable_pin_ok" msgid="9166061915030865848">"已啟用 SIM PIN。"</string>
     <string name="disable_pin_ok" msgid="5596999379593924850">"已停用 SIM PIN。"</string>
     <string name="pin_failed" msgid="2298841192582192277">"您所輸入的 PIN 不正確。"</string>
@@ -423,7 +423,7 @@
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"無法使用 Google 行動服務網路。"</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"撥號未送出，未輸入正確號碼。"</string>
     <string name="incall_error_call_failed" msgid="4313552620858880999">"撥號未送出。"</string>
-    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"開始 MMI 序列..."</string>
+    <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"開始 MMI 序列…"</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"不支援的服務。"</string>
     <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"無法切換通話。"</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"無法分隔來電。"</string>
@@ -433,8 +433,8 @@
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"無法釋出通話。"</string>
     <string name="incall_call_type_label_sip" msgid="2310958283037924371">"網路電話"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"緊急電話"</string>
-    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"開啟無線通訊中..."</string>
-    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"超出服務範圍，重試中..."</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"開啟無線通訊中…"</string>
+    <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"超出服務範圍，重試中…"</string>
     <string name="dial_emergency_error" msgid="7969515493359619960">"未送出通話要求，<xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> 不是緊急電話號碼！"</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"未送出通話要求，請撥打緊急電話號碼！"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"使用鍵盤撥號"</string>
@@ -537,8 +537,8 @@
     <string name="add_sip_account" msgid="5904858426290097611">"新增帳戶"</string>
     <string name="remove_sip_account" msgid="7645900420385682570">"移除帳戶"</string>
     <string name="sip_account_list" msgid="5480058210652194306">"SIP 帳戶"</string>
-    <string name="saving_account" msgid="52903398217017954">"正在儲存帳戶..."</string>
-    <string name="removing_account" msgid="7183999896088628100">"正在移除帳戶..."</string>
+    <string name="saving_account" msgid="52903398217017954">"正在儲存帳戶…"</string>
+    <string name="removing_account" msgid="7183999896088628100">"正在移除帳戶…"</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"儲存"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"捨棄"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"關閉設定檔"</string>
@@ -546,8 +546,8 @@
     <string name="close_profile" msgid="6886968271423155284">"關閉"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"主要帳戶。<xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"正在檢查狀態..."</string>
-    <string name="registration_status_registering" msgid="4288401139400232968">"註冊中..."</string>
-    <string name="registration_status_still_trying" msgid="3185581992666091911">"仍在嘗試中..."</string>
+    <string name="registration_status_registering" msgid="4288401139400232968">"註冊中…"</string>
+    <string name="registration_status_still_trying" msgid="3185581992666091911">"仍在嘗試中…"</string>
     <string name="registration_status_not_receiving" msgid="4185572774980557758">"無法接聽電話。"</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"因沒有網際網路連線，帳戶的註冊作業已停止。"</string>
     <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"找不到 WiFi 連線，帳戶註冊作業已中止。"</string>
