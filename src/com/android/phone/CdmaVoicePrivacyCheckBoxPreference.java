@@ -28,7 +28,7 @@ import android.util.Log;
 
 public class CdmaVoicePrivacyCheckBoxPreference extends CheckBoxPreference {
     private static final String LOG_TAG = "CdmaVoicePrivacyCheckBoxPreference";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     Phone phone;
     private MyHandler mHandler = new MyHandler();
@@ -36,7 +36,7 @@ public class CdmaVoicePrivacyCheckBoxPreference extends CheckBoxPreference {
     public CdmaVoicePrivacyCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        phone = PhoneApp.getPhone();
+        phone = PhoneGlobals.getPhone();
         phone.getEnhancedVoicePrivacy(mHandler.obtainMessage(MyHandler.MESSAGE_GET_VP));
     }
 

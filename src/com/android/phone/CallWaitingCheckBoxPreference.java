@@ -17,7 +17,7 @@ import com.android.internal.telephony.Phone;
 
 public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
     private static final String LOG_TAG = "CallWaitingCheckBoxPreference";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private final MyHandler mHandler = new MyHandler();
     private final Phone mPhone;
@@ -26,7 +26,7 @@ public class CallWaitingCheckBoxPreference extends CheckBoxPreference {
     public CallWaitingCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
     }
 
     public CallWaitingCheckBoxPreference(Context context, AttributeSet attrs) {

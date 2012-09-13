@@ -72,7 +72,7 @@ public class EmergencyDialer extends Activity
     private static final boolean DBG = false;
     private static final String LOG_TAG = "EmergencyDialer";
 
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
     private StatusBarManager mStatusBarManager;
 
     /** The length of DTMF tones in milliseconds */
@@ -144,7 +144,7 @@ public class EmergencyDialer extends Activity
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        mApp = PhoneApp.getInstance();
+        mApp = PhoneGlobals.getInstance();
         mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
         // Allow this activity to be displayed in front of the keyguard / lockscreen.
@@ -456,7 +456,7 @@ public class EmergencyDialer extends Activity
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "disabling status bar, set to long timeout");
         mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
-        mApp.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.MEDIUM);
+        mApp.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.MEDIUM);
 
         updateDialAndDeleteButtonStateEnabledAttr();
     }
@@ -467,7 +467,7 @@ public class EmergencyDialer extends Activity
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "reenabling status bar and closing the dialer");
         mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
-        mApp.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
+        mApp.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.DEFAULT);
 
         super.onPause();
 

@@ -219,7 +219,7 @@ public class NetworkSetting extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.carrier_select);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
 
         mNetworkList = (PreferenceGroup) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
         mNetworkMap = new HashMap<Preference, OperatorInfo>();
@@ -322,7 +322,7 @@ public class NetworkSetting extends PreferenceActivity
     private void displayNetworkQueryFailed(int error) {
         String status = getResources().getString(R.string.network_query_error);
 
-        final PhoneApp app = PhoneApp.getInstance();
+        final PhoneGlobals app = PhoneGlobals.getInstance();
         app.notificationMgr.postTransientNotification(
                 NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
     }
@@ -339,7 +339,7 @@ public class NetworkSetting extends PreferenceActivity
             status = getResources().getString(R.string.connect_later);
         }
 
-        final PhoneApp app = PhoneApp.getInstance();
+        final PhoneGlobals app = PhoneGlobals.getInstance();
         app.notificationMgr.postTransientNotification(
                 NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
     }
@@ -347,7 +347,7 @@ public class NetworkSetting extends PreferenceActivity
     private void displayNetworkSelectionSucceeded() {
         String status = getResources().getString(R.string.registration_done);
 
-        final PhoneApp app = PhoneApp.getInstance();
+        final PhoneGlobals app = PhoneGlobals.getInstance();
         app.notificationMgr.postTransientNotification(
                 NotificationMgr.NETWORK_SELECTION_NOTIFICATION, status);
 

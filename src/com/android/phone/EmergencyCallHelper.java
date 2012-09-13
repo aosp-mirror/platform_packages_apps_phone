@@ -66,7 +66,7 @@ public class EmergencyCallHelper extends Handler {
     private static final int RETRY_TIMEOUT = 4;
 
     private CallController mCallController;
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
     private CallManager mCM;
     private Phone mPhone;
     private String mNumber;  // The emergency number we're trying to dial
@@ -78,7 +78,7 @@ public class EmergencyCallHelper extends Handler {
     public EmergencyCallHelper(CallController callController) {
         if (DBG) log("EmergencyCallHelper constructor...");
         mCallController = callController;
-        mApp = PhoneApp.getInstance();
+        mApp = PhoneGlobals.getInstance();
         mCM =  mApp.mCM;
     }
 

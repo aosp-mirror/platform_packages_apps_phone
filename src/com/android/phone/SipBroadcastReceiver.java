@@ -91,7 +91,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void takeCall(Intent intent) {
-        Context phoneContext = PhoneApp.getInstance();
+        Context phoneContext = PhoneGlobals.getInstance();
         try {
             SipAudioCall sipAudioCall = SipManager.newInstance(phoneContext)
                     .takeAudioCall(intent, null);
@@ -107,7 +107,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void registerAllProfiles() {
-        final Context context = PhoneApp.getInstance();
+        final Context context = PhoneGlobals.getInstance();
         new Thread(new Runnable() {
             public void run() {
                 SipManager sipManager = SipManager.newInstance(context);

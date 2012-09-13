@@ -62,7 +62,7 @@ public class InCallTouchUi extends FrameLayout
         implements View.OnClickListener, View.OnLongClickListener, OnTriggerListener,
         PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
     private static final String LOG_TAG = "InCallTouchUi";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // Incoming call widget targets
     private static final int ANSWER_CALL_ID = 0;  // drag right
@@ -77,7 +77,7 @@ public class InCallTouchUi extends FrameLayout
     private InCallScreen mInCallScreen;
 
     // Phone app instance
-    private PhoneApp mApp;
+    private PhoneGlobals mApp;
 
     // UI containers / elements
     private GlowPadView mIncomingCallWidget;  // UI used for an incoming call
@@ -143,7 +143,7 @@ public class InCallTouchUi extends FrameLayout
         if (DBG) log("InCallTouchUi constructor...");
         if (DBG) log("- this = " + this);
         if (DBG) log("- context " + context + ", attrs " + attrs);
-        mApp = PhoneApp.getInstance();
+        mApp = PhoneGlobals.getInstance();
     }
 
     void setInCallScreenInstance(InCallScreen inCallScreen) {

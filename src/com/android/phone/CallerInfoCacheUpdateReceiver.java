@@ -31,7 +31,7 @@ import android.util.Log;
 public class CallerInfoCacheUpdateReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = CallerInfoCacheUpdateReceiver.class.getSimpleName();
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     public static final String ACTION_UPDATE_CALLER_INFO_CACHE =
             "com.android.phone.UPDATE_CALLER_INFO_CACHE";
@@ -39,7 +39,7 @@ public class CallerInfoCacheUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (DBG) log("CallerInfoCacheUpdateReceiver#onReceive(). Intent: " + intent);
-        PhoneApp.getInstance().callerInfoCache.startAsyncCache();
+        PhoneGlobals.getInstance().callerInfoCache.startAsyncCache();
     }
 
     private static void log(String msg) {

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class GsmUmtsAdditionalCallOptions extends
         TimeConsumingPreferenceActivity {
     private static final String LOG_TAG = "GsmUmtsAdditionalCallOptions";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private static final String BUTTON_CLIR_KEY  = "button_clir_key";
     private static final String BUTTON_CW_KEY    = "button_cw_key";

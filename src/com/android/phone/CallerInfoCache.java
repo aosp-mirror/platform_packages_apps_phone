@@ -45,7 +45,7 @@ import java.util.Map.Entry;
 public class CallerInfoCache {
     private static final String LOG_TAG = CallerInfoCache.class.getSimpleName();
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
 
     /** This must not be set to true when submitting changes. */
     private static final boolean VDBG = false;

@@ -209,7 +209,7 @@ public class MobileNetworkSettings extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.network_setting);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         mHandler = new MyHandler();
 
         //get UI object references

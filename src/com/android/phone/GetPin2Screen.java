@@ -34,7 +34,7 @@ import android.widget.TextView;
  * Pin2 entry screen.
  */
 public class GetPin2Screen extends Activity implements TextView.OnEditorActionListener {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
 
     private EditText mPin2Field;
     private Button mOkButton;

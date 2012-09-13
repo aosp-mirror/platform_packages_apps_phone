@@ -86,7 +86,7 @@ public class OtaStartupReceiver extends BroadcastReceiver {
                     // it's finally OK to start OTA provisioning
                     if (state.getState() == ServiceState.STATE_IN_SERVICE) {
                         if (DBG) Log.d(TAG, "call OtaUtils.maybeDoOtaCall after network is available");
-                        Phone phone = PhoneApp.getPhone();
+                        Phone phone = PhoneGlobals.getPhone();
                         phone.unregisterForServiceStateChanged(this);
                         OtaUtils.maybeDoOtaCall(mContext, mHandler, MIN_READY);
                     }
@@ -105,7 +105,13 @@ public class OtaStartupReceiver extends BroadcastReceiver {
                     "  mOtaspMode=" + mOtaspMode);
         }
 
-        if (!TelephonyCapabilities.supportsOtasp(PhoneApp.getPhone())) {
+        PhoneGlobals globals = PhoneGlobals.getInstanceIfPrimary();
+        if (globals == null) {
+            if (DBG) Log.d(TAG, "Not primary user, nothing to do.");
+            return;
+        }
+
+        if (!TelephonyCapabilities.supportsOtasp(PhoneGlobals.getPhone())) {
             if (DBG) Log.d(TAG, "OTASP not supported, nothing to do.");
             return;
         }
@@ -126,8 +132,8 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         }
 
         // Delay OTA provisioning if network is not available yet
-        PhoneApp app = PhoneApp.getInstance();
-        Phone phone = PhoneApp.getPhone();
+        PhoneGlobals app = PhoneGlobals.getInstance();
+        Phone phone = PhoneGlobals.getPhone();
         if (app.mCM.getServiceState() != ServiceState.STATE_IN_SERVICE) {
             if (DBG) Log.w(TAG, "Network is not ready. Registering to receive notification.");
             phone.registerForServiceStateChanged(mHandler, SERVICE_STATE_CHANGED, null);

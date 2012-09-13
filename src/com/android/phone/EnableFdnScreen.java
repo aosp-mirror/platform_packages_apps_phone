@@ -36,7 +36,7 @@ import com.android.internal.telephony.Phone;
  * UI to enable/disable FDN.
  */
 public class EnableFdnScreen extends Activity {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
     private static final boolean DBG = false;
 
     private static final int ENABLE_FDN_COMPLETE = 100;
@@ -67,7 +67,7 @@ public class EnableFdnScreen extends Activity {
         setContentView(R.layout.enable_fdn_screen);
         setupView();
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         mEnable = !mPhone.getIccCard().getIccFdnEnabled();
 
         int id = mEnable ? R.string.enable_fdn : R.string.disable_fdn;
@@ -77,7 +77,7 @@ public class EnableFdnScreen extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
     }
 
     private void setupView() {
