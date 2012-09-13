@@ -62,7 +62,7 @@ public class CallCard extends LinearLayout
         implements CallTime.OnTickListener, CallerInfoAsyncQuery.OnQueryCompleteListener,
                    ContactsAsyncHelper.OnImageLoadCompleteListener {
     private static final String LOG_TAG = "CallCard";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private static final int TOKEN_UPDATE_PHOTO_FOR_CALL_STATE = 0;
     private static final int TOKEN_DO_NOTHING = 1;
@@ -90,7 +90,7 @@ public class CallCard extends LinearLayout
     private InCallScreen mInCallScreen;
 
     // Phone app instance
-    private PhoneApp mApplication;
+    private PhoneGlobals mApplication;
 
     // Top-level subviews of the CallCard
     /** Container for info about the current call(s) */
@@ -182,7 +182,7 @@ public class CallCard extends LinearLayout
         if (DBG) log("- this = " + this);
         if (DBG) log("- context " + context + ", attrs " + attrs);
 
-        mApplication = PhoneApp.getInstance();
+        mApplication = PhoneGlobals.getInstance();
 
         mCallTime = new CallTime(this);
 
@@ -815,7 +815,7 @@ public class CallCard extends LinearLayout
                 // Display "Dialing" while dialing a 3Way call, even
                 // though the foreground call state is actually ACTIVE.
                 callStateLabel = context.getString(R.string.card_title_dialing);
-            } else if (PhoneApp.getInstance().notifier.getIsCdmaRedialCall()) {
+            } else if (PhoneGlobals.getInstance().notifier.getIsCdmaRedialCall()) {
                 callStateLabel = context.getString(R.string.card_title_redialing);
             }
         }
@@ -955,7 +955,7 @@ public class CallCard extends LinearLayout
     private void displaySecondaryCallStatus(CallManager cm, Call call) {
         if (DBG) log("displayOnHoldCallStatus(call =" + call + ")...");
 
-        if ((call == null) || (PhoneApp.getInstance().isOtaCallInActiveState())) {
+        if ((call == null) || (PhoneGlobals.getInstance().isOtaCallInActiveState())) {
             mSecondaryCallInfo.setVisibility(View.GONE);
             return;
         }
@@ -1012,7 +1012,7 @@ public class CallCard extends LinearLayout
                     List<Connection> connections = call.getConnections();
                     if (connections.size() > 2) {
                         // This means that current Mobile Originated call is the not the first 3-Way
-                        // call the user is making, which in turn tells the PhoneApp that we no
+                        // call the user is making, which in turn tells the PhoneGlobals that we no
                         // longer know which previous caller/party had dropped out before the user
                         // made this call.
                         mSecondaryCallName.setText(

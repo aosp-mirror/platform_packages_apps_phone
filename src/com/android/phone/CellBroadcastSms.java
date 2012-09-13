@@ -337,7 +337,7 @@ public class CellBroadcastSms extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.cell_broadcast_sms);
 
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
         mHandler = new MyHandler();
 
         PreferenceScreen prefSet = getPreferenceScreen();

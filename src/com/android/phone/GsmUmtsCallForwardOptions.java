@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
     private static final String LOG_TAG = "GsmUmtsCallForwardOptions";
-    private final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     private static final String NUM_PROJECTION[] = {Phone.NUMBER};
 

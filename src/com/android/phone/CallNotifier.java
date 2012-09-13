@@ -65,8 +65,8 @@ public class CallNotifier extends Handler
         implements CallerInfoAsyncQuery.OnQueryCompleteListener {
     private static final String LOG_TAG = "CallNotifier";
     private static final boolean DBG =
-            (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
-    private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
+            (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
+    private static final boolean VDBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // Maximum time we allow the CallerInfo query to run,
     // before giving up and falling back to the default ringtone.
@@ -152,7 +152,7 @@ public class CallNotifier extends Handler
     private static final int EMERGENCY_TONE_ALERT = 1;
     private static final int EMERGENCY_TONE_VIBRATE = 2;
 
-    private PhoneApp mApplication;
+    private PhoneGlobals mApplication;
     private CallManager mCM;
     private Ringer mRinger;
     private BluetoothHeadset mBluetoothHeadset;
@@ -187,7 +187,7 @@ public class CallNotifier extends Handler
      * Initialize the singleton CallNotifier instance.
      * This is only done once, at startup, from PhoneApp.onCreate().
      */
-    /* package */ static CallNotifier init(PhoneApp app, Phone phone, Ringer ringer,
+    /* package */ static CallNotifier init(PhoneGlobals app, Phone phone, Ringer ringer,
                                            CallLogAsync callLog) {
         synchronized (CallNotifier.class) {
             if (sInstance == null) {
@@ -200,7 +200,7 @@ public class CallNotifier extends Handler
     }
 
     /** Private constructor; @see init() */
-    private CallNotifier(PhoneApp app, Phone phone, Ringer ringer, CallLogAsync callLog) {
+    private CallNotifier(PhoneGlobals app, Phone phone, Ringer ringer, CallLogAsync callLog) {
         mApplication = app;
         mCM = app.mCM;
         mCallLog = callLog;
@@ -443,7 +443,7 @@ public class CallNotifier extends Handler
         // (This will be upgraded soon to a full wake lock; see
         // showIncomingCall().)
         if (VDBG) log("Holding wake lock on new incoming connection.");
-        mApplication.requestWakeState(PhoneApp.WakeState.PARTIAL);
+        mApplication.requestWakeState(PhoneGlobals.WakeState.PARTIAL);
 
         // - don't ring for call waiting connections
         // - do this before showing the incoming call panel
@@ -492,7 +492,7 @@ public class CallNotifier extends Handler
      */
     private boolean ignoreAllIncomingCalls(Phone phone) {
         // Incoming calls are totally ignored on non-voice-capable devices.
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             // ...but still log a warning, since we shouldn't have gotten this
             // event in the first place!  (Incoming calls *should* be blocked at
             // the telephony layer on non-voice-capable capable devices.)
@@ -736,7 +736,7 @@ public class CallNotifier extends Handler
         // screen is already on(!)
 
         mApplication.preventScreenOn(true);
-        mApplication.requestWakeState(PhoneApp.WakeState.FULL);
+        mApplication.requestWakeState(PhoneGlobals.WakeState.FULL);
 
         // Post the "incoming call" notification *and* include the
         // fullScreenIntent that'll launch the incoming-call UI.
@@ -805,8 +805,8 @@ public class CallNotifier extends Handler
             // if the call screen is showing, let it handle the event,
             // otherwise handle it here.
             if (!mApplication.isShowingCallScreen()) {
-                mApplication.setScreenTimeout(PhoneApp.ScreenTimeoutDuration.DEFAULT);
-                mApplication.requestWakeState(PhoneApp.WakeState.SLEEP);
+                mApplication.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.DEFAULT);
+                mApplication.requestWakeState(PhoneGlobals.WakeState.SLEEP);
             }
 
             // Since we're now in-call, the Ringer should definitely *not*
@@ -1316,7 +1316,7 @@ public class CallNotifier extends Handler
 
         // "Voicemail" is meaningless on non-voice-capable devices,
         // so ignore MWI events.
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             // ...but still log a warning, since we shouldn't have gotten this
             // event in the first place!
             // (PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR events
@@ -1702,7 +1702,7 @@ public class CallNotifier extends Handler
      */
     private void onSignalInfo(AsyncResult r) {
         // Signal Info are totally ignored on non-voice-capable devices.
-        if (!PhoneApp.sVoiceCapable) {
+        if (!PhoneGlobals.sVoiceCapable) {
             Log.w(LOG_TAG, "Got onSignalInfo() on non-voice-capable device! Ignoring...");
             return;
         }

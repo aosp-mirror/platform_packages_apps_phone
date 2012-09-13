@@ -48,7 +48,7 @@ import java.util.Queue;
  */
 public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyListener {
     private static final String LOG_TAG = "DTMFTwelveKeyDialer";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // events
     private static final int PHONE_DISCONNECT = 100;
@@ -369,7 +369,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
-        mCM = PhoneApp.getInstance().mCM;
+        mCM = PhoneGlobals.getInstance().mCM;
 
         // The passed-in DTMFTwelveKeyDialerView *should* always be
         // non-null, now that the in-call UI uses only portrait mode.
@@ -401,7 +401,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
-        mCM = PhoneApp.getInstance().mCM;
+        mCM = PhoneGlobals.getInstance().mCM;
 
         mDialerStub = dialerStub;
         if (DBG) log("- Got passed-in mDialerStub: " + mDialerStub);
@@ -467,7 +467,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         // On some devices the screen timeout is set to a special value
         // while the dialpad is up.
-        PhoneApp.getInstance().updateWakeState();
+        PhoneGlobals.getInstance().updateWakeState();
 
         // Give the InCallScreen a chance to do any necessary UI updates.
         if (mInCallScreen != null) {
@@ -493,7 +493,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("startDialerSession()... this = " + this);
 
         // see if we need to play local tones.
-        if (PhoneApp.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
+        if (PhoneGlobals.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
             mLocalToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
                     Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
         } else {
@@ -526,7 +526,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("onDialerClose()...");
 
         // reset back to a short delay for the poke lock.
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         app.updateWakeState();
 
         mCM.unregisterForDisconnect(mHandler);
@@ -794,7 +794,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         }
 
         // Any DTMF keypress counts as explicit "user activity".
-        PhoneApp.getInstance().pokeUserActivity();
+        PhoneGlobals.getInstance().pokeUserActivity();
     }
 
     /**

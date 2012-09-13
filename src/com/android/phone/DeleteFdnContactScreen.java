@@ -36,7 +36,7 @@ import static android.view.Window.PROGRESS_VISIBILITY_ON;
  * Activity to let the user delete an FDN contact.
  */
 public class DeleteFdnContactScreen extends Activity {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
     private static final boolean DBG = false;
 
     private static final String INTENT_EXTRA_NAME = "name";

@@ -96,7 +96,7 @@ public class CallFeaturesSetting extends PreferenceActivity
         EditPhoneNumberPreference.OnDialogClosedListener,
         EditPhoneNumberPreference.GetDefaultNumberListener{
     private static final String LOG_TAG = "CallFeaturesSetting";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     /**
      * Intent action to bring up Voicemail Provider settings.
@@ -1483,7 +1483,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         if (DBG) log("onCreate(). Intent: " + getIntent());
-        mPhone = PhoneApp.getPhone();
+        mPhone = PhoneGlobals.getPhone();
 
         addPreferencesFromResource(R.xml.call_feature_setting);
 

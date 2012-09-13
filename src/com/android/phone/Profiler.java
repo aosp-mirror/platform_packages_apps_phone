@@ -26,7 +26,7 @@ import android.view.Window;
  * Profiling utilities for the Phone app.
  */
 public class Profiler {
-    private static final String LOG_TAG = PhoneApp.LOG_TAG;
+    private static final String LOG_TAG = PhoneGlobals.LOG_TAG;
 
     // Let the compiler optimize all this code out unless we're actively
     // doing profiling runs.

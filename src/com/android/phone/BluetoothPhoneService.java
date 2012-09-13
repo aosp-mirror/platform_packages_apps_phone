@@ -52,9 +52,9 @@ import java.util.List;
  */
 public class BluetoothPhoneService extends Service {
     private static final String TAG = "BluetoothPhoneService";
-    private static final boolean DBG = (PhoneApp.DBG_LEVEL >= 1)
+    private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 1)
             && (SystemProperties.getInt("ro.debuggable", 0) == 1);
-    private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);  // even more logging
+    private static final boolean VDBG = (PhoneGlobals.DBG_LEVEL >= 2);  // even more logging
 
     private BluetoothAdapter mAdapter;
     private CallManager mCM;
@@ -262,7 +262,7 @@ public class BluetoothPhoneService extends Service {
 
         if (mCM.getDefaultPhone().getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
             mNumHeld = getNumHeldCdma();
-            PhoneApp app = PhoneApp.getInstance();
+            PhoneGlobals app = PhoneGlobals.getInstance();
             if (app.cdmaPhoneCallState != null) {
                 CdmaPhoneCallState.PhoneCallState currCdmaThreeWayCallState =
                         app.cdmaPhoneCallState.getCurrentCallState();
@@ -382,7 +382,7 @@ public class BluetoothPhoneService extends Service {
 
     private int getNumHeldCdma() {
         int numHeld = 0;
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         if (app.cdmaPhoneCallState != null) {
             CdmaPhoneCallState.PhoneCallState curr3WayCallState =
                 app.cdmaPhoneCallState.getCurrentCallState();
@@ -596,11 +596,11 @@ public class BluetoothPhoneService extends Service {
         }
 
         // Update the mCdmaIsSecondCallActive flag based on the Phone call state
-        if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
+        if (PhoneGlobals.getInstance().cdmaPhoneCallState.getCurrentCallState()
                 == CdmaPhoneCallState.PhoneCallState.SINGLE_ACTIVE) {
             Message msg = mHandler.obtainMessage(CDMA_SET_SECOND_CALL_STATE, false);
             mHandler.sendMessage(msg);
-        } else if (PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState()
+        } else if (PhoneGlobals.getInstance().cdmaPhoneCallState.getCurrentCallState()
                 == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
             Message msg = mHandler.obtainMessage(CDMA_SET_SECOND_CALL_STATE, true);
             mHandler.sendMessage(msg);
@@ -615,7 +615,7 @@ public class BluetoothPhoneService extends Service {
     /** Send ClCC results for a Connection object for CDMA phone */
     private void sendClccResponseCdma(int index, Connection connection) {
         int state;
-        PhoneApp app = PhoneApp.getInstance();
+        PhoneGlobals app = PhoneGlobals.getInstance();
         CdmaPhoneCallState.PhoneCallState currCdmaCallState =
                 app.cdmaPhoneCallState.getCurrentCallState();
         CdmaPhoneCallState.PhoneCallState prevCdmaCallState =
@@ -747,12 +747,12 @@ public class BluetoothPhoneService extends Service {
                         // the active call. In CDMA this mean that the complete
                         // call session would be ended
                         if (VDBG) log("CHLD:1 Hangup Call");
-                        PhoneUtils.hangup(PhoneApp.getInstance().mCM);
+                        PhoneUtils.hangup(PhoneGlobals.getInstance().mCM);
                     }
                     return true;
                 } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                     // Hangup active call, answer held call
-                    return PhoneUtils.answerAndEndActive(PhoneApp.getInstance().mCM, ringingCall);
+                    return PhoneUtils.answerAndEndActive(PhoneGlobals.getInstance().mCM, ringingCall);
                 } else {
                     Log.e(TAG, "bad phone type: " + phoneType);
                     return false;
@@ -771,7 +771,7 @@ public class BluetoothPhoneService extends Service {
                         // Setting the second callers state flag to TRUE (i.e. active)
                         cdmaSetSecondCallState(true);
                         return true;
-                    } else if (PhoneApp.getInstance().cdmaPhoneCallState
+                    } else if (PhoneGlobals.getInstance().cdmaPhoneCallState
                                .getCurrentCallState()
                                == CdmaPhoneCallState.PhoneCallState.CONF_CALL) {
                         if (VDBG) log("CHLD:2 Swap Calls");
@@ -792,7 +792,7 @@ public class BluetoothPhoneService extends Service {
             } else if (chld == CHLD_TYPE_ADDHELDTOCONF) {
                 if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                     CdmaPhoneCallState.PhoneCallState state =
-                        PhoneApp.getInstance().cdmaPhoneCallState.getCurrentCallState();
+                        PhoneGlobals.getInstance().cdmaPhoneCallState.getCurrentCallState();
                     // For CDMA, we need to check if the call is in THRWAY_ACTIVE state
                     if (state == CdmaPhoneCallState.PhoneCallState.THRWAY_ACTIVE) {
                         if (VDBG) log("CHLD:3 Merge Calls");

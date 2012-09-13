@@ -26,7 +26,7 @@ public class SipUtil {
     }
 
     public static PendingIntent createIncomingCallPendingIntent() {
-        Context phoneContext = PhoneApp.getInstance();
+        Context phoneContext = PhoneGlobals.getInstance();
         Intent intent = new Intent(phoneContext, SipBroadcastReceiver.class);
         intent.setAction(SipManager.ACTION_SIP_INCOMING_CALL);
         return PendingIntent.getBroadcast(phoneContext, 0, intent,
