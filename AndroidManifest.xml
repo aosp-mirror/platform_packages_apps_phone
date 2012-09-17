@@ -516,7 +516,7 @@
         </receiver>
 
         <!-- BroadcastReceiver for receiving Intents from Notification mechanism. -->
-        <receiver android:name="PhoneApp$NotificationBroadcastReceiver" exported="false">
+        <receiver android:name="PhoneGlobals$NotificationBroadcastReceiver" exported="false">
             <intent-filter>
                 <action android:name="com.android.phone.ACTION_HANG_UP_ONGOING_CALL" />
                 <action android:name="com.android.phone.ACTION_CALL_BACK_FROM_NOTIFICATION" />
