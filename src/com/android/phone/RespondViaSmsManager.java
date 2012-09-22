@@ -49,6 +49,7 @@ import java.util.Arrays;
 
 /**
  * Helper class to manage the "Respond via SMS" feature for incoming calls.
+ *
  * @see InCallScreen.internalRespondViaSms()
  */
 public class RespondViaSmsManager {
@@ -117,6 +118,13 @@ public class RespondViaSmsManager {
      */
     public void showRespondViaSmsPopup(Call ringingCall) {
         if (DBG) log("showRespondViaSmsPopup()...");
+
+        // Very quick succession of clicks can cause this to run twice.
+        // Stop here to avoid creating more than one popup.
+        if (isShowingPopup()) {
+            if (DBG) log("Skip showing popup when one is already shown.")
+            return;
+        }
 
         ListView lv = new ListView(mInCallScreen);
 
