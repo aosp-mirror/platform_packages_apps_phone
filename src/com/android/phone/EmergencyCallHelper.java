@@ -347,13 +347,13 @@ public class EmergencyCallHelper extends Handler {
 
         // If airplane mode is on, we turn it off the same way that the
         // Settings activity turns it off.
-        if (Settings.System.getInt(mApp.getContentResolver(),
-                                   Settings.System.AIRPLANE_MODE_ON, 0) > 0) {
+        if (Settings.Global.getInt(mApp.getContentResolver(),
+                                   Settings.Global.AIRPLANE_MODE_ON, 0) > 0) {
             if (DBG) log("==> Turning off airplane mode...");
 
             // Change the system setting
-            Settings.System.putInt(mApp.getContentResolver(),
-                                   Settings.System.AIRPLANE_MODE_ON, 0);
+            Settings.Global.putInt(mApp.getContentResolver(),
+                                   Settings.Global.AIRPLANE_MODE_ON, 0);
 
             // Post the intent
             Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
