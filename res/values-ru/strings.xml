@@ -141,7 +141,7 @@
     <string name="no_change" msgid="3186040086622435212">"Номер не изменен."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Выберите службу голосовой почты"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Мой оператор"</string>
-    <string name="mobile_networks" msgid="5540397602919106177">"Настройки сотовой сети"</string>
+    <string name="mobile_networks" msgid="5540397602919106177">"Настройки мобильной сети"</string>
     <string name="label_available" msgid="1181658289009300430">"Доступные сети"</string>
     <string name="load_networks_progress" msgid="5230707536168902952">"Поиск…"</string>
     <string name="empty_networks_list" msgid="4249426905018815316">"Сети не найдены."</string>
