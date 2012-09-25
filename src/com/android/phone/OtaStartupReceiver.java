@@ -164,8 +164,8 @@ public class OtaStartupReceiver extends BroadcastReceiver {
         Intent intent = new Intent("android.intent.action.DEVICE_INITIALIZATION_WIZARD");
         ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
-        boolean provisioned = Settings.Secure.getInt(context.getContentResolver(),
-                Settings.Secure.DEVICE_PROVISIONED, 0) != 0;
+        boolean provisioned = Settings.Global.getInt(context.getContentResolver(),
+                Settings.Global.DEVICE_PROVISIONED, 0) != 0;
         String mode = SystemProperties.get("ro.setupwizard.mode", "REQUIRED");
         boolean runningSetupWizard = "REQUIRED".equals(mode) || "OPTIONAL".equals(mode);
         if (DBG) {

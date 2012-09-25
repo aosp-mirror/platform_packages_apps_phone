@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.ListPreference;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -53,8 +54,8 @@ public class CdmaSubscriptionListPreference extends ListPreference {
     }
 
     private void setCurrentCdmaSubscriptionModeValue() {
-        int cdmaSubscriptionMode = Secure.getInt(mPhone.getContext().getContentResolver(),
-                android.provider.Settings.Secure.CDMA_SUBSCRIPTION_MODE, preferredSubscriptionMode);
+        int cdmaSubscriptionMode = Settings.Global.getInt(mPhone.getContext().getContentResolver(),
+                Settings.Global.CDMA_SUBSCRIPTION_MODE, preferredSubscriptionMode);
         setValue(Integer.toString(cdmaSubscriptionMode));
     }
 
@@ -120,8 +121,8 @@ public class CdmaSubscriptionListPreference extends ListPreference {
             if (ar.exception == null) {
                 // Get the original string entered by the user
                 int cdmaSubscriptionMode = Integer.valueOf((String) ar.userObj).intValue();
-                Secure.putInt(mPhone.getContext().getContentResolver(),
-                        Secure.CDMA_SUBSCRIPTION_MODE,
+                Settings.Global.putInt(mPhone.getContext().getContentResolver(),
+                        Settings.Global.CDMA_SUBSCRIPTION_MODE,
                         cdmaSubscriptionMode );
             } else {
                 Log.e(LOG_TAG, "Setting Cdma subscription source failed");
