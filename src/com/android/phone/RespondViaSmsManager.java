@@ -122,7 +122,7 @@ public class RespondViaSmsManager {
         // Very quick succession of clicks can cause this to run twice.
         // Stop here to avoid creating more than one popup.
         if (isShowingPopup()) {
-            if (DBG) log("Skip showing popup when one is already shown.")
+            if (DBG) log("Skip showing popup when one is already shown.");
             return;
         }
 
