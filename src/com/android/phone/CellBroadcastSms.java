@@ -422,9 +422,9 @@ public class CellBroadcastSms extends PreferenceActivity
 
         getPreferenceScreen().setEnabled(true);
 
-        int settingCbSms = android.provider.Settings.Secure.getInt(
+        int settingCbSms = android.provider.Settings.Global.getInt(
                 mPhone.getContext().getContentResolver(),
-                android.provider.Settings.Secure.CDMA_CELL_BROADCAST_SMS,
+                android.provider.Settings.Global.CDMA_CELL_BROADCAST_SMS,
                 RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED);
         mButtonBcSms.setChecked(settingCbSms == RILConstants.CDMA_CELL_BROADCAST_SMS_ENABLED);
 
@@ -547,8 +547,8 @@ public class CellBroadcastSms extends PreferenceActivity
                     mButtonBcSms.setChecked(false);
                     mPhone.activateCellBroadcastSms(RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED,
                             Message.obtain(mHandler, MESSAGE_ACTIVATE_CB_SMS));
-                    android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
-                            android.provider.Settings.Secure.CDMA_CELL_BROADCAST_SMS,
+                    android.provider.Settings.Global.putInt(mPhone.getContext().getContentResolver(),
+                            android.provider.Settings.Global.CDMA_CELL_BROADCAST_SMS,
                             RILConstants.CDMA_CELL_BROADCAST_SMS_DISABLED);
                     enableDisableAllCbConfigButtons(false);
                 }
