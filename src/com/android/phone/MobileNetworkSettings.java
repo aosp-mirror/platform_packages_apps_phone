@@ -176,8 +176,8 @@ public class MobileNetworkSettings extends PreferenceActivity
             cm.setMobileDataEnabled(mButtonDataEnabled.isChecked());
             return true;
         } else if (preference == mLteDataServicePref) {
-            String tmpl = android.provider.Settings.Secure.getString(getContentResolver(),
-                        android.provider.Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL);
+            String tmpl = android.provider.Settings.Global.getString(getContentResolver(),
+                        android.provider.Settings.Global.SETUP_PREPAID_DATA_SERVICE_URL);
             if (!TextUtils.isEmpty(tmpl)) {
                 TelephonyManager tm = (TelephonyManager) getSystemService(
                         Context.TELEPHONY_SERVICE);
@@ -264,8 +264,8 @@ public class MobileNetworkSettings extends PreferenceActivity
         }
 
         final boolean missingDataServiceUrl = TextUtils.isEmpty(
-                android.provider.Settings.Secure.getString(getContentResolver(),
-                        android.provider.Settings.Secure.SETUP_PREPAID_DATA_SERVICE_URL));
+                android.provider.Settings.Global.getString(getContentResolver(),
+                        android.provider.Settings.Global.SETUP_PREPAID_DATA_SERVICE_URL));
         if (!isLteOnCdma || missingDataServiceUrl) {
             prefSet.removePreference(mLteDataServicePref);
         } else {
