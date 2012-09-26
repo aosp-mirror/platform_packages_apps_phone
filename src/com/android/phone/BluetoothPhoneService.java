@@ -56,6 +56,8 @@ public class BluetoothPhoneService extends Service {
             && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = (PhoneGlobals.DBG_LEVEL >= 2);  // even more logging
 
+    private static final String MODIFY_PHONE_STATE = android.Manifest.permission.MODIFY_PHONE_STATE;
+
     private BluetoothAdapter mAdapter;
     private CallManager mCM;
 
@@ -705,10 +707,12 @@ public class BluetoothPhoneService extends Service {
 
     private final IBluetoothHeadsetPhone.Stub mBinder = new IBluetoothHeadsetPhone.Stub() {
         public boolean answerCall() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             return PhoneUtils.answerCall(mCM.getFirstActiveRingingCall());
         }
 
         public boolean hangupCall() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             if (mCM.hasActiveFgCall()) {
                 return PhoneUtils.hangupActiveCall(mCM.getActiveFgCall());
             } else if (mCM.hasActiveRingingCall()) {
@@ -721,10 +725,12 @@ public class BluetoothPhoneService extends Service {
         }
 
         public boolean sendDtmf(int dtmf) {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             return mCM.sendDtmf((char) dtmf);
         }
 
         public boolean processChld(int chld) {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             Phone phone = mCM.getDefaultPhone();
             int phoneType = phone.getPhoneType();
             Call ringingCall = mCM.getFirstActiveRingingCall();
@@ -825,36 +831,43 @@ public class BluetoothPhoneService extends Service {
         }
 
         public String getNetworkOperator() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             return mCM.getDefaultPhone().getServiceState().getOperatorAlphaLong();
         }
 
         public String getSubscriberNumber() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             return mCM.getDefaultPhone().getLine1Number();
         }
 
         public boolean listCurrentCalls() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             Message msg = Message.obtain(mHandler, LIST_CURRENT_CALLS);
             mHandler.sendMessage(msg);
             return true;
         }
 
         public boolean queryPhoneState() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             Message msg = Message.obtain(mHandler, QUERY_PHONE_STATE);
             mHandler.sendMessage(msg);
             return true;
         }
 
         public void updateBtHandsfreeAfterRadioTechnologyChange() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             if (VDBG) Log.d(TAG, "updateBtHandsfreeAfterRadioTechnologyChange...");
             updateBtPhoneStateAfterRadioTechnologyChange();
         }
 
         public void cdmaSwapSecondCallState() {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             Message msg = Message.obtain(mHandler, CDMA_SWAP_SECOND_CALL_STATE);
             mHandler.sendMessage(msg);
         }
 
         public void cdmaSetSecondCallState(boolean state) {
+            enforceCallingOrSelfPermission(MODIFY_PHONE_STATE, null);
             Message msg = mHandler.obtainMessage(CDMA_SET_SECOND_CALL_STATE, state);
             mHandler.sendMessage(msg);
         }
