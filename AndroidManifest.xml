@@ -15,6 +15,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:androidprv="http://schemas.android.com/apk/prv/res/android"
         package="com.android.phone"
         coreApp="true"
         android:sharedUserId="android.uid.phone"
@@ -445,7 +446,8 @@
         </service>
 
         <!-- Broadcast Receiver that will process BOOT Complete and launch OTA -->
-        <receiver android:name="OtaStartupReceiver" android:exported="false">
+        <receiver android:name="OtaStartupReceiver" android:exported="false"
+                androidprv:primaryUserOnly="true">
             <intent-filter android:priority="100">
                  <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
