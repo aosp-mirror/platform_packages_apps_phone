@@ -126,9 +126,9 @@
     <string name="fdn_check_failure" msgid="18200614306525434">"A definição Números Autorizados da aplicação do seu Telemóvel está ativada. Por conseguinte, algumas funcionalidades relacionadas com chamadas não estão a funcionar."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Ative o rádio antes de visualizar estas definições."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
-    <string name="enable" msgid="1059008390636773574">"Activar"</string>
+    <string name="enable" msgid="1059008390636773574">"Ativar"</string>
     <string name="disable" msgid="7274240979164762320">"Desactivar"</string>
-    <string name="change_num" msgid="239476305819844391">"Actualizar"</string>
+    <string name="change_num" msgid="239476305819844391">"Atualizar"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"Predefinição da rede"</item>
     <item msgid="7876195870037833661">"Ocultar número"</item>
@@ -466,7 +466,7 @@
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ignorar activação?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Se ignorar a activação, não poderá fazer chamadas nem estabelecer ligação a redes móveis de dados (apesar de poder estabelecer ligação a redes Wi-Fi). Enquanto não activar o telefone, ser-lhe-á solicitada activação sempre que ligar o telefone."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ignorar"</string>
-    <string name="ota_activate" msgid="1368528132525626264">"Activar"</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Ativar"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"O telemóvel está ativado!"</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema com a activação"</string>
     <string name="ota_listen" msgid="162923839877584937">"Siga as instruções de voz até ser informado de que a activação está concluída."</string>
