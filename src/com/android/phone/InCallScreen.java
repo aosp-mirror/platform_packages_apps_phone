@@ -153,7 +153,6 @@ public class InCallScreen extends Activity
     private static final int DONT_ADD_VOICEMAIL_NUMBER = 107;
     private static final int DELAYED_CLEANUP_AFTER_DISCONNECT = 108;
     private static final int SUPP_SERVICE_FAILED = 110;
-    private static final int ALLOW_SCREEN_ON = 112;
     private static final int REQUEST_UPDATE_BLUETOOTH_INDICATION = 114;
     private static final int PHONE_CDMA_CALL_WAITING = 115;
     private static final int REQUEST_CLOSE_SPC_ERROR_NOTICE = 118;
@@ -345,15 +344,6 @@ public class InCallScreen extends Activity
                     delayedCleanupAfterDisconnect();
                     break;
 
-                case ALLOW_SCREEN_ON:
-                    if (VDBG) log("ALLOW_SCREEN_ON message...");
-                    // Undo our previous call to preventScreenOn(true).
-                    // (Note this will cause the screen to turn on
-                    // immediately, if it's currently off because of a
-                    // prior preventScreenOn(true) call.)
-                    mApp.preventScreenOn(false);
-                    break;
-
                 case REQUEST_UPDATE_BLUETOOTH_INDICATION:
                     if (VDBG) log("REQUEST_UPDATE_BLUETOOTH_INDICATION...");
                     // The bluetooth headset state changed, so some UI
@@ -464,7 +454,8 @@ public class InCallScreen extends Activity
         mApp.setInCallScreenInstance(this);
 
         // set this flag so this activity will stay in front of the keyguard
-        int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+        int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
         if (mApp.getPhoneState() == PhoneConstants.State.OFFHOOK) {
             // While we are in call, the in-call screen should dismiss the keyguard.
             // This allows the user to press Home to go directly home without going through
@@ -712,40 +703,6 @@ public class InCallScreen extends Activity
         // InCallScreen is now active.
         EventLog.writeEvent(EventLogTags.PHONE_UI_ENTER);
 
-        // Coming to the foreground while in an incoming call is ringing.
-        // We need to do something special.
-        if (mCM.getState() == PhoneConstants.State.RINGING) {
-            // If the phone is ringing, we *should* already be holding a
-            // full wake lock (which we would have acquired before
-            // firing off the intent that brought us here; see
-            // CallNotifier.showIncomingCall().)
-            //
-            // We also called preventScreenOn(true) at that point, to
-            // avoid cosmetic glitches while we were being launched.
-            // So now we need to post an ALLOW_SCREEN_ON message to
-            // (eventually) undo the prior preventScreenOn(true) call.
-            //
-            // (In principle we shouldn't do this until after our first
-            // layout/draw pass.  But in practice, the delay caused by
-            // simply waiting for the end of the message queue is long
-            // enough to avoid any flickering of the lock screen before
-            // the InCallScreen comes up.)
-            if (VDBG) log("- posting ALLOW_SCREEN_ON message...");
-            mHandler.removeMessages(ALLOW_SCREEN_ON);
-            mHandler.sendEmptyMessage(ALLOW_SCREEN_ON);
-
-            // TODO: There ought to be a more elegant way of doing this,
-            // probably by having the PowerManager and ActivityManager
-            // work together to let apps request that the screen on/off
-            // state be synchronized with the Activity lifecycle.
-            // (See bug 1648751.)
-        } else {
-            // The phone isn't ringing; this is either an outgoing call, or
-            // we're returning to a call in progress.  There *shouldn't* be
-            // any prior preventScreenOn(true) call that we need to undo,
-            // but let's do this just to be safe:
-            mApp.preventScreenOn(false);
-        }
         // Update the poke lock and wake lock when we move to the foreground.
         // This will be no-op when prox sensor is effective.
         mApp.updateWakeState();
