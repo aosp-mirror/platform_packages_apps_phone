@@ -464,7 +464,16 @@ public class InCallScreen extends Activity
             // bypass the keyguard if the call is not answered or declined.
             flags |= WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
         }
-        getWindow().addFlags(flags);
+
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.flags |= flags;
+        if (!mApp.proximitySensorModeEnabled()) {
+            // If we don't have a proximity sensor, then the in-call screen explicitly
+            // controls user activity.  This is to prevent spurious touches from waking
+            // the display.
+            lp.inputFeatures |= WindowManager.LayoutParams.INPUT_FEATURE_DISABLE_USER_ACTIVITY;
+        }
+        getWindow().setAttributes(lp);
 
         setPhone(mApp.phone);  // Sets mPhone
 
@@ -551,11 +560,6 @@ public class InCallScreen extends Activity
 
         final InCallUiState inCallUiState = mApp.inCallUiState;
         if (VDBG) inCallUiState.dumpState();
-
-        // Touch events are never considered "user activity" while the
-        // InCallScreen is active, so that unintentional touches won't
-        // prevent the device from going to sleep.
-        mApp.setIgnoreTouchUserActivity(true);
 
         updateExpandedViewState();
 
@@ -851,17 +855,6 @@ public class InCallScreen extends Activity
         // of the InCallScreen, so we only care about them while we're in the
         // foreground.)
         unregisterReceiver(mReceiver);
-
-        // Re-enable "user activity" for touch events.
-        // We actually do this slightly *after* onPause(), to work around a
-        // race condition where a touch can come in after we've paused
-        // but before the device actually goes to sleep.
-        // TODO: The PowerManager itself should prevent this from happening.
-        mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    mApp.setIgnoreTouchUserActivity(false);
-                }
-            }, 500);
 
         // Make sure we revert the poke lock and wake lock when we move to
         // the background.
