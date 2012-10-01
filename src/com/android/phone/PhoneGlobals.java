@@ -41,7 +41,6 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
-import android.os.LocalPowerManager;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -123,20 +122,6 @@ public class PhoneGlobals extends ContextWrapper
     public static final int MMI_CANCEL = 53;
     // Don't use message codes larger than 99 here; those are reserved for
     // the individual Activities of the Phone UI.
-
-    /**
-     * Allowable values for the poke lock code (timeout between a user activity and the
-     * going to sleep), please refer to {@link com.android.server.power.PowerManagerService}
-     * for additional reference.
-     *   SHORT uses the short delay for the timeout (SHORT_KEYLIGHT_DELAY, 6 sec)
-     *   MEDIUM uses the medium delay for the timeout (MEDIUM_KEYLIGHT_DELAY, 15 sec)
-     *   DEFAULT is the system-wide default delay for the timeout (1 min)
-     */
-    public enum ScreenTimeoutDuration {
-        SHORT,
-        MEDIUM,
-        DEFAULT
-    }
 
     /**
      * Allowable values for the wake lock code.
@@ -225,22 +210,6 @@ public class PhoneGlobals extends ContextWrapper
     private PhoneConstants.State mLastPhoneState = PhoneConstants.State.IDLE;
 
     private WakeState mWakeState = WakeState.SLEEP;
-
-    /**
-     * Timeout setting used by PokeLock.
-     *
-     * This variable won't be effective when proximity sensor is available in the device.
-     *
-     * @see ScreenTimeoutDuration
-     */
-    private ScreenTimeoutDuration mScreenTimeoutDuration = ScreenTimeoutDuration.DEFAULT;
-    /**
-     * Used to set/unset {@link LocalPowerManager#POKE_LOCK_IGNORE_TOUCH_EVENTS} toward PokeLock.
-     *
-     * This variable won't be effective when proximity sensor is available in the device.
-     */
-    private boolean mIgnoreTouchUserActivity = false;
-    private final IBinder mPokeLockToken = new Binder();
 
     private PowerManager mPowerManager;
     private IPowerManager mPowerManagerService;
@@ -981,98 +950,6 @@ public class PhoneGlobals extends ContextWrapper
     }
 
     /**
-     * Controls how quickly the screen times out.
-     *
-     * This is no-op when the device supports proximity sensor.
-     *
-     * The poke lock controls how long it takes before the screen powers
-     * down, and therefore has no immediate effect when the current
-     * WakeState (see {@link PhoneGlobals#requestWakeState}) is FULL.
-     * If we're in a state where the screen *is* allowed to turn off,
-     * though, the poke lock will determine the timeout interval (long or
-     * short).
-     */
-    /* package */ void setScreenTimeout(ScreenTimeoutDuration duration) {
-        if (VDBG) Log.d(LOG_TAG, "setScreenTimeout(" + duration + ")...");
-
-        // stick with default timeout if we are using the proximity sensor
-        if (proximitySensorModeEnabled()) {
-            return;
-        }
-
-        // make sure we don't set the poke lock repeatedly so that we
-        // avoid triggering the userActivity calls in
-        // PowerManagerService.setPokeLock().
-        if (duration == mScreenTimeoutDuration) {
-            return;
-        }
-        mScreenTimeoutDuration = duration;
-        updatePokeLock();
-    }
-
-    /**
-     * Update the state of the poke lock held by the phone app,
-     * based on the current desired screen timeout and the
-     * current "ignore user activity on touch" flag.
-     */
-    private void updatePokeLock() {
-        // Caller must take care of the check. This block is purely for safety.
-        if (proximitySensorModeEnabled()) {
-            Log.wtf(LOG_TAG, "PokeLock should not be used when proximity sensor is available on"
-                    + " the device.");
-            return;
-        }
-
-        // This is kind of convoluted, but the basic thing to remember is
-        // that the poke lock just sends a message to the screen to tell
-        // it to stay on for a while.
-        // The default is 0, for a long timeout and should be set that way
-        // when we are heading back into a the keyguard / screen off
-        // state, and also when we're trying to keep the screen alive
-        // while ringing.  We'll also want to ignore the cheek events
-        // regardless of the timeout duration.
-        // The short timeout is really used whenever we want to give up
-        // the screen lock, such as when we're in call.
-        int pokeLockSetting = 0;
-        switch (mScreenTimeoutDuration) {
-            case SHORT:
-                // Set the poke lock to timeout the display after a short
-                // timeout (5s). This ensures that the screen goes to sleep
-                // as soon as acceptably possible after we the wake lock
-                // has been released.
-                pokeLockSetting |= LocalPowerManager.POKE_LOCK_SHORT_TIMEOUT;
-                break;
-
-            case MEDIUM:
-                // Set the poke lock to timeout the display after a medium
-                // timeout (15s). This ensures that the screen goes to sleep
-                // as soon as acceptably possible after we the wake lock
-                // has been released.
-                pokeLockSetting |= LocalPowerManager.POKE_LOCK_MEDIUM_TIMEOUT;
-                break;
-
-            case DEFAULT:
-            default:
-                // set the poke lock to timeout the display after a long
-                // delay by default.
-                // TODO: it may be nice to be able to disable cheek presses
-                // for long poke locks (emergency dialer, for instance).
-                break;
-        }
-
-        if (mIgnoreTouchUserActivity) {
-            pokeLockSetting |= LocalPowerManager.POKE_LOCK_IGNORE_TOUCH_EVENTS;
-        }
-
-        // Send the request
-        try {
-            mPowerManagerService.setPokeLock(pokeLockSetting, mPokeLockToken, LOG_TAG);
-        } catch (RemoteException e) {
-            Log.w(LOG_TAG, "mPowerManagerService.setPokeLock() failed: " + e);
-        }
-    }
-
-    /**
      * Controls whether or not the screen is allowed to sleep.
      *
      * Once sleep is allowed (WakeState is SLEEP), it will rely on the
@@ -1176,27 +1053,7 @@ public class PhoneGlobals extends ContextWrapper
                        + ", speaker " + isSpeakerInUse + "...");
 
         //
-        // (1) Set the screen timeout.
-        //
-        // Note that the "screen timeout" value we determine here is
-        // meaningless if the screen is forced on (see (2) below.)
-        //
-
-        // Historical note: In froyo and earlier, we checked here for a special
-        // case: the in-call UI being active, the speaker off, and the DTMF dialpad
-        // not visible.  In that case, with no touchable UI onscreen at all (for
-        // non-prox-sensor devices at least), we could assume the user was probably
-        // holding the phone up to their face and *not* actually looking at the
-        // screen.  So we'd switch to a special screen timeout value
-        // (ScreenTimeoutDuration.MEDIUM), purely to save battery life.
-        //
-        // On current devices, we can rely on the proximity sensor to turn the
-        // screen off in this case, so we use the system-wide default timeout
-        // unconditionally.
-        setScreenTimeout(ScreenTimeoutDuration.DEFAULT);
-
-        //
-        // (2) Decide whether to force the screen on or not.
+        // Decide whether to force the screen on or not.
         //
         // Force the screen to be on if the phone is ringing or dialing,
         // or if we're displaying the "Call ended" UI for a connection in
@@ -1223,37 +1080,11 @@ public class PhoneGlobals extends ContextWrapper
     }
 
     /**
-     * Sets or clears the flag that tells the PowerManager that touch
-     * (and cheek) events should NOT be considered "user activity".
-     *
-     * This method is no-op when proximity sensor is available on the device.
-     *
-     * Since the in-call UI is totally insensitive to touch in most
-     * states, we set this flag whenever the InCallScreen is in the
-     * foreground.  (Otherwise, repeated unintentional touches could
-     * prevent the device from going to sleep.)
-     *
-     * There *are* some some touch events that really do count as user
-     * activity, though.  For those, we need to manually poke the
-     * PowerManager's userActivity method; see pokeUserActivity().
-     */
-    /* package */ void setIgnoreTouchUserActivity(boolean ignore) {
-        if (VDBG) Log.d(LOG_TAG, "setIgnoreTouchUserActivity(" + ignore + ")...");
-        // stick with default timeout if we are using the proximity sensor
-        if (proximitySensorModeEnabled()) {
-            return;
-        }
-
-        mIgnoreTouchUserActivity = ignore;
-        updatePokeLock();
-    }
-
-    /**
      * Manually pokes the PowerManager's userActivity method.  Since we
-     * hold the POKE_LOCK_IGNORE_TOUCH_EVENTS poke lock while
-     * the InCallScreen is active, we need to do this for touch events
-     * that really do count as user activity (like pressing any
-     * onscreen UI elements.)
+     * set the {@link WindowManager.LayoutParams#INPUT_FEATURE_DISABLE_USER_ACTIVITY}
+     * flag while the InCallScreen is active when there is no proximity sensor,
+     * we need to do this for touch events that really do count as user activity
+     * (like pressing any onscreen UI elements.)
      */
     /* package */ void pokeUserActivity() {
         if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");

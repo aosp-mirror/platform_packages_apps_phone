@@ -88,6 +88,8 @@ public class EmergencyDialer extends Activity
 
     private static final int BAD_EMERGENCY_NUMBER_DIALOG = 0;
 
+    private static final int USER_ACTIVITY_TIMEOUT_WHEN_NO_PROX_SENSOR = 15000; // millis
+
     EditText mDigits;
     private View mDialButton;
     private View mDelete;
@@ -150,7 +152,13 @@ public class EmergencyDialer extends Activity
         mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
 
         // Allow this activity to be displayed in front of the keyguard / lockscreen.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.flags |= WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+        if (!mApp.proximitySensorModeEnabled()) {
+            // When no proximity sensor is available, use a shorter timeout.
+            lp.userActivityTimeout = USER_ACTIVITY_TIMEOUT_WHEN_NO_PROX_SENSOR;
+        }
+        getWindow().setAttributes(lp);
 
         setContentView(R.layout.emergency_dialer);
 
@@ -458,7 +466,6 @@ public class EmergencyDialer extends Activity
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "disabling status bar, set to long timeout");
         mStatusBarManager.disable(StatusBarManager.DISABLE_EXPAND);
-        mApp.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.MEDIUM);
 
         updateDialAndDeleteButtonStateEnabledAttr();
     }
@@ -469,7 +476,6 @@ public class EmergencyDialer extends Activity
         // There is no need to do anything with the wake lock.
         if (DBG) Log.d(LOG_TAG, "reenabling status bar and closing the dialer");
         mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
-        mApp.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.DEFAULT);
 
         super.onPause();
 
