@@ -822,9 +822,9 @@ public class CallNotifier extends Handler
                 }
 
                 if (callState == Call.State.DIALING || callState == Call.State.ALERTING) {
-                    mIsEmergencyToneOn = Settings.System.getInt(
+                    mIsEmergencyToneOn = Settings.Global.getInt(
                             mApplication.getContentResolver(),
-                            Settings.System.EMERGENCY_TONE, EMERGENCY_TONE_OFF);
+                            Settings.Global.EMERGENCY_TONE, EMERGENCY_TONE_OFF);
                     if (mIsEmergencyToneOn != EMERGENCY_TONE_OFF &&
                         mCurrentEmergencyToneState == EMERGENCY_TONE_OFF) {
                         if (mEmergencyTonePlayerVibrator != null) {
@@ -1013,8 +1013,8 @@ public class CallNotifier extends Handler
 
         int autoretrySetting = 0;
         if ((c != null) && (c.getCall().getPhone().getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA)) {
-            autoretrySetting = android.provider.Settings.System.getInt(mApplication.
-                    getContentResolver(),android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+            autoretrySetting = android.provider.Settings.Global.getInt(mApplication.
+                    getContentResolver(),android.provider.Settings.Global.CALL_AUTO_RETRY, 0);
         }
 
         // Stop any signalInfo tone being played when a call gets ended

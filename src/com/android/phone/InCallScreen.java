@@ -1679,8 +1679,8 @@ public class InCallScreen extends Activity
             // Get the Auto-retry setting only if Phone State is IDLE,
             // else let it stay as AUTO_RETRY_OFF
             if (currentlyIdle) {
-                autoretrySetting = android.provider.Settings.System.getInt(mPhone.getContext().
-                        getContentResolver(), android.provider.Settings.System.CALL_AUTO_RETRY, 0);
+                autoretrySetting = android.provider.Settings.Global.getInt(mPhone.getContext().
+                        getContentResolver(), android.provider.Settings.Global.CALL_AUTO_RETRY, 0);
             }
         }
 
