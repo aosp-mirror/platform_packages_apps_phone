@@ -777,7 +777,6 @@ public class CallNotifier extends Handler
             // if the call screen is showing, let it handle the event,
             // otherwise handle it here.
             if (!mApplication.isShowingCallScreen()) {
-                mApplication.setScreenTimeout(PhoneGlobals.ScreenTimeoutDuration.DEFAULT);
                 mApplication.requestWakeState(PhoneGlobals.WakeState.SLEEP);
             }
 
