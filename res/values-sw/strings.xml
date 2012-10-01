@@ -535,7 +535,7 @@
     <string name="removing_account" msgid="7183999896088628100">"Inaondoa akaunti..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Hifadhi"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Tupa"</string>
-    <string name="alert_dialog_close" msgid="7759635137627626235">"Funga maelezo mafupi"</string>
+    <string name="alert_dialog_close" msgid="7759635137627626235">"Funga wasifu"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"Sawa"</string>
     <string name="close_profile" msgid="6886968271423155284">"Funga"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Akaunti ya msingi: <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
