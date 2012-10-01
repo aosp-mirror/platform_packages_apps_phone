@@ -1141,14 +1141,6 @@ public class CallNotifier extends Handler
             }
 
             mApplication.notificationMgr.cancelCallInProgressNotifications();
-
-            // If the screen is turned off when all the phone calls are hung up,
-            // InCallScreen#onDisconnect() will wake up the screen (only once) and let users
-            // check the disconnected status.
-            if (mApplication.isShowingCallScreen()) {
-                if (VDBG) log("onDisconnect: In call screen. Set short timeout.");
-                mApplication.clearUserActivityTimeout();
-            }
         }
 
         if (c != null) {

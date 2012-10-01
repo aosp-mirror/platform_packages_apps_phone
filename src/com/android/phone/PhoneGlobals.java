@@ -1917,15 +1917,6 @@ public class PhoneGlobals extends ContextWrapper
         phone.queryTTYMode(mHandler.obtainMessage(EVENT_TTY_MODE_GET));
     }
 
-    /* package */ void clearUserActivityTimeout() {
-        try {
-            mPowerManagerService.clearUserActivityTimeout(SystemClock.uptimeMillis(),
-                    10*1000 /* 10 sec */);
-        } catch (RemoteException ex) {
-            // System process is dead.
-        }
-    }
-
     /**
      * "Call origin" may be used by Contacts app to specify where the phone call comes from.
      * Currently, the only permitted value for this extra is {@link #ALLOWED_EXTRA_CALL_ORIGIN}.
