@@ -183,10 +183,10 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Dades activades"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Activa l\'accés a dades a través de la xarxa mòbil"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Permet l\'accés a dades a través de la xarxa mòbil"</string>
     <string name="roaming" msgid="8871412572928323707">"Itinerància de dades"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"Connecta\'t als serveis de dades en itinerància"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"Connecta\'t als serveis de dades en itinerància"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Estableix connexió amb serveis de dades en itinerància"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Estableix connexió amb serveis de dades en itinerància"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"Has perdut la connectivitat de dades perquè has abandonat la xarxa local amb la itinerància de dades desactivada."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"Voleu permetre la itinerància de dades? Els costos poden ser molt alts."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opcions de GSM/UMTS"</string>
