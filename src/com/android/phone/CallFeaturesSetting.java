@@ -475,8 +475,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mButtonTTY) {
             return true;
         } else if (preference == mButtonAutoRetry) {
-            android.provider.Settings.System.putInt(mPhone.getContext().getContentResolver(),
-                    android.provider.Settings.System.CALL_AUTO_RETRY,
+            android.provider.Settings.Global.putInt(mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Global.CALL_AUTO_RETRY,
                     mButtonAutoRetry.isChecked() ? 1 : 0);
             return true;
         } else if (preference == mButtonHAC) {
@@ -1726,8 +1726,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         if (mButtonAutoRetry != null) {
-            int autoretry = Settings.System.getInt(getContentResolver(),
-                    Settings.System.CALL_AUTO_RETRY, 0);
+            int autoretry = Settings.Global.getInt(getContentResolver(),
+                    Settings.Global.CALL_AUTO_RETRY, 0);
             mButtonAutoRetry.setChecked(autoretry != 0);
         }
 
