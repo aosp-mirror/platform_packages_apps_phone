@@ -16,6 +16,7 @@
 
 package com.android.phone;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Handler;
@@ -30,6 +31,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.View.OnHoverListener;
+import android.view.accessibility.AccessibilityManager;
 import android.view.ViewStub;
 import android.widget.EditText;
 
@@ -46,13 +50,17 @@ import java.util.Queue;
  * Dialer class that encapsulates the DTMF twelve key behaviour.
  * This model backs up the UI behaviour in DTMFTwelveKeyDialerView.java.
  */
-public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyListener {
+public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyListener,
+        View.OnHoverListener, View.OnClickListener {
     private static final String LOG_TAG = "DTMFTwelveKeyDialer";
     private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // events
     private static final int PHONE_DISCONNECT = 100;
     private static final int DTMF_SEND_CNF = 101;
+
+    /** Accessibility manager instance used to check touch exploration state. */
+    private final AccessibilityManager mAccessibilityManager;
 
     private CallManager mCM;
     private ToneGenerator mToneGenerator;
@@ -366,10 +374,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public DTMFTwelveKeyDialer(InCallScreen parent,
                                 DTMFTwelveKeyDialerView dialerView) {
-        if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
-
-        mInCallScreen = parent;
-        mCM = PhoneGlobals.getInstance().mCM;
+        this(parent);
 
         // The passed-in DTMFTwelveKeyDialerView *should* always be
         // non-null, now that the in-call UI uses only portrait mode.
@@ -398,15 +403,27 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * {@link ViewStub#inflate()}.
      */
     public DTMFTwelveKeyDialer(InCallScreen parent, ViewStub dialerStub) {
-        if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
-
-        mInCallScreen = parent;
-        mCM = PhoneGlobals.getInstance().mCM;
+        this(parent);
 
         mDialerStub = dialerStub;
         if (DBG) log("- Got passed-in mDialerStub: " + mDialerStub);
 
         // At this moment mDialerView is still null. We delay calling setupDialerView().
+    }
+
+    /**
+     * Private constructor used for initialization calls common to all public
+     * constructors.
+     *
+     * @param parent the InCallScreen instance that owns us.
+     */
+    private DTMFTwelveKeyDialer(InCallScreen parent) {
+        if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
+
+        mInCallScreen = parent;
+        mCM = PhoneGlobals.getInstance().mCM;
+        mAccessibilityManager = (AccessibilityManager) parent.getSystemService(
+                Context.ACCESSIBILITY_SERVICE);
     }
 
     /**
@@ -593,6 +610,8 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             button.setOnTouchListener(this);
             button.setClickable(true);
             button.setOnKeyListener(this);
+            button.setOnHoverListener(this);
+            button.setOnClickListener(this);
         }
     }
 
@@ -618,6 +637,53 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         // if (DBG) log("onKeyUp:  keyCode " + keyCode);
         return mInCallScreen.onKeyUp(keyCode, event);
+    }
+
+    /**
+     * Implemented for {@link android.view.View.OnHoverListener}. Handles touch
+     * events for accessibility when touch exploration is enabled.
+     */
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        // When touch exploration is turned on, lifting a finger while inside
+        // the button's hover target bounds should perform a click action.
+        if (mAccessibilityManager.isEnabled()
+                && mAccessibilityManager.isTouchExplorationEnabled()) {
+            final int left = v.getPaddingLeft();
+            final int right = (v.getWidth() - v.getPaddingRight());
+            final int top = v.getPaddingTop();
+            final int bottom = (v.getHeight() - v.getPaddingBottom());
+
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                    // Lift-to-type temporarily disables double-tap activation.
+                    v.setClickable(false);
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    final int x = (int) event.getX();
+                    final int y = (int) event.getY();
+                    if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
+                        v.performClick();
+                    }
+                    v.setClickable(true);
+                    break;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        // When accessibility is on, simulate press and release to preserve the
+        // semantic meaning of performClick(). Required for Braille support.
+        if (mAccessibilityManager.isEnabled()) {
+            final int id = v.getId();
+            // Checking the press state prevents double activation.
+            if (!v.isPressed() && mDisplayMap.containsKey(id)) {
+                processDtmf(mDisplayMap.get(id), true /* forceShortTone */);
+            }
+        }
     }
 
     /**
@@ -764,8 +830,19 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Processes the specified digit as a DTMF key, by playing the
      * appropriate DTMF tone, and appending the digit to the EditText
      * field that displays the DTMF digits sent so far.
+     *
+     * @see #processDtmf(char, boolean)
      */
     private final void processDtmf(char c) {
+        processDtmf(c, false);
+    }
+
+    /**
+     * Processes the specified digit as a DTMF key, by playing the appropriate
+     * DTMF tone (or short tone if requested), and appending the digit to the
+     * EditText field that displays the DTMF digits sent so far.
+     */
+    private final void processDtmf(char c, boolean forceShortTone) {
         // if it is a valid key, then update the display and send the dtmf tone.
         if (PhoneNumberUtils.is12Key(c)) {
             if (DBG) log("updating display and sending dtmf tone for '" + c + "'");
@@ -787,7 +864,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             // Play the tone if it exists.
             if (mToneMap.containsKey(c)) {
                 // begin tone playback.
-                startTone(c);
+                startTone(c, forceShortTone);
             }
         } else if (DBG) {
             log("ignoring dtmf request for '" + c + "'");
@@ -858,7 +935,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     /**
      * Plays the local tone based the phone type.
      */
-    public void startTone(char c) {
+    public void startTone(char c, boolean forceShortTone) {
         // Only play the tone if it exists.
         if (!mToneMap.containsKey(c)) {
             return;
@@ -875,20 +952,28 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("startDtmfTone()...");
 
         // For Short DTMF we need to play the local tone for fixed duration
-        if (mShortTone) {
+        if (forceShortTone || mShortTone) {
             sendShortDtmfToNetwork(c);
         } else {
             // Pass as a char to be sent to network
             if (DBG) log("send long dtmf for " + c);
             mCM.startDtmf(c);
         }
-        startLocalToneIfNeeded(c);
+        startLocalToneIfNeeded(c, forceShortTone);
     }
 
     /**
      * Plays the local tone based the phone type.
      */
     public void startLocalToneIfNeeded(char c) {
+        startLocalToneIfNeeded(c, false);
+    }
+
+    /**
+     * Plays the local tone based the phone type, optionally forcing a short
+     * tone.
+     */
+    private void startLocalToneIfNeeded(char c, boolean forceShortTone) {
         // if local tone playback is enabled, start it.
         // Only play the tone if it exists.
         if (!mToneMap.containsKey(c)) {
@@ -901,7 +986,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 } else {
                     if (DBG) log("starting local tone " + c);
                     int toneDuration = -1;
-                    if (mShortTone) {
+                    if (forceShortTone || mShortTone) {
                         toneDuration = DTMF_DURATION_MS;
                     }
                     mToneGenerator.startTone(mToneMap.get(c), toneDuration);
