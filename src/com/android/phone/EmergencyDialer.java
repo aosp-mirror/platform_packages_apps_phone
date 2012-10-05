@@ -37,8 +37,10 @@ import android.text.TextWatcher;
 import android.text.method.DialerKeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.EditText;
 
 import com.android.phone.common.HapticFeedback;
@@ -61,14 +63,20 @@ import com.android.phone.common.HapticFeedback;
  * Or could we figure out some way to move *this* class into apps/Contacts
  * also?
  */
-public class EmergencyDialer extends Activity
-        implements View.OnClickListener, View.OnLongClickListener,
-        View.OnKeyListener, TextWatcher {
+public class EmergencyDialer extends Activity implements View.OnClickListener,
+        View.OnLongClickListener, View.OnHoverListener, View.OnKeyListener, TextWatcher {
     // Keys used with onSaveInstanceState().
     private static final String LAST_NUMBER = "lastNumber";
 
     // Intent action for this activity.
     public static final String ACTION_DIAL = "com.android.phone.EmergencyDialer.DIAL";
+
+    // List of dialer button IDs.
+    private static final int[] DIALER_KEYS = new int[] {
+            R.id.one, R.id.two, R.id.three,
+            R.id.four, R.id.five, R.id.six,
+            R.id.seven, R.id.eight, R.id.nine,
+            R.id.star, R.id.zero, R.id.pound };
 
     // Debug constants.
     private static final boolean DBG = false;
@@ -76,6 +84,7 @@ public class EmergencyDialer extends Activity
 
     private PhoneGlobals mApp;
     private StatusBarManager mStatusBarManager;
+    private AccessibilityManager mAccessibilityManager;
 
     /** The length of DTMF tones in milliseconds */
     private static final int TONE_LENGTH_MS = 150;
@@ -150,6 +159,7 @@ public class EmergencyDialer extends Activity
 
         mApp = PhoneGlobals.getInstance();
         mStatusBarManager = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
+        mAccessibilityManager = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
 
         // Allow this activity to be displayed in front of the keyguard / lockscreen.
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -270,22 +280,14 @@ public class EmergencyDialer extends Activity
 
     private void setupKeypad() {
         // Setup the listeners for the buttons
-        findViewById(R.id.one).setOnClickListener(this);
-        findViewById(R.id.two).setOnClickListener(this);
-        findViewById(R.id.three).setOnClickListener(this);
-        findViewById(R.id.four).setOnClickListener(this);
-        findViewById(R.id.five).setOnClickListener(this);
-        findViewById(R.id.six).setOnClickListener(this);
-        findViewById(R.id.seven).setOnClickListener(this);
-        findViewById(R.id.eight).setOnClickListener(this);
-        findViewById(R.id.nine).setOnClickListener(this);
-        findViewById(R.id.star).setOnClickListener(this);
+        for (int id : DIALER_KEYS) {
+            final View key = findViewById(id);
+            key.setOnClickListener(this);
+            key.setOnHoverListener(this);
+        }
 
         View view = findViewById(R.id.zero);
-        view.setOnClickListener(this);
         view.setOnLongClickListener(this);
-
-        findViewById(R.id.pound).setOnClickListener(this);
     }
 
     /**
@@ -412,6 +414,40 @@ public class EmergencyDialer extends Activity
                 return;
             }
         }
+    }
+
+    /**
+     * Implemented for {@link android.view.View.OnHoverListener}. Handles touch
+     * events for accessibility when touch exploration is enabled.
+     */
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        // When touch exploration is turned on, lifting a finger while inside
+        // the button's hover target bounds should perform a click action.
+        if (mAccessibilityManager.isEnabled()
+                && mAccessibilityManager.isTouchExplorationEnabled()) {
+
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                    // Lift-to-type temporarily disables double-tap activation.
+                    v.setClickable(false);
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    final int left = v.getPaddingLeft();
+                    final int right = (v.getWidth() - v.getPaddingRight());
+                    final int top = v.getPaddingTop();
+                    final int bottom = (v.getHeight() - v.getPaddingBottom());
+                    final int x = (int) event.getX();
+                    final int y = (int) event.getY();
+                    if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
+                        v.performClick();
+                    }
+                    v.setClickable(true);
+                    break;
+            }
+        }
+
+        return false;
     }
 
     /**
