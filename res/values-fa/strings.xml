@@ -435,7 +435,7 @@
     <string name="onscreenHoldText" msgid="2285258239691145872">"نگهداشت"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"پایان"</string>
     <string name="onscreenShowDialpadText" msgid="8561805492659639893">"دکمه‌های شماره گیری"</string>
-    <string name="onscreenMuteText" msgid="5011369181754261374">"بیصدا"</string>
+    <string name="onscreenMuteText" msgid="5011369181754261374">"بی‌صدا"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"افزودن تماس"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"ادغام تماس‌ها"</string>
     <string name="onscreenSwapCallsText" msgid="1602990689244030047">"تعویض"</string>
