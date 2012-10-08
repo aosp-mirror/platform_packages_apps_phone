@@ -175,6 +175,10 @@ public class EmergencyDialer extends Activity implements View.OnClickListener,
         mDigits.setOnClickListener(this);
         mDigits.setOnKeyListener(this);
         mDigits.setLongClickable(false);
+        if (mAccessibilityManager.isEnabled()) {
+            // The text view must be selected to send accessibility events.
+            mDigits.setSelected(true);
+        }
         maybeAddNumberFormatting();
 
         // Check for the presence of the keypad
