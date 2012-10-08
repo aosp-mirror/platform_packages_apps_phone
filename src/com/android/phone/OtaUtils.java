@@ -27,6 +27,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -344,7 +345,12 @@ public class OtaUtils {
                 Intent newIntent = new Intent(ACTION_PERFORM_VOICELESS_CDMA_PROVISIONING);
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 newIntent.putExtra(EXTRA_VOICELESS_PROVISIONING_OFFER_DONTSHOW, true);
-                context.startActivity(newIntent);
+                try {
+                    context.startActivity(newIntent);
+                } catch (ActivityNotFoundException e) {
+                    loge("No activity Handling PERFORM_VOICELESS_CDMA_PROVISIONING!");
+                    return false;
+                }
                 if (DBG) log("maybeDoOtaCall: non-interactive; activation intent sent.");
             } else {
                 if (DBG) log("maybeDoOtaCall: non-interactive, no need for OTASP.");
@@ -1631,5 +1637,9 @@ public class OtaUtils {
 
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
+    }
+
+    private static void loge(String msg) {
+        Log.e(LOG_TAG, msg);
     }
 }
