@@ -183,10 +183,10 @@
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Dades activades"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Activa l\'accés a dades a través de la xarxa mòbil"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Permet l\'accés a dades a través de la xarxa mòbil"</string>
     <string name="roaming" msgid="8871412572928323707">"Itinerància de dades"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"Connecta\'t als serveis de dades en itinerància"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"Connecta\'t als serveis de dades en itinerància"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Estableix connexió amb serveis de dades en itinerància"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Estableix connexió amb serveis de dades en itinerància"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"Has perdut la connectivitat de dades perquè has abandonat la xarxa local amb la itinerància de dades desactivada."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"Voleu permetre la itinerància de dades? Els costos poden ser molt alts."</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opcions de GSM/UMTS"</string>
@@ -513,11 +513,11 @@
     <string name="sip_accounts_title" msgid="1212889069281054570">"Comptes"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Recepció de trucades entrants"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Redueix la durada de la bateria"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Utilitza la trucada per Internet"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Utilitza la trucada per Internet (només Wi-Fi)"</string>
-    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Per a totes les trucades quan hi hagi disponible una xarxa de dades"</string>
-    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Només per a trucades per Internet"</string>
-    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pregunta-ho per a cada trucada"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Trucades per Internet"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Trucades per Internet (només Wi-Fi)"</string>
+    <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Per a totes les trucades quan hi hagi xarxes de dades disponibles"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Només trucades per Internet"</string>
+    <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pregunta cada vegada"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Per a totes les trucades"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Fes una trucada"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Utilitza el compte per a trucades per Internet:"</string>
@@ -619,7 +619,7 @@
     <item msgid="1458182414036878616">"Mai"</item>
   </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"To del telèfon"</string>
-    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibra  quan soni"</string>
-    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tons en tocar el teclat per marcar"</string>
+    <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrar en sonar"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Sonar en marcar els números"</string>
     <string name="preference_category_ringtone" msgid="9007490591910078324">"To"</string>
 </resources>

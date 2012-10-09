@@ -159,15 +159,15 @@
     <string name="preferred_network_mode_title" msgid="8873246565334559308">"Mode Jaringan"</string>
     <string name="preferred_network_mode_summary" msgid="1434820673166126609">"Ubah mode pengoperasian jaringan"</string>
     <string name="preferred_network_mode_dialogtitle" msgid="8176355237105593793">"Mode jaringan yang disukai"</string>
-    <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"Modus jaringan pilihan: WCDMA lebih disukai"</string>
-    <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"Modus jaringan pilihan: GSM saja"</string>
-    <string name="preferred_network_mode_wcdma_only_summary" msgid="2836897236221063413">"Modus jaringan pilihan: WCDMA saja"</string>
-    <string name="preferred_network_mode_gsm_wcdma_summary" msgid="3161255745326408587">"Modus jaringan pilihan: GSM / WCDMA"</string>
-    <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Modus jaringan yang disukai: CDMA"</string>
-    <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Modus jaringan yang disukai: : CDMA / EvDo"</string>
-    <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Modus jaringan pilihan: CDMA saja"</string>
-    <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Modus jaringan pilihan: EvDo saja"</string>
-    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Modus jaringan pilihan: LTE / CDMA"</string>
+    <string name="preferred_network_mode_wcdma_perf_summary" msgid="8521677230113533809">"Mode jaringan pilihan: WCDMA lebih disukai"</string>
+    <string name="preferred_network_mode_gsm_only_summary" msgid="3352445413437453511">"Mode jaringan pilihan: GSM saja"</string>
+    <string name="preferred_network_mode_wcdma_only_summary" msgid="2836897236221063413">"Mode jaringan pilihan: WCDMA saja"</string>
+    <string name="preferred_network_mode_gsm_wcdma_summary" msgid="3161255745326408587">"Mode jaringan pilihan: GSM / WCDMA"</string>
+    <string name="preferred_network_mode_cdma_summary" msgid="3175690187294334241">"Mode jaringan yang disukai: CDMA"</string>
+    <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Mode jaringan yang disukai: : CDMA / EvDo"</string>
+    <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Mode jaringan pilihan: CDMA saja"</string>
+    <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Mode jaringan pilihan: EvDo saja"</string>
+    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Mode jaringan pilihan: LTE / CDMA"</string>
   <string-array name="preferred_network_mode_choices">
     <item msgid="5543794538185064048">"LTE/CDMA"</item>
     <item msgid="3273348576277144124">"EvDo saja"</item>
