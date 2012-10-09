@@ -324,7 +324,7 @@
     <string name="sum_fdn" msgid="1959399454900272878">"Umožňuje spravovat povolená telefonní čísla"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Umožňuje změnit kód PIN pro přístup k povoleným telefonním číslům"</string>
     <string name="sum_fdn_manage_list" msgid="8431088265332628316">"Správa telefonního seznamu"</string>
-    <string name="voice_privacy" msgid="3776841382844614716">"Ochrana osobních údajů v hlasové poště"</string>
+    <string name="voice_privacy" msgid="3776841382844614716">"Ochrana soukromí v hlasové poště"</string>
     <string name="voice_privacy_summary" msgid="3159383389833516214">"Povolit režim vylepšené ochrany soukromí"</string>
     <string name="tty_mode_option_title" msgid="9033098925144434669">"Režim TTY"</string>
     <string name="tty_mode_option_summary" msgid="1073835131534808732">"Nastavit režim TTY"</string>
@@ -512,8 +512,8 @@
     <string name="sip_accounts_title" msgid="1212889069281054570">"Účty"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Přijímat příchozí hovory"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Snižuje výdrž baterie"</string>
-    <string name="sip_call_options_title" msgid="27433718808839672">"Použít internetový hovor"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Použít internetový hovor (pouze s připojením Wi-Fi)"</string>
+    <string name="sip_call_options_title" msgid="27433718808839672">"Používat internetové volání"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Používat internetové volání (jen přes Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Pro všechny hovory, pokud je k dispozici datová síť"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Pouze pro internetové hovory"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Pokaždé se zeptat"</string>

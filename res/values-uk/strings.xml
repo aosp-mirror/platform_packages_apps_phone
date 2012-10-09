@@ -151,7 +151,7 @@
     <string name="not_allowed" msgid="5613353860205691579">"Ваша SIM-карта не дозволяє під’єднання до цієї мережі."</string>
     <string name="connect_later" msgid="2308119155752343975">"Зараз неможливо під’єднатися до цієї мережі. Повторіть спробу пізніше."</string>
     <string name="registration_done" msgid="495135664535876612">"Зареєстровано у мережі"</string>
-    <string name="sum_carrier_select" msgid="3494252551249882718">"Вибрати оператора мережі"</string>
+    <string name="sum_carrier_select" msgid="3494252551249882718">"Виберіть оператора мережі"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Пошук усіх доступних мереж"</string>
     <string name="select_automatically" msgid="5628402124471810174">"Вибирати автоматично"</string>
     <string name="sum_select_automatically" msgid="5614890115123292400">"Автоматично вибирати основну мережу"</string>
