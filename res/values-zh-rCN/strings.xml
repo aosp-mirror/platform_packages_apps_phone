@@ -182,7 +182,7 @@
     <item msgid="7002474529872452266">"LTE/CDMA"</item>
     <item msgid="5541716989029928208">"CDMA"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"已启用数据流量"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"启用数据网络"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"允许通过移动网络存取数据"</string>
     <string name="roaming" msgid="8871412572928323707">"移动数据网络漫游"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"漫游时连接到移动数据网络服务"</string>

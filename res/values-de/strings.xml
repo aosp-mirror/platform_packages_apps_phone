@@ -293,7 +293,7 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Mehrere Kategorien"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Mehrere Kategorien aktiviert"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Mehrere Kategorien deaktiviert"</string>
-    <string name="prefer_2g" msgid="8442550937280449639">"Nur 2G-Netzwerke"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Nur 2G-Netze"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Energiesparend"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Systemauswahl"</string>
     <string name="cdma_system_select_summary" msgid="60460043745797517">"CDMA-Roamingmodus ändern"</string>
