@@ -69,7 +69,7 @@
     <string name="label_ndp" msgid="780479633159517250">"PIN ya kufungua mtandao wa SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Fungua"</string>
     <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Kataa"</string>
-    <string name="requesting_unlock" msgid="6412629401033249351">"Inaomba nywila ya mtandao…."</string>
+    <string name="requesting_unlock" msgid="6412629401033249351">"Inaomba mtandao ufunguliwe…."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Ombi la kufungua mtandao halijafaulu."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Umefaulu kufungua mtandao."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Mipangilio ya simu ya GSM"</string>
@@ -195,7 +195,7 @@
     <string name="throttle_current_usage" msgid="8762280193043815361">"Data iliyotumika katika kipindi cha sasa"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Muda wa matumizi ya data"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Sera ya kasi ya data"</string>
-    <string name="throttle_help" msgid="243651091785169900">"Jifunze zaidi"</string>
+    <string name="throttle_help" msgid="243651091785169900">"Pata maelezo zaidi"</string>
     <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) ya<xliff:g id="USED_2">%3$s</xliff:g> muda wa kiwango cha juu"\n"Muda unaofuata unaanza baada ya siku<xliff:g id="USED_3">%4$d</xliff:g>(<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (asilimia <xliff:g id="USED_1">%2$d</xliff:g>) ya upeo wa muda wa <xliff:g id="USED_2">%3$s</xliff:g>"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Upeo wa <xliff:g id="USED_0">%1$s</xliff:g> umepitwa"\n"Kasi ya data imepunguzwa hadi kilobaiti <xliff:g id="USED_1">%2$d</xliff:g> kwa sekunde"</string>
@@ -353,7 +353,7 @@
     <string name="simContacts_empty" msgid="5270660846489561932">"Hakuna anwani kwenye kadi yako ya SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Chagua anwani za kuagiza"</string>
     <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Ili kuleta anwani kutoka kwa SIM kadi, kwanza zima hali ya Ndege."</string>
-    <string name="enable_pin" msgid="5422767284133234860">"Wezesha/lemaza nenosiri la SIM"</string>
+    <string name="enable_pin" msgid="5422767284133234860">"Wezesha/zima nenosiri la SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Badilisha nenosiri la SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN ya SIM:"</string>
     <string name="oldPinLabel" msgid="5287773661246368314">"PIN ya zamani"</string>
@@ -534,7 +534,7 @@
     <string name="removing_account" msgid="7183999896088628100">"Inaondoa akaunti..."</string>
     <string name="sip_menu_save" msgid="5842531129356014943">"Hifadhi"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"Tupa"</string>
-    <string name="alert_dialog_close" msgid="7759635137627626235">"Funga maelezo mafupi"</string>
+    <string name="alert_dialog_close" msgid="7759635137627626235">"Funga wasifu"</string>
     <string name="alert_dialog_ok" msgid="3580379406983564080">"Sawa"</string>
     <string name="close_profile" msgid="6886968271423155284">"Funga"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"Akaunti ya msingi: <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
