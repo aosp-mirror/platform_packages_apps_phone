@@ -260,7 +260,7 @@ public class EditPhoneNumberPreference extends EditTextPreference {
             }
         }
         // set the call icon on the title.
-        builder.setIcon(R.drawable.ic_launcher_phone);
+        builder.setIcon(R.mipmap.ic_launcher_phone);
     }
 
 
