@@ -73,6 +73,8 @@
     <string name="callFailed_fdn_only">Outgoing calls are restricted by FDN.</string>
     <!-- In-call screen: call failure reason (call denied because call barring is on) -->
     <string name="callFailed_cb_enabled">You can\'t make outgoing calls while call barring is on.</string>
+    <!-- In-call screen: call failure reason (call denied because call barring is ON on MT side ) -->
+    <string name="callFailed_incoming_cb_enabled">Party has barred all Incoming calls.</string>
     <!-- In-call screen: call failure reason (call denied because domain specific access control is on) -->
     <string name="callFailed_dsac_restricted">All calls are restricted by access control.</string>
     <!-- In-call screen: call failure reason (Emergency call denied because domain specific access control is on)-->

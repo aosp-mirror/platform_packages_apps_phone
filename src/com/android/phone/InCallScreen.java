@@ -1743,12 +1743,26 @@ public class InCallScreen extends Activity
         // to the next.)
         mDialer.clearDigits();
 
+        SuppServiceNotification suppSvcNotification = CallNotifier.getSuppSvcNotification();
         // Under certain call disconnected states, we want to alert the user
         // with a dialog instead of going through the normal disconnect
         // routine.
         if (cause == Connection.DisconnectCause.CALL_BARRED) {
-            showGenericErrorDialog(R.string.callFailed_cb_enabled, false);
-            return;
+            // When call is disconnected with this code then it can either be barring from
+            // MO side or MT side.
+            // In MT case, if network sends SVC Notification then this dialog will be
+            // displayed when A is calling B & incoming is barred on B.
+            if (suppSvcNotification != null) {
+                if (suppSvcNotification.notificationType == 0 && suppSvcNotification.code
+                        == SuppServiceNotification.MO_CODE_INCOMING_CALLS_BARRED) {
+                    showGenericErrorDialog(R.string.callFailed_incoming_cb_enabled, false);
+                    CallNotifier.clearSuppSvcNotification();
+                    return;
+                }
+            } else {
+                showGenericErrorDialog(R.string.callFailed_cb_enabled, false);
+                return;
+            }
         } else if (cause == Connection.DisconnectCause.FDN_BLOCKED) {
             showGenericErrorDialog(R.string.callFailed_fdn_only, false);
             return;
