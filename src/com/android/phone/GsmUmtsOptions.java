@@ -64,8 +64,7 @@ public class GsmUmtsOptions {
                 mButtonOperatorSelectionExpand.setEnabled(true);
             } else {
                 log("[CSP] Disabling Operator Selection menu.");
-                mPrefScreen.removePreference(mPrefScreen
-                      .findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY));
+                mButtonOperatorSelectionExpand.setEnabled(false);
             }
         }
     }
