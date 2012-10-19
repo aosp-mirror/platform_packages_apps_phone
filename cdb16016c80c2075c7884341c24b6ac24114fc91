@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKhn////A\u003d",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2012-10-19T17:42:36Z",
+      "side": 1,
+      "message": "And this copyright notice looks suspicious...",
+      "revId": "cdb16016c80c2075c7884341c24b6ac24114fc91",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
