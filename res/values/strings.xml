@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2007 The Android Open Source Project
+     Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+     Not a contribution.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -71,6 +73,12 @@
     <string name="callFailed_outOfService">Out of service area</string>
     <!-- In-call screen: call failure reason (call denied because of current FDN setting) -->
     <string name="callFailed_fdn_only">Outgoing calls are restricted by FDN.</string>
+    <!-- In-call screen: call failure reason (call modified to USSD request) -->
+    <string name="callFailed_dialToUssd">DIAL request modified to USSD request.</string>
+    <!-- In-call screen: call failure reason (call modified to SS request) -->
+    <string name="callFailed_dialToSs">DIAL request modified to SS request.</string>
+    <!-- In-call screen: call failure reason (call modified to call with modified data) -->
+    <string name="callFailed_dialToDial">DIAL request modified to DIAL with different number.</string>
     <!-- In-call screen: call failure reason (call denied because call barring is on) -->
     <string name="callFailed_cb_enabled">You can\'t make outgoing calls while call barring is on.</string>
     <!-- In-call screen: call failure reason (call denied because domain specific access control is on) -->
@@ -264,6 +272,11 @@
     <string name="response_error">Unexpected response from network.</string>
     <!-- Status message displayed in the "Call settings error" dialog -->
     <string name="exception_error">Network or SIM card error.</string>
+<!-- Status message displayed in the "Call settings error" dialog when
+         current SS request is modified to a different request by STK CC -->
+    <string name="stk_cc_ss_to_dial_error">SS request modified to DIAL request.</string>
+    <string name="stk_cc_ss_to_ussd_error">SS request modified to USSD request.</string>
+    <string name="stk_cc_ss_to_ss_error">SS request modified to new SS request.</string>
     <!-- Status message displayed in the "Call settings error" dialog when operation fails due to FDN
          [CHAR LIMIT=NONE] -->
     <string name="fdn_check_failure">Your Phone app\'s Fixed Dialing Numbers setting is turned on. As a result, some call-related features aren\'t working.</string>
