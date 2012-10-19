@@ -598,12 +598,29 @@ public class CallCard extends LinearLayout
                     if (o instanceof CallerInfo) {
                         CallerInfo ci = (CallerInfo) o;
                         // Update CNAP information if Phone state change occurred
+                        // In case of emergency and voice mail numbers, ci.phoneNumber is
+                        // updated with "Emergency Number" text and voice mail tag respectively.
+                        // So, ci.phoneNumber will not match connection address.
+                        String connAddress = conn.getAddress();
+                        String number = PhoneNumberUtils.stripSeparators(ci.phoneNumber);
+                        if (!(ci.isEmergencyNumber() || ci.isVoiceMailNumber()) &&
+                            (connAddress != null && !connAddress.equals(number))) {
+                            log("- displayMainCallStatus: Phone number modified!!");
+                            CallerInfo newCi = CallerInfo.getCallerInfo(getContext(), connAddress);
+                            if (newCi != null) {
+                                ci = newCi;
+                                conn.setUserData(ci);
+                            }
+                        }
+                        // Update CNAP information and phone number if Phone state change occurred
                         ci.cnapName = conn.getCnapName();
                         ci.numberPresentation = conn.getNumberPresentation();
                         ci.namePresentation = conn.getCnapNamePresentation();
+                        ci.phoneNumber = conn.getAddress();
                         if (DBG) log("- displayMainCallStatus: CNAP data from Connection: "
                                 + "CNAP name=" + ci.cnapName
-                                + ", Number/Name Presentation=" + ci.numberPresentation);
+                                + ", Number/Name Presentation=" + ci.numberPresentation
+                                + ", Number=" + ci.phoneNumber);
                         if (DBG) log("   ==> Got CallerInfo; updating display: ci = " + ci);
                         updateDisplayForPerson(ci, presentation, false, call, conn);
                     } else if (o instanceof PhoneUtils.CallerInfoToken){
