@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKhH///7Y\u003d",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1006576
+      },
+      "writtenOn": "2012-10-23T05:12:04Z",
+      "side": 1,
+      "message": "check in change https://android-review.googlesource.com/#/c/44912/ before pulling the change.",
+      "revId": "e5e6cec26e8b5810757b0335e3943c3e1c9769e7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
