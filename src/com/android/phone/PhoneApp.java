@@ -190,6 +190,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     boolean mShowBluetoothIndication = false;
     static int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
     static boolean sVoiceCapable = true;
+    public boolean mIsSimPukLocked;
 
     // Internal PhoneApp Call state tracker
     CdmaPhoneCallState cdmaPhoneCallState;
@@ -1680,6 +1681,14 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // been attempted.
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_SIM_STATE_CHANGED,
                         intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE)));
+                String reason = intent.getStringExtra(IccCardConstants.INTENT_KEY_LOCKED_REASON);
+                if (IccCardConstants.INTENT_VALUE_LOCKED_ON_PUK.equals(reason)) {
+                    Log.d(LOG_TAG, "Setting mIsSimPukLocked:true");
+                    mIsSimPukLocked = true;
+                } else {
+                    Log.d(LOG_TAG, "Setting mIsSimPukLocked:false");
+                    mIsSimPukLocked = false;
+                }
             } else if (action.equals(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED)) {
                 String newPhone = intent.getStringExtra(PhoneConstants.PHONE_NAME_KEY);
                 Log.d(LOG_TAG, "Radio technology switched. Now " + newPhone + " is active.");
@@ -2052,6 +2061,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     /* Gets User preferred Voice subscription setting*/
     public int getVoiceSubscription() {
         return DEFAULT_SUBSCRIPTION;
+    }
+
+    boolean isSimPukLocked(int subscription) {
+        return mIsSimPukLocked;
     }
 
     public int getVoiceSubscriptionInService() {

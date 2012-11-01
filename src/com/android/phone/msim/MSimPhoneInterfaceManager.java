@@ -120,7 +120,6 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
             switch (msg.what) {
                 case CMD_HANDLE_PIN_MMI:
                     request = (MainThreadRequest) msg.obj;
-                    //TODO:Anju Check & uncomment later
                     sub = (Integer) request.argument2;
                     Phone phone = PhoneApp.getPhone(sub);
                     Log.i(LOG_TAG,"CMD_HANDLE_PIN_MMI: sub :" + phone.getSubscription());
@@ -165,7 +164,6 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
                 case CMD_END_CALL:
                     request = (MainThreadRequest) msg.obj;
                     boolean hungUp = false;
-                    //TODO:Anju Check & uncomment later
                     sub = (Integer) request.argument;
                     log("Ending call on subscription =" + sub);
                     phone = mApp.getPhone(sub);
@@ -190,7 +188,6 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
 
                 case CMD_SET_DATA_SUBSCRIPTION:
                     request = (MainThreadRequest) msg.obj;
-                    //TODO-Anju - check & uncomment later
                     int subscription = (Integer) request.argument;
                     onCompleted = obtainMessage(EVENT_SET_DATA_SUBSCRIPTION_DONE, request);
                     SubscriptionManager subManager = SubscriptionManager.getInstance();
@@ -492,7 +489,17 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
         return ((MSimPhoneApp)mApp).isSimPinEnabled(subscription);
     }
 
+    public boolean isSimPukLocked(int subscription) {
+        enforceReadPermission();
+        return ((MSimPhoneApp)mApp).isSimPukLocked(subscription);
+    }
+
     public boolean supplyPin(String pin, int subscription) {
+        return (supplyPinReportResult(pin, subscription) == PhoneContants.PIN_RESULT_SUCCESS)
+            ? true : false;
+    }
+
+    public int supplyPinReportResult(String pin, int subscription) {
         enforceModifyPermission();
         final UnlockSim checkSimPin = new UnlockSim(getPhone(subscription).getIccCard());
         checkSimPin.start();
@@ -500,6 +507,11 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
     }
 
     public boolean supplyPuk(String puk, String pin, int subscription) {
+        return (supplyPukReportResult(puk, pin, subscription) == PhoneContants.PIN_RESULT_SUCCESS)
+            ? true : false;
+    }
+
+    public int supplyPukReportResult(String puk, String pin, int subscription) {
         enforceModifyPermission();
         final UnlockSim checkSimPuk = new UnlockSim(getPhone(subscription).getIccCard());
         checkSimPuk.start();
@@ -515,7 +527,7 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
         private final IccCard mSimCard;
 
         private boolean mDone = false;
-        private boolean mResult = false;
+        private int mResult = PhoneContants.PIN_RESULT_SUCCESS;
 
         // For replies from SimCard interface
         private Handler mHandler;
@@ -539,7 +551,17 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
                             case SUPPLY_PIN_COMPLETE:
                                 Log.d(LOG_TAG, "SUPPLY_PIN_COMPLETE");
                                 synchronized (UnlockSim.this) {
-                                    mResult = (ar.exception == null);
+                                    if (ar.exception != null) {
+                                        if (ar.exception instanceof CommandException &&
+                                                ((CommandException)(ar.exception)).getCommandError()
+                                                == CommandException.Error.PASSWORD_INCORRECT) {
+                                            mResult = PhoneContants.PIN_PASSWORD_INCORRECT;
+                                        } else {
+                                            mResult = PhoneContants.PIN_GENERAL_FAILURE;
+                                        }
+                                    } else {
+                                        mResult = PhoneContants.PIN_RESULT_SUCCESS;
+                                    }
                                     mDone = true;
                                     UnlockSim.this.notifyAll();
                                 }
@@ -559,7 +581,7 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
          *
          * If PUK is not null, unlock SIM card with PUK and set PIN code
          */
-        synchronized boolean unlockSim(String puk, String pin) {
+        synchronized int unlockSim(String puk, String pin) {
 
             while (mHandler == null) {
                 try {
@@ -742,6 +764,10 @@ public class MSimPhoneInterfaceManager extends ITelephonyMSim.Stub {
         return (List <NeighboringCellInfo>) cells;
     }
 
+    // Gets the retry count during PIN1/PUK1 verification.
+    public int getIccPin1RetryCount(int subscription) {
+        return getPhone(subscription).getIccCard().getIccPin1RetryCount();
+    }
 
     public List<CellInfo> getAllCellInfo() {
         try {
