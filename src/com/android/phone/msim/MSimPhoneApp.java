@@ -50,6 +50,7 @@ import android.telephony.MSimTelephonyManager;
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
@@ -540,6 +541,22 @@ public class MSimPhoneApp extends PhoneApp {
                     getPhone(i).setRadioPower(!enabled);
                 }
 
+            } else if ((action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)) &&
+                    (mPUKEntryActivity != null)) {
+                // if an attempt to un-PUK-lock the device was made, while we're
+                // receiving this state change notification, notify the handler.
+                // NOTE: This is ONLY triggered if an attempt to un-PUK-lock has
+                // been attempted.
+                mHandler.sendMessage(mHandler.obtainMessage(EVENT_SIM_STATE_CHANGED,
+                        intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE)));
+                String reason = intent.getStringExtra(IccCardConstants.INTENT_KEY_LOCKED_REASON);
+                if (IccCardConstants.INTENT_VALUE_LOCKED_ON_PUK.equals(reason)) {
+                    Log.d(LOG_TAG, "Setting mIsSimPukLocked:true on sub :" + subscription);
+                    getMSPhone(subscription).mIsSimPukLocked = true;
+                } else {
+                    Log.d(LOG_TAG, "Setting mIsSimPukLocked:false on sub :" + subscription);
+                    getMSPhone(subscription).mIsSimPukLocked = false;
+                }
             } else if (action.equals(TelephonyIntents.ACTION_RADIO_TECHNOLOGY_CHANGED)) {
                 String newPhone = intent.getStringExtra(PhoneConstants.PHONE_NAME_KEY);
                 Log.d(LOG_TAG, "Radio technology switched. Now " + newPhone + " is active.");
@@ -652,6 +669,10 @@ public class MSimPhoneApp extends PhoneApp {
             Log.w(LOG_TAG, "msPhone object is null returning default phone");
             return sMe.phone;
         }
+    }
+
+    boolean isSimPukLocked(int subscription) {
+        return getMSPhone(subscription).mIsSimPukLocked;
     }
 
     /**
