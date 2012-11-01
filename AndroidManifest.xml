@@ -434,6 +434,15 @@
         android:label="@string/delete_fdn_contact">
         </activity>
 
+        <activity android:name="XDivertPhoneNumbers"
+                android:configChanges="mcc|mnc"
+                android:label="@string/phone_numbers">
+        </activity>
+
+        <activity android:name="XDivertSetting"
+                android:label="@string/xdivert_setting">
+        </activity>
+
         <activity android:name="DataRoamingReenable" android:label="@string/android:dialog_alert_title"
             android:theme="@android:style/Theme.Holo.Dialog">
             <intent-filter>

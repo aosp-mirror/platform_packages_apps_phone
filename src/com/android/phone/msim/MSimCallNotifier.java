@@ -25,8 +25,11 @@ import com.android.internal.telephony.Connection;
 import com.android.internal.telephony.Phone;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.preference.PreferenceManager;
+import android.telephony.MSimTelephonyManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.MSimTelephonyManager;
 import android.telephony.TelephonyManager;
@@ -43,6 +46,7 @@ public class MSimCallNotifier extends CallNotifier {
     private static final boolean DBG =
             (PhoneApp.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
     private static final boolean VDBG = (PhoneApp.DBG_LEVEL >= 2);
+    private static final String XDIVERT_STATUS = "xdivert_status_key";
 
     /**
      * Initialize the singleton CallNotifier instance.
@@ -120,6 +124,29 @@ public class MSimCallNotifier extends CallNotifier {
     protected void onCfiChanged(boolean visible, int subscription) {
         if (VDBG) log("onCfiChanged(): " + visible + " sub: " + subscription);
         ((MSimNotificationMgr)mApplication.notificationMgr).updateCfi(visible, subscription);
+    }
+
+    protected void onXDivertChanged(boolean visible) {
+        if (VDBG) log("onXDivertChanged(): " + visible);
+        ((MSimNotificationMgr)mApplication.notificationMgr).updateXDivert(visible);
+    }
+
+    // Gets the XDivert Status from shared preference.
+    protected boolean getXDivertStatus() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(
+                mApplication.mContext);
+        boolean status = sp.getBoolean(XDIVERT_STATUS, false);
+        Log.d(LOG_TAG, "getXDivertStatus status = " + status);
+        return status;
+    }
+
+    // Sets the XDivert Status to shared preference.
+    protected void setXDivertStatus(boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(
+                mApplication.mContext);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(XDIVERT_STATUS, status);
+        editor.apply();
     }
 
     private PhoneStateListener getPhoneStateListener(int sub) {

@@ -69,6 +69,7 @@ public class MSimNotificationMgr extends NotificationMgr {
 
     static final int VOICEMAIL_NOTIFICATION_SUB2 = 20;
     static final int CALL_FORWARD_NOTIFICATION_SUB2 = 21;
+    static final int CALL_FORWARD_XDIVERT = 22;
 
     /**
      * Private constructor (this is a singleton).
@@ -175,6 +176,36 @@ public class MSimNotificationMgr extends NotificationMgr {
                     notification);
         } else {
             mNotificationManager.cancel(notificationId);
+        }
+    }
+
+    /**
+     * Updates the XDivert indicator notification.
+     *
+     * @param visible true if XDivert is enabled.
+     */
+    /* package */ void updateXDivert(boolean visible) {
+        Log.d(LOG_TAG, "updateXDivert: " + visible);
+        if (visible) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setClassName("com.android.phone",
+                    "com.android.phone.MSimCallFeaturesSetting");
+            int resId = R.drawable.stat_sys_phone_call_forward_xdivert;
+            Notification notification = new Notification(
+                    resId,  // icon
+                    null, // tickerText
+                    System.currentTimeMillis()
+                    );
+            notification.setLatestEventInfo(
+                    mContext, // context
+                    mContext.getString(R.string.xdivert_title), // expandedTitle
+                    mContext.getString(R.string.sum_xdivert_enabled), // expandedText
+                    PendingIntent.getActivity(mContext, 0, intent, 0)); // contentIntent
+
+            mNotificationManager.notify(CALL_FORWARD_XDIVERT, notification);
+        } else {
+            mNotificationManager.cancel(CALL_FORWARD_XDIVERT);
         }
     }
 

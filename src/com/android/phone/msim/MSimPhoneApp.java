@@ -273,6 +273,7 @@ public class MSimPhoneApp extends PhoneApp {
             // launching the incoming-call UI when an incoming call comes
             // in.)
             notifier = MSimCallNotifier.init(this, phone, ringer, mBtHandsfree, new CallLogAsync());
+            XDivertUtility.init(this, phone, (MSimCallNotifier)notifier, mContext);
 
             // register for ICC status
             IccCard sim = phone.getIccCard();

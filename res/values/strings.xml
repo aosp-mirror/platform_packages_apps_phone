@@ -979,6 +979,28 @@
        <item>1</item>
     </string-array>
 
+    <!-- XDivert Settings -->
+    <!-- Title for the XDivert Feature displayed in Call Settings -->
+    <string name="xdivert_title">X-Divert</string>
+    <!-- Summary for the XDivert Feature displayed in Call Settings -->
+    <string name="xdivert_summary">CFNRc Settings</string>
+    <string name="phone_numbers">Enter Phone Numbers</string>
+    <string name="sub1LineNumber">Sub1 Number :</string>
+    <string name="sub2LineNumber">Sub2 Number :</string>
+    <string name="proceed">Proceed</string>
+    <string name="xdivert_button">X-Divert Setting</string>
+    <string name="xdivert_setting">X-Divert Setting</string>
+    <string name="sum_xdivert_enabled">X-Divert Enabled</string>
+    <string name="sum_xdivert_disabled">X-Divert Disabled</string>
+    <string name="xdivert_not_supported">X-Divert Not supported for CDMA</string>
+    <string name="xdivert_enternumber_error">Enter phone number for both the subscriptions</string>
+    <string name="xdivert_partial_set">XDivert has been set only for 1st subscription</string>
+    <string name="xdivert_sub_absent">Both subscriptions should be activated to process X-Divert</string>
+    <string name="xdivert_status">X-Divert Status</string>
+    <string name="xdivert_active">Active</string>
+    <string name="xdivert_not_active">Not Active</string>
+    <string name="xdivert_imsi_not_read">Sim Initialization happening.Please try after some time.</string>
+
     <!-- Title for the dialog used to display CDMA DisplayInfo -->
     <string name="network_message">Network message</string>
 
