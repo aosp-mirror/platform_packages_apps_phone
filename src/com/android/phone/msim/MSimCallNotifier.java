@@ -80,8 +80,8 @@ public class MSimCallNotifier extends CallNotifier {
 
     @Override
     protected void listen() {
-        TelephonyManager telephonyManager = (TelephonyManager)mApplication.mContext.
-                getSystemService(Context.TELEPHONY_SERVICE);
+        MSimTelephonyManager telephonyManager = (MSimTelephonyManager)mApplication.mContext.
+                getSystemService(Context.MSIM_TELEPHONY_SERVICE);
         for (int i = 0; i < MSimTelephonyManager.getDefault().getPhoneCount(); i++) {
             telephonyManager.listen(getPhoneStateListener(i),
                     PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR

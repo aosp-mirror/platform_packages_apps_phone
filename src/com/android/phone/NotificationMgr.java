@@ -96,7 +96,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     protected static NotificationMgr sInstance;
 
     private PhoneApp mApp;
-    private Phone mPhone;
+    protected Phone mPhone;
     private CallManager mCM;
 
     protected Context mContext;
@@ -115,6 +115,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     // Currently-displayed resource IDs for some status bar icons (or zero
     // if no notification is active):
     private int mInCallResId;
+    protected int mVMResId = android.R.drawable.stat_notify_voicemail;
 
     // used to track the notification of selected network unavailable
     private boolean mSelectedUnavailableNotify = false;
@@ -1174,8 +1175,6 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (DBG) log("updateMwi(): " + visible);
 
         if (visible) {
-            int resId = android.R.drawable.stat_notify_voicemail;
-
             // This Notification can get a lot fancier once we have more
             // information about the current voicemail messages.
             // (For example, the current voicemail system can't tell
@@ -1262,7 +1261,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             }
 
             Notification.Builder builder = new Notification.Builder(mContext);
-            builder.setSmallIcon(resId)
+            builder.setSmallIcon(mVMResId)
                     .setWhen(System.currentTimeMillis())
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationText)

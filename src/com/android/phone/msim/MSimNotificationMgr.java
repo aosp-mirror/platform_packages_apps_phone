@@ -106,8 +106,13 @@ public class MSimNotificationMgr extends NotificationMgr {
      */
     /* package */
     void updateMwi(boolean visible, Phone phone) {
-        if (DBG) log("updateMwi(): " + visible);
         int subscription = phone.getSubscription();
+        if (DBG) log("updateMwi(): " + visible + " Subscription: "
+                + subscription);
+        int[] iconId = {R.drawable.stat_notify_voicemail_sub1,
+                    R.drawable.stat_notify_voicemail_sub2};
+        mPhone = phone;
+        mVMResId = iconId[subscription];
         super.updateMwi(visible);
     }
 
