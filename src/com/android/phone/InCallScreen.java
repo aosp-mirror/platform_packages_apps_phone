@@ -2662,8 +2662,8 @@ public class InCallScreen extends Activity
                     // stay in the activity history.
                 }
 
-                endInCallScreenSession();
             }
+            endInCallScreenSession();
 
             // Reset the call origin when the session ends and this in-call UI is being finished.
             mApp.setLatestActiveCallOrigin(null);
