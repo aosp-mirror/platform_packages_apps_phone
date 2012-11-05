@@ -23,7 +23,6 @@
 
     <!-- Caller information -->
     <LinearLayout
-        android:id="@+id/conferenceCallerSeparate"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
@@ -34,6 +33,7 @@
 
         <!-- "Separate" (i.e. "go private") button for this caller -->
         <ImageView
+            android:id="@+id/conferenceCallerSeparate"
             android:src="@drawable/ic_split_holo_dark"
             android:layout_width="46dp"
             android:layout_height="46dp"
