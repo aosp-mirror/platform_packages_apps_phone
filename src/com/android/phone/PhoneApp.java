@@ -326,13 +326,15 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                         Log.i(LOG_TAG, "Ignoring EVENT_PERSO_LOCKED event; "
                               + "not showing 'SIM network unlock' PIN entry screen");
                     } else {
-                        // Normal case: show the "SIM network unlock" PIN entry screen.
+                        // TODO: MSIM-TODO: MSim Changes: depends on PERSO LOCKED changes.
+
+                        // Normal case: show the "perso unlock" PIN entry screen.
                         // The user won't be able to do anything else until
-                        // they enter a valid SIM network PIN.
-                        Log.i(LOG_TAG, "show sim depersonal panel");
-                        IccNetworkDepersonalizationPanel ndpPanel =
-                                new IccNetworkDepersonalizationPanel(PhoneApp.getInstance());
-                        ndpPanel.show();
+                        // they enter a valid PIN.
+                        AsyncResult ar = (AsyncResult) msg.obj;
+                        if (ar.result != null) {
+                            initIccDepersonalizationPanel(ar);
+                        }
                     }
                     break;
 
@@ -454,6 +456,15 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
             }
         }
     };
+
+    void initIccDepersonalizationPanel(AsyncResult ar) {
+        Log.i(LOG_TAG, "show sim depersonal panel");
+        int subtype = (Integer)ar.result;
+        IccDepersonalizationPanel dpPanel =
+                new IccDepersonalizationPanel(PhoneApp.getInstance(), subtype);
+        dpPanel.show();
+    }
+
     static MSimPhoneApp msApp;
     Context mContext;
     public PhoneApp() {
@@ -1518,15 +1529,6 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
         }
         if (mInCallScreen != null) {
             mInCallScreen.updateAfterRadioTechnologyChange();
-        }
-
-        // Update registration for ICC status after radio technology change
-        IccCard sim = phone.getIccCard();
-        if (sim != null) {
-            if (DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
-
-            //Register all events new to the new active phone
-            sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
         }
     }
 
