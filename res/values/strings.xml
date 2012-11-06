@@ -1557,4 +1557,6 @@
     <string name="config_sub_title">Configure Subscriptions</string>
     <!-- Set Subscription screen: Deactivate both subscription not supported -->
     <string name="deact_all_sub_not_supported">Deactivation of both the subscriptions is not supported.</string>
+    <!-- Label text for displaying subscription info -->
+    <string name="label_subscription">for Subscription</string>
 </resources>

@@ -66,7 +66,8 @@ public class IccPanel extends Dialog {
         // once this dialog gets moved into the framework and becomes a truly
         // full-screen UI.
         PhoneApp app = PhoneApp.getInstance();
-        mStatusBarManager = (StatusBarManager) app.getSystemService(Context.STATUS_BAR_SERVICE);
+        mStatusBarManager = (StatusBarManager) app.mContext.
+                getSystemService(Context.STATUS_BAR_SERVICE);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
