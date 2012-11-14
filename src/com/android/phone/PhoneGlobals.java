@@ -637,6 +637,11 @@ public class PhoneGlobals extends ContextWrapper
             audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
+            if (hac != 0) {
+                Intent hacModeChanged = new Intent(AudioManager.HAC_ENABLED_CHANGE_ACTION);
+                hacModeChanged.putExtra(AudioManager.EXTRA_HAC_ENABLED, true);
+                phone.getContext().sendBroadcast(hacModeChanged);
+            }
         }
    }
 
