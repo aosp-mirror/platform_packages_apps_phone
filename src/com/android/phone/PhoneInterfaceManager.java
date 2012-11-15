@@ -532,7 +532,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     public boolean isRadioOn() {
-        return mPhone.getServiceState().getState() != ServiceState.STATE_POWER_OFF;
+        return mPhone.getServiceState().getVoiceState() != ServiceState.STATE_POWER_OFF;
     }
 
     public void toggleRadioOnOff() {
@@ -541,7 +541,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
     public boolean setRadio(boolean turnOn) {
         enforceModifyPermission();
-        if ((mPhone.getServiceState().getState() != ServiceState.STATE_POWER_OFF) != turnOn) {
+        if ((mPhone.getServiceState().getVoiceState() != ServiceState.STATE_POWER_OFF) != turnOn) {
             toggleRadioOnOff();
         }
         return true;
@@ -817,10 +817,29 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     }
 
     /**
-     * Returns the network type
+     * Returns the data network type
+     *
+     * @Deprecated to be removed Q3 2013 use {@link #getDataNetworkType}.
      */
+    @Override
     public int getNetworkType() {
-        return mPhone.getServiceState().getNetworkType();
+        return mPhone.getServiceState().getDataNetworkType();
+    }
+
+    /**
+     * Returns the data network type
+     */
+    @Override
+    public int getDataNetworkType() {
+        return mPhone.getServiceState().getDataNetworkType();
+    }
+
+    /**
+     * Returns the data network type
+     */
+    @Override
+    public int getVoiceNetworkType() {
+        return mPhone.getServiceState().getVoiceNetworkType();
     }
 
     /**
