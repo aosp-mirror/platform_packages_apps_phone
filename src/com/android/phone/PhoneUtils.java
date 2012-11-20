@@ -244,29 +244,29 @@ public class PhoneUtils {
      * @see #answerAndEndHolding(CallManager, Call)
      * @see #answerAndEndActive(CallManager, Call)
      */
-    /* package */ static boolean answerCall(Call ringing) {
-        log("answerCall(" + ringing + ")...");
+    /* package */ static boolean answerCall(Call ringingCall) {
+        log("answerCall(" + ringingCall + ")...");
         final PhoneGlobals app = PhoneGlobals.getInstance();
+        final CallNotifier notifier = app.notifier;
 
         // If the ringer is currently ringing and/or vibrating, stop it
         // right now (before actually answering the call.)
-        app.getRinger().stopRing();
+        notifier.silenceRinger();
 
-        final Phone phone = ringing.getPhone();
+        final Phone phone = ringingCall.getPhone();
         final boolean phoneIsCdma = (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA);
         boolean answered = false;
         IBluetoothHeadsetPhone btPhone = null;
 
         if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
-            if (ringing.getState() == Call.State.WAITING) {
-                final CallNotifier notifier = app.notifier;
+            if (ringingCall.getState() == Call.State.WAITING) {
                 notifier.stopSignalInfoTone();
             }
         }
 
-        if (ringing != null && ringing.isRinging()) {
-            if (DBG) log("answerCall: call state = " + ringing.getState());
+        if (ringingCall != null && ringingCall.isRinging()) {
+            if (DBG) log("answerCall: call state = " + ringingCall.getState());
             try {
                 if (phoneIsCdma) {
                     if (app.cdmaPhoneCallState.getCurrentCallState()
@@ -299,10 +299,10 @@ public class PhoneUtils {
                   }
                 }
 
-                final boolean isRealIncomingCall = isRealIncomingCall(ringing.getState());
+                final boolean isRealIncomingCall = isRealIncomingCall(ringingCall.getState());
 
                 //if (DBG) log("sPhone.acceptCall");
-                app.mCM.acceptCall(ringing);
+                app.mCM.acceptCall(ringingCall);
                 answered = true;
 
                 // Always reset to "unmuted" for a freshly-answered call
