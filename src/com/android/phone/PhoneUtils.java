@@ -68,6 +68,7 @@ import com.android.internal.telephony.cdma.CdmaConnection;
 import com.android.internal.telephony.sip.SipPhone;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -2352,7 +2353,9 @@ public class PhoneUtils {
         // "ABSENT NUMBER" is a possible value we could get from the network as the
         // phone number, so if this happens, change it to "Unknown" in the CallerInfo
         // and fix the presentation to be the same.
-        if (number.equals(context.getString(R.string.absent_num))
+        final String[] absentNumberValues =
+                context.getResources().getStringArray(R.array.absent_num);
+        if (Arrays.asList(absentNumberValues).contains(number)
                 && presentation == PhoneConstants.PRESENTATION_ALLOWED) {
             number = context.getString(R.string.unknown);
             ci.numberPresentation = PhoneConstants.PRESENTATION_UNKNOWN;
