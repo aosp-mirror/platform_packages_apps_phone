@@ -98,6 +98,7 @@ public class MobileNetworkSettings extends PreferenceActivity
 
     private Preference mClickedPreference;
 
+    private AlertDialog mRoamingDialog;
 
     //This is a method implemented for DialogInterface.OnClickListener.
     //  Used to dismiss the dialogs when they come up.
@@ -156,14 +157,15 @@ public class MobileNetworkSettings extends PreferenceActivity
             if (mButtonDataRoam.isChecked()) {
                 // First confirm with a warning dialog about charges
                 mOkClicked = false;
-                new AlertDialog.Builder(this).setMessage(
+                mRoamingDialog = new AlertDialog.Builder(this).setMessage(
                         getResources().getString(R.string.roaming_warning))
                         .setTitle(android.R.string.dialog_alert_title)
                         .setIconAttribute(android.R.attr.alertDialogIcon)
                         .setPositiveButton(android.R.string.yes, this)
                         .setNegativeButton(android.R.string.no, this)
-                        .show()
-                        .setOnDismissListener(this);
+                        .create();
+                mRoamingDialog.setOnDismissListener(this);
+                mRoamingDialog.show();
             } else {
                 mPhone.setDataRoamingEnabled(false);
             }
@@ -310,6 +312,14 @@ public class MobileNetworkSettings extends PreferenceActivity
     protected void onPause() {
         super.onPause();
         mDataUsageListener.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if ((mRoamingDialog != null) && mRoamingDialog.isShowing()) {
+            mRoamingDialog.dismiss();
+        }
     }
 
     /**
