@@ -351,7 +351,7 @@
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"Zugelassene Rufnummer wird gelöscht..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Zugelassene Rufnummer gelöscht"</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"Die Anrufbegrenzung wurde nicht aktualisiert, weil Sie eine falsche PIN eingegeben haben."</string>
-    <string name="fdn_invalid_number" msgid="1494755047900009147">"Die Anrufbegrenzung wurde nicht aktualisiert, da die Nummer maximal 20 Ziffern enthalten darf."</string>
+    <string name="fdn_invalid_number" msgid="1494755047900009147">"Die Anrufbegrenzung wurde nicht aktualisiert, weil die Nummer maximal 20 Ziffern enthalten darf."</string>
     <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN wurde nicht aktualisiert. PIN2 war ungültig oder die Telefonnummer wurde abgelehnt."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"SIM-Karte wird ausgelesen..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Keine Kontakte auf SIM-Karte"</string>
