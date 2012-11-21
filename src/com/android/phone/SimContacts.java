@@ -70,6 +70,7 @@ public class SimContacts extends ADNList {
     private ProgressDialog mProgressDialog;
 
     private Account mAccount;
+    private boolean mActivityExiting = false;
 
     private static class NamePhoneTypePair {
         final String name;
@@ -117,6 +118,7 @@ public class SimContacts extends ADNList {
             }
 
             mProgressDialog.dismiss();
+            mActivityExiting = true;
             finish();
         }
 
@@ -238,6 +240,18 @@ public class SimContacts extends ADNList {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mActivityExiting = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mActivityExiting = true;
+    }
+
+    @Override
     protected CursorAdapter newAdapter() {
         return new SimpleCursorAdapter(this, R.layout.sim_import_list_entry, mCursor,
                 new String[] { "name" }, new int[] { android.R.id.text1 });
@@ -286,21 +300,22 @@ public class SimContacts extends ADNList {
 
                 ImportAllSimContactsThread thread = new ImportAllSimContactsThread();
 
-                // TODO: need to show some error dialog.
-                if (mCursor == null) {
-                    Log.e(LOG_TAG, "cursor is null. Ignore silently.");
-                    break;
+                if (!mActivityExiting) {
+                    // TODO: need to show some error dialog.
+                    if (mCursor == null) {
+                        Log.e(LOG_TAG, "cursor is null. Ignore silently.");
+                        break;
+                    }
+                    mProgressDialog = new ProgressDialog(this);
+                    mProgressDialog.setTitle(title);
+                    mProgressDialog.setMessage(message);
+                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                            getString(R.string.cancel), thread);
+                    mProgressDialog.setProgress(0);
+                    mProgressDialog.setMax(mCursor.getCount());
+                    mProgressDialog.show();
                 }
-                mProgressDialog = new ProgressDialog(this);
-                mProgressDialog.setTitle(title);
-                mProgressDialog.setMessage(message);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                        getString(R.string.cancel), thread);
-                mProgressDialog.setProgress(0);
-                mProgressDialog.setMax(mCursor.getCount());
-                mProgressDialog.show();
-
                 thread.start();
 
                 return true;
@@ -357,6 +372,7 @@ public class SimContacts extends ADNList {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                                           | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                     startActivity(intent);
+                    mActivityExiting = true;
                     finish();
                     return true;
                 }
