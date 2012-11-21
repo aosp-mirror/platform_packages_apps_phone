@@ -3965,8 +3965,14 @@ public class InCallScreen extends Activity
         // We can also dial while in ALERTING state because there are
         // some connections that never update to an ACTIVE state (no
         // indication from the network).
+
+        // In-band tones are available even before the ALERTING state.
+        // User should be provided with the option of skipping the
+        // in-band tones. So, Dialpad should be shown even in the
+        // DIALING state.
         boolean canDial =
-            (fgCallState == Call.State.ACTIVE || fgCallState == Call.State.ALERTING)
+            (fgCallState == Call.State.DIALING || fgCallState == Call.State.ACTIVE
+                || fgCallState == Call.State.ALERTING)
             && !hasRingingCall
             && (mApp.inCallUiState.inCallScreenMode != InCallScreenMode.MANAGE_CONFERENCE);
 
