@@ -1460,4 +1460,7 @@
     <!-- Title for the category "ringtone", which is shown above ringote settings
          [CHAR LIMIT=40] -->
     <string name="preference_category_ringtone">Ringtone</string>
+
+    <!-- Settings related -->
+    <string name="rat_not_allowed">End your call before switching network modes</string>
 </resources>
