@@ -256,20 +256,6 @@ public class InCallTouchUi extends FrameLayout
                 showIncomingCallControls = true;
             }
 
-            // Ugly hack to cover up slow response from the radio:
-            // if we get an updateState() call immediately after answering/rejecting a call
-            // (via onTrigger()), *don't* show the incoming call
-            // UI even if the phone is still in the RINGING state.
-            // This covers up a slow response from the radio for some actions.
-            // To detect that situation, we are using "500 msec" heuristics.
-            //
-            // Watch out: we should *not* rely on this behavior when "instant text response" action
-            // has been chosen. See also onTrigger() for why.
-            long now = SystemClock.uptimeMillis();
-            if (now < mLastIncomingCallActionTime + 500) {
-                log("updateState: Too soon after last action; not drawing!");
-                showIncomingCallControls = false;
-            }
 
             // b/6765896
             // If the glowview triggers two hits of the respond-via-sms gadget in
