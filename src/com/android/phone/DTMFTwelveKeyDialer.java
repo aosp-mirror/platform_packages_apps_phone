@@ -58,6 +58,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     // events
     private static final int PHONE_DISCONNECT = 100;
     private static final int DTMF_SEND_CNF = 101;
+    private static final int DTMF_STOP = 102;
 
     /** Accessibility manager instance used to check touch exploration state. */
     private final AccessibilityManager mAccessibilityManager;
@@ -360,6 +361,10 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                     if (DBG) log("dtmf confirmation received from FW.");
                     // handle burst dtmf confirmation
                     handleBurstDtmfConfirmation();
+                    break;
+                case DTMF_STOP:
+                    if (DBG) log("dtmf stop received");
+                    stopTone();
                     break;
             }
         }
@@ -681,7 +686,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             final int id = v.getId();
             // Checking the press state prevents double activation.
             if (!v.isPressed() && mDisplayMap.containsKey(id)) {
-                processDtmf(mDisplayMap.get(id), true /* forceShortTone */);
+                processDtmf(mDisplayMap.get(id), true /* timedShortTone */);
             }
         }
     }
@@ -842,7 +847,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * DTMF tone (or short tone if requested), and appending the digit to the
      * EditText field that displays the DTMF digits sent so far.
      */
-    private final void processDtmf(char c, boolean forceShortTone) {
+    private final void processDtmf(char c, boolean timedShortTone) {
         // if it is a valid key, then update the display and send the dtmf tone.
         if (PhoneNumberUtils.is12Key(c)) {
             if (DBG) log("updating display and sending dtmf tone for '" + c + "'");
@@ -864,7 +869,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             // Play the tone if it exists.
             if (mToneMap.containsKey(c)) {
                 // begin tone playback.
-                startTone(c, forceShortTone);
+                startTone(c, timedShortTone);
             }
         } else if (DBG) {
             log("ignoring dtmf request for '" + c + "'");
@@ -935,7 +940,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     /**
      * Plays the local tone based the phone type.
      */
-    public void startTone(char c, boolean forceShortTone) {
+    public void startTone(char c, boolean timedShortTone) {
         // Only play the tone if it exists.
         if (!mToneMap.containsKey(c)) {
             return;
@@ -949,31 +954,37 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         Phone phone = mCM.getFgPhone();
         mShortTone = PhoneUtils.useShortDtmfTones(phone, phone.getContext());
 
+        // Before we go ahead and start a tone, we need to make sure that any pending
+        // stop-tone message is processed.
+        if (mHandler.hasMessages(DTMF_STOP)) {
+            mHandler.removeMessages(DTMF_STOP);
+            stopTone();
+        }
+
         if (DBG) log("startDtmfTone()...");
 
         // For Short DTMF we need to play the local tone for fixed duration
-        if (forceShortTone || mShortTone) {
+        if (mShortTone) {
             sendShortDtmfToNetwork(c);
         } else {
             // Pass as a char to be sent to network
             if (DBG) log("send long dtmf for " + c);
             mCM.startDtmf(c);
+
+            // If it is a timed tone, queue up the stop command in DTMF_DURATION_MS.
+            if (timedShortTone) {
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(DTMF_STOP), DTMF_DURATION_MS);
+            }
         }
-        startLocalToneIfNeeded(c, forceShortTone);
+        startLocalToneIfNeeded(c);
     }
 
-    /**
-     * Plays the local tone based the phone type.
-     */
-    public void startLocalToneIfNeeded(char c) {
-        startLocalToneIfNeeded(c, false);
-    }
 
     /**
      * Plays the local tone based the phone type, optionally forcing a short
      * tone.
      */
-    private void startLocalToneIfNeeded(char c, boolean forceShortTone) {
+    public void startLocalToneIfNeeded(char c) {
         // if local tone playback is enabled, start it.
         // Only play the tone if it exists.
         if (!mToneMap.containsKey(c)) {
@@ -986,7 +997,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 } else {
                     if (DBG) log("starting local tone " + c);
                     int toneDuration = -1;
-                    if (forceShortTone || mShortTone) {
+                    if (mShortTone) {
                         toneDuration = DTMF_DURATION_MS;
                     }
                     mToneGenerator.startTone(mToneMap.get(c), toneDuration);
@@ -1028,7 +1039,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public void stopLocalToneIfNeeded() {
         if (!mShortTone) {
-            if (DBG) log("stopping remote tone.");
             // if local tone playback is enabled, stop it.
             if (DBG) log("trying to stop local tone...");
             if (mLocalToneEnabled) {
