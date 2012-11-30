@@ -1277,17 +1277,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     .setSound(ringtoneUri);
             Notification notification = builder.getNotification();
 
-            String vibrateWhen = prefs.getString(
-                    CallFeaturesSetting.BUTTON_VOICEMAIL_NOTIFICATION_VIBRATE_WHEN_KEY, "never");
-            boolean vibrateAlways = vibrateWhen.equals("always");
-            boolean vibrateSilent = vibrateWhen.equals("silent");
-            AudioManager audioManager =
-                    (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-            boolean nowSilent = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
-            if (vibrateAlways || (vibrateSilent && nowSilent)) {
+            CallFeaturesSetting.migrateVoicemailVibrationSettingsIfNeeded(prefs);
+            final boolean vibrate = prefs.getBoolean(
+                    CallFeaturesSetting.BUTTON_VOICEMAIL_NOTIFICATION_VIBRATE_KEY, false);
+            if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
-
             notification.flags |= Notification.FLAG_NO_CLEAR;
             configureLedNotification(notification);
             mNotificationManager.notify(VOICEMAIL_NOTIFICATION, notification);

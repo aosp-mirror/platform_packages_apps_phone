@@ -81,15 +81,11 @@
           android:persistent="true"
           android:ringtoneType="notification"
           android:defaultValue="content://settings/system/notification_sound" />
-
-      <ListPreference
-          android:key="button_voicemail_notification_vibrate_when_key"
+      <CheckBoxPreference
+          android:key="button_voicemail_notification_vibrate_key"
           android:title="@string/voicemail_notification_vibrate_when_title"
           android:persistent="true"
-          android:entries="@array/voicemail_notification_vibrate_when_entries"
-          android:entryValues="@array/voicemail_notification_vibrate_when_values"
-          android:defaultValue="@string/voicemail_notification_vibrate_when_default"
-          android:dialogTitle="@string/voicemail_notification_vibarte_when_dialog_title" />
+          />
   </PreferenceScreen>
 
   <CheckBoxPreference
