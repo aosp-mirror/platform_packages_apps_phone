@@ -1425,8 +1425,16 @@
     <!-- Dialog title for the vibration settings for voice mail notifications [CHAR LIMIT=40]-->
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="8995274609647451109">Vibrate</string>
 
-    <!-- Voicemail ringtone title [CHAR LIMIT=40] -->
-    <string name="voicemail_notification_ringtone_title">Ringtone</string>
+    <!-- Voicemail ringtone title. The user clicks on this preference to select
+         which sound to play when a voicemail notification is received.
+         [CHAR LIMIT=40] -->
+    <string name="voicemail_notification_ringtone_title">Sound</string>
+
+    <!--  The string used to describe a notification if it is the default one in the system. For
+          example, if the user selects the default notification, it will appear as something like
+          Default sound(Capella) in the notification summary.
+          [CHAR LIMIT=40] -->
+    <string name="default_notification_description">Default sound (<xliff:g id="default_sound_title">%1$s</xliff:g>)</string>
 
     <!-- The vibrate notification modes for voicemail notifications -->
     <string-array name="voicemail_notification_vibrate_when_entries">
