@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.Phone;
 
 /**
@@ -85,15 +86,26 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
             if (msg.what == EVENT_ICC_NTWRK_DEPERSONALIZATION_RESULT) {
                 AsyncResult res = (AsyncResult) msg.obj;
                 if (res.exception != null) {
-                    if (DBG) log("network depersonalization request failure.");
-                    indicateError();
-                    postDelayed(new Runnable() {
-                                    public void run() {
-                                        hideAlert();
-                                        mPinEntry.getText().clear();
-                                        mPinEntry.requestFocus();
-                                    }
-                                }, 3000);
+                    CommandException ex = (CommandException)res.exception;
+                    if (ex.getCommandError() == CommandException.Error.NETWORK_PUK_REQUIRED) {
+                        if (DBG) log("network depersonalization Failed, PUK required.");
+                        indicatePukError();
+                        postDelayed(new Runnable() {
+                                        public void run() {
+                                            dismiss();
+                                        }
+                                    }, 3000);
+                    } else {
+                        if (DBG) log("network depersonalization request failure.");
+                        indicateError();
+                        postDelayed(new Runnable() {
+                                        public void run() {
+                                            hideAlert();
+                                            mPinEntry.getText().clear();
+                                            mPinEntry.requestFocus();
+                                        }
+                                    }, 3000);
+                    }
                 } else {
                     if (DBG) log("network depersonalization success.");
                     indicateSuccess();
@@ -194,6 +206,12 @@ public class IccNetworkDepersonalizationPanel extends IccPanel {
 
     private void indicateSuccess() {
         mStatusText.setText(R.string.unlock_success);
+        mEntryPanel.setVisibility(View.GONE);
+        mStatusPanel.setVisibility(View.VISIBLE);
+    }
+
+    private void indicatePukError() {
+        mStatusText.setText(R.string.personalisation_puklocked);
         mEntryPanel.setVisibility(View.GONE);
         mStatusPanel.setVisibility(View.VISIBLE);
     }
