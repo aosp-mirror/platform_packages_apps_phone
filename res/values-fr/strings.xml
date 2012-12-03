@@ -612,7 +612,10 @@
     <string name="description_target_decline" msgid="4789834364389731957">"Refuser"</string>
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Vibreur"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibreur"</string>
-    <string name="voicemail_notification_ringtone_title" msgid="2512535133814478358">"Sonnerie"</string>
+    <!-- no translation found for voicemail_notification_ringtone_title (2609519527849101590) -->
+    <skip />
+    <!-- no translation found for default_notification_description (78174796906240970) -->
+    <skip />
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Toujours"</item>
     <item msgid="1595097872875714252">"Uniquement en mode silencieux"</item>
