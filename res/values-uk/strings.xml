@@ -622,5 +622,6 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Сигнал дзвінка телефону"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Вібрувати під час дзвінка"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Звук клавіш"</string>
-    <string name="preference_category_ringtone" msgid="9007490591910078324">"Мелодія"</string>
+    <!-- no translation found for preference_category_ringtone (5197960752529332721) -->
+    <skip />
 </resources>
