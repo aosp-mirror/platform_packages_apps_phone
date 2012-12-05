@@ -615,7 +615,7 @@
     <string name="voicemail_notification_vibrate_when_title" msgid="8361970092063604886">"Вибросигнал"</string>
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Вибросигнал"</string>
     <string name="voicemail_notification_ringtone_title" msgid="2609519527849101590">"Звук"</string>
-    <string name="default_notification_description" msgid="78174796906240970">"Звук по умолчанию (<xliff:g id="DEFAULT_SOUND_TITLE">%1$s</xliff:g>)"</string>
+    <string name="default_notification_description" msgid="78174796906240970">"По умолчанию (<xliff:g id="DEFAULT_SOUND_TITLE">%1$s</xliff:g>)"</string>
   <string-array name="voicemail_notification_vibrate_when_entries">
     <item msgid="468237575962916558">"Всегда"</item>
     <item msgid="1595097872875714252">"Только в тихом режиме"</item>
