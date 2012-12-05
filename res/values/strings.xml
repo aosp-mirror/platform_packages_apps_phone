@@ -1281,7 +1281,7 @@
     <!-- Canned response for the "Respond via SMS" feature for incoming calls. [CHAR LIMIT=35] -->
     <string name="respond_via_sms_canned_response_4">Can\'t talk now. Call me later?</string>
     <!-- "Respond via SMS" option that lets you compose a custom response. [CHAR LIMIT=30] -->
-    <string name="respond_via_sms_custom_message">Custom message</string>
+    <string name="respond_via_sms_custom_message">Write your own...</string>
 
     <!-- Title of settings screen for managing the "Respond via SMS" feature. [CHAR LIMIT=30] -->
     <string name="respond_via_sms_setting_title">Quick responses</string>
