@@ -204,10 +204,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     // Phone.TTY_MODE_xxx
     static final int preferredTtyMode = Phone.TTY_MODE_OFF;
 
-    // Dtmf tone types
-    static final int DTMF_TONE_TYPE_NORMAL = 0;
-    static final int DTMF_TONE_TYPE_LONG   = 1;
-
     public static final String HAC_KEY = "HACSetting";
     public static final String HAC_VAL_ON = "ON";
     public static final String HAC_VAL_OFF = "OFF";
@@ -1765,7 +1761,7 @@ public class CallFeaturesSetting extends PreferenceActivity
 
         if (mButtonDTMF != null) {
             int dtmf = Settings.System.getInt(getContentResolver(),
-                    Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, DTMF_TONE_TYPE_NORMAL);
+                    Settings.System.DTMF_TONE_TYPE_WHEN_DIALING, Constants.DTMF_TONE_TYPE_NORMAL);
             mButtonDTMF.setValueIndex(dtmf);
         }
 

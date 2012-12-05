@@ -39,6 +39,7 @@ import android.widget.EditText;
 
 import com.android.internal.telephony.CallManager;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
 
 import java.util.HashMap;
@@ -952,7 +953,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
 
         // Read the settings as it may be changed by the user during the call
         Phone phone = mCM.getFgPhone();
-        mShortTone = PhoneUtils.useShortDtmfTones(phone, phone.getContext());
+        mShortTone = useShortDtmfTones(phone, phone.getContext());
 
         // Before we go ahead and start a tone, we need to make sure that any pending
         // stop-tone message is processed.
@@ -1089,4 +1090,30 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             sendShortDtmfToNetwork(dtmfChar);
         }
     }
+
+    /**
+     * On GSM devices, we never use short tones.
+     * On CDMA devices, it depends upon the settings.
+     */
+    private static boolean useShortDtmfTones(Phone phone, Context context) {
+        int phoneType = phone.getPhoneType();
+        if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
+            return false;
+        } else if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
+            int toneType = android.provider.Settings.System.getInt(
+                    context.getContentResolver(),
+                    Settings.System.DTMF_TONE_TYPE_WHEN_DIALING,
+                    Constants.DTMF_TONE_TYPE_NORMAL);
+            if (toneType == Constants.DTMF_TONE_TYPE_NORMAL) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (phoneType == PhoneConstants.PHONE_TYPE_SIP) {
+            return false;
+        } else {
+            throw new IllegalStateException("Unexpected phone type: " + phoneType);
+        }
+    }
+
 }
