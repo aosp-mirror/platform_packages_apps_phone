@@ -139,4 +139,8 @@ public class Constants {
     // (Currently they're all over the place: InCallScreen,
     // OutgoingCallBroadcaster, OtaUtils, etc.)
     //
+
+    // Dtmf tone type setting value for CDMA phone
+    public static final int DTMF_TONE_TYPE_NORMAL = 0;
+    public static final int DTMF_TONE_TYPE_LONG   = 1;
 }
