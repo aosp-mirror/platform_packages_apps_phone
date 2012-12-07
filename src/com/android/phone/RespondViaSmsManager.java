@@ -132,7 +132,7 @@ public class RespondViaSmsManager {
         mCannedResponses = loadCannedResponses();
 
         // Build the list: start with the canned responses, but manually add
-        // "Custom message..." as the last choice.
+        // the write-your-own option as the last choice.
         int numPopupItems = mCannedResponses.length + 1;
         String[] popupItems = Arrays.copyOf(mCannedResponses, numPopupItems);
         popupItems[numPopupItems - 1] = mInCallScreen.getResources()
