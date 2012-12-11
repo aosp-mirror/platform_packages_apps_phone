@@ -68,7 +68,7 @@
     <string name="puk_unlocked" msgid="2284912838477558454">"Kartu SIM Anda tidak lagi dicekal. Ponsel Anda sedang dibuka kuncinya..."</string>
     <string name="label_ndp" msgid="780479633159517250">"PIN pembuka kunci jaringan SIM"</string>
     <string name="sim_ndp_unlock_text" msgid="683628237760543009">"Buka kunci"</string>
-    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Tolak"</string>
+    <string name="sim_ndp_dismiss_text" msgid="1604823375752456947">"Tutup"</string>
     <string name="requesting_unlock" msgid="6412629401033249351">"Meminta membuka jaringan..."</string>
     <string name="unlock_failed" msgid="6490531697031504225">"Permintaan buka kunci jaringan gagal."</string>
     <string name="unlock_success" msgid="6770085622238180152">"Jaringan berhasil dibuka."</string>
@@ -499,7 +499,7 @@
     <string name="progress_dialog_exiting_ecm" msgid="4835734101617817074">"Keluar dari mode Panggilan Balik Darurat"</string>
     <string name="alert_dialog_yes" msgid="6674268047820703974">"Ya"</string>
     <string name="alert_dialog_no" msgid="1476091437797628703">"Tidak"</string>
-    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Tolak"</string>
+    <string name="alert_dialog_dismiss" msgid="2491494287075907171">"Tutup"</string>
     <string name="voicemail_provider" msgid="5135942703327136909">"Layanan"</string>
     <string name="voicemail_settings" msgid="72448049107749316">"Penyiapan"</string>
     <string name="voicemail_number_not_set" msgid="6724904736891087856">"&lt;Tidak disetel&gt;"</string>
