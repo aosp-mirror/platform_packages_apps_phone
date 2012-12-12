@@ -3523,17 +3523,6 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Answer the ringing call *and* hang up the ongoing call.
-     */
-    private void internalAnswerAndEnd() {
-        if (DBG) log("internalAnswerAndEnd()...");
-        if (VDBG) PhoneUtils.dumpCallManager();
-        // In the rare case when multiple calls are ringing, the UI policy
-        // it to always act on the first ringing call.
-        PhoneUtils.answerAndEndActive(mCM, mCM.getFirstActiveRingingCall());
-    }
-
-    /**
      * Hang up the ringing call (aka "Don't answer").
      */
     /* package */ void hangupRingingCall() {
