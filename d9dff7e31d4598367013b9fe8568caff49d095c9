@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NCLqM8Yw",
+        "filename": "src/com/android/phone/Use2GOnlyCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2012-12-19T14:19:23Z",
+      "side": 1,
+      "message": "I suppose, you wanted to log value of currentNetworkMode here...",
+      "revId": "d9dff7e31d4598367013b9fe8568caff49d095c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NCJqJLX0",
+        "filename": "src/com/android/phone/Use2GOnlyCheckBoxPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2012-12-19T14:19:23Z",
+      "side": 1,
+      "message": "Settings.System -\u003e Settings.Global",
+      "revId": "d9dff7e31d4598367013b9fe8568caff49d095c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
