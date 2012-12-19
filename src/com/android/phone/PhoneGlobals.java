@@ -76,7 +76,7 @@ import com.android.server.sip.SipService;
  * phone process.
  */
 public class PhoneGlobals extends ContextWrapper
-        implements AccelerometerListener.OrientationListener {
+implements AccelerometerListener.OrientationListener {
     /* package */ static final String LOG_TAG = "PhoneApp";
 
     /**
@@ -170,6 +170,7 @@ public class PhoneGlobals extends ContextWrapper
     IBluetoothHeadsetPhone mBluetoothPhone;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
+    DTMFDialer mDTMFDialer;
     int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
     boolean mShowBluetoothIndication = false;
@@ -277,145 +278,145 @@ public class PhoneGlobals extends ContextWrapper
         public void handleMessage(Message msg) {
             PhoneConstants.State phoneState;
             switch (msg.what) {
-                // Starts the SIP service. It's a no-op if SIP API is not supported
-                // on the deivce.
-                // TODO: Having the phone process host the SIP service is only
-                // temporary. Will move it to a persistent communication process
-                // later.
-                case EVENT_START_SIP_SERVICE:
-                    SipService.start(getApplicationContext());
-                    break;
+            // Starts the SIP service. It's a no-op if SIP API is not supported
+            // on the deivce.
+            // TODO: Having the phone process host the SIP service is only
+            // temporary. Will move it to a persistent communication process
+            // later.
+            case EVENT_START_SIP_SERVICE:
+                SipService.start(getApplicationContext());
+                break;
 
                 // TODO: This event should be handled by the lock screen, just
                 // like the "SIM missing" and "Sim locked" cases (bug 1804111).
-                case EVENT_SIM_NETWORK_LOCKED:
-                    if (getResources().getBoolean(R.bool.ignore_sim_network_locked_events)) {
-                        // Some products don't have the concept of a "SIM network lock"
-                        Log.i(LOG_TAG, "Ignoring EVENT_SIM_NETWORK_LOCKED event; "
-                              + "not showing 'SIM network unlock' PIN entry screen");
+            case EVENT_SIM_NETWORK_LOCKED:
+                if (getResources().getBoolean(R.bool.ignore_sim_network_locked_events)) {
+                    // Some products don't have the concept of a "SIM network lock"
+                    Log.i(LOG_TAG, "Ignoring EVENT_SIM_NETWORK_LOCKED event; "
+                            + "not showing 'SIM network unlock' PIN entry screen");
+                } else {
+                    // Normal case: show the "SIM network unlock" PIN entry screen.
+                    // The user won't be able to do anything else until
+                    // they enter a valid SIM network PIN.
+                    Log.i(LOG_TAG, "show sim depersonal panel");
+                    IccNetworkDepersonalizationPanel ndpPanel =
+                            new IccNetworkDepersonalizationPanel(PhoneGlobals.getInstance());
+                    ndpPanel.show();
+                }
+                break;
+
+            case EVENT_UPDATE_INCALL_NOTIFICATION:
+                // Tell the NotificationMgr to update the "ongoing
+                // call" icon in the status bar, if necessary.
+                // Currently, this is triggered by a bluetooth headset
+                // state change (since the status bar icon needs to
+                // turn blue when bluetooth is active.)
+                if (DBG) Log.d (LOG_TAG, "- updating in-call notification from handler...");
+                notificationMgr.updateInCallNotification();
+                break;
+
+            case EVENT_DATA_ROAMING_DISCONNECTED:
+                notificationMgr.showDataDisconnectedRoaming();
+                break;
+
+            case EVENT_DATA_ROAMING_OK:
+                notificationMgr.hideDataDisconnectedRoaming();
+                break;
+
+            case MMI_COMPLETE:
+                onMMIComplete((AsyncResult) msg.obj);
+                break;
+
+            case MMI_CANCEL:
+                PhoneUtils.cancelMmiCode(phone);
+                break;
+
+            case EVENT_WIRED_HEADSET_PLUG:
+                // Since the presence of a wired headset or bluetooth affects the
+                // speakerphone, update the "speaker" state.  We ONLY want to do
+                // this on the wired headset connect / disconnect events for now
+                // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
+
+                phoneState = mCM.getState();
+                // Do not change speaker state if phone is not off hook
+                if (phoneState == PhoneConstants.State.OFFHOOK && !isBluetoothHeadsetAudioOn()) {
+                    if (!isHeadsetPlugged()) {
+                        // if the state is "not connected", restore the speaker state.
+                        PhoneUtils.restoreSpeakerMode(getApplicationContext());
                     } else {
-                        // Normal case: show the "SIM network unlock" PIN entry screen.
-                        // The user won't be able to do anything else until
-                        // they enter a valid SIM network PIN.
-                        Log.i(LOG_TAG, "show sim depersonal panel");
-                        IccNetworkDepersonalizationPanel ndpPanel =
-                                new IccNetworkDepersonalizationPanel(PhoneGlobals.getInstance());
-                        ndpPanel.show();
+                        // if the state is "connected", force the speaker off without
+                        // storing the state.
+                        PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
                     }
-                    break;
+                }
+                // Update the Proximity sensor based on headset state
+                updateProximitySensorMode(phoneState);
 
-                case EVENT_UPDATE_INCALL_NOTIFICATION:
-                    // Tell the NotificationMgr to update the "ongoing
-                    // call" icon in the status bar, if necessary.
-                    // Currently, this is triggered by a bluetooth headset
-                    // state change (since the status bar icon needs to
-                    // turn blue when bluetooth is active.)
-                    if (DBG) Log.d (LOG_TAG, "- updating in-call notification from handler...");
-                    notificationMgr.updateInCallNotification();
-                    break;
+                // Force TTY state update according to new headset state
+                if (mTtyEnabled) {
+                    sendMessage(obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
+                }
+                break;
 
-                case EVENT_DATA_ROAMING_DISCONNECTED:
-                    notificationMgr.showDataDisconnectedRoaming();
-                    break;
-
-                case EVENT_DATA_ROAMING_OK:
-                    notificationMgr.hideDataDisconnectedRoaming();
-                    break;
-
-                case MMI_COMPLETE:
-                    onMMIComplete((AsyncResult) msg.obj);
-                    break;
-
-                case MMI_CANCEL:
-                    PhoneUtils.cancelMmiCode(phone);
-                    break;
-
-                case EVENT_WIRED_HEADSET_PLUG:
-                    // Since the presence of a wired headset or bluetooth affects the
-                    // speakerphone, update the "speaker" state.  We ONLY want to do
-                    // this on the wired headset connect / disconnect events for now
-                    // though, so we're only triggering on EVENT_WIRED_HEADSET_PLUG.
-
-                    phoneState = mCM.getState();
-                    // Do not change speaker state if phone is not off hook
-                    if (phoneState == PhoneConstants.State.OFFHOOK && !isBluetoothHeadsetAudioOn()) {
-                        if (!isHeadsetPlugged()) {
-                            // if the state is "not connected", restore the speaker state.
-                            PhoneUtils.restoreSpeakerMode(getApplicationContext());
-                        } else {
-                            // if the state is "connected", force the speaker off without
-                            // storing the state.
-                            PhoneUtils.turnOnSpeaker(getApplicationContext(), false, false);
-                        }
+            case EVENT_SIM_STATE_CHANGED:
+                // Marks the event where the SIM goes into ready state.
+                // Right now, this is only used for the PUK-unlocking
+                // process.
+                if (msg.obj.equals(IccCardConstants.INTENT_VALUE_ICC_READY)) {
+                    // when the right event is triggered and there
+                    // are UI objects in the foreground, we close
+                    // them to display the lock panel.
+                    if (mPUKEntryActivity != null) {
+                        mPUKEntryActivity.finish();
+                        mPUKEntryActivity = null;
                     }
-                    // Update the Proximity sensor based on headset state
-                    updateProximitySensorMode(phoneState);
-
-                    // Force TTY state update according to new headset state
-                    if (mTtyEnabled) {
-                        sendMessage(obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
+                    if (mPUKEntryProgressDialog != null) {
+                        mPUKEntryProgressDialog.dismiss();
+                        mPUKEntryProgressDialog = null;
                     }
-                    break;
+                }
+                break;
 
-                case EVENT_SIM_STATE_CHANGED:
-                    // Marks the event where the SIM goes into ready state.
-                    // Right now, this is only used for the PUK-unlocking
-                    // process.
-                    if (msg.obj.equals(IccCardConstants.INTENT_VALUE_ICC_READY)) {
-                        // when the right event is triggered and there
-                        // are UI objects in the foreground, we close
-                        // them to display the lock panel.
-                        if (mPUKEntryActivity != null) {
-                            mPUKEntryActivity.finish();
-                            mPUKEntryActivity = null;
-                        }
-                        if (mPUKEntryProgressDialog != null) {
-                            mPUKEntryProgressDialog.dismiss();
-                            mPUKEntryProgressDialog = null;
-                        }
-                    }
-                    break;
+            case EVENT_UNSOL_CDMA_INFO_RECORD:
+                //TODO: handle message here;
+                break;
 
-                case EVENT_UNSOL_CDMA_INFO_RECORD:
-                    //TODO: handle message here;
-                    break;
+            case EVENT_DOCK_STATE_CHANGED:
+                // If the phone is docked/undocked during a call, and no wired or BT headset
+                // is connected: turn on/off the speaker accordingly.
+                boolean inDockMode = false;
+                if (mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
+                    inDockMode = true;
+                }
+                if (VDBG) Log.d(LOG_TAG, "received EVENT_DOCK_STATE_CHANGED. Phone inDock = "
+                        + inDockMode);
 
-                case EVENT_DOCK_STATE_CHANGED:
-                    // If the phone is docked/undocked during a call, and no wired or BT headset
-                    // is connected: turn on/off the speaker accordingly.
-                    boolean inDockMode = false;
-                    if (mDockState != Intent.EXTRA_DOCK_STATE_UNDOCKED) {
-                        inDockMode = true;
-                    }
-                    if (VDBG) Log.d(LOG_TAG, "received EVENT_DOCK_STATE_CHANGED. Phone inDock = "
-                            + inDockMode);
-
-                    phoneState = mCM.getState();
-                    if (phoneState == PhoneConstants.State.OFFHOOK &&
+                phoneState = mCM.getState();
+                if (phoneState == PhoneConstants.State.OFFHOOK &&
                         !isHeadsetPlugged() && !isBluetoothHeadsetAudioOn()) {
-                        PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
-                        updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
-                    }
-                    break;
+                    PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
+                    updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
+                }
+                break;
 
-                case EVENT_TTY_PREFERRED_MODE_CHANGED:
-                    // TTY mode is only applied if a headset is connected
-                    int ttyMode;
-                    if (isHeadsetPlugged()) {
-                        ttyMode = mPreferredTtyMode;
-                    } else {
-                        ttyMode = Phone.TTY_MODE_OFF;
-                    }
-                    phone.setTTYMode(ttyMode, mHandler.obtainMessage(EVENT_TTY_MODE_SET));
-                    break;
+            case EVENT_TTY_PREFERRED_MODE_CHANGED:
+                // TTY mode is only applied if a headset is connected
+                int ttyMode;
+                if (isHeadsetPlugged()) {
+                    ttyMode = mPreferredTtyMode;
+                } else {
+                    ttyMode = Phone.TTY_MODE_OFF;
+                }
+                phone.setTTYMode(ttyMode, mHandler.obtainMessage(EVENT_TTY_MODE_SET));
+                break;
 
-                case EVENT_TTY_MODE_GET:
-                    handleQueryTTYModeResponse(msg);
-                    break;
+            case EVENT_TTY_MODE_GET:
+                handleQueryTTYModeResponse(msg);
+                break;
 
-                case EVENT_TTY_MODE_SET:
-                    handleSetTTYModeResponse(msg);
-                    break;
+            case EVENT_TTY_MODE_SET:
+                handleSetTTYModeResponse(msg);
+                break;
             }
         }
     };
@@ -454,6 +455,8 @@ public class PhoneGlobals extends ContextWrapper
             mCM = CallManager.getInstance();
             mCM.registerPhone(phone);
 
+            mDTMFDialer = new DTMFDialer();
+
             // Create the NotificationMgr singleton, which is used to display
             // status bar icons and control other status bar behavior.
             notificationMgr = NotificationMgr.init(this);
@@ -475,7 +478,7 @@ public class PhoneGlobals extends ContextWrapper
                 // The device can still support VOIP.
                 startService(new Intent(this, BluetoothPhoneService.class));
                 bindService(new Intent(this, BluetoothPhoneService.class),
-                            mBluetoothPhoneConnection, 0);
+                        mBluetoothPhoneConnection, 0);
             } else {
                 // Device is not bluetooth capable
                 mBluetoothPhone = null;
@@ -628,14 +631,14 @@ public class PhoneGlobals extends ContextWrapper
         // Read HAC settings and configure audio hardware
         if (getResources().getBoolean(R.bool.hac_enabled)) {
             int hac = android.provider.Settings.System.getInt(phone.getContext().getContentResolver(),
-                                                              android.provider.Settings.System.HEARING_AID,
-                                                              0);
+                    android.provider.Settings.System.HEARING_AID,
+                    0);
             AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audioManager.setParameter(CallFeaturesSetting.HAC_KEY, hac != 0 ?
-                                      CallFeaturesSetting.HAC_VAL_ON :
-                                      CallFeaturesSetting.HAC_VAL_OFF);
+                    CallFeaturesSetting.HAC_VAL_ON :
+                        CallFeaturesSetting.HAC_VAL_OFF);
         }
-   }
+    }
 
     public void onConfigurationChanged(Configuration newConfig) {
         if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
@@ -764,8 +767,8 @@ public class PhoneGlobals extends ContextWrapper
         // bring up the InCallScreen in the first place.
         if (!sVoiceCapable) {
             Log.w(LOG_TAG, "displayCallScreen() not allowed: non-voice-capable device",
-                  new Throwable("stack dump"));  // Include a stack trace since this warning
-                                                 // indicates a bug in our caller
+                    new Throwable("stack dump"));  // Include a stack trace since this warning
+            // indicates a bug in our caller
             return;
         }
 
@@ -854,10 +857,10 @@ public class PhoneGlobals extends ContextWrapper
         if (mInCallScreen != null) {
             if ((TelephonyCapabilities.supportsOtasp(phone)) &&
                     (mInCallScreen.isOtaCallInActiveState()
-                    || mInCallScreen.isOtaCallInEndState()
-                    || ((cdmaOtaScreenState != null)
-                    && (cdmaOtaScreenState.otaScreenState
-                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED)))) {
+                            || mInCallScreen.isOtaCallInEndState()
+                            || ((cdmaOtaScreenState != null)
+                                    && (cdmaOtaScreenState.otaScreenState
+                                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED)))) {
                 // TODO: During OTA Call, display should not become dark to
                 // allow user to see OTA UI update. Phone app needs to hold
                 // a SCREEN_DIM_WAKE_LOCK wake lock during the entire OTA call.
@@ -887,7 +890,7 @@ public class PhoneGlobals extends ContextWrapper
             // We shouldn't be getting OTASP events without ever
             // having started the OTASP call in the first place!
             Log.w(LOG_TAG, "handleOtaEvents: got an event but otaUtils is null! "
-                  + "message = " + msg);
+                    + "message = " + msg);
             return;
         }
 
@@ -962,32 +965,32 @@ public class PhoneGlobals extends ContextWrapper
         synchronized (this) {
             if (mWakeState != ws) {
                 switch (ws) {
-                    case PARTIAL:
-                        // acquire the processor wake lock, and release the FULL
-                        // lock if it is being held.
-                        mPartialWakeLock.acquire();
-                        if (mWakeLock.isHeld()) {
-                            mWakeLock.release();
-                        }
-                        break;
-                    case FULL:
-                        // acquire the full wake lock, and release the PARTIAL
-                        // lock if it is being held.
-                        mWakeLock.acquire();
-                        if (mPartialWakeLock.isHeld()) {
-                            mPartialWakeLock.release();
-                        }
-                        break;
-                    case SLEEP:
-                    default:
-                        // release both the PARTIAL and FULL locks.
-                        if (mWakeLock.isHeld()) {
-                            mWakeLock.release();
-                        }
-                        if (mPartialWakeLock.isHeld()) {
-                            mPartialWakeLock.release();
-                        }
-                        break;
+                case PARTIAL:
+                    // acquire the processor wake lock, and release the FULL
+                    // lock if it is being held.
+                    mPartialWakeLock.acquire();
+                    if (mWakeLock.isHeld()) {
+                        mWakeLock.release();
+                    }
+                    break;
+                case FULL:
+                    // acquire the full wake lock, and release the PARTIAL
+                    // lock if it is being held.
+                    mWakeLock.acquire();
+                    if (mPartialWakeLock.isHeld()) {
+                        mPartialWakeLock.release();
+                    }
+                    break;
+                case SLEEP:
+                default:
+                    // release both the PARTIAL and FULL locks.
+                    if (mWakeLock.isHeld()) {
+                        mWakeLock.release();
+                    }
+                    if (mPartialWakeLock.isHeld()) {
+                        mPartialWakeLock.release();
+                    }
+                    break;
                 }
                 mWakeState = ws;
             }
@@ -1048,8 +1051,8 @@ public class PhoneGlobals extends ContextWrapper
         // timeout should probably still be short.)
 
         if (DBG) Log.d(LOG_TAG, "updateWakeState: callscreen " + isShowingCallScreen
-                       + ", dialer " + isDialerOpened
-                       + ", speaker " + isSpeakerInUse + "...");
+                + ", dialer " + isDialerOpened
+                + ", speaker " + isSpeakerInUse + "...");
 
         //
         // Decide whether to force the screen on or not.
@@ -1070,10 +1073,10 @@ public class PhoneGlobals extends ContextWrapper
         boolean keepScreenOn = isRinging || isDialing ||
                 (showingDisconnectedConnection && !showingQuickResponseDialog);
         if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
-                       + " (isRinging " + isRinging
-                       + ", isDialing " + isDialing
-                       + ", showingQuickResponse " + showingQuickResponseDialog
-                       + ", showingDisc " + showingDisconnectedConnection + ")");
+                + " (isRinging " + isRinging
+                + ", isDialing " + isDialing
+                + ", showingQuickResponse " + showingQuickResponseDialog
+                + ", showingDisc " + showingDisconnectedConnection + ")");
         // keepScreenOn == true means we'll hold a full wake lock:
         requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
     }
@@ -1140,9 +1143,9 @@ public class PhoneGlobals extends ContextWrapper
                 // we are using a headset, the keyboard is open, or the device
                 // is being held in a horizontal position.
                 boolean screenOnImmediately = (isHeadsetPlugged()
-                                               || PhoneUtils.isSpeakerOn(this)
-                                               || isBluetoothHeadsetAudioOn()
-                                               || mIsHardKeyboardOpen);
+                        || PhoneUtils.isSpeakerOn(this)
+                        || isBluetoothHeadsetAudioOn()
+                        || mIsHardKeyboardOpen);
 
                 // We do not keep the screen off when the user is outside in-call screen and we are
                 // horizontal, but we do not force it on when we become horizontal until the
@@ -1182,7 +1185,7 @@ public class PhoneGlobals extends ContextWrapper
                         // releasing due to the phone call ending.
                         // Qtherwise, turn screen on immediately
                         int flags =
-                            (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
+                                (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
                         mProximityWakeLock.release(flags);
                     } else {
                         if (VDBG) {
@@ -1283,7 +1286,7 @@ public class PhoneGlobals extends ContextWrapper
     private void initForNewRadioTechnology() {
         if (DBG) Log.d(LOG_TAG, "initForNewRadioTechnology...");
 
-         if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
+        if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA) {
             // Create an instance of CdmaPhoneCallState and initialize it to IDLE
             cdmaPhoneCallState = new CdmaPhoneCallState();
             cdmaPhoneCallState.CdmaPhoneCallStateInit();
@@ -1367,8 +1370,8 @@ public class PhoneGlobals extends ContextWrapper
      */
     /* package */ void updateBluetoothIndication(boolean forceUiUpdate) {
         mShowBluetoothIndication = shouldShowBluetoothIndication(mBluetoothHeadsetState,
-                                                                 mBluetoothHeadsetAudioState,
-                                                                 mCM);
+                mBluetoothHeadsetAudioState,
+                mCM);
         if (forceUiUpdate) {
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
@@ -1391,8 +1394,8 @@ public class PhoneGlobals extends ContextWrapper
      * @see showBluetoothIndication()
      */
     private static boolean shouldShowBluetoothIndication(int bluetoothState,
-                                                         int bluetoothAudioState,
-                                                         CallManager cm) {
+            int bluetoothAudioState,
+            CallManager cm) {
         // We want the UI to indicate that "bluetooth is in use" in two
         // slightly different cases:
         //
@@ -1404,24 +1407,24 @@ public class PhoneGlobals extends ContextWrapper
         //     headset once the call is answered.
 
         switch (cm.getState()) {
-            case OFFHOOK:
-                // This covers normal active calls, and also the case if
-                // the foreground call is DIALING or ALERTING.  In this
-                // case, bluetooth is considered "active" if a headset
-                // is connected *and* audio is being routed to it.
-                return ((bluetoothState == BluetoothHeadset.STATE_CONNECTED)
-                        && (bluetoothAudioState == BluetoothHeadset.STATE_AUDIO_CONNECTED));
+        case OFFHOOK:
+            // This covers normal active calls, and also the case if
+            // the foreground call is DIALING or ALERTING.  In this
+            // case, bluetooth is considered "active" if a headset
+            // is connected *and* audio is being routed to it.
+            return ((bluetoothState == BluetoothHeadset.STATE_CONNECTED)
+                    && (bluetoothAudioState == BluetoothHeadset.STATE_AUDIO_CONNECTED));
 
-            case RINGING:
-                // If an incoming call is ringing, we're *not* yet routing
-                // audio to the headset (since there's no in-call audio
-                // yet!)  In this case, if a bluetooth headset is
-                // connected at all, we assume that it'll become active
-                // once the user answers the phone.
-                return (bluetoothState == BluetoothHeadset.STATE_CONNECTED);
+        case RINGING:
+            // If an incoming call is ringing, we're *not* yet routing
+            // audio to the headset (since there's no in-call audio
+            // yet!)  In this case, if a bluetooth headset is
+            // connected at all, we assume that it'll become active
+            // once the user answers the phone.
+            return (bluetoothState == BluetoothHeadset.STATE_CONNECTED);
 
-            default:  // Presumably IDLE
-                return false;
+        default:  // Presumably IDLE
+            return false;
         }
     }
 
@@ -1439,14 +1442,14 @@ public class PhoneGlobals extends ContextWrapper
                 phone.setRadioPower(enabled);
             } else if (action.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
                 mBluetoothHeadsetState = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
-                                                          BluetoothHeadset.STATE_DISCONNECTED);
+                        BluetoothHeadset.STATE_DISCONNECTED);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
             } else if (action.equals(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED)) {
                 mBluetoothHeadsetAudioState =
                         intent.getIntExtra(BluetoothHeadset.EXTRA_STATE,
-                                           BluetoothHeadset.STATE_AUDIO_DISCONNECTED);
+                                BluetoothHeadset.STATE_AUDIO_DISCONNECTED);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: HEADSET_AUDIO_STATE_CHANGED_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "==> new state: " + mBluetoothHeadsetAudioState);
                 updateBluetoothIndication(true);  // Also update any visible UI if necessary
@@ -1454,7 +1457,7 @@ public class PhoneGlobals extends ContextWrapper
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_ANY_DATA_CONNECTION_STATE_CHANGED");
                 if (VDBG) Log.d(LOG_TAG, "- state: " + intent.getStringExtra(PhoneConstants.STATE_KEY));
                 if (VDBG) Log.d(LOG_TAG, "- reason: "
-                                + intent.getStringExtra(PhoneConstants.STATE_CHANGE_REASON_KEY));
+                        + intent.getStringExtra(PhoneConstants.STATE_CHANGE_REASON_KEY));
 
                 // The "data disconnected due to roaming" notification is shown
                 // if (a) you have the "data roaming" feature turned off, and
@@ -1463,10 +1466,10 @@ public class PhoneGlobals extends ContextWrapper
                         !phone.getDataRoamingEnabled()
                         && "DISCONNECTED".equals(intent.getStringExtra(PhoneConstants.STATE_KEY))
                         && Phone.REASON_ROAMING_ON.equals(
-                            intent.getStringExtra(PhoneConstants.STATE_CHANGE_REASON_KEY));
+                                intent.getStringExtra(PhoneConstants.STATE_CHANGE_REASON_KEY));
                 mHandler.sendEmptyMessage(disconnectedDueToRoaming
-                                          ? EVENT_DATA_ROAMING_DISCONNECTED
-                                          : EVENT_DATA_ROAMING_OK);
+                        ? EVENT_DATA_ROAMING_DISCONNECTED
+                                : EVENT_DATA_ROAMING_OK);
             } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: ACTION_HEADSET_PLUG");
                 if (VDBG) Log.d(LOG_TAG, "    state: " + intent.getIntExtra("state", 0));
@@ -1499,7 +1502,7 @@ public class PhoneGlobals extends ContextWrapper
                     // It doesn't make sense to get ACTION_EMERGENCY_CALLBACK_MODE_CHANGED
                     // on a device that doesn't support ECM in the first place.
                     Log.e(LOG_TAG, "Got ACTION_EMERGENCY_CALLBACK_MODE_CHANGED, "
-                          + "but ECM isn't supported for phone: " + phone.getPhoneName());
+                            + "but ECM isn't supported for phone: " + phone.getPhoneName());
                 }
             } else if (action.equals(Intent.ACTION_DOCK_EVENT)) {
                 mDockState = intent.getIntExtra(Intent.EXTRA_DOCK_STATE,
@@ -1508,7 +1511,7 @@ public class PhoneGlobals extends ContextWrapper
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_DOCK_STATE_CHANGED, 0));
             } else if (action.equals(TtyIntent.TTY_PREFERRED_MODE_CHANGE_ACTION)) {
                 mPreferredTtyMode = intent.getIntExtra(TtyIntent.TTY_PREFFERED_MODE,
-                                                       Phone.TTY_MODE_OFF);
+                        Phone.TTY_MODE_OFF);
                 if (VDBG) Log.d(LOG_TAG, "mReceiver: TTY_PREFERRED_MODE_CHANGE_ACTION");
                 if (VDBG) Log.d(LOG_TAG, "    mode: " + mPreferredTtyMode);
                 mHandler.sendMessage(mHandler.obtainMessage(EVENT_TTY_PREFERRED_MODE_CHANGED, 0));
@@ -1536,9 +1539,9 @@ public class PhoneGlobals extends ContextWrapper
         public void onReceive(Context context, Intent intent) {
             KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (VDBG) Log.d(LOG_TAG,
-                           "MediaButtonBroadcastReceiver.onReceive()...  event = " + event);
+                    "MediaButtonBroadcastReceiver.onReceive()...  event = " + event);
             if ((event != null)
-                && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)) {
+                    && (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK)) {
                 if (VDBG) Log.d(LOG_TAG, "MediaButtonBroadcastReceiver: HEADSETHOOK");
                 boolean consumed = PhoneUtils.handleHeadsetHook(phone, event);
                 if (VDBG) Log.d(LOG_TAG, "==> handleHeadsetHook(): consumed = " + consumed);
@@ -1706,7 +1709,7 @@ public class PhoneGlobals extends ContextWrapper
             if (DBG) Log.d(LOG_TAG, "handleQueryTTYModeResponse: Error getting TTY state.");
         } else {
             if (DBG) Log.d(LOG_TAG,
-                           "handleQueryTTYModeResponse: TTY enable state successfully queried.");
+                    "handleQueryTTYModeResponse: TTY enable state successfully queried.");
 
             int ttymode = ((int[]) ar.result)[0];
             if (DBG) Log.d(LOG_TAG, "handleQueryTTYModeResponse:ttymode=" + ttymode);
@@ -1742,7 +1745,7 @@ public class PhoneGlobals extends ContextWrapper
         if (ar.exception != null) {
             if (DBG) Log.d (LOG_TAG,
                     "handleSetTTYModeResponse: Error setting TTY mode, ar.exception"
-                    + ar.exception);
+                            + ar.exception);
         }
         phone.queryTTYMode(mHandler.obtainMessage(EVENT_TTY_MODE_GET));
     }
