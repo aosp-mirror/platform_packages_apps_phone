@@ -60,9 +60,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     private static final int CMD_HANDLE_NEIGHBORING_CELL = 2;
     private static final int EVENT_NEIGHBORING_CELL_DONE = 3;
     private static final int CMD_ANSWER_RINGING_CALL = 4;
-    private static final int CMD_END_CALL = 5;  // not used yet
+    private static final int CMD_END_CALL = 5;  
     private static final int CMD_SILENCE_RINGER = 6;
-
+    private static final int CMD_DIAL_DTMF_TWELVEKEY_CHARACTER = 7;
+    
     /** The singleton instance. */
     private static PhoneInterfaceManager sInstance;
 
@@ -70,7 +71,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     Phone mPhone;
     CallManager mCM;
     MainThreadHandler mMainThreadHandler;
-
+    
     /**
      * A request object for use with {@link MainThreadHandler}. Requesters should wait() on the
      * request after sending. The main thread will notify the request when it is complete.
@@ -167,7 +168,18 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         request.notifyAll();
                     }
                     break;
-
+                case CMD_DIAL_DTMF_TWELVEKEY_CHARACTER:
+                    request = (MainThreadRequest) msg.obj;
+                    Character c = (Character)request.argument;
+                    boolean dialed = false;
+                    dialed = mApp.mDTMFDialer.playDtmfForTwelveKeyChar(c.charValue());
+                    if (DBG) log("CMD_DIAL_DTMF_TWELVEKEY_CHARACTER: " + (dialed ? "DTMF dailed!" : "no call to dail DTMF"));
+                    request.result = dialed;
+                    // Wake up the requesting thread
+                    synchronized (request) {
+                        request.notifyAll();
+                    }
+                	break;
                 default:
                     Log.w(LOG_TAG, "MainThreadHandler: unexpected message code: " + msg.what);
                     break;
@@ -175,6 +187,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
     }
 
+    
     /**
      * Posts the specified command to be executed on the main thread,
      * waits for the request to complete, and returns the result.
@@ -232,6 +245,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp = app;
         mPhone = phone;
         mCM = PhoneGlobals.getInstance().mCM;
+ 
         mMainThreadHandler = new MainThreadHandler();
         publish();
     }
@@ -335,19 +349,38 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      * @return true is a call was ended
      */
     public boolean endCall() {
-        enforceCallPermission();
+        if (DBG) log("endCall...");
+        enforceManagePermission();
         return (Boolean) sendRequest(CMD_END_CALL, null);
     }
 
+    /**
+     * Answers the currently-ringing call if existing, otherwise does nothing.
+     *
+     * If there's already a current active call, that call will be
+     * automatically put on hold.  If both lines are currently in use, the
+     * current active call will be ended.
+     */
     public void answerRingingCall() {
         if (DBG) log("answerRingingCall...");
-        // TODO: there should eventually be a separate "ANSWER_PHONE" permission,
-        // but that can probably wait till the big TelephonyManager API overhaul.
-        // For now, protect this call with the MODIFY_PHONE_STATE permission.
-        enforceModifyPermission();
+        enforceManagePermission();
         sendRequestAsync(CMD_ANSWER_RINGING_CALL);
     }
 
+    /**
+     * Dials the given character as a DTMF tone for the current active call. The tone automatically stops after a short time.
+     * while a DTMF tone is in play dial requests are queued.
+     * If the active call ends or gets inactive before the tone could be played, then the request will be canceled.
+     * 
+     * @param c The DTMF character to be send over the network. Valid characters are the the digits 0 to 9, # and *.
+     * @return True in the case the given character is a valid DTMF twelve key character and an active call was found.
+     */
+    public boolean dialDTMFTwelveKeyCharacter(char c) {
+        if (DBG) log("dialDTMFTwelveKeyCharacter...");
+        enforceManagePermission();
+        return (Boolean) sendRequest(CMD_DIAL_DTMF_TWELVEKEY_CHARACTER, new Character(c));    	
+    }
+    
     /**
      * Make the actual telephony calls to implement answerRingingCall().
      * This should only be called from the main thread of the Phone app.
@@ -747,6 +780,15 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         mApp.enforceCallingOrSelfPermission(android.Manifest.permission.MODIFY_PHONE_STATE, null);
     }
 
+    /**
+     * Make sure the caller has the MANAGE_PHONE_CALLS permission.
+     *
+     * @throws SecurityException if the caller does not have the required permission
+     */
+    private void enforceManagePermission() {
+        mApp.enforceCallingOrSelfPermission(android.Manifest.permission.MANAGE_PHONE_CALLS, null);
+    }
+    
     /**
      * Make sure the caller has the CALL_PHONE permission.
      *

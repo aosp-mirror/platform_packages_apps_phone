@@ -1272,7 +1272,7 @@ public class InCallScreen extends Activity
         // keyboard (presumably to type DTMF tones) we start passing the
         // key events to the DTMFDialer's onDialerKeyDown.  We do so
         // only if the okToDialDTMFTones() conditions pass.
-        if (okToDialDTMFTones()) {
+        if (mApp.mDTMFDialer.okToDialDTMFTones()) {
             return mDialer.onDialerKeyDown(event);
 
             // TODO: If the dialpad isn't currently visible, maybe
@@ -2075,7 +2075,7 @@ public class InCallScreen extends Activity
 
             switch (state) {
                 case STARTED:
-                    mDialer.stopLocalToneIfNeeded();
+                    mApp.mDTMFDialer.stopLocalDialerToneIfNeeded();
                     if (mPauseInProgress) {
                         /**
                          * Note that on some devices, this will never happen,
@@ -2084,7 +2084,7 @@ public class InCallScreen extends Activity
                         showPausePromptDialog(c, mPostDialStrAfterPause);
                     }
                     mPauseInProgress = false;
-                    mDialer.startLocalToneIfNeeded(ch);
+                    mApp.mDTMFDialer.startLocalDialerToneIfNeeded(ch);
 
                     // TODO: is this needed, now that you can't actually
                     // type DTMF chars or dial directly from here?
@@ -2096,24 +2096,24 @@ public class InCallScreen extends Activity
                 case WAIT:
                     // wait shows a prompt.
                     if (DBG) log("handlePostOnDialChars: show WAIT prompt...");
-                    mDialer.stopLocalToneIfNeeded();
+                    mApp.mDTMFDialer.stopLocalDialerToneIfNeeded();
                     String postDialStr = c.getRemainingPostDialString();
                     showWaitPromptDialog(c, postDialStr);
                     break;
 
                 case WILD:
                     if (DBG) log("handlePostOnDialChars: show WILD prompt");
-                    mDialer.stopLocalToneIfNeeded();
+                    mApp.mDTMFDialer.stopLocalDialerToneIfNeeded();
                     showWildPromptDialog(c);
                     break;
 
                 case COMPLETE:
-                    mDialer.stopLocalToneIfNeeded();
+                	mApp.mDTMFDialer.stopLocalDialerToneIfNeeded();
                     break;
 
                 case PAUSE:
                     // pauses for a brief period of time then continue dialing.
-                    mDialer.stopLocalToneIfNeeded();
+                	mApp.mDTMFDialer.stopLocalDialerToneIfNeeded();
                     mPostDialStrAfterPause = c.getRemainingPostDialString();
                     mPauseInProgress = true;
                     break;
@@ -3950,35 +3950,6 @@ public class InCallScreen extends Activity
     }
 
     /**
-     * Determines when we can dial DTMF tones.
-     */
-    /* package */ boolean okToDialDTMFTones() {
-        final boolean hasRingingCall = mCM.hasActiveRingingCall();
-        final Call.State fgCallState = mCM.getActiveFgCallState();
-
-        // We're allowed to send DTMF tones when there's an ACTIVE
-        // foreground call, and not when an incoming call is ringing
-        // (since DTMF tones are useless in that state), or if the
-        // Manage Conference UI is visible (since the tab interferes
-        // with the "Back to call" button.)
-
-        // We can also dial while in ALERTING state because there are
-        // some connections that never update to an ACTIVE state (no
-        // indication from the network).
-        boolean canDial =
-            (fgCallState == Call.State.ACTIVE || fgCallState == Call.State.ALERTING)
-            && !hasRingingCall
-            && (mApp.inCallUiState.inCallScreenMode != InCallScreenMode.MANAGE_CONFERENCE);
-
-        if (VDBG) log ("[okToDialDTMFTones] foreground state: " + fgCallState +
-                ", ringing state: " + hasRingingCall +
-                ", call screen mode: " + mApp.inCallUiState.inCallScreenMode +
-                ", result: " + canDial);
-
-        return canDial;
-    }
-
-    /**
      * @return true if the in-call DTMF dialpad should be available to the
      *      user, given the current state of the phone and the in-call UI.
      *      (This is used to control the enabledness of the "Show
@@ -3987,7 +3958,8 @@ public class InCallScreen extends Activity
     /* package */ boolean okToShowDialpad() {
         // Very similar to okToDialDTMFTones(), but allow DIALING here.
         final Call.State fgCallState = mCM.getActiveFgCallState();
-        return okToDialDTMFTones() || (fgCallState == Call.State.DIALING);
+        
+        return mApp.mDTMFDialer.okToDialDTMFTones() || (fgCallState == Call.State.DIALING);
     }
 
     /**
