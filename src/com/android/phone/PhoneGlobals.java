@@ -170,6 +170,7 @@ public class PhoneGlobals extends ContextWrapper
     IBluetoothHeadsetPhone mBluetoothPhone;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
+    DTMFDialer mDTMFDialer;
     int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
     boolean mShowBluetoothIndication = false;
@@ -453,6 +454,8 @@ public class PhoneGlobals extends ContextWrapper
 
             mCM = CallManager.getInstance();
             mCM.registerPhone(phone);
+
+            mDTMFDialer = new DTMFDialer();
 
             // Create the NotificationMgr singleton, which is used to display
             // status bar icons and control other status bar behavior.
