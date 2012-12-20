@@ -17,12 +17,7 @@
 package com.android.phone;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.method.DialerKeyListener;
@@ -47,63 +42,24 @@ import java.util.Queue;
 
 
 /**
- * Dialer class that encapsulates the DTMF twelve key behaviour.
+ * Dialer class that encapsulates the DTMF twelve key view logic.
  * This model backs up the UI behaviour in DTMFTwelveKeyDialerView.java.
+ * For dialing the single instance of DTMFDialer held by PhoneGlobals is used.
  */
 public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyListener,
-        View.OnHoverListener, View.OnClickListener {
+        View.OnHoverListener, View.OnClickListener,
+        DTMFDialer.OnStartDtmfForTwelveKeyCharListener {
     private static final String LOG_TAG = "DTMFTwelveKeyDialer";
     private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
-
-    // events
-    private static final int PHONE_DISCONNECT = 100;
-    private static final int DTMF_SEND_CNF = 101;
 
     /** Accessibility manager instance used to check touch exploration state. */
     private final AccessibilityManager mAccessibilityManager;
 
-    private CallManager mCM;
-    private ToneGenerator mToneGenerator;
-    private final Object mToneGeneratorLock = new Object();
-
-    // indicate if we want to enable the local tone playback.
-    private boolean mLocalToneEnabled;
-
-    // indicates that we are using automatically shortened DTMF tones
-    boolean mShortTone;
-
-    // indicate if the confirmation from TelephonyFW is pending.
-    private boolean mDTMFBurstCnfPending = false;
-
-    // Queue to queue the short dtmf characters.
-    private Queue<Character> mDTMFQueue = new LinkedList<Character>();
-
-    //  Short Dtmf tone duration
-    private static final int DTMF_DURATION_MS = 120;
-
-
-    /** Hash Map to map a character to a tone*/
-    private static final HashMap<Character, Integer> mToneMap =
-        new HashMap<Character, Integer>();
     /** Hash Map to map a view id to a character*/
     private static final HashMap<Integer, Character> mDisplayMap =
         new HashMap<Integer, Character>();
     /** Set up the static maps*/
     static {
-        // Map the key characters to tones
-        mToneMap.put('1', ToneGenerator.TONE_DTMF_1);
-        mToneMap.put('2', ToneGenerator.TONE_DTMF_2);
-        mToneMap.put('3', ToneGenerator.TONE_DTMF_3);
-        mToneMap.put('4', ToneGenerator.TONE_DTMF_4);
-        mToneMap.put('5', ToneGenerator.TONE_DTMF_5);
-        mToneMap.put('6', ToneGenerator.TONE_DTMF_6);
-        mToneMap.put('7', ToneGenerator.TONE_DTMF_7);
-        mToneMap.put('8', ToneGenerator.TONE_DTMF_8);
-        mToneMap.put('9', ToneGenerator.TONE_DTMF_9);
-        mToneMap.put('0', ToneGenerator.TONE_DTMF_0);
-        mToneMap.put('#', ToneGenerator.TONE_DTMF_P);
-        mToneMap.put('*', ToneGenerator.TONE_DTMF_S);
-
         // Map the buttons to the display characters
         mDisplayMap.put(R.id.one, '1');
         mDisplayMap.put(R.id.two, '2');
@@ -220,7 +176,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 // code.
                 if (keyOK) {
                     if (DBG) log("DTMFKeyListener reading '" + c + "' from input.");
-                    processDtmf(c);
+                    processDtmf(c, false /* forceShortTone */);
                 } else if (DBG) {
                     log("DTMFKeyListener rejecting '" + c + "' from input.");
                 }
@@ -267,7 +223,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 // code.
                 if (ok(getAcceptedChars(), c)) {
                     if (DBG) log("DTMFKeyListener reading '" + c + "' from input.");
-                    processDtmf(c);
+                    processDtmf(c, false /* forceShortTone */);
                     return true;
                 } else if (DBG) {
                     log("DTMFKeyListener rejecting '" + c + "' from input.");
@@ -342,31 +298,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     }
 
     /**
-     * Our own handler to take care of the messages from the phone state changes
-     */
-    private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                // disconnect action
-                // make sure to close the dialer on ALL disconnect actions.
-                case PHONE_DISCONNECT:
-                    if (DBG) log("disconnect message recieved, shutting down.");
-                    // unregister since we are closing.
-                    mCM.unregisterForDisconnect(this);
-                    closeDialer(false);
-                    break;
-                case DTMF_SEND_CNF:
-                    if (DBG) log("dtmf confirmation received from FW.");
-                    // handle burst dtmf confirmation
-                    handleBurstDtmfConfirmation();
-                    break;
-            }
-        }
-    };
-
-
-    /**
      * DTMFTwelveKeyDialer constructor with {@link DTMFTwelveKeyDialerView}
      *
      * @param parent the InCallScreen instance that owns us.
@@ -421,9 +352,11 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("DTMFTwelveKeyDialer constructor... this = " + this);
 
         mInCallScreen = parent;
-        mCM = PhoneGlobals.getInstance().mCM;
         mAccessibilityManager = (AccessibilityManager) parent.getSystemService(
                 Context.ACCESSIBILITY_SERVICE);
+
+        // Set this dialer as the current active view for showing dialed DTMF characters
+        PhoneGlobals.getInstance().mDTMFDialer.setOnStartDtmfForTwelveKeyCharListener(this);
     }
 
     /**
@@ -463,11 +396,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         if (DBG) log("clearInCallScreenReference()...");
         mInCallScreen = null;
         mDialerKeyListener = null;
-        mHandler.removeMessages(DTMF_SEND_CNF);
-        synchronized (mDTMFQueue) {
-            mDTMFBurstCnfPending = false;
-            mDTMFQueue.clear();
-        }
         closeDialer(false);
     }
 
@@ -478,13 +406,12 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     private void onDialerOpen(boolean animate) {
         if (DBG) log("onDialerOpen()...");
 
-        // Any time the dialer is open, listen for "disconnect" events (so
-        // we can close ourself.)
-        mCM.registerForDisconnect(mHandler, PHONE_DISCONNECT, null);
-
         // On some devices the screen timeout is set to a special value
         // while the dialpad is up.
         PhoneGlobals.getInstance().updateWakeState();
+
+        // Set this dialer as the current active view for showing dialed DTMF characters
+        PhoneGlobals.getInstance().mDTMFDialer.setOnStartDtmfForTwelveKeyCharListener(this);
 
         // Give the InCallScreen a chance to do any necessary UI updates.
         if (mInCallScreen != null) {
@@ -508,31 +435,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     public void startDialerSession() {
         if (DBG) log("startDialerSession()... this = " + this);
-
-        // see if we need to play local tones.
-        if (PhoneGlobals.getInstance().getResources().getBoolean(R.bool.allow_local_dtmf_tones)) {
-            mLocalToneEnabled = Settings.System.getInt(mInCallScreen.getContentResolver(),
-                    Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
-        } else {
-            mLocalToneEnabled = false;
-        }
-        if (DBG) log("- startDialerSession: mLocalToneEnabled = " + mLocalToneEnabled);
-
-        // create the tone generator
-        // if the mToneGenerator creation fails, just continue without it.  It is
-        // a local audio signal, and is not as important as the dtmf tone itself.
-        if (mLocalToneEnabled) {
-            synchronized (mToneGeneratorLock) {
-                if (mToneGenerator == null) {
-                    try {
-                        mToneGenerator = new ToneGenerator(AudioManager.STREAM_DTMF, 80);
-                    } catch (RuntimeException e) {
-                        if (DBG) log("Exception caught while creating local tone generator: " + e);
-                        mToneGenerator = null;
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -546,13 +448,27 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         PhoneGlobals app = PhoneGlobals.getInstance();
         app.updateWakeState();
 
-        mCM.unregisterForDisconnect(mHandler);
-
         // Give the InCallScreen a chance to do any necessary UI updates.
         if (mInCallScreen != null) {
             mInCallScreen.onDialerClose(animate);
         } else {
             Log.e(LOG_TAG, "InCallScreen object was null during onDialerClose()");
+        }
+    }
+
+    @Override
+    public void onStartDtmfForTwelveKeyChar(char c) {
+        if (mDialpadDigits != null) {
+            // TODO: maybe *don't* manually append this digit if
+            // mDialpadDigits is focused and this key came from the HW
+            // keyboard, since in that case the EditText field will
+            // get the key event directly and automatically appends
+            // whetever the user types.
+            // (Or, a cleaner fix would be to just make mDialpadDigits
+            // *not* handle HW key presses.  That seems to be more
+            // complicated than just setting focusable="false" on it,
+            // though.)
+            mDialpadDigits.getText().append(c);
         }
     }
 
@@ -564,13 +480,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * startDialerSession call.
      */
     public void stopDialerSession() {
-        // release the tone generator.
-        synchronized (mToneGeneratorLock) {
-            if (mToneGenerator != null) {
-                mToneGenerator.release();
-                mToneGenerator = null;
-            }
-        }
     }
 
     /**
@@ -699,7 +608,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 case MotionEvent.ACTION_DOWN:
                     // Append the character mapped to this button, to the display.
                     // start the tone
-                    processDtmf(mDisplayMap.get(viewId));
+                    processDtmf(mDisplayMap.get(viewId), false /* forceShortTone */);
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -726,7 +635,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
                 switch (event.getAction()) {
                 case KeyEvent.ACTION_DOWN:
                     if (event.getRepeatCount() == 0) {
-                        processDtmf(mDisplayMap.get(viewId));
+                        processDtmf(mDisplayMap.get(viewId), false /* forceShortTone */);
                     }
                     break;
                 case KeyEvent.ACTION_UP:
@@ -826,53 +735,6 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
         }
     }
 
-    /**
-     * Processes the specified digit as a DTMF key, by playing the
-     * appropriate DTMF tone, and appending the digit to the EditText
-     * field that displays the DTMF digits sent so far.
-     *
-     * @see #processDtmf(char, boolean)
-     */
-    private final void processDtmf(char c) {
-        processDtmf(c, false);
-    }
-
-    /**
-     * Processes the specified digit as a DTMF key, by playing the appropriate
-     * DTMF tone (or short tone if requested), and appending the digit to the
-     * EditText field that displays the DTMF digits sent so far.
-     */
-    private final void processDtmf(char c, boolean forceShortTone) {
-        // if it is a valid key, then update the display and send the dtmf tone.
-        if (PhoneNumberUtils.is12Key(c)) {
-            if (DBG) log("updating display and sending dtmf tone for '" + c + "'");
-
-            // Append this key to the "digits" widget.
-            if (mDialpadDigits != null) {
-                // TODO: maybe *don't* manually append this digit if
-                // mDialpadDigits is focused and this key came from the HW
-                // keyboard, since in that case the EditText field will
-                // get the key event directly and automatically appends
-                // whetever the user types.
-                // (Or, a cleaner fix would be to just make mDialpadDigits
-                // *not* handle HW key presses.  That seems to be more
-                // complicated than just setting focusable="false" on it,
-                // though.)
-                mDialpadDigits.getText().append(c);
-            }
-
-            // Play the tone if it exists.
-            if (mToneMap.containsKey(c)) {
-                // begin tone playback.
-                startTone(c, forceShortTone);
-            }
-        } else if (DBG) {
-            log("ignoring dtmf request for '" + c + "'");
-        }
-
-        // Any DTMF keypress counts as explicit "user activity".
-        PhoneGlobals.getInstance().pokeUserActivity();
-    }
 
     /**
      * Clears out the display of "DTMF digits typed so far" that's kept in
@@ -933,73 +795,28 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     }
 
     /**
-     * Plays the local tone based the phone type.
-     */
-    public void startTone(char c, boolean forceShortTone) {
-        // Only play the tone if it exists.
-        if (!mToneMap.containsKey(c)) {
-            return;
-        }
-
-        if (!mInCallScreen.okToDialDTMFTones()) {
-            return;
-        }
-
-        // Read the settings as it may be changed by the user during the call
-        Phone phone = mCM.getFgPhone();
-        mShortTone = PhoneUtils.useShortDtmfTones(phone, phone.getContext());
-
-        if (DBG) log("startDtmfTone()...");
-
-        // For Short DTMF we need to play the local tone for fixed duration
-        if (forceShortTone || mShortTone) {
-            sendShortDtmfToNetwork(c);
-        } else {
-            // Pass as a char to be sent to network
-            if (DBG) log("send long dtmf for " + c);
-            mCM.startDtmf(c);
-        }
-        startLocalToneIfNeeded(c, forceShortTone);
-    }
-
-    /**
-     * Plays the local tone based the phone type.
-     */
-    public void startLocalToneIfNeeded(char c) {
-        startLocalToneIfNeeded(c, false);
-    }
-
-    /**
-     * Plays the local tone based the phone type, optionally forcing a short
-     * tone.
-     */
-    private void startLocalToneIfNeeded(char c, boolean forceShortTone) {
-        // if local tone playback is enabled, start it.
-        // Only play the tone if it exists.
-        if (!mToneMap.containsKey(c)) {
-            return;
-        }
-        if (mLocalToneEnabled) {
-            synchronized (mToneGeneratorLock) {
-                if (mToneGenerator == null) {
-                    if (DBG) log("startDtmfTone: mToneGenerator == null, tone: " + c);
-                } else {
-                    if (DBG) log("starting local tone " + c);
-                    int toneDuration = -1;
-                    if (forceShortTone || mShortTone) {
-                        toneDuration = DTMF_DURATION_MS;
-                    }
-                    mToneGenerator.startTone(mToneMap.get(c), toneDuration);
-                }
-            }
-        }
-    }
-
-    /**
      * Check to see if the keyEvent is dialable.
      */
     boolean isKeyEventAcceptable (KeyEvent event) {
         return (mDialerKeyListener != null && mDialerKeyListener.isKeyEventAcceptable(event));
+    }
+
+    private final void stopTone() {
+        PhoneGlobals.getInstance().mDTMFDialer.stopDtmfForTwelveKeyChar();
+    }
+
+    /**
+     * Processes the specified digit as a DTMF key, by playing the
+     * appropriate DTMF tone, and appending the digit to the EditText
+     * field that displays the DTMF digits sent so far.
+     *
+     * @see #processDtmf(char, boolean)
+     */
+    private final void processDtmf(char c, boolean forceShortTone) {
+        if (forceShortTone)
+            PhoneGlobals.getInstance().mDTMFDialer.playDtmfForTwelveKeyChar(c);
+        else
+            PhoneGlobals.getInstance().mDTMFDialer.startDtmfForTwelveKeyChar(c);
     }
 
     /**
@@ -1007,76 +824,5 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      */
     private static void log(String msg) {
         Log.d(LOG_TAG, msg);
-    }
-
-    /**
-     * Stops the local tone based on the phone type.
-     */
-    public void stopTone() {
-        // We do not rely on InCallScreen#okToDialDTMFTones() here since it is ok to stop tones
-        // without starting them.
-
-        if (!mShortTone) {
-            if (DBG) log("stopping remote tone.");
-            mCM.stopDtmf();
-            stopLocalToneIfNeeded();
-        }
-    }
-
-    /**
-     * Stops the local tone based on the phone type.
-     */
-    public void stopLocalToneIfNeeded() {
-        if (!mShortTone) {
-            if (DBG) log("stopping remote tone.");
-            // if local tone playback is enabled, stop it.
-            if (DBG) log("trying to stop local tone...");
-            if (mLocalToneEnabled) {
-                synchronized (mToneGeneratorLock) {
-                    if (mToneGenerator == null) {
-                        if (DBG) log("stopLocalTone: mToneGenerator == null");
-                    } else {
-                        if (DBG) log("stopping local tone.");
-                        mToneGenerator.stopTone();
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Sends the dtmf character over the network for short DTMF settings
-     * When the characters are entered in quick succession,
-     * the characters are queued before sending over the network.
-     */
-    private void sendShortDtmfToNetwork(char dtmfDigit) {
-        synchronized (mDTMFQueue) {
-            if (mDTMFBurstCnfPending == true) {
-                // Insert the dtmf char to the queue
-                mDTMFQueue.add(new Character(dtmfDigit));
-            } else {
-                String dtmfStr = Character.toString(dtmfDigit);
-                mCM.sendBurstDtmf(dtmfStr, 0, 0, mHandler.obtainMessage(DTMF_SEND_CNF));
-                // Set flag to indicate wait for Telephony confirmation.
-                mDTMFBurstCnfPending = true;
-            }
-        }
-    }
-
-    /**
-     * Handles Burst Dtmf Confirmation from the Framework.
-     */
-    void handleBurstDtmfConfirmation() {
-        Character dtmfChar = null;
-        synchronized (mDTMFQueue) {
-            mDTMFBurstCnfPending = false;
-            if (!mDTMFQueue.isEmpty()) {
-                dtmfChar = mDTMFQueue.remove();
-                Log.i(LOG_TAG, "The dtmf character removed from queue" + dtmfChar);
-            }
-        }
-        if (dtmfChar != null) {
-            sendShortDtmfToNetwork(dtmfChar);
-        }
     }
 }
