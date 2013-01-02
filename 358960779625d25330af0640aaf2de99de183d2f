@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NfqRzQnM",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-02T22:56:18Z",
+      "side": 1,
+      "message": "Super nit, please change to \"one\" as this is a pronoun not a number (see: https://www.google.com/search?q\u003ddefine+one, I read it and knew it was wrong but had had to look it up to know why).",
+      "revId": "358960779625d25330af0640aaf2de99de183d2f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
