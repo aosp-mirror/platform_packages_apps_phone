@@ -16,6 +16,24 @@
       "revId": "358960779625d25330af0640aaf2de99de183d2f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NgOKwBv4",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003902
+      },
+      "writtenOn": "2013-01-02T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NfqRzQnM",
+      "revId": "358960779625d25330af0640aaf2de99de183d2f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
