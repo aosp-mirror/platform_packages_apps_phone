@@ -352,7 +352,7 @@
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Leyendo la tarjeta SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"No hay contactos en tu tarjeta SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleccionar contactos para importar"</string>
-    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Para importar contactos de la tarjeta SIM, desactiva primero el modo de avión."</string>
+    <string name="simContacts_airplaneMode" msgid="1846161429087789936">"Para importar contactos de la tarjeta SIM, desactiva primero el modo avión."</string>
     <string name="enable_pin" msgid="5422767284133234860">"Activar/desactivar PIN de tarjeta SIM"</string>
     <string name="change_pin" msgid="9174186126330785343">"Cambiar PIN de tarjeta SIM"</string>
     <string name="enter_pin_text" msgid="8532615714751931951">"PIN de tarjeta SIM:"</string>
@@ -412,7 +412,7 @@
     <string name="notification_action_end_call" msgid="6069460915123531620">"Colgar"</string>
     <string name="notification_missedCall_call_back" msgid="2684890353590890187">"Devolver llamada"</string>
     <string name="notification_missedCall_message" msgid="3049928912736917988">"Mensaje"</string>
-    <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero debes desactivar el modo de avión."</string>
+    <string name="incall_error_power_off" msgid="6550191216405193368">"Para realizar una llamada, primero debes desactivar el modo avión."</string>
     <string name="incall_error_emergency_only" msgid="4678640422710818317">"No registrado en la red."</string>
     <string name="incall_error_out_of_service" msgid="8587993036435080418">"La red móvil no está disponible."</string>
     <string name="incall_error_no_phone_number_supplied" msgid="4197432103471807739">"Llamada no enviada. No se ingresó un número válido."</string>
