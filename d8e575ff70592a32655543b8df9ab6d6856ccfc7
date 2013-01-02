@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NeigUi6s",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-02T21:23:47Z",
+      "side": 1,
+      "message": "I don\u0027t like using \"\u003c\" \"\u003e\" comparisons as the order could change.",
+      "revId": "d8e575ff70592a32655543b8df9ab6d6856ccfc7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
