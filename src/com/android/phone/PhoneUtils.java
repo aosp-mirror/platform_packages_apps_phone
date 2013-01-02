@@ -721,6 +721,11 @@ public class PhoneUtils {
     }
 
     private static String toLogSafePhoneNumber(String number) {
+        // For unknown number, log empty string.
+        if (number == null) {
+            return "";
+        }
+
         if (VDBG) {
             // When VDBG is true we emit PII.
             return number;
