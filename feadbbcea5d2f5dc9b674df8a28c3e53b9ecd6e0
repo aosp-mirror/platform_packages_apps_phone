@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NpG2TobI",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-03T22:53:11Z",
+      "side": 1,
+      "message": "Not used?",
+      "revId": "feadbbcea5d2f5dc9b674df8a28c3e53b9ecd6e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
