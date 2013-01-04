@@ -16,6 +16,24 @@
       "revId": "583ba1595c5acefb36d5a179a48730806542392a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NpNn7lAU",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-04T15:58:50Z",
+      "side": 1,
+      "message": "Its a convention I like as logging is blend in better and changes to it are possible, such as directing output to a different buffer or adding some additional information to all messages.",
+      "parentUuid": "NrbgvtT4",
+      "revId": "583ba1595c5acefb36d5a179a48730806542392a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
