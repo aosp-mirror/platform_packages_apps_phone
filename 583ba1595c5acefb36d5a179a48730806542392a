@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NrbgvtT4",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-04T00:58:11Z",
+      "side": 1,
+      "message": "This is used only once, does it really worth to have a separate method?",
+      "revId": "583ba1595c5acefb36d5a179a48730806542392a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
