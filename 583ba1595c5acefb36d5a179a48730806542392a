@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "NpLmnqA0",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-04T16:21:11Z",
+      "side": 1,
+      "message": "This option is being displayed on Toro/PrimeC instead of \"LTE/CDMA\" as it is without this change. It is confusing to see this in the \"Mobile network setting -\u003e Network Mode\" menu option and then see \"LTE/CDMA\" and \"CDMA\" on the dialog box. This is because of the \"preferred_network_mode_values_lte\" at line 410 below.\n\nI\u0027m wondering if this should simplified from the user perspective and if they should just be given a choice of 4g/3g/2g/1g ?",
+      "revId": "583ba1595c5acefb36d5a179a48730806542392a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NrbgvtT4",
         "filename": "src/com/android/phone/MobileNetworkSettings.java",
         "patchSetId": 6
