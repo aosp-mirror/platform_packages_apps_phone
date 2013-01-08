@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "N7z8ZgpA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-08T16:23:26Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "685740d2888ab6ee11509d356e9a1121e604ab0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
