@@ -16,6 +16,24 @@
       "revId": "685740d2888ab6ee11509d356e9a1121e604ab0e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N7h0lt14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017978
+      },
+      "writtenOn": "2013-01-08T17:48:31Z",
+      "side": 1,
+      "message": "We have developed an app which runs as background service on Android phones. \nThe service can be connected via Bluetooth or WIFI with a desktop client. \nFrom the desktop client we manage starting and answering calls. In conjunction \nwith a Bluetooth headset this is really great. You can leave the phone in a \ndocking station while you can dial numbers from your desktop computer for \nexample from mail clients without the need to type the number into your phone. \nWe are on the market for more than a year now and we have great customer\nfeedback (look for justremotephone on Google and follow the Goolge Play result).\nOne of the main feature requests of our customers is dialing DTMF tones from \nthe desktop for active calls. \nAnother main problem is, that there are no public functions for ending and\naccepting calls. We use none public API functions or workarounds for doing this. \nThis stops us in investigating further in our app because we could not be sure,\nthat this hidden API functions or workarounds break in a future releases of\nAndroid. Indeed, we had troubles in the past. Some needed permissions are marked\nas system internal in the meanwhile. (I think it was MODIFY_PHONE. System \ninternal is relay ok for that permission but it is wrongly used as permission \nfor the so far none public function answerRingingCall). We have looked for a \n#proper existing permission for our needed public API functions but we have not \nfound the right one. Currently, in the nonpublic function answerRingingCall \nthere exists a TODO comment for the possible need of an own ANSWER_CALL \npermission. The current endCall implementation need the CALL_PHONE permission…. \n\nTherefore, before this functions can be made public, we need proper permissions. \n\nI think a new permission MANAGE_PHONE_CALLS could also be used for further\nmissing public functions for managing active calls like conference calls,\nholding, switching...\nI know, that permission design need to be done from a global point of view. So \nif you have any successions for the correct permissions I would change my patch\nfor the needed permissions.",
+      "parentUuid": "N7z8ZgpA",
+      "revId": "685740d2888ab6ee11509d356e9a1121e604ab0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
