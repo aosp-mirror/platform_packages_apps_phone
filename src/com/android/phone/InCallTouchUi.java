@@ -1164,6 +1164,10 @@ public class InCallTouchUi extends FrameLayout
         ViewPropertyAnimator animator = mIncomingCallWidget.animate();
         if (animator != null) {
             animator.cancel();
+            // If animation is cancelled before it's running,
+            // onAnimationCancel will not be called and mIncomingCallWidgetIsFadingOut
+            // will be alway true. hideIncomingCallWidget() will not be excuted in this case.
+            mIncomingCallWidgetIsFadingOut = false;
         }
         mIncomingCallWidget.setAlpha(1.0f);
 
