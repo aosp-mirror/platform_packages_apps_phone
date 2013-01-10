@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "N.xveq9g",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003902
+      },
+      "writtenOn": "2013-01-10T00:09:23Z",
+      "side": 1,
+      "message": "This corresponds to network mode 7. Which is defined in ril.h as PREF_NET_TYPE_GSM_WCDMA_CDMA_EVDO_AUTO \u003d 7, /* GSM/WCDMA, CDMA, and EvDo (auto mode, according to PRL) */\n\nNotice absence of LTE in this list.\n\nSo there are 2 bugs in Toro:\n 1) Toro\u0027s UI uses network mode 7 for cdma/lte\n 2) Toro\u0027s RIL treats network mode 7 as cdma/lte and when such mode is selected lets it camp on LTE (violating what ril.h mandates)\n\nThis change fixes the UI. (non-toro RILs/modems correctly tread network mode 7 according to ril.h as non-lte mode)\nI see 2 solutions:\n1) Change ril.h to have network mode 7 say \"CDMA/EVDO/LTE\" and network mode 8 say \"cdma/evdo/gsm/wcdma\" and consequently rework this change to follow new ril.h\n2) Fix toro\u0027s RIL and use this change as is.",
+      "parentUuid": "NpLmnqA0",
+      "revId": "583ba1595c5acefb36d5a179a48730806542392a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NrbgvtT4",
         "filename": "src/com/android/phone/MobileNetworkSettings.java",
         "patchSetId": 6
