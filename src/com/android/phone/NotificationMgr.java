@@ -1274,9 +1274,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationText)
                     .setContentIntent(pendingIntent)
-                    .setSound(ringtoneUri)
-                    .setAutoCancel(true)
-                    .setDeleteIntent(createClearMWIIntent());
+                    .setSound(ringtoneUri);
             Notification notification = builder.getNotification();
 
             CallFeaturesSetting.migrateVoicemailVibrationSettingsIfNeeded(prefs);
@@ -1285,21 +1283,12 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
+            notification.flags |= Notification.FLAG_NO_CLEAR;
             configureLedNotification(notification);
             mNotificationManager.notify(VOICEMAIL_NOTIFICATION, notification);
         } else {
             mNotificationManager.cancel(VOICEMAIL_NOTIFICATION);
         }
-    }
-
-    private PendingIntent createClearMWIIntent() {
-        Intent intent = new Intent(mContext, ClearMWIService.class);
-        intent.setAction(ClearMWIService.ACTION_CLEAR_VOICEMAILS);
-        return PendingIntent.getService(mContext, 0, intent, 0);
-    }
-
-    void cancelMWINotification() {
-        updateMwi(false);
     }
 
     /**
