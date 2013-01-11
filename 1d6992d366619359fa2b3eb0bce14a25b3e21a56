@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ODNmGlx8",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003902
+      },
+      "writtenOn": "2013-01-11T20:06:51Z",
+      "side": 1,
+      "message": "make as it was in ps5.",
+      "revId": "1d6992d366619359fa2b3eb0bce14a25b3e21a56",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
