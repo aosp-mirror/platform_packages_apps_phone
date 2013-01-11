@@ -16,6 +16,23 @@
       "revId": "1d6992d366619359fa2b3eb0bce14a25b3e21a56",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ODrf6wps",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-11T20:06:56Z",
+      "side": 1,
+      "message": "Please use a switch and not rely on the numeric values.",
+      "revId": "1d6992d366619359fa2b3eb0bce14a25b3e21a56",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
