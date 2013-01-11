@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "N.xPyD2M",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003902
+      },
+      "writtenOn": "2013-01-11T01:00:00Z",
+      "side": 1,
+      "message": "Done. Added overlay for toro to keep its behavior.\nhttps://android-review.googlesource.com/#/c/49483/",
+      "parentUuid": "N.xveq9g",
+      "revId": "583ba1595c5acefb36d5a179a48730806542392a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NrbgvtT4",
         "filename": "src/com/android/phone/MobileNetworkSettings.java",
         "patchSetId": 6
