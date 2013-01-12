@@ -33,6 +33,24 @@
       "revId": "1d6992d366619359fa2b3eb0bce14a25b3e21a56",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ODB9876o",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003902
+      },
+      "writtenOn": "2013-01-12T00:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ODrf6wps",
+      "revId": "1d6992d366619359fa2b3eb0bce14a25b3e21a56",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
