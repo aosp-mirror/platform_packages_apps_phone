@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.ThrottleManager;
 import android.net.Uri;
 import android.os.AsyncResult;
 import android.os.Bundle;
@@ -66,7 +65,6 @@ public class MobileNetworkSettings extends PreferenceActivity
 
     //String keys for preference lookup
     private static final String BUTTON_DATA_ENABLED_KEY = "button_data_enabled_key";
-    private static final String BUTTON_DATA_USAGE_KEY = "button_data_usage_key";
     private static final String BUTTON_PREFERED_NETWORK_MODE = "preferred_network_mode_key";
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
     private static final String BUTTON_CDMA_LTE_DATA_SERVICE_KEY = "cdma_lte_data_service_key";
@@ -84,8 +82,6 @@ public class MobileNetworkSettings extends PreferenceActivity
     private CheckBoxPreference mButtonDataEnabled;
     private Preference mLteDataServicePref;
 
-    private Preference mButtonDataUsage;
-    private DataUsageListener mDataUsageListener;
     private static final String iface = "rmnet0"; //TODO: this will go away
 
     private Phone mPhone;
@@ -219,7 +215,6 @@ public class MobileNetworkSettings extends PreferenceActivity
         mButtonDataRoam = (CheckBoxPreference) prefSet.findPreference(BUTTON_ROAMING_KEY);
         mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_NETWORK_MODE);
-        mButtonDataUsage = prefSet.findPreference(BUTTON_DATA_USAGE_KEY);
         mLteDataServicePref = prefSet.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
 
         boolean isLteOnCdma = mPhone.getLteOnCdmaMode() == PhoneConstants.LTE_ON_CDMA_TRUE;
@@ -272,9 +267,6 @@ public class MobileNetworkSettings extends PreferenceActivity
             android.util.Log.d(LOG_TAG, "keep ltePref");
         }
 
-        ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
-        mDataUsageListener = new DataUsageListener(this, mButtonDataUsage, prefSet);
-
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             // android.R.id.home will be triggered in onOptionsItemSelected()
@@ -303,13 +295,11 @@ public class MobileNetworkSettings extends PreferenceActivity
             mPhone.getPreferredNetworkType(mHandler.obtainMessage(
                     MyHandler.MESSAGE_GET_PREFERRED_NETWORK_TYPE));
         }
-        mDataUsageListener.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mDataUsageListener.pause();
     }
 
     /**

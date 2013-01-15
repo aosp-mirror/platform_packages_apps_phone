@@ -407,15 +407,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Data usage and throttling setting for ThrottleService in framework. -->
-        <activity android:name="DataUsage"
-                android:label="@string/throttle_data_usage"
-                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
         <!-- data roaming setting -->
         <activity android:name="RoamingSetting"
                 android:label="@string/roaming"
