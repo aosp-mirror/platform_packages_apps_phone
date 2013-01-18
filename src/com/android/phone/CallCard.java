@@ -1309,6 +1309,14 @@ public class CallCard extends LinearLayout
             displayName = PhoneUtils.getPresentationString(getContext(), presentation);
         }
 
+        // TODO: Revisit/cleanup following code when underlying telephony issue
+        // is fixed (b/7705977).
+        //
+        // Following logic was added to prevent screen flicker caused by receiving
+        // a momentary disconnect with only a stripped phone number (the phone
+        // would quickly flip between full caller info, stripped phone number, and
+        // back to full caller info). Note this only prevents the name/number/label
+        // fields from flickering--the phone state field will still briefly flicker.
         boolean updateNameAndNumber = true;
         // If the new info is just a phone number, check to make sure it's not less
         // information than what's already being displayed.
@@ -1339,14 +1347,14 @@ public class CallCard extends LinearLayout
             }
             mName.setVisibility(View.VISIBLE);
 
-            if (displayNumber != null && !call.isGeneric()) {
+            if (!TextUtils.isEmpty(displayNumber) && !call.isGeneric()) {
                 mPhoneNumber.setText(displayNumber);
                 mPhoneNumber.setVisibility(View.VISIBLE);
             } else {
                 mPhoneNumber.setVisibility(View.GONE);
             }
 
-            if (label != null && !call.isGeneric()) {
+            if (!TextUtils.isEmpty(label) && !call.isGeneric()) {
                 mLabel.setText(label);
                 mLabel.setVisibility(View.VISIBLE);
             } else {
