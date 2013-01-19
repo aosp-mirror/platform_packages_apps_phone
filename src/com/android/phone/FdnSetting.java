@@ -243,16 +243,23 @@ public class FdnSetting extends PreferenceActivity
                 // a toast, or just update the UI.
                 case EVENT_PIN2_ENTRY_COMPLETE: {
                         AsyncResult ar = (AsyncResult) msg.obj;
-                        if (ar.exception != null) {
+                        if (ar.exception != null && ar.exception instanceof CommandException) {
                             // see if PUK2 is requested and alert the user accordingly.
-                            CommandException ce = (CommandException) ar.exception;
-                            if (ce.getCommandError() == CommandException.Error.SIM_PUK2) {
-                                // make sure we set the PUK2 state so that we can skip
-                                // some redundant behaviour.
-                                displayMessage(R.string.fdn_enable_puk2_requested);
-                                resetPinChangeStateForPUK2();
-                            } else {
-                                displayMessage(R.string.pin2_invalid);
+                            CommandException.Error e =
+                                    ((CommandException) ar.exception).getCommandError();
+                            switch (e) {
+                                case SIM_PUK2:
+                                    // make sure we set the PUK2 state so that we can skip
+                                    // some redundant behaviour.
+                                    displayMessage(R.string.fdn_enable_puk2_requested);
+                                    resetPinChangeStateForPUK2();
+                                    break;
+                                case PASSWORD_INCORRECT:
+                                    displayMessage(R.string.pin2_invalid);
+                                    break;
+                                default:
+                                    displayMessage(R.string.fdn_failed);
+                                    break;
                             }
                         }
                         updateEnableFDN();
@@ -292,8 +299,13 @@ public class FdnSetting extends PreferenceActivity
                                 }
                             }
                         } else {
+                            if (mPinChangeState == PIN_CHANGE_PUK) {
+                                displayMessage(R.string.pin2_unblocked);
+                            } else {
+                                displayMessage(R.string.pin2_changed);
+                            }
+
                             // reset to normal behaviour on successful change.
-                            displayMessage(R.string.pin2_changed);
                             resetPinChangeState();
                         }
                     }
@@ -316,8 +328,17 @@ public class FdnSetting extends PreferenceActivity
      * Display a toast for message, like the rest of the settings.
      */
     private final void displayMessage(int strId) {
-        Toast.makeText(this, getString(strId), Toast.LENGTH_SHORT)
-            .show();
+        String msg = getString(strId);
+        if ((strId == R.string.badPin2) || (strId == R.string.badPuk2) ||
+                (strId == R.string.pin2_invalid)) {
+            int attemptsRemaining = mPhone.getIccCard().getIccPin2RetryCount();
+            if (attemptsRemaining >= 0) {
+                msg = getString(strId) + getString(R.string.pin2_attempts) + attemptsRemaining;
+            }
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).
+                show();
+
     }
 
     /**
