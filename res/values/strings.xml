@@ -686,6 +686,8 @@
          cause of the failure.
          [CHAR LIMIT=NONE] -->
     <string name="pin2_or_fdn_invalid">FDN wasn\'t updated. The PIN2 was incorrect, or the phone number was rejected.</string>
+    <!-- FDN settings: error message displayed in a popup (toast) -->
+    <string name="fdn_failed">FDN operation failed.</string>
 
     <!-- ADN related strings -->
     <!-- Placeholder text displayed while loading the list of SIM contacts -->
@@ -732,7 +734,7 @@
     <!-- SIM PIN screen: status message displayed in a popup (toast) -->
     <string name="pin_changed">SIM PIN changed successfully.</string>
     <!-- SIM PIN screen: error message displayed in a dialog -->
-    <string name="puk_requested">Password incorrect, SIM is locked! PUK2 requested.</string>
+    <string name="puk_requested">Password incorrect, PIN Blocked! PUK requested.</string>
 
     <!-- SIM PIN2 strings -->
     <!-- SIM PIN2 screen: label for PIN entry widget -->
@@ -758,9 +760,15 @@
     <!-- SIM PIN2 screen: label for PUK2 entry widget -->
     <string name="label_puk2_code">Type PUK2 code</string>
     <!-- SIM PIN2 screen: error message displayed in a dialog -->
-    <string name="fdn_enable_puk2_requested">Password incorrect. Change PIN2 and retry.</string>
+    <string name="fdn_enable_puk2_requested">Password incorrect, PIN2 Blocked. Please change PIN2 and retry!</string>
     <!-- SIM PIN2 screen: error message displayed in a dialog -->
     <string name="puk2_requested">Password incorrect, SIM is locked. PUK2 requested.</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="puk2_blocked">PUK2 is permanently blocked.</string>
+    <!-- SIM PIN2 screen: error message -->
+    <string name="pin2_attempts">\nAttempts Remaining :</string>
+    <!-- SIM PIN screen: status message displayed in a popup (toast) -->
+    <string name="pin2_unblocked">PIN2 Unblocked!</string>
 
     <!-- SIM PIN screen: button label -->
     <string name="doneButton">Done</string>

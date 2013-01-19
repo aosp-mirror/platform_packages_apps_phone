@@ -47,6 +47,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneFactory;
+
 /**
  * Activity to let the user add or edit an FDN contact.
  */
@@ -377,9 +380,15 @@ public class EditFdnContactScreen extends Activity {
             if (invalidNumber) {
                 showStatus(getResources().getText(R.string.fdn_invalid_number));
             } else {
-                // There's no way to know whether the failure is due to incorrect PIN2 or
-                // an inappropriate phone number.
-                showStatus(getResources().getText(R.string.pin2_or_fdn_invalid));
+               if (PhoneFactory.getDefaultPhone().getIccCard().getIccPin2Blocked()) {
+                    showStatus(getResources().getText(R.string.fdn_enable_puk2_requested));
+                } else if (PhoneFactory.getDefaultPhone().getIccCard().getIccPuk2Blocked()) {
+                    showStatus(getResources().getText(R.string.puk2_blocked));
+                } else {
+                    // There's no way to know whether the failure is due to incorrect PIN2 or
+                    // an inappropriate phone number.
+                    showStatus(getResources().getText(R.string.pin2_or_fdn_invalid));
+                }
             }
         }
 
