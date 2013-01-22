@@ -31,10 +31,7 @@ import android.net.sip.SipAudioCall;
 import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
-import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
-import android.util.Log;
-
+import android.telephony.Rlog;
 import java.util.List;
 
 /**
@@ -42,6 +39,7 @@ import java.util.List;
  */
 public class SipBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = SipBroadcastReceiver.class.getSimpleName();
+    private static final boolean DBG = true;
     private SipSharedPreferences mSipSharedPreferences;
 
     @Override
@@ -49,7 +47,7 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
 
         if (!PhoneUtils.isVoipSupported()) {
-            Log.v(TAG, "SIP VOIP not supported: " + action);
+            if (DBG) log("SIP VOIP not supported: " + action);
             return;
         }
         mSipSharedPreferences = new SipSharedPreferences(context);
@@ -62,18 +60,18 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
             if (phone != null) {
                 CallManager.getInstance().registerPhone(phone);
             }
-            Log.d(TAG, "new phone: " + localSipUri + " #phones="
+            if (DBG) log("onReceive: add phone" + localSipUri + " #phones="
                     + CallManager.getInstance().getAllPhones().size());
         } else if (action.equals(SipManager.ACTION_SIP_REMOVE_PHONE)) {
             String localSipUri = intent.getStringExtra(SipManager.EXTRA_LOCAL_URI);
             removeSipPhone(localSipUri);
-            Log.d(TAG, "removed phone: " + localSipUri + " #phones="
+            if (DBG) log("onReceive: remove phone: " + localSipUri + " #phones="
                     + CallManager.getInstance().getAllPhones().size());
         } else if (action.equals(SipManager.ACTION_SIP_SERVICE_UP)) {
-            Log.v(TAG, "start auto registration");
+            if (DBG) log("onReceive: start auto registration");
             registerAllProfiles();
         } else {
-            Log.v(TAG, "action not processed: " + action);
+            if (DBG) log("onReceive: action not processed: " + action);
             return;
         }
     }
@@ -82,12 +80,12 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
         for (Phone phone : CallManager.getInstance().getAllPhones()) {
             if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_SIP) {
                 if (((SipPhone) phone).getSipUri().equals(sipUri)) {
-                    CallManager.getInstance().unregisterPhone((SipPhone)phone);
+                    CallManager.getInstance().unregisterPhone(phone);
                     return;
                 }
             }
         }
-        Log.v(TAG, "Remove phone failed:cannot find phone with uri " + sipUri);
+        if (DBG) log("RemoveSipPhone: failed:cannot find phone with uri " + sipUri);
     }
 
     private void takeCall(Intent intent) {
@@ -97,18 +95,22 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                     .takeAudioCall(intent, null);
             for (Phone phone : CallManager.getInstance().getAllPhones()) {
                 if (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_SIP) {
-                   if (((SipPhone) phone).canTake(sipAudioCall)) return;
+                   if (((SipPhone) phone).canTake(sipAudioCall)) {
+                       if (DBG) log("takeCall: SIP call: " + intent);
+                       return;
+                   }
                 }
             }
-            Log.v(TAG, "drop SIP call: " + intent);
+            if (DBG) log("takeCall: not taken, drop SIP call: " + intent);
         } catch (SipException e) {
-            Log.e(TAG, "process incoming SIP call", e);
+            loge("takeCall: error incoming SIP call", e);
         }
     }
 
     private void registerAllProfiles() {
         final Context context = PhoneGlobals.getInstance();
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 SipManager sipManager = SipManager.newInstance(context);
                 SipProfileDb profileDb = new SipProfileDb(context);
@@ -124,11 +126,20 @@ public class SipBroadcastReceiver extends BroadcastReceiver {
                         sipManager.open(profile,
                                 SipUtil.createIncomingCallPendingIntent(),
                                 null);
+                        if (DBG) log("registerAllProfiles: profile=" + profile);
                     } catch (SipException e) {
-                        Log.e(TAG, "failed" + profile.getProfileName(), e);
+                        loge("registerAllProfiles: failed" + profile.getProfileName(), e);
                     }
                 }
             }}
         ).start();
+    }
+
+    private void log(String s) {
+        Rlog.d(TAG, s);
+    }
+
+    private void loge(String s, Throwable t) {
+        Rlog.e(TAG, s, t);
     }
 }
