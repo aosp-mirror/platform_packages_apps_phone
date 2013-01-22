@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "OoIJ..qA",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-22T05:05:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OoAJy6tk",
+      "revId": "76a26d4bbf69118b0e70fb108089afadf113b6b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoGKBdp8",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-22T05:05:55Z",
+      "side": 1,
+      "message": "Sorry, I actually wanted to comment here, not the line above.",
+      "revId": "76a26d4bbf69118b0e70fb108089afadf113b6b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OoOJspgI",
         "filename": "src/com/android/phone/NetworkSetting.java",
         "patchSetId": 2
