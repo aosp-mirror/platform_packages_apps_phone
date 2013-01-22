@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoEKtUjQ",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-22T05:03:45Z",
+      "side": 0,
+      "message": "Do not remove setCancelable(true); \n\nIt is here because the property is set to false elsewhere, see the comment above:\n    // reinstate the cancelability of the dialog.",
+      "revId": "fd12d3a6c72d56cdafc639402bf7e0ff9048c1b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

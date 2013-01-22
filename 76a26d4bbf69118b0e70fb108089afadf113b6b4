@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoAJy6tk",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-22T05:03:45Z",
+      "side": 1,
+      "message": "*Maybe after this line?",
+      "revId": "76a26d4bbf69118b0e70fb108089afadf113b6b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoOJspgI",
+        "filename": "src/com/android/phone/NetworkSetting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-01-22T05:03:45Z",
+      "side": 1,
+      "message": "Set setCanceledOnTouchOutside(false) elsewhere*.\nIMHO, doing so right after initializing the dialog is a good option.",
+      "revId": "76a26d4bbf69118b0e70fb108089afadf113b6b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
