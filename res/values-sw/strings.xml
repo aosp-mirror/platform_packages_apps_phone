@@ -180,12 +180,12 @@
     <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>
     <item msgid="1126767511633425977">"CDMA + LTE/EvDo"</item>
     <item msgid="6389676313771670660">"CDMA/EvDo/GSM/WCDMA"</item>
-    <item msgid="545430093607698090">"EvDo tu"</item>
+    <item msgid="545430093607698090">"EvDo pekee"</item>
     <item msgid="1508557726283094448">"CDMA w/o EvDo"</item>
     <item msgid="4341433122263841224">"CDMA/EvDo otomatiki"</item>
     <item msgid="5958053792390386668">"GSM/WCDMA otomatiki"</item>
-    <item msgid="7913148405605373434">"WCDMA tu"</item>
-    <item msgid="1524224863879435516">"GSM tu"</item>
+    <item msgid="7913148405605373434">"WCDMA pekee"</item>
+    <item msgid="1524224863879435516">"GSM pekee"</item>
     <item msgid="3817924849415716259">"GSM/WCDMA inapendelewa"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Data imewezeshwa"</string>

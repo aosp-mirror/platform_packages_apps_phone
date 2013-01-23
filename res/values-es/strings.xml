@@ -174,7 +174,7 @@
     <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"Modo de red preferido: Global"</string>
     <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"Modo de red preferido: LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <item msgid="7886739962255042385">"LTE / WCDMA"</item>
+    <item msgid="7886739962255042385">"LTE/WCDMA"</item>
     <item msgid="577652050447385699">"LTE"</item>
     <item msgid="6813597571293773656">"Global"</item>
     <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>

@@ -172,9 +172,9 @@
     <string name="preferred_network_mode_lte_gsm_wcdma_summary" msgid="8455358514068283935">"Preferovaný režim sítě: GSM/WCDMA/LTE"</string>
     <string name="preferred_network_mode_lte_cdma_evdo_summary" msgid="228702246343742853">"Preferovaný režim sítě: CDMA+LTE/EVDO"</string>
     <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"Preferovaný režim sítě: Globální"</string>
-    <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"Preferovaný režim sítě: LTE / WCDMA"</string>
+    <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"Preferovaný režim sítě: LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <item msgid="7886739962255042385">"LTE / WCDMA"</item>
+    <item msgid="7886739962255042385">"LTE/WCDMA"</item>
     <item msgid="577652050447385699">"LTE"</item>
     <item msgid="6813597571293773656">"Globální"</item>
     <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>
@@ -182,7 +182,7 @@
     <item msgid="6389676313771670660">"CDMA/EvDo/GSM/WCDMA"</item>
     <item msgid="545430093607698090">"Pouze EvDo"</item>
     <item msgid="1508557726283094448">"CDMA bez EvDo"</item>
-    <item msgid="4341433122263841224">"CDMA / EvDo – automaticky"</item>
+    <item msgid="4341433122263841224">"CDMA/EvDo – automaticky"</item>
     <item msgid="5958053792390386668">"GSM/WCDMA – automaticky"</item>
     <item msgid="7913148405605373434">"Pouze WCDMA"</item>
     <item msgid="1524224863879435516">"Pouze GSM"</item>

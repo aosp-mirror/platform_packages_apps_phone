@@ -171,12 +171,12 @@
     <string name="preferred_network_mode_lte_summary" msgid="574752287596469136">"首选网络模式：LTE"</string>
     <string name="preferred_network_mode_lte_gsm_wcdma_summary" msgid="8455358514068283935">"首选网络模式：GSM/WCDMA/LTE"</string>
     <string name="preferred_network_mode_lte_cdma_evdo_summary" msgid="228702246343742853">"首选网络模式：CDMA+LTE/EVDO"</string>
-    <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"首选网络模式：全球通"</string>
+    <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"首选网络模式：通用"</string>
     <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"首选网络模式：LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
     <item msgid="7886739962255042385">"LTE/WCDMA"</item>
     <item msgid="577652050447385699">"LTE"</item>
-    <item msgid="6813597571293773656">"全球通"</item>
+    <item msgid="6813597571293773656">"通用"</item>
     <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>
     <item msgid="1126767511633425977">"CDMA + LTE/EvDo"</item>
     <item msgid="6389676313771670660">"CDMA/EvDo/GSM/WCDMA"</item>
