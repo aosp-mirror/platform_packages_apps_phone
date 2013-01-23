@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OvXOBQgQ",
+        "filename": "src/com/android/phone/NotificationMgr.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-23T17:14:47Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "428c723842aff5f30e07f5192a1db00df2d9d947",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
