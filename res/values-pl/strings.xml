@@ -167,20 +167,26 @@
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Preferowany tryb sieci: CDMA/EvDo"</string>
     <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Preferowany tryb sieci: tylko CDMA"</string>
     <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Preferowany tryb sieci: tylko EvDo"</string>
-    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Preferowany tryb sieci: LTE/CDMA"</string>
+    <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary" msgid="4726682079415227330">"Preferowany tryb sieci: CDMA/EvDo/GSM/WCDMA"</string>
+    <string name="preferred_network_mode_lte_summary" msgid="574752287596469136">"Preferowany tryb sieci: LTE"</string>
+    <string name="preferred_network_mode_lte_gsm_wcdma_summary" msgid="8455358514068283935">"Preferowany tryb sieci: GSM/WCDMA/LTE"</string>
+    <string name="preferred_network_mode_lte_cdma_evdo_summary" msgid="228702246343742853">"Preferowany tryb sieci: CDMA + LTE/EVDO"</string>
+    <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"Preferowany tryb sieci: globalny"</string>
+    <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"Preferowany tryb sieci: LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <item msgid="5543794538185064048">"LTE/CDMA"</item>
-    <item msgid="3273348576277144124">"Tylko EvDo"</item>
-    <item msgid="454610224530856274">"CDMA bez EvDo"</item>
-    <item msgid="648505122852496166">"Automatyczny CDMA/EvDo"</item>
-    <item msgid="7148247646407324800">"Automatyczny GSM/WCDMA"</item>
-    <item msgid="5189164180446264504">"Tylko WCDMA"</item>
-    <item msgid="5714714953966979187">"Tylko GSM"</item>
-    <item msgid="8508331239546115206">"Preferowany GSM/WCDMA"</item>
-  </string-array>
-  <string-array name="preferred_network_mode_choices_lte">
-    <item msgid="7002474529872452266">"LTE/CDMA"</item>
-    <item msgid="5541716989029928208">"CDMA"</item>
+    <item msgid="7886739962255042385">"LTE/WCDMA"</item>
+    <item msgid="577652050447385699">"LTE"</item>
+    <item msgid="6813597571293773656">"Globalny"</item>
+    <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>
+    <item msgid="1126767511633425977">"CDMA + LTE/EvDo"</item>
+    <item msgid="6389676313771670660">"CDMA/EvDo/GSM/WCDMA"</item>
+    <item msgid="545430093607698090">"Tylko EvDo"</item>
+    <item msgid="1508557726283094448">"CDMA bez EvDo"</item>
+    <item msgid="4341433122263841224">"Automatyczny CDMA/EvDo"</item>
+    <item msgid="5958053792390386668">"Automatyczny GSM/WCDMA"</item>
+    <item msgid="7913148405605373434">"Tylko WCDMA"</item>
+    <item msgid="1524224863879435516">"Tylko GSM"</item>
+    <item msgid="3817924849415716259">"Preferowany GSM/WCDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Włącz przesył danych"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Włącz przesył danych przez sieć komórkową"</string>

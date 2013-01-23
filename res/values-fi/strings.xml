@@ -167,20 +167,26 @@
     <string name="preferred_network_mode_cdma_evdo_summary" msgid="8332063064712726618">"Ensisijainen verkkotila: CDMA/EvDo"</string>
     <string name="preferred_network_mode_cdma_only_summary" msgid="1309770926198634150">"Ensisijainen verkkotila: vain CDMA"</string>
     <string name="preferred_network_mode_evdo_only_summary" msgid="8472220691721269155">"Ensisijainen verkkotila: vain EvDo"</string>
-    <string name="preferred_network_mode_lte_cdma_summary" msgid="3722647806454528426">"Ensisijainen verkkotila: LTE/CDMA"</string>
+    <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary" msgid="4726682079415227330">"Ensisijainen verkkotila: CDMA/EvDo/GSM/WCDMA"</string>
+    <string name="preferred_network_mode_lte_summary" msgid="574752287596469136">"Ensisijainen verkkotila: LTE"</string>
+    <string name="preferred_network_mode_lte_gsm_wcdma_summary" msgid="8455358514068283935">"Ensisijainen verkkotila: GSM/WCDMA/LTE"</string>
+    <string name="preferred_network_mode_lte_cdma_evdo_summary" msgid="228702246343742853">"Ensisijainen verkkotila: CDMA+LTE/EVDO"</string>
+    <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"Ensisijainen verkkotila: Maailmanlaajuinen"</string>
+    <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"Ensisijainen verkkotila: LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
-    <item msgid="5543794538185064048">"LTE/CDMA"</item>
-    <item msgid="3273348576277144124">"Vain EvDo"</item>
-    <item msgid="454610224530856274">"CDMA ilman EvDo"</item>
-    <item msgid="648505122852496166">"Automaattinen CDMA/EvDo"</item>
-    <item msgid="7148247646407324800">"Automaattinen GSM/WCDMA"</item>
-    <item msgid="5189164180446264504">"Vain WCDMA"</item>
-    <item msgid="5714714953966979187">"Vain GSM"</item>
-    <item msgid="8508331239546115206">"Ensisijaisesti GSM/WCDMA"</item>
-  </string-array>
-  <string-array name="preferred_network_mode_choices_lte">
-    <item msgid="7002474529872452266">"LTE/CDMA"</item>
-    <item msgid="5541716989029928208">"CDMA"</item>
+    <item msgid="7886739962255042385">"LTE/WCDMA"</item>
+    <item msgid="577652050447385699">"LTE"</item>
+    <item msgid="6813597571293773656">"Maailmanlaajuinen"</item>
+    <item msgid="127064712132619032">"GSM/WCDMA/LTE"</item>
+    <item msgid="1126767511633425977">"CDMA + LTE/EvDo"</item>
+    <item msgid="6389676313771670660">"CDMA/EvDo/GSM/WCDMA"</item>
+    <item msgid="545430093607698090">"Vain EvDo"</item>
+    <item msgid="1508557726283094448">"CDMA ilman EvDoa"</item>
+    <item msgid="4341433122263841224">"Automaattinen CDMA/EvDo"</item>
+    <item msgid="5958053792390386668">"Automaattinen GSM/WCDMA"</item>
+    <item msgid="7913148405605373434">"Vain WCDMA"</item>
+    <item msgid="1524224863879435516">"Vain GSM"</item>
+    <item msgid="3817924849415716259">"Ensisijaisesti GSM/WCDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Tiedot käytössä"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Ota mobiiliverkon tiedonsiirto käyttöön"</string>
