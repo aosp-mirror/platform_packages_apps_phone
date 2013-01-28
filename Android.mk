@@ -4,7 +4,7 @@ LOCAL_PATH:= $(call my-dir)
 # for the 'other' dialer.
 include $(CLEAR_VARS)
 
-LOCAL_JAVA_LIBRARIES := telephony-common
+LOCAL_JAVA_LIBRARIES := telephony-common voip-common
 LOCAL_STATIC_JAVA_LIBRARIES := com.android.phone.shared
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 LOCAL_SRC_FILES += \
