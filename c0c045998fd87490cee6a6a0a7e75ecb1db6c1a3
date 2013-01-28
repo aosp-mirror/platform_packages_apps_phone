@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O2Re8l2s",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-28T18:29:18Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "c0c045998fd87490cee6a6a0a7e75ecb1db6c1a3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O2XcE8lc",
+        "filename": "src/com/android/phone/CallCard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-01-28T18:29:18Z",
+      "side": 1,
+      "message": "This logic says to me that if the caller info is NOT an emergency number or voice number than update the the connection userdata.\n\nBut the comment seems to imply the opposite that when it IS an emergency number or voice mail then update the call info.\n\nPlease clarify.",
+      "revId": "c0c045998fd87490cee6a6a0a7e75ecb1db6c1a3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
