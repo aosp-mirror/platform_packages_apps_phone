@@ -296,7 +296,7 @@
     <string name="multi_category_enable" msgid="1179299804641721768">"Мультикатегорію увімкн."</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Мультикатегорію вимкнено"</string>
     <string name="prefer_2g" msgid="8442550937280449639">"Лише мережі 2G"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Використовувати мережі 2G для економії батареї"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Використовувати мережі 2G для економії заряду акумулятора"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Вибір системи"</string>
     <string name="cdma_system_select_summary" msgid="60460043745797517">"Змінити режим CDMA-роумінгу"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Вибір системи"</string>
@@ -518,7 +518,7 @@
     <string name="sip_accounts" msgid="2097054001288457163">"Облікові записи для Інтернет-дзвінків (SIP)"</string>
     <string name="sip_accounts_title" msgid="1212889069281054570">"Облікові записи"</string>
     <string name="sip_receive_calls" msgid="5635685570889971559">"Отримувати вхідні дзвінки"</string>
-    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Скорочує час роботи батареї"</string>
+    <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Підвищує споживання заряду акумулятора"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Використовувати Інтернет-дзвінки"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Використовувати Інтернет-дзвінки (лише Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Для всіх дзвінків, коли доступна мережа передавання даних"</string>
