@@ -87,7 +87,7 @@ public class Ringer {
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
         // We don't rely on getSystemService(Context.VIBRATOR_SERVICE) to make sure this
         // vibrator object will be isolated from others.
-        mVibrator = new SystemVibrator();
+        mVibrator = new SystemVibrator(context);
     }
 
     /**

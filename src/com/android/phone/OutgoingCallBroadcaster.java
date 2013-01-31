@@ -17,7 +17,9 @@
 package com.android.phone;
 
 import android.app.Activity;
+import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
+import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,9 +27,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.telephony.PhoneNumberUtils;
@@ -408,6 +412,26 @@ public class OutgoingCallBroadcaster extends Activity
             }
         } else {
             Log.w(TAG, "The number obtained from Intent is null.");
+        }
+
+        AppOpsManager appOps = (AppOpsManager)getSystemService(Context.APP_OPS_SERVICE);
+        int launchedFromUid;
+        String launchedFromPackage;
+        try {
+            launchedFromUid = ActivityManagerNative.getDefault().getLaunchedFromUid(
+                    getActivityToken());
+            launchedFromPackage = ActivityManagerNative.getDefault().getLaunchedFromPackage(
+                    getActivityToken());
+        } catch (RemoteException e) {
+            launchedFromUid = -1;
+            launchedFromPackage = null;
+        }
+        if (appOps.noteOp(AppOpsManager.OP_CALL_PHONE, launchedFromUid, launchedFromPackage)
+                != AppOpsManager.MODE_ALLOWED) {
+            Log.w(TAG, "Rejecting call from uid " + launchedFromUid + " package "
+                    + launchedFromPackage);
+            finish();
+            return;
         }
 
         // If true, this flag will indicate that the current call is a special kind

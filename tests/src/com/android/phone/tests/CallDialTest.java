@@ -158,7 +158,7 @@ public class CallDialTest extends Activity implements View.OnClickListener {
             ITelephony phone = ITelephony.Stub.asInterface(ServiceManager.checkService("phone"));
             log("- phone: " + phone);
             log("- calling call()...");
-            phone.call(number);
+            phone.call(getPackageName(), number);
             log("  Done.");
         } catch (RemoteException ex) {
             Log.w(LOG_TAG, "RemoteException!", ex);
