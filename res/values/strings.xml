@@ -1304,6 +1304,9 @@
     <string name="respond_via_sms_setting_summary"></string>
     <!-- Dialog title when changing a string for the "Respond via SMS" feature. [CHAR LIMIT=30] -->
     <string name="respond_via_sms_edittext_dialog_title">Quick response</string>
+    <!-- Menu option in  "Respond via SMS" that allows user to reset the default
+         activity used to handle "Respond via SMS" [CHAR LIMIT=30] -->
+    <string name="respond_via_sms_menu_reset_default_activity">Reset default app</string>
 
     <!-- "Respond via SMS": Confirmation message shown after sending
          a text response. [CHAR LIMIT=40] -->
