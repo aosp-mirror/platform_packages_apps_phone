@@ -596,6 +596,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"Editar respostas rápidas"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"Resposta rápida"</string>
+    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"Repor aplicação predefinida"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Mensagem enviada para <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"um"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"dois"</string>

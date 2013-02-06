@@ -475,7 +475,7 @@
     <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. "\n\n"Dopo avere premuto \"Attiva\", ascolta le istruzioni fornite per attivare il telefono."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Saltare l\'attivazione?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Se salti l\'attivazione, non potrai effettuare chiamate o connetterti a reti di dati mobili (ma potrai connetterti a reti Wi-Fi). Finché non attiverai il telefono, ti verrà chiesto di attivarlo ogni volta che lo accendi."</string>
-    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Salta"</string>
+    <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ignora"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Attiva"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Il telefono è attivo."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Problema con l\'attivazione"</string>
@@ -600,6 +600,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"Modifica risposte rapide"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"Risposta rapida"</string>
+    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"Reimposta app predefinita"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"Messaggio inviato a <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"uno"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"due"</string>

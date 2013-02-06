@@ -296,7 +296,7 @@
     <string name="multi_category_enable" msgid="1179299804641721768">"複数カテゴリは有効になっています"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"複数カテゴリは無効になっています"</string>
     <string name="prefer_2g" msgid="8442550937280449639">"2Gネットワークのみ使用"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"節電"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"電池を節約する"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"システムの選択"</string>
     <string name="cdma_system_select_summary" msgid="60460043745797517">"CDMAローミングモードを変更する"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"システムの選択"</string>
@@ -596,6 +596,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"クイック返信の編集"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"クイック返信"</string>
+    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"デフォルトのアプリをリセット"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"<xliff:g id="PHONE_NUMBER">%s</xliff:g>にメッセージを送信しました。"</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"1"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"2"</string>
