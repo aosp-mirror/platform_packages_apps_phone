@@ -208,11 +208,11 @@
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"サイクルの٪<xliff:g id="USED_0">%1$d</xliff:g>を経過"\n"次の期間は<xliff:g id="USED_1">%2$d</xliff:g>日で始まります（<xliff:g id="USED_2">%3$s</xliff:g>）"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"データ利用制限を超えると、転送速度が<xliff:g id="USED">%1$d</xliff:g>Kb/秒まで低下します"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"携帯通信会社のモバイルネットワークデータ利用ポリシーの詳細"</string>
-    <string name="cell_broadcast_sms" msgid="5584192824053625842">"エリアメールSMS"</string>
-    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"エリアメールSMS"</string>
-    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"エリアメールSMSは有効になっています"</string>
-    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"エリアメールSMSは無効になっています"</string>
-    <string name="cb_sms_settings" msgid="651715019785107312">"エリアメールSMS設定"</string>
+    <string name="cell_broadcast_sms" msgid="5584192824053625842">"緊急警報SMS"</string>
+    <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"緊急警報SMS"</string>
+    <string name="cell_bc_sms_enable" msgid="6441688565738921084">"緊急警報SMSは有効になっています"</string>
+    <string name="cell_bc_sms_disable" msgid="3398365088309408749">"緊急警報SMSは無効になっています"</string>
+    <string name="cb_sms_settings" msgid="651715019785107312">"緊急警報SMS設定"</string>
     <string name="enable_disable_emergency_broadcast" msgid="2157014609041245335">"緊急ブロードキャスト"</string>
     <string name="emergency_broadcast_enable" msgid="2645980025414010211">"緊急ブロードキャストは有効になっています"</string>
     <string name="emergency_broadcast_disable" msgid="3665199821267569426">"緊急ブロードキャストは無効になっています"</string>
