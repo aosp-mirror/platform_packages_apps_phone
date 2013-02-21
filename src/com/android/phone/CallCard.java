@@ -19,7 +19,6 @@ package com.android.phone;
 import android.animation.LayoutTransition;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -1341,24 +1340,9 @@ public class CallCard extends LinearLayout
 
         if (updateNameAndNumber) {
             if (call.isGeneric()) {
-                mName.setText(R.string.card_title_in_call);
+                updateGenericInfoUi();
             } else {
-                mName.setText(displayName);
-            }
-            mName.setVisibility(View.VISIBLE);
-
-            if (!TextUtils.isEmpty(displayNumber) && !call.isGeneric()) {
-                mPhoneNumber.setText(displayNumber);
-                mPhoneNumber.setVisibility(View.VISIBLE);
-            } else {
-                mPhoneNumber.setVisibility(View.GONE);
-            }
-
-            if (!TextUtils.isEmpty(label) && !call.isGeneric()) {
-                mLabel.setText(label);
-                mLabel.setVisibility(View.VISIBLE);
-            } else {
-                mLabel.setVisibility(View.GONE);
+                updateInfoUi(displayName, displayNumber, label);
             }
         }
 
@@ -1420,6 +1404,37 @@ public class CallCard extends LinearLayout
         // Other text fields:
         updateCallTypeLabel(call);
         // updateSocialStatus(socialStatusText, socialStatusBadge, call);  // Currently unused
+    }
+
+    /**
+     * Updates the info portion of the UI to be generic.  Used for CDMA 3-way calls.
+     */
+    private void updateGenericInfoUi() {
+        mName.setText(R.string.card_title_in_call);
+        mPhoneNumber.setVisibility(View.GONE);
+        mLabel.setVisibility(View.GONE);
+    }
+
+    /**
+     * Updates the info portion of the call card with passed in values.
+     */
+    private void updateInfoUi(String displayName, String displayNumber, String label) {
+        mName.setText(displayName);
+        mName.setVisibility(View.VISIBLE);
+
+        if (TextUtils.isEmpty(displayNumber)) {
+            mPhoneNumber.setVisibility(View.GONE);
+        } else {
+            mPhoneNumber.setText(displayNumber);
+            mPhoneNumber.setVisibility(View.VISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(label)) {
+            mLabel.setVisibility(View.GONE);
+        } else {
+            mLabel.setText(label);
+            mLabel.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
