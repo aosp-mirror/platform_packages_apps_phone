@@ -126,8 +126,8 @@
     <string name="fdn_check_failure" msgid="18200614306525434">"Mpangilio wa programu ya simu yako wa Kupigia Nambari Fulani Pekee umewashwa. Kutokana na hayo, baadhi ya vipengele vinavyohusiana na simu havifanyi kazi."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"Washa redio kabla ya kutazama mipangilio hii."</string>
     <string name="close_dialog" msgid="2365884406356986917">"Sawa"</string>
-    <string name="enable" msgid="1059008390636773574">"Wezesha"</string>
-    <string name="disable" msgid="7274240979164762320">"Lemaza"</string>
+    <string name="enable" msgid="1059008390636773574">"Washa"</string>
+    <string name="disable" msgid="7274240979164762320">"Zima"</string>
     <string name="change_num" msgid="239476305819844391">"Sasisha"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"Chaguo-msingi la mtandao"</item>
