@@ -1209,139 +1209,140 @@ public class CallCard extends LinearLayout
         // String socialStatusText = null;
         // Drawable socialStatusBadge = null;
 
-        if (info != null) {
-            // It appears that there is a small change in behaviour with the
-            // PhoneUtils' startGetCallerInfo whereby if we query with an
-            // empty number, we will get a valid CallerInfo object, but with
-            // fields that are all null, and the isTemporary boolean input
-            // parameter as true.
-
-            // In the past, we would see a NULL callerinfo object, but this
-            // ends up causing null pointer exceptions elsewhere down the
-            // line in other cases, so we need to make this fix instead. It
-            // appears that this was the ONLY call to PhoneUtils
-            // .getCallerInfo() that relied on a NULL CallerInfo to indicate
-            // an unknown contact.
-
-            // Currently, info.phoneNumber may actually be a SIP address, and
-            // if so, it might sometimes include the "sip:" prefix.  That
-            // prefix isn't really useful to the user, though, so strip it off
-            // if present.  (For any other URI scheme, though, leave the
-            // prefix alone.)
-            // TODO: It would be cleaner for CallerInfo to explicitly support
-            // SIP addresses instead of overloading the "phoneNumber" field.
-            // Then we could remove this hack, and instead ask the CallerInfo
-            // for a "user visible" form of the SIP address.
-            String number = info.phoneNumber;
-            if ((number != null) && number.startsWith("sip:")) {
-                number = number.substring(4);
-            }
-
-            if (TextUtils.isEmpty(info.name)) {
-                // No valid "name" in the CallerInfo, so fall back to
-                // something else.
-                // (Typically, we promote the phone number up to the "name" slot
-                // onscreen, and possibly display a descriptive string in the
-                // "number" slot.)
-                if (TextUtils.isEmpty(number)) {
-                    // No name *or* number!  Display a generic "unknown" string
-                    // (or potentially some other default based on the presentation.)
-                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
-                    if (DBG) log("  ==> no name *or* number! displayName = " + displayName);
-                } else if (presentation != PhoneConstants.PRESENTATION_ALLOWED) {
-                    // This case should never happen since the network should never send a phone #
-                    // AND a restricted presentation. However we leave it here in case of weird
-                    // network behavior
-                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
-                    if (DBG) log("  ==> presentation not allowed! displayName = " + displayName);
-                } else if (!TextUtils.isEmpty(info.cnapName)) {
-                    // No name, but we do have a valid CNAP name, so use that.
-                    displayName = info.cnapName;
-                    info.name = info.cnapName;
-                    displayNumber = number;
-                    if (DBG) log("  ==> cnapName available: displayName '"
-                                 + displayName + "', displayNumber '" + displayNumber + "'");
-                } else {
-                    // No name; all we have is a number.  This is the typical
-                    // case when an incoming call doesn't match any contact,
-                    // or if you manually dial an outgoing number using the
-                    // dialpad.
-
-                    // Promote the phone number up to the "name" slot:
-                    displayName = number;
-                    displayNameIsNumber = true;
-
-                    // ...and use the "number" slot for a geographical description
-                    // string if available (but only for incoming calls.)
-                    if ((conn != null) && (conn.isIncoming())) {
-                        // TODO (CallerInfoAsyncQuery cleanup): Fix the CallerInfo
-                        // query to only do the geoDescription lookup in the first
-                        // place for incoming calls.
-                        displayNumber = info.geoDescription;  // may be null
-                    }
-
-                    if (DBG) log("  ==>  no name; falling back to number: displayName '"
-                                 + displayName + "', displayNumber '" + displayNumber + "'");
-                }
-            } else {
-                // We do have a valid "name" in the CallerInfo.  Display that
-                // in the "name" slot, and the phone number in the "number" slot.
-                if (presentation != PhoneConstants.PRESENTATION_ALLOWED) {
-                    // This case should never happen since the network should never send a name
-                    // AND a restricted presentation. However we leave it here in case of weird
-                    // network behavior
-                    displayName = PhoneUtils.getPresentationString(getContext(), presentation);
-                    if (DBG) log("  ==> valid name, but presentation not allowed!"
-                                 + " displayName = " + displayName);
-                } else {
-                    displayName = info.name;
-                    displayNumber = number;
-                    label = info.phoneLabel;
-                    if (DBG) log("  ==>  name is present in CallerInfo: displayName '"
-                                 + displayName + "', displayNumber '" + displayNumber + "'");
-                }
-            }
-            personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, info.person_id);
-            if (DBG) log("- got personUri: '" + personUri
-                         + "', based on info.person_id: " + info.person_id);
+        if (call.isGeneric()) {
+          updateGenericInfoUi();
         } else {
-            displayName = PhoneUtils.getPresentationString(getContext(), presentation);
-        }
+            if (info != null) {
+                // It appears that there is a small change in behaviour with the
+                // PhoneUtils' startGetCallerInfo whereby if we query with an
+                // empty number, we will get a valid CallerInfo object, but with
+                // fields that are all null, and the isTemporary boolean input
+                // parameter as true.
 
-        // TODO: Revisit/cleanup following code when underlying telephony issue
-        // is fixed (b/7705977).
-        //
-        // Following logic was added to prevent screen flicker caused by receiving
-        // a momentary disconnect with only a stripped phone number (the phone
-        // would quickly flip between full caller info, stripped phone number, and
-        // back to full caller info). Note this only prevents the name/number/label
-        // fields from flickering--the phone state field will still briefly flicker.
-        boolean updateNameAndNumber = true;
-        // If the new info is just a phone number, check to make sure it's not less
-        // information than what's already being displayed.
-        if (displayNameIsNumber) {
-            // If the new number is the same as the number already displayed, ignore it
-            // because that means we're also already displaying a name for it.
-            // If the new number is the same as the name currently being displayed, only
-            // display if the new number is longer (ie, has formatting).
-            String visiblePhoneNumber = null;
-            if (mPhoneNumber.getVisibility() == View.VISIBLE) {
-                visiblePhoneNumber = mPhoneNumber.getText().toString();
-            }
-            if ((visiblePhoneNumber != null &&
-                 PhoneNumberUtils.compare(visiblePhoneNumber, displayName)) ||
-                (PhoneNumberUtils.compare(mName.getText().toString(), displayName) &&
-                 displayName.length() < mName.length())) {
-                if (DBG) log("chose not to update display {" + mName.getText() + ", "
-                             + visiblePhoneNumber + "} with number " + displayName);
-                updateNameAndNumber = false;
-            }
-        }
+                // In the past, we would see a NULL callerinfo object, but this
+                // ends up causing null pointer exceptions elsewhere down the
+                // line in other cases, so we need to make this fix instead. It
+                // appears that this was the ONLY call to PhoneUtils
+                // .getCallerInfo() that relied on a NULL CallerInfo to indicate
+                // an unknown contact.
 
-        if (updateNameAndNumber) {
-            if (call.isGeneric()) {
-                updateGenericInfoUi();
+                // Currently, infi.phoneNumber may actually be a SIP address, and
+                // if so, it might sometimes include the "sip:" prefix.  That
+                // prefix isn't really useful to the user, though, so strip it off
+                // if present.  (For any other URI scheme, though, leave the
+                // prefix alone.)
+                // TODO: It would be cleaner for CallerInfo to explicitly support
+                // SIP addresses instead of overloading the "phoneNumber" field.
+                // Then we could remove this hack, and instead ask the CallerInfo
+                // for a "user visible" form of the SIP address.
+                String number = info.phoneNumber;
+                if ((number != null) && number.startsWith("sip:")) {
+                    number = number.substring(4);
+                }
+
+                if (TextUtils.isEmpty(info.name)) {
+                    // No valid "name" in the CallerInfo, so fall back to
+                    // something else.
+                    // (Typically, we promote the phone number up to the "name" slot
+                    // onscreen, and possibly display a descriptive string in the
+                    // "number" slot.)
+                    if (TextUtils.isEmpty(number)) {
+                        // No name *or* number!  Display a generic "unknown" string
+                        // (or potentially some other default based on the presentation.)
+                        displayName = PhoneUtils.getPresentationString(getContext(), presentation);
+                        if (DBG) log("  ==> no name *or* number! displayName = " + displayName);
+                    } else if (presentation != PhoneConstants.PRESENTATION_ALLOWED) {
+                        // This case should never happen since the network should never send a phone #
+                        // AND a restricted presentation. However we leave it here in case of weird
+                        // network behavior
+                        displayName = PhoneUtils.getPresentationString(getContext(), presentation);
+                        if (DBG) log("  ==> presentation not allowed! displayName = " + displayName);
+                    } else if (!TextUtils.isEmpty(info.cnapName)) {
+                        // No name, but we do have a valid CNAP name, so use that.
+                        displayName = info.cnapName;
+                        info.name = info.cnapName;
+                        displayNumber = number;
+                        if (DBG) log("  ==> cnapName available: displayName '"
+                                     + displayName + "', displayNumber '" + displayNumber + "'");
+                    } else {
+                        // No name; all we have is a number.  This is the typical
+                        // case when an incoming call doesn't match any contact,
+                        // or if you manually dial an outgoing number using the
+                        // dialpad.
+
+                        // Promote the phone number up to the "name" slot:
+                        displayName = number;
+                        displayNameIsNumber = true;
+
+                        // ...and use the "number" slot for a geographical description
+                        // string if available (but only for incoming calls.)
+                        if ((conn != null) && (conn.isIncoming())) {
+                            // TODO (CallerInfoAsyncQuery cleanup): Fix the CallerInfo
+                            // query to only do the geoDescription lookup in the first
+                            // place for incoming calls.
+                            displayNumber = info.geoDescription;  // may be null
+                        }
+
+                        if (DBG) log("  ==>  no name; falling back to number: displayName '"
+                                     + displayName + "', displayNumber '" + displayNumber + "'");
+                    }
+                } else {
+                    // We do have a valid "name" in the CallerInfo.  Display that
+                    // in the "name" slot, and the phone number in the "number" slot.
+                    if (presentation != PhoneConstants.PRESENTATION_ALLOWED) {
+                        // This case should never happen since the network should never send a name
+                        // AND a restricted presentation. However we leave it here in case of weird
+                        // network behavior
+                        displayName = PhoneUtils.getPresentationString(getContext(), presentation);
+                        if (DBG) log("  ==> valid name, but presentation not allowed!"
+                                     + " displayName = " + displayName);
+                    } else {
+                        displayName = info.name;
+                        displayNumber = number;
+                        label = info.phoneLabel;
+                        if (DBG) log("  ==>  name is present in CallerInfo: displayName '"
+                                     + displayName + "', displayNumber '" + displayNumber + "'");
+                    }
+                }
+                personUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, info.person_id);
+                if (DBG) log("- got personUri: '" + personUri
+                             + "', based on info.person_id: " + info.person_id);
             } else {
+                displayName = PhoneUtils.getPresentationString(getContext(), presentation);
+            }
+
+            // TODO: Revisit/cleanup following code when underlying telephony issue
+            // is fixed (b/7705977).
+            //
+            // Following logic was added to prevent screen flicker caused by receiving
+            // a momentary disconnect with only a stripped phone number (the phone
+            // would quickly flip between full caller info, stripped phone number, and
+            // back to full caller info). Note this only prevents the name/number/label
+            // fields from flickering--the phone state field will still briefly flicker.
+            // If the new info is just a phone number, check to make sure it's not less
+            // information than what's already being displayed.
+            boolean updateNameAndNumber = true;
+
+            if (displayNameIsNumber) {
+                // If the new number is the same as the number already displayed, ignore it
+                // because that means we're also already displaying a name for it.
+                // If the new number is the same as the name currently being displayed, only
+                // display if the new number is longer (ie, has formatting).
+                String visiblePhoneNumber = null;
+                if (mPhoneNumber.getVisibility() == View.VISIBLE) {
+                    visiblePhoneNumber = mPhoneNumber.getText().toString();
+                }
+                if ((visiblePhoneNumber != null &&
+                     PhoneNumberUtils.compare(visiblePhoneNumber, displayName)) ||
+                    (PhoneNumberUtils.compare(mName.getText().toString(), displayName) &&
+                     displayName.length() < mName.length())) {
+                    if (DBG) log("chose not to update display {" + mName.getText() + ", "
+                                 + visiblePhoneNumber + "} with number " + displayName);
+                    updateNameAndNumber = false;
+                }
+            }
+
+            if (updateNameAndNumber) {
                 updateInfoUi(displayName, displayNumber, label);
             }
         }
