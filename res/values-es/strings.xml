@@ -54,7 +54,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Administrar conferencia telefónica"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Altavoz"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular"</string>
-    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares con cable"</string>
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"¿Quieres enviar los siguientes tonos?"\n</string>
     <string name="pause_prompt_str" msgid="1789964702154314806">"Enviando tonos"\n</string>
