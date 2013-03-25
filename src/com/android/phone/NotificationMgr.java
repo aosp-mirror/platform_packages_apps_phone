@@ -57,7 +57,6 @@ import com.android.internal.telephony.PhoneBase;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
 
-
 /**
  * NotificationManager-related utility code for the Phone app.
  *
@@ -1355,22 +1354,20 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         if (DBG) log("showDataDisconnectedRoaming()...");
 
         // "Mobile network settings" screen / dialog
-        Intent intent = new Intent(mContext,
-                com.android.phone.MobileNetworkSettings.class);
+        Intent intent = new Intent(mContext, com.android.phone.MobileNetworkSettings.class);
 
-        Notification notification = new Notification(
-                android.R.drawable.stat_sys_warning, // icon
-                null, // tickerText
-                System.currentTimeMillis());
-        notification.setLatestEventInfo(
-                mContext, // Context
-                mContext.getString(R.string.roaming), // expandedTitle
-                mContext.getString(R.string.roaming_reenable_message), // expandedText
-                PendingIntent.getActivity(mContext, 0, intent, 0)); // contentIntent
+        final CharSequence contentText = mContext.getText(R.string.roaming_reenable_message);
 
-        mNotificationManager.notify(
-                DATA_DISCONNECTED_ROAMING_NOTIFICATION,
-                notification);
+        final Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(android.R.drawable.stat_sys_warning);
+        builder.setContentTitle(mContext.getText(R.string.roaming));
+        builder.setContentText(contentText);
+        builder.setContentIntent(PendingIntent.getActivity(mContext, 0, intent, 0));
+
+        final Notification notif = new Notification.BigTextStyle(builder).bigText(contentText)
+                .build();
+
+        mNotificationManager.notify(DATA_DISCONNECTED_ROAMING_NOTIFICATION, notif);
     }
 
     /**
