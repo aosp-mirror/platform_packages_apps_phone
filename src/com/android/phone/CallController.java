@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.provider.CallLog.Calls;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.ServiceState;
 import android.text.TextUtils;
@@ -70,6 +71,7 @@ public class CallController extends Handler {
 
     private PhoneGlobals mApp;
     private CallManager mCM;
+    private CallLogger mCallLogger;
 
     /** Helper object for emergency calls in some rare use cases.  Created lazily. */
     private EmergencyCallHelper mEmergencyCallHelper;
@@ -100,10 +102,10 @@ public class CallController extends Handler {
      * PhoneApp's public "callController" field, which is why there's no
      * getInstance() method here.
      */
-    /* package */ static CallController init(PhoneGlobals app) {
+    /* package */ static CallController init(PhoneGlobals app, CallLogger callLogger) {
         synchronized (CallController.class) {
             if (sInstance == null) {
-                sInstance = new CallController(app);
+                sInstance = new CallController(app, callLogger);
             } else {
                 Log.wtf(TAG, "init() called multiple times!  sInstance = " + sInstance);
             }
@@ -115,10 +117,11 @@ public class CallController extends Handler {
      * Private constructor (this is a singleton).
      * @see init()
      */
-    private CallController(PhoneGlobals app) {
+    private CallController(PhoneGlobals app, CallLogger callLogger) {
         if (DBG) log("CallController constructor: app = " + app);
         mApp = app;
         mCM = app.mCM;
+        mCallLogger = callLogger;
     }
 
     @Override
@@ -449,6 +452,17 @@ public class CallController extends Handler {
                 // Otherwise, just return the (non-SUCCESS) status code
                 // back to our caller.
                 if (DBG) log("==> placeCallInternal(): non-success status: " + okToCallStatus);
+
+                // Log failed call.
+                // Note: Normally, many of these values we gather from the Connection object but
+                // since no such object is created for unconnected calls, we have to build them
+                // manually.
+                // TODO(santoscordon): Try to restructure code so that we can handle failure-
+                // condition call logging in a single place (placeCall()) that also has access to
+                // the number we attempted to dial (not placeCall()).
+                mCallLogger.logCall(null /* callerInfo */, number, 0 /* presentation */,
+                        Calls.OUTGOING_TYPE, System.currentTimeMillis(), 0 /* duration */);
+
                 return okToCallStatus;
             }
         }
@@ -584,6 +598,11 @@ public class CallController extends Handler {
                       + number + "'.");
                 // We couldn't successfully place the call; there was some
                 // failure in the telephony layer.
+
+                // Log failed call.
+                mCallLogger.logCall(null /* callerInfo */, number, 0 /* presentation */,
+                        Calls.OUTGOING_TYPE, System.currentTimeMillis(), 0 /* duration */);
+
                 return CallStatusCode.CALL_FAILED;
 
             default:

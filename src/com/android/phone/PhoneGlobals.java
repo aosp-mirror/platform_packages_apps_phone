@@ -516,10 +516,12 @@ public class PhoneGlobals extends ContextWrapper
 
             if (DBG) Log.d(LOG_TAG, "onCreate: mUpdateLock: " + mUpdateLock);
 
+            CallLogger callLogger = new CallLogger(this, new CallLogAsync());
+
             // Create the CallController singleton, which is the interface
             // to the telephony layer for user-initiated telephony functionality
             // (like making outgoing calls.)
-            callController = CallController.init(this);
+            callController = CallController.init(this, callLogger);
             // ...and also the InCallUiState instance, used by the CallController to
             // keep track of some "persistent state" of the in-call UI.
             inCallUiState = InCallUiState.init(this);
@@ -534,7 +536,7 @@ public class PhoneGlobals extends ContextWrapper
             // asynchronous events from the telephony layer (like
             // launching the incoming-call UI when an incoming call comes
             // in.)
-            notifier = CallNotifier.init(this, phone, ringer, new CallLogAsync());
+            notifier = CallNotifier.init(this, phone, ringer, callLogger);
 
             // register for ICC status
             IccCard sim = phone.getIccCard();

@@ -720,7 +720,7 @@ public class PhoneUtils {
         return status;
     }
 
-    private static String toLogSafePhoneNumber(String number) {
+    /* package */ static String toLogSafePhoneNumber(String number) {
         // For unknown number, log empty string.
         if (number == null) {
             return "";
