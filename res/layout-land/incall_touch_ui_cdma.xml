@@ -69,6 +69,21 @@
                 android:layout_height="wrap_content" />
         </FrameLayout>
 
+            <!-- "Audio mode" -->
+            <!-- This is a multi-mode button that can behave either like a
+                 simple "compound button" with two states *or* like an
+                 action button that brings up a popup menu; see
+                 btn_compound_audio.xml and InCallTouchUi.updateAudioButton()
+                 for the full details. -->
+            <ToggleButton
+                android:id="@+id/audioButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                style="@style/InCallCompoundButton"
+                android:background="@drawable/btn_compound_audio"
+                android:contentDescription="@string/onscreenAudioText" />
+
         <!-- Note: This center margin is repeated in layout-land/incall_screen -->
         <View
             android:layout_width="@dimen/dialpad_center_margin"
@@ -84,29 +99,6 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent">
-
-            <!-- This slot is either "Hold" or "Swap", depending on
-                 the state of the call.   One or the other of these
-                 must always be set to GONE. -->
-            <!-- "Hold" -->
-            <!-- This is a "compound button": it has checked and unchecked states. -->
-            <ToggleButton
-                android:id="@+id/holdButton"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                style="@style/InCallCompoundButton"
-                android:background="@drawable/btn_compound_hold"
-                android:contentDescription="@string/onscreenHoldText" />
-            <!-- "Swap" (or "Manage calls" in some CDMA states) -->
-            <ImageButton
-                android:id="@+id/swapButton"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                style="@style/InCallButton"
-                android:src="@drawable/ic_incall_switch_holo_dark"
-                android:contentDescription="@string/onscreenSwapCallsText" />
 
 
             <View
@@ -131,20 +123,30 @@
                     android:layout_width="@dimen/dialpad_button_margin"
                     android:layout_height="match_parent"
                     android:background="#66000000" />
-                <!-- "Audio mode" -->
-                <!-- This is a multi-mode button that can behave either like a
-                     simple "compound button" with two states *or* like an
-                     action button that brings up a popup menu; see
-                     btn_compound_audio.xml and InCallTouchUi.updateAudioButton()
-                     for the full details. -->
+
+                <!-- This slot is either "Hold" or "Swap", depending on
+                     the state of the call.   One or the other of these
+                     must always be set to GONE. -->
+                <!-- "Hold" -->
+                <!-- This is a "compound button": it has checked and unchecked states. -->
                 <ToggleButton
-                    android:id="@+id/audioButton"
-                    android:layout_width="0dp"
+                    android:id="@+id/holdButton"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
                     style="@style/InCallCompoundButton"
-                    android:background="@drawable/btn_compound_audio"
-                    android:contentDescription="@string/onscreenAudioText" />
+                    android:background="@drawable/btn_compound_hold"
+                    android:contentDescription="@string/onscreenHoldText" />
+                <!-- "Swap" (or "Manage calls" in some CDMA states) -->
+                <ImageButton
+                    android:id="@+id/swapButton"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_incall_switch_holo_dark"
+                    android:contentDescription="@string/onscreenSwapCallsText" />
+
             </LinearLayout>
 
             <View

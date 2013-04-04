@@ -98,6 +98,8 @@ public class InCallTouchUi extends FrameLayout
     private CompoundButton mHoldButton;
     private ImageButton mSwapButton;
     private View mHoldSwapSpacer;
+    private View mVideoSpacer;
+    private ImageButton mVideoButton;
 
     // "Extra button row"
     private ViewStub mExtraButtonRow;
@@ -190,6 +192,10 @@ public class InCallTouchUi extends FrameLayout
         mSwapButton.setOnClickListener(this);
         mSwapButton.setOnLongClickListener(this);
         mHoldSwapSpacer = mInCallControls.findViewById(R.id.holdSwapSpacer);
+        mVideoButton = (ImageButton) mInCallControls.findViewById(R.id.videoCallButton);
+        mVideoButton.setOnClickListener(this);
+        mVideoButton.setOnLongClickListener(this);
+        mVideoSpacer = mInCallControls.findViewById(R.id.videoCallSpacer);
 
         // TODO: Back when these buttons had text labels, we changed
         // the label of mSwapButton for CDMA as follows:
@@ -399,6 +405,7 @@ public class InCallTouchUi extends FrameLayout
             case R.id.swapButton:
             case R.id.cdmaMergeButton:
             case R.id.manageConferenceButton:
+            case R.id.videoCallButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
@@ -426,7 +433,8 @@ public class InCallTouchUi extends FrameLayout
             case R.id.muteButton:
             case R.id.holdButton:
             case R.id.swapButton:
-            case R.id.audioButton: {
+            case R.id.audioButton:
+            case R.id.videoCallButton: {
                 final CharSequence description = view.getContentDescription();
                 if (!TextUtils.isEmpty(description)) {
                     // Show description as ActionBar's menu buttons do.
@@ -635,11 +643,23 @@ public class InCallTouchUi extends FrameLayout
             mExtraButtonRow.setVisibility(View.GONE);
         }
 
+        setupVideoCallButton();
+
         if (DBG) {
             log("At the end of updateInCallControls().");
             dumpBottomButtonState();
         }
     }
+
+    /**
+     * Set up the video call button.  Checks the system for any video call providers before
+     * displaying the video chat button.
+     */
+    private void setupVideoCallButton() {
+        // TODO: Check system to see if there are video chat providers and if not, disable the
+        // button.
+    }
+
 
     /**
      * Set up the buttons that are part of the "extra button row"
