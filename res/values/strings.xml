@@ -373,12 +373,41 @@
     <!-- Mobile network settings, summary for preferred network mode CDMA+LTE/EVDO[CHAR LIMIT=100] -->
     <string name="preferred_network_mode_lte_cdma_evdo_summary">Preferred network mode: CDMA+LTE/EVDO</string>
     <!-- Mobile network settings, summary for preferred network mode Global[CHAR LIMIT=100] -->
-    <string name="preferred_network_mode_global_summary">Preferred network mode: Global</string>
+    <string name="preferred_network_mode_global_summary">Preferred network mode: Global (CDMA/EVDO/LTE/GSM/WCDMA)</string>
     <!-- Mobile network settings, summary for preferred network mode LTE / WCDMA[CHAR LIMIT=100] -->
     <string name="preferred_network_mode_lte_wcdma_summary">Preferred network mode: LTE / WCDMA</string>
-
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA only[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_only_summary">Preferred network mode: TD-SCDMA only</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / WCDMA[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_wcdma_summary">Preferred network mode: TD-SCDMA / WCDMA</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / LTE[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_lte_summary">Preferred network mode: TD-SCDMA / LTE</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / GSM[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_gsm_summary">Preferred network mode: TD-SCDMA / GSM</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / GSM / LTE[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_gsm_lte_summary">Preferred network mode: TD-SCDMA/GSM/LTE</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / GSM / WCDMA[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_gsm_wcdma_summary">Preferred network mode: TD-SCDMA/GSM/WCDMA</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / WCDMA/ LTE[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_wcdma_lte_summary">Preferred network mode: TD-SCDMA/WCDMA/LTE</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA / GSM / WCDMA/ LTE[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_gsm_wcdma_lte_summary">Preferred network mode: TD-SCDMA/GSM/WCDMA/LTE</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA/LTE/CDMA/EvDo/GSM/WCDMA[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_lte_cdma_evdo_gsm_wcdma_summary">Preferred network mode: TD-SCDMA/LTE/CDMA/EvDo/GSM/WCDMA</string>
+    <!-- Mobile network settings, summary for preferred network mode TD-SCDMA/CDMA/EvDo/GSM/WCDMA[CHAR LIMIT=100] -->
+    <string name="preferred_network_mode_td_scdma_cdma_evdo_gsm_wcdma_summary">Preferred network mode: TD-SCDMA/CDMA/EvDo/GSM/WCDMA</string>
 
     <string-array name="preferred_network_mode_choices">
+        <item>TD-SCDMA/LTE/GSM/WCDMA/CDMA/EVDO </item>
+        <item>TD-SCDMA/GSM/WCDMA/CDMA/EVDO </item>
+        <item>TD-SCDMA/GSM/WCDMA/LTE</item>
+        <item>TD-SCDMA/WCDMA/LTE</item>
+        <item>TD-SCDMA/GSM/WCDMA</item>
+        <item>TD-SCDMA/GSM/LTE</item>
+        <item>TD-SCDMA/GSM</item>
+        <item>TD-SCDMA/LTE</item>
+        <item>TD-SCDMA/WCDMA</item>
+        <item>TD-SCDMA only</item>
         <item>LTE / WCDMA</item>
         <item>LTE</item>
         <item>Global</item>
@@ -394,6 +423,16 @@
         <item>GSM/WCDMA preferred</item>
     </string-array>
     <string-array name="preferred_network_mode_values"  translatable="false">
+        <item>"22"</item>
+        <item>"21"</item>
+        <item>"20"</item>
+        <item>"19"</item>
+        <item>"18"</item>
+        <item>"17"</item>
+        <item>"16"</item>
+        <item>"15"</item>
+        <item>"14"</item>
+        <item>"13"</item>
         <item>"12"</item>
         <item>"11"</item>
         <item>"10"</item>
