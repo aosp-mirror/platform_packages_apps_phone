@@ -26,14 +26,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAppearance">@style/TextAppearance.info_label</item>
-        <item name="android:paddingRight">4dip</item>
+        <item name="android:paddingEnd">4dip</item>
     </style>
 
     <style name="info_layout">
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingStart">10dip</item>
         <item name="android:paddingTop">10dip</item>
-        <item name="android:paddingRight">10dip</item>
+        <item name="android:paddingEnd">10dip</item>
         <item name="android:paddingBottom">10dip</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -77,18 +77,18 @@
     </style>
 
     <style name="ccOtaNextButton" parent="ccOtaButton">
-        <!-- <item name="android:drawableRight">@drawable/ic_btn_next</item>
+        <!-- <item name="android:drawableEnd">@drawable/ic_btn_next</item>
              <item name="android:drawablePadding">10dip</item>
           -->
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginRight">4dip</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginEnd">4dip</item>
     </style>
 
     <style name="ccOtaSkipButton" parent="ccOtaButton">
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_marginLeft">4dip</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginStart">4dip</item>
     </style>
 
     <style name="ccOtaWizardTitle">
@@ -149,8 +149,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">5dip</item>
-        <item name="android:layout_marginRight">5dip</item>
+        <item name="android:layout_marginStart">5dip</item>
+        <item name="android:layout_marginEnd">5dip</item>
     </style>
 
     <!-- Theme for the activity com.android.phone.Settings, which is the

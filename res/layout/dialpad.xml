@@ -24,10 +24,11 @@
     android:layout_weight="@integer/dialpad_layout_weight_dialpad"
     android:layout_gravity="center_horizontal"
     android:layout_marginTop="@dimen/dialpad_vertical_margin"
-    android:paddingLeft="5dip"
-    android:paddingRight="5dip"
+    android:paddingStart="5dip"
+    android:paddingEnd="5dip"
     android:paddingBottom="10dip"
-    android:background="@drawable/dialpad_background">
+    android:background="@drawable/dialpad_background"
+    android:layoutDirection="ltr">
 
     <TableRow
          android:layout_height="0px"
