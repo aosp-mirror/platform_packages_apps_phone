@@ -705,6 +705,10 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
     }
 
+    public void setCellInfoListRate(int rateInMillis) {
+        mPhone.setCellInfoListRate(rateInMillis);
+    }
+
     //
     // Internal helper methods.
     //
