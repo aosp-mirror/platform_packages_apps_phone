@@ -29,8 +29,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/button_cluster_side_padding"
-        android:paddingRight="@dimen/button_cluster_side_padding"
+        android:paddingStart="@dimen/button_cluster_side_padding"
+        android:paddingEnd="@dimen/button_cluster_side_padding"
         android:background="?android:attr/selectableItemBackground">
         <!-- The entire LinearLayout here is clickable, so we don't
              care about clicks on the ImageButton itself. -->
@@ -52,8 +52,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/button_cluster_side_padding"
-        android:paddingRight="@dimen/button_cluster_side_padding"
+        android:paddingStart="@dimen/button_cluster_side_padding"
+        android:paddingEnd="@dimen/button_cluster_side_padding"
         android:background="?android:attr/selectableItemBackground">
         <!-- The entire LinearLayout here is clickable, so we don't
              care about clicks on the ImageButton itself. -->

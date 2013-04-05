@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
-        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -43,7 +43,7 @@
         <LinearLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:paddingLeft="8dp"
+             android:paddingStart="8dp"
              android:gravity="center_vertical"
              android:orientation="vertical">
 
@@ -55,7 +55,7 @@
                  android:singleLine="true"
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
-                 android:layout_marginRight="2dp"
+                 android:layout_marginEnd="2dp"
                  />
 
             <!-- Number of this caller if name is supplied above -->
@@ -74,7 +74,7 @@
                      android:ellipsize="marquee"
                      android:textColor="@color/manage_conference_secondary_text_color"
                      android:singleLine="true"
-                     android:layout_marginRight="8dp" />
+                     android:layout_marginEnd="8dp" />
 
                 <!-- Number type -->
                 <TextView
@@ -86,7 +86,7 @@
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:textAllCaps="true"
-                    android:gravity="left" />
+                    android:gravity="start" />
 
             </LinearLayout>  <!-- End of caller number -->
 

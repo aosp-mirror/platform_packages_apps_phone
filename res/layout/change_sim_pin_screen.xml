@@ -46,9 +46,9 @@
                     android:text="@string/badPin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dip"
+                    android:paddingStart="10dip"
                     android:paddingTop="1dip"
-                    android:paddingRight="5dip"
+                    android:paddingEnd="5dip"
                     android:paddingBottom="1dip"/>
 
             <TextView
@@ -84,9 +84,9 @@
                     android:text="@string/mismatchPin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dip"
+                    android:paddingStart="10dip"
                     android:paddingTop="1dip"
-                    android:paddingRight="5dip"
+                    android:paddingEnd="5dip"
                     android:paddingBottom="1dip"/>
 
             <Button android:id="@+id/button"

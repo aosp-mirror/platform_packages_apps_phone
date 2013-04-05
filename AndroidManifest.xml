@@ -97,7 +97,8 @@
     <application android:name="PhoneApp"
                  android:persistent="true"
                  android:label="@string/phoneAppLabel"
-                 android:icon="@mipmap/ic_launcher_phone">
+                 android:icon="@mipmap/ic_launcher_phone"
+                 android:supportsRtl="true">
             <provider android:name="IccProvider"
                       android:authorities="icc"
                       android:multiprocess="true"
