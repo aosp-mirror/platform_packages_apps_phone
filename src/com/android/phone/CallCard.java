@@ -874,9 +874,9 @@ public class CallCard extends LinearLayout
             // In that rare case, the gravity needs to be reset to the right.
             // Also, setText("") is used since there is a delay in making the view GONE,
             // so the user will otherwise see the text jump to the right side before disappearing.
-            if(mCallStateLabel.getGravity() != Gravity.RIGHT) {
+            if(mCallStateLabel.getGravity() != Gravity.END) {
                 mCallStateLabel.setText("");
-                mCallStateLabel.setGravity(Gravity.RIGHT);
+                mCallStateLabel.setGravity(Gravity.END);
             }
         }
         if (skipAnimation) {
@@ -1425,9 +1425,13 @@ public class CallCard extends LinearLayout
 
         if (TextUtils.isEmpty(displayNumber)) {
             mPhoneNumber.setVisibility(View.GONE);
+            // We have a real phone number as "mName" so make it always LTR
+            mName.setTextDirection(View.TEXT_DIRECTION_LTR);
         } else {
             mPhoneNumber.setText(displayNumber);
             mPhoneNumber.setVisibility(View.VISIBLE);
+            // We have a real phone number as "mPhoneNumber" so make it always LTR
+            mPhoneNumber.setTextDirection(View.TEXT_DIRECTION_LTR);
         }
 
         if (!TextUtils.isEmpty(label)) {

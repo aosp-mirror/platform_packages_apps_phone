@@ -1220,7 +1220,7 @@ public class InCallTouchUi extends FrameLayout
         if (PhoneUtils.isLandscape(this.getContext())) {
             TextView callStateLabel = (TextView) mIncomingCallWidget
                     .getRootView().findViewById(R.id.callStateLabel);
-            if (callStateLabel != null) callStateLabel.setGravity(Gravity.LEFT);
+            if (callStateLabel != null) callStateLabel.setGravity(Gravity.START);
         }
 
         mIncomingCallWidget.setVisibility(View.VISIBLE);

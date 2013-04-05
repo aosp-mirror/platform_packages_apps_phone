@@ -26,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="?android:attr/textColorPrimary"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"/>
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"/>
         
     <LinearLayout
         android:id="@+id/number_field"
@@ -37,8 +37,8 @@
         android:addStatesFromChildren="true"
         android:gravity="center_vertical"
         android:baselineAligned="false"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip">
 
         <!-- The EditText field in the dialog is now created programmatically.
              We're replacing the field in this layout with a container to 

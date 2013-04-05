@@ -18,8 +18,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip">
+        android:paddingStart="20dip"
+        android:paddingEnd="20dip">
 
     <LinearLayout
             android:id="@+id/entry_panel"
@@ -47,8 +47,8 @@
                 android:text="@string/sim_ndp_unlock_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" />
+                android:paddingStart="20dip"
+                android:paddingEnd="20dip" />
 
         <!-- Dismiss button.  (Not present in some products; see
              sim_network_unlock_allow_dismiss in config.xml.) -->
@@ -57,8 +57,8 @@
                 android:text="@string/sim_ndp_dismiss_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" />
+                android:paddingStart="20dip"
+                android:paddingEnd="20dip" />
 
     </LinearLayout>
 
