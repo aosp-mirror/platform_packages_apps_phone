@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TB8Q7VNM",
+        "filename": "src/com/android/phone/MobileNetworkSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-04-08T00:55:26Z",
+      "side": 1,
+      "message": "Please list the as before instead of assuming an ordering.",
+      "revId": "2fc974876fc10e5829c54dd185d4af3dd3100bf4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
