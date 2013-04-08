@@ -521,13 +521,6 @@ public class PhoneUtils {
             return false;
         }
 
-        // since hangupActiveCall() also accepts the ringing call
-        // check if the ringing call was already answered or not
-        // only answer it when the call still is ringing
-        if (ringing.isRinging()) {
-            return answerCall(ringing);
-        }
-
         return true;
     }
 
