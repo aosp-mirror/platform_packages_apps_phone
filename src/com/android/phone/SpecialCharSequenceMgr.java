@@ -18,6 +18,8 @@ package com.android.phone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -54,6 +56,7 @@ public class SpecialCharSequenceMgr {
     private static final boolean DBG = false;
 
     private static final String MMI_IMEI_DISPLAY = "*#06#";
+    private static final String MMI_REGULATORY_INFO_DISPLAY = "*#07#";
 
     /** This class is never instantiated. */
     private SpecialCharSequenceMgr() {
@@ -99,6 +102,7 @@ public class SpecialCharSequenceMgr {
         String dialString = PhoneNumberUtils.stripSeparators(input);
 
         if (handleIMEIDisplay(context, dialString)
+            || handleRegulatoryInfoDisplay(context, dialString)
             || handlePinEntry(context, dialString, pukInputActivity)
             || handleAdnEntry(context, dialString)
             || handleSecretCode(context, dialString)) {
@@ -234,6 +238,23 @@ public class SpecialCharSequenceMgr {
                 .create();
         alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PRIORITY_PHONE);
         alert.show();
+    }
+
+    private static boolean handleRegulatoryInfoDisplay(Context context, String input) {
+        if (input.equals(MMI_REGULATORY_INFO_DISPLAY)) {
+            log("handleRegulatoryInfoDisplay() sending intent to settings app");
+            ComponentName regInfoDisplayActivity = new ComponentName(
+                    "com.android.settings", "com.android.settings.RegulatoryInfoDisplayActivity");
+            Intent showRegInfoIntent = new Intent("android.settings.SHOW_REGULATORY_INFO");
+            showRegInfoIntent.setComponent(regInfoDisplayActivity);
+            try {
+                context.startActivity(showRegInfoIntent);
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, "startActivity() failed: " + e);
+            }
+            return true;
+        }
+        return false;
     }
 
     private static void log(String msg) {
