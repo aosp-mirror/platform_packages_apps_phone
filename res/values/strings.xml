@@ -98,6 +98,8 @@
     <string name="mmiCancelled">MMI code canceled</string>
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
+    <!-- Toast string when user does not enter any input in the MMI dialog -->
+    <string name="enter_input">Input Required. Try again!!</string>
 
     <!-- Label for "Manage conference call" panel [CHAR LIMIT=40] -->
     <string name="manageConferenceLabel">Manage conference call</string>
