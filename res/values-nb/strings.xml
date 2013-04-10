@@ -193,7 +193,7 @@
     <string name="roaming" msgid="8871412572928323707">"Dataroaming"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Koble til datatjenester ved roaming"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Koble til datatjenester ved roaming"</string>
-    <string name="roaming_reenable_message" msgid="8913735676127858115">"Du har mistet datatilkoblingen fordi du forlot hjemmenettet med datastreifing avslått."</string>
+    <string name="roaming_reenable_message" msgid="8913735676127858115">"Du har mistet datatilkoblingen fordi du forlot hjemmenettet med roaming avslått."</string>
     <string name="roaming_warning" msgid="7820963598559553967">"Tillat dataroaming? Dette kan koste mye penger!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTS-innstillinger"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMA-innstillinger"</string>
