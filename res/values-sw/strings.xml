@@ -188,8 +188,8 @@
     <item msgid="1524224863879435516">"GSM pekee"</item>
     <item msgid="3817924849415716259">"GSM/WCDMA inapendelewa"</item>
   </string-array>
-    <string name="data_enabled" msgid="5972538663568715366">"Data imewezeshwa"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Wezesha mfiko wa data kupitia mtandao wa Simu"</string>
+    <string name="data_enabled" msgid="5972538663568715366">"Data imewashwa"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Wezesha data ifikiwe kupitia mtandao wa Simu"</string>
     <string name="roaming" msgid="8871412572928323707">"Urandaji wa data"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Unganisha huduma ya data  wakati wa urandaji"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Unganisha huduma ya data  wakati wa urandaji"</string>
@@ -295,8 +295,8 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Kategoria anuwai"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Kategoria anuwai imewezeshwa"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Kategoria anuwai imelemazwa"</string>
-    <string name="prefer_2g" msgid="8442550937280449639">"Tumia mitandao ya 2g peke yake"</string>
-    <string name="prefer_2g_summary" msgid="1976491403210690759">"Huokoa betri"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Tumia mitandao ya 2G pekee"</string>
+    <string name="prefer_2g_summary" msgid="1976491403210690759">"Huokoa nishati ya betri"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Chagua mfumo"</string>
     <string name="cdma_system_select_summary" msgid="60460043745797517">"Badilisha hali ya urandaji ya CDMA"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Chagua mfumo"</string>
