@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "TXk2o0YQ",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1015328
+      },
+      "writtenOn": "2013-04-16T23:05:55Z",
+      "side": 1,
+      "message": "I would actually prefer something a bit more descriptive:\n\n\"USSD message must be between 1 and 160 characters. Please try again.\"\n\nWith the values 1 and 160 formatted into the string from the same source as the logic.",
+      "parentUuid": "TbZhLGdw",
+      "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TbXhHHdM",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 2
