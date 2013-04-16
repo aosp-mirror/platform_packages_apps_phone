@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TbZhLGdw",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-16T22:52:58Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003e Input required. Please try again.",
+      "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TbXhHHdM",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-16T22:52:58Z",
+      "side": 1,
+      "message": "Is not it better to define the max length in xml?\n\nThe toast message does not indicate the overflow. Additionally, it\u0027d be a very rare case when users will be putting that long input.",
+      "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
