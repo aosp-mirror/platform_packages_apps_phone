@@ -2970,6 +2970,7 @@ public class InCallScreen extends Activity
                 onMuteClick();
                 break;
             case R.id.addButton:
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
                 PhoneUtils.startNewCall(mCM);  // Fires off an ACTION_DIAL intent
                 break;
             case R.id.mergeButton:
