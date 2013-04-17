@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TfsRUvgM",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-17T04:48:20Z",
+      "side": 1,
+      "message": "Still not closing when cursor.moveToFirst() returns false?",
+      "revId": "8a4a92189a1971e4afd781f151cedc7bdd24b89c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TfuRRuhA",
+        "filename": "src/com/android/phone/CallFeaturesSetting.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-17T04:48:20Z",
+      "side": 1,
+      "message": "Is this reachable after return in previous line?",
+      "revId": "8a4a92189a1971e4afd781f151cedc7bdd24b89c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
