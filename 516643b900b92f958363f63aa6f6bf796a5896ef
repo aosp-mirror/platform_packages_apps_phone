@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "TiZnBu3g",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1020994
+      },
+      "writtenOn": "2013-04-17T16:59:42Z",
+      "side": 1,
+      "message": "ok.I will update this as \"USSD message must be between 1 and 160 characters. Please try again\" \u0026 upload new patch",
+      "parentUuid": "TXk2o0YQ",
+      "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TbXhHHdM",
         "filename": "src/com/android/phone/PhoneUtils.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2013-04-16T22:52:58Z",
       "side": 1,
       "message": "Is not it better to define the max length in xml?\n\nThe toast message does not indicate the overflow. Additionally, it\u0027d be a very rare case when users will be putting that long input.",
+      "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TiXm3BxQ",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1020994
+      },
+      "writtenOn": "2013-04-17T16:59:42Z",
+      "side": 1,
+      "message": "Since toast message will now be more descriptive, I shall make no changes here. Please let me know if its still required.",
+      "parentUuid": "TbXhHHdM",
       "revId": "516643b900b92f958363f63aa6f6bf796a5896ef",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
