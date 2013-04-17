@@ -137,7 +137,7 @@
     <string name="vm_changed" msgid="380744030726254139">"የድምፅ መልዕክት ቁጥርተለውጧል።"</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"የድምጽ ፖስታ ቁጥርን መለወጥ አልተቻለም፡፡ ይህ ችግር በዚህ ከቀጠለ የድምጸ ተያያዥ ሞደም አቅራቢህን "\n"አግኝ፡፡"</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"የማስተላለፊያ ቁጥርን መለወጥ አልተቻለም፡፡ ይህ ችግር በዚህ ከቀጠለ የድምጸ ተያያዥ ሞደም አቅራቢህን "\n"አግኝ፡፡"</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንጅቶችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም፡፡"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንብሮችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም።"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
     <string name="no_change" msgid="3186040086622435212">"ምንም ለውጥ አልተደረገም።"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"የድምፅ መልዕክት አገልግሎት ምረጥ"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"ድምጸ ተያያዥ ሞደም"</string>
@@ -582,7 +582,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"ምንም በይነ መረብ ተያያዥ የለም"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"ምንምWi-Fi ትይይዝ የለም"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"የበይነ መረብ ጥሪ ለማድረግ፣ የበይነ መረብ መጀመሪያ ተያያዥነት ተመልከት"</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"ለአውታረ መረብ(የገመድ አልባ &amp; አውታረ መረብ ቅንጅቶችን ተጠቀም) ጥሪዎች ወደ Wi-Fi አውታረ መረብ ማገናኘት አለብሀ።"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"ለአውታረ መረብ(የገመድ አልባ &amp; አውታረ መረብ ቅንብሮችን ይጠቀሙ) ጥሪዎች ወደ Wi-Fi አውታረ መረብ ማገናኘት አለብዎ።"</string>
     <string name="no_voip" msgid="8901474054537199865">"የበይነ መረብ ጥሪ አይደገፍም"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"ራስ ሰር"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"ሁልጊዜ ላክ"</string>
