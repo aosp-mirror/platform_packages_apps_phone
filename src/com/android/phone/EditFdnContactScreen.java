@@ -143,7 +143,9 @@ public class EditFdnContactScreen extends Activity {
                     if (DBG) log("onActivityResult: cancelled.");
                     return;
                 }
-                Cursor cursor = getContentResolver().query(intent.getData(),
+                Cursor cursor = null;
+                try {
+                    cursor = getContentResolver().query(intent.getData(),
                         NUM_PROJECTION, null, null, null);
                 if ((cursor == null) || (!cursor.moveToFirst())) {
                     Log.w(LOG_TAG,"onActivityResult: bad contact data, no results found.");
@@ -151,6 +153,11 @@ public class EditFdnContactScreen extends Activity {
                 }
                 mNameField.setText(cursor.getString(0));
                 mNumberField.setText(cursor.getString(1));
+                } finally {
+                    if ( cursor != null) {
+                        cursor.close();
+                    }
+                }
                 break;
         }
     }
