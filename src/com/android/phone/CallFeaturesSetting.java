@@ -807,14 +807,21 @@ public class CallFeaturesSetting extends PreferenceActivity
                 return;
             }
 
-            Cursor cursor = getContentResolver().query(data.getData(),
+            Cursor cursor = null;
+            try {
+                cursor = getContentResolver().query(data.getData(),
                     NUM_PROJECTION, null, null, null);
-            if ((cursor == null) || (!cursor.moveToFirst())) {
-                if (DBG) log("onActivityResult: bad contact data, no results found.");
+                if ((cursor == null) || (!cursor.moveToFirst())) {
+                    if (DBG) log("onActivityResult: bad contact data, no results found.");
+                    return;
+                }
+                mSubMenuVoicemailSettings.onPickActivityResult(cursor.getString(0));
                 return;
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
-            mSubMenuVoicemailSettings.onPickActivityResult(cursor.getString(0));
-            return;
         }
 
         super.onActivityResult(requestCode, resultCode, data);
