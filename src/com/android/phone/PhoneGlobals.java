@@ -255,6 +255,9 @@ public class PhoneGlobals extends ContextWrapper
     // Current TTY operating mode selected by user
     private int mPreferredTtyMode = Phone.TTY_MODE_OFF;
 
+    // Identify the background call state
+    private boolean IsBgCall = false;
+
     /**
      * Set the restore mute state flag. Used when we are setting the mute state
      * OUTSIDE of user interaction {@link PhoneUtils#startNewCall(Phone)}
@@ -1104,6 +1107,17 @@ public class PhoneGlobals extends ContextWrapper
     }
 
     /**
+     * Set when call to the background, so we can update
+     * the proximity sensor state.
+     * Cleared when the call to the foreground.
+     */
+    void updateProximityStatus(boolean isBG) {
+        IsBgCall = isBG;
+        // Update the Proximity sensor based on window focus
+        updateProximitySensorMode(PhoneConstants.State.OFFHOOK);
+    }
+
+    /**
      * Updates the wake lock used to control proximity sensor behavior,
      * based on the current state of the phone.  This method is called
      * from the CallNotifier on any phone state change.
@@ -1128,6 +1142,7 @@ public class PhoneGlobals extends ContextWrapper
      * 2) If a wired headset is connected
      * 3) if the speaker is ON
      * 4) If the slider is open(i.e. the hardkeyboard is *not* hidden)
+     * 5) If in the background call status
      *
      * @param state current state of the phone (see {@link Phone#State})
      */
@@ -1142,7 +1157,8 @@ public class PhoneGlobals extends ContextWrapper
                 boolean screenOnImmediately = (isHeadsetPlugged()
                                                || PhoneUtils.isSpeakerOn(this)
                                                || isBluetoothHeadsetAudioOn()
-                                               || mIsHardKeyboardOpen);
+                                               || mIsHardKeyboardOpen
+                                               || IsBgCall);
 
                 // We do not keep the screen off when the user is outside in-call screen and we are
                 // horizontal, but we do not force it on when we become horizontal until the

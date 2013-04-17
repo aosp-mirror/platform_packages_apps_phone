@@ -1433,6 +1433,14 @@ public class InCallScreen extends Activity
             if (VDBG) log("- onWindowFocusChanged: faking onDialerKeyUp()...");
             mDialer.onDialerKeyUp(null);
         }
+
+        if(mCM.getState() == PhoneConstants.State.OFFHOOK){
+            if(hasFocus){
+                mApp.updateProximityStatus(false);
+            }else{
+                mApp.updateProximityStatus(true);
+            }
+        }
     }
 
     @Override
