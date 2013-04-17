@@ -137,7 +137,9 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
             if (DBG) Log.d(LOG_TAG, "onActivityResult: contact picker result not OK.");
             return;
         }
-        Cursor cursor = getContentResolver().query(data.getData(),
+        Cursor cursor = null;
+        try {
+            cursor = getContentResolver().query(data.getData(),
                 NUM_PROJECTION, null, null, null);
         if ((cursor == null) || (!cursor.moveToFirst())) {
             if (DBG) Log.d(LOG_TAG, "onActivityResult: bad contact data, no results found.");
@@ -159,6 +161,11 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity {
                 break;
             default:
                 // TODO: may need exception here.
+            }
+        } finally {
+            if ( cursor != null) {
+                cursor.close();
+            }
         }
     }
 
