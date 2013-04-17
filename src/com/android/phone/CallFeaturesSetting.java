@@ -807,7 +807,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 return;
             }
 
-            Cursor cursor = getContentResolver().query(data.getData(),
+            Cursor cursor = null;
+            try {
+                cursor = getContentResolver().query(data.getData(),
                     NUM_PROJECTION, null, null, null);
             if ((cursor == null) || (!cursor.moveToFirst())) {
                 if (DBG) log("onActivityResult: bad contact data, no results found.");
@@ -815,6 +817,11 @@ public class CallFeaturesSetting extends PreferenceActivity
             }
             mSubMenuVoicemailSettings.onPickActivityResult(cursor.getString(0));
             return;
+            } finally {
+                if ( cursor != null) {
+                    cursor.close();
+                }
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
