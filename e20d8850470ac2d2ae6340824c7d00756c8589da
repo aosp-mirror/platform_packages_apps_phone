@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TfsRmfi8",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-18T05:26:41Z",
+      "side": 1,
+      "message": "Sorry, but now you may also need to update the comment.",
+      "revId": "e20d8850470ac2d2ae6340824c7d00756c8589da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Tfse2gOU",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1005255
+      },
+      "writtenOn": "2013-04-18T05:26:41Z",
+      "side": 1,
+      "message": "You seem to have missed the second part of Santos\u0027 comment: _With the values 1 and 160 formatted into the string from the same source as the logic._\n\nI think he meant to use xliff tags instead of 1 and 160 and assign them in PhoneUtils as an argument for getString().",
+      "revId": "e20d8850470ac2d2ae6340824c7d00756c8589da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
