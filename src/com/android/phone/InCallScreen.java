@@ -1010,6 +1010,11 @@ public class InCallScreen extends Activity
             moveTaskToBack(true);
         }
         setInCallScreenMode(InCallScreenMode.UNDEFINED);
+
+        // Call update screen so that the in-call screen goes back to a normal state.
+        // This avoids bugs where a previous state will filcker the next time phone is
+        // opened.
+        updateScreen();
     }
 
     /**
