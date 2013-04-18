@@ -36,6 +36,9 @@
     <protected-broadcast android:name="android.intent.action.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS" />
     <protected-broadcast android:name="android.intent.action.ACTION_MDN_STATE_CHANGED" />
     <protected-broadcast android:name="android.provider.Telephony.SPN_STRINGS_UPDATED" />
+    <protected-broadcast android:name="android.provider.Telephony.SIM_FULL" />
+    <protected-broadcast android:name="com.android.internal.telephony.data-restart-trysetup" />
+    <protected-broadcast android:name="com.android.internal.telephony.data-stall" />
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
