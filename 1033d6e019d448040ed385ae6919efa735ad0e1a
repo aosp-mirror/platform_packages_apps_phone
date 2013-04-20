@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TvQh-h3E",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-04-20T20:45:33Z",
+      "side": 0,
+      "message": "This code has been in since 2010, what has changed that this should be removed?",
+      "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
