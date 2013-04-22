@@ -33,6 +33,7 @@ import android.util.Log;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.Connection;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -213,27 +214,42 @@ public class ContactsAsyncHelper {
                 case EVENT_LOAD_IMAGE:
                     InputStream inputStream = null;
                     try {
-                        inputStream = Contacts.openContactPhotoInputStream(
-                                args.context.getContentResolver(), args.uri, true);
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "Error opening photo input stream", e);
-                    }
+                        try {
+                            inputStream = Contacts.openContactPhotoInputStream(
+                                    args.context.getContentResolver(), args.uri, true);
+                        } catch (Exception e) {
+                            Log.e(LOG_TAG, "Error opening photo input stream", e);
+                        }
 
-                    if (inputStream != null) {
-                        args.photo = Drawable.createFromStream(inputStream, args.uri.toString());
+                        if (inputStream != null) {
+                            args.photo = Drawable.createFromStream(inputStream,
+                                    args.uri.toString());
 
-                        // This assumes Drawable coming from contact database is usually
-                        // BitmapDrawable and thus we can have (down)scaled version of it.
-                        args.photoIcon = getPhotoIconWhenAppropriate(args.context, args.photo);
+                            // This assumes Drawable coming from contact database is usually
+                            // BitmapDrawable and thus we can have (down)scaled version of it.
+                            args.photoIcon = getPhotoIconWhenAppropriate(args.context, args.photo);
 
-                        if (DBG) Log.d(LOG_TAG, "Loading image: " + msg.arg1 +
-                                " token: " + msg.what + " image URI: " + args.uri);
-                    } else {
-                        args.photo = null;
-                        args.photoIcon = null;
-                        if (DBG) Log.d(LOG_TAG, "Problem with image: " + msg.arg1 +
-                                " token: " + msg.what + " image URI: " + args.uri +
-                                ", using default image.");
+                            if (DBG) {
+                                Log.d(LOG_TAG, "Loading image: " + msg.arg1 +
+                                        " token: " + msg.what + " image URI: " + args.uri);
+                            }
+                        } else {
+                            args.photo = null;
+                            args.photoIcon = null;
+                            if (DBG) {
+                                Log.d(LOG_TAG, "Problem with image: " + msg.arg1 +
+                                        " token: " + msg.what + " image URI: " + args.uri +
+                                        ", using default image.");
+                            }
+                        }
+                    } finally {
+                        if (inputStream != null) {
+                            try {
+                                inputStream.close();
+                            } catch (IOException e) {
+                                Log.e(LOG_TAG, "Unable to close input stream.", e);
+                            }
+                        }
                     }
                     break;
                 default:
