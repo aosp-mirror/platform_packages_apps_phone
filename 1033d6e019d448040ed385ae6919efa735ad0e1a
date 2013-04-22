@@ -16,6 +16,24 @@
       "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TwIW3xOA",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1019829
+      },
+      "writtenOn": "2013-04-22T13:06:37Z",
+      "side": 0,
+      "message": "1) Verified this scenario on LG Nexus 4 Device, issue is 100% reproducible.\n2)  Verified this scenario on emulator, issue is not observed but  Telephony sending two RIL requests, 1) HANGUP_FOREGROUND_RESUME_BACKGROUND and 2) RIL_REQUEST_ANSWER one after the other.\n\nHere the first method is sufficient to answer the waiting call and hangup the active call,  but PhoneApp is calling two methods one after the other without waiting for the actual out come of the first method call.",
+      "parentUuid": "TvQh-h3E",
+      "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
