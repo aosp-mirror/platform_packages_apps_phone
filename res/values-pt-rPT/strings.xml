@@ -35,7 +35,7 @@
     <string name="callFailed_server_error" msgid="5717915213586193217">"Erro do servidor. Tente novamente mais tarde."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Sem sinal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Limite de ACM excedido"</string>
-    <string name="callFailed_powerOff" msgid="2766035859391549713">"Rádio desactivado"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"Rádio desativado"</string>
     <string name="callFailed_simError" msgid="4476360200030635828">"Sem cartão SIM ou erro do cartão"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Fora da área do serviço"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"As chamadas efectuadas são restringidas por FDN."</string>
@@ -127,7 +127,7 @@
     <string name="radio_off_error" msgid="2304459933248513376">"Ative o rádio antes de visualizar estas definições."</string>
     <string name="close_dialog" msgid="2365884406356986917">"OK"</string>
     <string name="enable" msgid="1059008390636773574">"Ativar"</string>
-    <string name="disable" msgid="7274240979164762320">"Desactivar"</string>
+    <string name="disable" msgid="7274240979164762320">"Desativar"</string>
     <string name="change_num" msgid="239476305819844391">"Atualizar"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"Predefinição da rede"</item>
@@ -217,8 +217,8 @@
     <string name="emergency_broadcast_enable" msgid="2645980025414010211">"Difusão de Emergência activada"</string>
     <string name="emergency_broadcast_disable" msgid="3665199821267569426">"Difusão de Emergência desactivada"</string>
     <string name="enable_disable_administrative" msgid="6501582322182059412">"Administrativo"</string>
-    <string name="administrative_enable" msgid="1750086122962032235">"Modo Administrativo activado"</string>
-    <string name="administrative_disable" msgid="8433273857248698539">"Modo administrativo desactivado"</string>
+    <string name="administrative_enable" msgid="1750086122962032235">"Modo Administrativo ativado"</string>
+    <string name="administrative_disable" msgid="8433273857248698539">"Modo administrativo desativado"</string>
     <string name="enable_disable_maintenance" msgid="1819693083025106678">"Manutenção"</string>
     <string name="maintenance_enable" msgid="8566636458770971189">"Manutenção activada"</string>
     <string name="maintenance_disable" msgid="7340189100885066077">"Manutenção desactivada"</string>
@@ -272,8 +272,8 @@
     <string name="restaurants_enable" msgid="5137657479469118847">"Restaurantes ativados"</string>
     <string name="restaurants_disable" msgid="3678480270938424092">"Restaurantes desativados"</string>
     <string name="enable_disable_lodgings" msgid="1822029172658551202">"Alojamentos"</string>
-    <string name="lodgings_enable" msgid="3230042508992850322">"Alojamento activado"</string>
-    <string name="lodgings_disable" msgid="3387879742320682391">"Alojamento desactivado"</string>
+    <string name="lodgings_enable" msgid="3230042508992850322">"Alojamento ativado"</string>
+    <string name="lodgings_disable" msgid="3387879742320682391">"Alojamento desativado"</string>
     <string name="enable_disable_retail_directory" msgid="1357809784475660303">"Lista de Retalho"</string>
     <string name="retail_directory_enable" msgid="3280626290436111496">"Lista de Retalho activada"</string>
     <string name="retail_directory_disable" msgid="6479739816662879027">"Lista de Retalho desactivada"</string>
@@ -294,7 +294,7 @@
     <string name="technology_news_disable" msgid="5483490380561851946">"Notícias de Tecnologia desativadas"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Categoria múltipla"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Categoria múltipla activada"</string>
-    <string name="multi_category_disable" msgid="880104702904139505">"Modo de categorias múltiplas desactivado"</string>
+    <string name="multi_category_disable" msgid="880104702904139505">"Modo de categorias múltiplas desativado"</string>
     <string name="prefer_2g" msgid="8442550937280449639">"Usar apenas redes 2G"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Economiza bateria"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Seleccionar sistema"</string>
@@ -455,7 +455,7 @@
     <string name="hac_mode_title" msgid="8740268574688743289">"Aparelhos auxiliares de audição"</string>
     <string name="hac_mode_summary" msgid="6833851160514929341">"Activar compatibilidade com aparelho auxiliar de audição"</string>
   <string-array name="tty_mode_entries">
-    <item msgid="512950011423868021">"TTY desactivado"</item>
+    <item msgid="512950011423868021">"TTY desativado"</item>
     <item msgid="3971695875449640648">"TTY total"</item>
     <item msgid="1937509904407445684">"TTY HCO"</item>
     <item msgid="5644925873488772224">"TTY VCO"</item>
@@ -479,7 +479,7 @@
     <string name="ota_speaker" msgid="6904589278542719647">"Altifalante"</string>
     <string name="ota_progress" msgid="3420314892609254729">"Aguarde enquanto o telemóvel está a ser programado."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programação sem sucesso"</string>
-    <string name="ota_successful" msgid="1880780692887077407">"O seu telefone já está activado. O início do serviço pode demorar até 15 minutos."</string>
+    <string name="ota_successful" msgid="1880780692887077407">"O seu telefone já está ativado. O início do serviço pode demorar até 15 minutos."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"O seu telemóvel não foi ativado. "\n"Pode ser necessário procurar uma zona com melhor cobertura (junto a uma janela ou no exterior). "\n\n"Tente novamente ou ligue para o serviço de apoio ao cliente para obter mais opções."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"FALHAS NO EXCESS SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Anterior"</string>

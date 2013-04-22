@@ -78,7 +78,7 @@
     <string name="settings_label" msgid="3876743539816984008">"Mipangilio ya mtandao"</string>
     <string name="voicemail" msgid="8693759337917898954">"Barua ya sauti"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
-    <string name="networks" msgid="8873030692174541976">"Opereta wa mtandao"</string>
+    <string name="networks" msgid="8873030692174541976">"Kampuni zinazotoa huduma"</string>
     <string name="call_settings" msgid="6112441768261754562">"Mipangilio ya simu"</string>
     <string name="additional_gsm_call_settings" msgid="1391795981938800617">"Mipangilio ya ziada"</string>
     <string name="sum_gsm_call_settings" msgid="4076647190996778012">"Mipangilio ya ziada ya simu ya GSM tu"</string>
@@ -151,7 +151,7 @@
     <string name="not_allowed" msgid="5613353860205691579">"SIM kadi yako hairuhusu muunganisho wa mtandao huu."</string>
     <string name="connect_later" msgid="2308119155752343975">"Haiwezi kuunganisha na mtandao huu hivi sasa. Jaribu tena baadaye."</string>
     <string name="registration_done" msgid="495135664535876612">"Imesajiliwa katika mtandao"</string>
-    <string name="sum_carrier_select" msgid="3494252551249882718">"Chagua mtoa huduma wa mtandao"</string>
+    <string name="sum_carrier_select" msgid="3494252551249882718">"Chagua mtoa huduma"</string>
     <string name="sum_search_networks" msgid="2921092249873272715">"Tafuta mitandao yote inayopatikana"</string>
     <string name="select_automatically" msgid="5628402124471810174">"Chagua kiotomatiki"</string>
     <string name="sum_select_automatically" msgid="5614890115123292400">"Chagua mtandao unaoupendelea kiotomatiki"</string>
@@ -190,11 +190,11 @@
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Data imewashwa"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Wezesha data ifikiwe kupitia mtandao wa Simu"</string>
-    <string name="roaming" msgid="8871412572928323707">"Urandaji wa data"</string>
-    <string name="roaming_enable" msgid="7331106985174381987">"Unganisha huduma ya data  wakati wa urandaji"</string>
-    <string name="roaming_disable" msgid="1843417228755568110">"Unganisha huduma ya data  wakati wa urandaji"</string>
-    <string name="roaming_reenable_message" msgid="8913735676127858115">"Umepoteza muunganisho wa data kwa sababu uliacha mtandao wako wa nyumbani, data ya urandaji ikiwa imezimwa."</string>
-    <string name="roaming_warning" msgid="7820963598559553967">"Je, unnataka kuruhusuji wa data? Huenda ukagharamia ada za urandaji!"</string>
+    <string name="roaming" msgid="8871412572928323707">"Utumiaji data nje ya mtandao wako wa kawaida"</string>
+    <string name="roaming_enable" msgid="7331106985174381987">"Unganisha huduma ya data wakati niko nje ya mtandao wangu wa kawaida"</string>
+    <string name="roaming_disable" msgid="1843417228755568110">"Unganisha huduma ya data wakati niko nje ya mtandao wangu wa kawaida"</string>
+    <string name="roaming_reenable_message" msgid="8913735676127858115">"Umepoteza muunganisho wa data kwa sababu uliondoka kwenye mtandao wako wa kawaida ukiwa umezima utumiaji data nje ya mtandao wa kawaida."</string>
+    <string name="roaming_warning" msgid="7820963598559553967">"Ungependa kuruhusu matumizi ya data nje ya mtandao wako wa kawaida? Huenda ukatozwa ada iliyo juu!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Chaguo za GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Chaguo za CDMA"</string>
     <string name="throttle_data_usage" msgid="3715677828160555808">"Matumizi ya data"</string>
