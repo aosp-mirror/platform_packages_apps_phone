@@ -38,14 +38,14 @@
     <string name="callFailed_powerOff" msgid="2766035859391549713">"Umsakazo uvaliwe"</string>
     <string name="callFailed_simError" msgid="4476360200030635828">"Ayikho i-SIM, noma iphutha le-SIM"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Indawo engenayo isevisi"</string>
-    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Izincingo eziphumayo zivinjelwe i-FDN."</string>
+    <string name="callFailed_fdn_only" msgid="2850204579765430641">"Amakholi aphumayo avinjelwe i-FDN."</string>
     <string name="callFailed_cb_enabled" msgid="3686963693629739680">"Awukwazi ukwenza amakholi aphumayo ngenkathi ukuvimba kuvuliwe."</string>
     <string name="callFailed_dsac_restricted" msgid="2180223622768522345">"Wonke amakholi avimbelwa ngesilawuli sokufinyelela."</string>
     <string name="callFailed_dsac_restricted_emergency" msgid="4353654268813314466">"Amakholi aphuthumayo avinjelwe isilawuli sokufinyelela."</string>
     <string name="callFailed_dsac_restricted_normal" msgid="2680774510252408620">"Amakholi avamile avinjelwe ukulawula kokufinyelela."</string>
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"Inombolo Engalungile"</string>
     <string name="confCall" msgid="1904840547188336828">"Ikholi yengqungquthela"</string>
-    <string name="call_lost" msgid="317670617901479594">"Ucingo lwakho lulahlekile."</string>
+    <string name="call_lost" msgid="317670617901479594">"Ikholi ikulahlekele."</string>
     <string name="ok" msgid="3811371167865772377">"KULUNGILE"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"Ikhodi ye-MMI iqalile"</string>
     <string name="ussdRunning" msgid="485588686340541690">"Ikhodi ye-USSD iyasebenza..."</string>
@@ -74,7 +74,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Ukuvula inethiwekhi kuphumelele."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Izilungiselelo zekholi ze-GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Izilungiselelo zekholi ye-CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Amagama Endawo Yokungena"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Ama-APN"</string>
     <string name="settings_label" msgid="3876743539816984008">"Izilungiselelo zenethiwekhi"</string>
     <string name="voicemail" msgid="8693759337917898954">"Ivoyisimeyili"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
@@ -97,7 +97,7 @@
     <string name="labelCF" msgid="2574386948026924737">"Ukudlulisa ikholi"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Dlulisa njalo"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Njalo sebenzisa lenombolo"</string>
-    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Idlulisela zonke izincingo"</string>
+    <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Idlulisela wonke amakholi"</string>
     <string name="sum_cfu_enabled" msgid="2450052502198827927">"Idlulisela wonke amakholi ku- <xliff:g id="PHONENUMBER">{0}</xliff:g>"</string>
     <string name="sum_cfu_enabled_no_number" msgid="6591985777096823616">"Inombolo ayitholakali"</string>
     <string name="sum_cfu_disabled" msgid="3698472522160364904">"Khutshaziwe"</string>
@@ -189,7 +189,7 @@
     <item msgid="3817924849415716259">"Okukhethwayo kwe-GSM / WCDMA"</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Idatha ivunyelwe"</string>
-    <string name="data_enable_summary" msgid="5022018967714633874">"Vumela ukufinyelela idatha phezu kwenethiwekhi yeFoni"</string>
+    <string name="data_enable_summary" msgid="5022018967714633874">"Vumela ukufinyelela idatha ngenethiwekhi yeselula"</string>
     <string name="roaming" msgid="8871412572928323707">"Ukuzulazula kwedatha"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Xhuma emasevisini edatha uma uzulazula"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Xhuma emasevisini edatha lapho uzulazula"</string>
@@ -299,7 +299,7 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Izigaba-ningi"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Izigaba-ningi zivunyelwe"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Izigaba-ningi zivimbelwe"</string>
-    <string name="prefer_2g" msgid="8442550937280449639">"Sebenzisa kuphela amanethiwekhi e-2G"</string>
+    <string name="prefer_2g" msgid="8442550937280449639">"Sebenzisa i-2G kuphela"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Ilondoloza ibhetri"</string>
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Khetha uhlelo"</string>
     <string name="cdma_system_select_summary" msgid="60460043745797517">"Sintsha imodi yokuzulazula ye-cdma"</string>
@@ -407,9 +407,9 @@
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Inombolo yami ngu <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="notification_dialing" msgid="2107666444937350731">"Iyadayela"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Ikholi ekulahlekele"</string>
-    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Izincingo ezikulahlekele"</string>
+    <string name="notification_missedCallsTitle" msgid="1361677948941502522">"Amakholi akuphuthele"</string>
     <string name="notification_missedCallsMsg" msgid="4575787816055205600">"<xliff:g id="NUM_MISSED_CALLS">%s</xliff:g> amakholi akulahlekele"</string>
-    <string name="notification_missedCallTicker" msgid="504686252427747209">"Ulahlekelwe izincingo eziphuma ku <xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
+    <string name="notification_missedCallTicker" msgid="504686252427747209">"Uphuthelwe ikholi ephuma ku-<xliff:g id="MISSED_CALL_FROM">%s</xliff:g>"</string>
     <string name="notification_ongoing_call" msgid="7068688957273482989">"Ikholi eqhubekayo"</string>
     <string name="notification_on_hold" msgid="3480694969511790465">"Ibambile"</string>
     <string name="notification_incoming_call" msgid="2820429205043529642">"Ikholi engenayo"</string>
@@ -429,7 +429,7 @@
     <string name="incall_error_call_failed" msgid="4313552620858880999">"Ikholi ayithunyelwanga."</string>
     <string name="incall_status_dialed_mmi" msgid="3672498861336189563">"Iqalisa ukulandelana kwe-MMI..."</string>
     <string name="incall_error_supp_service_unknown" msgid="2991054870745666038">"Isevisi engasekelwe."</string>
-    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Ayikwazi ukushintsha izincingo"</string>
+    <string name="incall_error_supp_service_switch" msgid="3503552565745872241">"Ayikwazi ukushintsha amakholi"</string>
     <string name="incall_error_supp_service_separate" msgid="914362338192301746">"Ayikwazi ukwehlukanisa ucingo."</string>
     <string name="incall_error_supp_service_transfer" msgid="2509871374644921632">"Ayikwazi ukudlulisa ucingo."</string>
     <string name="incall_error_supp_service_conference" msgid="2505727299596357312">"Ayikwazi ukwenza amakholi engqungquthela."</string>
@@ -474,7 +474,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"Yenza ifoni yakho isebenze"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Ikholi ekhethekile kumele yenziwe ukuze wenze isevisi yefoni yakho isebenze."\n\n"Emva kokucindezela \"Yenza kusebenze\", lalela iziqondiso ezinikeziwe ukwenza ifoni yakho isebenze."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Yeqa ukwenza kusebenze?"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Uma weqa ukwenza kusebenze, awukwazi ukwenza izincingo noma xhuma kumanethiwekhi edatha yefoni (nakuba ungakwazi ukuxhuma kumanethiwekhi e-Wi-Fi). Kuze kube yilapho wenza ifoni yakho isebenze, ucelwa ukuba wenze isebenze"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Uma weqa ukwenza kusebenze, awukwazi ukwenza amakholi noma xhuma kumanethiwekhi edatha yefoni (nakuba ungakwazi ukuxhuma kumanethiwekhi e-Wi-Fi). Kuze kube yilapho wenza ifoni yakho isebenze, ucelwa ukuba wenze isebenze"</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Yeqa"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Yenza kusebenze"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Ifoni yenziwe yasebenza!"</string>
@@ -531,7 +531,7 @@
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"Yamakholi wonke"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Yenza ikholi"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"Sebenzisa i-akhawunti yokushayela nge-Inthanethi:"</string>
-    <string name="remember_my_choice" msgid="7058059586169290705">"Njalo sebenzisa ukwenza izincingo nge-Inthanethi"</string>
+    <string name="remember_my_choice" msgid="7058059586169290705">"Njalo sebenzisa ukwenza amakholi nge-Inthanethi"</string>
     <string name="reset_my_choice_hint" msgid="5523030209803567922">"Ungashintsha ukuthi iyiphi i-akhawunti yokushaya ye-Inthanethi ongayisebenzisa ngokwakhona kusuka Ocingweni &gt; Izilungisele &gt; Izilungiselelo zokushaya ze-inthanethi &gt; Ukubukwa kwama-Akhawunti."</string>
     <string name="pstn_phone" msgid="8782554491484326429">"Ikholi yeselula foni"</string>
     <string name="internet_phone" msgid="1147922660195095810">"Ikholi ye-Inthanethi"</string>
@@ -572,7 +572,7 @@
     <string name="transport_title" msgid="8253139511847746640">"Uhlobo lokuhamba"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Thumula gcina kuphila"</string>
     <string name="set_primary_title" msgid="5351892327447571451">"Misa njenge-akhawunti eyinhloko"</string>
-    <string name="set_primary_summary" msgid="2219064654523258577">"Setshenziselwa izincingo eziphumayo"</string>
+    <string name="set_primary_summary" msgid="2219064654523258577">"Setshenziselwa amakholi aphumayo"</string>
     <string name="advanced_settings" msgid="8350631795335495338">"Izilungiselelo zokuzikhethela"</string>
     <string name="auth_username_title" msgid="851473016307947120">"Igama lomsebenzisi lokufakazela ubuqiniso"</string>
     <string name="auth_username_summary" msgid="6782012405225938629">"Igama lomsebenzisi elisetshenziselwa ukufakazela ubuqiniso"</string>
