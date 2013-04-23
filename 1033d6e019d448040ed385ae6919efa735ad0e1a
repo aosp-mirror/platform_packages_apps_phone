@@ -70,6 +70,24 @@
       "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TvXS6lss",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-04-23T16:57:57Z",
+      "side": 0,
+      "message": "Maybe not but it could break existing phones so I don\u0027t think we can make this change without through testing on \"all\" devices.\n\nMay I suggest we post a message to android-cell and try to get other opinions. We should make it an agenda item for our Google-IO meeting.",
+      "parentUuid": "TwEs4Lao",
+      "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
