@@ -878,12 +878,6 @@ public class CallNotifier extends Handler
         mCM.unregisterForRingbackTone(this);
         mCM.unregisterForResendIncallMute(this);
 
-        // Release the ToneGenerator used for playing SignalInfo and CallWaiting
-        if (mSignalInfoToneGenerator != null) {
-            mSignalInfoToneGenerator.release();
-            mSignalInfoToneGenerator = null;
-        }
-
         // Clear ringback tone player
         mInCallRingbackTonePlayer = null;
 
