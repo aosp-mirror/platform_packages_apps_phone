@@ -71,6 +71,7 @@ import com.android.internal.telephony.cdma.TtyIntent;
 import com.android.phone.OtaUtils.CdmaOtaScreenState;
 import com.android.server.sip.SipService;
 
+import android.content.pm.ResolveInfo;
 /**
  * Global state for the telephony subsystem when running in the primary
  * phone process.
@@ -1594,7 +1595,17 @@ public class PhoneGlobals extends ContextWrapper
 
                 Intent smsIntent = new Intent(Intent.ACTION_SENDTO, intent.getData());
                 smsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(smsIntent);
+
+                List<ResolveInfo> acts = context.getPackageManager().queryIntentActivities(
+                		smsIntent, 0);
+        		if (acts.size() > 0) {
+        			context.startActivity(smsIntent);
+        		} else {
+        			Toast.makeText(context,
+        					context.getString(R.string.sms_not_available_in_notification),
+        					Toast.LENGTH_SHORT).show();
+        		}
+                
             } else {
                 Log.w(LOG_TAG, "Received hang-up request from notification,"
                         + " but there's no call the system can hang up.");
