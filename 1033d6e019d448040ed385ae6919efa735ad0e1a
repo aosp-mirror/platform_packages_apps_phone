@@ -52,6 +52,24 @@
       "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TwEs4Lao",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1019829
+      },
+      "writtenOn": "2013-04-23T14:52:46Z",
+      "side": 0,
+      "message": "Tested on commercial JB based devices(Samsung/HTC..), but this issue is not observed. I suspect OEMs might fixed this in their code.\n\nIn this case to answer the waiting call and to hangup the active call the first method is sufficient(as per 3gpp spec AT+CHLD\u003d1), below second method is not required.",
+      "parentUuid": "TvYuRMZc",
+      "revId": "1033d6e019d448040ed385ae6919efa735ad0e1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
