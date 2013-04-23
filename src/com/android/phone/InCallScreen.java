@@ -1096,7 +1096,9 @@ public class InCallScreen extends Activity
     protected void onNewIntent(Intent intent) {
         log("onNewIntent: intent = " + intent + ", phone state = " + mCM.getState());
 
-        // We're being re-launched with a new Intent.  Since it's possible for a
+		 getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
+		// We're being re-launched with a new Intent.  Since it's possible for a
         // single InCallScreen instance to persist indefinitely (even if we
         // finish() ourselves), this sequence can potentially happen any time
         // the InCallScreen needs to be displayed.
