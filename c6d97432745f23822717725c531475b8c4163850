@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T9s--AZs",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1015328
+      },
+      "writtenOn": "2013-04-24T18:55:48Z",
+      "side": 1,
+      "message": "Can you add \u0027 characters\u0027 at the end of the first sentence and a space before \u0027Please\u0027 so that the final form reads like this:\n\n\u0027USSD message must be between 1 and 160 characters. Please try again.\u0027\n\nOtherwise everything looks great!",
+      "revId": "c6d97432745f23822717725c531475b8c4163850",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
