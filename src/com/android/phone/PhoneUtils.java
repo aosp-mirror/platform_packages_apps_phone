@@ -95,6 +95,10 @@ public class PhoneUtils {
     static final int AUDIO_RINGING = 1;  /** audio behaviour while ringing */
     static final int AUDIO_OFFHOOK = 2;  /** audio behaviour while in call. */
 
+    // USSD string length for MMI operations
+    static final int MIN_USSD_LEN = 1;
+    static final int MAX_USSD_LEN = 160;
+
     /** Speaker state, persisting between wired headset connection events */
     private static boolean sIsSpeakerEnabled = false;
 
@@ -1079,7 +1083,21 @@ public class PhoneUtils {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             switch (whichButton) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    phone.sendUssdResponse(inputText.getText().toString());
+                                    // As per spec 24.080, valid length of ussd string
+                                    // is 1 - 160. If length is out of the range then
+                                    // display toast message & Cancel MMI operation.
+                                    if (inputText.length() < MIN_USSD_LEN
+                                            || inputText.length() > MAX_USSD_LEN) {
+                                        Toast.makeText(app,
+                                                app.getResources().getString(R.string.enter_input,
+                                                MIN_USSD_LEN, MAX_USSD_LEN),
+                                                Toast.LENGTH_LONG).show();
+                                        if (mmiCode.isCancelable()) {
+                                            mmiCode.cancel();
+                                        }
+                                    } else {
+                                        phone.sendUssdResponse(inputText.getText().toString());
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     if (mmiCode.isCancelable()) {
