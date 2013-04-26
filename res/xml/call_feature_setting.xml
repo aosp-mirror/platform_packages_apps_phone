@@ -88,6 +88,17 @@
           />
   </PreferenceScreen>
 
+  <PreferenceScreen
+      android:key="button_callbarring_category_key"
+      android:title="@string/callbarring"
+      android:persistent="false">
+
+        <intent android:action="android.intent.action.MAIN"
+            android:targetPackage="com.android.phone"
+            android:targetClass="com.android.phone.CallBarring"/>
+
+  </PreferenceScreen>
+
   <CheckBoxPreference
       android:key="button_play_dtmf_tone"
       android:title="@string/dtmf_tone_enable_title"

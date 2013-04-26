@@ -527,5 +527,13 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name="CallBarring"
+                android:label="@string/callbarring"
+                android:theme="@android:style/Theme.Holo.DialogWhenLarge">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
