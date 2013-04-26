@@ -98,6 +98,8 @@
     <string name="mmiCancelled">MMI code canceled</string>
     <!-- Label for "cancel" button on the MMI dialog -->
     <string name="cancel">Cancel</string>
+    <!-- Toast string displayed to user if the input in MMI dialog is < 1 or > 160 -->
+    <string name="enter_input">USSD message must be between <xliff:g id="min_len" >%d</xliff:g> and <xliff:g id="max_len" >%d</xliff:g> characters. Please try again.</string>
 
     <!-- Label for "Manage conference call" panel [CHAR LIMIT=40] -->
     <string name="manageConferenceLabel">Manage conference call</string>
