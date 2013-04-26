@@ -203,6 +203,8 @@
     <string name="call_forwarding_settings">Call forwarding settings</string>
     <!-- Call settings screen, setting option name -->
     <string name="labelCF">Call forwarding</string>
+    <!-- Call settings screen, setting option name -->
+    <string name="callbarring">Call Barring Settings</string>
 
     <!-- Call forwarding settings screen, setting option name -->
     <string name="labelCFU">Always forward</string>
@@ -1484,4 +1486,42 @@
          related settings.
          [CHAR LIMIT=40] -->
     <string name="preference_category_ringtone">Ringtone &amp; Vibrate</string>
+
+    <string name="input_password">Enter Password</string>
+    <string name="psw_enter_old">Enter Old Password</string>
+    <string name="labelCbChangePassword">Change Password</string>
+    <string name="labelCbCancelAll">Deactivate All</string>
+    <string name="psw_enter_new">Enter new password</string>
+    <string name="psw_reenter_new">ReEnter your password</string>
+    <string name="invalidPsw">Input your password (4 - 8 number)</string>
+    <string name="no_call_barring">No Call Barring</string>
+    <string name="cb_psw_dont_match">Password do not match</string>
+    <string name="operation_successfully">Operation successfully!</string>
+    <string name="call_barring_outgoing">Outgoing call barring</string>
+
+    <string-array name="call_barring_outgoing_display_values">
+        <item>Off</item>
+        <item>International roam call</item>
+        <item>International call</item>
+        <item>Outgoing call</item>
+    </string-array>
+    <string-array name="call_barring_outgoing_values">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="call_barring_incoming_display_values">
+        <item>Off</item>
+        <item>Roaming</item>
+        <item>All</item>
+    </string-array>
+
+    <string name="call_barring_incoming">Incoming call barring</string>
+
+    <string-array name="call_barring_incoming_values">
+        <item>-2</item>
+        <item>4</item>
+        <item>3</item>
+    </string-array>
 </resources>
