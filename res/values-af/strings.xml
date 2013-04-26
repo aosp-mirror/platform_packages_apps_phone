@@ -51,6 +51,8 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD-kode loop tans…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI-kode gekanselleer"</string>
     <string name="cancel" msgid="5044513931633602634">"Kanselleer"</string>
+    <!-- no translation found for enter_input (1810529547726803893) -->
+    <skip />
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Bestuur konferensie-oproep"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Luidspreker"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Selfoonoorstuk"</string>

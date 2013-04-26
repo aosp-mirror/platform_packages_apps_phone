@@ -51,6 +51,8 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD 코드 실행 중..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI 코드 취소됨"</string>
     <string name="cancel" msgid="5044513931633602634">"취소"</string>
+    <!-- no translation found for enter_input (1810529547726803893) -->
+    <skip />
     <string name="manageConferenceLabel" msgid="4691922394301969053">"다자간 통화 관리"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"스피커"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"휴대전화"</string>

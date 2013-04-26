@@ -51,6 +51,8 @@
     <string name="ussdRunning" msgid="485588686340541690">"A executar código USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Código de MMI cancelado"</string>
     <string name="cancel" msgid="5044513931633602634">"Cancelar"</string>
+    <!-- no translation found for enter_input (1810529547726803893) -->
+    <skip />
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Gerir chamada de conferência"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Altifalante"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular do aparelho"</string>
@@ -74,7 +76,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Desbloqueio de rede bem sucedido."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Definições de chamadas GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Definições de chamada CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Nomes dos pontos de acesso"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Pontos de acesso (APN)"</string>
     <string name="settings_label" msgid="3876743539816984008">"Definições de rede"</string>
     <string name="voicemail" msgid="8693759337917898954">"Correio de voz"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"Correio de voz:"</string>
