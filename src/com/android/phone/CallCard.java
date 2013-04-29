@@ -1402,7 +1402,7 @@ public class CallCard extends LinearLayout
             mPhoneNumber.setTextDirection(View.TEXT_DIRECTION_LTR);
         }
 
-        if (!TextUtils.isEmpty(label)) {
+        if (TextUtils.isEmpty(label)) {
             mLabel.setVisibility(View.GONE);
         } else {
             mLabel.setText(label);
