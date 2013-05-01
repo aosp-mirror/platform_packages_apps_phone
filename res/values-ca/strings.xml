@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"S\'està executant el codi USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Codi MMI cancel·lat"</string>
     <string name="cancel" msgid="5044513931633602634">"Cancel·la"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"El missatge USSD ha de contenir entre <xliff:g id="MIN_LEN">%d</xliff:g> i <xliff:g id="MAX_LEN">%d</xliff:g> caràcters. Torna-ho a provar."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Gestiona la trucada de conferència"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Altaveu"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular de microtelèfon"</string>

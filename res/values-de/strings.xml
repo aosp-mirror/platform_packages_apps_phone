@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD-Code wird ausgeführt..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI-Code abgebrochen"</string>
     <string name="cancel" msgid="5044513931633602634">"Abbrechen"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"Die USSD-Nachricht muss zwischen <xliff:g id="MIN_LEN">%d</xliff:g> und <xliff:g id="MAX_LEN">%d</xliff:g> Zeichen lang sein. Bitte versuchen Sie es erneut."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Telefonkonferenz verwalten"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Lautsprecher"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Handy-Kopfhörer"</string>

@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"جارٍ تشغيل رمز USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"تم إلغاء كود MMI"</string>
     <string name="cancel" msgid="5044513931633602634">"إلغاء"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"يجب أن تتراوح حروف رسالة USSD بين <xliff:g id="MIN_LEN">%d</xliff:g> و<xliff:g id="MAX_LEN">%d</xliff:g>. الرجاء إعادة المحاولة."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"إدارة مكالمة جماعية"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"السماعة"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"سماعة الأذن للهاتف"</string>

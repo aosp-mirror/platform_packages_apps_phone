@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"กำลังรันรหัส USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"ยกเลิกรหัส MMI แล้ว"</string>
     <string name="cancel" msgid="5044513931633602634">"ยกเลิก"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"ข้อความ USSD ต้องมีจำนวนอักขระระหว่าง <xliff:g id="MIN_LEN">%d</xliff:g> และ <xliff:g id="MAX_LEN">%d</xliff:g> อักขระ โปรดลองอีกครั้ง"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"จัดการการประชุมสาย"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"ลำโพง"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"ชุดหูฟังโทรศัพท์"</string>
