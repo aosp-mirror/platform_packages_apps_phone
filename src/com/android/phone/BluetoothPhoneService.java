@@ -81,8 +81,6 @@ public class BluetoothPhoneService extends Service {
 
     long mBgndEarliestConnectionTime = 0;
 
-    private boolean mRoam = false;
-
     // CDMA specific flag used in context with BT devices having display capabilities
     // to show which Caller is active. This state might not be always true as in CDMA
     // networks if a caller drops off no update is provided to the Phone.
@@ -119,18 +117,11 @@ public class BluetoothPhoneService extends Service {
         mNumActive = 0;
         mNumHeld = 0;
         mRingNumber = new CallNumber("", 0);;
-        mRoam = false;
 
-        updateServiceState(mCM.getDefaultPhone().getServiceState());
         handlePreciseCallStateChange(null);
 
         if(VDBG) Log.d(TAG, "registerForServiceStateChanged");
         // register for updates
-        // Use the service state of default phone as BT service state to
-        // avoid situation such as no cell or wifi connection but still
-        // reporting in service (since SipPhone always reports in service).
-        mCM.getDefaultPhone().registerForServiceStateChanged(mHandler,
-                                                             SERVICE_STATE_CHANGED, null);
         mCM.registerForPreciseCallStateChanged(mHandler,
                                                PRECISE_CALL_STATE_CHANGED, null);
         mCM.registerForCallWaiting(mHandler,
@@ -164,23 +155,18 @@ public class BluetoothPhoneService extends Service {
         return mBinder;
     }
 
-    private static final int SERVICE_STATE_CHANGED = 1;
-    private static final int PRECISE_CALL_STATE_CHANGED = 2;
-    private static final int PHONE_CDMA_CALL_WAITING = 3;
-    private static final int LIST_CURRENT_CALLS = 4;
-    private static final int QUERY_PHONE_STATE = 5;
-    private static final int CDMA_SWAP_SECOND_CALL_STATE = 6;
-    private static final int CDMA_SET_SECOND_CALL_STATE = 7;
+    private static final int PRECISE_CALL_STATE_CHANGED = 1;
+    private static final int PHONE_CDMA_CALL_WAITING = 2;
+    private static final int LIST_CURRENT_CALLS = 3;
+    private static final int QUERY_PHONE_STATE = 4;
+    private static final int CDMA_SWAP_SECOND_CALL_STATE = 5;
+    private static final int CDMA_SET_SECOND_CALL_STATE = 6;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (VDBG) Log.d(TAG, "handleMessage: " + msg.what);
             switch(msg.what) {
-                case SERVICE_STATE_CHANGED:
-                    ServiceState state = (ServiceState) ((AsyncResult) msg.obj).result;
-                    updateServiceState(state);
-                    break;
                 case PRECISE_CALL_STATE_CHANGED:
                 case PHONE_CDMA_CALL_WAITING:
                     Connection connection = null;
@@ -209,28 +195,14 @@ public class BluetoothPhoneService extends Service {
         if(VDBG) Log.d(TAG, "updateBtPhoneStateAfterRadioTechnologyChange...");
 
         //Unregister all events from the old obsolete phone
-        mCM.getDefaultPhone().unregisterForServiceStateChanged(mHandler);
         mCM.unregisterForPreciseCallStateChanged(mHandler);
         mCM.unregisterForCallWaiting(mHandler);
 
         //Register all events new to the new active phone
-        mCM.getDefaultPhone().registerForServiceStateChanged(mHandler,
-                                                             SERVICE_STATE_CHANGED, null);
         mCM.registerForPreciseCallStateChanged(mHandler,
                                                PRECISE_CALL_STATE_CHANGED, null);
         mCM.registerForCallWaiting(mHandler,
                                    PHONE_CDMA_CALL_WAITING, null);
-    }
-
-    private void updateServiceState(ServiceState state) {
-        boolean roam = state.getRoaming();
-
-        if (roam != mRoam) {
-            mRoam = roam;
-            if (mBluetoothHeadset != null) {
-                mBluetoothHeadset.roamChanged(roam);
-            }
-        }
     }
 
     private void handlePreciseCallStateChange(Connection connection) {
