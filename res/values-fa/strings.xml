@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"در حال اجرای کد USSD..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"کد MMI لغو شد"</string>
     <string name="cancel" msgid="5044513931633602634">"لغو"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"طول پیام USSD باید بین <xliff:g id="MIN_LEN">%d</xliff:g> تا <xliff:g id="MAX_LEN">%d</xliff:g> نویسه باشد. لطفاً دوباره امتحان کنید."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"مدیریت تماس کنفرانس"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"بلندگو"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"گوشی"</string>

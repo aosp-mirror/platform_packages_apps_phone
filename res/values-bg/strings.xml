@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD кодът се изпълнява…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI кодът бе анулиран"</string>
     <string name="cancel" msgid="5044513931633602634">"Отказ"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"Съобщението с USSD трябва да бъде между <xliff:g id="MIN_LEN">%d</xliff:g> и <xliff:g id="MAX_LEN">%d</xliff:g> знака. Моля, опитайте отново."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Управление на конферентно обаждане"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Говорител"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Телефонна слушалка"</string>

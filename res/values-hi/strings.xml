@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"USSD कोड चल रहा है…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI कोड रद्द किया गया"</string>
     <string name="cancel" msgid="5044513931633602634">"रद्द करें"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"USSD संदेश <xliff:g id="MIN_LEN">%d</xliff:g> और <xliff:g id="MAX_LEN">%d</xliff:g> वर्णों के बीच होना चाहिए. कृपया पुन: प्रयास करें."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"कॉन्फ़्रेंस कॉल प्रबंधित करें"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"स्‍पीकर"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"हैंडसेट ईयरपीस"</string>

@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Msimbo wa USSD unafungua"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Msimbo wa MMI umeghairiwa"</string>
     <string name="cancel" msgid="5044513931633602634">"Ghairi"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"Ujumbe wa USSD lazima uwe kati ya vibambo <xliff:g id="MIN_LEN">%d</xliff:g> na <xliff:g id="MAX_LEN">%d</xliff:g>. Tafadhali jaribu tena."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Dhibiti simu ya kongamano"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Spika"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Kipaza sauti cha kichwani"</string>
@@ -76,7 +75,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"Umefaulu kufungua mtandao."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"Mipangilio ya simu ya GSM"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"Mipangilio ya simu ya CDMA"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"Fikia Majina ya Pointi za mfikio"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"Majina ya Milango ya Kufikia"</string>
     <string name="settings_label" msgid="3876743539816984008">"Mipangilio ya mtandao"</string>
     <string name="voicemail" msgid="8693759337917898954">"Barua ya sauti"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>

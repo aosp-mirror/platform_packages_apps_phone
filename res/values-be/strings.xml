@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"Запускаецца USSD-код..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"Код MMI адменены"</string>
     <string name="cancel" msgid="5044513931633602634">"Адмяніць"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"Паведамленне USSD павінна складацца з наступнай колькасцi знакаў:  ад <xliff:g id="MIN_LEN">%d</xliff:g> да <xliff:g id="MAX_LEN">%d</xliff:g>. Паспрабуйце яшчэ раз."</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Кіраванне канферэнц-выклікам"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Дынамік"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Дынамік тэлефона"</string>

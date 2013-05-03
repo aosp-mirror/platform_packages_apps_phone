@@ -51,8 +51,7 @@
     <string name="ussdRunning" msgid="485588686340541690">"正在运行 USSD 代码..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI 码已取消"</string>
     <string name="cancel" msgid="5044513931633602634">"取消"</string>
-    <!-- no translation found for enter_input (1810529547726803893) -->
-    <skip />
+    <string name="enter_input" msgid="1810529547726803893">"USSD 消息的长度必须介于<xliff:g id="MIN_LEN">%d</xliff:g>与<xliff:g id="MAX_LEN">%d</xliff:g>个字符之间，请重试。"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"管理电话会议"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"扬声器"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"手机听筒"</string>
