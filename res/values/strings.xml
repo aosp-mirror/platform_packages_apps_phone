@@ -1483,6 +1483,10 @@
          [CHAR LIMIT=40] -->
     <string name="dtmf_tone_enable_title">Dial pad touch tones</string>
 
+    <!--  Setting option name to enable or disable dialpad autocomplete functionality
+         [CHAR LIMIT=40] -->
+    <string name="dial_pad_autocomplete">Dial pad autocomplete</string>
+
     <!-- Title for the category "ringtone", which is shown above ringtone and vibration
          related settings.
          [CHAR LIMIT=40] -->
