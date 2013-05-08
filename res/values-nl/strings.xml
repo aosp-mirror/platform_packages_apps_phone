@@ -629,5 +629,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Beltoon telefoon"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Trillen bij bellen"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"DTMF-tonen kiestoetsen"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Beltoon en trillen"</string>
 </resources>

@@ -633,5 +633,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Puhelimen soittoääni"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Värinä ja soittoääni"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Valintanäppäimien näppäinäänet"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Soittoääni ja värinä"</string>
 </resources>

@@ -137,7 +137,7 @@
     <string name="vm_changed" msgid="380744030726254139">"የድምፅ መልዕክት ቁጥርተለውጧል።"</string>
     <string name="vm_change_failed" msgid="3352934863246208918">"የድምጽ ፖስታ ቁጥርን መለወጥ አልተቻለም፡፡ ይህ ችግር በዚህ ከቀጠለ የድምጸ ተያያዥ ሞደም አቅራቢህን "\n"አግኝ፡፡"</string>
     <string name="fw_change_failed" msgid="5298103228470214665">"የማስተላለፊያ ቁጥርን መለወጥ አልተቻለም፡፡ ይህ ችግር በዚህ ከቀጠለ የድምጸ ተያያዥ ሞደም አቅራቢህን "\n"አግኝ፡፡"</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንጅቶችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም፡፡"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"አሁን ያሉትን ማስተላለፊያ ቁጥሮች ቅንብሮችን ሰርስሮ ማውጣትና ማስቀመጥ አልተቻለም።"\n"ወደ አዲስ አቅራቢ የሆነ ሆኖ ቀይር?"</string>
     <string name="no_change" msgid="3186040086622435212">"ምንም ለውጥ አልተደረገም።"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"የድምፅ መልዕክት አገልግሎት ምረጥ"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"ድምጸ ተያያዥ ሞደም"</string>
@@ -200,14 +200,14 @@
     <string name="throttle_data_usage" msgid="3715677828160555808">"የውሂብ አጠቃቀም"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"የውሂብ በአሁኑ ክፍለ ጊዜ ተጠቅሟል"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"የውሂብ አጠቃቀም ክፍለ ጊዜ"</string>
-    <string name="throttle_rate" msgid="4710388992676803508">"የውሂብ ደረጃ ፖሊሲ"</string>
+    <string name="throttle_rate" msgid="4710388992676803508">"የውሂብ ደረጃ መምሪያ"</string>
     <string name="throttle_help" msgid="243651091785169900">"በተጨማሪ ለመረዳት"</string>
     <string name="throttle_status_subtext" msgid="1657318943142085170">"የ<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪)  <xliff:g id="USED_2">%3$s</xliff:g>  ከፍተኛ ክፈለ ጊዜ "\n"ቀጣይ ክፍለ ጊዜ በ<xliff:g id="USED_3">%4$d</xliff:g> ቀናቶች (<xliff:g id="USED_4">%5$s</xliff:g>) ይጀምራል።"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"የ<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) <xliff:g id="USED_2">%3$s</xliff:g> ከፍተኛ ክፈለ ጊዜ"</string>
     <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g>ከከፍተኛው ዘሏል"\n" የውሂብ ደረጃ ወደ <xliff:g id="USED_1">%2$d</xliff:g> Kb/s ዝቅ ብሏል።"</string>
     <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"የ<xliff:g id="USED_0">%1$d</xliff:g>٪ ዙር ሄዷል "\n"ቀጣይ ክፍለ ጊዜ በ<xliff:g id="USED_1">%2$d</xliff:g> ቀናት(<xliff:g id="USED_2">%3$s</xliff:g>) ይጀምራል"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"የውሂብ አጠቃቀም ወሰን ከበለጠየውሂብ ደረጃ ወደ <xliff:g id="USED">%1$d</xliff:g>Kb/s ቀንሷል።"</string>
-    <string name="throttle_help_subtext" msgid="5217706521499010816">"ተጨማሪ መረጃ ስለ ድምጸ ተያያዥ ሞደምዎ ተንቀሳቃሽ ስልክ አውታረ መረብዎ ውሂብ አጠቃቀም ፖሊሲ"</string>
+    <string name="throttle_help_subtext" msgid="5217706521499010816">"ተጨማሪ መረጃ ስለ ድምጸ ተያያዥ ሞደምዎ ተንቀሳቃሽ ስልክ አውታረ መረብዎ ውሂብ አጠቃቀም መምሪያ"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"የተንቀሳቃሽ ስልክ SMS ስርጭት"</string>
     <string name="enable_disable_cell_bc_sms" msgid="4851147873691392255">"የተንቀሳቃሽ ስልክ SMS ስርጭት"</string>
     <string name="cell_bc_sms_enable" msgid="6441688565738921084">"የ SMS ህዋስ ማሰራጫ አልነቃም"</string>
@@ -528,7 +528,7 @@
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"ጥሪ አድርግ"</string>
     <string name="pick_outgoing_sip_phone" msgid="7012322118236208875">"የበየነ መረብ ጥሪ መለያ ተጠቀም፡"</string>
     <string name="remember_my_choice" msgid="7058059586169290705">"ሁልጊዜ የበይነመረብ ጥሪዎችን ለማድረግ ተጠቀም"</string>
-    <string name="reset_my_choice_hint" msgid="5523030209803567922">"የትኛውን የበየነ መረብ የመደወያ መለያ ለመጠቀም በነባሪ ከስልኩ&gt; ቅንብሮች  &gt; የበየነ መረብ ቅንብሮች  &gt; የመለያዎች ማሳያ መለወጥ ትችላለህ፡፡"</string>
+    <string name="reset_my_choice_hint" msgid="5523030209803567922">"የትኛውን የበየነ መረብ የመደወያ መለያ ለመጠቀም በነባሪ ከስልኩ&gt; ቅንብሮች  &gt; የበየነ መረብ ቅንብሮች  &gt; የመለያዎች ማሳያ መለወጥ ይችላሉ።"</string>
     <string name="pstn_phone" msgid="8782554491484326429">"የተንቀሳቃሽ ስልክ ጥሪ"</string>
     <string name="internet_phone" msgid="1147922660195095810">"የበይነመረብ  ጥሪ"</string>
     <string name="no_sip_account_found_title" msgid="6266249392379373628">"ምንም የበይነ መረብ ጥሪ መለያ"</string>
@@ -582,7 +582,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"ምንም በይነ መረብ ተያያዥ የለም"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"ምንምWi-Fi ትይይዝ የለም"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"የበይነ መረብ ጥሪ ለማድረግ፣ የበይነ መረብ መጀመሪያ ተያያዥነት ተመልከት"</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"ለአውታረ መረብ(የገመድ አልባ &amp; አውታረ መረብ ቅንጅቶችን ተጠቀም) ጥሪዎች ወደ Wi-Fi አውታረ መረብ ማገናኘት አለብሀ።"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"ለአውታረ መረብ(የገመድ አልባ &amp; አውታረ መረብ ቅንብሮችን ይጠቀሙ) ጥሪዎች ወደ Wi-Fi አውታረ መረብ ማገናኘት አለብዎ።"</string>
     <string name="no_voip" msgid="8901474054537199865">"የበይነ መረብ ጥሪ አይደገፍም"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"ራስ ሰር"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"ሁልጊዜ ላክ"</string>
@@ -629,5 +629,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"የስልክ ጥሪ ድምፅ"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"በሚደወልበት ጊዜ ንዘር"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"የመደወያ ሰሌዳ ድምፆች ዳስ"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"የደወል ቅላጼ እና ንዘረት"</string>
 </resources>
