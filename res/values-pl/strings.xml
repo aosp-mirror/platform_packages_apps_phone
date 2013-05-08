@@ -440,7 +440,7 @@
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Aby zadzwonić, użyj klawiatury."</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"Wstrzymaj"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Zakończ"</string>
-    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Panel numeryczny"</string>
+    <string name="onscreenShowDialpadText" msgid="8561805492659639893">"Klawiatura"</string>
     <string name="onscreenMuteText" msgid="5011369181754261374">"Wycisz"</string>
     <string name="onscreenAddCallText" msgid="5140385634712287403">"Dodaj połączenie"</string>
     <string name="onscreenMergeCallsText" msgid="6640195098064538950">"Scal połączenia"</string>
@@ -629,5 +629,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Dzwonek telefonu"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Wibracje i dzwonek"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Dźwięki wybierania numeru"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Dzwonek i wibracje"</string>
 </resources>
