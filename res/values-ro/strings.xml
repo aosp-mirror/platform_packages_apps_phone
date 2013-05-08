@@ -222,22 +222,22 @@
     <string name="enable_disable_maintenance" msgid="1819693083025106678">"Întreţinere"</string>
     <string name="maintenance_enable" msgid="8566636458770971189">"Întreţinere activată"</string>
     <string name="maintenance_disable" msgid="7340189100885066077">"Întreţinere dezactivată"</string>
-    <string name="general_news_settings" msgid="4968779723948432978">"Ştiri generale"</string>
-    <string name="bf_news_settings" msgid="3935593091894685267">"Ştiri despre afaceri şi financiare"</string>
-    <string name="sports_news_settings" msgid="7649399631270052835">"Ştiri din sport"</string>
-    <string name="entertainment_news_settings" msgid="5051153952959405035">"Ştiri de divertisment"</string>
+    <string name="general_news_settings" msgid="4968779723948432978">"Știri generale"</string>
+    <string name="bf_news_settings" msgid="3935593091894685267">"Știri despre afaceri şi financiare"</string>
+    <string name="sports_news_settings" msgid="7649399631270052835">"Știri din sport"</string>
+    <string name="entertainment_news_settings" msgid="5051153952959405035">"Știri de divertisment"</string>
     <string name="enable_disable_local" msgid="7890281063123416120">"Local"</string>
-    <string name="local_enable" msgid="6370463247609136359">"Ştiri locale activate"</string>
-    <string name="local_disable" msgid="4405691986943795798">"Ştiri locale dezactivate"</string>
+    <string name="local_enable" msgid="6370463247609136359">"Știri locale activate"</string>
+    <string name="local_disable" msgid="4405691986943795798">"Știri locale dezactivate"</string>
     <string name="enable_disable_regional" msgid="4905652414535565872">"Regional"</string>
-    <string name="regional_enable" msgid="4434680415437834759">"Ştiri locale activate"</string>
-    <string name="regional_disable" msgid="5359325527213850077">"Ştiri regionale dezactivate"</string>
+    <string name="regional_enable" msgid="4434680415437834759">"Știri locale activate"</string>
+    <string name="regional_disable" msgid="5359325527213850077">"Știri regionale dezactivate"</string>
     <string name="enable_disable_national" msgid="236278090206880734">"Naţional"</string>
-    <string name="national_enable" msgid="1172443648912246952">"Ştiri naţionale activate"</string>
-    <string name="national_disable" msgid="326018148178601166">"Ştiri naţionale dezactivate"</string>
+    <string name="national_enable" msgid="1172443648912246952">"Știri naţionale activate"</string>
+    <string name="national_disable" msgid="326018148178601166">"Știri naţionale dezactivate"</string>
     <string name="enable_disable_international" msgid="7535348799604565592">"Internaţional"</string>
-    <string name="international_enable" msgid="5855356769925044927">"Ştiri internaţionale activate"</string>
-    <string name="international_disable" msgid="2850648591041088931">"Ştiri internaţionale dezactivate"</string>
+    <string name="international_enable" msgid="5855356769925044927">"Știri internaţionale activate"</string>
+    <string name="international_disable" msgid="2850648591041088931">"Știri internaţionale dezactivate"</string>
     <string name="list_language_title" msgid="2841683501919760043">"Limbă"</string>
     <string name="list_language_summary" msgid="8109546531071241601">"Selectaţi limba pentru ştiri"</string>
   <string-array name="list_language_entries">
@@ -289,9 +289,9 @@
     <string name="enable_disable_mhh" msgid="908214593528968522">"Medicină, sănătate şi spitale"</string>
     <string name="mhh_enable" msgid="5544500632306446815">"Medicină, sănătate şi spitale activate"</string>
     <string name="mhh_disable" msgid="8998210550117117437">"Medicină, sănătate şi spitale dezactivate"</string>
-    <string name="enable_disable_technology_news" msgid="3517184627114999149">"Ştiri din tehnologie"</string>
-    <string name="technology_news_enable" msgid="7995209394210455181">"Ştiri din tehnologie activate"</string>
-    <string name="technology_news_disable" msgid="5483490380561851946">"Ştiri din tehnologie dezactivate"</string>
+    <string name="enable_disable_technology_news" msgid="3517184627114999149">"Știri din tehnologie"</string>
+    <string name="technology_news_enable" msgid="7995209394210455181">"Știri din tehnologie activate"</string>
+    <string name="technology_news_disable" msgid="5483490380561851946">"Știri din tehnologie dezactivate"</string>
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Categorii multiple"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Categorii multiple activate"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Categorii multiple dezactivate"</string>
@@ -338,7 +338,7 @@
     <string name="auto_retry_mode_summary" msgid="4973886004067532288">"Activaţi modul Reîncercare automată"</string>
     <string name="menu_add" msgid="1882023737425114762">"Adăugaţi o persoană în agendă"</string>
     <string name="menu_edit" msgid="7143003705504672374">"Modificaţi informaţiile despre persoana din agendă"</string>
-    <string name="menu_delete" msgid="3977150783449642851">"Ştergeţi persoana din agendă"</string>
+    <string name="menu_delete" msgid="3977150783449642851">"Ștergeţi persoana din agendă"</string>
     <string name="get_pin2" msgid="8204677063922225311">"Introduceţi codul PIN2"</string>
     <string name="name" msgid="7329028332786872378">"Nume"</string>
     <string name="number" msgid="7905950798349903858">"Număr"</string>
@@ -349,7 +349,7 @@
     <string name="edit_fdn_contact" msgid="7976936035587081480">"Modificaţi numărul cu apelări restricţionate"</string>
     <string name="updating_fdn_contact" msgid="8370929876849803600">"Se actualizează numărul cu apelări restricţionate..."</string>
     <string name="fdn_contact_updated" msgid="5497828782609005017">"Număr cu apelări restricţionate actualizat."</string>
-    <string name="delete_fdn_contact" msgid="6668958073074151717">"Ştergeţi numărul cu apelări restricţionate"</string>
+    <string name="delete_fdn_contact" msgid="6668958073074151717">"Ștergeţi numărul cu apelări restricţionate"</string>
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"Se şterge numărul cu apelări restricţionate..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Numărul cu apelări restricţionate a fost şters."</string>
     <string name="pin2_invalid" msgid="5470854099230755944">"FDN nu a fost actualizat, deoarece aţi introdus un cod PIN incorect."</string>
@@ -481,7 +481,7 @@
     <string name="ota_failure" msgid="4311299546379674378">"Programarea nu a reuşit"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Telefonul dvs. este acum activat. Poate să dureze până la 15 minute până la pornirea serviciului."</string>
     <string name="ota_unsuccessful" msgid="8072141612635635357">"Telefonul dvs. nu s-a activat. "\n"Vă recomandăm să găsiţi o zonă cu acoperire mai bună (lângă fereastră sau afară). "\n\n"Pentru mai multe opţiuni, încercaţi din nou sau apelaţi serviciul pentru clienţi."</string>
-    <string name="ota_spc_failure" msgid="3909983542575030796">"ERORI DE DEPĂŞIRE SPC"</string>
+    <string name="ota_spc_failure" msgid="3909983542575030796">"ERORI DE DEPĂȘIRE SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Înapoi"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Încercaţi din nou"</string>
     <string name="ota_next" msgid="3904945374358235910">"Înainte"</string>
@@ -628,6 +628,8 @@
   </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Ton de sonerie telefon"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrează când sună"</string>
-    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tonuri la ating. tastaturii pt. apelare"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Tonuri la atingerea pt. apelare"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Ton de sonerie și vibrare"</string>
 </resources>

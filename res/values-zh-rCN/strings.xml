@@ -229,7 +229,7 @@
     <string name="enable_disable_local" msgid="7890281063123416120">"本地"</string>
     <string name="local_enable" msgid="6370463247609136359">"已启用本地新闻"</string>
     <string name="local_disable" msgid="4405691986943795798">"已停用本地新闻"</string>
-    <string name="enable_disable_regional" msgid="4905652414535565872">"地方性"</string>
+    <string name="enable_disable_regional" msgid="4905652414535565872">"区域"</string>
     <string name="regional_enable" msgid="4434680415437834759">"已启用地方新闻"</string>
     <string name="regional_disable" msgid="5359325527213850077">"已停用地方新闻"</string>
     <string name="enable_disable_national" msgid="236278090206880734">"国内"</string>
@@ -629,5 +629,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"手机铃声"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"响铃时振动"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"拨号键盘触摸音效"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"铃声和振动"</string>
 </resources>

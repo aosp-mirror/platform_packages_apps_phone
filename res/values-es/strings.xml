@@ -54,7 +54,7 @@
     <string name="manageConferenceLabel" msgid="4691922394301969053">"Administrar conferencia telefónica"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"Altavoz"</string>
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular"</string>
-    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares con cable"</string>
+    <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
     <string name="wait_prompt_str" msgid="7601815427707856238">"¿Quieres enviar los siguientes tonos?"\n</string>
     <string name="pause_prompt_str" msgid="1789964702154314806">"Enviando tonos"\n</string>
@@ -633,5 +633,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Tono del teléfono"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Vibrar al sonar"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Sonar al marcar número"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Tono y vibración"</string>
 </resources>
