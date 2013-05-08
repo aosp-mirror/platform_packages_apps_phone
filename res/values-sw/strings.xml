@@ -473,7 +473,7 @@
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ruka uwezeshaji?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Kama utaruka kuwezesha, hauwezi kupiga simu au kuunganisha kwa mitandao ya data ya simu (ingawaje unaweza kuunganisha kwa mitandao-hewa). Hadi uiwezeshe simu yako, utaulizwa uiwezeshe kila utakapoiwasha."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ruka"</string>
-    <string name="ota_activate" msgid="1368528132525626264">"Amilisha"</string>
+    <string name="ota_activate" msgid="1368528132525626264">"Washa"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Simu imeamilishwa."</string>
     <string name="ota_title_problem_with_activation" msgid="7095824491970084367">"Tatizo na uamilisho"</string>
     <string name="ota_listen" msgid="162923839877584937">"Fuata maagizo yanayotamkwa hadi usikie kwamba uwezeshaji umekamilika."</string>
@@ -630,5 +630,7 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Mlio wa simu"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Tetema wakati wa kuita"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Toa sauti vitufe vya kupiga vinapoguswa"</string>
+    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
+    <skip />
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Malio wa simu na Mtetemo"</string>
 </resources>
