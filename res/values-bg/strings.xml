@@ -630,7 +630,6 @@
     <string name="ringtone_title" msgid="6374978286202084684">"Мелодия на телефона"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Вибриране при звънене"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Тонове при набиране"</string>
-    <!-- no translation found for dial_pad_autocomplete (494525952035761075) -->
-    <skip />
+    <string name="dial_pad_autocomplete" msgid="494525952035761075">"Авт. довършване на клавиат. за набиране"</string>
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Мелодия и вибриране"</string>
 </resources>
