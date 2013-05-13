@@ -94,6 +94,12 @@
       android:persistent="false"
       android:defaultValue="true" />
 
+  <CheckBoxPreference
+      android:key="button_dialpad_autocomplete"
+      android:title="@string/dial_pad_autocomplete"
+      android:persistent="false"
+      android:defaultValue="false" />
+
   <PreferenceScreen
       android:key="button_respond_via_sms_key"
       android:title="@string/respond_via_sms_setting_title"
