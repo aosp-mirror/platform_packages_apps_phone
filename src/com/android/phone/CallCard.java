@@ -1768,7 +1768,15 @@ public class CallCard extends LinearLayout
         }
     }
 
+    public void clear() {
+        // The existing phone design is to keep an instance of call card forever.  Until that
+        // design changes, this method is needed to clear (reset) the call card for the next call
+        // so old data is not shown.
 
+        // Other elements can also be cleared here.  Starting with elapsed time to fix a bug.
+        mElapsedTime.setVisibility(View.GONE);
+        mElapsedTime.setText(null);
+    }
 
 
     // Debugging / testing code
