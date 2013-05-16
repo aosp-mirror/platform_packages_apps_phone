@@ -1015,6 +1015,10 @@ public class InCallScreen extends Activity
         // This avoids bugs where a previous state will filcker the next time phone is
         // opened.
         updateScreen();
+
+        if (mCallCard != null) {
+            mCallCard.clear();
+        }
     }
 
     /**
