@@ -470,7 +470,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivujte svůj telefon"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"K aktivaci telefonní služby je potřeba uskutečnit speciální hovor. "\n\n"Stiskněte tlačítko Aktivovat a aktivujte telefon podle pokynů, které vám budou sděleny."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Přeskočit aktivaci?"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Pokud přeskočíte aktivaci, nemůžete volat ani se připojovat k mobilním datovým sítím (můžete se ale připojit k sítím WiFi). Dokud svůj telefon neaktivujete, bude se zobrazovat výzva k aktivaci při každém zapnutí."</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Pokud přeskočíte aktivaci, nemůžete volat ani se připojovat k mobilním datovým sítím (můžete se ale připojit k sítím Wi-Fi). Dokud svůj telefon neaktivujete, bude se zobrazovat výzva k aktivaci při každém zapnutí."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Přeskočit"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivovat"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Telefon je aktivován."</string>
