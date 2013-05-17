@@ -557,7 +557,7 @@
     <string name="registration_status_still_trying" msgid="3185581992666091911">"仍在嘗試中…"</string>
     <string name="registration_status_not_receiving" msgid="4185572774980557758">"無法接聽電話。"</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"因沒有網際網路連線，帳戶的註冊作業已停止。"</string>
-    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"找不到 WiFi 連線，帳戶註冊作業已中止。"</string>
+    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"找不到 Wi-Fi 連線，帳戶註冊作業已中止。"</string>
     <string name="registration_status_not_running" msgid="4824867184446232131">"帳戶註冊失敗。"</string>
     <string name="registration_status_done" msgid="884630717456439280">"可以接聽電話。"</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"帳戶註冊失敗：(<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>)；將於稍後重試"</string>
@@ -589,7 +589,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"沒有網際網路連線"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"沒有 Wi-Fi 連線"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"如要撥打網路電話，請先檢查您的網際網路連線。"</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"您必須連上 WiFi 網路才能使用網路電話 (使用 [無線網路與網路設定])。"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"您必須連上 Wi-Fi 網路才能使用網路電話 (使用 [無線網路與網路設定])。"</string>
     <string name="no_voip" msgid="8901474054537199865">"不支援網路電話"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"自動"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"一律傳送"</string>

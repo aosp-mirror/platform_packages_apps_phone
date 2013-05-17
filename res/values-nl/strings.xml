@@ -471,7 +471,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"Uw telefoon activeren"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"U moet een speciale oproep uitvoeren om uw telefoonservice te activeren. "\n\n"Nadat u op \'Activeren\' heeft gedrukt, luistert u naar de instructies om uw telefoon te activeren."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Activering overslaan?"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Als u de activering overslaat, kunt u niet bellen of verbinding maken met mobiele gegevensnetwerken (u kunt wel verbinding maken met Wi-Fi-netwerken). Tot u de telefoon activeert, wordt u gevraagd deze te activeren telkens wanneer u de telefoon inschakelt."</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Als u de activering overslaat, kunt u niet bellen of verbinding maken met mobiele gegevensnetwerken (u kunt wel verbinding maken met wifi-netwerken). Tot u de telefoon activeert, wordt u gevraagd deze te activeren telkens wanneer u de telefoon inschakelt."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Overslaan"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Activeren"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"De telefoon is geactiveerd."</string>
@@ -521,7 +521,7 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"Inkomende gesprekken ontvangen"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Verkort levensduur van accu"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Internetoproepen gebruiken"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Internetoproepen gebruiken (alleen Wi-Fi)"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Internetoproepen gebruiken (alleen wifi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Voor alle oproepen indien gegevensnetwerk beschikbaar is"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Alleen voor internetoproepen"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Vragen bij elke oproep"</string>
@@ -581,7 +581,7 @@
     <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> is verplicht en mag niet worden leeggelaten."</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"Het poortnummer moet tussen 1000 en 65534 liggen."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Geen internetverbinding"</string>
-    <string name="no_wifi_available_title" msgid="747881033089378758">"Geen Wi-Fi-verbinding"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Geen wifi-verbinding"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Controleer uw internetverbinding voordat u belt via internet."</string>
     <string name="no_wifi_available" msgid="1225073547318465713">"Voor internetoproepen moet u verbinding hebben met een wifi-netwerk (gebruik de instellingen bij \'Draadloos en netwerken\')."</string>
     <string name="no_voip" msgid="8901474054537199865">"Bellen via internet niet ondersteund"</string>

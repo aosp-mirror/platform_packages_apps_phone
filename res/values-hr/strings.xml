@@ -551,7 +551,7 @@
     <string name="registration_status_still_trying" msgid="3185581992666091911">"Još pokušavam…"</string>
     <string name="registration_status_not_receiving" msgid="4185572774980557758">"Ne prima pozive."</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"Prijava računa zaustavljena je jer nema internetske veze."</string>
-    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"Prijava računa zaustavljena je jer nema WiFi veze."</string>
+    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"Prijava računa zaustavljena je jer nema Wi-Fi veze."</string>
     <string name="registration_status_not_running" msgid="4824867184446232131">"Prijava računa nije uspjela."</string>
     <string name="registration_status_done" msgid="884630717456439280">"Prima pozive."</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"Registracija računa nije uspjela: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); pokušat ćemo kasnije"</string>
@@ -583,7 +583,7 @@
     <string name="no_internet_available_title" msgid="3327109242858406165">"Nema internetske veze"</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Nema Wi-Fi veze"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Za uspostavu internetskog poziva prvo provjerite internetsku vezu."</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"Morate se povezati s WiFi mrežom za internetske pozive (upotrijebite postavke Bežičnog povezivanja i mreža)."</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"Morate se povezati s Wi-Fi mrežom za internetske pozive (upotrijebite postavke Bežičnog povezivanja i mreža)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetski pozivi nisu podržani"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"Automatski"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"Uvijek šalji"</string>

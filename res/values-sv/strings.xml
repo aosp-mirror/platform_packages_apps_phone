@@ -477,7 +477,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivera telefonen"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"Du måste ringa ett särskilt samtal för att aktivera telefontjänsten. "\n\n" Tryck på \"Aktivera\" och lyssna på instruktionerna om hur du aktiverar telefonen."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Vill du hoppa över aktiveringen?"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Om du hoppar över aktiveringen kan du inte ringa samtal eller ansluta till mobila datanätverk (men du kan ansluta till WiFi-nätverk). Du kommer att påminnas om att aktivera telefonen varje gång du sätter på den, tills du har aktiverat den."</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Om du hoppar över aktiveringen kan du inte ringa samtal eller ansluta till mobila datanätverk (men du kan ansluta till Wi-Fi-nätverk). Du kommer att påminnas om att aktivera telefonen varje gång du sätter på den, tills du har aktiverat den."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Hoppa över"</string>
     <string name="ota_activate" msgid="1368528132525626264">"Aktivera"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"Telefonen är aktiverad."</string>
@@ -527,7 +527,7 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"Ta emot inkommande samtal"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"Sänker batteriförbrukningen"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"Använd Internetsamtal"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Använd Internetsamtal (endast WiFi)"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Använd Internetsamtal (endast Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"För alla samtal när datanätverk är tillgängligt"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Endast för Internetsamtal"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Fråga för varje samtal"</string>
@@ -587,7 +587,7 @@
     <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> är ett obligatoriskt fält som måste fyllas i."</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"Portnumret ska vara mellan 1000 och 65534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Ingen Internetanslutning"</string>
-    <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen WiFi-anslutning"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen Wi-Fi-anslutning"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Kontrollera Internetanslutningen om du vill ringa Internetsamtal."</string>
     <string name="no_wifi_available" msgid="1225073547318465713">"Enheten måste vara ansluten till ett Wi-Fi-nätverk för att du ska kunna ringa Internetsamtal (använd inställningarna under Trådlöst och nätverk)."</string>
     <string name="no_voip" msgid="8901474054537199865">"Inget stöd för Internetsamtal"</string>
