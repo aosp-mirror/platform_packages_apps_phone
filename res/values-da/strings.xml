@@ -587,7 +587,7 @@
     <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> skal udfyldes. Feltet må ikke være tomt."</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"Portnummeret skal være mellem 1000 og 65534."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Ingen internetforbindelse"</string>
-    <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen Wi-FI-forbindelse"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"Ingen Wi-Fi-forbindelse"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"Kontroller din internetforbindelse, før du foretager et internetopkald."</string>
     <string name="no_wifi_available" msgid="1225073547318465713">"Du skal have forbindelse til et Wi-Fi-netværk for at kunne foretage internetopkald (brug Indstillinger for trådløs og netværk)"</string>
     <string name="no_voip" msgid="8901474054537199865">"Internetopkald understøttes ikke"</string>
