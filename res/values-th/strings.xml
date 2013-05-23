@@ -470,7 +470,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"เปิดการใช้งานโทรศัพท์ของคุณ"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"ต้องทำการโทรพิเศษเพื่อเปิดใช้บริการโทรศัพท์ของคุณ "\n\n"หลังจากกด “เปิดการใช้งาน” ให้ฟังคำแนะนำเพื่อเปิดใช้บริการโทรศัพท์ของคุณ"</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"ข้ามการเปิดใช้งานหรือไม่"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"หากคุณข้ามการเปิดใช้งาน คุณจะโทรออกหรือเชื่อมต่อเครือข่ายข้อมูลมือถือไม่ได้ (แม้จะเชื่อมต่อเครือข่าย Wi-Fi ได้ก็ตาม) และระบบจะขอให้คุณเปิดใช้งานทุกครั้งที่คุณเปิดเครื่องจนกว่าคุณจะเปิดใช้งานโทรศัพท์"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"หากคุณข้ามการเปิดใช้งาน คุณจะโทรออกหรือเชื่อมต่อเครือข่ายข้อมูลมือถือไม่ได้ (แม้จะเชื่อมต่อเครือข่าย WiFi ได้ก็ตาม) และระบบจะขอให้คุณเปิดใช้งานทุกครั้งที่คุณเปิดเครื่องจนกว่าคุณจะเปิดใช้งานโทรศัพท์"</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"ข้าม"</string>
     <string name="ota_activate" msgid="1368528132525626264">"เปิดการใช้งาน"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"เปิดใช้งานโทรศัพท์แล้ว"</string>
@@ -520,7 +520,7 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"รับสายเรียกเข้า"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"ลดอายุการใช้งานแบตเตอรี่"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"ใช้การโทรทางอินเทอร์เน็ต"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"ใช้การโทรทางอินเทอร์เน็ต (Wi-Fi เท่านั้น)"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"ใช้การโทรทางอินเทอร์เน็ต (WiFi เท่านั้น)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"สำหรับทุกสายเมื่อเครือข่ายข้อมูลใช้งานได้"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"สำหรับการโทรทางอินเทอร์เน็ตเท่านั้น"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"ถามทุกครั้งที่โทรออก"</string>
@@ -580,7 +580,7 @@
     <string name="empty_alert" msgid="6839103946505432390">"ต้องระบุ <xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> และไม่สามารถปล่อยว่างได้"</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"หมายเลขพอร์ตควรอยู่ระหว่าง 1000 ถึง 65534"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"ไม่มีการเชื่อมต่ออินเทอร์เน็ต"</string>
-    <string name="no_wifi_available_title" msgid="747881033089378758">"ไม่มีการเชื่อมต่อ Wi-Fi"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"ไม่มีการเชื่อมต่อ WiFi"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"หากต้องการโทรออกทางอินเทอร์เน็ต ให้ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณก่อน"</string>
     <string name="no_wifi_available" msgid="1225073547318465713">"คุณจำเป็นต้องเชื่อมต่อกับเครือข่าย WiFi สำหรับการโทรทางอินเทอร์เน็ต (ใช้การตั้งค่าระบบไร้สายและเครือข่าย)"</string>
     <string name="no_voip" msgid="8901474054537199865">"ไม่สนับสนุนการโทรทางอินเทอร์เน็ต"</string>
