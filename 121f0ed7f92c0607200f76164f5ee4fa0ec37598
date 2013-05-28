@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "VDCpgh94",
+        "filename": "src/com/android/phone/CallNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1010292
+      },
+      "writtenOn": "2013-05-28T07:38:54Z",
+      "side": 1,
+      "message": "Code style issue: Space missing after if.",
+      "revId": "121f0ed7f92c0607200f76164f5ee4fa0ec37598",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
