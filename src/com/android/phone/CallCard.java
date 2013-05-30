@@ -1202,7 +1202,6 @@ public class CallCard extends LinearLayout
         mPhotoTracker.setPhotoState(ContactsAsyncHelper.ImageTracker.DISPLAY_IMAGE);
 
         // The actual strings we're going to display onscreen:
-        boolean displayNameIsNumber = false;
         String displayName;
         String displayNumber = null;
         String label = null;
@@ -1270,7 +1269,6 @@ public class CallCard extends LinearLayout
 
                     // Promote the phone number up to the "name" slot:
                     displayName = number;
-                    displayNameIsNumber = true;
 
                     // ...and use the "number" slot for a geographical description
                     // string if available (but only for incoming calls.)
@@ -1309,50 +1307,12 @@ public class CallCard extends LinearLayout
             displayName = PhoneUtils.getPresentationString(getContext(), presentation);
         }
 
-        boolean updateNameAndNumber = true;
-        // If the new info is just a phone number, check to make sure it's not less
-        // information than what's already being displayed.
-        if (displayNameIsNumber) {
-            // If the new number is the same as the number already displayed, ignore it
-            // because that means we're also already displaying a name for it.
-            // If the new number is the same as the name currently being displayed, only
-            // display if the new number is longer (ie, has formatting).
-            String visiblePhoneNumber = null;
-            if (mPhoneNumber.getVisibility() == View.VISIBLE) {
-                visiblePhoneNumber = mPhoneNumber.getText().toString();
-            }
-            if ((visiblePhoneNumber != null &&
-                 PhoneNumberUtils.compare(visiblePhoneNumber, displayName)) ||
-                (PhoneNumberUtils.compare(mName.getText().toString(), displayName) &&
-                 displayName.length() < mName.length())) {
-                if (DBG) log("chose not to update display {" + mName.getText() + ", "
-                             + visiblePhoneNumber + "} with number " + displayName);
-                updateNameAndNumber = false;
-            }
+        if (call.isGeneric()) {
+            mName.setText(R.string.card_title_in_call);
+        } else {
+            mName.setText(displayName);
         }
-
-        if (updateNameAndNumber) {
-            if (call.isGeneric()) {
-                mName.setText(R.string.card_title_in_call);
-            } else {
-                mName.setText(displayName);
-            }
-            mName.setVisibility(View.VISIBLE);
-
-            if (displayNumber != null && !call.isGeneric()) {
-                mPhoneNumber.setText(displayNumber);
-                mPhoneNumber.setVisibility(View.VISIBLE);
-            } else {
-                mPhoneNumber.setVisibility(View.GONE);
-            }
-
-            if (label != null && !call.isGeneric()) {
-                mLabel.setText(label);
-                mLabel.setVisibility(View.VISIBLE);
-            } else {
-                mLabel.setVisibility(View.GONE);
-            }
-        }
+        mName.setVisibility(View.VISIBLE);
 
         // Update mPhoto
         // if the temporary flag is set, we know we'll be getting another call after
@@ -1407,6 +1367,20 @@ public class CallCard extends LinearLayout
             AnimationUtils.Fade.show(mPhotoDimEffect);
         } else {
             AnimationUtils.Fade.hide(mPhotoDimEffect, View.GONE);
+        }
+
+        if (displayNumber != null && !call.isGeneric()) {
+            mPhoneNumber.setText(displayNumber);
+            mPhoneNumber.setVisibility(View.VISIBLE);
+        } else {
+            mPhoneNumber.setVisibility(View.GONE);
+        }
+
+        if (label != null && !call.isGeneric()) {
+            mLabel.setText(label);
+            mLabel.setVisibility(View.VISIBLE);
+        } else {
+            mLabel.setVisibility(View.GONE);
         }
 
         // Other text fields:
