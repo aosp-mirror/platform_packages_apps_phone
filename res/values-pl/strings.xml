@@ -95,7 +95,7 @@
     <string name="sum_cw_enabled" msgid="8083061901633671397">"Podczas połączenia powiadamiaj mnie o połączeniach przychodzących"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"Podczas połączenia powiadamiaj mnie o połączeniach przychodzących"</string>
     <string name="call_forwarding_settings" msgid="3378927671091537173">"Ustawienia przekazywania połączeń"</string>
-    <string name="labelCF" msgid="2574386948026924737">"Przekazywanie połączeń"</string>
+    <string name="labelCF" msgid="2574386948026924737">"Przekierowanie połączeń"</string>
     <string name="labelCFU" msgid="8147177368148660600">"Przekieruj wszystkie"</string>
     <string name="messageCFU" msgid="3560082430662923687">"Zawsze używaj tego numeru"</string>
     <string name="sum_cfu_enabled_indicator" msgid="4014187342724130197">"Przekierowanie wszystkich rozmów"</string>
@@ -191,7 +191,7 @@
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Włącz przesył danych"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Włącz przesył danych przez sieć komórkową"</string>
-    <string name="roaming" msgid="8871412572928323707">"Dane w roamingu"</string>
+    <string name="roaming" msgid="8871412572928323707">"Roaming danych"</string>
     <string name="roaming_enable" msgid="7331106985174381987">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_disable" msgid="1843417228755568110">"Połącz z usługami przesyłu danych podczas roamingu"</string>
     <string name="roaming_reenable_message" msgid="8913735676127858115">"Połączenie transmisji danych zostało utracone, ponieważ opuszczono sieć macierzystą przy wyłączonej opcji danych w roamingu."</string>
