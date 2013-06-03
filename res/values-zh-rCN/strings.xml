@@ -471,7 +471,7 @@
     <string name="ota_title_activate" msgid="8616918561356194398">"激活您的手机"</string>
     <string name="ota_touch_activate" msgid="6553212803262586244">"需要拨打特别号码才能激活您的手机服务。"\n\n"在按下“激活”后，按照语音提示激活您的手机。"</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"略过激活步骤？"</string>
-    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"如果您略过激活步骤，就无法拨打电话或连接到移动数据网络（不过您可以连接到 Wi-Fi 网络）。如果您不激活手机，每次开机时都会收到激活提示。"</string>
+    <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"如果您略过激活步骤，就无法拨打电话或连接到移动数据网络（不过您可以连接到 WLAN 网络）。如果您不激活手机，每次开机时都会收到激活提示。"</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"跳过"</string>
     <string name="ota_activate" msgid="1368528132525626264">"激活"</string>
     <string name="ota_title_activate_success" msgid="6570240212263372046">"手机已激活。"</string>
@@ -521,7 +521,7 @@
     <string name="sip_receive_calls" msgid="5635685570889971559">"接听来电"</string>
     <string name="sip_receive_calls_summary" msgid="8403613238633679184">"会缩短电池待机时间"</string>
     <string name="sip_call_options_title" msgid="27433718808839672">"使用互联网电话"</string>
-    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"使用互联网通话（仅限 Wi-Fi）"</string>
+    <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"使用互联网通话（仅限 WLAN）"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"数据网络接通时适用于所有通话"</string>
     <string name="sip_call_options_entry_2" msgid="6789764029719494361">"仅适用于互联网通话"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"每次呼叫时询问"</string>
@@ -551,7 +551,7 @@
     <string name="registration_status_still_trying" msgid="3185581992666091911">"仍在尝试..."</string>
     <string name="registration_status_not_receiving" msgid="4185572774980557758">"不接听电话。"</string>
     <string name="registration_status_no_data" msgid="4901476962360656611">"由于未连接至互联网，帐户注册已停止。"</string>
-    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"由于未连接到 Wi-Fi 网络，帐户注册已停止。"</string>
+    <string name="registration_status_no_wifi_data" msgid="4038976374713018067">"由于未连接到 WLAN 网络，帐户注册已停止。"</string>
     <string name="registration_status_not_running" msgid="4824867184446232131">"帐户注册失败。"</string>
     <string name="registration_status_done" msgid="884630717456439280">"接听电话。"</string>
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"帐户注册失败：（<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>）；系统会在稍后重试"</string>
@@ -581,9 +581,9 @@
     <string name="empty_alert" msgid="6839103946505432390">"“<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g>”属于必填字段，不能留空。"</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"端口号应在 1000 与 655534 之间。"</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"无互联网连接"</string>
-    <string name="no_wifi_available_title" msgid="747881033089378758">"无 Wi-Fi 连接"</string>
+    <string name="no_wifi_available_title" msgid="747881033089378758">"无 WLAN 连接"</string>
     <string name="no_internet_available" msgid="7877142631803238549">"要拨打互联网电话，请先检查互联网连接情况。"</string>
-    <string name="no_wifi_available" msgid="1225073547318465713">"您需要连接到 Wi-Fi 网络才能使用互联网电话（使用“无线与网络”设置）。"</string>
+    <string name="no_wifi_available" msgid="1225073547318465713">"您需要连接到 WLAN 网络才能使用互联网电话（使用“无线与网络”设置）。"</string>
     <string name="no_voip" msgid="8901474054537199865">"不支持互联网电话"</string>
     <string name="sip_system_decide" msgid="368030746310423471">"自动"</string>
     <string name="sip_always_send_keepalive" msgid="8192080724632877132">"一律发送"</string>
