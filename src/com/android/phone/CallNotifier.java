@@ -895,6 +895,8 @@ public class CallNotifier extends Handler
     }
 
     private void registerForNotifications() {
+        // TODO(santoscordon): Use CallStateMonitor instead.
+
         mCM.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
         mCM.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
         mCM.registerForDisconnect(this, PHONE_DISCONNECT, null);

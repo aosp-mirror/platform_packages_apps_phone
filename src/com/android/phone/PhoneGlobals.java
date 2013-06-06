@@ -171,6 +171,7 @@ public class PhoneGlobals extends ContextWrapper
     IBluetoothHeadsetPhone mBluetoothPhone;
     PhoneInterfaceManager phoneMgr;
     CallManager mCM;
+    CallStateMonitor callStateMonitor;
     int mBluetoothHeadsetState = BluetoothProfile.STATE_DISCONNECTED;
     int mBluetoothHeadsetAudioState = BluetoothHeadset.STATE_AUDIO_DISCONNECTED;
     boolean mShowBluetoothIndication = false;
@@ -531,6 +532,9 @@ public class PhoneGlobals extends ContextWrapper
             //
             // The asynchronous caching will start just after this call.
             callerInfoCache = CallerInfoCache.init(this);
+
+            // Monitors call activity from the telephony layer
+            callStateMonitor = new CallStateMonitor(mCM);
 
             // Create the CallNotifer singleton, which handles
             // asynchronous events from the telephony layer (like
