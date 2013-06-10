@@ -76,6 +76,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
     private static final String[] CALL_LOG_PROJECTION = new String[] {
         Calls._ID,
         Calls.NUMBER,
+        Calls.NUMBER_PRESENTATION,
         Calls.DATE,
         Calls.DURATION,
         Calls.TYPE,
@@ -314,6 +315,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
         private class NotificationInfo {
             public String name;
             public String number;
+            public int presentation;
             /**
              * Type of the call. {@link android.provider.CallLog.Calls#INCOMING_TYPE}
              * {@link android.provider.CallLog.Calls#OUTGOING_TYPE}, or
@@ -432,6 +434,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             NotificationInfo n = new NotificationInfo();
             n.name = null;
             n.number = cursor.getString(cursor.getColumnIndexOrThrow(Calls.NUMBER));
+            n.presentation = cursor.getInt(cursor.getColumnIndexOrThrow(Calls.NUMBER_PRESENTATION));
             n.type = cursor.getString(cursor.getColumnIndexOrThrow(Calls.TYPE));
             n.date = cursor.getLong(cursor.getColumnIndexOrThrow(Calls.DATE));
 
@@ -439,9 +442,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
             // CallLog.addCall().  If either special values for unknown or
             // private number are detected, we need to hand off the message
             // to the missed call notification.
-            if ( (n.number.equals(CallerInfo.UNKNOWN_NUMBER)) ||
-                 (n.number.equals(CallerInfo.PRIVATE_NUMBER)) ||
-                 (n.number.equals(CallerInfo.PAYPHONE_NUMBER)) ) {
+            if (n.presentation != Calls.PRESENTATION_ALLOWED) {
                 n.number = null;
             }
 
