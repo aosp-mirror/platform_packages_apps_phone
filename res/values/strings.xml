@@ -918,6 +918,9 @@
     <!-- Text for the onscreen "Audio" button that lets you switch
          between speaker / bluetooth / earpiece [CHAR LIMIT=10] -->
     <string name="onscreenAudioText">Audio</string>
+    <!-- Text for the onscreen "Video call" button used to change a voice call
+         to a video call. [CHAR LIMIT=10] -->
+    <string name="onscreenVideoCallText">Video call</string>
 
     <!-- Menu item label in SIM Contacts: Import a single contact entry from the SIM card -->
     <string name="importSimEntry">Import</string>

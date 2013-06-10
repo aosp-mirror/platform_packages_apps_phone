@@ -181,6 +181,17 @@
                     android:contentDescription="@string/onscreenMergeCallsText"
                     />
 
+                <!-- Separator between 5th and 6th button (if 6th exists) -->
+                <View android:id="@+id/videoCallSpacer"
+                    style="@style/VerticalSeparator" />
+
+                <!-- This button is use for converting an ongoing call into a video call. -->
+                <ImageButton android:id="@+id/videoCallButton"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_videocall_holo_dark"
+                    android:contentDescription="@string/onscreenVideoCallText"
+                    />
+
                 <!-- Separator between 4th (or 5th) button and right padding -->
                 <View style="@style/VerticalSeparator" />
 

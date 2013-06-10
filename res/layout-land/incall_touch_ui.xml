@@ -84,42 +84,30 @@
             android:layout_weight="2"
             android:layout_height="match_parent">
 
-            <!-- "Audio mode" -->
-            <!-- This is a multi-mode button that can behave either like a
-                 simple "compound button" with two states *or* like an
-                 action button that brings up a popup menu; see
-                 btn_compound_audio.xml and InCallTouchUi.updateAudioButton()
-                 for the full details. -->
-            <ToggleButton
-                android:id="@+id/audioButton"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                style="@style/InCallCompoundButton"
-                android:background="@drawable/btn_compound_audio"
-                android:contentDescription="@string/onscreenAudioText" />
-
-            <View
-                android:layout_height="@dimen/dialpad_button_margin"
-                android:layout_width="match_parent"
-                android:background="#66000000" />
-
             <LinearLayout
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_width="match_parent">
+                <!-- "Audio mode" -->
+                <!-- This is a multi-mode button that can behave either like a
+                     simple "compound button" with two states *or* like an
+                     action button that brings up a popup menu; see
+                     btn_compound_audio.xml and InCallTouchUi.updateAudioButton()
+                     for the full details. -->
                 <ToggleButton
-                    android:id="@+id/muteButton"
+                    android:id="@+id/audioButton"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     style="@style/InCallCompoundButton"
-                    android:background="@drawable/btn_compound_mute"
-                    android:contentDescription="@string/onscreenMuteText" />
+                    android:background="@drawable/btn_compound_audio"
+                    android:contentDescription="@string/onscreenAudioText" />
+
                 <View
                     android:layout_width="@dimen/dialpad_button_margin"
                     android:layout_height="match_parent"
                     android:background="#66000000" />
+
                 <!-- This slot is either "Hold" or "Swap", depending on
                      the state of the call.   One or the other of these
                      must always be set to GONE. -->
@@ -142,6 +130,39 @@
                     style="@style/InCallButton"
                     android:src="@drawable/ic_incall_switch_holo_dark"
                     android:contentDescription="@string/onscreenSwapCallsText" />
+            </LinearLayout>
+
+            <View
+                android:layout_height="@dimen/dialpad_button_margin"
+                android:layout_width="match_parent"
+                android:background="#66000000" />
+
+            <LinearLayout
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent">
+                <ToggleButton
+                    android:id="@+id/muteButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_mute"
+                    android:contentDescription="@string/onscreenMuteText" />
+                <View
+                    android:layout_width="@dimen/dialpad_button_margin"
+                    android:layout_height="match_parent"
+                    android:background="#66000000" />
+
+                <!-- "Video call" -->
+                <ImageButton
+                    android:id="@+id/videoCallButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    style="@style/InCallButton"
+                    android:src="@drawable/ic_videocall_holo_dark"
+                    android:contentDescription="@string/onscreenVideoCallText" />
             </LinearLayout>
 
             <View
