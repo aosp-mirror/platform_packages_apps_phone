@@ -554,6 +554,11 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
         return true;
     }
+    public boolean setRadioPower(boolean turnOn) {
+        enforceModifyPermission();
+        mPhone.setRadioPower(turnOn);
+        return true;
+    }
 
     public boolean enableDataConnectivity() {
         enforceModifyPermission();
