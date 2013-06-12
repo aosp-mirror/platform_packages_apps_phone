@@ -449,6 +449,8 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Управление на обажданията"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Упр. на конференция"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Аудио"</string>
+    <!-- no translation found for onscreenVideoCallText (4800924186056115442) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"Импортиране"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Импортиране на всички"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Импортиране на контактите от SIM картата"</string>

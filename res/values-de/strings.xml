@@ -453,6 +453,8 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Anrufe verwalten"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Konferenz verwalten"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
+    <!-- no translation found for onscreenVideoCallText (4800924186056115442) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"Importieren"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Alle importieren"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"SIM-Kontakte werden importiert"</string>
@@ -582,7 +584,7 @@
     <string name="optional_summary" msgid="1464058793789832411">"&lt;Optional&gt;"</string>
     <string name="advanced_settings_show" msgid="4668880308290857597">"▷ Tippen, um alle anzuzeigen"</string>
     <string name="advanced_settings_hide" msgid="217398292824758079">"▽ Tippen, um alle auszublenden"</string>
-    <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> ist ein erforderliches Feld. Es darf nicht leer bleiben."</string>
+    <string name="empty_alert" msgid="6839103946505432390">"<xliff:g id="INPUT_FIELD_NAME">%s</xliff:g> ist ein Pflichtfeld. Es darf nicht leer bleiben."</string>
     <string name="not_a_valid_port" msgid="4796149266434630292">"Portnummer muss zwischen 1000 und 65534 liegen."</string>
     <string name="no_internet_available_title" msgid="3327109242858406165">"Keine Internetverbindung."</string>
     <string name="no_wifi_available_title" msgid="747881033089378758">"Keine WLAN-Verbindung"</string>
