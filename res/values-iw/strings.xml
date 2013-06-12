@@ -449,6 +449,8 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"נהל שיחות"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"נהל ועידה"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"אודיו"</string>
+    <!-- no translation found for onscreenVideoCallText (4800924186056115442) -->
+    <skip />
     <string name="importSimEntry" msgid="6614358325359736031">"ייבא"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"ייבא הכל"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"מייבא אנשי קשר מ-SIM"</string>
