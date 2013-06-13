@@ -96,7 +96,7 @@ public class PhoneGlobals extends ContextWrapper
      *
      * ***** DO NOT SUBMIT WITH DBG_LEVEL > 0 *************
      */
-    /* package */ static final int DBG_LEVEL = 2;
+    /* package */ static final int DBG_LEVEL = 0;
 
     private static final boolean DBG =
             (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
