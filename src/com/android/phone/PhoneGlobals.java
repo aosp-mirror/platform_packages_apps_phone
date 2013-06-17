@@ -540,7 +540,7 @@ public class PhoneGlobals extends ContextWrapper
             // asynchronous events from the telephony layer (like
             // launching the incoming-call UI when an incoming call comes
             // in.)
-            notifier = CallNotifier.init(this, phone, ringer, callLogger);
+            notifier = CallNotifier.init(this, phone, ringer, callLogger, callStateMonitor);
 
             // register for ICC status
             IccCard sim = phone.getIccCard();
@@ -1316,6 +1316,8 @@ public class PhoneGlobals extends ContextWrapper
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
         notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
+        callStateMonitor.updateAfterRadioTechnologyChange();
+
         if (mBluetoothPhone != null) {
             try {
                 mBluetoothPhone.updateBtHandsfreeAfterRadioTechnologyChange();

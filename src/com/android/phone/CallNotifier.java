@@ -123,26 +123,11 @@ public class CallNotifier extends Handler
     // Event used to indicate a query timeout.
     private static final int RINGER_CUSTOM_RINGTONE_QUERY_TIMEOUT = 100;
 
-    // Events from the Phone object:
-    private static final int PHONE_STATE_CHANGED = 1;
-    private static final int PHONE_NEW_RINGING_CONNECTION = 2;
-    private static final int PHONE_DISCONNECT = 3;
-    private static final int PHONE_UNKNOWN_CONNECTION_APPEARED = 4;
-    private static final int PHONE_INCOMING_RING = 5;
-    private static final int PHONE_STATE_DISPLAYINFO = 6;
-    private static final int PHONE_STATE_SIGNALINFO = 7;
-    private static final int PHONE_CDMA_CALL_WAITING = 8;
-    private static final int PHONE_ENHANCED_VP_ON = 9;
-    private static final int PHONE_ENHANCED_VP_OFF = 10;
-    private static final int PHONE_RINGBACK_TONE = 11;
-    private static final int PHONE_RESEND_MUTE = 12;
-
     // Events generated internally:
     private static final int PHONE_MWI_CHANGED = 21;
     private static final int CALLWAITING_CALLERINFO_DISPLAY_DONE = 22;
     private static final int CALLWAITING_ADDCALL_DISABLE_TIMEOUT = 23;
     private static final int DISPLAYINFO_NOTIFICATION_DONE = 24;
-    private static final int EVENT_OTA_PROVISION_CHANGE = 25;
     private static final int CDMA_CALL_WAITING_REJECT = 26;
     private static final int UPDATE_IN_CALL_NOTIFICATION = 27;
 
@@ -153,6 +138,7 @@ public class CallNotifier extends Handler
 
     private PhoneGlobals mApplication;
     private CallManager mCM;
+    private CallStateMonitor mCallStateMonitor;
     private Ringer mRinger;
     private BluetoothHeadset mBluetoothHeadset;
     private CallLogger mCallLogger;
@@ -187,10 +173,10 @@ public class CallNotifier extends Handler
      * This is only done once, at startup, from PhoneApp.onCreate().
      */
     /* package */ static CallNotifier init(PhoneGlobals app, Phone phone, Ringer ringer,
-                                           CallLogger callLogger) {
+            CallLogger callLogger, CallStateMonitor callStateMonitor) {
         synchronized (CallNotifier.class) {
             if (sInstance == null) {
-                sInstance = new CallNotifier(app, phone, ringer, callLogger);
+                sInstance = new CallNotifier(app, phone, ringer, callLogger, callStateMonitor);
             } else {
                 Log.wtf(LOG_TAG, "init() called multiple times!  sInstance = " + sInstance);
             }
@@ -199,14 +185,16 @@ public class CallNotifier extends Handler
     }
 
     /** Private constructor; @see init() */
-    private CallNotifier(PhoneGlobals app, Phone phone, Ringer ringer, CallLogger callLogger) {
+    private CallNotifier(PhoneGlobals app, Phone phone, Ringer ringer, CallLogger callLogger,
+            CallStateMonitor callStateMonitor) {
         mApplication = app;
         mCM = app.mCM;
         mCallLogger = callLogger;
+        mCallStateMonitor = callStateMonitor;
 
         mAudioManager = (AudioManager) mApplication.getSystemService(Context.AUDIO_SERVICE);
 
-        registerForNotifications();
+        callStateMonitor.addListener(this);
 
         createSignalInfoToneGenerator();
 
@@ -248,13 +236,13 @@ public class CallNotifier extends Handler
     @Override
     public void handleMessage(Message msg) {
         switch (msg.what) {
-            case PHONE_NEW_RINGING_CONNECTION:
+            case CallStateMonitor.PHONE_NEW_RINGING_CONNECTION:
                 log("RINGING... (new)");
                 onNewRingingConnection((AsyncResult) msg.obj);
                 mSilentRingerRequested = false;
                 break;
 
-            case PHONE_INCOMING_RING:
+            case CallStateMonitor.PHONE_INCOMING_RING:
                 // repeat the ring when requested by the RIL, and when the user has NOT
                 // specifically requested silence.
                 if (msg.obj != null && ((AsyncResult) msg.obj).result != null) {
@@ -270,16 +258,16 @@ public class CallNotifier extends Handler
                 }
                 break;
 
-            case PHONE_STATE_CHANGED:
+            case CallStateMonitor.PHONE_STATE_CHANGED:
                 onPhoneStateChanged((AsyncResult) msg.obj);
                 break;
 
-            case PHONE_DISCONNECT:
+            case CallStateMonitor.PHONE_DISCONNECT:
                 if (DBG) log("DISCONNECT");
                 onDisconnect((AsyncResult) msg.obj);
                 break;
 
-            case PHONE_UNKNOWN_CONNECTION_APPEARED:
+            case CallStateMonitor.PHONE_UNKNOWN_CONNECTION_APPEARED:
                 onUnknownConnectionAppeared((AsyncResult) msg.obj);
                 break;
 
@@ -291,7 +279,7 @@ public class CallNotifier extends Handler
                 onMwiChanged(mApplication.phone.getMessageWaitingIndicator());
                 break;
 
-            case PHONE_CDMA_CALL_WAITING:
+            case CallStateMonitor.PHONE_CDMA_CALL_WAITING:
                 if (DBG) log("Received PHONE_CDMA_CALL_WAITING event");
                 onCdmaCallWaiting((AsyncResult) msg.obj);
                 break;
@@ -314,12 +302,12 @@ public class CallNotifier extends Handler
                 mApplication.updateInCallScreen();
                 break;
 
-            case PHONE_STATE_DISPLAYINFO:
+            case CallStateMonitor.PHONE_STATE_DISPLAYINFO:
                 if (DBG) log("Received PHONE_STATE_DISPLAYINFO event");
                 onDisplayInfo((AsyncResult) msg.obj);
                 break;
 
-            case PHONE_STATE_SIGNALINFO:
+            case CallStateMonitor.PHONE_STATE_SIGNALINFO:
                 if (DBG) log("Received PHONE_STATE_SIGNALINFO event");
                 onSignalInfo((AsyncResult) msg.obj);
                 break;
@@ -329,12 +317,12 @@ public class CallNotifier extends Handler
                 CdmaDisplayInfo.dismissDisplayInfoRecord();
                 break;
 
-            case EVENT_OTA_PROVISION_CHANGE:
+            case CallStateMonitor.EVENT_OTA_PROVISION_CHANGE:
                 if (DBG) log("EVENT_OTA_PROVISION_CHANGE...");
                 mApplication.handleOtaspEvent(msg);
                 break;
 
-            case PHONE_ENHANCED_VP_ON:
+            case CallStateMonitor.PHONE_ENHANCED_VP_ON:
                 if (DBG) log("PHONE_ENHANCED_VP_ON...");
                 if (!mVoicePrivacyState) {
                     int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
@@ -346,7 +334,7 @@ public class CallNotifier extends Handler
                 }
                 break;
 
-            case PHONE_ENHANCED_VP_OFF:
+            case CallStateMonitor.PHONE_ENHANCED_VP_OFF:
                 if (DBG) log("PHONE_ENHANCED_VP_OFF...");
                 if (mVoicePrivacyState) {
                     int toneToPlay = InCallTonePlayer.TONE_VOICE_PRIVACY;
@@ -358,11 +346,11 @@ public class CallNotifier extends Handler
                 }
                 break;
 
-            case PHONE_RINGBACK_TONE:
+            case CallStateMonitor.PHONE_RINGBACK_TONE:
                 onRingbackTone((AsyncResult) msg.obj);
                 break;
 
-            case PHONE_RESEND_MUTE:
+            case CallStateMonitor.PHONE_RESEND_MUTE:
                 onResendMute();
                 break;
 
@@ -865,18 +853,6 @@ public class CallNotifier extends Handler
 
     void updateCallNotifierRegistrationsAfterRadioTechnologyChange() {
         if (DBG) Log.d(LOG_TAG, "updateCallNotifierRegistrationsAfterRadioTechnologyChange...");
-        // Unregister all events from the old obsolete phone
-        mCM.unregisterForNewRingingConnection(this);
-        mCM.unregisterForPreciseCallStateChanged(this);
-        mCM.unregisterForDisconnect(this);
-        mCM.unregisterForUnknownConnection(this);
-        mCM.unregisterForIncomingRing(this);
-        mCM.unregisterForCallWaiting(this);
-        mCM.unregisterForDisplayInfo(this);
-        mCM.unregisterForSignalInfo(this);
-        mCM.unregisterForCdmaOtaStatusChange(this);
-        mCM.unregisterForRingbackTone(this);
-        mCM.unregisterForResendIncallMute(this);
 
         // Clear ringback tone player
         mInCallRingbackTonePlayer = null;
@@ -884,32 +860,8 @@ public class CallNotifier extends Handler
         // Clear call waiting tone player
         mCallWaitingTonePlayer = null;
 
-        mCM.unregisterForInCallVoicePrivacyOn(this);
-        mCM.unregisterForInCallVoicePrivacyOff(this);
-
         // Instantiate mSignalInfoToneGenerator
         createSignalInfoToneGenerator();
-
-        // Register all events new to the new active phone
-        registerForNotifications();
-    }
-
-    private void registerForNotifications() {
-        // TODO(santoscordon): Use CallStateMonitor instead.
-
-        mCM.registerForNewRingingConnection(this, PHONE_NEW_RINGING_CONNECTION, null);
-        mCM.registerForPreciseCallStateChanged(this, PHONE_STATE_CHANGED, null);
-        mCM.registerForDisconnect(this, PHONE_DISCONNECT, null);
-        mCM.registerForUnknownConnection(this, PHONE_UNKNOWN_CONNECTION_APPEARED, null);
-        mCM.registerForIncomingRing(this, PHONE_INCOMING_RING, null);
-        mCM.registerForCdmaOtaStatusChange(this, EVENT_OTA_PROVISION_CHANGE, null);
-        mCM.registerForCallWaiting(this, PHONE_CDMA_CALL_WAITING, null);
-        mCM.registerForDisplayInfo(this, PHONE_STATE_DISPLAYINFO, null);
-        mCM.registerForSignalInfo(this, PHONE_STATE_SIGNALINFO, null);
-        mCM.registerForInCallVoicePrivacyOn(this, PHONE_ENHANCED_VP_ON, null);
-        mCM.registerForInCallVoicePrivacyOff(this, PHONE_ENHANCED_VP_OFF, null);
-        mCM.registerForRingbackTone(this, PHONE_RINGBACK_TONE, null);
-        mCM.registerForResendIncallMute(this, PHONE_RESEND_MUTE, null);
     }
 
     /**
