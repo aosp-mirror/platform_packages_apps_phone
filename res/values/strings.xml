@@ -1447,7 +1447,7 @@
 
     <!-- Voicemail ringtone title. The user clicks on this preference to select
          which sound to play when a voicemail notification is received.
-         [CHAR LIMIT=40] -->
+         [CHAR LIMIT=30] -->
     <string name="voicemail_notification_ringtone_title">Sound</string>
 
     <!--  The string used to describe a notification if it is the default one in the system. For
@@ -1455,16 +1455,6 @@
           Default sound(Capella) in the notification summary.
           [CHAR LIMIT=40] -->
     <string name="default_notification_description">Default sound (<xliff:g id="default_sound_title">%1$s</xliff:g>)</string>
-
-    <!-- The vibrate notification modes for voicemail notifications -->
-    <string-array name="voicemail_notification_vibrate_when_entries">
-        <!-- Always [CHAR LIMIT=40] -->
-        <item msgid="2539376794936035639">Always</item>
-        <!-- Only when the phone is in Silent mode [CHAR LIMIT=40] -->
-        <item msgid="8091719131860840185">Only when silent</item>
-        <!-- Never [CHAR LIMIT=40] -->
-        <item msgid="4552962311897985633">Never</item>
-    </string-array>
 
     <!-- The default value value for voicemail notification. -->
     <string name="voicemail_notification_vibrate_when_default" translatable="false">never</string>
@@ -1481,19 +1471,19 @@
 
     <!-- Setting option name to enable or disable vibration when ringing
          the phone.
-         [CHAR LIMIT=40] -->
+         [CHAR LIMIT=30] -->
     <string name="vibrate_on_ring_title">Vibrate when ringing</string>
 
     <!-- Setting option name to enable or disable DTMF tone sound
-         [CHAR LIMIT=40] -->
+         [CHAR LIMIT=30] -->
     <string name="dtmf_tone_enable_title">Dial pad touch tones</string>
 
     <!--  Setting option name to enable or disable dialpad autocomplete functionality
-         [CHAR LIMIT=40] -->
+         [CHAR LIMIT=30] -->
     <string name="dial_pad_autocomplete">Dial pad autocomplete</string>
 
     <!-- Title for the category "ringtone", which is shown above ringtone and vibration
          related settings.
-         [CHAR LIMIT=40] -->
+         [CHAR LIMIT=30] -->
     <string name="preference_category_ringtone">Ringtone &amp; Vibrate</string>
 </resources>
