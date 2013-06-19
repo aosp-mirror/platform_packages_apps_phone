@@ -122,7 +122,7 @@
                  attached to the dialpad. -->
 
             <!-- Keypad section -->
-            <include layout="@layout/dialpad" />
+            <!--<include layout="@layout/dialpad" />-->
 
         </com.android.phone.DTMFTwelveKeyDialerView>
 

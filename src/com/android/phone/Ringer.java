@@ -66,6 +66,9 @@ public class Ringer {
     private long mFirstRingEventTime = -1;
     private long mFirstRingStartTime = -1;
 
+    // silent request flag for ringer
+    private boolean mSilentRingerRequested;
+
     /**
      * Initialize the singleton Ringer instance.
      * This is only done once, at startup, from PhoneApp.onCreate().
@@ -88,6 +91,29 @@ public class Ringer {
         // We don't rely on getSystemService(Context.VIBRATOR_SERVICE) to make sure this
         // vibrator object will be isolated from others.
         mVibrator = new SystemVibrator();
+    }
+
+    /**
+     * Stops the current ring and ignore future ring requests.
+     */
+    void silenceRinger() {
+        mSilentRingerRequested = true;
+        if (DBG) log("stopRing()... (silenceRinger)");
+        stopRing();
+    }
+
+    /**
+     * Set the value of ringer silence flag.
+     */
+    void setSilentRingerFlag(boolean silence) {
+        mSilentRingerRequested = silence;
+    }
+
+    /**
+     * Get the value of ringer silence flag.
+     */
+    boolean getSilentRingerFlag() {
+        return mSilentRingerRequested;
     }
 
     /**

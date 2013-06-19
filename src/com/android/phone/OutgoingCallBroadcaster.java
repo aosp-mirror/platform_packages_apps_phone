@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.telephony.PhoneNumberUtils;
@@ -181,7 +182,6 @@ public class OutgoingCallBroadcaster extends Activity
                     // to take down any OTASP-related UI first.
                     if (dialogState) app.dismissOtaDialogs();
                     app.clearOtaState();
-                    app.clearInCallScreenMode();
                 } else if (isOtaCallActive) {
                     // The actual OTASP call is active.  Don't allow new
                     // outgoing calls at all from this state.
@@ -522,7 +522,9 @@ public class OutgoingCallBroadcaster extends Activity
         // Also, this ensures the device stays awake while doing the following
         // broadcast; technically we should be holding a wake lock here
         // as well.
-        PhoneGlobals.getInstance().wakeUpScreen();
+        //PhoneGlobals.getInstance().wakeUpScreen();
+        // TODO: We have moved wakelocks to UI but we have some concerns of performance,
+        //       waking up the screen to late and so on... Needs more test and thinking.
 
         // If number is null, we're probably trying to call a non-existent voicemail number,
         // send an empty flash or something else is fishy.  Whatever the problem, there's no
@@ -546,9 +548,15 @@ public class OutgoingCallBroadcaster extends Activity
 
             Log.i(TAG, "onCreate(): callNow case! Calling placeCall(): " + intent);
 
-            // Initiate the outgoing call, and simultaneously launch the
-            // InCallScreen to display the in-call UI:
-            PhoneGlobals.getInstance().callController.placeCall(intent);
+            // Initiate the outgoing call.
+            if (PhoneGlobals.getInstance().telephonyService != null) {
+                try {
+                    PhoneGlobals.getInstance().telephonyService.placeCall(intent);
+                } catch (RemoteException e) {
+                    // TODO: What do we do here?
+                    Log.e(TAG, "Unexpected remote exception");
+                }
+            }
 
             // Note we do *not* "return" here, but instead continue and
             // send the ACTION_NEW_OUTGOING_CALL broadcast like for any

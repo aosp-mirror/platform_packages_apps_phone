@@ -494,7 +494,10 @@ public class EmergencyCallHelper extends Handler {
 
         // And finally, ask the in-call UI to refresh itself (to clean up the
         // progress indication if necessary), if it's currently visible.
-        mApp.updateInCallScreen();
+        // mApp.updateInCallScreen();
+        // TODO: Should call TelephonyService to send out a new update to the
+        //       clients.But emergency calls need a lot more thinking on how to
+        //       handle in the new design...
     }
 
     private void startRetryTimer() {

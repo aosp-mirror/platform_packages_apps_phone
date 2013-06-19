@@ -39,12 +39,16 @@ import com.android.internal.telephony.TelephonyCapabilities;
  *
  * (In other words, this is the "model" that corresponds to the "view"
  * implemented by InCallTouchUi.)
+ *
+ * TODO: This class is currently not used in the new design. Most of it
+ *       should probably be moved to the UI but some might still be
+ *       relevant to keep here. We keep it around for now but need to
+ *       comment a few things to fix build errors.
  */
 public class InCallControlState {
     private static final String LOG_TAG = "InCallControlState";
     private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
-    private InCallScreen mInCallScreen;
     private CallManager mCM;
 
     //
@@ -70,10 +74,7 @@ public class InCallControlState {
     //
     public boolean canMute;
     public boolean muteIndicatorOn;
-    //
-    public boolean dialpadEnabled;
-    public boolean dialpadVisible;
-    //
+
     /** True if the "Hold" function is *ever* available on this device */
     public boolean supportsHold;
     /** True if the call is currently on hold */
@@ -86,9 +87,8 @@ public class InCallControlState {
     public boolean canHold;
 
 
-    public InCallControlState(InCallScreen inCallScreen, CallManager cm) {
+    public InCallControlState(CallManager cm) {
         if (DBG) log("InCallControlState constructor...");
-        mInCallScreen = inCallScreen;
         mCM = cm;
     }
 
@@ -109,8 +109,7 @@ public class InCallControlState {
             // conference call, and it's enabled unless the "Manage
             // conference" UI is already up.
             manageConferenceVisible = PhoneUtils.isConferenceCall(fgCall);
-            manageConferenceEnabled =
-                    manageConferenceVisible && !mInCallScreen.isManageConferenceMode();
+            manageConferenceEnabled = manageConferenceVisible;
         } else {
             // This device has no concept of managing a conference call.
             manageConferenceVisible = false;
@@ -132,19 +131,9 @@ public class InCallControlState {
         canSwap = PhoneUtils.okToSwapCalls(mCM);
         canMerge = PhoneUtils.okToMergeCalls(mCM);
 
-        // "Bluetooth":
-        if (mInCallScreen.isBluetoothAvailable()) {
-            bluetoothEnabled = true;
-            bluetoothIndicatorOn = mInCallScreen.isBluetoothAudioConnectedOrPending();
-        } else {
-            bluetoothEnabled = false;
-            bluetoothIndicatorOn = false;
-        }
-
         // "Speaker": always enabled unless the phone is totally idle.
         // The current speaker state comes from the AudioManager.
         speakerEnabled = (state != PhoneConstants.State.IDLE);
-        speakerOn = PhoneUtils.isSpeakerOn(mInCallScreen);
 
         // "Mute": only enabled when the foreground call is ACTIVE.
         // (It's meaningless while on hold, or while DIALING/ALERTING.)
@@ -163,14 +152,6 @@ public class InCallControlState {
             canMute = hasActiveForegroundCall;
             muteIndicatorOn = PhoneUtils.getMute();
         }
-
-        // "Dialpad": Enabled only when it's OK to use the dialpad in the
-        // first place.
-        dialpadEnabled = mInCallScreen.okToShowDialpad();
-
-        // Also keep track of whether the dialpad is currently "opened"
-        // (i.e. visible).
-        dialpadVisible = mInCallScreen.isDialerOpened();
 
         // "Hold:
         if (TelephonyCapabilities.supportsHoldAndUnhold(fgCall.getPhone())) {
@@ -216,13 +197,10 @@ public class InCallControlState {
         log("  canSwap: " + canSwap);
         log("  canMerge: " + canMerge);
         log("  bluetoothEnabled: " + bluetoothEnabled);
-        log("  bluetoothIndicatorOn: " + bluetoothIndicatorOn);
         log("  speakerEnabled: " + speakerEnabled);
         log("  speakerOn: " + speakerOn);
         log("  canMute: " + canMute);
         log("  muteIndicatorOn: " + muteIndicatorOn);
-        log("  dialpadEnabled: " + dialpadEnabled);
-        log("  dialpadVisible: " + dialpadVisible);
         log("  onHold: " + onHold);
         log("  canHold: " + canHold);
     }

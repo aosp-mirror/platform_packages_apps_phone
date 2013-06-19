@@ -295,7 +295,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
         // If the phone isn't idle then go to the in-call screen
         long callingId = Binder.clearCallingIdentity();
-        try {
+/*        try {
             Intent intent;
             if (specifyInitialDialpadState) {
                 intent = PhoneGlobals.createInCallIntent(initialDialpadState);
@@ -314,7 +314,7 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             }
         } finally {
             Binder.restoreCallingIdentity(callingId);
-        }
+        }*/
         return true;
     }
 
@@ -386,6 +386,11 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         }
     }
 
+    /**
+     * TODO: Ringer related functions in this class is only used by PhoneWindowManager and we think
+     *       PhoneWindowManager should be updated to use the new API and then we can remove those
+     *       functions here.
+     */
     public void silenceRinger() {
         if (DBG) log("silenceRinger...");
         // TODO: find a more appropriate permission to check here.
@@ -401,11 +406,9 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
      * @see silenceRinger
      */
     private void silenceRingerInternal() {
-        if ((mCM.getState() == PhoneConstants.State.RINGING)
-            && mApp.notifier.isRinging()) {
+        if ((mCM.getState() == PhoneConstants.State.RINGING)) {
             // Ringer is actually playing, so silence it.
             if (DBG) log("silenceRingerInternal: silencing...");
-            mApp.notifier.silenceRinger();
         }
     }
 

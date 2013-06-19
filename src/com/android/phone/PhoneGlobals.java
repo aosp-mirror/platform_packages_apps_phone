@@ -42,6 +42,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
 import android.os.Message;
+import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -59,6 +60,7 @@ import android.view.KeyEvent;
 
 import com.android.internal.telephony.Call;
 import com.android.internal.telephony.CallManager;
+import com.android.internal.telephony.ITelephonyService;
 import com.android.internal.telephony.IccCard;
 import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.MmiCode;
@@ -75,8 +77,8 @@ import com.android.server.sip.SipService;
  * Global state for the telephony subsystem when running in the primary
  * phone process.
  */
-public class PhoneGlobals extends ContextWrapper
-        implements AccelerometerListener.OrientationListener {
+public class PhoneGlobals extends ContextWrapper {
+//        implements AccelerometerListener.OrientationListener {
     /* package */ static final String LOG_TAG = "PhoneApp";
 
     /**
@@ -95,7 +97,7 @@ public class PhoneGlobals extends ContextWrapper
      *
      * ***** DO NOT SUBMIT WITH DBG_LEVEL > 0 *************
      */
-    /* package */ static final int DBG_LEVEL = 0;
+    /* package */ static final int DBG_LEVEL = 2;
 
     private static final boolean DBG =
             (PhoneGlobals.DBG_LEVEL >= 1) && (SystemProperties.getInt("ro.debuggable", 0) == 1);
@@ -121,18 +123,6 @@ public class PhoneGlobals extends ContextWrapper
     public static final int MMI_CANCEL = 53;
     // Don't use message codes larger than 99 here; those are reserved for
     // the individual Activities of the Phone UI.
-
-    /**
-     * Allowable values for the wake lock code.
-     *   SLEEP means the device can be put to sleep.
-     *   PARTIAL means wake the processor, but we display can be kept off.
-     *   FULL means wake both the processor and the display.
-     */
-    public enum WakeState {
-        SLEEP,
-        PARTIAL,
-        FULL
-    }
 
     /**
      * Intent Action used for hanging up the current call from Notification bar. This will
@@ -164,7 +154,6 @@ public class PhoneGlobals extends ContextWrapper
     CallController callController;
     InCallUiState inCallUiState;
     CallerInfoCache callerInfoCache;
-    CallNotifier notifier;
     NotificationMgr notificationMgr;
     Ringer ringer;
     IBluetoothHeadsetPhone mBluetoothPhone;
@@ -179,9 +168,7 @@ public class PhoneGlobals extends ContextWrapper
     // Internal PhoneApp Call state tracker
     CdmaPhoneCallState cdmaPhoneCallState;
 
-    // The InCallScreen instance (or null if the InCallScreen hasn't been
-    // created yet.)
-    private InCallScreen mInCallScreen;
+    ITelephonyService telephonyService = null;
 
     // The currently-active PUK entry activity and progress dialog.
     // Normally, these are the Emergency Dialer and the subsequent
@@ -198,26 +185,12 @@ public class PhoneGlobals extends ContextWrapper
     // mReceiver.onReceive().
     private boolean mIsHeadsetPlugged;
 
-    // True if the keyboard is currently *not* hidden
-    // Gets updated whenever there is a Configuration change
-    private boolean mIsHardKeyboardOpen;
-
-    // True if we are beginning a call, but the phone state has not changed yet
-    private boolean mBeginningCall;
-
     // Last phone state seen by updatePhoneState()
     private PhoneConstants.State mLastPhoneState = PhoneConstants.State.IDLE;
 
-    private WakeState mWakeState = WakeState.SLEEP;
-
     private PowerManager mPowerManager;
     private IPowerManager mPowerManagerService;
-    private PowerManager.WakeLock mWakeLock;
-    private PowerManager.WakeLock mPartialWakeLock;
-    private PowerManager.WakeLock mProximityWakeLock;
     private KeyguardManager mKeyguardManager;
-    private AccelerometerListener mAccelerometerListener;
-    private int mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
 
     private UpdateLock mUpdateLock;
 
@@ -311,7 +284,6 @@ public class PhoneGlobals extends ContextWrapper
                     // state change (since the status bar icon needs to
                     // turn blue when bluetooth is active.)
                     if (DBG) Log.d (LOG_TAG, "- updating in-call notification from handler...");
-                    notificationMgr.updateInCallNotification();
                     break;
 
                 case EVENT_DATA_ROAMING_DISCONNECTED:
@@ -349,7 +321,7 @@ public class PhoneGlobals extends ContextWrapper
                         }
                     }
                     // Update the Proximity sensor based on headset state
-                    updateProximitySensorMode(phoneState);
+//                    updateProximitySensorMode(phoneState);
 
                     // Force TTY state update according to new headset state
                     if (mTtyEnabled) {
@@ -394,7 +366,6 @@ public class PhoneGlobals extends ContextWrapper
                     if (phoneState == PhoneConstants.State.OFFHOOK &&
                         !isHeadsetPlugged() && !isBluetoothHeadsetAudioOn()) {
                         PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
-                        updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     }
                     break;
 
@@ -485,23 +456,6 @@ public class PhoneGlobals extends ContextWrapper
 
             // before registering for phone state changes
             mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            mWakeLock = mPowerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, LOG_TAG);
-            // lock used to keep the processor awake, when we don't care for the display.
-            mPartialWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
-                    | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
-            // Wake lock used to control proximity sensor behavior.
-            if (mPowerManager.isWakeLockLevelSupported(
-                    PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK)) {
-                mProximityWakeLock = mPowerManager.newWakeLock(
-                        PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, LOG_TAG);
-            }
-            if (DBG) Log.d(LOG_TAG, "onCreate: mProximityWakeLock: " + mProximityWakeLock);
-
-            // create mAccelerometerListener only if we are using the proximity sensor
-            if (proximitySensorModeEnabled()) {
-                mAccelerometerListener = new AccelerometerListener(this, this);
-            }
-
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
 
             // get a handle to the service so that we can use it later when we
@@ -528,12 +482,6 @@ public class PhoneGlobals extends ContextWrapper
             //
             // The asynchronous caching will start just after this call.
             callerInfoCache = CallerInfoCache.init(this);
-
-            // Create the CallNotifer singleton, which handles
-            // asynchronous events from the telephony layer (like
-            // launching the incoming-call UI when an incoming call comes
-            // in.)
-            notifier = CallNotifier.init(this, phone, ringer, new CallLogAsync());
 
             // register for ICC status
             IccCard sim = phone.getIccCard();
@@ -635,18 +583,11 @@ public class PhoneGlobals extends ContextWrapper
                                       CallFeaturesSetting.HAC_VAL_ON :
                                       CallFeaturesSetting.HAC_VAL_OFF);
         }
+
+        Intent telephonyServiceIntent = new Intent(this, TelephonyService.class);
+        startService(telephonyServiceIntent);
+        bindService(telephonyServiceIntent, mTelephonyServiceConnection, Context.BIND_AUTO_CREATE);
    }
-
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            mIsHardKeyboardOpen = true;
-        } else {
-            mIsHardKeyboardOpen = false;
-        }
-
-        // Update the Proximity sensor based on keyboard state
-        updateProximitySensorMode(mCM.getState());
-    }
 
     /**
      * Returns the singleton instance of the PhoneApp.
@@ -700,32 +641,6 @@ public class PhoneGlobals extends ContextWrapper
     }
 
     /**
-     * Return an Intent that can be used to bring up the in-call screen.
-     *
-     * This intent can only be used from within the Phone app, since the
-     * InCallScreen is not exported from our AndroidManifest.
-     */
-    /* package */ static Intent createInCallIntent() {
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-        intent.setClassName("com.android.phone", getCallScreenClassName());
-        return intent;
-    }
-
-    /**
-     * Variation of createInCallIntent() that also specifies whether the
-     * DTMF dialpad should be initially visible when the InCallScreen
-     * comes up.
-     */
-    /* package */ static Intent createInCallIntent(boolean showDialpad) {
-        Intent intent = createInCallIntent();
-        intent.putExtra(InCallScreen.SHOW_DIALPAD_EXTRA, showDialpad);
-        return intent;
-    }
-
-    /**
      * Returns PendingIntent for hanging up ongoing phone call. This will typically be used from
      * Notification context.
      */
@@ -750,10 +665,6 @@ public class PhoneGlobals extends ContextWrapper
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    private static String getCallScreenClassName() {
-        return InCallScreen.class.getName();
-    }
-
     /**
      * Starts the InCallScreen Activity.
      */
@@ -769,14 +680,6 @@ public class PhoneGlobals extends ContextWrapper
             return;
         }
 
-        try {
-            startActivity(createInCallIntent());
-        } catch (ActivityNotFoundException e) {
-            // It's possible that the in-call UI might not exist (like on
-            // non-voice-capable devices), so don't crash if someone
-            // accidentally tries to bring it up...
-            Log.w(LOG_TAG, "displayCallScreen: transition to InCallScreen failed: " + e);
-        }
         Profiler.callScreenRequested();
     }
 
@@ -790,88 +693,6 @@ public class PhoneGlobals extends ContextWrapper
 
     void setCachedSimPin(String pin) {
         mCachedSimPin = pin;
-    }
-
-    void setInCallScreenInstance(InCallScreen inCallScreen) {
-        mInCallScreen = inCallScreen;
-    }
-
-    /**
-     * @return true if the in-call UI is running as the foreground
-     * activity.  (In other words, from the perspective of the
-     * InCallScreen activity, return true between onResume() and
-     * onPause().)
-     *
-     * Note this method will return false if the screen is currently off,
-     * even if the InCallScreen *was* in the foreground just before the
-     * screen turned off.  (This is because the foreground activity is
-     * always "paused" while the screen is off.)
-     */
-    boolean isShowingCallScreen() {
-        if (mInCallScreen == null) return false;
-        return mInCallScreen.isForegroundActivity();
-    }
-
-    /**
-     * @return true if the in-call UI is running as the foreground activity, or,
-     * it went to background due to screen being turned off. This might be useful
-     * to determine if the in-call screen went to background because of other
-     * activities, or its proximity sensor state or manual power-button press.
-     *
-     * Here are some examples.
-     *
-     * - If you want to know if the activity is in foreground or screen is turned off
-     *   from the in-call UI (i.e. though it is not "foreground" anymore it will become
-     *   so after screen being turned on), check
-     *   {@link #isShowingCallScreenForProximity()} is true or not.
-     *   {@link #updateProximitySensorMode(com.android.internal.telephony.PhoneConstants.State)} is
-     *   doing this.
-     *
-     * - If you want to know if the activity is not in foreground just because screen
-     *   is turned off (not due to other activity's interference), check
-     *   {@link #isShowingCallScreen()} is false *and* {@link #isShowingCallScreenForProximity()}
-     *   is true. InCallScreen#onDisconnect() is doing this check.
-     *
-     * @see #isShowingCallScreen()
-     *
-     * TODO: come up with better naming..
-     */
-    boolean isShowingCallScreenForProximity() {
-        if (mInCallScreen == null) return false;
-        return mInCallScreen.isForegroundActivityForProximity();
-    }
-
-    /**
-     * Dismisses the in-call UI.
-     *
-     * This also ensures that you won't be able to get back to the in-call
-     * UI via the BACK button (since this call removes the InCallScreen
-     * from the activity history.)
-     * For OTA Call, it call InCallScreen api to handle OTA Call End scenario
-     * to display OTA Call End screen.
-     */
-    /* package */ void dismissCallScreen() {
-        if (mInCallScreen != null) {
-            if ((TelephonyCapabilities.supportsOtasp(phone)) &&
-                    (mInCallScreen.isOtaCallInActiveState()
-                    || mInCallScreen.isOtaCallInEndState()
-                    || ((cdmaOtaScreenState != null)
-                    && (cdmaOtaScreenState.otaScreenState
-                            != CdmaOtaScreenState.OtaScreenState.OTA_STATUS_UNDEFINED)))) {
-                // TODO: During OTA Call, display should not become dark to
-                // allow user to see OTA UI update. Phone app needs to hold
-                // a SCREEN_DIM_WAKE_LOCK wake lock during the entire OTA call.
-                wakeUpScreen();
-                // If InCallScreen is not in foreground we resume it to show the OTA call end screen
-                // Fire off the InCallScreen intent
-                displayCallScreen();
-
-                mInCallScreen.handleOtaCallEnd();
-                return;
-            } else {
-                mInCallScreen.finish();
-            }
-        }
     }
 
     /**
@@ -949,326 +770,34 @@ public class PhoneGlobals extends ContextWrapper
     }
 
     /**
-     * Controls whether or not the screen is allowed to sleep.
-     *
-     * Once sleep is allowed (WakeState is SLEEP), it will rely on the
-     * settings for the poke lock to determine when to timeout and let
-     * the device sleep {@link PhoneGlobals#setScreenTimeout}.
-     *
-     * @param ws tells the device to how to wake.
-     */
-    /* package */ void requestWakeState(WakeState ws) {
-        if (VDBG) Log.d(LOG_TAG, "requestWakeState(" + ws + ")...");
-        synchronized (this) {
-            if (mWakeState != ws) {
-                switch (ws) {
-                    case PARTIAL:
-                        // acquire the processor wake lock, and release the FULL
-                        // lock if it is being held.
-                        mPartialWakeLock.acquire();
-                        if (mWakeLock.isHeld()) {
-                            mWakeLock.release();
-                        }
-                        break;
-                    case FULL:
-                        // acquire the full wake lock, and release the PARTIAL
-                        // lock if it is being held.
-                        mWakeLock.acquire();
-                        if (mPartialWakeLock.isHeld()) {
-                            mPartialWakeLock.release();
-                        }
-                        break;
-                    case SLEEP:
-                    default:
-                        // release both the PARTIAL and FULL locks.
-                        if (mWakeLock.isHeld()) {
-                            mWakeLock.release();
-                        }
-                        if (mPartialWakeLock.isHeld()) {
-                            mPartialWakeLock.release();
-                        }
-                        break;
-                }
-                mWakeState = ws;
-            }
-        }
-    }
+      * Notifies the phone app when the phone state changes.
+      *
+      * This method will updates various states inside Phone app (e.g. proximity sensor mode,
+      * accelerometer listener state, update-lock state, etc.)
+      */
+     /* package */ void updatePhoneState(PhoneConstants.State state) {
+         if (state != mLastPhoneState) {
+             mLastPhoneState = state;
 
-    /**
-     * If we are not currently keeping the screen on, then poke the power
-     * manager to wake up the screen for the user activity timeout duration.
-     */
-    /* package */ void wakeUpScreen() {
-        synchronized (this) {
-            if (mWakeState == WakeState.SLEEP) {
-                if (DBG) Log.d(LOG_TAG, "pulse screen lock");
-                mPowerManager.wakeUp(SystemClock.uptimeMillis());
-            }
-        }
-    }
-
-    /**
-     * Sets the wake state and screen timeout based on the current state
-     * of the phone, and the current state of the in-call UI.
-     *
-     * This method is a "UI Policy" wrapper around
-     * {@link PhoneGlobals#requestWakeState} and {@link PhoneGlobals#setScreenTimeout}.
-     *
-     * It's safe to call this method regardless of the state of the Phone
-     * (e.g. whether or not it's idle), and regardless of the state of the
-     * Phone UI (e.g. whether or not the InCallScreen is active.)
-     */
-    /* package */ void updateWakeState() {
-        PhoneConstants.State state = mCM.getState();
-
-        // True if the in-call UI is the foreground activity.
-        // (Note this will be false if the screen is currently off,
-        // since in that case *no* activity is in the foreground.)
-        boolean isShowingCallScreen = isShowingCallScreen();
-
-        // True if the InCallScreen's DTMF dialer is currently opened.
-        // (Note this does NOT imply whether or not the InCallScreen
-        // itself is visible.)
-        boolean isDialerOpened = (mInCallScreen != null) && mInCallScreen.isDialerOpened();
-
-        // True if the speakerphone is in use.  (If so, we *always* use
-        // the default timeout.  Since the user is obviously not holding
-        // the phone up to his/her face, we don't need to worry about
-        // false touches, and thus don't need to turn the screen off so
-        // aggressively.)
-        // Note that we need to make a fresh call to this method any
-        // time the speaker state changes.  (That happens in
-        // PhoneUtils.turnOnSpeaker().)
-        boolean isSpeakerInUse = (state == PhoneConstants.State.OFFHOOK) && PhoneUtils.isSpeakerOn(this);
-
-        // TODO (bug 1440854): The screen timeout *might* also need to
-        // depend on the bluetooth state, but this isn't as clear-cut as
-        // the speaker state (since while using BT it's common for the
-        // user to put the phone straight into a pocket, in which case the
-        // timeout should probably still be short.)
-
-        if (DBG) Log.d(LOG_TAG, "updateWakeState: callscreen " + isShowingCallScreen
-                       + ", dialer " + isDialerOpened
-                       + ", speaker " + isSpeakerInUse + "...");
-
-        //
-        // Decide whether to force the screen on or not.
-        //
-        // Force the screen to be on if the phone is ringing or dialing,
-        // or if we're displaying the "Call ended" UI for a connection in
-        // the "disconnected" state.
-        // However, if the phone is disconnected while the user is in the
-        // middle of selecting a quick response message, we should not force
-        // the screen to be on.
-        //
-        boolean isRinging = (state == PhoneConstants.State.RINGING);
-        boolean isDialing = (phone.getForegroundCall().getState() == Call.State.DIALING);
-        boolean showingQuickResponseDialog = (mInCallScreen != null) &&
-                mInCallScreen.isQuickResponseDialogShowing();
-        boolean showingDisconnectedConnection =
-                PhoneUtils.hasDisconnectedConnections(phone) && isShowingCallScreen;
-        boolean keepScreenOn = isRinging || isDialing ||
-                (showingDisconnectedConnection && !showingQuickResponseDialog);
-        if (DBG) Log.d(LOG_TAG, "updateWakeState: keepScreenOn = " + keepScreenOn
-                       + " (isRinging " + isRinging
-                       + ", isDialing " + isDialing
-                       + ", showingQuickResponse " + showingQuickResponseDialog
-                       + ", showingDisc " + showingDisconnectedConnection + ")");
-        // keepScreenOn == true means we'll hold a full wake lock:
-        requestWakeState(keepScreenOn ? WakeState.FULL : WakeState.SLEEP);
-    }
-
-    /**
-     * Manually pokes the PowerManager's userActivity method.  Since we
-     * set the {@link WindowManager.LayoutParams#INPUT_FEATURE_DISABLE_USER_ACTIVITY}
-     * flag while the InCallScreen is active when there is no proximity sensor,
-     * we need to do this for touch events that really do count as user activity
-     * (like pressing any onscreen UI elements.)
-     */
-    /* package */ void pokeUserActivity() {
-        if (VDBG) Log.d(LOG_TAG, "pokeUserActivity()...");
-        mPowerManager.userActivity(SystemClock.uptimeMillis(), false);
-    }
-
-    /**
-     * Set when a new outgoing call is beginning, so we can update
-     * the proximity sensor state.
-     * Cleared when the InCallScreen is no longer in the foreground,
-     * in case the call fails without changing the telephony state.
-     */
-    /* package */ void setBeginningCall(boolean beginning) {
-        // Note that we are beginning a new call, for proximity sensor support
-        mBeginningCall = beginning;
-        // Update the Proximity sensor based on mBeginningCall state
-        updateProximitySensorMode(mCM.getState());
-    }
-
-    /**
-     * Updates the wake lock used to control proximity sensor behavior,
-     * based on the current state of the phone.  This method is called
-     * from the CallNotifier on any phone state change.
-     *
-     * On devices that have a proximity sensor, to avoid false touches
-     * during a call, we hold a PROXIMITY_SCREEN_OFF_WAKE_LOCK wake lock
-     * whenever the phone is off hook.  (When held, that wake lock causes
-     * the screen to turn off automatically when the sensor detects an
-     * object close to the screen.)
-     *
-     * This method is a no-op for devices that don't have a proximity
-     * sensor.
-     *
-     * Note this method doesn't care if the InCallScreen is the foreground
-     * activity or not.  That's because we want the proximity sensor to be
-     * enabled any time the phone is in use, to avoid false cheek events
-     * for whatever app you happen to be running.
-     *
-     * Proximity wake lock will *not* be held if any one of the
-     * conditions is true while on a call:
-     * 1) If the audio is routed via Bluetooth
-     * 2) If a wired headset is connected
-     * 3) if the speaker is ON
-     * 4) If the slider is open(i.e. the hardkeyboard is *not* hidden)
-     *
-     * @param state current state of the phone (see {@link Phone#State})
-     */
-    /* package */ void updateProximitySensorMode(PhoneConstants.State state) {
-        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: state = " + state);
-
-        if (proximitySensorModeEnabled()) {
-            synchronized (mProximityWakeLock) {
-                // turn proximity sensor off and turn screen on immediately if
-                // we are using a headset, the keyboard is open, or the device
-                // is being held in a horizontal position.
-                boolean screenOnImmediately = (isHeadsetPlugged()
-                                               || PhoneUtils.isSpeakerOn(this)
-                                               || isBluetoothHeadsetAudioOn()
-                                               || mIsHardKeyboardOpen);
-
-                // We do not keep the screen off when the user is outside in-call screen and we are
-                // horizontal, but we do not force it on when we become horizontal until the
-                // proximity sensor goes negative.
-                boolean horizontal =
-                        (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
-                screenOnImmediately |= !isShowingCallScreenForProximity() && horizontal;
-
-                // We do not keep the screen off when dialpad is visible, we are horizontal, and
-                // the in-call screen is being shown.
-                // At that moment we're pretty sure users want to use it, instead of letting the
-                // proximity sensor turn off the screen by their hands.
-                boolean dialpadVisible = false;
-                if (mInCallScreen != null) {
-                    dialpadVisible =
-                            mInCallScreen.getUpdatedInCallControlState().dialpadEnabled
-                            && mInCallScreen.getUpdatedInCallControlState().dialpadVisible
-                            && isShowingCallScreen();
-                }
-                screenOnImmediately |= dialpadVisible && horizontal;
-
-                if (((state == PhoneConstants.State.OFFHOOK) || mBeginningCall) && !screenOnImmediately) {
-                    // Phone is in use!  Arrange for the screen to turn off
-                    // automatically when the sensor detects a close object.
-                    if (!mProximityWakeLock.isHeld()) {
-                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: acquiring...");
-                        mProximityWakeLock.acquire();
-                    } else {
-                        if (VDBG) Log.d(LOG_TAG, "updateProximitySensorMode: lock already held.");
-                    }
-                } else {
-                    // Phone is either idle, or ringing.  We don't want any
-                    // special proximity sensor behavior in either case.
-                    if (mProximityWakeLock.isHeld()) {
-                        if (DBG) Log.d(LOG_TAG, "updateProximitySensorMode: releasing...");
-                        // Wait until user has moved the phone away from his head if we are
-                        // releasing due to the phone call ending.
-                        // Qtherwise, turn screen on immediately
-                        int flags =
-                            (screenOnImmediately ? 0 : PowerManager.WAIT_FOR_PROXIMITY_NEGATIVE);
-                        mProximityWakeLock.release(flags);
-                    } else {
-                        if (VDBG) {
-                            Log.d(LOG_TAG, "updateProximitySensorMode: lock already released.");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void orientationChanged(int orientation) {
-        mOrientation = orientation;
-        updateProximitySensorMode(mCM.getState());
-    }
-
-    /**
-     * Notifies the phone app when the phone state changes.
-     *
-     * This method will updates various states inside Phone app (e.g. proximity sensor mode,
-     * accelerometer listener state, update-lock state, etc.)
-     */
-    /* package */ void updatePhoneState(PhoneConstants.State state) {
-        if (state != mLastPhoneState) {
-            mLastPhoneState = state;
-            updateProximitySensorMode(state);
-
-            // Try to acquire or release UpdateLock.
-            //
-            // Watch out: we don't release the lock here when the screen is still in foreground.
-            // At that time InCallScreen will release it on onPause().
-            if (state != PhoneConstants.State.IDLE) {
-                // UpdateLock is a recursive lock, while we may get "acquire" request twice and
-                // "release" request once for a single call (RINGING + OFFHOOK and IDLE).
-                // We need to manually ensure the lock is just acquired once for each (and this
-                // will prevent other possible buggy situations too).
-                if (!mUpdateLock.isHeld()) {
-                    mUpdateLock.acquire();
-                }
-            } else {
-                if (!isShowingCallScreen()) {
-                    if (!mUpdateLock.isHeld()) {
-                        mUpdateLock.release();
-                    }
-                } else {
-                    // For this case InCallScreen will take care of the release() call.
-                }
-            }
-
-            if (mAccelerometerListener != null) {
-                // use accelerometer to augment proximity sensor when in call
-                mOrientation = AccelerometerListener.ORIENTATION_UNKNOWN;
-                mAccelerometerListener.enable(state == PhoneConstants.State.OFFHOOK);
-            }
-            // clear our beginning call flag
-            mBeginningCall = false;
-            // While we are in call, the in-call screen should dismiss the keyguard.
-            // This allows the user to press Home to go directly home without going through
-            // an insecure lock screen.
-            // But we do not want to do this if there is no active call so we do not
-            // bypass the keyguard if the call is not answered or declined.
-            if (mInCallScreen != null) {
-                mInCallScreen.updateKeyguardPolicy(state == PhoneConstants.State.OFFHOOK);
-            }
-        }
-    }
-
-    /* package */ PhoneConstants.State getPhoneState() {
-        return mLastPhoneState;
-    }
-
-    /**
-     * Returns UpdateLock object.
-     */
-    /* package */ UpdateLock getUpdateLock() {
-        return mUpdateLock;
-    }
-
-    /**
-     * @return true if this device supports the "proximity sensor
-     * auto-lock" feature while in-call (see updateProximitySensorMode()).
-     */
-    /* package */ boolean proximitySensorModeEnabled() {
-        return (mProximityWakeLock != null);
-    }
+             // Try to acquire or release UpdateLock.
+             //
+             // Watch out: we don't release the lock here when the screen is still in foreground.
+             // At that time InCallScreen will release it on onPause().
+             if (state != PhoneConstants.State.IDLE) {
+                 // UpdateLock is a recursive lock, while we may get "acquire" request twice and
+                 // "release" request once for a single call (RINGING + OFFHOOK and IDLE).
+                 // We need to manually ensure the lock is just acquired once for each (and this
+                 // will prevent other possible buggy situations too).
+                 if (!mUpdateLock.isHeld()) {
+                     mUpdateLock.acquire();
+                 }
+             } else {
+                 if (!mUpdateLock.isHeld()) {
+                     mUpdateLock.release();
+                 }
+             }
+         }
+     }
 
     KeyguardManager getKeyguardManager() {
         return mKeyguardManager;
@@ -1308,16 +837,12 @@ public class PhoneGlobals extends ContextWrapper
         }
 
         ringer.updateRingerContextAfterRadioTechnologyChange(this.phone);
-        notifier.updateCallNotifierRegistrationsAfterRadioTechnologyChange();
         if (mBluetoothPhone != null) {
             try {
                 mBluetoothPhone.updateBtHandsfreeAfterRadioTechnologyChange();
             } catch (RemoteException e) {
                 Log.e(LOG_TAG, Log.getStackTraceString(new Throwable()));
             }
-        }
-        if (mInCallScreen != null) {
-            mInCallScreen.updateAfterRadioTechnologyChange();
         }
 
         // Update registration for ICC status after radio technology change
@@ -1372,13 +897,9 @@ public class PhoneGlobals extends ContextWrapper
         if (forceUiUpdate) {
             // Post Handler messages to the various components that might
             // need to be refreshed based on the new state.
-            if (isShowingCallScreen()) mInCallScreen.requestUpdateBluetoothIndication();
             if (DBG) Log.d (LOG_TAG, "- updating in-call notification for BT state change...");
             mHandler.sendEmptyMessage(EVENT_UPDATE_INCALL_NOTIFICATION);
         }
-
-        // Update the Proximity sensor based on Bluetooth audio state
-        updateProximitySensorMode(mCM.getState());
     }
 
     /**
@@ -1515,9 +1036,6 @@ public class PhoneGlobals extends ContextWrapper
             } else if (action.equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
                 int ringerMode = intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE,
                         AudioManager.RINGER_MODE_NORMAL);
-                if (ringerMode == AudioManager.RINGER_MODE_SILENT) {
-                    notifier.silenceRinger();
-                }
             }
         }
     }
@@ -1546,7 +1064,6 @@ public class PhoneGlobals extends ContextWrapper
                     // If a headset is attached and the press is consumed, also update
                     // any UI items (such as an InCallScreen mute button) that may need to
                     // be updated if their state changed.
-                    updateInCallScreen();  // Has no effect if the InCallScreen isn't visible
                     abortBroadcast();
                 }
             } else {
@@ -1632,18 +1149,18 @@ public class PhoneGlobals extends ContextWrapper
 
     public boolean isOtaCallInActiveState() {
         boolean otaCallActive = false;
-        if (mInCallScreen != null) {
+/*        if (mInCallScreen != null) {
             otaCallActive = mInCallScreen.isOtaCallInActiveState();
-        }
+        }*/
         if (VDBG) Log.d(LOG_TAG, "- isOtaCallInActiveState " + otaCallActive);
         return otaCallActive;
     }
 
     public boolean isOtaCallInEndState() {
         boolean otaCallEnded = false;
-        if (mInCallScreen != null) {
+/*        if (mInCallScreen != null) {
             otaCallEnded = mInCallScreen.isOtaCallInEndState();
-        }
+        }*/
         if (VDBG) Log.d(LOG_TAG, "- isOtaCallInEndState " + otaCallEnded);
         return otaCallEnded;
     }
@@ -1651,53 +1168,21 @@ public class PhoneGlobals extends ContextWrapper
     // it is safe to call clearOtaState() even if the InCallScreen isn't active
     public void clearOtaState() {
         if (DBG) Log.d(LOG_TAG, "- clearOtaState ...");
-        if ((mInCallScreen != null)
+/*        if ((mInCallScreen != null)
                 && (otaUtils != null)) {
             otaUtils.cleanOtaScreen(true);
             if (DBG) Log.d(LOG_TAG, "  - clearOtaState clears OTA screen");
-        }
+        }*/
     }
 
     // it is safe to call dismissOtaDialogs() even if the InCallScreen isn't active
     public void dismissOtaDialogs() {
         if (DBG) Log.d(LOG_TAG, "- dismissOtaDialogs ...");
-        if ((mInCallScreen != null)
+/*        if ((mInCallScreen != null)
                 && (otaUtils != null)) {
             otaUtils.dismissAllOtaDialogs();
             if (DBG) Log.d(LOG_TAG, "  - dismissOtaDialogs clears OTA dialogs");
-        }
-    }
-
-    // it is safe to call clearInCallScreenMode() even if the InCallScreen isn't active
-    public void clearInCallScreenMode() {
-        if (DBG) Log.d(LOG_TAG, "- clearInCallScreenMode ...");
-        if (mInCallScreen != null) {
-            mInCallScreen.resetInCallScreenMode();
-        }
-    }
-
-    /**
-     * Force the in-call UI to refresh itself, if it's currently visible.
-     *
-     * This method can be used any time there's a state change anywhere in
-     * the phone app that needs to be reflected in the onscreen UI.
-     *
-     * Note that it's *not* necessary to manually refresh the in-call UI
-     * (via this method) for regular telephony state changes like
-     * DIALING -> ALERTING -> ACTIVE, since the InCallScreen already
-     * listens for those state changes itself.
-     *
-     * This method does *not* force the in-call UI to come up if it's not
-     * already visible.  To do that, use displayCallScreen().
-     */
-    /* package */ void updateInCallScreen() {
-        if (DBG) Log.d(LOG_TAG, "- updateInCallScreen()...");
-        if (mInCallScreen != null) {
-            // Post an updateScreen() request.  Note that the
-            // updateScreen() call will end up being a no-op if the
-            // InCallScreen isn't the foreground activity.
-            mInCallScreen.requestUpdateScreen();
-        }
+        }*/
     }
 
     private void handleQueryTTYModeResponse(Message msg) {
@@ -1846,5 +1331,17 @@ public class PhoneGlobals extends ContextWrapper
             Log.i(LOG_TAG, "Headset phone disconnected, cleaning local binding.");
             mBluetoothPhone = null;
         }
+    };
+
+    final ServiceConnection mTelephonyServiceConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.i(LOG_TAG, "Telephony service connected");
+            telephonyService = ITelephonyService.Stub.asInterface(service);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            Log.i(LOG_TAG, "Telephony service disconnected");
+        }
+
     };
 }

@@ -36,6 +36,8 @@ import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
@@ -392,7 +394,13 @@ public class SipCallOptionHandler extends Activity implements
                     return;
                 } else {
                     // Woo hoo -- it's finally OK to initiate the outgoing call!
-                    PhoneGlobals.getInstance().callController.placeCall(mIntent);
+                    if (PhoneGlobals.getInstance().telephonyService != null) {
+                        try {
+                            PhoneGlobals.getInstance().telephonyService.placeCall(mIntent);
+                        } catch (RemoteException e) {
+                            // TODO: What do we do here?
+                        }
+                    }
                 }
                 finish();
             }

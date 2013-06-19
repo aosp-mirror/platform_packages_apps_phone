@@ -57,6 +57,12 @@ import android.widget.Toast;
  * Note that this class does not handle asynchronous events from the telephony
  * layer, like reacting to an incoming call; see CallNotifier for that.  This
  * class purely handles actions initiated by the user, like outgoing calls.
+ *
+ * TODO: We think all static call operation functions in PhoneUtils (answerCall for
+ *       example) should be moved to here as non static functions. Currently answerCall
+ *       (for example) is called a frmo a little of everywhere but we think every call
+ *       operation should go through TelephonyService (that then will handle it in this
+ *       class).
  */
 public class CallController extends Handler {
     private static final String TAG = "CallController";
@@ -135,7 +141,10 @@ public class CallController extends Handler {
                     mApp.cdmaPhoneCallState.setThreeWayCallOrigState(false);
 
                     // Refresh the in-call UI (based on the current ongoing call)
-                    mApp.updateInCallScreen();
+                    //mApp.updateInCallScreen();
+                    // TODO: Need to figure out how to handle this ín the new design. Probably we
+                    // should make a call to TelephonyService here that will send out a update to
+                    // the clients.
                 }
                 break;
 
@@ -270,7 +279,8 @@ public class CallController extends Handler {
 
                 // Notify the phone app that a call is beginning so it can
                 // enable the proximity sensor
-                mApp.setBeginningCall(true);
+                // Do it in TelephonyService
+//                mApp.setBeginningCall(true);
                 break;
 
             default:
@@ -305,7 +315,9 @@ public class CallController extends Handler {
         //   could notice that the InCallScreen is already in the foreground,
         //   and if so simply call updateInCallScreen() instead.
 
-        mApp.displayCallScreen();
+        // mApp.displayCallScreen();
+        // TODO: Should be handled in TelephonyService instead but we keep it commented here to not
+        // forget it.
     }
 
     /**

@@ -15,6 +15,12 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Just temporary for the temporary set ui activity that we have just added
+    temporary to easier demonstrate both Vanilla and Vendor UI. -->
+    <string-array name="ui_array">
+        <item>Vanilla</item>
+        <item>Vendor</item>
+    </string-array>
 
     <!-- Official label of the phone app, as seen in "Manage Applications"
          and other settings UIs.  This is the version of the label for

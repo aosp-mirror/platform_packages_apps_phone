@@ -235,20 +235,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Main in-call UI activity.  This is never launched directly
-             from outside the phone app; instead, it's either launched by
-             the OutgoingCallBroadcaster (for outgoing calls), or as the
-             fullScreenIntent of a notification (for incoming calls.) -->
-        <activity android:name="InCallScreen"
-            android:theme="@style/Theme.InCallScreen"
-            android:label="@string/phoneIconLabel"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:screenOrientation="nosensor"
-            android:configChanges="keyboardHidden"
-            android:exported="false">
-        </activity>
-
         <!-- Trampoline activity that handles the PERFORM_CDMA_PROVISIONING intent. -->
         <activity android:name="InCallScreenShowActivation"
             android:permission="android.permission.PERFORM_CDMA_PROVISIONING"
@@ -527,5 +513,23 @@
             </intent-filter>
         </receiver>
 
+        <!-- This activity is just temporary to easier demo different call UI's-->
+        <activity
+            android:name="SetUiActivity"
+            android:label="Set UI" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- This service handle phone calls but should eventually handle more things (which is why
+             we dont call it CallService). -->
+        <!-- TODO add permission for this intent in future -->
+        <service android:name="TelephonyService">
+            <intent-filter>
+                <action android:name="android.intent.action.TELEPHONY_SERVICE" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

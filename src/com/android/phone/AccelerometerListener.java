@@ -48,6 +48,8 @@ public final class AccelerometerListener {
 
     private OrientationListener mListener;
 
+    private boolean mEnabled;
+
     // Device orientation
     public static final int ORIENTATION_UNKNOWN = 0;
     public static final int ORIENTATION_VERTICAL = 1;
@@ -67,17 +69,24 @@ public final class AccelerometerListener {
         mListener = listener;
         mSensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mEnabled = false;
     }
 
     public void enable(boolean enable) {
         if (DEBUG) Log.d(TAG, "enable(" + enable + ")");
+        if (enable == mEnabled) {
+            if (DEBUG) Log.d(TAG, "already enabled");
+            return;
+        }
         synchronized (this) {
+            mEnabled = enable;
             if (enable) {
                 mOrientation = ORIENTATION_UNKNOWN;
                 mPendingOrientation = ORIENTATION_UNKNOWN;
                 mSensorManager.registerListener(mSensorListener, mSensor,
                         SensorManager.SENSOR_DELAY_NORMAL);
             } else {
+                mEnabled = enable;
                 mSensorManager.unregisterListener(mSensorListener);
                 mHandler.removeMessages(ORIENTATION_CHANGED);
             }

@@ -74,6 +74,29 @@ public class PhoneUtils {
     private static final String LOG_TAG = "PhoneUtils";
     private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
+    /**
+     * Intent extra to specify the package name of the gateway
+     * provider.  Used to get the name displayed in the in-call screen
+     * during the call setup. The value is a string.
+     */
+    // TODO: This extra is currently set by the gateway application as
+    // a temporary measure. Ultimately, the framework will securely
+    // set it.
+    /* package */ static final String EXTRA_GATEWAY_PROVIDER_PACKAGE =
+            "com.android.phone.extra.GATEWAY_PROVIDER_PACKAGE";
+
+    /**
+     * Intent extra to specify the URI of the provider to place the
+     * call. The value is a string. It holds the gateway address
+     * (phone gateway URL should start with the 'tel:' scheme) that
+     * will actually be contacted to call the number passed in the
+     * intent URL or in the EXTRA_PHONE_NUMBER extra.
+     */
+    // TODO: Should the value be a Uri (Parcelable)? Need to make sure
+    // MMI code '#' don't get confused as URI fragments.
+    /* package */ static final String EXTRA_GATEWAY_URI =
+            "com.android.phone.extra.GATEWAY_URI";
+
     // Do not check in with VDBG = true, since that may write PII to the system log.
     private static final boolean VDBG = false;
 
@@ -223,23 +246,18 @@ public class PhoneUtils {
     /* package */ static boolean answerCall(Call ringingCall) {
         log("answerCall(" + ringingCall + ")...");
         final PhoneGlobals app = PhoneGlobals.getInstance();
-        final CallNotifier notifier = app.notifier;
-
-        // If the ringer is currently ringing and/or vibrating, stop it
-        // right now (before actually answering the call.)
-        notifier.silenceRinger();
 
         final Phone phone = ringingCall.getPhone();
         final boolean phoneIsCdma = (phone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA);
         boolean answered = false;
         IBluetoothHeadsetPhone btPhone = null;
 
-        if (phoneIsCdma) {
+/*        if (phoneIsCdma) {
             // Stop any signalInfo tone being played when a Call waiting gets answered
             if (ringingCall.getState() == Call.State.WAITING) {
                 notifier.stopSignalInfoTone();
             }
-        }
+        }*/
 
         if (ringingCall != null && ringingCall.isRinging()) {
             if (DBG) log("answerCall: call state = " + ringingCall.getState());
@@ -383,9 +401,9 @@ public class PhoneUtils {
                 // CDMA: Ringing call and Call waiting hangup is handled differently.
                 // For Call waiting we DO NOT call the conventional hangup(call) function
                 // as in CDMA we just want to hangup the Call waiting connection.
-                log("hangupRingingCall(): CDMA-specific call-waiting hangup");
-                final CallNotifier notifier = PhoneGlobals.getInstance().notifier;
-                notifier.sendCdmaCallWaitingReject();
+//                log("hangupRingingCall(): CDMA-specific call-waiting hangup");
+//                final CallNotifier notifier = PhoneGlobals.getInstance().notifier;
+//                notifier.sendCdmaCallWaitingReject();
                 return true;
             } else {
                 // Otherwise, the regular hangup() API works for
@@ -1353,22 +1371,28 @@ public class PhoneUtils {
     }
 
     /**
-     * Start a CallerInfo Query based on the earliest connection in the call.
+     * Returns the connection object for provided call.
      */
-    static CallerInfoToken startGetCallerInfo(Context context, Call call,
-            CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
+    static Connection getConnectionFromCall(Call call) {
         Connection conn = null;
         int phoneType = call.getPhone().getPhoneType();
         if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
             conn = call.getLatestConnection();
         } else if ((phoneType == PhoneConstants.PHONE_TYPE_GSM)
-                || (phoneType == PhoneConstants.PHONE_TYPE_SIP)) {
+              || (phoneType == PhoneConstants.PHONE_TYPE_SIP)) {
             conn = call.getEarliestConnection();
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);
         }
+        return conn;
+    }
 
-        return startGetCallerInfo(context, conn, listener, cookie);
+    /**
+     * Start a CallerInfo Query based on the earliest connection in the call.
+     */
+    static CallerInfoToken startGetCallerInfo(Context context, Call call,
+            CallerInfoAsyncQuery.OnQueryCompleteListener listener, Object cookie) {
+        return startGetCallerInfo(context, getConnectionFromCall(call), listener, cookie);
     }
 
     /**
@@ -1823,17 +1847,14 @@ public class PhoneUtils {
             sIsSpeakerEnabled = flag;
         }
 
-        // Update the status bar icon
-        app.notificationMgr.updateSpeakerNotification(flag);
-
         // We also need to make a fresh call to PhoneApp.updateWakeState()
         // any time the speaker state changes, since the screen timeout is
         // sometimes different depending on whether or not the speaker is
         // in use.
-        app.updateWakeState();
+//        app.updateWakeState();
 
         // Update the Proximity sensor based on speaker state
-        app.updateProximitySensorMode(app.mCM.getState());
+//        app.updateProximitySensorMode(app.mCM.getState());
 
         app.mCM.setEchoSuppressionEnabled(flag);
     }
@@ -1953,7 +1974,6 @@ public class PhoneUtils {
             if (DBG) log("setMuteInternal: using phone.setMute(" + muted + ")...");
             phone.setMute(muted);
         }
-        app.notificationMgr.updateMuteNotification();
     }
 
     /**
@@ -2330,8 +2350,8 @@ public class PhoneUtils {
         if (null == intent) {
             return false;
         }
-        final String name = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
-        final String gatewayUri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+        final String name = intent.getStringExtra(EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        final String gatewayUri = intent.getStringExtra(EXTRA_GATEWAY_URI);
 
         return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(gatewayUri);
     }
@@ -2350,10 +2370,9 @@ public class PhoneUtils {
             return;
         }
 
-        dst.putExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE,
-                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE));
-        dst.putExtra(InCallScreen.EXTRA_GATEWAY_URI,
-                     src.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI));
+        dst.putExtra(EXTRA_GATEWAY_PROVIDER_PACKAGE,
+                src.getStringExtra(EXTRA_GATEWAY_PROVIDER_PACKAGE));
+        dst.putExtra(EXTRA_GATEWAY_URI, src.getStringExtra(EXTRA_GATEWAY_URI));
     }
 
     /**
@@ -2364,7 +2383,7 @@ public class PhoneUtils {
      * occurred during the lookup of the package name or the label.
      */
     /* package */ static CharSequence getProviderLabel(Context context, Intent intent) {
-        String packageName = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        String packageName = intent.getStringExtra(EXTRA_GATEWAY_PROVIDER_PACKAGE);
         PackageManager pm = context.getPackageManager();
 
         try {
@@ -2383,7 +2402,7 @@ public class PhoneUtils {
      * @return The provider's application icon. null if an error occured during the icon lookup.
      */
     /* package */ static Drawable getProviderIcon(Context context, Intent intent) {
-        String packageName = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_PROVIDER_PACKAGE);
+        String packageName = intent.getStringExtra(EXTRA_GATEWAY_PROVIDER_PACKAGE);
         PackageManager pm = context.getPackageManager();
 
         try {
@@ -2399,7 +2418,7 @@ public class PhoneUtils {
      * @return The gateway URI or null if not found.
      */
     /* package */ static Uri getProviderGatewayUri(Intent intent) {
-        String uri = intent.getStringExtra(InCallScreen.EXTRA_GATEWAY_URI);
+        String uri = intent.getStringExtra(EXTRA_GATEWAY_URI);
         return TextUtils.isEmpty(uri) ? null : Uri.parse(uri);
     }
 

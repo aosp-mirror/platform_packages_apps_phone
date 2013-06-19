@@ -162,10 +162,14 @@ public class EmergencyDialer extends Activity implements View.OnClickListener,
         // Allow this activity to be displayed in front of the keyguard / lockscreen.
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.flags |= WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
-        if (!mApp.proximitySensorModeEnabled()) {
-            // When no proximity sensor is available, use a shorter timeout.
-            lp.userActivityTimeout = USER_ACTIVITY_TIMEOUT_WHEN_NO_PROX_SENSOR;
-        }
+        //if (!mApp.proximitySensorModeEnabled()) {
+        //    // When no proximity sensor is available, use a shorter timeout.
+        //    lp.userActivityTimeout = USER_ACTIVITY_TIMEOUT_WHEN_NO_PROX_SENSOR;
+        //}
+        // TODO: Check with ProximitySensorManager instead. But actually I don't understand why
+        //       there should be different timeout if no proximity sensor since it is not used in
+        //       this activity anyway?
+
         getWindow().setAttributes(lp);
 
         setContentView(R.layout.emergency_dialer);

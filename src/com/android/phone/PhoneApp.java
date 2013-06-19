@@ -41,9 +41,9 @@ public class PhoneApp extends Application {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (mPhoneGlobals != null) {
-            mPhoneGlobals.onConfigurationChanged(newConfig);
-        }
+//        if (mPhoneGlobals != null) {
+//            mPhoneGlobals.onConfigurationChanged(newConfig);
+//        }
         super.onConfigurationChanged(newConfig);
     }
 }
