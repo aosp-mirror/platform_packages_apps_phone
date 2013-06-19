@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad591ff_832d60b4",
+        "filename": "src/com/android/phone/TelephonyService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-06-19T15:37:30Z",
+      "side": 1,
+      "message": "Below you mention combining CallManager/CallService. Overall, I\u0027d like to see if we can create a single service which exposes a \"TelephonyRilService\". Maybe that means the bottom side of this TelephonyService connects directly to the RIL (maybe a new RIL) or we create another TelepihonyRilService which does that.\n\nAnyway hopefully all of these com.android.internal.telephony.Xxxx objects can be refactored/simplified into a single entity.",
+      "revId": "53b25f6e18e36771804d6f7f8697d095b7e1fa8d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
