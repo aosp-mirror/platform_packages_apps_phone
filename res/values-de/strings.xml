@@ -627,14 +627,9 @@
     <string name="voicemail_notification_vibarte_when_dialog_title" msgid="5739583146522136440">"Vibration"</string>
     <string name="voicemail_notification_ringtone_title" msgid="2609519527849101590">"Töne"</string>
     <string name="default_notification_description" msgid="78174796906240970">"Standardklingelton (<xliff:g id="DEFAULT_SOUND_TITLE">%1$s</xliff:g>)"</string>
-  <string-array name="voicemail_notification_vibrate_when_entries">
-    <item msgid="468237575962916558">"Immer"</item>
-    <item msgid="1595097872875714252">"Nur im Lautlos-Modus"</item>
-    <item msgid="1458182414036878616">"Nie"</item>
-  </string-array>
     <string name="ringtone_title" msgid="6374978286202084684">"Klingelton"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"Beim Klingeln vibrieren"</string>
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Wähltastentöne"</string>
-    <string name="dial_pad_autocomplete" msgid="494525952035761075">"Autom. Vervollständigung für Wähltasten"</string>
+    <string name="dial_pad_autocomplete" msgid="494525952035761075">"Autovervollst. für Wähltasten"</string>
     <string name="preference_category_ringtone" msgid="5197960752529332721">"Klingelton &amp; Vibration"</string>
 </resources>
