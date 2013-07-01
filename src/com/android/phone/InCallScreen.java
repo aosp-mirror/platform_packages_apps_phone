@@ -1932,6 +1932,8 @@ public class InCallScreen extends Activity
                 // Finally request wake-up..
                 mApp.wakeUpScreen();
 
+                mCM.clearDisconnected();
+
                 // InCallScreen#onResume() will set DELAYED_CLEANUP_AFTER_DISCONNECT message,
                 // so skip the following section.
                 return;
