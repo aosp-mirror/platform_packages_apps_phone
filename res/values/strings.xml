@@ -678,6 +678,8 @@
     <string name="fdn_contact_deleted">Fixed dialing number deleted.</string>
     <!-- FDN settings: error message displayed in a popup (toast) -->
     <string name="pin2_invalid">FDN wasn\'t updated because you typed an incorrect PIN.</string>
+    <!-- FDN settings: sim card is absent (toast) -->
+    <string name="sim_absent">ICC card is absent.</string>
     <!-- FDN settings: error message displayed in a popup (toast) -->
     <string name="fdn_invalid_number">FDN wasn\'t updated because the number can\'t exceed 20 digits.</string>
     <!-- FDN settings: error message displayed in a popup (toast), when the entered
