@@ -251,6 +251,8 @@ public class FdnSetting extends PreferenceActivity
                                 // some redundant behaviour.
                                 displayMessage(R.string.fdn_enable_puk2_requested);
                                 resetPinChangeStateForPUK2();
+                            } else if(ce.getCommandError() == CommandException.Error.SIM_ABSENT){
+                                displayMessage(R.string.sim_absent);
                             } else {
                                 displayMessage(R.string.pin2_invalid);
                             }
@@ -280,6 +282,8 @@ public class FdnSetting extends PreferenceActivity
                                 a.getWindow().addFlags(
                                         WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                                 a.show();
+                            } else if(ce.getCommandError() == CommandException.Error.SIM_ABSENT){
+                                displayMessage(R.string.sim_absent);
                             } else {
                                 // set the correct error message depending upon the state.
                                 // Reset the state depending upon or knowledge of the PUK state.
