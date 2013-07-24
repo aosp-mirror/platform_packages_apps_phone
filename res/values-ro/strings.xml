@@ -198,7 +198,7 @@
     <string name="roaming_warning" msgid="7820963598559553967">"Permiteţi roamingul de date? Puteţi acumula taxe considerabile pentru roaming!"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"Opţiuni GSM/UMTS"</string>
     <string name="cdma_options" msgid="4016822858172249884">"Opţiuni CDMA"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"Rata de utilizare a datelor"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"Utilizarea datelor"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"Datele utilizate în perioada curentă"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"Perioada de utilizare a datelor"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Politica ratei de transfer a datelor"</string>
