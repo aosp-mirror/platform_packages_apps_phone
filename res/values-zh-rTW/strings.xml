@@ -174,6 +174,16 @@
     <string name="preferred_network_mode_global_summary" msgid="1633134285545730364">"慣用網路模式：通用"</string>
     <string name="preferred_network_mode_lte_wcdma_summary" msgid="9180775701594742750">"慣用網路模式：LTE/WCDMA"</string>
   <string-array name="preferred_network_mode_choices">
+    <item>TD-SCDMA/LTE/GSM/WCDMA/CDMA/EVDO </item>
+    <item>TD-SCDMA/GSM/WCDMA/CDMA/EVDO </item>
+    <item>TD-SCDMA/GSM/WCDMA/LTE</item>
+    <item>TD-SCDMA/WCDMA/LTE</item>
+    <item>TD-SCDMA/GSM/WCDMA</item>
+    <item>TD-SCDMA/GSM/LTE</item>
+    <item>TD-SCDMA/GSM</item>
+    <item>TD-SCDMA/LTE</item>
+    <item>TD-SCDMA/WCDMA</item>
+    <item>TD-SCDMA only</item>
     <item msgid="7886739962255042385">"LTE/WCDMA"</item>
     <item msgid="577652050447385699">"LTE"</item>
     <item msgid="6813597571293773656">"通用"</item>
