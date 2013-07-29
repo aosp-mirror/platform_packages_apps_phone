@@ -198,7 +198,7 @@
     <string name="roaming_warning" msgid="7820963598559553967">"データローミングを許可すると、ローミング料金が発生する場合があります。"</string>
     <string name="gsm_umts_options" msgid="6538311689850981686">"GSM/UMTSオプション"</string>
     <string name="cdma_options" msgid="4016822858172249884">"CDMAオプション"</string>
-    <string name="throttle_data_usage" msgid="3715677828160555808">"データ使用"</string>
+    <string name="throttle_data_usage" msgid="3715677828160555808">"データ使用量"</string>
     <string name="throttle_current_usage" msgid="8762280193043815361">"現期間で使用したデータ"</string>
     <string name="throttle_time_frame" msgid="1915198770363734685">"データ使用期間"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"転送速度ポリシー"</string>
