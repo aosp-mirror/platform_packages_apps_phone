@@ -64,7 +64,7 @@
     <!-- OTA Call Card styles -->
     <style name="ccOtaButtonBar">
         <!-- TODO: change height to 'wrap_content' when layout bug is fixed -->
-        <item name="android:layout_height">60dip</item> 
+        <item name="android:layout_height">60dip</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
@@ -160,6 +160,11 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+    <style name="SettingsLight" parent="@android:style/Theme.Holo.Light.DialogWhenLarge">
+        <item name="android:windowBackground">@color/phone_settings_background_color</item>
+        <item name="android:actionBarStyle">@style/DialtactsActionBarStyle</item>
+    </style>
+
     <style name="InCallAnimationStyle" parent="@*android:style/Animation.Holo.Activity">
         <!-- Suppress task-to-task animation happening during the transition from
              OutgoingCallBroadcaster (and SipOptionHandler) to InCallScreen.
@@ -209,6 +214,11 @@
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/people_app_theme_color</item>
         <item name="android:backgroundStacked">@color/people_app_theme_color</item>
+    </style>
+
+    <style name="DialtactsActionBarStyle"
+           parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/phone_settings_actionbar_color</item>
     </style>
 
     <style name="SimImportTheme"
