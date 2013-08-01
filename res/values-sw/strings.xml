@@ -57,8 +57,8 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Kipaza sauti cha kichwani"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Viskizi vya maskio pasiwaya"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"Tuma toni zinazofuata? "\n</string>
-    <string name="pause_prompt_str" msgid="1789964702154314806">"Inatuma toni"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Tuma toni zinazofuata? \n"</string>
+    <string name="pause_prompt_str" msgid="1789964702154314806">"Inatuma toni\n"</string>
     <string name="send_button" msgid="4106860097497818751">"Tuma"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Ndiyo"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Hapana"</string>
@@ -136,9 +136,9 @@
     <item msgid="1108394741608734023">"Onyesha nambari"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Nambari ya ujumbe wa sauti haijabadilishwa"</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Haikuweza kubadilisha namba ya ujumbe wa sauti."\n"Wasiliana na mtoa huduma wako shida hii ikiendelea."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"Haikuweza kubadilisha namba ya kusambaza."\n"Wasiliana na mtoa huduma wako shida hii ikiendelea."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Haikuweza kuepua na kuhifadhi mipangilio ya nambari ya  usambazaji. "\n" Hata hivyo swichi kwa mtoahuduma  mpya?"</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Haikuweza kubadilisha namba ya ujumbe wa sauti.\nWasiliana na mtoa huduma wako shida hii ikiendelea."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"Haikuweza kubadilisha namba ya kusambaza.\nWasiliana na mtoa huduma wako shida hii ikiendelea."</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Haikuweza kuepua na kuhifadhi mipangilio ya nambari ya  usambazaji. \n Hata hivyo swichi kwa mtoahuduma  mpya?"</string>
     <string name="no_change" msgid="3186040086622435212">"Hakuna mabadiliko yaliyofanywa"</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Chagua huduma ya barua ya sauti"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mtoa huduma wangu"</string>
@@ -203,10 +203,10 @@
     <string name="throttle_time_frame" msgid="1915198770363734685">"Muda wa matumizi ya data"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Sera ya kasi ya data"</string>
     <string name="throttle_help" msgid="243651091785169900">"Pata maelezo zaidi"</string>
-    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) ya<xliff:g id="USED_2">%3$s</xliff:g> muda wa kiwango cha juu"\n"Muda unaofuata unaanza baada ya siku<xliff:g id="USED_3">%4$d</xliff:g>(<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) ya<xliff:g id="USED_2">%3$s</xliff:g> muda wa kiwango cha juu\nMuda unaofuata unaanza baada ya siku<xliff:g id="USED_3">%4$d</xliff:g>(<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (asilimia <xliff:g id="USED_1">%2$d</xliff:g>) ya upeo wa muda wa <xliff:g id="USED_2">%3$s</xliff:g>"</string>
-    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Upeo wa <xliff:g id="USED_0">%1$s</xliff:g> umepitwa"\n"Kasi ya data imepunguzwa hadi kilobaiti <xliff:g id="USED_1">%2$d</xliff:g> kwa sekunde"</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ ya mzunguko imekamilika"\n"Muda ufuatao unaanza baada ya siku <xliff:g id="USED_1">%2$d</xliff:g> (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"Upeo wa <xliff:g id="USED_0">%1$s</xliff:g> umepitwa\nKasi ya data imepunguzwa hadi kilobaiti <xliff:g id="USED_1">%2$d</xliff:g> kwa sekunde"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪ ya mzunguko imekamilika\nMuda ufuatao unaanza baada ya siku <xliff:g id="USED_1">%2$d</xliff:g> (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Kasi ya data imepunguzwa hadi kilibaiti <xliff:g id="USED">%1$d</xliff:g> kwa sekunde kama kiwango cha matumizi ya data kimepitwa"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Maelezo zaidi kuhusu sera ya matumizi ya data ya mtandao wa mtoa huduma wako"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS ya Matangazo ya Simu"</string>
@@ -449,7 +449,6 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Dhibiti simu"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Dhibiti kongamano"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Kusikika"</string>
-    <string name="onscreenVideoCallText" msgid="4800924186056115442">"Hangout ya Video"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Ingiza"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Leta zote"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Inaleta anwani za SIM"</string>
@@ -470,7 +469,7 @@
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Ujumbe wa mtandao"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Wezesha simu yako"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Simu maalum inahitaji kupigwa ili kuamilisha huduma ya simu yako. "\n\n" Baada ya kubonyeza \"Amilisha\", sikiliza maagizo yaliyotolewa ili kuamilisha simu yako."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Simu maalum inahitaji kupigwa ili kuamilisha huduma ya simu yako. \n\n Baada ya kubonyeza \"Amilisha\", sikiliza maagizo yaliyotolewa ili kuamilisha simu yako."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Ruka uwezeshaji?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Kama utaruka kuwezesha, hauwezi kupiga simu au kuunganisha kwa mitandao ya data ya simu (ingawaje unaweza kuunganisha kwa mitandao-hewa). Hadi uiwezeshe simu yako, utaulizwa uiwezeshe kila utakapoiwasha."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ruka"</string>
@@ -482,7 +481,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Subiri wakati simu yako inapoprogramiwa."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Usanidi haukufanikiwa"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Simu yako imeamilishwa sasa. Huenda ikachukua hadi dakika 15 kwa huduma kuanza."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Simu yako haikuamilishwa. "\n" Huenda ukahitaji kupata eneo lenye mtandao bora (karibu na dirisha, au nje). "\n\n"Jaribu tena au piga simu kwa huduma ya wateja kwa chaguo zaidi."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Simu yako haikuamilishwa. \n Huenda ukahitaji kupata eneo lenye mtandao bora (karibu na dirisha, au nje). \n\nJaribu tena au piga simu kwa huduma ya wateja kwa chaguo zaidi."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"USHINDE ZAIDI WA SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Nyuma"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Jaribu tena"</string>

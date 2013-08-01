@@ -57,8 +57,8 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Слушалица телефона"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Жичане слушалице"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"Желите ли да пошаљете следеће тонове?"\n</string>
-    <string name="pause_prompt_str" msgid="1789964702154314806">"Тонови слања"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Желите ли да пошаљете следеће тонове?\n"</string>
+    <string name="pause_prompt_str" msgid="1789964702154314806">"Тонови слања\n"</string>
     <string name="send_button" msgid="4106860097497818751">"Пошаљи"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Да"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Не"</string>
@@ -136,9 +136,9 @@
     <item msgid="1108394741608734023">"Прикажи број"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Промењен је број говорне поште."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Није могуће променити број говорне поште."\n"Контактирајте мобилног оператера ако се овај проблем настави."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"Није могуће променити број за преусмеравање."\n"Контактирајте мобилног оператера ако се овај проблем настави."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Није било могуће преузети и сачувати тренутна подешавања броја за прослеђивање."\n"Желите ли да ипак пређете на новог добављача?"</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Није могуће променити број говорне поште.\nКонтактирајте мобилног оператера ако се овај проблем настави."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"Није могуће променити број за преусмеравање.\nКонтактирајте мобилног оператера ако се овај проблем настави."</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Није било могуће преузети и сачувати тренутна подешавања броја за прослеђивање.\nЖелите ли да ипак пређете на новог добављача?"</string>
     <string name="no_change" msgid="3186040086622435212">"Нису начињене промене."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Одаберите услугу говорне поште"</string>
     <string name="voicemail_default" msgid="5902099213882352338">" Мој мобилни оператер"</string>
@@ -203,10 +203,10 @@
     <string name="throttle_time_frame" msgid="1915198770363734685">"Период коришћења података"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Смернице за оцену података"</string>
     <string name="throttle_help" msgid="243651091785169900">"Сазнајте више"</string>
-    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) од <xliff:g id="USED_2">%3$s</xliff:g> максималног периода"\n"Следећи период почиње за <xliff:g id="USED_3">%4$d</xliff:g> дана (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) од <xliff:g id="USED_2">%3$s</xliff:g> максималног периода\nСледећи период почиње за <xliff:g id="USED_3">%4$d</xliff:g> дана (<xliff:g id="USED_4">%5$s</xliff:g>)"</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"Максимално <xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) од <xliff:g id="USED_2">%3$s</xliff:g> периода"</string>
-    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> максимум је премашен"\n"Стопа преноса података смањена је на <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪  је протекло од циклуса"\n"Следећи период почиње за <xliff:g id="USED_1">%2$d</xliff:g> дана (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> максимум је премашен\nСтопа преноса података смањена је на <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>٪  је протекло од циклуса\nСледећи период почиње за <xliff:g id="USED_1">%2$d</xliff:g> дана (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Брзина преноса података смањена је на <xliff:g id="USED">%1$d</xliff:g> Kb/s ако је премашено ограничење за коришћење података"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Више информација о смерницама за коришћење података мобилне мреже оператера"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS инфо сервиса"</string>
@@ -449,7 +449,6 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Управљајте позивима"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Управљај конференцијом"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Аудио"</string>
-    <string name="onscreenVideoCallText" msgid="4800924186056115442">"Видео поз."</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Увези"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Увези све"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Увоз SIM контаката"</string>
@@ -470,7 +469,7 @@
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Мрежна порука"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Активирајте телефон"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Потребно је да упутите посебан позив да бисте активирали услугу свој телефона. "\n\n"Након што притиснете дугме „Активирај“, слушајте дата упутства да бисте да бисте активирали свој телефон."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Потребно је да упутите посебан позив да бисте активирали услугу свој телефона. \n\nНакон што притиснете дугме „Активирај“, слушајте дата упутства да бисте да бисте активирали свој телефон."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Желите ли да прескочите активацију?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Ако прескочите активацију, не можете да упућујете позиве или да се повезујете са мрежама за мобилни пренос података (иако можете да се повежете са Wi-Fi мрежама). Све док не активирате свој телефон, бићете упитани да то учините сваки пут када га укључите."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Прескочи"</string>
@@ -482,7 +481,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Сачекајте док се телефон програмира."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Програмирање је неуспешно"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Телефон је сада активиран. Можда ће бити потребно највише 15 минута да би се услуга покренула."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Телефон се није активирао. "\n"Можда је потребно да пронађете област са бољом покривеношћу (близу прозора или напољу). "\n\n"Покушајте поново или позовите корисничку подршку за још опција."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Телефон се није активирао. \nМожда је потребно да пронађете област са бољом покривеношћу (близу прозора или напољу). \n\nПокушајте поново или позовите корисничку подршку за још опција."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"СЛУЧАЈНА SPC ГРЕШКА"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Назад"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Покушај поново"</string>

@@ -57,8 +57,8 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricular"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auriculares con cable"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"¿Deseas enviar los siguientes tonos?"\n</string>
-    <string name="pause_prompt_str" msgid="1789964702154314806">"Enviando tono"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"¿Deseas enviar los siguientes tonos?\n"</string>
+    <string name="pause_prompt_str" msgid="1789964702154314806">"Enviando tono\n"</string>
     <string name="send_button" msgid="4106860097497818751">"Enviar"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Sí"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"No"</string>
@@ -136,9 +136,9 @@
     <item msgid="1108394741608734023">"Mostrar número"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Número de correo de voz cambiado."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"No se pudo cambiar el número del buzón de voz."\n"Si el problema continua, ponte en contacto con tu proveedor."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"No se pudo cambiar el número de desvío."\n"Si el problema continua, ponte en contacto con tu proveedor."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No se pudo recuperar ni guardar la configuración del número actual de reenvío."\n"¿Deseas cambiar de proveedor de todos modos?"</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"No se pudo cambiar el número del buzón de voz.\nSi el problema continua, ponte en contacto con tu proveedor."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"No se pudo cambiar el número de desvío.\nSi el problema continua, ponte en contacto con tu proveedor."</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"No se pudo recuperar ni guardar la configuración del número actual de reenvío.\n¿Deseas cambiar de proveedor de todos modos?"</string>
     <string name="no_change" msgid="3186040086622435212">"No se realizaron cambios."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Elegir servicio de buzón de voz"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Mi proveedor"</string>
@@ -203,10 +203,10 @@
     <string name="throttle_time_frame" msgid="1915198770363734685">"Período de utilización de datos"</string>
     <string name="throttle_rate" msgid="4710388992676803508">"Política de velocidad de transferencia de datos"</string>
     <string name="throttle_help" msgid="243651091785169900">"Más información"</string>
-    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) de <xliff:g id="USED_2">%3$s</xliff:g> del período máximo "\n"El próximo período comienza en <xliff:g id="USED_3">%4$d</xliff:g> días (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
+    <string name="throttle_status_subtext" msgid="1657318943142085170">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) de <xliff:g id="USED_2">%3$s</xliff:g> del período máximo \nEl próximo período comienza en <xliff:g id="USED_3">%4$d</xliff:g> días (<xliff:g id="USED_4">%5$s</xliff:g>)."</string>
     <string name="throttle_data_usage_subtext" msgid="6029276011123694701">"<xliff:g id="USED_0">%1$s</xliff:g> (<xliff:g id="USED_1">%2$d</xliff:g>٪) de <xliff:g id="USED_2">%3$s</xliff:g> máximo del período"</string>
-    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g>máximo excedido"\n"La velocidad de la transferencia de datos se redujo a <xliff:g id="USED_1">%2$d</xliff:g> kb/seg."</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% del ciclo transcurrido"\n"El siguiente período comienza en <xliff:g id="USED_1">%2$d</xliff:g> días (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g>máximo excedido\nLa velocidad de la transferencia de datos se redujo a <xliff:g id="USED_1">%2$d</xliff:g> kb/seg."</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% del ciclo transcurrido\nEl siguiente período comienza en <xliff:g id="USED_1">%2$d</xliff:g> días (<xliff:g id="USED_2">%3$s</xliff:g>)."</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"La velocidad de la transferencia de datos se reduce a <xliff:g id="USED">%1$d</xliff:g> Kb/seg. si se excede el límite de utilización de datos."</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Más información acerca de la política de utilización de datos de la red móvil de tu proveedor de servicios de telefonía móvil"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS de emisión celular"</string>
@@ -449,7 +449,6 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Administrar llamadas"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Administ conferencia"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
-    <string name="onscreenVideoCallText" msgid="4800924186056115442">"Videollamada"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importar"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importar todo"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importando contactos SIM"</string>
@@ -470,7 +469,7 @@
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Mensaje de red"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Activar tu teléfono"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Es necesario realizar una llamada especial para activar tu servicio de teléfono."\n\n"Luego de presionar \"Activar\", escucha las instrucciones suministradas para activar tu teléfono."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Es necesario realizar una llamada especial para activar tu servicio de teléfono.\n\nLuego de presionar \"Activar\", escucha las instrucciones suministradas para activar tu teléfono."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"¿Deseas omitir la activación?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Si omites la activación, no puedes colocar llamadas o conectarte con redes móviles de datos (a pesar de que te puedes conectar a redes de Wi-Fi). Hasta que actives tu teléfono, se te solicitará que lo actives cada vez que lo enciendas."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Omitir"</string>
@@ -482,7 +481,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Aguarda mientras se programa el teléfono."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programación incorrecta"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Ahora tu teléfono se encuentra activado. Puede tomar hasta unos 15 minutos para que comience el servicio."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"No se activó tu teléfono. "\n"Puede que tengas que trasladarte hasta un área con mejor cobertura (cerca de una ventana o afuera). "\n\n"Vuelve a intentarlo o llama al servicio de atención al cliente para más opciones."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"No se activó tu teléfono. \nPuede que tengas que trasladarte hasta un área con mejor cobertura (cerca de una ventana o afuera). \n\nVuelve a intentarlo o llama al servicio de atención al cliente para más opciones."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"ERROR EN SPC EN EXCESO"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Atrás"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Vuelve a intentarlo"</string>

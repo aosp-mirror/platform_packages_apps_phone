@@ -57,8 +57,8 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Telefonlur"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Trådanslutet headset"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?"\n</string>
-    <string name="pause_prompt_str" msgid="1789964702154314806">"Skickar signaler"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Skicka följande toner?\n"</string>
+    <string name="pause_prompt_str" msgid="1789964702154314806">"Skickar signaler\n"</string>
     <string name="send_button" msgid="4106860097497818751">"Skicka"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Ja"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"Nej"</string>
@@ -136,9 +136,9 @@
     <item msgid="1108394741608734023">"Visa nummer"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Numret till röstbrevlåda har ändrats."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Det gick inte att ändra numret till röstbrevlådan."\n"Kontakta operatören om problemet kvarstår."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"Det gick inte att ändra numret för vidarebefordran."\n"Kontakta din operatör om problemet kvarstår."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Det gick inte att hämta och spara inställningarna för numret för vidarebefordran."\n"Vill du byta till den nya operatören istället?"</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Det gick inte att ändra numret till röstbrevlådan.\nKontakta operatören om problemet kvarstår."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"Det gick inte att ändra numret för vidarebefordran.\nKontakta din operatör om problemet kvarstår."</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Det gick inte att hämta och spara inställningarna för numret för vidarebefordran.\nVill du byta till den nya operatören istället?"</string>
     <string name="no_change" msgid="3186040086622435212">"Du har inte gjort några ändringar."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Välj tjänst för röstbrevlådan"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Min operatör"</string>
@@ -209,7 +209,7 @@
     <!-- String.format failed for translation -->
     <!-- no translation found for throttle_data_usage_subtext (6029276011123694701) -->
     <skip />
-    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> maxvärdet har överskridits"\n"Datahastigheten har sänkts till <xliff:g id="USED_1">%2$d</xliff:g> kbit/s"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> maxvärdet har överskridits\nDatahastigheten har sänkts till <xliff:g id="USED_1">%2$d</xliff:g> kbit/s"</string>
     <!-- String.format failed for translation -->
     <!-- no translation found for throttle_time_frame_subtext (7732763021560399960) -->
     <skip />
@@ -455,7 +455,6 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Hantera samtal"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Hantera konferens"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Ljud"</string>
-    <string name="onscreenVideoCallText" msgid="4800924186056115442">"Videosamtal"</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importera"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importera alla"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importera SIM-kontakter"</string>
@@ -476,7 +475,7 @@
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Nätverksmeddelande"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Aktivera telefonen"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"Du måste ringa ett särskilt samtal för att aktivera telefontjänsten. "\n\n" Tryck på \"Aktivera\" och lyssna på instruktionerna om hur du aktiverar telefonen."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"Du måste ringa ett särskilt samtal för att aktivera telefontjänsten. \n\n Tryck på \"Aktivera\" och lyssna på instruktionerna om hur du aktiverar telefonen."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Vill du hoppa över aktiveringen?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Om du hoppar över aktiveringen kan du inte ringa samtal eller ansluta till mobila datanätverk (men du kan ansluta till Wi-Fi-nätverk). Du kommer att påminnas om att aktivera telefonen varje gång du sätter på den, tills du har aktiverat den."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Hoppa över"</string>
@@ -488,7 +487,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Vänta medan mobilen programmeras."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Det gick inte att programmera"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Telefonen är nu aktiverad. Det kan ta upp till 15 minuter innan tjänsten startar."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Telefonen har inte aktiverats. "\n"Du kanske måste hitta en plats med bättre täckning (nära ett fönster eller utomhus). "\n\n"Försök igen eller ring kundtjänst om du vill ha fler alternativ."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Telefonen har inte aktiverats. \nDu kanske måste hitta en plats med bättre täckning (nära ett fönster eller utomhus). \n\nFörsök igen eller ring kundtjänst om du vill ha fler alternativ."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"FÖR MÅNGA MISSLYCKADE SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Tillbaka"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Försök igen"</string>

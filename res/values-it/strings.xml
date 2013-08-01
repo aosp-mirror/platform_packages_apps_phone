@@ -57,8 +57,8 @@
     <string name="audio_mode_earpiece" msgid="4156527186373869107">"Auricolare telefono"</string>
     <string name="audio_mode_wired_headset" msgid="1465350758489175975">"Auricolare con cavo"</string>
     <string name="audio_mode_bluetooth" msgid="3047641300848211128">"Bluetooth"</string>
-    <string name="wait_prompt_str" msgid="7601815427707856238">"Inviare i numeri successivi?"\n</string>
-    <string name="pause_prompt_str" msgid="1789964702154314806">"Invio toni"\n</string>
+    <string name="wait_prompt_str" msgid="7601815427707856238">"Inviare i numeri successivi?\n"</string>
+    <string name="pause_prompt_str" msgid="1789964702154314806">"Invio toni\n"</string>
     <string name="send_button" msgid="4106860097497818751">"Invia"</string>
     <string name="pause_prompt_yes" msgid="3564467212025151797">"Sì"</string>
     <string name="pause_prompt_no" msgid="6686238803236884877">"No"</string>
@@ -136,9 +136,9 @@
     <item msgid="1108394741608734023">"Mostra numero"</item>
   </string-array>
     <string name="vm_changed" msgid="380744030726254139">"Numero segreteria modificato."</string>
-    <string name="vm_change_failed" msgid="3352934863246208918">"Modifica del numero della segreteria non riuscita."\n"Contatta il tuo operatore se il problema persiste."</string>
-    <string name="fw_change_failed" msgid="5298103228470214665">"Modifica del numero di deviazione non riuscita."\n"Contatta il tuo operatore se il problema persiste."</string>
-    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Recupero e salvataggio delle impostazioni correnti dei numeri di deviazione non riusciti. "\n"Passare comunque al nuovo fornitore?"</string>
+    <string name="vm_change_failed" msgid="3352934863246208918">"Modifica del numero della segreteria non riuscita.\nContatta il tuo operatore se il problema persiste."</string>
+    <string name="fw_change_failed" msgid="5298103228470214665">"Modifica del numero di deviazione non riuscita.\nContatta il tuo operatore se il problema persiste."</string>
+    <string name="fw_get_in_vm_failed" msgid="8862896836093833973">"Recupero e salvataggio delle impostazioni correnti dei numeri di deviazione non riusciti. \nPassare comunque al nuovo fornitore?"</string>
     <string name="no_change" msgid="3186040086622435212">"Nessuna modifica effettuata."</string>
     <string name="sum_voicemail_choose_provider" msgid="59911196126278922">"Scegli il servizio di segreteria"</string>
     <string name="voicemail_default" msgid="5902099213882352338">"Il mio gestore"</string>
@@ -209,8 +209,8 @@
     <!-- String.format failed for translation -->
     <!-- no translation found for throttle_data_usage_subtext (6029276011123694701) -->
     <skip />
-    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> max superato"\n"Velocità dati ridotta a <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
-    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% del ciclo trascorso"\n"Il periodo succ. inizia tra <xliff:g id="USED_1">%2$d</xliff:g> gg (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
+    <string name="throttle_data_rate_reduced_subtext" msgid="7492763592720107737">"<xliff:g id="USED_0">%1$s</xliff:g> max superato\nVelocità dati ridotta a <xliff:g id="USED_1">%2$d</xliff:g> Kb/s"</string>
+    <string name="throttle_time_frame_subtext" msgid="7732763021560399960">"<xliff:g id="USED_0">%1$d</xliff:g>% del ciclo trascorso\nIl periodo succ. inizia tra <xliff:g id="USED_1">%2$d</xliff:g> gg (<xliff:g id="USED_2">%3$s</xliff:g>)"</string>
     <string name="throttle_rate_subtext" msgid="2149102656120726855">"Velocità dati ridotta a <xliff:g id="USED">%1$d</xliff:g> Kb/s se limite utilizzo dati superato"</string>
     <string name="throttle_help_subtext" msgid="5217706521499010816">"Informazioni sulla norme di utilizzo dati della rete cellulare del gestore"</string>
     <string name="cell_broadcast_sms" msgid="5584192824053625842">"SMS cell broadcast"</string>
@@ -453,7 +453,6 @@
     <string name="onscreenManageCallsText" msgid="5473231160123254154">"Gestisci chiamate"</string>
     <string name="onscreenManageConferenceText" msgid="6485935856534311346">"Gestisci conferenza"</string>
     <string name="onscreenAudioText" msgid="1710087112800041743">"Audio"</string>
-    <string name="onscreenVideoCallText" msgid="4800924186056115442">"Videochiam."</string>
     <string name="importSimEntry" msgid="6614358325359736031">"Importa"</string>
     <string name="importAllSimEntries" msgid="1503181169636198673">"Importa tutti"</string>
     <string name="importingSimContacts" msgid="7374056215462575769">"Importazione contatti SIM"</string>
@@ -474,7 +473,7 @@
   </string-array>
     <string name="network_message" msgid="4483886461245213802">"Messaggio di rete"</string>
     <string name="ota_title_activate" msgid="8616918561356194398">"Attiva il telefono"</string>
-    <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. "\n\n"Dopo avere premuto \"Attiva\", ascolta le istruzioni fornite per attivare il telefono."</string>
+    <string name="ota_touch_activate" msgid="6553212803262586244">"È necessario effettuare una chiamata speciale per attivare il servizio telefonico. \n\nDopo avere premuto \"Attiva\", ascolta le istruzioni fornite per attivare il telefono."</string>
     <string name="ota_skip_activation_dialog_title" msgid="2943366608272261306">"Saltare l\'attivazione?"</string>
     <string name="ota_skip_activation_dialog_message" msgid="2440770373498870550">"Se salti l\'attivazione, non potrai effettuare chiamate o connetterti a reti di dati mobili (ma potrai connetterti a reti Wi-Fi). Finché non attiverai il telefono, ti verrà chiesto di attivarlo ogni volta che lo accendi."</string>
     <string name="ota_skip_activation_dialog_skip_label" msgid="3458532775091563208">"Ignora"</string>
@@ -486,7 +485,7 @@
     <string name="ota_progress" msgid="3420314892609254729">"Attendi la programmazione del telefono."</string>
     <string name="ota_failure" msgid="4311299546379674378">"Programmazione non riuscita"</string>
     <string name="ota_successful" msgid="1880780692887077407">"Il telefono è attivo. L\'avvio del servizio potrebbe richiedere fino a 15 minuti."</string>
-    <string name="ota_unsuccessful" msgid="8072141612635635357">"Il telefono non è stato attivato. "\n"Potrebbe essere necessario trovare una zona con copertura migliore (vicino a una finestra o all\'esterno). "\n\n"Riprova o contatta l\'assistenza clienti per conoscere altre soluzioni."</string>
+    <string name="ota_unsuccessful" msgid="8072141612635635357">"Il telefono non è stato attivato. \nPotrebbe essere necessario trovare una zona con copertura migliore (vicino a una finestra o all\'esterno). \n\nRiprova o contatta l\'assistenza clienti per conoscere altre soluzioni."</string>
     <string name="ota_spc_failure" msgid="3909983542575030796">"TROPPI ERRORI SPC"</string>
     <string name="ota_call_end" msgid="4537279738134612388">"Indietro"</string>
     <string name="ota_try_again" msgid="7685477206465902290">"Riprova"</string>
