@@ -35,10 +35,12 @@ public class GsmUmtsOptions {
     private PreferenceScreen mButtonAPNExpand;
     private PreferenceScreen mButtonOperatorSelectionExpand;
     private CheckBoxPreference mButtonPrefer2g;
+    private CheckBoxPreference mButtonPreferDisableLte;
 
     private static final String BUTTON_APN_EXPAND_KEY = "button_apn_key";
     private static final String BUTTON_OPERATOR_SELECTION_EXPAND_KEY = "button_carrier_sel_key";
     private static final String BUTTON_PREFER_2G_KEY = "button_prefer_2g_key";
+    private static final String BUTTON_PREFER_DISABLE_LTE_KEY = "button_prefer_disable_lte_key";
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
 
@@ -54,11 +56,14 @@ public class GsmUmtsOptions {
         mButtonOperatorSelectionExpand =
                 (PreferenceScreen) mPrefScreen.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
         mButtonPrefer2g = (CheckBoxPreference) mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY);
+        mButtonPreferDisableLte = (CheckBoxPreference) mPrefScreen.findPreference(
+                BUTTON_PREFER_DISABLE_LTE_KEY);
         if (PhoneFactory.getDefaultPhone().getPhoneType() != PhoneConstants.PHONE_TYPE_GSM) {
             log("Not a GSM phone");
             mButtonAPNExpand.setEnabled(false);
             mButtonOperatorSelectionExpand.setEnabled(false);
             mButtonPrefer2g.setEnabled(false);
+            mButtonPreferDisableLte.setEnabled(false);
         } else {
             log("Not a CDMA phone");
             Resources res = mPrefActivity.getResources();
@@ -77,6 +82,10 @@ public class GsmUmtsOptions {
             if (!res.getBoolean(R.bool.config_prefer_2g)) {
                 mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY));
             }
+            if (!res.getBoolean(R.bool.config_prefer_disable_lte)) {
+                mPrefScreen.removePreference(
+                        mPrefScreen.findPreference(BUTTON_PREFER_DISABLE_LTE_KEY));
+            }
 
             if (res.getBoolean(R.bool.csp_enabled)) {
                 if (PhoneFactory.getDefaultPhone().isCspPlmnEnabled()) {
@@ -93,6 +102,10 @@ public class GsmUmtsOptions {
 
     public boolean preferenceTreeClick(Preference preference) {
         if (preference.getKey().equals(BUTTON_PREFER_2G_KEY)) {
+            log("preferenceTreeClick: return true");
+            return true;
+        }
+        if (preference.getKey().equals(BUTTON_PREFER_DISABLE_LTE_KEY)) {
             log("preferenceTreeClick: return true");
             return true;
         }

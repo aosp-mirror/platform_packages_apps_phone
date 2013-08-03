@@ -566,6 +566,11 @@
     <!-- Mobile network settings screen, setting summary text -->
     <string name="prefer_2g_summary">Saves battery</string>
 
+    <!-- Mobile network settings screen, setting option name -->
+    <string name="prefer_disable_lte">Disable LTE networks</string>
+    <!-- Mobile network settings screen, setting summary text -->
+    <string name="prefer_disable_lte_summary">Do not use LTE networks</string>
+
     <!-- CDMA System select strings -->
     <!-- Mobile network settings screen, setting option name -->
     <string name="cdma_system_select_title">System select</string>
