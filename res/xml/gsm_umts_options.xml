@@ -32,7 +32,15 @@
         android:key="button_prefer_2g_key"
         android:title="@string/prefer_2g"
         android:persistent="false"
+        android:disableDependentsState="true"
         android:summary="@string/prefer_2g_summary"/>
+
+    <com.android.phone.DisableLteCheckBoxPreference
+        android:key="button_prefer_disable_lte_key"
+        android:title="@string/prefer_disable_lte"
+        android:persistent="false"
+        android:dependency="button_prefer_2g_key"
+        android:summary="@string/prefer_disable_lte_summary"/>
 
     <PreferenceScreen
         android:key="button_carrier_sel_key"

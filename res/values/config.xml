@@ -119,4 +119,7 @@
     <bool name="config_apn_expand" translatable="false">true</bool>
     <bool name="config_operator_selection_expand" translatable="false">true</bool>
     <bool name="config_prefer_2g" translatable="false">true</bool>
+
+    <!-- Disable LTE network -->
+    <bool name="config_prefer_disable_lte" translatable="false">false</bool>
 </resources>

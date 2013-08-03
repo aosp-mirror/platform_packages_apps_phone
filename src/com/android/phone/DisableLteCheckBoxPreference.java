@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright 2013 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.android.phone;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
@@ -28,8 +29,8 @@ import android.util.Log;
 
 import com.android.internal.telephony.Phone;
 
-public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
-    private static final String LOG_TAG = "Use2GOnlyCheckBoxPreference";
+public class DisableLteCheckBoxPreference extends CheckBoxPreference {
+    private static final String LOG_TAG = "DisableLteCheckBoxPreference";
 
     private Phone mPhone;
     private MyHandler mHandler;
@@ -37,15 +38,15 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
     private static final String PREFNAME = "mode";
     private final SharedPreferences mPrefs;
 
-    public Use2GOnlyCheckBoxPreference(Context context) {
+    public DisableLteCheckBoxPreference(Context context) {
         this(context, null);
     }
 
-    public Use2GOnlyCheckBoxPreference(Context context, AttributeSet attrs) {
+    public DisableLteCheckBoxPreference(Context context, AttributeSet attrs) {
         this(context, attrs,com.android.internal.R.attr.checkBoxPreferenceStyle);
     }
 
-    public Use2GOnlyCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
+    public DisableLteCheckBoxPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mPhone = PhoneGlobals.getPhone();
         mHandler = new MyHandler();
@@ -57,21 +58,23 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
     private int getDefaultNetworkMode() {
         int mode = SystemProperties.getInt("ro.telephony.default_network",
                 Phone.PREFERRED_NT_MODE);
-        mode = mPrefs.getInt(PREFNAME, mode);
         Log.i(LOG_TAG, "getDefaultNetworkMode: mode=" + mode);
         return mode;
     }
 
     @Override
-    protected void  onClick() {
+    protected void onClick() {
         super.onClick();
 
-        int networkType = isChecked() ? Phone.NT_MODE_GSM_ONLY : getDefaultNetworkMode();
-        Log.i(LOG_TAG, "set preferred network type="+networkType);
+        int networkType = isChecked() ? Phone.NT_MODE_WCDMA_PREF : getDefaultNetworkMode();
+        Log.i(LOG_TAG, "set preferred network type=" + networkType);
         android.provider.Settings.Global.putInt(mPhone.getContext().getContentResolver(),
                 android.provider.Settings.Global.PREFERRED_NETWORK_MODE, networkType);
         mPhone.setPreferredNetworkType(networkType, mHandler
                 .obtainMessage(MyHandler.MESSAGE_SET_PREFERRED_NETWORK_TYPE));
+        Editor editor = mPrefs.edit();
+        editor.putInt(PREFNAME, networkType);
+        editor.apply();
     }
 
     private class MyHandler extends Handler {
@@ -96,13 +99,16 @@ public class Use2GOnlyCheckBoxPreference extends CheckBoxPreference {
             AsyncResult ar = (AsyncResult) msg.obj;
 
             if (ar.exception == null) {
+                int type = mPrefs.getInt(PREFNAME, getDefaultNetworkMode());
+                /*
                 int type = ((int[])ar.result)[0];
-                if (type != Phone.NT_MODE_GSM_ONLY) {
+                if (type != Phone.NT_MODE_WCDMA_PREF) {
                     // Back to default
                     type = getDefaultNetworkMode();
                 }
-                Log.i(LOG_TAG, "get preferred network type="+type);
-                setChecked(type == Phone.NT_MODE_GSM_ONLY);
+                */
+                Log.i(LOG_TAG, "get preferred network type=" + type);
+                setChecked(type == Phone.NT_MODE_WCDMA_PREF);
                 android.provider.Settings.Global.putInt(mPhone.getContext().getContentResolver(),
                         android.provider.Settings.Global.PREFERRED_NETWORK_MODE, type);
             } else {
