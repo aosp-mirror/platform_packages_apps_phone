@@ -178,7 +178,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String BUTTON_RETRY_KEY       = "button_auto_retry_key";
     private static final String BUTTON_TTY_KEY         = "button_tty_mode_key";
     private static final String BUTTON_HAC_KEY         = "button_hac_key";
-    private static final String BUTTON_DIALPAD_AUTOCOMPLETE = "button_dialpad_autocomplete";
 
     private static final String BUTTON_GSM_UMTS_OPTIONS = "button_gsm_more_expand_key";
     private static final String BUTTON_CDMA_OPTIONS = "button_cdma_more_expand_key";
@@ -266,7 +265,6 @@ public class CallFeaturesSetting extends PreferenceActivity
     private CheckBoxPreference mVibrateWhenRinging;
     /** Whether dialpad plays DTMF tone or not. */
     private CheckBoxPreference mPlayDtmfTone;
-    private CheckBoxPreference mDialpadAutocomplete;
     private CheckBoxPreference mButtonAutoRetry;
     private CheckBoxPreference mButtonHAC;
     private ListPreference mButtonDTMF;
@@ -484,9 +482,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else if (preference == mPlayDtmfTone) {
             Settings.System.putInt(getContentResolver(), Settings.System.DTMF_TONE_WHEN_DIALING,
                     mPlayDtmfTone.isChecked() ? 1 : 0);
-        } else if (preference == mDialpadAutocomplete) {
-            Settings.Secure.putInt(getContentResolver(), Settings.Secure.DIALPAD_AUTOCOMPLETE,
-                    mDialpadAutocomplete.isChecked() ? 1 : 0);
         } else if (preference == mButtonDTMF) {
             return true;
         } else if (preference == mButtonTTY) {
@@ -1521,7 +1516,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         mRingtonePreference = findPreference(BUTTON_RINGTONE_KEY);
         mVibrateWhenRinging = (CheckBoxPreference) findPreference(BUTTON_VIBRATE_ON_RING);
         mPlayDtmfTone = (CheckBoxPreference) findPreference(BUTTON_PLAY_DTMF_TONE);
-        mDialpadAutocomplete = (CheckBoxPreference) findPreference(BUTTON_DIALPAD_AUTOCOMPLETE);
         mButtonDTMF = (ListPreference) findPreference(BUTTON_DTMF_KEY);
         mButtonAutoRetry = (CheckBoxPreference) findPreference(BUTTON_RETRY_KEY);
         mButtonHAC = (CheckBoxPreference) findPreference(BUTTON_HAC_KEY);
@@ -1552,11 +1546,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (mPlayDtmfTone != null) {
             mPlayDtmfTone.setChecked(Settings.System.getInt(contentResolver,
                     Settings.System.DTMF_TONE_WHEN_DIALING, 1) != 0);
-        }
-
-        if (mDialpadAutocomplete != null) {
-            mDialpadAutocomplete.setChecked(Settings.Secure.getInt(contentResolver,
-                    Settings.Secure.DIALPAD_AUTOCOMPLETE, 0) != 0);
         }
 
         if (mButtonDTMF != null) {
