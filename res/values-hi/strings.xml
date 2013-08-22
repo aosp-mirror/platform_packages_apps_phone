@@ -75,7 +75,7 @@
     <string name="unlock_success" msgid="6770085622238180152">"नेटवर्क अनलॉक सफल रहा."</string>
     <string name="labelGSMMore" msgid="5930842194056092106">"GSM कॉल सेटिंग"</string>
     <string name="labelCDMAMore" msgid="1630676740428229339">"CDMA कॉल सेटिंग"</string>
-    <string name="apn_settings" msgid="9043423184895642077">"पहुंच बिंदु नाम"</string>
+    <string name="apn_settings" msgid="9043423184895642077">"एक्सेस केन्द्र का नाम"</string>
     <string name="settings_label" msgid="3876743539816984008">"नेटवर्क सेटिंग"</string>
     <string name="voicemail" msgid="8693759337917898954">"ध्वनिमेल"</string>
     <string name="voicemail_abbreviated" msgid="2215592488517217448">"VM:"</string>
