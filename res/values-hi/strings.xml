@@ -46,7 +46,7 @@
     <string name="callFailed_unobtainable_number" msgid="4736290912891155067">"अमान्य नंबर"</string>
     <string name="confCall" msgid="1904840547188336828">"कॉन्फ़्रेंस कॉल"</string>
     <string name="call_lost" msgid="317670617901479594">"कॉल कट चुकी है."</string>
-    <string name="ok" msgid="3811371167865772377">"ठीक"</string>
+    <string name="ok" msgid="3811371167865772377">"ठीक है"</string>
     <string name="mmiStarted" msgid="6347869857061147003">"MMI कोड प्रारंभ किया गया"</string>
     <string name="ussdRunning" msgid="485588686340541690">"USSD कोड चल रहा है…"</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"MMI कोड रद्द किया गया"</string>
@@ -126,7 +126,7 @@
     <string name="exception_error" msgid="7027667130619518211">"नेटवर्क या सिम कार्ड त्रुटि."</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"आपके फ़ोन एप्‍लिकेशन की फ़िक्‍स्‍ड डायलिंग नंबर सेटिंग चालू है. इसके परिणामस्‍वरूप, कॉल से संबंधित कुछ सुविधाएं कार्य नहीं कर रही हैं."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"इन सेटिंग को देखने के पहले रेडियो चालू करें."</string>
-    <string name="close_dialog" msgid="2365884406356986917">"ठीक"</string>
+    <string name="close_dialog" msgid="2365884406356986917">"ठीक है"</string>
     <string name="enable" msgid="1059008390636773574">"सक्षम करें"</string>
     <string name="disable" msgid="7274240979164762320">"अक्षम करें"</string>
     <string name="change_num" msgid="239476305819844391">"अपडेट करें"</string>
@@ -543,7 +543,7 @@
     <string name="sip_menu_save" msgid="5842531129356014943">"सहेजें"</string>
     <string name="sip_menu_discard" msgid="524075892158789701">"छोड़ें"</string>
     <string name="alert_dialog_close" msgid="7759635137627626235">"प्रोफ़ाइल बंद करें"</string>
-    <string name="alert_dialog_ok" msgid="3580379406983564080">"ठीक"</string>
+    <string name="alert_dialog_ok" msgid="3580379406983564080">"ठीक है"</string>
     <string name="close_profile" msgid="6886968271423155284">"बंद करें"</string>
     <string name="primary_account_summary_with" msgid="1633960536212343187">"प्राथमिक खाता. <xliff:g id="REGISTRATION_STATUS">%s</xliff:g>"</string>
     <string name="registration_status_checking_status" msgid="3381868307694056727">"स्थिति की जांच कर रहा है..."</string>
