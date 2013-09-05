@@ -90,7 +90,7 @@
     <string name="sum_loading_settings" msgid="1826692909391168620">"सेटिंग लोड हो रही हैं…"</string>
     <string name="sum_hide_caller_id" msgid="1071407020290873782">"आउटगोइंग कॉल में छुपे नंबर"</string>
     <string name="sum_show_caller_id" msgid="6768534125447290401">"आउटगोइंग कॉल में प्रदर्शित किया गया नंबर"</string>
-    <string name="sum_default_caller_id" msgid="1954518825510901365">"आउटगोइंग कॉल में मेरा नंबर दिखाने के लिए डिफ़ॉल्ट ऑपरेटर सेटिंग का उपयोग करें"</string>
+    <string name="sum_default_caller_id" msgid="1954518825510901365">"आउटगोइंग कॉल में मेरा नंबर दिखाने के लिए सामान्य ऑपरेटर सेटिंग का उपयोग करें"</string>
     <string name="labelCW" msgid="6120513814915920200">"कॉल प्रतीक्षा"</string>
     <string name="sum_cw_enabled" msgid="8083061901633671397">"कॉल के दौरान, मुझे इनकमिंग कॉल की सूचना दें"</string>
     <string name="sum_cw_disabled" msgid="3648693907300104575">"कॉल के दौरान, मुझे इनकमिंग कॉल की सूचना दें"</string>
@@ -131,7 +131,7 @@
     <string name="disable" msgid="7274240979164762320">"अक्षम करें"</string>
     <string name="change_num" msgid="239476305819844391">"अपडेट करें"</string>
   <string-array name="clir_display_values">
-    <item msgid="5560134294467334594">"नेटवर्क डिफ़ॉल्ट"</item>
+    <item msgid="5560134294467334594">"नेटवर्क सामान्य"</item>
     <item msgid="7876195870037833661">"नंबर छुपाएं"</item>
     <item msgid="1108394741608734023">"नंबर दिखाएं"</item>
   </string-array>
@@ -624,7 +624,7 @@
     <string name="default_notification_description" msgid="78174796906240970">"डिफ़ॉल्ट ध्वनि (<xliff:g id="DEFAULT_SOUND_TITLE">%1$s</xliff:g>)"</string>
     <string name="ringtone_title" msgid="6374978286202084684">"फ़ोन रिंगटोन"</string>
     <string name="vibrate_on_ring_title" msgid="9197564612065258960">"रिंग आने पर कंपन करें"</string>
-    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"डायल पैड स्पर्श टोन"</string>
+    <string name="dtmf_tone_enable_title" msgid="827601042915852989">"कॉल करते समय ध्वनी सुने"</string>
     <string name="dial_pad_autocomplete" msgid="494525952035761075">"डायलपैड स्वत: पूर्ण"</string>
     <string name="preference_category_ringtone" msgid="5197960752529332721">"रिंगटोन और कंपन"</string>
 </resources>
