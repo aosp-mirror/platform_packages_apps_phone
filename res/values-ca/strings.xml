@@ -35,7 +35,7 @@
     <string name="callFailed_server_error" msgid="5717915213586193217">"Error del servidor. Torna-ho a provar més tard."</string>
     <string name="callFailed_noSignal" msgid="1889803273616031933">"Sense senyal"</string>
     <string name="callFailed_limitExceeded" msgid="4958065157970101491">"Límit d\'ACM superat"</string>
-    <string name="callFailed_powerOff" msgid="2766035859391549713">"Ràdio desactivada"</string>
+    <string name="callFailed_powerOff" msgid="2766035859391549713">"Senyal mòbil desactivat"</string>
     <string name="callFailed_simError" msgid="4476360200030635828">"Cap SIM o error de la SIM"</string>
     <string name="callFailed_outOfService" msgid="4825791466557236225">"Fora de l\'àrea de servei"</string>
     <string name="callFailed_fdn_only" msgid="2850204579765430641">"FDN restringeix les trucades de sortida."</string>
@@ -125,7 +125,7 @@
     <string name="response_error" msgid="6674110501330139405">"Resposta inesperada de la xarxa."</string>
     <string name="exception_error" msgid="7027667130619518211">"Error de xarxa o de targeta SIM."</string>
     <string name="fdn_check_failure" msgid="18200614306525434">"La configuració dels números de marcatge fix de l\'aplicació Telèfon està activada. En conseqüència, algunes funcions relacionades amb les trucades no funcionen."</string>
-    <string name="radio_off_error" msgid="2304459933248513376">"Activa la ràdio abans de visualitzar aquesta configuració."</string>
+    <string name="radio_off_error" msgid="2304459933248513376">"Per veure aquesta configuració, has d\'activar el senyal mòbil."</string>
     <string name="close_dialog" msgid="2365884406356986917">"D\'acord"</string>
     <string name="enable" msgid="1059008390636773574">"Activa"</string>
     <string name="disable" msgid="7274240979164762320">"Desactiva"</string>
@@ -434,7 +434,7 @@
     <string name="incall_error_supp_service_hangup" msgid="7417583238334762737">"No es pot alliberar les trucades."</string>
     <string name="incall_call_type_label_sip" msgid="2310958283037924371">"Trucada per Internet"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Trucada d\'emergència"</string>
-    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"S\'està activant la ràdio..."</string>
+    <string name="emergency_enable_radio_dialog_message" msgid="207613549344420291">"S\'està activant el senyal mòbil..."</string>
     <string name="emergency_enable_radio_dialog_retry" msgid="3724423402363063736">"Fora de l\'àrea de servei; s\'està tornant a provar..."</string>
     <string name="dial_emergency_error" msgid="7969515493359619960">"No s\'ha enviat la trucada. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> no és un número d\'emergència."</string>
     <string name="dial_emergency_empty_error" msgid="5556166819619323893">"Trucada no enviada. Marca un número d\'emergència."</string>
