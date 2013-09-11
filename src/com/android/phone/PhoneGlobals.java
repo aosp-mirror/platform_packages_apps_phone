@@ -103,7 +103,7 @@ public class PhoneGlobals extends ContextWrapper
     private static final boolean VDBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // Message codes; see mHandler below.
-    private static final int EVENT_SIM_NETWORK_LOCKED = 3;
+    protected static final int EVENT_PERSO_LOCKED = 3;
     private static final int EVENT_WIRED_HEADSET_PLUG = 7;
     private static final int EVENT_SIM_STATE_CHANGED = 8;
     private static final int EVENT_UPDATE_INCALL_NOTIFICATION = 9;
@@ -289,19 +289,20 @@ public class PhoneGlobals extends ContextWrapper
 
                 // TODO: This event should be handled by the lock screen, just
                 // like the "SIM missing" and "Sim locked" cases (bug 1804111).
-                case EVENT_SIM_NETWORK_LOCKED:
-                    if (getResources().getBoolean(R.bool.ignore_sim_network_locked_events)) {
+                case EVENT_PERSO_LOCKED:
+                    if (getResources().getBoolean(R.bool.ignore_sim_perso_locked_events)) {
                         // Some products don't have the concept of a "SIM network lock"
-                        Log.i(LOG_TAG, "Ignoring EVENT_SIM_NETWORK_LOCKED event; "
+                        Log.i(LOG_TAG, "Ignoring EVENT_PERSO_LOCKED event; "
                               + "not showing 'SIM network unlock' PIN entry screen");
                     } else {
-                        // Normal case: show the "SIM network unlock" PIN entry screen.
+                        // Normal case: show the "perso unlock" PIN entry screen.
                         // The user won't be able to do anything else until
                         // they enter a valid SIM network PIN.
                         Log.i(LOG_TAG, "show sim depersonal panel");
-                        IccNetworkDepersonalizationPanel ndpPanel =
-                                new IccNetworkDepersonalizationPanel(PhoneGlobals.getInstance());
-                        ndpPanel.show();
+                        int subtype = (Integer)((AsyncResult)msg.obj).result;
+                        IccDepersonalizationPanel dpPanel =
+                                new IccDepersonalizationPanel(PhoneGlobals.getInstance(), subtype);
+                        dpPanel.show();
                     }
                     break;
 
@@ -542,7 +543,7 @@ public class PhoneGlobals extends ContextWrapper
             IccCard sim = phone.getIccCard();
             if (sim != null) {
                 if (VDBG) Log.v(LOG_TAG, "register for ICC status");
-                sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
+                sim.registerForPersoLocked(mHandler, EVENT_PERSO_LOCKED, null);
             }
 
             // register for MMI/USSD
@@ -1329,7 +1330,7 @@ public class PhoneGlobals extends ContextWrapper
             if (DBG) Log.d(LOG_TAG, "Update registration for ICC status...");
 
             //Register all events new to the new active phone
-            sim.registerForNetworkLocked(mHandler, EVENT_SIM_NETWORK_LOCKED, null);
+            sim.registerForPersoLocked(mHandler, EVENT_PERSO_LOCKED, null);
         }
     }
 

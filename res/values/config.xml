@@ -18,10 +18,10 @@
      for different hardware or product builds. -->
 <resources>
     <!-- Flag indicating whether the Phone app should ignore
-         EVENT_SIM_NETWORK_LOCKED events from the Sim.  If true, this will
-         prevent the IccNetworkDepersonalizationPanel from being shown,
-         and effectively disable the "Sim network lock" feature. -->
-    <bool name="ignore_sim_network_locked_events">false</bool>
+         EVENT_SIM_PERSO_LOCKED events from the Sim.  If true, this will
+         prevent the IccDepersonalizationPanel from being shown,
+         and effectively disable the "Sim perso unlock" feature. -->
+    <bool name="ignore_sim_perso_locked_events">false</bool>
 
     <!-- Flag indicating whether the Phone app should provide
          a "Dismiss" button on the SIM network unlock screen.
@@ -31,7 +31,7 @@
          (One important consequence: there will be no way to make an
          Emergency Call if your SIM is network-locked and you don't know
          the PIN.) -->
-    <bool name="sim_network_unlock_allow_dismiss">true</bool>
+    <bool name="icc_perso_unlock_allow_dismiss">true</bool>
 
     <!-- OTA configuration values, used when provisioning CDMA devices.
          Following defaults values of zero means OTA UI is completely disabled.
