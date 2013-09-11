@@ -119,4 +119,7 @@
     <bool name="config_apn_expand" translatable="false">true</bool>
     <bool name="config_operator_selection_expand" translatable="false">true</bool>
     <bool name="config_prefer_2g" translatable="false">true</bool>
+
+    <!-- CDMA activation goes through HFA [DO NOT TRANSLATE] -->
+    <bool name="config_use_hfa_for_provisioning" translatable="false">false</bool>
 </resources>
