@@ -140,6 +140,24 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="ContactScreenActivity"
+            android:label="@string/ContactScreen">
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="ExportContactsToSim"
+            android:label="@string/ExportContactScreen">
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="FdnList" android:label="@string/fdnListLabel">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

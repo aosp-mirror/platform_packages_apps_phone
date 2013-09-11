@@ -690,10 +690,11 @@
     <!-- ADN related strings -->
     <!-- Placeholder text displayed while loading the list of SIM contacts -->
     <string name="simContacts_emptyLoading">Reading from SIM card\u2026</string>
+    <string name="exportContacts">Exporting contacts to SIM card\u2026</string>
     <!-- Call settings, string that appears on FDN contact list when there are no contacts on the SIM. -->
     <string name="simContacts_empty">No contacts on your SIM card.</string>
     <!-- Call settings: title of the dialog that lets you select contacts from the SIM. -->
-    <string name="simContacts_title">Select contacts to import</string>
+    <string name="simContacts_title">Manage SIM card contacts</string>
     <!-- Appears when user tries to import contacts in SIM during Airplane mode
       [CHAR LIMIT=NONE] -->
     <string name="simContacts_airplaneMode">To import contacts from the SIM card, first turn off Airplane mode.</string>
@@ -1493,4 +1494,29 @@
          related settings.
          [CHAR LIMIT=40] -->
     <string name="preference_category_ringtone">Ringtone &amp; Vibrate</string>
+
+    <!-- Sim contacts management -->
+    <string name="ContactScreen"> Add/Edit SIM Contact</string>
+    <string name="ExportContactScreen"> Export phone contacts to sim </string>
+    <string name="addSimEntries"> Add SIM Contact</string>
+    <string name="deleteAllSimEntries"> Delete All SIM Contacts</string>
+    <string name="deleteSimContacts">Deleting SIM contacts</string>
+    <string name="editContact"> Edit</string>
+    <string name="sendSms"> Send SMS</string>
+    <string name="delete"> Delete</string>
+    <string name="dial"> Dial</string>
+    <string name="enterName"> Enter Name:</string>
+    <string name="enterNumber"> Enter Phone Number:</string>
+    <string name="contactAddSuccess"> Succesfully added contact to SIM </string>
+    <string name="contactAddFailed"> Failed to add contact to SIM !!!</string>
+    <string name="contactUpdateSuccess"> Succesfully updated contact in SIM </string>
+    <string name="contactUpdateFailed"> Failed to update contact in SIM !!!</string>
+    <string name="contactdeleteSuccess"> Succesfully deleted contact from SIM </string>
+    <string name="contactdeleteFailed"> Failed to delete contact from SIM !!!</string>
+    <string name="allContactdeleteSuccess"> Succesfully deleted all contacts from SIM </string>
+    <string name="allContactdeleteFailed"> Failed to delete all contacts from SIM !!!</string>
+    <string name="exportAllcontatsSuccess">Succesfully exported all contacts to SIM </string>
+    <string name="exportAllcontatsFailed"> Failed to export all contacts to SIM !!!</string>
+    <string name="exportAllcontatsNoContacts"> No Contacts found to export to SIM !!!</string>
+    <string name="cursorError"> Cursor is not having proper data !!! </string>
 </resources>
