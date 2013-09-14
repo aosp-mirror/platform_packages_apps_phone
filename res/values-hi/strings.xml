@@ -120,16 +120,16 @@
     <string name="updating_title" msgid="6146755386174019046">"कॉल सेटिंग"</string>
     <string name="error_updating_title" msgid="7970259216988931777">"कॉल सेटिंग त्रुटि"</string>
     <string name="reading_settings" msgid="1920291699287055284">"सेटिंग पढ़ रहा है..."</string>
-    <string name="updating_settings" msgid="8171225533884883252">"सेटिंग अपडेट कर रहा है..."</string>
+    <string name="updating_settings" msgid="8171225533884883252">"सेटिंग के लिए नई जानकारी मिल रही है..."</string>
     <string name="reverting_settings" msgid="4752151682666912828">"सेटिंग वापस ला रहा है..."</string>
     <string name="response_error" msgid="6674110501330139405">"नेटवर्क से अनपेक्षित प्रतिसाद."</string>
     <string name="exception_error" msgid="7027667130619518211">"नेटवर्क या सिम कार्ड त्रुटि."</string>
-    <string name="fdn_check_failure" msgid="18200614306525434">"आपके फ़ोन एप्‍लिकेशन की फ़िक्‍स्‍ड डायलिंग नंबर सेटिंग चालू है. इसके परिणामस्‍वरूप, कॉल से संबंधित कुछ सुविधाएं कार्य नहीं कर रही हैं."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"आपके फ़ोन एप्‍स की फ़िक्‍स्‍ड डायलिंग नंबर सेटिंग चालू है. इसके परिणामस्‍वरूप, कॉल से संबंधित कुछ सुविधाएं कार्य नहीं कर रही हैं."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"इन सेटिंग को देखने के पहले रेडियो चालू करें."</string>
     <string name="close_dialog" msgid="2365884406356986917">"ठीक है"</string>
     <string name="enable" msgid="1059008390636773574">"सक्षम करें"</string>
     <string name="disable" msgid="7274240979164762320">"अक्षम करें"</string>
-    <string name="change_num" msgid="239476305819844391">"अपडेट करें"</string>
+    <string name="change_num" msgid="239476305819844391">"नई जानकारी पाएं"</string>
   <string-array name="clir_display_values">
     <item msgid="5560134294467334594">"नेटवर्क सामान्य"</item>
     <item msgid="7876195870037833661">"नंबर छुपाएं"</item>
@@ -348,14 +348,14 @@
     <string name="adding_fdn_contact" msgid="7627379633721940991">"फ़िक्स्ड डायलिंग नंबर जोड़ रहा है..."</string>
     <string name="fdn_contact_added" msgid="7458335758501736665">"फ़िक्स्ड डायलिंग नंबर जोड़ा गया."</string>
     <string name="edit_fdn_contact" msgid="7976936035587081480">"फ़िक्स्ड डायलिंग नंबर संपादित करें"</string>
-    <string name="updating_fdn_contact" msgid="8370929876849803600">"फ़िक्स्ड डायलिंग नंबर अपडेट कर रहा है…"</string>
-    <string name="fdn_contact_updated" msgid="5497828782609005017">"फ़िक्स्ड डायलिंग नंबर अपडेट किया गया."</string>
+    <string name="updating_fdn_contact" msgid="8370929876849803600">"फ़िक्स्ड डायलिंग नंबर के लिए नई जानकारी…"</string>
+    <string name="fdn_contact_updated" msgid="5497828782609005017">"फ़िक्स्ड डायलिंग नंबर के लिए नई जानकारी."</string>
     <string name="delete_fdn_contact" msgid="6668958073074151717">"फ़िक्स्ड डायलिंग नंबर हटाएं"</string>
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"फ़िक्स्ड डायलिंग नंबर हटा रहा है..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"फ़िक्स्ड डायलिंग नंबर हटाया गया."</string>
-    <string name="pin2_invalid" msgid="5470854099230755944">"FDN अपडेट नहीं किया गया था क्योंकि आपने गलत पिन लिखा है."</string>
-    <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN अपडेट नहीं था क्योंकि नंबर में 20 से अधिक अंक नहीं हो सकते."</string>
-    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN अपडेट नहीं किया गया था. PIN2 गलत था, या फ़ोन नंबर अस्वीकृत था."</string>
+    <string name="pin2_invalid" msgid="5470854099230755944">"FDN पे नई जानकारी नहीं है क्योंकि आपने गलत पिन लिखा है."</string>
+    <string name="fdn_invalid_number" msgid="1494755047900009147">"FDN पे नई जानकारी नहीं है क्योंकि नंबर में 20 से अधिक अंक नहीं हो सकते."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN पे नई जानकारी नहीं है. PIN2 गलत था, या फ़ोन नंबर अस्वीकृत था."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"सिम कार्ड से पढ़ रहा है…"</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"आपके सिम कार्ड पर कोई संपर्क नहीं है."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"आयात करने के लिए संपर्कों को चुनें"</string>
@@ -495,8 +495,8 @@
     <item quantity="other" msgid="3122217344579273583">"<xliff:g id="COUNT">%s</xliff:g> मिनट के लिए कोई डेटा कनेक्शन नहीं"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"फ़ोन <xliff:g id="COUNT">%s</xliff:g> मिनट के लिए आपातकालीन कॉलबैक मोड में रहेगा. हालांकि, इस मोड में होने पर डेटा कनेक्शन का उपयोग करने वाले किसी एप्लिकेशन का उपयोग नहीं किया जा सकता. क्या आप अभी बाहर निकलना चाहते हैं?"</item>
-    <item quantity="other" msgid="8617116564023933114">"फ़ोन <xliff:g id="COUNT">%s</xliff:g> मिनट के लिए आपातकालीन कॉलबैक मोड में रहेगा. हालांकि, इस मोड में होने पर डेटा कनेक्शन का उपयोग करने वाले किसी एप्लिकेशन का उपयोग नहीं किया जा सकता. क्या आप अभी बाहर निकलना चाहते हैं?"</item>
+    <item quantity="one" msgid="8060210887681426682">"फ़ोन <xliff:g id="COUNT">%s</xliff:g> मिनट के लिए आपातकालीन कॉलबैक मोड में रहेगा. हालांकि, इस मोड में होने पर डेटा कनेक्शन का उपयोग करने वाले किसी एप्स का उपयोग नहीं किया जा सकता. क्या आप अभी बाहर निकलना चाहते हैं?"</item>
+    <item quantity="other" msgid="8617116564023933114">"फ़ोन <xliff:g id="COUNT">%s</xliff:g> मिनट के लिए आपातकालीन कॉलबैक मोड में रहेगा. हालांकि, इस मोड में होने पर डेटा कनेक्शन का उपयोग करने वाले किसी एप्स का उपयोग नहीं किया जा सकता. क्या आप अभी बाहर निकलना चाहते हैं?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"आपातकालीन कॉलबैक मोड के समय चयनित क्रिया उपलब्ध नहीं है. फ़ोन <xliff:g id="COUNT">%s</xliff:g> मिनट तक इस मोड में रहेगा. क्या आप अभी बाहर निकलना चाहते हैं?"</item>
@@ -557,7 +557,7 @@
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"खाता पंजीकरण विफल: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); बाद में पुन: प्रयास किया जाएगा"</string>
     <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"खाता पंजीकरण विफल: गलत उपयोगकर्ता नाम या पासवर्ड."</string>
     <string name="registration_status_server_unreachable" msgid="5733421582468991276">"खाता पंजीकरण विफल: सर्वर नाम जांचें."</string>
-    <string name="third_party_account_summary" msgid="2532526738862533028">"वर्तमान में इस खाते का उपयोग <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> एप्लिकेशन द्वारा किया जा रहा है."</string>
+    <string name="third_party_account_summary" msgid="2532526738862533028">"वर्तमान में इस खाते का उपयोग <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> एप्स द्वारा किया जा रहा है."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"SIP खाता विवरण"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"SIP खाता विवरण"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"सर्वर"</string>
@@ -597,7 +597,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"त्वरित प्रतिसाद संपादित करें"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"त्वरित प्रतिसाद"</string>
-    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"डिफ़ॉल्ट एप्लिकेशन रीसेट करें"</string>
+    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"डिफ़ॉल्ट एप्स रीसेट करें"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"<xliff:g id="PHONE_NUMBER">%s</xliff:g> को संदेश भेजा गया."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"एक"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"दो"</string>
