@@ -22,7 +22,7 @@
     <string name="phoneIconLabel" msgid="2331230813161304895">"ტელეფონი"</string>
     <string name="fdnListLabel" msgid="8630418672279521003">"FDN სია"</string>
     <string name="unknown" msgid="6878797917991465859">"უცნობი"</string>
-    <string name="private_num" msgid="6713286113000232309">"კერძო ნომერი"</string>
+    <string name="private_num" msgid="6713286113000232309">"დაფარული ნომერი"</string>
     <string name="payphone" msgid="1931775086311769314">"საზოგადოებრივი ტელეფონი"</string>
     <string name="onHold" msgid="9035493194749959955">"შეყოვნების რეჟიმში"</string>
     <string name="callFailed_userBusy" msgid="8851106999809294904">"ხაზი დაკავებულია"</string>

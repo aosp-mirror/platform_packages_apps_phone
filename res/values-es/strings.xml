@@ -527,7 +527,7 @@
     <string name="sip_call_options_title" msgid="27433718808839672">"Llamadas por Internet"</string>
     <string name="sip_call_options_wifi_only_title" msgid="145572394529090811">"Llamadas por Internet (Wi-Fi)"</string>
     <string name="sip_call_options_entry_1" msgid="6556668894178520760">"Para todas las llamadas cuando haya redes de datos disponibles"</string>
-    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Solo llamadas Internet"</string>
+    <string name="sip_call_options_entry_2" msgid="6789764029719494361">"Solo para llamadas de Internet"</string>
     <string name="sip_call_options_entry_3" msgid="7474809001402649185">"Preguntar cada vez"</string>
     <string name="sip_call_options_wifi_only_entry_1" msgid="7423523864471650069">"En todas las llamadas"</string>
     <string name="pick_outgoing_call_phone_type" msgid="5622916534828338675">"Llamadas"</string>

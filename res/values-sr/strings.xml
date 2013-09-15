@@ -400,7 +400,7 @@
     <string name="card_title_call_ended" msgid="5544730338889702298">"Позив је завршен"</string>
     <string name="card_title_on_hold" msgid="821463117892339942">"На чекању"</string>
     <string name="card_title_hanging_up" msgid="3999101620995182450">"Прекид везе"</string>
-    <string name="card_title_in_call" msgid="6346543933068225205">"Има позив"</string>
+    <string name="card_title_in_call" msgid="6346543933068225205">"У позиву"</string>
     <string name="card_title_my_phone_number" msgid="112428362494434191">"Мој број је <xliff:g id="MY_PHONE_NUMBER">%s</xliff:g>"</string>
     <string name="notification_dialing" msgid="2107666444937350731">"Бирање"</string>
     <string name="notification_missedCallTitle" msgid="7554385905572364535">"Пропуштен позив"</string>
