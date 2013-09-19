@@ -124,7 +124,7 @@
     <string name="reverting_settings" msgid="4752151682666912828">"מאחזר הגדרות הקודמות…"</string>
     <string name="response_error" msgid="6674110501330139405">"תגובה לא צפויה מהרשת."</string>
     <string name="exception_error" msgid="7027667130619518211">"שגיאת רשת או שגיאה של כרטיס SIM."</string>
-    <string name="fdn_check_failure" msgid="18200614306525434">"הגדרת מספרי החיוג הקבועים של יישום הטלפון שלך מופעלת. כתוצאה מכך, חלק מהתכונות הקשורות לשיחות לא פועלות."</string>
+    <string name="fdn_check_failure" msgid="18200614306525434">"הגדרת מספרי החיוג הקבועים של אפליקציית הטלפון שלך מופעלת. כתוצאה מכך, חלק מהתכונות הקשורות לשיחות לא פועלות."</string>
     <string name="radio_off_error" msgid="2304459933248513376">"הפעל את הרדיו לפני ההצגה של הגדרות אלה."</string>
     <string name="close_dialog" msgid="2365884406356986917">"אישור"</string>
     <string name="enable" msgid="1059008390636773574">"הפעל"</string>
@@ -495,8 +495,8 @@
     <item quantity="other" msgid="3122217344579273583">"אין חיבור נתונים במשך <xliff:g id="COUNT">%s</xliff:g> דקות"</item>
   </plurals>
   <plurals name="alert_dialog_exit_ecm">
-    <item quantity="one" msgid="8060210887681426682">"הטלפון יהיה במצב התקשרות חזרה בחירום למשך דקה <xliff:g id="COUNT">%s</xliff:g>. במצב זה לא ניתן להשתמש ביישומים המשתמשים בחיבור נתונים. האם אתה רוצה לצאת כעת?"</item>
-    <item quantity="other" msgid="8617116564023933114">"הטלפון יהיה במצב התקשרות חזרה בחירום למשך <xliff:g id="COUNT">%s</xliff:g> דקות. במצב זה לא ניתן להשתמש ביישומים המשתמשים בחיבור נתונים. האם אתה רוצה לצאת כעת?"</item>
+    <item quantity="one" msgid="8060210887681426682">"הטלפון יהיה במצב התקשרות חזרה בחירום למשך דקה <xliff:g id="COUNT">%s</xliff:g>. במצב זה לא ניתן להשתמש באפליקציות המשתמשות בחיבור נתונים. האם אתה רוצה לצאת כעת?"</item>
+    <item quantity="other" msgid="8617116564023933114">"הטלפון יהיה במצב התקשרות חזרה בחירום למשך <xliff:g id="COUNT">%s</xliff:g> דקות. במצב זה לא ניתן להשתמש באפליקציות המשתמשים בחיבור נתונים. האם אתה רוצה לצאת כעת?"</item>
   </plurals>
   <plurals name="alert_dialog_not_avaialble_in_ecm">
     <item quantity="one" msgid="2585506997024726599">"הפעולה שנבחרה אינה זמינה במצב התקשרות חזרה בחירום. הטלפון יהיה במצב זה במשך <xliff:g id="COUNT">%s</xliff:g> דקות. האם אתה רוצה לצאת כעת?"</item>
@@ -557,7 +557,7 @@
     <string name="registration_status_failed_try_later" msgid="5214474354451220581">"הרשמת החשבון נכשלה: (<xliff:g id="REGISTRATION_ERROR_MESSAGE">%s</xliff:g>); יתבצע ניסיון חוזר מאוחר יותר"</string>
     <string name="registration_status_invalid_credentials" msgid="4908446367559341757">"רישום החשבון נכשל: שם המשתמש או הסיסמה שגויים."</string>
     <string name="registration_status_server_unreachable" msgid="5733421582468991276">"רישום החשבון נכשל: בדוק את שם השרת."</string>
-    <string name="third_party_account_summary" msgid="2532526738862533028">"היישום <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> משתמש כרגע בחשבון זה."</string>
+    <string name="third_party_account_summary" msgid="2532526738862533028">"האפליקציה <xliff:g id="ACCOUNT_OWNER">%s</xliff:g> משתמש כרגע בחשבון זה."</string>
     <string name="sip_edit_title" msgid="489288416435014385">"פרטי חשבון SIP"</string>
     <string name="sip_edit_new_title" msgid="3659149255856520385">"פרטי חשבון SIP"</string>
     <string name="domain_address_title" msgid="9071787581316160480">"שרת"</string>
@@ -597,7 +597,7 @@
     <string name="respond_via_sms_setting_title_2" msgid="6104662227299493906">"ערוך תגובות מהירות"</string>
     <string name="respond_via_sms_setting_summary" msgid="9150281183930613065"></string>
     <string name="respond_via_sms_edittext_dialog_title" msgid="20379890418289778">"תגובה מהירה"</string>
-    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"אפס את היישום המוגדר כברירת מחדל"</string>
+    <string name="respond_via_sms_menu_reset_default_activity" msgid="1461742052902053466">"אפס את האפליקציה המוגדר כברירת מחדל"</string>
     <string name="respond_via_sms_confirmation_format" msgid="7229149977515784269">"הודעה נשלחה אל <xliff:g id="PHONE_NUMBER">%s</xliff:g>."</string>
     <string name="description_image_button_one" msgid="5502718871331943463">"אחת"</string>
     <string name="description_image_button_two" msgid="4903738528222924522">"שתיים"</string>
