@@ -119,4 +119,6 @@
     <bool name="config_apn_expand" translatable="false">true</bool>
     <bool name="config_operator_selection_expand" translatable="false">true</bool>
     <bool name="config_prefer_2g" translatable="false">true</bool>
+    <!-- Show cdma auto network mode in (glabal) roaming -->
+    <bool name="config_show_cdma" translatable="false">false</bool>
 </resources>
