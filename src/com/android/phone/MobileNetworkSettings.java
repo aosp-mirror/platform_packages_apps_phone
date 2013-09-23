@@ -231,22 +231,10 @@ public class MobileNetworkSettings extends PreferenceActivity
             mCdmaOptions = new CdmaOptions(this, prefSet, mPhone);
             mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
         } else {
-            if (!isLteOnCdma) {
-                prefSet.removePreference(mButtonPreferredNetworkMode);
-            }
+            prefSet.removePreference(mButtonPreferredNetworkMode);
             int phoneType = mPhone.getPhoneType();
             if (phoneType == PhoneConstants.PHONE_TYPE_CDMA) {
                 mCdmaOptions = new CdmaOptions(this, prefSet, mPhone);
-                if (isLteOnCdma) {
-                    mButtonPreferredNetworkMode.setOnPreferenceChangeListener(this);
-                    int settingsNetworkMode = android.provider.Settings.Global.getInt(
-                            mPhone.getContext().getContentResolver(),
-                            android.provider.Settings.Global.PREFERRED_NETWORK_MODE,
-                            preferredNetworkMode);
-                    mButtonPreferredNetworkMode.setValue(
-                            Integer.toString(settingsNetworkMode));
-                }
-
             } else if (phoneType == PhoneConstants.PHONE_TYPE_GSM) {
                 mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
             } else {
