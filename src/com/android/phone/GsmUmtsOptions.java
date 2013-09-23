@@ -16,7 +16,6 @@
 
 package com.android.phone;
 
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
@@ -34,11 +33,9 @@ public class GsmUmtsOptions {
 
     private PreferenceScreen mButtonAPNExpand;
     private PreferenceScreen mButtonOperatorSelectionExpand;
-    private CheckBoxPreference mButtonPrefer2g;
 
     private static final String BUTTON_APN_EXPAND_KEY = "button_apn_key";
     private static final String BUTTON_OPERATOR_SELECTION_EXPAND_KEY = "button_carrier_sel_key";
-    private static final String BUTTON_PREFER_2G_KEY = "button_prefer_2g_key";
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
 
@@ -53,12 +50,10 @@ public class GsmUmtsOptions {
         mButtonAPNExpand = (PreferenceScreen) mPrefScreen.findPreference(BUTTON_APN_EXPAND_KEY);
         mButtonOperatorSelectionExpand =
                 (PreferenceScreen) mPrefScreen.findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY);
-        mButtonPrefer2g = (CheckBoxPreference) mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY);
         if (PhoneFactory.getDefaultPhone().getPhoneType() != PhoneConstants.PHONE_TYPE_GSM) {
             log("Not a GSM phone");
             mButtonAPNExpand.setEnabled(false);
             mButtonOperatorSelectionExpand.setEnabled(false);
-            mButtonPrefer2g.setEnabled(false);
         } else {
             log("Not a CDMA phone");
             Resources res = mPrefActivity.getResources();
@@ -73,9 +68,6 @@ public class GsmUmtsOptions {
             if (!res.getBoolean(R.bool.config_operator_selection_expand)) {
                 mPrefScreen.removePreference(mPrefScreen
                         .findPreference(BUTTON_OPERATOR_SELECTION_EXPAND_KEY));
-            }
-            if (!res.getBoolean(R.bool.config_prefer_2g)) {
-                mPrefScreen.removePreference(mPrefScreen.findPreference(BUTTON_PREFER_2G_KEY));
             }
 
             if (res.getBoolean(R.bool.csp_enabled)) {
@@ -92,10 +84,6 @@ public class GsmUmtsOptions {
     }
 
     public boolean preferenceTreeClick(Preference preference) {
-        if (preference.getKey().equals(BUTTON_PREFER_2G_KEY)) {
-            log("preferenceTreeClick: return true");
-            return true;
-        }
         log("preferenceTreeClick: return false");
         return false;
     }

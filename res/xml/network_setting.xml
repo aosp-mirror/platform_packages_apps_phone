@@ -43,4 +43,12 @@
         android:entryValues="@array/preferred_network_mode_values"
         android:dialogTitle="@string/preferred_network_mode_dialogtitle" />
 
+    <ListPreference
+        android:key="enabled_networks_key"
+        android:title="@string/enabled_networks_title"
+        android:summary="@string/enabled_networks_summary"
+        android:entries="@array/enabled_networks_choices"
+        android:entryValues="@array/enabled_networks_values"
+        android:dialogTitle="@string/enabled_networks_dialogtitle" />
+
 </PreferenceScreen>

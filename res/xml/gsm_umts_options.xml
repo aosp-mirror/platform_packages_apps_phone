@@ -28,12 +28,6 @@
 
     </PreferenceScreen>
 
-    <com.android.phone.Use2GOnlyCheckBoxPreference
-        android:key="button_prefer_2g_key"
-        android:title="@string/prefer_2g"
-        android:persistent="false"
-        android:summary="@string/prefer_2g_summary"/>
-
     <PreferenceScreen
         android:key="button_carrier_sel_key"
         android:title="@string/networks"
