@@ -561,10 +561,64 @@
     <string name="multi_category_enable">Multi-category enabled</string>
     <string name="multi_category_disable">Multi-category disabled</string>
 
-    <!-- Mobile network settings screen, setting option name -->
-    <string name="prefer_2g">Use only 2G networks</string>
-    <!-- Mobile network settings screen, setting summary text -->
-    <string name="prefer_2g_summary">Saves battery</string>
+    <string name="enabled_networks_title">Enabled networks</string>
+    <string name="enabled_networks_summary">Change the enabled network mode</string>
+    <string name="enabled_networks_dialogtitle">Enabled networks</string>
+    <string name="enabled_networks_gsm_only_summary">Enabled network mode: GSM only</string>
+    <string name="enabled_networks_wcdma_pref_summary">Enabled network mode: WCDMA and GSM</string>
+    <string name="enabled_networks_lte_gsm_wcdma_summary">Enabled network mode: LTE, WCDMA, and GSM</string>
+    <string name="enabled_networks_lte_cdma_evdo_gsm_wcdma_summary">Enabled network mode: Global Auto</string>
+    <string name="enabled_networks_cdma_summary">Enabled network mode: CDMA</string>
+    <string name="enabled_networks_lte_cdma_summary">Enabled network mode: LTE and CDMA</string>
+
+    <string-array name="enabled_networks_except_gsm_choices">
+        <item>WCDMA and GSM</item>
+        <item>LTE, WCDMA, and GSM</item>
+    </string-array>
+    <string-array name="enabled_networks_except_gsm_values" translatable="false">
+        <item>"0"</item>
+        <item>"9"</item>
+    </string-array>
+
+    <string-array name="enabled_networks_except_lte_choices">
+        <item>GSM Only</item>
+        <item>WCDMA and GSM</item>
+    </string-array>
+    <string-array name="enabled_networks_except_lte_values" translatable="false">
+        <item>"1"</item>
+        <item>"0"</item>
+    </string-array>
+
+    <string-array name="enabled_networks_except_gsm_lte_choices">
+        <item>WCDMA and GSM</item>
+    </string-array>
+    <string-array name="enabled_networks_except_gsm_lte_values" translatable="false">
+        <item>"0"</item>
+    </string-array>
+
+    <string-array name="enabled_networks_choices">
+        <item>GSM Only</item>
+        <item>WCDMA and GSM</item>
+        <item>LTE, WCDMA, and GSM</item>
+    </string-array>
+    <string-array name="enabled_networks_values" translatable="false">
+        <item>"1"</item>
+        <item>"0"</item>
+        <item>"9"</item>
+    </string-array>
+
+    <string-array name="enabled_networks_cdma_choices">
+        <item>CDMA</item>
+        <item>LTE and CDMA</item>
+        <item>Global Auto</item>
+        <item>WCDMA and GSM</item>
+    </string-array>
+    <string-array name="enabled_networks_cdma_values" translatable="false">
+        <item>"4"</item>
+        <item>"8"</item>
+        <item>"10"</item>
+        <item>"0"</item>
+    </string-array>
 
     <!-- CDMA System select strings -->
     <!-- Mobile network settings screen, setting option name -->
