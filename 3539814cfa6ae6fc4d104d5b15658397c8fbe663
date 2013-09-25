@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a373b4_36e5c0c2",
+        "filename": "res/values-zh-rCN/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-09-25T17:40:20Z",
+      "side": 1,
+      "message": "TD-SCDMA is not currently supported in AOSP. Also, I would have expected to see chinese here.",
+      "revId": "3539814cfa6ae6fc4d104d5b15658397c8fbe663",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
