@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e48cfb4a_b47fe866",
+        "filename": "src/com/android/phone/CallTime.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1015328
+      },
+      "writtenOn": "2013-09-25T17:24:45Z",
+      "side": 1,
+      "message": "Once mTimerRunning is false, then we will stop getting called back on through PeriodicTimerCallback, correct?  So the timer would never start back up.\n\nIf I am reading this right, when the screen turns back on we need to restart the timer or it will stop getting updated.",
+      "revId": "51512e69ef48679fe64cc7a211fb01c04e883136",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
