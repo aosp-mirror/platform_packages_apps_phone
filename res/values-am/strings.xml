@@ -50,7 +50,7 @@
     <string name="mmiStarted" msgid="6347869857061147003">"የMMI ኮድ ጀምሯል"</string>
     <string name="ussdRunning" msgid="485588686340541690">"የUSSD ኮድ አሂድ ላይ ነው..."</string>
     <string name="mmiCancelled" msgid="2771923949751842276">"የMMI ኮድ ቀርቷል"</string>
-    <string name="cancel" msgid="5044513931633602634">"ይቅር"</string>
+    <string name="cancel" msgid="5044513931633602634">"ሰርዝ"</string>
     <string name="enter_input" msgid="1810529547726803893">"የUSSD መልዕክት በ<xliff:g id="MIN_LEN">%d</xliff:g> እና <xliff:g id="MAX_LEN">%d</xliff:g> ቁምፊዎች መካከል መሆን አለበት። እባክዎ እንደገና ይሞክሩ።"</string>
     <string name="manageConferenceLabel" msgid="4691922394301969053">"የስብሰባስልክ ጥሪ አደራጅ"</string>
     <string name="audio_mode_speaker" msgid="27649582100085266">"ድምጽ ማጉያ"</string>
