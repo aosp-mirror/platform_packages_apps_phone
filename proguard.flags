@@ -1,0 +1,6 @@
+# Keep names that are used only by animation framework.
+-keepclasseswithmembers class com.android.phone.AnimationUtils$CrossFadeDrawable {
+  *** setCrossFadeAlpha(...);
+}
+
+-verbose
