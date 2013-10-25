@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5ec0fd_7b431b1f",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2013-10-25T17:44:10Z",
+      "side": 0,
+      "message": "Do we not need this check anymore?  Anyone have context for why we had this in the first place?  Maybe to handle GSM vs. CDMA, or as workaround for a specific device?",
+      "revId": "bf79aa2b3cdb32edca629cac59c9a0e5b29fba86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
