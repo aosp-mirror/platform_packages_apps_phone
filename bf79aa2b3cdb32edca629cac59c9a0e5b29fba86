@@ -16,6 +16,24 @@
       "revId": "bf79aa2b3cdb32edca629cac59c9a0e5b29fba86",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eec1d7a_812d3ab1",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-11-01T00:30:53Z",
+      "side": 0,
+      "message": "From the git log..\n\ncommit e31a470b6c96f571880638b039c48e8942fa632a\n\nAuthor: John Wang \u003cjohnwang@google.com\u003e\n\nDate:   Mon Sep 20 16:52:50 2010 -0700\n\n    Fix answerAndEndActive.\n    \n    For bug 3018776.\n    \n    since hangupActiveCall() also accepts the ringing call\n    \n    we have to check if the ringing call was already answered or not\n    \n    before answering the ringing call.\n    \n    Change-Id: Iea707fe26d6e84733c97f60e0108a6c9eeca1a70",
+      "parentUuid": "1e5ec0fd_7b431b1f",
+      "revId": "bf79aa2b3cdb32edca629cac59c9a0e5b29fba86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
