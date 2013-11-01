@@ -34,6 +34,24 @@
       "revId": "bf79aa2b3cdb32edca629cac59c9a0e5b29fba86",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e32f8d3_7eddd9f5",
+        "filename": "src/com/android/phone/PhoneUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1000718
+      },
+      "writtenOn": "2013-11-01T17:22:01Z",
+      "side": 0,
+      "message": "Ok, following that log+bug trail and re-reading the comments, I think I understand what situation this code tries to handle:  When the waiting call is actually on a different phonetype (eg, active call on GSM, waiting call on SIP).  In that case, hangupActiveCall does not automagically answer the waiting call.\n\nSuggestions?  I think Zhihai has a patch for internal review that may address this (basically, making sure hangupActiveCall process completes before checking for ringing).",
+      "parentUuid": "7eec1d7a_812d3ab1",
+      "revId": "bf79aa2b3cdb32edca629cac59c9a0e5b29fba86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
