@@ -4606,7 +4606,7 @@ public class InCallScreen extends Activity
     /**
      * Indicates whether or not the QuickResponseDialog is currently showing in the call screen
      */
-    public boolean isQuickResponseDialogShowing() {
+    public boolean  isQuickResponseDialogShowing() {
         return mRespondViaSmsManager != null && mRespondViaSmsManager.isShowingPopup();
     }
 }

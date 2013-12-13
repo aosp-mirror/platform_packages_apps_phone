@@ -1703,7 +1703,7 @@ public class PhoneGlobals extends ContextWrapper
         }
     }
 
-    private void handleQueryTTYModeResponse(Message msg) {
+     private void handleQueryTTYModeResponse(Message msg) {
         AsyncResult ar = (AsyncResult) msg.obj;
         if (ar.exception != null) {
             if (DBG) Log.d(LOG_TAG, "handleQueryTTYModeResponse: Error getting TTY state.");

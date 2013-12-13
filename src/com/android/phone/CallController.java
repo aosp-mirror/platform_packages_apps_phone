@@ -264,7 +264,7 @@ public class CallController extends Handler {
                     // Call succeeded, but we also need to tell the
                     // InCallScreen to show the "Exiting ECM" warning.
                     inCallUiState.setPendingCallStatusCode(CallStatusCode.EXITED_ECM);
-                } else {
+                } else  {
                     // Call succeeded.  There's no "error condition" that
                     // needs to be displayed to the user, so clear out the
                     // InCallUiState's "pending call status code".

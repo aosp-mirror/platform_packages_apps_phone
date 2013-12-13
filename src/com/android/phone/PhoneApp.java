@@ -21,7 +21,7 @@ import android.content.res.Configuration;
 import android.os.UserHandle;
 
 /**
- * Top-level Application class for the Phone app.
+ * Top-level Application  class for the Phone app.
  */
 public class PhoneApp extends Application {
     PhoneGlobals mPhoneGlobals;
