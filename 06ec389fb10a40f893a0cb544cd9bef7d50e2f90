@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dc2191e_932804b3",
+        "filename": "src/com/android/phone/InCallScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3077,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2014-01-06T22:14:54Z",
+      "side": 0,
+      "message": "This code is now in packages/services/Telephony/*/MMIDialogActivity.java line 66.\n\n  https://android.googlesource.com/platform/packages/services/Telephony/+/598dac5/src/com/android/phone/MMIDialogActivity.java",
+      "revId": "06ec389fb10a40f893a0cb544cd9bef7d50e2f90",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
